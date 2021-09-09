@@ -138,7 +138,8 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text:
+            'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],

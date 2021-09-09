@@ -10,4 +10,4 @@ export const SectionPageHeader = styled.h1.attrs<Props>(props => ({
     'inline-block no-margin': true,
     [font('wb', props.sectionLevelPage ? 0 : 2)]: true,
   }),
-}))``;
+}))<Props>``;

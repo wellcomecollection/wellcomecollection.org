@@ -68,52 +68,53 @@ const pageDescription =
 const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const globalContextData = getGlobalContextData(context);
-    const { id, memoizedPrismic } = context.query;
-    const articlesPromise = await getArticles(
-      context.req,
-      { pageSize: 4 },
-      memoizedPrismic
-    );
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period: 'next-seven-days',
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-      },
-      memoizedPrismic
-    );
-    const pagePromise = await getPage(context.req, id, memoizedPrismic);
-    const [exhibitions, events, articles, page] = await Promise.all([
-      exhibitionsPromise,
-      eventsPromise,
-      articlesPromise,
-      pagePromise,
-    ]);
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const { id, memoizedPrismic } = context.query;
+  const articlesPromise = await getArticles(
+    context.req,
+    { pageSize: 4 },
+    memoizedPrismic
+  );
+  const exhibitionsPromise = getExhibitions(
+    context.req,
+    {
+      period: 'next-seven-days',
+      order: 'asc',
+    },
+    memoizedPrismic
+  );
+  const eventsPromise = getEvents(
+    context.req,
+    {
+      period: 'current-and-coming-up',
+    },
+    memoizedPrismic
+  );
+  const pagePromise = await getPage(context.req, id, memoizedPrismic);
+  const [exhibitions, events, articles, page] = await Promise.all([
+    exhibitionsPromise,
+    eventsPromise,
+    articlesPromise,
+    pagePromise,
+  ]);
 
-    if (events && exhibitions && articles && page) {
-      return {
-        props: removeUndefinedProps({
-          articles,
-          page,
-          exhibitions,
-          events,
-          globalContextData,
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+  if (events && exhibitions && articles && page) {
+    return {
+      props: removeUndefinedProps({
+        articles,
+        page,
+        exhibitions,
+        events,
+        globalContextData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const Homepage: FC<Props> = props => {
   const events = props.events.results.map(convertJsonToDates);
