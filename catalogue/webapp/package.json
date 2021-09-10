@@ -46,8 +46,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.5",
-    "uuid": "^3.3.3",
-    "webpack": "^4.25.1"
+    "uuid": "^3.3.3"
   },
   "browserslist": [
     "last 2 versions",
