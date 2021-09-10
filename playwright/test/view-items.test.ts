@@ -59,7 +59,7 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  test.only('the info panel visibility can be toggled', async () => {
+  test('the info panel visibility can be toggled', async () => {
     await multiVolumeItem();
     if (!isMobile()) {
       const isVisibleBefore = await page.isVisible(viewerSidebar);
@@ -93,11 +93,11 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe.skip('Scenario 2: A user wants to use the content offline', () => {
+describe('Scenario 2: A user wants to use the content offline', () => {
   const smallImageDownloadUrl =
-    'https://dlcs.io/iiif-img/wellcome/5/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
+    'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
   const fullItemDownloadUrl =
-    'https://dlcs.io/pdf/wellcome/pdf-item/b10326947/0';
+    'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
 
   beforeEach(async () => {
     await multiVolumeItem();
@@ -106,21 +106,23 @@ describe.skip('Scenario 2: A user wants to use the content offline', () => {
   });
 
   test('downloading an image of the current canvas', async () => {
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      page.click(smallImageDownload),
-    ]);
+    const smallImageDownloadElement = await page.waitForSelector(
+      smallImageDownload
+    );
+    const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
+      'href'
+    );
 
-    expect(newPage.url()).toBe(smallImageDownloadUrl);
+    expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
   });
 
   test('downloading the entire item', async () => {
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page'),
-      page.click(fullItemDownload),
-    ]);
+    const fullItemDownloadElement = await page.waitForSelector(
+      fullItemDownload
+    );
+    const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
 
-    expect(newPage.url()).toBe(fullItemDownloadUrl);
+    expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
   });
 });
 

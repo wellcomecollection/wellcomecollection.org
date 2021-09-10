@@ -151,9 +151,11 @@ const ZoomedImage: FunctionComponent = () => {
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
-      (zoomedImage?.current?.querySelector(
-        '.openseadragon-canvas'
-      ) as HTMLDivElement).focus();
+      (
+        zoomedImage?.current?.querySelector(
+          '.openseadragon-canvas'
+        ) as HTMLDivElement
+      ).focus();
     }
   }
 
@@ -229,7 +231,7 @@ const ZoomedImage: FunctionComponent = () => {
             <Control
               colorScheme="black-on-white"
               text="Rotate"
-              icon="rotatePageRight"
+              icon="rotateRight"
               clickHandler={() => {
                 handleRotate(viewer);
               }}
