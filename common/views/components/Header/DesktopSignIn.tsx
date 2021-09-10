@@ -4,6 +4,21 @@ import { useUser } from '../UserProvider/UserProvider';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import AlignFont from '../styled/AlignFont';
+import styled from 'styled-components';
+
+const LinkList = styled.div`
+  a {
+    display: block;
+    text-decoration: none;
+    margin-bottom: 16px;
+    &:hover {
+      text-decoration: underline;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+`;
 
 const DesktopSignIn: FC = () => {
   const { state, user } = useUser();
@@ -66,7 +81,8 @@ const DesktopSignIn: FC = () => {
                 [font('hnr', 6)]: true,
               })}
             >
-              {user.firstName} {user.lastName}
+              {user.firstName.charAt(0).toLocaleUpperCase()}
+              {user.lastName.charAt(0).toLocaleUpperCase()}
             </span>
           }
           iconLeft="user"
@@ -79,8 +95,10 @@ const DesktopSignIn: FC = () => {
             })}
           >
             <AlignFont>
-              <a href="/account">Library account</a>
-              <a href="/account/logout">Sign out</a>
+              <LinkList>
+                <a href="/account">Library account</a>
+                <a href="/account/logout">Sign out</a>
+              </LinkList>
             </AlignFont>
           </span>
         </DropdownButton>

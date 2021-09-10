@@ -7,7 +7,7 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
 import Icon from '../Icon/Icon';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
 
 type ClickableElement = 'a' | 'button';
@@ -56,7 +56,16 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
         <>
           {iconLeft && (
             <ButtonIconWrapper iconAfter={false}>
-              <Icon name={iconLeft} />
+              {/* This is all a little hacky and will need some tidy up */}
+              {/* We currently only use this in the header sign in button */}
+              <span
+                className={classNames({
+                  [font('hnr', 4)]: true,
+                })}
+                style={{ transform: 'translateY(0.01em)' }}
+              >
+                <Icon name={iconLeft} matchText={true} />
+              </span>
             </ButtonIconWrapper>
           )}
           <AlignFont

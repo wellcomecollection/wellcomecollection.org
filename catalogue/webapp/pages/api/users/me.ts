@@ -19,7 +19,7 @@ const signedInResp = {
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // This is just for development purposes.
   // /api/users/me is served from the identity webapp
-  const signedIn = req.cookies.signedIn === 'true';
+  const signedIn = req.cookies.devSignedIn === 'true';
 
   if (signedIn) {
     res.status(200).json(signedInResp);
