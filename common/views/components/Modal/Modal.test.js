@@ -1,5 +1,6 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { useState, useRef } from 'react';
+import { act } from 'react-dom/test-utils';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 
 const openModalButtonSelector = '[data-test-id="open-modal-button"]';
@@ -40,21 +41,31 @@ describe('Modal', () => {
   it(`should focus the close button when opened`, () => {
     const component = mountWithTheme(<ModalExample />);
     const openButton = component.find(openModalButtonSelector);
-    const closeButton = component.find(closeModalButtonSelector).at(0);
+    const closeButtonDOMNode = component
+      .find(closeModalButtonSelector)
+      .at(0)
+      .getDOMNode();
 
-    openButton.simulate('click');
+    closeButtonDOMNode.focus = jest.fn();
+    act(() => {
+      openButton.props().onClick();
+    });
 
-    expect(closeButton.is(':focus')).toBe(true);
+    expect(closeButtonDOMNode.focus).toHaveBeenCalled();
   });
 
   it(`should focus the open button when closed`, () => {
     const component = mountWithTheme(<ModalExample />);
     const openButton = component.find(openModalButtonSelector);
+    const openButtonDOMNode = openButton.getDOMNode();
     const closeButton = component.find(closeModalButtonSelector).at(0);
 
-    openButton.simulate('click');
-    closeButton.simulate('click');
+    openButtonDOMNode.focus = jest.fn();
+    act(() => {
+      openButton.props().onClick();
+      closeButton.props().onClick();
+    });
 
-    expect(openButton.is(':focus')).toBe(true);
+    expect(openButtonDOMNode.focus).toHaveBeenCalled();
   });
 });
