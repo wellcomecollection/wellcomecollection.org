@@ -11,6 +11,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { UserInfo } from '@weco/common/model/user';
+import { allowedRequests } from '@weco/common/values/requests';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -44,8 +45,6 @@ const BeforeYourVisit = styled(Space).attrs({
 const CTAs = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })``;
-
-export const allowedRequests = 15;
 
 const RemainingRequests: FC<{
   allowedHoldRequests: number;

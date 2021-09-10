@@ -1,12 +1,18 @@
 import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
+
 import {
   useUserInfo,
   withUserInfo,
 } from '@weco/common/views/components/UserInfoContext';
-import { ChangeDetailsModal } from './ChangeDetailsModal';
-import { PageWrapper } from '../components/PageWrapper';
-import { Container, Title, Header, Intro } from '../components/Layout.style';
+import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
+import { PageWrapper } from '../src/frontend/components/PageWrapper';
+import {
+  Container,
+  Title,
+  Header,
+  Intro,
+} from '../src/frontend/components/Layout.style';
 import {
   SectionHeading,
   StatusAlert,
@@ -15,13 +21,13 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
-} from './MyAccount.style';
-import { Loading } from './Loading';
-import { ChangeEmail } from './ChangeEmail';
-import { ChangePassword } from './ChangePassword';
-import { DeleteAccount } from './DeleteAccount';
-import { UpdateUserSchema } from '../../types/schemas/update-user';
-import { useHistory } from 'react-router';
+} from '../src/frontend/MyAccount/MyAccount.style';
+import { Loading } from '../src/frontend/MyAccount/Loading';
+import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
+import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
+import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
+import { UpdateUserSchema } from '../src/types/schemas/update-user';
+import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -93,7 +99,7 @@ const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
 };
 
 const Profile: FC = () => {
-  const history = useHistory();
+  const router = useRouter();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -110,7 +116,7 @@ const Profile: FC = () => {
   }, [user]);
 
   const logoutOnDeletionRequest = () => {
-    history.replace(
+    router.replace(
       `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
     );
   };
@@ -216,8 +222,9 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${allowedRequests -
-                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
+                    >{`${
+                      allowedRequests - requests?.totalResults
+                    } of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -280,4 +287,4 @@ const Profile: FC = () => {
   );
 };
 
-export const MyAccount = withUserInfo(Profile);
+export default withUserInfo(Profile);

@@ -2,6 +2,7 @@
 import SearchResults from '../SearchResults/SearchResults';
 // $FlowFixMe
 import MoreLink from '../MoreLink/MoreLink';
+// $FlowFixMe
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 // $FlowFixMe
 import Layout8 from '../Layout8/Layout8';

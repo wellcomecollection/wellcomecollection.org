@@ -33,6 +33,7 @@ import SegmentedControl from '@weco/common/views/components/SegmentedControl/Seg
 // $FlowFixMe (tsx)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
+// $FlowFixMe
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 // $FlowFixMe (tsx)
@@ -43,6 +44,7 @@ import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEv
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+// $FlowFixMe
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

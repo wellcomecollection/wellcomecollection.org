@@ -1,13 +1,11 @@
+const webpack = require('webpack');
 const path = require('path');
-const withTM = require('next-transpile-modules')(['@weco']);
+const withTM = require('next-transpile-modules')(['@weco/common', '@weco/catalogue']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
-const withMDX = require('@next/mdx')({
-  extension: /\.(md|mdx)$/,
-});
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-module.exports = function (webpack) {
+const config = function (webpack) {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -28,29 +26,11 @@ module.exports = function (webpack) {
         openAnalyzer: false,
       },
     },
-    webpack(config, options) {
-      config.plugins.push(
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        new webpack.NormalModuleReplacementPlugin(
-          /moment-timezone\/data\/packed\/latest\.json/,
-          path.join(__dirname, 'timezones.json')
-        )
-      );
-
-      config.module.rules.push({
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      });
-
-      return config;
-    },
   });
 
   const apmConfig = {
     environment: process.env.APM_ENVIRONMENT,
     serverUrl: process.env.APM_SERVER_URL,
-    // we've used inactive so by default it is on, and we can purposefully turn it off locally
-    active: process.env.APM_INACTIVE !== 'true',
     centralConfig: true,
   };
 
@@ -69,25 +49,7 @@ module.exports = function (webpack) {
         ]
       : [];
 
-  const redirects =
-    process.env.NODE_ENV === 'development'
-      ? [
-          {
-            source: '/account',
-            destination: 'http://localhost:3000',
-            permanent: true,
-          },
-          {
-            source: '/account/logout',
-            destination: 'http://localhost:3000/logout',
-            permanent: true,
-          },
-        ]
-      : [];
-
-  return withMDX(
-    withTM({
-      webpack5: false,
+  return withTM({
       assetPrefix:
         isProd && prodSubdomain
           ? `https://${prodSubdomain}.wellcomecollection.org`
@@ -99,9 +61,7 @@ module.exports = function (webpack) {
       async rewrites() {
         return rewrites;
       },
-      async redirects() {
-        return redirects;
-      },
     })
-  );
 };
+
+module.exports = config(webpack);
