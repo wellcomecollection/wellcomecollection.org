@@ -16,7 +16,10 @@ const signedInResp = {
   totalLogins: 20,
 };
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+): void {
   // This is just for development purposes.
   // /api/users/me is served from the identity webapp
   const signedIn = req.cookies.devSignedIn === 'true';
