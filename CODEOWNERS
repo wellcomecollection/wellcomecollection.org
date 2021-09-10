@@ -6,4 +6,3 @@
 
 /CODEOWNERS	@wellcomecollection/buildkite-admin
 /.buildkite/    @wellcomecollection/buildkite-admin
-/builds/      	@wellcomecollection/buildkite-admin
