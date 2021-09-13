@@ -50,6 +50,14 @@ export const ModalContainer = styled.aside`
   }
 `;
 
+export const TruncateTitle = styled.a`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 60ch;
+`
+
 export const ModalTitle = styled.h2.attrs({ className: font('wb', 3) })``;
 
 const colours = {
