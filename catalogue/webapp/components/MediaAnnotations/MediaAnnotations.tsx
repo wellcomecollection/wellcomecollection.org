@@ -1,5 +1,8 @@
 import { ReactElement, FunctionComponent } from 'react';
-import { IIIFMediaElement, IIIFAnnotationResource } from '../../../model/iiif';
+import {
+  IIIFMediaElement,
+  IIIFAnnotationResource,
+} from '@weco/common/model/iiif';
 import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
@@ -22,9 +25,8 @@ function getMediaFormatString(format) {
 const MediaAnnotations: FunctionComponent<Props> = ({
   media,
 }: Props): ReactElement => {
-  const annotation:
-    | IIIFAnnotationResource
-    | undefined = getAnnotationFromMediaElement(media);
+  const annotation: IIIFAnnotationResource | undefined =
+    getAnnotationFromMediaElement(media);
   const typeString = getMediaFormatString(media.format);
   return (
     <>
