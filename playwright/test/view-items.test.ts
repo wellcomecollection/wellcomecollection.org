@@ -26,7 +26,6 @@ import {
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleAndTestCookies } from './helpers/utils';
-import { describeDesktopOnly } from './helpers/conditionals';
 
 const domain = new URL(baseUrl).host;
 
@@ -94,44 +93,38 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-// TODO this should be for all devices, but isn't working on mobile right now
-describeDesktopOnly(
-  'Scenario 2: A user wants to use the content offline',
-  () => {
-    const smallImageDownloadUrl =
-      'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
-    const fullItemDownloadUrl =
-      'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
+describe('Scenario 2: A user wants to use the content offline', () => {
+  const smallImageDownloadUrl =
+    'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
+  const fullItemDownloadUrl =
+    'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
 
-    beforeEach(async () => {
-      await multiVolumeItem();
-      await page.click(downloadsButton);
-      await page.waitForSelector(itemDownloadsModal);
-    });
+  beforeEach(async () => {
+    await multiVolumeItem();
+    await page.click(downloadsButton);
+    await page.waitForSelector(itemDownloadsModal);
+  });
 
-    test('downloading an image of the current canvas', async () => {
-      const smallImageDownloadElement = await page.waitForSelector(
-        smallImageDownload
-      );
-      const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
-        'href'
-      );
+  test('downloading an image of the current canvas', async () => {
+    const smallImageDownloadElement = await page.waitForSelector(
+      smallImageDownload
+    );
+    const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
+      'href'
+    );
 
-      expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
-    });
+    expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
+  });
 
-    test('downloading the entire item', async () => {
-      const fullItemDownloadElement = await page.waitForSelector(
-        fullItemDownload
-      );
-      const fullDownloadUrl = await fullItemDownloadElement.getAttribute(
-        'href'
-      );
+  test('downloading the entire item', async () => {
+    const fullItemDownloadElement = await page.waitForSelector(
+      fullItemDownload
+    );
+    const fullDownloadUrl = await fullItemDownloadElement.getAttribute('href');
 
-      expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
-    });
-  }
-);
+    expect(fullDownloadUrl).toBe(fullItemDownloadUrl);
+  });
+});
 
 describe('Scenario 3: A user wants information about the item they are viewing', () => {
   test('the item has a title', async () => {
