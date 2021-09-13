@@ -12,7 +12,8 @@ import Cookies from 'universal-cookie';
 const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
-  const cookies = new Cookies(req?.headers?.cookie);
+  const maybeCookieHeader = req && req.headers.get('cookie');
+  const cookies = new Cookies(maybeCookieHeader);
   return (
     Boolean(cookies.get('isPreview')) ||
     Boolean(cookies.get(Prismic.previewCookie))
