@@ -9,7 +9,7 @@ import type {
 } from './types';
 import Cookies from 'cookies';
 
-const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
+const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
   const cookies = req && new Cookies(req);
