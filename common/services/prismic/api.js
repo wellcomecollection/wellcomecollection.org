@@ -7,16 +7,16 @@ import type {
   PaginatedResults,
   DocumentType,
 } from './types';
-import Cookies from 'cookies';
+import Cookies from 'universal-cookie';
 
 const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
-  const cookies = req && new Cookies(req);
-  return cookies
-    ? Boolean(cookies.get('isPreview')) ||
-        Boolean(cookies.get(Prismic.previewCookie))
-    : false;
+  const cookies = new Cookies(req?.headers?.cookie);
+  return (
+    Boolean(cookies.get('isPreview')) ||
+    Boolean(cookies.get(Prismic.previewCookie))
+  );
 }
 
 export async function getPrismicApi(req: ?Request) {
