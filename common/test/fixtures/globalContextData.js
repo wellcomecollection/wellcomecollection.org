@@ -1,6 +1,5 @@
 export default {
   toggles: {
-    showHoldingsOnWork: true,
     buildingReopening: true,
     showLogin: false,
     showItemRequestFlow: false,
