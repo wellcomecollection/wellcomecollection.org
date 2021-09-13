@@ -18,7 +18,7 @@ import {
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
-import { getCanvasOcr } from '@weco/catalogue/services/catalogue/works';
+import { getCanvasOcr } from '../../services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
@@ -26,8 +26,8 @@ import {
   getThumbnailService,
 } from '@weco/common/utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults } from '../../../model/iiif';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
 type SearchTermHighlightProps = {
