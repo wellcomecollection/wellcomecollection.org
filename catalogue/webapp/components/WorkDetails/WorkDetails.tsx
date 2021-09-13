@@ -80,7 +80,7 @@ export const unrequestableStatusIds = ['temporarily-unavailable'];
 export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
+  const { enableRequesting } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -267,7 +267,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const Holdings = () => {
     return (
       <>
-        {showHoldingsOnWork && holdings.length > 0 ? (
+        {holdings.length > 0 ? (
           <WorkDetailsSection headingText="Holdings">
             {holdings.map((holding, i) => {
               const locationLabel =
