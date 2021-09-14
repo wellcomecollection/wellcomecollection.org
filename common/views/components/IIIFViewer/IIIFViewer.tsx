@@ -253,7 +253,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   const activeIndexRef = useRef(activeIndex);
-  const initialManifestIndex = useRef(manifestIndex);
+  const previousManifestIndex = useRef(manifestIndex);
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -403,12 +403,14 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   }, [activeIndex]);
 
   useEffect(() => {
-    if (initialManifestIndex.current === manifestIndex) return;
+    if (previousManifestIndex.current === manifestIndex) return;
+
     // If we change manifests, it's not enough to rely on the next/link
     // to scroll us to the first canvas, because it's being handled by
     // react window
     mainViewerRef?.current?.scrollToItem(0, 'start');
-  }, [manifestIndex, activeIndex]);
+    previousManifestIndex.current = manifestIndex;
+  }, [manifestIndex]);
 
   const parentManifestUrl = manifest && manifest.within;
 
