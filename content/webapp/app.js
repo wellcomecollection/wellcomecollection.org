@@ -100,7 +100,7 @@ module.exports = app
 
       const token = ctx.request.query.token;
       const api = await Prismic.getApi(
-        'https://wellcomecollection.prismic.io/api/v2',
+        'https://wellcomecollection.cdn.prismic.io/api/v2',
         {
           req: ctx.request,
         }
