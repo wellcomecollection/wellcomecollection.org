@@ -1,4 +1,7 @@
-const SvgWellcome = (props: React.SVGProps<SVGSVGElement>) => (
+import { SVGProps, FunctionComponent } from 'react';
+type Props = SVGProps<SVGSVGElement>;
+
+const SvgWellcome: FunctionComponent<Props> = props => (
   <svg viewBox="0 0 68 68" {...props}>
     <path
       className="icon__shape"

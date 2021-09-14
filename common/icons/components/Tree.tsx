@@ -1,4 +1,7 @@
-const SvgTree = (props: React.SVGProps<SVGSVGElement>) => (
+import { SVGProps, FunctionComponent } from 'react';
+type Props = SVGProps<SVGSVGElement>;
+
+const SvgTree: FunctionComponent<Props> = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <path
       className="icon__shape"

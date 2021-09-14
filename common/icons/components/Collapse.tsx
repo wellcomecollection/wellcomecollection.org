@@ -1,4 +1,7 @@
-const SvgCollapse = (props: React.SVGProps<SVGSVGElement>) => (
+import { SVGProps, FunctionComponent } from 'react';
+type Props = SVGProps<SVGSVGElement>;
+
+const SvgCollapse: FunctionComponent<Props> = props => (
   <svg viewBox="0 0 24 24" {...props}>
     <path
       className="icon__shape"

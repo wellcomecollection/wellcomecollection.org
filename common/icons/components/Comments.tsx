@@ -1,4 +1,7 @@
-const SvgComments = (props: React.SVGProps<SVGSVGElement>) => (
+import { SVGProps, FunctionComponent } from 'react';
+type Props = SVGProps<SVGSVGElement>;
+
+const SvgComments: FunctionComponent<Props> = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M19 2.46H5a3 3 0 0 0-3 3v16a1 1 0 0 0 1.37.93l4.82-1.93H19a3 3 0 0 0 3-3v-12a3 3 0 0 0-3-3zm1 15a1 1 0 0 1-1 1H8a1 1 0 0 0-.16 0 .94.94 0 0 0-.21 0L4 20V5.46a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v12z" />
