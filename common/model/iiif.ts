@@ -48,7 +48,7 @@ export type IIIFStructure = {
   '@id': string;
   '@type': string;
   label: string;
-  canvases: string[];
+  canvases?: string[];
 };
 
 export type IIIFRendering = {
