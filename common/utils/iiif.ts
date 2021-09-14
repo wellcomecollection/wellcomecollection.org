@@ -206,6 +206,7 @@ export function groupStructures(
   return clonedStructures.reduce(
     (acc, structure) => {
       if (!structure.canvases) return acc;
+
       const [lastCanvasInRange] = structure.canvases.slice(-1);
       const [firstCanvasInRange] = structure.canvases;
       const firstCanvasIndex = canvases.findIndex(
