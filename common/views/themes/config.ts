@@ -136,10 +136,10 @@ export const themeValues = {
     medium: 600,
     large: 960,
     xlarge: 1338,
-  },
-  tweakpoints: {
+    // Tweakpoints
     // Occasionally we need to respond to specific breakpoints beyond the defaults
     headerMedium: 825,
+    headerLarge: 1040,
   },
   gutter: {
     small: 18,
@@ -197,7 +197,5 @@ export const themeValues = {
   },
 };
 
-type BaseBreakpoint = keyof typeof themeValues.sizes;
-type TweakBreakpoint = keyof typeof themeValues.tweakpoints;
-export type Breakpoint = BaseBreakpoint | TweakBreakpoint;
+export type Breakpoint = keyof typeof themeValues.sizes;
 export type PaletteColor = keyof typeof colors;

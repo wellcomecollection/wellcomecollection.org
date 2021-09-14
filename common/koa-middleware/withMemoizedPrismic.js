@@ -1,7 +1,7 @@
 const Raven = require('raven-js');
 const Prismic = require('prismic-javascript');
 const oneMinute = 1000 * 60;
-const apiUri = 'https://wellcomecollection.prismic.io/api/v2';
+const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 
 let memoizedPrismic;
 async function getMemoizedPrismic() {

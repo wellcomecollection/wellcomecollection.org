@@ -250,7 +250,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     // Prismic preview and validation warnings
     if (document.cookie.match('isPreview=true')) {
       window.prismic = {
-        endpoint: 'https://wellcomecollection.prismic.io/api/v2',
+        endpoint: 'https://wellcomecollection.cdn.prismic.io/api/v2',
       };
       const prismicScript = document.createElement('script');
       prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';

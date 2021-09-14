@@ -15,13 +15,6 @@ const renderComponent = (url: string) =>
   );
 
 describe('ErrorPage', () => {
-  it('displays the error from the URL', () => {
-    renderComponent(`/error?error=bad_juju`);
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
-      'bad_juju'
-    );
-  });
-
   it('displays the error description from the URL', () => {
     renderComponent(
       `/error?error_description=${encodeURI("Uh-oh, spaghetti-O's!")}`
@@ -29,13 +22,13 @@ describe('ErrorPage', () => {
     expect(screen.getByText("Uh-oh, spaghetti-O's!")).toBeInTheDocument();
   });
 
-  it('displays a link to the help desk', () => {
+  it('displays an email link for the library.', () => {
     renderComponent(
       `/error?error_description=${encodeURI("Uh-oh, spaghetti-O's!")}`
     );
-    expect(screen.getByRole('link', { name: /help desk/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Contact us/ })).toHaveAttribute(
       'href',
-      'https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/'
+      'mailto:library@wellcomecollection.org'
     );
   });
 });

@@ -15,6 +15,7 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  TruncateTitle,
 } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
@@ -29,7 +30,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
-import { allowedRequests } from '@weco/catalogue/components/ConfirmItemRequest/ConfirmItemRequest';
+import { allowedRequests } from '@weco/common/values/requests';
 import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 type DetailProps = {
@@ -81,16 +82,6 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
     console.log(e);
   }
 }
-
-// The table display is weird / should not be scrollable
-// This should be sorted out in CSS rather than doing this.
-const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
-  str: string,
-  maxLength = 60
-) => {
-  const truncated = str.slice(0, maxLength);
-  return str.length > maxLength ? `${truncated}...` : str;
-};
 
 const Profile: FC = () => {
   const history = useHistory();
@@ -216,9 +207,8 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${
-                      allowedRequests - requests?.totalResults
-                    } of ${allowedRequests} requests remaining`}</Space>
+                    >{`${allowedRequests -
+                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -233,9 +223,7 @@ const Profile: FC = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          truncateTitle_REMOVE_THIS_FUNCTION_ASAP(
-                            result.item.title || result.workTitle || ''
-                          ),
+                          <TruncateTitle href={`/works/${result.workId}`}>{result.item.title || result.workTitle || ''}</TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
                         ]),

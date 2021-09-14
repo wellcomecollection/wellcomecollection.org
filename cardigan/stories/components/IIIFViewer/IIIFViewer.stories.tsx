@@ -1,4 +1,4 @@
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import { workFixture } from '@weco/common/test/fixtures/catalogueApi/work';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
@@ -12,7 +12,7 @@ const rejectedPromise = () => {
 const mockedRouter = {
   push: rejectedPromise,
   replace: rejectedPromise,
-  prefetch: () => {},
+  prefetch: () => void 0,
   query: {},
 };
 

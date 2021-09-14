@@ -99,9 +99,11 @@ const SearchForm = forwardRef(
     const [portalSortOrder, setPortalSortOrder] = useState(sortOrder);
 
     function submit() {
+      // As of React 17, we need to make the event bubble to ensure the onSubmit of the form gets called
+      // see: https://github.com/final-form/react-final-form/issues/878
       searchForm.current &&
         searchForm.current.dispatchEvent(
-          new window.Event('submit', { cancelable: true })
+          new window.Event('submit', { cancelable: true, bubbles: true })
         );
     }
 

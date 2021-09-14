@@ -98,7 +98,8 @@ const items = [
     icon: 'youtube',
   },
   {
-    url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
+    url:
+      'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
     title: 'TripAdvisor',
     service: 'TripAdvisor',
     icon: 'tripadvisor',

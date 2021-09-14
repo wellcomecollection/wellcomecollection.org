@@ -49,7 +49,7 @@ const storyGraphQuery = `{
 
 const stories = async (req, res) => {
   const api = await Prismic.getApi(
-    'https://wellcomecollection.prismic.io/api/v2'
+    'https://wellcomecollection.cdn.prismic.io/api/v2'
   );
   const stories = await api.query(
     [Prismic.Predicates.any('document.type', ['articles', 'webcomics'])],

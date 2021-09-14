@@ -74,7 +74,7 @@ const ImageViewerControls: FunctionComponent = () => {
         <Control
           colorScheme="black-on-white"
           text="Rotate"
-          icon="rotatePageRight"
+          icon="rotateRight"
           clickHandler={() => {
             const matchingIndex = rotatedImages.findIndex(
               image => image.canvasIndex === activeIndex

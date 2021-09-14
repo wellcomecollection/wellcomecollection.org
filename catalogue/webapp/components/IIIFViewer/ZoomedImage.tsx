@@ -12,7 +12,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -151,9 +151,11 @@ const ZoomedImage: FunctionComponent = () => {
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.keyCode === 9) {
       event.preventDefault();
-      (zoomedImage?.current?.querySelector(
-        '.openseadragon-canvas'
-      ) as HTMLDivElement).focus();
+      (
+        zoomedImage?.current?.querySelector(
+          '.openseadragon-canvas'
+        ) as HTMLDivElement
+      ).focus();
     }
   }
 
@@ -229,7 +231,7 @@ const ZoomedImage: FunctionComponent = () => {
             <Control
               colorScheme="black-on-white"
               text="Rotate"
-              icon="rotatePageRight"
+              icon="rotateRight"
               clickHandler={() => {
                 handleRotate(viewer);
               }}

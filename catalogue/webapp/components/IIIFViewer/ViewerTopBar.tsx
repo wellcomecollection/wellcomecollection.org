@@ -8,8 +8,8 @@ import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
-import AlignFont from '../styled/AlignFont';
+import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -156,13 +156,11 @@ const Main = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 's', properties: ['padding-left', 'padding-right'] },
 })`
-  grid-column-start: desktop-sidebar-end;
-  grid-column-end: right-edge;
-  display: none;
-  justify-content: space-between;
+  display: flex;
+  justify-content: flex-end;
 
   ${props => props.theme.media.medium`
-    display: flex;
+    justify-content: space-between;
   `}
 `;
 
@@ -262,7 +260,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
         </Sidebar>
       )}
       <Main>
-        <LeftZone>
+        <LeftZone className="viewer-desktop">
           {!showZoomed && canvases && canvases.length > 1 && (
             <ToolbarSegmentedControl
               hideLabels={true}
@@ -298,11 +296,12 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
             />
           )}
         </LeftZone>
-        <MiddleZone>
+        <MiddleZone className="viewer-desktop">
           {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
             <>
-              <span data-test-id="active-index">{`${activeIndex + 1 ||
-                ''}`}</span>
+              <span data-test-id="active-index">{`${
+                activeIndex + 1 || ''
+              }`}</span>
               {`/${(canvases && canvases.length) || ''}`}{' '}
               {!(canvases[activeIndex].label.trim() === '-') &&
                 `(page ${canvases[activeIndex].label.trim()})`}
@@ -330,6 +329,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               )}
               {isFullscreenEnabled && (
                 <ShameButton
+                  className="viewer-desktop"
                   isDark
                   onClick={() => {
                     if (viewerRef && viewerRef.current) {

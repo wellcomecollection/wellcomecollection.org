@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import styled from 'styled-components';
 
 const SpacingComponentEl = styled.div.attrs({
@@ -9,20 +9,16 @@ const SpacingComponentEl = styled.div.attrs({
     margin-top: ${props => props.theme.spaceAtBreakpoints.small.l}px;
 
     ${props => props.theme.media.medium`
-      margin-top: ${props => props.theme.spaceAtBreakpoints.medium.l}px;
+      margin-top: ${props.theme.spaceAtBreakpoints.medium.l}px;
     `}
 
-    ${props => props.theme.media.medium`
-      margin-top: ${props => props.theme.spaceAtBreakpoints.large.l}px;
+    ${props => props.theme.media.large`
+      margin-top: ${props.theme.spaceAtBreakpoints.large.l}px;
     `}
   }
 `;
 
-type Props = {
-  children?: ReactNode;
-};
-
-const SpacingComponent: FC<Props> = ({ children }) => {
+const SpacingComponent: FC = ({ children }) => {
   return <SpacingComponentEl>{children}</SpacingComponentEl>;
 };
 

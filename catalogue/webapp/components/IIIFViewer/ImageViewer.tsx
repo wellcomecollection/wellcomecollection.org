@@ -8,10 +8,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
-import IIIFResponsiveImage from '../IIIFResponsiveImage/IIIFResponsiveImage';
+import { imageSizes } from '@weco/common/utils/image-sizes';
+import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -62,13 +62,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   setImageRect,
   setImageContainerRect,
 }: ImageViewerProps) => {
-  const {
-    lang,
-    setActiveIndex,
-    errorHandler,
-    setZoomInfoUrl,
-    setShowZoomed,
-  } = useContext(ItemViewerContext);
+  const { lang, setActiveIndex, errorHandler, setZoomInfoUrl, setShowZoomed } =
+    useContext(ItemViewerContext);
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({

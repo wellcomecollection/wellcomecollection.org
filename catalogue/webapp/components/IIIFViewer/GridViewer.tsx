@@ -16,7 +16,7 @@ import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';
 import GlobalInfoBarContext from '@weco/common/views/components/GlobalInfoBarContext/GlobalInfoBarContext';
 import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { scrollViewer } from './MainViewer';
 
