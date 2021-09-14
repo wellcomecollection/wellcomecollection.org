@@ -6,7 +6,7 @@
     "compile": "svgr svgs --out-dir components --no-svgo --typescript --template template.js && yarn makeIndex",
     "makeIndex": "node make-index.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "@svgr/cli": "^5.5.0"
   }
 }

@@ -1,38 +1,33 @@
 const fs = require('fs');
 const path = require('path');
 
-fs.readdir(path.join(__dirname, 'components'), (err, data) => {
-  if (err) throw err;
+const componentsDir = path.join(__dirname, 'components');
+const outputFilePath = path.join(__dirname, 'index.ts');
 
-  const fileInfo = data
-    .map(fileName => {
-      if (fileName.slice(0, 1) === '.') return;
-
-      const fileWithoutExtension = fileName.slice(0, -3);
-      const iconName =
-        fileWithoutExtension.charAt(0).toLowerCase() +
-        fileWithoutExtension.slice(1);
-
+const files = fs.readdirSync(componentsDir);
+const filesInfo = files
+  .map(file => {
+    try {
+      const { name } = path.parse(file);
       return {
-        fileWithoutExtension,
-        iconName,
+        fileWithoutExtension: name,
+        iconName: name.charAt(0).toLowerCase() + name.slice(1),
       };
-    })
-    .filter(Boolean);
+    } catch (e) {
+      // Do nothing
+    }
+  })
+  .filter(Boolean);
 
-  const importData = fileInfo
-    .map(f => {
-      return `import ${f.iconName} from './components/${f.fileWithoutExtension}'`;
-    })
-    .join(';\n');
+const imports = filesInfo.map(
+  ({ iconName, fileWithoutExtension }) =>
+    `import ${iconName} from './components/${fileWithoutExtension}'`
+);
 
-  const exportData = `export {\n  ${fileInfo
-    .map(f => f.iconName)
-    .join(',\n  ')},\n};\n`;
+const outFile = `${imports.join(';\n')};
 
-  const file = `${importData};\n\n${exportData}`;
-
-  fs.writeFile(path.join(__dirname, 'index.js'), file, err => {
-    if (err) throw err;
-  });
-});
+export {
+  ${filesInfo.map(({ iconName }) => iconName).join(',\n  ')},
+};
+`;
+fs.writeFileSync(outputFilePath, outFile);
