@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { a11YVisual, eye } from '@weco/common/icons';
 
 const PasswordInputContainer = styled.div`
   display: flex;
@@ -28,7 +29,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
     <PasswordInputContainer>
       <WellcomeTextInput {...props} type={isVisible ? 'text' : 'password'} />
       <VisibilityButton onClick={toggleIsVisible}>
-        <Icon name={isVisible ? 'a11yVisual' : 'eye'} />
+        <Icon icon={isVisible ? a11YVisual : eye} />
       </VisibilityButton>
     </PasswordInputContainer>
   );

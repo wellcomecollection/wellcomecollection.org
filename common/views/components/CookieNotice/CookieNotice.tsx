@@ -6,6 +6,7 @@ import moment from 'moment';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { clear, cookies } from '@weco/common/icons';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
@@ -40,9 +41,7 @@ const CookieNotice: FunctionComponent = () => {
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
       path: '/',
-      expires: moment()
-        .add(1, 'month')
-        .toDate(),
+      expires: moment().add(1, 'month').toDate(),
     });
 
     setShouldRender(false);
@@ -58,7 +57,7 @@ const CookieNotice: FunctionComponent = () => {
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <div className="flex flex--h-space-between">
             <div className="flex flex--v-center">
-              <Icon name="cookies" />
+              <Icon icon={cookies} />
               <Space
                 as="span"
                 h={{
@@ -73,7 +72,7 @@ const CookieNotice: FunctionComponent = () => {
               </a>
             </div>
             <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon name="clear" />
+              <Icon icon={clear} />
               <span className="visually-hidden">Close cookie notification</span>
             </CloseCookieNotice>
           </div>

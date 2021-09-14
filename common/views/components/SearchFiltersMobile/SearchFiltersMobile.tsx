@@ -33,6 +33,7 @@ import {
   searchFilterCloseButton,
 } from '../../../text/aria-labels';
 import { dateRegex } from '../SearchFiltersDesktop/SearchFiltersDesktop';
+import { cross, filter } from '@weco/common/icons';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -342,7 +343,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           aria-label="open filters"
         >
           <Space h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon name="filter" />
+            <Icon icon={filter} />
           </Space>
           Filters{' '}
           {activeFiltersCount > 0 && ' ' && (
@@ -359,7 +360,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
                 ref={closeFiltersButtonRef}
                 onClick={() => setIsActive(false)}
               >
-                <Icon name="cross" />
+                <Icon icon={cross} />
                 <span className="visually-hidden">close filters</span>
               </CloseFiltersButton>
               <h2 className="h3 text-align-center block">Filters</h2>

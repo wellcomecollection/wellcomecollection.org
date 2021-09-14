@@ -28,6 +28,7 @@ import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../../utils/iiif';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import { toHtmlId } from '../../../utils/string';
+import { arrow, chevron } from '@weco/common/icons';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -111,7 +112,7 @@ const AccordionItem = ({
               <AlignFont>{title}</AlignFont>
             </h2>
             <Icon
-              name={'chevron'}
+              icon={chevron}
               color={'white'}
               rotate={isActive ? undefined : 270}
             />
@@ -134,9 +135,8 @@ type Props = {
 };
 
 const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
-  const { work, manifest, parentManifest, currentManifestLabel } = useContext(
-    ItemViewerContext
-  );
+  const { work, manifest, parentManifest, currentManifestLabel } =
+    useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);
   // Determine digital location
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
@@ -232,7 +232,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
               >
-                <Icon name={`arrow`} matchText={true} color={'white'} />
+                <Icon icon={arrow} matchText={true} color={'white'} />
               </Space>
             </a>
           </WorkLink>

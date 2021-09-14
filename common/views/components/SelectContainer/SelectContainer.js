@@ -1,5 +1,6 @@
 // @flow
 import { useContext, type Element } from 'react';
+import { chevron } from '@weco/common/icons';
 // $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
@@ -76,7 +77,7 @@ const SelectContainer = ({ label, children }: Props) => {
         </Space>
         {children}
       </label>
-      <Icon name="chevron" />
+      <Icon icon={chevron} />
     </StyledSelect>
   );
 };

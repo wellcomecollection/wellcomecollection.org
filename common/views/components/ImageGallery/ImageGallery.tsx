@@ -20,6 +20,7 @@ import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { gallery } from '@weco/common/icons';
 
 type TitleStyle = {
   transform?: string;
@@ -83,10 +84,12 @@ const Gallery = styled.div.attrs({
         ${props.theme.color('charcoal')} 200px
       );
 
-      ${props.isStandalone &&
+      ${
+        props.isStandalone &&
         `
         background: ${props.theme.color('charcoal')};
-      `}
+      `
+      }
     }
 
     .captioned-image__image-container {
@@ -319,7 +322,7 @@ const ImageGallery: FunctionComponent<Props> = ({
       {!isStandalone && (
         <GalleryTitle titleStyle={titleStyle} isEnhanced={isEnhanced}>
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon name="gallery" />
+            <Icon icon={gallery} />
           </Space>
           <h2 id={`gallery-${id}`} className="h2 no-margin" ref={headingRef}>
             {title || 'In pictures'}

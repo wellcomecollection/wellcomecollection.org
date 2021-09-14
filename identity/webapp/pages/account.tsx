@@ -37,6 +37,7 @@ import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
+import { info2 } from '@weco/common/icons';
 
 type DetailProps = {
   label: string;
@@ -70,7 +71,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon name={`info2`} color={`currentColor`} />
+      <Icon name={info2} color={`currentColor`} />
       {children}
     </StatusAlert>
   );

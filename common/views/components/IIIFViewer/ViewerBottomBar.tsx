@@ -8,6 +8,7 @@ import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/I
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { ShameButton } from './ViewerTopBar';
+import { expand } from '@weco/common/icons';
 
 const BottomBar = styled.div`
   position: relative;
@@ -121,7 +122,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   }
                 }}
               >
-                <Icon name="expand" />
+                <Icon icon={expand} />
                 <span className={`btn__text`}>Full screen</span>
               </ShameButton>
             </Space>

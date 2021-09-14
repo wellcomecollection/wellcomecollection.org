@@ -35,6 +35,7 @@ import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
+import { cross } from '@weco/common/icons';
 
 type Props = {
   image: ImageType;
@@ -246,9 +247,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
     ) => {
       const res = await fetch(manifestLocation);
       const manifest = await res.json();
-      const firstChildManifestLocation = getFirstChildManifestLocation(
-        manifest
-      );
+      const firstChildManifestLocation =
+        getFirstChildManifestLocation(manifest);
       if (firstChildManifestLocation) {
         return fetchDeeplinkCanvasIndex(firstChildManifestLocation, imageUrl);
       }
@@ -323,7 +323,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
           onClick={() => setExpandedImage(undefined)}
         >
           <span className="visually-hidden">Close modal window</span>
-          <Icon name="cross" color={'currentColor'} />
+          <Icon icon={cross} color={'currentColor'} />
         </CloseButton>
         <ModalInner>
           {iiifImageLocation && expandedImageLink && (

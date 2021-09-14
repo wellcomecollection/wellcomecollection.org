@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import * as icons from '../../../icons';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -53,7 +52,7 @@ const Wrapper = styled.div.attrs({
 `;
 
 type Props = {
-  name: string;
+  icon: FunctionComponent;
   rotate?: number;
   color?: PaletteColor;
   matchText?: boolean;
@@ -62,7 +61,7 @@ type Props = {
 };
 
 const Icon: FunctionComponent<Props> = ({
-  name,
+  icon,
   rotate,
   color,
   matchText,
@@ -83,7 +82,7 @@ const Icon: FunctionComponent<Props> = ({
       {...attrs}
     >
       {title && <title id={`icon-${name}-title`}>{title}</title>}
-      {icons[name]()}
+      {icon({})}
     </svg>
   </Wrapper>
 );

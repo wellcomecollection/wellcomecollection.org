@@ -10,6 +10,7 @@ import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/I
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 import AlignFont from '../styled/AlignFont';
+import { chevrons, collapse, expand } from '@weco/common/icons';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -235,7 +236,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 }}
               >
                 <Icon
-                  name={`chevrons`}
+                  icon={chevrons}
                   color={'white'}
                   rotate={isDesktopSidebarActive ? undefined : 180}
                 />
@@ -357,14 +358,14 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   {document.fullscreenElement ||
                   document['webkitFullscreenElement'] ? (
                     <>
-                      <Icon name={'collapse'} />
+                      <Icon icon={collapse} />
                       <AlignFont className={`btn__text`}>
                         Exit full screen
                       </AlignFont>
                     </>
                   ) : (
                     <>
-                      <Icon name={'expand'} />
+                      <Icon icon={expand} />
                       <AlignFont className={`btn__text`}>Full screen</AlignFont>
                     </>
                   )}
