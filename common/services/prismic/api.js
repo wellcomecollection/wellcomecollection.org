@@ -12,7 +12,11 @@ import Cookies from 'universal-cookie';
 const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 
 export function isPreview(req: ?Request): boolean {
-  const maybeCookieHeader = req && req.headers.get('cookie');
+  // This request isn't the same as a fetch request
+  // but it's a real pain to propagate the right types through
+  // all of this Flow code.
+  // $FlowFixMe
+  const maybeCookieHeader = req && req.headers.cookie;
   const cookies = new Cookies(maybeCookieHeader);
   return (
     Boolean(cookies.get('isPreview')) ||
