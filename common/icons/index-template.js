@@ -6,7 +6,8 @@ function indexTemplate(filePaths) {
       const { name } = path.parse(filePath);
       const iconName = name.charAt(0).toLowerCase() + name.slice(1);
 
-      return `export { default as ${iconName} } from './${name}';`;
+      // The path here is "wrong" because we want to move the index file up a dir
+      return `export { default as ${iconName} } from './components/${name}';`;
     })
     .join('\n');
 }
