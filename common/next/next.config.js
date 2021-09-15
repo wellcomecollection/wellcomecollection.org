@@ -92,11 +92,6 @@ const createConfig =
             );
           }
 
-          config.module.rules.push({
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader'],
-          });
-
           return config;
         },
         eslint: {
