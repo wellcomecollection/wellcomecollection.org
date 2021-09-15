@@ -11,6 +11,7 @@ export const ProgressBar = styled(Space).attrs({
   border-radius: 7px; /* (height of inner div) / 2 + padding */
   border: 2px solid black;
   width: 300px;
+  max-width: 100%;
 `;
 
 export const ProgressIndicator = styled.div<{ percentage: number }>`
