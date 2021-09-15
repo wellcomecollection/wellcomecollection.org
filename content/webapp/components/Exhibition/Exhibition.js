@@ -1,5 +1,5 @@
 // @flow
-import { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -38,6 +38,8 @@ import {
   location,
   a11Y,
   a11YVisual,
+  information,
+  family,
   // $FlowFixMe (tsx)
 } from '@weco/common/icons';
 
@@ -116,13 +118,19 @@ function getPlaceObject(exhibition) {
   );
 }
 
+// These options are defined in exhibition-resources.js
+const resourceIcons: { [string]: React$StatelessFunctionalComponent<{}> } = {
+  information: information,
+  family: family,
+};
+
 function getResourcesItems(exhibition) {
   return exhibition.resources.map(resource => {
     return {
       id: null,
       title: null,
       description: resource.description,
-      icon: resource.icon,
+      icon: resource.icon ? resourceIcons[resource.icon] : undefined,
     };
   });
 }

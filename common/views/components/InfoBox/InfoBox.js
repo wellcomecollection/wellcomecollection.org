@@ -14,7 +14,7 @@ type Props = {|
   title: string,
   items: {|
     ...LabelField,
-    icon?: React$StatelessFunctionalComponent<{}>,
+    icon: ?React$StatelessFunctionalComponent<{}>,
   |}[],
   children: Element<'p'>,
 |};

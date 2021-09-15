@@ -83,7 +83,9 @@ const Icon: FunctionComponent<Props> = ({
       {...attrs}
     >
       {title && <title id={`icon-${name}-title`}>{title}</title>}
-      {icon({})}
+      {/* This type guard is here just in case a string icon makes its way */}
+      {/* in via Prismic etc - that shouldn't happen but better safe than sorry. */}
+      {typeof icon === 'function' && icon({})}
     </svg>
   </Wrapper>
 );
