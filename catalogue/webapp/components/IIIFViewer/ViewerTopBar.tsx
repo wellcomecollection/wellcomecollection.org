@@ -8,8 +8,8 @@ import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
-import AlignFont from '../styled/AlignFont';
+import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import {
   chevrons,
   collapse,

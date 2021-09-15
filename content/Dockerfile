@@ -1,37 +1,29 @@
 # This image should be built with the parent directory as context
-FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
-
-WORKDIR /usr/src/app/webapp
+FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:14.17.6
 
 RUN apt-get update && apt-get install -y python python-pip rename
 RUN pip install awscli
 
-ADD ./.flowconfig ./.flowconfig
-ADD ./package.json ./package.json
-ADD ./yarn.lock ./yarn.lock
-ADD ./common ./common
-ADD ./flow-typed ./flow-typed
+WORKDIR /app
 
-ADD ./catalogue/webapp ./catalogue/webapp
-ADD ./content/webapp ./content/webapp
-ADD ./toggles/webapp ./toggles/webapp
-ADD ./identity/webapp ./identity/webapp
+COPY package.json yarn.lock ./
+COPY common ./common
+COPY toggles/webapp ./toggles/webapp
 
-RUN yarn setupCommon
+WORKDIR content/webapp
+COPY content/webapp/package.json ./
+RUN yarn --frozen-lockfile
 
-WORKDIR /usr/src/app/webapp/content/webapp
-
+COPY content/webapp .
 ENV BUILD_HASH=latest
 ENV BUNDLE_ANALYZE=both
 
-RUN yarn
 RUN yarn build
 
-WORKDIR /usr/src/app/webapp/content/webapp/.dist
-RUN rename 's/^/content./' *
-
-WORKDIR /usr/src/app/webapp/content/webapp
+# The following are from https://nextjs.org/docs/deployment#docker-image
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --gid 1001 nextjs
+USER nextjs
 
 EXPOSE 3000
-
 CMD ["yarn", "start"]

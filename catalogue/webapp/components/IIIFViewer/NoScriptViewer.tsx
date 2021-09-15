@@ -4,10 +4,10 @@ import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '@weco/common/utils/iiif';
 import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { imageSizes } from '../../../utils/image-sizes';
+import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
-import Space from '../styled/Space';
-import Rotator from '../styled/Rotator';
+import Space from '@weco/common/views/components/styled/Space';
+import Rotator from '@weco/common/views/components/styled/Rotator';
 import Paginator, {
   PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
@@ -16,7 +16,7 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '@weco/common/model/iiif';
 import { FunctionComponent } from 'react';
-import { toLink as itemLink } from '../ItemLink/ItemLink';
+import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';
 
 const NoScriptViewerEl = styled.div`

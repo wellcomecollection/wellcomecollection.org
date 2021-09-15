@@ -6,10 +6,13 @@ import {
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getAccessConditionForDigitalLocation,
-} from '../../utils/works';
-import { getTabbableIds } from '../../views/components/ArchiveTree/ArchiveTree';
-import { workFixture, workWithPartOf } from '../fixtures/catalogueApi/work';
-import { uiTree, idArray } from '../fixtures/uiTree/uiTree';
+} from '@weco/common/utils/works';
+import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree';
+import {
+  workFixture,
+  workWithPartOf,
+} from '@weco/common/test/fixtures/catalogueApi/work';
+import { uiTree, idArray } from '@weco/common/test/fixtures/uiTree/uiTree';
 
 describe('getProductionDates', () => {
   it('should extract date labels from a work', () => {

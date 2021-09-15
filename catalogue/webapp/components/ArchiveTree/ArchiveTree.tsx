@@ -9,7 +9,7 @@ import {
 import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getWork } from '@weco/catalogue/services/catalogue/works';
+import { getWork } from '../../services/catalogue/works';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';

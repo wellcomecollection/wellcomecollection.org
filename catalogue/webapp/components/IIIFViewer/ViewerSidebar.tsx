@@ -6,28 +6,28 @@ import {
   ReactNode,
 } from 'react';
 import NextLink from 'next/link';
-import WorkLink from '../WorkLink/WorkLink';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { FixedSizeList } from 'react-window';
-import Icon from '../Icon/Icon';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import AlignFont from '../styled/AlignFont';
-import { classNames, font } from '../../../utils/classnames';
-import LinkLabels from '../LinkLabels/LinkLabels';
+import Space from '@weco/common/views/components/styled/Space';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { classNames, font } from '@weco/common/utils/classnames';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
-} from '../../../utils/works';
-import getAugmentedLicenseInfo from '../../../utils/licenses';
-import useIIIFManifestData from '../../../hooks/useIIIFManifestData';
+} from '@weco/common/utils/works';
+import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { DigitalLocation } from '../../../model/catalogue';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
-import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
-import { getSearchService } from '../../../utils/iiif';
-import WorkTitle from '../WorkTitle/WorkTitle';
-import { toHtmlId } from '../../../utils/string';
+import IIIFSearchWithin from '@weco/common/views/components/IIIFSearchWithin/IIIFSearchWithin';
+import { getSearchService } from '@weco/common/utils/iiif';
+import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';
 
 const Inner = styled(Space).attrs({

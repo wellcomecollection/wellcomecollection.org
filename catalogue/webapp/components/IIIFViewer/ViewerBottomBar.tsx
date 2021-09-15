@@ -6,7 +6,7 @@ import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
-import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
+import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { ShameButton } from './ViewerTopBar';
 import { expand, gridView, singlePage } from '@weco/common/icons';
 
