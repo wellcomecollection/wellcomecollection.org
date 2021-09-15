@@ -1,4 +1,5 @@
 // @flow
+import React from 'react';
 // $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
@@ -18,7 +19,7 @@ type Props = {|
   imageProps: ImageType,
   description: string,
   metaText: ?string,
-  metaIcon: ?string,
+  metaIcon: ?React$StatelessFunctionalComponent<{}>,
 |};
 
 const sizesQueries =

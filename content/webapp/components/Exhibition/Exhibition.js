@@ -31,6 +31,15 @@ import { type Page } from '@weco/common/model/pages';
 
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  calendar,
+  clock,
+  ticket,
+  location,
+  a11Y,
+  a11YVisual,
+  // $FlowFixMe (tsx)
+} from '@weco/common/icons';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -44,7 +53,7 @@ function getUpcomingExhibitionObject(exhibition) {
             spans: [],
           },
         ],
-        icon: 'calendar',
+        icon: calendar,
       }
     : null;
 }
@@ -60,7 +69,7 @@ function getadmissionObject() {
         spans: [],
       },
     ],
-    icon: 'ticket',
+    icon: ticket,
   };
 }
 
@@ -86,7 +95,7 @@ function getTodaysHoursObject() {
         ],
       },
     ],
-    icon: 'clock',
+    icon: clock,
   };
 }
 
@@ -102,7 +111,7 @@ function getPlaceObject(exhibition) {
           spans: [],
         },
       ],
-      icon: 'location',
+      icon: location,
     }
   );
 }
@@ -130,7 +139,7 @@ function getAccessibilityItems() {
           spans: [],
         },
       ],
-      icon: 'a11y',
+      icon: a11Y,
     },
     {
       id: null,
@@ -138,12 +147,11 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text:
-            'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],
-      icon: 'a11yVisual',
+      icon: a11YVisual,
     },
   ];
 }
