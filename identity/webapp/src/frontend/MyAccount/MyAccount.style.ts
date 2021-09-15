@@ -25,7 +25,7 @@ export const Container = styled(LayoutContainer)`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'l', properties: ['padding-top'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })``;
 
