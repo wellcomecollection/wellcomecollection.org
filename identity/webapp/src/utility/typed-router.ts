@@ -6,7 +6,6 @@ import {
   RouteContext,
   RouteMiddleware,
 } from '../types/application';
-import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export type RouteWithParams<Props, Body = any> =
   | [string, string, RouteMiddleware<Props, Body>]
@@ -37,9 +36,7 @@ export class TypedRouter<
   static DELETE = 'delete';
 
   // This is exposed for now before TypedRouter gets removed
-  router = new Router<ApplicationState, RouteContext>({
-    prefix: getAppPathPrefix(),
-  });
+  router = new Router<ApplicationState, RouteContext>();
 
   constructor(routes: MappedRoutes) {
     const routeNames = Object.keys(routes) as Routes[];

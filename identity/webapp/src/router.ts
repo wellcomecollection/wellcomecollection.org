@@ -32,64 +32,64 @@ export const router = new TypedRouter({
   'ping-post': [TypedRouter.POST, '/ping', pingPost, 'example'],
 
   // Auth0 + Passport routes.
-  login: [TypedRouter.GET, '/login', loginAction],
-  logout: [TypedRouter.GET, '/logout', logoutAction],
-  callback: [TypedRouter.GET, '/callback', authCallback],
+  login: [TypedRouter.GET, '/account/login', loginAction],
+  logout: [TypedRouter.GET, '/account/logout', logoutAction],
+  callback: [TypedRouter.GET, '/account/callback', authCallback],
 
   // Proxy apis - implemented
   'create-user': [
     TypedRouter.POST,
-    '/api/user/create',
+    '/account/api/user/create',
     registerUser,
     'RegisterUserSchema',
   ],
-  'get-current-user': [TypedRouter.GET, '/api/users/me', getCurrentUser],
-  'update-current-user': [TypedRouter.PUT, '/api/users/me', updateCurrentUser],
+  'get-current-user': [TypedRouter.GET, '/account/api/users/me', getCurrentUser],
+  'update-current-user': [TypedRouter.PUT, '/account/api/users/me', updateCurrentUser],
   'update-user-password': [
     TypedRouter.PUT,
-    '/api/users/me/password',
+    '/account/api/users/me/password',
     updatePassword,
     'UpdatePasswordSchema',
   ],
   'delete-user': [
     TypedRouter.PUT,
-    '/api/users/me/deletion-request',
+    '/account/api/users/me/deletion-request',
     requestDelete,
     'RequestDeleteSchema',
   ],
 
   'get-item-requests': [
     TypedRouter.GET,
-    '/api/users/:user_id/item-requests',
+    '/account/api/users/:user_id/item-requests',
     itemRequests,
   ],
   'post-item-requests': [
     TypedRouter.POST,
-    '/api/users/:user_id/item-requests',
+    '/account/api/users/:user_id/item-requests',
     itemRequests,
   ],
 
   // Proxy APIs - todo
-  'get-user': [TypedRouter.GET, '/api/users/:user_id', stubApi],
-  'get-users': [TypedRouter.GET, '/api/users', stubApi],
-  'lock-user-account': [TypedRouter.PUT, '/api/users/:user_id/lock', stubApi],
-  'post-users': [TypedRouter.POST, '/api/users', stubApi],
+  'get-user': [TypedRouter.GET, '/account/api/users/:user_id', stubApi],
+  'get-users': [TypedRouter.GET, '/account/api/users', stubApi],
+  'lock-user-account': [TypedRouter.PUT, '/account/api/users/:user_id/lock', stubApi],
+  'post-users': [TypedRouter.POST, '/account/api/users', stubApi],
   'reset-user-password': [
     TypedRouter.PUT,
-    '/api/users/:user_id/reset-password',
+    '/account/api/users/:user_id/reset-password',
     stubApi,
   ],
   'send-user-verification': [
     TypedRouter.PUT,
-    '/api/users/:user_id/send-verification',
+    '/account/api/users/:user_id/send-verification',
     stubApi,
   ],
   'unlock-user-account': [
     TypedRouter.PUT,
-    '/api/users/:user_id/unlock',
+    '/account/api/users/:user_id/unlock',
     stubApi,
   ],
-  'update-user': [TypedRouter.PUT, '/api/users/:user_id', stubApi],
+  'update-user': [TypedRouter.PUT, '/account/api/users/:user_id', stubApi],
 
   // Local route overrides.
   ...loginRoutes,

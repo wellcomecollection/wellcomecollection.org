@@ -63,16 +63,24 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
       return next();
     }
 
-    ctx.session.returnTo = ctx.request.url;
-    ctx.redirect('/login');
+    ctx.redirect('/account/login');
   }
 
-  koaRouter.all('(.*)', secured, async ctx => {
+  // API routes
+  app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
+
+
+  // Next specific routes
+  koaRouter.get('/account', secured, async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
 
-  app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
+  // Next catch-all route
+  koaRouter.get('(.*)', async ctx => {
+    await nextHandler(ctx.req, ctx.res);
+    ctx.respond = false;
+  });
 
   process.on('SIGINT', async () => {
     // Close any connections and clean up.

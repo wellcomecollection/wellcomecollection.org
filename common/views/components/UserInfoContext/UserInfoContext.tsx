@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { initialState, userInfoReducer, UserInfoState } from './reducer';
 import { UserInfo } from '../../../model/user';
-import { withAppPathPrefix } from '../../../utils/identity-path-prefix';
 
 type UserInfoContext = UserInfoState & {
   isLoading: boolean;
@@ -32,7 +31,7 @@ export const UserInfoProvider: React.FC = ({ children }) => {
     if (state.status === 'loading') {
       let cancelled = false;
       axios
-        .get<UserInfo>(withAppPathPrefix('/api/users/me'))
+        .get<UserInfo>('/account/api/users/me')
         .then(({ data }) => {
           if (cancelled) return;
           dispatch({ type: 'RESOLVE', payload: data });

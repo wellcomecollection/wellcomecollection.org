@@ -31,7 +31,6 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 type DetailProps = {
   label: string;
@@ -74,7 +73,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   try {
     const response = await fetch(
-      withAppPathPrefix(`/api/users/${userId}/item-requests`)
+      `/account/api/users/${userId}/item-requests`
     );
     const json = await response.json();
     return json;
@@ -102,7 +101,7 @@ const Profile: FC = () => {
 
   const logoutOnDeletionRequest = () => {
     history.replace(
-      `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
+      `/account/logout?returnTo=${encodeURIComponent('/account/delete-requested')}`
     );
   };
 

@@ -1,22 +1,18 @@
-import {
-  withAppPathPrefix,
-  getContextPath,
-} from '@weco/common/utils/identity-path-prefix';
 import { RouteMiddleware } from '../types/application';
 import buildHtml from './assets/index.html';
 
 const unAuthenticatedPages: string[] = [
-  '/register',
-  '/register/old',
-  '/validated',
-  '/delete-requested',
-  '/error',
-].map(withAppPathPrefix);
+  '/account/register',
+  '/account/register/old',
+  '/account/validated',
+  '/account/delete-requested',
+  '/account/error',
+];
 
 export const indexPage: RouteMiddleware = context => {
   const bundle = context.routes.url('assets-bundles');
-  if (context.request.URL.pathname === '/works/abcdef') {
-    context.response.body = 'works';
+  if (context.request.URL.pathname === '/account/healthcheck') {
+    context.response.body = 'ok';
     return;
   }
 
@@ -31,10 +27,10 @@ export const indexPage: RouteMiddleware = context => {
       context.cookies.set('returnTo', null);
       context.redirect(returnTo);
     } else {
-      context.response.body = buildHtml(bundle, getContextPath());
+      context.response.body = buildHtml(bundle);
     }
     return;
   }
 
-  context.redirect(withAppPathPrefix('/login'));
+  context.redirect('/account/login');
 };

@@ -4,13 +4,11 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { AppContextProvider } from '@weco/common/views/components/AppContext/AppContext';
 import theme from '@weco/common/views/themes/default';
-import { initaliseMiddlewareClient } from '../utility/middleware-api-client';
 import { Registration } from './Registration/Registration';
 import { AccountValidated } from './Registration/AccountValidated';
 import { ErrorPage } from './components/ErrorPage';
 import { MyAccount } from './MyAccount/MyAccount';
 import { DeleteRequested } from './MyAccount/DeleteRequested';
-import { getAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 const PageBackground = createGlobalStyle`
   body {
@@ -26,13 +24,11 @@ const root =
   typeof document !== 'undefined' ? document.getElementById('root') : undefined;
 
 if (root) {
-  const prefix = getAppPathPrefix();
-  initaliseMiddlewareClient(prefix);
   render(
     <ThemeProvider theme={theme}>
       <PageBackground />
       <AppContextProvider>
-        <BrowserRouter basename={prefix || ''} forceRefresh>
+        <BrowserRouter forceRefresh>
           <Switch>
             <Route exact path="/register" component={Registration} />
             <Route exact path="/validated" component={AccountValidated} />
