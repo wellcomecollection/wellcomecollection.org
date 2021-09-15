@@ -16,6 +16,7 @@ import {
   ProgressBar,
   ProgressIndicator,
   TruncateTitle,
+  ButtonWrapper,
 } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
@@ -163,13 +164,7 @@ const Profile: FC = () => {
                     /* Membership expiry date? */
                   ]}
                 />
-                <Space
-                  as="span"
-                  h={{
-                    size: 'l',
-                    properties: ['margin-right'],
-                  }}
-                >
+                <ButtonWrapper>
                   <ChangeDetailsModal
                     id="change-email"
                     buttonText="Change email"
@@ -180,16 +175,29 @@ const Profile: FC = () => {
                   >
                     <ChangeEmail />
                   </ChangeDetailsModal>
-                </Space>
-                <ChangeDetailsModal
-                  id="change-password"
-                  buttonText="Change password"
-                  onComplete={() => {
-                    setIsPasswordUpdated(true);
+                </ButtonWrapper>
+                <ButtonWrapper
+                  as="span"
+                  style={{ display: 'inline-block' }}
+                  h={{
+                    size: 'l',
+                    properties: ['margin-right'],
+                  }}
+                  v={{
+                    size: 'l',
+                    properties: ['margin-bottom'],
                   }}
                 >
-                  <ChangePassword />
-                </ChangeDetailsModal>
+                  <ChangeDetailsModal
+                    id="change-password"
+                    buttonText="Change password"
+                    onComplete={() => {
+                      setIsPasswordUpdated(true);
+                    }}
+                  >
+                    <ChangePassword />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
 
@@ -207,8 +215,9 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${allowedRequests -
-                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
+                    >{`${
+                      allowedRequests - requests?.totalResults
+                    } of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -233,7 +242,7 @@ const Profile: FC = () => {
                       className={`${font('hnb', 5)}`}
                       v={{
                         size: 'l',
-                        properties: ['margin-top'],
+                        properties: ['margin-top', 'margin-bottom'],
                       }}
                     >
                       If you wish to cancel a hold, please{' '}
@@ -252,14 +261,16 @@ const Profile: FC = () => {
                 <p className={font('hnb', 5)}>
                   Request a deletion of your account
                 </p>
-                <ChangeDetailsModal
-                  id="delete-account"
-                  buttonText="Request deletion"
-                  isDangerous
-                  onComplete={logoutOnDeletionRequest}
-                >
-                  <DeleteAccount />
-                </ChangeDetailsModal>
+                <ButtonWrapper>
+                  <ChangeDetailsModal
+                    id="delete-account"
+                    buttonText="Request deletion"
+                    isDangerous
+                    onComplete={logoutOnDeletionRequest}
+                  >
+                    <DeleteAccount />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
           </>
