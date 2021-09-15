@@ -88,7 +88,7 @@ describe('DeleteAccount', () => {
   describe('shows an error after submission', () => {
     it('with an incorrect current password', async () => {
       server.use(
-        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
           return res(ctx.status(401));
         })
       );
@@ -105,7 +105,7 @@ describe('DeleteAccount', () => {
 
     it('when the users account is brute force restricted', async () => {
       server.use(
-        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
           return res(ctx.status(429));
         })
       );
@@ -122,7 +122,7 @@ describe('DeleteAccount', () => {
 
     it('when another error occurs', async () => {
       server.use(
-        rest.put('/api/users/me/deletion-request', (req, res, ctx) => {
+        rest.put('/account/api/users/me/deletion-request', (req, res, ctx) => {
           return res(ctx.status(500));
         })
       );

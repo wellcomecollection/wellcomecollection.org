@@ -178,7 +178,7 @@ You can let the router know it should validate against that type using the JSON 
 
 ```ts
 export const router = new TypedRouter({
-  'update-user': [TypedRouter.PUT, '/api/users/:user_id', updateUser, 'UserModel'], // <-- UserModel matches the type name
+  'update-user': [TypedRouter.PUT, '/account/api/users/:user_id', updateUser, 'UserModel'], // <-- UserModel matches the type name
 });
 ```
 

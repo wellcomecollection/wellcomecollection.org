@@ -214,7 +214,7 @@ describe('ChangePassword', () => {
   describe('shows an error after submission', () => {
     it('when the current password is incorrect', async () => {
       server.use(
-        rest.put('/api/users/me/password', (req, res, ctx) => {
+        rest.put('/account/api/users/me/password', (req, res, ctx) => {
           return res(ctx.status(401));
         })
       );
@@ -234,7 +234,7 @@ describe('ChangePassword', () => {
 
     it('when the users account is brute force restricted', async () => {
       server.use(
-        rest.put('/api/users/me/password', (req, res, ctx) => {
+        rest.put('/account/api/users/me/password', (req, res, ctx) => {
           return res(ctx.status(429));
         })
       );
@@ -254,7 +254,7 @@ describe('ChangePassword', () => {
 
     it('when the new password does not meet the Auth0 policy requirements', async () => {
       server.use(
-        rest.put('/api/users/me/password', (req, res, ctx) => {
+        rest.put('/account/api/users/me/password', (req, res, ctx) => {
           return res(ctx.status(422));
         })
       );
@@ -274,7 +274,7 @@ describe('ChangePassword', () => {
 
     it('when another error occurs', async () => {
       server.use(
-        rest.put('/api/users/me/password', (req, res, ctx) => {
+        rest.put('/account/api/users/me/password', (req, res, ctx) => {
           return res(ctx.status(500));
         })
       );

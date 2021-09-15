@@ -189,7 +189,7 @@ describe('ChangeEmail', () => {
   describe('shows an error after submission', () => {
     it('when the password is incorrect', async () => {
       server.use(
-        rest.put('/api/users/me', (req, res, ctx) => {
+        rest.put('/account/api/users/me', (req, res, ctx) => {
           return res(ctx.status(401));
         })
       );
@@ -210,7 +210,7 @@ describe('ChangeEmail', () => {
 
     it('when the users account is brute force restricted', async () => {
       server.use(
-        rest.put('/api/users/me', (req, res, ctx) => {
+        rest.put('/account/api/users/me', (req, res, ctx) => {
           return res(ctx.status(429));
         })
       );
@@ -231,7 +231,7 @@ describe('ChangeEmail', () => {
 
     it('when the email address is in use', async () => {
       server.use(
-        rest.put('/api/users/me', (req, res, ctx) => {
+        rest.put('/account/api/users/me', (req, res, ctx) => {
           return res(ctx.status(409));
         })
       );
@@ -252,7 +252,7 @@ describe('ChangeEmail', () => {
 
     it('when another error occurs', async () => {
       server.use(
-        rest.put('/api/users/me', (req, res, ctx) => {
+        rest.put('/account/api/users/me', (req, res, ctx) => {
           return res(ctx.status(500));
         })
       );

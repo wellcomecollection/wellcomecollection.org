@@ -37,7 +37,7 @@ describe('MyAccount', () => {
 
   it('informs the user when their email has not been validated', async () => {
     server.use(
-      rest.get('/api/users/me', (req, res, ctx) => {
+      rest.get('/account/api/users/me', (req, res, ctx) => {
         return res(ctx.json({ ...mockUser, emailValidated: false }));
       })
     );

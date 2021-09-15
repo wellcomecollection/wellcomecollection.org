@@ -30,7 +30,7 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
     onComplete
   ) => {
     setIsLoading(true);
-    callMiddlewareApi('PUT', '/api/users/me/password', updatePasswordBody)
+    callMiddlewareApi('PUT', '/account/api/users/me/password', updatePasswordBody)
       .then(() => {
         setIsSuccess(true);
         onComplete();
