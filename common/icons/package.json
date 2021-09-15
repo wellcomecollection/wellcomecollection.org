@@ -2,6 +2,7 @@
   "name": "@weco/icons",
   "description": "Icon set and optimisation for wellcomecollection.org",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "compile": "yarn run-svgr && yarn move-index",
     "move-index": "mv components/index.tsx ./index.ts",
