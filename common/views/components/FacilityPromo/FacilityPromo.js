@@ -77,7 +77,7 @@ const FacilityPromo = ({
                       as="span"
                       h={{ size: 's', properties: ['margin-right'] }}
                     >
-                      <Icon name={metaIcon} />
+                      <Icon icon={metaIcon} />
                     </Space>
                   )}
                   <span>{metaText}</span>

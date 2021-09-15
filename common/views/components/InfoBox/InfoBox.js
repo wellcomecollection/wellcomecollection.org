@@ -41,7 +41,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                   h={{ size: 's', properties: ['margin-right'] }}
                   className={`float-l`}
                 >
-                  <Icon name={icon} />
+                  <Icon icon={icon} />
                 </Space>
               )}
               {title && (

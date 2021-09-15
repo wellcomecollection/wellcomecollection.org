@@ -491,7 +491,7 @@ const EventPage: NextPage<Props> = ({
                     const iconName = camelize(interpretationType.title);
                     return {
                       id: undefined,
-                      icon: eventInterpretationIcons[iconName] || null,
+                      icon: eventInterpretationIcons[iconName],
                       title: interpretationType.title,
                       description: (
                         (isPrimary
