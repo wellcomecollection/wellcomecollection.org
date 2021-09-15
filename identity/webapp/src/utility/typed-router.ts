@@ -1,4 +1,4 @@
-import Router = require('@koa/router');
+import Router from '@koa/router';
 import koaBody from 'koa-body';
 import { requestBody } from '../middleware/request-body';
 import {
