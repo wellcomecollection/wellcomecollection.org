@@ -41,7 +41,7 @@ type RegistrationInputs = {
   termsAndConditions: boolean;
 };
 
-const RegistrationPage: NextPage<Props> = () => {
+const RegistrationPage: NextPage = () => {
   const router = useRouter();
   const { control, trigger, handleSubmit, formState, setError } =
     useForm<RegistrationInputs>({
