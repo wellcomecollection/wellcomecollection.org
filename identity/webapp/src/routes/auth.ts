@@ -34,7 +34,7 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
         ctx.body = loginError.message;
         ctx.app.emit('error', err, ctx);
       }
-      return ctx.redirect(withAppPathPrefix('/'));
+      return ctx.redirect(withAppPathPrefix(ctx.session.returnTo || '/'));
     });
   })(ctx, next);
 };

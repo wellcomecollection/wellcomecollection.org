@@ -63,6 +63,7 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
       return next();
     }
 
+    ctx.session.returnTo = ctx.request.url;
     ctx.redirect('/login');
   }
 
