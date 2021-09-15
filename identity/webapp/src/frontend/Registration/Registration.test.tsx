@@ -361,7 +361,7 @@ describe('Registration', () => {
 
   it('shows an error message when the email address is attached to an extant account', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(409));
       })
     );
@@ -388,7 +388,7 @@ describe('Registration', () => {
 
   it('shows an error message when a common password is used', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(422));
       })
     );
@@ -410,7 +410,7 @@ describe('Registration', () => {
 
   it('shows an error message when a server error occurs', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(500));
       })
     );
