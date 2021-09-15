@@ -1,4 +1,6 @@
-const SvgTripadvisor = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgTripadvisor: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero" transform="translate(0 5)">
       <circle cx={6.489} cy={7.911} r={1} />

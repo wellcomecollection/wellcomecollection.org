@@ -11,6 +11,7 @@ import {
   useUserInfo,
   withUserInfo,
 } from '@weco/common/views/components/UserInfoContext';
+import { user as userIcon } from '@weco/common/icons';
 
 const NavLoginWrapper = styled.div`
   display: flex;
@@ -451,7 +452,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                         [font('hnr', 4)]: true,
                       })}
                     >
-                      <Icon name={'user'} matchText={true} />
+                      <Icon icon={userIcon} matchText={true} />
                     </Space>
                     <SignIn user={user} />
                   </MobileLogin>
@@ -473,7 +474,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                           [font('hnr', 4)]: true,
                         })}
                       >
-                        <Icon name={'user'} matchText={true} />
+                        <Icon icon={userIcon} matchText={true} />
                       </div>
                       <Space
                         h={{ size: 's', properties: ['margin-left'] }}

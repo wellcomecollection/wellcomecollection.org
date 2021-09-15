@@ -17,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
 import ClearSearch from '../ClearSearch/ClearSearch';
+import { search } from '@weco/common/icons';
 
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
@@ -158,7 +159,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           <SearchButtonWrapper>
             <ButtonSolid
               isBig
-              icon="search"
+              icon={search}
               text="search"
               isTextHidden={true}
             />
@@ -209,9 +210,12 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
                   <HitData v={{ size: 's', properties: ['margin-bottom'] }}>
                     {`${hit.annotations.length} ${
                       hit.annotations.length === 1 ? 'instance' : 'instances'
-                    } ${index &&
-                      `found on image ${index + 1} / ${canvases &&
-                        canvases.length}`} ${
+                    } ${
+                      index &&
+                      `found on image ${index + 1} / ${
+                        canvases && canvases.length
+                      }`
+                    } ${
                       matchingCanvas && matchingCanvas.label.trim() !== '-'
                         ? ` (page ${matchingCanvas.label})`
                         : ''

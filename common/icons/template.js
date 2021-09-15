@@ -1,10 +1,29 @@
 function template(
   { template },
   opts,
-  { imports, componentName, props, jsx, exports }
+  { componentName, jsx, exports, interfaces, props }
 ) {
-  return template.ast`
-    const ${componentName} = (${props}) => ${jsx}
+  const tpl = template.smart({ plugins: ['typescript'] });
+
+  // This has to be added manually to the AST
+  // See https://github.com/babel/babel/issues/10636
+  componentName.typeAnnotation = {
+    type: 'TSTypeAnnotation',
+    typeAnnotation: {
+      type: 'TSTypeReference',
+      typeName: {
+        type: 'Identifier',
+        name: 'IconSvg',
+      },
+    },
+  };
+
+  return tpl.ast`
+    import { IconSvg } from '../types';
+    ${interfaces}
+
+    const ${componentName} = (props) => ${jsx}
+
     ${exports}
   `;
 }

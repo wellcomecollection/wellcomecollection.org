@@ -6,6 +6,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';
+import { memberCard } from '@weco/common/icons';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -86,7 +87,7 @@ const SignInBar: FC = () => {
   return state === 'signedin' || state === 'initial' ? null : (
     <StyledComponent>
       <Space h={{ size: 's', properties: ['margin-right'] }}>
-        <Icon name="memberCard" />
+        <Icon icon={memberCard} />
       </Space>
       {state === 'loading' && <Loading />}
       {state === 'signedout' && <SignInLink />}

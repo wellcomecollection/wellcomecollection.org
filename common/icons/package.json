@@ -2,11 +2,13 @@
   "name": "@weco/icons",
   "description": "Icon set and optimisation for wellcomecollection.org",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
-    "compile": "svgr svgs --out-dir components --no-svgo --typescript --template template.js && yarn makeIndex",
-    "makeIndex": "node make-index.js"
+    "compile": "yarn run-svgr && yarn move-index",
+    "move-index": "mv components/index.tsx ./index.ts",
+    "run-svgr": "svgr svgs --out-dir components --no-svgo --typescript --template template.js --index-template index-template.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "@svgr/cli": "^5.5.0"
   }
 }

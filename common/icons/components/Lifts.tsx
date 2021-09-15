@@ -1,4 +1,6 @@
-const SvgLifts = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgLifts: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero" transform="translate(2)">
       <path d="M15 .45H4.6a4 4 0 0 0-4 4v18.3a1 1 0 0 0 2 0V4.45a2 2 0 0 1 2-2H15a2 2 0 0 1 2 2v18.3a1 1 0 0 0 2 0V4.45a4 4 0 0 0-4-4z" />

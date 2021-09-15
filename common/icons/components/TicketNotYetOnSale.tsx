@@ -1,4 +1,6 @@
-const SvgTicketNotYetOnSale = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgTicketNotYetOnSale: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M15.978 12a.923.923 0 1 0-1.301 1.302l.49.489a.923.923 0 0 0 1.3-1.302L15.979 12z" />

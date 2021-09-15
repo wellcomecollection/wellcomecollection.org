@@ -31,6 +31,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
+import { info2 } from '@weco/common/icons';
 
 type DetailProps = {
   label: string;
@@ -64,7 +65,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon name={`info2`} color={`currentColor`} />
+      <Icon icon={info2} color={`currentColor`} />
       {children}
     </StatusAlert>
   );
@@ -72,9 +73,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   try {
-    const response = await fetch(
-      `/account/api/users/${userId}/item-requests`
-    );
+    const response = await fetch(`/account/api/users/${userId}/item-requests`);
     const json = await response.json();
     return json;
   } catch (e) {
@@ -101,7 +100,9 @@ const Profile: FC = () => {
 
   const logoutOnDeletionRequest = () => {
     history.replace(
-      `/account/logout?returnTo=${encodeURIComponent('/account/delete-requested')}`
+      `/account/logout?returnTo=${encodeURIComponent(
+        '/account/delete-requested'
+      )}`
     );
   };
 
@@ -206,8 +207,9 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${allowedRequests -
-                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
+                    >{`${
+                      allowedRequests - requests?.totalResults
+                    } of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -222,7 +224,9 @@ const Profile: FC = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          <TruncateTitle href={`/works/${result.workId}`}>{result.item.title || result.workTitle || ''}</TruncateTitle>,
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
                         ]),

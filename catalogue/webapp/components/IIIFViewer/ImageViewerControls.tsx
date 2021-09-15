@@ -3,6 +3,7 @@ import { useContext, FunctionComponent } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import styled from 'styled-components';
+import { rotateRight, zoomIn } from '@weco/common/icons';
 
 const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
   position: absolute;
@@ -61,7 +62,7 @@ const ImageViewerControls: FunctionComponent = () => {
         <Control
           colorScheme="black-on-white"
           text="Zoom in"
-          icon="zoomIn"
+          icon={zoomIn}
           clickHandler={() => {
             setShowZoomed(true);
           }}
@@ -74,7 +75,7 @@ const ImageViewerControls: FunctionComponent = () => {
         <Control
           colorScheme="black-on-white"
           text="Rotate"
-          icon="rotateRight"
+          icon={rotateRight}
           clickHandler={() => {
             const matchingIndex = rotatedImages.findIndex(
               image => image.canvasIndex === activeIndex

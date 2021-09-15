@@ -20,6 +20,8 @@ import {
 } from '@weco/common/services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 // $FlowFixMe (tsx)
+import { clock } from '@weco/common/icons';
+// $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
@@ -285,7 +287,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
                         >
-                          <Icon name={'clock'} />
+                          <Icon icon={clock} />
                         </Space>
                         <Space
                           as="span"
@@ -393,17 +395,13 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
 
-    const [
-      exhibitions,
-      events,
-      availableOnlineEvents,
-      whatsOnPage,
-    ] = await Promise.all([
-      exhibitionsPromise,
-      eventsPromise,
-      availableOnlineEventsPromise,
-      whatsOnPagePromise,
-    ]);
+    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
+      await Promise.all([
+        exhibitionsPromise,
+        eventsPromise,
+        availableOnlineEventsPromise,
+        whatsOnPagePromise,
+      ]);
     const dateRange = getMomentsForPeriod(period);
     const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
@@ -437,9 +435,8 @@ export class WhatsOnPage extends Component<Props> {
     } = this.props;
 
     const events = this.props.events.results.map(convertJsonToDates);
-    const availableOnlineEvents = this.props.availableOnlineEvents.results.map(
-      convertJsonToDates
-    );
+    const availableOnlineEvents =
+      this.props.availableOnlineEvents.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
         start: exhibition.start && new Date(exhibition.start),

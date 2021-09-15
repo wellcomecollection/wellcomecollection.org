@@ -3,6 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { IconSvg } from '@weco/common/icons';
 
 type ItemProps = {
   url?: string | null;
@@ -12,7 +13,7 @@ type ItemProps = {
 type Props = {
   items: ItemProps[];
   heading?: string;
-  icon?: string;
+  icon?: IconSvg;
 };
 
 type LinkOrSpanSpaceAttrs = {
@@ -64,7 +65,7 @@ const LinkLabels: FunctionComponent<Props> = ({
       >
         {icon && (
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon name={icon} />
+            <Icon icon={icon} />
           </Space>
         )}
         {heading}

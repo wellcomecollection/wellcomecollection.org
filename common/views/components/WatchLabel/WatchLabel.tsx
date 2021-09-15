@@ -3,6 +3,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
+import { play } from '@weco/common/icons';
 
 const WatchIconWrapper = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
     })}
   >
     <WatchIconWrapper>
-      <Icon name={`play`} matchText={true} />
+      <Icon icon={play} matchText={true} />
     </WatchIconWrapper>
     {text && <WatchText>{text}</WatchText>}
   </div>
