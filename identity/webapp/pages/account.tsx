@@ -21,6 +21,8 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  ButtonWrapper,
+  TruncateTitle,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -87,16 +89,6 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
     console.log(e);
   }
 }
-
-// The table display is weird / should not be scrollable
-// This should be sorted out in CSS rather than doing this.
-const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
-  str: string,
-  maxLength = 60
-) => {
-  const truncated = str.slice(0, maxLength);
-  return str.length > maxLength ? `${truncated}...` : str;
-};
 
 const Profile: FC = () => {
   const router = useRouter();
@@ -178,13 +170,7 @@ const Profile: FC = () => {
                     /* Membership expiry date? */
                   ]}
                 />
-                <Space
-                  as="span"
-                  h={{
-                    size: 'l',
-                    properties: ['margin-right'],
-                  }}
-                >
+                <ButtonWrapper>
                   <ChangeDetailsModal
                     id="change-email"
                     buttonText="Change email"
@@ -195,16 +181,18 @@ const Profile: FC = () => {
                   >
                     <ChangeEmail />
                   </ChangeDetailsModal>
-                </Space>
-                <ChangeDetailsModal
-                  id="change-password"
-                  buttonText="Change password"
-                  onComplete={() => {
-                    setIsPasswordUpdated(true);
-                  }}
-                >
-                  <ChangePassword />
-                </ChangeDetailsModal>
+                </ButtonWrapper>
+                <ButtonWrapper>
+                  <ChangeDetailsModal
+                    id="change-password"
+                    buttonText="Change password"
+                    onComplete={() => {
+                      setIsPasswordUpdated(true);
+                    }}
+                  >
+                    <ChangePassword />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
 
@@ -239,9 +227,9 @@ const Profile: FC = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          truncateTitle_REMOVE_THIS_FUNCTION_ASAP(
-                            result.item.title || result.workTitle || ''
-                          ),
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
                         ]),
@@ -251,7 +239,7 @@ const Profile: FC = () => {
                       className={`${font('hnb', 5)}`}
                       v={{
                         size: 'l',
-                        properties: ['margin-top'],
+                        properties: ['margin-top', 'margin-bottom'],
                       }}
                     >
                       If you wish to cancel a hold, please{' '}
@@ -270,14 +258,16 @@ const Profile: FC = () => {
                 <p className={font('hnb', 5)}>
                   Request a deletion of your account
                 </p>
-                <ChangeDetailsModal
-                  id="delete-account"
-                  buttonText="Request deletion"
-                  isDangerous
-                  onComplete={logoutOnDeletionRequest}
-                >
-                  <DeleteAccount />
-                </ChangeDetailsModal>
+                <ButtonWrapper>
+                  <ChangeDetailsModal
+                    id="delete-account"
+                    buttonText="Request deletion"
+                    isDangerous
+                    onComplete={logoutOnDeletionRequest}
+                  >
+                    <DeleteAccount />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
           </>
