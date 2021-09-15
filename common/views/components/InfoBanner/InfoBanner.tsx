@@ -6,6 +6,7 @@ import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
+import { cross, information } from '@weco/common/icons';
 
 type Props = {
   cookieName?: string;
@@ -73,7 +74,7 @@ const InfoBanner: FunctionComponent<Props> = ({
                     v={{ size: 'xs', properties: ['margin-top'] }}
                     className={`flex`}
                   >
-                    <Icon name="information" />
+                    <Icon icon={information} />
                     <span className="visually-hidden" id="note">
                       Notification
                     </span>
@@ -89,7 +90,7 @@ const InfoBanner: FunctionComponent<Props> = ({
                   onClick={hideInfoBanner}
                   aria-controls="notification"
                 >
-                  <Icon name="cross" title="Close notification" />
+                  <Icon icon={cross} title="Close notification" />
                   <span className="visually-hidden">close notification</span>
                 </button>
               </Space>

@@ -1,4 +1,6 @@
-const SvgMessage = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgMessage: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M5.47 6.71h13v1.63h-13V6.71zm0 6.5h13v1.63h-13v-1.63zm0-3.25h13v1.63h-13V9.96z" />

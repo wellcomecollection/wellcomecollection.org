@@ -5,6 +5,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
 import { trackEvent } from '@weco/common/services/conversion/track';
+import { download } from '@weco/common/icons';
 
 const DownloadLinkStyle = styled.a.attrs({
   className: classNames({
@@ -53,7 +54,7 @@ const DownloadLink: FunctionComponent<Props> = ({
     }}
   >
     <span className="flex-inline flex--v-center">
-      <Icon name="download" />
+      <Icon icon={download} />
       <span className="underline-on-hover">{linkText}</span>
       {format && (
         <Space

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
-import * as icons from '../../../icons';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { IconSvg } from '@weco/common/icons';
 
 type WrapperProps = {
   rotate?: number;
@@ -53,7 +53,7 @@ const Wrapper = styled.div.attrs({
 `;
 
 type Props = {
-  name: string;
+  icon: IconSvg;
   rotate?: number;
   color?: PaletteColor;
   matchText?: boolean;
@@ -62,7 +62,7 @@ type Props = {
 };
 
 const Icon: FunctionComponent<Props> = ({
-  name,
+  icon,
   rotate,
   color,
   matchText,
@@ -83,7 +83,9 @@ const Icon: FunctionComponent<Props> = ({
       {...attrs}
     >
       {title && <title id={`icon-${name}-title`}>{title}</title>}
-      {icons[name]()}
+      {/* This type guard is here just in case a string icon makes its way */}
+      {/* in via Prismic etc - that shouldn't happen but better safe than sorry. */}
+      {typeof icon === 'function' && icon({})}
     </svg>
   </Wrapper>
 );

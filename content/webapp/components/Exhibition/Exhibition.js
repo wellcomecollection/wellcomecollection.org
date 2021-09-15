@@ -1,5 +1,5 @@
 // @flow
-import { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -31,6 +31,17 @@ import { type Page } from '@weco/common/model/pages';
 
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  calendar,
+  clock,
+  ticket,
+  location,
+  a11Y,
+  a11YVisual,
+  information,
+  family,
+  // $FlowFixMe (tsx)
+} from '@weco/common/icons';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -44,7 +55,7 @@ function getUpcomingExhibitionObject(exhibition) {
             spans: [],
           },
         ],
-        icon: 'calendar',
+        icon: calendar,
       }
     : null;
 }
@@ -60,7 +71,7 @@ function getadmissionObject() {
         spans: [],
       },
     ],
-    icon: 'ticket',
+    icon: ticket,
   };
 }
 
@@ -86,7 +97,7 @@ function getTodaysHoursObject() {
         ],
       },
     ],
-    icon: 'clock',
+    icon: clock,
   };
 }
 
@@ -102,10 +113,16 @@ function getPlaceObject(exhibition) {
           spans: [],
         },
       ],
-      icon: 'location',
+      icon: location,
     }
   );
 }
+
+// These options are defined in exhibition-resources.js
+const resourceIcons: { [string]: React$StatelessFunctionalComponent<{}> } = {
+  information: information,
+  family: family,
+};
 
 function getResourcesItems(exhibition) {
   return exhibition.resources.map(resource => {
@@ -113,7 +130,7 @@ function getResourcesItems(exhibition) {
       id: null,
       title: null,
       description: resource.description,
-      icon: resource.icon,
+      icon: resource.icon ? resourceIcons[resource.icon] : undefined,
     };
   });
 }
@@ -130,7 +147,7 @@ function getAccessibilityItems() {
           spans: [],
         },
       ],
-      icon: 'a11y',
+      icon: a11Y,
     },
     {
       id: null,
@@ -138,12 +155,11 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text:
-            'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],
-      icon: 'a11yVisual',
+      icon: a11YVisual,
     },
   ];
 }

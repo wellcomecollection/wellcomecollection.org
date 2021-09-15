@@ -17,6 +17,7 @@ import { AppContext } from '../AppContext/AppContext';
 import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { parseLink } from '@weco/common/services/prismic/parsers';
+import { chat, clear } from '@weco/common/icons';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
@@ -109,7 +110,8 @@ const PopupDialogWindow = styled(Space).attrs({
 
 const PopupDialogClose = styled.button.attrs({
   className: classNames({
-    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center': true,
+    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center':
+      true,
   }),
 })<{ isKeyboard: boolean }>`
   top: 10px;
@@ -298,7 +300,7 @@ const PopupDialog: FunctionComponent<Props> = ({
             overrides: { medium: 2, large: 2 },
           }}
         >
-          <Icon name="chat" color={'purple'} />
+          <Icon icon={chat} color={'purple'} />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -322,7 +324,7 @@ const PopupDialog: FunctionComponent<Props> = ({
             });
           }}
         >
-          <Icon name="clear" title="Close dialog" color={'purple'} />
+          <Icon icon={clear} title="Close dialog" color={'purple'} />
         </PopupDialogClose>
         <Space
           h={{
