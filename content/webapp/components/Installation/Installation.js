@@ -1,4 +1,5 @@
 // @flow
+import { isPast } from '@weco/common/utils/format-date';
 import { useEffect, useState } from 'react';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -20,7 +21,6 @@ import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 // $FlowFixMe (ts)
 import { font } from '@weco/common/utils/classnames';
-import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 
 type Props = {|

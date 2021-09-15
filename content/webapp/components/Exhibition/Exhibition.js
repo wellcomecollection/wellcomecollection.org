@@ -1,9 +1,8 @@
 // @flow
 import { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
-import { isPast, isFuture } from '@weco/common/utils/dates';
 // $FlowFixMe (ts)
-import { formatDate } from '@weco/common/utils/format-date';
+import { formatDate, isFuture, isPast } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 // $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';

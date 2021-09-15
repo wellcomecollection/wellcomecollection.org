@@ -43,8 +43,7 @@ import { parseEventSeries } from './event-series';
 import { parseSeason } from './seasons';
 import isEmptyObj from '../../utils/is-empty-object';
 // $FlowFixMe (ts)
-import { london, formatDayDate } from '../../utils/format-date';
-import { getNextWeekendDateRange, isPast } from '../../utils/dates';
+import { london, formatDayDate, getNextWeekendDateRange, isPast } from '../../utils/format-date';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
