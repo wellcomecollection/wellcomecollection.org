@@ -35,7 +35,7 @@ import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import { cross } from '@weco/common/icons';
+import { cross, eye } from '@weco/common/icons';
 
 type Props = {
   image: ImageType;
@@ -376,7 +376,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                 >
                   <ButtonSolidLink
                     text="View image"
-                    icon="eye"
+                    icon={eye}
                     link={expandedImageLink}
                     clickHandler={onImageLinkClick}
                     ariaLabel={expandedViewImageButton}

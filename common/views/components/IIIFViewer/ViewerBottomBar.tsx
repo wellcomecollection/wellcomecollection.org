@@ -8,7 +8,7 @@ import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/I
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { ShameButton } from './ViewerTopBar';
-import { expand } from '@weco/common/icons';
+import { expand, gridView, singlePage } from '@weco/common/icons';
 
 const BottomBar = styled.div`
   position: relative;
@@ -66,7 +66,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 {
                   id: 'pageView',
                   label: 'Page',
-                  icon: 'singlePage',
+                  icon: singlePage,
                   clickHandler() {
                     setGridVisible(false);
                     trackEvent({
@@ -79,7 +79,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 {
                   id: 'gridView',
                   label: 'Grid',
-                  icon: 'gridView',
+                  icon: gridView,
                   clickHandler() {
                     setGridVisible(true);
                     trackEvent({

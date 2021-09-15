@@ -10,7 +10,13 @@ import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/I
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '../ToolbarSegmentedControl/ToolbarSegmentedControl';
 import AlignFont from '../styled/AlignFont';
-import { chevrons, collapse, expand } from '@weco/common/icons';
+import {
+  chevrons,
+  collapse,
+  expand,
+  gridView,
+  singlePage,
+} from '@weco/common/icons';
 
 // TODO: update this with a more considered button from our system
 export const ShameButton = styled.button.attrs(() => ({
@@ -269,7 +275,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 {
                   id: 'pageView',
                   label: 'Page',
-                  icon: 'singlePage',
+                  icon: singlePage,
                   clickHandler() {
                     setGridVisible(false);
                     trackEvent({
@@ -282,7 +288,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 {
                   id: 'gridView',
                   label: 'Grid',
-                  icon: 'gridView',
+                  icon: gridView,
                   clickHandler() {
                     setGridVisible(true);
                     trackEvent({

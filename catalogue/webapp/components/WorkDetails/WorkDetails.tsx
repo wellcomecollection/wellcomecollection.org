@@ -49,6 +49,7 @@ import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
+import { eye } from '@weco/common/icons';
 
 type Props = {
   work: Work;
@@ -377,7 +378,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 }}
               >
                 <ButtonSolidLink
-                  icon="eye"
+                  icon={eye}
                   text="View"
                   trackingEvent={{
                     category: 'WorkDetails',
@@ -445,7 +446,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       }}
                     >
                       <ButtonSolidLink
-                        icon="eye"
+                        icon={eye}
                         text="View"
                         trackingEvent={{
                           category: 'WorkDetails',

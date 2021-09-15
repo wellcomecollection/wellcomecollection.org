@@ -22,7 +22,7 @@ import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import { chevron } from '@weco/common/icons';
+import { chevron, tree } from '@weco/common/icons';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -889,7 +889,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
-              icon="tree"
+              icon={tree}
               ref={openButtonRef}
             />
           </ButtonWrap>

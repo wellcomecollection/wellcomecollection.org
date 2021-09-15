@@ -71,7 +71,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon name={info2} color={`currentColor`} />
+      <Icon icon={info2} color={`currentColor`} />
       {children}
     </StatusAlert>
   );

@@ -6,6 +6,7 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import { digitalImage, gridView } from '@weco/common/icons';
 
 const ButtonInlineTemplate = args => <ButtonInline {...args} />;
 export const buttonInline = ButtonInlineTemplate.bind({});
@@ -56,13 +57,13 @@ const ToolbarSegmentedControlTemplate = args => {
         items={[
           {
             id: 'page',
-            icon: 'digitalImage',
+            icon: digitalImage,
             label: 'Page',
             clickHandler: () => setActiveId('page'),
           },
           {
             id: 'grid',
-            icon: 'gridView',
+            icon: gridView,
             label: 'Grid',
             clickHandler: () => setActiveId('grid'),
           },

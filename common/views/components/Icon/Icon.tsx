@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { IconSvg } from '@weco/common/icons';
 
 type WrapperProps = {
   rotate?: number;
@@ -52,7 +53,7 @@ const Wrapper = styled.div.attrs({
 `;
 
 type Props = {
-  icon: FunctionComponent;
+  icon: IconSvg;
   rotate?: number;
   color?: PaletteColor;
   matchText?: boolean;

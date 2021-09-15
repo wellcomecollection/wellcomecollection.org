@@ -17,6 +17,7 @@ import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '@weco/common/model/iiif';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '../ItemLink/ItemLink';
+import { arrow } from '@weco/common/icons';
 
 const NoScriptViewerEl = styled.div`
   display: flex;
@@ -97,7 +98,7 @@ export const PaginatorButtons = (
                 replace={true}
                 link={prevLink}
                 colorScheme="light"
-                icon="arrow"
+                icon={arrow}
                 text="Previous page"
                 tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {
@@ -119,7 +120,7 @@ export const PaginatorButtons = (
                 replace={true}
                 link={nextLink}
                 colorScheme="light"
-                icon="arrow"
+                icon={arrow}
                 text="Next page"
                 tabIndex={isTabbable ? 0 : -1}
                 clickHandler={() => {

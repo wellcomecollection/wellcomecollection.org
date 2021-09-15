@@ -20,7 +20,7 @@ import { breakpoints } from '../../../utils/breakpoints';
 import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import { gallery } from '@weco/common/icons';
+import { cross, gallery } from '@weco/common/icons';
 
 type TitleStyle = {
   transform?: string;
@@ -400,7 +400,7 @@ const ImageGallery: FunctionComponent<Props> = ({
                     replace={true}
                     colorScheme={`light`}
                     text={`close`}
-                    icon={`cross`}
+                    icon={cross}
                     clickHandler={handleCloseClicked}
                   />
                 </Space>
@@ -459,7 +459,7 @@ const ImageGallery: FunctionComponent<Props> = ({
                   ref={openButtonRef}
                   ariaControls={`image-gallery-${id}`}
                   ariaExpanded={isActive}
-                  icon="gallery"
+                  icon={gallery}
                   clickHandler={handleOpenClicked}
                   text={`${items.length} images`}
                 />
