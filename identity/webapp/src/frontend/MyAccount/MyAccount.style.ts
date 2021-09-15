@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
@@ -38,7 +38,7 @@ const OutlinedDangerButtonModifier = css`
   }
 `;
 
-export const Button = styled(OutlinedButton)<{ isDangerous?: boolean }>`
+export const Button = styled(ButtonOutlined)<{ isDangerous?: boolean }>`
   justify-content: center;
 
   ${props => props.isDangerous && OutlinedDangerButtonModifier}

@@ -38,12 +38,11 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   return (
     <>
       <Button
-        isDangerous={isDangerous}
-        onClick={() => setIsActive(true)}
+        text={buttonText}
+        // isDangerous={isDangerous} // TODO
+        clickHandler={() => setIsActive(true)}
         ref={openButton}
-      >
-        {buttonText}
-      </Button>
+      ></Button>
       <Modal
         id={id}
         isActive={isActive}
