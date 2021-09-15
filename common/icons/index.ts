@@ -107,3 +107,5 @@ export { default as wifi } from './components/Wifi';
 export { default as youtube } from './components/Youtube';
 export { default as zoomIn } from './components/ZoomIn';
 export { default as zoomOut } from './components/ZoomOut';
+
+export type { IconSvg } from './types';

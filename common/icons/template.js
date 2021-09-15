@@ -13,27 +13,14 @@ function template(
       type: 'TSTypeReference',
       typeName: {
         type: 'Identifier',
-        name: 'FunctionComponent',
-      },
-      typeParameters: {
-        type: 'TSTypeParameterInstantiation',
-        params: [
-          {
-            type: 'TSTypeReference',
-            typeName: {
-              type: 'Identifier',
-              name: 'Props',
-            },
-          },
-        ],
+        name: 'IconSvg',
       },
     },
   };
 
   return tpl.ast`
-    import { SVGProps, FunctionComponent } from 'react';
+    import { IconSvg } from '../types';
     ${interfaces}
-    type Props = SVGProps<SVGSVGElement>;
 
     const ${componentName} = (props) => ${jsx}
 

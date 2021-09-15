@@ -1,7 +1,7 @@
 const path = require('path');
 
 function indexTemplate(filePaths) {
-  return filePaths
+  const iconExports = filePaths
     .map(filePath => {
       const { name } = path.parse(filePath);
       const iconName = name.charAt(0).toLowerCase() + name.slice(1);
@@ -10,6 +10,8 @@ function indexTemplate(filePaths) {
       return `export { default as ${iconName} } from './components/${name}';`;
     })
     .join('\n');
+
+  return iconExports + `\n\nexport type { IconSvg } from './types';\n`;
 }
 
 module.exports = indexTemplate;

@@ -1,7 +1,6 @@
-import { SVGProps, FunctionComponent } from 'react';
-type Props = SVGProps<SVGSVGElement>;
+import { IconSvg } from '../types';
 
-const SvgWellcome: FunctionComponent<Props> = props => (
+const SvgWellcome: IconSvg = props => (
   <svg viewBox="0 0 68 68" {...props}>
     <path
       className="icon__shape"
