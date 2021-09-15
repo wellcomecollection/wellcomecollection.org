@@ -1,5 +1,6 @@
 // @flow
 import { useRef, useEffect } from 'react';
+// $FlowFixMe (tsx)
 import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';

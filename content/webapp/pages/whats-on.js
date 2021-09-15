@@ -19,6 +19,7 @@ import {
   filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
+// $FlowFixMe (tsx)
 import { clock } from '@weco/common/icons';
 // $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';

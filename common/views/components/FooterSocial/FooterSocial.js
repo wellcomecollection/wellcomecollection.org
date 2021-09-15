@@ -6,6 +6,7 @@ import {
   tripadvisor,
   twitter,
   youtube,
+  // $FlowFixMe (tsx)
 } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';

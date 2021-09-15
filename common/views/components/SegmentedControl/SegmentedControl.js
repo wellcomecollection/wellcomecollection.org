@@ -1,5 +1,6 @@
 // @flow
 import { Component, Fragment } from 'react';
+// $FlowFixMe (tsx)
 import { chevron, cross } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
