@@ -2,6 +2,7 @@
 import { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
+// $FlowFixMe (ts)
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 // $FlowFixMe (tsx)
@@ -138,8 +139,7 @@ function getAccessibilityItems() {
       description: [
         {
           type: 'paragraph',
-          text:
-            'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],

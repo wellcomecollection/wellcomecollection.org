@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { london } from '../../utils/format-date';
 import type {
   Day,

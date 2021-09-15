@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import type { MultiContent } from '../../../model/multi-content';
 // $FlowFixMe (ts)
 import { grid } from '../../../utils/classnames';
+// $FlowFixMe (ts)
 import { formatDate } from '../../../utils/format-date';
 import Image from '../Image/Image';
 // $FlowFixMe(tsx)

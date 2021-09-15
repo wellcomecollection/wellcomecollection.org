@@ -42,6 +42,7 @@ import {
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
+// $FlowFixMe (ts)
 import { london } from '../../utils/format-date';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
@@ -311,12 +312,10 @@ export async function getExhibitions(
     memoizedPrismic
   );
 
-  const uiExhibitions: UiExhibition[] = paginatedResults.results.map(
-    parseExhibitionDoc
-  );
-  const exhibitionsWithPermAfterCurrent = putPermanentAfterCurrentExhibitions(
-    uiExhibitions
-  );
+  const uiExhibitions: UiExhibition[] =
+    paginatedResults.results.map(parseExhibitionDoc);
+  const exhibitionsWithPermAfterCurrent =
+    putPermanentAfterCurrentExhibitions(uiExhibitions);
 
   // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.

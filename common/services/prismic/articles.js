@@ -1,5 +1,6 @@
 // @flow
 import Prismic from 'prismic-javascript';
+// $FlowFixMe (ts)
 import { london } from '../../utils/format-date';
 import { getDocument, getDocuments } from './api';
 import {
@@ -12,7 +13,7 @@ import {
 } from './parsers';
 import { parseMultiContent } from './multi-content';
 import { parseArticleSeries } from './article-series';
-// $FlowFixMe (tsx)
+
 import { parseSeason } from './seasons';
 import type { Article } from '../../model/articles';
 import type { MultiContent } from '../../model/multi-content';

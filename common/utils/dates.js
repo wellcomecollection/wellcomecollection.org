@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { london } from './format-date';
 import type { DateRange } from '../model/date-range';
 import type Moment from 'moment';

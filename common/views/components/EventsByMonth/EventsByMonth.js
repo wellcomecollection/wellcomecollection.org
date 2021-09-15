@@ -2,6 +2,7 @@
 
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
+// $FlowFixMe (ts)
 import { london } from '../../../utils/format-date';
 import { getEarliestFutureDateRange } from '../../../utils/dates';
 // $FlowFixMe (ts)
@@ -109,14 +110,7 @@ class EventsByMonth extends Component<Props, State> {
     const orderedMonths = {};
     Object.keys(eventsInMonths)
       .sort((a, b) => {
-        return (
-          london(a)
-            .toDate()
-            .getTime() -
-          london(b)
-            .toDate()
-            .getTime()
-        );
+        return london(a).toDate().getTime() - london(b).toDate().getTime();
       })
       .map(key => (orderedMonths[key] = eventsInMonths[key]));
 

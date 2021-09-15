@@ -1,3 +1,4 @@
+// $FlowFixMe (ts)
 import { london } from './format-date';
 import type { OpeningHours } from '../model/opening-hours';
 

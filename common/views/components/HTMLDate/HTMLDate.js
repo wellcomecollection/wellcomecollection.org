@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe (ts)
 import { formatDate } from '../../../utils/format-date';
 
 type Props = {|
