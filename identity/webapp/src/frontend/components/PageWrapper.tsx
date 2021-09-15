@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import HeaderPrototype from '@weco/common/views/components/Header/HeaderPrototype';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
@@ -11,7 +11,7 @@ const Main = styled.div`
     background: ${props => props.theme.color('cream')};
   }
 `;
-export const PageWrapper: React.FC<{ children: React.ReactNode }> = ({
+export const PageWrapper: FC = ({
   children,
 }) => {
   return (
