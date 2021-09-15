@@ -58,10 +58,19 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
   app.use(errorHandler);
 
   const koaRouter = router.router;
-  koaRouter.all('(.*)', async ctx => {
+  const secured = (ctx, next) => {
+    if (ctx.isAuthenticated()) {
+      return next();
+    }
+
+    ctx.redirect('/login');
+  }
+
+  koaRouter.all('(.*)', secured, async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
+
   app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
 
   process.on('SIGINT', async () => {
