@@ -5,7 +5,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import NextLink from 'next/link';
 import { AccountCreated } from '../../src/frontend/Registration/AccountCreated';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import {
   Cancel,
   Checkbox,
@@ -14,11 +14,21 @@ import {
   CheckboxLabel,
   InProgress,
 } from '../../src/frontend/Registration/Registration.style';
-import { InvalidFieldAlert, Button } from '../../src/frontend/components/Form.style';
-import { Container, Title, Wrapper } from '../../src/frontend/components/Layout.style';
+import {
+  InvalidFieldAlert,
+  Button,
+} from '../../src/frontend/components/Form.style';
+import {
+  Container,
+  Title,
+  Wrapper,
+} from '../../src/frontend/components/Layout.style';
 import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { useRegisterUser, RegistrationError } from '../../src/frontend/Registration/useRegisterUser';
+import {
+  useRegisterUser,
+  RegistrationError,
+} from '../../src/frontend/Registration/useRegisterUser';
 import { usePageTitle } from '../../src/frontend/hooks/usePageTitle';
 import {
   validEmailPattern,
@@ -29,7 +39,7 @@ import { PasswordInput } from '../../src/frontend/Registration/PasswordInput';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { router } from 'src/router';
+import { info2 } from '@weco/common/icons';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -87,12 +97,16 @@ const RegistrationPage: NextPage = () => {
               {registrationError && (
                 <>
                   <ErrorAlert aria-labelledby="error-text">
-                    <Icon name={`info2`} />
+                    <Icon icon={info2} />
                     {registrationError ===
                       RegistrationError.EMAIL_ALREADY_EXISTS && (
                       <span id="error-text">
                         An account with this email address already exists,
-                        please <NextLink href="/account"><a>sign in</a></NextLink>.
+                        please{' '}
+                        <NextLink href="/account">
+                          <a>sign in</a>
+                        </NextLink>
+                        .
                       </span>
                     )}
                     {registrationError ===
@@ -119,7 +133,10 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{ required: 'Enter your first name.' }}
-                    render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    render={(
+                      { onChange, value, name },
+                      { invalid, isDirty }
+                    ) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -140,7 +157,10 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{ required: 'Enter your last name.' }}
-                    render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    render={(
+                      { onChange, value, name },
+                      { invalid, isDirty }
+                    ) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -167,7 +187,10 @@ const RegistrationPage: NextPage = () => {
                         message: 'Enter a valid email address.',
                       },
                     }}
-                    render={({ onChange, value, name }, { invalid, isDirty }) => (
+                    render={(
+                      { onChange, value, name },
+                      { invalid, isDirty }
+                    ) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -194,7 +217,10 @@ const RegistrationPage: NextPage = () => {
                         message: 'Enter a valid password.',
                       },
                     }}
-                    render={({ onChange, value, name }, { invalid, isDirty }) => {
+                    render={(
+                      { onChange, value, name },
+                      { invalid, isDirty }
+                    ) => {
                       return (
                         <PasswordInput
                           required
@@ -258,7 +284,12 @@ const RegistrationPage: NextPage = () => {
                   ) : (
                     <Button type="submit">Create account</Button>
                   )}
-                  <Space as="span" h={{size: 'm', properties: ['margin-left']}}><Cancel onClick={router.back} /></Space>
+                  <Space
+                    as="span"
+                    h={{ size: 'm', properties: ['margin-left'] }}
+                  >
+                    <Cancel onClick={router.back} />
+                  </Space>
                 </SpacingComponent>
               </form>
             </Wrapper>
