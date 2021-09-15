@@ -45,6 +45,14 @@ export const Button = styled(ButtonOutlined)<{ isDangerous?: boolean }>`
   ${props => props.isDangerous && OutlinedDangerButtonModifier}
 `;
 
+export const ButtonWrapper = styled(Space).attrs({
+  as: 'span',
+  v: { size: 'l', properties: ['margin-bottom'] },
+  h: { size: 'l', properties: ['margin-right'] },
+})`
+  display: inline-block;
+`;
+
 export const ModalContainer = styled.aside`
   @media screen and (min-width: 600px) {
     width: 24em;
