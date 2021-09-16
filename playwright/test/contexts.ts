@@ -66,14 +66,6 @@ const worksSearch = async (): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/works`);
 };
 
-const accountError = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(
-    `${baseUrl}/account/error`,
-    `error_description=Uh-oh%20spaghetti-O's!`
-  );
-};
-
 export const isMobile = Boolean(deviceName);
 
 export {
@@ -85,5 +77,4 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
-  accountError,
 };
