@@ -1,4 +1,3 @@
-import 'moment-timezone';
 import type { DateRange } from '../model/date-range';
 import dayjs, { ConfigType, Dayjs } from 'dayjs';
 
