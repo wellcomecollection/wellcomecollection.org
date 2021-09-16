@@ -1,9 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const withTM = require('next-transpile-modules')([
-  '@weco/common',
-  '@weco/catalogue',
-]);
+const withTM = require('next-transpile-modules')(['@weco/common']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
