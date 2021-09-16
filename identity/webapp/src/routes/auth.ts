@@ -4,9 +4,13 @@ import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';
 
-export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
-  scope: 'openid profile email',
-});
+export const loginAction: RouteMiddleware = (ctx, next) => {
+  ctx.cookies.set('returnTo', ctx.request.headers.referer);
+
+  koaPassport.authenticate('auth0', {
+    scope: 'openid profile email',
+  })(ctx, next);
+};
 
 export const authCallback: RouteMiddleware = (ctx, next) => {
   return koaPassport.authenticate('auth0', (err, user, info) => {
@@ -19,7 +23,11 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
       return ctx.redirect(`/account/error?${ctx.request.querystring}`);
     }
     if (!user) {
-      return ctx.redirect(`/account/error?error_description=${encodeURI('An unknown error occurred.')}`);
+      return ctx.redirect(
+        `/account/error?error_description=${encodeURI(
+          'An unknown error occurred.'
+        )}`
+      );
     }
     ctx.login(user, loginError => {
       if (loginError) {
@@ -27,7 +35,8 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
         ctx.body = loginError.message;
         ctx.app.emit('error', err, ctx);
       }
-      return ctx.redirect('/account');
+
+      return ctx.redirect(ctx.cookies.get('returnTo') || '/account');
     });
   })(ctx, next);
 };
