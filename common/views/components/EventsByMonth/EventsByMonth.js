@@ -191,7 +191,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id]}
               itemsPerRow={3}
               links={links}
-              fromDate={london(month.id)}
+              fromDate={london(month.id).toDate()}
             />
           </div>
         ))}

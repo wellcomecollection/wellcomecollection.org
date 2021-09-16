@@ -170,7 +170,7 @@ describe('date utilities', () => {
       expect(
         getEarliestFutureDateRange(
           dateRanges,
-          moment(offsetDate({ days: 1 }, currentDateRange.end))
+          offsetDate({ days: 1 }, currentDateRange.end)
         )
       ).toEqual(futureDateRange);
     });

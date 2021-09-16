@@ -9,7 +9,6 @@ import LabelsList from '../LabelsList/LabelsList';
 import Dot from '../Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { type UiEvent, isEventFullyBooked } from '../../../model/events';
-import Moment from 'moment';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 // $FlowFixMe (tsx)
@@ -24,7 +23,7 @@ type Props = {|
   position?: number,
   dateString?: string,
   timeString?: string,
-  fromDate?: Moment,
+  fromDate?: Date,
 |};
 
 const EventPromo = ({

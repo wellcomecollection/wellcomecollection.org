@@ -9,6 +9,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
+import objectSupport from 'dayjs/plugin/objectSupport';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -16,6 +17,7 @@ dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(minMax);
+dayjs.extend(objectSupport);
 
 export function london(
   d?: Date | string | Moment | { M: string } | { year: string }
@@ -39,11 +41,8 @@ export function formatDayMonth(date: Date): string {
   return londonDjs(date).format('D MMMM');
 }
 
-// TODO no moment
-export function formatDate(date: Date | Moment): string {
-  return londonDjs(date instanceof Date ? date : date.toDate()).format(
-    'D MMMM YYYY'
-  );
+export function formatDate(date: Date): string {
+  return londonDjs(date).format('D MMMM YYYY');
 }
 
 export function formatTime(date: Date): string {
@@ -90,17 +89,13 @@ export function formatDateRangeWithMessage({
   }
 }
 
-// TODO no moment
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
-  fromDate: Moment = london()
+  fromDate: Date = londonDjs().toDate()
 ): DateRange | undefined {
+  const min = dayjs.max(dayjs(fromDate), londonDjs());
   return dateRanges
-    .filter(({ end }) =>
-      londonDjs(end).isSameOrAfter(
-        dayjs.max(dayjs(fromDate.toDate()), londonDjs())
-      )
-    )
+    .filter(({ end }) => londonDjs(end).isSameOrAfter(min))
     .reduce((earliest, dateRange) =>
       dateRange.start < earliest.start ? dateRange : earliest
     );

@@ -15,7 +15,6 @@ import { Page } from '../../../model/pages';
 import { ArticleSeries } from '../../../model/article-series';
 import Space from '../styled/Space';
 import CssGridContainer from '../styled/CssGridContainer';
-import Moment from 'moment';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { FunctionComponent } from 'react';
@@ -38,7 +37,7 @@ type Props = {
   itemsPerRow: number;
   itemsHaveTransparentBackground?: boolean;
   links?: Link[];
-  fromDate?: typeof Moment;
+  fromDate?: Date;
 };
 
 const CardGrid: FunctionComponent<Props> = ({

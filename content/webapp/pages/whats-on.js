@@ -19,7 +19,7 @@ import {
   filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
 // $FlowFixMe (ts)
-import { london, formatDay, formatDate } from '@weco/common/utils/dates';
+import { londonDjs, formatDay, formatDate } from '@weco/common/utils/dates';
 // $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
@@ -128,9 +128,9 @@ function getListHeader(openingTimes: any) {
   };
 }
 
-export function getMomentsForPeriod(period: Period) {
-  const todaysDate = london();
-  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
+export function getDjsForPeriod(period: Period) {
+  const todaysDate = londonDjs();
+  const todaysDatePlusSix = todaysDate.add(6, 'days');
 
   switch (period) {
     case 'today':
@@ -148,18 +148,18 @@ export function getMomentsForPeriod(period: Period) {
 function getWeekendFromDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger !== 0) {
-    return london(today).day(5);
+    return londonDjs(today).day(5);
   } else {
-    return london(today).day(-2);
+    return londonDjs(today).day(-2);
   }
 }
 
 function getWeekendToDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger === 0) {
-    return london(today);
+    return londonDjs(today);
   } else {
-    return london(today).day(7);
+    return londonDjs(today).day(7);
   }
 }
 type DateRangeProps = {|
@@ -401,7 +401,7 @@ export class WhatsOnPage extends Component<Props> {
         availableOnlineEventsPromise,
         whatsOnPagePromise,
       ]);
-    const dateRange = getMomentsForPeriod(period);
+    const dateRange = getDjsForPeriod(period);
     const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
     if (period && events && exhibitions) {
