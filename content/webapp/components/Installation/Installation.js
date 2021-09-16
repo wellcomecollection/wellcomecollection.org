@@ -1,5 +1,6 @@
 // @flow
-import { isPast } from '@weco/common/utils/format-date';
+// $FlowFixMe (ts)
+import { isDatePast } from '@weco/common/utils/dates';
 import { useEffect, useState } from 'react';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -125,7 +126,7 @@ const Installation = ({ installation, globalContextData }: Props) => {
         Body={<Body body={installation.body} pageId={installation.id} />}
         contributorProps={{ contributors: installation.contributors }}
       >
-        {installation.end && !isPast(installation.end) && (
+        {installation.end && !isDatePast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>
             <p className={`no-margin ${font('hnr', 5)}`}>
               <a href="/access">All our accessibility services</a>

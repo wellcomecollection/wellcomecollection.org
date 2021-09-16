@@ -9,9 +9,9 @@ import {
   isTimePast,
   isDatePast,
   formatDateRangeWithMessage,
-} from '../../utils/format-date';
+} from '../../utils/dates';
 
-describe('date formatting utilities', () => {
+describe('date utilities', () => {
   // Month is 0-indexed; this is 2021/9/15 at 16:20:31
   const testDate = new Date(2021, 8, 15, 16, 20, 31);
 

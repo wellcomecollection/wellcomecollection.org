@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe (ts)
-import { london } from '../../utils/format-date';
+import { london } from '../../utils/dates';
 import type {
   Day,
   OverrideType,

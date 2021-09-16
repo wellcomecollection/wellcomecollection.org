@@ -19,7 +19,7 @@ import {
   filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
 // $FlowFixMe (ts)
-import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
+import { london, formatDay, formatDate } from '@weco/common/utils/dates';
 // $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';

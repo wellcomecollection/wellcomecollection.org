@@ -42,6 +42,10 @@ export function isDatePast(date: Date): boolean {
   return momentEnd.isBefore(momentNow, 'day');
 }
 
+export function isDateFuture(date: Date): boolean {
+  return london(date).isAfter(london(), 'day');
+}
+
 export function formatDateRangeWithMessage({
   start,
   end,
@@ -75,14 +79,6 @@ export function getEarliestFutureDateRange(
         london(range.end).isSameOrAfter(fromDate, 'day') &&
         london(range.end).isSameOrAfter(london(), 'day')
     );
-}
-
-export function isPast(date: Date): boolean {
-  return london(date).isBefore(london(), 'day');
-}
-
-export function isFuture(date: Date): boolean {
-  return london(date).isAfter(london(), 'day');
 }
 
 export function getNextWeekendDateRange(date: Date): DateRange {

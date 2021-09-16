@@ -2,7 +2,7 @@
 import moment from 'moment';
 import { Predicates } from 'prismic-javascript';
 // $FlowFixMe (ts)
-import { getNextWeekendDateRange, london } from '../../utils/format-date';
+import { getNextWeekendDateRange, london } from '../../utils/dates';
 import type { Period } from '../../model/periods';
 
 export function getPeriodPredicates(

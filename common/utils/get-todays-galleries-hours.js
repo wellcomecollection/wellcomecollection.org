@@ -1,5 +1,5 @@
 // $FlowFixMe (ts)
-import { london } from './format-date';
+import { london } from './dates';
 import type { OpeningHours } from '../model/opening-hours';
 
 export function getTodaysGalleriesHours(galleryOpeningHours: OpeningHours) {

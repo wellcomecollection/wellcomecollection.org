@@ -21,7 +21,7 @@ import {
   isTimePast,
   isDatePast,
   formatTime,
-} from '@weco/common/utils/format-date';
+} from '@weco/common/utils/dates';
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {

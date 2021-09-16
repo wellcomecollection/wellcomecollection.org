@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent } from 'react';
-import { formatTime, formatDayDate, london } from '../../../utils/format-date';
+import { formatTime, formatDayDate, london } from '../../../utils/dates';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import { DateRange as DateRangeProps } from '../../../model/date-range';
 

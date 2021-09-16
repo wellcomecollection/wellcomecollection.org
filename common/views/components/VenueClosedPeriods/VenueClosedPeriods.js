@@ -8,7 +8,7 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 // $FlowFixMe (ts)
-import { formatDayDate } from '@weco/common/utils/format-date';
+import { formatDayDate } from '@weco/common/utils/dates';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import {
   collectionVenueId,

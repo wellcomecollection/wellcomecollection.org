@@ -19,7 +19,7 @@ import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';
 import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 // $FlowFixMe (ts)
-import { formatDate } from '../../../utils/format-date';
+import { formatDate } from '../../../utils/dates';
 import {
   getPositionInSeries,
   getArticleColor,

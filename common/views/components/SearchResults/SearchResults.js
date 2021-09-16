@@ -4,7 +4,7 @@ import type { MultiContent } from '../../../model/multi-content';
 // $FlowFixMe (ts)
 import { grid } from '../../../utils/classnames';
 // $FlowFixMe (ts)
-import { formatDate } from '../../../utils/format-date';
+import { formatDate } from '../../../utils/dates';
 import Image from '../Image/Image';
 // $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';

@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 // $FlowFixMe (ts)
-import { london } from '../../utils/format-date';
+import { london } from '../../utils/dates';
 import { getDocument, getDocuments } from './api';
 import {
   parseGenericFields,

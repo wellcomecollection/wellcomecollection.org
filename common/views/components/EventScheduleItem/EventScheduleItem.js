@@ -13,7 +13,7 @@ import {
   isTimePast,
   isDatePast,
   // $FlowFixMe (ts)
-} from '../../../utils/format-date';
+} from '../../../utils/dates';
 import type { UiEvent } from '../../../model/events';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';

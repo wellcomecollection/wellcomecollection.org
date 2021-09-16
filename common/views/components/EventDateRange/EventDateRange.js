@@ -1,5 +1,5 @@
 // @flow
-import { getEarliestFutureDateRange } from '../../../utils/format-date';
+import { getEarliestFutureDateRange } from '../../../utils/dates';
 // $FlowFixMe (tsx)
 import DateRange from '../DateRange/DateRange';
 import type { UiEvent } from '../../../model/events';

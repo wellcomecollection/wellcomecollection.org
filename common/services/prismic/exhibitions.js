@@ -43,7 +43,7 @@ import {
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 // $FlowFixMe (ts)
-import { london } from '../../utils/format-date';
+import { london } from '../../utils/dates';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';

@@ -1,4 +1,4 @@
-import { isDatePast } from '../utils/format-date';
+import { isDatePast } from '../utils/dates';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
 import { BackgroundTexture } from './background-texture';

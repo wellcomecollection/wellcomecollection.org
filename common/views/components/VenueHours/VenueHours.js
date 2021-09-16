@@ -4,7 +4,7 @@ import { useContext, type ComponentType } from 'react';
 // $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
 // $FlowFixMe (ts)
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
+import { formatDay, formatDayMonth } from '@weco/common/utils/dates';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';

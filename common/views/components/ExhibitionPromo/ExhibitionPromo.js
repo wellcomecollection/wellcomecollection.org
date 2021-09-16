@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 // $FlowFixMe (ts)
-import { formatDate } from '../../../utils/format-date';
+import { formatDate } from '../../../utils/dates';
 import { UiImage } from '../Images/Images';
 // $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';

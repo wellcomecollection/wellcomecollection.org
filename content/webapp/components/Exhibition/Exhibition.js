@@ -2,7 +2,7 @@
 import { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 // $FlowFixMe (ts)
-import { formatDate, isFuture, isPast } from '@weco/common/utils/format-date';
+import { formatDate, isDatePast, isDateFuture } from '@weco/common/utils/dates';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 // $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -33,7 +33,7 @@ import { type Page } from '@weco/common/model/pages';
 import Space from '@weco/common/views/components/styled/Space';
 
 function getUpcomingExhibitionObject(exhibition) {
-  return isFuture(exhibition.start)
+  return isDateFuture(exhibition.start)
     ? {
         id: null,
         title: null,
@@ -286,7 +286,7 @@ const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
           />
         )}
 
-        {exhibition.end && !isPast(exhibition.end) && (
+        {exhibition.end && !isDatePast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
             <p className={`no-margin ${font('hnr', 5)}`}>
               <a href="/access">All our accessibility services</a>
