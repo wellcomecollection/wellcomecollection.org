@@ -43,7 +43,7 @@ import {
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 // $FlowFixMe (ts)
-import { londonDjs } from '../../utils/dates';
+import { london } from '../../utils/dates';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
@@ -339,9 +339,9 @@ function putPermanentAfterCurrentExhibitions(
       // Wishing there was `groupBy`.
       if (result.isPermanent) {
         acc.permanent.push(result);
-      } else if (londonDjs(result.start).isAfter(londonDjs())) {
+      } else if (london(result.start).isAfter(london())) {
         acc.comingUp.push(result);
-      } else if (result.end && londonDjs(result.end).isBefore(londonDjs())) {
+      } else if (result.end && london(result.end).isBefore(london())) {
         acc.past.push(result);
       } else {
         acc.current.push(result);

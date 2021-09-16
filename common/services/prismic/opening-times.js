@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe (ts)
-import { londonDjs } from '../../utils/dates';
+import { london } from '../../utils/dates';
 import type { Dayjs } from 'dayjs';
 import type {
   Day,
@@ -51,8 +51,8 @@ export function exceptionalOpeningDates(collectionOpeningTimes: {
         prevDate.toDate() instanceof Date
       ) {
         return (
-          londonDjs(firstDate.toDate()).format('YYYY-MM-DD') !==
-          londonDjs(prevDate.toDate()).format('YYYY-MM-DD')
+          london(firstDate.toDate()).format('YYYY-MM-DD') !==
+          london(prevDate.toDate()).format('YYYY-MM-DD')
         );
       }
     });
@@ -102,16 +102,16 @@ export function exceptionalOpeningPeriodsAllDates(
 ): { type: OverrideType, dates: Dayjs[] }[] {
   return exceptionalOpeningPeriods
     ? exceptionalOpeningPeriods.map(period => {
-        const startDate = londonDjs(
+        const startDate = london(
           period.dates[0].overrideDate.toDate()
         ).startOf('day');
-        const lastDate = londonDjs(
+        const lastDate = london(
           period.dates[period.dates.length - 1].overrideDate.toDate()
         ).startOf('day');
         const completeDateArray = [];
         while (startDate.startOf('day').isSameOrBefore(lastDate)) {
           const current = startDate.format('YYYY-MM-DD');
-          completeDateArray.push(londonDjs(new Date(current)));
+          completeDateArray.push(london(new Date(current)));
           startDate.add(1, 'day');
         }
         return {
@@ -261,9 +261,9 @@ export function getUpcomingExceptionalPeriods(
     const upcomingPeriod = period.find(d => {
       return (
         // $FlowFixMe
-        d.overrideDate.isSameOrBefore(londonDjs().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
         // $FlowFixMe
-        d.overrideDate.isSameOrAfter(londonDjs(), 'day')
+        d.overrideDate.isSameOrAfter(london(), 'day')
       );
     });
     return upcomingPeriod || false;
@@ -287,8 +287,8 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   if (start && end) {
     return {
       dayOfWeek: day,
-      opens: londonDjs(start).format('HH:mm'),
-      closes: londonDjs(end).format('HH:mm'),
+      opens: london(start).format('HH:mm'),
+      closes: london(end).format('HH:mm'),
     };
   } else {
     return {
@@ -304,7 +304,7 @@ export function convertJsonDateStringsToDayjs(jsonVenue: Venue): Venue {
     jsonVenue.openingHours.exceptional &&
     jsonVenue.openingHours.exceptional.map(e => ({
       ...e,
-      overrideDate: londonDjs(e.overrideDate),
+      overrideDate: london(e.overrideDate),
     }));
   return {
     ...jsonVenue,
@@ -322,12 +322,12 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     data.modifiedDayOpeningTimes.map(modified => {
       const start =
         modified.startDateTime &&
-        londonDjs(modified.startDateTime).format('HH:mm');
+        london(modified.startDateTime).format('HH:mm');
       const end =
         modified.startDateTime &&
-        londonDjs(modified.endDateTime).format('HH:mm');
+        london(modified.endDateTime).format('HH:mm');
       const overrideDate =
-        modified.overrideDate && londonDjs(modified.overrideDate);
+        modified.overrideDate && london(modified.overrideDate);
       const overrideType = modified.type;
       return {
         overrideDate,
@@ -388,12 +388,12 @@ export function parseCollectionVenues(doc: PrismicFragment) {
 }
 
 export function getTodaysVenueHours(venue: Venue) {
-  const todaysDate = londonDjs().startOf('day');
+  const todaysDate = london().startOf('day');
   const todayString = todaysDate.format('dddd');
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i => {
-      const dayOfWeek = londonDjs(i.overrideDate).startOf('day');
+      const dayOfWeek = london(i.overrideDate).startOf('day');
       return todaysDate.isSame(dayOfWeek);
     });
   const regularOpeningHours =

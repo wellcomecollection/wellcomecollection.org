@@ -19,7 +19,7 @@ import {
   filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
 // $FlowFixMe (ts)
-import { londonDjs, formatDay, formatDate } from '@weco/common/utils/dates';
+import { london, formatDay, formatDate } from '@weco/common/utils/dates';
 // $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
@@ -129,7 +129,7 @@ function getListHeader(openingTimes: any) {
 }
 
 export function getDjsForPeriod(period: Period) {
-  const todaysDate = londonDjs();
+  const todaysDate = london();
   const todaysDatePlusSix = todaysDate.add(6, 'days');
 
   switch (period) {
@@ -148,18 +148,18 @@ export function getDjsForPeriod(period: Period) {
 function getWeekendFromDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger !== 0) {
-    return londonDjs(today).day(5);
+    return london(today).day(5);
   } else {
-    return londonDjs(today).day(-2);
+    return london(today).day(-2);
   }
 }
 
 function getWeekendToDate(today) {
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
   if (todayInteger === 0) {
-    return londonDjs(today);
+    return london(today);
   } else {
-    return londonDjs(today).day(7);
+    return london(today).day(7);
   }
 }
 type DateRangeProps = {|

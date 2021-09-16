@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 // $FlowFixMe (ts)
-import { londonDjs } from '../../utils/dates';
+import { london } from '../../utils/dates';
 import { getDocument, getDocuments } from './api';
 import {
   parseGenericFields,
@@ -354,7 +354,7 @@ function parseArticleDoc(document: PrismicDocument): Article {
     type: 'articles',
     ...parseGenericFields(document),
     format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
-    datePublished: londonDjs(datePublished).toDate(),
+    datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     }),
@@ -393,7 +393,7 @@ function parseWebcomicDoc(document: PrismicDocument): Article {
       title: 'Comic',
       description: null,
     },
-    datePublished: londonDjs(datePublished).toDate(),
+    datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
       return parseArticleSeries(series);
     }),

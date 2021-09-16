@@ -3,7 +3,7 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 // $FlowFixMe (ts)
-import { getEarliestFutureDateRange, londonDjs } from '../../../utils/dates';
+import { getEarliestFutureDateRange, london } from '../../../utils/dates';
 // $FlowFixMe (ts)
 import { classNames, cssGrid } from '../../../utils/classnames';
 import SegmentedControl from '../SegmentedControl/SegmentedControl';
@@ -64,8 +64,8 @@ class EventsByMonth extends Component<Props, State> {
         const lastRange = event.times[event.times.length - 1];
 
         const start =
-          firstRange.range && londonDjs(firstRange.range.startDateTime);
-        const end = lastRange.range && londonDjs(lastRange.range.endDateTime);
+          firstRange.range && london(firstRange.range.startDateTime);
+        const end = lastRange.range && london(lastRange.range.endDateTime);
 
         const months = getMonthsInDateRange({ start, end });
         return { event, months };
@@ -74,25 +74,25 @@ class EventsByMonth extends Component<Props, State> {
         months.forEach(month => {
           // Only add if it has a time in the month that is the same or after today
           const hasDateInMonthRemaining = event.times.find(time => {
-            const end = londonDjs(time.range.endDateTime);
-            const start = londonDjs(time.range.startDateTime);
-            const monthAndYear = londonDjs(month);
+            const end = london(time.range.endDateTime);
+            const start = london(time.range.startDateTime);
+            const monthAndYear = london(month);
             return (
               (end.isSame(
-                londonDjs({
+                london({
                   M: monthAndYear.month(),
                   Y: monthAndYear.year(),
                 }),
                 'month'
               ) ||
                 start.isSame(
-                  londonDjs({
+                  london({
                     M: monthAndYear.month(),
                     Y: monthAndYear.year(),
                   }),
                   'month'
                 )) &&
-              end.isSameOrAfter(londonDjs(), 'day')
+              end.isSameOrAfter(london(), 'day')
             );
           });
           if (hasDateInMonthRemaining) {
@@ -110,7 +110,7 @@ class EventsByMonth extends Component<Props, State> {
     Object.keys(eventsInMonths)
       .sort((a, b) => {
         return (
-          londonDjs(a).toDate().getTime() - londonDjs(b).toDate().getTime()
+          london(a).toDate().getTime() - london(b).toDate().getTime()
         );
       })
       .map(key => (orderedMonths[key] = eventsInMonths[key]));
@@ -118,7 +118,7 @@ class EventsByMonth extends Component<Props, State> {
     const months = Object.keys(orderedMonths).map(month => ({
       id: month,
       url: `#${month}`,
-      text: londonDjs(month).format('MMMM'),
+      text: london(month).format('MMMM'),
     }));
 
     // Need to order the events for each month based on their earliest future date range
@@ -131,7 +131,7 @@ class EventsByMonth extends Component<Props, State> {
           }));
           const earliestRange = getEarliestFutureDateRange(
             times,
-            londonDjs({ M: monthsIndex[londonDjs(month).format('MMMM')] })
+            london({ M: monthsIndex[london(month).format('MMMM')] })
           );
           return earliestRange && earliestRange.start;
         },
@@ -193,7 +193,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id]}
               itemsPerRow={3}
               links={links}
-              fromDate={londonDjs(month.id).toDate()}
+              fromDate={london(month.id).toDate()}
             />
           </div>
         ))}

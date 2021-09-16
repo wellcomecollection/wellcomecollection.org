@@ -1,5 +1,5 @@
 import { Fragment, FunctionComponent } from 'react';
-import { formatTime, formatDayDate, londonDjs } from '../../../utils/dates';
+import { formatTime, formatDayDate, london } from '../../../utils/dates';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import { DateRange as DateRangeProps } from '../../../model/date-range';
 
@@ -29,7 +29,7 @@ const DateRange: FunctionComponent<Props> = ({
   end,
   splitTime,
 }: Props) => {
-  const isSameDay = londonDjs(start).isSame(end, 'day');
+  const isSameDay = london(start).isSame(end, 'day');
 
   return (
     <Fragment>

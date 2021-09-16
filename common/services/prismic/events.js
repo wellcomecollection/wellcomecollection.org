@@ -43,7 +43,7 @@ import { parseEventSeries } from './event-series';
 import { parseSeason } from './seasons';
 import isEmptyObj from '../../utils/is-empty-object';
 import {
-  londonDjs,
+  london,
   formatDayDate,
   getNextWeekendDateRange,
   isDatePast,
@@ -142,12 +142,12 @@ function parseEventBookingType(eventDoc: PrismicDocument): ?string {
 function determineDateRange(times) {
   const startTimes = times
     .map(eventTime => {
-      return londonDjs(eventTime.startDateTime);
+      return london(eventTime.startDateTime);
     })
     .sort((a, b) => b.isBefore(a, 'day'));
   const endTimes = times
     .map(eventTime => {
-      return londonDjs(eventTime.endDateTime);
+      return london(eventTime.endDateTime);
     })
     .sort((a, b) => b.isBefore(a, 'day'));
   return {
@@ -159,7 +159,7 @@ function determineDateRange(times) {
 
 function determineDisplayTime(times: EventTime[]): EventTime {
   const upcomingDates = times.filter(t => {
-    return londonDjs(t.range.startDateTime).isSameOrAfter(londonDjs(), 'day');
+    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
@@ -484,9 +484,9 @@ export async function getEvents(
 }
 
 function getNextDateInFuture(event: UiEvent): ?EventTime {
-  const now = londonDjs();
+  const now = london();
   const futureTimes = event.times.filter(time => {
-    const end = londonDjs(time.range.endDateTime);
+    const end = london(time.range.endDateTime);
     return end.isSameOrAfter(now, 'day');
   });
 
@@ -494,7 +494,7 @@ function getNextDateInFuture(event: UiEvent): ?EventTime {
     return null;
   } else {
     return futureTimes.reduce((closestStartingDate, time) => {
-      const start = londonDjs(time.range.startDateTime);
+      const start = london(time.range.startDateTime);
       if (start.isBefore(closestStartingDate.range.startDateTime)) {
         return time;
       } else {
@@ -507,8 +507,8 @@ function getNextDateInFuture(event: UiEvent): ?EventTime {
 function filterEventsByTimeRange(events, start, end) {
   return events.filter(event => {
     return event.times.find(time => {
-      const eventStart = londonDjs(time.range.startDateTime);
-      const eventEnd = londonDjs(time.range.endDateTime);
+      const eventStart = london(time.range.startDateTime);
+      const eventEnd = london(time.range.endDateTime);
       return (
         eventStart.isBetween(start, end) ||
         eventEnd.isBetween(start, end) ||
@@ -519,20 +519,20 @@ function filterEventsByTimeRange(events, start, end) {
 }
 
 export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
-  const startOfToday = londonDjs().startOf('day');
+  const startOfToday = london().startOf('day');
   const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
 export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
-  const startOfToday = londonDjs().startOf('day');
-  const endOfToday = londonDjs().endOf('day');
+  const startOfToday = london().startOf('day');
+  const endOfToday = london().endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
 
 export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
   const { start, end } = getNextWeekendDateRange(new Date());
-  return filterEventsByTimeRange(events, londonDjs(start), londonDjs(end));
+  return filterEventsByTimeRange(events, london(start), london(end));
 }
 
 export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
@@ -581,8 +581,8 @@ export function groupEventsBy(
   // Convert the range into an array of labeled event groups
   const ranges = getRanges(
     {
-      start: londonDjs(range.start).startOf(groupBy),
-      end: londonDjs(range.end).endOf(groupBy),
+      start: london(range.start).startOf(groupBy),
+      end: london(range.end).endOf(groupBy),
     },
     groupBy
   ).map(range => ({
