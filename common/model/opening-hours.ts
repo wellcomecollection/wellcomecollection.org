@@ -1,4 +1,4 @@
-import { Moment } from 'moment';
+import { Dayjs } from 'dayjs';
 import { ImageType } from './image';
 import { Link as LinkType } from './link';
 
@@ -12,7 +12,7 @@ export type OverrideType =
   | 'other';
 
 export type OverrideDate = {
-  overrideDate: Moment;
+  overrideDate: Dayjs;
   overrideType: OverrideType | null;
 };
 
@@ -28,7 +28,7 @@ export type OpeningHoursDay = {
 };
 
 export type ExceptionalOpeningHoursDay = {
-  overrideDate: Moment;
+  overrideDate: Date;
   overrideType: OverrideType;
   opens: string | null;
   closes: string | null;
@@ -54,7 +54,7 @@ export type PlacesOpeningHours = Venue[];
 export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours;
   upcomingExceptionalOpeningPeriods:
-    | { dates: Moment[]; type: OverrideType }[]
+    | { dates: Date[]; type: OverrideType }[]
     | null;
 };
 

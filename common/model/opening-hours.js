@@ -1,5 +1,5 @@
 // @flow
-import type Moment from 'moment';
+import type { Dayjs } from 'dayjs';
 import type { ImageType } from './image';
 import type { Link as LinkType } from './link';
 
@@ -13,7 +13,7 @@ export type OverrideType =
   | 'other';
 
 export type OverrideDate = {|
-  overrideDate: Moment,
+  overrideDate: Dayjs,
   overrideType: ?OverrideType,
 |};
 
@@ -29,7 +29,7 @@ export type OpeningHoursDay = {|
 |};
 
 export type ExceptionalOpeningHoursDay = {|
-  overrideDate: Moment,
+  overrideDate: Dayjs,
   overrideType: ?OverrideType,
   opens?: ?string,
   closes?: ?string,
@@ -55,7 +55,7 @@ export type PlacesOpeningHours = Venue[];
 export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
   upcomingExceptionalOpeningPeriods: ?({
-    dates: Moment[],
+    dates: Dayjs[],
     type: OverrideType,
   }[]),
 };

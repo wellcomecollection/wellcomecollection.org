@@ -1,6 +1,7 @@
 // @flow
 // $FlowFixMe (ts)
 import { londonDjs } from '../../utils/dates';
+import type { Dayjs } from 'dayjs';
 import type {
   Day,
   OverrideType,
@@ -11,7 +12,6 @@ import type {
   PlacesOpeningHours,
 } from '../../model/opening-hours';
 import { type PrismicFragment } from './types';
-import type Moment from 'moment';
 import { asText } from './parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 
@@ -78,7 +78,7 @@ export function exceptionalOpeningPeriods(
       acc[groupedIndex].dates.push(date);
     } else if (
       previousDate &&
-      date.overrideDate.isBefore(previousDate.clone().add(6, 'days')) &&
+      date.overrideDate.isBefore(previousDate.clone().add(6, 'day')) &&
       date.overrideType === acc[groupedIndex].type
     ) {
       acc[groupedIndex].dates.push(date);
@@ -99,7 +99,7 @@ export function exceptionalOpeningPeriods(
 
 export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ?(ExceptionalPeriod[])
-): { type: OverrideType, dates: Moment[] }[] {
+): { type: OverrideType, dates: Dayjs[] }[] {
   return exceptionalOpeningPeriods
     ? exceptionalOpeningPeriods.map(period => {
         const startDate = londonDjs(
@@ -150,7 +150,7 @@ export function groupExceptionalVenueDays(
   return exceptionalDays.length > 0
     ? exceptionalDays
         .sort((a, b) => {
-          return a.overrideDate.diff(b.overrideDate, 'days');
+          return a.overrideDate.diff(b.overrideDate, 'day');
         })
         .reduce(
           (acc, date) => {
@@ -158,7 +158,7 @@ export function groupExceptionalVenueDays(
             if (
               date.overrideDate.diff(
                 (group[0] && group[0].overrideDate) || date.overrideDate,
-                'days'
+                'day'
               ) > 14
             ) {
               acc.push([date]);
@@ -174,7 +174,7 @@ export function groupExceptionalVenueDays(
 
 function exceptionalFromRegular(
   venue: Venue,
-  dateToGet: Moment,
+  dateToGet: Dayjs,
   type: OverrideType
 ): ExceptionalOpeningHoursDay {
   const currentDay = dateToGet.format('dddd');
@@ -191,7 +191,7 @@ function exceptionalFromRegular(
 
 export function backfillExceptionalVenueDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: { type: OverrideType, dates: Moment[] }[]
+  allVenueExceptionalPeriods?: { type: OverrideType, dates: Dayjs[] }[]
 ): ExceptionalOpeningHoursDay[][] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
@@ -200,7 +200,7 @@ export function backfillExceptionalVenueDays(
   return allVenueExceptionalPeriods
     ? allVenueExceptionalPeriods.map(period => {
         const sortedDates = period.dates.sort((a, b) => {
-          return a.diff(b, 'days');
+          return a.diff(b, 'day');
         });
         const type = period.type || 'other';
         const days = sortedDates
@@ -232,7 +232,7 @@ export function groupConsecutiveDays(
   return openingHoursPeriods
     .reduce((acc, curr) => acc.concat(curr), [])
     .sort((a, b) => {
-      return a.overrideDate.diff(b.overrideDate, 'days');
+      return a.overrideDate.diff(b.overrideDate, 'day');
     })
     .reduce(
       (acc, date) => {
@@ -241,7 +241,7 @@ export function groupConsecutiveDays(
           date.overrideDate.diff(
             (group[group.length - 1] && group[group.length - 1].overrideDate) ||
               date.overrideDate,
-            'days'
+            'day'
           ) > 1
         ) {
           acc.push([date]);
@@ -260,7 +260,9 @@ export function getUpcomingExceptionalPeriods(
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
+        // $FlowFixMe
         d.overrideDate.isSameOrBefore(londonDjs().add(14, 'day'), 'day') &&
+        // $FlowFixMe
         d.overrideDate.isSameOrAfter(londonDjs(), 'day')
       );
     });
@@ -297,8 +299,8 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   }
 }
 
-export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
-  const exceptionalMoment =
+export function convertJsonDateStringsToDayjs(jsonVenue: Venue): Venue {
+  const exceptionalDayjs =
     jsonVenue.openingHours.exceptional &&
     jsonVenue.openingHours.exceptional.map(e => ({
       ...e,
@@ -308,7 +310,7 @@ export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
     ...jsonVenue,
     openingHours: {
       regular: jsonVenue.openingHours.regular,
-      exceptional: exceptionalMoment,
+      exceptional: exceptionalDayjs,
     },
   };
 }
@@ -322,7 +324,8 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
         modified.startDateTime &&
         londonDjs(modified.startDateTime).format('HH:mm');
       const end =
-        modified.startDateTime && londonDjs(modified.endDateTime).format('HH:mm');
+        modified.startDateTime &&
+        londonDjs(modified.endDateTime).format('HH:mm');
       const overrideDate =
         modified.overrideDate && londonDjs(modified.overrideDate);
       const overrideType = modified.type;

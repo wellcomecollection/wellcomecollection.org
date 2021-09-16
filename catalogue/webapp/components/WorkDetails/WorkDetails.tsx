@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
 import fetch from 'isomorphic-unfetch';
@@ -153,8 +153,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   ];
 
   // 'About this work' data
-  const duration =
-    work.duration && moment.utc(work.duration).format('HH:mm:ss');
+  const duration = work.duration && dayjs.utc(work.duration).format('HH:mm:ss');
 
   // 'Identifiers' data
   const isbnIdentifiers = work.identifiers.filter(id => {

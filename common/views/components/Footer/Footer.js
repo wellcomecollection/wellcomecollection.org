@@ -11,7 +11,7 @@ import FooterSocial from '../FooterSocial/FooterSocial';
 // $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import type { OverrideType } from '../../../model/opening-hours';
-import type Moment from 'moment';
+import type { Dayjs } from 'dayjs';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
@@ -171,7 +171,7 @@ type Props = {|
   hide: boolean,
   openingTimes: any, // TODO
   upcomingExceptionalOpeningPeriods: ?({
-    dates: Moment[],
+    dates: Dayjs[],
     type: OverrideType,
   }[]),
   extraClasses?: string,

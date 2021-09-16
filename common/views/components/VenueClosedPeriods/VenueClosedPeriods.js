@@ -5,7 +5,7 @@ import {
   getExceptionalOpeningPeriods,
   getExceptionalClosedDays,
   groupConsecutiveDays,
-  convertJsonDateStringsToMoment,
+  convertJsonDateStringsToDayjs,
 } from '../../../services/prismic/opening-times';
 // $FlowFixMe (ts)
 import { formatDayDate } from '@weco/common/utils/dates';
@@ -22,7 +22,7 @@ const VenueClosedPeriods = ({ venue }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    convertJsonDateStringsToMoment(venue),
+    convertJsonDateStringsToDayjs(venue),
     exceptionalPeriods
   );
   const onlyClosedDays =

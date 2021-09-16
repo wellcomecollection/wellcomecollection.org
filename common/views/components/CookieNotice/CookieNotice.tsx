@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -40,9 +40,7 @@ const CookieNotice: FunctionComponent = () => {
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
       path: '/',
-      expires: moment()
-        .add(1, 'month')
-        .toDate(),
+      expires: dayjs().add(1, 'month').toDate(),
     });
 
     setShouldRender(false);
