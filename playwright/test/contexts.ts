@@ -1,8 +1,11 @@
 import { baseUrl, useStageApis } from './helpers/urls';
 import { Response } from 'playwright';
 
-export function gotoWithoutCache(url: string): Promise<null | Response> {
-  return page.goto(`${url}?cachebust=${Date.now()}`);
+export function gotoWithoutCache(
+  url: string,
+  query?: string
+): Promise<null | Response> {
+  return page.goto(`${url}?cachebust=${Date.now()}${query ? `&${query}` : ''}`);
 }
 
 const createCookie = (name: string) => {
@@ -63,6 +66,14 @@ const worksSearch = async (): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/works`);
 };
 
+const accountError = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(
+    `${baseUrl}/account/error`,
+    `error_description=Uh-oh%20spaghetti-O's!`
+  );
+};
+
 export const isMobile = Boolean(deviceName);
 
 export {
@@ -74,4 +85,5 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  accountError,
 };
