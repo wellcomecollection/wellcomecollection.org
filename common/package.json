@@ -51,8 +51,6 @@
     "lodash.sortby": "^4.7.0",
     "lodash.throttle": "^4.1.1",
     "lscache": "^1.1.0",
-    "moment": "^2.20.1",
-    "moment-timezone": "^0.5.14",
     "next": "^11.1.2",
     "next-cookies": "^2.0.3",
     "next-transpile-modules": "^8.0.0",
