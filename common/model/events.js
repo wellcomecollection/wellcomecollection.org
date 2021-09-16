@@ -1,5 +1,6 @@
 // @flow
-import { isDatePast } from '../utils/format-date';
+// $FlowFixMe (ts)
+import { isDatePast } from '../utils/dates';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Format } from './format';
 import type { HTMLString } from './content-blocks';
