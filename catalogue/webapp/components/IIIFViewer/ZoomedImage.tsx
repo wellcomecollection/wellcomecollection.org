@@ -13,6 +13,7 @@ import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 
 const ZoomedImageContainer = styled.div`
   position: relative;
@@ -199,7 +200,7 @@ const ZoomedImage: FunctionComponent = () => {
               ref={firstControl}
               colorScheme="black-on-white"
               text="Zoom in"
-              icon="plus"
+              icon={plus}
               clickHandler={() => {
                 handleZoomIn(viewer);
               }}
@@ -215,7 +216,7 @@ const ZoomedImage: FunctionComponent = () => {
             <Control
               colorScheme="black-on-white"
               text="Zoom out"
-              icon="minus"
+              icon={minus}
               clickHandler={() => {
                 handleZoomOut(viewer);
               }}
@@ -231,7 +232,7 @@ const ZoomedImage: FunctionComponent = () => {
             <Control
               colorScheme="black-on-white"
               text="Rotate"
-              icon="rotateRight"
+              icon={rotateRight}
               clickHandler={() => {
                 handleRotate(viewer);
               }}
@@ -248,7 +249,7 @@ const ZoomedImage: FunctionComponent = () => {
               ref={lastControl}
               colorScheme="black-on-white"
               text="Close"
-              icon="cross"
+              icon={cross}
               clickHandler={() => {
                 setShowZoomed(false);
               }}

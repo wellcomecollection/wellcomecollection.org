@@ -10,6 +10,7 @@ import TextInput from '../TextInput/TextInput';
 import Space from '../styled/Space';
 import { AppContext } from '../AppContext/AppContext';
 import ButtonInline from '../ButtonInline/ButtonInline';
+import { check } from '@weco/common/icons';
 
 type Props = {
   id: string;
@@ -85,7 +86,7 @@ const CopyUrl: FunctionComponent<Props> = ({
             clickHandler={handleButtonClick}
             ref={buttonRef}
             text={getButtonMarkup()}
-            icon={isTextCopied ? 'check' : undefined}
+            icon={isTextCopied ? check : undefined}
           />
         </Space>
       )}

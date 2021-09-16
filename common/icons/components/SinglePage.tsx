@@ -1,4 +1,6 @@
-const SvgSinglePage = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgSinglePage: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <rect className="icon__shape" x={8.7} y={7.3} width={6.7} height={2} />
     <rect className="icon__shape" x={8.7} y={10.7} width={6.7} height={2} />

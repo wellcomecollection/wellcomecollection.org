@@ -1,4 +1,6 @@
-const SvgWifi = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgWifi: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero" transform="translate(3 3)">
       <circle cx={2.06} cy={16.09} r={1.94} />

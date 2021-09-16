@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
+import { arrowSmall } from '@weco/common/icons';
 
 type Props = {
   url: string;
@@ -28,7 +29,7 @@ const MoreLink: FunctionComponent<Props> = ({
       clickHandler={handleClick}
       text={name}
       link={url}
-      icon={`arrowSmall`}
+      icon={arrowSmall}
     />
   );
 };

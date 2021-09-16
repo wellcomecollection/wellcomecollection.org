@@ -1,6 +1,7 @@
 {
   "name": "@weco/common",
   "version": "1.0.0",
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "test:watch": "yarn test -- --watchAll",

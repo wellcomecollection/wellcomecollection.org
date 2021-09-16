@@ -1,4 +1,13 @@
 // @flow
+import {
+  facebook,
+  instagram,
+  soundcloud,
+  tripadvisor,
+  twitter,
+  youtube,
+  // $FlowFixMe (tsx)
+} from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
@@ -71,38 +80,37 @@ const items = [
     url: 'https://twitter.com/explorewellcome',
     title: 'Twitter',
     service: 'Twitter',
-    icon: 'twitter',
+    icon: twitter,
   },
   {
     url: 'https://www.facebook.com/wellcomecollection/',
     title: 'Facebook',
     service: 'Facebook',
-    icon: 'facebook',
+    icon: facebook,
   },
   {
     url: 'https://www.instagram.com/wellcomecollection/',
     title: 'Instagram',
     service: 'Instagram',
-    icon: 'instagram',
+    icon: instagram,
   },
   {
     url: 'https://soundcloud.com/wellcomecollection',
     title: 'Soundcloud',
     service: 'Soundcloud',
-    icon: 'soundcloud',
+    icon: soundcloud,
   },
   {
     url: 'https://www.youtube.com/user/WellcomeCollection',
     title: 'YouTube',
     service: 'YouTube',
-    icon: 'youtube',
+    icon: youtube,
   },
   {
-    url:
-      'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
+    url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
     title: 'TripAdvisor',
     service: 'TripAdvisor',
-    icon: 'tripadvisor',
+    icon: tripadvisor,
   },
 ];
 
@@ -112,7 +120,7 @@ const FooterSocial = () => (
       <Cell key={item.title}>
         <Link href={item.url}>
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon name={item.icon} />
+            <Icon icon={item.icon} />
           </Space>
           <span>{item.title}</span>
           <span className="visually-hidden">{item.service}</span>

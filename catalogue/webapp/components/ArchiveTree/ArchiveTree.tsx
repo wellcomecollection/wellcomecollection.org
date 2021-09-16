@@ -22,6 +22,7 @@ import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import { chevron, tree } from '@weco/common/icons';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -679,7 +680,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
       <div className="flex-inline">
         {isEnhanced && level > 1 && hasControl && (
           <TreeControl highlightCondition={highlightCondition}>
-            <Icon rotate={item.openStatus ? undefined : 270} name="chevron" />
+            <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
         )}
         <WorkLink
@@ -888,7 +889,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
-              icon="tree"
+              icon={tree}
               ref={openButtonRef}
             />
           </ButtonWrap>

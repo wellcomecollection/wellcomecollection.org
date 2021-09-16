@@ -9,6 +9,7 @@ import {
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
+import { IconSvg } from '@weco/common/icons';
 
 type OutlinedButtonProps = {
   href?: string;
@@ -34,7 +35,7 @@ export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
 
 export type ButtonOutlinedBaseProps = {
   text: string;
-  icon?: string;
+  icon?: IconSvg;
   type?: 'submit' | 'reset' | 'button';
   isTextHidden?: boolean;
   isOnDark?: boolean;
@@ -102,7 +103,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
                   </ButtonIconWrapper>
                 )}
               >
-                <Icon name={icon} />
+                <Icon icon={icon} />
               </ConditionalWrapper>
             )}
           </>

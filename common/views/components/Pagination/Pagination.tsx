@@ -3,6 +3,7 @@ import { font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
+import { arrow } from '@weco/common/icons';
 
 export type Props = {
   total: number;
@@ -46,7 +47,7 @@ const Pagination: FunctionComponent<Props> = ({
               as: prevQueryString,
             }}
             colorScheme="light"
-            icon="arrow"
+            icon={arrow}
             text={`Previous (page ${prevPage})`}
           />
         </Rotator>
@@ -70,7 +71,7 @@ const Pagination: FunctionComponent<Props> = ({
             as: nextQueryString,
           }}
           colorScheme="light"
-          icon="arrow"
+          icon={arrow}
           text={`Next (page ${nextPage})`}
         />
       </Space>

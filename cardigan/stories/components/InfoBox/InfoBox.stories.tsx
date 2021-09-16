@@ -1,4 +1,12 @@
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import {
+  a11Y,
+  a11YVisual,
+  britishSignLanguage,
+  family,
+  location,
+  ticket,
+} from '@weco/common/icons';
 
 const Template = args => <InfoBox {...args} />;
 export const basic = Template.bind({});
@@ -14,7 +22,7 @@ basic.args = {
           spans: [],
         },
       ],
-      icon: 'ticket',
+      icon: ticket,
     },
     {
       title: null,
@@ -25,7 +33,7 @@ basic.args = {
           spans: [],
         },
       ],
-      icon: 'location',
+      icon: location,
     },
     {
       title: null,
@@ -36,19 +44,18 @@ basic.args = {
           spans: [],
         },
       ],
-      icon: 'a11y',
+      icon: a11Y,
     },
     {
       title: null,
       description: [
         {
           type: 'paragraph',
-          text:
-            'Large print guides, transscripts and magnifiers are available in the gallery',
+          text: 'Large print guides, transscripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],
-      icon: 'a11yVisual',
+      icon: a11YVisual,
     },
     {
       title: null,
@@ -68,15 +75,14 @@ basic.args = {
           ],
         },
       ],
-      icon: 'family',
+      icon: family,
     },
     {
       title: 'Location',
       description: [
         {
           type: 'paragraph',
-          text:
-            'We’ll be in the Conservation Studio. To get there, go to the Information Point and you’ll be escorted up and through the staff doors to this behind-the-scenes space.',
+          text: 'We’ll be in the Conservation Studio. To get there, go to the Information Point and you’ll be escorted up and through the staff doors to this behind-the-scenes space.',
           spans: [],
         },
       ],
@@ -86,8 +92,7 @@ basic.args = {
       description: [
         {
           type: 'paragraph',
-          text:
-            'Booking a ticket for a free event does not guarantee a place on the day. Doors usually open 15 minutes before an event starts. We advise arriving ten minutes before the event is scheduled to start.',
+          text: 'Booking a ticket for a free event does not guarantee a place on the day. Doors usually open 15 minutes before an event starts. We advise arriving ten minutes before the event is scheduled to start.',
           spans: [],
         },
       ],
@@ -97,12 +102,11 @@ basic.args = {
       description: [
         {
           type: 'paragraph',
-          text:
-            'This event will have British Sign Language interpretation. If you would like to come along, email us at access@wellcomecollection.org or call 020 7611 2222.',
+          text: 'This event will have British Sign Language interpretation. If you would like to come along, email us at access@wellcomecollection.org or call 020 7611 2222.',
           spans: [],
         },
       ],
-      icon: 'britishSignLanguage',
+      icon: britishSignLanguage,
     },
   ],
 };

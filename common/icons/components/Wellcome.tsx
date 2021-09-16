@@ -1,4 +1,6 @@
-const SvgWellcome = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgWellcome: IconSvg = props => (
   <svg viewBox="0 0 68 68" {...props}>
     <path
       className="icon__shape"

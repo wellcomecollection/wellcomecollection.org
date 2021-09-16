@@ -1,5 +1,7 @@
 // @flow
 import { Component, Fragment } from 'react';
+// $FlowFixMe (tsx)
+import { chevron, cross } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
@@ -238,13 +240,13 @@ class SegmentedControl extends Component<Props, State> {
                     onClick={() => this.setState({ isActive: true })}
                   >
                     <span>{item.text}</span>
-                    <Icon name="chevron" color={'white'} />
+                    <Icon icon={chevron} color={'white'} />
                   </Space>
                   <span
                     className="segmented-control__close"
                     onClick={() => this.setState({ isActive: false })}
                   >
-                    <Icon name="cross" title="Close" />
+                    <Icon icon={cross} title="Close" />
                   </span>
                 </Fragment>
               ))}

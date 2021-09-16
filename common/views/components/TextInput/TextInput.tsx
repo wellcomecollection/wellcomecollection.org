@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import { classNames } from '../../../utils/classnames';
+import { check } from '@weco/common/icons';
 
 type TextInputWrapProps = {
   value: string;
@@ -233,7 +234,7 @@ const TextInput = forwardRef(
           />
           {isValid && showValidity && (
             <TextInputCheckmark>
-              <Icon name={`check`} color={'green'} />
+              <Icon icon={check} color={'green'} />
             </TextInputCheckmark>
           )}
         </TextInputWrap>

@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
+import { arrowSmall } from '@weco/common/icons';
 
 type Props = {
   id: string;
@@ -24,7 +25,7 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
         [font('hnb', 5)]: true,
       })}
     >
-      <Icon name={`arrowSmall`} color={'black'} rotate={90} />
+      <Icon icon={arrowSmall} color={'black'} rotate={90} />
       <span>{`See all dates`}</span>
     </a>
   );

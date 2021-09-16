@@ -41,6 +41,15 @@ import {
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { WithGaDimensions } from '@weco/common/views/pages/_app';
+import {
+  audioDescribed,
+  britishSignLanguage,
+  email,
+  hearingLoop,
+  IconSvg,
+  speechToText,
+  ticket,
+} from '@weco/common/icons';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -152,6 +161,13 @@ export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
     dateRange,
   };
 }
+
+const eventInterpretationIcons: Record<string, IconSvg> = {
+  britishSignLanguage: britishSignLanguage,
+  speechToText: speechToText,
+  hearingLoop: hearingLoop,
+  audioDescribed: audioDescribed,
+};
 
 const EventPage: NextPage<Props> = ({
   jsonEvent,
@@ -364,7 +380,7 @@ const EventPage: NextPage<Props> = ({
                         action: 'booking-tickets:click',
                         label: 'event-page',
                       }}
-                      icon="ticket"
+                      icon={ticket}
                       text="Check for tickets"
                     />
                     {event.thirdPartyBooking.name && (
@@ -396,7 +412,7 @@ const EventPage: NextPage<Props> = ({
                       action: 'booking-tickets:click',
                       label: 'event-page (email to book)',
                     }}
-                    icon="email"
+                    icon={email}
                     text="Email to book"
                   />
                 )}
@@ -475,14 +491,7 @@ const EventPage: NextPage<Props> = ({
                     const iconName = camelize(interpretationType.title);
                     return {
                       id: undefined,
-                      icon: [
-                        'britishSignLanguage',
-                        'speechToText',
-                        'hearingLoop',
-                        'audioDescribed',
-                      ].includes(iconName)
-                        ? iconName
-                        : null,
+                      icon: eventInterpretationIcons[iconName],
                       title: interpretationType.title,
                       description: (
                         (isPrimary

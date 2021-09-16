@@ -21,6 +21,8 @@ import {
 // $FlowFixMe (ts)
 import { london, formatDay, formatDate } from '@weco/common/utils/dates';
 // $FlowFixMe (tsx)
+import { clock } from '@weco/common/icons';
+// $FlowFixMe (tsx)
 import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
@@ -286,7 +288,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
                         >
-                          <Icon name={'clock'} />
+                          <Icon icon={clock} />
                         </Space>
                         <Space
                           as="span"

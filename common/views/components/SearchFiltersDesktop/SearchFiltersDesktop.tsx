@@ -23,6 +23,7 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
+import { eye, filter } from '@weco/common/icons';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -165,7 +166,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           className={classNames({
-            'flex flex--h-space-between flex--v-center full-width flex--wrap': true,
+            'flex flex--h-space-between flex--v-center full-width flex--wrap':
+              true,
           })}
         >
           <Space
@@ -181,7 +183,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 'flex flex--v-center': true,
               })}
             >
-              <Icon name="filter" />
+              <Icon icon={filter} />
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
@@ -253,7 +255,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 'flex flex--v-center': true,
               })}
             >
-              <Icon name="eye" />
+              <Icon icon={eye} />
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
