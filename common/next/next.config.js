@@ -1,4 +1,3 @@
-const path = require('path');
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const withTM = require('next-transpile-modules')(['@weco/common']);
@@ -68,14 +67,7 @@ const createConfig =
           }
           return [];
         },
-        webpack: (config, { isServer, webpack }) => {
-          config.plugins.push(
-            new webpack.NormalModuleReplacementPlugin(
-              /moment-timezone\/data\/packed\/latest\.json/,
-              path.join(__dirname, 'timezones.json')
-            )
-          );
-
+        webpack: (config, { isServer }) => {
           if (shouldAnalyzeBundle) {
             // This path is relative to the .next directory
             const bundleEnvironment = isServer ? 'server' : 'client';
