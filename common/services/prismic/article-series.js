@@ -1,7 +1,7 @@
 // @flow
 import Prismic from 'prismic-javascript';
 // $FlowFixMe (ts)
-import { london } from '../../utils/dates';
+import { londonDjs } from '../../utils/dates';
 import { getDocument, getDocuments } from './api';
 import { getArticles } from './articles';
 import {
@@ -34,7 +34,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
             type: 'article-schedule-items',
             id: `${document.id}_${i}`,
             title: asText(item.title),
-            publishDate: london(item.publishDate).toDate(),
+            publishDate: londonDjs(item.publishDate).toDate(),
             partNumber: i + 1,
             color,
           };

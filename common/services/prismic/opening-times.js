@@ -1,6 +1,6 @@
 // @flow
 // $FlowFixMe (ts)
-import { london } from '../../utils/dates';
+import { londonDjs } from '../../utils/dates';
 import type {
   Day,
   OverrideType,
@@ -10,9 +10,9 @@ import type {
   Venue,
   PlacesOpeningHours,
 } from '../../model/opening-hours';
-import { type PrismicFragment } from '../../services/prismic/types';
+import { type PrismicFragment } from './types';
 import type Moment from 'moment';
-import { asText } from '../../services/prismic/parsers';
+import { asText } from './parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 
 // TODO add comprehensive comments and probably rename some functions
@@ -51,8 +51,8 @@ export function exceptionalOpeningDates(collectionOpeningTimes: {
         prevDate.toDate() instanceof Date
       ) {
         return (
-          london(firstDate.toDate()).format('YYYY-MM-DD') !==
-          london(prevDate.toDate()).format('YYYY-MM-DD')
+          londonDjs(firstDate.toDate()).format('YYYY-MM-DD') !==
+          londonDjs(prevDate.toDate()).format('YYYY-MM-DD')
         );
       }
     });
@@ -102,16 +102,16 @@ export function exceptionalOpeningPeriodsAllDates(
 ): { type: OverrideType, dates: Moment[] }[] {
   return exceptionalOpeningPeriods
     ? exceptionalOpeningPeriods.map(period => {
-        const startDate = london(period.dates[0].overrideDate.toDate()).startOf(
-          'day'
-        );
-        const lastDate = london(
+        const startDate = londonDjs(
+          period.dates[0].overrideDate.toDate()
+        ).startOf('day');
+        const lastDate = londonDjs(
           period.dates[period.dates.length - 1].overrideDate.toDate()
         ).startOf('day');
         const completeDateArray = [];
         while (startDate.startOf('day').isSameOrBefore(lastDate)) {
           const current = startDate.format('YYYY-MM-DD');
-          completeDateArray.push(london(new Date(current)));
+          completeDateArray.push(londonDjs(new Date(current)));
           startDate.add(1, 'day');
         }
         return {
@@ -260,8 +260,8 @@ export function getUpcomingExceptionalPeriods(
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
-        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
-        d.overrideDate.isSameOrAfter(london(), 'day')
+        d.overrideDate.isSameOrBefore(londonDjs().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrAfter(londonDjs(), 'day')
       );
     });
     return upcomingPeriod || false;
@@ -285,8 +285,8 @@ function createRegularDay(day: Day, venue: PrismicFragment) {
   if (start && end) {
     return {
       dayOfWeek: day,
-      opens: london(start).format('HH:mm'),
-      closes: london(end).format('HH:mm'),
+      opens: londonDjs(start).format('HH:mm'),
+      closes: londonDjs(end).format('HH:mm'),
     };
   } else {
     return {
@@ -302,7 +302,7 @@ export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
     jsonVenue.openingHours.exceptional &&
     jsonVenue.openingHours.exceptional.map(e => ({
       ...e,
-      overrideDate: london(e.overrideDate),
+      overrideDate: londonDjs(e.overrideDate),
     }));
   return {
     ...jsonVenue,
@@ -320,11 +320,11 @@ export function parseCollectionVenue(venue: PrismicFragment): Venue {
     data.modifiedDayOpeningTimes.map(modified => {
       const start =
         modified.startDateTime &&
-        london(modified.startDateTime).format('HH:mm');
+        londonDjs(modified.startDateTime).format('HH:mm');
       const end =
-        modified.startDateTime && london(modified.endDateTime).format('HH:mm');
+        modified.startDateTime && londonDjs(modified.endDateTime).format('HH:mm');
       const overrideDate =
-        modified.overrideDate && london(modified.overrideDate);
+        modified.overrideDate && londonDjs(modified.overrideDate);
       const overrideType = modified.type;
       return {
         overrideDate,
@@ -385,12 +385,12 @@ export function parseCollectionVenues(doc: PrismicFragment) {
 }
 
 export function getTodaysVenueHours(venue: Venue) {
-  const todaysDate = london().startOf('day');
+  const todaysDate = londonDjs().startOf('day');
   const todayString = todaysDate.format('dddd');
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i => {
-      const dayOfWeek = london(i.overrideDate).startOf('day');
+      const dayOfWeek = londonDjs(i.overrideDate).startOf('day');
       return todaysDate.isSame(dayOfWeek);
     });
   const regularOpeningHours =

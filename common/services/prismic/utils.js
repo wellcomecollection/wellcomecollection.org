@@ -1,8 +1,8 @@
 // @flow
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Predicates } from 'prismic-javascript';
 // $FlowFixMe (ts)
-import { getNextWeekendDateRange, london } from '../../utils/dates';
+import { getNextWeekendDateRange, londonDjs } from '../../utils/dates';
 import type { Period } from '../../model/periods';
 
 export function getPeriodPredicates(
@@ -10,9 +10,9 @@ export function getPeriodPredicates(
   startField: string,
   endField: string
 ): Predicates[] {
-  const now = london(new Date());
-  const startOfDay = moment().startOf('day');
-  const endOfDay = moment().endOf('day');
+  const now = londonDjs(new Date());
+  const startOfDay = dayjs().startOf('day');
+  const endOfDay = dayjs().endOf('day');
   const weekendDateRange = getNextWeekendDateRange(now);
   const predicates =
     period === 'coming-up'
