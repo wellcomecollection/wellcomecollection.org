@@ -58,7 +58,7 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
   app.use(errorHandler);
 
   const koaRouter = router.router;
-  const secured = (ctx, next) => {
+  const isAuthenticated = (ctx, next) => {
     if (ctx.isAuthenticated()) {
       return next();
     }
@@ -71,7 +71,7 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
 
 
   // Next specific routes
-  koaRouter.get('/account', secured, async ctx => {
+  koaRouter.get('/account', isAuthenticated, async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
