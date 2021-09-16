@@ -1,6 +1,6 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
-  london,
+  londonDjs,
   formatDay,
   formatDayDate,
   formatDayMonth,
@@ -31,16 +31,16 @@ describe('date utilities', () => {
 
   describe('london', () => {
     it('returns a non-London date in the London time zone', () => {
-      const newYorkDate = moment().tz('America/New_York');
-      const londonDate = london(newYorkDate);
+      const newYorkDate = dayjs().tz('America/New_York');
+      const londonDate = londonDjs(newYorkDate);
 
-      expect(londonDate.zoneName()).toBe(
-        moment().tz('Europe/London').zoneName()
+      expect(londonDate.offsetName()).toBe(
+        dayjs().tz('Europe/London').offsetName()
       );
     });
     it('returns a London date unmodified', () => {
-      const originalDate = moment().tz('Europe/London');
-      const londonDate = london(originalDate);
+      const originalDate = dayjs().tz('Europe/London');
+      const londonDate = londonDjs(originalDate);
 
       expect(londonDate).toEqual(originalDate);
     });
