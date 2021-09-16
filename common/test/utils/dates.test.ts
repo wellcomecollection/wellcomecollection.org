@@ -163,10 +163,10 @@ describe('date utilities', () => {
       furtherFutureDateRange,
     ];
 
-    it('selects the earliest date range ending in the future from a list', () => {
+    it('selects the earliest-starting date range ending in the future from a list', () => {
       expect(getEarliestFutureDateRange(dateRanges)).toEqual(currentDateRange);
     });
-    it('selects the earliest date range ending in the future after a given date from a list', () => {
+    it('selects the earliest-starting date range ending in the future after a given date from a list', () => {
       expect(
         getEarliestFutureDateRange(
           dateRanges,

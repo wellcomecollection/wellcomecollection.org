@@ -1,6 +1,19 @@
 import 'moment-timezone';
-import type { DateRange } from '../model/date-range';
 import moment, { Moment } from 'moment';
+import type { DateRange } from '../model/date-range';
+import dayjs, { ConfigType, Dayjs } from 'dayjs';
+
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(minMax);
 
 export function london(
   d?: Date | string | Moment | { M: string } | { year: string }
@@ -8,42 +21,49 @@ export function london(
   return moment.tz(d, 'Europe/London');
 }
 
+export function londonDjs(d?: ConfigType): Dayjs {
+  return dayjs.tz(d, 'Europe/London');
+}
+
 export function formatDay(date: Date): string {
-  return london(date).format('dddd');
+  return londonDjs(date).format('dddd');
 }
 
 export function formatDayDate(date: Date): string {
-  return london(date).format('dddd D MMMM YYYY');
+  return londonDjs(date).format('dddd D MMMM YYYY');
 }
 
 export function formatDayMonth(date: Date): string {
-  return london(date).format('D MMMM');
+  return londonDjs(date).format('D MMMM');
 }
 
+// TODO no moment
 export function formatDate(date: Date | Moment): string {
-  return london(date).format('D MMMM YYYY');
+  return londonDjs(date instanceof Date ? date : date.toDate()).format(
+    'D MMMM YYYY'
+  );
 }
 
 export function formatTime(date: Date): string {
-  return london(date).format('HH:mm');
+  return londonDjs(date).format('HH:mm');
 }
 
 export function isTimePast(date: Date): boolean {
-  const momentNow = london();
-  const momentEnd = london(date);
+  const now = londonDjs();
+  const end = londonDjs(date);
 
-  return momentEnd.isBefore(momentNow);
+  return end.isBefore(now);
 }
 
 export function isDatePast(date: Date): boolean {
-  const momentNow = london();
-  const momentEnd = london(date);
+  const now = londonDjs();
+  const end = londonDjs(date);
 
-  return momentEnd.isBefore(momentNow, 'day');
+  return end.isBefore(now, 'day');
 }
 
 export function isDateFuture(date: Date): boolean {
-  return london(date).isAfter(london(), 'day');
+  return londonDjs(date).isAfter(londonDjs(), 'day');
 }
 
 export function formatDateRangeWithMessage({
@@ -53,41 +73,44 @@ export function formatDateRangeWithMessage({
   start: Date;
   end: Date;
 }): { text: string; color: string } {
-  const now = london();
-  const s = london(start);
-  const e = london(end);
+  const now = londonDjs();
+  const s = londonDjs(start);
+  const e = londonDjs(end);
 
   if (s.isAfter(now, 'day')) {
     return { text: 'Coming soon', color: 'marble' };
   } else if (e.isBefore(now, 'day')) {
     return { text: 'Past', color: 'marble' };
-  } else if (now.isBetween(e.clone().subtract(1, 'w'), e, 'day')) {
+  } else if (now.isBetween(e.subtract(1, 'w'), e, 'day')) {
     return { text: 'Final week', color: 'orange' };
   } else {
     return { text: 'Now on', color: 'green' };
   }
 }
 
+// TODO no moment
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
   fromDate: Moment = london()
 ): DateRange | undefined {
   return dateRanges
-    .sort((a, b) => a.start.getTime() - b.start.getTime())
-    .find(
-      range =>
-        london(range.end).isSameOrAfter(fromDate, 'day') &&
-        london(range.end).isSameOrAfter(london(), 'day')
+    .filter(({ end }) =>
+      londonDjs(end).isSameOrAfter(
+        dayjs.max(dayjs(fromDate.toDate()), londonDjs())
+      )
+    )
+    .reduce((earliest, dateRange) =>
+      dateRange.start < earliest.start ? dateRange : earliest
     );
 }
 
 export function getNextWeekendDateRange(date: Date): DateRange {
-  const today = london(date);
+  const today = londonDjs(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
 
   const start =
-    todayInteger !== 0 ? london(today).day(5) : london(today).day(-2);
-  const end = todayInteger === 0 ? london(today) : london(today).day(7);
+    todayInteger !== 0 ? londonDjs(today).day(5) : londonDjs(today).day(-2);
+  const end = todayInteger === 0 ? londonDjs(today) : londonDjs(today).day(7);
 
   return {
     start: start.startOf('day').toDate(),
@@ -96,7 +119,8 @@ export function getNextWeekendDateRange(date: Date): DateRange {
 }
 
 export function formatDateForApi(dateString: string): string | undefined {
-  const date = dateString && london({ year: dateString });
+  const date =
+    dateString && dayjs(new Date(Number(dateString), 0, 1, 0, 0, 0, 0));
 
   return date && date.isValid() ? date.format('YYYY-MM-DD') : undefined;
 }
