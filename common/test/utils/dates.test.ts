@@ -26,8 +26,7 @@ const offsetDate = (
 };
 
 describe('date utilities', () => {
-  // Month is 0-indexed; this is 2021/9/15 at 16:20:31
-  const testDate = new Date(2021, 8, 15, 16, 20, 31);
+  const testDate = london('2021-9-15 16:20:31').toDate();
 
   describe('london', () => {
     it('returns a non-London date in the London time zone', () => {
@@ -187,7 +186,7 @@ describe('date utilities', () => {
     // This includes the friday - why?
 
     it('Returns the date range spanning the weekend following a given weekday date', () => {
-      const thursday = new Date('2021-09-16');
+      const thursday = london('2021-09-16').toDate();
       const result = getNextWeekendDateRange(thursday);
 
       expect(result.start.getDay()).toBe(5); // Friday
@@ -201,7 +200,7 @@ describe('date utilities', () => {
       );
     });
     it('Returns the date range spanning the weekend of a given weekend date', () => {
-      const sunday = new Date('2021-09-19');
+      const sunday = london('2021-09-19').toDate();
       const result = getNextWeekendDateRange(sunday);
 
       expect(result.start.getDay()).toBe(5); // Friday
