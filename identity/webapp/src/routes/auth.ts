@@ -5,7 +5,7 @@ import * as querystring from 'query-string';
 import { URL } from 'url';
 
 export const loginAction: RouteMiddleware = (ctx, next) => {
-  ctx.cookies.set('returnTo', ctx.request.headers.referer);
+  ctx.session.returnTo = ctx.request.headers.referer;
 
   koaPassport.authenticate('auth0', {
     scope: 'openid profile email',
@@ -36,7 +36,7 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
         ctx.app.emit('error', err, ctx);
       }
 
-      return ctx.redirect(ctx.cookies.get('returnTo') || '/account');
+      return ctx.redirect(ctx.session.returnTo || '/account');
     });
   })(ctx, next);
 };
