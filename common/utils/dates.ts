@@ -1,5 +1,5 @@
 import type { DateRange } from '../model/date-range';
-import dayjs, { ConfigType, Dayjs } from 'dayjs';
+import dayjs, { ConfigType, Dayjs, PluginFunc } from 'dayjs';
 
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -16,6 +16,33 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(minMax);
 dayjs.extend(objectSupport);
+
+/*
+ * The timezone support in dayjs is not great and contains various bugs.
+ * See: https://github.com/iamkun/dayjs/issues?q=timezone
+ *
+ * We don't really make complex use of the timezone functionality, merely
+ * wanting to convert stuff to the current London timezone, so this doesn't
+ * seem like a good reason to write off an otherwise good library.
+ *
+ * The main issue that affects us relates to the incorrect calculation of UTC
+ * offsets when dealing with daylight savings time. There is a PR to fix this
+ * open in the dayjs repo, which will hopefully be merged soon:
+ * https://github.com/iamkun/dayjs/pull/1448
+ *
+ * Until then, we can replicate the work of that PR by writing an additional
+ * plugin which overrides the existing UTC valueOf function with the fixed version
+ * from https://github.com/iamkun/dayjs/pull/1448/files#diff-2612403b0bf524678efca9da730f3570b7a058b447238e00dd98d7f3d890abeeR116-R118
+ */
+const utcFix: PluginFunc = (option, dayjsClass) => {
+  dayjsClass.prototype.valueOf = function () {
+    const addedOffset = !this.$utils().u(this.$offset)
+      ? this.$offset + (this.$x.$localOffset || this.$d.getTimezoneOffset())
+      : 0;
+    return this.$d.valueOf() - addedOffset * 60 * 1000;
+  };
+};
+dayjs.extend(utcFix);
 
 export function london(d?: ConfigType): Dayjs {
   return dayjs.tz(d, 'Europe/London');
