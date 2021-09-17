@@ -44,6 +44,13 @@ describe('date utilities', () => {
 
       expect(londonDate).toEqual(originalDate);
     });
+    it('correctly handles times with DST', () => {
+      const newYorkDST = dayjs.tz('2021-09-17 13:55', 'America/New_York');
+      const newYorkNoDST = dayjs.tz('2021-01-17 13:55', 'America/New_York');
+
+      expect(london(newYorkDST).format()).toBe('2021-09-17T18:55:00+01:00');
+      expect(london(newYorkNoDST).format()).toBe('2021-01-17T18:55:00Z');
+    });
   });
 
   describe('formatDay', () => {
