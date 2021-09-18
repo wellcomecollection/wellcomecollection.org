@@ -5,7 +5,10 @@ import * as querystring from 'query-string';
 import { URL } from 'url';
 
 export const loginAction: RouteMiddleware = (ctx, next) => {
-  ctx.session.returnTo = ctx.request.headers.referer;
+  if (!ctx.session.returnTo) {
+    // Don't overwrite returnTo if e.g. user enters wrong password
+    ctx.session.returnTo = ctx.request.headers.referer;
+  }
 
   koaPassport.authenticate('auth0', {
     scope: 'openid profile email',
@@ -41,10 +44,12 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
   })(ctx, next);
 };
 
-export const logoutAction: RouteMiddleware = context => {
-  const { returnTo } = context.request.query;
+export const logoutAction: RouteMiddleware = ctx => {
+  const { returnTo } = ctx.request.query;
 
-  context.logout();
+  ctx.logout();
+
+  delete ctx.session.returnTo;
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
 
@@ -53,5 +58,5 @@ export const logoutAction: RouteMiddleware = context => {
     returnTo: `${config.logout.redirectUrl || ''}${returnTo || ''}`,
   });
 
-  context.redirect(logoutUri.toString());
+  ctx.redirect(logoutUri.toString());
 };
