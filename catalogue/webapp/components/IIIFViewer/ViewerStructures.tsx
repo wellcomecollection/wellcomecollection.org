@@ -64,7 +64,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   return groupedStructures.length > 0 ? (
     <List>
       {groupedStructures.map((structure, i) => {
-        const firstCanvasInRange = structure.canvases[0];
+        const firstCanvasInRange = structure?.canvases?.[0];
         const canvasIndex = canvases.findIndex(
           canvas => canvas['@id'] === firstCanvasInRange
         );
