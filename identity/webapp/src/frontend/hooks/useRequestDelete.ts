@@ -25,7 +25,7 @@ export function useRequestDelete(): UseRequestDeleteMutation {
     setIsLoading(true);
     callMiddlewareApi(
       'PUT',
-      '/api/users/me/deletion-request',
+      '/account/api/users/me/deletion-request',
       requestDeleteBody
     )
       .then(() => {

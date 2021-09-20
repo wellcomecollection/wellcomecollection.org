@@ -1,20 +1,16 @@
-import React from 'react';
-import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { GetServerSideProps, NextPage } from 'next';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import { useLocationQuery } from '../../hooks/useLocationQuery';
-import { PageWrapper } from '../PageWrapper';
-import { Container, Wrapper } from '../Layout.style';
+import { PageWrapper } from '../../src/frontend/components/PageWrapper';
+import { Container, Wrapper } from '../../src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 
-type ErrorParams = {
-  error: string;
-  error_description: string;
-};
 
-export const ErrorPage = (): JSX.Element => {
-  const { error_description } = useLocationQuery<ErrorParams>();
+type Props = {
+  errorDescription: string | string[];
+}
 
+const ErrorPage: NextPage<Props> = ({errorDescription}) => {
   return (
     <PageWrapper>
       <Layout10>
@@ -23,8 +19,7 @@ export const ErrorPage = (): JSX.Element => {
             <Wrapper>
               <h1 className="font-wb font-size-1">An error occurred</h1>
 
-              <p className="font-hnr font-size-4">{error_description}</p>
-              <SpacingComponent />
+              <p className="font-hnr font-size-4">{errorDescription}</p>
               <OutlinedButton>
                 <a
                   href="mailto:library@wellcomecollection.org"
@@ -41,3 +36,17 @@ export const ErrorPage = (): JSX.Element => {
     </PageWrapper>
   );
 };
+
+export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  const { query } = context;
+  const errorDescription = query.error_description || null;
+
+  return {
+    props: {
+      errorDescription
+    }
+  }
+}
+
+
+export default ErrorPage;

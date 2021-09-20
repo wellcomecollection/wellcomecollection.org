@@ -40,12 +40,12 @@ const createConfig =
           if (phase === PHASE_DEVELOPMENT_SERVER) {
             return [
               {
-                source: '/api/users/me',
-                destination: `${identityHost}/api/users/me`,
+                source: '/account/api/users/me',
+                destination: `${identityHost}/account/api/users/me`,
               },
               {
-                source: '/api/users/:user_id/item-requests',
-                destination: `${identityHost}/api/users/:user_id/item-requests`,
+                source: '/account/api/users/:user_id/item-requests',
+                destination: `${identityHost}/account/api/users/:user_id/item-requests`,
               },
             ];
           }

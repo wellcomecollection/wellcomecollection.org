@@ -178,7 +178,7 @@ You can let the router know it should validate against that type using the JSON 
 
 ```ts
 export const router = new TypedRouter({
-  'update-user': [TypedRouter.PUT, '/api/users/:user_id', updateUser, 'UserModel'], // <-- UserModel matches the type name
+  'update-user': [TypedRouter.PUT, '/account/api/users/:user_id', updateUser, 'UserModel'], // <-- UserModel matches the type name
 });
 ```
 
@@ -255,34 +255,3 @@ All the frontend code should live inside `./src/frontend`.
 
 The route that renders the HTML for before the React component can be found at `./routes/index.ts`. This is a very minimal HTML document with a link to the webpack bundle. This is intended to be a starting point.
 
-## Context path
-
-In development, the app is served at the root path (i.e. http://localhost:3000). In staging and production environments, the app is served from a sub-directory path (i.e. https://wellcomecollection.org/account).
-
-This discrepancy is handled by an environment variable `CONTEXT_PATH`, which would hold the value `account` (no leading slash) in the above example. This environment variable is used whenever linking internally in the app, e.g. linking from one UI page to another, or when redirecting to an error page from an API route.
-
-The value from the environment is used in different ways in different parts of the app:
-
-### In the back end
-
-A `withPrefix` utility function is provided to wrap all internal URLs, e.g. when redirecting unauthorised users:
-
-```ts
-// src/routes/auth.ts
-
-if (info === 'unauthorized') {
-  return ctx.redirect(withPrefix(`/error?${ctx.request.querystring}`));
-}
-if (!user) {
-  return ctx.redirect(withPrefix(`/error?error_description=${encodeURI('An unknown error occurred.')}`));
-}
-```
-
-The context path is also placed a data attribute in the HTML `#root` element into which the React app will be injected, making the value available to the client-side app via the same functions:
-
-```ts
-// src/routes/assets/index.html.ts
-`
-  <div id="root" data-context-path="${contextPath}"></div>
-`;
-```

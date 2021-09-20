@@ -1,18 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { ErrorPage } from './ErrorPage';
-import { MemoryRouter } from 'react-router';
+import ErrorPage from '../../../pages/account/error';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
-const renderComponent = (url: string) =>
+const renderComponent = (location: string) => {
+  const url = new URL(`https://localhost:3000/${location}`);
+  const errorDescription = url.searchParams.get('error_description');
+
   render(
     <ThemeProvider theme={theme}>
-      <MemoryRouter initialEntries={[url]}>
-        <ErrorPage />
-      </MemoryRouter>
+      <ErrorPage errorDescription={errorDescription} />
     </ThemeProvider>
   );
+};
 
 describe('ErrorPage', () => {
   it('displays the error description from the URL', () => {

@@ -23,7 +23,7 @@ export function useRegisterUser(): UseRegisterUserMutation {
 
   const registerUser = (userDetails: RegisterUserSchema) => {
     setIsLoading(true);
-    callMiddlewareApi('POST', '/api/user/create', userDetails)
+    callMiddlewareApi('POST', '/account/api/user/create', userDetails)
       .then(() => {
         setIsLoading(false);
         setIsSuccess(true);

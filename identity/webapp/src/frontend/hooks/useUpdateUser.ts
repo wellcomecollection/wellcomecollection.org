@@ -30,7 +30,7 @@ export function useUpdateUser(): UseUpdateUserMutation {
     onComplete: (newUserDetails: UpdateUserSchema) => void = () => null
   ) => {
     setIsLoading(true);
-    callMiddlewareApi('PUT', '/api/users/me', userDetails)
+    callMiddlewareApi('PUT', '/account/api/users/me', userDetails)
       .then(() => {
         setIsLoading(false);
         setIsSuccess(true);

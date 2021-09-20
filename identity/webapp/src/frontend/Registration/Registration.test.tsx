@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { Router } from 'react-router-dom';
-import { Registration } from './Registration';
+import RegistrationPage from '../../../pages/account/registration';
 import userEvent from '@testing-library/user-event';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { ThemeProvider } from 'styled-components';
-import { createMemoryHistory } from 'history';
 import theme from '@weco/common/views/themes/default';
+
+jest.mock('next/router', () => require('next-router-mock'));
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
@@ -15,16 +15,12 @@ jest.mock('../components/PageWrapper', () => ({
   PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
 }));
 
-const history = createMemoryHistory({ initialEntries: ['/'] });
-
 window.scrollTo = jest.fn();
 
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <Router history={history}>
-        <Registration />
-      </Router>
+      <RegistrationPage />
     </ThemeProvider>
   );
 
@@ -361,7 +357,7 @@ describe('Registration', () => {
 
   it('shows an error message when the email address is attached to an extant account', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(409));
       })
     );
@@ -388,7 +384,7 @@ describe('Registration', () => {
 
   it('shows an error message when a common password is used', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(422));
       })
     );
@@ -410,7 +406,7 @@ describe('Registration', () => {
 
   it('shows an error message when a server error occurs', async () => {
     server.use(
-      rest.post('/api/user/create', (req, res, ctx) => {
+      rest.post('/account/api/user/create', (req, res, ctx) => {
         return res(ctx.status(500));
       })
     );
@@ -428,12 +424,5 @@ describe('Registration', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /an unknown error occurred/i
     );
-  });
-
-  it('takes user back when Cancel link is clicked', () => {
-    history.goBack = jest.fn();
-    renderComponent();
-    userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-    expect(history.goBack).toBeCalled();
   });
 });
