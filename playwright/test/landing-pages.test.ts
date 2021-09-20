@@ -5,6 +5,8 @@ import {
   storiesUrl,
   collectionsUrl,
   aboutUsUrl,
+  worksUrl,
+  imagesUrl,
 } from './helpers/urls';
 import { gotoWithoutCache } from './contexts';
 
@@ -63,5 +65,23 @@ describe('Top-level landing pages', () => {
     ]);
 
     expect(content).toBe('About us');
+  });
+
+  test('the works page renders with a status code of 200', async () => {
+    const [, content] = await Promise.all([
+      gotoWithoutCache(worksUrl),
+      page.textContent('h1'),
+    ]);
+
+    expect(content).toBe('Search the collections');
+  });
+
+  test('the images page renders with a status code of 200', async () => {
+    const [, content] = await Promise.all([
+      gotoWithoutCache(imagesUrl),
+      page.textContent('h1'),
+    ]);
+
+    expect(content).toBe('Search the collections');
   });
 });
