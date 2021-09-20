@@ -13,7 +13,29 @@ import AlignFont from '../styled/AlignFont';
 type OutlinedButtonProps = {
   href?: string;
   isOnDark?: boolean;
+  isDangerous?: boolean;
 };
+
+type ButtonColor = 'white' | 'green' | 'red';
+
+function getColor(
+  isOnDark: boolean | undefined,
+  isDangerous: boolean | undefined
+): ButtonColor {
+  if (isOnDark) {
+    if (isDangerous) {
+      return 'red'; // TODO We don't use this with isOnDark anywhere yet, but it will fail accessibility contrast criteria. Issue #7059
+    } else {
+      return 'white';
+    }
+  } else {
+    if (isDangerous) {
+      return 'red';
+    } else {
+      return 'green';
+    }
+  }
+}
 
 export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
   props => ({
@@ -23,9 +45,10 @@ export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
   })
 )<OutlinedButtonProps>`
   border: 2px solid
-    ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
+    ${props => props.theme.color(getColor(props.isOnDark, props.isDangerous))};
   background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
+  color: ${props =>
+    props.theme.color(getColor(props.isOnDark, props.isDangerous))};
 
   &:hover {
     text-decoration: underline;
@@ -38,6 +61,7 @@ export type ButtonOutlinedBaseProps = {
   type?: 'submit' | 'reset' | 'button';
   isTextHidden?: boolean;
   isOnDark?: boolean;
+  isDangerous?: boolean;
   trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
@@ -61,6 +85,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       isTextHidden,
       trackingEvent,
       isOnDark,
+      isDangerous,
       clickHandler,
       ariaControls,
       ariaExpanded,
@@ -77,6 +102,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       <OutlinedButton
         type={type}
         isOnDark={isOnDark}
+        isDangerous={isDangerous}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         aria-live={ariaLive}

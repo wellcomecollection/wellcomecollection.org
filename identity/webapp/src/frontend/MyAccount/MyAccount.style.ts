@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
@@ -28,22 +27,6 @@ export const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })``;
-
-const OutlinedDangerButtonModifier = css`
-  color: #d1192c;
-  border-color: #d1192c;
-
-  &:not([disabled]):hover {
-    color: #b80013;
-    border-color: #b80013;
-  }
-`;
-
-export const Button = styled(ButtonOutlined)<{ isDangerous?: boolean }>`
-  justify-content: center;
-
-  ${props => props.isDangerous && OutlinedDangerButtonModifier}
-`;
 
 export const ButtonWrapper = styled(Space).attrs({
   as: 'span',

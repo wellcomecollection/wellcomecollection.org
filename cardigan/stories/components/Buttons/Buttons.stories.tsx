@@ -23,6 +23,7 @@ buttonOutlined.args = {
   icon: 'eye',
   text: 'Click me',
   isOnDark: false,
+  isDangerous: false,
 };
 buttonOutlined.storyName = 'ButtonOutlined';
 

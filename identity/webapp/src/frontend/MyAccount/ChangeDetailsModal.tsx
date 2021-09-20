@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import { Button } from './MyAccount.style';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 
 export type ChangeDetailsModalContentProps =
@@ -37,12 +37,12 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
 
   return (
     <>
-      <Button
+      <ButtonOutlined
         text={buttonText}
-        // isDangerous={isDangerous} // TODO
+        isDangerous={isDangerous}
         clickHandler={() => setIsActive(true)}
         ref={openButton}
-      ></Button>
+      ></ButtonOutlined>
       <Modal
         id={id}
         isActive={isActive}
