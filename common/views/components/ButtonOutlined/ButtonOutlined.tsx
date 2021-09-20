@@ -14,7 +14,23 @@ import { IconSvg } from '@weco/common/icons';
 type OutlinedButtonProps = {
   href?: string;
   isOnDark?: boolean;
+  isDangerous?: boolean;
 };
+
+type ButtonColor = 'white' | 'green' | 'red';
+
+function getColor(
+  isOnDark: boolean | undefined,
+  isDangerous: boolean | undefined
+): ButtonColor {
+  if (isOnDark) {
+    return 'white';
+  } else if (isDangerous) {
+    return 'red';
+  } else {
+    return 'green';
+  }
+}
 
 export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
   props => ({
@@ -24,9 +40,10 @@ export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
   })
 )<OutlinedButtonProps>`
   border: 2px solid
-    ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
+    ${props => props.theme.color(getColor(props.isOnDark, props.isDangerous))};
   background: ${props => props.theme.color('transparent')};
-  color: ${props => props.theme.color(props.isOnDark ? 'white' : 'green')};
+  color: ${props =>
+    props.theme.color(getColor(props.isOnDark, props.isDangerous))};
 
   &:hover {
     text-decoration: underline;
