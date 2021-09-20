@@ -1,6 +1,10 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
-import { Container, Title, Wrapper } from '../../src/frontend/components/Layout.style';
+import {
+  Container,
+  Title,
+  Wrapper,
+} from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -9,9 +13,9 @@ import Space from '@weco/common/views/components/styled/Space';
 type Props = {
   success: boolean;
   message: string | string[];
-}
+};
 
-const ValidatedPage: NextPage<Props> = ({success, message}) => {
+const ValidatedPage: NextPage<Props> = ({ success, message }) => {
   return (
     <PageWrapper>
       <Layout10>
@@ -60,16 +64,16 @@ const ValidatedPage: NextPage<Props> = ({success, message}) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-  const {query} = context;
+export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  const { query } = context;
   const { success, message } = query;
 
   return {
     props: {
       success: success === 'true',
       message: message || null,
-    }
-  }
-}
+    },
+  };
+};
 
 export default ValidatedPage;
