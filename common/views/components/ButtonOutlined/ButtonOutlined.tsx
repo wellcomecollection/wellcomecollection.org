@@ -25,7 +25,7 @@ function getColor(
 ): ButtonColor {
   if (isOnDark) {
     if (isDangerous) {
-      return 'red'; // TODO We don't use this with isOnDark anywhere yet, but it will fail accessibility contrast criteria. Issue captured here:
+      return 'red'; // TODO We don't use this with isOnDark anywhere yet, but it will fail accessibility contrast criteria. Issue #7059
     } else {
       return 'white';
     }
