@@ -24,11 +24,17 @@ function getColor(
   isDangerous: boolean | undefined
 ): ButtonColor {
   if (isOnDark) {
-    return 'white';
-  } else if (isDangerous) {
-    return 'red';
+    if (isDangerous) {
+      return 'red'; // TODO We don't use this with isOnDark anywhere yet, but it will fail accessibility contrast criteria. Issue captured here:
+    } else {
+      return 'white';
+    }
   } else {
-    return 'green';
+    if (isDangerous) {
+      return 'red';
+    } else {
+      return 'green';
+    }
   }
 }
 
@@ -56,6 +62,7 @@ export type ButtonOutlinedBaseProps = {
   type?: 'submit' | 'reset' | 'button';
   isTextHidden?: boolean;
   isOnDark?: boolean;
+  isDangerous?: boolean;
   trackingEvent?: GaEvent;
   ariaControls?: string;
   ariaExpanded?: boolean;
@@ -79,6 +86,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       isTextHidden,
       trackingEvent,
       isOnDark,
+      isDangerous,
       clickHandler,
       ariaControls,
       ariaExpanded,
@@ -95,6 +103,7 @@ const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
       <OutlinedButton
         type={type}
         isOnDark={isOnDark}
+        isDangerous={isDangerous}
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         aria-live={ariaLive}
