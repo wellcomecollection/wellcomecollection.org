@@ -1,6 +1,7 @@
 import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
+import { clear } from '@weco/common/icons';
 
 type Props = {
   inputRef: RefObject<HTMLInputElement>;
@@ -25,7 +26,7 @@ const ClearSearch: FunctionComponent<Props> = ({
       }}
       type="button"
     >
-      <Icon name="clear" title="Clear" />
+      <Icon icon={clear} title="Clear" />
     </button>
   );
 };

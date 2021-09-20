@@ -27,6 +27,7 @@ import { PasswordRules } from '../components/PasswordInput';
 import { PasswordInput } from './PasswordInput';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
+import { info2 } from '@weco/common/icons';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -84,7 +85,7 @@ export function Registration(): JSX.Element {
               {registrationError && (
                 <>
                   <ErrorAlert aria-labelledby="error-text">
-                    <Icon name={`info2`} />
+                    <Icon icon={info2} />
                     {registrationError ===
                       RegistrationError.EMAIL_ALREADY_EXISTS && (
                       <span id="error-text">

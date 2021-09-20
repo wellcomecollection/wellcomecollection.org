@@ -5,9 +5,9 @@ import {
 } from '@weco/common/utils/iiif';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { classNames, font } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import { classNames, font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
 type Props = {

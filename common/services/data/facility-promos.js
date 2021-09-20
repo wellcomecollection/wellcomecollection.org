@@ -1,12 +1,13 @@
 import type { Promo } from '../model/promo';
 import type { EventPromo } from '../model/events';
+import { clock, memberCard } from '@weco/common/icons';
 
 export const readingRoomPromo: Promo = {
   type: 'promo',
   contentType: 'place',
   title: 'Reading Room',
   url: 'https://wellcomecollection.org/pages/Wvlk4yAAAB8A3ufp',
-  metaIcon: 'clock',
+  metaIcon: clock,
   metaText: 'Open during gallery hours',
   description:
     'Drop in to find inspiration and indulge your curiosity. It’s a gallery, a social space, and a place to unwind.',
@@ -46,7 +47,7 @@ export const libraryPromo: Promo = {
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Smm',
   description:
     'Visit our free library for the study of the social and cultural contexts of health and medicine.',
-  metaIcon: 'member_card',
+  metaIcon: memberCard,
   metaText: 'Membership not required',
   image: {
     type: 'picture',

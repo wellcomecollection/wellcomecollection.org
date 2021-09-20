@@ -61,7 +61,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         <BaseButtonInner>
           {icon && (
             <ButtonIconWrapper>
-              <Icon name={icon} />
+              <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
           <AlignFont>{text}</AlignFont>

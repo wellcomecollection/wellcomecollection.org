@@ -1,4 +1,6 @@
-const SvgHearingLoop = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgHearingLoop: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M9.16 9.57a2.25 2.25 0 1 1 4.5 0 1 1 0 0 0 2 0 4.25 4.25 0 1 0-8.5 0 1 1 0 0 0 2 0zm1.02 2.76a1 1 0 0 0-1.41 0l-6.35 6.35a1 1 0 1 0 1.41 1.41l6.35-6.35a1 1 0 0 0 0-1.41zM21.78.73a1 1 0 0 0-1.41 0l-2.21 2.21a1 1 0 1 0 1.41 1.41l2.21-2.21a1 1 0 0 0 0-1.41z" />

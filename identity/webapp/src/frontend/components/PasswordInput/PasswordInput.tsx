@@ -3,6 +3,7 @@ import { useController, UseControllerOptions } from 'react-hook-form';
 import { Border, Input, ShowPasswordButton } from './PasswordInput.style';
 import { PasswordRules } from './PasswordRules';
 import Icon from '@weco/common/views/components/Icon/Icon';
+import { a11YVisual, eye } from '@weco/common/icons';
 export type PasswordInputProps = UseControllerOptions & {
   id?: string;
   showPolicy?: boolean;
@@ -28,7 +29,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
           onClick={toggleVisibility}
           aria-label={isVisible ? 'Hide password' : 'Show password'}
         >
-          <Icon name={isVisible ? 'a11yVisual' : 'eye'} />
+          <Icon icon={isVisible ? a11YVisual : eye} />
         </ShowPasswordButton>
       </Border>
       {showPolicy && <PasswordRules />}

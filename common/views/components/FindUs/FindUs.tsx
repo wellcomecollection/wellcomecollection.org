@@ -6,6 +6,7 @@ import {
   wellcomeCollectionAddress,
 } from '../../../model/organization';
 import Space from '../styled/Space';
+import { location as locationIcon } from '@weco/common/icons';
 import { FunctionComponent } from 'react';
 
 const StyledFindUs = styled.div.attrs({
@@ -44,7 +45,7 @@ const FindUs: FunctionComponent = () => (
         <span className="flex">
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <span className="float-l">
-              <Icon name="location" />
+              <Icon icon={locationIcon} />
             </span>
           </Space>
           <Space v={{ size: 'm', properties: ['margin-bottom'] }} as="p">

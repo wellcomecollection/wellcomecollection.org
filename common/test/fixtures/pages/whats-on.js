@@ -1,4 +1,6 @@
 import globalContextData from '../globalContextData';
+import { clock } from '@weco/common/icons';
+
 const beingHuman = {
   id: 'XNFfsxAAANwqbNWD',
   title: 'Being Human',
@@ -1387,7 +1389,7 @@ export const whatsOn = hasExhibition => ({
       contentType: 'place',
       title: 'Reading Room',
       url: 'https://wellcomecollection.org/pages/Wvlk4yAAAB8A3ufp',
-      metaIcon: 'clock',
+      metaIcon: clock,
       metaText: 'Open during gallery hours',
       description:
         'Drop in to find inspiration and indulge your curiosity. It’s a gallery, a social space, and a place to unwind.',

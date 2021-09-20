@@ -10,10 +10,11 @@ import {
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
+import { IconSvg } from '@weco/common/icons';
 
 export type ButtonInlineBaseProps = {
   text: string;
-  icon?: string;
+  icon?: IconSvg;
   type?: ButtonTypes;
   isOnDark?: boolean;
   isTextHidden?: boolean;
@@ -82,7 +83,7 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
             </AlignFont>
             {icon && (
               <ButtonIconWrapper iconAfter={true}>
-                <Icon name={icon} />
+                <Icon icon={icon} />
               </ButtonIconWrapper>
             )}
           </>

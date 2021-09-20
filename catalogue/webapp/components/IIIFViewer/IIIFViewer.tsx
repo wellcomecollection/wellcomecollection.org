@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
-import { DigitalLocation, Work } from '../../../model/catalogue';
+import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
@@ -24,7 +24,7 @@ import ViewerTopBar from './ViewerTopBar';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
-} from '../ItemViewerContext/ItemViewerContext';
+} from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
@@ -106,7 +106,6 @@ const Sidebar = styled.div<{
   isActiveMobile: boolean;
   isActiveDesktop: boolean;
 }>`
-
   display: ${props => (props.isActiveMobile ? 'inherit' : 'none')};
   align-content: start;
 
@@ -254,6 +253,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   );
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   const activeIndexRef = useRef(activeIndex);
+  const previousManifestIndex = useRef(manifestIndex);
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -403,8 +403,13 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   }, [activeIndex]);
 
   useEffect(() => {
-    // FIXME: is this really necessary? Why doesn't setting canvas to 1 in the NextLink handle it?
-    mainViewerRef?.current?.scrollToItem(0);
+    if (previousManifestIndex.current === manifestIndex) return;
+
+    // If we change manifests, it's not enough to rely on the next/link
+    // to scroll us to the first canvas, because it's being handled by
+    // react window
+    mainViewerRef?.current?.scrollToItem(0, 'start');
+    previousManifestIndex.current = manifestIndex;
   }, [manifestIndex]);
 
   const parentManifestUrl = manifest && manifest.within;

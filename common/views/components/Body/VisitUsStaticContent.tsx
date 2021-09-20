@@ -8,6 +8,7 @@ import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
 import Layout12 from '../Layout12/Layout12';
 import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
+import { clock } from '@weco/common/icons';
 
 type ContainerProps = {
   children: ReactNode;
@@ -47,7 +48,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
           <div className="flex">
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
               <span className="float-l">
-                <Icon name="clock" />
+                <Icon icon={clock} />
               </span>
             </Space>
             <div

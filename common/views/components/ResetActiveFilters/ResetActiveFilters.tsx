@@ -8,6 +8,7 @@ import { font, classNames } from '../../../utils/classnames';
 import styled from 'styled-components';
 import { Filter } from '../../../services/catalogue/filters';
 import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
+import { cross } from '@weco/common/icons';
 
 type ResetActiveFilters = {
   query: string;
@@ -50,7 +51,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
           properties: ['margin-right'],
         }}
       >
-        <Icon name="cross" matchText={true} color={'silver'} />
+        <Icon icon={cross} matchText={true} color={'silver'} />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}

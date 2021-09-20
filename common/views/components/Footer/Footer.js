@@ -1,5 +1,7 @@
 // @flow
 import { useRef, useEffect } from 'react';
+// $FlowFixMe (tsx)
+import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
@@ -259,7 +261,7 @@ const Footer = ({
                   as="span"
                   h={{ size: 'm', properties: ['margin-right'] }}
                 >
-                  <Icon name="clock" extraClasses={`float-l`} />
+                  <Icon icon={clock} extraClasses={`float-l`} />
                 </Space>
                 <div
                   className={classNames({
@@ -297,7 +299,7 @@ const Footer = ({
               })}
             >
               <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <Icon name="wellcome" />
+                <Icon icon={wellcome} />
               </Space>
               <StrapText>The free museum and library from Wellcome</StrapText>
             </FooterStrap>
@@ -317,10 +319,10 @@ const Footer = ({
                 })}
               >
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
-                  <Icon name="cc" />
+                  <Icon icon={cc} />
                 </Space>
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
-                  <Icon name="ccBy" />
+                  <Icon icon={ccBy} />
                 </Space>
               </div>
               <p className="no-margin">
@@ -384,7 +386,7 @@ const Footer = ({
                   className="footer__hygiene-link footer__hygiene-link--back-to-top"
                 >
                   <span>Back to top</span>
-                  <Icon name="arrow" rotate={270} />
+                  <Icon icon={arrow} rotate={270} />
                 </a>
               </HygieneItem>
             </HygieneList>

@@ -18,7 +18,7 @@ import {
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import styled from 'styled-components';
 import Space, {
@@ -311,7 +311,7 @@ const ItemPage: NextPage<Props> = ({
                     `${authService?.['@id'] || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function() {
+                    authServiceWindow.addEventListener('unload', function () {
                       reloadAuthIframe(document, iframeId);
                     });
                 }}
@@ -361,122 +361,121 @@ const ItemPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const {
-    workId,
-    page = 1,
-    pageSize = 4,
-    canvas = 1,
-    manifest: manifestParam = 1,
-  } = fromQuery(context.query);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const {
+      workId,
+      page = 1,
+      pageSize = 4,
+      canvas = 1,
+      manifest: manifestParam = 1,
+    } = fromQuery(context.query);
 
-  const pageview = {
-    name: 'item',
-    properties: {},
+    const pageview = {
+      name: 'item',
+      properties: {},
+    };
+
+    const pageIndex = page - 1;
+    // Canvas and manifest params should be 0 indexed as they reference elements in an array
+    // We've chosen not to do this for some reason lost to time, but felt it better to stick
+    // to the same buggy implementation than have 2 implementations
+
+    // I imagine a fix for this could be having new parameters `m&c`
+    // and then redirecting to those once we have em fixed.
+    const canvasIndex = canvas - 1;
+    const manifestIndex = manifestParam - 1;
+
+    const work = await getWork({
+      id: workId,
+      toggles: globalContextData.toggles,
+    });
+
+    if (work.type === 'Error') {
+      return appError(context, work.httpStatus, work.description);
+    } else if (work.type === 'Redirect') {
+      return {
+        redirect: {
+          destination: work.redirectToId,
+          permanent: work.status === 301,
+        },
+      };
+    }
+
+    const iiifPresentationUrl = getDigitalLocationOfType(
+      work,
+      'iiif-presentation'
+    )?.url;
+    const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
+
+    const manifestOrCollection =
+      iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
+
+    if (manifestOrCollection) {
+      // This happens when the main manifest is actually a Collection (manifest of manifest).
+      // see: https://wellcomelibrary.org/iiif/collection/b21293302
+      // from: https://wellcomecollection.org/works/f6qp7m32/items
+      const isCollectionManifest =
+        manifestOrCollection['@type'] === 'sc:Collection';
+
+      const manifest = isCollectionManifest
+        ? await fetchJson(
+            manifestOrCollection.manifests[manifestIndex || 0]['@id']
+          )
+        : manifestOrCollection;
+
+      const video = getVideo(manifest);
+      const audio = getAudio(manifest);
+
+      const canvases =
+        manifest.sequences && manifest.sequences[0].canvases
+          ? manifest.sequences[0].canvases
+          : [];
+
+      const currentCanvas = canvases?.[canvasIndex];
+      const canvasOcr = currentCanvas
+        ? await getCanvasOcr(currentCanvas)
+        : undefined;
+
+      return {
+        props: removeUndefinedProps({
+          manifest,
+          manifestIndex,
+          pageSize,
+          pageIndex,
+          canvasIndex,
+          canvasOcr,
+          work,
+          canvases,
+          currentCanvas,
+          video,
+          audio,
+          iiifImageLocation,
+          globalContextData,
+          pageview,
+        }),
+      };
+    }
+
+    if (iiifImageLocation) {
+      return {
+        props: removeUndefinedProps({
+          pageSize,
+          pageIndex,
+          canvasIndex,
+          work,
+          canvases: [],
+          iiifImageLocation,
+          globalContextData,
+          pageview,
+        }),
+      };
+    }
+
+    return {
+      notFound: true,
+    };
   };
-
-  const pageIndex = page - 1;
-  // Canvas and manifest params should be 0 indexed as they reference elements in an array
-  // We've chosen not to do this for some reason lost to time, but felt it better to stick
-  // to the same buggy implementation than have 2 implementations
-
-  // I imagine a fix for this could be having new parameters `m&c`
-  // and then redirecting to those once we have em fixed.
-  const canvasIndex = canvas - 1;
-  const manifestIndex = manifestParam - 1;
-
-  const work = await getWork({
-    id: workId,
-    toggles: globalContextData.toggles,
-  });
-
-  if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
-  } else if (work.type === 'Redirect') {
-    return {
-      redirect: {
-        destination: work.redirectToId,
-        permanent: work.status === 301,
-      },
-    };
-  }
-
-  const iiifPresentationUrl = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
-  )?.url;
-  const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
-
-  const manifestOrCollection =
-    iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
-
-  if (manifestOrCollection) {
-    // This happens when the main manifest is actually a Collection (manifest of manifest).
-    // see: https://wellcomelibrary.org/iiif/collection/b21293302
-    // from: https://wellcomecollection.org/works/f6qp7m32/items
-    const isCollectionManifest =
-      manifestOrCollection['@type'] === 'sc:Collection';
-
-    const manifest = isCollectionManifest
-      ? await fetchJson(
-          manifestOrCollection.manifests[manifestIndex || 0]['@id']
-        )
-      : manifestOrCollection;
-
-    const video = getVideo(manifest);
-    const audio = getAudio(manifest);
-
-    const canvases =
-      manifest.sequences && manifest.sequences[0].canvases
-        ? manifest.sequences[0].canvases
-        : [];
-
-    const currentCanvas = canvases?.[canvasIndex];
-    const canvasOcr = currentCanvas
-      ? await getCanvasOcr(currentCanvas)
-      : undefined;
-
-    return {
-      props: removeUndefinedProps({
-        manifest,
-        manifestIndex,
-        pageSize,
-        pageIndex,
-        canvasIndex,
-        canvasOcr,
-        work,
-        canvases,
-        currentCanvas,
-        video,
-        audio,
-        iiifImageLocation,
-        globalContextData,
-        pageview,
-      }),
-    };
-  }
-
-  if (iiifImageLocation) {
-    return {
-      props: removeUndefinedProps({
-        pageSize,
-        pageIndex,
-        canvasIndex,
-        work,
-        canvases: [],
-        iiifImageLocation,
-        globalContextData,
-        pageview,
-      }),
-    };
-  }
-
-  return {
-    notFound: true,
-  };
-};
 
 export default ItemPage;

@@ -12,6 +12,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 // $FlowFixMe(tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
+// $FlowFixMe (tsx)
+import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriods,
@@ -179,7 +181,7 @@ const VenueHours = ({ venue, weight }: Props) => {
                     as="span"
                     h={{ size: 's', properties: ['margin-right'] }}
                   >
-                    <Icon name="clock" />
+                    <Icon icon={clock} />
                   </Space>
                   <span>{overrideType} hours</span>
                 </div>
