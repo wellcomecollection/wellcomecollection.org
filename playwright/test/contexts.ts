@@ -1,11 +1,8 @@
 import { baseUrl, useStageApis } from './helpers/urls';
 import { Response } from 'playwright';
 
-export function gotoWithoutCache(
-  url: string,
-  query?: string
-): Promise<null | Response> {
-  return page.goto(`${url}?cachebust=${Date.now()}${query ? `&${query}` : ''}`);
+export function gotoWithoutCache(url: string): Promise<null | Response> {
+  return page.goto(`${url}?cachebust=${Date.now()}`);
 }
 
 const createCookie = (name: string) => {

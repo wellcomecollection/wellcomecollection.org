@@ -21,7 +21,6 @@
     "noImplicitAny": false,
     "downlevelIteration": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {},
     "allowJs": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true
