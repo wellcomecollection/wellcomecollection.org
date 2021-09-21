@@ -6,6 +6,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';
+import { memberCard } from '@weco/common/icons';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -25,17 +26,7 @@ const SignInLink: FC = () => {
   return (
     <AlignFont>
       <span className={font('hnb', 5)}>Library members:</span>{' '}
-      <a
-        href="/account"
-        className={font('hnr', 5)}
-        onClick={event => {
-          // This is a very hacked together piece of work that allows us to read this cookie
-          // and respond to it in the identity app
-          event.preventDefault();
-          document.cookie = `returnTo=${window.location.pathname}; path=/`;
-          window.location.href = event.currentTarget.href;
-        }}
-      >
+      <a href="/account/login" className={font('hnr', 5)}>
         sign in to your library account to request items
       </a>
     </AlignFont>
@@ -86,7 +77,7 @@ const SignInBar: FC = () => {
   return state === 'signedin' || state === 'initial' ? null : (
     <StyledComponent>
       <Space h={{ size: 's', properties: ['margin-right'] }}>
-        <Icon name="memberCard" />
+        <Icon icon={memberCard} />
       </Space>
       {state === 'loading' && <Loading />}
       {state === 'signedout' && <SignInLink />}

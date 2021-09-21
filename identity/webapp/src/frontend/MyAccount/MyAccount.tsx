@@ -15,6 +15,7 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  TruncateTitle,
 } from './MyAccount.style';
 import { Loading } from './Loading';
 import { ChangeEmail } from './ChangeEmail';
@@ -30,7 +31,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
+import { info2 } from '@weco/common/icons';
 
 type DetailProps = {
   label: string;
@@ -64,7 +65,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon name={`info2`} color={`currentColor`} />
+      <Icon icon={info2} color={`currentColor`} />
       {children}
     </StatusAlert>
   );
@@ -72,25 +73,13 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   try {
-    const response = await fetch(
-      withAppPathPrefix(`/api/users/${userId}/item-requests`)
-    );
+    const response = await fetch(`/account/api/users/${userId}/item-requests`);
     const json = await response.json();
     return json;
   } catch (e) {
     console.log(e);
   }
 }
-
-// The table display is weird / should not be scrollable
-// This should be sorted out in CSS rather than doing this.
-const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
-  str: string,
-  maxLength = 60
-) => {
-  const truncated = str.slice(0, maxLength);
-  return str.length > maxLength ? `${truncated}...` : str;
-};
 
 const Profile: FC = () => {
   const history = useHistory();
@@ -111,7 +100,9 @@ const Profile: FC = () => {
 
   const logoutOnDeletionRequest = () => {
     history.replace(
-      `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
+      `/account/logout?returnTo=${encodeURIComponent(
+        '/account/delete-requested'
+      )}`
     );
   };
 
@@ -216,8 +207,9 @@ const Profile: FC = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${allowedRequests -
-                      requests?.totalResults} of ${allowedRequests} requests remaining`}</Space>
+                    >{`${
+                      allowedRequests - requests?.totalResults
+                    } of ${allowedRequests} requests remaining`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -232,9 +224,9 @@ const Profile: FC = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          truncateTitle_REMOVE_THIS_FUNCTION_ASAP(
-                            result.item.title || result.workTitle || ''
-                          ),
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
                         ]),

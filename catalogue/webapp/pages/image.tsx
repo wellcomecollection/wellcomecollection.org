@@ -11,7 +11,7 @@ import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayo
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
-import IIIFViewer from '@weco/common/views/components/IIIFViewer/IIIFViewer';
+import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import {
   GlobalContextData,
   getGlobalContextData,
@@ -111,67 +111,66 @@ const ImagePage: FunctionComponent<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const { id, workId } = context.query;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const { id, workId } = context.query;
 
-  if (typeof id !== 'string') {
-    return { notFound: true };
-  }
-
-  const image = await getImage({
-    id,
-    toggles: globalContextData.toggles,
-  });
-
-  if (image.type === 'Error') {
-    if (image.httpStatus === 404) {
+    if (typeof id !== 'string') {
       return { notFound: true };
     }
-    return appError(context, image.httpStatus, image.description);
-  }
 
-  // This is to avoid exposing a URL that has a valid `imageId` in it
-  // but not the correct `workId`, which would technically work,
-  // but the data on the page would be incorrect. e.g:
-  // image: { id: '1234567', image.source.id: 'abcdefg' }
-  // url: /works/gfedcba/images?id=1234567
-  if (image.source.id !== workId) {
-    return { notFound: true };
-  }
+    const image = await getImage({
+      id,
+      toggles: globalContextData.toggles,
+    });
 
-  const work = await getWork({
-    id: workId,
-    toggles: globalContextData.toggles,
-  });
+    if (image.type === 'Error') {
+      if (image.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(context, image.httpStatus, image.description);
+    }
 
-  if (work.type === 'Error') {
-    if (work.httpStatus === 404) {
+    // This is to avoid exposing a URL that has a valid `imageId` in it
+    // but not the correct `workId`, which would technically work,
+    // but the data on the page would be incorrect. e.g:
+    // image: { id: '1234567', image.source.id: 'abcdefg' }
+    // url: /works/gfedcba/images?id=1234567
+    if (image.source.id !== workId) {
       return { notFound: true };
     }
-    return appError(context, work.httpStatus, work.description);
-  } else if (work.type === 'Redirect') {
+
+    const work = await getWork({
+      id: workId,
+      toggles: globalContextData.toggles,
+    });
+
+    if (work.type === 'Error') {
+      if (work.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(context, work.httpStatus, work.description);
+    } else if (work.type === 'Redirect') {
+      return {
+        redirect: {
+          destination: `/works/${work.redirectToId}`,
+          permanent: work.status === 301,
+        },
+      };
+    }
+
     return {
-      redirect: {
-        destination: `/works/${work.redirectToId}`,
-        permanent: work.status === 301,
-      },
+      props: removeUndefinedProps({
+        image,
+        sourceWork: work,
+        pageview: {
+          name: 'image',
+          properties: {},
+        },
+        globalContextData,
+      }),
     };
-  }
-
-  return {
-    props: removeUndefinedProps({
-      image,
-      sourceWork: work,
-      pageview: {
-        name: 'image',
-        properties: {},
-      },
-      globalContextData,
-    }),
   };
-};
 
 export default ImagePage;

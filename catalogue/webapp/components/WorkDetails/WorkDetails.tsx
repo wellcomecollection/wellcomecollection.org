@@ -33,8 +33,8 @@ import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
-import VideoPlayer from '@weco/common/views/components/VideoPlayer/VideoPlayer';
-import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
@@ -49,6 +49,7 @@ import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
+import { eye } from '@weco/common/icons';
 
 type Props = {
   work: Work;
@@ -80,7 +81,7 @@ export const unrequestableStatusIds = ['temporarily-unavailable'];
 export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { showHoldingsOnWork, enableRequesting } = useContext(TogglesContext);
+  const { enableRequesting } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -267,7 +268,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const Holdings = () => {
     return (
       <>
-        {showHoldingsOnWork && holdings.length > 0 ? (
+        {holdings.length > 0 ? (
           <WorkDetailsSection headingText="Holdings">
             {holdings.map((holding, i) => {
               const locationLabel =
@@ -377,7 +378,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 }}
               >
                 <ButtonSolidLink
-                  icon="eye"
+                  icon={eye}
                   text="View"
                   trackingEvent={{
                     category: 'WorkDetails',
@@ -445,7 +446,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       }}
                     >
                       <ButtonSolidLink
-                        icon="eye"
+                        icon={eye}
                         text="View"
                         trackingEvent={{
                           category: 'WorkDetails',

@@ -9,6 +9,7 @@ import Space from '../styled/Space';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import DateRange from '../DateRange/DateRange';
+import { arrowSmall } from '@weco/common/icons';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -160,7 +161,7 @@ const BannerCard: FunctionComponent<Props> = ({
           {description}
         </p>
         <ButtonOutlined
-          icon={'arrowSmall'}
+          icon={arrowSmall}
           text={`Explore ${type}`}
           isOnDark={true}
         />

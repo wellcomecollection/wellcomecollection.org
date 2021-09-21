@@ -7,6 +7,7 @@ import { getArchiveAncestorArray } from '@weco/common/utils/works';
 import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import { archive, folder } from '@weco/common/icons';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -112,7 +113,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
       <ul>
         {firstCrumb && (
           <li className={'flex'}>
-            <Icon matchText={true} color={'currentColor'} name={`archive`} />
+            <Icon matchText={true} color={'currentColor'} icon={archive} />
             <ArchiveWorkLink id={firstCrumb.id}>
               <a className="crumb-inner">
                 <WorkTitle title={firstCrumb.title} />
@@ -135,13 +136,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
                         <Icon
                           matchText={true}
                           color={'currentColor'}
-                          name={
-                            'folder'
-                            // TODO: no longer way of knowing if has children
-                            // crumb.path.level === 'Item'
-                            //   ? 'digitalImage'
-                            //   : 'folder'
-                          }
+                          icon={folder}
                         />
                         <ArchiveWorkLink id={crumb.id}>
                           <a className="crumb-inner">
@@ -163,15 +158,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
             {middleCrumbs.map(crumb => {
               return (
                 <li key={crumb.id} className={'flex'}>
-                  <Icon
-                    matchText={true}
-                    color={'currentColor'}
-                    name={
-                      'folder'
-                      // TODO: no longer way of knowing if has children
-                      // crumb.path.level === 'Item' ? 'digitalImage' : 'folder'
-                    }
-                  />
+                  <Icon matchText={true} color={'currentColor'} icon={folder} />
                   <ArchiveWorkLink id={crumb.id}>
                     <a className="crumb-inner">
                       <WorkTitle
@@ -186,15 +173,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
         )}
         {lastCrumb && (
           <li className={'flex'}>
-            <Icon
-              matchText={true}
-              color={'currentColor'}
-              name={
-                'folder'
-                // TODO: no longer way of knowing if has children
-                // lastCrumb.path.level === 'Item' ? 'digitalImage' : 'folder'
-              }
-            />
+            <Icon matchText={true} color={'currentColor'} icon={folder} />
             <span className="crumb-inner">
               <WorkTitle
                 title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}

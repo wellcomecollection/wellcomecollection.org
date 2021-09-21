@@ -9,6 +9,7 @@ import AlignFont from '../styled/AlignFont';
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
+import { IconSvg } from '@weco/common/icons';
 
 type ClickableElement = 'a' | 'button';
 
@@ -33,8 +34,8 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
 `;
 
 type Props = {
-  icon?: string;
-  iconLeft?: string;
+  icon?: IconSvg;
+  iconLeft?: IconSvg;
   text: ReactNode;
   isTextHidden?: boolean;
   isActive?: boolean;
@@ -64,7 +65,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
                 })}
                 style={{ transform: 'translateY(0.01em)' }}
               >
-                <Icon name={iconLeft} matchText={true} />
+                <Icon icon={iconLeft} matchText={true} />
               </span>
             </ButtonIconWrapper>
           )}
@@ -77,7 +78,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
           </AlignFont>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
-              <Icon name={icon} />
+              <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
         </>

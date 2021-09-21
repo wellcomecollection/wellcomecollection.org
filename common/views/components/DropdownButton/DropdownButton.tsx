@@ -10,6 +10,7 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
+import { chevron } from '@weco/common/icons';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -146,7 +147,7 @@ const DropdownButton: FC<Props> = ({
   const buttonProps = {
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
-    icon: 'chevron',
+    icon: chevron,
     text: label,
     type: ButtonTypes.button,
     isOnDark: isOnDark,
@@ -163,7 +164,7 @@ const DropdownButton: FC<Props> = ({
           aria-expanded={isActive}
           isActive={isActive}
           clickHandler={() => setIsActive(!isActive)}
-          icon="chevron"
+          icon={chevron}
           iconLeft={iconLeft}
           type="button"
           text={label}

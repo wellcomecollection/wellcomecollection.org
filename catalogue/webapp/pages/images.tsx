@@ -168,7 +168,7 @@ const Images: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            {!images && <SearchTitle />}
+            <SearchTitle isVisuallyHidden={Boolean(images)} />
 
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -262,45 +262,44 @@ const Images: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const params = fromQuery(context.query);
-  const aggregations = [
-    'locations.license',
-    'source.genres.label',
-    'source.contributors.agent.label',
-  ];
-  const apiProps = imagesRouteToApiUrl(params, { aggregations });
-  const hasQuery = !!(params.query && params.query !== '');
-  const images = hasQuery
-    ? await getImages({
-        params: apiProps,
-        toggles: globalContextData.toggles,
-      })
-    : undefined;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const params = fromQuery(context.query);
+    const aggregations = [
+      'locations.license',
+      'source.genres.label',
+      'source.contributors.agent.label',
+    ];
+    const apiProps = imagesRouteToApiUrl(params, { aggregations });
+    const hasQuery = !!(params.query && params.query !== '');
+    const images = hasQuery
+      ? await getImages({
+          params: apiProps,
+          toggles: globalContextData.toggles,
+        })
+      : undefined;
 
-  if (images && images.type === 'Error') {
-    return appError(context, images.httpStatus, 'Images API error');
-  }
+    if (images && images.type === 'Error') {
+      return appError(context, images.httpStatus, 'Images API error');
+    }
 
-  return {
-    props: removeUndefinedProps({
-      images,
-      imagesRouteProps: params,
-      apiProps,
-      globalContextData,
-      pageview: {
-        name: 'images',
-        properties: images
-          ? {
-              totalResults: images.totalResults,
-            }
-          : {},
-      },
-    }),
+    return {
+      props: removeUndefinedProps({
+        images,
+        imagesRouteProps: params,
+        apiProps,
+        globalContextData,
+        pageview: {
+          name: 'images',
+          properties: images
+            ? {
+                totalResults: images.totalResults,
+              }
+            : {},
+        },
+      }),
+    };
   };
-};
 
 export default Images;

@@ -6,6 +6,7 @@ import DropdownButton from '@weco/common/views/components/DropdownButton/Dropdow
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
+import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
 
 const ButtonInlineTemplate = args => <ButtonInline {...args} />;
 export const buttonInline = ButtonInlineTemplate.bind({});
@@ -20,9 +21,10 @@ const ButtonOutlinedTemplate = args => <ButtonOutlined {...args} />;
 export const buttonOutlined = ButtonOutlinedTemplate.bind({});
 buttonOutlined.args = {
   disabled: false,
-  icon: 'eye',
+  icon: eye,
   text: 'Click me',
   isOnDark: false,
+  isDangerous: false,
 };
 buttonOutlined.storyName = 'ButtonOutlined';
 
@@ -30,7 +32,7 @@ const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
 export const buttonSolid = ButtonSolidTemplate.bind({});
 buttonSolid.args = {
   disabled: false,
-  icon: 'eye',
+  icon: eye,
   text: 'Click me',
   isBig: false,
 };
@@ -40,7 +42,7 @@ const ControlTemplate = args => <Control {...args} />;
 export const control = ControlTemplate.bind({});
 control.args = {
   text: 'something for screenreaders',
-  icon: 'chevron',
+  icon: chevron,
   extraClasses: 'control--light',
 };
 control.storyName = 'Control';
@@ -56,13 +58,13 @@ const ToolbarSegmentedControlTemplate = args => {
         items={[
           {
             id: 'page',
-            icon: 'digitalImage',
+            icon: digitalImage,
             label: 'Page',
             clickHandler: () => setActiveId('page'),
           },
           {
             id: 'grid',
-            icon: 'gridView',
+            icon: gridView,
             label: 'Grid',
             clickHandler: () => setActiveId('grid'),
           },

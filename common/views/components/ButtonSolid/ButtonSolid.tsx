@@ -5,6 +5,7 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import AlignFont from '../styled/AlignFont';
 import Space from '../styled/Space';
+import { IconSvg } from '@weco/common/icons';
 
 type BaseButtonProps = {
   href?: string;
@@ -101,7 +102,7 @@ export enum ButtonTypes {
 
 export type ButtonSolidBaseProps = {
   text: string;
-  icon?: string;
+  icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
@@ -183,7 +184,7 @@ const ButtonSolid = forwardRef(
           <>
             {icon && (
               <ButtonIconWrapper>
-                <Icon name={icon} />
+                <Icon icon={icon} />
               </ButtonIconWrapper>
             )}
             <AlignFont

@@ -1,13 +1,19 @@
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';
 
-export const loginAction: RouteMiddleware = koaPassport.authenticate('auth0', {
-  scope: 'openid profile email',
-});
+export const loginAction: RouteMiddleware = (ctx, next) => {
+  if (!ctx.session.returnTo) {
+    // Don't overwrite returnTo if e.g. user enters wrong password
+    ctx.session.returnTo = ctx.request.headers.referer;
+  }
+
+  koaPassport.authenticate('auth0', {
+    scope: 'openid profile email',
+  })(ctx, next);
+};
 
 export const authCallback: RouteMiddleware = (ctx, next) => {
   return koaPassport.authenticate('auth0', (err, user, info) => {
@@ -17,15 +23,13 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
       ctx.app.emit('error', err, ctx);
     }
     if (info === 'unauthorized') {
-      return ctx.redirect(
-        withAppPathPrefix(`/error?${ctx.request.querystring}`)
-      );
+      return ctx.redirect(`/account/error?${ctx.request.querystring}`);
     }
     if (!user) {
       return ctx.redirect(
-        withAppPathPrefix(
-          `/error?error_description=${encodeURI('An unknown error occurred.')}`
-        )
+        `/account/error?error_description=${encodeURI(
+          'An unknown error occurred.'
+        )}`
       );
     }
     ctx.login(user, loginError => {
@@ -34,15 +38,18 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
         ctx.body = loginError.message;
         ctx.app.emit('error', err, ctx);
       }
-      return ctx.redirect(withAppPathPrefix('/'));
+
+      return ctx.redirect(ctx.session.returnTo || '/account');
     });
   })(ctx, next);
 };
 
-export const logoutAction: RouteMiddleware = context => {
-  const { returnTo } = context.request.query;
+export const logoutAction: RouteMiddleware = ctx => {
+  const { returnTo } = ctx.request.query;
 
-  context.logout();
+  ctx.logout();
+
+  delete ctx.session.returnTo;
 
   const logoutUri = new URL(`https://${config.auth0.domain}/v2/logout`);
 
@@ -51,5 +58,5 @@ export const logoutAction: RouteMiddleware = context => {
     returnTo: `${config.logout.redirectUrl || ''}${returnTo || ''}`,
   });
 
-  context.redirect(logoutUri.toString());
+  ctx.redirect(logoutUri.toString());
 };

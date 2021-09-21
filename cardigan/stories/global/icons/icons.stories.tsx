@@ -27,7 +27,7 @@ export const Icons: FunctionComponent = () => (
   <>
     {Object.keys(icons).map(key => (
       <IconWrapper key={key}>
-        <Icon name={key} />
+        <Icon icon={icons[key]} />
         <IconId>{key}</IconId>
       </IconWrapper>
     ))}

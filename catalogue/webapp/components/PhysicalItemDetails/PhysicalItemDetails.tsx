@@ -13,7 +13,6 @@ import {
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import {
   unrequestableStatusIds,
   unrequestableMethodIds,
@@ -107,9 +106,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
-  const hideButton =
+  const hideRequestButton =
     unrequestableStatusIds.some(i => i === accessStatusId) ||
-    unrequestableMethodIds.some(i => i === accessMethodId);
+    unrequestableMethodIds.some(i => i === accessMethodId) ||
+    !user;
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
 
   useEffect(() => {
@@ -117,7 +117,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     let isMounted = true;
 
-    fetch(withAppPathPrefix(`/api/users/${user.userId}/item-requests`), {
+    fetch(`/account/api/users/${user.userId}/item-requests`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
       isMounted = false;
     };
-  }, []);
+  }, [user?.userId]);
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -182,7 +182,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           {!isOpenShelves && (
             <>
               <Box isCentered>
-                {hideButton ? (
+                {hideRequestButton ? (
                   // TODO: fairly sure displaying this `accessMethod` here isn't what we want
                   // (at least not all the time) but it is useful to see e.g. 'Not requestable'
                   isHeldByUser ? (

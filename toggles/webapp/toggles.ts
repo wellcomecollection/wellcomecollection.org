@@ -8,12 +8,6 @@ type ABTest = {
 export default {
   toggles: [
     {
-      id: 'showHoldingsOnWork',
-      title: 'Show holdings on the work page',
-      description: 'Shows the holding information for a work',
-      defaultValue: true,
-    },
-    {
       id: 'buildingReopening',
       title: 'Wellcome Collection reopening UI changes',
       description:

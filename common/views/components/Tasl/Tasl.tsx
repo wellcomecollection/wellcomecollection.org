@@ -6,6 +6,7 @@ import { AppContext } from '../../components/AppContext/AppContext';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { cross, information } from '@weco/common/icons';
 
 type StyledTaslProps = {
   positionAtTop: boolean;
@@ -183,7 +184,7 @@ const Tasl: FunctionComponent<Props> = ({
         aria-controls={title || sourceName || copyrightHolder || ''}
       >
         <TaslIcon isEnhanced={isEnhanced}>
-          <Icon name={isActive ? 'cross' : 'information'} color={'white'} />
+          <Icon icon={isActive ? cross : information} color={'white'} />
           <span className="visually-hidden">
             {isActive
               ? `hide credit information for image '${title}'`

@@ -29,7 +29,6 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
-import { getContextPath } from '@weco/common/utils/identity-path-prefix';
 
 export type SiteSection =
   | 'collections'
@@ -229,7 +228,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         />
       </Head>
 
-      <div id="root" data-context-path={getContextPath()}>
+      <div id="root">
         {apiToolbar && <ApiToolbar />}
         <CookieNotice />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
