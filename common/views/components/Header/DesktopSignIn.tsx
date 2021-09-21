@@ -1,10 +1,11 @@
 import { FC } from 'react';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import { useUser } from '../UserProvider/UserProvider';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import AlignFont from '../styled/AlignFont';
-import styled from 'styled-components';
+import { user } from '../../../icons';
 
 const LinkList = styled.div`
   a {
@@ -29,7 +30,7 @@ const DesktopSignIn: FC = () => {
         <>
           <span className="display-none headerLarge-display-block">
             <BorderlessLink
-              iconLeft="user"
+              iconLeft={user}
               text={
                 <span
                   className={classNames({
@@ -45,7 +46,7 @@ const DesktopSignIn: FC = () => {
           <span className="display-none headerMedium-display-block headerLarge-display-none">
             <DropdownButton
               label=""
-              iconLeft="user"
+              iconLeft={user}
               id="signedin-dropdown"
               buttonType="borderless"
             >
@@ -85,7 +86,7 @@ const DesktopSignIn: FC = () => {
               {user.lastName.charAt(0).toLocaleUpperCase()}
             </span>
           }
-          iconLeft="user"
+          iconLeft={user}
           id="signedin-dropdown"
           buttonType="borderless"
         >
