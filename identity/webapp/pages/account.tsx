@@ -21,6 +21,7 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  TruncateTitle,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -85,16 +86,6 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
     console.log(e);
   }
 }
-
-// The table display is weird / should not be scrollable
-// This should be sorted out in CSS rather than doing this.
-const truncateTitle_REMOVE_THIS_FUNCTION_ASAP = (
-  str: string,
-  maxLength = 60
-) => {
-  const truncated = str.slice(0, maxLength);
-  return str.length > maxLength ? `${truncated}...` : str;
-};
 
 const AccountPage: NextPage = () => {
   const router = useRouter();
@@ -237,9 +228,9 @@ const AccountPage: NextPage = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          truncateTitle_REMOVE_THIS_FUNCTION_ASAP(
-                            result.item.title || result.workTitle || ''
-                          ),
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
                         ]),
