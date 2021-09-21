@@ -106,9 +106,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
-  const hideButton =
+  const hideRequestButton =
     unrequestableStatusIds.some(i => i === accessStatusId) ||
-    unrequestableMethodIds.some(i => i === accessMethodId);
+    unrequestableMethodIds.some(i => i === accessMethodId) ||
+    !user;
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
 
   useEffect(() => {
@@ -181,7 +182,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           {!isOpenShelves && (
             <>
               <Box isCentered>
-                {hideButton ? (
+                {hideRequestButton ? (
                   // TODO: fairly sure displaying this `accessMethod` here isn't what we want
                   // (at least not all the time) but it is useful to see e.g. 'Not requestable'
                   isHeldByUser ? (
