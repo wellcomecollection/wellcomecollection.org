@@ -23,6 +23,7 @@ import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResu
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import SearchTitle from '../components/SearchTitle/SearchTitle';
 import { GetServerSideProps, NextPage } from 'next';
 import {
   appError,
@@ -133,6 +134,8 @@ const Works: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
+            <SearchTitle isVisuallyHidden={Boolean(works)} />
+
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -279,49 +282,48 @@ const Works: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const props = fromQuery(context.query);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const props = fromQuery(context.query);
 
-  const aggregations = [
-    'workType',
-    'availabilities',
-    'genres.label',
-    'languages',
-    'subjects.label',
-    'contributors.agent.label',
-  ];
+    const aggregations = [
+      'workType',
+      'availabilities',
+      'genres.label',
+      'languages',
+      'subjects.label',
+      'contributors.agent.label',
+    ];
 
-  const _queryType = cookies(context)._queryType;
+    const _queryType = cookies(context)._queryType;
 
-  const worksApiProps = worksRouteToApiUrl(props, {
-    _queryType,
-    aggregations,
-  });
+    const worksApiProps = worksRouteToApiUrl(props, {
+      _queryType,
+      aggregations,
+    });
 
-  const works = await getWorks({
-    params: worksApiProps,
-    toggles: globalContextData.toggles,
-  });
+    const works = await getWorks({
+      params: worksApiProps,
+      toggles: globalContextData.toggles,
+    });
 
-  if (works.type === 'Error') {
-    return appError(context, works.httpStatus, works.description);
-  }
+    if (works.type === 'Error') {
+      return appError(context, works.httpStatus, works.description);
+    }
 
-  return {
-    props: removeUndefinedProps({
-      works,
-      worksRouteProps: props,
-      apiProps: worksApiProps,
-      globalContextData,
-      pageview: {
-        name: 'works',
-        properties: works ? { totalResults: works.totalResults } : {},
-      },
-    }),
+    return {
+      props: removeUndefinedProps({
+        works,
+        worksRouteProps: props,
+        apiProps: worksApiProps,
+        globalContextData,
+        pageview: {
+          name: 'works',
+          properties: works ? { totalResults: works.totalResults } : {},
+        },
+      }),
+    };
   };
-};
 
 export default Works;
