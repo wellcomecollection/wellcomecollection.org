@@ -5,6 +5,7 @@ import { respondTo } from '../../themes/mixins';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { useUser } from '../UserProvider/UserProvider';
+import { user as userIcon } from '../../../icons';
 
 const StyledComponent = styled.div.attrs({
   className: classNames({
@@ -57,7 +58,7 @@ const MobileSignIn: FC = () => {
           [font('hnr', 4)]: true,
         })}
       >
-        <Icon name={'user'} matchText={true} />
+        <Icon icon={userIcon} matchText={true} />
       </Space>
       {!user && (
         <a

@@ -10,7 +10,7 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron } from '@weco/common/icons';
+import { chevron, IconSvg } from '../../../icons';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -80,7 +80,7 @@ type Props = {
   label: ReactNode;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
-  iconLeft?: string;
+  iconLeft?: IconSvg;
 };
 
 const DropdownButton: FC<Props> = ({
