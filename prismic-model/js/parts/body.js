@@ -177,6 +177,7 @@ export default {
             'card',
             'seasons',
             'landing-pages',
+            'guides',
           ]),
         },
       }),
