@@ -109,7 +109,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const hideRequestButton =
     unrequestableStatusIds.some(i => i === accessStatusId) ||
     unrequestableMethodIds.some(i => i === accessMethodId) ||
-    !user;
+    (!user && enableRequesting);
   const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
 
   useEffect(() => {
