@@ -291,7 +291,6 @@ const collectionTree = {
     },
   ],
   type: 'Work',
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
 
 export default collectionTree;

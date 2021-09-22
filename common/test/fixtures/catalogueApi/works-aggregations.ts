@@ -1,7 +1,6 @@
 import { CatalogueResultsList, Work } from '../../../model/catalogue';
 
 const aggregations: CatalogueResultsList<Work> = {
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
   type: 'ResultList',
   pageSize: 10,
   totalPages: 13771,

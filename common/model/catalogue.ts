@@ -29,7 +29,6 @@ export type Work = {
   totalDescendentParts?: number;
   availableOnline: boolean;
   availabilities: Availability[];
-  '@context'?: string;
   holdings: Holding[];
 };
 
@@ -318,7 +317,6 @@ export type ImageAggregations = {
 };
 
 export type CatalogueResultsList<Result = Work> = {
-  '@context': string;
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
