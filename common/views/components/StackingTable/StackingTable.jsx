@@ -22,7 +22,6 @@ const StyledTable = styled.table.attrs({
     tr {
       display: block;
     }
-
     thead {
       // TODO check styling across browsers
       // hidden visually, but still available to screen readers
@@ -31,6 +30,12 @@ const StyledTable = styled.table.attrs({
     }
     thead tr {
       position: absolute;
+    }
+    tr {
+      border-bottom: 1px solid ${props => props.theme.color('pumice')};
+    }
+    tr:last-of-type {
+      border: none;
     }
   }
 `;
@@ -57,6 +62,7 @@ const StyledTd = styled(Space).attrs({
       display: block;
       white-space: nowrap;
       content: ${props => `'${props.content}'`};
+      font-weight: bold;
     }
   }
 `;
