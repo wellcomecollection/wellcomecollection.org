@@ -45,6 +45,7 @@ import { parseSeason } from './seasons';
 import { links } from '../../views/components/Header/Header';
 // $FlowFixMe (ts)
 import { MediaObjectType } from '../../model/media-object';
+import type { Guide } from '../../model/guides';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -560,7 +561,7 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
     });
 }
 
-function parseGuide(document: PrismicDocument): Page {
+function parseGuide(document: PrismicDocument): Guide {
   const { data } = document;
   const genericFields = parseGenericFields(document);
   const siteSections = links.map(link => link.siteSection);
