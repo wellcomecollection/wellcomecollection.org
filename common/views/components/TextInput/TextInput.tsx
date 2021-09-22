@@ -11,7 +11,7 @@ type TextInputWrapProps = {
   big: boolean;
   hasErrorBorder: boolean;
 };
-const TextInputWrap = styled.div.attrs({
+export const TextInputWrap = styled.div.attrs({
   className: classNames({
     'flex relative': true,
   }),
@@ -41,7 +41,7 @@ type TextInputLabelProps = {
   isEnhanced: boolean;
   hasValue: boolean;
 };
-const TextInputLabel = styled.label.attrs({
+export const TextInputLabel = styled.label.attrs({
   className: classNames({
     absolute: true,
   }),
@@ -82,7 +82,7 @@ type TextInputInputProps = {
   hasErrorBorder: boolean;
   big: boolean;
 };
-const TextInputInput = styled.input.attrs(props => ({
+export const TextInputInput = styled.input.attrs(props => ({
   type: props.type || 'text',
 }))<TextInputInputProps>`
   padding: ${props =>
@@ -126,7 +126,7 @@ const TextInputCheckmark = styled.span.attrs({
   line-height: 0;
 `;
 
-const TextInputErrorMessage = styled.span.attrs({
+export const TextInputErrorMessage = styled.span.attrs({
   'data-test-id': 'TextInputErrorMessage',
   className: classNames({
     'font-hnb': true,

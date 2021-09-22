@@ -1,15 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { PasswordInput } from '../components/PasswordInput';
-import {
-  FieldMargin,
-  Label,
-  InvalidFieldAlert,
-  Button,
-} from '../components/Form.style';
+import { FieldMargin, Button } from '../components/Form.style';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import { useForm } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
+import { PasswordRules } from '../components/PasswordInput/PasswordRules';
 import {
   UpdatePasswordError,
   useUpdatePassword,
@@ -96,8 +93,8 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
       )}
       <form onSubmit={handleSubmit(data => updatePassword(data, onComplete))}>
         <FieldMargin>
-          <Label htmlFor="change-password-current">Current password</Label>
           <PasswordInput
+            label="Current password"
             id="change-password-current"
             name="password"
             control={control}
@@ -107,13 +104,13 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
+              <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="change-password-new">New password</Label>
           <PasswordInput
+            label="New password"
             id="change-password-new"
             name="newPassword"
             showPolicy
@@ -130,13 +127,14 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             errors={formState.errors}
             name="newPassword"
             render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
+              <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
+          <PasswordRules />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="change-password-confirm">Retype new password</Label>
           <PasswordInput
+            label="Retype new password"
             id="change-password-confirm"
             name="confirmation"
             control={control}
@@ -158,7 +156,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             errors={formState.errors}
             name="confirmation"
             render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
+              <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
         </FieldMargin>

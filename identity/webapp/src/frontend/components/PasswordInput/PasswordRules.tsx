@@ -4,10 +4,10 @@ import { RulesList } from './PasswordInput.style';
 export const PasswordRules: React.FC = () => {
   return (
     <RulesList>
-      <li className="font-hnr font-size-6">One lowercase character</li>
-      <li className="font-hnr font-size-6">One uppercase character</li>
-      <li className="font-hnr font-size-6">One number</li>
-      <li className="font-hnr font-size-6">8 characters minimum</li>
+      <li className="font-hnr font-size-6">At least 8 characters</li>
+      <li className="font-hnr font-size-6">Lower case letters (a-z)</li>
+      <li className="font-hnr font-size-6">Upper case letters (A-Z)</li>
+      <li className="font-hnr font-size-6">Numbers (0-9)</li>
     </RulesList>
   );
 };
