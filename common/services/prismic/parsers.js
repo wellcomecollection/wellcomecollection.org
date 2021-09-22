@@ -46,6 +46,7 @@ import { links } from '../../views/components/Header/Header';
 // $FlowFixMe (ts)
 import { MediaObjectType } from '../../model/media-object';
 import type { Guide } from '../../model/guides';
+import type { PrismicDocument } from './types';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
