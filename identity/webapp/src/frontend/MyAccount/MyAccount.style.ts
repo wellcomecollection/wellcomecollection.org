@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
@@ -11,6 +10,7 @@ export const ProgressBar = styled(Space).attrs({
   border-radius: 7px; /* (height of inner div) / 2 + padding */
   border: 2px solid black;
   width: 300px;
+  max-width: 100%;
 `;
 
 export const ProgressIndicator = styled.div<{ percentage: number }>`
@@ -24,24 +24,16 @@ export const Container = styled(LayoutContainer)`
 `;
 
 export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'l', properties: ['padding-top'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
 })``;
 
-const OutlinedDangerButtonModifier = css`
-  color: #d1192c;
-  border-color: #d1192c;
-
-  &:not([disabled]):hover {
-    color: #b80013;
-    border-color: #b80013;
-  }
-`;
-
-export const Button = styled(OutlinedButton)<{ isDangerous?: boolean }>`
-  justify-content: center;
-
-  ${props => props.isDangerous && OutlinedDangerButtonModifier}
+export const ButtonWrapper = styled(Space).attrs({
+  as: 'span',
+  v: { size: 'l', properties: ['margin-bottom'] },
+  h: { size: 'l', properties: ['margin-right'] },
+})`
+  display: inline-block;
 `;
 
 export const ModalContainer = styled.aside`

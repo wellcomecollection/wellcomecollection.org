@@ -94,25 +94,6 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows a status message after the user updates their email', async () => {
-    renderComponent();
-    userEvent.click(
-      await screen.findByRole('button', { name: /change email/i })
-    );
-    userEvent.clear(screen.getByLabelText(/email address/i));
-    userEvent.type(
-      screen.getByLabelText(/email address/i),
-      'clarkkent@dailybugle.com'
-    );
-    userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button', { name: /update email/i }));
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      /email updated/i
-    );
-    expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
-  });
-
   it('opens a modal where the user can update their password', async () => {
     renderComponent();
     await waitFor(() =>
@@ -133,10 +114,29 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('shows a status message after the user updates their email', async () => {
+    renderComponent();
+    userEvent.click(
+      await screen.findByRole('button', { name: /Change email/ })
+    );
+    userEvent.clear(screen.getByLabelText(/email address/i));
+    userEvent.type(
+      screen.getByLabelText(/email address/i),
+      'clarkkent@dailybugle.com'
+    );
+    userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole('button', { name: /update email/i }));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      /email updated/i
+    );
+    expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
+  });
+
   it('shows a status message after the user updates their password', async () => {
     renderComponent();
     userEvent.click(
-      await screen.findByRole('button', { name: /change password/i })
+      await screen.findByRole('button', { name: /Change password/ })
     );
     userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
     userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
