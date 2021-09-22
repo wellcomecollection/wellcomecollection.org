@@ -200,8 +200,7 @@ export const workFixture: Work = {
       label: 'Thumbnail Image',
       type: 'LocationType',
     },
-    url:
-      'https://iiif.wellcomecollection.org/image/L0053261.jpg/full/300,/0/default.jpg',
+    url: 'https://iiif.wellcomecollection.org/image/L0053261.jpg/full/300,/0/default.jpg',
     license: {
       id: 'cc-by-nc',
       label: 'Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)',
@@ -276,8 +275,7 @@ export const workFixture: Work = {
             label: 'IIIF Image API',
             type: 'LocationType',
           },
-          url:
-            'https://iiif.wellcomecollection.org/image/L0053261.jpg/info.json',
+          url: 'https://iiif.wellcomecollection.org/image/L0053261.jpg/info.json',
           credit: 'Wellcome Collection',
           license: {
             id: 'cc-by-nc',
@@ -368,7 +366,6 @@ export const workFixture: Work = {
   precededBy: [],
   succeededBy: [],
   type: 'Work',
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };
 
 export const workWithPartOf: Work = {
@@ -665,5 +662,4 @@ export const workWithPartOf: Work = {
     },
   ],
   type: 'Work',
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
 };

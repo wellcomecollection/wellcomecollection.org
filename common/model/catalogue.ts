@@ -20,8 +20,6 @@ export type Work = {
   edition?: string;
   notes: Note[];
   duration?: number;
-  collectionPath?: CollectionPath;
-  collection?: Collection;
   images?: ImageInclude[];
   parts: RelatedWork[];
   partOf: RelatedWork[];
@@ -31,7 +29,6 @@ export type Work = {
   totalDescendentParts?: number;
   availableOnline: boolean;
   availabilities: Availability[];
-  '@context'?: string;
   holdings: Holding[];
 };
 
@@ -247,20 +244,6 @@ type ImageInclude = {
   type: 'Image';
 };
 
-type Collection = {
-  path: CollectionPath;
-  work?: Work;
-  children?: Collection[];
-  type: 'Collection';
-};
-
-type CollectionPath = {
-  path: string;
-  level?: string;
-  label?: string;
-  type: 'CollectionPath';
-};
-
 // Response objects
 export type CatalogueApiError = {
   errorType: string;
@@ -334,7 +317,6 @@ export type ImageAggregations = {
 };
 
 export type CatalogueResultsList<Result = Work> = {
-  '@context': string;
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
