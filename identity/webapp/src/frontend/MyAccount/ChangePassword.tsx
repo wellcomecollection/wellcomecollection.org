@@ -13,6 +13,7 @@ import {
 } from '../hooks/useUpdatePassword';
 import { Loading } from './Loading';
 import { validPasswordPattern } from '../components/ValidationPatterns';
+import Space from '@weco/common/views/components/styled/Space';
 
 type ChangePasswordInputs = {
   password: string;
@@ -33,6 +34,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
     []
   );
   const { updatePassword, isLoading, error } = useUpdatePassword();
+  const [newPasswordInput, setNewPasswordInput] = useState('');
   const {
     control,
     getValues,
@@ -47,6 +49,18 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
     string | null
   >(null);
+
+  const [isAtLeast8Characters, setIsAtLeast8Characters] = useState(false);
+  const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
+  const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);
+  const [hasNumbers, setHasNumbers] = useState(false);
+
+  useEffect(() => {
+    setIsAtLeast8Characters(Boolean(newPasswordInput.match(/.{8}/)));
+    setHasLowercaseLetters(Boolean(newPasswordInput.match(/[a-z]/)));
+    setHasUppercaseLetters(Boolean(newPasswordInput.match(/[A-Z]/)));
+    setHasNumbers(Boolean(newPasswordInput.match(/[0-9]/)));
+  }, [newPasswordInput]);
 
   useEffect(() => {
     reset(defaultValues);
@@ -110,10 +124,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
         </FieldMargin>
         <FieldMargin>
           <PasswordInput
+            updateInput={setNewPasswordInput}
             label="New password"
             id="change-password-new"
             name="newPassword"
-            showPolicy
             control={control}
             rules={{
               required: 'Enter your new password.',
@@ -130,11 +144,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
-          <PasswordRules />
         </FieldMargin>
         <FieldMargin>
           <PasswordInput
-            label="Retype new password"
+            label="Re-enter new password"
             id="change-password-confirm"
             name="confirmation"
             control={control}
@@ -159,6 +172,14 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <PasswordRules
+              isAtLeast8Characters={isAtLeast8Characters}
+              hasLowercaseLetters={hasLowercaseLetters}
+              hasUppercaseLetters={hasUppercaseLetters}
+              hasNumbers={hasNumbers}
+            />
+          </Space>
         </FieldMargin>
         <Button type="submit">Update password</Button>
       </form>

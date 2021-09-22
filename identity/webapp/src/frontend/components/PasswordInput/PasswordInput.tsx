@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useController, UseControllerOptions } from 'react-hook-form';
 import { ShowPasswordButton } from './PasswordInput.style';
 import {
@@ -11,15 +11,19 @@ import { a11YVisual, eye } from '@weco/common/icons';
 export type PasswordInputProps = UseControllerOptions & {
   label: string;
   id?: string;
-  showPolicy?: boolean;
+  updateInput?: (value: string) => void;
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = props => {
   const [isVisible, setIsVisible] = useState(false);
   const { field, meta } = useController(props);
-  const { showPolicy = false } = props;
   const toggleVisibility = () =>
     setIsVisible(currentlyVisible => !currentlyVisible);
+
+  useEffect(() => {
+    if (!props.updateInput) return;
+    props.updateInput(field.value);
+  }, [field.value]);
 
   return (
     <>
