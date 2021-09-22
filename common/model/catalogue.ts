@@ -20,8 +20,6 @@ export type Work = {
   edition?: string;
   notes: Note[];
   duration?: number;
-  collectionPath?: CollectionPath;
-  collection?: Collection;
   images?: ImageInclude[];
   parts: RelatedWork[];
   partOf: RelatedWork[];
@@ -245,20 +243,6 @@ type NoteType = {
 type ImageInclude = {
   id: string;
   type: 'Image';
-};
-
-type Collection = {
-  path: CollectionPath;
-  work?: Work;
-  children?: Collection[];
-  type: 'Collection';
-};
-
-type CollectionPath = {
-  path: string;
-  level?: string;
-  label?: string;
-  type: 'CollectionPath';
 };
 
 // Response objects
