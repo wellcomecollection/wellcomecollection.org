@@ -5,6 +5,7 @@ import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
+import { IconSvg } from '@weco/common/icons';
 
 const ControlInner = styled.div.attrs({
   className: classNames({
@@ -125,7 +126,7 @@ type CommonProps = {
   prefetch?: boolean;
   colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
   extraClasses?: string;
-  icon: string;
+  icon: IconSvg;
   text: string;
   trackingEvent?: GaEvent;
   disabled?: boolean;
@@ -145,10 +146,10 @@ interface AnchorProps
   link: LinkProps;
 }
 
-type InnerControlProps = { text: string; icon: string };
+type InnerControlProps = { text: string; icon: IconSvg };
 const InnerControl = ({ text, icon }: InnerControlProps) => (
   <ControlInner>
-    <Icon name={icon} />
+    <Icon icon={icon} />
     <span className="visually-hidden">{text}</span>
   </ControlInner>
 );

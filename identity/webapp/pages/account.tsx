@@ -1,6 +1,6 @@
 import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
-
+import { NextPage } from 'next';
 import {
   useUserInfo,
   withUserInfo,
@@ -38,7 +38,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
+import { info2 } from '@weco/common/icons';
 
 type DetailProps = {
   label: string;
@@ -72,7 +72,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon name={`info2`} color={`currentColor`} />
+      <Icon icon={info2} color={`currentColor`} />
       {children}
     </StatusAlert>
   );
@@ -80,9 +80,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   try {
-    const response = await fetch(
-      withAppPathPrefix(`/api/users/${userId}/item-requests`)
-    );
+    const response = await fetch(`/account/api/users/${userId}/item-requests`);
     const json = await response.json();
     return json;
   } catch (e) {
@@ -90,7 +88,7 @@ async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
   }
 }
 
-const Profile: FC = () => {
+const AccountPage: NextPage = () => {
   const router = useRouter();
   const { user, isLoading, update } = useUserInfo();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
@@ -277,4 +275,4 @@ const Profile: FC = () => {
   );
 };
 
-export default withUserInfo(Profile);
+export default withUserInfo(AccountPage);

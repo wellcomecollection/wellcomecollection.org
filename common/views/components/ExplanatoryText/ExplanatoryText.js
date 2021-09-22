@@ -3,6 +3,8 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { useState, useEffect, useContext, type Element } from 'react';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import { plus } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
@@ -69,7 +71,7 @@ const ExplanatoryText = ({ id, controlText, children }: Props) => {
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
             <IconContainer open={showContent}>
               <Icon
-                name="plus"
+                icon={plus}
                 rotate={showContent ? 45 : undefined}
                 matchText={true}
                 color={'white'}

@@ -28,6 +28,7 @@ import IIIFSearchWithin from '@weco/common/views/components/IIIFSearchWithin/III
 import { getSearchService } from '@weco/common/utils/iiif';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
+import { arrow, chevron } from '@weco/common/icons';
 
 const Inner = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -111,7 +112,7 @@ const AccordionItem = ({
               <AlignFont>{title}</AlignFont>
             </h2>
             <Icon
-              name={'chevron'}
+              icon={chevron}
               color={'white'}
               rotate={isActive ? undefined : 270}
             />
@@ -231,7 +232,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
               >
-                <Icon name={`arrow`} matchText={true} color={'white'} />
+                <Icon icon={arrow} matchText={true} color={'white'} />
               </Space>
             </a>
           </WorkLink>

@@ -9,6 +9,7 @@ import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import AlignFont from '../styled/AlignFont';
+import { check, indicator } from '@weco/common/icons';
 
 const CheckboxRadioLabel = styled.label.attrs({
   className: classNames({
@@ -95,7 +96,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
       <CheckBoxWrapper>
         <CheckboxRadioInput id={id} type={type} {...inputProps} />
         <CheckboxRadioBox type={type}>
-          <Icon name={type === 'checkbox' ? 'check' : 'indicator'} />
+          <Icon icon={type === 'checkbox' ? check : indicator} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
       <Space as="span" h={{ size: 'xs', properties: ['margin-left'] }}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MyAccount } from './MyAccount';
+import AccountPage from '../../../pages/account';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
@@ -17,7 +17,7 @@ jest.mock('../components/PageWrapper', () => ({
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <MyAccount />
+      <AccountPage />
     </ThemeProvider>
   );
 
@@ -37,7 +37,7 @@ describe('MyAccount', () => {
 
   it('informs the user when their email has not been validated', async () => {
     server.use(
-      rest.get('/api/users/me', (req, res, ctx) => {
+      rest.get('/account/api/users/me', (req, res, ctx) => {
         return res(ctx.json({ ...mockUser, emailValidated: false }));
       })
     );

@@ -1,15 +1,13 @@
 import { TypedRouter } from '../../utility/typed-router';
-import koaPassport from 'koa-passport';
 import { RouteMiddleware } from '../../types/application';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 
 export const localAuthRoutes: any = {
   login: [
     TypedRouter.GET,
-    '/login',
+    '/account/login',
     (ctx => {
       ctx.response.body = `
-      <form method="post" action="/login">
+      <form method="post" action="/account/login">
         <input type="text" name="username" />
         <input type="password" name="password" />
         <input type="submit" />
@@ -20,7 +18,7 @@ export const localAuthRoutes: any = {
   // Disable the callback for now.
   callback: [
     TypedRouter.GET,
-    '/callback',
+    '/account/callback',
     (ctx => {
       ctx.status = 404;
     }) as RouteMiddleware,
@@ -28,20 +26,10 @@ export const localAuthRoutes: any = {
 
   logout: [
     TypedRouter.GET,
-    '/logout',
+    '/account/logout',
     (ctx => {
       ctx.logout();
       ctx.redirect('/');
     }) as RouteMiddleware,
-  ],
-
-  // This is only for local.
-  'post-login': [
-    TypedRouter.POST,
-    '/login',
-    koaPassport.authenticate('local', {
-      successRedirect: withAppPathPrefix('/'),
-      failureRedirect: '/',
-    }),
   ],
 };

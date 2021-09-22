@@ -1,4 +1,6 @@
-const SvgAudioDescribed = (props: React.SVGProps<SVGSVGElement>) => (
+import { IconSvg } from '../types';
+
+const SvgAudioDescribed: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <g className="icon__shape" fillRule="nonzero">
       <path d="M15.932 9.102h-1.467v5.953h1.846c1.19 0 2.326-.738 2.326-2.833-.019-1.902-.674-3.12-2.705-3.12zm-8.806.581l-1.21 3.462h2.41L7.154 9.683h-.028z" />

@@ -16,6 +16,7 @@ import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
+import { cross } from '@weco/common/icons';
 export const ModalContext = createContext<{
   updateLastFocusableRef: (arg0: HTMLElement | null) => void | null | undefined;
 }>({
@@ -157,9 +158,9 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const ModalWindowPaddingNoOverflow = styled(BaseModalWindow).attrs<
-  BaseModalProps
->({
+const ModalWindowPaddingNoOverflow = styled(
+  BaseModalWindow
+).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     'shadow bg-white font-black': true,
@@ -259,7 +260,7 @@ const Modal: FunctionComponent<Props> = ({
               hideFocus={!isKeyboard}
             >
               <span className="visually-hidden">Close modal window</span>
-              <Icon name="cross" color={'currentColor'} />
+              <Icon icon={cross} color={'currentColor'} />
             </CloseButton>
           )}
           <ModalContext.Provider value={{ updateLastFocusableRef }}>

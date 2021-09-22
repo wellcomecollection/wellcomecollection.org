@@ -9,7 +9,6 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { withAppPathPrefix } from '@weco/common/utils/identity-path-prefix';
 import { UserInfo } from '@weco/common/model/user';
 import { allowedRequests } from '@weco/common/values/requests';
 
@@ -224,7 +223,7 @@ const ConfirmItemRequest: FC<Props> = ({
     setRequestingState('requesting');
     try {
       const response = await fetch(
-        withAppPathPrefix(`/api/users/${user.userId}/item-requests`),
+        `/account/api/users/${user.userId}/item-requests`,
         {
           method: 'POST',
           body: JSON.stringify({

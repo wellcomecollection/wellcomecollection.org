@@ -1,5 +1,4 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react';
-import { withAppPathPrefix } from '../../../utils/identity-path-prefix';
 import { UserInfo } from '../../../model/user';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
@@ -32,7 +31,7 @@ const UserProvider: FC = ({ children }) => {
   const fetchUser = async () => {
     setState('loading');
     try {
-      const resp = await fetch(withAppPathPrefix('/api/users/me'));
+      const resp = await fetch('/account/api/users/me');
 
       switch (resp.status) {
         case 401:

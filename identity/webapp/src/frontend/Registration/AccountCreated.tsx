@@ -6,6 +6,7 @@ import { SuccessMessage } from './Registration.style';
 import { Container, Wrapper } from '../components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
+import { info2 } from '@weco/common/icons';
 
 export const AccountCreated: React.FC = () => {
   return (
@@ -18,7 +19,7 @@ export const AccountCreated: React.FC = () => {
                 Activate your library account
               </h1>
               <SuccessMessage>
-                <Icon name={`info2`} />
+                <Icon icon={info2} />
                 Your library account has been created. Before you can sign in,
                 you&apos;ll need to verify your email address.
               </SuccessMessage>

@@ -3,6 +3,7 @@ import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
+import { IconSvg } from '@weco/common/icons';
 
 const List = styled.ul.attrs({
   className: classNames({
@@ -52,7 +53,7 @@ type Props = {
   hideLabels?: boolean;
   items: {
     id: string;
-    icon: string;
+    icon: IconSvg;
     label: string;
     clickHandler: (event: SyntheticEvent) => void;
   }[];
@@ -70,7 +71,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
           <Button onClick={item.clickHandler}>
             <ButtonInner isActive={activeId === item.id}>
               <Icon
-                name={item.icon}
+                icon={item.icon}
                 color={activeId === item.id ? 'yellow' : 'pewter'}
               />
               <Space

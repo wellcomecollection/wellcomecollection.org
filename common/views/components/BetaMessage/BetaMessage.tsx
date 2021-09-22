@@ -4,6 +4,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { underConstruction } from '@weco/common/icons';
 
 const StyledBetaMessage = styled.div.attrs(() => ({
   className: classNames({
@@ -30,7 +31,7 @@ const BetaMessage: FunctionComponent<Props> = ({
   return (
     <StyledBetaMessage>
       <Space h={{ size: 's', properties: ['margin-right'] }}>
-        <Icon name="underConstruction" />
+        <Icon icon={underConstruction} />
       </Space>
       <p className="no-margin">{message}</p>
     </StyledBetaMessage>

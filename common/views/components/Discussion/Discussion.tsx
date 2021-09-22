@@ -4,6 +4,7 @@ import { AppContext } from '../AppContext/AppContext';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
+import { plus } from '@weco/common/icons';
 
 type ContainerProps = {
   isActive: boolean;
@@ -59,7 +60,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
               <ButtonSolid
                 ariaControls={'discussion-container'}
                 ariaExpanded={isActive}
-                icon="plus"
+                icon={plus}
                 clickHandler={() => {
                   setIsActive(!isActive);
                 }}

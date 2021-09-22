@@ -5,6 +5,7 @@ import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import styled from 'styled-components';
+import { arrow } from '@weco/common/icons';
 
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
@@ -143,7 +144,7 @@ const Paginator: FunctionComponent<Props> = ({
                     onPageChange(event, prev);
                   }}
                   colorScheme="light"
-                  icon="arrow"
+                  icon={arrow}
                   text={`Previous (page ${prev})`}
                 />
               </Rotator>
@@ -160,7 +161,7 @@ const Paginator: FunctionComponent<Props> = ({
                   onPageChange(event, next);
                 }}
                 colorScheme="light"
-                icon="arrow"
+                icon={arrow}
                 text={`Next (page ${next})`}
               />
             </Space>

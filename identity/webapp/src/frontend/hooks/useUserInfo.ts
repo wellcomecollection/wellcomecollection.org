@@ -23,7 +23,7 @@ export function useUserInfo(): UserInfoQuery {
   const fetchUser = useCallback(async () => {
     setIsLoading(true);
     setError(undefined);
-    await callMiddlewareApi('GET', '/api/users/me')
+    await callMiddlewareApi('GET', '/account/api/users/me')
       .then(({ data: userData }) => {
         setData(userData);
         setIsLoading(false);

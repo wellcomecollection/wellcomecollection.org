@@ -57,7 +57,7 @@ const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({
           <AlignFont>{text}</AlignFont>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
-              <Icon name={icon} />
+              <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
         </BaseButtonInner>

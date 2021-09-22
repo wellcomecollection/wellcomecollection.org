@@ -5,6 +5,7 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import AlignFont from '../styled/AlignFont';
 import Space from '../styled/Space';
+import { IconSvg } from '@weco/common/icons';
 
 type BaseButtonProps = {
   href?: string;
@@ -66,9 +67,9 @@ type BaseButtonInnerProps = {
 };
 
 const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
-export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
-  BaseButtonInnerProps
->(props => ({
+export const BaseButtonInner = styled(
+  BaseButtonInnerSpan
+).attrs<BaseButtonInnerProps>(props => ({
   className: classNames({
     [font(props.isInline ? 'hnr' : 'hnb', 5)]: true,
     'flex flex--v-center': true,
@@ -80,9 +81,9 @@ export const BaseButtonInner = styled(BaseButtonInnerSpan).attrs<
 type ButtonIconWrapperAttrsProps = {
   iconAfter?: boolean;
 };
-export const ButtonIconWrapper = styled(Space).attrs<
-  ButtonIconWrapperAttrsProps
->(props => ({
+export const ButtonIconWrapper = styled(
+  Space
+).attrs<ButtonIconWrapperAttrsProps>(props => ({
   as: 'span',
   h: {
     size: 'xs',
@@ -101,7 +102,7 @@ export enum ButtonTypes {
 
 export type ButtonSolidBaseProps = {
   text: string;
-  icon?: string;
+  icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
@@ -183,7 +184,7 @@ const ButtonSolid = forwardRef(
           <>
             {icon && (
               <ButtonIconWrapper>
-                <Icon name={icon} />
+                <Icon icon={icon} />
               </ButtonIconWrapper>
             )}
             <AlignFont

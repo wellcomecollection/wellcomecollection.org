@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const withTM = require('next-transpile-modules')(['@weco/common', '@weco/catalogue']);
+const withTM = require('next-transpile-modules')(['@weco/common']);
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
@@ -34,34 +34,16 @@ const config = function (webpack) {
     centralConfig: true,
   };
 
-  const rewrites =
-    process.env.NODE_ENV === 'development'
-      ? [
-          {
-            source: '/api/users/me',
-            destination: 'http://localhost:3000/api/users/me',
-          },
-          {
-            source: '/api/users/:user_id/item-requests',
-            destination:
-              'http://localhost:3000/api/users/:user_id/item-requests',
-          },
-        ]
-      : [];
-
   return withTM({
-      assetPrefix:
-        isProd && prodSubdomain
-          ? `https://${prodSubdomain}.wellcomecollection.org`
-          : '',
-      publicRuntimeConfig: {
-        apmConfig,
-      },
-      ...withBundleAnalyzerConfig,
-      async rewrites() {
-        return rewrites;
-      },
-    })
+    assetPrefix:
+      isProd && prodSubdomain
+        ? `https://${prodSubdomain}.wellcomecollection.org`
+        : '',
+    publicRuntimeConfig: {
+      apmConfig,
+    },
+    ...withBundleAnalyzerConfig,
+  });
 };
 
 module.exports = config(webpack);

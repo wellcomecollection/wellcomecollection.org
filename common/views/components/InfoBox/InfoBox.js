@@ -1,5 +1,5 @@
 // @flow
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 // $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -14,7 +14,7 @@ type Props = {|
   title: string,
   items: {|
     ...LabelField,
-    icon?: ?string,
+    icon: ?React$StatelessFunctionalComponent<{}>,
   |}[],
   children: Element<'p'>,
 |};
@@ -41,7 +41,7 @@ const InfoBox = ({ title, items, children }: Props) => {
                   h={{ size: 's', properties: ['margin-right'] }}
                   className={`float-l`}
                 >
-                  <Icon name={icon} />
+                  <Icon icon={icon} />
                 </Space>
               )}
               {title && (
