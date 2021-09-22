@@ -33,11 +33,11 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
+import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 
 type DetailProps = {
   label: string;
@@ -139,6 +139,8 @@ const AccountPage: NextPage = () => {
         </div>
       </Header>
       <Layout10>
+        import StackingTable from
+        '@weco/common/views/components/StackingTable/StackingTable';
         {isLoading && <Loading />}
         {!isLoading && (
           <>
@@ -221,13 +223,26 @@ const AccountPage: NextPage = () => {
                         }
                       />
                     </ProgressBar>
-                    <Table
-                      hasRowHeaders={false}
-                      plain={true}
-                      withBorder={false}
+                    <StackingTable
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
+                          result.status.label,
+                          result.pickupLocation.label,
+                        ]),
+                        ...requests.results.map(result => [
+                          // TODO remove this
+                          <TruncateTitle href={`/works/${result.workId}`}>
+                            {result.item.title || result.workTitle || ''}
+                          </TruncateTitle>,
+                          result.status.label,
+                          result.pickupLocation.label,
+                        ]),
+                        ...requests.results.map(result => [
+                          // TODO remove this
                           <TruncateTitle href={`/works/${result.workId}`}>
                             {result.item.title || result.workTitle || ''}
                           </TruncateTitle>,
