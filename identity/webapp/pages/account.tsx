@@ -226,7 +226,7 @@ const AccountPage: NextPage = () => {
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
                           <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || ''}
+                            {result.item.title || result.workTitle || 'Unknown title'}
                           </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
