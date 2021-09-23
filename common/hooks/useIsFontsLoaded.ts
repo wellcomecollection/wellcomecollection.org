@@ -15,10 +15,10 @@ const useIsFontsLoaded = (): boolean => {
     const LR = new FontFaceObserver('Lettera Regular Web');
 
     Promise.all([
-      WB.load(null, 10000),
-      HNR.load(null, 10000),
-      HNB.load(null, 10000),
-      LR.load(null, 10000),
+      WB.load(null, 10000000),
+      HNR.load(null, 10000000),
+      HNB.load(null, 10000000),
+      LR.load(null, 10000000),
     ])
       .then(() => {
         if (isMounted) {
