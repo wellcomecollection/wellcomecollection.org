@@ -10,7 +10,6 @@ const StyledTable = styled.table.attrs({
    {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
   }
 
   @media (max-width: ${props => props.theme.sizes.large}px) {
@@ -31,12 +30,16 @@ const StyledTable = styled.table.attrs({
     thead tr {
       position: absolute;
     }
-    tr {
-      border-bottom: 1px solid ${props => props.theme.color('pumice')};
-    }
-    tr:last-of-type {
-      border: none;
-    }
+  }
+`;
+
+const StyledTr = styled(Space).attrs({
+  as: 'tr',
+})`
+  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+
+  &:last-of-type {
+    border: none;
   }
 `;
 
@@ -50,14 +53,30 @@ const StyledTh = styled(Space).attrs({
 })`
   background: ${props => props.theme.color('pumice')};
   white-space: nowrap;
+  text-align: left;
+  vertical-align: top;
+  @media (max-width: ${props => props.theme.sizes.large}px) {
+    padding-left: 0;
+  }
 `;
 
 const StyledTd = styled(Space).attrs({
   as: 'td',
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
+  text-align: left;
+  vertical-align: top;
   @media (max-width: ${props => props.theme.sizes.large}px) {
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: ${props => `${props.theme.spacingUnit}px`};
+    &:first-of-type {
+      padding-top: ${props => `${props.theme.spacingUnit * 2}px`};
+    }
+    &:last-of-type {
+      padding-bottom: ${props => `${props.theme.spacingUnit * 3}px`};
+    }
     :before {
       display: block;
       white-space: nowrap;
@@ -68,7 +87,7 @@ const StyledTd = styled(Space).attrs({
 `;
 
 type Props = {
-  rows: string[],
+  rows: (string | ReactElement)[][],
   caption: string,
 };
 
@@ -89,13 +108,13 @@ const StackingTable: FunctionComponent<Props> = ({
       </thead>
       <tbody>
         {bodyRows.map((row, index) => (
-          <tr key={index}>
+          <StyledTr key={index}>
             {row.map((data, index) => (
               <StyledTd key={index} content={`${headerRow[index]}`}>
                 {data}
               </StyledTd>
             ))}
-          </tr>
+          </StyledTr>
         ))}
       </tbody>
     </StyledTable>
