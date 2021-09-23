@@ -56,7 +56,6 @@ Digital Preservation and Data:
  James Gorrie
  Alice Fuzier-Cayla
  Alex Chan
- Robert Kenny
  Harrison Pim
  Jamie Parkinson
 
@@ -66,6 +65,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Robert Kenny
  Jennifer Phillips-Bacher
  Vanessa Peterson
  Maisie Jenkins
