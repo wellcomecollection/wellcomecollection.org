@@ -50,7 +50,7 @@ export const ModalContainer = styled.aside`
   }
 `;
 
-export const ItemTitle = styled.a`
+export const ItemTitle = styled.span`
   display: inline-block;
   min-width: 300px;
   max-width: 600px;
@@ -61,6 +61,10 @@ export const ItemTitle = styled.a`
 `
 
 export const ItemStatus = styled.span`
+  white-space: nowrap;
+`
+
+export const ItemPickup = styled.span`
   white-space: nowrap;
 `
 

@@ -23,6 +23,7 @@ import {
   ProgressIndicator,
   ItemTitle,
   ItemStatus,
+  ItemPickup,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -226,11 +227,25 @@ const AccountPage: NextPage = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          <ItemTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || ''}
-                          </ItemTitle>,
+                          <>
+                            <ItemTitle as="a" href={`/works/${result.workId}`}>
+                              {result.workTitle || ''}
+                            </ItemTitle>
+                            {result.item.title && (
+                              <Space
+                                v={{
+                                  size: 's',
+                                  properties: ['margin-top'],
+                                }}
+                              >
+                                <ItemTitle>{result.item.title}</ItemTitle>
+                              </Space>
+                            )}
+                          </>,
                           <ItemStatus>{result.status.label}</ItemStatus>,
-                          result.pickupLocation.label,
+                          <ItemPickup>
+                            {result.pickupLocation.label}
+                          </ItemPickup>,
                         ]),
                       ]}
                     />
