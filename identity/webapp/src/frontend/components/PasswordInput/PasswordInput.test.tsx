@@ -10,10 +10,12 @@ const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
       defaultValues: { password: '' },
     });
     return (
-      <>
-        <label htmlFor="password">Password</label>
-        <PasswordInput name="password" {...props} control={control} />
-      </>
+      <PasswordInput
+        label="password"
+        name="password"
+        {...props}
+        control={control}
+      />
     );
   };
   render(<Form />);
@@ -22,21 +24,6 @@ const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
 describe('PasswordInput', () => {
   it('renders', () => {
     renderComponent();
-    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
-  });
-
-  it('optionally shows the policy rules', () => {
-    const rules = [
-      'One lowercase character',
-      'One uppercase character',
-      'One number',
-      '8 characters minimum',
-    ];
-    renderComponent({ showPolicy: true });
-    const listItems = screen.getAllByRole('listitem');
-    listItems.forEach((listItem, i) => {
-      expect(listItem).toHaveTextContent(rules[i]);
-    });
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
   });
 

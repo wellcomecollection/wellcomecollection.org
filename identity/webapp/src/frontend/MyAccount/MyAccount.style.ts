@@ -48,9 +48,13 @@ export const TruncateTitle = styled.a`
   text-overflow: ellipsis;
   display: inline-block;
   max-width: 60ch;
-`
+`;
 
-export const ModalTitle = styled.h2.attrs({ className: font('wb', 3) })``;
+export const ModalTitle = styled(Space).attrs({
+  as: 'h2',
+  h: { size: 'l', properties: ['margin-bottom'] },
+  className: 'h2',
+})``;
 
 const colours = {
   success: css`

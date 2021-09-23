@@ -1,4 +1,5 @@
-import { useEffect, FormEvent } from 'react';
+import { useEffect, FormEvent, useState } from 'react';
+import usePasswordRules from '../../src/frontend/hooks/usePasswordRules';
 import { NextPage } from 'next';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -14,10 +15,7 @@ import {
   CheckboxLabel,
   InProgress,
 } from '../../src/frontend/Registration/Registration.style';
-import {
-  InvalidFieldAlert,
-  Button,
-} from '../../src/frontend/components/Form.style';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import {
   Container,
   Title,
@@ -40,6 +38,7 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { info2 } from '@weco/common/icons';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -64,6 +63,9 @@ const RegistrationPage: NextPage = () => {
     error: registrationError,
   } = useRegisterUser();
 
+  const [passwordInput, setPasswordInput] = useState('');
+  const passwordRules = usePasswordRules(passwordInput);
+
   usePageTitle('Register for a library account');
 
   useEffect(() => {
@@ -71,7 +73,7 @@ const RegistrationPage: NextPage = () => {
     if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
       setError('email', {
         type: 'manual',
-        message: 'Email address already in use.',
+        message: 'Email address already in use',
       });
     }
   }, [registrationError, setError]);
@@ -133,10 +135,7 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{ required: 'Enter your first name.' }}
-                    render={(
-                      { onChange, value, name },
-                      { invalid, isDirty }
-                    ) => (
+                    render={({ onChange, value, name }, { invalid }) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -144,8 +143,8 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={() => trigger('firstName')}
-                        showValidity={isDirty || formState.isSubmitted}
+                        setIsValid={async () => await trigger('firstName')}
+                        showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.firstName?.message}
                       />
                     )}
@@ -157,10 +156,7 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{ required: 'Enter your last name.' }}
-                    render={(
-                      { onChange, value, name },
-                      { invalid, isDirty }
-                    ) => (
+                    render={({ onChange, value, name }, { invalid }) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -168,8 +164,8 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={() => trigger('lastName')}
-                        showValidity={isDirty || formState.isSubmitted}
+                        setIsValid={async () => await trigger('lastName')}
+                        showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.lastName?.message}
                       />
                     )}
@@ -184,13 +180,10 @@ const RegistrationPage: NextPage = () => {
                       required: 'Enter an email address.',
                       pattern: {
                         value: validEmailPattern,
-                        message: 'Enter a valid email address.',
+                        message: 'Enter a valid email address',
                       },
                     }}
-                    render={(
-                      { onChange, value, name },
-                      { invalid, isDirty }
-                    ) => (
+                    render={({ onChange, value, name }, { invalid }) => (
                       <WellcomeTextInput
                         required
                         id={name}
@@ -198,8 +191,8 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={() => trigger('email')}
-                        showValidity={isDirty || formState.isSubmitted}
+                        setIsValid={async () => await trigger('email')}
+                        showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.email?.message}
                       />
                     )}
@@ -214,13 +207,11 @@ const RegistrationPage: NextPage = () => {
                       required: 'Enter a password.',
                       pattern: {
                         value: validPasswordPattern,
-                        message: 'Enter a valid password.',
+                        message: 'Enter a valid password',
                       },
                     }}
-                    render={(
-                      { onChange, value, name },
-                      { invalid, isDirty }
-                    ) => {
+                    render={({ onChange, value, name }, { invalid }) => {
+                      setPasswordInput(value);
                       return (
                         <PasswordInput
                           required
@@ -230,14 +221,16 @@ const RegistrationPage: NextPage = () => {
                           value={value}
                           setValue={onChange}
                           isValid={!invalid}
-                          setIsValid={() => trigger('password')}
-                          showValidity={isDirty || formState.isSubmitted}
+                          setIsValid={async () => await trigger('password')}
+                          showValidity={formState.isSubmitted}
                           errorMessage={formState.errors.password?.message}
                         />
                       );
                     }}
                   />
-                  <PasswordRules />
+                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                    <PasswordRules {...passwordRules} />
+                  </Space>
                 </SpacingComponent>
                 <SpacingComponent>
                   <Controller
@@ -270,19 +263,21 @@ const RegistrationPage: NextPage = () => {
                       />
                     )}
                   />
-                  <ErrorMessage
-                    errors={formState.errors}
-                    name="termsAndConditions"
-                    render={({ message }) => (
-                      <InvalidFieldAlert>{message}</InvalidFieldAlert>
-                    )}
-                  />
+                  <Space v={{ size: 's', properties: ['margin-top'] }}>
+                    <ErrorMessage
+                      errors={formState.errors}
+                      name="termsAndConditions"
+                      render={({ message }) => (
+                        <TextInputErrorMessage>{message}</TextInputErrorMessage>
+                      )}
+                    />
+                  </Space>
                 </SpacingComponent>
                 <SpacingComponent>
                   {isLoading ? (
                     <InProgress>Creating account…</InProgress>
                   ) : (
-                    <Button type="submit">Create account</Button>
+                    <ButtonSolid type="submit" text="Create account" />
                   )}
                   <Space
                     as="span"

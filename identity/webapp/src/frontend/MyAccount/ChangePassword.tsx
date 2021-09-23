@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
+import usePasswordRules from '../hooks/usePasswordRules';
 import { PasswordInput } from '../components/PasswordInput';
 import { FieldMargin } from '../components/Form.style';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -51,22 +52,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
     string | null
   >(null);
 
-  const [isAtLeast8Characters, setIsAtLeast8Characters] = useState(false);
-  const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
-  const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);
-  const [hasNumbers, setHasNumbers] = useState(false);
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    setIsAtLeast8Characters(Boolean(newPasswordInput.match(/.{8}/)));
-    setHasLowercaseLetters(Boolean(newPasswordInput.match(/[a-z]/)));
-    setHasUppercaseLetters(Boolean(newPasswordInput.match(/[A-Z]/)));
-    setHasNumbers(Boolean(newPasswordInput.match(/[0-9]/)));
-
-    if (newPasswordInput.length > 0) {
-      setIsDirty(true);
-    }
-  }, [newPasswordInput, isDirty]);
+  const passwordRules = usePasswordRules(newPasswordInput);
 
   useEffect(() => {
     reset(defaultValues);
@@ -77,25 +63,25 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
       case UpdatePasswordError.INCORRECT_PASSWORD: {
         setError('password', {
           type: 'manual',
-          message: 'Incorrect password.',
+          message: 'Incorrect password',
         });
         break;
       }
       case UpdatePasswordError.BRUTE_FORCE_BLOCKED: {
         setSubmissionErrorMessage(
-          'Your account has been blocked after multiple consecutive login attempts.'
+          'Your account has been blocked after multiple consecutive login attempts'
         );
         break;
       }
       case UpdatePasswordError.DID_NOT_MEET_POLICY: {
         setError('newPassword', {
           type: 'manual',
-          message: 'Password does not meet the policy.',
+          message: 'Password does not meet the policy',
         });
         break;
       }
       case UpdatePasswordError.UNKNOWN: {
-        setSubmissionErrorMessage('An unknown error occurred.');
+        setSubmissionErrorMessage('An unknown error occurred');
         break;
       }
     }
@@ -139,7 +125,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               required: 'Enter your new password.',
               pattern: {
                 value: validPasswordPattern,
-                message: 'Enter a valid password.',
+                message: 'Enter a valid password',
               },
             }}
           />
@@ -178,16 +164,9 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
-          {isDirty && (
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <PasswordRules
-                isAtLeast8Characters={isAtLeast8Characters}
-                hasLowercaseLetters={hasLowercaseLetters}
-                hasUppercaseLetters={hasUppercaseLetters}
-                hasNumbers={hasNumbers}
-              />
-            </Space>
-          )}
+          <Space v={{ size: 's', properties: ['margin-top'] }}>
+            <PasswordRules {...passwordRules} />
+          </Space>
         </FieldMargin>
         <ButtonSolid type="submit" text="Update password" />
       </form>

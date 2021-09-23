@@ -1,10 +1,11 @@
 import { FieldError } from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Space from '@weco/common/views/components/styled/Space';
 
-export const FieldMargin = styled.div`
-  margin-bottom: 1em;
-`;
+export const FieldMargin = styled(Space).attrs({
+  v: { size: 'm', properties: ['margin-bottom'] },
+})``;
 
 export const Label = styled.label.attrs({ className: 'font-hnr font-size-4' })`
   display: block;
@@ -19,15 +20,6 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   border: ${props =>
     props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f'};
   border-radius: 6px;
-`;
-
-export const InvalidFieldAlert = styled.span.attrs({
-  role: 'alert',
-  className: 'font-hnr font-size-6',
-})`
-  color: #d1192c;
-  font-weight: bold;
-  font-size: 14px;
 `;
 
 export const DangerButtonModifier = css`

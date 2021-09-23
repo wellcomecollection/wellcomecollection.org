@@ -15,15 +15,17 @@ export type PasswordInputProps = UseControllerOptions & {
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = props => {
+  const { updateInput } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { field, meta } = useController(props);
   const toggleVisibility = () =>
     setIsVisible(currentlyVisible => !currentlyVisible);
 
   useEffect(() => {
-    if (!props.updateInput) return;
-    props.updateInput(field.value);
-  }, [field.value, props.updateInput]);
+    if (!updateInput) return;
+
+    updateInput(field.value);
+  }, [field.value, updateInput]);
 
   return (
     <>
@@ -46,7 +48,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
           onClick={toggleVisibility}
           aria-label={isVisible ? 'Hide password' : 'Show password'}
         >
-          <Icon icon={isVisible ? a11YVisual : eye} />
+          <Icon icon={isVisible ? a11YVisual : eye} color={'silver'} />
         </ShowPasswordButton>
       </TextInputWrap>
     </>

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import {
-  FieldMargin,
-  Label,
-  TextInput,
-  InvalidFieldAlert,
-  Button,
-} from '../components/Form.style';
+import { FieldMargin } from '../components/Form.style';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
 import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
@@ -15,6 +11,7 @@ import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 type ChangeEmailInputs = {
   email: string;
@@ -27,7 +24,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
 }) => {
   const { user, isLoading } = useUserInfo();
   const { updateUser, isLoading: isUpdating, error } = useUpdateUser();
-  const { register, control, reset, formState, handleSubmit, setError } =
+  const { control, trigger, reset, formState, handleSubmit, setError } =
     useForm<ChangeEmailInputs>({
       defaultValues: { email: user?.email, password: '' },
     });
@@ -44,25 +41,25 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
       case UpdateUserError.EMAIL_ALREADY_EXISTS: {
         setError('email', {
           type: 'manual',
-          message: 'Email address already in use.',
+          message: 'Email address already in use',
         });
         break;
       }
       case UpdateUserError.INCORRECT_PASSWORD: {
         setError('password', {
           type: 'manual',
-          message: 'Incorrect password.',
+          message: 'Incorrect password',
         });
         break;
       }
       case UpdateUserError.BRUTE_FORCE_BLOCKED: {
         setSubmissionErrorMessage(
-          'Your account has been blocked after multiple consecutive login attempts.'
+          'Your account has been blocked after multiple consecutive login attempts'
         );
         break;
       }
       case UpdateUserError.UNKNOWN: {
-        setSubmissionErrorMessage('An unknown error occurred.');
+        setSubmissionErrorMessage('An unknown error occurred');
         break;
       }
     }
@@ -83,42 +80,35 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
       )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldMargin>
-          <Label htmlFor="email">Email address</Label>
-          <TextInput
-            id="email"
+          <Controller
             name="email"
-            ref={register({
+            control={control}
+            defaultValue=""
+            rules={{
               required: 'Enter an email address.',
               pattern: {
                 value: validEmailPattern,
-                message: 'Enter a valid email address.',
+                message: 'Enter a valid email address',
               },
-              validate: {
-                hasChanged: newValue => {
-                  return (
-                    newValue !== user?.email ||
-                    'You must enter a new email address to update your library account'
-                  );
-                },
-              },
-            })}
-            invalid={formState.errors.email}
-          />
-          <ErrorMessage
-            errors={formState.errors}
-            name="email"
-            render={({ message }) => (
-              <InvalidFieldAlert aria-label={message}>
-                {message}
-              </InvalidFieldAlert>
+            }}
+            render={({ onChange, value, name }, { invalid }) => (
+              <TextInput
+                required
+                id={name}
+                label="Email address"
+                value={value}
+                setValue={onChange}
+                isValid={!invalid}
+                setIsValid={async () => await trigger('email')}
+                showValidity={formState.isSubmitted}
+                errorMessage={formState.errors.email?.message}
+              />
             )}
           />
         </FieldMargin>
         <FieldMargin>
-          <Label htmlFor="change-email-confirm-password">
-            Confirm password
-          </Label>
           <PasswordInput
+            label="Confirm password"
             id="change-email-confirm-password"
             name="password"
             control={control}
@@ -128,11 +118,11 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
+              <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
         </FieldMargin>
-        <Button type="submit">Update email</Button>
+        <ButtonSolid type="submit" text="Update email" />
       </form>
     </ModalContainer>
   );
