@@ -45,7 +45,6 @@ import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type DetailProps = {
   label: string;
@@ -117,8 +116,6 @@ const AccountPage: NextPage = () => {
       `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
     );
   };
-
-  const t = useContext(TogglesContext);
 
   return (
     <PageWrapper>
