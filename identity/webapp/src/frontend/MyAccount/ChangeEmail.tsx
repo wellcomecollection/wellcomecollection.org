@@ -11,7 +11,9 @@ import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 
 type ChangeEmailInputs = {
@@ -124,7 +126,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
           />
         </FieldMargin>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolid type="submit" text="Update email" />
+          <ButtonSolid type={ButtonTypes.submit} text="Update email" />
         </Space>
       </form>
     </ModalContainer>

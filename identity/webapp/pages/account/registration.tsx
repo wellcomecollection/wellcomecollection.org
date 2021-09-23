@@ -38,7 +38,9 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { info2 } from '@weco/common/icons';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -277,7 +279,10 @@ const RegistrationPage: NextPage = () => {
                   {isLoading ? (
                     <InProgress>Creating account…</InProgress>
                   ) : (
-                    <ButtonSolid type="submit" text="Create account" />
+                    <ButtonSolid
+                      type={ButtonTypes.submit}
+                      text="Create account"
+                    />
                   )}
                   <Space
                     as="span"

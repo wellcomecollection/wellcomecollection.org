@@ -3,7 +3,9 @@ import { ErrorMessage } from '@hookform/error-message';
 import usePasswordRules from '../hooks/usePasswordRules';
 import { PasswordInput } from '../components/PasswordInput';
 import { FieldMargin } from '../components/Form.style';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import { useForm } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
@@ -169,7 +171,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
           </Space>
         </FieldMargin>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonSolid type="submit" text="Update password" />
+          <ButtonSolid type={ButtonTypes.submit} text="Update password" />
         </Space>
       </form>
     </ModalContainer>
