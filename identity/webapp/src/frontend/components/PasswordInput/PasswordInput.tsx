@@ -23,7 +23,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
   useEffect(() => {
     if (!props.updateInput) return;
     props.updateInput(field.value);
-  }, [field.value]);
+  }, [field.value, props.updateInput]);
 
   return (
     <>

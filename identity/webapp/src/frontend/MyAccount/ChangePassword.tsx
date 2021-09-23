@@ -54,13 +54,18 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
   const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);
   const [hasNumbers, setHasNumbers] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     setIsAtLeast8Characters(Boolean(newPasswordInput.match(/.{8}/)));
     setHasLowercaseLetters(Boolean(newPasswordInput.match(/[a-z]/)));
     setHasUppercaseLetters(Boolean(newPasswordInput.match(/[A-Z]/)));
     setHasNumbers(Boolean(newPasswordInput.match(/[0-9]/)));
-  }, [newPasswordInput]);
+
+    if (newPasswordInput.length > 0) {
+      setIsDirty(true);
+    }
+  }, [newPasswordInput, isDirty]);
 
   useEffect(() => {
     reset(defaultValues);
@@ -125,7 +130,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
         <FieldMargin>
           <PasswordInput
             updateInput={setNewPasswordInput}
-            label="New password"
+            label="Create new password"
             id="change-password-new"
             name="newPassword"
             control={control}
@@ -172,14 +177,16 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
               <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            <PasswordRules
-              isAtLeast8Characters={isAtLeast8Characters}
-              hasLowercaseLetters={hasLowercaseLetters}
-              hasUppercaseLetters={hasUppercaseLetters}
-              hasNumbers={hasNumbers}
-            />
-          </Space>
+          {isDirty && (
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <PasswordRules
+                isAtLeast8Characters={isAtLeast8Characters}
+                hasLowercaseLetters={hasLowercaseLetters}
+                hasUppercaseLetters={hasUppercaseLetters}
+                hasNumbers={hasNumbers}
+              />
+            </Space>
+          )}
         </FieldMargin>
         <Button type="submit">Update password</Button>
       </form>

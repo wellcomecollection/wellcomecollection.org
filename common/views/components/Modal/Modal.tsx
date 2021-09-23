@@ -94,7 +94,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   className: classNames({
-    'shadow bg-white font-black': true,
+    'shadow bg-white': true,
   }),
 })<BaseModalProps>`
   z-index: 10001;
@@ -163,7 +163,7 @@ const ModalWindowPaddingNoOverflow = styled(
 ).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'shadow bg-white font-black': true,
+    'shadow bg-white': true,
   }),
 })<BaseModalProps>`
   overflow: hidden;
