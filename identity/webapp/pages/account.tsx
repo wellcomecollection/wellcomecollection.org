@@ -1,4 +1,10 @@
-import React, { FC, ComponentProps, useState, useEffect } from 'react';
+import React, {
+  FC,
+  ComponentProps,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { NextPage } from 'next';
 import {
@@ -39,6 +45,7 @@ import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
+import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 
 type DetailProps = {
   label: string;
@@ -111,8 +118,11 @@ const AccountPage: NextPage = () => {
     );
   };
 
+  const t = useContext(TogglesContext);
+
   return (
     <PageWrapper>
+      {JSON.stringify(t)}
       <Header
         v={{
           size: 'l',
@@ -226,7 +236,9 @@ const AccountPage: NextPage = () => {
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
                           <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || 'Unknown title'}
+                            {result.item.title ||
+                              result.workTitle ||
+                              'Unknown title'}
                           </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
