@@ -31,6 +31,7 @@ import {
   peopleFields,
   bookFields,
   pagesFormatsFields,
+  guidesFields,
 } from './fetch-links';
 
 import { type FeaturedText } from '@weco/common/model/text';
@@ -111,7 +112,8 @@ export async function getPage(
         contributorsFields,
         peopleFields,
         bookFields,
-        pagesFormatsFields
+        pagesFormatsFields,
+        guidesFields
       ),
     },
     memoizedPrismic
