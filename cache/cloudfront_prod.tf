@@ -51,6 +51,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     "blog.wellcomecollection.org",
     "content.wellcomecollection.org",
     "content.www.wellcomecollection.org",
+    "identity.wellcomecollection.org",
+    "identity.www.wellcomecollection.org",
     "works.wellcomecollection.org",
     "works.www.wellcomecollection.org",
   ]
