@@ -1,4 +1,4 @@
-import { ComponentProps, FC, SyntheticEvent } from 'react';
+import { ComponentProps, FC, ReactNode, SyntheticEvent } from 'react';
 import styled from 'styled-components';
 import {
   BaseButton,
@@ -7,7 +7,7 @@ import {
 } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
 import Icon from '../Icon/Icon';
-import { classNames } from '../../../utils/classnames';
+import { classNames, font } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
 import { IconSvg } from '@weco/common/icons';
 
@@ -35,8 +35,8 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
 
 type Props = {
   icon?: IconSvg;
-  iconPosition?: 'left' | 'right';
-  text: string;
+  iconLeft?: IconSvg;
+  text: ReactNode;
   isTextHidden?: boolean;
   isActive?: boolean;
 };
@@ -45,7 +45,7 @@ type BorderlessClickableProps = Props & { as: ClickableElement };
 export const BorderlessClickable: FC<BorderlessClickableProps> = ({
   as,
   icon,
-  iconPosition = 'right',
+  iconLeft,
   text,
   isTextHidden,
   isActive,
@@ -55,9 +55,18 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
     <BorderlessClickableStyle as={as} isActive={isActive} {...elementProps}>
       <BaseButtonInner isInline={true}>
         <>
-          {icon && iconPosition === 'left' && (
-            <ButtonIconWrapper iconAfter={true}>
-              <Icon icon={icon} />
+          {iconLeft && (
+            <ButtonIconWrapper iconAfter={false}>
+              {/* This is all a little hacky and will need some tidy up */}
+              {/* We currently only use this in the header sign in button */}
+              <span
+                className={classNames({
+                  [font('hnr', 4)]: true,
+                })}
+                style={{ transform: 'translateY(0.01em)' }}
+              >
+                <Icon icon={iconLeft} matchText={true} />
+              </span>
             </ButtonIconWrapper>
           )}
           <AlignFont
@@ -67,7 +76,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
           >
             {text}
           </AlignFont>
-          {icon && iconPosition === 'right' && (
+          {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
@@ -81,7 +90,7 @@ export const BorderlessClickable: FC<BorderlessClickableProps> = ({
 type BorderlessLinkProps = Props & ComponentProps<'a'>;
 const BorderlessLink: FC<BorderlessLinkProps> = ({
   icon,
-  iconPosition,
+  iconLeft,
   text,
   isTextHidden,
   isActive,
@@ -91,7 +100,7 @@ const BorderlessLink: FC<BorderlessLinkProps> = ({
     <BorderlessClickable
       as="a"
       icon={icon}
-      iconPosition={iconPosition}
+      iconLeft={iconLeft}
       text={text}
       isTextHidden={isTextHidden}
       isActive={isActive}
@@ -107,7 +116,7 @@ type BorderlessButtonProps = Props &
   };
 const BorderlessButton: FC<BorderlessButtonProps> = ({
   icon,
-  iconPosition,
+  iconLeft,
   text,
   isTextHidden,
   clickHandler,
@@ -124,7 +133,7 @@ const BorderlessButton: FC<BorderlessButtonProps> = ({
     <BorderlessClickable
       as="button"
       icon={icon}
-      iconPosition={iconPosition}
+      iconLeft={iconLeft}
       text={text}
       isTextHidden={isTextHidden}
       isActive={isActive}

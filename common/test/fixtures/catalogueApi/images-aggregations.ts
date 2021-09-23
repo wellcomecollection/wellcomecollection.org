@@ -1,7 +1,6 @@
 import { CatalogueResultsList, Image } from '../../../model/catalogue';
 
 const aggregations: CatalogueResultsList<Image> = {
-  '@context': 'https://api.wellcomecollection.org/catalogue/v2/context.json',
   type: 'ResultList',
   pageSize: 10,
   totalPages: 0,

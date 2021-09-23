@@ -14,7 +14,7 @@ const useIsFontsLoaded = (): boolean => {
     const HNB = new FontFaceObserver('Helvetica Neue Bold Web');
     const LR = new FontFaceObserver('Lettera Regular Web');
 
-    Promise.all([WB.load(), HNR.load(), HNB.load(), LR.load()])
+    Promise.all([WB.load(null), HNR.load(null), HNB.load(null), LR.load(null)])
       .then(() => {
         if (isMounted) {
           setIsFontsLoaded(true);

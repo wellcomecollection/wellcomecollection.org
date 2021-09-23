@@ -21,6 +21,7 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  ButtonWrapper,
   TruncateTitle,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
@@ -167,13 +168,7 @@ const AccountPage: NextPage = () => {
                     /* Membership expiry date? */
                   ]}
                 />
-                <Space
-                  as="span"
-                  h={{
-                    size: 'l',
-                    properties: ['margin-right'],
-                  }}
-                >
+                <ButtonWrapper>
                   <ChangeDetailsModal
                     id="change-email"
                     buttonText="Change email"
@@ -184,16 +179,18 @@ const AccountPage: NextPage = () => {
                   >
                     <ChangeEmail />
                   </ChangeDetailsModal>
-                </Space>
-                <ChangeDetailsModal
-                  id="change-password"
-                  buttonText="Change password"
-                  onComplete={() => {
-                    setIsPasswordUpdated(true);
-                  }}
-                >
-                  <ChangePassword />
-                </ChangeDetailsModal>
+                </ButtonWrapper>
+                <ButtonWrapper>
+                  <ChangeDetailsModal
+                    id="change-password"
+                    buttonText="Change password"
+                    onComplete={() => {
+                      setIsPasswordUpdated(true);
+                    }}
+                  >
+                    <ChangePassword />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
 
@@ -229,7 +226,7 @@ const AccountPage: NextPage = () => {
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
                           <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || ''}
+                            {result.item.title || result.workTitle || 'Unknown title'}
                           </TruncateTitle>,
                           result.status.label,
                           result.pickupLocation.label,
@@ -240,7 +237,7 @@ const AccountPage: NextPage = () => {
                       className={`${font('hnb', 5)}`}
                       v={{
                         size: 'l',
-                        properties: ['margin-top'],
+                        properties: ['margin-top', 'margin-bottom'],
                       }}
                     >
                       If you wish to cancel a hold, please{' '}
@@ -259,14 +256,16 @@ const AccountPage: NextPage = () => {
                 <p className={font('hnb', 5)}>
                   Request a deletion of your account
                 </p>
-                <ChangeDetailsModal
-                  id="delete-account"
-                  buttonText="Request deletion"
-                  isDangerous
-                  onComplete={logoutOnDeletionRequest}
-                >
-                  <DeleteAccount />
-                </ChangeDetailsModal>
+                <ButtonWrapper>
+                  <ChangeDetailsModal
+                    id="delete-account"
+                    buttonText="Request deletion"
+                    isDangerous
+                    onComplete={logoutOnDeletionRequest}
+                  >
+                    <DeleteAccount />
+                  </ChangeDetailsModal>
+                </ButtonWrapper>
               </Wrapper>
             </Container>
           </>

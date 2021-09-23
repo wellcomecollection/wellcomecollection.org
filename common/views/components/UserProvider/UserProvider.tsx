@@ -2,7 +2,7 @@ import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { UserInfo } from '../../../model/user';
 import TogglesContext from '../TogglesContext/TogglesContext';
 
-type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
+export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
   user: UserInfo | undefined;
   state: State;
