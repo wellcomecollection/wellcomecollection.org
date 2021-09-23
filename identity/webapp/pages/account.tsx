@@ -21,7 +21,8 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
-  TruncateTitle,
+  ItemTitle,
+  ItemStatus,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -139,8 +140,6 @@ const AccountPage: NextPage = () => {
         </div>
       </Header>
       <Layout10>
-        import StackingTable from
-        '@weco/common/views/components/StackingTable/StackingTable';
         {isLoading && <Loading />}
         {!isLoading && (
           <>
@@ -227,26 +226,10 @@ const AccountPage: NextPage = () => {
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          <TruncateTitle href={`/works/${result.workId}`}>
+                          <ItemTitle href={`/works/${result.workId}`}>
                             {result.item.title || result.workTitle || ''}
-                          </TruncateTitle>,
-                          result.status.label,
-                          result.pickupLocation.label,
-                        ]),
-                        ...requests.results.map(result => [
-                          // TODO remove this
-                          <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || ''}
-                          </TruncateTitle>,
-                          result.status.label,
-                          result.pickupLocation.label,
-                        ]),
-                        ...requests.results.map(result => [
-                          // TODO remove this
-                          <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title || result.workTitle || ''}
-                          </TruncateTitle>,
-                          result.status.label,
+                          </ItemTitle>,
+                          <ItemStatus>{result.status.label}</ItemStatus>,
                           result.pickupLocation.label,
                         ]),
                       ]}
