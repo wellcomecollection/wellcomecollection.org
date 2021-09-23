@@ -41,9 +41,12 @@ import { parseArticle } from './articles';
 import { parseEventDoc } from './events';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
-
+// $FlowFixMe (tsx)
+import { links } from '../../views/components/Header/Header';
 // $FlowFixMe (ts)
 import { MediaObjectType } from '../../model/media-object';
+import type { Guide } from '../../model/guides';
+import type { PrismicDocument } from './types';
 
 const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -559,6 +562,24 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
     });
 }
 
+function parseGuide(document: PrismicDocument): Guide {
+  const { data } = document;
+  const genericFields = parseGenericFields(document);
+  const siteSections = links.map(link => link.siteSection);
+  const siteSection = document.tags.find(tag => siteSections.includes(tag));
+  const promo = genericFields.promo;
+  return {
+    type: 'guides',
+    format: data.format && parseFormat(data.format),
+    ...genericFields,
+    onThisPage: data.body ? parseOnThisPage(data.body) : [],
+    showOnThisPage: data.showOnThisPage || false,
+    promo: promo && promo.image ? promo : null,
+    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    siteSection: siteSection,
+  };
+}
+
 export function parseMediaObjectList(
   fragment: PrismicFragment[]
 ): Array<MediaObjectType> {
@@ -660,6 +681,8 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                   switch (item.content.type) {
                     case 'pages':
                       return parsePage(item.content);
+                    case 'guides':
+                      return parseGuide(item.content);
                     case 'event-series':
                       return parseEventSeries(item.content);
                     case 'exhibitions':
@@ -913,12 +936,8 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
           .find(_ => _)
       : {}; // just get the first one;
 
-  const {
-    image,
-    squareImage,
-    widescreenImage,
-    superWidescreenImage,
-  } = promoImages;
+  const { image, squareImage, widescreenImage, superWidescreenImage } =
+    promoImages;
   const body = data.body ? parseBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
   const metadataDescription = asText(data.metadataDescription);

@@ -1,4 +1,4 @@
-import { AriaAttributes, forwardRef, SyntheticEvent } from 'react';
+import { AriaAttributes, forwardRef, ReactNode, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ import AlignFont from '../styled/AlignFont';
 import { IconSvg } from '@weco/common/icons';
 
 export type ButtonInlineBaseProps = {
-  text: string;
+  text: ReactNode;
   icon?: IconSvg;
   type?: ButtonTypes;
   isOnDark?: boolean;

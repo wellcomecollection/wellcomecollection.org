@@ -1,13 +1,5 @@
 import { CSSTransition } from 'react-transition-group';
-import {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  FunctionComponent,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import { useState, useRef, useEffect, useContext, FC, ReactNode } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
@@ -18,7 +10,7 @@ import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
-import { chevron } from '@weco/common/icons';
+import { chevron, IconSvg } from '../../../icons';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -84,20 +76,21 @@ const Popper = styled('div')<{ isVisible: boolean }>`
 `;
 
 type Props = {
-  label: string;
-  children: ReactNode;
+  id: string;
+  label: ReactNode;
   buttonType?: 'outlined' | 'inline' | 'borderless';
   isOnDark?: boolean;
-  id: string;
+  iconLeft?: IconSvg;
 };
 
-const DropdownButton: FunctionComponent<Props> = ({
+const DropdownButton: FC<Props> = ({
   label,
   children,
   buttonType = 'outlined',
   isOnDark,
   id,
-}: Props): ReactElement<Props> => {
+  iconLeft,
+}) => {
   const [isActive, setIsActive] = useState(false);
   const [focusables, setFocusables] = useState<HTMLElement[]>([]);
   const { isEnhanced } = useContext(AppContext);
@@ -172,6 +165,7 @@ const DropdownButton: FunctionComponent<Props> = ({
           isActive={isActive}
           clickHandler={() => setIsActive(!isActive)}
           icon={chevron}
+          iconLeft={iconLeft}
           type="button"
           text={label}
         />

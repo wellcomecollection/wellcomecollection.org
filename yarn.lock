@@ -13192,6 +13192,11 @@ next-cookies@^2.0.3:
   dependencies:
     universal-cookie "^4.0.2"
 
+next-router-mock@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/next-router-mock/-/next-router-mock-0.4.1.tgz#b604b56ab465a69dc816a54469fdd0f7d55c6996"
+  integrity sha512-ZHlZe7dKCx/fCIUleXwsDS0zkLqBxHauoZNQ+rCY7sF7Oxt1YQ1HKEOXk2g9oQeMvf1mf9ya0DLuAx9jqvdCcA==
+
 next-transpile-modules@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/next-transpile-modules/-/next-transpile-modules-8.0.0.tgz#56375cdc25ae5d23a834195f277fc2737b26cb97"
