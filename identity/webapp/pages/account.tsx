@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  ComponentProps,
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import React, { FC, ComponentProps, useState, useEffect } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { NextPage } from 'next';
 import {
