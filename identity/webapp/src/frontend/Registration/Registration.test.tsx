@@ -378,7 +378,7 @@ describe('Registration', () => {
       })
     ).toBeInTheDocument();
     expect(
-      await screen.findByText('Email address already in use.')
+      await screen.findByText('Email address already in use')
     ).toBeInTheDocument();
   });
 

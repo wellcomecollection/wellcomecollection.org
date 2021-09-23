@@ -93,6 +93,14 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
                 value: validEmailPattern,
                 message: 'Enter a valid email address',
               },
+              validate: {
+                hasChanged: newValue => {
+                  return (
+                    newValue !== user?.email ||
+                    'You must enter a new email address to update your library account'
+                  );
+                },
+              },
             }}
             render={({ onChange, value, name }, { invalid }) => (
               <TextInput

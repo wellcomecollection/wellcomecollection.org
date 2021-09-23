@@ -34,7 +34,11 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
         value={field.value}
         big={false}
       >
-        <TextInputLabel isEnhanced={true} hasValue={!!field.value}>
+        <TextInputLabel
+          htmlFor={props.id}
+          isEnhanced={true}
+          hasValue={!!field.value}
+        >
           {props.label}
         </TextInputLabel>
         <TextInputInput

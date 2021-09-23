@@ -127,6 +127,7 @@ const TextInputCheckmark = styled.span.attrs({
 `;
 
 export const TextInputErrorMessage = styled.span.attrs({
+  role: 'alert',
   'data-test-id': 'TextInputErrorMessage',
   className: classNames({
     'font-hnb': true,
