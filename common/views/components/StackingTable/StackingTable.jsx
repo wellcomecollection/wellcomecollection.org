@@ -22,7 +22,6 @@ const StyledTable = styled.table.attrs({
       display: block;
     }
     thead {
-      // TODO check styling across browsers
       // hidden visually, but still available to screen readers
       overflow: hidden;
       position: relative;
