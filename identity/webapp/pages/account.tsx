@@ -122,7 +122,6 @@ const AccountPage: NextPage = () => {
 
   return (
     <PageWrapper>
-      {JSON.stringify(t)}
       <Header
         v={{
           size: 'l',
