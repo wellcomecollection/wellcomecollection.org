@@ -5,6 +5,7 @@ const withTM = require('next-transpile-modules')(['@weco/common']);
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,
 });
+const apmConfig = require('../services/apm/apmConfig');
 
 const defaultConfigOptions = {
   applicationName: 'test',
@@ -27,15 +28,7 @@ const createConfig =
           isProd && prodSubdomain
             ? `https://${prodSubdomain}.wellcomecollection.org`
             : '',
-        publicRuntimeConfig: {
-          apmConfig: {
-            environment: process.env.APM_ENVIRONMENT,
-            serverUrl: process.env.APM_SERVER_URL,
-            // we've used inactive so by default it is on, and we can purposefully turn it off locally
-            active: process.env.APM_INACTIVE !== 'true',
-            centralConfig: true,
-          },
-        },
+        publicRuntimeConfig: { apmConfig },
         async rewrites() {
           if (phase === PHASE_DEVELOPMENT_SERVER) {
             return [
