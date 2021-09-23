@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { PasswordInput } from '../components/PasswordInput';
-import { FieldMargin, Button } from '../components/Form.style';
+import { FieldMargin } from '../components/Form.style';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import { useForm } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
@@ -188,7 +189,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             </Space>
           )}
         </FieldMargin>
-        <Button type="submit">Update password</Button>
+        <ButtonSolid type="submit" text="Update password" />
       </form>
     </ModalContainer>
   );
