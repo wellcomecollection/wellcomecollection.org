@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent } from 'react';
+import { forwardRef, ReactNode, SyntheticEvent } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
@@ -57,7 +57,7 @@ export const OutlinedButton = styled(BaseButton).attrs<OutlinedButtonProps>(
 `;
 
 export type ButtonOutlinedBaseProps = {
-  text: string;
+  text: ReactNode;
   icon?: IconSvg;
   type?: 'submit' | 'reset' | 'button';
   isTextHidden?: boolean;

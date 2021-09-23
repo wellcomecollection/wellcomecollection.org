@@ -1,17 +1,11 @@
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
-import styled from 'styled-components';
-import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
-import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import SignIn from '@weco/common/views/components/SignIn/SignIn';
-import Space from '@weco/common/views/components/styled/Space';
-import {
-  useUserInfo,
-  withUserInfo,
-} from '@weco/common/views/components/UserInfoContext';
-import { user as userIcon } from '@weco/common/icons';
+import { respondBetween, respondTo } from '../../themes/mixins';
+import { withUserInfo } from '../UserInfoContext';
+import DesktopSignIn from './DesktopSignIn';
+import MobileSignIn from './MobileSignIn';
 
 const NavLoginWrapper = styled.div`
   display: flex;
@@ -26,80 +20,11 @@ const NavLoginWrapper = styled.div`
   )}
 `;
 
-const MobileLogin = styled.div.attrs({
-  className: classNames({
-    [font('hnr', 5)]: true,
-  }),
-})`
-  ${respondTo(
-    'headerMedium',
-    `
-    display: none;
-  `
-  )}
-  display: flex;
-  margin-top: 1.4rem;
-
-  a {
-    position: relative;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &:first-of-type {
-      margin-right: 1em;
-      padding-right: 1em;
-
-      &:after {
-        position: absolute;
-        right: 0;
-        content: '|';
-      }
-    }
-
-    &:last-of-type {
-      &:after {
-        display: none;
-      }
-    }
-  }
-`;
-
-const DesktopLogin = styled.div.attrs({
-  className: classNames({
-    [font('hnr', 6)]: true,
-  }),
-})`
-  display: none;
-
-  a {
-    display: block;
-    text-decoration: none;
-    margin-bottom: 16px;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  ${respondTo(
-    'headerMedium',
-    `
-    display: block;
-  `
-  )}
-`;
-
 type WrapperProps = {
   isBurgerOpen: boolean;
   navHeight: number;
 };
+
 const Wrapper = styled.div.attrs({
   className: classNames({
     'grid bg-white flex--v-center': true,
@@ -393,10 +318,9 @@ export const links = [
   },
 ];
 
-const Header: FunctionComponent<Props> = ({ siteSection }) => {
+const Header: FC<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
-  const { user, isLoading } = useUserInfo();
-  const displayName = user && `${user.firstName} ${user.lastName.slice(0, 1)}…`;
+
   return (
     <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
       <div className="relative grid__cell">
@@ -444,55 +368,10 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                {!isLoading && (
-                  <MobileLogin>
-                    <Space
-                      h={{ size: 's', properties: ['margin-right'] }}
-                      className={classNames({
-                        [font('hnr', 4)]: true,
-                      })}
-                    >
-                      <Icon icon={userIcon} matchText={true} />
-                    </Space>
-                    <SignIn user={user} />
-                  </MobileLogin>
-                )}
+                <MobileSignIn />
               </HeaderList>
             </HeaderNav>
-            {!isLoading && (
-              <DesktopLogin>
-                <DropdownButton
-                  // FIXME: If we go with this approach, the DropdownButton should probably
-                  // be able to take an optional icon
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  label={
-                    <div className="flex flex--v-center">
-                      <div
-                        style={{ transform: 'translateY(0.1em)' }}
-                        className={classNames({
-                          [font('hnr', 4)]: true,
-                        })}
-                      >
-                        <Icon icon={userIcon} matchText={true} />
-                      </div>
-                      <Space
-                        h={{ size: 's', properties: ['margin-left'] }}
-                        className={classNames({
-                          [font('hnr', 6)]: true,
-                          'is-hidden-s is-hidden-m is-hidden-l': true,
-                        })}
-                      >
-                        {displayName || 'Library account'}
-                      </Space>
-                    </div>
-                  }
-                  buttonType={'borderless'}
-                >
-                  <SignIn user={user} />
-                </DropdownButton>
-              </DesktopLogin>
-            )}
+            <DesktopSignIn />
           </NavLoginWrapper>
         </div>
       </div>

@@ -64,7 +64,7 @@ const Loading = () => {
   return (
     <>
       <AlignFont>
-        <span className={font('hnb', 5)}>Loading...</span>
+        <span className={font('hnb', 5)}>Loading…</span>
       </AlignFont>
       <LL small={true} />
     </>
