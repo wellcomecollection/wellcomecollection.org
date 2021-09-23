@@ -168,7 +168,9 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             <PasswordRules {...passwordRules} />
           </Space>
         </FieldMargin>
-        <ButtonSolid type="submit" text="Update password" />
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          <ButtonSolid type="submit" text="Update password" />
+        </Space>
       </form>
     </ModalContainer>
   );
