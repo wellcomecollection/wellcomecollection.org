@@ -64,7 +64,7 @@ resource "random_password" "koa_session_keys" {
   }
 }
 
-data "aws_ssm_parameter" "context_path"{
+data "aws_ssm_parameter" "context_path" {
   for_each = toset(local.service_env_names)
 
   name = "/identity/${each.key}/account_management_system/context_path"
