@@ -247,13 +247,15 @@ const AccountPage: NextPage = () => {
                       ]}
                     />
                     <Space
-                      className={`${font('hnb', 5)}`}
+                      className={`${font('hnr', 5)}`}
                       v={{
                         size: 'l',
                         properties: ['margin-top', 'margin-bottom'],
                       }}
                     >
-                      If you wish to cancel a hold, please{' '}
+                      Requests made will be available to pick up from the
+                      library for two weeks. If you wish to cancel a hold,
+                      please{' '}
                       <a href="mailto:library@wellcomecollection.org">
                         contact the library team.
                       </a>
