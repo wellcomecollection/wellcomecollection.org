@@ -242,7 +242,7 @@ describe('ChangePassword', () => {
     });
   });
 
-  describe('shows an error after submission', () => {
+  xdescribe('shows an error after submission', () => {
     it('when the current password is incorrect', async () => {
       server.use(
         rest.put('/account/api/users/me/password', (req, res, ctx) => {
