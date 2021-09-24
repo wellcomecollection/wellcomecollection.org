@@ -63,7 +63,7 @@ const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
 const Grid = styled.div<{ isArchive: boolean }>`
   ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
     display: grid;
-    grid-template-columns: 160px 130px 125px;
+    grid-template-columns: 160px 160px 125px;
     grid-column-gap: 25px;
   `}
 `;
