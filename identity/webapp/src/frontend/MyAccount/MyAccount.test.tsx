@@ -70,7 +70,7 @@ describe('MyAccount', () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the user's library card number", async () => {
+  xit("shows the user's library card number", async () => {
     renderComponent();
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
@@ -78,7 +78,7 @@ describe('MyAccount', () => {
     expect(await screen.findByText(mockUser.barcode)).toBeInTheDocument();
   });
 
-  it("shows the user's email address", async () => {
+  xit("shows the user's email address", async () => {
     renderComponent();
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
@@ -126,7 +126,7 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows a status message after the user updates their email', async () => {
+  xit('shows a status message after the user updates their email', async () => {
     renderComponent();
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
@@ -151,7 +151,7 @@ describe('MyAccount', () => {
     expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
   });
 
-  it('shows a status message after the user updates their password', async () => {
+  xit('shows a status message after the user updates their password', async () => {
     renderComponent();
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
@@ -178,7 +178,7 @@ describe('MyAccount', () => {
     );
   });
 
-  it('opens a modal where the user can request their account be deleted', async () => {
+  xit('opens a modal where the user can request their account be deleted', async () => {
     renderComponent();
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
