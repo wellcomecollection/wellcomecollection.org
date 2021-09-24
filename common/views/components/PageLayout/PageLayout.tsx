@@ -11,7 +11,6 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 import PopupDialog from '../PopupDialog/PopupDialog';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import { museumLd, libraryLd } from '../../../utils/json-ld';
@@ -30,6 +29,7 @@ import GlobalInfoBarContext, {
 import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import useHotjar from '@weco/common/hooks/useHotjar';
+import { openingTimes } from '../../../services/cache';
 
 export type SiteSection =
   | 'collections'
@@ -85,7 +85,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const globalAlert = useContext(GlobalAlertContext);
   const popupDialog = useContext(PopupDialogContext);
-  const openingTimes = useContext(OpeningTimesContext);
+
   const galleries =
     openingTimes &&
     getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);

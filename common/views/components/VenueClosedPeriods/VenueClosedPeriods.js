@@ -8,17 +8,18 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 import { formatDayDate } from '@weco/common/utils/format-date';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/services/prismic/hardcoded-id';
+// $FlowFixMe (ts)
+import { openingTimes } from '../../../services/cache';
+
 type Props = {|
   venue: Venue,
 |};
 
 const VenueClosedPeriods = ({ venue }: Props) => {
-  const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),

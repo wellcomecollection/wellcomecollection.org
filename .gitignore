@@ -9,6 +9,7 @@ node_modules/
 *.sass-cache*
 pa11y-report.html
 .next/
+.cache
 
 # terraform
 .terraform/

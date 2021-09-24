@@ -5,6 +5,7 @@ const testIds = toggleConfig.tests.map(test => test.id);
 
 type ToggleId = typeof toggleIds[number];
 type TestId = typeof testIds[number];
+export type TogglesResp = typeof toggleConfig;
 
 // Don't be tempted to make the keys on this optional - keeping them
 // as required means we catch dead code left over from removed toggles

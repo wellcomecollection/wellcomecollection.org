@@ -11,6 +11,7 @@ const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const bodyParser = require('koa-bodyparser');
 const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');
+const { writeCacheOnInterval } = require('@weco/common/services/cache/write');
 
 const {
   middleware,
@@ -43,6 +44,7 @@ function pageVanityUrl(router, app, url, pageId, template = '/page') {
 module.exports = app
   .prepare()
   .then(async () => {
+    await writeCacheOnInterval();
     const server = new Koa();
     const router = new Router();
 

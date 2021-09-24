@@ -13,6 +13,7 @@ const {
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
 const withQueryType = require('./middleware/withQueryType');
+const { writeCacheOnInterval } = require('@weco/common/services/cache/write');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -21,6 +22,7 @@ const handle = app.getRequestHandler();
 module.exports = app
   .prepare()
   .then(async () => {
+    await writeCacheOnInterval();
     const server = new Koa();
     const router = new Router();
 

@@ -19,11 +19,14 @@ import { TypedRouter } from './utility/typed-router';
 import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
+import { writeCacheOnInterval } from '@weco/common/services/cache/write';
+
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
 export async function createApp(
   router: TypedRouter<never, never>
 ): Promise<Koa> {
+  await writeCacheOnInterval();
   const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
   });

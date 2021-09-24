@@ -1,14 +1,14 @@
-import { FunctionComponent, ReactNode, useContext } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { classNames, font, grid } from '@weco/common/utils/classnames';
 import Icon from '../Icon/Icon';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import FindUs from '../FindUs/FindUs';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
 import Layout12 from '../Layout12/Layout12';
 import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
-import { clock } from '@weco/common/icons';
+import { openingTimes } from '../../../services/cache';
+import { clock } from '../../../icons';
 
 type ContainerProps = {
   children: ReactNode;
@@ -26,8 +26,6 @@ const Container: FunctionComponent<ContainerProps> = ({
 );
 
 const VisitUsStaticContent: FunctionComponent = () => {
-  const openingTimes = useContext(OpeningTimesContext);
-
   return (
     <Container>
       <div className="grid">

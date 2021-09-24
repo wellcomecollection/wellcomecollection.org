@@ -1,6 +1,6 @@
 // @flow
 import { type Weight } from '@weco/common/services/prismic/parsers';
-import { useContext, type ComponentType } from 'react';
+import { type ComponentType } from 'react';
 // $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
@@ -21,7 +21,7 @@ import {
   convertJsonDateStringsToMoment,
 } from '../../../services/prismic/opening-times';
 // $FlowFixMe (tsx)
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import { openingTimes } from '@weco/common/services/cache';
 // $FlowFixMe (tsx)
 import Space, { type SpaceComponentProps } from '../styled/Space';
 
@@ -78,7 +78,6 @@ type Props = {|
 |};
 
 const VenueHours = ({ venue, weight }: Props) => {
-  const openingTimes = useContext(OpeningTimesContext);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),

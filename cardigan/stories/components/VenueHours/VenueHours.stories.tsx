@@ -1,5 +1,4 @@
 import VenueHours from '@weco/common/views/components/VenueHours/VenueHours';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { openingTimes } from '../../content';
 
 const now = new Date();
@@ -24,8 +23,8 @@ const Template = args => {
 
   const hasExceptionalHours = false;
 
-  const dummyOverrides = openingTimes.collectionOpeningTimes.placesOpeningHours.map(
-    p => {
+  const dummyOverrides =
+    openingTimes.collectionOpeningTimes.placesOpeningHours.map(p => {
       return {
         ...p,
         openingHours: {
@@ -48,8 +47,7 @@ const Template = args => {
             : [],
         },
       };
-    }
-  );
+    });
 
   const dummyOpeningTimes = {
     ...openingTimes,
@@ -61,8 +59,7 @@ const Template = args => {
   const venueWithImages = {
     ...venue,
     image: {
-      url:
-        'https://images.prismic.io/wellcomecollection%2Fafc7db83-af2e-4108-a050-27f391b8c7f2_c0108492.jpg?auto=compress,format',
+      url: 'https://images.prismic.io/wellcomecollection%2Fafc7db83-af2e-4108-a050-27f391b8c7f2_c0108492.jpg?auto=compress,format',
       alt: 'Photograph of the Reading Room at Wellcome Collection.',
     },
     linkText: `See what's on`,
@@ -70,13 +67,11 @@ const Template = args => {
   };
 
   return (
-    <OpeningTimesContext.Provider value={dummyOpeningTimes}>
-      <VenueHours
-        venue={venueWithImages}
-        weight="featured"
-        isInList={args.isInList}
-      />
-    </OpeningTimesContext.Provider>
+    <VenueHours
+      venue={venueWithImages}
+      weight="featured"
+      isInList={args.isInList}
+    />
   );
 };
 export const basic = Template.bind({});
