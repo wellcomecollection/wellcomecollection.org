@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const usePasswordRules = (
-  input: string
-): {
+type PasswordRules = {
   isAtLeast8Characters: boolean;
   hasLowercaseLetters: boolean;
   hasUppercaseLetters: boolean;
   hasNumbers: boolean;
-} => {
+}
+
+const usePasswordRules = (
+  input: string
+): PasswordRules => {
   const [isAtLeast8Characters, setIsAtLeast8Characters] = useState(false);
   const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
   const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);
