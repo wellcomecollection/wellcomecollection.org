@@ -16,6 +16,7 @@ type Props = {
 };
 
 const ValidatedPage: NextPage<Props> = ({ success, message }) => {
+  const urlUsed = message === 'This URL can be used only once';
   return (
     <PageWrapper>
       <Layout10>
@@ -39,6 +40,15 @@ const ValidatedPage: NextPage<Props> = ({ success, message }) => {
                     Library team in order to confirm your details.
                   </HighlightMessage>
                   <ButtonSolidLink link="/account" text="Continue to Sign in" />
+                </>
+              ) : urlUsed ? (
+                <>
+                  <Title>Email address already verified</Title>
+                  <p>
+                    This link has already been used to verify this email
+                    address.
+                  </p>
+                  <ButtonSolidLink link="/account" text="Sign in" />
                 </>
               ) : (
                 <>
