@@ -1,29 +1,35 @@
 import styled from 'styled-components';
-import { TextInput } from '../Form.style';
+import Space from '@weco/common/views/components/styled/Space';
+import { classNames, font } from '@weco/common/utils/classnames';
 
 export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
+  position: absolute;
+  right: 0;
   height: 55px;
   width: 55px;
   background: none;
   border: none;
 `;
 
-export const Border = styled.div<{ invalid: boolean }>`
-  display: flex;
-  width: 100%;
-  border: ${props =>
-    props.invalid ? 'solid 2px #d1192c' : 'solid 1px #8f8f8f'};
-  margin: 0.333em 0;
-  border-radius: 6px;
-`;
-export const Input = styled(TextInput)`
-  height: 55px;
-  padding: 0.7em;
-  margin: 0;
-  border: none;
-  flex-grow: 2;
+export const RulesListWrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  className: classNames({
+    [font('hnr', 5)]: true,
+  }),
+})`
+  border: 1px solid ${props => props.theme.color('smoke')};
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
 `;
 
-export const RulesList = styled.ul`
-  margin-top: 0.5em;
+export const RulesList = styled.ul.attrs({
+  className: 'plain-list no-margin no-padding',
+})``;
+
+export const RulesListItem = styled(Space).attrs({
+  as: 'li',
+  h: { size: 's', properties: ['margin-bottom'] },
+})`
+  display: flex;
+  align-items: center;
 `;

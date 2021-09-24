@@ -373,12 +373,7 @@ describe('Registration', () => {
     userEvent.click(screen.getByRole('button', { name: /create account/i }));
     userEvent.click(screen.getByRole('checkbox'));
     expect(
-      await screen.findByRole('alert', {
-        name: /an account with this email address already exists, please sign in/i,
-      })
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText('Email address already in use.')
+      await screen.findByText('Email address already in use')
     ).toBeInTheDocument();
   });
 

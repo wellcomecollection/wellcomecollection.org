@@ -50,17 +50,21 @@ export const ItemTitle = styled.span`
   @media (max-width: ${props => props.theme.sizes.large}px) {
     min-width: 100%;
   }
-`
+`;
 
 export const ItemStatus = styled.span`
   white-space: nowrap;
-`
+`;
 
 export const ItemPickup = styled.span`
   white-space: nowrap;
-`
+`;
 
-export const ModalTitle = styled.h2.attrs({ className: font('wb', 3) })``;
+export const ModalTitle = styled(Space).attrs({
+  as: 'h2',
+  h: { size: 'l', properties: ['margin-bottom'] },
+  className: 'h2',
+})``;
 
 const colours = {
   success: css`

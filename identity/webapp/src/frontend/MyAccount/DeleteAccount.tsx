@@ -1,13 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import {
-  FieldMargin,
-  Label,
-  InvalidFieldAlert,
-  Button,
-  Cancel,
-} from '../components/Form.style';
+import { FieldMargin, Button, Cancel } from '../components/Form.style';
+import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { PasswordInput } from '../components/PasswordInput';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
@@ -54,18 +49,18 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       case RequestDeleteError.INCORRECT_PASSWORD: {
         setError('password', {
           type: 'manual',
-          message: 'Incorrect password.',
+          message: 'Incorrect password',
         });
         break;
       }
       case RequestDeleteError.BRUTE_FORCE_BLOCKED: {
         setSubmissionErrorMessage(
-          'Your account has been blocked after multiple consecutive login attempts.'
+          'Your account has been blocked after multiple consecutive login attempts'
         );
         break;
       }
       case RequestDeleteError.UNKNOWN: {
-        setSubmissionErrorMessage('An unknown error occurred.');
+        setSubmissionErrorMessage('An unknown error occurred');
         break;
       }
     }
@@ -88,18 +83,18 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       </p>
       <form onSubmit={handleSubmit(requestDelete)}>
         <FieldMargin>
-          <Label htmlFor="delete-account-confirm-password">Password</Label>
           <PasswordInput
+            label="Password"
             id="delete-account-confirm-password"
             name="password"
             control={control}
-            rules={{ required: 'Enter your current password.' }}
+            rules={{ required: 'Enter your current password' }}
           />
           <ErrorMessage
             errors={formState.errors}
             name="password"
             render={({ message }) => (
-              <InvalidFieldAlert>{message}</InvalidFieldAlert>
+              <TextInputErrorMessage>{message}</TextInputErrorMessage>
             )}
           />
         </FieldMargin>

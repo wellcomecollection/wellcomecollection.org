@@ -1,26 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useController, UseControllerOptions } from 'react-hook-form';
-import { Border, Input, ShowPasswordButton } from './PasswordInput.style';
-import { PasswordRules } from './PasswordRules';
+import { ShowPasswordButton } from './PasswordInput.style';
+import {
+  TextInputWrap,
+  TextInputLabel,
+  TextInputInput,
+} from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
 export type PasswordInputProps = UseControllerOptions & {
+  label: string;
   id?: string;
-  showPolicy?: boolean;
+  updateInput?: (value: string) => void;
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = props => {
+  const { updateInput } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { field, meta } = useController(props);
-  const { showPolicy = false } = props;
-
   const toggleVisibility = () =>
     setIsVisible(currentlyVisible => !currentlyVisible);
 
+  useEffect(() => {
+    if (!updateInput) return;
+
+    updateInput(field.value);
+  }, [field.value, updateInput]);
+
   return (
     <>
-      <Border invalid={meta.invalid}>
-        <Input
+      <TextInputWrap
+        hasErrorBorder={meta.invalid}
+        value={field.value}
+        big={false}
+      >
+        <TextInputLabel
+          htmlFor={props.id}
+          isEnhanced={true}
+          hasValue={!!field.value}
+        >
+          {props.label}
+        </TextInputLabel>
+        <TextInputInput
+          big={false}
+          hasErrorBorder={meta.invalid}
           id={props.id || props.name}
           type={isVisible ? 'text' : 'password'}
           {...field}
@@ -29,10 +52,9 @@ export const PasswordInput: React.FC<PasswordInputProps> = props => {
           onClick={toggleVisibility}
           aria-label={isVisible ? 'Hide password' : 'Show password'}
         >
-          <Icon icon={isVisible ? a11YVisual : eye} />
+          <Icon icon={isVisible ? a11YVisual : eye} color={'silver'} />
         </ShowPasswordButton>
-      </Border>
-      {showPolicy && <PasswordRules />}
+      </TextInputWrap>
     </>
   );
 };
