@@ -1,3 +1,10 @@
+if (process.env.NODE_ENV !== 'test') {
+  require('elastic-apm-node').start({
+    serviceName: process.env.NEXT_PUBLIC_APM_SERVICE_NAME,
+    ...require('@weco/common/services/apm/apmConfig'),
+  });
+}
+
 import Koa from 'koa';
 import json from 'koa-json';
 import logger from 'koa-logger';
@@ -64,11 +71,10 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
     }
 
     ctx.redirect('/account/login');
-  }
+  };
 
   // API routes
   app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
-
 
   // Next specific routes
   koaRouter.get('/account', isAuthenticated, async ctx => {
