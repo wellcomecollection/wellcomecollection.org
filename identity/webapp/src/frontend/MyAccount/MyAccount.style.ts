@@ -42,12 +42,22 @@ export const ModalContainer = styled.aside`
   }
 `;
 
-export const TruncateTitle = styled.a`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+export const ItemTitle = styled.span`
   display: inline-block;
-  max-width: 60ch;
+  min-width: 300px;
+  max-width: 600px;
+
+  @media (max-width: ${props => props.theme.sizes.large}px) {
+    min-width: 100%;
+  }
+`;
+
+export const ItemStatus = styled.span`
+  white-space: nowrap;
+`;
+
+export const ItemPickup = styled.span`
+  white-space: nowrap;
 `;
 
 export const ModalTitle = styled(Space).attrs({

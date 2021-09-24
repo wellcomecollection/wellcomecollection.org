@@ -28,6 +28,7 @@
     "@weco/common": "1.0.0",
     "ajv": "^6.12.6",
     "dotenv": "^8.2.0",
+    "elastic-apm-node": "^3.21.1",
     "koa": "^2.13.0",
     "koa-body": "^4.2.0",
     "koa-json": "^2.0.2",
