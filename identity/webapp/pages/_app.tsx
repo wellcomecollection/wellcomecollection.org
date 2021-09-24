@@ -1,13 +1,19 @@
 import NextApp, { AppContext, NextWebVitalsMetric } from 'next/app';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
 import App, { WecoAppProps } from '@weco/common/views/pages/_app';
-import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import GlobalContextProvider, {
+  getGlobalContextData,
+} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
 export default function IdentityApp(props: WecoAppProps) {
-  return <App {...props} />;
+  return (
+    <GlobalContextProvider value={props.globalContextData}>
+      <App {...props} />
+    </GlobalContextProvider>
+  );
 }
 
 // This is here to disable Automatic Static Optimisation as per
@@ -27,5 +33,15 @@ IdentityApp.getInitialProps = async (appContext: AppContext) => {
   // TODO don't store things like this on `ctx.query`
   delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
 
-  return { ...initialProps, globalContextData };
+  return {
+    ...initialProps,
+    // This is a mega hack as toggles don't work for the identity app as it doesn't use the weird
+    // middleware we have in place on other apps that attaches them to the ctx.query.
+    // Instead of reusing this way, we'll establish a better way, and just force `enableRequesting`
+    // for now as that's required for certain identity features.
+    globalContextData: {
+      ...globalContextData,
+      toggles: { enableRequesting: true },
+    },
+  };
 };
