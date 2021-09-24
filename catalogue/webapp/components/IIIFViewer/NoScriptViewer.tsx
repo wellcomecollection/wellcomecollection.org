@@ -22,7 +22,7 @@ import { arrow } from '@weco/common/icons';
 const NoScriptViewerEl = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  height: calc(100vh - ${props => props.theme.headerHeight}px);
+  height: calc(100vh - ${props => props.theme.navHeight}px);
 `;
 
 const NoScriptViewerMain = styled.div`

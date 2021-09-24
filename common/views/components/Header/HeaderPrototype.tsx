@@ -47,7 +47,7 @@ const Wrapper = styled.div.attrs({
     `
     )}
   `}
-  height: ${props => props.theme.headerHeight}px;
+  height: ${props => props.theme.navHeight}px;
 `;
 
 const Burger = styled.div`
