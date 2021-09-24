@@ -1,5 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
+import theme from '@weco/common/views/themes/default';
+
 import { PasswordInput, PasswordInputProps } from './PasswordInput';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
@@ -10,12 +13,16 @@ const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
       defaultValues: { password: '' },
     });
     return (
-      <PasswordInput
-        label="password"
-        name="password"
-        {...props}
-        control={control}
-      />
+      <ThemeProvider theme={theme}>
+        <PasswordInput
+          label="password"
+          name="password"
+          id="password"
+          {...props}
+          control={control}
+        />
+      </ThemeProvider>
+
     );
   };
   render(<Form />);
