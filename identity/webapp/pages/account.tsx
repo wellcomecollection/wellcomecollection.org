@@ -41,6 +41,7 @@ import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 type DetailProps = {
   label: string;
@@ -75,7 +76,16 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} color={`currentColor`} />
-      {children}
+      <AlignFont>
+        <Space
+          h={{
+            size: 's',
+            properties: ['margin-left'],
+          }}
+        >
+          {children}
+        </Space>
+      </AlignFont>
     </StatusAlert>
   );
 };
