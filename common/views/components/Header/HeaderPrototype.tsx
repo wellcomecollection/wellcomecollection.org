@@ -22,7 +22,6 @@ const NavLoginWrapper = styled.div`
 
 type WrapperProps = {
   isBurgerOpen: boolean;
-  navHeight: number;
 };
 
 const Wrapper = styled.div.attrs({
@@ -48,7 +47,7 @@ const Wrapper = styled.div.attrs({
     `
     )}
   `}
-  height: ${props => props.navHeight}px;
+  height: ${props => props.theme.headerHeight}px;
 `;
 
 const Burger = styled.div`
@@ -279,8 +278,6 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-export const navHeight = 85;
-
 type Props = {
   siteSection: string | null;
 };
@@ -322,7 +319,7 @@ const Header: FC<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
+    <Wrapper isBurgerOpen={isActive}>
       <div className="relative grid__cell">
         <div className="flex flex--v-center container">
           <Burger>
