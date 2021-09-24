@@ -6,7 +6,6 @@ import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
 
 type WrapperProps = {
   isBurgerOpen: boolean;
-  navHeight: number;
 };
 const Wrapper = styled.div.attrs({
   className: classNames({
@@ -29,7 +28,7 @@ const Wrapper = styled.div.attrs({
     `
     )}
   `}
-  height: ${props => props.navHeight}px;
+  height: ${props => props.theme.navHeight}px;
 `;
 
 const Burger = styled.div`
@@ -139,7 +138,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     )}
   `}
 
-
   ${props => `
     ${respondTo(
       'medium',
@@ -160,7 +158,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
     padding-right: 0;
   `
   )}
-
 `;
 
 const HeaderList = styled.ul`
@@ -270,8 +267,6 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-export const navHeight = 85;
-
 type Props = {
   siteSection: string | null;
 };
@@ -313,7 +308,7 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <Wrapper navHeight={navHeight} isBurgerOpen={isActive}>
+    <Wrapper isBurgerOpen={isActive}>
       <div
         className="relative grid__cell"
         style={{ paddingTop: '15px', paddingBottom: '15px' }}

@@ -189,6 +189,7 @@ export const themeValues = {
       xl: spacingUnits['10'],
     },
   },
+  navHeight: 85,
   fontVerticalOffset: '0.15em',
   grid,
   colors,
