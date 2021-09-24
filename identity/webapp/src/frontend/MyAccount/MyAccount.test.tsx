@@ -139,9 +139,12 @@ describe('MyAccount', () => {
       await screen.findByRole('button', { name: /Change password/ })
     );
     userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
-    userEvent.type(screen.getByLabelText(/^new password/i), 'Superman1938');
     userEvent.type(
-      screen.getByLabelText(/retype new password/i),
+      screen.getByLabelText(/^create new password/i),
+      'Superman1938'
+    );
+    userEvent.type(
+      screen.getByLabelText(/re-enter new password/i),
       'Superman1938'
     );
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
