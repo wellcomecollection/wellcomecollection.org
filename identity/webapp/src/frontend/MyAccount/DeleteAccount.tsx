@@ -88,7 +88,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
             id="delete-account-confirm-password"
             name="password"
             control={control}
-            rules={{ required: 'Enter your current password.' }}
+            rules={{ required: 'Enter your current password' }}
           />
           <ErrorMessage
             errors={formState.errors}

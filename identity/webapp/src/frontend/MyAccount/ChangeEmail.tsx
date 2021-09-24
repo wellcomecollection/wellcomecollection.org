@@ -88,7 +88,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
             control={control}
             defaultValue=""
             rules={{
-              required: 'Enter an email address.',
+              required: 'Enter an email address',
               pattern: {
                 value: validEmailPattern,
                 message: 'Enter a valid email address',
@@ -123,7 +123,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
             id="change-email-confirm-password"
             name="password"
             control={control}
-            rules={{ required: 'Enter your password.' }}
+            rules={{ required: 'Enter your password' }}
           />
           <ErrorMessage
             errors={formState.errors}

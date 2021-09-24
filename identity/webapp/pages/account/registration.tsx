@@ -136,7 +136,7 @@ const RegistrationPage: NextPage = () => {
                     name="firstName"
                     control={control}
                     defaultValue=""
-                    rules={{ required: 'Enter your first name.' }}
+                    rules={{ required: 'Enter your first name' }}
                     render={({ onChange, value, name }, { invalid }) => (
                       <WellcomeTextInput
                         required
@@ -157,7 +157,7 @@ const RegistrationPage: NextPage = () => {
                     name="lastName"
                     control={control}
                     defaultValue=""
-                    rules={{ required: 'Enter your last name.' }}
+                    rules={{ required: 'Enter your last name' }}
                     render={({ onChange, value, name }, { invalid }) => (
                       <WellcomeTextInput
                         required
@@ -179,7 +179,7 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{
-                      required: 'Enter an email address.',
+                      required: 'Enter an email address',
                       pattern: {
                         value: validEmailPattern,
                         message: 'Enter a valid email address',
@@ -206,7 +206,7 @@ const RegistrationPage: NextPage = () => {
                     control={control}
                     defaultValue=""
                     rules={{
-                      required: 'Enter a password.',
+                      required: 'Enter a password',
                       pattern: {
                         value: validPasswordPattern,
                         message: 'Enter a valid password',

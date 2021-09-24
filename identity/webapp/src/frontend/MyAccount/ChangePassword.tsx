@@ -106,7 +106,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             id="change-password-current"
             name="password"
             control={control}
-            rules={{ required: 'Enter your current password.' }}
+            rules={{ required: 'Enter your current password' }}
           />
           <ErrorMessage
             errors={formState.errors}
@@ -124,7 +124,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             name="newPassword"
             control={control}
             rules={{
-              required: 'Enter your new password.',
+              required: 'Enter your new password',
               pattern: {
                 value: validPasswordPattern,
                 message: 'Enter a valid password',
@@ -146,7 +146,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
             name="confirmation"
             control={control}
             rules={{
-              required: 'Confirm your new password.',
+              required: 'Confirm your new password',
               validate: async value => {
                 const isNewPasswordValid = await trigger('newPassword');
                 if (isNewPasswordValid) {
