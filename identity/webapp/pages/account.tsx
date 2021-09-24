@@ -21,8 +21,10 @@ import {
   StyledDd,
   ProgressBar,
   ProgressIndicator,
+  ItemTitle,
+  ItemStatus,
+  ItemPickup,
   ButtonWrapper,
-  TruncateTitle,
 } from '../src/frontend/MyAccount/MyAccount.style';
 import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
@@ -34,11 +36,11 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-import Table from '@weco/common/views/components/Table/Table';
 import { font } from '@weco/common/utils/classnames';
 import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
+import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 
 type DetailProps = {
   label: string;
@@ -218,31 +220,42 @@ const AccountPage: NextPage = () => {
                         }
                       />
                     </ProgressBar>
-                    <Table
-                      hasRowHeaders={false}
-                      plain={true}
-                      withBorder={false}
+                    <StackingTable
                       rows={[
                         ['Title', 'Status', 'Pickup location'],
                         ...requests.results.map(result => [
-                          <TruncateTitle href={`/works/${result.workId}`}>
-                            {result.item.title ||
-                              result.workTitle ||
-                              'Unknown title'}
-                          </TruncateTitle>,
-                          result.status.label,
-                          result.pickupLocation.label,
+                          <>
+                            <ItemTitle as="a" href={`/works/${result.workId}`}>
+                              {result.workTitle || 'Unknown title'}
+                            </ItemTitle>
+                            {result.item.title && (
+                              <Space
+                                v={{
+                                  size: 's',
+                                  properties: ['margin-top'],
+                                }}
+                              >
+                                <ItemTitle>{result.item.title}</ItemTitle>
+                              </Space>
+                            )}
+                          </>,
+                          <ItemStatus>{result.status.label}</ItemStatus>,
+                          <ItemPickup>
+                            {result.pickupLocation.label}
+                          </ItemPickup>,
                         ]),
                       ]}
                     />
                     <Space
-                      className={`${font('hnb', 5)}`}
+                      className={`${font('hnr', 5)}`}
                       v={{
                         size: 'l',
                         properties: ['margin-top', 'margin-bottom'],
                       }}
                     >
-                      If you wish to cancel a hold, please{' '}
+                      Requests made will be available to pick up from the
+                      library for two weeks. If you wish to cancel a hold,
+                      please{' '}
                       <a href="mailto:library@wellcomecollection.org">
                         contact the library team.
                       </a>
