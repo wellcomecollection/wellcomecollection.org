@@ -86,15 +86,12 @@ const colours = {
 
 export const StatusAlert = styled(Space).attrs({
   role: 'alert',
-  v: { size: 'l', properties: ['margin-bottom'] },
+  v: { size: 'l', properties: ['margin-bottom', 'padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  className: 'flex flex--v-center'
 })<{ type: keyof typeof colours }>`
   ${props => colours[props.type]}
-  padding: 1em;
-  border-radius: 6px;
-  padding-bottom: 1em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
+  border-radius: ${props => props.theme.borderRadiusUnit}px;
 `;
 
 export const Section = styled.section`
