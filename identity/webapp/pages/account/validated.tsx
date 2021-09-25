@@ -16,13 +16,17 @@ type Props = {
 };
 
 const ValidatedPage: NextPage<Props> = ({ success, message }) => {
-  return (
+  const urlUsed = message === 'This URL can be used only once';
+  //As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
+  // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
+  //auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
+  https: return (
     <PageWrapper>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              {success ? (
+              {success || urlUsed ? (
                 <>
                   <Title>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>

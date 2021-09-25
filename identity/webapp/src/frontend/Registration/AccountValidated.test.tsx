@@ -37,12 +37,13 @@ describe('AccountValidated', () => {
     ).toBeInTheDocument();
   });
 
-  it('displays a failure message', () => {
+  it('displays a email verified title when message is "This URL can be used only once"', () => {
+    // relates to #6952
     renderPage(
       '/account/validated?message=This%20URL%20can%20be%20used%20only%20once&success=false'
     );
     expect(
-      screen.getByText('This URL can be used only once')
+      screen.getByRole('heading', { name: /email verified/i })
     ).toBeInTheDocument();
   });
 
