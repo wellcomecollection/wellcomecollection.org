@@ -107,6 +107,7 @@ export type ButtonSolidBaseProps = {
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
   isBig?: boolean;
+  isDangerous?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
@@ -121,6 +122,7 @@ type SolidButtonProps = {
   href?: string;
   isBig?: boolean;
   ariaLabel?: string;
+  isDangerous?: boolean;
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
@@ -131,9 +133,11 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     }),
   })
 )<SolidButtonProps>`
-  background: ${props => props.theme.color('green')};
+  background: ${props =>
+    props.theme.color(props.isDangerous ? 'red' : 'green')};
   color: ${props => props.theme.color('white')};
-  border: 2px solid ${props => props.theme.color('green')};
+  border: 2px solid
+    ${props => props.theme.color(props.isDangerous ? 'red' : 'green')};
 
   ${props =>
     props.isBig &&
@@ -142,8 +146,10 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   `}
 
   &:not([disabled]):hover {
-    background: ${props => props.theme.color('green', 'dark')};
-    border-color: ${props => props.theme.color('green', 'dark')};
+    background: ${props =>
+      props.theme.color(props.isDangerous ? 'red' : 'green', 'dark')};
+    border-color: ${props =>
+      props.theme.color(props.isDangerous ? 'red' : 'green', 'dark')};
   }
 `;
 
@@ -162,6 +168,7 @@ const ButtonSolid = forwardRef(
       ariaLive,
       disabled,
       isBig,
+      isDangerous,
     }: ButtonSolidProps,
     ref: ForwardedRef<HTMLButtonElement>
   ) => {
@@ -178,6 +185,7 @@ const ButtonSolid = forwardRef(
         onClick={handleClick}
         disabled={disabled}
         isBig={isBig}
+        isDangerous={isDangerous}
         ref={ref}
       >
         <BaseButtonInner>

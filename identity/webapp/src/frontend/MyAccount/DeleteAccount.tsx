@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin, Button, Cancel } from '../components/Form.style';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
+import ButtonSolid, { ButtonTypes } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { PasswordInput } from '../components/PasswordInput';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
@@ -98,9 +99,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
             )}
           />
         </FieldMargin>
-        <Button isDangerous type="submit">
-          Yes, delete my account
-        </Button>
+        <ButtonSolid isDangerous type={ButtonTypes.submit} text="Yes, delete my account" />
         <Cancel onClick={onCancel}>No, take me back to my account</Cancel>
       </form>
     </ModalContainer>

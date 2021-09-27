@@ -90,7 +90,7 @@ export const colors = {
   teal: { base: '#006272', dark: '', light: '' },
   cyan: { base: '#298187', dark: '', light: '' },
   turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
-  red: { base: '#e01b2f', dark: '', light: '' },
+  red: { base: '#e01b2f', dark: '#c1192a', light: '' },
   orange: { base: '#e87500', dark: '', light: '' },
   yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
   brown: { base: '#815e48', dark: '', light: '' },
