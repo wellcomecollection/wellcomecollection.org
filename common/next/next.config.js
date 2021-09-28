@@ -28,7 +28,9 @@ const createConfig =
           isProd && prodSubdomain
             ? `https://${prodSubdomain}.wellcomecollection.org`
             : '',
-        publicRuntimeConfig: { apmConfig },
+        publicRuntimeConfig: {
+          apmConfig: apmConfig(`${options.applicationName}-webapp`),
+        },
         async rewrites() {
           if (phase === PHASE_DEVELOPMENT_SERVER) {
             return [
