@@ -52,6 +52,13 @@ type DetailListProps = {
   listItems: DetailProps[];
 };
 
+const Detail: FC<DetailProps> = ({ label, value }) => (
+  <>
+    <dt className={font('hnb', 5)}>{label}</dt>
+    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
+  </>
+);
+
 const DetailList: FC<DetailListProps> = ({ listItems }) => {
   return (
     <StyledDl>
@@ -61,13 +68,6 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
     </StyledDl>
   );
 };
-
-const Detail: FC<DetailProps> = ({ label, value }) => (
-  <>
-    <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
-  </>
-);
 
 const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   type,
@@ -249,8 +249,10 @@ const AccountPage: NextPage = () => {
                               </Space>
                             )}
                           </>,
-                          <ItemStatus>{result.status.label}</ItemStatus>,
-                          <ItemPickup>
+                          <ItemStatus key={`${result.item.id}-status`}>
+                            {result.status.label}
+                          </ItemStatus>,
+                          <ItemPickup key={`${result.item.id}-pickup`}>
                             {result.pickupLocation.label}
                           </ItemPickup>,
                         ]),
