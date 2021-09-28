@@ -15,13 +15,14 @@ import {
   CheckboxLabel,
   InProgress,
 } from '../../src/frontend/Registration/Registration.style';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
 import {
   Container,
   Title,
   Wrapper,
 } from '../../src/frontend/components/Layout.style';
-import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
+import WellcomeTextInput, {
+  TextInputErrorMessage,
+} from '@weco/common/views/components/TextInput/TextInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   useRegisterUser,
@@ -145,7 +146,7 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={async () => await trigger('firstName')}
+                        setIsValid={() => trigger('firstName')}
                         showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.firstName?.message}
                       />
@@ -166,7 +167,7 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={async () => await trigger('lastName')}
+                        setIsValid={() => trigger('lastName')}
                         showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.lastName?.message}
                       />
@@ -193,7 +194,7 @@ const RegistrationPage: NextPage = () => {
                         value={value}
                         setValue={onChange}
                         isValid={!invalid}
-                        setIsValid={async () => await trigger('email')}
+                        setIsValid={() => trigger('email')}
                         showValidity={formState.isSubmitted}
                         errorMessage={formState.errors.email?.message}
                       />
@@ -223,7 +224,7 @@ const RegistrationPage: NextPage = () => {
                           value={value}
                           setValue={onChange}
                           isValid={!invalid}
-                          setIsValid={async () => await trigger('password')}
+                          setIsValid={() => trigger('password')}
                           showValidity={formState.isSubmitted}
                           errorMessage={formState.errors.password?.message}
                         />
