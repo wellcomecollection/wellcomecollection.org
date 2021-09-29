@@ -1,6 +1,6 @@
 const webpack = require('webpack');
-const path = require('path');
 const withTM = require('next-transpile-modules')(['@weco/common']);
+const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
@@ -28,20 +28,12 @@ const config = function (webpack) {
     },
   });
 
-  const apmConfig = {
-    environment: process.env.APM_ENVIRONMENT,
-    serverUrl: process.env.APM_SERVER_URL,
-    centralConfig: true,
-  };
-
   return withTM({
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org`
         : '',
-    publicRuntimeConfig: {
-      apmConfig,
-    },
+    publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
     ...withBundleAnalyzerConfig,
   });
 };

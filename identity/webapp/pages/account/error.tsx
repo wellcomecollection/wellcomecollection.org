@@ -5,12 +5,11 @@ import { Container, Wrapper } from '../../src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 
-
 type Props = {
   errorDescription: string | string[];
-}
+};
 
-const ErrorPage: NextPage<Props> = ({errorDescription}) => {
+const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
     <PageWrapper>
       <Layout10>
@@ -43,10 +42,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
 
   return {
     props: {
-      errorDescription
-    }
-  }
-}
-
+      errorDescription,
+    },
+  };
+};
 
 export default ErrorPage;

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components')
-  .default;
+const createStyledComponentsTransformer =
+  require('typescript-plugin-styled-components').default;
 const Dotenv = require('dotenv-webpack');
 const styledComponentsTransformer = createStyledComponentsTransformer({
   displayName: true,
@@ -11,13 +11,14 @@ const browserTargets = {
   chrome: '67',
   safari: '11.1',
 };
+const path = require('path');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   devtool: process.env.NODE_ENV !== 'production' ? 'inline-source-map' : false,
   entry: './src/frontend/index.tsx',
   output: {
-    path: __dirname + '/lib/frontend/build',
+    path: path.join(__dirname, '/lib/frontend/build'),
     // Will be available on the router at `/assets/bundle.js`
     filename: 'bundle.js',
     pathinfo: false,

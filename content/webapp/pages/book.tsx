@@ -1,6 +1,6 @@
-import { NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { Book } from '@weco/common/model/books';
-import { Fragment, Component } from 'react';
+import { Fragment, FC } from 'react';
 import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
@@ -18,7 +18,8 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-import { WithGaDimensions } from '@weco/common/views/pages/_app';
+import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -69,150 +70,149 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
   </Space>
 );
 
-export class BookPage extends Component<Props | { statusCode: number }> {
-  static getInitialProps = async (
-    ctx: NextPageContext
-  ): Promise<Props | { statusCode: number }> => {
-    const globalContextData = getGlobalContextData(ctx);
-    const { id, memoizedPrismic } = ctx.query;
-    const book = await getBook(ctx.req, id, memoizedPrismic);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const { id, memoizedPrismic } = context.query;
+    const book: Book = await getBook(context.req, id, memoizedPrismic);
 
     if (book) {
       return {
-        book,
-        globalContextData,
-        gaDimensions: {
-          partOf: book.seasons.map(season => season.id),
-        },
+        props: removeUndefinedProps({
+          book,
+          globalContextData,
+          gaDimensions: {
+            partOf: book.seasons.map(season => season.id),
+          },
+        }),
       };
-    } else {
-      return { statusCode: 404 };
     }
+
+    return { notFound: true };
   };
 
-  render() {
-    if (!('book' in this.props)) return null;
+const BookPage: FC<Props> = props => {
+  if (!('book' in props)) return null;
 
-    const { globalContextData, book } = this.props;
-    const FeaturedMedia = book.cover && (
-      <BookImage image={{ ...book.cover, sizesQueries: '' }} />
-    );
-    const breadcrumbs = {
-      items: [
-        {
-          text: 'Books',
-          url: '/books',
-        },
-        {
-          url: `/books/${book.id}`,
-          text: book.title,
-          isHidden: true,
-        },
-      ],
-    };
-    const Header = (
-      <PageHeader
-        breadcrumbs={breadcrumbs}
-        labels={null}
-        title={book.title}
-        FeaturedMedia={FeaturedMedia}
-        ContentTypeInfo={
-          <Fragment>
-            {book.subtitle && (
-              <p
-                className={classNames({
-                  'no-margin': true,
-                  [font('hnb', 3)]: true,
-                })}
-              >
-                {book.subtitle}
-              </p>
-            )}
-            {book.authorName && <p className="no-margin">{book.authorName}</p>}
-          </Fragment>
-        }
-        isContentTypeInfoBeforeMedia={true}
-        HeroPicture={null}
-        Background={null}
-      />
-    );
-
-    // TODO: (drupal migration) we can drop reading the text fields once we've
-    // migrated the content over
-    const drupalPerson = book.authorName && {
-      type: 'people',
-      id: 'xxx',
-      name: book.authorName || '',
-      image: book.authorImage
-        ? {
-            contentUrl: book.authorImage || '',
-            width: 800,
-            height: 0,
-            alt: `Image of ${book.authorName}`,
-            tasl: {
-              sourceName: 'Unknown',
-              title: null,
-              author: null,
-              sourceLink: null,
-              license: null,
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          }
-        : defaultContributorImage,
-      twitterHandle: null,
-      // parse this as string
-      description: book.authorDescription,
-      sameAs: [],
-    };
-    const drupalContributor = drupalPerson && {
-      contributor: drupalPerson,
-      description: null,
-      role: {
-        id: 'WcUWeCgAAFws-nGh',
-        title: 'Author',
-        describedBy: 'words',
+  const { globalContextData, book } = props;
+  const FeaturedMedia = book.cover && (
+    <BookImage image={{ ...book.cover, sizesQueries: '' }} />
+  );
+  const breadcrumbs = {
+    items: [
+      {
+        text: 'Books',
+        url: '/books',
       },
-    };
-    const contributors =
-      book.contributors.length > 0
-        ? book.contributors
-        : drupalContributor
-        ? [drupalContributor]
-        : [];
+      {
+        url: `/books/${book.id}`,
+        text: book.title,
+        isHidden: true,
+      },
+    ],
+  };
+  const Header = (
+    <PageHeader
+      breadcrumbs={breadcrumbs}
+      labels={null}
+      title={book.title}
+      FeaturedMedia={FeaturedMedia}
+      ContentTypeInfo={
+        <Fragment>
+          {book.subtitle && (
+            <p
+              className={classNames({
+                'no-margin': true,
+                [font('hnb', 3)]: true,
+              })}
+            >
+              {book.subtitle}
+            </p>
+          )}
+          {book.authorName && <p className="no-margin">{book.authorName}</p>}
+        </Fragment>
+      }
+      isContentTypeInfoBeforeMedia={true}
+      HeroPicture={null}
+      Background={null}
+    />
+  );
 
-    return (
-      <PageLayout
-        title={book.title}
-        description={book.metadataDescription || book.promoText || ''}
-        url={{ pathname: `/books/${book.id}`, query: {} }}
-        jsonLd={{ '@type': 'WebPage' }}
-        openGraphType={'book'}
-        siteSection={null}
-        imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
-        imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
-        globalContextData={globalContextData}
+  // TODO: (drupal migration) we can drop reading the text fields once we've
+  // migrated the content over
+  const drupalPerson = book.authorName && {
+    type: 'people',
+    id: 'xxx',
+    name: book.authorName || '',
+    image: book.authorImage
+      ? {
+          contentUrl: book.authorImage || '',
+          width: 800,
+          height: 0,
+          alt: `Image of ${book.authorName}`,
+          tasl: {
+            sourceName: 'Unknown',
+            title: null,
+            author: null,
+            sourceLink: null,
+            license: null,
+            copyrightHolder: null,
+            copyrightLink: null,
+          },
+          crops: {},
+        }
+      : defaultContributorImage,
+    twitterHandle: null,
+    // parse this as string
+    description: book.authorDescription,
+    sameAs: [],
+  };
+  const drupalContributor = drupalPerson && {
+    contributor: drupalPerson,
+    description: null,
+    role: {
+      id: 'WcUWeCgAAFws-nGh',
+      title: 'Author',
+      describedBy: 'words',
+    },
+  };
+  const contributors =
+    book.contributors.length > 0
+      ? book.contributors
+      : drupalContributor
+      ? [drupalContributor]
+      : [];
+
+  return (
+    <PageLayout
+      title={book.title}
+      description={book.metadataDescription || book.promoText || ''}
+      url={{ pathname: `/books/${book.id}`, query: {} }}
+      jsonLd={{ '@type': 'WebPage' }}
+      openGraphType={'book'}
+      siteSection={null}
+      imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
+      imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
+      globalContextData={globalContextData}
+    >
+      <ContentPage
+        id={book.id}
+        Header={Header}
+        Body={<Body body={book.body} pageId={book.id} />}
+        contributorProps={{ contributors }}
+        seasons={book.seasons}
       >
-        <ContentPage
-          id={book.id}
-          Header={Header}
-          Body={<Body body={book.body} pageId={book.id} />}
-          contributorProps={{ contributors }}
-          seasons={book.seasons}
-        >
-          <Fragment>
-            <MetadataWrapper>
-              <BookMetadata book={book} />
-            </MetadataWrapper>
-            {book.orderLink && (
-              <ButtonSolidLink link={book.orderLink} text="Buy the book" />
-            )}
-          </Fragment>
-        </ContentPage>
-      </PageLayout>
-    );
-  }
-}
+        <Fragment>
+          <MetadataWrapper>
+            <BookMetadata book={book} />
+          </MetadataWrapper>
+          {book.orderLink && (
+            <ButtonSolidLink link={book.orderLink} text="Buy the book" />
+          )}
+        </Fragment>
+      </ContentPage>
+    </PageLayout>
+  );
+};
 
 export default BookPage;

@@ -27,47 +27,50 @@ export const WorkPage: NextPage<Props> = ({
   return <Work work={workResponse} globalContextData={globalContextData} />;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const { id } = context.query;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const { id } = context.query;
 
-  if (typeof id !== 'string') {
-    return { notFound: true };
-  }
-
-  const workResponse = await getWork({
-    id,
-    toggles: globalContextData.toggles,
-  });
-
-  if (workResponse.type === 'Redirect') {
-    return {
-      redirect: {
-        destination: workResponse.redirectToId,
-        permanent: workResponse.status === 301,
-      },
-    };
-  }
-
-  if (workResponse.type === 'Error') {
-    if (workResponse.httpStatus === 404) {
+    if (typeof id !== 'string') {
       return { notFound: true };
     }
-    return appError(context, workResponse.httpStatus, workResponse.description);
-  }
 
-  return {
-    props: removeUndefinedProps({
-      workResponse,
-      globalContextData,
-      pageview: {
-        name: 'work',
-        properties: {},
-      },
-    }),
+    const workResponse = await getWork({
+      id,
+      toggles: globalContextData.toggles,
+    });
+
+    if (workResponse.type === 'Redirect') {
+      return {
+        redirect: {
+          destination: workResponse.redirectToId,
+          permanent: workResponse.status === 301,
+        },
+      };
+    }
+
+    if (workResponse.type === 'Error') {
+      if (workResponse.httpStatus === 404) {
+        return { notFound: true };
+      }
+      return appError(
+        context,
+        workResponse.httpStatus,
+        workResponse.description
+      );
+    }
+
+    return {
+      props: removeUndefinedProps({
+        workResponse,
+        globalContextData,
+        pageview: {
+          name: 'work',
+          properties: {},
+        },
+      }),
+    };
   };
-};
 
 export default WorkPage;

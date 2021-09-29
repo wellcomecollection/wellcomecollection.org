@@ -22,7 +22,6 @@ const renderComponent = (props: Partial<PasswordInputProps> = {}) => {
           control={control}
         />
       </ThemeProvider>
-
     );
   };
   render(<Form />);

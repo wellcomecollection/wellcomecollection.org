@@ -23,6 +23,7 @@ module "content-service-17092020" {
 
   secret_env_vars = {
     APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
+    APM_SECRET          = "elasticsearch/logging/apm_secret"
     dotdigital_username = "content/dotdigital/username"
     dotdigital_password = "content/dotdigital/password"
   }

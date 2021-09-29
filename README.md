@@ -132,6 +132,27 @@ docker-compose edge_lambdas build
 docker-compose edge_lambdas run
 ```
 
+## Linting
+
+We use [`ESLint`](https://eslint.org/) to lint the project. [The config is global](./eslintrc.js).
+
+We extend a few configs, including prettier, [which we configure separately](./prettierrs.js).
+
+### VSCode setup
+
+It's easiest to use [Dirk Baumer's VSCode plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+
+If you have prettier (`esbenp.prettier-vscode`) set as default formatter, we'll get conflicts.
+
+Linting does not happen in CI, so to enable linting on save, you can add this to your workspace settings:
+```JSON
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
 ## Other pieces of the Wellcome Collection puzzle
 
 [Wellcome Collection Digital Platform](https://github.com/wellcomecollection/platform).

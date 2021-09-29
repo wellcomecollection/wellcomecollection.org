@@ -12,9 +12,6 @@ export const ApmContext = createContext<ApmContextData>({});
 const { publicRuntimeConfig } = getConfig();
 
 export const ApmContextProvider: FunctionComponent = ({ children }) => {
-  const apm = useApmRum({
-    serviceName: process.env.NEXT_PUBLIC_APM_SERVICE_NAME,
-    ...publicRuntimeConfig.apmConfig,
-  });
+  const apm = useApmRum(publicRuntimeConfig.apmConfig);
   return <ApmContext.Provider value={{ apm }}>{children}</ApmContext.Provider>;
 };

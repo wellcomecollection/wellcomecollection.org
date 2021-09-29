@@ -1,25 +1,26 @@
-if (process.env.NODE_ENV !== 'test') {
-  require('elastic-apm-node').start({
-    serviceName: process.env.NEXT_PUBLIC_APM_SERVICE_NAME,
-    ...require('@weco/common/services/apm/apmConfig'),
-  });
-}
+/* eslint-disable @typescript-eslint/no-var-requires, import/first */
+// This needs to be the first module loaded in the application
+require('@weco/common/services/apm/initApm')('identity-server');
 
 import Koa from 'koa';
 import json from 'koa-json';
+import session from 'koa-session';
 import logger from 'koa-logger';
+import koaPassport from 'koa-passport';
 import Ajv from 'ajv';
 import * as path from 'path';
 import next from 'next';
 import { readdirSync, readFileSync } from 'fs';
 import { errorHandler } from './middleware/error-handler';
 import { TypedRouter } from './utility/typed-router';
-import koaPassport from 'koa-passport';
 import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
+/* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
-export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
+export async function createApp(
+  router: TypedRouter<never, never>
+): Promise<Koa> {
   const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
   });
@@ -31,7 +32,6 @@ export async function createApp(router: TypedRouter<any, any>): Promise<Koa> {
   app.context.routes = router;
 
   // Session.
-  const session = require('koa-session');
   app.keys = config.sessionKeys;
   app.use(session(config.session, app));
 
