@@ -264,8 +264,7 @@ const AccountPage: NextPage = () => {
                       }}
                     >
                       Requests made will be available to pick up from the
-                      library for one week. If you wish to cancel a hold,
-                      please{' '}
+                      library for one week. If you wish to cancel a hold, please{' '}
                       <a href="mailto:library@wellcomecollection.org">
                         contact the library team.
                       </a>
