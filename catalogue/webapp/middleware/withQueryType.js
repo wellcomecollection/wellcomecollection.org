@@ -1,7 +1,7 @@
 const fetch = require('isomorphic-unfetch');
 let allowableValues = { prod: [], staging: [] };
 
-const parseCookies = function(req) {
+const parseCookies = function (req) {
   if (!req.headers.cookie) {
     return [];
   }
