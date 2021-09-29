@@ -5,8 +5,9 @@ app.then(server => {
   server.listen(port, err => {
     if (err) throw err;
     console.log(
-      `> ${process.env.NODE_ENV ||
-        'development'} ready on http://localhost:${port}/works`
+      `> ${
+        process.env.NODE_ENV || 'development'
+      } ready on http://localhost:${port}/works`
     );
   });
 });

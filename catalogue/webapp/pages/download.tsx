@@ -162,45 +162,44 @@ const DownloadPage: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<
-  Props | AppErrorProps
-> = async context => {
-  const globalContextData = getGlobalContextData(context);
-  const { workId, sierraId } = context.query;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const globalContextData = getGlobalContextData(context);
+    const { workId, sierraId } = context.query;
 
-  if (typeof workId !== 'string' || typeof sierraId !== 'string') {
+    if (typeof workId !== 'string' || typeof sierraId !== 'string') {
+      return {
+        notFound: true,
+      };
+    }
+
+    const manifestUrl =
+      sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+    const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
+    const work = await getWork({
+      id: workId,
+      toggles: globalContextData.toggles,
+    });
+    if (work.type === 'Error') {
+      return appError(context, work.httpStatus, work.description);
+    } else if (work.type === 'Redirect') {
+      return {
+        redirect: {
+          destination: `/works/${work.redirectToId}/download`,
+          permanent: work.status === 301,
+        },
+      };
+    }
+
     return {
-      notFound: true,
+      props: removeUndefinedProps({
+        workId,
+        sierraId,
+        manifest,
+        work,
+        globalContextData,
+      }),
     };
-  }
-
-  const manifestUrl =
-    sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
-  const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
-  const work = await getWork({
-    id: workId,
-    toggles: globalContextData.toggles,
-  });
-  if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
-  } else if (work.type === 'Redirect') {
-    return {
-      redirect: {
-        destination: `/works/${work.redirectToId}/download`,
-        permanent: work.status === 301,
-      },
-    };
-  }
-
-  return {
-    props: removeUndefinedProps({
-      workId,
-      sierraId,
-      manifest,
-      work,
-      globalContextData,
-    }),
   };
-};
 
 export default DownloadPage;
