@@ -346,9 +346,8 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   [font('hnb', 3)]: true,
                   'no-margin': true,
                 })}
-              >
-                {displayTitle}
-              </h2>
+                dangerouslySetInnerHTML={{ __html: displayTitle }}
+              />
               {displayContributor && (
                 <Space
                   as="h3"
