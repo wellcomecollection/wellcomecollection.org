@@ -9,12 +9,10 @@ import Favicons from '@weco/common/views/components/Favicons/Favicons';
 const Main = styled.div`
   @media (min-width: ${props => props.theme.sizes.medium}px) {
     background: ${props => props.theme.color('cream')};
-    min-height: calc(100vh - ${props => props.theme.navHeight}px)
+    min-height: calc(100vh - ${props => props.theme.navHeight}px);
   }
 `;
-export const PageWrapper: FC = ({
-  children,
-}) => {
+export const PageWrapper: FC = ({ children }) => {
   return (
     <>
       <Head>

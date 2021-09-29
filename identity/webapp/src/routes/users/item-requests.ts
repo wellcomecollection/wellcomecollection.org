@@ -1,6 +1,7 @@
 import { RouteMiddleware } from '../../types/application';
 import { callRemoteApi } from '../../utility/api-caller';
 
+// eslint-disable-next-line camelcase
 export const itemRequests: RouteMiddleware<{ user_id: string }> =
   async context => {
     if (context.request.method === 'POST') {

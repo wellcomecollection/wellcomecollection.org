@@ -41,7 +41,8 @@ export const config = {
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
     callbackURL:
-      process.env.AUTH0_CALLBACK_URL || `http://localhost:${port}/account/callback`,
+      process.env.AUTH0_CALLBACK_URL ||
+      `http://localhost:${port}/account/callback`,
   } as StrategyOption,
 
   session: {
