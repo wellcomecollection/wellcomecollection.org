@@ -27,7 +27,6 @@ const writeCache = async () => {
     const data = await fetcher();
     const cacheDir = path.resolve(__dirname, '.cache');
 
-    console.info(`writing ${cacheDir}/${key}.json`);
     fs.ensureDir(cacheDir).then(() =>
       fs.writeJson(`${cacheDir}/${key}.json`, data)
     );

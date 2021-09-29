@@ -4,16 +4,23 @@ import App, { WecoAppProps } from '@weco/common/views/pages/_app';
 import GlobalContextProvider, {
   getGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import TogglesContext, {
+  parseTogglesFromPageContext,
+} from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { Toggles } from '@weco/toggles';
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
+type Props = WecoAppProps & { toggles: Toggles };
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function IdentityApp(props: WecoAppProps) {
+export default function IdentityApp(props: Props) {
   return (
-    <GlobalContextProvider value={props.globalContextData}>
-      <App {...props} />
-    </GlobalContextProvider>
+    <TogglesContext.Provider value={props.toggles}>
+      <GlobalContextProvider value={props.globalContextData}>
+        <App {...props} />
+      </GlobalContextProvider>
+    </TogglesContext.Provider>
   );
 }
 
@@ -30,19 +37,11 @@ export default function IdentityApp(props: WecoAppProps) {
 // require different prefixes).
 IdentityApp.getInitialProps = async (appContext: AppContext) => {
   const globalContextData = getGlobalContextData(appContext.ctx);
+  const toggles = parseTogglesFromPageContext(appContext.ctx);
   const initialProps = await NextApp.getInitialProps(appContext);
+
   // TODO don't store things like this on `ctx.query`
   delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
 
-  return {
-    ...initialProps,
-    // This is a mega hack as toggles don't work for the identity app as it doesn't use the weird
-    // middleware we have in place on other apps that attaches them to the ctx.query.
-    // Instead of reusing this way, we'll establish a better way, and just force `enableRequesting`
-    // for now as that's required for certain identity features.
-    globalContextData: {
-      ...globalContextData,
-      toggles: { enableRequesting: true },
-    },
-  };
+  return { ...initialProps, globalContextData, toggles };
 };

@@ -2,12 +2,21 @@ import NextApp, { AppContext, NextWebVitalsMetric } from 'next/app';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
 import App, { WecoAppProps } from '@weco/common/views/pages/_app';
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import TogglesContext, {
+  parseTogglesFromPageContext,
+} from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { Toggles } from '@weco/toggles';
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
-export default function ContentApp(props: WecoAppProps) {
-  return <App {...props} />;
+type Props = WecoAppProps & { toggles: Toggles };
+export default function ContentApp(props: Props) {
+  return (
+    <TogglesContext.Provider value={props.toggles}>
+      <App {...props} />
+    </TogglesContext.Provider>
+  );
 }
 
 // This is here to disable Automatic Static Optimisation as per
@@ -23,9 +32,11 @@ export default function ContentApp(props: WecoAppProps) {
 // require different prefixes).
 ContentApp.getInitialProps = async (appContext: AppContext) => {
   const globalContextData = getGlobalContextData(appContext.ctx);
+  const toggles = parseTogglesFromPageContext(appContext.ctx);
   const initialProps = await NextApp.getInitialProps(appContext);
+
   // TODO don't store things like this on `ctx.query`
   delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
 
-  return { ...initialProps, globalContextData };
+  return { ...initialProps, globalContextData, toggles };
 };
