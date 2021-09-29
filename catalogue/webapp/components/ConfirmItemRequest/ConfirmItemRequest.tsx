@@ -52,7 +52,7 @@ const RemainingRequests: FC<{
   <Remaining>
     {`${
       allowedHoldRequests - currentHoldRequests
-    }/${allowedHoldRequests} items remaining`}
+    }/${allowedHoldRequests} requests remaining`}
   </Remaining>
 );
 
@@ -138,7 +138,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
     </Header>
     <p>
       It will be available to pick up from the library (Rare Materials Room,
-      level 3) for two weeks.
+      level 3) for one week.
     </p>
     <BeforeYourVisit>
       <span
