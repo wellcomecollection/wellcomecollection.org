@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<
           order: p.order,
           type: p.type,
         };
-      }) || [];
+      }) || []; 
 
     const children = await getChildren(page, context.req, memoizedPrismic);
     return {
@@ -273,6 +273,11 @@ const Page: FC<Props> = ({
             sectionLevelPage={sectionLevelPage}
           />
         }
+        /**
+         * We use this order because people want to:
+         * - Explore deeper into a subject (children)
+         * - Explore around a subject (siblings)
+         */
         RelatedContent={[...Children, ...Siblings]}
         contributorProps={{ contributors: page.contributors }}
         seasons={page.seasons}
