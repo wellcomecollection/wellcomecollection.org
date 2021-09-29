@@ -56,48 +56,45 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const globalContextData = getGlobalContextData(context);
-    const { id, memoizedPrismic } = context.query;
-    const page: PageType | undefined = await getPage(
-      context.req,
-      id,
-      memoizedPrismic
-    );
-    if (page) {
-      const siblings = await getPageSiblings(
-        page,
-        context.req,
-        memoizedPrismic
-      );
-      const ordersInParents: OrderInParent[] =
-        page.parentPages.map(p => {
-          return {
-            id: p.id,
-            title: p.title,
-            order: p.order,
-            type: p.type,
-          };
-        }) || [];
+export const getServerSideProps: GetServerSideProps<
+  Props | AppErrorProps
+> = async context => {
+  const globalContextData = getGlobalContextData(context);
+  const { id, memoizedPrismic } = context.query;
+  const page: PageType | undefined = await getPage(
+    context.req,
+    id,
+    memoizedPrismic
+  );
+  if (page) {
+    const siblings = await getPageSiblings(page, context.req, memoizedPrismic);
+    const ordersInParents: OrderInParent[] =
+      page.parentPages.map(p => {
+        return {
+          id: p.id,
+          title: p.title,
+          order: p.order,
+          type: p.type,
+        };
+      }) || [];
 
-      const children = await getChildren(page, context.req, memoizedPrismic);
-      return {
-        props: removeUndefinedProps({
-          page,
-          siblings,
-          children,
-          ordersInParents,
-          globalContextData,
-          gaDimensions: {
-            partOf: page.seasons.map<string>(season => season.id),
-          },
-        }),
-      };
-    } else {
-      return { notFound: true };
-    }
-  };
+    const children = await getChildren(page, context.req, memoizedPrismic);
+    return {
+      props: removeUndefinedProps({
+        page,
+        siblings,
+        children,
+        ordersInParents,
+        globalContextData,
+        gaDimensions: {
+          partOf: page.seasons.map<string>(season => season.id),
+        },
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
+};
 
 const Page: FC<Props> = ({
   page,
@@ -276,7 +273,7 @@ const Page: FC<Props> = ({
             sectionLevelPage={sectionLevelPage}
           />
         }
-        RelatedContent={[...Siblings, ...Children]}
+        RelatedContent={[...Children, ...Siblings]}
         contributorProps={{ contributors: page.contributors }}
         seasons={page.seasons}
       />
