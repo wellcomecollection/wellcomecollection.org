@@ -188,7 +188,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                   isHeldByUser ? (
                     <span>You have this item on hold</span>
                   ) : (
-                    <>{accessMethod}</>
+                    <>{isLoading ? 'Loading…' : accessMethod}</>
                   )
                 ) : (
                   <>
