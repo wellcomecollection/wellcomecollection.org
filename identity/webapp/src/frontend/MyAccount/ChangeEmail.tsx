@@ -106,7 +106,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
               <TextInput
                 required
                 id={name}
-                label="Email address"
+                label="New email address"
                 value={value}
                 setValue={onChange}
                 isValid={!invalid}
