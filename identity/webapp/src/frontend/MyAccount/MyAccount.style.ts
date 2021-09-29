@@ -86,9 +86,12 @@ const colours = {
 
 export const StatusAlert = styled(Space).attrs({
   role: 'alert',
-  v: { size: 'l', properties: ['margin-bottom', 'padding-top', 'padding-bottom'] },
+  v: {
+    size: 'l',
+    properties: ['margin-bottom', 'padding-top', 'padding-bottom'],
+  },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: 'flex flex--v-center'
+  className: 'flex flex--v-center',
 })<{ type: keyof typeof colours }>`
   ${props => colours[props.type]}
   border-radius: ${props => props.theme.borderRadiusUnit}px;

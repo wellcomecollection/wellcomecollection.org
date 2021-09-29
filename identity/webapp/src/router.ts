@@ -43,8 +43,16 @@ export const router = new TypedRouter({
     registerUser,
     'RegisterUserSchema',
   ],
-  'get-current-user': [TypedRouter.GET, '/account/api/users/me', getCurrentUser],
-  'update-current-user': [TypedRouter.PUT, '/account/api/users/me', updateCurrentUser],
+  'get-current-user': [
+    TypedRouter.GET,
+    '/account/api/users/me',
+    getCurrentUser,
+  ],
+  'update-current-user': [
+    TypedRouter.PUT,
+    '/account/api/users/me',
+    updateCurrentUser,
+  ],
   'update-user-password': [
     TypedRouter.PUT,
     '/account/api/users/me/password',
@@ -72,7 +80,11 @@ export const router = new TypedRouter({
   // Proxy APIs - todo
   'get-user': [TypedRouter.GET, '/account/api/users/:user_id', stubApi],
   'get-users': [TypedRouter.GET, '/account/api/users', stubApi],
-  'lock-user-account': [TypedRouter.PUT, '/account/api/users/:user_id/lock', stubApi],
+  'lock-user-account': [
+    TypedRouter.PUT,
+    '/account/api/users/:user_id/lock',
+    stubApi,
+  ],
   'post-users': [TypedRouter.POST, '/account/api/users', stubApi],
   'reset-user-password': [
     TypedRouter.PUT,

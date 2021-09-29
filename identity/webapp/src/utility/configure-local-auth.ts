@@ -20,6 +20,7 @@ export function configureLocalAuth() {
     }
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const LocalStrategy = require('passport-local').Strategy;
   koaPassport.use(
     new LocalStrategy(function (username: string, password: string, done: any) {

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
-import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
-import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import TextInput, {
+  TextInputErrorMessage,
+} from '@weco/common/views/components/TextInput/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
 import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
@@ -110,7 +111,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
                 value={value}
                 setValue={onChange}
                 isValid={!invalid}
-                setIsValid={async () => await trigger('email')}
+                setIsValid={async () => trigger('email')}
                 showValidity={formState.isSubmitted}
                 errorMessage={formState.errors.email?.message}
               />

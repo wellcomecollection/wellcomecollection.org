@@ -5,11 +5,9 @@ type PasswordRules = {
   hasLowercaseLetters: boolean;
   hasUppercaseLetters: boolean;
   hasNumbers: boolean;
-}
+};
 
-const usePasswordRules = (
-  input: string
-): PasswordRules => {
+const usePasswordRules = (input: string): PasswordRules => {
   const [isAtLeast8Characters, setIsAtLeast8Characters] = useState(false);
   const [hasLowercaseLetters, setHasLowercaseLetters] = useState(false);
   const [hasUppercaseLetters, setHasUppercaseLetters] = useState(false);
