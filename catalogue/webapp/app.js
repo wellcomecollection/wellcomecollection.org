@@ -1,8 +1,5 @@
 // This needs to be the first module loaded in the application
-if (process.env.NODE_ENV !== 'test') {
-  const apmConfig = require('@weco/common/services/apm/apmConfig');
-  require('elastic-apm-node').start(apmConfig('catalogue-server'));
-}
+require('@weco/common/services/apm/initApm')('catalogue-server');
 
 const Koa = require('koa');
 const Router = require('koa-router');

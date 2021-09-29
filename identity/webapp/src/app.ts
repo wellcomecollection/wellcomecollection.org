@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
-if (process.env.NODE_ENV !== 'test') {
-  const apmConfig = require('@weco/common/services/apm/apmConfig');
-  require('elastic-apm-node').start(apmConfig('identity-server'));
-}
+require('@weco/common/services/apm/initApm')('identity-server');
 
 import Koa from 'koa';
 import json from 'koa-json';
