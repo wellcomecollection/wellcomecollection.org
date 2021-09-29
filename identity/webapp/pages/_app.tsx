@@ -8,6 +8,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function IdentityApp(props: WecoAppProps) {
   return (
     <GlobalContextProvider value={props.globalContextData}>

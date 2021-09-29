@@ -4,7 +4,6 @@ import { PageWrapper } from '../../src/frontend/components/PageWrapper';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 
-
 const DeleteRequestedPage: NextPage = () => {
   return (
     <PageWrapper>
@@ -18,9 +17,9 @@ const DeleteRequestedPage: NextPage = () => {
               </p>
 
               <p className="font-hnr font-size-4">
-                Our Library enquiries team will now progress your request. If there
-                are any issues they will be in touch otherwise your account will be
-                removed.
+                Our Library enquiries team will now progress your request. If
+                there are any issues they will be in touch otherwise your
+                account will be removed.
               </p>
               <p className="font-hnr font-size-4">
                 <a href="/">Return to homepage</a>
