@@ -17,7 +17,8 @@ module "identity-service-18012021" {
   ]
 
   env_vars = merge({
-    PROD_SUBDOMAIN = var.subdomain
+    PROD_SUBDOMAIN  = var.subdomain
+    APM_ENVIRONMENT = var.env_suffix
   }, var.env_vars)
 
   secret_env_vars = merge({}, var.secret_env_vars)

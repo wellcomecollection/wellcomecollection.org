@@ -29,7 +29,7 @@ const createConfig =
             ? `https://${prodSubdomain}.wellcomecollection.org`
             : '',
         publicRuntimeConfig: {
-          apmConfig: apmConfig(`${options.applicationName}-webapp`),
+          apmConfig: apmConfig.client(`${options.applicationName}-webapp`),
         },
         async rewrites() {
           if (phase === PHASE_DEVELOPMENT_SERVER) {

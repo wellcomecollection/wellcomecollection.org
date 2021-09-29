@@ -1,4 +1,4 @@
-module.exports = serviceName => ({
+const commonApmConfig = serviceName => ({
   serviceName,
   environment: process.env.APM_ENVIRONMENT,
   serverUrl: process.env.APM_SERVER_URL,
@@ -6,3 +6,11 @@ module.exports = serviceName => ({
   active: process.env.APM_INACTIVE !== 'true',
   centralConfig: true,
 });
+
+const client = commonApmConfig;
+const server = serviceName => ({
+  ...commonApmConfig(serviceName),
+  secretToken: process.env.APM_SECRET,
+});
+
+module.exports = { client, server };
