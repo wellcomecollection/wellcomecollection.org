@@ -23,6 +23,7 @@ module "catalogue-service-17092020" {
 
   secret_env_vars = {
     APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
+    APM_SECRET          = "elasticsearch/logging/apm_secret"
     items_api_key_prod  = "catalogue_api/items/prod/api_key"
     items_api_key_stage = "catalogue_api/items/stage/api_key"
   }
