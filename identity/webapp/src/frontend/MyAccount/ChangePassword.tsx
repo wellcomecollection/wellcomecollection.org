@@ -1,16 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import usePasswordRules from '../hooks/usePasswordRules';
-import { PasswordInput } from '../components/PasswordInput';
+import { PasswordInput, PasswordRules } from '../components/PasswordInput';
 import { FieldMargin } from '../components/Form.style';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { ModalContainer, ModalTitle, StatusAlert } from './MyAccount.style';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
-import { PasswordRules } from '../components/PasswordInput/PasswordRules';
 import {
   UpdatePasswordError,
   useUpdatePassword,
@@ -38,7 +37,6 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
     []
   );
   const { updatePassword, isLoading, error } = useUpdatePassword();
-  const [newPasswordInput, setNewPasswordInput] = useState('');
   const {
     control,
     getValues,
@@ -54,6 +52,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
     string | null
   >(null);
 
+  const newPasswordInput = useWatch({ control, name: 'newPassword' }) as string;
   const passwordRules = usePasswordRules(newPasswordInput);
 
   useEffect(() => {
@@ -118,7 +117,6 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
         </FieldMargin>
         <FieldMargin>
           <PasswordInput
-            updateInput={setNewPasswordInput}
             label="Create new password"
             id="change-password-new"
             name="newPassword"
