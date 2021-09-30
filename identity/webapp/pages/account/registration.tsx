@@ -1,7 +1,7 @@
-import { useEffect, FormEvent, useState } from 'react';
+import { useEffect, FormEvent } from 'react';
 import usePasswordRules from '../../src/frontend/hooks/usePasswordRules';
 import { NextPage } from 'next';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import NextLink from 'next/link';
 import { AccountCreated } from '../../src/frontend/Registration/AccountCreated';
@@ -66,8 +66,8 @@ const RegistrationPage: NextPage = () => {
     error: registrationError,
   } = useRegisterUser();
 
-  const [passwordInput, setPasswordInput] = useState('');
-  const passwordRules = usePasswordRules(passwordInput);
+  const passwordInputValue = useWatch({ control, name: 'password' }) as string;
+  const passwordRules = usePasswordRules(passwordInputValue);
 
   usePageTitle('Register for a library account');
 
@@ -213,23 +213,20 @@ const RegistrationPage: NextPage = () => {
                         message: 'Enter a valid password',
                       },
                     }}
-                    render={({ onChange, value, name }, { invalid }) => {
-                      setPasswordInput(value);
-                      return (
-                        <PasswordInput
-                          required
-                          id={name}
-                          type="password"
-                          label="Password"
-                          value={value}
-                          setValue={onChange}
-                          isValid={!invalid}
-                          setIsValid={() => trigger('password')}
-                          showValidity={formState.isSubmitted}
-                          errorMessage={formState.errors.password?.message}
-                        />
-                      );
-                    }}
+                    render={({ onChange, value, name }, { invalid }) => (
+                      <PasswordInput
+                        required
+                        id={name}
+                        type="password"
+                        label="Password"
+                        value={value}
+                        setValue={onChange}
+                        isValid={!invalid}
+                        setIsValid={() => trigger('password')}
+                        showValidity={formState.isSubmitted}
+                        errorMessage={formState.errors.password?.message}
+                      />
+                    )}
                   />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <PasswordRules {...passwordRules} />
