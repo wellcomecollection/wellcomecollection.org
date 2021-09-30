@@ -7,6 +7,7 @@
     "compile:tsc": "tsc --build ./tsconfig.json",
     "compile:flow": "flow",
     "setupCommon": "yarn install --production && yarn flow",
+    "identity": "pushd identity/webapp && yarn start:dev",
     "cardigan": "pushd cardigan && yarn dev",
     "catalogue": "pushd catalogue/webapp && yarn dev",
     "content": "pushd content/webapp && yarn dev",
