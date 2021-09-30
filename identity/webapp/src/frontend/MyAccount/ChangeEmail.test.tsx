@@ -48,7 +48,9 @@ describe('ChangeEmail', () => {
     const emailAddressInput = await screen.findByLabelText(/email address/i);
     userEvent.clear(emailAddressInput);
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
-    expect(emailAddressInput).toHaveValue('clarkkent@dailybugle.com');
+    await waitFor(() =>
+      expect(emailAddressInput).toHaveValue('clarkkent@dailybugle.com')
+    );
   });
 
   it('allows the user to confirm their password', async () => {
@@ -57,7 +59,9 @@ describe('ChangeEmail', () => {
       /confirm password/i
     );
     userEvent.type(confirmPasswordInput, 'Superman1938');
-    expect(confirmPasswordInput).toHaveValue('Superman1938');
+    await waitFor(() =>
+      expect(confirmPasswordInput).toHaveValue('Superman1938')
+    );
   });
 
   it('submits a complete and valid form to the API', async () => {
@@ -94,7 +98,7 @@ describe('ChangeEmail', () => {
         </UserInfoProvider>
       </ThemeProvider>
     );
-    expect(emailAddressInput).toHaveValue(mockUser.email);
+    await waitFor(() => expect(emailAddressInput).toHaveValue(mockUser.email));
   });
 
   describe('shows an error on submission', () => {
