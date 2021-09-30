@@ -63,7 +63,7 @@ const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
 const Grid = styled.div<{ isArchive: boolean }>`
   ${props => props.theme.media[props.isArchive ? 'large' : 'medium']`
     display: grid;
-    grid-template-columns: 160px 160px 125px;
+    grid-template-columns: 160px 170px 125px auto;
     grid-column-gap: 25px;
   `}
 `;
@@ -169,7 +169,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
               <>
                 <Box>
                   <>
-                    <DetailHeading>Access</DetailHeading>
+                    <DetailHeading>Status</DetailHeading>
                     <span>
                       {isOpenShelves && 'Open shelves'}
                       {!isOpenShelves && accessStatus}
@@ -181,18 +181,16 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           </Box>
           {!isOpenShelves && (
             <>
+              <Box>
+                <DetailHeading>Access</DetailHeading>
+                <>{accessMethod}</>
+              </Box>
               <Box isCentered>
-                {hideRequestButton ? (
-                  // TODO: fairly sure displaying this `accessMethod` here isn't what we want
-                  // (at least not all the time) but it is useful to see e.g. 'Not requestable'
-                  isHeldByUser ? (
-                    <span>You have this item on hold</span>
-                  ) : (
-                    <>{accessMethod}</>
-                  )
-                ) : (
+                {enableRequesting && !hideRequestButton ? (
                   <>
-                    {enableRequesting ? (
+                    {isHeldByUser ? (
+                      <span>You have this item on hold</span>
+                    ) : (
                       <ConfirmItemRequest
                         isActive={isActive}
                         setIsActive={setIsActive}
@@ -201,15 +199,15 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
                         user={isLoading ? undefined : user}
                         initialHoldNumber={userHolds?.results.length ?? 0}
                       />
-                    ) : (
-                      <>
-                        {requestItemUrl && (
-                          <ButtonOutlinedLink
-                            text={'Request item'}
-                            link={requestItemUrl}
-                          />
-                        )}
-                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {requestItemUrl && (
+                      <ButtonOutlinedLink
+                        text={'Request item'}
+                        link={requestItemUrl}
+                      />
                     )}
                   </>
                 )}
