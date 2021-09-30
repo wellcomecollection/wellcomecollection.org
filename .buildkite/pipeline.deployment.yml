@@ -27,11 +27,11 @@ steps:
     agents:
       queue: nano
 
-  - block: ":rocket: Create prod deployment"
+  - block: ":rocket: Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     prompt: "Have you checked the change and main landing pages on staging?"
 
-  - label: "Create prod deployment"
+  - label: "Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     plugins:
       - wellcomecollection/github-deployments#v0.2.2:
