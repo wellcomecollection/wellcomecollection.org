@@ -241,7 +241,7 @@
 
 - wait
 
-- label: "Triggering stage deployment"
+- label: "Trigger stage deployment"
   branches: "main"
   plugins:
     - wellcomecollection/github-deployments#v0.2.4:
