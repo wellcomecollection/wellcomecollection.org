@@ -13,6 +13,7 @@ import {
   getGuides,
   getGuideFormats,
 } from '@weco/common/services/prismic/guides';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Format } from '@weco/common/model/format';
@@ -122,12 +123,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   if (guides) {
     return {
-      props: {
+      props: removeUndefinedProps({
         guides,
         guideFormats,
         formatId: format || null,
         globalContextData,
-      },
+      }),
     };
   } else {
     return { notFound: true };

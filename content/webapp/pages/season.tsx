@@ -7,6 +7,7 @@ import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHe
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 import Body from '@weco/common/views/components/Body/Body';
 import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
@@ -102,7 +103,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     if (seasonWithContent) {
-      return { props: { ...seasonWithContent, globalContextData } };
+      return {
+        props: removeUndefinedProps({
+          ...seasonWithContent,
+          globalContextData,
+        }),
+      };
     } else {
       return { notFound: true };
     }
