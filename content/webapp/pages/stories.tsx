@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic
     );
 
-    const storiesPagePromise = await getPage(
+    const storiesPagePromise = getPage(
       context.req,
       prismicPageIds.stories,
       memoizedPrismic

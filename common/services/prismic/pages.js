@@ -183,8 +183,8 @@ export async function getPageSiblings(
   memoizedPrismic: ?Object
 ): Promise<SiblingsGroup[]> {
   const relatedPagePromises = (page.parentPages &&
-    page.parentPages.map(async parentPage => {
-      const pagePromise = await getPages(
+    page.parentPages.map(parentPage =>
+      getPages(
         req,
         {
           predicates: [
@@ -192,9 +192,8 @@ export async function getPageSiblings(
           ],
         },
         memoizedPrismic
-      );
-      return pagePromise;
-    })) || [Promise.resolve([])];
+      )
+    )) || [Promise.resolve([])];
   const relatedPages = await Promise.all(relatedPagePromises);
   const siblingsWithLandingTitle = relatedPages.map((results, i) => {
     return {

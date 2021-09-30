@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 ) => {
   const globalContextData = getGlobalContextData(ctx);
   const { format, memoizedPrismic } = ctx.query;
-  const guidesPromise = await getGuides(
+  const guidesPromise = getGuides(
     ctx.req,
     {
       format,

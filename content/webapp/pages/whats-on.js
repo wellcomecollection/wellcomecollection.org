@@ -363,7 +363,7 @@ export class WhatsOnPage extends Component<Props> {
     const { memoizedPrismic } = ctx.query;
 
     // call prisimic for specific content for section page such as featured text
-    const whatsOnPagePromise = await getPage(
+    const whatsOnPagePromise = getPage(
       ctx.req,
       prismicPageIds.whatsOn,
       memoizedPrismic
