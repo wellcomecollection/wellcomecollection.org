@@ -2,7 +2,7 @@
 // @ts-nocheck
 // Before working on this file, please get it to typecheck,
 // I have had to add this here to unblock some work
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -101,26 +101,19 @@ const GuidePage = ({
   );
 };
 
-GuidePage.getInitialProps = async (
+export const getServerSideProps: GetServerSideProps<Props> = async (
   ctx: NextPageContext
-): Promise<Props | { statusCode: number }> => {
+) => {
   const globalContextData = getGlobalContextData(ctx);
-  const { format } = ctx.query;
-  const { memoizedPrismic } = ctx.query.memoizedPrismic as unknown as Record<
-    string,
-    unknown
-  >;
-  const memo = Array.isArray(memoizedPrismic)
-    ? memoizedPrismic[0]
-    : memoizedPrismic;
+  const { format, memoizedPrismic } = ctx.query;
   const guidesPromise = await getGuides(
     ctx.req,
     {
       format,
     },
-    memo
+    memoizedPrismic
   );
-  const guideFormatsPromise = getGuideFormats(ctx.req, memo);
+  const guideFormatsPromise = getGuideFormats(ctx.req, memoizedPrismic);
 
   const [guides, guideFormats] = await Promise.all([
     guidesPromise,
@@ -129,13 +122,15 @@ GuidePage.getInitialProps = async (
 
   if (guides) {
     return {
-      guides,
-      guideFormats,
-      formatId: format || null,
-      globalContextData,
+      props: {
+        guides,
+        guideFormats,
+        formatId: format || null,
+        globalContextData,
+      },
     };
   } else {
-    return { statusCode: 404 };
+    return { notFound: true };
   }
 };
 

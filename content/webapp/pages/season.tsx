@@ -1,4 +1,4 @@
-import { NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -12,6 +12,7 @@ import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { convertJsonToDates } from './event';
 import {
   getGlobalContextData,
@@ -90,28 +91,21 @@ const SeasonPage = ({
   );
 };
 
-SeasonPage.getInitialProps = async (
-  ctx: NextPageContext
-): Promise<Props | { statusCode: number }> => {
-  const globalContextData = getGlobalContextData(ctx);
-  const { id } = ctx.query;
-  const { memoizedPrismic } = ctx.query.memoizedPrismic as unknown as Record<
-    string,
-    unknown
-  >;
-  const seasonWithContent = await getSeasonWithContent({
-    request: ctx.req,
-    id: id?.toString() || '',
-    memoizedPrismic: Array.isArray(memoizedPrismic)
-      ? memoizedPrismic[0]
-      : memoizedPrismic,
-  });
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async ctx => {
+    const globalContextData = getGlobalContextData(ctx);
+    const { id, memoizedPrismic } = ctx.query;
+    const seasonWithContent = await getSeasonWithContent({
+      request: ctx.req,
+      id: id?.toString() || '',
+      memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
+    });
 
-  if (seasonWithContent) {
-    return { ...seasonWithContent, globalContextData };
-  } else {
-    return { statusCode: 404 };
-  }
-};
+    if (seasonWithContent) {
+      return { props: { ...seasonWithContent, globalContextData } };
+    } else {
+      return { notFound: true };
+    }
+  };
 
 export default SeasonPage;
