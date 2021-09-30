@@ -78,7 +78,11 @@ function getItemLinkState({
 }
 
 export const unrequestableStatusIds = ['temporarily-unavailable'];
-export const unrequestableMethodIds = ['not-requestable', 'open-shelves'];
+export const unrequestableMethodIds = [
+  'not-requestable',
+  'open-shelves',
+  'manual-request',
+];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { enableRequesting } = useContext(TogglesContext);
