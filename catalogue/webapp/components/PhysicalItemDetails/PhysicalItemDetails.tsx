@@ -136,24 +136,17 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     ? userHolds.results.some(r => r.item.id === item.id)
     : false;
 
-  // TODO cater for when isHeldByUser updates
   function createRows() {
     const requestButton =
       enableRequesting && !hideRequestButton ? (
-        <>
-          {isHeldByUser ? (
-            <span>You have this item on hold</span>
-          ) : (
-            <ConfirmItemRequest
-              isActive={isActive}
-              setIsActive={setIsActive}
-              item={item}
-              work={work}
-              user={isLoading ? undefined : user}
-              initialHoldNumber={userHolds?.results.length ?? 0}
-            />
-          )}
-        </>
+        <ConfirmItemRequest
+          isActive={isActive}
+          setIsActive={setIsActive}
+          item={item}
+          work={work}
+          user={isLoading ? undefined : user}
+          initialHoldNumber={userHolds?.results.length ?? 0}
+        />
       ) : (
         requestItemUrl &&
         !hideRequestButton && (
@@ -209,6 +202,14 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
               <span dangerouslySetInnerHTML={{ __html: accessNote }} />
             </Space>
           )}
+        {isHeldByUser && (
+          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+            <DetailHeading>Note</DetailHeading>
+            <span
+              dangerouslySetInnerHTML={{ __html: 'You have this item on hold' }}
+            />
+          </Space>
+        )}
       </Wrapper>
     </>
   );
