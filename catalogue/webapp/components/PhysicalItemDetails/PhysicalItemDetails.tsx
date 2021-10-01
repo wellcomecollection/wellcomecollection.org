@@ -19,10 +19,6 @@ import {
 } from '../WorkDetails/WorkDetails';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 
-const Row = styled(Space).attrs({
-  v: { size: 'm', properties: ['margin-bottom'] },
-})``;
-
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
 })<{ underline: boolean }>`
@@ -31,10 +27,6 @@ const Wrapper = styled(Space).attrs({
     `
     border-bottom: 1px solid ${props.theme.color('pumice')};
   `}
-
-  ${Row}:last-of-type {
-    margin-bottom: 0;
-  }
 `;
 
 const DetailHeading = styled.h3.attrs({
@@ -43,23 +35,6 @@ const DetailHeading = styled.h3.attrs({
     'no-margin': true,
   }),
 })``;
-
-const Box = styled(Space).attrs<{ isCentered?: boolean }>(props => ({
-  v: {
-    size: 's',
-    properties: [props.isCentered ? undefined : 'margin-bottom'],
-  },
-}))<{ isCentered?: boolean }>`
-  ${props =>
-    props.isCentered &&
-    `
-    align-self: center;
-  `}
-
-  ${props => props.theme.media.medium`
-    margin-bottom: 0;
-  `}
-`;
 
 export type Props = {
   item: PhysicalItem;
@@ -215,14 +190,12 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     <>
       <Wrapper underline={!isLast}>
         {(title || itemNote) && (
-          <Row>
-            <Box>
-              <DetailHeading>{title}</DetailHeading>
-              {itemNote && (
-                <span dangerouslySetInnerHTML={{ __html: itemNote }} />
-              )}
-            </Box>
-          </Row>
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <DetailHeading>{title}</DetailHeading>
+            {itemNote && (
+              <span dangerouslySetInnerHTML={{ __html: itemNote }} />
+            )}
+          </Space>
         )}
         <StackingTable
           rows={createRows()}
@@ -231,12 +204,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         />
         {accessNote &&
           !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it
-            <Row>
-              <Box>
-                <DetailHeading>Note</DetailHeading>
-                <span dangerouslySetInnerHTML={{ __html: accessNote }} />
-              </Box>
-            </Row>
+            <Space v={{ size: 'm', properties: ['margin-top'] }}>
+              <DetailHeading>Note</DetailHeading>
+              <span dangerouslySetInnerHTML={{ __html: accessNote }} />
+            </Space>
           )}
       </Wrapper>
     </>
