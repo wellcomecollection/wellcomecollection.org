@@ -12,7 +12,8 @@ const StyledTable = styled.table.attrs({
     border-collapse: collapse;
   }
 
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
     table,
     thead,
     tbody,
@@ -44,7 +45,10 @@ const StyledTr = styled(Space).attrs({
 
 const StyledTh = styled(Space).attrs(props => ({
   as: 'th',
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
+  v: {
+    size: 's',
+    properties: props.plain ? [] : ['padding-top', 'padding-bottom'],
+  },
   h: {
     size: 'm',
     properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
@@ -62,14 +66,18 @@ const StyledTh = styled(Space).attrs(props => ({
   white-space: nowrap;
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
     padding-left: 0;
   }
 `;
 
 const StyledTd = styled(Space).attrs(props => ({
   as: 'td',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  v: {
+    size: 'm',
+    properties: props.plain ? [] : ['padding-top', 'padding-bottom'],
+  },
   h: {
     size: 'm',
     properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
@@ -79,7 +87,8 @@ const StyledTd = styled(Space).attrs(props => ({
 }))`
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: ${props => `${props.theme.spacingUnit}px`};
@@ -102,21 +111,23 @@ type Props = {
   rows: (string | ReactElement)[][],
   caption?: string,
   plain?: boolean,
+  maxWidth?: number,
 };
 
 const StackingTable: FunctionComponent<Props> = ({
   rows,
   caption,
   plain,
+  maxWidth,
 }: Props): ReactElement<Props> => {
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
   return (
-    <StyledTable>
+    <StyledTable maxWidth={maxWidth}>
       <thead>
         <tr>
           {headerRow.map((data, index) => (
-            <StyledTh key={index} plain={plain}>
+            <StyledTh key={index} plain={plain} maxWidth={maxWidth}>
               {data}
             </StyledTh>
           ))}
@@ -130,6 +141,7 @@ const StackingTable: FunctionComponent<Props> = ({
                 key={index}
                 content={`${headerRow[index]}`}
                 plain={plain}
+                maxWidth={maxWidth}
               >
                 {data}
               </StyledTd>
