@@ -8,6 +8,7 @@ const StyledTable = styled.table.attrs({
   }),
 })`
    {
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
   }
