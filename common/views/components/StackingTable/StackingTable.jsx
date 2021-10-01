@@ -101,7 +101,7 @@ const StyledTd = styled(Space).attrs(props => ({
     :before {
       display: block;
       white-space: nowrap;
-      content: ${props => `'${props.content}'`};
+      content: ${props => (props.content ? `'${props.content}'` : '')};
       font-weight: bold;
     }
   }
@@ -139,7 +139,7 @@ const StackingTable: FunctionComponent<Props> = ({
             {row.map((data, index) => (
               <StyledTd
                 key={index}
-                content={`${headerRow[index]}`}
+                content={headerRow[index]}
                 plain={plain}
                 maxWidth={maxWidth}
               >

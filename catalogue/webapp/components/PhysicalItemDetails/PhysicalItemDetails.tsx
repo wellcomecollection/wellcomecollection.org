@@ -165,7 +165,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       'Location',
       showStatus && 'Status',
       showAccess && 'Access',
-      showButton && <span>Request link</span>, // TODO visually hidden
+      showButton && '',
     ].filter(Boolean);
 
     const dataRow = [
