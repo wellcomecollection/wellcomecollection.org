@@ -42,15 +42,23 @@ const StyledTr = styled(Space).attrs({
   }
 `;
 
-const StyledTh = styled(Space).attrs({
+const StyledTh = styled(Space).attrs(props => ({
   as: 'th',
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  h: {
+    size: 'm',
+    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
+      Boolean
+    ),
+  },
   className: classNames({
     [font('hnb', 5)]: true,
   }),
-})`
-  background: ${props => props.theme.color('pumice')};
+}))`
+  background: ${props =>
+    props.plain
+      ? props.theme.color('transparent')
+      : props.theme.color('pumice')};
   white-space: nowrap;
   text-align: left;
   vertical-align: top;
@@ -59,11 +67,16 @@ const StyledTh = styled(Space).attrs({
   }
 `;
 
-const StyledTd = styled(Space).attrs({
+const StyledTd = styled(Space).attrs(props => ({
   as: 'td',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
+  h: {
+    size: 'm',
+    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
+      Boolean
+    ),
+  },
+}))`
   text-align: left;
   vertical-align: top;
   @media (max-width: ${props => props.theme.sizes.large}px) {
@@ -87,12 +100,14 @@ const StyledTd = styled(Space).attrs({
 
 type Props = {
   rows: (string | ReactElement)[][],
-  caption: string,
+  caption?: string,
+  plain?: boolean,
 };
 
 const StackingTable: FunctionComponent<Props> = ({
   rows,
   caption,
+  plain,
 }: Props): ReactElement<Props> => {
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
@@ -101,15 +116,21 @@ const StackingTable: FunctionComponent<Props> = ({
       <thead>
         <tr>
           {headerRow.map((data, index) => (
-            <StyledTh key={index}>{data}</StyledTh>
+            <StyledTh key={index} plain={plain}>
+              {data}
+            </StyledTh>
           ))}
         </tr>
       </thead>
       <tbody>
         {bodyRows.map((row, index) => (
-          <StyledTr key={index}>
+          <StyledTr plain={plain} key={index}>
             {row.map((data, index) => (
-              <StyledTd key={index} content={`${headerRow[index]}`}>
+              <StyledTd
+                key={index}
+                content={`${headerRow[index]}`}
+                plain={plain}
+              >
                 {data}
               </StyledTd>
             ))}
