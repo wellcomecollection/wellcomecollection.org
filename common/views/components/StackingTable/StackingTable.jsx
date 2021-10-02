@@ -8,7 +8,7 @@ const StyledTable = styled.table.attrs({
   }),
 })`
    {
-    table-layout: fixed;
+    table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
     width: 100%;
     border-collapse: collapse;
   }
@@ -126,7 +126,7 @@ const StackingTable: FunctionComponent<Props> = ({
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
   return (
-    <StyledTable maxWidth={maxWidth}>
+    <StyledTable maxWidth={maxWidth} useFixedWidth={columnWidths.length > 0}>
       <thead>
         <tr>
           {headerRow.map((data, index) => (
