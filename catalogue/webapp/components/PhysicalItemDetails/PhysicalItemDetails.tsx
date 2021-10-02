@@ -194,6 +194,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           rows={createRows()}
           plain={true}
           maxWidth={isArchive ? 980 : 620}
+          columnWidths={[220]}
         />
         {accessNote &&
           !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it

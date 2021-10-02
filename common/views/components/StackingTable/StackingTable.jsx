@@ -113,6 +113,7 @@ type Props = {
   caption?: string,
   plain?: boolean,
   maxWidth?: number,
+  columnWidths?: (number | null)[],
 };
 
 const StackingTable: FunctionComponent<Props> = ({
@@ -120,6 +121,7 @@ const StackingTable: FunctionComponent<Props> = ({
   caption,
   plain,
   maxWidth,
+  columnWidths = [],
 }: Props): ReactElement<Props> => {
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
@@ -128,7 +130,12 @@ const StackingTable: FunctionComponent<Props> = ({
       <thead>
         <tr>
           {headerRow.map((data, index) => (
-            <StyledTh key={index} plain={plain} maxWidth={maxWidth}>
+            <StyledTh
+              key={index}
+              plain={plain}
+              maxWidth={maxWidth}
+              width={columnWidths[index]}
+            >
               {data}
             </StyledTh>
           ))}
