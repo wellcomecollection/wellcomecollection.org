@@ -29,6 +29,16 @@ const Wrapper = styled(Space).attrs({
   `}
 `;
 
+type ButtonWrapperProps = {
+  styleChangeWidth: number;
+};
+
+const ButtonWrapper = styled.div<ButtonWrapperProps>`
+  @media (max-width: ${props => props.styleChangeWidth}px) {
+    margin-top: ${props => props.theme.spacingUnit * 2}px;
+  }
+`;
+
 const DetailHeading = styled.h3.attrs({
   className: classNames({
     [font('hnb', 5, { small: 3, medium: 3 })]: true,
@@ -173,7 +183,11 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         </span>
       ),
       showAccess && accessMethod,
-      showButton && requestButton,
+      showButton && (
+        <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
+          {requestButton}
+        </ButtonWrapper>
+      ),
     ].filter(Boolean);
 
     return [headingRow, dataRow];

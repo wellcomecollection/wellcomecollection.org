@@ -15,7 +15,8 @@ const StyledTable = styled.table.attrs({
 
   @media (max-width: ${props =>
       props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
-    table,
+    display: block;
+
     thead,
     tbody,
     th,
