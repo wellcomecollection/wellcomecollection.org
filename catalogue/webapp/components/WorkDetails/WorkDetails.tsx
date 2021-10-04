@@ -711,7 +711,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink) && <WhereToFindIt />}
+      {(locationOfWork || showEncoreLink || physicalItems) && <WhereToFindIt />}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
