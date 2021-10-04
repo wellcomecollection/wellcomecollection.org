@@ -185,7 +185,19 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         ' '
       ),
       showAccess ? accessMethod : ' ',
-      showButton ? (
+      enableRequesting ? (
+        !isLoading ? (
+          showButton ? (
+            <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
+              {requestButton}
+            </ButtonWrapper>
+          ) : (
+            ' '
+          )
+        ) : (
+          'Loading...'
+        )
+      ) : showButton ? (
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
         </ButtonWrapper>
