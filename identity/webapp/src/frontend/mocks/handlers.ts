@@ -1,5 +1,8 @@
 import { rest } from 'msw';
-import { mockUser } from '@weco/common/test/fixtures/identity/user';
+import {
+  mockItemRequests,
+  mockUser,
+} from '@weco/common/test/fixtures/identity/user';
 
 export const handlers = [
   rest.post('/account/api/user/create', (req, res, ctx) => {
@@ -18,12 +21,6 @@ export const handlers = [
     return res(ctx.status(200));
   }),
   rest.get('/account/api/users/:userId/item-requests', (req, res, ctx) => {
-    return res(
-      ctx.json({
-        results: [],
-        totalResults: 0,
-        type: 'ResultsList',
-      })
-    );
+    return res(ctx.json(mockItemRequests));
   }),
 ];

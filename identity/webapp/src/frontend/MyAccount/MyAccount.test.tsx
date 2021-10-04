@@ -1,7 +1,10 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import AccountPage from '../../../pages/account';
-import { mockUser } from '@weco/common/test/fixtures/identity/user';
+import {
+  mockItemRequests,
+  mockUser,
+} from '@weco/common/test/fixtures/identity/user';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
@@ -81,6 +84,14 @@ describe('MyAccount', () => {
     renderComponent();
     await waitForLoad();
     expect(await screen.findByText(mockUser.email)).toBeInTheDocument();
+  });
+
+  it("shows the user's item requests", async () => {
+    renderComponent();
+    await waitForLoad();
+    expect(
+      await screen.findByText(mockItemRequests.results[0].item.title)
+    ).toBeInTheDocument();
   });
 
   it('opens a modal where the user can update their email', async () => {
