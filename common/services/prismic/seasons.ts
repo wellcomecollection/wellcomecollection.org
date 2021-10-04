@@ -46,7 +46,7 @@ export function parseSeason(document: PrismicDocument): Season {
 export async function getSeason(
   req: IncomingMessage | undefined,
   id: string,
-  memoizedPrismic: Record<string, unknown>
+  memoizedPrismic?: Record<string, unknown>
 ): Promise<Season | undefined> {
   const season = await getDocument(
     req,
@@ -76,27 +76,27 @@ export async function getSeasonWithContent({
   memoizedPrismic: Record<string, unknown>;
   id: string;
 }): Promise<SeasonWithContent | undefined> {
-  const seasonPromise = await getSeason(request, id, memoizedPrismic);
+  const seasonPromise = getSeason(request, id, memoizedPrismic);
 
-  const articlesPromise = await getArticles(
+  const articlesPromise = getArticles(
     request,
     { predicates: [Prismic.Predicates.at('my.articles.seasons.season', id)] },
     memoizedPrismic
   );
 
-  const booksPromise = await getBooks(
+  const booksPromise = getBooks(
     request,
     { predicates: [Prismic.Predicates.at('my.books.seasons.season', id)] },
     memoizedPrismic
   );
 
-  const eventsPromise = await getEvents(
+  const eventsPromise = getEvents(
     request,
     { predicates: [Prismic.Predicates.at('my.events.seasons.season', id)] },
     memoizedPrismic
   );
 
-  const exhibitionsPromise = await getExhibitions(
+  const exhibitionsPromise = getExhibitions(
     request,
     {
       predicates: [Prismic.Predicates.at('my.exhibitions.seasons.season', id)],
@@ -104,7 +104,7 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const pagesPromise = await getPages(
+  const pagesPromise = getPages(
     request,
     {
       predicates: [Prismic.Predicates.at('my.pages.seasons.season', id)],
@@ -112,7 +112,7 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const articleSeriesPromise = await getMultipleArticleSeries(
+  const articleSeriesPromise = getMultipleArticleSeries(
     request,
     {
       predicates: [Prismic.Predicates.at('my.series.seasons.season', id)],
@@ -120,7 +120,7 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const projectsPromise = await getProjects(
+  const projectsPromise = getProjects(
     request,
     {
       predicates: [Prismic.Predicates.at('my.projects.seasons.season', id)],

@@ -311,12 +311,10 @@ export async function getExhibitions(
     memoizedPrismic
   );
 
-  const uiExhibitions: UiExhibition[] = paginatedResults.results.map(
-    parseExhibitionDoc
-  );
-  const exhibitionsWithPermAfterCurrent = putPermanentAfterCurrentExhibitions(
-    uiExhibitions
-  );
+  const uiExhibitions: UiExhibition[] =
+    paginatedResults.results.map(parseExhibitionDoc);
+  const exhibitionsWithPermAfterCurrent =
+    putPermanentAfterCurrentExhibitions(uiExhibitions);
 
   // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
   // battles with spreading.
@@ -405,8 +403,8 @@ export async function getExhibitionWithRelatedContent({
   memoizedPrismic: ?Object,
   id: string,
 }) {
-  const exhibitionPromise = await getExhibition(request, id, memoizedPrismic);
-  const pagesPromise = await getPages(
+  const exhibitionPromise = getExhibition(request, id, memoizedPrismic);
+  const pagesPromise = getPages(
     request,
     {
       predicates: [Prismic.Predicates.at('my.pages.parents.parent', id)],

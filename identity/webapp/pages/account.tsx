@@ -220,9 +220,7 @@ const AccountPage: NextPage = () => {
                       as="p"
                       className={`${font('hnb', 5)}`}
                       v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`${
-                      allowedRequests - requests?.totalResults
-                    } of ${allowedRequests} requests remaining`}</Space>
+                    >{`You have requested ${requests?.totalResults} out of ${allowedRequests} items`}</Space>
                     <ProgressBar>
                       <ProgressIndicator
                         percentage={
@@ -266,8 +264,7 @@ const AccountPage: NextPage = () => {
                       }}
                     >
                       Requests made will be available to pick up from the
-                      library for two weeks. If you wish to cancel a hold,
-                      please{' '}
+                      library for one week. If you wish to cancel a hold, please{' '}
                       <a href="mailto:library@wellcomecollection.org">
                         contact the library team.
                       </a>
