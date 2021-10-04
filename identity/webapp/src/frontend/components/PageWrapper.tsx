@@ -12,10 +12,16 @@ const Main = styled.div`
     min-height: calc(100vh - ${props => props.theme.navHeight}px);
   }
 `;
-export const PageWrapper: FC = ({ children }) => {
+
+type Props = {
+  title: string;
+};
+
+export const PageWrapper: FC<Props> = ({ title, children }) => {
   return (
     <>
       <Head>
+        <title>{title} | Wellcome Collection</title>
         <Favicons />
       </Head>
       <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />

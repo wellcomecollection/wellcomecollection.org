@@ -124,7 +124,7 @@ const AccountPage: NextPage = () => {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper title={`Your library account`}>
       <Header
         v={{
           size: 'l',

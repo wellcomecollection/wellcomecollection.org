@@ -93,7 +93,7 @@ const RegistrationPage: NextPage = () => {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper title={`Registration`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

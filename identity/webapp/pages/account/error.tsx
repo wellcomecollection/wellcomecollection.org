@@ -11,7 +11,7 @@ type Props = {
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
-    <PageWrapper>
+    <PageWrapper title={`Error`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
