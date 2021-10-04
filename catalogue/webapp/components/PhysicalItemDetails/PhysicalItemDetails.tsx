@@ -92,15 +92,13 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   const requestItemUrl = isRequestableOnline ? encoreLink : undefined;
 
-  // Work out whether to show the requestButton
   const accessMethodId =
     physicalLocation?.accessConditions?.[0]?.method?.id || '';
 
   const accessStatusId =
     physicalLocation?.accessConditions?.[0]?.status?.id || '';
 
-  // Work out whether to show status and access and request button
-  // TODO tidy up logic about showing button, encorporate isRequestableOnline, encoreUrl
+  // Work out whether to show status, access and request button
   const showStatus = isOpenShelves || accessStatus;
   const showAccess = !isOpenShelves;
   const hideRequestButton =
@@ -224,7 +222,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           rows={createRows()}
           plain={true}
           maxWidth={isArchive ? 980 : 620}
-          columnWidths={[220]}
+          columnWidths={[180, 200, null, null]}
         />
         {accessNote &&
           !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it
@@ -237,7 +235,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
             <span
-              dangerouslySetInnerHTML={{ __html: 'You have this item on hold' }}
+              dangerouslySetInnerHTML={{
+                __html: 'You have requested this item.',
+              }}
             />
           </Space>
         )}
