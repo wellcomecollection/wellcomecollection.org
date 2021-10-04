@@ -168,9 +168,8 @@ const AccountPage: NextPage = () => {
                       if (newUserInfo) update(newUserInfo);
                       setIsEmailUpdated(true);
                     }}
-                  >
-                    <ChangeEmail />
-                  </ChangeDetailsModal>
+                    render={props => <ChangeEmail {...props} />}
+                  />
                 </ButtonWrapper>
                 <ButtonWrapper>
                   <ChangeDetailsModal
@@ -179,9 +178,8 @@ const AccountPage: NextPage = () => {
                     onComplete={() => {
                       setIsPasswordUpdated(true);
                     }}
-                  >
-                    <ChangePassword />
-                  </ChangeDetailsModal>
+                    render={props => <ChangePassword {...props} />}
+                  />
                 </ButtonWrapper>
               </Wrapper>
             </Container>
@@ -269,9 +267,8 @@ const AccountPage: NextPage = () => {
                     buttonText="Request deletion"
                     isDangerous
                     onComplete={logoutOnDeletionRequest}
-                  >
-                    <DeleteAccount />
-                  </ChangeDetailsModal>
+                    render={props => <DeleteAccount {...props} />}
+                  />
                 </ButtonWrapper>
               </Wrapper>
             </Container>

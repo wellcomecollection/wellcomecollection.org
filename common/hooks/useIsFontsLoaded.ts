@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 const useIsFontsLoaded = (): boolean => {
   const [isFontsLoaded, setIsFontsLoaded] = useState(false);
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') {
+      return;
+    }
+
     let isMounted = true;
     // This needs to be dynamically required as it's only on the client-side
     /* eslint-disable @typescript-eslint/no-var-requires */
