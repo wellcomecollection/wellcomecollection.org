@@ -8,12 +8,15 @@ const StyledTable = styled.table.attrs({
   }),
 })`
    {
+    table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
     width: 100%;
     border-collapse: collapse;
   }
 
-  @media (max-width: ${props => props.theme.sizes.large}px) {
-    table,
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
+    display: block;
+
     thead,
     tbody,
     th,
@@ -42,31 +45,52 @@ const StyledTr = styled(Space).attrs({
   }
 `;
 
-const StyledTh = styled(Space).attrs({
+const StyledTh = styled(Space).attrs(props => ({
   as: 'th',
-  v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: {
+    size: 's',
+    properties: props.plain ? [] : ['padding-top', 'padding-bottom'],
+  },
+  h: {
+    size: 'm',
+    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
+      Boolean
+    ),
+  },
   className: classNames({
     [font('hnb', 5)]: true,
   }),
-})`
-  background: ${props => props.theme.color('pumice')};
+}))`
+  background: ${props =>
+    props.plain
+      ? props.theme.color('transparent')
+      : props.theme.color('pumice')};
   white-space: nowrap;
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
     padding-left: 0;
   }
 `;
 
-const StyledTd = styled(Space).attrs({
+const StyledTd = styled(Space).attrs(props => ({
   as: 'td',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
+  v: {
+    size: 'm',
+    properties: props.plain ? [] : ['padding-top', 'padding-bottom'],
+  },
+  h: {
+    size: 'm',
+    properties: [props.plain ? '' : 'padding-left', 'padding-right'].filter(
+      Boolean
+    ),
+  },
+}))`
   text-align: left;
   vertical-align: top;
-  @media (max-width: ${props => props.theme.sizes.large}px) {
+  @media (max-width: ${props =>
+      props.maxWidth ? props.maxWidth : props.theme.sizes.large}px) {
     padding-left: 0;
     padding-top: 0;
     padding-bottom: ${props => `${props.theme.spacingUnit}px`};
@@ -79,7 +103,7 @@ const StyledTd = styled(Space).attrs({
     :before {
       display: block;
       white-space: nowrap;
-      content: ${props => `'${props.content}'`};
+      content: ${props => (props.content ? `'${props.content}'` : '')};
       font-weight: bold;
     }
   }
@@ -87,29 +111,47 @@ const StyledTd = styled(Space).attrs({
 
 type Props = {
   rows: (string | ReactElement)[][],
-  caption: string,
+  caption?: string,
+  plain?: boolean,
+  maxWidth?: number,
+  columnWidths?: (number | null)[],
 };
 
 const StackingTable: FunctionComponent<Props> = ({
   rows,
   caption,
+  plain,
+  maxWidth,
+  columnWidths = [],
 }: Props): ReactElement<Props> => {
   const headerRow = rows[0];
   const bodyRows = rows.slice(1);
   return (
-    <StyledTable>
+    <StyledTable maxWidth={maxWidth} useFixedWidth={columnWidths.length > 0}>
       <thead>
         <tr>
           {headerRow.map((data, index) => (
-            <StyledTh key={index}>{data}</StyledTh>
+            <StyledTh
+              key={index}
+              plain={plain}
+              maxWidth={maxWidth}
+              width={columnWidths[index]}
+            >
+              {data}
+            </StyledTh>
           ))}
         </tr>
       </thead>
       <tbody>
         {bodyRows.map((row, index) => (
-          <StyledTr key={index}>
+          <StyledTr plain={plain} key={index}>
             {row.map((data, index) => (
-              <StyledTd key={index} content={`${headerRow[index]}`}>
+              <StyledTd
+                key={index}
+                content={headerRow[index]}
+                plain={plain}
+                maxWidth={maxWidth}
+              >
                 {data}
               </StyledTd>
             ))}
