@@ -21,10 +21,15 @@ const renderComponent = () =>
     </ThemeProvider>
   );
 
+const waitForLoad = () =>
+  waitFor(() =>
+    expect(screen.queryByLabelText(/Loading/i)).not.toBeInTheDocument()
+  );
+
 describe('MyAccount', () => {
-  it('shows an indicator while loading user data', () => {
+  it('shows an indicator while loading user data', async () => {
     renderComponent();
-    const loading = screen.getByText(/Loading/);
+    const loading = await screen.findByText(/Loading/);
     expect(loading).toBeInTheDocument();
   });
 
@@ -42,19 +47,15 @@ describe('MyAccount', () => {
       })
     );
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(
-      await screen.findByText(/you have not yet validated your email address/i)
-    ).toBeInTheDocument();
+      screen.queryByText(/you have not yet validated your email address/i)
+    ).not.toBeInTheDocument();
   });
 
   it('does not show an email validation warning by default', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(
       screen.queryByText(/you have not yet validated your email address/i)
     ).not.toBeInTheDocument();
@@ -70,27 +71,21 @@ describe('MyAccount', () => {
     ).toBeInTheDocument();
   });
 
-  xit("shows the user's library card number", async () => {
+  it("shows the user's library card number", async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(await screen.findByText(mockUser.barcode)).toBeInTheDocument();
   });
 
-  xit("shows the user's email address", async () => {
+  it("shows the user's email address", async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(await screen.findByText(mockUser.email)).toBeInTheDocument();
   });
 
   it('opens a modal where the user can update their email', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(
       screen.queryByRole('heading', { name: /change email/i })
     ).not.toBeInTheDocument();
@@ -98,7 +93,7 @@ describe('MyAccount', () => {
       await screen.findByRole('button', { name: /change email/i })
     );
     expect(
-      screen.queryByRole('heading', { name: /change email/i })
+      await screen.findByRole('heading', { name: /change email/i })
     ).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     expect(
@@ -108,9 +103,7 @@ describe('MyAccount', () => {
 
   it('opens a modal where the user can update their password', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(
       screen.queryByRole('heading', { name: /change password/i })
     ).not.toBeInTheDocument();
@@ -118,7 +111,7 @@ describe('MyAccount', () => {
       await screen.findByRole('button', { name: /change password/i })
     );
     expect(
-      screen.queryByRole('heading', { name: /change password/i })
+      await screen.findByRole('heading', { name: /change password/i })
     ).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
     expect(
@@ -126,11 +119,9 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
   });
 
-  xit('shows a status message after the user updates their email', async () => {
+  it('shows a status message after the user updates their email', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     userEvent.click(
       await screen.findByRole('button', { name: /Change email/ })
     );
@@ -140,7 +131,9 @@ describe('MyAccount', () => {
       'clarkkent@dailybugle.com'
     );
     userEvent.type(screen.getByLabelText(/confirm password/i), 'Superman1938');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
     await waitFor(() =>
       expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
@@ -148,56 +141,58 @@ describe('MyAccount', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
     );
-    expect(screen.getByText('clarkkent@dailybugle.com')).toBeInTheDocument();
+    expect(
+      await screen.findByText('clarkkent@dailybugle.com')
+    ).toBeInTheDocument();
   });
 
-  xit('shows a status message after the user updates their password', async () => {
+  it('shows a status message after the user updates their password', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     userEvent.click(
       await screen.findByRole('button', { name: /Change password/ })
     );
     userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
     userEvent.type(
-      screen.getByLabelText(/^create new password/i),
+      await screen.findByLabelText(/^create new password/i),
       'Superman1938'
     );
     userEvent.type(
-      screen.getByLabelText(/re-enter new password/i),
+      await screen.findByLabelText(/re-enter new password/i),
       'Superman1938'
     );
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    userEvent.click(screen.getByRole('button', { name: /update password/i }));
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    });
+    userEvent.click(
+      await screen.findByRole('button', { name: /update password/i })
     );
+    await waitForLoad();
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /password updated/i
     );
   });
 
-  xit('opens a modal where the user can request their account be deleted', async () => {
+  it('opens a modal where the user can request their account be deleted', async () => {
     renderComponent();
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
-    expect(
-      screen.queryByRole('heading', { name: /delete this account/i })
-    ).not.toBeInTheDocument();
+    await waitForLoad();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('heading', { name: /delete this account/i })
+      ).not.toBeInTheDocument();
+    });
     userEvent.click(
       await screen.findByRole('button', { name: /request deletion/i })
     );
-    await waitFor(() =>
-      expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
-    );
+    await waitForLoad();
     expect(
-      screen.queryByRole('heading', { name: /delete this account/i })
+      await screen.findByRole('heading', { name: /delete this account/i })
     ).toBeInTheDocument();
     userEvent.click(await screen.findByRole('button', { name: /close/i }));
-    expect(
-      screen.queryByRole('heading', { name: /delete this account/i })
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('heading', { name: /delete this account/i })
+      ).not.toBeInTheDocument();
+    });
   });
 });
