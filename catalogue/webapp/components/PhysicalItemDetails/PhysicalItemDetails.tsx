@@ -166,9 +166,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     const headingRow = [
       'Location',
-      showStatus && 'Status',
-      showAccess && 'Access',
-      showButton && ' ',
+      showStatus ? 'Status' : ' ',
+      showAccess ? 'Access' : ' ',
+      ' ',
     ].filter(Boolean);
 
     const dataRow = [
@@ -176,17 +176,21 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <div>{location}</div>
         <div>{shelfmark}</div>
       </>,
-      showStatus && (
+      showStatus ? (
         <span>
           {isOpenShelves && 'Open shelves'}
           {!isOpenShelves && accessStatus}
         </span>
+      ) : (
+        ' '
       ),
-      showAccess && accessMethod,
-      showButton && (
+      showAccess ? accessMethod : ' ',
+      showButton ? (
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
         </ButtonWrapper>
+      ) : (
+        ' '
       ),
     ].filter(Boolean);
 
