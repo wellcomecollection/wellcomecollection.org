@@ -1,10 +1,11 @@
-import { FunctionComponent, ReactElement, useContext } from 'react';
+import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
+import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 
 type Props = {
   query: string;
@@ -24,6 +25,13 @@ const SearchFilters: FunctionComponent<Props> = ({
   linkResolver,
 }: Props): ReactElement<Props> => {
   const { windowSize } = useContext(AppContext);
+  // We use the setIsomorphicLayoutEffect here as we can't use CSS to
+  // create a responsive layout here.
+  // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/6268
+  const [isEnhanced, setIsEnhanced] = useState(false);
+  useIsomorphicLayoutEffect(() => {
+    setIsEnhanced(true);
+  }, []);
 
   const activeFiltersCount = filters
     .map(f => {
@@ -51,18 +59,13 @@ const SearchFilters: FunctionComponent<Props> = ({
     activeFiltersCount,
   };
 
-  return (
+  return isEnhanced ? (
     <>
-      {windowSize === 'small' ? (
-        <>
-          <SearchFiltersMobile {...sharedProps} />
-        </>
-      ) : (
-        <>
-          <SearchFiltersDesktop {...sharedProps} />
-        </>
-      )}
+      {windowSize === 'small' && <SearchFiltersMobile {...sharedProps} />}
+      {windowSize !== 'small' && <SearchFiltersDesktop {...sharedProps} />}
     </>
+  ) : (
+    <SearchFiltersDesktop {...sharedProps} />
   );
 };
 
