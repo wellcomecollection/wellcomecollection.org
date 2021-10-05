@@ -101,14 +101,16 @@ module.exports = app
       // Kill any cookie we had set, as it think it is causing issues.
       ctx.cookies.set(Prismic.previewCookie);
 
-      const token = ctx.request.query.token;
+      const { token, documentId } = ctx.request.query.token;
       const api = await Prismic.getApi(
         'https://wellcomecollection.cdn.prismic.io/api/v2',
         {
           req: ctx.request,
         }
       );
-      const url = await api.previewSession(token, linkResolver, '/');
+      const url = await api
+        .getPreviewResolver(token, documentId)
+        .resolve(linkResolver, '/');
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,
       });
