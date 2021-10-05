@@ -54,12 +54,17 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
     appContextDefaults.windowSize
   );
 
+  useEffect(() => {
+    setIsEnhanced(true);
+  }, []);
+
   // We need the initial state to be set before rendering to avoid
   // flashing of content, so use `useLayoutEffect` for the initial
   // setting of `windowSize`
   function updateWindowSize() {
     setWindowSize(getWindowSize());
   }
+
   useEffect(() => {
     window.addEventListener('resize', updateWindowSize);
     return () => window.removeEventListener('resize', updateWindowSize);
@@ -67,10 +72,6 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
 
   useIsomorphicLayoutEffect(() => {
     updateWindowSize();
-  }, []);
-
-  useIsomorphicLayoutEffect(() => {
-    setIsEnhanced(true);
   }, []);
 
   useEffect(() => {
