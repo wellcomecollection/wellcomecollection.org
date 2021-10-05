@@ -64,12 +64,16 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
     window.addEventListener('resize', updateWindowSize);
     return () => window.removeEventListener('resize', updateWindowSize);
   }, []);
+
   useIsomorphicLayoutEffect(() => {
     updateWindowSize();
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setIsEnhanced(true);
+  }, []);
+
+  useEffect(() => {
     // The presence of IntersectionObserver is a useful proxy for browsers that we
     // want to support in full: https://caniuse.com/intersectionobserver
     setIsFullSupportBrowser('IntersectionObserver' in window);

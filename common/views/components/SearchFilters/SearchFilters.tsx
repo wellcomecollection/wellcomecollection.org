@@ -23,7 +23,7 @@ const SearchFilters: FunctionComponent<Props> = ({
   filters,
   linkResolver,
 }: Props): ReactElement<Props> => {
-  const { windowSize } = useContext(AppContext);
+  const { windowSize, isEnhanced } = useContext(AppContext);
 
   const activeFiltersCount = filters
     .map(f => {
@@ -51,18 +51,13 @@ const SearchFilters: FunctionComponent<Props> = ({
     activeFiltersCount,
   };
 
-  return (
+  return isEnhanced ? (
     <>
-      {windowSize === 'small' ? (
-        <>
-          <SearchFiltersMobile {...sharedProps} />
-        </>
-      ) : (
-        <>
-          <SearchFiltersDesktop {...sharedProps} />
-        </>
-      )}
+      {windowSize === 'small' && <SearchFiltersMobile {...sharedProps} />}
+      {windowSize !== 'small' && <SearchFiltersDesktop {...sharedProps} />}
     </>
+  ) : (
+    <SearchFiltersDesktop {...sharedProps} />
   );
 };
 
