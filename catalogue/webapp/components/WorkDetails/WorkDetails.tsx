@@ -195,8 +195,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     );
   });
 
-  const showEncoreLink = encoreLink && physicalItems.length > 0;
-
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
@@ -711,7 +709,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || showEncoreLink || physicalItems) && <WhereToFindIt />}
+      {(locationOfWork || physicalItems) && <WhereToFindIt />}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
