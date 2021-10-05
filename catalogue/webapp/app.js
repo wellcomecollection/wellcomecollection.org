@@ -9,6 +9,7 @@ const {
   route,
   handleAllRoute,
 } = require('@weco/common/koa-middleware/withCachedValues');
+const apmErrorMiddleware = require('@weco/common/services/apm/errorMiddleware');
 const withQueryType = require('./middleware/withQueryType');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -21,6 +22,7 @@ module.exports = app
     const server = new Koa();
     const router = new Router();
 
+    server.use(apmErrorMiddleware);
     server.use(withQueryType);
     server.use(middleware);
 
