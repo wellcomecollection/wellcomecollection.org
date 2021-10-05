@@ -4,7 +4,7 @@ require('@weco/common/services/apm/initApm')('content-server');
 const Koa = require('koa');
 const Router = require('koa-router');
 const next = require('next');
-const Prismic = require('prismic-javascript');
+const Prismic = require('@prismicio/client');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
 const bodyParser = require('koa-bodyparser');
 const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');

@@ -1,6 +1,6 @@
 // @flow
 import moment from 'moment';
-import { Predicates } from 'prismic-javascript';
+import { Predicates } from '@prismicio/client';
 import { london } from '../../utils/format-date';
 import { getNextWeekendDateRange } from '../../utils/dates';
 import type { Period } from '../../model/periods';
