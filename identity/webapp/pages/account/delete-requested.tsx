@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 const DeleteRequestedPage: NextPage = () => {
   return (
-    <PageWrapper>
+    <PageWrapper title={`Delete request`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

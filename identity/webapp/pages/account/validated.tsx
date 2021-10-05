@@ -21,7 +21,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message }) => {
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
   // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
   return (
-    <PageWrapper>
+    <PageWrapper title={`Email verified`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
