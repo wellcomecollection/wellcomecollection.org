@@ -29,3 +29,5 @@ out/
 .idea
 
 tsconfig.tsbuildinfo
+
+.global-data-store/
