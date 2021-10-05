@@ -1,4 +1,4 @@
-import React, { FC, ComponentProps, useState, useEffect } from 'react';
+import React, { FC, ComponentProps, useState } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { NextPage } from 'next';
 import {
@@ -30,6 +30,7 @@ import { Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
+import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
 import { UpdateUserSchema } from '../src/types/schemas/update-user';
 import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
@@ -37,7 +38,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { font } from '@weco/common/utils/classnames';
-import { RequestsList } from '@weco/common/model/requesting';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
@@ -90,32 +90,12 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   );
 };
 
-async function fetchRequestedItems(userId): Promise<RequestsList | undefined> {
-  try {
-    const response = await fetch(`/account/api/users/${userId}/item-requests`);
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 const AccountPage: NextPage = () => {
   const router = useRouter();
   const { user, isLoading, update } = useUserInfo();
+  const requests = useRequestedItems(user?.userId);
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const [requests, setRequests] = useState<RequestsList>();
-
-  useEffect(() => {
-    async function fetchRequests() {
-      if (user && user.userId) {
-        const items = await fetchRequestedItems(user.userId);
-        setRequests(items);
-      }
-    }
-    fetchRequests();
-  }, [user]);
 
   const logoutOnDeletionRequest = () => {
     router.replace(
@@ -188,9 +168,8 @@ const AccountPage: NextPage = () => {
                       if (newUserInfo) update(newUserInfo);
                       setIsEmailUpdated(true);
                     }}
-                  >
-                    <ChangeEmail />
-                  </ChangeDetailsModal>
+                    render={props => <ChangeEmail {...props} />}
+                  />
                 </ButtonWrapper>
                 <ButtonWrapper>
                   <ChangeDetailsModal
@@ -199,9 +178,8 @@ const AccountPage: NextPage = () => {
                     onComplete={() => {
                       setIsPasswordUpdated(true);
                     }}
-                  >
-                    <ChangePassword />
-                  </ChangeDetailsModal>
+                    render={props => <ChangePassword {...props} />}
+                  />
                 </ButtonWrapper>
               </Wrapper>
             </Container>
@@ -286,9 +264,8 @@ const AccountPage: NextPage = () => {
                     buttonText="Request deletion"
                     isDangerous
                     onComplete={logoutOnDeletionRequest}
-                  >
-                    <DeleteAccount />
-                  </ChangeDetailsModal>
+                    render={props => <DeleteAccount {...props} />}
+                  />
                 </ButtonWrapper>
               </Wrapper>
             </Container>

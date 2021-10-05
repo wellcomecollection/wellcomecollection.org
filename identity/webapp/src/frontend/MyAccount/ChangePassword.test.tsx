@@ -242,11 +242,11 @@ describe('ChangePassword', () => {
     });
   });
 
-  xdescribe('shows an error after submission', () => {
+  describe('shows an error after submission', () => {
     it('when the current password is incorrect', async () => {
       server.use(
         rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res(ctx.status(401));
+          return res.once(ctx.status(401));
         })
       );
       renderComponent();
@@ -269,10 +269,11 @@ describe('ChangePassword', () => {
     it('when the users account is brute force restricted', async () => {
       server.use(
         rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res(ctx.status(429));
+          return res.once(ctx.status(429));
         })
       );
       renderComponent();
+
       expect(screen.queryByRole('alert')).not.toBeInTheDocument();
       userEvent.type(screen.getByLabelText(/current password/i), 'hunter2');
       userEvent.type(
@@ -292,7 +293,7 @@ describe('ChangePassword', () => {
     it('when the new password does not meet the Auth0 policy requirements', async () => {
       server.use(
         rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res(ctx.status(422));
+          return res.once(ctx.status(422));
         })
       );
       renderComponent();
@@ -315,7 +316,7 @@ describe('ChangePassword', () => {
     it('when another error occurs', async () => {
       server.use(
         rest.put('/account/api/users/me/password', (req, res, ctx) => {
-          return res(ctx.status(500));
+          return res.once(ctx.status(500));
         })
       );
       renderComponent();

@@ -28,22 +28,22 @@ export const UserInfoProvider: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    const cancelSource = axios.CancelToken.source();
     if (state.status === 'loading') {
-      let cancelled = false;
       axios
-        .get<UserInfo>('/account/api/users/me')
+        .get<UserInfo>('/account/api/users/me', {
+          cancelToken: cancelSource.token,
+        })
         .then(({ data }) => {
-          if (cancelled) return;
           dispatch({ type: 'RESOLVE', payload: data });
         })
         .catch(error => {
-          if (cancelled) return;
-          dispatch({ type: 'REJECT', error });
+          if (!axios.isCancel(error)) {
+            dispatch({ type: 'REJECT', error });
+          }
         });
-      return () => {
-        cancelled = true;
-      };
     }
+    return cancelSource.cancel;
   }, [state.status]);
 
   const update = (newUserInfo: Partial<UserInfo>) =>

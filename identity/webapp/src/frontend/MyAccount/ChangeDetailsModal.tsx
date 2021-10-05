@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
@@ -16,6 +16,7 @@ type ChangeDetailsModalProps = {
   buttonText: string;
   isDangerous?: boolean;
   onComplete: (newDetails?: UpdateUserSchema) => void;
+  render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
 
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
@@ -23,7 +24,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   buttonText,
   isDangerous = false,
   onComplete,
-  children,
+  render,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const openButton = useRef(null);
@@ -42,22 +43,17 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         isDangerous={isDangerous}
         clickHandler={() => setIsActive(true)}
         ref={openButton}
-      ></ButtonOutlined>
+      />
       <Modal
         id={id}
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openButton}
       >
-        {React.Children.map(children, child => {
-          if (React.isValidElement(child)) {
-            const props: ChangeDetailsModalContentProps = {
-              onComplete: handleComplete,
-              onCancel: close,
-              isActive,
-            };
-            return React.cloneElement(child, props);
-          }
+        {render({
+          onComplete: handleComplete,
+          onCancel: close,
+          isActive,
         })}
       </Modal>
     </>
