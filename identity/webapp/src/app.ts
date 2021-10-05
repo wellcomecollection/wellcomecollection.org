@@ -16,6 +16,7 @@ import { TypedRouter } from './utility/typed-router';
 import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
+import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
 export async function createApp(
@@ -28,6 +29,7 @@ export async function createApp(
   await nextApp.prepare();
 
   const app = new Koa();
+  app.use(apmErrorMiddleware);
 
   app.context.routes = router;
 

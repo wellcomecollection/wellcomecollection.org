@@ -6,6 +6,7 @@ const Router = require('koa-router');
 const next = require('next');
 const Prismic = require('prismic-javascript');
 const linkResolver = require('@weco/common/services/prismic/link-resolver');
+const apmErrorMiddleware = require('@weco/common/services/apm/errorMiddleware');
 const bodyParser = require('koa-bodyparser');
 const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');
 
@@ -43,6 +44,7 @@ module.exports = app
     const server = new Koa();
     const router = new Router();
 
+    server.use(apmErrorMiddleware);
     server.use(middleware);
     server.use(bodyParser());
 
