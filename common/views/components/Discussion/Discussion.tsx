@@ -6,20 +6,11 @@ import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
 
-type ContainerProps = {
-  isActive: boolean;
-};
-
-const Container = styled.div<ContainerProps>`
-  margin-bottom: ${props => (props.isActive ? '-20px' : '-100px')};
-`;
-const ButtonContainer = styled.div<ContainerProps>`
-  display: inline-block;
-  position: relative;
+const ButtonContainer = styled.div`
+  position: absolute;
   z-index: 3;
   left: 50%;
-  transform: translateX(-50%);
-  top: ${props => (props.isActive ? '0' : '-80px')};
+  transform: translateX(-50%) translateY(-50%);
 `;
 
 type Props = {
@@ -49,14 +40,10 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
     <>
       {title && <h2 className="h2">{title}</h2>}
       {textToShow && (
-        <Container
-          isActive={isActive}
-          id="discussion-container"
-          aria-live="polite"
-        >
+        <div id="discussion-container" aria-live="polite">
           <PrismicHtmlBlock html={textToShow} />
           {isEnhanced && (
-            <ButtonContainer isActive={isActive}>
+            <ButtonContainer>
               <ButtonSolid
                 ariaControls={'discussion-container'}
                 ariaExpanded={isActive}
@@ -72,7 +59,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
               />
             </ButtonContainer>
           )}
-        </Container>
+        </div>
       )}
     </>
   );
