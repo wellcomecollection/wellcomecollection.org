@@ -1,22 +1,24 @@
+/* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('catalogue-server');
 
-const Koa = require('koa');
-const Router = require('koa-router');
-const next = require('next');
-const {
+import Koa from 'koa';
+import Router from 'koa-router';
+import next from 'next';
+
+import {
   middleware,
   route,
   handleAllRoute,
-} = require('@weco/common/koa-middleware/withCachedValues');
-const apmErrorMiddleware = require('@weco/common/services/apm/errorMiddleware');
-const withQueryType = require('./middleware/withQueryType');
+} from '@weco/common/koa-middleware/withCachedValues';
+import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import withQueryType from './middleware/withQueryType';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-module.exports = app
+const server = app
   .prepare()
   .then(async () => {
     const server = new Koa();
@@ -83,3 +85,5 @@ module.exports = app
     console.error(ex.stack);
     process.exit(1);
   });
+
+export default server;

@@ -1,8 +1,8 @@
-const request = require('supertest');
-const app = require('../app');
+import request from 'supertest';
+import serverPromise from '../server';
 
 test('healthcheck', async () => {
-  const server = await app;
+  const server = await serverPromise;
   const resp = await request(server.callback()).get(
     '/content/management/healthcheck'
   );
