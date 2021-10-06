@@ -709,7 +709,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       <Holdings />
 
-      {(locationOfWork || physicalItems) && <WhereToFindIt />}
+      {(locationOfWork || physicalItems.length > 0) && <WhereToFindIt />}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
