@@ -1,7 +1,7 @@
 /* eslint-disable import/first */
+/* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
-import initApm from '@weco/common/services/apm/initApm';
-initApm('catalogue-server');
+require('@weco/common/services/apm/initApm')('catalogue-server');
 
 import Koa from 'koa';
 import Router from 'koa-router';
