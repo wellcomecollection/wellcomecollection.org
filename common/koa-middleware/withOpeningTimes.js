@@ -1,4 +1,4 @@
-const Prismic = require('prismic-javascript');
+const Prismic = require('@prismicio/client');
 const withMemoizedPrismicValue = require('./withMemoizedPrismicValue');
 
 module.exports = withMemoizedPrismicValue({

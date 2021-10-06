@@ -1,4 +1,4 @@
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import { getDocuments } from './api';
 import { parsePage } from '@weco/common/services/prismic/pages';
 import { pagesFormatsFields } from './fetch-links';

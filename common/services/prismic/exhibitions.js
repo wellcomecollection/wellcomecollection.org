@@ -1,5 +1,5 @@
 // @flow
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import { getDocument, getDocuments, getTypeByIds } from './api';
 import { parseMultiContent } from './multi-content';
 import {

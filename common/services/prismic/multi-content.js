@@ -1,6 +1,6 @@
 // @flow
 // This service is used for getting content of multiple types of content.
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import { getDocuments } from './api';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';

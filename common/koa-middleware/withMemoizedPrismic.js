@@ -1,5 +1,5 @@
 const Raven = require('raven-js');
-const Prismic = require('prismic-javascript');
+const Prismic = require('@prismicio/client');
 const oneMinute = 1000 * 60;
 const apiUri = 'https://wellcomecollection.cdn.prismic.io/api/v2';
 

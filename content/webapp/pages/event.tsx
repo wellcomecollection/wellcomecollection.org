@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import Body from '@weco/common/views/components/Body/Body';

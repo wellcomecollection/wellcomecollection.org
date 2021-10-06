@@ -1,4 +1,4 @@
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import { PrismicDocument } from './types';
 import { getDocument } from './api';
 import { getArticles } from './articles';

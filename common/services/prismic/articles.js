@@ -1,5 +1,5 @@
 // @flow
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import { london } from '../../utils/format-date';
 import { getDocument, getDocuments } from './api';
 import {

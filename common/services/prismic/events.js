@@ -7,7 +7,7 @@ import type {
   PrismicApiSearchResponse,
 } from './types';
 import type { Team } from '../../model/team';
-import Prismic from 'prismic-javascript';
+import Prismic from '@prismicio/client';
 import sortBy from 'lodash.sortby';
 import moment from 'moment';
 import { getDocument, getTypeByIds, getDocuments } from './api';
