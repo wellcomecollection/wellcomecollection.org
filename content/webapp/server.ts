@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
