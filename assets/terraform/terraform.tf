@@ -39,4 +39,3 @@ module "static" {
   default_ttl         = 86400
   max_ttl             = 86400
 }
-
