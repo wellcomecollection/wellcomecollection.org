@@ -1,20 +1,22 @@
+/* eslint-disable import/first */
 // This needs to be the first module loaded in the application
-require('@weco/common/services/apm/initApm')('content-server');
+import initApm from '@weco/common/services/apm/initApm';
+initApm('catalogue-server');
 
-const Koa = require('koa');
-const Router = require('koa-router');
-const next = require('next');
-const Prismic = require('@prismicio/client');
-const linkResolver = require('@weco/common/services/prismic/link-resolver');
-const apmErrorMiddleware = require('@weco/common/services/apm/errorMiddleware');
-const bodyParser = require('koa-bodyparser');
-const handleNewsletterSignup = require('./routeHandlers/handleNewsletterSignup');
+import Koa from 'koa';
+import Router from 'koa-router';
+import next from 'next';
+import Prismic from '@prismicio/client';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
+import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import bodyParser from 'koa-bodyparser';
+import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
 
-const {
+import {
   middleware,
   route,
   handleAllRoute,
-} = require('@weco/common/koa-middleware/withCachedValues');
+} from '@weco/common/koa-middleware/withCachedValues';
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -38,7 +40,7 @@ function pageVanityUrl(router, app, url, pageId, template = '/page') {
   route(url, template, router, app, { id: pageId });
 }
 
-module.exports = app
+const server = app
   .prepare()
   .then(async () => {
     const server = new Koa();
@@ -110,8 +112,9 @@ module.exports = app
           req: ctx.request,
         }
       );
+
       const url = await api
-        .getPreviewResolver(token, documentId)
+        .getPreviewResolver(token!.toString(), documentId!.toString())
         .resolve(linkResolver, '/');
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,
@@ -139,3 +142,5 @@ module.exports = app
     console.error(ex.stack);
     process.exit(1);
   });
+
+export default server;

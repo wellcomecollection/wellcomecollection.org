@@ -3,18 +3,19 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --watch server.js server.js",
     "build": "next build",
-    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles  --only-show-errors --acl public-read",
-    "start": "NODE_ENV=production node server.js",
+    "dev": "NODE_ENV=development nodemon --watch server.ts --exec ts-node --project tsconfig.server.json start",
+    "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json start",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
-    "test:updateSnapshots": "yarn test -- --updateSnapshot"
+    "test:updateSnapshots": "yarn test -- --updateSnapshot",
+    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.12.1",
     "@types/jest": "^26.0.17",
+    "@types/koa-router": "^7.4.4",
     "@types/react": "^16.9.35",
     "@weco/common": "1.0.0",
     "@weco/toggles": "1.0.0",
@@ -45,6 +46,7 @@
     "styled-components": "^5.2.1",
     "supertest": "^4.0.2",
     "ts-jest": "^26.4.4",
+    "ts-node": "^10.2.1",
     "typescript": "^4.1.5",
     "uuid": "^3.3.3"
   },
