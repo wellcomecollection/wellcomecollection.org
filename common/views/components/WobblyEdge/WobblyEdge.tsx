@@ -48,6 +48,11 @@ const Edge = styled.div<{
     transform: rotate(180deg);
     margin-top: 0;
     top: -2px;
+
+    @media (min-width: ${props.theme.sizes.large}px) {
+      margin-top: 0;
+      top: -2px;
+    }
   `}
 `;
 
