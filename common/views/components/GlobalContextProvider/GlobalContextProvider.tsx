@@ -63,8 +63,8 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
   );
 };
 
-// FIXME: we need `NextPageContext` as a possible type here for as long as we're using
-// `getInitialProps` in the _error page.
+// We need NextPageeContext here as we use this method in
+// NextPage.getServerSideProps and App.getInitialProps
 export function getGlobalContextData(
   context: GetServerSidePropsContext | NextPageContext
 ): GlobalContextData {
