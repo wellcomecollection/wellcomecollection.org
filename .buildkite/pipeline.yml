@@ -239,6 +239,12 @@
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
 
+- label: "deploy assets"
+  branches: "main"
+  commands: ./assets/deploy_assets.sh
+  agents:
+    queue: nano
+
 - wait
 
 - label: "Trigger stage deployment"

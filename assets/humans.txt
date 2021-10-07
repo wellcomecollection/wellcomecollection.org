@@ -32,6 +32,7 @@ Digital Editorial Content:
  Kate Quarry
  James Machin
  Richard Sheehan
+ Kirsten Nicholson
 
 Photography:
  Richard Everett
@@ -43,6 +44,7 @@ Photography:
  Kathleen Arundell
 
 Digital Experience:
+ Carla Bowskill
  Tacey Laurie
  Gareth Ormerod
  Gareth Estchild
@@ -61,6 +63,7 @@ Digital Preservation and Data:
 
 Access:
  Selene Burn
+ Evie Jeffreys
 
 
 /* ALUMNI - WE MISS YOU ALL ! */
@@ -94,7 +97,7 @@ Tom Crane - Digirati
 Adam Christie - Digirati
 Silver Oliver - Data Language
 
-Internet Archive, Townsweb Archiving, R3store Studios, Intranda and past partners and vendors. Thanks to Artifactual and all the Open Source Software developers.
+Internet Archive, Townsweb Archiving, R3store Studios, Intranda and past partners and vendors. Thanks to Artefactual and all the Open Source Software developers.
 
 Thanks to all the librarians, archivists and metadata specialists who have tended our collections information.
 
