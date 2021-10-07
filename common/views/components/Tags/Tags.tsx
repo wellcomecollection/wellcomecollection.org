@@ -5,10 +5,19 @@ import AlignFont from '../styled/AlignFont';
 import { InlineButton } from '../ButtonInline/ButtonInline';
 import { FunctionComponent, ReactElement } from 'react';
 import { LinkProps } from '../../../model/link-props';
+import styled from 'styled-components';
+
 export type TagType = {
   textParts: string[];
   linkAttributes: LinkProps;
 };
+
+const TagInner = styled.span`
+  white-space: normal;
+  display: inline-block;
+  text-align: left;
+  line-height: 1.2;
+`;
 
 export type Props = {
   tags: TagType[];
@@ -45,46 +54,46 @@ const Tags: FunctionComponent<Props> = ({
             >
               <NextLink {...linkAttributes} passHref>
                 <InlineButton>
-                  {textParts.map((part, i, arr) => (
-                    <Space
-                      as="span"
-                      h={
-                        i !== arr.length - 1
-                          ? { size: 's', properties: ['margin-right'] }
-                          : undefined
-                      }
-                      key={part}
-                      className={classNames({
-                        [font(
-                          i === 0 && isFirstPartBold ? 'hnb' : 'hnr',
-                          5
-                        )]: true,
-                        'inline-block': true,
-                      })}
-                    >
-                      <AlignFont>
-                        {part}
-                        {i !== arr.length - 1 && (
-                          <Space
-                            as="span"
-                            h={
-                              // If we are the first element, we always have a `|` separator
-                              i === 0 || separator !== ''
-                                ? { size: 's', properties: ['padding-left'] }
-                                : undefined
-                            }
-                            className={classNames({
-                              [font('hnr', 5)]: true,
-                              'inline-block': true,
-                            })}
-                          >
-                            {' '}
-                            {i === 0 ? '|' : separator}
-                          </Space>
-                        )}
-                      </AlignFont>
-                    </Space>
-                  ))}
+                  <TagInner>
+                    {textParts.map((part, i, arr) => (
+                      <Space
+                        as="span"
+                        h={
+                          i !== arr.length - 1
+                            ? { size: 's', properties: ['margin-right'] }
+                            : undefined
+                        }
+                        key={part}
+                        className={classNames({
+                          [font(i === 0 && isFirstPartBold ? 'hnb' : 'hnr', 5)]:
+                            true,
+                          'inline-block': true,
+                        })}
+                      >
+                        <AlignFont>
+                          {part}
+                          {i !== arr.length - 1 && (
+                            <Space
+                              as="span"
+                              h={
+                                // If we are the first element, we always have a `|` separator
+                                i === 0 || separator !== ''
+                                  ? { size: 's', properties: ['padding-left'] }
+                                  : undefined
+                              }
+                              className={classNames({
+                                [font('hnr', 5)]: true,
+                                'inline-block': true,
+                              })}
+                            >
+                              {' '}
+                              {i === 0 ? '|' : separator}
+                            </Space>
+                          )}
+                        </AlignFont>
+                      </Space>
+                    ))}
+                  </TagInner>
                 </InlineButton>
               </NextLink>
             </Space>
