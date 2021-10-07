@@ -254,3 +254,5 @@
         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
         environment: stage
         ref: "refs/heads/${BUILDKITE_BRANCH}"
+  agents:
+    queue: nano
