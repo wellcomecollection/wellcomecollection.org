@@ -409,8 +409,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     )?.url;
     const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-    const manifestOrCollection =
-      iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
+    let manifestOrCollection;
+    try {
+      manifestOrCollection =
+        iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
+    } catch (e) {
+      return { notFound: true };
+    }
 
     if (manifestOrCollection) {
       // This happens when the main manifest is actually a Collection (manifest of manifest).
