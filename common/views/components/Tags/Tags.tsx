@@ -19,6 +19,22 @@ const TagInner = styled.span`
   line-height: 1.2;
 `;
 
+type PartWithSeparatorProps = {
+  separator: string;
+  isLast: boolean;
+};
+
+const PartWithSeparator = styled.span.attrs({
+  className: classNames({
+    [font('hnr', 5)]: true,
+  }),
+})<PartWithSeparatorProps>`
+  &:after {
+    padding: ${props => (props.isLast ? 0 : '0 1ch')};
+    content: '${props => props.separator}';
+  }
+`;
+
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
@@ -54,46 +70,28 @@ const Tags: FunctionComponent<Props> = ({
             >
               <NextLink {...linkAttributes} passHref>
                 <InlineButton>
-                  <TagInner>
-                    {textParts.map((part, i, arr) => (
-                      <Space
-                        as="span"
-                        h={
-                          i !== arr.length - 1
-                            ? { size: 's', properties: ['margin-right'] }
-                            : undefined
-                        }
-                        key={part}
-                        className={classNames({
-                          [font(i === 0 && isFirstPartBold ? 'hnb' : 'hnr', 5)]:
-                            true,
-                          'inline-block': true,
-                        })}
-                      >
-                        <AlignFont>
-                          {part}
-                          {i !== arr.length - 1 && (
-                            <Space
-                              as="span"
-                              h={
-                                // If we are the first element, we always have a `|` separator
-                                i === 0 || separator !== ''
-                                  ? { size: 's', properties: ['padding-left'] }
-                                  : undefined
-                              }
-                              className={classNames({
-                                [font('hnr', 5)]: true,
-                                'inline-block': true,
-                              })}
-                            >
-                              {' '}
-                              {i === 0 ? '|' : separator}
-                            </Space>
-                          )}
-                        </AlignFont>
-                      </Space>
-                    ))}
-                  </TagInner>
+                  <AlignFont>
+                    <TagInner>
+                      {textParts.map((part, i, arr) => (
+                        <PartWithSeparator
+                          key={part}
+                          separator={i === 0 ? '|' : separator}
+                          isLast={i === arr.length - 1}
+                        >
+                          <span
+                            className={classNames({
+                              [font(
+                                i === 0 && isFirstPartBold ? 'hnb' : 'hnr',
+                                5
+                              )]: true,
+                            })}
+                          >
+                            {part}
+                          </span>
+                        </PartWithSeparator>
+                      ))}
+                    </TagInner>
+                  </AlignFont>
                 </InlineButton>
               </NextLink>
             </Space>
