@@ -3,7 +3,7 @@ import { promises as fs } from 'fs';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { GetServerSidePropsContext } from 'next';
 import cookies from 'next-cookies';
-import { ServerData } from './server-data-type';
+import { ServerData } from './model/server-data';
 
 // This module will only run on the server side.
 // This check ensures we are not on the client, and throws an error explaining this.

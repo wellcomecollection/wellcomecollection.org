@@ -1,5 +1,10 @@
 import { Toggles } from '@weco/toggles';
 
+/**
+ * The type is stored here rather than with the service because
+ * the service can only be included when running server-side
+ * but the types are needed isomorphically
+ */
 export type ServerData = {
   toggles: Toggles;
 };
