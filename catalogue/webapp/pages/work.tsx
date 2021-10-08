@@ -67,7 +67,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         globalContextData,
         pageview: {
           name: 'work',
-          properties: {},
+          // we shouldn't overload this
+          // these metrics allow us to report back on breadth of collection accessed
+          properties: {
+            workType: workResponse.workType,
+            identifiers: workResponse.identifiers,
+          },
         },
       }),
     };
