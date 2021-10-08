@@ -9,6 +9,10 @@ export type ServerData = {
   toggles: Toggles;
 };
 
+export const defaultValue: ServerData = {
+  toggles: {},
+};
+
 /**
  * This is a weird check but checks that whatever object you have
  * has the right keys
@@ -19,6 +23,7 @@ export function isServerData(obj: unknown): obj is ServerData {
   return (
     typeof obj === 'object' &&
     obj !== null &&
-    Object.keys(obj).sort().toString() === ['toggles'].toString()
+    Object.keys(obj).sort().toString() ===
+      Object.keys(defaultValue).sort().toString()
   );
 }
