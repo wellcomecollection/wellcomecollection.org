@@ -23,7 +23,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
 import { Toggles } from '@weco/toggles';
-import { isServerData, ServerData } from '../../server-data-type';
+import { isServerData, ServerData } from '../../model/server-data';
 
 declare global {
   interface Window {
