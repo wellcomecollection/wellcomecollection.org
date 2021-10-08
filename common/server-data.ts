@@ -63,9 +63,7 @@ async function getTogglesFromContext(
 const minute = 60000;
 export const init = async () => {
   await writeToggles();
-  setInterval(async () => {
-    await writeToggles();
-  }, minute);
+  setInterval(writeToggles, minute);
 };
 
 /**
