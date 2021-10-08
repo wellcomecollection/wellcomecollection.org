@@ -27,7 +27,7 @@ async function getToggles(): Promise<TogglesResp> {
   }
 }
 
-export async function writeToggles(): Promise<void> {
+async function writeToggles(): Promise<void> {
   const resp = await fetch(
     'https://toggles.wellcomecollection.org/toggles.json'
   );
@@ -57,6 +57,14 @@ async function getTogglesFromContext(
   );
   return toggles;
 }
+
+const minute = 60000;
+export const init = async () => {
+  await writeToggles();
+  setInterval(async () => {
+    await writeToggles();
+  }, minute);
+};
 
 /**
  * we should always keep the context here irrespective of if we use it

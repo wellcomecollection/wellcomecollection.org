@@ -13,7 +13,7 @@ import {
 } from '@weco/common/koa-middleware/withCachedValues';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 import withQueryType from './middleware/withQueryType';
-import { writeToggles } from '@weco/common/server-data';
+import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -22,10 +22,8 @@ const handle = app.getRequestHandler();
 const server = app
   .prepare()
   .then(async () => {
-    await writeToggles();
-    setInterval(async () => {
-      await writeToggles();
-    }, 60000);
+    await initServerData();
+
     const server = new Koa();
     const router = new Router();
 
