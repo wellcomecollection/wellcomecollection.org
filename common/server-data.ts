@@ -5,10 +5,12 @@ import { GetServerSidePropsContext } from 'next';
 import cookies from 'next-cookies';
 import { ServerData } from './model/server-data';
 
-// This module will only run on the server side.
-// This check ensures we are not on the client, and throws an error explaining this.
-// The module would bork anyway as we would be trying to use fs, path etc
-// this would just make it easier to debug.
+/**
+ * This module will only run on the server side.
+ * This check ensures we are not on the client, and throws an error explaining this.
+ * The module would bork anyway as we would be trying to use fs, path etc
+ * this would just make it easier to debug.
+ */
 if (typeof window !== 'undefined') {
   throw new Error('server-data module can only be used on the server-side');
 }
