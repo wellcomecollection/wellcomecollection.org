@@ -137,7 +137,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
     bottom: auto;
     height: auto;
     max-height: 90vh;
-    max-width: ${props.width || `${props.theme.sizes.large}px`}
+    max-width: ${props.width || `${props.theme.sizes.large}px`};
     width: ${props.width || 'auto'};
     border-radius: ${props.theme.borderRadiusUnit}px;
 
