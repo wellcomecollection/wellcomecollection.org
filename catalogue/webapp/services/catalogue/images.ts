@@ -48,7 +48,9 @@ export async function getImages({
     _index: index,
   };
   const filterQueryString = queryString(extendedParams);
-  const url = `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`;
+  const url = encodeURI(
+    `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`
+  );
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -72,7 +74,7 @@ export async function getImage({
     _index: index,
   };
   const query = queryString(params);
-  const url = `${rootUris[apiOptions.env]}/v2/images/${id}${query}`;
+  const url = encodeURI(`${rootUris[apiOptions.env]}/v2/images/${id}${query}`);
 
   try {
     const res = await fetch(url);

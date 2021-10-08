@@ -75,7 +75,9 @@ export async function getWorks({
     _index: index,
   };
   const filterQueryString = queryString(extendedParams);
-  const url = `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`;
+  const url = encodeURI(
+    `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`
+  );
 
   try {
     const res = await fetch(url);
@@ -101,7 +103,7 @@ export async function getWork({
     _index: index,
   };
   const query = queryString(params);
-  const url = `${rootUris[apiOptions.env]}/v2/works/${id}${query}`;
+  const url = encodeURI(`${rootUris[apiOptions.env]}/v2/works/${id}${query}`);
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
@@ -149,7 +151,7 @@ export async function getCanvasOcr(
 
   if (textService) {
     try {
-      const textJson = await fetch(textService);
+      const textJson = await fetch(encodeURI(textService));
       const text = await textJson.json();
       const textString = text.resources
         .filter(resource => {
