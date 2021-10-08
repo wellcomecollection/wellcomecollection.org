@@ -1,4 +1,10 @@
-type ABTest = {
+export type Toggle = {
+  id: string;
+  title: string;
+  description: string;
+  defaultValue: boolean;
+};
+export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
@@ -39,6 +45,6 @@ export default {
       defaultValue: false,
       description: 'Makes Tei visible',
     },
-  ] as const,
+  ] as Toggle[],
   tests: [] as ABTest[],
 };

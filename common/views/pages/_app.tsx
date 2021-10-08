@@ -1,7 +1,12 @@
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import React, { useEffect, FunctionComponent } from 'react';
+import React, {
+  useEffect,
+  FunctionComponent,
+  createContext,
+  useContext,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -14,14 +19,58 @@ import {
   GlobalContextData,
   WithGlobalContextData,
 } from '../components/GlobalContextProvider/GlobalContextProvider';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
+import { Toggles } from '@weco/toggles';
+import { isServerData, ServerData } from '../../server-data-type';
+
 declare global {
   interface Window {
     prismic: any;
   }
 }
+
+/**
+ * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)
+ * and make available via `Context`
+ */
+type AppData = {
+  toggles: Toggles;
+};
+const defaultAppData = {
+  toggles: {},
+};
+const AppDataContext = createContext<AppData>(defaultAppData);
+export const useToggles = (): Toggles => {
+  const appData = useContext(AppDataContext);
+  return appData.toggles;
+};
+
+// This method is a little redundant for now, but won't be when we're getting
+// data from Prismic etc
+function parseServerDataToAppData(serverData: ServerData) {
+  const { toggles } = serverData;
+  return { toggles };
+}
+
+/**
+ * This allows us to use appError() in Page.getServerSideProps
+ * and still infer it's props return type if it didn't error.
+ * e.g.
+ * type BadProps = InferGetServerSidePropsType<typeof getServerSideProps> // { id: string } | AppErrorProps
+ * type Props = PageProps<typeof getServerSideProps> // { id: string }
+ * const Page = (props: Props) => {}
+ * export const getServerSideProps = context => {
+ *   const { id } = context.query
+ *   if (!id) return appError(context, 400, 'ID please')
+ *   else return { props: { id } }
+ * }
+ */
+export type PageProps<GetServerSideProps> = Exclude<
+  InferGetServerSidePropsType<GetServerSideProps>,
+  AppErrorProps
+>;
 
 export type AppErrorProps = {
   err: {
@@ -184,6 +233,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     });
     trackGaPageview();
     Router.events.on('routeChangeComplete', trackGaPageview);
+
     return () => {
       Router.events.off('routeChangeComplete', trackGaPageview);
     };
@@ -207,6 +257,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     Router.events.on('routeChangeComplete', resetEngagementTimeout);
 
     engagement = setTimeout(triggerEngagement, 10000);
+
     try {
       if (document.hidden) {
         // in case page is opened in a new tab
@@ -225,6 +276,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     return () => {
       Router.events.off('routeChangeStart', trackAndResetVisibleTime);
       Router.events.off('routeChangeComplete', resetEngagementTimeout);
+
       try {
         document.removeEventListener(
           'visibilitychange',
@@ -317,27 +369,46 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   }
 
+  // We throw on dev as all pages should set this
+  // You can set `skipServerData: true` to explicitly bypass this
+  // e.g. for error pages
+  const dev = process.env.NODE_ENV !== 'production';
+  const needsServerData =
+    pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
+
+  if (dev && needsServerData) {
+    throw new Error(
+      'Please set serverData on your getServerSideProps or getStaticProps'
+    );
+  }
+
+  const appData: AppData = isServerData(pageProps.serverData)
+    ? parseServerDataToAppData(pageProps.serverData)
+    : defaultAppData;
+
   return (
     <>
-      <AppContextProvider>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle
-            toggles={globalContextData.toggles}
-            isFontsLoaded={useIsFontsLoaded()}
-          />
-          <OutboundLinkTracker>
-            <LoadingIndicator />
-            {!pageProps.err && <Component {...pageProps} />}
-            {pageProps.err && (
-              <ErrorPage
-                statusCode={pageProps.err.statusCode}
-                title={pageProps.err.message}
-                globalContextData={globalContextData}
-              />
-            )}
-          </OutboundLinkTracker>
-        </ThemeProvider>
-      </AppContextProvider>
+      <AppDataContext.Provider value={appData}>
+        <AppContextProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle
+              toggles={globalContextData.toggles}
+              isFontsLoaded={useIsFontsLoaded()}
+            />
+            <OutboundLinkTracker>
+              <LoadingIndicator />
+              {!pageProps.err && <Component {...pageProps} />}
+              {pageProps.err && (
+                <ErrorPage
+                  statusCode={pageProps.err.statusCode}
+                  title={pageProps.err.message}
+                  globalContextData={globalContextData}
+                />
+              )}
+            </OutboundLinkTracker>
+          </ThemeProvider>
+        </AppContextProvider>
+      </AppDataContext.Provider>
     </>
   );
 };
