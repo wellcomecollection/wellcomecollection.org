@@ -39,6 +39,13 @@ async function writeToggles(): Promise<void> {
   await fs.writeFile(fileName, JSON.stringify(data));
 }
 
+const minute = 60000;
+
+async function initToggles() {
+  await writeToggles();
+  setTimeout(initToggles, minute);
+}
+
 /**
  * normally parsing like this should happen in `_app.parseServerDataToAppData`
  * but we need the `req` from the `context` for cookies which we don't
@@ -60,11 +67,9 @@ async function getTogglesFromContext(
   return toggles;
 }
 
-const minute = 60000;
-export const init = async () => {
-  await writeToggles();
-  setInterval(writeToggles, minute);
-};
+export async function init() {
+  await initToggles();
+}
 
 /**
  * we should always keep the context here irrespective of if we use it
