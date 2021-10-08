@@ -45,6 +45,6 @@ export default {
       defaultValue: false,
       description: 'Makes Tei visible',
     },
-  ] as Toggle[],
+  ] as const,
   tests: [] as ABTest[],
 };
