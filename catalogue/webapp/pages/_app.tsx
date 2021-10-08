@@ -3,6 +3,7 @@ import App, { WecoAppProps } from '@weco/common/views/pages/_app';
 import { SearchContextProvider } from '@weco/common/views/components/SearchContext/SearchContext';
 import { gtagReportWebVitals } from '@weco/common/utils/gtag';
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 export function reportWebVitals(metric: NextWebVitalsMetric): void {
   gtagReportWebVitals(metric);
@@ -28,11 +29,14 @@ export default function CatalogueApp(props: WecoAppProps) {
 // application images in staging and production environments (which
 // require different prefixes).
 CatalogueApp.getInitialProps = async (appContext: AppContext) => {
-  const globalContextData = getGlobalContextData(appContext.ctx);
+  const globalContextData = removeUndefinedProps(
+    getGlobalContextData(appContext.ctx)
+  );
+
+  const initialProps = await NextApp.getInitialProps(appContext);
 
   // TODO don't store things like this on `ctx.query`
   delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
 
-  const initialProps = await NextApp.getInitialProps(appContext);
   return { ...initialProps, globalContextData };
 };
