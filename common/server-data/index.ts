@@ -66,7 +66,7 @@ export const getServerData = async (
   context: GetServerSidePropsContext
 ): Promise<ServerData> => {
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
-  const prismic = await read('prismic', handlers.toggles.defaultValue);
+  const prismic = await read('prismic', handlers.prismic.defaultValue);
 
   const toggles = getTogglesFromContext(togglesResp, context);
 
