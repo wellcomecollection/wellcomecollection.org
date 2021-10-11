@@ -23,10 +23,14 @@ if (typeof window !== 'undefined') {
 const pathName = path.join(process.cwd(), '.server-data');
 const minute = 60000;
 
-const dataKeys = ['prismic', 'toggles'] as const;
-export type DataKey = typeof dataKeys[number];
+const handlers = {
+  toggles: togglesHandler,
+  prismic: prismicHandler,
+};
+type Key = keyof typeof handlers;
+type DefaulVal<K extends Key> = typeof handlers[K]['defaultValue'];
 
-async function read(key, defaultValue) {
+async function read(key: Key, defaultValue: DefaulVal<Key>) {
   const fileName = path.join(pathName, `${key}.json`);
   try {
     const data = await fs.readFile(fileName, { encoding: 'utf-8' });
@@ -37,7 +41,7 @@ async function read(key, defaultValue) {
   }
 }
 
-async function write(key, fetch) {
+async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   const data = await fetch();
   const fileName = path.join(pathName, `${key}.json`);
   await fs.mkdir(pathName, { recursive: true });
@@ -48,10 +52,6 @@ async function write(key, fetch) {
   }, minute);
 }
 
-const handlers = {
-  toggles: togglesHandler,
-  prismic: prismicHandler,
-};
 export async function init() {
   await write('toggles', togglesHandler.fetch);
   await write('prismic', prismicHandler.fetch);
@@ -66,8 +66,10 @@ export const getServerData = async (
   context: GetServerSidePropsContext
 ): Promise<ServerData> => {
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
+  const prismic = await read('prismic', handlers.toggles.defaultValue);
+
   const toggles = getTogglesFromContext(togglesResp, context);
-  const prismic = await read('prismic', handlers.prismic.defaultValue);
+
   const serverData = { toggles, prismic };
   return serverData;
 };
