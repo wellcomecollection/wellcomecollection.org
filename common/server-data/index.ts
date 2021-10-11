@@ -1,7 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
-import { ServerData } from '../model/server-data';
+import { ServerData } from './types';
 import togglesHandler, { getTogglesFromContext } from './toggles';
 import prismicHandler from './prismic';
 

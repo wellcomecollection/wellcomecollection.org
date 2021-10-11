@@ -1,12 +1,7 @@
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import React, {
-  useEffect,
-  FunctionComponent,
-  createContext,
-  useContext,
-} from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -22,36 +17,14 @@ import {
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-import { Toggles } from '@weco/toggles';
-import { isServerData, ServerData } from '../../model/server-data';
+import { isServerData } from '../../server-data/types';
+import { ServerDataContext } from '../../server-data/Context';
+import { defaultServerData } from 'server-data/types';
 
 declare global {
   interface Window {
     prismic: any;
   }
-}
-
-/**
- * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)
- * and make available via `Context`
- */
-type AppData = {
-  toggles: Toggles;
-};
-const defaultAppData = {
-  toggles: {},
-};
-const AppDataContext = createContext<AppData>(defaultAppData);
-export const useToggles = (): Toggles => {
-  const appData = useContext(AppDataContext);
-  return appData.toggles;
-};
-
-// This method is a little redundant for now, but won't be when we're getting
-// data from Prismic etc
-function parseServerDataToAppData(serverData: ServerData) {
-  const { toggles, prismic } = serverData;
-  return { toggles, prismic };
 }
 
 /**
@@ -369,6 +342,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   }
 
+  // TODO: We should throw this error as soon as we have removed globalContextData
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
@@ -382,13 +356,13 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   //   );
   // }
 
-  const appData: AppData = isServerData(pageProps.serverData)
-    ? parseServerDataToAppData(pageProps.serverData)
-    : defaultAppData;
+  const serverData = isServerData(pageProps.serverData)
+    ? pageProps.serverData
+    : defaultServerData;
 
   return (
     <>
-      <AppDataContext.Provider value={appData}>
+      <ServerDataContext.Provider value={serverData}>
         <AppContextProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyle
@@ -408,7 +382,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
             </OutboundLinkTracker>
           </ThemeProvider>
         </AppContextProvider>
-      </AppDataContext.Provider>
+      </ServerDataContext.Provider>
     </>
   );
 };
