@@ -1,7 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import Work from '../components/Work/Work';
-import { getWork } from '../services/catalogue/works';
 import {
   getGlobalContextData,
   WithGlobalContextData,
@@ -12,6 +10,9 @@ import {
   AppErrorProps,
   WithPageview,
 } from '@weco/common/views/pages/_app';
+import { getServerData } from '@weco/common/server-data';
+import Work from '../components/Work/Work';
+import { getWork } from '../services/catalogue/works';
 
 type Props = {
   workResponse: WorkType;
@@ -21,7 +22,7 @@ type Props = {
 export const WorkPage: NextPage<Props> = ({
   workResponse,
   globalContextData,
-}: Props) => {
+}) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
   return <Work work={workResponse} globalContextData={globalContextData} />;
@@ -29,6 +30,7 @@ export const WorkPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id } = context.query;
 
@@ -65,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       props: removeUndefinedProps({
         workResponse,
         globalContextData,
+        serverData,
         pageview: {
           name: 'work',
           // we shouldn't overload this

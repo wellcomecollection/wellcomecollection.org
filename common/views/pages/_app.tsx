@@ -50,8 +50,8 @@ export const useToggles = (): Toggles => {
 // This method is a little redundant for now, but won't be when we're getting
 // data from Prismic etc
 function parseServerDataToAppData(serverData: ServerData) {
-  const { toggles } = serverData;
-  return { toggles };
+  const { toggles, prismic } = serverData;
+  return { toggles, prismic };
 }
 
 /**
@@ -372,16 +372,15 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
-  console.info(pageProps.serverData);
-  const dev = process.env.NODE_ENV !== 'production';
-  const needsServerData =
-    pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
+  // const dev = process.env.NODE_ENV !== 'production';
+  // const needsServerData =
+  //   pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
 
-  if (dev && needsServerData) {
-    throw new Error(
-      'Please set serverData on your getServerSideProps or getStaticProps'
-    );
-  }
+  // if (dev && needsServerData) {
+  //   throw new Error(
+  //     'Please set serverData on your getServerSideProps or getStaticProps'
+  //   );
+  // }
 
   const appData: AppData = isServerData(pageProps.serverData)
     ? parseServerDataToAppData(pageProps.serverData)
