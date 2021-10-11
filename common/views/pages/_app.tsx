@@ -372,6 +372,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
+  console.info(pageProps.serverData);
   const dev = process.env.NODE_ENV !== 'production';
   const needsServerData =
     pageProps.skipServerData !== true && !isServerData(pageProps.serverData);

@@ -1,4 +1,8 @@
 import { Toggles } from '@weco/toggles';
+import {
+  defaultValue as prismicDefaultValue,
+  PrismicData,
+} from '../server-data/prismic';
 
 /**
  * The type is stored here rather than with the service because
@@ -7,10 +11,12 @@ import { Toggles } from '@weco/toggles';
  */
 export type ServerData = {
   toggles: Toggles;
+  prismic: PrismicData;
 };
 
 export const defaultValue: ServerData = {
   toggles: {},
+  prismic: prismicDefaultValue,
 };
 
 /**
