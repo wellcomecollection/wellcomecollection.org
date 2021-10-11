@@ -20,7 +20,7 @@ export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
 export const queryString = (params: { [key: string]: any }): string => {
   const strings = Object.keys(propsToQuery(params)).map(key => {
     const val = params[key];
-    return `${key}=${encodeURIComponent(val)}`;
+    return `${key}=${val}`;
   });
   return strings.length > 0 ? `?${strings.join('&')}` : '';
 };

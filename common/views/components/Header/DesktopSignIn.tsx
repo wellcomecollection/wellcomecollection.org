@@ -23,7 +23,11 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 const DesktopSignIn: FC = () => {
   const { state, user } = useUser();
 
-  return state === 'initial' ? null : (
+  return state === 'initial' || state === 'loading' ? (
+    <span className="display-none headerMedium-display-block">
+      <BorderlessLink iconLeft={userIcon} text={null} href="/account" />
+    </span>
+  ) : (
     <>
       {state === 'signedout' && (
         <>
