@@ -17,9 +17,8 @@ import {
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
-import { isServerData } from '../../server-data/types';
+import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
-import { defaultServerData } from 'server-data/types';
 
 declare global {
   interface Window {
