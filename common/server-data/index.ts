@@ -26,7 +26,8 @@ const minute = 60000;
 const handlers = {
   toggles: togglesHandler,
   prismic: prismicHandler,
-};
+} as const;
+
 type Key = keyof typeof handlers;
 type DefaulVal<K extends Key> = typeof handlers[K]['defaultValue'];
 
