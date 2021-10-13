@@ -31,10 +31,12 @@ const UserProvider: FC = ({ children }) => {
   const updateUserState = (update: Partial<UserInfo>) =>
     setUser(user => (user ? { ...user, ...update } : undefined));
 
-  const fetchUser = async () => {
+  const fetchUser = async (abortSignal?: AbortSignal) => {
     setState('loading');
     try {
-      const resp = await fetch('/account/api/users/me');
+      const resp = await fetch('/account/api/users/me', {
+        signal: abortSignal,
+      });
       switch (resp.status) {
         case 401:
           setState('signedout');
@@ -51,13 +53,17 @@ const UserProvider: FC = ({ children }) => {
           setState('failed');
       }
     } catch (e) {
-      console.error('Failed fetching user', e);
-      setState('failed');
+      if (e.name !== 'AbortError') {
+        console.error('Failed fetching user', e);
+        setState('failed');
+      }
     }
   };
 
   useEffect(() => {
-    fetchUser();
+    const abortController = new AbortController();
+    fetchUser(abortController.signal);
+    return () => abortController.abort();
   }, []);
 
   return (
