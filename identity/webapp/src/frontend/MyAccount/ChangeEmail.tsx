@@ -7,7 +7,6 @@ import TextInput, {
 } from '@weco/common/views/components/TextInput/TextInput';
 import { PasswordInput } from '../components/PasswordInput';
 import { validEmailPattern } from '../components/ValidationPatterns';
-import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import { Loading } from './Loading';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { UpdateUserError, useUpdateUser } from '../hooks/useUpdateUser';
@@ -16,6 +15,7 @@ import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 type ChangeEmailInputs = {
   email: string;
@@ -26,8 +26,14 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   onComplete,
   isActive,
 }) => {
-  const { user, isLoading } = useUserInfo();
-  const { updateUser, isLoading: isUpdating, error } = useUpdateUser();
+  const { user, state: userState } = useUser();
+  const isLoading = userState === 'loading';
+
+  const { updateUser, state: updateState, error } = useUpdateUser();
+  const isUpdating = updateState === 'loading';
+
+  console.log(user, userState);
+
   const { control, trigger, reset, formState, handleSubmit, setError } =
     useForm<ChangeEmailInputs>({
       defaultValues: { email: user?.email, password: '' },
@@ -111,7 +117,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
                 value={value}
                 setValue={onChange}
                 isValid={!invalid}
-                setIsValid={async () => trigger('email')}
+                setIsValid={() => trigger('email')}
                 showValidity={formState.isSubmitted}
                 errorMessage={formState.errors.email?.message}
               />

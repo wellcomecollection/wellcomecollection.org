@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { callMiddlewareApi } from '../../utility/middleware-api-client';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { UserInfo } from '@weco/common/model/user';
 
 export enum UpdateUserError { // eslint-disable-line no-shadow
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
@@ -10,33 +12,36 @@ export enum UpdateUserError { // eslint-disable-line no-shadow
   UNKNOWN = 'UNKNOWN',
 }
 
+type State = 'initial' | 'loading' | 'success' | `error`;
+
 type UseUpdateUserMutation = {
   updateUser: (
     userDetails: UpdateUserSchema,
-    onComplete: (newUserDetails: UpdateUserSchema) => void
+    onComplete: (updatedUser: UserInfo) => void
   ) => void;
-  isLoading: boolean;
-  isSuccess: boolean;
+  state: State;
   error?: UpdateUserError;
 };
 
 export function useUpdateUser(): UseUpdateUserMutation {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { _updateUserState } = useUser();
+  const [state, setState] = useState<State>('initial');
   const [error, setError] = useState<UpdateUserError>();
 
-  const updateUser = (
-    userDetails: UpdateUserSchema,
-    onComplete: (newUserDetails: UpdateUserSchema) => void = () => null
+  const updateUser: UseUpdateUserMutation['updateUser'] = (
+    userDetails,
+    onComplete = () => void 0
   ) => {
-    setIsLoading(true);
+    setState('loading');
     callMiddlewareApi('PUT', '/account/api/users/me', userDetails)
-      .then(() => {
-        setIsLoading(false);
-        setIsSuccess(true);
-        onComplete(userDetails);
+      .then(response => {
+        setState('success');
+        const updatedUser = response.data as UserInfo;
+        _updateUserState(updatedUser);
+        onComplete(updatedUser);
       })
       .catch((err: AxiosError) => {
+        setState('error');
         switch (err.response?.status) {
           case 401: {
             setError(UpdateUserError.INCORRECT_PASSWORD);
@@ -55,9 +60,8 @@ export function useUpdateUser(): UseUpdateUserMutation {
             break;
           }
         }
-      })
-      .finally(() => setIsLoading(false));
+      });
   };
 
-  return { updateUser, isLoading, isSuccess, error };
+  return { updateUser, state, error };
 }

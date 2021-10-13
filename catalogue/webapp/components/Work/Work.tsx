@@ -17,7 +17,6 @@ import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import { UserInfoProvider } from '@weco/common/views/components/UserInfoContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -144,9 +143,7 @@ const Work: FunctionComponent<Props> = ({
                   v={{ size: 'xl', properties: ['padding-top'] }}
                   className={`flex-1`}
                 >
-                  <UserInfoProvider>
-                    <WorkDetails work={work} />
-                  </UserInfoProvider>
+                  <WorkDetails work={work} />
                 </Space>
               </ArchiveDetailsContainer>
             </div>
@@ -158,9 +155,7 @@ const Work: FunctionComponent<Props> = ({
                 <WorkHeader work={work} />
               </div>
             </div>
-            <UserInfoProvider>
-              <WorkDetails work={work} />
-            </UserInfoProvider>
+            <WorkDetails work={work} />
           </>
         )}
       </CataloguePageLayout>

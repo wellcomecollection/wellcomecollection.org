@@ -8,15 +8,15 @@ type Props = {
   state: State;
   enabled: boolean;
   reload: () => void;
+  _updateUserState: (update: Partial<UserInfo>) => void;
 };
 
 export const UserContext = createContext<Props>({
   user: undefined,
   state: 'initial',
   enabled: false,
-  reload: () => {
-    // no-op - we could probably try fill this out, but I can't really see the benefit
-  },
+  reload: () => void 0,
+  _updateUserState: () => void 0,
 });
 
 export function useUser(): Props {
@@ -27,6 +27,9 @@ export function useUser(): Props {
 const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
+
+  const updateUserState = (update: Partial<UserInfo>) =>
+    setUser(user => (user ? { ...user, ...update } : undefined));
 
   const fetchUser = async () => {
     setState('loading');
@@ -64,6 +67,8 @@ const UserProvider: FC = ({ children }) => {
         // We can remove this once we're untoggled
         enabled: true,
         reload: fetchUser,
+        // This is intended for "internal" use only in the identity app
+        _updateUserState: updateUserState,
       }}
     >
       {children}
