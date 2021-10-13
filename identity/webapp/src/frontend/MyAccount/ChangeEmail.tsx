@@ -32,8 +32,6 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   const { updateUser, state: updateState, error } = useUpdateUser();
   const isUpdating = updateState === 'loading';
 
-  console.log(user, userState);
-
   const { control, trigger, reset, formState, handleSubmit, setError } =
     useForm<ChangeEmailInputs>({
       defaultValues: { email: user?.email, password: '' },

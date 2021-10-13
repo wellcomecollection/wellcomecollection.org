@@ -35,7 +35,6 @@ const UserProvider: FC = ({ children }) => {
     setState('loading');
     try {
       const resp = await fetch('/account/api/users/me');
-
       switch (resp.status) {
         case 401:
           setState('signedout');
@@ -48,9 +47,11 @@ const UserProvider: FC = ({ children }) => {
           break;
 
         default:
+          console.error('Failed fetching user', resp.status);
           setState('failed');
       }
     } catch (e) {
+      console.error('Failed fetching user', e);
       setState('failed');
     }
   };
@@ -76,10 +77,13 @@ const UserProvider: FC = ({ children }) => {
   );
 };
 
-const ToggledUserProvider: FC = ({ children }) => {
+const ToggledUserProvider: FC<{ forceEnable?: boolean }> = ({
+  children,
+  forceEnable,
+}) => {
   const toggles = useContext(TogglesContext);
 
-  return toggles.enableRequesting ? (
+  return toggles.enableRequesting || forceEnable ? (
     <UserProvider>{children}</UserProvider>
   ) : (
     <>{children}</>

@@ -19,7 +19,7 @@ const defaultProps: ChangeDetailsModalContentProps = {
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <UserProvider>
+      <UserProvider forceEnable={true}>
         <ChangeEmail {...defaultProps} {...props} />
       </UserProvider>
     </ThemeProvider>
@@ -74,7 +74,10 @@ describe('ChangeEmail', () => {
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(
-        expect.objectContaining({ email: 'clarkkent@dailybugle.com' })
+        expect.objectContaining({
+          ...mockUser,
+          email: 'clarkkent@dailybugle.com',
+        })
       )
     );
   });
@@ -86,14 +89,14 @@ describe('ChangeEmail', () => {
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     rerender(
       <ThemeProvider theme={theme}>
-        <UserProvider>
+        <UserProvider forceEnable={true}>
           <ChangeEmail {...defaultProps} isActive={false} />
         </UserProvider>
       </ThemeProvider>
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <UserProvider>
+        <UserProvider forceEnable={true}>
           <ChangeEmail {...defaultProps} isActive={true} />
         </UserProvider>
       </ThemeProvider>
