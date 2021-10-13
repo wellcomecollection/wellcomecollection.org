@@ -27,7 +27,6 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import { UpdateUserSchema } from '../src/types/schemas/update-user';
 import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
