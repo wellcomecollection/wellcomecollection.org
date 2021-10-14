@@ -15,6 +15,7 @@ import {
   middleware,
   route,
   handleAllRoute,
+  intervals as middlewareIntervals,
 } from '@weco/common/koa-middleware/withCachedValues';
 
 // FIXME: Find a way to import this.
@@ -32,71 +33,81 @@ const periodPaths = Object.keys(Periods)
   .join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const nextApp = next({ dev });
+const handle = nextApp.getRequestHandler();
 
 function pageVanityUrl(router, app, url, pageId, template = '/page') {
   route(url, template, router, app, { id: pageId });
 }
 
-const server = app
+const appPromise = nextApp
   .prepare()
   .then(async () => {
-    const server = new Koa();
+    const koaApp = new Koa();
     const router = new Router();
 
-    server.use(apmErrorMiddleware);
-    server.use(middleware);
-    server.use(bodyParser());
+    koaApp.use(apmErrorMiddleware);
+    koaApp.use(middleware);
+    koaApp.use(bodyParser());
 
-    pageVanityUrl(router, app, '/', 'XphUbREAACMAgRNP', '/homepage');
-    route('/whats-on', '/whats-on', router, app);
-    route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, app);
+    pageVanityUrl(router, nextApp, '/', 'XphUbREAACMAgRNP', '/homepage');
+    route('/whats-on', '/whats-on', router, nextApp);
+    route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 
-    route('/exhibitions', '/exhibitions', router, app);
-    route(`/exhibitions/:period(${periodPaths})`, '/exhibitions', router, app);
-    route('/exhibitions/:id', '/exhibition', router, app);
+    route('/exhibitions', '/exhibitions', router, nextApp);
+    route(
+      `/exhibitions/:period(${periodPaths})`,
+      '/exhibitions',
+      router,
+      nextApp
+    );
+    route('/exhibitions/:id', '/exhibition', router, nextApp);
 
-    route('/events', '/events', router, app);
-    route(`/events/:period(${periodPaths})`, '/events', router, app);
-    route('/events/:id', '/event', router, app);
-    route('/event-series/:id', '/event-series', router, app);
+    route('/events', '/events', router, nextApp);
+    route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
+    route('/events/:id', '/event', router, nextApp);
+    route('/event-series/:id', '/event-series', router, nextApp);
 
-    route('/stories', '/stories', router, app);
-    route('/articles', '/articles', router, app);
-    route('/articles/:id', '/article', router, app);
-    route('/series/:id', '/article-series', router, app);
-    route('/projects/:id', '/page', router, app);
+    route('/stories', '/stories', router, nextApp);
+    route('/articles', '/articles', router, nextApp);
+    route('/articles/:id', '/article', router, nextApp);
+    route('/series/:id', '/article-series', router, nextApp);
+    route('/projects/:id', '/page', router, nextApp);
 
-    route('/books', '/books', router, app);
-    route('/books/:id', '/book', router, app);
+    route('/books', '/books', router, nextApp);
+    route('/books/:id', '/book', router, nextApp);
 
-    route('/places/:id', '/place', router, app);
-    route('/pages/:id', '/page', router, app);
-    route('/seasons/:id', '/season', router, app);
+    route('/places/:id', '/place', router, nextApp);
+    route('/pages/:id', '/page', router, nextApp);
+    route('/seasons/:id', '/season', router, nextApp);
 
-    route('/newsletter', '/newsletter', router, app);
+    route('/newsletter', '/newsletter', router, nextApp);
 
-    route('/collections', '/page', router, app, {
+    route('/collections', '/page', router, nextApp, {
       id: 'YBfeAhMAACEAqBTx',
     });
 
-    route('/guides', '/guides', router, app);
-    route('/guides/:id', '/page', router, app);
+    route('/guides', '/guides', router, nextApp);
+    route('/guides/:id', '/page', router, nextApp);
 
-    pageVanityUrl(router, app, '/opening-times', 'WwQHTSAAANBfDYXU');
-    pageVanityUrl(router, app, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
-    pageVanityUrl(router, app, '/press', 'WuxrKCIAAP9h3hmw');
-    pageVanityUrl(router, app, '/venue-hire', 'Wuw2MSIAACtd3SsC');
-    pageVanityUrl(router, app, '/access', 'Wvm2uiAAAIYQ4FHP');
-    pageVanityUrl(router, app, '/youth', 'Wuw2MSIAACtd3Ste');
-    pageVanityUrl(router, app, '/schools', 'Wuw2MSIAACtd3StS');
-    pageVanityUrl(router, app, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
-    pageVanityUrl(router, app, '/covid-book-your-ticket', 'X5aomxIAAB8Aq6n5');
-    pageVanityUrl(router, app, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
-    pageVanityUrl(router, app, '/about-us', 'Wuw2MSIAACtd3Stq');
-    pageVanityUrl(router, app, '/get-involved', 'YDaZmxMAACIAT9u8');
-    pageVanityUrl(router, app, '/user-panel', 'YH17kRAAACoAyWTB');
+    pageVanityUrl(router, nextApp, '/opening-times', 'WwQHTSAAANBfDYXU');
+    pageVanityUrl(router, nextApp, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
+    pageVanityUrl(router, nextApp, '/press', 'WuxrKCIAAP9h3hmw');
+    pageVanityUrl(router, nextApp, '/venue-hire', 'Wuw2MSIAACtd3SsC');
+    pageVanityUrl(router, nextApp, '/access', 'Wvm2uiAAAIYQ4FHP');
+    pageVanityUrl(router, nextApp, '/youth', 'Wuw2MSIAACtd3Ste');
+    pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
+    pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
+    pageVanityUrl(
+      router,
+      nextApp,
+      '/covid-book-your-ticket',
+      'X5aomxIAAB8Aq6n5'
+    );
+    pageVanityUrl(router, nextApp, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
+    pageVanityUrl(router, nextApp, '/about-us', 'Wuw2MSIAACtd3Stq');
+    pageVanityUrl(router, nextApp, '/get-involved', 'YDaZmxMAACIAT9u8');
+    pageVanityUrl(router, nextApp, '/user-panel', 'YH17kRAAACoAyWTB');
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 
@@ -128,18 +139,19 @@ const server = app
 
     router.get('*', handleAllRoute(handle));
 
-    server.use(async (ctx, next) => {
+    koaApp.use(async (ctx, next) => {
       ctx.res.statusCode = 200;
       await next();
     });
 
-    server.use(router.routes());
+    koaApp.use(router.routes());
 
-    return server;
+    return koaApp;
   })
   .catch(ex => {
     console.error(ex.stack);
     process.exit(1);
   });
 
-export default server;
+export default appPromise;
+export const intervals = middlewareIntervals as NodeJS.Timer[];

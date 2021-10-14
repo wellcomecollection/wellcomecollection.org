@@ -18,13 +18,8 @@ const withCachedValues = compose([
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const {
-      toggles,
-      globalAlert,
-      popupDialog,
-      openingTimes,
-      memoizedPrismic,
-    } = ctx;
+    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
+      ctx;
     const params = ctx.params;
     const query = ctx.query;
 
@@ -51,13 +46,8 @@ async function renderIfToggleOn(
   toggleToCheck
 ) {
   router.get(path, async ctx => {
-    const {
-      toggles,
-      globalAlert,
-      popupDialog,
-      openingTimes,
-      memoizedPrismic,
-    } = ctx;
+    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
+      ctx;
     const params = ctx.params;
     const query = ctx.query;
 
@@ -76,15 +66,10 @@ async function renderIfToggleOn(
 }
 
 function handleAllRoute(handle) {
-  return async function(ctx, extraCtxParams = {}) {
+  return async function (ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
-    const {
-      toggles,
-      globalAlert,
-      popupDialog,
-      openingTimes,
-      memoizedPrismic,
-    } = ctx;
+    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
+      ctx;
     const query = {
       ...parsedUrl.query,
       ...extraCtxParams,
@@ -108,4 +93,5 @@ module.exports = {
   route,
   handleAllRoute,
   renderIfToggleOn,
+  intervals: [withToggles.interval, withMemoizedPrismic.interval],
 };
