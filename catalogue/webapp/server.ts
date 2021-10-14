@@ -10,26 +10,26 @@ import {
   middleware,
   route,
   handleAllRoute,
+  intervals as middlewareIntervals,
 } from '@weco/common/koa-middleware/withCachedValues';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
-import withQueryType from './middleware/withQueryType';
 import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const nextApp = next({ dev });
+const handle = nextApp.getRequestHandler();
 
-const server = app
+const appPromise = nextApp
   .prepare()
   .then(async () => {
     await initServerData();
 
-    const server = new Koa();
+    const koaApp = new Koa();
     const router = new Router();
 
-    server.use(apmErrorMiddleware);
-    server.use(withQueryType);
-    server.use(middleware);
+    koaApp.use(apmErrorMiddleware);
+    koaApp.use(middleware);
+    koaApp.on('close', () => console.info('---------------------------'));
 
     // Used for redirecting from cognito to actual works pages
     router.get('/works/auth-code', async (ctx, next) => {
@@ -58,12 +58,12 @@ const server = app
     });
 
     // Next routing
-    route('/works/progress', '/progress', router, app);
-    route('/works/:id', '/work', router, app);
-    route('/works', '/works', router, app);
-    route('/works/:workId/items', '/item', router, app);
-    route('/works/:workId/images', '/image', router, app);
-    route('/works/:workId/download', '/download', router, app);
+    route('/works/progress', '/progress', router, nextApp);
+    route('/works/:id', '/work', router, nextApp);
+    route('/works', '/works', router, nextApp);
+    route('/works/:workId/items', '/item', router, nextApp);
+    route('/works/:workId/images', '/image', router, nextApp);
+    route('/works/:workId/download', '/download', router, nextApp);
 
     router.get('/works/management/healthcheck', async ctx => {
       ctx.status = 200;
@@ -76,17 +76,18 @@ const server = app
       handleAllRoute(handle)
     );
 
-    server.use(async (ctx, next) => {
+    koaApp.use(async (ctx, next) => {
       ctx.res.statusCode = 200;
       await next();
     });
 
-    server.use(router.routes());
-    return server;
+    koaApp.use(router.routes());
+    return koaApp;
   })
   .catch(ex => {
     console.error(ex.stack);
     process.exit(1);
   });
 
-export default server;
+export default appPromise;
+export const intervals = middlewareIntervals as NodeJS.Timer[];

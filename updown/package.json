@@ -2,7 +2,7 @@
   "name": "updown",
   "type": "module",
   "scripts": {
-    "checks": "ts-node checks.js"
+    "checks": "ts-node checks"
   },
   "dependencies": {
     "aws-sdk": "^2.777.0",
