@@ -16,6 +16,14 @@ const contentChecks = [
     alias: 'Visit us',
   },
   {
+    url: '/get-involved',
+    alias: 'Visit us',
+  },
+  {
+    url: '/about-us',
+    alias: 'Visit us',
+  },
+  {
     url: '/articles/Wcj2kSgAAB-3C4Uj',
     alias: 'Story',
   },
