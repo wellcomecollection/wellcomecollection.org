@@ -64,8 +64,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { user, state: userState } = useUser();
-  const isLoading = userState === 'loading';
-
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
   const [isActive, setIsActive] = useState(false);
@@ -154,7 +152,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           setIsActive={setIsActive}
           item={item}
           work={work}
-          user={isLoading ? undefined : user}
+          user={userState === 'loading' ? undefined : user}
           initialHoldNumber={userHolds?.results.length ?? 0}
         />
       ) : (
@@ -186,7 +184,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       ),
       showAccess ? accessMethod : ' ',
       enableRequesting ? (
-        !isLoading ? (
+        userState === 'signedin' ? (
           showButton ? (
             <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
               {requestButton}

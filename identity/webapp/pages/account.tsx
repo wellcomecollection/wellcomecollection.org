@@ -88,8 +88,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 const AccountPage: NextPage = () => {
   const router = useRouter();
-  const { user, state } = useUser();
-  const isLoading = state === 'loading';
+  const { user, state: userState } = useUser();
 
   const requests = useRequestedItems(user?.userId);
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
@@ -130,8 +129,8 @@ const AccountPage: NextPage = () => {
         </div>
       </Header>
       <Layout10>
-        {isLoading && <Loading />}
-        {!isLoading && (
+        {userState === 'loading' && <Loading />}
+        {userState === 'signedin' && (
           <>
             {!user?.emailValidated && (
               <AccountStatus type="info">

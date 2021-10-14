@@ -27,10 +27,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   isActive,
 }) => {
   const { user, state: userState } = useUser();
-  const isLoading = userState === 'loading';
-
   const { updateUser, state: updateState, error } = useUpdateUser();
-  const isUpdating = updateState === 'loading';
 
   const { control, trigger, reset, formState, handleSubmit, setError } =
     useForm<ChangeEmailInputs>({
@@ -73,7 +70,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
     }
   }, [error, setError]);
 
-  if (isLoading || isUpdating) {
+  if (userState === 'loading' || updateState === 'loading') {
     return <Loading />;
   }
 
