@@ -12,11 +12,14 @@ async function getMemoizedPrismic() {
   }
 }
 
-setInterval(getMemoizedPrismic, oneMinute);
-module.exports = async function withPrismicAPI(ctx, next) {
+const interval = setInterval(getMemoizedPrismic, oneMinute);
+async function withPrismicAPI(ctx, next) {
   if (!memoizedPrismic) {
     await getMemoizedPrismic();
   }
   ctx.memoizedPrismic = memoizedPrismic;
   return next();
-};
+}
+
+const withMemoizedPrismicModule = (module.exports = withPrismicAPI);
+withMemoizedPrismicModule.interval = interval;

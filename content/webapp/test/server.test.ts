@@ -1,14 +1,23 @@
 /**
  * @jest-environment node
  */
-import request from 'supertest';
+import supertest, { SuperTest } from 'supertest';
+import { Server } from 'http';
 import serverPromise from '../server';
 
-test('healthcheck', async () => {
-  const server = await serverPromise;
-  const resp = await request(server.callback()).get(
-    '/content/management/healthcheck'
-  );
+let server: Server;
+let request: SuperTest<supertest.Test>;
 
+beforeAll(async () => {
+  server = await serverPromise;
+  request = supertest(server);
+});
+
+afterAll(() => {
+  server.close();
+});
+
+test('healthcheck', async () => {
+  const resp = await request.get('/content/management/healthcheck');
   expect(resp.status).toEqual(200);
 });
