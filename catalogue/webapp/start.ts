@@ -1,4 +1,4 @@
-import appPromise, { intervals } from './app';
+import appPromise, { intervals } from './server';
 
 const port =
   (process.argv[2] && !isNaN(Number(process.argv[2]))) ||

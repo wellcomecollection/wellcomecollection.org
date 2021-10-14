@@ -3,7 +3,7 @@
  */
 import supertest, { SuperTest } from 'supertest';
 import { Server } from 'http';
-import serverPromise from '../server';
+import serverPromise from '../start';
 
 let server: Server;
 let request: SuperTest<supertest.Test>;
