@@ -1,8 +1,13 @@
 import appPromise, { intervals } from './server';
 
 const port =
-  (process.argv[2] && !isNaN(Number(process.argv[2]))) ||
-  (process.env.NODE_ENV === 'test' ? 3001 : 3000);
+  process.argv[2] && Number.isInteger(Number(process.argv[2]))
+    ? process.argv[2]
+    : process.env.NODE_ENV === 'test'
+    ? 3001
+    : 3000;
+
+console.info(process.argv[2]);
 
 const serverPromise = appPromise.then(app => {
   const server = app.listen(port, () => {
