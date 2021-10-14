@@ -8,15 +8,15 @@ type Props = {
   state: State;
   enabled: boolean;
   reload: () => void;
+  _updateUserState: (update: Partial<UserInfo>) => void;
 };
 
 export const UserContext = createContext<Props>({
   user: undefined,
   state: 'initial',
   enabled: false,
-  reload: () => {
-    // no-op - we could probably try fill this out, but I can't really see the benefit
-  },
+  reload: () => void 0,
+  _updateUserState: () => void 0,
 });
 
 export function useUser(): Props {
@@ -28,11 +28,15 @@ const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
-  const fetchUser = async () => {
+  const updateUserState = (update: Partial<UserInfo>) =>
+    setUser(user => (user ? { ...user, ...update } : undefined));
+
+  const fetchUser = async (abortSignal?: AbortSignal) => {
     setState('loading');
     try {
-      const resp = await fetch('/account/api/users/me');
-
+      const resp = await fetch('/account/api/users/me', {
+        signal: abortSignal,
+      });
       switch (resp.status) {
         case 401:
           setState('signedout');
@@ -45,15 +49,21 @@ const UserProvider: FC = ({ children }) => {
           break;
 
         default:
+          console.error('Failed fetching user', resp.status);
           setState('failed');
       }
     } catch (e) {
-      setState('failed');
+      if (e.name !== 'AbortError') {
+        console.error('Failed fetching user', e);
+        setState('failed');
+      }
     }
   };
 
   useEffect(() => {
-    fetchUser();
+    const abortController = new AbortController();
+    fetchUser(abortController.signal);
+    return () => abortController.abort();
   }, []);
 
   return (
@@ -64,6 +74,8 @@ const UserProvider: FC = ({ children }) => {
         // We can remove this once we're untoggled
         enabled: true,
         reload: fetchUser,
+        // This is intended for "internal" use only in the identity app
+        _updateUserState: updateUserState,
       }}
     >
       {children}
@@ -71,10 +83,13 @@ const UserProvider: FC = ({ children }) => {
   );
 };
 
-const ToggledUserProvider: FC = ({ children }) => {
+const ToggledUserProvider: FC<{ forceEnable?: boolean }> = ({
+  children,
+  forceEnable,
+}) => {
   const toggles = useContext(TogglesContext);
 
-  return toggles.enableRequesting ? (
+  return toggles.enableRequesting || forceEnable ? (
     <UserProvider>{children}</UserProvider>
   ) : (
     <>{children}</>

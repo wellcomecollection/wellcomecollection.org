@@ -1,10 +1,6 @@
 import React, { FC, ComponentProps, useState } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { NextPage } from 'next';
-import {
-  useUserInfo,
-  withUserInfo,
-} from '@weco/common/views/components/UserInfoContext';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -31,7 +27,6 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import { UpdateUserSchema } from '../src/types/schemas/update-user';
 import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -42,6 +37,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 type DetailProps = {
   label: string;
@@ -92,7 +88,8 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 const AccountPage: NextPage = () => {
   const router = useRouter();
-  const { user, isLoading, update } = useUserInfo();
+  const { user, state: userState } = useUser();
+
   const requests = useRequestedItems(user?.userId);
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -132,8 +129,8 @@ const AccountPage: NextPage = () => {
         </div>
       </Header>
       <Layout10>
-        {isLoading && <Loading />}
-        {!isLoading && (
+        {userState === 'loading' && <Loading />}
+        {userState === 'signedin' && (
           <>
             {!user?.emailValidated && (
               <AccountStatus type="info">
@@ -164,8 +161,7 @@ const AccountPage: NextPage = () => {
                   <ChangeDetailsModal
                     id="change-email"
                     buttonText="Change email"
-                    onComplete={(newUserInfo?: UpdateUserSchema) => {
-                      if (newUserInfo) update(newUserInfo);
+                    onComplete={() => {
                       setIsEmailUpdated(true);
                     }}
                     render={props => <ChangeEmail {...props} />}
@@ -276,4 +272,4 @@ const AccountPage: NextPage = () => {
   );
 };
 
-export default withUserInfo(AccountPage);
+export default AccountPage;

@@ -11,8 +11,8 @@ export const handlers = [
   rest.get('/account/api/users/:userId', (req, res, ctx) => {
     return res(ctx.json(mockUser));
   }),
-  rest.put('/account/api/users/:userId', (req, res, ctx) => {
-    return res(ctx.json(mockUser));
+  rest.put<{ email: string }>('/account/api/users/:userId', (req, res, ctx) => {
+    return res(ctx.json({ ...mockUser, email: req.body.email }));
   }),
   rest.put('/account/api/users/:userId/password', (req, res, ctx) => {
     return res(ctx.status(200));
