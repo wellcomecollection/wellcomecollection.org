@@ -1,7 +1,7 @@
-import { UpdownIO } from 'updown.io';
+import { UpdownIO, CheckOptions } from 'updown.io';
 import AWS from 'aws-sdk';
-import expectedChecks from './expected-checks.js';
-import { removeDuplicates } from './utils.js';
+import expectedChecks from './expected-checks';
+import { removeDuplicates } from './utils';
 
 // set region if not set (as not set by the SDK by default)
 if (!AWS.config.region) {
@@ -12,7 +12,12 @@ if (!AWS.config.region) {
 
 const secretsManager = new AWS.SecretsManager();
 const getSecretParams = { SecretId: 'builds/updown_api_key' };
-let updownIO;
+let updownIO: UpdownIO;
+
+export type Check = {
+  url: string;
+} & CheckOptions;
+
 secretsManager
   .getSecretValue(getSecretParams)
   .promise()
