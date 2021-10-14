@@ -93,5 +93,5 @@ module.exports = {
   route,
   handleAllRoute,
   renderIfToggleOn,
-  intervals: [withToggles.interval, withMemoizedPrismic.interval],
+  timers: [withToggles.timer, withMemoizedPrismic.timer],
 };

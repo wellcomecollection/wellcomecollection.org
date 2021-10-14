@@ -42,20 +42,30 @@ async function read(key: Key, defaultValue: DefaulVal<Key>) {
   }
 }
 
+const timers = new Map<Key, NodeJS.Timer>();
 async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   const data = await fetch();
   const fileName = path.join(pathName, `${key}.json`);
   await fs.mkdir(pathName, { recursive: true });
   await fs.writeFile(fileName, JSON.stringify(data));
 
-  setTimeout(() => {
+  const timer = setTimeout(() => {
+    clearTimeout(timer);
     write(key, fetch);
   }, minute);
+
+  timers.set(key, timer);
 }
 
 export async function init() {
   await write('toggles', togglesHandler.fetch);
   await write('prismic', prismicHandler.fetch);
+}
+
+export function clear() {
+  for (const [, timer] of timers) {
+    clearTimeout(timer);
+  }
 }
 
 /**
