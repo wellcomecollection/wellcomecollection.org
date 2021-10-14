@@ -1,8 +1,8 @@
 FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:14.14.0
 
-WORKDIR /usr/src/app/webapp
+WORKDIR /usr/src/app
 
-ADD ./webapp /usr/src/app/webapp
+ADD ./ /usr/src/app
 
 RUN yarn
 

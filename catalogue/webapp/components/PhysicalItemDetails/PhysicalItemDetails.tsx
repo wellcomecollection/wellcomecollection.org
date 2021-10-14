@@ -12,12 +12,12 @@ import {
   getFirstPhysicalLocation,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
-import { useUserInfo } from '@weco/common/views/components/UserInfoContext';
 import {
   unrequestableStatusIds,
   unrequestableMethodIds,
 } from '../WorkDetails/WorkDetails';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -63,7 +63,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   encoreLink,
   isLast,
 }) => {
-  const { user, isLoading } = useUserInfo();
+  const { user, state: userState } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
   const [isActive, setIsActive] = useState(false);
@@ -152,7 +152,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           setIsActive={setIsActive}
           item={item}
           work={work}
-          user={isLoading ? undefined : user}
+          user={userState === 'loading' ? undefined : user}
           initialHoldNumber={userHolds?.results.length ?? 0}
         />
       ) : (
@@ -184,7 +184,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       ),
       showAccess ? accessMethod : ' ',
       enableRequesting ? (
-        !isLoading ? (
+        userState === 'signedin' ? (
           showButton ? (
             <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
               {requestButton}

@@ -2,13 +2,13 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ChangeEmail } from './ChangeEmail';
-import { UserInfoProvider } from '@weco/common/views/components/UserInfoContext';
 import { ChangeDetailsModalContentProps } from './ChangeDetailsModal';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import { mockUser } from '@weco/common/test/fixtures/identity/user';
+import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
 
 const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
@@ -19,9 +19,9 @@ const defaultProps: ChangeDetailsModalContentProps = {
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
   render(
     <ThemeProvider theme={theme}>
-      <UserInfoProvider>
+      <UserProvider forceEnable={true}>
         <ChangeEmail {...defaultProps} {...props} />
-      </UserInfoProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 
@@ -74,7 +74,10 @@ describe('ChangeEmail', () => {
     userEvent.click(screen.getByRole('button', { name: /update email/i }));
     await waitFor(() =>
       expect(onComplete).toBeCalledWith(
-        expect.objectContaining({ email: 'clarkkent@dailybugle.com' })
+        expect.objectContaining({
+          ...mockUser,
+          email: 'clarkkent@dailybugle.com',
+        })
       )
     );
   });
@@ -86,16 +89,16 @@ describe('ChangeEmail', () => {
     userEvent.type(emailAddressInput, 'clarkkent@dailybugle.com');
     rerender(
       <ThemeProvider theme={theme}>
-        <UserInfoProvider>
+        <UserProvider forceEnable={true}>
           <ChangeEmail {...defaultProps} isActive={false} />
-        </UserInfoProvider>
+        </UserProvider>
       </ThemeProvider>
     );
     rerender(
       <ThemeProvider theme={theme}>
-        <UserInfoProvider>
+        <UserProvider forceEnable={true}>
           <ChangeEmail {...defaultProps} isActive={true} />
-        </UserInfoProvider>
+        </UserProvider>
       </ThemeProvider>
     );
     await waitFor(() => expect(emailAddressInput).toHaveValue(mockUser.email));

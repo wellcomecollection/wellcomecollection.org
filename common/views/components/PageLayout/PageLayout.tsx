@@ -105,6 +105,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 
   const polyfillFeatures = [
     'default',
+    'AbortController',
     'Array.prototype.find',
     'Array.prototype.includes',
     'Array.prototype.includes',

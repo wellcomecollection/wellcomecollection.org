@@ -8,6 +8,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
+import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 
@@ -20,7 +21,9 @@ jest.mock('../components/PageWrapper', () => ({
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <AccountPage />
+      <UserProvider forceEnable={true}>
+        <AccountPage />
+      </UserProvider>
     </ThemeProvider>
   );
 
