@@ -9,7 +9,6 @@
         build:
           - common
           - catalogue
-          - content
           - edge_lambdas
           - identity
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
@@ -33,8 +32,8 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
-        run: catalogue
-        command: ["yarn", "test"]
+        run: common
+        command: ["yarn", "workspace", "@weco/catalogue", "run", "test"]
 
 - label: "test content"
   plugins:
