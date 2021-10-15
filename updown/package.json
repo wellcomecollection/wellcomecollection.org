@@ -1,6 +1,5 @@
 {
   "name": "updown",
-  "type": "module",
   "scripts": {
     "checks": "ts-node checks"
   },
