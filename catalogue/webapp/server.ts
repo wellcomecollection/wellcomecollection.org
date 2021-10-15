@@ -81,7 +81,7 @@ const appPromise = nextApp
     });
 
     koaApp.use(router.routes());
-    throw Error('Fecked');
+
     return koaApp;
   })
   .catch(err => {
