@@ -85,7 +85,8 @@ const appPromise = nextApp
   })
   .catch(err => {
     console.error(err);
-    process.exit(1);
+    throw err;
+    // process.exit(1);
   });
 
 export default appPromise;
