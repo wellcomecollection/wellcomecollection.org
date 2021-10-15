@@ -1,3 +1,5 @@
+import { Check } from './checks';
+
 const contentChecks = [
   {
     url: '/',
@@ -118,7 +120,7 @@ const expectedChecks = contentChecks.concat(worksChecks, [
 ]);
 
 function withOriginPrefix(originPrefix: string) {
-  return ({ url, alias }) => [
+  return ({ url, alias }: Check) => [
     {
       url: `https://${originPrefix}.wellcomecollection.org${url}`,
       alias: `${alias} (origin)`,
