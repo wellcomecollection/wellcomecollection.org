@@ -29,7 +29,6 @@ const appPromise = nextApp
 
     koaApp.use(apmErrorMiddleware);
     koaApp.use(middleware);
-    koaApp.on('close', () => console.info('---------------------------'));
 
     // Used for redirecting from cognito to actual works pages
     router.get('/works/auth-code', async (ctx, next) => {
@@ -85,7 +84,7 @@ const appPromise = nextApp
     return koaApp;
   })
   .catch(ex => {
-    console.error(ex.stack);
+    console.info(ex.stack);
     process.exit(1);
   });
 
