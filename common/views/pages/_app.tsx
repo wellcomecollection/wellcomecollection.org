@@ -14,14 +14,35 @@ import {
   GlobalContextData,
   WithGlobalContextData,
 } from '../components/GlobalContextProvider/GlobalContextProvider';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
+import { isServerData, defaultServerData } from '../../server-data/types';
+import { ServerDataContext } from '../../server-data/Context';
+
 declare global {
   interface Window {
     prismic: any;
   }
 }
+
+/**
+ * This allows us to use appError() in Page.getServerSideProps
+ * and still infer it's props return type if it didn't error.
+ * e.g.
+ * type BadProps = InferGetServerSidePropsType<typeof getServerSideProps> // { id: string } | AppErrorProps
+ * type Props = PageProps<typeof getServerSideProps> // { id: string }
+ * const Page = (props: Props) => {}
+ * export const getServerSideProps = context => {
+ *   const { id } = context.query
+ *   if (!id) return appError(context, 400, 'ID please')
+ *   else return { props: { id } }
+ * }
+ */
+export type PageProps<GetServerSideProps> = Exclude<
+  InferGetServerSidePropsType<GetServerSideProps>,
+  AppErrorProps
+>;
 
 export type AppErrorProps = {
   err: {
@@ -184,6 +205,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     });
     trackGaPageview();
     Router.events.on('routeChangeComplete', trackGaPageview);
+
     return () => {
       Router.events.off('routeChangeComplete', trackGaPageview);
     };
@@ -207,6 +229,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     Router.events.on('routeChangeComplete', resetEngagementTimeout);
 
     engagement = setTimeout(triggerEngagement, 10000);
+
     try {
       if (document.hidden) {
         // in case page is opened in a new tab
@@ -225,6 +248,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     return () => {
       Router.events.off('routeChangeStart', trackAndResetVisibleTime);
       Router.events.off('routeChangeComplete', resetEngagementTimeout);
+
       try {
         document.removeEventListener(
           'visibilitychange',
@@ -317,27 +341,47 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   }
 
+  // TODO: We should throw this error as soon as we have removed globalContextData
+  // We throw on dev as all pages should set this
+  // You can set `skipServerData: true` to explicitly bypass this
+  // e.g. for error pages
+  // const dev = process.env.NODE_ENV !== 'production';
+  // const needsServerData =
+  //   pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
+
+  // if (dev && needsServerData) {
+  //   throw new Error(
+  //     'Please set serverData on your getServerSideProps or getStaticProps'
+  //   );
+  // }
+
+  const serverData = isServerData(pageProps.serverData)
+    ? pageProps.serverData
+    : defaultServerData;
+
   return (
     <>
-      <AppContextProvider>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle
-            toggles={globalContextData.toggles}
-            isFontsLoaded={useIsFontsLoaded()}
-          />
-          <OutboundLinkTracker>
-            <LoadingIndicator />
-            {!pageProps.err && <Component {...pageProps} />}
-            {pageProps.err && (
-              <ErrorPage
-                statusCode={pageProps.err.statusCode}
-                title={pageProps.err.message}
-                globalContextData={globalContextData}
-              />
-            )}
-          </OutboundLinkTracker>
-        </ThemeProvider>
-      </AppContextProvider>
+      <ServerDataContext.Provider value={serverData}>
+        <AppContextProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle
+              toggles={globalContextData.toggles}
+              isFontsLoaded={useIsFontsLoaded()}
+            />
+            <OutboundLinkTracker>
+              <LoadingIndicator />
+              {!pageProps.err && <Component {...pageProps} />}
+              {pageProps.err && (
+                <ErrorPage
+                  statusCode={pageProps.err.statusCode}
+                  title={pageProps.err.message}
+                  globalContextData={globalContextData}
+                />
+              )}
+            </OutboundLinkTracker>
+          </ThemeProvider>
+        </AppContextProvider>
+      </ServerDataContext.Provider>
     </>
   );
 };

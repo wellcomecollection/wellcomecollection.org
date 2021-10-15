@@ -19,7 +19,7 @@ const Page: NextPage<Props> = ({ statusCode }) => {
 Page.getInitialProps = ({ query, res, err }) => {
   delete query.memoizedPrismic;
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-  return { statusCode };
+  return { statusCode, skipServerData: true };
 };
 
 export default Page;

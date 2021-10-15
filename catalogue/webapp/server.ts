@@ -10,9 +10,10 @@ import {
   middleware,
   route,
   handleAllRoute,
-  intervals as middlewareIntervals,
+  timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
@@ -21,12 +22,13 @@ const handle = nextApp.getRequestHandler();
 const appPromise = nextApp
   .prepare()
   .then(async () => {
+    await initServerData();
+
     const koaApp = new Koa();
     const router = new Router();
 
     koaApp.use(apmErrorMiddleware);
     koaApp.use(middleware);
-    koaApp.on('close', () => console.info('---------------------------'));
 
     // Used for redirecting from cognito to actual works pages
     router.get('/works/auth-code', async (ctx, next) => {
@@ -79,12 +81,14 @@ const appPromise = nextApp
     });
 
     koaApp.use(router.routes());
+    throw Error('Fecked');
     return koaApp;
   })
-  .catch(ex => {
-    console.error(ex.stack);
+  .catch(err => {
+    console.info(err);
+    throw err;
     process.exit(1);
   });
 
 export default appPromise;
-export const intervals = middlewareIntervals as NodeJS.Timer[];
+export const timers = middlewareTimers as NodeJS.Timer[];

@@ -24,7 +24,7 @@ async function getDefaultToggleValues() {
   } catch (e) {}
 }
 getDefaultToggleValues();
-const interval = setInterval(getDefaultToggleValues, 2 * 60 * 1000); // 2 minutes
+const timer = setInterval(getDefaultToggleValues, 2 * 60 * 1000); // 2 minutes
 
 const parseCookies = function (req) {
   if (!req.headers.cookie) {
@@ -86,4 +86,4 @@ function enableDisableToggle(ctx) {
 
 const withTogglesModule = (module.exports = withToggles);
 withTogglesModule.enableDisableToggle = enableDisableToggle;
-withTogglesModule.interval = interval;
+withTogglesModule.timer = timer;
