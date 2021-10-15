@@ -89,6 +89,10 @@ const appPromise = nextApp
     throw err;
     process.exit(1);
   });
-
+console.info('asldijasildjasiodyuasioudoiasuiodasu');
+(async () => {
+  const t = await appPromise;
+  console.info(t);
+})();
 export default appPromise;
 export const timers = middlewareTimers as NodeJS.Timer[];
