@@ -15,7 +15,7 @@ import {
   middleware,
   route,
   handleAllRoute,
-  intervals as middlewareIntervals,
+  timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 
 // FIXME: Find a way to import this.
@@ -154,4 +154,4 @@ const appPromise = nextApp
   });
 
 export default appPromise;
-export const intervals = middlewareIntervals as NodeJS.Timer[];
+export const timers = middlewareTimers as NodeJS.Timer[];
