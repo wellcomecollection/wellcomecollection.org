@@ -2,7 +2,7 @@ import { Check } from './checks';
 
 type CheckKey = keyof Check;
 
-function checksAreEqual(check1: Check, check2: Check): boolean {
+export function checksAreEqual(check1: Check, check2: Check): boolean {
   let areEqual = true;
   for (const key in check1) {
     if (check1[key as CheckKey] !== check2[key as CheckKey]) {
@@ -19,7 +19,7 @@ export function removeDuplicates(
 ): Check[] {
   return targetArray.filter(targetCheck => {
     return !comparisonArray.some(check => {
-      return checksAreEqual(targetCheck, check);
+      return targetCheck.url === check.url;
     });
   });
 }

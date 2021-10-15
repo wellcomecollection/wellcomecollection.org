@@ -5,9 +5,11 @@
   },
   "dependencies": {
     "aws-sdk": "^2.777.0",
+    "chalk": "^4.1.2",
     "ts-node": "^10.3.0",
     "typescript": "^4.4.4",
-    "updown.io": "^3.0.0"
+    "updown.io": "^3.0.0",
+    "yargs": "^17.2.1"
   },
   "license": "MIT"
 }
