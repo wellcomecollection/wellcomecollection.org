@@ -94,7 +94,7 @@
           - AWS_SESSION_TOKEN
 
 - label: "deploy content (ecr image)"
-  branches: "main"
+  branches: "main spike/run_cat_tests_against_common"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -103,8 +103,8 @@
     - docker-compose#v3.5.0:
         command: ["yarn", "workspace", "@weco/content", "run", "start"]
         push:
-          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
-          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+          # - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:test
 
 - label: "deploy content (bundle analysis)"
   branches: "main"
