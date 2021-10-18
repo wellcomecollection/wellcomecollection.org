@@ -17,6 +17,9 @@ ADD ./toggles/webapp ./toggles/webapp
 ADD ./identity/webapp ./identity/webapp
 
 RUN yarn setupCommon
+RUN yarn workspace @weco/catalogue run build
+RUN yarn workspace @weco/content run build
+RUN yarn workspace @weco/identity run build
 
 WORKDIR /usr/src/app/webapp
 
