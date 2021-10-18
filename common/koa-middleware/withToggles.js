@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-unfetch');
+const fetch = require('node-fetch');
 let defaultToggleValues = {};
 const cookiePrefix = 'toggle_';
 const cookieExpiry = 31536000;

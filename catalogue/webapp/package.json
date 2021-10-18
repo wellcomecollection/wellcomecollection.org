@@ -29,7 +29,6 @@
     "elastic-apm-node": "^3.21.1",
     "flow-bin": "^0.95.1",
     "fontfaceobserver": "^2.0.13",
-    "isomorphic-unfetch": "^3.0.0",
     "jest": "^24.5.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.5.0",

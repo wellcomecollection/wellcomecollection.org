@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import { NextApiResponse } from 'next';
 import { ItemsList, CatalogueApiError } from '@weco/common/model/catalogue';
 import {

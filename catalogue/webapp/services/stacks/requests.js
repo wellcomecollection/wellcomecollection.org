@@ -1,5 +1,4 @@
 // @flow
-import fetch from 'isomorphic-unfetch';
 
 const rootUris = {
   prod: 'https://api.wellcomecollection.org/stacks/v1/requests',

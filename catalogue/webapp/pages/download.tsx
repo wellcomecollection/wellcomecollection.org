@@ -11,7 +11,6 @@ import {
   getUiExtensions,
   isUiEnabled,
 } from '@weco/common/utils/iiif';
-import fetch from 'isomorphic-unfetch';
 import { IIIFManifest } from '@weco/common/model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';

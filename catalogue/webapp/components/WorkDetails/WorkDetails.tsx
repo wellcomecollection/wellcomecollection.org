@@ -1,7 +1,6 @@
 import moment from 'moment';
 import NextLink from 'next/link';
 import { useEffect, useState, useContext, FunctionComponent } from 'react';
-import fetch from 'isomorphic-unfetch';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';

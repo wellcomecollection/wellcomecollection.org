@@ -6,7 +6,6 @@ import {
   useRef,
 } from 'react';
 import { getSearchService } from '../../../utils/iiif';
-import fetch from 'isomorphic-unfetch';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';

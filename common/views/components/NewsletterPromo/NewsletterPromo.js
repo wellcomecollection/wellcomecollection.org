@@ -7,7 +7,6 @@ import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 // $FlowFixMe (tsx)
 import TextInput from '../TextInput/TextInput';

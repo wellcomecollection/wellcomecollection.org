@@ -1,5 +1,4 @@
 // @flow
-import fetch from 'isomorphic-unfetch';
 
 type SimilarityMeasure = 'palette' | 'feature';
 

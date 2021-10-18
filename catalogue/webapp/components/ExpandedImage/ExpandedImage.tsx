@@ -4,7 +4,6 @@ import {
   getServiceId,
 } from '@weco/common/utils/iiif';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import fetch from 'isomorphic-unfetch';
 import NextLink from 'next/link';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
