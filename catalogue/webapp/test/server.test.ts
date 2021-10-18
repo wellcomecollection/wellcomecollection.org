@@ -5,6 +5,8 @@ import supertest, { SuperTest } from 'supertest';
 import { Server } from 'http';
 import serverPromise from '../start';
 
+jest.mock('@weco/common/server-data');
+
 let server: Server;
 let request: SuperTest<supertest.Test>;
 
