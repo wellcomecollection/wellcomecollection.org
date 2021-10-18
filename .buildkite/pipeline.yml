@@ -73,9 +73,10 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
+        command: ["yarn", "workspace", "@weco/catalogue", "run", "start"]
         push:
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
 
 - label: "deploy catalogue (bundle analysis)"
   branches: "main"
@@ -100,9 +101,10 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
+        command: ["yarn", "workspace", "@weco/content", "run", "start"]
         push:
-          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
-          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
 
 - label: "deploy content (bundle analysis)"
   branches: "main"
@@ -127,9 +129,10 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
+        command: ["yarn", "workspace", "@weco/identity", "run", "start"]
         push:
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
+          - common:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
 
 - label: "deploy dash"
   branches: "main"
