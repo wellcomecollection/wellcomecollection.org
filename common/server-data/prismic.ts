@@ -30,7 +30,7 @@ const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
 
 async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
   // We should probably make this generic somewhere.
-  // The only place we have it is JS, so leaving it ungenerified for now
+  // The only place we have it is JS not TS, so leaving it ungenerified for now
   const api = await Prismic.getApi(
     'https://wellcomecollection.cdn.prismic.io/api/v2'
   );
