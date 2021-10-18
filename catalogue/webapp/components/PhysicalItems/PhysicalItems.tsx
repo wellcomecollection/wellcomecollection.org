@@ -7,6 +7,7 @@ import {
   useAbortSignalEffect,
   abortErrorHandler,
 } from '@weco/common/hooks/useAbortSignalEffect';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 type Props = {
   work: Work;
@@ -17,20 +18,29 @@ const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: initialItems,
 }: Props) => {
+  const { state: userState } = useUser();
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(initialItems);
 
-  useAbortSignalEffect(signal => {
-    const fetchUserHolds = async () => {
-      const holdsResponse = await fetch(`/account/api/users/me/item-requests`, {
-        signal,
-      });
-      const holds = await holdsResponse.json();
-      const holdsArray = holds?.results?.map(result => result.item.id);
-      setUserHolds(holdsArray && new Set(holdsArray));
-    };
-    fetchUserHolds().catch(abortErrorHandler);
-  }, []);
+  useAbortSignalEffect(
+    signal => {
+      const fetchUserHolds = async () => {
+        const holdsResponse = await fetch(
+          `/account/api/users/me/item-requests`,
+          {
+            signal,
+          }
+        );
+        const holds = await holdsResponse.json();
+        const holdsArray = holds?.results?.map(result => result.item.id);
+        setUserHolds(holdsArray && new Set(holdsArray));
+      };
+      if (userState === 'signedin') {
+        fetchUserHolds().catch(abortErrorHandler);
+      }
+    },
+    [userState]
+  );
 
   useAbortSignalEffect(signal => {
     const updateItemsStatus = async () => {
