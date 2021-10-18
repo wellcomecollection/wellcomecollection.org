@@ -40,7 +40,7 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
-        run: content
+        run: common
         command: ["yarn", "workspace", "@weco/content", "run", "test"]
 
 - label: "test identity"
@@ -85,8 +85,8 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
-        run: catalogue
-        command: [ "yarn", "deployBundleAnalysis" ]
+        run: common
+        command: ["yarn", "workspace", "@weco/catalogue", "run", "deployBundleAnalysis"]
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
@@ -112,8 +112,8 @@
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
-        run: content
-        command: [ "yarn", "deployBundleAnalysis" ]
+        run: common
+        command: ["yarn", "workspace", "@weco/content", "run", "deployBundleAnalysis"]
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
