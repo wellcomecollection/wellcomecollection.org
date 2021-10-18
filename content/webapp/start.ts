@@ -1,4 +1,4 @@
-import appPromise, { intervals } from './server';
+import appPromise, { timers } from './server';
 
 const port =
   process.argv[2] && Number.isInteger(Number(process.argv[2]))
@@ -27,7 +27,7 @@ const serverPromise = appPromise.then(app => {
   };
 
   server.on('close', () => {
-    for (const interval of intervals) {
+    for (const interval of timers) {
       clearInterval(interval);
     }
   });

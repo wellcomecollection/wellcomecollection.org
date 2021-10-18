@@ -1,20 +1,12 @@
 import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import {
-  GlobalContextData,
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import {
-  CatalogueWorksApiProps,
-  worksRouteToApiUrl,
-} from '@weco/common/services/catalogue/ts_api';
+import { worksRouteToApiUrl } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
 import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
@@ -24,34 +16,24 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
-import { GetServerSideProps, NextPage } from 'next';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { GetServerSidePropsContext, NextPage } from 'next';
+import { appError, PageProps } from '@weco/common/views/pages/_app';
 import {
   fromQuery,
   toLink,
-  WorksProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
+import { getServerData } from '@weco/common/server-data';
 
-type Props = {
-  works: CatalogueResultsList<Work>;
-  worksRouteProps: WorksProps;
-  apiProps: CatalogueWorksApiProps;
-  globalContextData: GlobalContextData;
-} & WithGlobalContextData &
-  WithPageview;
+type Props = PageProps<typeof getServerSideProps>;
 
 const Works: NextPage<Props> = ({
   works,
   worksRouteProps,
   apiProps,
   globalContextData,
-}: Props) => {
+}) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -282,48 +264,51 @@ const Works: NextPage<Props> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const globalContextData = getGlobalContextData(context);
-    const props = fromQuery(context.query);
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const serverData = await getServerData(context);
+  const globalContextData = getGlobalContextData(context);
+  const props = fromQuery(context.query);
 
-    const aggregations = [
-      'workType',
-      'availabilities',
-      'genres.label',
-      'languages',
-      'subjects.label',
-      'contributors.agent.label',
-    ];
+  const aggregations = [
+    'workType',
+    'availabilities',
+    'genres.label',
+    'languages',
+    'subjects.label',
+    'contributors.agent.label',
+  ];
 
-    const _queryType = cookies(context)._queryType;
+  const _queryType = cookies(context)._queryType;
 
-    const worksApiProps = worksRouteToApiUrl(props, {
-      _queryType,
-      aggregations,
-    });
+  const worksApiProps = worksRouteToApiUrl(props, {
+    _queryType,
+    aggregations,
+  });
 
-    const works = await getWorks({
-      params: worksApiProps,
-      toggles: globalContextData.toggles,
-    });
+  const works = await getWorks({
+    params: worksApiProps,
+    toggles: globalContextData.toggles,
+  });
 
-    if (works.type === 'Error') {
-      return appError(context, works.httpStatus, works.description);
-    }
+  if (works.type === 'Error') {
+    return appError(context, works.httpStatus, works.description);
+  }
 
-    return {
-      props: removeUndefinedProps({
-        works,
-        worksRouteProps: props,
-        apiProps: worksApiProps,
-        globalContextData,
-        pageview: {
-          name: 'works',
-          properties: works ? { totalResults: works.totalResults } : {},
-        },
-      }),
-    };
+  return {
+    props: removeUndefinedProps({
+      works,
+      worksRouteProps: props,
+      apiProps: worksApiProps,
+      globalContextData,
+      serverData,
+      pageview: {
+        name: 'works',
+        properties: works ? { totalResults: works.totalResults } : {},
+      },
+    }),
   };
+};
 
 export default Works;

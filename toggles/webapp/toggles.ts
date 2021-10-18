@@ -1,4 +1,10 @@
-type ABTest = {
+export type Toggle = {
+  id: string;
+  title: string;
+  description: string;
+  defaultValue: boolean;
+};
+export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
