@@ -21,7 +21,7 @@
         login: true
     - docker-compose#v3.5.0:
         run: common
-        command: ["yarn", "test"]
+        command: ["yarn", "workspace", "@weco/common", "run", "test"]
 
 - label: "test catalogue"
   plugins:
