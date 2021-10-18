@@ -1,3 +1,4 @@
+import { CheckInterval } from 'node-updown/lib/types/Check';
 import { Check } from './checks';
 
 const contentChecks = [
@@ -66,22 +67,22 @@ const apiChecks = [
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
     alias: 'API: Images: Search',
-    period: 60,
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images/sws5gyfw',
     alias: 'API: Images: Image',
-    period: 60,
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/works?query=botany',
     alias: 'API: Works: Search',
-    period: 60,
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/works/sgmzn6pu',
     alias: 'API: Works: Work',
-    period: 60,
+    period: 60 as CheckInterval,
   },
 ];
 
@@ -89,19 +90,19 @@ const expectedChecks = contentChecks.concat(worksChecks, apiChecks, [
   {
     url: 'https://i.wellcomecollection.org/assets/icons/favicon-16x16.png',
     alias: 'Experience: Assets: Favicon',
-    period: 60,
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://dlcs.io/health.aspx',
     alias: 'DLCS: API: IIIF (origin)',
-    period: 60,
+    period: 60 as CheckInterval,
   },
   {
     // This is from Wikimedia Commons linking to Wellcome Images:
     // https://commons.wikimedia.org/wiki/File:S._Pinaeus,_De_integritatis_et_corruptionis_virginum..._Wellcome_L0030772.jpg
     url: 'https://wellcomeimages.org/indexplus/image/L0030772.html',
     alias: 'Wellcome Images Redirect',
-    period: 120,
+    period: 120 as CheckInterval,
   },
 ]);
 
@@ -110,12 +111,12 @@ function withOriginPrefix(originPrefix: string) {
     {
       url: `https://${originPrefix}.wellcomecollection.org${url}`,
       alias: `${alias} (origin)`,
-      period: 60,
+      period: 60 as CheckInterval,
     },
     {
       url: `https://wellcomecollection.org${url}`,
       alias: `${alias} (cached)`,
-      period: 60,
+      period: 60 as CheckInterval,
     },
   ];
 }

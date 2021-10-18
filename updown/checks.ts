@@ -1,7 +1,8 @@
-import { UpdownIO, CheckOptions } from 'updown.io';
 import AWS from 'aws-sdk';
 import yargs from 'yargs/yargs';
 import chalk from 'chalk';
+import { UpdownClient } from 'node-updown';
+import { CheckOptions } from 'node-updown/lib/types/Check';
 import expectedChecks from './expected-checks';
 import { checksAreEqual, removeDuplicates } from './utils';
 
@@ -27,21 +28,20 @@ const error = (message: string) => {
 
 const secretsManager = new AWS.SecretsManager();
 const getSecretParams = { SecretId: 'builds/updown_api_key' };
-let updownIO: UpdownIO;
 
 export type Check = {
-  url: string;
   token?: string;
 } & CheckOptions;
 
+let client: UpdownClient;
 secretsManager
   .getSecretValue(getSecretParams)
   .promise()
   .then(secretData => {
-    updownIO = new UpdownIO(secretData['SecretString']);
-    return updownIO.api.checks.getChecks();
+    client = new UpdownClient(secretData['SecretString'] as string);
+    return client.getChecks();
   })
-  .then(checkData => {
+  .then(async checkData => {
     const currentChecks = checkData.map(check => ({
       token: check.token,
       url: check.url,
@@ -113,26 +113,28 @@ secretsManager
     }
 
     const deletionRequests = deletions.map(check => {
-      updownIO.api.checks.deleteCheck(check.token!);
+      return client.deleteCheck(check.token!);
     });
 
     const updatesRequests = updates.map(check => {
-      updownIO.api.checks.updateCheck(check.token!, {
+      return client.updateCheck(check.token!, {
         alias: check.alias,
-        period: check.period,
+        period: 60,
       });
     });
 
     const additionsRequests = additions.map(check => {
-      updownIO.api.checks.addCheck(check.url, {
+      return client.addCheck({
+        url: check.url,
         alias: check.alias,
         period: check.period,
       });
     });
 
-    return Promise.all(
-      deletionRequests.concat(updatesRequests, additionsRequests)
-    );
+    // We do these separately to satisfy typescript
+    await Promise.all(deletionRequests);
+    await Promise.all(updatesRequests);
+    await Promise.all(additionsRequests);
   })
   .catch(error => {
     console.error(error);
