@@ -1,4 +1,5 @@
 import Prismic from '@prismicio/client';
+import ResolvedApi from '@prismicio/client/types/ResolvedApi';
 import { Handler } from './';
 
 export const defaultValue = {
@@ -6,32 +7,26 @@ export const defaultValue = {
   openingTimes: null,
 } as const;
 
-export type PrismicData = Record<keyof typeof defaultValue, unknown>;
+type Key = keyof typeof defaultValue;
+export type PrismicData = Record<Key, unknown>;
 
 export const handler: Handler<PrismicData> = {
   defaultValue,
   fetch: fetchPrismicValues,
 };
 
-const fetchers = [
-  {
-    key: 'popupDialogue',
-    getValue: async api => {
-      const document = await api.getSingle('popup-dialog');
-      return document.data;
-    },
+const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
+  popupDialogue: async api => {
+    const document = await api.getSingle('popup-dialog');
+    return document.data;
   },
-  {
-    key: 'openingTimes',
-    getValue: async api => {
-      return api.query([
-        Prismic.Predicates.any('document.type', ['collection-venue']),
-      ]);
-    },
-  },
-] as const;
 
-type Key = typeof fetchers[number]['key'];
+  openingTimes: async api => {
+    return api.query([
+      Prismic.Predicates.any('document.type', ['collection-venue']),
+    ]);
+  },
+};
 
 async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
   // We should probably make this generic somewhere.
@@ -40,35 +35,28 @@ async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
     'https://wellcomecollection.cdn.prismic.io/api/v2'
   );
 
-  const valuePromises = fetchers.map(async fetcher => {
-    return fetcher.getValue(api);
-  });
+  const keys = Object.keys(fetchers);
+  const values = await Promise.allSettled(
+    Object.values(fetchers).map(fetcher => fetcher(api))
+  );
 
-  const values = await Promise.allSettled(valuePromises);
-  const keyedValues = fetchers
-    .map(fetcher => fetcher.key)
-    .map((key, i) => {
-      const value = values[i];
+  const zipped = keys.reduce((acc, key, i) => {
+    const result = values[i];
+    // we use `null` over `undefined` so it will be in the JSON
+    const value = result.status === 'fulfilled' ? result.value : null;
 
-      if (value.status === 'rejected') {
-        console.info(value);
-        console.error(`Failed to fetch ${key} from Prismic`, value.reason);
-      }
+    if (result.status === 'rejected') {
+      console.error(`Failed to fetch ${keys[i]} from Prismic`, result.reason);
+    }
 
-      return {
-        key,
-        // we use `null` over `undefined` so it will be in the JSON
-        value: value.status === 'fulfilled' ? value.value : null,
-      };
-    })
-    .reduce((acc, val) => {
-      return {
-        ...acc,
-        [val.key]: val.value,
-      };
-    }, {} as Record<Key, unknown>);
+    return {
+      ...acc,
+      [key]: value,
+    };
+  }, {});
 
-  return keyedValues;
+  console.info(zipped);
+  return zipped as PrismicData;
 }
 
 export default handler;
