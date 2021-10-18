@@ -16,7 +16,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  server && server.close();
+  server?.close();
 });
 
 test('healthcheck', async () => {
