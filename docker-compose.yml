@@ -5,6 +5,21 @@ services:
     build:
       context: .
       dockerfile: common/Dockerfile
+  catalogue:
+    image: uk.ac.wellcome/catalogue_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: .
+      dockerfile: catalogue/Dockerfile
+  content:
+    image: uk.ac.wellcome/content_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: .
+      dockerfile: content/Dockerfile
+  identity:
+    image: uk.ac.wellcome/identity_webapp:${CONTAINER_TAG:-test}
+    build:
+      context: .
+      dockerfile: identity/Dockerfile
   cardigan:
     build:
       context: .
