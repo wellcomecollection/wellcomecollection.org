@@ -55,7 +55,6 @@ async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
     };
   }, {});
 
-  console.info(zipped);
   return zipped as PrismicData;
 }
 
