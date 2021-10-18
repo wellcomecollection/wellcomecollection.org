@@ -1,58 +1,56 @@
-import { FunctionComponent, useState, useEffect } from 'react';
+import { FunctionComponent, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
-import {
-  PhysicalItem,
-  ItemsList,
-  Work,
-  CatalogueApiError,
-} from '@weco/common/model/catalogue';
+import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
-
-async function fetchWorkItems(
-  workId: string
-): Promise<ItemsList | CatalogueApiError> {
-  const items = await fetch(`/api/works/items/${workId}`);
-  const itemsJson = await items.json();
-  return itemsJson;
-}
+import {
+  useAbortSignalEffect,
+  abortErrorHandler,
+} from '@weco/common/hooks/useAbortSignalEffect';
 
 type Props = {
   work: Work;
   items: PhysicalItem[];
-  encoreLink: string | undefined;
 };
 
 const PhysicalItems: FunctionComponent<Props> = ({
   work,
-  items,
-  encoreLink,
+  items: initialItems,
 }: Props) => {
-  const [physicalItems, setPhysicalItems] = useState(items);
+  const [userHolds, setUserHolds] = useState<Set<string>>();
+  const [physicalItems, setPhysicalItems] = useState(initialItems);
 
-  useEffect(() => {
-    let isMounted = true;
+  useAbortSignalEffect(signal => {
+    const fetchUserHolds = async () => {
+      const holdsResponse = await fetch(`/account/api/users/me/item-requests`, {
+        signal,
+      });
+      const holds = await holdsResponse.json();
+      const holdsArray = holds?.results?.map(result => result.item.id);
+      setUserHolds(holdsArray && new Set(holdsArray));
+    };
+    fetchUserHolds().catch(abortErrorHandler);
+  }, []);
+
+  useAbortSignalEffect(signal => {
     const updateItemsStatus = async () => {
-      const items = await fetchWorkItems(work.id);
+      const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
+        signal,
+      });
+      const items = await itemsResponse.json();
 
       if (!isCatalogueApiError(items)) {
         const itemsWithPhysicalLocation = items.results.filter(i =>
           i.locations?.some(location => location.type === 'PhysicalLocation')
         );
-        if (isMounted) {
-          setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
-        }
+        setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
       }
       // else {
       // tell the user something about not being able to retrieve the status of the item(s)
       // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
       // }
     };
-    updateItemsStatus(); // The items api has more up to date statuses than the catalogue api
-    return () => {
-      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
-      isMounted = false;
-    };
+    updateItemsStatus().catch(abortErrorHandler); // The items api has more up to date statuses than the catalogue api
   }, []);
 
   return (
@@ -61,7 +59,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
         <PhysicalItemDetails
           item={item}
           work={work}
-          encoreLink={encoreLink}
+          userHeldItems={userHolds}
           isLast={index === physicalItems.length - 1}
           key={index}
         />

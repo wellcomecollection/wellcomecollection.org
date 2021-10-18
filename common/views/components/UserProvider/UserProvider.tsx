@@ -1,6 +1,7 @@
-import { createContext, FC, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useState } from 'react';
 import { UserInfo } from '../../../model/user';
 import TogglesContext from '../TogglesContext/TogglesContext';
+import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
@@ -60,10 +61,8 @@ const UserProvider: FC = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    fetchUser(abortController.signal);
-    return () => abortController.abort();
+  useAbortSignalEffect(signal => {
+    fetchUser(signal);
   }, []);
 
   return (

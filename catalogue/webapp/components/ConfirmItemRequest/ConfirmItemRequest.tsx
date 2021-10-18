@@ -9,8 +9,8 @@ import styled from 'styled-components';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
-import { UserInfo } from '@weco/common/model/user';
 import { allowedRequests } from '@weco/common/values/requests';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -61,7 +61,6 @@ type Props = {
   item: PhysicalItem;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
-  user?: UserInfo;
   initialHoldNumber: number;
 };
 
@@ -195,10 +194,10 @@ const ConfirmItemRequest: FC<Props> = ({
   item,
   work,
   setIsActive,
-  user,
   initialHoldNumber,
   ...modalProps
 }) => {
+  const { state: userState } = useUser();
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const [requestingState, setRequestingState] = useState<RequestingState>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
@@ -219,31 +218,27 @@ const ConfirmItemRequest: FC<Props> = ({
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
   async function confirmRequest() {
-    if (!user) return;
     setRequestingState('requesting');
     try {
-      const response = await fetch(
-        `/account/api/users/${user.userId}/item-requests`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            workId: work.id,
-            itemId: item.id,
-            type: 'Item',
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await fetch(`/account/api/users/me/item-requests`, {
+        method: 'POST',
+        body: JSON.stringify({
+          workId: work.id,
+          itemId: item.id,
+          type: 'Item',
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         setRequestingState('error');
         // TODO: something to Sentry?
       } else {
         setRequestingState('confirmed');
-        setCurrentHoldNumber(currentHoldNumber + 1);
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
         // We therefore increment the currentHoldNumber manually following a successful request
+        setCurrentHoldNumber(holdNumber => holdNumber + 1);
       }
     } catch (error) {
       setRequestingState('error');
@@ -273,16 +268,22 @@ const ConfirmItemRequest: FC<Props> = ({
     }
   }
 
-  return requestingState === 'confirmed' && !modalProps.isActive ? (
-    <span>You have this item on hold</span>
-  ) : (
+  return (
     <>
-      <ButtonOutlined
-        disabled={!user}
-        ref={openButtonRef}
-        text={'Request item'}
-        clickHandler={() => setIsActive(true)}
-      />
+      {/* Hide the request button immediately after a request is made so that  */}
+      {/* there is some signifier of success; we can't update the item listing */}
+      {/* itself yet because the Sierra API is not read-consistent. This does  */}
+      {/* mean that if a user refreshes the page immediately after making a    */}
+      {/* request, it will look like nothing has happened - we can't currently */}
+      {/* do anything about that :(                                            */}
+      {requestingState !== 'confirmed' && (
+        <ButtonOutlined
+          disabled={userState !== 'signedin'}
+          ref={openButtonRef}
+          text={'Request item'}
+          clickHandler={() => setIsActive(true)}
+        />
+      )}
 
       <Modal
         {...modalProps}

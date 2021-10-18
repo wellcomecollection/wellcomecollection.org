@@ -174,14 +174,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationLocation &&
     sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
 
-  const sierraWorkIds = getWorkIdentifiersWith(work, {
-    identifierId: 'sierra-system-number',
-  });
-
-  const sierraWorkId = sierraWorkIds[0];
-
-  const encoreLink = sierraWorkId && getEncoreLink(sierraWorkId);
-
   const physicalItems = getItemsWithPhysicalLocation(work);
 
   const hasRequestableItems = physicalItems.some(item => {
@@ -256,13 +248,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             text={locationOfWork.contents}
           />
         )}
-        {physicalItems && (
-          <PhysicalItems
-            work={work}
-            items={physicalItems}
-            encoreLink={encoreLink}
-          />
-        )}
+        {physicalItems && <PhysicalItems work={work} items={physicalItems} />}
       </WorkDetailsSection>
     );
   };

@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState, useEffect } from 'react';
+import { FunctionComponent, useContext, useState } from 'react';
 import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -10,6 +10,7 @@ import {
   getLocationLabel,
   getLocationShelfmark,
   getFirstPhysicalLocation,
+  getEncoreLink,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import {
@@ -49,25 +50,23 @@ const DetailHeading = styled.h3.attrs({
 export type Props = {
   item: PhysicalItem;
   work: Work;
+  userHeldItems?: Set<string>;
   encoreLink?: string;
   isLast: boolean;
-};
-
-type UserHolds = {
-  results: { item: { id: string } }[];
 };
 
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   item,
   work,
-  encoreLink,
+  userHeldItems,
   isLast,
 }) => {
   const { user, state: userState } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
   const [isActive, setIsActive] = useState(false);
-  const [userHolds, setUserHolds] = useState<UserHolds | undefined>();
+
+  const isHeldByUser = item.id && userHeldItems?.has(item.id);
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
 
@@ -90,7 +89,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
 
-  const requestItemUrl = isRequestableOnline ? encoreLink : undefined;
+  const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
 
   const accessMethodId =
     physicalLocation?.accessConditions?.[0]?.method?.id || '';
@@ -109,40 +108,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     (enableRequesting && !hideRequestButton) ||
     (!enableRequesting && requestItemUrl);
 
-  useEffect(() => {
-    if (!user) return;
-
-    let isMounted = true;
-
-    fetch(`/account/api/users/${user.userId}/item-requests`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => {
-      if (!response.ok) return;
-
-      if (isMounted) {
-        response.json().then(setUserHolds);
-      }
-    });
-
-    return () => {
-      // We can't cancel promises, so using the isMounted value to prevent the component from trying to update the state if it's been unmounted.
-      isMounted = false;
-    };
-  }, [user?.userId]);
-
   const title = item.title || '';
-
   const itemNote = item.note || '';
-
   const location = locationLabel || '';
   const shelfmark = locationShelfmark || '';
-
-  const isHeldByUser = userHolds
-    ? userHolds.results.some(r => r.item.id === item.id)
-    : false;
 
   function createRows() {
     const requestButton =
@@ -152,8 +121,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           setIsActive={setIsActive}
           item={item}
           work={work}
-          user={userState === 'loading' ? undefined : user}
-          initialHoldNumber={userHolds?.results.length ?? 0}
+          initialHoldNumber={userHeldItems?.size ?? 0}
         />
       ) : (
         requestItemUrl &&
@@ -167,7 +135,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       showStatus ? 'Status' : ' ',
       showAccess ? 'Access' : ' ',
       ' ',
-    ].filter(Boolean);
+    ];
 
     const dataRow = [
       <>
@@ -175,16 +143,13 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <div>{shelfmark}</div>
       </>,
       showStatus ? (
-        <span>
-          {isOpenShelves && 'Open shelves'}
-          {!isOpenShelves && accessStatus}
-        </span>
+        <span>{isOpenShelves ? 'Open shelves' : accessStatus}</span>
       ) : (
         ' '
       ),
       showAccess ? accessMethod : ' ',
       enableRequesting ? (
-        userState === 'signedin' ? (
+        userState !== 'loading' ? (
           showButton ? (
             <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
               {requestButton}
@@ -202,7 +167,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       ) : (
         ' '
       ),
-    ].filter(Boolean);
+    ];
 
     return [headingRow, dataRow];
   }
