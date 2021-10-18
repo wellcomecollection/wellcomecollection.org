@@ -9,8 +9,6 @@ import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/I
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-  getWorkIdentifiersWith,
-  getEncoreLink,
   getItemsWithPhysicalLocation,
   sierraIdFromPresentationManifestUrl,
   getHoldings,
@@ -50,6 +48,7 @@ import ExpandableList from '@weco/common/views/components/ExpandableList/Expanda
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
 import { eye } from '@weco/common/icons';
+import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
 
 type Props = {
   work: Work;
@@ -106,17 +105,18 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     height: number;
   }>();
 
-  const fetchImageJson = async () => {
-    try {
-      const imageJson =
-        iiifImageLocation &&
-        (await fetch(iiifImageLocation.url).then(resp => resp.json()));
+  useAbortSignalEffect(signal => {
+    const fetchImageJson = async () => {
+      try {
+        const imageJson =
+          iiifImageLocation &&
+          (await fetch(iiifImageLocation.url, { signal }).then(resp =>
+            resp.json()
+          ));
 
-      setImageJson(imageJson);
-    } catch (e) {}
-  };
-
-  useEffect(() => {
+        setImageJson(imageJson);
+      } catch (e) {}
+    };
     fetchImageJson();
   }, []);
 
@@ -234,7 +234,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const holdings = getHoldings(work);
 
-  const WhereToFindIt = () => {
+  const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
         {enableRequesting && hasRequestableItems && (
@@ -253,7 +253,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     );
   };
 
-  const Holdings = () => {
+  const renderHoldings = () => {
     return (
       <>
         {holdings.length > 0 ? (
@@ -326,7 +326,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     );
   };
 
-  const Content = () => (
+  const renderContent = () => (
     <>
       {digitalLocation && itemLinkState !== 'useNoLink' && (
         <WorkDetailsSection headingText="Available online">
@@ -693,9 +693,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         </WorkDetailsSection>
       )}
 
-      <Holdings />
+      {renderHoldings()}
 
-      {(locationOfWork || physicalItems.length > 0) && <WhereToFindIt />}
+      {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
 
       <WorkDetailsSection headingText="Permanent link">
         <div className={`${font('hnr', 5)}`}>
@@ -727,12 +727,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   return isArchive ? (
     <Space h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}>
-      <Content />
+      {renderContent()}
     </Space>
   ) : (
-    <Layout12>
-      <Content />
-    </Layout12>
+    <Layout12>{renderContent()}</Layout12>
   );
 };
 
