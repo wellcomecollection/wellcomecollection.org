@@ -57,7 +57,7 @@
     "next": "^11.1.2",
     "next-cookies": "^2.0.3",
     "next-transpile-modules": "^8.0.0",
-    "node-fetch": "^3.0.0",
+    "node-fetch": "^2.6.2",
     "nprogress": "^0.2.0",
     "openseadragon": "^2.4.0",
     "prismic-dom": "^2.2.6",
