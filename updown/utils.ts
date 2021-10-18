@@ -1,9 +1,11 @@
 import { Check } from './checks';
 
+type CheckKey = keyof Check;
+
 function checksAreEqual(check1: Check, check2: Check): boolean {
   let areEqual = true;
-  for (const value in check1) {
-    if (check1[value] !== check2[value]) {
+  for (const key in check1) {
+    if (check1[key as CheckKey] !== check2[key as CheckKey]) {
       areEqual = false;
       break;
     }
