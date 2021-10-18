@@ -18,6 +18,6 @@ ADD ./identity/webapp ./identity/webapp
 
 RUN yarn setupCommon
 
-WORKDIR /usr/src/app/webapp/common
+WORKDIR /usr/src/app/webapp
 
 CMD ["true"]
