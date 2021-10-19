@@ -1,6 +1,7 @@
 {
   "name": "updown",
   "scripts": {
+    "test": "jest",
     "checks": "ts-node checks"
   },
   "dependencies": {
