@@ -18,7 +18,7 @@ const mockToggleResponse = {
   ],
 };
 
-jest.mock('isomorphic-unfetch', () => {
+jest.mock('node-fetch', () => {
   return jest.fn(() =>
     Promise.resolve({
       json: () => mockToggleResponse,
