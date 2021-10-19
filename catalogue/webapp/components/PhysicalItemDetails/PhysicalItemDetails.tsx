@@ -35,8 +35,13 @@ type ButtonWrapperProps = {
 };
 
 const ButtonWrapper = styled.div<ButtonWrapperProps>`
+  // This transform is to align the request button
+  // with the top of the other table headings
+  transform: translateY(-1.2em);
+
   @media (max-width: ${props => props.styleChangeWidth}px) {
     margin-top: ${props => props.theme.spacingUnit * 2}px;
+    transform: translateY(0);
   }
 `;
 
