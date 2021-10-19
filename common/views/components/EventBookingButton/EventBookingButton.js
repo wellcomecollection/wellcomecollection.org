@@ -9,6 +9,8 @@ import Message from '../Message/Message';
 import { font } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
+import { ticketAvailable, email } from '@weco/common/icons';
 
 type Props = {|
   event: UiEvent,
@@ -27,7 +29,7 @@ function getButtonMarkup(event) {
       >
         <ButtonSolidLink
           link={`https://www.eventbrite.com/e/${event.eventbriteId || ''}/`}
-          icon="ticketAvailable"
+          icon={ticketAvailable}
           text="Book free tickets"
         />
       </div>
@@ -44,7 +46,7 @@ function getBookingEnquiryMarkup(event) {
     return (
       <ButtonSolidLink
         link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
-        icon="email"
+        icon={email}
         text="Email to book"
       />
     );

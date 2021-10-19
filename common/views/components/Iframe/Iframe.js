@@ -8,6 +8,8 @@ import Control from '../Buttons/Control/Control';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 import type { ImageType } from '../../../model/image';
 import styled from 'styled-components';
+// $FlowFixMe (tsx)
+import { cross } from '@weco/common/icons';
 
 export const IframeContainer = styled.div`
   padding-bottom: 56.25%; /* 16:9 */
@@ -136,7 +138,7 @@ class Iframe extends Component<Props, State> {
               <Control
                 colorScheme="light"
                 text="Close"
-                icon="cross"
+                icon={cross}
                 clickHandler={this.toggleIframeDisplay}
                 extraClasses={'close'}
               />

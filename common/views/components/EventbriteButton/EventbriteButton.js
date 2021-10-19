@@ -9,6 +9,8 @@ import { Fragment } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 // $FlowFixMe (tsx)
 import Space from '../styled/Space';
+// $FlowFixMe (tsx)
+import { ticket } from '@weco/common/icons';
 
 type Props = {
   event: UiEvent,
@@ -31,7 +33,7 @@ const EventbriteButton = ({ event }: Props) => {
                 action: 'booking-tickets:click',
                 label: 'event-page',
               }}
-              icon="ticket"
+              icon={ticket}
               text="Check for tickets"
             />
           </Space>

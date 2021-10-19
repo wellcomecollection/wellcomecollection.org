@@ -16,6 +16,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import Control from '../Buttons/Control/Control';
+import { arrow } from '@weco/common/icons';
 
 const ControlsWrap = styled.div`
   position: relative;
@@ -320,7 +321,7 @@ const Table: FunctionComponent<Props> = ({
             <Rotator rotate={180}>
               <Control
                 colorScheme="light"
-                icon="arrow"
+                icon={arrow}
                 extraClasses="bg-white font-green"
                 text=""
               />
@@ -329,7 +330,7 @@ const Table: FunctionComponent<Props> = ({
           <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
             <Control
               colorScheme="light"
-              icon="arrow"
+              icon={arrow}
               extraClasses="bg-white font-green"
               text=""
             />
