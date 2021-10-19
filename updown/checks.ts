@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import { UpdownClient } from 'node-updown';
 import { CheckOptions } from 'node-updown/lib/types/Check';
 import expectedChecks from './expected-checks';
-import { checksAreEqual, removeDuplicates } from './utils';
+import { getDeltas } from './utils';
 
 const { proceed } = yargs(process.argv)
   .option('proceed', {
@@ -49,34 +49,10 @@ secretsManager
       period: check.period,
     }));
 
-    // deletions: any URLs in the current checks, not in the expected checks
-    const deletions = removeDuplicates(currentChecks, expectedChecks);
-
-    // additions: any URLs in the expected checks, not in the current checks
-    const additions = removeDuplicates(expectedChecks, currentChecks);
-
-    // updates: any URLs in the current checks and expected checks with different data
-    // return the tokened updated checks
-    const updates = expectedChecks
-      .map(expectedCheck => {
-        const matchingCheck = currentChecks.find(
-          currentCheck => currentCheck.url === expectedCheck.url
-        );
-
-        const tokenedMatchingCheck = matchingCheck
-          ? {
-              ...expectedCheck,
-              token: matchingCheck.token,
-            }
-          : undefined;
-
-        return matchingCheck &&
-          tokenedMatchingCheck &&
-          !checksAreEqual(tokenedMatchingCheck, matchingCheck)
-          ? tokenedMatchingCheck
-          : undefined;
-      })
-      .filter(Boolean) as Check[];
+    const { deletions, updates, additions } = getDeltas(
+      currentChecks,
+      expectedChecks
+    );
 
     // Bit ugly, but best way to get the right output
     console.info(
