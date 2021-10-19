@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
+import { fontFamilyMixin } from '../../themes/typography';
 
 const StyledTable = styled.table.attrs({
   className: classNames({
@@ -104,7 +105,7 @@ const StyledTd = styled(Space).attrs(props => ({
       display: block;
       white-space: nowrap;
       content: ${props => (props.content ? `'${props.content}'` : '')};
-      font-weight: bold;
+      ${fontFamilyMixin('hnb', true)}
     }
   }
 `;

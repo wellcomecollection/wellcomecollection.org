@@ -77,7 +77,12 @@ const fontSizeMixin = size => {
     .join(' ');
 };
 
-const fontFamilyMixin = (family, isFull) => {
+type FontFamily = keyof typeof fontFamilies;
+
+export const fontFamilyMixin = (
+  family: FontFamily,
+  isFull: boolean
+): string => {
   return `font-family: ${fontFamilies[family][isFull ? 'full' : 'base']}`;
 };
 
