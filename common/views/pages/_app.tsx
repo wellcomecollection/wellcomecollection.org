@@ -54,7 +54,7 @@ export type AppErrorProps = {
 
 type Pageview = {
   name: string;
-  properties: Record<string, unknown>;
+  properties: Record<string, string[] | number[] | string | number | undefined>;
 };
 
 export type WithPageview = {
