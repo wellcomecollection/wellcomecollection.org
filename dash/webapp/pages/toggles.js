@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
-import fetch from 'isomorphic-unfetch';
 import Header from '../components/Header';
 
 const fontFamily = 'Gadget, sans-serif';
@@ -47,8 +46,9 @@ function setCookie(name, value) {
   const expiration = value
     ? ` Max-Age=${aYear}`
     : `Expires=${new Date(0).toString()}`;
-  document.cookie = `toggle_${name}=${value ||
-    ''}; Path=/; Domain=wellcomecollection.org; ${expiration}`;
+  document.cookie = `toggle_${name}=${
+    value || ''
+  }; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
 type Toggle = {|

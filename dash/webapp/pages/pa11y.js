@@ -1,6 +1,5 @@
 // $FlowFixMe
 import { Fragment, useState, useEffect } from 'react';
-import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Header from '../components/Header';
 

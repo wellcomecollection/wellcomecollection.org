@@ -6,7 +6,6 @@ import {
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '@weco/common/model/iiif';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import fetch from 'isomorphic-unfetch';
 import Raven from 'raven-js';
 import {
   catalogueApiError,

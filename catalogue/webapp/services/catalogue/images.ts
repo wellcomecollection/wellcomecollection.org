@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import {
   CatalogueApiError,
   CatalogueResultsList,

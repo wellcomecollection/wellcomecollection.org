@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import openseadragon from 'openseadragon';
 import {
   useState,

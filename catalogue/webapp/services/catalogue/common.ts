@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import { CatalogueApiError } from '@weco/common/model/catalogue';
 import { propsToQuery } from '@weco/common/utils/routes';
 import { Toggles } from '@weco/toggles';

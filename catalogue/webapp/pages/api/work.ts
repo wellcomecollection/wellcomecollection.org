@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-unfetch';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import {
   getAudio,

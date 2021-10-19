@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-unfetch';
-
 const swagger = async (useStaging: boolean) =>
   fetch(
     `https://api${
