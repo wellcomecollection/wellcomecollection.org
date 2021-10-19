@@ -67,11 +67,17 @@ export function getDownloadOptionsFromImageUrl(
   }
 }
 
-export function getEncoreLink(sierraId: string): string {
-  return `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
-    0,
-    sierraId.length - 1
-  )}`;
+export function getEncoreLink(work: Work): string | undefined {
+  const sierraWorkIds = getWorkIdentifiersWith(work, {
+    identifierId: 'sierra-system-number',
+  });
+  const sierraId = sierraWorkIds[0];
+  return sierraId
+    ? `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
+        0,
+        sierraId.length - 1
+      )}`
+    : undefined;
 }
 
 export function sierraIdFromPresentationManifestUrl(
