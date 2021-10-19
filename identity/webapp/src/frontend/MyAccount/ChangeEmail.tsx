@@ -26,20 +26,21 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   onComplete,
   isActive,
 }) => {
+  const [initialEmail, setInitialEmail] = useState<string>('');
   const { user, state: userState } = useUser();
   const { updateUser, state: updateState, error } = useUpdateUser();
 
   const { control, trigger, reset, formState, handleSubmit, setError } =
     useForm<ChangeEmailInputs>({
-      defaultValues: { email: user?.email, password: '' },
+      defaultValues: { email: initialEmail, password: '' },
     });
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
     string | null
   >(null);
 
   useEffect(() => {
-    reset({ email: user?.email, password: '' });
-  }, [reset, user?.email, isActive]);
+    reset({ password: '' });
+  }, [reset, isActive]);
 
   useEffect(() => {
     switch (error) {
@@ -74,8 +75,10 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
     return <Loading />;
   }
 
-  const onSubmit = (data: ChangeEmailInputs): void =>
+  const onSubmit = (data: ChangeEmailInputs): void => {
+    setInitialEmail(data.email);
     updateUser(data, onComplete);
+  };
 
   return (
     <ModalContainer>
@@ -88,7 +91,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
           <Controller
             name="email"
             control={control}
-            defaultValue=""
+            defaultValue={initialEmail}
             rules={{
               required: 'Enter an email address',
               pattern: {

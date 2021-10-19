@@ -36,11 +36,9 @@ describe('ChangeEmail', () => {
     });
   });
 
-  it("displays a text input with the user's existing email", async () => {
+  it('displays an empty text input for the new email', async () => {
     renderComponent();
-    expect(await screen.findByLabelText(/email address/i)).toHaveValue(
-      mockUser.email
-    );
+    expect(await screen.findByLabelText(/email address/i)).toHaveValue('');
   });
 
   it('allows the user to enter an email address', async () => {
@@ -101,7 +99,7 @@ describe('ChangeEmail', () => {
         </UserProvider>
       </ThemeProvider>
     );
-    await waitFor(() => expect(emailAddressInput).toHaveValue(mockUser.email));
+    await waitFor(() => expect(emailAddressInput).toHaveValue(''));
   });
 
   describe('shows an error on submission', () => {
@@ -153,6 +151,8 @@ describe('ChangeEmail', () => {
 
     it("when the email hasn't changed", async () => {
       renderComponent();
+      const emailAddressInput = await screen.findByLabelText(/email address/i);
+      userEvent.type(emailAddressInput, mockUser.email);
       userEvent.type(
         await screen.findByLabelText(/confirm password/i),
         'Superman1938'
