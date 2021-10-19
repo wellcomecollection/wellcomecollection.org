@@ -1,121 +1,108 @@
+import { CheckInterval } from 'node-updown/lib/types/Check';
 import { Check } from './checks';
 
 const contentChecks = [
   {
     url: '/',
-    alias: 'Homepage',
+    alias: 'Experience: Content: Homepage',
   },
   {
     url: '/stories',
-    alias: 'Stories',
+    alias: 'Experience: Content: Stories',
   },
   {
     url: '/whats-on',
-    alias: "What's on",
+    alias: "Experience: Content: What's on",
   },
   {
     url: '/visit-us',
-    alias: 'Visit us',
-  },
-  {
-    url: '/get-involved',
-    alias: 'Visit us',
-  },
-  {
-    url: '/about-us',
-    alias: 'Visit us',
+    alias: 'Experience: Content: Visit us',
   },
   {
     url: '/articles/Wcj2kSgAAB-3C4Uj',
-    alias: 'Story',
+    alias: 'Experience: Content: Story',
   },
   {
     url: '/events/W4VKXR4AAB4AeXU7',
-    alias: 'Event',
+    alias: 'Experience: Content: Event',
   },
   {
     url: '/exhibitions/WZwh4ioAAJ3usf86',
-    alias: 'Exhibition',
-  },
-  {
-    url: '/works/progress',
-    alias: 'Progress notes',
+    alias: 'Experience: Content: Exhibition',
   },
   {
     url: '/collections',
-    alias: 'Collections search',
+    alias: 'Experience: Content: Collections search',
   },
   {
-    url: '/humans.txt',
-    alias: 'humans.txt',
+    url: '/robots.txt',
+    alias: 'Experience: Content: robots.txt',
   },
 ].flatMap(withOriginPrefix('content'));
 
 const worksChecks = [
   {
     url: '/works?query=botany',
-    alias: 'Works search',
+    alias: 'Experience: Works: Works search',
   },
   {
     url: '/works/e7vav3ss',
-    alias: 'Work',
+    alias: 'Experience: Works: Work',
   },
   {
     url: '/works/e7vav3ss/items',
-    alias: 'Items',
+    alias: 'Experience: Works: Work items',
   },
   {
     url: '/images?query=skeletons',
-    alias: 'Images search',
+    alias: 'Experience: Works: Images search',
   },
   {
     url: '/works/pbxd2mgd/images?id=q6h754ua',
-    alias: 'Image',
+    alias: 'Experience: Works: Image',
   },
 ].flatMap(withOriginPrefix('works'));
 
-const expectedChecks = contentChecks.concat(worksChecks, [
+const apiChecks = [
   {
-    url: 'https://i.wellcomecollection.org/assets/icons/favicon-16x16.png',
-    alias: 'Favicon (assets)',
-    period: 60,
+    url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
+    alias: 'API: Images: Search',
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/images/sws5gyfw',
-    alias: 'Images API Single Image',
-    period: 60,
-  },
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/images?query=medicine',
-    alias: 'Images API Search',
-    period: 60,
-  },
-  {
-    url: 'https://api.wellcomecollection.org/catalogue/v2/works/sgmzn6pu',
-    alias: 'Works API Single Work',
-    period: 60,
+    alias: 'API: Images: Image',
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://api.wellcomecollection.org/catalogue/v2/works?query=botany',
-    alias: 'Works API Search',
-    period: 60,
+    alias: 'API: Works: Search',
+    period: 60 as CheckInterval,
+  },
+  {
+    url: 'https://api.wellcomecollection.org/catalogue/v2/works/sgmzn6pu',
+    alias: 'API: Works: Work',
+    period: 60 as CheckInterval,
+  },
+];
+
+const expectedChecks = contentChecks.concat(worksChecks, apiChecks, [
+  {
+    url: 'https://i.wellcomecollection.org/assets/icons/favicon-16x16.png',
+    alias: 'Experience: Assets: Favicon',
+    period: 60 as CheckInterval,
   },
   {
     url: 'https://dlcs.io/health.aspx',
-    alias: 'IIIF API (Origin/DLCS)',
-    period: 60,
-  },
-  {
-    url: 'https://iiif-origin.wellcomecollection.org/image/L0059534.jpg/full/800,/0/default.jpg',
-    alias: 'IIIF API (Origin/Loris)',
-    period: 60,
+    alias: 'DLCS: API: IIIF (origin)',
+    period: 60 as CheckInterval,
   },
   {
     // This is from Wikimedia Commons linking to Wellcome Images:
     // https://commons.wikimedia.org/wiki/File:S._Pinaeus,_De_integritatis_et_corruptionis_virginum..._Wellcome_L0030772.jpg
     url: 'https://wellcomeimages.org/indexplus/image/L0030772.html',
     alias: 'Wellcome Images Redirect',
-    period: 120,
+    period: 120 as CheckInterval,
   },
 ]);
 
@@ -124,12 +111,12 @@ function withOriginPrefix(originPrefix: string) {
     {
       url: `https://${originPrefix}.wellcomecollection.org${url}`,
       alias: `${alias} (origin)`,
-      period: 60,
+      period: 60 as CheckInterval,
     },
     {
       url: `https://wellcomecollection.org${url}`,
       alias: `${alias} (cached)`,
-      period: 60,
+      period: 60 as CheckInterval,
     },
   ];
 }
