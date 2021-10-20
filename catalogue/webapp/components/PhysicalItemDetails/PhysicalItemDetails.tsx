@@ -77,7 +77,16 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
-  const isHeldByUser = item.id && userHeldItems?.has(item.id);
+  // Immediately after a request is made, we can't see any evidence of it in either
+  // the items API or the identity API... so, we completely fake the updated status.
+  // This does mean that a refresh immediately after a request is made will show the
+  // wrong state.
+  //
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
+  const [requestWasCompleted, setRequestWasCompleted] = useState(false);
+
+  const isHeldByUser =
+    requestWasCompleted || (item.id && userHeldItems?.has(item.id));
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
 
@@ -89,9 +98,16 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const accessMethod =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
 
-  const accessStatus =
-    physicalLocation?.accessConditions?.[0]?.status?.label ||
-    (isRequestableOnline ? 'Open' : '');
+  let accessStatus: string;
+  if (requestWasCompleted) {
+    accessStatus = 'Temporarily unavailable';
+  } else if (isOpenShelves) {
+    accessStatus = 'Open shelves';
+  } else {
+    accessStatus =
+      physicalLocation?.accessConditions?.[0]?.status?.label ||
+      (isRequestableOnline ? 'Open' : '');
+  }
 
   const accessNote = physicalLocation?.accessConditions?.[0]?.note;
 
@@ -109,14 +125,16 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     physicalLocation?.accessConditions?.[0]?.status?.id || '';
 
   // Work out whether to show status, access and request button
-  const showStatus = isOpenShelves || accessStatus;
-  const showAccess = !isOpenShelves;
+  const showAccessStatus = !!accessStatus;
+  const showAccessMethod = !isOpenShelves;
 
   const isRequestable =
     unrequestableStatusIds.every(i => i !== accessStatusId) &&
     unrequestableMethodIds.every(i => i !== accessMethodId);
 
-  const showButton = enableRequesting ? isRequestable : !!requestItemUrl;
+  const showButton = enableRequesting
+    ? isRequestable && !requestWasCompleted
+    : !!requestItemUrl;
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -131,6 +149,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         item={item}
         work={work}
         initialHoldNumber={userHeldItems?.size ?? 0}
+        onSuccess={() => setRequestWasCompleted(true)}
       />
     ) : (
       requestItemUrl && (
@@ -140,8 +159,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     const headingRow = [
       'Location',
-      showStatus ? 'Status' : ' ',
-      showAccess ? 'Access' : ' ',
+      showAccessStatus ? 'Status' : ' ',
+      showAccessMethod ? 'Access' : ' ',
       ' ',
     ];
 
@@ -152,15 +171,13 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
-    if (showStatus) {
-      dataRow.push(
-        <span>{isOpenShelves ? 'Open shelves' : accessStatus}</span>
-      );
+    if (showAccessStatus) {
+      dataRow.push(<span>{accessStatus}</span>);
     } else {
       dataRow.push(' ');
     }
 
-    if (showAccess) {
+    if (showAccessMethod) {
       dataRow.push(accessMethod);
     } else {
       dataRow.push(' ');
