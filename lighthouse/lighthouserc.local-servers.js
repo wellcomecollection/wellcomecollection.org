@@ -1,5 +1,6 @@
-const startCatalogue = 'yarn workspace @weco/catalogue run start 3000';
-const startContent = 'yarn workspace @weco/content run start 3001';
+const startCatalogue =
+  'SERVER_PORT=3000 yarn workspace @weco/catalogue run start';
+const startContent = 'SERVER_PORT=3001 yarn workspace @weco/content run start';
 
 module.exports = {
   ci: {
