@@ -1,13 +1,17 @@
 # Devappy
 
-An app to make devs 'appy 🙃.
+This project is in WIP.
 
-Runs [Ziet's micro-proxy](https://github.com/zeit/micro-proxy).
+This project is intended to allow developers to run multiple Next.js apps locally over HTTPS.
 
-You need to have the applications you're proxying too running.†
-The simply run:
+## Setup
 
-  yarn dev
-  # > go to localhost:9000
+`curl -sS https://webinstall.dev/caddy | bash`.
 
-† TODO: Make this part of `devappy`
+## Go!
+
+`caddy run`
+
+## TODO
+
+- [ ] how to work with [mulit-zones](https://nextjs.org/docs/advanced-features/multi-zones) locally

@@ -50,13 +50,16 @@ We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to m
 To run a project, from the root directory:
 ```bash
 yarn install
-# yarn {appName = catalogue|content}
+# yarn {appName = content|catalogue|identity}
 # e.g.
 yarn catalogue
 ```
-By default the above command will run the application at localhost:3000, you can specify a port from the application directory with the following command:
-`yarn dev -p 3001`
-This is useful if you want to run both the catalogue and content apps simultaneously.
+### Port
+By default webapps will run on port `3000`.
+
+You can specify a port by setting the `PORT` in your `.env.development`.
+
+This is useful if you want to run webapps simultaneously.
 
 ## Deployment
 

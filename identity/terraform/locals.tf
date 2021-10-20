@@ -29,8 +29,6 @@ locals {
       AUTH0_DOMAIN        = data.aws_ssm_parameter.auth0_domain[env_name].value
       AUTH0_CLIENT_ID     = data.aws_ssm_parameter.auth0_client_id[env_name].value
       AUTH0_CALLBACK_URL  = data.aws_ssm_parameter.auth0_callback_url[env_name].value
-      API_BASE_URL        = data.aws_ssm_parameter.api_base_url[env_name].value
-      CONTEXT_PATH        = data.aws_ssm_parameter.context_path[env_name].value
       LOGOUT_REDIRECT_URL = data.aws_ssm_parameter.logout_redirect_url[env_name].value
     }
 
@@ -66,11 +64,6 @@ resource "random_password" "koa_session_keys" {
   }
 }
 
-data "aws_ssm_parameter" "context_path" {
-  for_each = toset(local.service_env_names)
-
-  name = "/identity/${each.key}/account_management_system/context_path"
-}
 data "aws_ssm_parameter" "auth0_domain" {
   for_each = toset(local.service_env_names)
 
@@ -87,12 +80,6 @@ data "aws_ssm_parameter" "auth0_callback_url" {
   for_each = toset(local.service_env_names)
 
   name = "/identity/${each.key}/account_management_system/auth0_callback_url"
-}
-
-data "aws_ssm_parameter" "api_base_url" {
-  for_each = toset(local.service_env_names)
-
-  name = "/identity/${each.key}/account_management_system/api_base_url"
 }
 
 data "aws_ssm_parameter" "logout_redirect_url" {
