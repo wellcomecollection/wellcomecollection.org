@@ -25,6 +25,7 @@ type ChangeEmailInputs = {
 export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   onComplete,
   isActive,
+  setIsModalLoading,
 }) => {
   const [initialEmail, setInitialEmail] = useState<string>('');
   const { user, state: userState } = useUser();
@@ -37,6 +38,10 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
     string | null
   >(null);
+
+  useEffect(() => {
+    setIsModalLoading(updateState === 'loading');
+  }, [updateState]);
 
   useEffect(() => {
     reset({ password: '' });
