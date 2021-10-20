@@ -61,6 +61,7 @@ export const config = {
       },
 
   remoteApi: {
-    apiKey: process.env.API_KEY,
-  } as { baseUrl: string; apiKey: string },
+    host: process.env.IDENTITY_API_HOST,
+    apiKey: process.env.IDENTITY_API_KEY,
+  } as { host: string; apiKey: string },
 };
