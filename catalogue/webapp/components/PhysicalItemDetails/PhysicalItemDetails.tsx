@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, ReactNode, useContext, useState } from 'react';
 import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -71,10 +71,11 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { user, state: userState } = useUser();
+  const { state: userState } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
-  const [isActive, setIsActive] = useState(false);
+
+  const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
   const isHeldByUser = item.id && userHeldItems?.has(item.id);
 
@@ -110,13 +111,12 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // Work out whether to show status, access and request button
   const showStatus = isOpenShelves || accessStatus;
   const showAccess = !isOpenShelves;
-  const hideRequestButton =
-    unrequestableStatusIds.some(i => i === accessStatusId) ||
-    unrequestableMethodIds.some(i => i === accessMethodId) ||
-    (!user && enableRequesting);
-  const showButton =
-    (enableRequesting && !hideRequestButton) ||
-    (!enableRequesting && requestItemUrl);
+
+  const isRequestable =
+    unrequestableStatusIds.every(i => i !== accessStatusId) &&
+    unrequestableMethodIds.every(i => i !== accessMethodId);
+
+  const showButton = enableRequesting ? isRequestable : !!requestItemUrl;
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -124,21 +124,19 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const shelfmark = locationShelfmark || '';
 
   function createRows() {
-    const requestButton =
-      enableRequesting && !hideRequestButton ? (
-        <ConfirmItemRequest
-          isActive={isActive}
-          setIsActive={setIsActive}
-          item={item}
-          work={work}
-          initialHoldNumber={userHeldItems?.size ?? 0}
-        />
-      ) : (
-        requestItemUrl &&
-        !hideRequestButton && (
-          <ButtonOutlinedLink text={'Request item'} link={requestItemUrl} />
-        )
-      );
+    const requestButton = enableRequesting ? (
+      <ConfirmItemRequest
+        isActive={requestModalIsActive}
+        setIsActive={setRequestModalIsActive}
+        item={item}
+        work={work}
+        initialHoldNumber={userHeldItems?.size ?? 0}
+      />
+    ) : (
+      requestItemUrl && (
+        <ButtonOutlinedLink text={'Request item'} link={requestItemUrl} />
+      )
+    );
 
     const headingRow = [
       'Location',
@@ -147,37 +145,38 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       ' ',
     ];
 
-    const dataRow = [
+    const dataRow: ReactNode[] = [
       <>
         <div>{location}</div>
         <div>{shelfmark}</div>
       </>,
-      showStatus ? (
+    ];
+
+    if (showStatus) {
+      dataRow.push(
         <span>{isOpenShelves ? 'Open shelves' : accessStatus}</span>
-      ) : (
-        ' '
-      ),
-      showAccess ? accessMethod : ' ',
-      enableRequesting ? (
-        userState !== 'loading' ? (
-          showButton ? (
-            <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
-              {requestButton}
-            </ButtonWrapper>
-          ) : (
-            ' '
-          )
-        ) : (
-          'Loading...'
-        )
-      ) : showButton ? (
+      );
+    } else {
+      dataRow.push(' ');
+    }
+
+    if (showAccess) {
+      dataRow.push(accessMethod);
+    } else {
+      dataRow.push(' ');
+    }
+
+    if (showButton && enableRequesting && userState === 'loading') {
+      dataRow.push('Loading...');
+    } else if (showButton) {
+      dataRow.push(
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
         </ButtonWrapper>
-      ) : (
-        ' '
-      ),
-    ];
+      );
+    } else {
+      dataRow.push(' ');
+    }
 
     return [headingRow, dataRow];
   }
