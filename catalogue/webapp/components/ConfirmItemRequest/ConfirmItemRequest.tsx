@@ -60,6 +60,7 @@ type Props = {
   work: Work;
   item: PhysicalItem;
   isActive: boolean;
+  onSuccess: () => void;
   setIsActive: (value: boolean) => void;
   initialHoldNumber: number;
 };
@@ -195,6 +196,7 @@ const ConfirmItemRequest: FC<Props> = ({
   work,
   setIsActive,
   initialHoldNumber,
+  onSuccess,
   ...modalProps
 }) => {
   const { state: userState } = useUser();
@@ -239,6 +241,7 @@ const ConfirmItemRequest: FC<Props> = ({
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
         // We therefore increment the currentHoldNumber manually following a successful request
         setCurrentHoldNumber(holdNumber => holdNumber + 1);
+        onSuccess();
       }
     } catch (error) {
       setRequestingState('error');
