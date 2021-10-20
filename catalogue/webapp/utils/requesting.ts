@@ -1,24 +1,17 @@
 import { PhysicalItem, PhysicalLocation } from '@weco/common/model/catalogue';
 import { getFirstPhysicalLocation } from '@weco/common/utils/works';
 
-const unrequestableStatusIds = ['temporarily-unavailable'];
-
-const unrequestableMethodIds = [
-  'not-requestable',
-  'open-shelves',
-  'manual-request',
-];
+const requestableStatusIds = ['open', 'open-with-advisory', 'restricted'];
+const requestableMethodIds = ['online-request'];
 
 const locationIsRequestable = (location: PhysicalLocation): boolean => {
   const accessCondition = location.accessConditions?.[0];
   const methodId = accessCondition?.method?.id;
   const statusId = accessCondition?.status?.id;
 
-  return Boolean(
-    methodId &&
-      statusId &&
-      !unrequestableMethodIds.includes(methodId) &&
-      !unrequestableStatusIds.includes(statusId)
+  return (
+    requestableMethodIds.includes(methodId || '') &&
+    requestableStatusIds.includes(statusId || '')
   );
 };
 
