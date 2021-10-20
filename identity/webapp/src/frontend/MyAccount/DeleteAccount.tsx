@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin, Cancel } from '../components/Form.style';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
@@ -79,35 +80,41 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <p>Are you sure you want to delete your account?</p>
-      <p>
-        To permanently delete your account please enter your password and
-        confirm.
-      </p>
-      <form onSubmit={handleSubmit(requestDelete)}>
-        <FieldMargin>
-          <PasswordInput
-            label="Password"
-            id="delete-account-confirm-password"
-            name="password"
-            control={control}
-            rules={{ required: 'Enter your current password' }}
+      <div
+        className={classNames({
+          [font('hnr', 5)]: true,
+        })}
+      >
+        <p>Are you sure you want to delete your account?</p>
+        <p>
+          To permanently delete your account please enter your password and
+          confirm.
+        </p>
+        <form onSubmit={handleSubmit(requestDelete)}>
+          <FieldMargin>
+            <PasswordInput
+              label="Password"
+              id="delete-account-confirm-password"
+              name="password"
+              control={control}
+              rules={{ required: 'Enter your current password' }}
+            />
+            <ErrorMessage
+              errors={formState.errors}
+              name="password"
+              render={({ message }) => (
+                <TextInputErrorMessage>{message}</TextInputErrorMessage>
+              )}
+            />
+          </FieldMargin>
+          <ButtonSolid
+            isDangerous
+            type={ButtonTypes.submit}
+            text="Yes, delete my account"
           />
-          <ErrorMessage
-            errors={formState.errors}
-            name="password"
-            render={({ message }) => (
-              <TextInputErrorMessage>{message}</TextInputErrorMessage>
-            )}
-          />
-        </FieldMargin>
-        <ButtonSolid
-          isDangerous
-          type={ButtonTypes.submit}
-          text="Yes, delete my account"
-        />
-        <Cancel onClick={onCancel}>No, take me back to my account</Cancel>
-      </form>
+          <Cancel onClick={onCancel}>No, take me back to my account</Cancel>
+        </form>
+      </div>
     </ModalContainer>
   );
 };

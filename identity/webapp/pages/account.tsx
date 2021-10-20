@@ -184,7 +184,7 @@ const AccountPage: NextPage = () => {
             <Container>
               <Wrapper>
                 {requests && requests.totalResults === 0 && (
-                  <p className={`${font('hnr', 4)}`}>
+                  <p className={`${font('hnr', 5)}`}>
                     Any item requests you make will appear here.
                   </p>
                 )}
@@ -251,7 +251,7 @@ const AccountPage: NextPage = () => {
             <SectionHeading>Delete library account</SectionHeading>
             <Container>
               <Wrapper>
-                <p className={font('hnb', 5)}>
+                <p className={font('hnr', 5)}>
                   Request a deletion of your account
                 </p>
                 <ButtonWrapper>
