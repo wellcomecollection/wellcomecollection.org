@@ -1,13 +1,6 @@
 import appPromise, { timers } from './server';
 
-const port =
-  process.argv[2] && Number.isInteger(Number(process.argv[2]))
-    ? process.argv[2]
-    : process.env.NODE_ENV === 'test'
-    ? 3001
-    : 3000;
-
-console.info(port, process.argv[2]);
+const port = process.env.SERVER_PORT ?? 3000;
 
 const serverPromise = appPromise.then(app => {
   const server = app.listen(port, () => {

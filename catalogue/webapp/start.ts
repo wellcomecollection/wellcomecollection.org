@@ -1,12 +1,7 @@
 import appPromise, { timers } from './server';
 import { clear as clearServerData } from '@weco/common/server-data';
 
-const port =
-  process.argv[2] && Number.isInteger(Number(process.argv[2]))
-    ? process.argv[2]
-    : process.env.NODE_ENV === 'test'
-    ? 3001
-    : 3000;
+const port = process.env.SERVER_PORT ?? 3000;
 
 const serverPromise = appPromise
   .then(app => {
