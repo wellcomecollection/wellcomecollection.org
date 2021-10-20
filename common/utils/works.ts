@@ -7,6 +7,7 @@ import {
   Work,
   Holding,
   PhysicalItem,
+  AccessCondition,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '../utils/convert-image-uri';
@@ -354,4 +355,10 @@ export function getFirstPhysicalLocation(
   item: PhysicalItem
 ): PhysicalLocation | undefined {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
+}
+
+export function getFirstAccessCondition(
+  location?: Location
+): AccessCondition | undefined {
+  return location?.accessConditions?.[0];
 }

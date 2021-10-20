@@ -11,6 +11,7 @@ import {
   getLocationShelfmark,
   getFirstPhysicalLocation,
   getEncoreLink,
+  getFirstAccessCondition,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
@@ -86,22 +87,21 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     requestWasCompleted || (item.id && userHeldItems?.has(item.id));
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
+  const accessCondition = getFirstAccessCondition(physicalLocation);
 
-  const accessNote = physicalLocation?.accessConditions?.[0]?.note;
+  const accessNote = accessCondition?.note;
 
   const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
 
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
 
-  const isRequestableOnline =
-    physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
+  const isRequestableOnline = accessCondition?.method?.id === 'online-request';
   const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
 
   const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
 
-  const accessMethod =
-    physicalLocation?.accessConditions?.[0]?.method?.label || '';
+  const accessMethod = accessCondition?.method?.label || '';
   const accessStatus = (() => {
     if (requestWasCompleted) {
       return 'Temporarily unavailable';
@@ -109,8 +109,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       return 'Open shelves';
     } else {
       return (
-        physicalLocation?.accessConditions?.[0]?.status?.label ||
-        (isRequestableOnline ? 'Open' : '')
+        accessCondition?.status?.label || (isRequestableOnline ? 'Open' : '')
       );
     }
   })();

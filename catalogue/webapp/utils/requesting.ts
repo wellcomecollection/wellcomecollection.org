@@ -1,11 +1,15 @@
 import { PhysicalItem, PhysicalLocation } from '@weco/common/model/catalogue';
-import { getFirstPhysicalLocation } from '@weco/common/utils/works';
+import {
+  getFirstAccessCondition,
+  getFirstPhysicalLocation,
+} from '@weco/common/utils/works';
 
 const requestableStatusIds = ['open', 'open-with-advisory', 'restricted'];
 const requestableMethodIds = ['online-request'];
 
 const locationIsRequestable = (location: PhysicalLocation): boolean => {
-  const accessCondition = location.accessConditions?.[0];
+  // In reality, there is only one physical location
+  const accessCondition = getFirstAccessCondition(location);
   const methodId = accessCondition?.method?.id;
   const statusId = accessCondition?.status?.id;
 
@@ -21,6 +25,8 @@ export const itemIsRequestable = (item: PhysicalItem): boolean => {
   return !!physicalLocation && locationIsRequestable(physicalLocation);
 };
 
-export const itemIsTemporarilyUnavailable = (item: PhysicalItem): boolean =>
-  getFirstPhysicalLocation(item)?.accessConditions?.[0]?.status?.id ===
-  'temporarily-unavailable';
+export const itemIsTemporarilyUnavailable = (item: PhysicalItem): boolean => {
+  const physicalLocation = getFirstPhysicalLocation(item);
+  const accessCondition = getFirstAccessCondition(physicalLocation);
+  return accessCondition?.status?.id === 'temporarily-unavailable';
+};
