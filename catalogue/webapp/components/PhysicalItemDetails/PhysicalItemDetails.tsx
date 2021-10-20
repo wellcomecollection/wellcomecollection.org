@@ -13,12 +13,9 @@ import {
   getEncoreLink,
 } from '@weco/common/utils/works';
 import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
-import {
-  unrequestableStatusIds,
-  unrequestableMethodIds,
-} from '../WorkDetails/WorkDetails';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { itemIsRequestable } from '../../utils/requesting';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -90,14 +87,21 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
 
-  const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
+  const accessNote = physicalLocation?.accessConditions?.[0]?.note;
+
+  const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
+
+  const locationShelfmark =
+    physicalLocation && getLocationShelfmark(physicalLocation);
 
   const isRequestableOnline =
     physicalLocation?.accessConditions?.[0]?.method?.id === 'online-request';
+  const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
+
+  const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
 
   const accessMethod =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
-
   const accessStatus = (() => {
     if (requestWasCompleted) {
       return 'Temporarily unavailable';
@@ -111,28 +115,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     }
   })();
 
-  const accessNote = physicalLocation?.accessConditions?.[0]?.note;
-
-  const locationLabel = physicalLocation && getLocationLabel(physicalLocation);
-
-  const locationShelfmark =
-    physicalLocation && getLocationShelfmark(physicalLocation);
-
-  const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
-
-  const accessMethodId =
-    physicalLocation?.accessConditions?.[0]?.method?.id || '';
-
-  const accessStatusId =
-    physicalLocation?.accessConditions?.[0]?.status?.id || '';
-
   // Work out whether to show status, access and request button
   const showAccessStatus = !!accessStatus;
   const showAccessMethod = !isOpenShelves;
-
-  const isRequestable =
-    unrequestableStatusIds.every(i => i !== accessStatusId) &&
-    unrequestableMethodIds.every(i => i !== accessMethodId);
+  const isRequestable = itemIsRequestable(item);
 
   const showButton = enableRequesting
     ? isRequestable && !requestWasCompleted

@@ -1,5 +1,6 @@
 import {
   DigitalLocation,
+  Location,
   Item,
   PhysicalLocation,
   RelatedWork,
@@ -128,8 +129,10 @@ export function getHoldings(work: Work): Holding[] {
   return work?.holdings || [];
 }
 
-export function getItemsWithPhysicalLocation(work: Work): PhysicalItem[] {
-  return (work.items ?? [])
+export function getItemsWithPhysicalLocation(
+  items: Item<Location>[]
+): PhysicalItem[] {
+  return items
     .map(item => {
       if (
         item.locations.some(location => location.type === 'PhysicalLocation')

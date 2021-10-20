@@ -1,21 +1,20 @@
 import moment from 'moment';
 import NextLink from 'next/link';
-import { useEffect, useState, useContext, FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { FunctionComponent, useContext, useState } from 'react';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
-  getDownloadOptionsFromImageUrl,
-  getDigitalLocationOfType,
-  getItemsWithPhysicalLocation,
-  sierraIdFromPresentationManifestUrl,
-  getHoldings,
   getDigitalLocationInfo,
+  getDigitalLocationOfType,
+  getDownloadOptionsFromImageUrl,
+  getHoldings,
+  getItemsWithPhysicalLocation,
   getLocationLabel,
-  getLocationShelfmark,
   getLocationLink,
-  getFirstPhysicalLocation,
+  getLocationShelfmark,
+  sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
 import {
   getMediaClickthroughService,
@@ -47,7 +46,11 @@ import ExpandableList from '@weco/common/views/components/ExpandableList/Expanda
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
 import { eye } from '@weco/common/icons';
-import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
+import {
+  abortErrorHandler,
+  useAbortSignalEffect,
+} from '@weco/common/hooks/useAbortSignalEffect';
+import { itemIsRequestable } from '../../utils/requesting';
 
 type Props = {
   work: Work;
@@ -74,13 +77,6 @@ function getItemLinkState({
     return 'useItemLink';
   }
 }
-
-export const unrequestableStatusIds = ['temporarily-unavailable'];
-export const unrequestableMethodIds = [
-  'not-requestable',
-  'open-shelves',
-  'manual-request',
-];
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const { enableRequesting } = useContext(TogglesContext);
@@ -116,7 +112,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         setImageJson(imageJson);
       } catch (e) {}
     };
-    fetchImageJson();
+    fetchImageJson().catch(abortErrorHandler);
   }, []);
 
   const digitalLocationInfo =
@@ -173,18 +169,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifPresentationLocation &&
     sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
 
-  const physicalItems = getItemsWithPhysicalLocation(work);
-
-  const hasRequestableItems = physicalItems.some(item => {
-    const physicalLocation = getFirstPhysicalLocation(item); // ok because there is only one physical location in reality
-    const methodId = physicalLocation?.accessConditions?.[0]?.method?.id || '';
-    const statusId = physicalLocation?.accessConditions?.[0]?.status?.id || '';
-
-    return !(
-      unrequestableStatusIds.includes(statusId) ||
-      unrequestableMethodIds.includes(methodId)
-    );
-  });
+  const physicalItems = getItemsWithPhysicalLocation(work.items ?? []);
 
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
@@ -236,7 +221,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {enableRequesting && hasRequestableItems && (
+        {enableRequesting && physicalItems.some(itemIsRequestable) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <SignInBar />
           </Space>
@@ -247,7 +232,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             text={locationOfWork.contents}
           />
         )}
-        {physicalItems && <PhysicalItems work={work} items={physicalItems} />}
+        <PhysicalItems work={work} items={physicalItems} />
       </WorkDetailsSection>
     );
   };

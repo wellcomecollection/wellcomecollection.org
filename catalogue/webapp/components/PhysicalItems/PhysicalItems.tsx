@@ -8,6 +8,7 @@ import {
   abortErrorHandler,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { getItemsWithPhysicalLocation } from '@weco/common/utils/works';
 
 type Props = {
   work: Work;
@@ -50,10 +51,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       const items = await itemsResponse.json();
 
       if (!isCatalogueApiError(items)) {
-        const itemsWithPhysicalLocation = items.results.filter(i =>
-          i.locations?.some(location => location.type === 'PhysicalLocation')
-        );
-        setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
+        setPhysicalItems(getItemsWithPhysicalLocation(items.results));
       }
       // else {
       // tell the user something about not being able to retrieve the status of the item(s)
