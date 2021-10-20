@@ -98,16 +98,18 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const accessMethod =
     physicalLocation?.accessConditions?.[0]?.method?.label || '';
 
-  let accessStatus: string;
-  if (requestWasCompleted) {
-    accessStatus = 'Temporarily unavailable';
-  } else if (isOpenShelves) {
-    accessStatus = 'Open shelves';
-  } else {
-    accessStatus =
-      physicalLocation?.accessConditions?.[0]?.status?.label ||
-      (isRequestableOnline ? 'Open' : '');
-  }
+  const accessStatus = (() => {
+    if (requestWasCompleted) {
+      return 'Temporarily unavailable';
+    } else if (isOpenShelves) {
+      return 'Open shelves';
+    } else {
+      return (
+        physicalLocation?.accessConditions?.[0]?.status?.label ||
+        (isRequestableOnline ? 'Open' : '')
+      );
+    }
+  })();
 
   const accessNote = physicalLocation?.accessConditions?.[0]?.note;
 
