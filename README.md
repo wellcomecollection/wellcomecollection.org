@@ -57,7 +57,7 @@ yarn catalogue
 ### Port
 By default webapps will run on port `3000`.
 
-You can specify a port by setting the `SERVER_PORT` in your `.env.development`.
+You can specify a port by setting the `PORT` in your `.env.development`.
 
 This is useful if you want to run webapps simultaneously.
 

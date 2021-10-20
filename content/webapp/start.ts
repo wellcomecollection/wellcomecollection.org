@@ -1,6 +1,6 @@
 import appPromise, { timers } from './server';
 
-const port = process.env.SERVER_PORT ?? 3000;
+const port = process.env.PORT ?? 3000;
 
 const serverPromise = appPromise.then(app => {
   const server = app.listen(port, () => {

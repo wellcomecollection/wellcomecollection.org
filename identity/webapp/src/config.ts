@@ -20,7 +20,7 @@ if (isProduction) {
   }
 }
 
-export const port: any = process.env.SERVER_PORT || 3000;
+export const port: any = process.env.PORT || 3000;
 
 // Any config derived from env here.
 
