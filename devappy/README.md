@@ -2,7 +2,7 @@
 
 This project is in WIP.
 
-This project is inteded to allow developers to run multiple next.js apps lcaolly over HTTPS.
+This project is intended to allow developers to run multiple Next.js apps locally over HTTPS.
 
 ## Setup
 
