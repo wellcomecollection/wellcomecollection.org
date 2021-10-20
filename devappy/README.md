@@ -6,7 +6,7 @@ This project is inteded to allow developers to run multiple next.js apps lcaolly
 
 ## Setup
 
-`./install.sh`.
+`curl -sS https://webinstall.dev/caddy | bash`.
 
 ## Go!
 
