@@ -42,26 +42,29 @@ const PhysicalItems: FunctionComponent<Props> = ({
     [userState]
   );
 
-  useAbortSignalEffect(signal => {
-    const updateItemsStatus = async () => {
-      const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
-        signal,
-      });
-      const items = await itemsResponse.json();
+  useAbortSignalEffect(
+    signal => {
+      const updateItemsStatus = async () => {
+        const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
+          signal,
+        });
+        const items = await itemsResponse.json();
 
-      if (!isCatalogueApiError(items)) {
-        const itemsWithPhysicalLocation = items.results.filter(i =>
-          i.locations?.some(location => location.type === 'PhysicalLocation')
-        );
-        setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
-      }
-      // else {
-      // tell the user something about not being able to retrieve the status of the item(s)
-      // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
-      // }
-    };
-    updateItemsStatus().catch(abortErrorHandler); // The items api has more up to date statuses than the catalogue api
-  }, []);
+        if (!isCatalogueApiError(items)) {
+          const itemsWithPhysicalLocation = items.results.filter(i =>
+            i.locations?.some(location => location.type === 'PhysicalLocation')
+          );
+          setPhysicalItems(itemsWithPhysicalLocation as PhysicalItem[]);
+        }
+        // else {
+        // tell the user something about not being able to retrieve the status of the item(s)
+        // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
+        // }
+      };
+      updateItemsStatus().catch(abortErrorHandler); // The items api has more up to date statuses than the catalogue api
+    },
+    [work.id]
+  );
 
   return (
     <ExpandableList
