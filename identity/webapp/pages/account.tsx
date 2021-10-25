@@ -248,17 +248,18 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Delete library account</SectionHeading>
+            <SectionHeading>Cancel library membership</SectionHeading>
             <Container>
               <Wrapper>
                 <p className={font('hnr', 5)}>
-                  Request a deletion of your account
+                  If you no longer wish to be a Wellcome library member, you can
+                  cancel your membership. The library team will be notified and
+                  your online account will be closed.
                 </p>
                 <ButtonWrapper>
                   <ChangeDetailsModal
                     id="delete-account"
-                    buttonText="Request deletion"
-                    isDangerous
+                    buttonText="Cancel your membership"
                     onComplete={logoutOnDeletionRequest}
                     render={props => <DeleteAccount {...props} />}
                   />
