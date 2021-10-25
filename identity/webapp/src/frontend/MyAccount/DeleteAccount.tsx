@@ -68,7 +68,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
         break;
       }
     }
-  }, [error, setError]);
+  }, [error, setError, formState.submitCount]);
 
   if (isLoading) {
     return <Loading />;

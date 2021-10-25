@@ -69,7 +69,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
         break;
       }
     }
-  }, [error, setError]);
+  }, [error, setError, formState.submitCount]);
 
   if (userState === 'loading' || updateState === 'loading') {
     return <Loading />;
