@@ -8,7 +8,7 @@ WORKDIR /usr/src/app/webapp
 
 ADD . /usr/src/app/webapp
 
-RUN yarn && yarn build
+RUN yarn && yarn build && yarn cache clean
 
 RUN cd dist && zip -r ../edge_lambda_origin.zip .
 
