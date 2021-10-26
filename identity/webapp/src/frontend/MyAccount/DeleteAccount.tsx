@@ -20,7 +20,7 @@ import {
   useRequestDelete,
 } from '../hooks/useRequestDelete';
 import { Loading } from './Loading';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 
 type DeleteAccountInputs = {
   password: string;
@@ -122,7 +122,8 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />
-            <ButtonOutlined
+            <ButtonOutlinedLink
+              link={`/account`}
               clickHandler={onCancel}
               text="No, go back to my account"
             />
