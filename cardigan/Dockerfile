@@ -16,13 +16,15 @@ ADD ./content/webapp ./content/webapp
 ADD ./toggles/webapp ./toggles/webapp
 ADD ./identity/webapp ./identity/webapp
 
-RUN yarn setupCommon
+RUN yarn setupCommon && \
+    yarn cache clean
 
 ADD ./cardigan ./cardigan
 
 WORKDIR /usr/src/app/webapp/cardigan
 
-RUN yarn install
-RUN yarn build
+RUN yarn install && \
+    yarn build && \
+    yarn cache clean
 
 CMD ["true"]
