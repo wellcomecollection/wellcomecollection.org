@@ -13,7 +13,8 @@ WORKDIR /usr/src/app/webapp
 
 ADD ./webapp /usr/src/app/webapp
 
-RUN yarn
-RUN yarn write-report --no-sandbox
+RUN yarn && \
+    yarn write-report --no-sandbox && \
+    yarn cache clean
 
 CMD ["true"]
