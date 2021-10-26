@@ -6,8 +6,9 @@ RUN apt-get update && apt-get install -y awscli
 
 ADD ./webapp /usr/src/app/webapp
 
-RUN yarn
-RUN yarn build
-RUN yarn export
+RUN yarn && \
+    yarn build && \
+    yarn export && \
+    yarn cache clean
 
 CMD ["true"]

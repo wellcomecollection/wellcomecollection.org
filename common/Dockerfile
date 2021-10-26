@@ -15,7 +15,7 @@ ADD ./content/webapp ./content/webapp
 ADD ./toggles/webapp ./toggles/webapp
 ADD ./identity/webapp ./identity/webapp
 
-RUN yarn setupCommon
+RUN yarn setupCommon && yarn cache clean
 
 WORKDIR /usr/src/app/webapp/common
 

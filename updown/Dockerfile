@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 ADD ./ /usr/src/app
 
-RUN yarn
+RUN yarn && yarn cache clean
 
 CMD ["true"]
