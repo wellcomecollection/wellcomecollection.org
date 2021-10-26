@@ -47,13 +47,17 @@ const CTAs = styled(Space).attrs({
 
 const RemainingRequests: FC<{
   allowedHoldRequests: number;
-  currentHoldRequests: number;
+  currentHoldRequests?: number;
 }> = ({ allowedHoldRequests, currentHoldRequests }) => (
-  <Remaining>
-    {`${
-      allowedHoldRequests - currentHoldRequests
-    }/${allowedHoldRequests} requests remaining`}
-  </Remaining>
+  <>
+    {currentHoldRequests && (
+      <Remaining>
+        {`${
+          allowedHoldRequests - currentHoldRequests
+        }/${allowedHoldRequests} requests remaining`}
+      </Remaining>
+    )}
+  </>
 );
 
 type Props = {
@@ -62,7 +66,7 @@ type Props = {
   isActive: boolean;
   onSuccess: () => void;
   setIsActive: (value: boolean) => void;
-  initialHoldNumber: number;
+  initialHoldNumber?: number;
 };
 
 type RequestDialogProps = {
@@ -71,7 +75,7 @@ type RequestDialogProps = {
   item: PhysicalItem;
   confirmRequest: () => void;
   setIsActive: (value: boolean) => void;
-  currentHoldNumber: number;
+  currentHoldNumber?: number;
 };
 
 const RequestDialog: FC<RequestDialogProps> = ({
@@ -124,7 +128,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
 );
 
 type ConfirmedDialogProps = {
-  currentHoldNumber: number;
+  currentHoldNumber?: number;
 };
 
 const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
@@ -240,7 +244,7 @@ const ConfirmItemRequest: FC<Props> = ({
         setRequestingState('confirmed');
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
         // We therefore increment the currentHoldNumber manually following a successful request
-        setCurrentHoldNumber(holdNumber => holdNumber + 1);
+        setCurrentHoldNumber(holdNumber => (holdNumber || 0) + 1);
         onSuccess();
       }
     } catch (error) {
