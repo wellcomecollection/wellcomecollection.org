@@ -1,18 +1,14 @@
 import { FunctionComponent, useState } from 'react';
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
-import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
-import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  apiProps: CatalogueImagesApiProps;
 };
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
-  apiProps,
 }: Props) => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   // In the case that the modal changes the expanded image to
@@ -50,26 +46,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           resultPosition={expandedImagePosition}
           image={expandedImage}
           setExpandedImage={setExpandedImage}
-          onWorkLinkClick={() => {
-            trackSearchResultSelected(apiProps, {
-              id: expandedImage.source.id,
-              position: expandedImagePosition,
-              resultIdentifiers: undefined,
-              resultSubjects: undefined,
-              resultWorkType: '',
-              source: 'image_endpoint_result/work_link',
-            });
-          }}
-          onImageLinkClick={() => {
-            trackSearchResultSelected(apiProps, {
-              id: expandedImage.id,
-              position: expandedImagePosition,
-              resultWorkType: '',
-              resultIdentifiers: undefined,
-              resultSubjects: undefined,
-              source: 'image_endpoint_result/image_link',
-            });
-          }}
           id="expanded-image-dialog"
         />
       )}
