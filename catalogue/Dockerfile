@@ -11,13 +11,13 @@ COPY toggles/webapp ./toggles/webapp
 
 WORKDIR catalogue/webapp
 COPY catalogue/webapp/package.json ./
-RUN yarn --frozen-lockfile
+RUN yarn --frozen-lockfile && yarn cache clean
 
 COPY catalogue/webapp .
 ENV BUILD_HASH=latest
 ENV BUNDLE_ANALYZE=both
 
-RUN yarn build
+RUN yarn build && yarn cache clean
 
 # The following are from https://nextjs.org/docs/deployment#docker-image
 RUN addgroup --system --gid 1001 nodejs
