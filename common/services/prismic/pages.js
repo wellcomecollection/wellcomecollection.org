@@ -16,6 +16,7 @@ import type { Page } from '../../model/pages';
 import type { SiblingsGroup } from '../../model/siblings-group';
 import type { PrismicDocument, PaginatedResults } from './types';
 import {
+  articleSeriesFields,
   pagesFields,
   collectionVenuesFields,
   eventSeriesFields,
@@ -99,6 +100,7 @@ export async function getPage(
     id,
     {
       fetchLinks: pagesFields.concat(
+        articleSeriesFields,
         eventSeriesFields,
         collectionVenuesFields,
         exhibitionFields,
@@ -148,6 +150,7 @@ export async function getPages(
       page,
       pageSize,
       fetchLinks: pagesFields.concat(
+        articleSeriesFields,
         eventSeriesFields,
         collectionVenuesFields,
         exhibitionFields,
