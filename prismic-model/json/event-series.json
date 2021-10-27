@@ -505,6 +505,7 @@
                 "type": "Link",
                 "config": {
                   "label": "Link",
+                  "select": null,
                   "customtypes": []
                 }
               },
