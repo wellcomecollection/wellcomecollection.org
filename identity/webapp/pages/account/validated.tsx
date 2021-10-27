@@ -13,9 +13,10 @@ import Space from '@weco/common/views/components/styled/Space';
 type Props = {
   success: boolean;
   message: string | string[];
+  isNewSignUp: boolean;
 };
 
-const ValidatedPage: NextPage<Props> = ({ success, message }) => {
+const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const urlUsed = message === 'This URL can be used only once';
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
@@ -30,19 +31,23 @@ const ValidatedPage: NextPage<Props> = ({ success, message }) => {
                 <>
                   <Title>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>
-                  <p>
-                    The library team will review your application and will
-                    confirm your membership within the next 72 hours. In the
-                    meantime, you can browse through{' '}
-                    <a href="/collections">our digital collections</a> or sign
-                    in to your account below.
-                  </p>
-                  <HighlightMessage>
-                    <strong>Reminder:</strong> you will need to email a form of
-                    personal identification (ID) and proof of address to the
-                    Library team in order to confirm your details.
-                  </HighlightMessage>
-                  <ButtonSolidLink link="/account" text="Continue to Sign in" />
+                  {isNewSignUp && (
+                    <>
+                      <p>
+                        The library team will review your application and will
+                        confirm your membership within the next 72 hours. In the
+                        meantime, you can browse through{' '}
+                        <a href="/collections">our digital collections</a> or
+                        sign in to your account below.
+                      </p>
+                      <HighlightMessage>
+                        <strong>Reminder:</strong> you will need to email a form
+                        of personal identification (ID) and proof of address to
+                        the Library team in order to confirm your details.
+                      </HighlightMessage>
+                    </>
+                  )}
+                  <ButtonSolidLink link="/account" text="Sign in" />
                 </>
               ) : (
                 <>
@@ -70,12 +75,13 @@ const ValidatedPage: NextPage<Props> = ({ success, message }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const { query } = context;
-  const { success, message } = query;
+  const { success, message, supportSignUp } = query;
 
   return {
     props: {
       success: success === 'true',
       message: message || null,
+      isNewSignUp: supportSignUp === 'true',
     },
   };
 };
