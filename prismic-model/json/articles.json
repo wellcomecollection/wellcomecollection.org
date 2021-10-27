@@ -556,6 +556,7 @@
       "type": "Link",
       "config": {
         "label": "Outro: Research item",
+        "select": null,
         "customtypes": []
       }
     },
@@ -570,6 +571,7 @@
       "type": "Link",
       "config": {
         "label": "Outro: Read item",
+        "select": null,
         "customtypes": []
       }
     },
@@ -584,6 +586,7 @@
       "type": "Link",
       "config": {
         "label": "Outro: Visit item",
+        "select": null,
         "customtypes": []
       }
     },
