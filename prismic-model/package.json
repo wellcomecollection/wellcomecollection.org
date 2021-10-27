@@ -1,12 +1,17 @@
 {
   "scripts": {
-    "convert": "babel-node convert.js"
+    "convertFromSrc": "ts-node convertFromSrc",
+    "convertFromRemote": "ts-node convertFromRemote"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-react": "^1.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "dotenv": "^10.0.0",
+    "node-fetch": "2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }
