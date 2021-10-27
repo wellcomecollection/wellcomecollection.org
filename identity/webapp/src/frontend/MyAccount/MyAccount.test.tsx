@@ -220,12 +220,12 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
 
     const requestDeletionButton = await screen.findByRole('button', {
-      name: /request deletion/i,
+      name: /cancel your membership/i,
     });
     userEvent.click(requestDeletionButton);
 
     expect(
-      await screen.findByRole('heading', { name: /delete this account/i })
+      await screen.findByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
@@ -233,7 +233,7 @@ describe('MyAccount', () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByRole('heading', { name: /delete this account/i })
+        screen.queryByRole('button', { name: /yes, delete my account/i })
       ).not.toBeInTheDocument();
     });
   });

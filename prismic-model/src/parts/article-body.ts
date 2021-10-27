@@ -133,7 +133,7 @@ export default {
           text: {
             type: 'StructuredText',
             config: {
-              single: 'strong, em, hyperlink',
+              single: 'strong,em,hyperlink',
               label: 'Standfirst',
             },
           },
@@ -147,14 +147,14 @@ export default {
           title: {
             type: 'StructuredText',
             config: {
-              single: ' ',
+              single: 'paragraph',
               label: 'Title',
             },
           },
           content: {
             type: 'StructuredText',
             config: {
-              multi: 'paragraph, heading2, hyperlink, strong, em, preformatted',
+              multi: 'paragraph,heading2,hyperlink,strong,em,preformatted',
               label: 'Content',
             },
           },
@@ -188,7 +188,7 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Caption',
-              single: 'hyperlink, bold, em',
+              single: 'hyperlink,bold,em',
               placeholder: 'Caption',
             },
           },
@@ -248,7 +248,7 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Caption',
-              single: 'hyperlink, bold, em',
+              single: 'hyperlink,bold,em',
               placeholder: 'Caption',
             },
           },
@@ -284,7 +284,7 @@ export default {
           description: {
             type: 'StructuredText',
             config: {
-              multi: 'paragraph, hyperlink, bold, em',
+              multi: 'paragraph,hyperlink,bold,em',
               label: 'Description',
             },
           },
@@ -314,14 +314,14 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Caption',
-              single: 'strong, em, hyperlink',
+              single: 'strong,em,hyperlink',
             },
           },
           description: {
             type: 'StructuredText',
             config: {
               label: 'Description',
-              multi: 'paragraph, hyperlink, bold, em',
+              multi: 'paragraph,hyperlink,bold,em',
             },
           },
         },
