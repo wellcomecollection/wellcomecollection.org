@@ -28,7 +28,7 @@
       "type": "Boolean",
       "config": {
         "default_value": false,
-        "label": "Show 'On this page' anchor links (even when true, this will only appear if there are more than 2 H2s in the body)"
+        "label": "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body"
       }
     },
     "body": {
@@ -56,10 +56,6 @@
             {
               "name": "standalone",
               "display": "Standalone"
-            },
-            {
-              "name": "body",
-              "display": "Body"
             }
           ],
           "quote": [
@@ -413,26 +409,6 @@
               }
             }
           },
-          "discussion": {
-            "type": "Slice",
-            "fieldset": "Discussion",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading2"
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em",
-                  "label": "Text"
-                }
-              }
-            }
-          },
           "tagList": {
             "type": "Slice",
             "fieldset": "Tag List",
@@ -518,7 +494,8 @@
                 "type": "Link",
                 "config": {
                   "label": "Link",
-                  "customtypes": []
+                  "customtypes": [],
+                  "select": null
                 }
               },
               "label": {
@@ -560,9 +537,7 @@
                     "articles",
                     "exhibitions",
                     "card",
-                    "seasons",
-                    "landing-pages",
-                    "guides"
+                    "seasons"
                   ]
                 }
               }

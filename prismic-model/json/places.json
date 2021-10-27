@@ -58,10 +58,6 @@
             {
               "name": "standalone",
               "display": "Standalone"
-            },
-            {
-              "name": "body",
-              "display": "Body"
             }
           ],
           "quote": [
@@ -214,34 +210,6 @@
                     "2"
                   ]
                 }
-              },
-              "autoPlay": {
-                "type": "Boolean",
-                "config": {
-                  "default_value": true,
-                  "label": "Auto play"
-                }
-              },
-              "loop": {
-                "type": "Boolean",
-                "config": {
-                  "default_value": true,
-                  "label": "Loop video"
-                }
-              },
-              "mute": {
-                "type": "Boolean",
-                "config": {
-                  "default_value": true,
-                  "label": "Mute video"
-                }
-              },
-              "showControls": {
-                "type": "Boolean",
-                "config": {
-                  "default_value": false,
-                  "label": "Show controls"
-                }
               }
             }
           },
@@ -293,31 +261,6 @@
                 "config": {
                   "single": "paragraph,hyperlink,strong,em",
                   "label": "Standfirst"
-                }
-              }
-            }
-          },
-          "table": {
-            "type": "Slice",
-            "fieldset": "Table",
-            "non-repeat": {
-              "caption": {
-                "type": "Text",
-                "config": {
-                  "label": "Table caption (heading)"
-                }
-              },
-              "tableData": {
-                "type": "Text",
-                "config": {
-                  "label": "Pipe-delimeted csv"
-                }
-              },
-              "hasRowHeaders": {
-                "type": "Boolean",
-                "config": {
-                  "default_value": false,
-                  "label": "Make first column bold (instead of first row)"
                 }
               }
             }
@@ -415,126 +358,6 @@
               }
             }
           },
-          "discussion": {
-            "type": "Slice",
-            "fieldset": "Discussion",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading2"
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em",
-                  "label": "Text"
-                }
-              }
-            }
-          },
-          "tagList": {
-            "type": "Slice",
-            "fieldset": "Tag List",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading2"
-                }
-              }
-            },
-            "repeat": {
-              "link": {
-                "type": "Link",
-                "config": {
-                  "label": "Link",
-                  "select": "web",
-                  "customtypes": []
-                }
-              },
-              "linkText": {
-                "type": "Text",
-                "config": {
-                  "label": "Link text"
-                }
-              }
-            }
-          },
-          "infoBlock": {
-            "type": "Slice",
-            "fieldset": "Info block",
-            "non-repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading2"
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading3,list-item",
-                  "label": "Text"
-                }
-              },
-              "link": {
-                "type": "Link",
-                "config": {
-                  "label": "Button link",
-                  "select": "web",
-                  "customtypes": []
-                }
-              },
-              "linkText": {
-                "type": "Text",
-                "config": {
-                  "label": "Button text"
-                }
-              }
-            }
-          },
-          "titledTextList": {
-            "type": "Slice",
-            "fieldset": "Titled text list",
-            "repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading3"
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em,heading4,list-item",
-                  "label": "Text"
-                }
-              },
-              "link": {
-                "type": "Link",
-                "config": {
-                  "label": "Link",
-                  "customtypes": []
-                }
-              },
-              "label": {
-                "type": "Link",
-                "config": {
-                  "label": "tag",
-                  "select": "document",
-                  "customtypes": [
-                    "labels"
-                  ]
-                }
-              }
-            }
-          },
           "contentList": {
             "type": "Slice",
             "fieldset": "(β) Content list",
@@ -560,11 +383,7 @@
                     "books",
                     "events",
                     "articles",
-                    "exhibitions",
-                    "card",
-                    "seasons",
-                    "landing-pages",
-                    "guides"
+                    "exhibitions"
                   ]
                 }
               }
@@ -586,50 +405,6 @@
                 "type": "Text",
                 "config": {
                   "label": "Query"
-                }
-              }
-            }
-          },
-          "mediaObjectList": {
-            "type": "Slice",
-            "fieldset": "Media Object List",
-            "repeat": {
-              "title": {
-                "type": "StructuredText",
-                "config": {
-                  "label": "Title",
-                  "single": "heading1",
-                  "useAsTitle": true
-                }
-              },
-              "text": {
-                "type": "StructuredText",
-                "config": {
-                  "multi": "paragraph,hyperlink,strong,em",
-                  "label": "Text"
-                }
-              },
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image",
-                  "thumbnails": [
-                    {
-                      "name": "32:15",
-                      "width": 3200,
-                      "height": 1500
-                    },
-                    {
-                      "name": "16:9",
-                      "width": 3200,
-                      "height": 1800
-                    },
-                    {
-                      "name": "square",
-                      "width": 3200,
-                      "height": 3200
-                    }
-                  ]
                 }
               }
             }

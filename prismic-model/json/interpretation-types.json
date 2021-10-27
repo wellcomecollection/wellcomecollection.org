@@ -3,29 +3,29 @@
     "title": {
       "type": "StructuredText",
       "config": {
-        "label": "Title",
         "single": "heading1",
+        "label": "Title",
         "useAsTitle": true
       }
     },
     "abbreviation": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph,hyperlink,strong,em",
+        "single": "paragraph",
         "label": "Abbreviation"
       }
     },
     "description": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink",
         "label": "Message"
       }
     },
     "primaryDescription": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em",
+        "multi": "paragraph,hyperlink",
         "label": "Message if primary interpretation"
       }
     }
