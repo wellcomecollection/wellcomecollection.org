@@ -99,7 +99,7 @@ export default {
             config: {
               label: 'Text',
               multi:
-                'heading2,heading3,paragraph,strong,em,hyperlink,strike,list-item,embed',
+                'heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed',
             },
           },
         },
@@ -188,7 +188,7 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Caption',
-              single: 'hyperlink,bold,em',
+              single: 'hyperlink,em',
               placeholder: 'Caption',
             },
           },
@@ -248,7 +248,7 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Caption',
-              single: 'hyperlink,bold,em',
+              single: 'hyperlink,em',
               placeholder: 'Caption',
             },
           },
@@ -284,7 +284,7 @@ export default {
           description: {
             type: 'StructuredText',
             config: {
-              multi: 'paragraph,hyperlink,bold,em',
+              multi: 'paragraph,hyperlink,em',
               label: 'Description',
             },
           },
@@ -321,7 +321,7 @@ export default {
             type: 'StructuredText',
             config: {
               label: 'Description',
-              multi: 'paragraph,hyperlink,bold,em',
+              multi: 'paragraph,hyperlink,em',
             },
           },
         },
