@@ -13,7 +13,7 @@ if (modelName) {
     }
   );
 } else {
-  fs.readdir('./js', (err, files) => {
+  fs.readdir('./src', (err, files) => {
     if (err) throw err;
     files.forEach(filename => {
       if (filename.endsWith('.ts')) {

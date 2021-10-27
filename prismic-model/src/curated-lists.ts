@@ -18,7 +18,7 @@ const CuratedLists = {
       type: 'StructuredText',
       config: {
         label: 'Description',
-        multi: 'paragraph, em, strong, hyperlink',
+        multi: 'paragraph,em,strong,hyperlink',
       },
     },
     body: {
