@@ -54,11 +54,16 @@ async function main() {
         : true;
 
       if (isWithType && isWithLabel) {
-        matches.push({ id: result.id, title: result.data.title[0].text });
+        matches.push({
+          id: result.id,
+          type: result.type,
+          title: result.data.title[0].text,
+        });
       }
     }
   }
   console.info(matches);
+  console.info(`found ${matches.length}`);
 }
 
 main();
