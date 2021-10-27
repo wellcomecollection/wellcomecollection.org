@@ -8,11 +8,20 @@ export default function (
 ) {
   return {
     type: 'Link',
-    config: {
-      label: label,
-      select: linkType,
-      customtypes: linkMask,
-      placeholder: placeHolder,
-    },
+    config:
+      // This is because Prismic annoyingly reorders props dependant on if customtypes is set.
+      linkType === null
+        ? {
+            label: label,
+            customtypes: linkMask,
+            select: linkType,
+            placeholder: placeHolder,
+          }
+        : {
+            label: label,
+            select: linkType,
+            customtypes: linkMask,
+            placeholder: placeHolder,
+          },
   };
 }
