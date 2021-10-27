@@ -1,0 +1,23 @@
+{
+  "Main": {
+    "image": {
+      "type": "Image",
+      "config": {
+        "constraint": {},
+        "thumbnails": [
+          {
+            "name": "exhibition",
+            "width": 3200,
+            "height": 1500
+          },
+          {
+            "name": "square",
+            "width": 3200,
+            "height": 3200
+          }
+        ],
+        "label": "image"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "Tag": {
+    "type": {
+      "type": "Link",
+      "config": {
+        "label": "Tag type",
+        "select": "document",
+        "customtypes": [
+          "tag-types"
+        ]
+      }
+    },
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "label": "Title",
+        "single": "heading1",
+        "useAsTitle": true
+      }
+    }
+  }
+}

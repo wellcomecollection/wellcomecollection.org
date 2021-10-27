@@ -1,0 +1,49 @@
+{
+  "Exhibition": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "Title"
+      }
+    },
+    "start": {
+      "type": "Timestamp",
+      "config": {
+        "label": "Start date"
+      }
+    },
+    "end": {
+      "type": "Timestamp",
+      "config": {
+        "label": "End date"
+      }
+    },
+    "featuredImage": {
+      "type": "Image",
+      "config": {
+        "label": "Image"
+      }
+    }
+  },
+  "Accessibility": {
+    "accessStatements": {
+      "type": "Slices",
+      "fieldset": "Access statements",
+      "config": {
+        "choices": {
+          "accessStatement": {
+            "type": "Link",
+            "config": {
+              "select": "document",
+              "customtypes": [
+                "access-statements"
+              ],
+              "label": "Access statements"
+            }
+          }
+        }
+      }
+    }
+  }
+}

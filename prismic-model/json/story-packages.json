@@ -1,0 +1,57 @@
+{
+  "Main": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "title"
+      }
+    },
+    "publishdate": {
+      "type": "Timestamp",
+      "config": {
+        "label": "publishDate"
+      }
+    },
+    "articles": {
+      "type": "Slices",
+      "fieldset": "Slice zone",
+      "config": {
+        "choices": {
+          "content": {
+            "type": "Slice",
+            "fieldset": "content",
+            "description": "List of articles",
+            "icon": "adjust",
+            "non-repeat": {
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "multi": "heading1",
+                  "label": "title"
+                }
+              },
+              "publishdate": {
+                "config": {
+                  "label": "publishDate"
+                },
+                "type": "Timestamp"
+              },
+              "article": {
+                "type": "Link",
+                "config": {
+                  "select": "document",
+                  "customtypes": [
+                    "articles"
+                  ],
+                  "label": "article"
+                }
+              }
+            },
+            "repeat": {}
+          }
+        }
+      }
+    }
+  }
+}

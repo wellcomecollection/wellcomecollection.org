@@ -1,0 +1,41 @@
+{
+  "Main": {
+    "title": {
+      "type": "StructuredText",
+      "config": {
+        "single": "heading1",
+        "label": "Title"
+      }
+    },
+    "items": {
+      "type": "Slices",
+      "fieldset": "Slice zone",
+      "config": {
+        "choices": {
+          "editorialImage": {
+            "type": "Slice",
+            "fieldset": "Editorial Image",
+            "description": "A list of images and captions",
+            "icon": "add_a_photo",
+            "non-repeat": {},
+            "repeat": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image"
+                }
+              },
+              "caption": {
+                "type": "StructuredText",
+                "config": {
+                  "single": "paragraph,strong,em,hyperlink",
+                  "label": "Caption"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

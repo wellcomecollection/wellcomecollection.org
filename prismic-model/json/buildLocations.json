@@ -1,0 +1,10 @@
+{
+  "Ching": {
+    "location": {
+      "type": "GeoPoint",
+      "config": {
+        "label": "location"
+      }
+    }
+  }
+}
