@@ -252,9 +252,9 @@ const AccountPage: NextPage = () => {
             <Container>
               <Wrapper>
                 <p className={font('hnr', 5)}>
-                  If you no longer wish to be a Wellcome library member, you can
-                  cancel your membership. The library team will be notified and
-                  your online account will be closed.
+                  If you no longer wish to be a library member, you can cancel
+                  your membership. The library team will be notified and your
+                  online account will be closed.
                 </p>
                 <ButtonWrapper>
                   <ChangeDetailsModal
