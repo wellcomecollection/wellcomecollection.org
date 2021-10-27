@@ -556,8 +556,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Research item",
-        "select": null,
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroResearchLinkText": {
@@ -571,8 +571,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Read item",
-        "select": null,
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroReadLinkText": {
@@ -586,8 +586,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Visit item",
-        "select": null,
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroVisitLinkText": {
