@@ -32,7 +32,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   <Title>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
-                    <>
+                    <div data-test-id="new-sign-up">
                       <p>
                         The library team will review your application and will
                         confirm your membership within the next 72 hours. In the
@@ -45,7 +45,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                         of personal identification (ID) and proof of address to
                         the Library team in order to confirm your details.
                       </HighlightMessage>
-                    </>
+                    </div>
                   )}
                   <ButtonSolidLink link="/account" text="Sign in" />
                 </>

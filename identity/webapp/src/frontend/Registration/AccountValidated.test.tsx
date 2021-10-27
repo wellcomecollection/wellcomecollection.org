@@ -14,10 +14,15 @@ const renderPage = (location: string) => {
   const url = new URL(`https://localhost:3000/${location}`);
   const success = url.searchParams.get('success') === 'true';
   const message = url.searchParams.get('message');
+  const isNewSignUp = url.searchParams.get('supportSignUp') === 'true';
 
   render(
     <ThemeProvider theme={theme}>
-      <ValidatedPage success={success} message={message} />
+      <ValidatedPage
+        success={success}
+        message={message}
+        isNewSignUp={isNewSignUp}
+      />
     </ThemeProvider>
   );
 };
@@ -47,11 +52,21 @@ describe('AccountValidated', () => {
     ).toBeInTheDocument();
   });
 
+  it('shows review process information to new users', () => {
+    renderPage('/account/validated?success=true&supportSignUp=true');
+    expect(screen.getByTestId('new-sign-up')).toBeTruthy();
+  });
+
+  it('does not show review process information to existing users', () => {
+    renderPage('/account/validated?success=true&supportSignUp=false');
+    expect(screen.queryByTestId('new-sign-up')).toBeFalsy();
+  });
+
   it('shows a link to login on success', () => {
-    renderPage('/account/validated?success=true');
+    renderPage('/account/validated?success=true&supportSignUp=true');
     const links = screen.getAllByRole('link');
     const link = links[1];
-    expect(link).toHaveTextContent('Continue to Sign in');
+    expect(link).toHaveTextContent('Sign in');
     expect(link).toHaveAttribute('href', '/account');
   });
 
