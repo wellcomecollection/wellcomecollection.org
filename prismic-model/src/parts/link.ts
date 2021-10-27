@@ -10,7 +10,7 @@ export default function (
     type: 'Link',
     config: {
       label: label,
-      select: linkType ?? null,
+      select: linkType,
       customtypes: linkMask,
       placeholder: placeHolder,
     },
