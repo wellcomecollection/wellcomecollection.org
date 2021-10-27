@@ -16,6 +16,7 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { font, classNames } from '@weco/common/utils/classnames';
 
 type ChangeEmailInputs = {
   email: string;
@@ -86,6 +87,24 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <h3
+          className={classNames({
+            [font('hnb', 5)]: true,
+            'no-margin': true,
+          })}
+        >
+          Email
+        </h3>
+        <p
+          className={classNames({
+            [font('hnr', 5)]: true,
+            'no-margin': true,
+          })}
+        >
+          {user?.email}
+        </p>
+      </Space>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldMargin>
           <Controller

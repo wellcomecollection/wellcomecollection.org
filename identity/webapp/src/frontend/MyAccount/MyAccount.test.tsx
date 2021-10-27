@@ -88,8 +88,8 @@ describe('MyAccount', () => {
 
   it("shows the user's email address", async () => {
     renderComponent();
-    const email = await screen.findByText(mockUser.email);
-    expect(email).toBeInTheDocument();
+    const email = await screen.findAllByText(mockUser.email);
+    expect(email[0]).toBeVisible();
   });
 
   it("shows the user's item requests", async () => {
@@ -177,7 +177,8 @@ describe('MyAccount', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
     );
-    expect(screen.queryByText('clarkkent@dailybugle.com')).toBeInTheDocument();
+    const email = screen.queryAllByText('clarkkent@dailybugle.com');
+    expect(email[0]).toBeVisible();
   });
 
   it('shows a status message after the user updates their password', async () => {
