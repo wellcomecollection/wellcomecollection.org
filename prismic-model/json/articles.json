@@ -111,7 +111,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Text",
-                  "multi": "heading2,heading3,paragraph,strong,em,hyperlink,strike,list-item,embed"
+                  "multi": "heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed"
                 }
               }
             }
@@ -374,7 +374,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Caption",
-                  "single": "hyperlink,bold,em",
+                  "single": "hyperlink,em",
                   "placeholder": "Caption"
                 }
               }
@@ -434,7 +434,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Caption",
-                  "single": "hyperlink,bold,em",
+                  "single": "hyperlink,em",
                   "placeholder": "Caption"
                 }
               }
@@ -505,7 +505,7 @@
               "description": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph,hyperlink,bold,em",
+                  "multi": "paragraph,hyperlink,em",
                   "label": "Description"
                 }
               }
@@ -542,7 +542,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Description",
-                  "multi": "paragraph,hyperlink,bold,em"
+                  "multi": "paragraph,hyperlink,em"
                 }
               }
             }
