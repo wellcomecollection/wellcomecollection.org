@@ -290,6 +290,7 @@ const ConfirmItemRequest: FC<Props> = ({
 
       <Modal
         {...modalProps}
+        removeCloseButton={requestingState === 'requesting'}
         id="confirm-request-modal"
         setIsActive={innerSetIsActive}
         openButtonRef={openButtonRef}
