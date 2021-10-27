@@ -8,6 +8,7 @@ export type ChangeDetailsModalContentProps =
   | {
       onCancel: () => void;
       onComplete: () => void;
+      setIsModalLoading: (value: boolean) => void;
       isActive: boolean;
     };
 
@@ -27,6 +28,7 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   render,
 }) => {
   const [isActive, setIsActive] = useState(false);
+  const [isModalLoading, setIsModalLoading] = useState(false);
   const openButton = useRef(null);
 
   const handleComplete = (newDetails?: UpdateUserSchema) => {
@@ -49,11 +51,13 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openButton}
+        removeCloseButton={isModalLoading}
       >
         {render({
           onComplete: handleComplete,
           onCancel: close,
           isActive,
+          setIsModalLoading,
         })}
       </Modal>
     </>

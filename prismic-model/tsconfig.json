@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    // This is for lodash
+    "esModuleInterop": true
+  }
+}
