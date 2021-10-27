@@ -2,7 +2,7 @@ type LinkType = 'web' | 'document' | 'media';
 
 export default function (
   label: string,
-  linkType?: LinkType,
+  linkType: LinkType = null, // Prismic adds this as `null`, so it helps with the diffing
   linkMask: string[] = [],
   placeHolder?: string
 ) {
