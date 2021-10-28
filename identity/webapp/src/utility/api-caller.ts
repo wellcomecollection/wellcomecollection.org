@@ -8,7 +8,7 @@ import axios, {
 import { ApplicationState } from '../types/application';
 
 const identityInstance: AxiosInstance = axios.create({
-  baseURL: config.remoteApi.baseUrl,
+  baseURL: config.remoteApi.host,
   headers: {
     'x-api-key': config.remoteApi.apiKey,
   },

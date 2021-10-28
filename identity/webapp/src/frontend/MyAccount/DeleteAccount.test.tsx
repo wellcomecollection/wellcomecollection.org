@@ -12,6 +12,7 @@ const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
   onCancel: () => null,
   isActive: true,
+  setIsModalLoading: () => null,
 };
 
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>
@@ -25,7 +26,7 @@ describe('DeleteAccount', () => {
   it('renders correctly', () => {
     renderComponent();
     expect(
-      screen.getByRole('heading', { name: /delete this account/i })
+      screen.getByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
   });
 
@@ -50,7 +51,7 @@ describe('DeleteAccount', () => {
     const onCancel = jest.fn();
     renderComponent({ onCancel });
     userEvent.click(
-      screen.getByRole('link', { name: /no, take me back to my account/i })
+      screen.getByRole('link', { name: /no, go back to my account/i })
     );
     expect(onCancel).toHaveBeenCalled();
   });

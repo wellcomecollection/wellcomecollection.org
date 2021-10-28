@@ -88,8 +88,8 @@ describe('MyAccount', () => {
 
   it("shows the user's email address", async () => {
     renderComponent();
-    const email = await screen.findByText(mockUser.email);
-    expect(email).toBeInTheDocument();
+    const email = await screen.findAllByText(mockUser.email);
+    expect(email[0]).toBeVisible();
   });
 
   it("shows the user's item requests", async () => {
@@ -177,7 +177,8 @@ describe('MyAccount', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
     );
-    expect(screen.queryByText('clarkkent@dailybugle.com')).toBeInTheDocument();
+    const email = screen.queryAllByText('clarkkent@dailybugle.com');
+    expect(email[0]).toBeVisible();
   });
 
   it('shows a status message after the user updates their password', async () => {
@@ -219,12 +220,12 @@ describe('MyAccount', () => {
     ).not.toBeInTheDocument();
 
     const requestDeletionButton = await screen.findByRole('button', {
-      name: /request deletion/i,
+      name: /cancel your membership/i,
     });
     userEvent.click(requestDeletionButton);
 
     expect(
-      await screen.findByRole('heading', { name: /delete this account/i })
+      await screen.findByRole('button', { name: /yes, delete my account/i })
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: /close/i });
@@ -232,7 +233,7 @@ describe('MyAccount', () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByRole('heading', { name: /delete this account/i })
+        screen.queryByRole('button', { name: /yes, delete my account/i })
       ).not.toBeInTheDocument();
     });
   });

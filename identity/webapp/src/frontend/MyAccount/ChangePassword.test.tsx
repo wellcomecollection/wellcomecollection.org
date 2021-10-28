@@ -12,6 +12,7 @@ const defaultProps: ChangeDetailsModalContentProps = {
   onComplete: () => null,
   onCancel: () => null,
   isActive: true,
+  setIsModalLoading: () => null,
 };
 
 const renderComponent = (props: Partial<ChangeDetailsModalContentProps> = {}) =>

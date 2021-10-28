@@ -184,7 +184,7 @@ const AccountPage: NextPage = () => {
             <Container>
               <Wrapper>
                 {requests && requests.totalResults === 0 && (
-                  <p className={`${font('hnr', 4)}`}>
+                  <p className={`${font('hnr', 5)}`}>
                     Any item requests you make will appear here.
                   </p>
                 )}
@@ -238,7 +238,8 @@ const AccountPage: NextPage = () => {
                       }}
                     >
                       Requests made will be available to pick up from the
-                      library for one week. If you wish to cancel a hold, please{' '}
+                      library for one week. If you wish to cancel a request,
+                      please{' '}
                       <a href="mailto:library@wellcomecollection.org">
                         contact the library team.
                       </a>
@@ -248,17 +249,18 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Delete library account</SectionHeading>
+            <SectionHeading>Cancel library membership</SectionHeading>
             <Container>
               <Wrapper>
-                <p className={font('hnb', 5)}>
-                  Request a deletion of your account
+                <p className={font('hnr', 5)}>
+                  If you no longer wish to be a library member, you can cancel
+                  your membership. The library team will be notified and your
+                  online account will be closed.
                 </p>
                 <ButtonWrapper>
                   <ChangeDetailsModal
                     id="delete-account"
-                    buttonText="Request deletion"
-                    isDangerous
+                    buttonText="Cancel your membership"
                     onComplete={logoutOnDeletionRequest}
                     render={props => <DeleteAccount {...props} />}
                   />

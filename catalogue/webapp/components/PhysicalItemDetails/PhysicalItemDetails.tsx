@@ -133,7 +133,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         setIsActive={setRequestModalIsActive}
         item={item}
         work={work}
-        initialHoldNumber={userHeldItems?.size ?? 0}
+        initialHoldNumber={userHeldItems?.size}
         onSuccess={() => setRequestWasCompleted(true)}
       />
     ) : (

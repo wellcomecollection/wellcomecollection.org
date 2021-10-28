@@ -36,6 +36,13 @@ export const ButtonWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
+export const ButtonAlign = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 1em;
+`;
+
 export const ModalContainer = styled.aside`
   @media screen and (min-width: 600px) {
     width: 24em;

@@ -3,8 +3,7 @@ FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
 
 WORKDIR /usr/src/app/webapp
 
-RUN apt-get update && apt-get install -y python python-pip
-RUN pip install awscli
+RUN apt-get update && apt-get install -y awscli
 
 ADD ./.flowconfig ./.flowconfig
 ADD ./package.json ./package.json
@@ -17,13 +16,15 @@ ADD ./content/webapp ./content/webapp
 ADD ./toggles/webapp ./toggles/webapp
 ADD ./identity/webapp ./identity/webapp
 
-RUN yarn setupCommon
+RUN yarn setupCommon && \
+    yarn cache clean
 
 ADD ./cardigan ./cardigan
 
 WORKDIR /usr/src/app/webapp/cardigan
 
-RUN yarn install
-RUN yarn build
+RUN yarn install && \
+    yarn build && \
+    yarn cache clean
 
 CMD ["true"]

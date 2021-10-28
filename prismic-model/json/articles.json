@@ -111,7 +111,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Text",
-                  "multi": "heading2,heading3,paragraph,strong,em,hyperlink,strike,list-item,embed"
+                  "multi": "heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed"
                 }
               }
             }
@@ -298,7 +298,7 @@
               "text": {
                 "type": "StructuredText",
                 "config": {
-                  "single": "strong, em, hyperlink",
+                  "single": "strong,em,hyperlink",
                   "label": "Standfirst"
                 }
               }
@@ -331,14 +331,14 @@
               "title": {
                 "type": "StructuredText",
                 "config": {
-                  "single": " ",
+                  "single": "paragraph",
                   "label": "Title"
                 }
               },
               "content": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph, heading2, hyperlink, strong, em, preformatted",
+                  "multi": "paragraph,heading2,hyperlink,strong,em,preformatted",
                   "label": "Content"
                 }
               },
@@ -374,7 +374,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Caption",
-                  "single": "hyperlink, bold, em",
+                  "single": "hyperlink,em",
                   "placeholder": "Caption"
                 }
               }
@@ -434,7 +434,7 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Caption",
-                  "single": "hyperlink, bold, em",
+                  "single": "hyperlink,em",
                   "placeholder": "Caption"
                 }
               }
@@ -505,7 +505,7 @@
               "description": {
                 "type": "StructuredText",
                 "config": {
-                  "multi": "paragraph, hyperlink, bold, em",
+                  "multi": "paragraph,hyperlink,em",
                   "label": "Description"
                 }
               }
@@ -535,14 +535,14 @@
                 "type": "StructuredText",
                 "config": {
                   "label": "Caption",
-                  "single": "strong, em, hyperlink"
+                  "single": "strong,em,hyperlink"
                 }
               },
               "description": {
                 "type": "StructuredText",
                 "config": {
                   "label": "Description",
-                  "multi": "paragraph, hyperlink, bold, em"
+                  "multi": "paragraph,hyperlink,em"
                 }
               }
             }
@@ -556,7 +556,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Research item",
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroResearchLinkText": {
@@ -570,7 +571,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Read item",
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroReadLinkText": {
@@ -584,7 +586,8 @@
       "type": "Link",
       "config": {
         "label": "Outro: Visit item",
-        "customtypes": []
+        "customtypes": [],
+        "select": null
       }
     },
     "outroVisitLinkText": {

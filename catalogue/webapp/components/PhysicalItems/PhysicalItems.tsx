@@ -92,7 +92,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
     ) {
       updateItemsStatus().catch(abortErrorHandler);
     }
-  }, []);
+  }, [work.id]);
 
   return (
     <ExpandableList

@@ -27,6 +27,7 @@ type ChangePasswordInputs = {
 export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   onComplete,
   isActive,
+  setIsModalLoading,
 }) => {
   const defaultValues: ChangePasswordInputs = useMemo(
     () => ({
@@ -51,6 +52,10 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState<
     string | null
   >(null);
+
+  useEffect(() => {
+    setIsModalLoading(isLoading);
+  }, [isLoading]);
 
   const newPasswordInput = useWatch({ control, name: 'newPassword' }) as string;
   const passwordRules = usePasswordRules(newPasswordInput);
@@ -86,7 +91,7 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
         break;
       }
     }
-  }, [error, setError]);
+  }, [error, setError, formState.submitCount]);
 
   if (isLoading) {
     return <Loading />;

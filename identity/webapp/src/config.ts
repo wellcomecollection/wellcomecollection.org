@@ -20,7 +20,7 @@ if (isProduction) {
   }
 }
 
-export const port: any = process.env.SERVER_PORT || 3000;
+export const port: any = process.env.PORT || 3000;
 
 // Any config derived from env here.
 
@@ -61,7 +61,7 @@ export const config = {
       },
 
   remoteApi: {
-    baseUrl: process.env.API_BASE_URL,
-    apiKey: process.env.API_KEY,
-  } as { baseUrl: string; apiKey: string },
+    host: process.env.IDENTITY_API_HOST,
+    apiKey: process.env.IDENTITY_API_KEY,
+  } as { host: string; apiKey: string },
 };
