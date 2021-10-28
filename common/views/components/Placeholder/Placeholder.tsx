@@ -5,6 +5,7 @@ type Props = {
   isLoading: boolean;
   nRows?: number;
   lineSpacing?: number;
+  maxWidth?: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,7 +21,7 @@ const backgroundAnimation = keyframes`
   }
 
   70% {
-    background-position: -50%;
+    background-position: -50% 0;
   }
 
   to {
@@ -31,15 +32,20 @@ const backgroundAnimation = keyframes`
 const PlaceholderRow = styled.div<{
   lineSpacing: number;
   percentWidth: number;
-  isFirst: boolean;
 }>`
   background: ${({ theme }) => getGradient(theme)};
   background-size: 200%;
   background-repeat: repeat-x;
-  animation: ${backgroundAnimation} 1.5s ease-in infinite;
+  animation: ${backgroundAnimation} 1.2s ease-in infinite;
   width: ${({ percentWidth }) => percentWidth.toFixed(2)}%;
+
+  // These should sum to 1.5rem to reflect the usual line-height of inline text
   height: 1rem;
-  margin-top: ${({ lineSpacing, isFirst }) => (isFirst ? 0 : lineSpacing)}rem;
+  margin-top: 0.5rem;
+`;
+
+const Wrapper = styled.div<{ maxWidth: string }>`
+  max-width: ${({ maxWidth }) => maxWidth};
 `;
 
 const randomWidth = ({ min }: { min: number }) =>
@@ -48,21 +54,21 @@ const randomWidth = ({ min }: { min: number }) =>
 const Placeholder: FunctionComponent<Props> = ({
   children,
   isLoading,
+  maxWidth,
   nRows,
   lineSpacing,
 }) => {
   if (isLoading) {
     return (
-      <>
+      <Wrapper maxWidth={maxWidth || '100%'}>
         {Array.from({ length: nRows || 1 }).map((_, i) => (
           <PlaceholderRow
             key={`row-${i}`}
             lineSpacing={lineSpacing ?? 0.5}
-            isFirst={i === 0}
             percentWidth={randomWidth({ min: 95 })}
           />
         ))}
-      </>
+      </Wrapper>
     );
   }
 

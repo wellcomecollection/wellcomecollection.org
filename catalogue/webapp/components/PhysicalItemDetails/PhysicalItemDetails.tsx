@@ -17,6 +17,7 @@ import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
+import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -58,6 +59,7 @@ const DetailHeading = styled.h3.attrs({
 export type Props = {
   item: PhysicalItem;
   work: Work;
+  accessDataIsStale: boolean;
   userHeldItems?: Set<string>;
   encoreLink?: string;
   isLast: boolean;
@@ -66,6 +68,7 @@ export type Props = {
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   item,
   work,
+  accessDataIsStale,
   userHeldItems,
   isLast,
 }) => {
@@ -157,13 +160,21 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     ];
 
     if (showAccessStatus) {
-      dataRow.push(<span>{accessStatus}</span>);
+      dataRow.push(
+        <Placeholder isLoading={accessDataIsStale} nRows={2} maxWidth="75%">
+          <span>{accessStatus}</span>
+        </Placeholder>
+      );
     } else {
       dataRow.push(' ');
     }
 
     if (showAccessMethod) {
-      dataRow.push(accessMethod);
+      dataRow.push(
+        <Placeholder isLoading={accessDataIsStale} nRows={2} maxWidth="75%">
+          {accessMethod}
+        </Placeholder>
+      );
     } else {
       dataRow.push(' ');
     }

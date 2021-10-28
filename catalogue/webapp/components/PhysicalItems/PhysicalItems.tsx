@@ -20,6 +20,8 @@ type Props = {
   items: PhysicalItem[];
 };
 
+type ItemsState = 'stale' | 'up-to-date';
+
 const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: initialItems,
@@ -28,6 +30,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const { enableRequesting } = useContext(TogglesContext);
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(initialItems);
+  const [itemsState, setItemsState] = useState<ItemsState>('stale');
 
   useAbortSignalEffect(
     signal => {
@@ -59,6 +62,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
 
         if (!isCatalogueApiError(items)) {
           setPhysicalItems(getItemsWithPhysicalLocation(items.results));
+          setItemsState('up-to-date');
         }
         // else {
         // tell the user something about not being able to retrieve the status of the item(s)
@@ -92,6 +96,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
         (enableRequesting && initialItems.some(itemIsRequestable))
       ) {
         updateItemsStatus().catch(abortErrorHandler);
+      } else {
+        setItemsState('up-to-date');
       }
     },
     [work.id]
@@ -103,6 +109,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
         <PhysicalItemDetails
           item={item}
           work={work}
+          accessDataIsStale={itemsState === 'stale'}
           userHeldItems={userHolds}
           isLast={index === physicalItems.length - 1}
           key={index}
