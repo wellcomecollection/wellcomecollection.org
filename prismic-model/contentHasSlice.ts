@@ -16,7 +16,8 @@
  *
  * yarn contentHasSlice --label standalone
  *
- * This will return the IDs and titles of the content, as well as the size of the content list.
+ * This will return the IDs and titles of the content that use these slices, as well as the
+ * number of matching pieces of content.
  *
  * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
  * see: https://prismic.io/docs/core-concepts/slices
