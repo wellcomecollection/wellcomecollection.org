@@ -118,10 +118,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // Work out whether to show status, access and request button
   const showAccessStatus = !!accessStatus;
   const showAccessMethod = !isOpenShelves;
-  const isRequestable = itemIsRequestable(item);
+  const isRequestable = itemIsRequestable(item) && !requestWasCompleted;
 
   const showButton = enableRequesting
-    ? isRequestable && !requestWasCompleted && userState === 'signedin'
+    ? isRequestable && userState === 'signedin'
     : !!requestItemUrl;
 
   const title = item.title || '';
@@ -159,7 +159,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
-    const isLoading = accessDataIsStale || userState === 'loading';
+    const isLoading =
+      accessDataIsStale ||
+      (enableRequesting && isRequestable && userState === 'loading');
     if (showAccessStatus) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
