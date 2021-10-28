@@ -210,21 +210,29 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           maxWidth={isArchive ? 980 : 620}
           columnWidths={[180, 200, null, null]}
         />
-        {accessNote &&
-          !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <DetailHeading>Note</DetailHeading>
-              <span dangerouslySetInnerHTML={{ __html: accessNote }} />
-            </Space>
-          )}
-        {isHeldByUser && (
+        {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: 'You have requested this item.',
-              }}
-            />
+            <Placeholder
+              nRows={3}
+              // We don't know exactly what we'll render until we know whether the user holds this item
+              isLoading={
+                accessDataIsStale ||
+                userState === 'loading' ||
+                (userState === 'signedin' && !userHeldItems)
+              }
+              maxWidth="50%"
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  // if the user currently has this item on hold, we don't want
+                  // to show the note that says another user has it
+                  __html: isHeldByUser
+                    ? 'You have requested this item.'
+                    : accessNote || '', // This is always defined
+                }}
+              />
+            </Placeholder>
           </Space>
         )}
       </Wrapper>
