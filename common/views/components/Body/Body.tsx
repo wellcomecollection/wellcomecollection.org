@@ -337,15 +337,6 @@ const Body: FunctionComponent<Props> = ({
 
                 {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
-                {slice.type === 'picture' && slice.weight === 'body' && (
-                  <Layout6>
-                    <CaptionedImage
-                      {...slice.value}
-                      sizesQueries={''}
-                      isBody={true}
-                    />
-                  </Layout6>
-                )}
                 {slice.type === 'picture' && slice.weight === 'default' && (
                   <Layout10>
                     <CaptionedImage {...slice.value} sizesQueries={''} />

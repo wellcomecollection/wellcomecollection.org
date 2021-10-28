@@ -7,10 +7,7 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import {
-  CatalogueImagesApiProps,
-  imagesRouteToApiUrl,
-} from '@weco/common/services/catalogue/ts_api';
+import { imagesRouteToApiUrl } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
@@ -38,7 +35,6 @@ import { imagesFilters } from '@weco/common/services/catalogue/filters';
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
-  apiProps: CatalogueImagesApiProps;
 } & WithGlobalContextData &
   WithPageview;
 
@@ -90,7 +86,6 @@ const ImagesPagination = ({
 const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
-  apiProps,
   globalContextData,
 }: Props): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
@@ -219,12 +214,7 @@ const Images: NextPage<Props> = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {images && (
-                  <ImageEndpointSearchResults
-                    images={images}
-                    apiProps={apiProps}
-                  />
-                )}
+                {images && <ImageEndpointSearchResults images={images} />}
               </div>
 
               <Space
@@ -288,7 +278,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       props: removeUndefinedProps({
         images,
         imagesRouteProps: params,
-        apiProps,
         globalContextData,
         pageview: {
           name: 'images',
