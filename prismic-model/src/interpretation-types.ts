@@ -9,7 +9,7 @@ const Interpretations = {
     abbreviation: structuredText('Abbreviation', 'single', [], undefined, [
       'paragraph',
     ]),
-    description: structuredText('Message', 'single'),
+    description: structuredText('Message'),
     primaryDescription: structuredText(
       'Message if primary interpretation',
       'multi'
