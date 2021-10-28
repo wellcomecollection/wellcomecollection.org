@@ -11,7 +11,9 @@
     "abbreviation": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph,hyperlink,strong,em",
+        "single": [
+          "paragraph"
+        ],
         "label": "Abbreviation"
       }
     },
