@@ -4,8 +4,12 @@ import structuredText from './parts/structured-text';
 const Interpretations = {
   Interpretation: {
     title,
-    abbreviation: structuredText('Abbreviation', 'single'),
-    description: structuredText('Message', 'single'),
+    // TODO: This should be a Key text field
+    // see: https://prismic.io/docs/core-concepts/key-text
+    abbreviation: structuredText('Abbreviation', 'single', [], undefined, [
+      'paragraph',
+    ]),
+    description: structuredText('Message'),
     primaryDescription: structuredText(
       'Message if primary interpretation',
       'multi'

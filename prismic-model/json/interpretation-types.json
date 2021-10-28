@@ -18,14 +18,14 @@
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink",
+        "multi": "paragraph,hyperlink,strong,em",
         "label": "Message"
       }
     },
     "primaryDescription": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink",
+        "multi": "paragraph,hyperlink,strong,em",
         "label": "Message if primary interpretation"
       }
     }
