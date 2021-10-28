@@ -3,14 +3,15 @@
     "title": {
       "type": "StructuredText",
       "config": {
+        "label": "Title",
         "single": "heading1",
-        "label": "Title"
+        "useAsTitle": true
       }
     },
     "description": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink",
+        "multi": "paragraph,hyperlink,strong,em",
         "label": "Description"
       }
     }
