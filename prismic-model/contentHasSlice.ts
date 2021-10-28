@@ -81,6 +81,7 @@ async function main() {
         matches.push({
           id: result.id,
           type: result.type,
+          format: result.data.format?.slug,
           title: result.data.title[0].text,
         });
       }
