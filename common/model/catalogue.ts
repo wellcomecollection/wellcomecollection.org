@@ -157,7 +157,7 @@ type License = {
   type: 'License';
 };
 
-type AccessCondition = {
+export type AccessCondition = {
   status?: AccessStatus;
   terms?: string;
   to?: string;

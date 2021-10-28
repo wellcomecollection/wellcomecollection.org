@@ -1,11 +1,13 @@
 import {
   DigitalLocation,
+  Location,
   Item,
   PhysicalLocation,
   RelatedWork,
   Work,
   Holding,
   PhysicalItem,
+  AccessCondition,
 } from '../model/catalogue';
 import { IIIFRendering } from '../model/iiif';
 import { convertImageUri } from '../utils/convert-image-uri';
@@ -128,8 +130,10 @@ export function getHoldings(work: Work): Holding[] {
   return work?.holdings || [];
 }
 
-export function getItemsWithPhysicalLocation(work: Work): PhysicalItem[] {
-  return (work.items ?? [])
+export function getItemsWithPhysicalLocation(
+  items: Item<Location>[]
+): PhysicalItem[] {
+  return items
     .map(item => {
       if (
         item.locations.some(location => location.type === 'PhysicalLocation')
@@ -351,4 +355,10 @@ export function getFirstPhysicalLocation(
   item: PhysicalItem
 ): PhysicalLocation | undefined {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
+}
+
+export function getFirstAccessCondition(
+  location?: Location
+): AccessCondition | undefined {
+  return location?.accessConditions?.[0];
 }
