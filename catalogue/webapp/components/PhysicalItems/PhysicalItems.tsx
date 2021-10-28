@@ -49,50 +49,53 @@ const PhysicalItems: FunctionComponent<Props> = ({
     [userState]
   );
 
-  useAbortSignalEffect(signal => {
-    const updateItemsStatus = async () => {
-      const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
-        signal,
-      });
-      const items = await itemsResponse.json();
+  useAbortSignalEffect(
+    signal => {
+      const updateItemsStatus = async () => {
+        const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
+          signal,
+        });
+        const items = await itemsResponse.json();
 
-      if (!isCatalogueApiError(items)) {
-        setPhysicalItems(getItemsWithPhysicalLocation(items.results));
+        if (!isCatalogueApiError(items)) {
+          setPhysicalItems(getItemsWithPhysicalLocation(items.results));
+        }
+        // else {
+        // tell the user something about not being able to retrieve the status of the item(s)
+        // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
+        // }
+      };
+
+      /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
+       *
+       * What if we don’t call the items API? There are two possible error cases:
+       *
+       * (1) We don’t show a “request item” button when an item is ready to request.
+       *     This could occur if an item was on hold, has been returned to the stores,
+       *     and we haven’t had the update through the catalogue pipeline yet.
+       * (2) We show a “request item” button when an item isn’t available to request.
+       *     Run the same scenario in reverse: somebody has put the item on hold,
+       *     but we haven’t realised yet in the catalogue API.
+       *
+       * Error (2) is worse than error (1).
+       *
+       * To avoid them:
+       *
+       * Query the items API if the status is “temporarily unavailable”
+       * Query the items API if you want to display a button based on the catalogue API data
+       *
+       * In all other cases the items API would be a no-op.
+       */
+
+      if (
+        initialItems.some(itemIsTemporarilyUnavailable) ||
+        (enableRequesting && initialItems.some(itemIsRequestable))
+      ) {
+        updateItemsStatus().catch(abortErrorHandler);
       }
-      // else {
-      // tell the user something about not being able to retrieve the status of the item(s)
-      // we may find we run into 429s from our rate limiting, so worth bearing in mind that we might want to handle that as a separate case
-      // }
-    };
-
-    /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
-     *
-     * What if we don’t call the items API? There are two possible error cases:
-     *
-     * (1) We don’t show a “request item” button when an item is ready to request.
-     *     This could occur if an item was on hold, has been returned to the stores,
-     *     and we haven’t had the update through the catalogue pipeline yet.
-     * (2) We show a “request item” button when an item isn’t available to request.
-     *     Run the same scenario in reverse: somebody has put the item on hold,
-     *     but we haven’t realised yet in the catalogue API.
-     *
-     * Error (2) is worse than error (1).
-     *
-     * To avoid them:
-     *
-     * Query the items API if the status is “temporarily unavailable”
-     * Query the items API if you want to display a button based on the catalogue API data
-     *
-     * In all other cases the items API would be a no-op.
-     */
-
-    if (
-      initialItems.some(itemIsTemporarilyUnavailable) ||
-      (enableRequesting && initialItems.some(itemIsRequestable))
-    ) {
-      updateItemsStatus().catch(abortErrorHandler);
-    }
-  }, [work.id]);
+    },
+    [work.id]
+  );
 
   return (
     <ExpandableList
