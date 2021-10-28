@@ -8,7 +8,8 @@ const requestableStatusIds = ['open', 'open-with-advisory', 'restricted'];
 const requestableMethodIds = ['online-request'];
 
 const locationIsRequestable = (location: PhysicalLocation): boolean => {
-  // In reality, there is only one physical location
+  // In reality, there is only one access condition in a location
+  // See https://github.com/wellcomecollection/platform/issues/5246
   const accessCondition = getFirstAccessCondition(location);
   const methodId = accessCondition?.method?.id;
   const statusId = accessCondition?.status?.id;

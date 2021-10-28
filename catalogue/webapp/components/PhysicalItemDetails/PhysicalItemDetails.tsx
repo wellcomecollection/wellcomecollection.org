@@ -96,9 +96,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const locationShelfmark =
     physicalLocation && getLocationShelfmark(physicalLocation);
 
-  const isRequestableOnline = accessCondition?.method?.id === 'online-request';
   const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
 
+  const isRequestableOnline = accessCondition?.method?.id === 'online-request';
   const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
 
   const accessMethod = accessCondition?.method?.label || '';
@@ -108,9 +108,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     } else if (isOpenShelves) {
       return 'Open shelves';
     } else {
-      return (
-        accessCondition?.status?.label || (isRequestableOnline ? 'Open' : '')
-      );
+      return accessCondition?.status?.label || '';
     }
   })();
 
