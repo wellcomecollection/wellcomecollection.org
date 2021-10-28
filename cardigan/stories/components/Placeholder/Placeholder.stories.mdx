@@ -1,0 +1,17 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
+import Readme from '@weco/common/views/components/Placeholder/README.md';
+import * as stories from './Placeholder.stories.tsx';
+
+<Meta title="Components/Placeholder" component={Placeholder} />
+
+# Placeholder
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />
+

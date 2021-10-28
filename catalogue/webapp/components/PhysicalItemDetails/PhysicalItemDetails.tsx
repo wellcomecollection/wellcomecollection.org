@@ -17,6 +17,7 @@ import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
+import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -58,6 +59,7 @@ const DetailHeading = styled.h3.attrs({
 export type Props = {
   item: PhysicalItem;
   work: Work;
+  accessDataIsStale: boolean;
   userHeldItems?: Set<string>;
   encoreLink?: string;
   isLast: boolean;
@@ -66,6 +68,7 @@ export type Props = {
 const PhysicalItemDetails: FunctionComponent<Props> = ({
   item,
   work,
+  accessDataIsStale,
   userHeldItems,
   isLast,
 }) => {
@@ -118,7 +121,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const isRequestable = itemIsRequestable(item);
 
   const showButton = enableRequesting
-    ? isRequestable && !requestWasCompleted
+    ? isRequestable && !requestWasCompleted && userState === 'signedin'
     : !!requestItemUrl;
 
   const title = item.title || '';
@@ -156,21 +159,28 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
+    const isLoading = accessDataIsStale || userState === 'loading';
     if (showAccessStatus) {
-      dataRow.push(<span>{accessStatus}</span>);
+      dataRow.push(
+        <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
+          <span>{accessStatus}</span>
+        </Placeholder>
+      );
     } else {
       dataRow.push(' ');
     }
 
     if (showAccessMethod) {
-      dataRow.push(accessMethod);
+      dataRow.push(
+        <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
+          {accessMethod}
+        </Placeholder>
+      );
     } else {
       dataRow.push(' ');
     }
 
-    if (showButton && enableRequesting && userState === 'loading') {
-      dataRow.push('Loading...');
-    } else if (showButton) {
+    if (showButton) {
       dataRow.push(
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
@@ -200,21 +210,29 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           maxWidth={isArchive ? 980 : 620}
           columnWidths={[180, 200, null, null]}
         />
-        {accessNote &&
-          !isHeldByUser && ( // if the user currently has this item on hold, we don't want to show the note that says another user has it
-            <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <DetailHeading>Note</DetailHeading>
-              <span dangerouslySetInnerHTML={{ __html: accessNote }} />
-            </Space>
-          )}
-        {isHeldByUser && (
+        {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
-            <span
-              dangerouslySetInnerHTML={{
-                __html: 'You have requested this item.',
-              }}
-            />
+            <Placeholder
+              nRows={3}
+              // We don't know exactly what we'll render until we know whether the user holds this item
+              isLoading={
+                accessDataIsStale ||
+                userState === 'loading' ||
+                (userState === 'signedin' && !userHeldItems)
+              }
+              maxWidth="50%"
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  // if the user currently has this item on hold, we don't want
+                  // to show the note that says another user has it
+                  __html: isHeldByUser
+                    ? 'You have requested this item.'
+                    : accessNote || '', // This is always defined
+                }}
+              />
+            </Placeholder>
           </Space>
         )}
       </Wrapper>

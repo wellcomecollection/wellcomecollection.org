@@ -48,17 +48,15 @@ const CTAs = styled(Space).attrs({
 const RemainingRequests: FC<{
   allowedHoldRequests: number;
   currentHoldRequests?: number;
-}> = ({ allowedHoldRequests, currentHoldRequests }) => (
-  <>
-    {currentHoldRequests && (
-      <Remaining>
-        {`${
-          allowedHoldRequests - currentHoldRequests
-        }/${allowedHoldRequests} requests remaining`}
-      </Remaining>
-    )}
-  </>
-);
+}> = ({ allowedHoldRequests, currentHoldRequests }) =>
+  typeof currentHoldRequests !== 'undefined' ? (
+    <Remaining>
+      {`${Math.max(
+        allowedHoldRequests - currentHoldRequests,
+        0
+      )}/${allowedHoldRequests} requests remaining`}
+    </Remaining>
+  ) : null;
 
 type Props = {
   work: Work;
