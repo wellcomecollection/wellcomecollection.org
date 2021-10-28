@@ -9,7 +9,6 @@ import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import { worksRouteToApiUrl } from '@weco/common/services/catalogue/ts_api';
 import Space from '@weco/common/views/components/styled/Space';
 import { getWorks } from '../services/catalogue/works';
-import { trackSearch } from '@weco/common/views/components/Tracker/Tracker';
 import cookies from 'next-cookies';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
@@ -31,7 +30,6 @@ type Props = PageProps<typeof getServerSideProps>;
 const Works: NextPage<Props> = ({
   works,
   worksRouteProps,
-  apiProps,
   globalContextData,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -42,13 +40,6 @@ const Works: NextPage<Props> = ({
     'production.dates.from': productionDatesFrom,
     'production.dates.to': productionDatesTo,
   } = worksRouteProps;
-
-  useEffect(() => {
-    trackSearch(apiProps, {
-      totalResults: works.totalResults ?? 0,
-      source: (Router.query.source || 'unspecified').toString(),
-    });
-  }, [worksRouteProps]);
 
   const { setLink } = useContext(SearchContext);
   useEffect(() => {
@@ -195,7 +186,7 @@ const Works: NextPage<Props> = ({
               style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container" role="main">
-                <WorksSearchResults works={works} apiProps={apiProps} />
+                <WorksSearchResults works={works} />
               </div>
               <Space
                 v={{
@@ -300,7 +291,6 @@ export const getServerSideProps = async (
     props: removeUndefinedProps({
       works,
       worksRouteProps: props,
-      apiProps: worksApiProps,
       globalContextData,
       serverData,
       pageview: {

@@ -39,8 +39,6 @@ import { cross, eye } from '@weco/common/icons';
 type Props = {
   image: ImageType;
   setExpandedImage: (image?: ImageType) => void;
-  onWorkLinkClick: () => void;
-  onImageLinkClick: () => void;
   id?: string;
   resultPosition: number;
 };
@@ -185,8 +183,6 @@ const trackingSource = 'images_search_result';
 const ExpandedImage: FunctionComponent<Props> = ({
   image,
   setExpandedImage,
-  onWorkLinkClick,
-  onImageLinkClick,
   id,
   resultPosition,
 }: Props) => {
@@ -376,7 +372,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
                     text="View image"
                     icon={eye}
                     link={expandedImageLink}
-                    clickHandler={onImageLinkClick}
                     ariaLabel={expandedViewImageButton}
                   />
                 </Space>
@@ -391,7 +386,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
                     'inline-block': true,
                     [font('hnr', 5)]: true,
                   })}
-                  onClick={onWorkLinkClick}
                 >
                   More about this work
                 </a>
