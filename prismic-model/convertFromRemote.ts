@@ -4,20 +4,33 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-async function main() {
-  const types = await fetch('https://customtypes.prismic.io/customtypes', {
-    headers: {
-      Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-      repository: process.env.PRISMIC_REPOSITORY,
-    },
-  }).then(resp => resp.json());
+type PrismicType = {
+  id: string;
+  label: string;
+  repeatable: boolean;
+  json: unknown;
+  status: boolean;
+};
 
-  types.forEach(type => {
-    fs.writeFileSync(
-      `./json/${type.id}.json`,
-      JSON.stringify(type.json, null, 2)
-    );
-  });
+async function main() {
+  const types: PrismicType[] = await fetch(
+    'https://customtypes.prismic.io/customtypes',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
+        repository: process.env.PRISMIC_REPOSITORY,
+      },
+    }
+  ).then(resp => resp.json());
+
+  types
+    .filter(type => type.status)
+    .forEach(type => {
+      fs.writeFileSync(
+        `./json/${type.id}.json`,
+        JSON.stringify(type.json, null, 2)
+      );
+    });
 }
 
 main();
