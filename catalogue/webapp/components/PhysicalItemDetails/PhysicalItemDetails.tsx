@@ -121,7 +121,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const isRequestable = itemIsRequestable(item);
 
   const showButton = enableRequesting
-    ? isRequestable && !requestWasCompleted
+    ? isRequestable && !requestWasCompleted && userState === 'signedin'
     : !!requestItemUrl;
 
   const title = item.title || '';
