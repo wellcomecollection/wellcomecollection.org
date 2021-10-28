@@ -1,7 +1,8 @@
 {
   "scripts": {
     "convertFromSrc": "ts-node convertFromSrc",
-    "convertFromRemote": "ts-node convertFromRemote"
+    "convertFromRemote": "ts-node convertFromRemote",
+    "contentHasSlice": "ts-node contentHasSlice"
   },
   "dependencies": {
     "@prismicio/client": "^5.1.0",

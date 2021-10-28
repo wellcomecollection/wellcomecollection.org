@@ -1,3 +1,26 @@
+/**
+ * The Prismic API allows you to query your custom types in multiple ways†.
+ * There is a limitation that you cannot query what content has what slices.
+ * This is useful for finding where we have used slices, generally with the
+ * aim to deprecate them.
+ *
+ * Where use slices exclusively on the `body` property of our custom types,
+ * so this script queries that.
+ *
+ * e.g. we notice we have a "Discussion" slice, but need to know if it's used.
+ *
+ * yarn contentHasSlice --type discussion.
+ *
+ * Another aspect to slices is that you can label them. For instance we label images
+ * in order to give them different weighting on the page. For this we run:
+ *
+ * yarn contentHasSlice --label standalone
+ *
+ * This will return the IDs and titles of the content, as well as the size of the content list.
+ *
+ * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
+ * see: https://prismic.io/docs/core-concepts/slices
+ */
 import Prismic from '@prismicio/client';
 import yargs from 'yargs';
 
