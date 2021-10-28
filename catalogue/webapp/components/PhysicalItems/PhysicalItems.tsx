@@ -20,7 +20,7 @@ type Props = {
   items: PhysicalItem[];
 };
 
-type ItemsState = 'stale' | 'up-to-date';
+type ItemsState = 'initial' | 'stale' | 'up-to-date';
 
 const PhysicalItems: FunctionComponent<Props> = ({
   work,
@@ -30,7 +30,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   const { enableRequesting } = useContext(TogglesContext);
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(initialItems);
-  const [itemsState, setItemsState] = useState<ItemsState>('stale');
+  const [itemsState, setItemsState] = useState<ItemsState>('initial');
 
   useAbortSignalEffect(
     signal => {
@@ -95,6 +95,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
         initialItems.some(itemIsTemporarilyUnavailable) ||
         (enableRequesting && initialItems.some(itemIsRequestable))
       ) {
+        setItemsState('stale');
         updateItemsStatus().catch(abortErrorHandler);
       } else {
         setItemsState('up-to-date');

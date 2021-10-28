@@ -48,8 +48,10 @@ const Wrapper = styled.div<{ maxWidth: string }>`
   max-width: ${({ maxWidth }) => maxWidth};
 `;
 
-const randomWidth = ({ min }: { min: number }) =>
-  100 - (100 - min) * Math.random();
+// We use these static "random" offsets so that the widths don't change throughout re-rendering
+const widthOffsets = [0.8, 0.6, 0.3, 0.5, 0.8, 0.5, 0.2, 0.4, 0.3, 0.1];
+const randomWidth = ({ min, i }: { min: number; i: number }) =>
+  100 - (100 - min) * widthOffsets[i % widthOffsets.length];
 
 const Placeholder: FunctionComponent<Props> = ({
   children,
@@ -65,7 +67,7 @@ const Placeholder: FunctionComponent<Props> = ({
           <PlaceholderRow
             key={`row-${i}`}
             lineSpacing={lineSpacing ?? 0.5}
-            percentWidth={randomWidth({ min: 95 })}
+            percentWidth={randomWidth({ min: 95, i })}
           />
         ))}
       </Wrapper>
