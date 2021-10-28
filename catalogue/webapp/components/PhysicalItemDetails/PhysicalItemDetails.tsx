@@ -159,9 +159,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
+    const isLoading = accessDataIsStale || userState === 'loading';
     if (showAccessStatus) {
       dataRow.push(
-        <Placeholder isLoading={accessDataIsStale} nRows={2} maxWidth="75%">
+        <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
           <span>{accessStatus}</span>
         </Placeholder>
       );
@@ -171,7 +172,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
     if (showAccessMethod) {
       dataRow.push(
-        <Placeholder isLoading={accessDataIsStale} nRows={2} maxWidth="75%">
+        <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
           {accessMethod}
         </Placeholder>
       );
@@ -179,9 +180,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       dataRow.push(' ');
     }
 
-    if (showButton && enableRequesting && userState === 'loading') {
-      dataRow.push('Loading...');
-    } else if (showButton) {
+    if (showButton) {
       dataRow.push(
         <ButtonWrapper styleChangeWidth={isArchive ? 980 : 620}>
           {requestButton}
