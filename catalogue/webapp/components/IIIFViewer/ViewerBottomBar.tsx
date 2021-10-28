@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent, useContext, RefObject } from 'react';
+import { FC, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
@@ -41,7 +41,7 @@ type Props = {
   viewerRef: RefObject<HTMLDivElement>;
 };
 
-const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
+const ViewerBottomBar: FC<Props> = ({ viewerRef }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const isFullscreenEnabled = useIsFullscreenEnabled();
 

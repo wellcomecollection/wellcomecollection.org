@@ -1,6 +1,6 @@
 import {
   ComponentType,
-  FunctionComponent,
+  FC,
   ReactElement,
   ReactNode,
 } from 'react';
@@ -41,7 +41,7 @@ type Props = {
   postTitleChildren?: ReactElement;
 };
 
-const CompactCard: FunctionComponent<Props> = ({
+const CompactCard: FC<Props> = ({
   url,
   title,
   primaryLabels,

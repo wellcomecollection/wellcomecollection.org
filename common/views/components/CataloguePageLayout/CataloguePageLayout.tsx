@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
 
@@ -6,7 +6,7 @@ type Props = {
   hideTopContent?: boolean;
 } & PageLayoutProps;
 
-const CataloguePageLayout: FunctionComponent<Props> = ({
+const CataloguePageLayout: FC<Props> = ({
   hideTopContent = false,
   children,
   ...props

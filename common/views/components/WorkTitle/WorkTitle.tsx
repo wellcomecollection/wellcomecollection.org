@@ -1,8 +1,8 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 type Props = { title: string };
 
-const WorkTitle: FunctionComponent<Props> = ({
+const WorkTitle: FC<Props> = ({
   title,
 }: Props): ReactElement<Props> => (
   <span dangerouslySetInnerHTML={{ __html: title }} />

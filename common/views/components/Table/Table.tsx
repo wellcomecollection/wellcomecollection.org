@@ -9,7 +9,7 @@ import {
   useState,
   Fragment,
   isValidElement,
-  FunctionComponent,
+  FC,
   ReactElement,
 } from 'react';
 import { font, classNames } from '../../../utils/classnames';
@@ -211,7 +211,7 @@ const TableRow = ({
   );
 };
 
-const Table: FunctionComponent<Props> = ({
+const Table: FC<Props> = ({
   rows,
   hasRowHeaders,
   caption,

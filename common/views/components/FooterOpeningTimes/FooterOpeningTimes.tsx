@@ -5,13 +5,13 @@ import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/services/prismic/hardcoded-id';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 type Props = {
   collectionOpeningTimes: CollectionOpeningTimes;
 };
 
-const FooterOpeningTimes: FunctionComponent<Props> = ({
+const FooterOpeningTimes: FC<Props> = ({
   collectionOpeningTimes,
 }: Props): ReactElement<Props> => {
   return (

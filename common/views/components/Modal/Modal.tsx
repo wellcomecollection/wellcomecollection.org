@@ -4,7 +4,7 @@ import {
   useRef,
   useContext,
   createContext,
-  FunctionComponent,
+  FC,
   RefObject,
   createRef,
 } from 'react';
@@ -171,7 +171,7 @@ const ModalWindowPaddingNoOverflow = styled(
   padding-right: 0px;
 `;
 
-const Modal: FunctionComponent<Props> = ({
+const Modal: FC<Props> = ({
   children,
   isActive,
   setIsActive,

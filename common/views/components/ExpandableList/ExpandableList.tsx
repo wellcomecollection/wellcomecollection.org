@@ -2,7 +2,7 @@ import {
   useEffect,
   useState,
   useRef,
-  FunctionComponent,
+  FC,
   ReactElement,
 } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -25,7 +25,7 @@ type Props = {
   listItems: (string | ReactElement)[];
   initialItems?: number;
 };
-const ExpandableList: FunctionComponent<Props> = ({
+const ExpandableList: FC<Props> = ({
   listItems,
   initialItems = 3,
 }: Props) => {

@@ -16,13 +16,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import License from '@weco/common/views/components/License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
-import {
-  useEffect,
-  useState,
-  useRef,
-  useContext,
-  FunctionComponent,
-} from 'react';
+import { useEffect, useState, useRef, useContext, FC } from 'react';
 import useFocusTrap from '@weco/common/hooks/useFocusTrap';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
@@ -182,7 +176,7 @@ const CloseButton = styled(Space).attrs({
 
 const trackingSource = 'images_search_result';
 
-const ExpandedImage: FunctionComponent<Props> = ({
+const ExpandedImage: FC<Props> = ({
   image,
   setExpandedImage,
   onWorkLinkClick,

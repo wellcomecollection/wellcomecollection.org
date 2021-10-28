@@ -1,4 +1,4 @@
-import { createContext, FunctionComponent, ReactNode, useState } from 'react';
+import { createContext, FC, ReactNode, useState } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -13,7 +13,7 @@ const GlobalInfoBarContext = createContext<ContextProps>({
     // noop
   },
 });
-const GlobalInfoBarContextProvider: FunctionComponent<Props> = ({
+const GlobalInfoBarContextProvider: FC<Props> = ({
   children,
 }: Props) => {
   const [isVisible, setIsVisible] = useState(false);

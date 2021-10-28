@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { AuthService, AuthServiceService } from '../../../model/iiif';
 import { font } from '../../../utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -25,7 +25,7 @@ type Props = {
   children: ReactNode;
 };
 
-const IIIFClickthrough: FunctionComponent<Props> = ({
+const IIIFClickthrough: FC<Props> = ({
   authService,
   tokenService,
   trackingId,

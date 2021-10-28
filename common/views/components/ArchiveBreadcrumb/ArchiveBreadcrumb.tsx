@@ -4,7 +4,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Icon from '../Icon/Icon';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '@weco/common/utils/works';
-import { FunctionComponent, ReactNode, useContext } from 'react';
+import { FC, ReactNode, useContext } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
@@ -80,7 +80,7 @@ type ArchiveWorkLinkProps = {
   id: string;
   children: ReactNode;
 };
-const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
+const ArchiveWorkLink: FC<ArchiveWorkLinkProps> = ({
   id,
   children,
 }: ArchiveWorkLinkProps) => {
@@ -95,7 +95,7 @@ type Props = {
   work: Work;
 };
 
-const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
+const ArchiveBreadcrumb: FC<Props> = ({ work }: Props) => {
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const firstCrumb = archiveAncestorArray[0];
   const middleCrumbs =

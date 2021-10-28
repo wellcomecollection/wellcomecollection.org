@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
@@ -7,7 +7,7 @@ type Props = {
   color?: string;
 };
 
-const Number: FunctionComponent<Props> = ({
+const Number: FC<Props> = ({
   number,
   color,
 }: Props): ReactElement<Props> => (

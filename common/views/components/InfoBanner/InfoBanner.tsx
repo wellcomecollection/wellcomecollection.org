@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { HTMLString } from '../../../../common/services/prismic/types';
 import cookie from 'cookie-cutter';
 import { grid, font } from '../../../utils/classnames';
@@ -14,7 +14,7 @@ type Props = {
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 
-const InfoBanner: FunctionComponent<Props> = ({
+const InfoBanner: FC<Props> = ({
   cookieName,
   text,
   onVisibilityChange = () => {

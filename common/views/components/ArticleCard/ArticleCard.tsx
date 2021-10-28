@@ -1,7 +1,7 @@
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
 import { Article } from '../../../model/articles';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import Space from '../styled/Space';
@@ -16,7 +16,7 @@ type Props = {
   };
 };
 
-const ArticleCard: FunctionComponent<Props> = ({
+const ArticleCard: FC<Props> = ({
   article,
   showPosition,
   xOfY,

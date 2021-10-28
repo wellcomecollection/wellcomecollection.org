@@ -1,4 +1,4 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { ReactNode, FC } from 'react';
 import { classNames, grid, SizeMap } from '../../../utils/classnames';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-const Layout: FunctionComponent<Props> = ({ gridSizes, children }: Props) => (
+const Layout: FC<Props> = ({ gridSizes, children }: Props) => (
   <div className="container">
     <div className="grid">
       <div

@@ -1,10 +1,5 @@
 import dynamic from 'next/dynamic';
-import React, {
-  ReactNode,
-  ReactElement,
-  FunctionComponent,
-  Fragment,
-} from 'react';
+import React, { ReactNode, ReactElement, FC, Fragment } from 'react';
 import { classNames } from '../../../utils/classnames';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
@@ -72,7 +67,7 @@ type LayoutWidthProps = {
   children: ReactNode;
 };
 
-const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
+const LayoutWidth: FC<LayoutWidthProps> = ({
   width,
   children,
 }: LayoutWidthProps): ReactElement | null => {
@@ -97,7 +92,7 @@ type Props = {
   sectionLevelPage?: boolean;
 };
 
-const Body: FunctionComponent<Props> = ({
+const Body: FC<Props> = ({
   body,
   onThisPage,
   showOnThisPage,

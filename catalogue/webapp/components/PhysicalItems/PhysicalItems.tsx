@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
@@ -20,10 +20,7 @@ type Props = {
   items: PhysicalItem[];
 };
 
-const PhysicalItems: FunctionComponent<Props> = ({
-  work,
-  items: initialItems,
-}: Props) => {
+const PhysicalItems: FC<Props> = ({ work, items: initialItems }: Props) => {
   const { state: userState } = useUser();
   const { enableRequesting } = useContext(TogglesContext);
   const [userHolds, setUserHolds] = useState<Set<string>>();

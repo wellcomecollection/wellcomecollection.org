@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { trackEvent } from '@weco/common/services/conversion/track';
 import { download } from '@weco/common/icons';
 
@@ -33,7 +33,7 @@ type Props = {
   mimeType: string;
   trackingTags?: string[];
 };
-const DownloadLink: FunctionComponent<Props> = ({
+const DownloadLink: FC<Props> = ({
   isTabbable = true,
   href,
   trackingEvent,

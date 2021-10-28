@@ -1,5 +1,5 @@
 import {
-  FunctionComponent,
+  FC,
   ReactElement,
   useState,
   useEffect,
@@ -69,7 +69,7 @@ type Props = {
   isStatic?: boolean;
 };
 
-const WobblyEdge: FunctionComponent<Props> = ({
+const WobblyEdge: FC<Props> = ({
   background,
   isRotated,
   intensity = 50,

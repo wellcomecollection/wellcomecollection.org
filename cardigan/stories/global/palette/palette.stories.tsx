@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -69,7 +69,7 @@ const colorsArr = Object.entries(themeValues.colors)
   })
   .filter(Boolean);
 
-export const Palette: FunctionComponent = () => {
+export const Palette: FC = () => {
   return (
     <PaletteSection>
       {colorsArr.map(color => (

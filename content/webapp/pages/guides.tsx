@@ -3,7 +3,7 @@
 // Before working on this file, please get it to typecheck,
 // I have had to add this here to unblock some work
 import { GetServerSideProps, NextPageContext } from 'next';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '@weco/common/views/components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -30,10 +30,7 @@ type FiltersProps = {
   guideFormats: Format[];
 };
 
-const Filters: FunctionComponent<FiltersProps> = ({
-  currentId,
-  guideFormats,
-}) => {
+const Filters: FC<FiltersProps> = ({ currentId, guideFormats }) => {
   const items = guideFormats.map(guide => {
     return {
       id: guide.id,

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 type Props = {
   condition: boolean;
@@ -6,7 +6,7 @@ type Props = {
   children: any;
 };
 
-const ConditionalWrapper: FunctionComponent<Props> = ({
+const ConditionalWrapper: FC<Props> = ({
   condition,
   wrapper,
   children,

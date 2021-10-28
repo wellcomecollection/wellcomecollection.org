@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import { IconSvg } from '@weco/common/icons';
@@ -61,7 +61,7 @@ type Props = {
   attrs?: { [key: string]: [string] };
 };
 
-const Icon: FunctionComponent<Props> = ({
+const Icon: FC<Props> = ({
   icon,
   rotate,
   color,

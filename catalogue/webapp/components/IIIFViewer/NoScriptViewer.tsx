@@ -15,7 +15,7 @@ import Paginator, {
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '@weco/common/model/iiif';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';
 
@@ -78,7 +78,7 @@ export const NoScriptViewerPaginatorButtons = styled.div`
 export const PaginatorButtons = (
   isTabbable: boolean,
   workId: string
-): FunctionComponent<PaginatorRenderFunctionProps> => {
+): FC<PaginatorRenderFunctionProps> => {
   return ({
     currentPage,
     prevLink,
@@ -156,7 +156,7 @@ type NoScriptViewerProps = {
   canvasIndex: number;
 };
 
-const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
+const NoScriptViewer: FC<NoScriptViewerProps> = ({
   thumbnailsRequired,
   imageUrl,
   iiifImageLocation,

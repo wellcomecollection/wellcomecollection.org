@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { HTMLString } from '../../../services/prismic/types';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import LabelsList from '../LabelsList/LabelsList';
@@ -32,7 +32,7 @@ type Props = {
   }[];
 };
 
-const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
+const TitledTextList: FC<Props> = ({ items }: Props) => {
   return (
     <ul className="plain-list no-padding">
       {items.map((item, i) => {

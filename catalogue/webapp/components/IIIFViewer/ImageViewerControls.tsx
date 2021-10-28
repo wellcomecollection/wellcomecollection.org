@@ -1,5 +1,5 @@
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
-import { useContext, FunctionComponent } from 'react';
+import { useContext, FC } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import styled from 'styled-components';
@@ -42,7 +42,7 @@ const ImageViewerControlsEl = styled.div<{ showControls?: boolean }>`
   }
 `;
 
-const ImageViewerControls: FunctionComponent = () => {
+const ImageViewerControls: FC = () => {
   const {
     showControls,
     rotatedImages,

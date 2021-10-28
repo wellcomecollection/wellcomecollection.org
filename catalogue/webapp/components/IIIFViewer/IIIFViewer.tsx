@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-} from 'react';
+import { FC, useState, useRef, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
@@ -201,7 +195,7 @@ const Thumbnails = styled.div<{
   `}
 `;
 
-const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
+const IIIFViewer: FC<IIIFViewerProps> = ({
   mainPaginatorProps,
   currentCanvas,
   lang,

@@ -1,5 +1,5 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
-import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
+import { useContext, useEffect, FC, ReactElement } from 'react';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -35,7 +35,7 @@ type Props = {
   work: WorkType;
 } & WithGlobalContextData;
 
-const Work: FunctionComponent<Props> = ({
+const Work: FC<Props> = ({
   work,
   globalContextData,
 }: Props): ReactElement<Props> => {

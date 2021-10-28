@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { Work } from '../../../model/work';
 import { font, classNames, grid } from '../../../utils/classnames';
 import { getProductionDates } from '../../../utils/works';
@@ -25,7 +25,7 @@ type Props = {
   work: Work;
 };
 
-const WorkHeader: FunctionComponent<Props> = ({
+const WorkHeader: FC<Props> = ({
   work,
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);

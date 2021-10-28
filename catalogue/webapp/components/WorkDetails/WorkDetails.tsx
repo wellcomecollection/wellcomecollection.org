@@ -1,6 +1,6 @@
 import moment from 'moment';
 import NextLink from 'next/link';
-import { FunctionComponent, useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '@weco/common/services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -78,7 +78,7 @@ function getItemLinkState({
   }
 }
 
-const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
+const WorkDetails: FC<Props> = ({ work }: Props) => {
   const { enableRequesting } = useContext(TogglesContext);
   const isArchive = useContext(IsArchiveContext);
 

@@ -3,7 +3,7 @@ import {
   groupStructures,
   getCanvases,
 } from '@weco/common/utils/iiif';
-import { useContext, FunctionComponent, RefObject } from 'react';
+import { useContext, FC, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -13,9 +13,7 @@ import styled from 'styled-components';
 type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
 };
-const ViewerStructuresPrototype: FunctionComponent<Props> = ({
-  mainViewerRef,
-}: Props) => {
+const ViewerStructuresPrototype: FC<Props> = ({ mainViewerRef }: Props) => {
   const { manifest, setActiveIndex, activeIndex, setIsMobileSidebarActive } =
     useContext(ItemViewerContext);
   const structures = manifest ? getStructures(manifest) : [];

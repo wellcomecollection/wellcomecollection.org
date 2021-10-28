@@ -1,6 +1,6 @@
 import { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
-import { ReactElement, FunctionComponent } from 'react';
+import { ReactElement, FC } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -18,7 +18,7 @@ type Props = {
   width?: number | null | undefined;
 };
 
-const Caption: FunctionComponent<Props> = ({
+const Caption: FC<Props> = ({
   caption,
   preCaptionNode,
   width,

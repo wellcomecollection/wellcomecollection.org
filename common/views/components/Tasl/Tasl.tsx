@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getLicenseInfo } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
@@ -152,7 +152,7 @@ export type Props = MarkUpProps & {
   toggle: () => void;
 };
 
-const Tasl: FunctionComponent<Props> = ({
+const Tasl: FC<Props> = ({
   isFull,
   title,
   author,

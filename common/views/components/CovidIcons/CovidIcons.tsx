@@ -1,6 +1,6 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
-const WeAreGoodToGo: FunctionComponent = (): ReactElement => (
+const WeAreGoodToGo: FC = (): ReactElement => (
   <svg viewBox="0 0 184.25 184.25">
     <g>
       <path

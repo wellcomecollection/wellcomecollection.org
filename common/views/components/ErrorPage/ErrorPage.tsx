@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
@@ -14,7 +14,7 @@ type Props = {
   globalContextData: GlobalContextData;
 };
 
-const ErrorPage: FunctionComponent<Props> = ({
+const ErrorPage: FC<Props> = ({
   statusCode = 500,
   title,
   globalContextData,

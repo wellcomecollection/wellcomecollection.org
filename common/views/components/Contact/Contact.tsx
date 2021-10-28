@@ -1,6 +1,6 @@
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled(Space).attrs({
@@ -17,7 +17,7 @@ type Props = {
   email: string | null;
 };
 
-const Contact: FunctionComponent<Props> = ({
+const Contact: FC<Props> = ({
   title,
   subtitle,
   phone,

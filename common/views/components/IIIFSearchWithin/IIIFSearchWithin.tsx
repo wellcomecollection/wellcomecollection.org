@@ -1,7 +1,7 @@
 import {
   useState,
   useContext,
-  FunctionComponent,
+  FC,
   RefObject,
   useRef,
 } from 'react';
@@ -95,7 +95,7 @@ const Loading = () => (
   </div>
 );
 
-const IIIFSearchWithin: FunctionComponent<Props> = ({
+const IIIFSearchWithin: FC<Props> = ({
   mainViewerRef,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);

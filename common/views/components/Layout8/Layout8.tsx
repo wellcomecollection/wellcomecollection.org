@@ -1,4 +1,4 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { ReactNode, FC } from 'react';
 import Layout from '../Layout/Layout';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   shift?: boolean;
 };
 
-const Layout8: FunctionComponent<Props> = ({
+const Layout8: FC<Props> = ({
   children,
   shift = true,
 }: Props) => (

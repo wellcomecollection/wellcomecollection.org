@@ -1,5 +1,5 @@
 import {
-  FunctionComponent,
+  FC,
   SyntheticEvent,
   ReactElement,
   ReactNode,
@@ -84,7 +84,7 @@ type CheckboxRadioProps = {
   ariaLabel?: string;
 };
 
-const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
+const CheckboxRadio: FC<CheckboxRadioProps> = ({
   id,
   text,
   type,

@@ -1,10 +1,4 @@
-import {
-  FunctionComponent,
-  useState,
-  useContext,
-  RefObject,
-  ReactNode,
-} from 'react';
+import { FC, useState, useContext, RefObject, ReactNode } from 'react';
 import NextLink from 'next/link';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { FixedSizeList } from 'react-window';
@@ -134,7 +128,7 @@ type Props = {
   mainViewerRef: RefObject<FixedSizeList>;
 };
 
-const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
+const ViewerSidebar: FC<Props> = ({ mainViewerRef }: Props) => {
   const { work, manifest, parentManifest, currentManifestLabel } =
     useContext(ItemViewerContext);
   const productionDates = getProductionDates(work);

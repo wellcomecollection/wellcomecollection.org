@@ -1,11 +1,5 @@
 import openseadragon from 'openseadragon';
-import {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  FunctionComponent,
-} from 'react';
+import { useState, useEffect, useRef, useContext, FC } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
@@ -40,7 +34,7 @@ const ErrorMessage = () => (
   </div>
 );
 
-const ZoomedImage: FunctionComponent = () => {
+const ZoomedImage: FC = () => {
   const { zoomInfoUrl, setShowZoomed } = useContext(ItemViewerContext);
   const [scriptError, setScriptError] = useState(false);
   const [viewer, setViewer] = useState(null);

@@ -1,4 +1,4 @@
-import { ReactNode, FunctionComponent } from 'react';
+import { ReactNode, FC } from 'react';
 import Layout from '../Layout/Layout';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const gridSize12 = { s: 12, m: 12, l: 12, xl: 12 };
-const Layout12: FunctionComponent<Props> = ({ children }: Props) => (
+const Layout12: FC<Props> = ({ children }: Props) => (
   <Layout gridSizes={gridSize12}>{children}</Layout>
 );
 

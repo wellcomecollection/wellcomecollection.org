@@ -6,7 +6,7 @@ import LabelsList from '../LabelsList/LabelsList';
 
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 
 type Props = {
@@ -75,7 +75,7 @@ export const CardBody = styled(Space).attrs(() => ({
   }
 `;
 
-const Card: FunctionComponent<Props> = ({ item }: Props) => {
+const Card: FC<Props> = ({ item }: Props) => {
   return (
     <CardOuter
       href={item.link}

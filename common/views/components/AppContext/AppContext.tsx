@@ -4,7 +4,7 @@ import {
   useState,
   useEffect,
   ReactElement,
-  FunctionComponent,
+  FC,
   ReactNode,
 } from 'react';
 import theme, { Size } from '../../../views/themes/default';
@@ -42,7 +42,7 @@ function getWindowSize(): Size {
   }
 }
 
-export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
+export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);

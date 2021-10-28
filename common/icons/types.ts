@@ -1,3 +1,3 @@
-import { FunctionComponent, SVGProps } from 'react';
+import { FC, SVGProps } from 'react';
 
-export type IconSvg = FunctionComponent<SVGProps<SVGSVGElement>>;
+export type IconSvg = FC<SVGProps<SVGSVGElement>>;

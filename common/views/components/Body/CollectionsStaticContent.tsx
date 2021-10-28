@@ -1,9 +1,9 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import { emptyWorksProps } from '../WorksLink/WorksLink';
 
-const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
+const CollectionsStaticContent: FC = (): ReactElement => {
   const { query, sort, sortOrder } = emptyWorksProps;
   return (
     <>

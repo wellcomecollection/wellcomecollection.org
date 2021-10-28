@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   children: ReactElement;
 };
 
-const SearchFormSortByPortal: FunctionComponent<Props> = ({
+const SearchFormSortByPortal: FC<Props> = ({
   id,
   children,
 }: Props): ReactElement<Props> => {

@@ -1,4 +1,4 @@
-import { FunctionComponent, RefObject, Dispatch, SetStateAction } from 'react';
+import { FC, RefObject, Dispatch, SetStateAction } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import { clear } from '@weco/common/icons';
@@ -9,7 +9,7 @@ type Props = {
   gaEvent?: GaEvent;
   right?: number;
 };
-const ClearSearch: FunctionComponent<Props> = ({
+const ClearSearch: FC<Props> = ({
   inputRef,
   setValue,
   gaEvent,

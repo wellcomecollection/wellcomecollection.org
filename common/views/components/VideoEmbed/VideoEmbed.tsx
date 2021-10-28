@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import Caption from '../Caption/Caption';
 import { HTMLString } from '../../../services/prismic/types';
 import { IframeContainer } from '../Iframe/Iframe';
@@ -8,7 +8,7 @@ type Props = {
   caption?: HTMLString;
 };
 
-const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => (
+const VideoEmbed: FC<Props> = ({ embedUrl, caption }: Props) => (
   <figure className="no-margin">
     <IframeContainer>
       <iframe

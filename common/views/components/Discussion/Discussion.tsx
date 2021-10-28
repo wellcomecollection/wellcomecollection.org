@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useEffect, useContext } from 'react';
+import { FC, useState, useEffect, useContext } from 'react';
 import { HTMLString } from '../../../services/prismic/types';
 import { AppContext } from '../AppContext/AppContext';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -18,7 +18,7 @@ type Props = {
   text: HTMLString;
 };
 
-const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
+const Discussion: FC<Props> = ({ title, text }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(true);
   const [textToShow, setTextToShow] = useState(text);

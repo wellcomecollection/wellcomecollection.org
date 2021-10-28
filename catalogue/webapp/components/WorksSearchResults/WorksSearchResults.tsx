@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
 import WorksSearchResult from '../WorksSearchResult/WorksSearchResult';
@@ -23,10 +23,7 @@ const SearchResultListItem = styled.li`
   max-width: 100%;
 `;
 
-const WorkSearchResults: FunctionComponent<Props> = ({
-  works,
-  apiProps,
-}: Props) => {
+const WorkSearchResults: FC<Props> = ({ works, apiProps }: Props) => {
   return (
     <SearchResultUnorderedList>
       {works.results.map((result, i) => (

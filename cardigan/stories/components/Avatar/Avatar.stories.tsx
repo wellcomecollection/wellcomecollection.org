@@ -1,6 +1,6 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import Avatar, { Props } from '@weco/common/views/components/Avatar/Avatar';
-const Template: FunctionComponent<Props> = args => <Avatar {...args} />;
+const Template: FC<Props> = args => <Avatar {...args} />;
 
 export const basic = Template.bind({});
 basic.args = {

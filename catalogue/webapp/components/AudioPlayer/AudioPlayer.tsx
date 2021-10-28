@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
-import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
+import { useEffect, useState, ReactElement, FC } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { IIIFMediaElement } from '@weco/common/model/iiif';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
@@ -8,9 +8,7 @@ import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
 type Props = {
   audio: IIIFMediaElement;
 };
-const AudioPlayer: FunctionComponent<Props> = ({
-  audio,
-}: Props): ReactElement => {
+const AudioPlayer: FC<Props> = ({ audio }: Props): ReactElement => {
   const [secondsPlayed, setSecondsPlayed] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 

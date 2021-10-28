@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import {
   appError,
@@ -26,7 +26,7 @@ type Props = {
   globalContextData: GlobalContextData;
 } & WithPageview;
 
-const ImagePage: FunctionComponent<Props> = ({
+const ImagePage: FC<Props> = ({
   image,
   sourceWork,
   globalContextData,

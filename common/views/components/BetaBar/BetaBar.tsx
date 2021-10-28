@@ -1,7 +1,7 @@
 import MessageBar from '../MessageBar/MessageBar';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
-const BetaBar: FunctionComponent = (): ReactElement => (
+const BetaBar: FC = (): ReactElement => (
   <MessageBar tagText={'Beta'}>
     <a href="/works/progress">
       Find out more <span className="visually-hidden">about beta</span>

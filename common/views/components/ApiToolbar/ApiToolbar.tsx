@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
@@ -65,7 +65,7 @@ const routeProps = {
   },
 };
 
-const ApiToolbar: FunctionComponent = () => {
+const ApiToolbar: FC = () => {
   const cookieName = 'apiToolbarMini';
   const router = useRouter();
   const [props, setProps] = useState<Prop[]>([]);

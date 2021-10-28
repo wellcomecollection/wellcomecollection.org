@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
 import { arrowSmall } from '@weco/common/icons';
@@ -9,7 +9,7 @@ type Props = {
   trackingEvent?: GaEvent;
 };
 
-const MoreLink: FunctionComponent<Props> = ({
+const MoreLink: FC<Props> = ({
   url,
   name,
   trackingEvent,

@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent, ReactNode } from 'react';
+import { Fragment, FC, ReactNode } from 'react';
 import { LinkProps } from '../../../model/link-props';
 
 export type PaginatorRenderFunctionProps = {
@@ -21,7 +21,7 @@ export type Props = PropsWithoutRenderFunction & {
   render: (data: PaginatorRenderFunctionProps) => ReactNode;
 };
 
-const Paginator: FunctionComponent<Props> = ({
+const Paginator: FC<Props> = ({
   currentPage,
   pageSize,
   totalResults,

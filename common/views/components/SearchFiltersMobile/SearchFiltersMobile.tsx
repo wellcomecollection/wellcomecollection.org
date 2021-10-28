@@ -1,7 +1,7 @@
 import React, {
   useState,
   useRef,
-  FunctionComponent,
+  FC,
   ReactElement,
 } from 'react';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
@@ -265,7 +265,7 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   );
 };
 
-const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
+const SearchFiltersMobile: FC<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
   filters,

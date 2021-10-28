@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import Space from '../styled/Space';
 import AlignFont from '../styled/AlignFont';
 import { InlineButton } from '../ButtonInline/ButtonInline';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { LinkProps } from '../../../model/link-props';
 import styled from 'styled-components';
 
@@ -42,7 +42,7 @@ export type Props = {
   separator?: string;
 };
 
-const Tags: FunctionComponent<Props> = ({
+const Tags: FC<Props> = ({
   tags,
   isFirstPartBold = true,
   separator = '–',

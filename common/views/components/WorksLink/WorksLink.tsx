@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from 'querystring';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../model/link-props';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import {
   LinkFrom,
   stringCodec,
@@ -101,7 +101,7 @@ function toLink(
 }
 
 type Props = LinkFrom<WorksProps> & { source: WorksPropsSource };
-const WorksLink: FunctionComponent<Props> = ({
+const WorksLink: FC<Props> = ({
   children,
   source,
   ...props

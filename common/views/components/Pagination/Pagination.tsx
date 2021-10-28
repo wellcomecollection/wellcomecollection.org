@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
 import Space from '../styled/Space';
@@ -19,7 +19,7 @@ export type Props = {
   };
 };
 
-const Pagination: FunctionComponent<Props> = ({
+const Pagination: FC<Props> = ({
   prevPage,
   currentPage,
   pageCount,

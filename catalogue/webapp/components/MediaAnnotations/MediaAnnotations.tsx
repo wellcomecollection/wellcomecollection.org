@@ -1,4 +1,4 @@
-import { ReactElement, FunctionComponent } from 'react';
+import { ReactElement, FC } from 'react';
 import {
   IIIFMediaElement,
   IIIFAnnotationResource,
@@ -22,9 +22,7 @@ function getMediaFormatString(format) {
   }
 }
 
-const MediaAnnotations: FunctionComponent<Props> = ({
-  media,
-}: Props): ReactElement => {
+const MediaAnnotations: FC<Props> = ({ media }: Props): ReactElement => {
   const annotation: IIIFAnnotationResource | undefined =
     getAnnotationFromMediaElement(media);
   const typeString = getMediaFormatString(media.format);

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 // $FlowFixMe (tsx)
@@ -18,7 +18,7 @@ type Props = {
   options: RadioGroupOption[];
 };
 
-const RadioGroup: FunctionComponent<Props> = ({
+const RadioGroup: FC<Props> = ({
   name,
   selected,
   onChange,

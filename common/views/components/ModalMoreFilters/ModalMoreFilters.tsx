@@ -1,4 +1,4 @@
-import React, { FunctionComponent, RefObject, useContext } from 'react';
+import React, { FC, RefObject, useContext } from 'react';
 import Modal from '../../components/Modal/Modal';
 import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -127,7 +127,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   );
 };
 
-const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
+const MoreFilters: FC<MoreFiltersProps> = ({
   changeHandler,
   filters,
 }: MoreFiltersProps) => {
@@ -153,7 +153,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   );
 };
 
-const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
+const ModalMoreFilters: FC<ModalMoreFiltersProps> = ({
   query,
   id,
   isActive,

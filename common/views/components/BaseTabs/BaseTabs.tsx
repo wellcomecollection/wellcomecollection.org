@@ -6,7 +6,7 @@ import {
   KeyboardEvent,
   useEffect,
   ReactElement,
-  FunctionComponent,
+  FC,
   Fragment,
 } from 'react';
 import { AppContext } from '../AppContext/AppContext';
@@ -68,7 +68,7 @@ export type Props = {
   onTabChanged?: (tabId: string) => void;
 };
 
-const Tabs: FunctionComponent<Props> = ({
+const Tabs: FC<Props> = ({
   label,
   tabs,
   activeTabIndex,

@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import MediaObject, {
   Props as MediaObjectProps,
 } from '../../components/MediaObject/MediaObject';
@@ -7,7 +7,7 @@ type Props = {
   items: MediaObjectProps[];
 };
 
-const MediaObjectList: FunctionComponent<Props> = ({
+const MediaObjectList: FC<Props> = ({
   items,
 }: Props): ReactElement<Props> => {
   return (

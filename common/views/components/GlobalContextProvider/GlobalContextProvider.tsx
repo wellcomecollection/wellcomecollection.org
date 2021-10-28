@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
-import { createContext, FunctionComponent, ReactNode } from 'react';
+import { createContext, FC, ReactNode } from 'react';
 import OpeningTimesContext, {
   OpeningTimes,
 } from '../OpeningTimesContext/OpeningTimesContext';
@@ -39,7 +39,7 @@ export type WithGlobalContextData = {
 };
 
 const Context = createContext<GlobalContextData>(defaultValue);
-const GlobalContextProvider: FunctionComponent<Props> = ({
+const GlobalContextProvider: FC<Props> = ({
   value,
   children,
 }: Props) => {

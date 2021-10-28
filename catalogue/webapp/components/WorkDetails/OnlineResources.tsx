@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, FunctionComponent } from 'react';
+import { useEffect, useState, useRef, FC } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { getItemsByLocationType } from '@weco/common/utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
@@ -20,7 +20,7 @@ const ShowHideButton = styled.button.attrs({
 type Props = {
   work: Work;
 };
-const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
+const OnlineResources: FC<Props> = ({ work }: Props) => {
   const onlineResources = getItemsByLocationType(work, 'online-resource').map(
     i => {
       const [location] = i.locations;

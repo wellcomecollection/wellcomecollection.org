@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 type Props = {
   text: string;
 };
 
-const Login: FunctionComponent<Props> = ({ text }: Props) => {
+const Login: FC<Props> = ({ text }: Props) => {
   return <button type="button">{text}</button>;
 };
 

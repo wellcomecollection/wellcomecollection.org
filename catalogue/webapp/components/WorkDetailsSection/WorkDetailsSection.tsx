@@ -2,17 +2,14 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
-import { FunctionComponent, PropsWithChildren, useContext } from 'react';
+import { FC, PropsWithChildren, useContext } from 'react';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
 }>;
 
-const WorkDetailsSection: FunctionComponent<Props> = ({
-  headingText,
-  children,
-}: Props) => {
+const WorkDetailsSection: FC<Props> = ({ headingText, children }: Props) => {
   const isArchive = useContext(IsArchiveContext);
 
   return (

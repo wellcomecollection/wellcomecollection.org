@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useEffect, FC } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
@@ -154,7 +154,7 @@ function makeSurePageIsTallEnough() {
 
 export type WecoAppProps = AppProps & WithGlobalContextData;
 
-const WecoApp: FunctionComponent<WecoAppProps> = ({
+const WecoApp: FC<WecoAppProps> = ({
   Component,
   pageProps,
   globalContextData,

@@ -1,5 +1,5 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 type Props = {
   title?: string;
@@ -8,7 +8,7 @@ type Props = {
   text: string[];
 };
 
-const WorkDetailsText: FunctionComponent<Props> = ({
+const WorkDetailsText: FC<Props> = ({
   title,
   inlineHeading = false,
   noSpacing = false,

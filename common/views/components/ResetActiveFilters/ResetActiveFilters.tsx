@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, ReactNode } from 'react';
+import React, { Fragment, FC, ReactNode } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '../Icon/Icon';
@@ -31,7 +31,7 @@ type CancelFilterProps = {
   children?: ReactNode;
 };
 
-const CancelFilter: FunctionComponent<CancelFilterProps> = ({
+const CancelFilter: FC<CancelFilterProps> = ({
   text,
   children,
 }: CancelFilterProps) => {
@@ -59,7 +59,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   );
 };
 
-export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
+export const ResetActiveFilters: FC<ResetActiveFilters> = ({
   query,
   resetFilters,
   filters,

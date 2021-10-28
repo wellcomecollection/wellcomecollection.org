@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  FunctionComponent,
-  RefObject,
-} from 'react';
+import { useState, useEffect, useContext, useRef, FC, RefObject } from 'react';
 import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -496,7 +489,7 @@ type ListItemProps = ListProps & {
   posInSet: number;
 };
 
-const ListItem: FunctionComponent<ListItemProps> = ({
+const ListItem: FC<ListItemProps> = ({
   item,
   currentWorkId,
   selected,
@@ -732,7 +725,7 @@ type NestedListProps = ListProps & {
   archiveTree: UiTree;
 };
 
-const NestedList: FunctionComponent<NestedListProps> = ({
+const NestedList: FC<NestedListProps> = ({
   currentWorkId,
   archiveTree,
   selected,
@@ -830,11 +823,7 @@ function createBasicTree({
   ];
 }
 
-const ArchiveTree: FunctionComponent<{ work: Work }> = ({
-  work,
-}: {
-  work: Work;
-}) => {
+const ArchiveTree: FC<{ work: Work }> = ({ work }: { work: Work }) => {
   const toggles = useContext(TogglesContext);
   const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);

@@ -1,4 +1,4 @@
-import { FunctionComponent, SyntheticEvent, ReactElement } from 'react';
+import { FC, SyntheticEvent, ReactElement } from 'react';
 import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
   ButtonInlineBaseProps,
@@ -21,7 +21,7 @@ function isStringLink(link: LinkProps | string): link is string {
   return typeof link === 'string';
 }
 
-const ButtonInlineLink: FunctionComponent<ButtonInlineLinkProps> = ({
+const ButtonInlineLink: FC<ButtonInlineLinkProps> = ({
   text,
   link,
   icon,

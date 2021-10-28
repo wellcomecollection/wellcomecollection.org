@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
@@ -16,7 +16,7 @@ const Align = styled.span<{ isActive: boolean }>`
   `}
 `;
 
-const AlignFont: FunctionComponent<Props> = ({ children, className }) => {
+const AlignFont: FC<Props> = ({ children, className }) => {
   return (
     <Align className={className} isActive={useIsFontsLoaded()}>
       {children}

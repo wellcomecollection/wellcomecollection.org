@@ -5,7 +5,7 @@ import { ImageType } from '../../../model/image';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import LabelsList from '../LabelsList/LabelsList';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 const BookPromoImageContainer = styled.div.attrs({
   className: classNames({
@@ -45,7 +45,7 @@ const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   href: props.url || undefined,
 }))<LinkOrSpanSpaceAttrs>``;
 
-const BookPromo: FunctionComponent<Props> = ({
+const BookPromo: FC<Props> = ({
   url,
   image,
   title,

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -42,7 +42,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   `}
 `;
 
-const LinkLabels: FunctionComponent<Props> = ({
+const LinkLabels: FC<Props> = ({
   items,
   heading,
   icon,

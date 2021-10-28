@@ -3,7 +3,7 @@ import {
   useContext,
   useRef,
   ReactElement,
-  FunctionComponent,
+  FC,
 } from 'react';
 import { trackEvent } from '../../../utils/ga';
 import TextInput from '../TextInput/TextInput';
@@ -17,7 +17,7 @@ type Props = {
   url: string;
 };
 
-const CopyUrl: FunctionComponent<Props> = ({
+const CopyUrl: FC<Props> = ({
   id,
   url,
 }: Props): ReactElement<Props> => {

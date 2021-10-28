@@ -7,7 +7,7 @@ import {
 } from '../../../model/organization';
 import Space from '../styled/Space';
 import { location as locationIcon } from '@weco/common/icons';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 const StyledFindUs = styled.div.attrs({
   className: classNames({
@@ -35,7 +35,7 @@ const StyledFindUs = styled.div.attrs({
   }
 `;
 
-const FindUs: FunctionComponent = () => (
+const FindUs: FC = () => (
   <StyledFindUs>
     <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
       <a

@@ -1,11 +1,11 @@
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames } from '@weco/common/utils/classnames';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 type Props = { title: string; list: string[] };
 
-const WorkDetailsList: FunctionComponent<Props> = ({ title, list }: Props) => {
+const WorkDetailsList: FC<Props> = ({ title, list }: Props) => {
   return (
     <WorkDetailsProperty title={title}>
       <Space

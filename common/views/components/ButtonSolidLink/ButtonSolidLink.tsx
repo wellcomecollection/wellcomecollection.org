@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import { FC, ReactElement, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
 import {
   BaseButtonInner,
@@ -21,7 +21,7 @@ export function getHref(link: LinkProps | string): undefined | string {
   return typeof link === 'object' ? undefined : link;
 }
 
-const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
+const ButtonSolidLink: FC<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,

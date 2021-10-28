@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import Layout8 from '../Layout8/Layout8';
@@ -12,7 +12,7 @@ type Props = {
   children: ReactNode;
 };
 
-const WobblyEdgedContainer: FunctionComponent<Props> = ({
+const WobblyEdgedContainer: FC<Props> = ({
   children,
 }: Props) => {
   return (

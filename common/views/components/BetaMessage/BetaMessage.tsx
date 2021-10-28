@@ -1,4 +1,4 @@
-import { useEffect, ReactElement, FunctionComponent } from 'react';
+import { useEffect, ReactElement, FC } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import { font, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -18,7 +18,7 @@ const StyledBetaMessage = styled.div.attrs(() => ({
 
 type Props = { message: string };
 
-const BetaMessage: FunctionComponent<Props> = ({
+const BetaMessage: FC<Props> = ({
   message,
 }: Props): ReactElement => {
   useEffect(() => {

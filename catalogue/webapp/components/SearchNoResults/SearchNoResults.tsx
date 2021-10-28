@@ -1,7 +1,7 @@
 import Space from '@weco/common/views/components/styled/Space';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 type Props = {
   query: string;
@@ -14,10 +14,7 @@ const QuerySpan = styled.span.attrs({
   }),
 })``;
 
-const SearchNoResults: FunctionComponent<Props> = ({
-  query,
-  hasFilters,
-}: Props) => {
+const SearchNoResults: FC<Props> = ({ query, hasFilters }: Props) => {
   return (
     <Space v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}>
       <div className="container">

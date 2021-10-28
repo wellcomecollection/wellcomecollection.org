@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { grid, classNames } from '../../../utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
@@ -7,7 +7,7 @@ type Props = {
   children: ReactNode;
 };
 
-const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
+const WobblyRow: FC<Props> = ({ children }: Props) => (
   <div
     className={classNames({
       'row bg-charcoal font-white relative': true,

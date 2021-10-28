@@ -1,4 +1,4 @@
-import { FunctionComponent, SyntheticEvent } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -59,7 +59,7 @@ type Props = {
   }[];
 };
 
-const ToolbarSegmentedControl: FunctionComponent<Props> = ({
+const ToolbarSegmentedControl: FC<Props> = ({
   items,
   activeId,
   hideLabels,

@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import {
@@ -20,7 +20,7 @@ type Props = {
   sizesQueries?: string;
 };
 
-const StoryPromo: FunctionComponent<Props> = ({
+const StoryPromo: FC<Props> = ({
   item,
   position,
   hidePromoText = false,

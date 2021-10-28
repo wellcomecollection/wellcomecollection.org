@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  FunctionComponent,
-  RefObject,
-} from 'react';
+import { useState, useEffect, useRef, useContext, FC, RefObject } from 'react';
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
@@ -49,7 +42,7 @@ type ImageViewerProps = {
   setImageContainerRect: (v: ClientRect) => void;
 };
 
-const ImageViewer: FunctionComponent<ImageViewerProps> = ({
+const ImageViewer: FC<ImageViewerProps> = ({
   width,
   height,
   alt,

@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, FC } from 'react';
 import { LinkProps } from '../../../model/link-props';
 import { classNames, font } from '../../../utils/classnames';
 import Control from '../Buttons/Control/Control';
@@ -43,7 +43,7 @@ const TotalResultsWrapper = styled.div.attrs<TotalResultsWrapperProps>(
   })
 )<TotalResultsWrapperProps>``;
 
-const Paginator: FunctionComponent<Props> = ({
+const Paginator: FC<Props> = ({
   query,
   showPortal,
   currentPage,

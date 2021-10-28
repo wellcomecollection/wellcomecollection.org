@@ -6,7 +6,7 @@ import {
   useRef,
   useContext,
   RefObject,
-  FunctionComponent,
+  FC,
   CSSProperties,
 } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
@@ -135,7 +135,7 @@ type Props = {
   viewerRef: RefObject<HTMLElement>;
 };
 
-const GridViewer: FunctionComponent<Props> = ({
+const GridViewer: FC<Props> = ({
   gridViewerRef,
   mainViewerRef,
   viewerRef,

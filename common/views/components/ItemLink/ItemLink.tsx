@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import {
   booleanCodec,
@@ -81,7 +81,7 @@ function toLink(
 
 type Props = LinkFrom<ItemProps> & { source: ItemPropsSource };
 
-const WorksLink: FunctionComponent<Props> = ({
+const WorksLink: FC<Props> = ({
   children,
   source,
   ...props

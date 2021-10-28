@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, {
-  FunctionComponent,
+  FC,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -67,7 +67,7 @@ const getPosition = <T extends HTMLElement>(
   return clamp((pageX - (left + window.pageXOffset)) / width);
 };
 
-const HueSlider: FunctionComponent<Props> = ({
+const HueSlider: FC<Props> = ({
   hue,
   onChangeHue,
   ...otherProps

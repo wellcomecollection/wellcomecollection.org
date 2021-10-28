@@ -3,7 +3,7 @@ import BaseTabs, { TabType } from '../BaseTabs/BaseTabs';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { useContext, FunctionComponent, ReactElement, useRef } from 'react';
+import { useContext, FC, ReactElement, useRef } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import SearchForm from '@weco/common/views/components/SearchForm/SearchForm';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -90,7 +90,7 @@ type Props = {
   imagesFilters: Filter[];
 };
 
-const SearchTabs: FunctionComponent<Props> = ({
+const SearchTabs: FC<Props> = ({
   query,
   sort,
   sortOrder,

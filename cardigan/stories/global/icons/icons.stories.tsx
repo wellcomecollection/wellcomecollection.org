@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import * as icons from '@weco/common/icons';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -23,7 +23,7 @@ const IconId = styled.p.attrs({
   hyphens: auto;
 `;
 
-export const Icons: FunctionComponent = () => (
+export const Icons: FC = () => (
   <>
     {Object.keys(icons).map(key => (
       <IconWrapper key={key}>

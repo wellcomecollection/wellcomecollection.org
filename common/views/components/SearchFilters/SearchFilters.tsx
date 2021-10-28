@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useContext, useState } from 'react';
+import { FC, ReactElement, useContext, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
 import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
@@ -17,7 +17,7 @@ type Props = {
 
 export type SearchFiltersSharedProps = Props & { activeFiltersCount: number };
 
-const SearchFilters: FunctionComponent<Props> = ({
+const SearchFilters: FC<Props> = ({
   query,
   searchForm,
   changeHandler,

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 
 const DotEl = styled.span.attrs({
   'aria-hidden': true,
@@ -15,7 +15,7 @@ type Props = {
   color: string;
 };
 
-const Dot: FunctionComponent<Props> = ({ color }: Props) => {
+const Dot: FC<Props> = ({ color }: Props) => {
   return <DotEl className={`font-${color}`} />;
 };
 

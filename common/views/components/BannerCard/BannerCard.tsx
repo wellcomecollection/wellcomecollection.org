@@ -1,7 +1,7 @@
 import { classNames, font } from '../../../utils/classnames';
 import LabelsList from '../LabelsList/LabelsList';
 import { trackEvent } from '../../../utils/ga';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { Season } from '../../../model/seasons';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
 import styled from 'styled-components';
@@ -72,7 +72,7 @@ type Props = {
   highlightColor?: 'yellow' | 'orange';
 };
 
-const BannerCard: FunctionComponent<Props> = ({
+const BannerCard: FC<Props> = ({
   item,
   background = 'charcoal',
   highlightColor = 'orange',

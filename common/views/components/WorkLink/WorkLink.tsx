@@ -1,5 +1,5 @@
 import NextLink, { LinkProps } from 'next/link';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 type WorkLinkSource =
   | 'works_search_result'
@@ -17,7 +17,7 @@ type Props = {
   resultPosition?: number;
 } & Omit<LinkProps, 'as' | 'href'>;
 
-const WorkLink: FunctionComponent<PropsWithChildren<Props>> = ({
+const WorkLink: FC<PropsWithChildren<Props>> = ({
   id,
   source,
   resultPosition,

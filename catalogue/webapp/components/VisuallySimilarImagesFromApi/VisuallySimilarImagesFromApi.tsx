@@ -2,7 +2,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import Image from '@weco/common/views/components/Image/Image';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
+const VisuallySimilarImagesFromApi: FC<Props> = ({
   originalId,
   onClickImage,
 }: Props) => {

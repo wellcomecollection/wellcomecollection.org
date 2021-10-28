@@ -1,10 +1,10 @@
-import { FunctionComponent, useContext } from 'react';
+import { FC, useContext } from 'react';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import SearchContext from '../SearchContext/SearchContext';
 
-const BackToResults: FunctionComponent = () => {
+const BackToResults: FC = () => {
   const { link } = useContext(SearchContext);
   const query = link.href?.query?.query;
   const page = link.href?.query?.page;

@@ -1,8 +1,8 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
-export const Spacing: FunctionComponent = () => {
+export const Spacing: FC = () => {
   return (
     <div className="bg-cream font-white">
       <SpacingSection>

@@ -1,5 +1,5 @@
 import {
-  FunctionComponent,
+  FC,
   useState,
   useRef,
   useEffect,
@@ -167,7 +167,7 @@ type Props = {
   link: PrismicLink;
 };
 
-const PopupDialog: FunctionComponent<Props> = ({
+const PopupDialog: FC<Props> = ({
   openButtonText,
   title,
   text,

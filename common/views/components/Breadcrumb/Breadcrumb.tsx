@@ -1,7 +1,7 @@
 import { font, classNames } from '../../../utils/classnames';
 import { breadcrumbsLd } from '../../../utils/json-ld';
 import Space from '../styled/Space';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 
 type ItemWrapperProps = {
@@ -38,7 +38,7 @@ type Props = {
   items: Breadcrumbs;
 };
 
-const Breadcrumb: FunctionComponent<Props> = ({
+const Breadcrumb: FC<Props> = ({
   items,
 }: Props): ReactElement => (
   <div

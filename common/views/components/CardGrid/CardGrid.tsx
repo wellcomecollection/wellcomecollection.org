@@ -18,7 +18,7 @@ import CssGridContainer from '../styled/CssGridContainer';
 import Moment from 'moment';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { ArticleScheduleItem } from '../../../model/article-schedule-items';
 
 // TODO: This should be MultiContent
@@ -41,7 +41,7 @@ type Props = {
   fromDate?: typeof Moment;
 };
 
-const CardGrid: FunctionComponent<Props> = ({
+const CardGrid: FC<Props> = ({
   items,
   hidePromoText,
   itemsPerRow,

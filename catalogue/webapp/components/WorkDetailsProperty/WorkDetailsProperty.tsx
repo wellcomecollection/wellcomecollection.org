@@ -2,7 +2,7 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   title?: string;
@@ -10,7 +10,7 @@ type Props = PropsWithChildren<{
   noSpacing?: boolean;
 }>;
 
-const WorkDetailsProperty: FunctionComponent<Props> = ({
+const WorkDetailsProperty: FC<Props> = ({
   title,
   inlineHeading,
   noSpacing,

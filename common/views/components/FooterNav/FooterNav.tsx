@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import { links } from '../Header/Header';
@@ -20,7 +20,7 @@ const NavLink = styled(Space).attrs({
   }
 `;
 
-const FooterNav: FunctionComponent = () => {
+const FooterNav: FC = () => {
   return (
     <div>
       <nav>

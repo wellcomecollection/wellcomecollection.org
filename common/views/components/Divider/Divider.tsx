@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 import { PaletteColor } from '@weco/common/views/themes/config';
 
@@ -39,7 +39,7 @@ const Rule = styled.hr<Props>`
   `}
 `;
 
-const Divider: FunctionComponent<Props> = ({
+const Divider: FC<Props> = ({
   color,
   isStub,
   isKeyline,

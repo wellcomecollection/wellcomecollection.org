@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent,
+  FC,
   ReactElement,
   useRef,
   useState,
@@ -135,7 +135,7 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   );
 };
 
-const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
+const SearchFiltersDesktop: FC<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
   filters,

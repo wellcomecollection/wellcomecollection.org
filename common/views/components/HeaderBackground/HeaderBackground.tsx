@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const defaultBackgroundTexture =
   'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg';
-const HeaderBackground: FunctionComponent<Props> = ({
+const HeaderBackground: FC<Props> = ({
   backgroundTexture,
   hasWobblyEdge,
   useDefaultBackgroundTexture,

@@ -1,5 +1,5 @@
 import {
-  FunctionComponent,
+  FC,
   useState,
   useRef,
   useEffect,
@@ -238,7 +238,7 @@ type Props = {
   isStandalone: boolean;
 };
 
-const ImageGallery: FunctionComponent<Props> = ({
+const ImageGallery: FC<Props> = ({
   id,
   title,
   items,

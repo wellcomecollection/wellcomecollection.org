@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { trackSearchResultSelected } from '@weco/common/views/components/Tracker/Tracker';
@@ -10,10 +10,7 @@ type Props = {
   apiProps: CatalogueImagesApiProps;
 };
 
-const ImageEndpointSearchResults: FunctionComponent<Props> = ({
-  images,
-  apiProps,
-}: Props) => {
+const ImageEndpointSearchResults: FC<Props> = ({ images, apiProps }: Props) => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1

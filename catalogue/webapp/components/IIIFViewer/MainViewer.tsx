@@ -4,7 +4,7 @@ import {
   useRef,
   RefObject,
   CSSProperties,
-  FunctionComponent,
+  FC,
   useEffect,
   useContext,
 } from 'react';
@@ -339,10 +339,7 @@ type Props = {
   mainAreaRef: RefObject<HTMLDivElement>;
 };
 
-const MainViewer: FunctionComponent<Props> = ({
-  mainViewerRef,
-  mainAreaRef,
-}: Props) => {
+const MainViewer: FC<Props> = ({ mainViewerRef, mainAreaRef }: Props) => {
   const {
     setActiveIndex,
     mainAreaHeight,

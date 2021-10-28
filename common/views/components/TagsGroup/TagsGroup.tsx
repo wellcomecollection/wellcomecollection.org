@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Tags, { TagType } from '../Tags/Tags';
@@ -8,7 +8,7 @@ type Props = {
   tags: TagType[];
 };
 
-const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
+const TagsGroup: FC<Props> = ({ tags, title }: Props) => {
   return (
     <>
       {title && (

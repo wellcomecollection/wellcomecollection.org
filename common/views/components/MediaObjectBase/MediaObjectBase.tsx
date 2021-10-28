@@ -1,6 +1,6 @@
 import {
   ComponentType,
-  FunctionComponent,
+  FC,
   ReactElement,
   ReactNode,
 } from 'react';
@@ -83,7 +83,7 @@ const LinkOrDivSpace = styled(Space).attrs<LinkOrDivSpaceAttrs>(props => ({
   href: props.url || undefined,
 }))<LinkOrDivSpaceAttrs>``;
 
-const MediaObjectBase: FunctionComponent<Props> = ({
+const MediaObjectBase: FC<Props> = ({
   url,
   title,
   primaryLabels,

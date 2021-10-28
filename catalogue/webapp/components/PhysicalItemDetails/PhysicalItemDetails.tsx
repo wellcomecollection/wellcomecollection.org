@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useContext, useState } from 'react';
+import { FC, ReactNode, useContext, useState } from 'react';
 import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -63,7 +63,7 @@ export type Props = {
   isLast: boolean;
 };
 
-const PhysicalItemDetails: FunctionComponent<Props> = ({
+const PhysicalItemDetails: FC<Props> = ({
   item,
   work,
   userHeldItems,

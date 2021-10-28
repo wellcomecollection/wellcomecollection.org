@@ -1,4 +1,4 @@
-import { Fragment, FunctionComponent } from 'react';
+import { Fragment, FC } from 'react';
 import { formatTime, formatDayDate, london } from '../../../utils/format-date';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import { DateRange as DateRangeProps } from '../../../model/date-range';
@@ -24,7 +24,7 @@ const TimeRange = ({ start, end }: DateRangeProps) => (
 type Props = {
   splitTime?: boolean;
 } & DateRangeProps;
-const DateRange: FunctionComponent<Props> = ({
+const DateRange: FC<Props> = ({
   start,
   end,
   splitTime,

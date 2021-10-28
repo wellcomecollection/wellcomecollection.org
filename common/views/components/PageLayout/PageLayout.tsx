@@ -1,4 +1,4 @@
-import React, { useContext, FunctionComponent, ReactNode } from 'react';
+import React, { useContext, FC, ReactNode } from 'react';
 import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
@@ -55,7 +55,7 @@ type ComponentProps = {
   excludeRoleMain?: boolean;
 };
 
-const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
+const PageLayoutComponent: FC<ComponentProps> = ({
   title,
   description,
   url,
@@ -292,7 +292,7 @@ export type Props = {
   globalContextData: GlobalContextData;
 } & ComponentProps;
 
-const PageLayout: FunctionComponent<Props> = ({
+const PageLayout: FC<Props> = ({
   globalContextData,
   ...props
 }: Props) => {

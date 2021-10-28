@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
+import { FC, ReactElement, SyntheticEvent } from 'react';
 import { BaseButtonInner, ButtonIconWrapper } from '../ButtonSolid/ButtonSolid';
 import {
   ButtonOutlinedBaseProps,
@@ -18,7 +18,7 @@ type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   link: LinkProps | string;
 };
 
-const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({
+const ButtonOutlinedLink: FC<ButtonOutlinedLinkProps> = ({
   text,
   link,
   icon,

@@ -1,5 +1,5 @@
 import { classNames, font } from '../../../../common/utils/classnames';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
@@ -32,7 +32,7 @@ type Props = {
   text?: string | ReactElement;
 };
 
-const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
+const WatchLabel: FC<Props> = ({ text }: Props) => (
   <div
     className={classNames({
       [font('hnr', 4)]: true,

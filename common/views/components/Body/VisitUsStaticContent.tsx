@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useContext } from 'react';
+import { FC, ReactNode, useContext } from 'react';
 import { classNames, font, grid } from '@weco/common/utils/classnames';
 import Icon from '../Icon/Icon';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
@@ -13,7 +13,7 @@ import { clock } from '@weco/common/icons';
 type ContainerProps = {
   children: ReactNode;
 };
-const Container: FunctionComponent<ContainerProps> = ({
+const Container: FC<ContainerProps> = ({
   children,
 }: ContainerProps) => (
   <SpacingSection>
@@ -25,7 +25,7 @@ const Container: FunctionComponent<ContainerProps> = ({
   </SpacingSection>
 );
 
-const VisitUsStaticContent: FunctionComponent = () => {
+const VisitUsStaticContent: FC = () => {
   const openingTimes = useContext(OpeningTimesContext);
 
   return (

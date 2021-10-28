@@ -3,7 +3,7 @@ import Space from '../styled/Space';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
 import { UiImageType } from '../../../model/image';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 const Outer = styled('div').attrs({
   className: classNames({
@@ -35,7 +35,7 @@ type Props = {
   image: UiImageType;
 };
 
-const BookImage: FunctionComponent<Props> = ({
+const BookImage: FC<Props> = ({
   image,
 }: Props): ReactElement<Props> => {
   return (

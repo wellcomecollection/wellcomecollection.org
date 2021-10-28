@@ -4,7 +4,7 @@ import { UiImage } from '../Images/Images';
 import Layout8 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-import { FunctionComponent, ComponentProps, ReactElement } from 'react';
+import { FC, ComponentProps, ReactElement } from 'react';
 import Space from '../styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ type Props = {
   end: Date | undefined;
 };
 
-const SeasonsHeader: FunctionComponent<Props> = ({
+const SeasonsHeader: FC<Props> = ({
   labels,
   title,
   FeaturedMedia,

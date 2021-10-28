@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 import styled from 'styled-components';
@@ -304,7 +304,7 @@ export const links = [
   },
 ];
 
-const Header: FunctionComponent<Props> = ({ siteSection }) => {
+const Header: FC<Props> = ({ siteSection }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (

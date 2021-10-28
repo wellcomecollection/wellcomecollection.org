@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from './conversions';
 import { classNames, font } from '../../../utils/classnames';
@@ -139,7 +139,7 @@ export function getColorDisplayName(color: string | null) {
   }
 }
 
-const PaletteColorPicker: FunctionComponent<Props> = ({
+const PaletteColorPicker: FC<Props> = ({
   name,
   color,
   onChangeColor,

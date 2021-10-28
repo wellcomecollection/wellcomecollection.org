@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import Image from '../Image/Image';
 import MediaObjectBase, {
   HasImageProps,
@@ -51,7 +51,7 @@ const TitleWrapper = styled.div.attrs({
   }),
 })``;
 
-export const MediaObject: FunctionComponent<Props> = ({
+export const MediaObject: FC<Props> = ({
   title,
   text,
   image,

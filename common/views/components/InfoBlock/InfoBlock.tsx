@@ -4,7 +4,7 @@ import { HTMLString, PrismicLink } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 import { dasherize } from '@weco/common/utils/grammar';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled(Space).attrs({
@@ -20,7 +20,7 @@ type Props = {
   link: PrismicLink | null;
 };
 
-const InfoBlock: FunctionComponent<Props> = ({
+const InfoBlock: FC<Props> = ({
   title,
   text,
   linkText,

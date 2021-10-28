@@ -1,7 +1,7 @@
 import { classNames, font } from '../../../utils/classnames';
 import { ColorSelection } from '../../../model/color-selections';
 import Number from '@weco/common/views/components/Number/Number';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 type Props = {
   number: number;
@@ -9,7 +9,7 @@ type Props = {
   description?: 'Part' | 'Episode';
 };
 
-const PartNumberIndicator: FunctionComponent<Props> = ({
+const PartNumberIndicator: FC<Props> = ({
   number,
   color,
   description = 'Part',
