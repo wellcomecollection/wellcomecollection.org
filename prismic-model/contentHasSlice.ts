@@ -4,7 +4,7 @@
  * This is useful for finding where we have used slices, generally with the
  * aim to deprecate them.
  *
- * Where use slices exclusively on the `body` property of our custom types,
+ * We use slices exclusively on the `body` property of our custom types,
  * so this script queries that.
  *
  * e.g. we notice we have a "Discussion" slice, but need to know if it's used.
