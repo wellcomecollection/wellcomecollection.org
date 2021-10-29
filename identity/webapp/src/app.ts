@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
+
 require('@weco/common/services/apm/initApm')('identity-server');
 
 import Koa from 'koa';
@@ -7,21 +8,19 @@ import json from 'koa-json';
 import session from 'koa-session';
 import logger from 'koa-logger';
 import koaPassport from 'koa-passport';
+import Router from '@koa/router';
 import Ajv from 'ajv';
 import * as path from 'path';
 import next from 'next';
 import { readdirSync, readFileSync } from 'fs';
 import { errorHandler } from './middleware/error-handler';
-import { TypedRouter } from './utility/typed-router';
 import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
-export async function createApp(
-  router: TypedRouter<never, never>
-): Promise<Koa> {
+export async function createApp(router: Router<any, any>): Promise<Koa> {
   const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
   });

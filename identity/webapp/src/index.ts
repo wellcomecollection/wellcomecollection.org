@@ -1,8 +1,9 @@
 import { createApp } from './app';
 import { port } from './config';
-import { router } from './router';
+import { createRouter } from './router';
 
 async function main() {
+  const router = createRouter('/account');
   const app = await createApp(router);
 
   app.listen(port);
