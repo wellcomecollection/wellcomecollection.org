@@ -20,9 +20,6 @@ export const createRouter = (): Router<
   ApplicationContext
 > => {
   const accountRouter = new Router<ApplicationState, ApplicationContext>();
-  const apiRouter = new Router<ApplicationState, ApplicationContext>();
-
-  accountRouter.use(koaBody());
 
   const authRouter =
     process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
@@ -30,9 +27,13 @@ export const createRouter = (): Router<
       : localAuthRouter;
   accountRouter.use(
     '/account',
+    koaBody(),
     authRouter.routes(),
     authRouter.allowedMethods()
   );
+
+  const apiRouter = new Router<ApplicationState, ApplicationContext>();
+  apiRouter.use(koaBody());
 
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
