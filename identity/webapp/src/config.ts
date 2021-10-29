@@ -45,8 +45,10 @@ export const config = {
       `http://localhost:${port}/account/callback`,
   } as StrategyOption,
 
+  // Session / cookie options.
   session: {
-    // Session / cookie options.
+    secure: isProduction, // Needs to be HTTPS
+    httpOnly: true,
   } as Partial<SessionOpts>,
 
   logout: {
