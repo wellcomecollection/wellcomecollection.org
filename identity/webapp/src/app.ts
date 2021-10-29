@@ -22,13 +22,16 @@ import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 export async function createApp(
   router: TypedRouter<never, never>
 ): Promise<Koa> {
+  const isProduction = process.env.NODE_ENV === 'production';
+
   const nextApp = next({
-    dev: process.env.NODE_ENV !== 'production',
+    dev: !isProduction,
   });
   const nextHandler = nextApp.getRequestHandler();
   await nextApp.prepare();
 
   const app = new Koa();
+  app.proxy = isProduction;
   app.use(apmErrorMiddleware);
 
   app.context.routes = router;
