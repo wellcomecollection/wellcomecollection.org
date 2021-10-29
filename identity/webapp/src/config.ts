@@ -47,6 +47,9 @@ export const config = {
 
   // Session / cookie options.
   session: {
+    // This should be <= the idle_session_lifetime in Auth0
+    maxAge: 8 * 60 * 60 * 1000, // 8 hours
+    // Session / cookie options.
     secure: isProduction, // Needs to be HTTPS
     httpOnly: true,
   } as Partial<SessionOpts>,
