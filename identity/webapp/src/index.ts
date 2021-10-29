@@ -3,7 +3,7 @@ import { port } from './config';
 import { createRouter } from './router';
 
 async function main() {
-  const router = createRouter('/account');
+  const router = createRouter();
   const app = await createApp(router);
 
   app.listen(port);

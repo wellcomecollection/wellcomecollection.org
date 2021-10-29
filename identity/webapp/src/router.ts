@@ -13,10 +13,14 @@ import {
   getItemRequests,
   createItemRequest,
 } from './routes/api';
+import { ApplicationContext, ApplicationState } from './types/application';
 
-export const createRouter = (prefix: string): Router => {
-  const accountRouter = new Router({ prefix });
-  const apiRouter = new Router();
+export const createRouter = (): Router<
+  ApplicationState,
+  ApplicationContext
+> => {
+  const accountRouter = new Router<ApplicationState, ApplicationContext>();
+  const apiRouter = new Router<ApplicationState, ApplicationContext>();
 
   accountRouter.use(koaBody());
 
@@ -24,7 +28,11 @@ export const createRouter = (prefix: string): Router => {
     process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
       ? auth0AuthRouter
       : localAuthRouter;
-  accountRouter.use(authRouter.routes(), authRouter.allowedMethods());
+  accountRouter.use(
+    '/account',
+    authRouter.routes(),
+    authRouter.allowedMethods()
+  );
 
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
@@ -43,7 +51,11 @@ export const createRouter = (prefix: string): Router => {
     .get('/users/:user_id/item-requests', getItemRequests)
     .post('/users/:user_id/item-requests', createItemRequest);
 
-  accountRouter.use('/api', apiRouter.routes(), apiRouter.allowedMethods());
+  accountRouter.use(
+    '/account/api',
+    apiRouter.routes(),
+    apiRouter.allowedMethods()
+  );
 
   return accountRouter;
 };

@@ -18,9 +18,12 @@ import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { ApplicationContext, ApplicationState } from './types/application';
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
-export async function createApp(router: Router<any, any>): Promise<Koa> {
+export async function createApp(
+  router: Router<ApplicationState, ApplicationContext>
+): Promise<Koa> {
   const nextApp = next({
     dev: process.env.NODE_ENV !== 'production',
   });
@@ -29,8 +32,6 @@ export async function createApp(router: Router<any, any>): Promise<Koa> {
 
   const app = new Koa();
   app.use(apmErrorMiddleware);
-
-  app.context.routes = router;
 
   // Session.
   app.keys = config.sessionKeys;
@@ -73,9 +74,6 @@ export async function createApp(router: Router<any, any>): Promise<Koa> {
     ctx.redirect('/account/login');
   };
 
-  // API routes
-  app.use(router.routes()).use(router.allowedMethods());
-
   // Next specific routes
   router.get('/account', isAuthenticated, async ctx => {
     await nextHandler(ctx.req, ctx.res);
@@ -87,6 +85,9 @@ export async function createApp(router: Router<any, any>): Promise<Koa> {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
+
+  // API routes
+  app.use(router.routes()).use(router.allowedMethods());
 
   process.on('SIGINT', async () => {
     // Close any connections and clean up.
