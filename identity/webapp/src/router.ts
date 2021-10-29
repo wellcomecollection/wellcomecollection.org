@@ -1,7 +1,7 @@
 import Router from '@koa/router';
-import { localAuthRoutes } from './routes/local/local-auth';
 import { config } from './config';
-import { authCallback, loginAction, logoutAction } from './routes/auth';
+import { auth0AuthRouter } from './routes/auth0-auth';
+import { localAuthRouter } from './routes/local-auth';
 import { updatePassword } from './routes/api/update-password';
 import { registerUser } from './routes/api/register-user';
 import { getCurrentUser } from './routes/api/get-current-user';
@@ -11,23 +11,17 @@ import { itemRequests } from './routes/users/item-requests';
 import koaBody from 'koa-body';
 import { requestBody } from './middleware/request-body';
 
-const loginRoutes =
-  process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
-    ? {
-        // There are no routes in a production environment.
-      }
-    : localAuthRoutes;
-
-export const createRouter = (prefix: string) => {
+export const createRouter = (prefix: string): Router => {
   const accountRouter = new Router({ prefix });
   const apiRouter = new Router();
 
   accountRouter.use(koaBody());
 
-  accountRouter
-    .get('/login', loginAction)
-    .get('/logout', logoutAction)
-    .get('/callback', authCallback);
+  const authRouter =
+    process.env.NODE_ENV === 'production' || config.authMethod === 'auth0'
+      ? auth0AuthRouter
+      : localAuthRouter;
+  accountRouter.use(authRouter.routes(), authRouter.allowedMethods());
 
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)

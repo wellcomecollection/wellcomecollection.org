@@ -65,7 +65,6 @@ export async function createApp(router: Router<any, any>): Promise<Koa> {
   app.use(logger());
   app.use(errorHandler);
 
-  const koaRouter = router.router;
   const isAuthenticated = (ctx, next) => {
     if (ctx.isAuthenticated()) {
       return next();
@@ -75,16 +74,16 @@ export async function createApp(router: Router<any, any>): Promise<Koa> {
   };
 
   // API routes
-  app.use(koaRouter.routes()).use(koaRouter.allowedMethods());
+  app.use(router.routes()).use(router.allowedMethods());
 
   // Next specific routes
-  koaRouter.get('/account', isAuthenticated, async ctx => {
+  router.get('/account', isAuthenticated, async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
 
   // Next catch-all route
-  koaRouter.get('(.*)', async ctx => {
+  router.get('(.*)', async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
