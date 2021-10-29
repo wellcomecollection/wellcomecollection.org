@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
@@ -24,13 +24,17 @@ type ItemsState = 'initial' | 'stale' | 'up-to-date';
 
 const PhysicalItems: FunctionComponent<Props> = ({
   work,
-  items: initialItems,
+  items: workItems,
 }: Props) => {
   const { state: userState } = useUser();
   const { enableRequesting } = useContext(TogglesContext);
   const [userHolds, setUserHolds] = useState<Set<string>>();
-  const [physicalItems, setPhysicalItems] = useState(initialItems);
+  const [physicalItems, setPhysicalItems] = useState(workItems);
   const [itemsState, setItemsState] = useState<ItemsState>('initial');
+
+  useEffect(() => {
+    setPhysicalItems(workItems);
+  }, [workItems]);
 
   useAbortSignalEffect(
     signal => {
@@ -92,8 +96,8 @@ const PhysicalItems: FunctionComponent<Props> = ({
        */
 
       if (
-        initialItems.some(itemIsTemporarilyUnavailable) ||
-        (enableRequesting && initialItems.some(itemIsRequestable))
+        workItems.some(itemIsTemporarilyUnavailable) ||
+        (enableRequesting && workItems.some(itemIsRequestable))
       ) {
         setItemsState('stale');
         updateItemsStatus().catch(abortErrorHandler);
