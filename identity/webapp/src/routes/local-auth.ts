@@ -1,8 +1,9 @@
 import Router from '@koa/router';
+import { RouteMiddleware } from '../types/application';
 
 const localAuthRouter = new Router();
 
-const loginForm = ctx => {
+const loginForm: RouteMiddleware = ctx => {
   ctx.response.body = `
       <form method="post" action="/account/login">
         <input type="text" name="username" />
@@ -12,11 +13,11 @@ const loginForm = ctx => {
     `;
 };
 
-const callbackResponse = ctx => {
+const callbackResponse: RouteMiddleware = ctx => {
   ctx.status = 404;
 };
 
-const logoutRedirect = ctx => {
+const logoutRedirect: RouteMiddleware = ctx => {
   ctx.logout();
   ctx.redirect('/');
 };

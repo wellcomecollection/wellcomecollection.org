@@ -1,15 +1,18 @@
 import Router from '@koa/router';
+import koaBody from 'koa-body';
+import { requestBody } from './middleware/request-body';
 import { config } from './config';
 import { auth0AuthRouter } from './routes/auth0-auth';
 import { localAuthRouter } from './routes/local-auth';
-import { updatePassword } from './routes/api/update-password';
-import { registerUser } from './routes/api/register-user';
-import { getCurrentUser } from './routes/api/get-current-user';
-import { updateCurrentUser } from './routes/api/update-current-user';
-import { requestDelete } from './routes/api/request-delete';
-import { itemRequests } from './routes/users/item-requests';
-import koaBody from 'koa-body';
-import { requestBody } from './middleware/request-body';
+import {
+  registerUser,
+  getCurrentUser,
+  updateCurrentUser,
+  updatePassword,
+  requestDelete,
+  getItemRequests,
+  createItemRequest,
+} from './routes/api';
 
 export const createRouter = (prefix: string): Router => {
   const accountRouter = new Router({ prefix });
@@ -37,8 +40,8 @@ export const createRouter = (prefix: string): Router => {
       requestBody('RequestDeleteSchema'),
       requestDelete
     )
-    .get('/users/:user_id/item-requests', itemRequests)
-    .post('/users/:user_id/item-requests', itemRequests);
+    .get('/users/:user_id/item-requests', getItemRequests)
+    .post('/users/:user_id/item-requests', createItemRequest);
 
   accountRouter.use('/api', apiRouter.routes(), apiRouter.allowedMethods());
 
