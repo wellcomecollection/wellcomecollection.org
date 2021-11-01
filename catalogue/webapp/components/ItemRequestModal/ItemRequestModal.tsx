@@ -193,7 +193,7 @@ const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive }) => (
 
 type RequestingState = undefined | 'requesting' | 'confirmed' | 'error';
 
-const ConfirmItemRequest: FC<Props> = ({
+const ItemRequestModal: FC<Props> = ({
   item,
   work,
   setIsActive,
@@ -285,4 +285,4 @@ const ConfirmItemRequest: FC<Props> = ({
   );
 };
 
-export default ConfirmItemRequest;
+export default ItemRequestModal;

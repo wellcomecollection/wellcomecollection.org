@@ -19,7 +19,7 @@ import {
   getEncoreLink,
   getFirstAccessCondition,
 } from '@weco/common/utils/works';
-import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
+import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
@@ -204,7 +204,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   return (
     <>
       {enableRequesting && (
-        <ConfirmItemRequest
+        <ItemRequestModal
           isActive={requestModalIsActive}
           setIsActive={setRequestModalIsActive}
           item={item}
