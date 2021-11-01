@@ -1,4 +1,10 @@
-import { FunctionComponent, ReactNode, useContext, useState } from 'react';
+import {
+  FunctionComponent,
+  ReactNode,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,6 +24,7 @@ import StackingTable from '@weco/common/views/components/StackingTable/StackingT
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -75,6 +82,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const { state: userState } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
+  const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
@@ -131,13 +139,11 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   function createRows() {
     const requestButton = enableRequesting ? (
-      <ConfirmItemRequest
-        isActive={requestModalIsActive}
-        setIsActive={setRequestModalIsActive}
-        item={item}
-        work={work}
-        initialHoldNumber={userHeldItems?.size}
-        onSuccess={() => setRequestWasCompleted(true)}
+      <ButtonOutlined
+        disabled={userState !== 'signedin'}
+        ref={requestButtonRef}
+        text={'Request item'}
+        clickHandler={() => setRequestModalIsActive(true)}
       />
     ) : (
       requestItemUrl && (
@@ -197,6 +203,17 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   return (
     <>
+      {enableRequesting && (
+        <ConfirmItemRequest
+          isActive={requestModalIsActive}
+          setIsActive={setRequestModalIsActive}
+          item={item}
+          work={work}
+          initialHoldNumber={userHeldItems?.size}
+          onSuccess={() => setRequestWasCompleted(true)}
+          openButtonRef={requestButtonRef}
+        />
+      )}
       <Wrapper underline={!isLast}>
         {(title || itemNote) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

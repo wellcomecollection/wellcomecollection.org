@@ -7,6 +7,7 @@ import {
   FunctionComponent,
   RefObject,
   createRef,
+  MutableRefObject,
 } from 'react';
 import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
@@ -37,7 +38,7 @@ type Props = {
   setIsActive: (value: boolean) => void;
   width?: string | null;
   id: string;
-  openButtonRef: { current: HTMLElement | null };
+  openButtonRef: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   overrideDefaultModalStyle?: boolean;
 };

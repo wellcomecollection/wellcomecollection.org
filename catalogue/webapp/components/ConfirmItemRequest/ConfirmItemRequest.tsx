@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useEffect, MutableRefObject } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -10,7 +10,6 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -64,6 +63,7 @@ type Props = {
   isActive: boolean;
   onSuccess: () => void;
   setIsActive: (value: boolean) => void;
+  openButtonRef: MutableRefObject<HTMLButtonElement | null>;
   initialHoldNumber?: number;
 };
 
@@ -199,10 +199,9 @@ const ConfirmItemRequest: FC<Props> = ({
   setIsActive,
   initialHoldNumber,
   onSuccess,
+  openButtonRef,
   ...modalProps
 }) => {
-  const { state: userState } = useUser();
-  const openButtonRef = useRef<HTMLButtonElement>(null);
   const [requestingState, setRequestingState] = useState<RequestingState>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
@@ -274,32 +273,15 @@ const ConfirmItemRequest: FC<Props> = ({
   }
 
   return (
-    <>
-      {/* Hide the request button immediately after a request is made so that  */}
-      {/* there is some signifier of success; we can't update the item listing */}
-      {/* itself yet because the Sierra API is not read-consistent. This does  */}
-      {/* mean that if a user refreshes the page immediately after making a    */}
-      {/* request, it will look like nothing has happened - we can't currently */}
-      {/* do anything about that :(                                            */}
-      {requestingState !== 'confirmed' && (
-        <ButtonOutlined
-          disabled={userState !== 'signedin'}
-          ref={openButtonRef}
-          text={'Request item'}
-          clickHandler={() => setIsActive(true)}
-        />
-      )}
-
-      <Modal
-        {...modalProps}
-        removeCloseButton={requestingState === 'requesting'}
-        id="confirm-request-modal"
-        setIsActive={innerSetIsActive}
-        openButtonRef={openButtonRef}
-      >
-        {renderModalContent(requestingState)}
-      </Modal>
-    </>
+    <Modal
+      {...modalProps}
+      removeCloseButton={requestingState === 'requesting'}
+      id="confirm-request-modal"
+      setIsActive={innerSetIsActive}
+      openButtonRef={openButtonRef}
+    >
+      {renderModalContent(requestingState)}
+    </Modal>
   );
 };
 
