@@ -131,6 +131,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showButton = enableRequesting
     ? isRequestable && userState === 'signedin'
     : !!requestItemUrl;
+  const userNotLoaded = userState === 'loading' || userState === 'initial';
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -166,8 +167,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     ];
 
     const isLoading =
-      accessDataIsStale ||
-      (enableRequesting && isRequestable && userState === 'loading');
+      accessDataIsStale || (enableRequesting && isRequestable && userNotLoaded);
     if (showAccessStatus) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
@@ -237,7 +237,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
               // We don't know exactly what we'll render until we know whether the user holds this item
               isLoading={
                 accessDataIsStale ||
-                userState === 'loading' ||
+                userNotLoaded ||
                 (userState === 'signedin' && !userHeldItems)
               }
               maxWidth="50%"

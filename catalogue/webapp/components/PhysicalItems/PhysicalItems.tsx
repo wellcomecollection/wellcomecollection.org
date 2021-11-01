@@ -20,17 +20,60 @@ type Props = {
   items: PhysicalItem[];
 };
 
-type ItemsState = 'initial' | 'stale' | 'up-to-date';
+type ItemsState = 'stale' | 'up-to-date';
+
+const getItemsState = (
+  items: PhysicalItem[],
+  enableRequesting: boolean
+): ItemsState =>
+  items.some(itemIsTemporarilyUnavailable) ||
+  (enableRequesting && items.some(itemIsRequestable))
+    ? 'stale'
+    : 'up-to-date';
+
+const useItemsState = (
+  items: PhysicalItem[]
+): [ItemsState, (s: ItemsState) => void] => {
+  const { enableRequesting } = useContext(TogglesContext);
+  /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
+   *
+   * What if we don’t call the items API? There are two possible error cases:
+   *
+   * (1) We don’t show a “request item” button when an item is ready to request.
+   *     This could occur if an item was on hold, has been returned to the stores,
+   *     and we haven’t had the update through the catalogue pipeline yet.
+   * (2) We show a “request item” button when an item isn’t available to request.
+   *     Run the same scenario in reverse: somebody has put the item on hold,
+   *     but we haven’t realised yet in the catalogue API.
+   *
+   * Error (2) is worse than error (1).
+   *
+   * To avoid them:
+   *
+   * Query the items API if the status is “temporarily unavailable”
+   * Query the items API if you want to display a button based on the catalogue API data
+   *
+   * In all other cases the items API would be a no-op.
+   */
+  const [itemsState, setItemsState] = useState<ItemsState>(
+    getItemsState(items, enableRequesting)
+  );
+
+  useEffect(() => {
+    setItemsState(getItemsState(items, enableRequesting));
+  }, [items]);
+
+  return [itemsState, setItemsState];
+};
 
 const PhysicalItems: FunctionComponent<Props> = ({
   work,
   items: workItems,
 }: Props) => {
   const { state: userState } = useUser();
-  const { enableRequesting } = useContext(TogglesContext);
   const [userHolds, setUserHolds] = useState<Set<string>>();
   const [physicalItems, setPhysicalItems] = useState(workItems);
-  const [itemsState, setItemsState] = useState<ItemsState>('initial');
+  const [itemsState, setItemsState] = useItemsState(workItems);
 
   useEffect(() => {
     setPhysicalItems(workItems);
@@ -74,38 +117,11 @@ const PhysicalItems: FunctionComponent<Props> = ({
         // }
       };
 
-      /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
-       *
-       * What if we don’t call the items API? There are two possible error cases:
-       *
-       * (1) We don’t show a “request item” button when an item is ready to request.
-       *     This could occur if an item was on hold, has been returned to the stores,
-       *     and we haven’t had the update through the catalogue pipeline yet.
-       * (2) We show a “request item” button when an item isn’t available to request.
-       *     Run the same scenario in reverse: somebody has put the item on hold,
-       *     but we haven’t realised yet in the catalogue API.
-       *
-       * Error (2) is worse than error (1).
-       *
-       * To avoid them:
-       *
-       * Query the items API if the status is “temporarily unavailable”
-       * Query the items API if you want to display a button based on the catalogue API data
-       *
-       * In all other cases the items API would be a no-op.
-       */
-
-      if (
-        workItems.some(itemIsTemporarilyUnavailable) ||
-        (enableRequesting && workItems.some(itemIsRequestable))
-      ) {
-        setItemsState('stale');
+      if (itemsState === 'stale') {
         updateItemsStatus().catch(abortErrorHandler);
-      } else {
-        setItemsState('up-to-date');
       }
     },
-    [work.id]
+    [itemsState]
   );
 
   return (

@@ -7,25 +7,25 @@ export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
   user: UserInfo | undefined;
   state: State;
-  enabled: boolean;
   reload: () => void;
   _updateUserState: (update: Partial<UserInfo>) => void;
 };
 
-export const UserContext = createContext<Props>({
+const defaultUserContext: Props = {
   user: undefined,
   state: 'initial',
-  enabled: false,
   reload: () => void 0,
   _updateUserState: () => void 0,
-});
+};
+
+export const UserContext = createContext<Props>(defaultUserContext);
 
 export function useUser(): Props {
   const contextState = useContext(UserContext);
   return contextState;
 }
 
-const UserProvider: FC = ({ children }) => {
+const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
@@ -67,15 +67,17 @@ const UserProvider: FC = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{
-        user,
-        state,
-        // We can remove this once we're untoggled
-        enabled: true,
-        reload: fetchUser,
-        // This is intended for "internal" use only in the identity app
-        _updateUserState: updateUserState,
-      }}
+      value={
+        enabled
+          ? {
+              user,
+              state,
+              reload: fetchUser,
+              // This is intended for "internal" use only in the identity app
+              _updateUserState: updateUserState,
+            }
+          : defaultUserContext
+      }
     >
       {children}
     </UserContext.Provider>
@@ -87,11 +89,10 @@ const ToggledUserProvider: FC<{ forceEnable?: boolean }> = ({
   forceEnable,
 }) => {
   const toggles = useContext(TogglesContext);
-
-  return toggles.enableRequesting || forceEnable ? (
-    <UserProvider>{children}</UserProvider>
-  ) : (
-    <>{children}</>
+  return (
+    <UserProvider enabled={Boolean(toggles.enableRequesting || forceEnable)}>
+      {children}
+    </UserProvider>
   );
 };
 
