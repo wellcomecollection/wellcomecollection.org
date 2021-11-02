@@ -1,7 +1,7 @@
 import { createContext, FC, useContext, useState } from 'react';
 import { UserInfo } from '../../../model/user';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
+import { useToggles } from '../../../server-data/Context';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
@@ -86,7 +86,7 @@ const ToggledUserProvider: FC<{ forceEnable?: boolean }> = ({
   children,
   forceEnable,
 }) => {
-  const toggles = useContext(TogglesContext);
+  const toggles = useToggles();
 
   return toggles.enableRequesting || forceEnable ? (
     <UserProvider>{children}</UserProvider>

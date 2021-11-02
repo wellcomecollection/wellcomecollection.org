@@ -23,7 +23,6 @@ import {
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import Download from '../Download/Download';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
@@ -51,6 +50,7 @@ import {
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import { itemIsRequestable } from '../../utils/requesting';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -79,7 +79,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { enableRequesting } = useContext(TogglesContext);
+  const { enableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
