@@ -79,7 +79,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { state: userState } = useUser();
+  const { state: userState, enabled: userEnabled } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useContext(TogglesContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -131,7 +131,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showButton = enableRequesting
     ? isRequestable && userState === 'signedin'
     : !!requestItemUrl;
-  const userNotLoaded = userState === 'loading' || userState === 'initial';
+  const userNotLoaded =
+    userEnabled && (userState === 'loading' || userState === 'initial');
 
   const title = item.title || '';
   const itemNote = item.note || '';

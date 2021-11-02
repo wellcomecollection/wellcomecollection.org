@@ -5,6 +5,7 @@ import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 type Props = {
+  enabled: boolean;
   user: UserInfo | undefined;
   state: State;
   reload: () => void;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const defaultUserContext: Props = {
+  enabled: false,
   user: undefined,
   state: 'initial',
   reload: () => void 0,
@@ -70,6 +72,7 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
       value={
         enabled
           ? {
+              enabled,
               user,
               state,
               reload: fetchUser,
