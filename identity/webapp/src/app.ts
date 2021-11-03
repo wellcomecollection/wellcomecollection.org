@@ -19,12 +19,15 @@ import { config } from './config';
 import { configureAuth0 } from './utility/configure-auth0';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 import { ApplicationContext, ApplicationState } from './types/application';
+import { init as initServerData } from '@weco/common/server-data';
+
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
 export async function createApp(
   router: Router<ApplicationState, ApplicationContext>
 ): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';
+  await initServerData();
 
   const nextApp = next({
     dev: !isProduction,

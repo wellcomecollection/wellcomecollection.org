@@ -1,6 +1,6 @@
 import React, { FC, ComponentProps, useState } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -38,6 +38,10 @@ import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { getServerData } from '@weco/common/server-data';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { ServerData } from '@weco/common/server-data/types';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
 
 type DetailProps = {
   label: string;
@@ -85,6 +89,23 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
     </StatusAlert>
   );
 };
+
+type Props = {
+  serverData: ServerData;
+};
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        globalContextData: {
+          toggles: { enableRequesting: true },
+        },
+      }),
+    };
+  };
 
 const AccountPage: NextPage = () => {
   const router = useRouter();
