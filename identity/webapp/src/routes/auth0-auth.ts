@@ -1,10 +1,11 @@
+import Router from '@koa/router';
 import { RouteMiddleware } from '../types/application';
 import koaPassport from 'koa-passport';
 import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';
 
-export const loginAction: RouteMiddleware = (ctx, next) => {
+const loginAction: RouteMiddleware = (ctx, next) => {
   if (!ctx.session.returnTo) {
     // Don't overwrite returnTo if e.g. user enters wrong password
     ctx.session.returnTo = ctx.request.headers.referer;
@@ -15,7 +16,7 @@ export const loginAction: RouteMiddleware = (ctx, next) => {
   })(ctx, next);
 };
 
-export const authCallback: RouteMiddleware = (ctx, next) => {
+const authCallback: RouteMiddleware = (ctx, next) => {
   return koaPassport.authenticate('auth0', (err, user, info) => {
     if (err) {
       ctx.status = err.status || 500;
@@ -44,7 +45,7 @@ export const authCallback: RouteMiddleware = (ctx, next) => {
   })(ctx, next);
 };
 
-export const logoutAction: RouteMiddleware = ctx => {
+const logoutAction: RouteMiddleware = ctx => {
   const { returnTo } = ctx.request.query;
 
   ctx.logout();
@@ -60,3 +61,12 @@ export const logoutAction: RouteMiddleware = ctx => {
 
   ctx.redirect(logoutUri.toString());
 };
+
+const auth0AuthRouter = new Router();
+
+auth0AuthRouter
+  .get('/login', loginAction)
+  .get('/callback', authCallback)
+  .get('/logout', logoutAction);
+
+export { auth0AuthRouter };
