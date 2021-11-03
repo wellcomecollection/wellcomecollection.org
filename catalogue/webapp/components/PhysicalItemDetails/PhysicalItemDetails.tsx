@@ -1,4 +1,10 @@
-import { FunctionComponent, ReactNode, useContext, useState } from 'react';
+import {
+  FunctionComponent,
+  ReactNode,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -12,11 +18,12 @@ import {
   getEncoreLink,
   getFirstAccessCondition,
 } from '@weco/common/utils/works';
-import ConfirmItemRequest from '../ConfirmItemRequest/ConfirmItemRequest';
+import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { useToggles } from '@weco/common/server-data/Context';
 
 const Wrapper = styled(Space).attrs({
@@ -72,9 +79,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { state: userState } = useUser();
+  const { state: userState, enabled: userEnabled } = useUser();
   const isArchive = useContext(IsArchiveContext);
   const { enableRequesting } = useToggles();
+  const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
 
@@ -123,6 +131,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showButton = enableRequesting
     ? isRequestable && userState === 'signedin'
     : !!requestItemUrl;
+  const userNotLoaded =
+    userEnabled && (userState === 'loading' || userState === 'initial');
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -131,13 +141,11 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   function createRows() {
     const requestButton = enableRequesting ? (
-      <ConfirmItemRequest
-        isActive={requestModalIsActive}
-        setIsActive={setRequestModalIsActive}
-        item={item}
-        work={work}
-        initialHoldNumber={userHeldItems?.size}
-        onSuccess={() => setRequestWasCompleted(true)}
+      <ButtonOutlined
+        disabled={userState !== 'signedin'}
+        ref={requestButtonRef}
+        text={'Request item'}
+        clickHandler={() => setRequestModalIsActive(true)}
       />
     ) : (
       requestItemUrl && (
@@ -160,8 +168,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     ];
 
     const isLoading =
-      accessDataIsStale ||
-      (enableRequesting && isRequestable && userState === 'loading');
+      accessDataIsStale || (enableRequesting && isRequestable && userNotLoaded);
     if (showAccessStatus) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
@@ -197,6 +204,17 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   return (
     <>
+      {enableRequesting && (
+        <ItemRequestModal
+          isActive={requestModalIsActive}
+          setIsActive={setRequestModalIsActive}
+          item={item}
+          work={work}
+          initialHoldNumber={userHeldItems?.size}
+          onSuccess={() => setRequestWasCompleted(true)}
+          openButtonRef={requestButtonRef}
+        />
+      )}
       <Wrapper underline={!isLast}>
         {(title || itemNote) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
@@ -220,7 +238,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
               // We don't know exactly what we'll render until we know whether the user holds this item
               isLoading={
                 accessDataIsStale ||
-                userState === 'loading' ||
+                userNotLoaded ||
                 (userState === 'signedin' && !userHeldItems)
               }
               maxWidth="50%"
