@@ -7,7 +7,6 @@ import {
   Container,
   Title,
   Header,
-  Intro,
 } from '../src/frontend/components/Layout.style';
 import {
   SectionHeading,
@@ -22,7 +21,7 @@ import {
   ItemPickup,
   ButtonWrapper,
 } from '../src/frontend/MyAccount/MyAccount.style';
-import { Loading } from '../src/frontend/MyAccount/Loading';
+import { InlineLoading, Loading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
@@ -65,6 +64,26 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
   );
 };
 
+const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
+  <p className={`${font('hnr', 5)}`}>
+    Something went wrong fetching your item requests.
+    <button
+      className={font('hnr', 5)}
+      onClick={() => {
+        retry();
+      }}
+      style={{
+        border: 'none',
+        background: 'none',
+        cursor: 'pointer',
+        textDecoration: 'underline',
+      }}
+    >
+      Try again
+    </button>
+  </p>
+);
+
 const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   type,
   children,
@@ -90,7 +109,11 @@ const AccountPage: NextPage = () => {
   const router = useRouter();
   const { user, state: userState } = useUser();
 
-  const requests = useRequestedItems(user?.userId);
+  const {
+    requestedItems,
+    state: requestedItemsState,
+    fetchRequests,
+  } = useRequestedItems();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
@@ -116,12 +139,6 @@ const AccountPage: NextPage = () => {
             }}
           >
             <Title>Library account</Title>
-            <Intro>
-              {/* TODO get real text */}
-              {/* Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis magni reprehenderit at cum repudiandae
-              architecto eaque facere optio culpa, quasi amet, nobis ipsa quaerat error debitis maxime minima veritatis.
-              Corrupti? */}
-            </Intro>
           </Space>
         </Layout12>
         <div className="is-hidden-s">
@@ -183,69 +200,95 @@ const AccountPage: NextPage = () => {
             <SectionHeading>Item requests</SectionHeading>
             <Container>
               <Wrapper>
-                {requests && requests.totalResults === 0 && (
-                  <p className={`${font('hnr', 5)}`}>
-                    Any item requests you make will appear here.
-                  </p>
-                )}
-                {requests && requests.totalResults !== 0 && (
-                  <>
-                    <Space
-                      as="p"
-                      className={`${font('hnb', 5)}`}
-                      v={{ size: 's', properties: ['margin-bottom'] }}
-                    >{`You have requested ${requests?.totalResults} out of ${allowedRequests} items`}</Space>
-                    <ProgressBar>
-                      <ProgressIndicator
-                        percentage={
-                          (requests.totalResults / allowedRequests) * 100
-                        }
-                      />
-                    </ProgressBar>
-                    <StackingTable
-                      rows={[
-                        ['Title', 'Status', 'Pickup location'],
-                        ...requests.results.map(result => [
+                {(() => {
+                  switch (requestedItemsState) {
+                    case 'initial':
+                    case 'loading':
+                      return (
+                        <Space
+                          v={{ size: 'l', properties: ['padding-bottom'] }}
+                        >
+                          <InlineLoading />
+                        </Space>
+                      );
+                    case 'success':
+                      return <RequestsFailed retry={fetchRequests} />;
+                    case 'success':
+                      if (requestedItems.totalResults === 0) {
+                        return (
+                          <p className={`${font('hnr', 5)}`}>
+                            Any item requests you make will appear here.
+                          </p>
+                        );
+                      } else {
+                        return (
                           <>
-                            <ItemTitle as="a" href={`/works/${result.workId}`}>
-                              {result.workTitle || 'Unknown title'}
-                            </ItemTitle>
-                            {result.item.title && (
-                              <Space
-                                v={{
-                                  size: 's',
-                                  properties: ['margin-top'],
-                                }}
-                              >
-                                <ItemTitle>{result.item.title}</ItemTitle>
-                              </Space>
-                            )}
-                          </>,
-                          <ItemStatus key={`${result.item.id}-status`}>
-                            {result.status.label}
-                          </ItemStatus>,
-                          <ItemPickup key={`${result.item.id}-pickup`}>
-                            {result.pickupLocation.label}
-                          </ItemPickup>,
-                        ]),
-                      ]}
-                    />
-                    <Space
-                      className={`${font('hnr', 5)}`}
-                      v={{
-                        size: 'l',
-                        properties: ['margin-top', 'margin-bottom'],
-                      }}
-                    >
-                      Requests made will be available to pick up from the
-                      library for one week. If you wish to cancel a request,
-                      please{' '}
-                      <a href="mailto:library@wellcomecollection.org">
-                        contact the library team.
-                      </a>
-                    </Space>
-                  </>
-                )}
+                            <Space
+                              as="p"
+                              className={`${font('hnb', 5)}`}
+                              v={{ size: 's', properties: ['margin-bottom'] }}
+                            >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
+                            <ProgressBar>
+                              <ProgressIndicator
+                                percentage={
+                                  (requestedItems.totalResults /
+                                    allowedRequests) *
+                                  100
+                                }
+                              />
+                            </ProgressBar>
+                            <StackingTable
+                              rows={[
+                                ['Title', 'Status', 'Pickup location'],
+                                ...requestedItems.results.map(result => [
+                                  <>
+                                    <ItemTitle
+                                      as="a"
+                                      href={`/works/${result.workId}`}
+                                    >
+                                      {result.workTitle || 'Unknown title'}
+                                    </ItemTitle>
+                                    {result.item.title && (
+                                      <Space
+                                        v={{
+                                          size: 's',
+                                          properties: ['margin-top'],
+                                        }}
+                                      >
+                                        <ItemTitle>
+                                          {result.item.title}
+                                        </ItemTitle>
+                                      </Space>
+                                    )}
+                                  </>,
+                                  <ItemStatus key={`${result.item.id}-status`}>
+                                    {result.status.label}
+                                  </ItemStatus>,
+                                  <ItemPickup key={`${result.item.id}-pickup`}>
+                                    {result.pickupLocation.label}
+                                  </ItemPickup>,
+                                ]),
+                              ]}
+                            />
+                            <Space
+                              className={`${font('hnr', 5)}`}
+                              v={{
+                                size: 'l',
+                                properties: ['margin-top', 'margin-bottom'],
+                              }}
+                            >
+                              Requests made will be available to pick up from
+                              the library for one week. If you wish to cancel a
+                              request, please{' '}
+                              <a href="mailto:library@wellcomecollection.org">
+                                contact the library team.
+                              </a>
+                            </Space>
+                          </>
+                        );
+                      }
+                  }
+                })()}
               </Wrapper>
             </Container>
 

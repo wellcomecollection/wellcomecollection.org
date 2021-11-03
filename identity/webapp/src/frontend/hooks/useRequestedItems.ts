@@ -1,42 +1,46 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RequestsList } from '@weco/common/model/requesting';
 import { callMiddlewareApi } from '../../utility/middleware-api-client';
+import {
+  abortErrorHandler,
+  useAbortSignalEffect,
+} from '@weco/common/hooks/useAbortSignalEffect';
 
-// TODO the requests API should be able to handle the "me" userId
-export function useRequestedItems(userId?: string): RequestsList | undefined {
+type State = 'initial' | 'loading' | 'success' | 'failed';
+
+type UseRequestedItems = {
+  requestedItems?: RequestsList;
+  fetchRequests: (abortSignal?: AbortSignal) => void;
+  state: State;
+};
+
+export function useRequestedItems(): UseRequestedItems {
+  const [state, setState] = useState<State>('initial');
   const [requestedItems, setRequestedItems] = useState<
     RequestsList | undefined
   >();
 
-  useEffect(() => {
-    const cancelSource = axios.CancelToken.source();
-    async function fetchRequests() {
-      if (userId) {
-        try {
-          const items = await callMiddlewareApi(
-            'GET',
-            `/account/api/users/${userId}/item-requests`,
-            undefined,
-            {
-              cancelToken: cancelSource.token,
-            }
-          );
-          if (items.data) {
-            setRequestedItems(items.data);
-          }
-        } catch (error) {
-          if (!axios.isCancel(error)) {
-            throw error;
-          }
-        }
+  async function fetchRequests(abortSignal?: AbortSignal) {
+    setState('loading');
+    try {
+      const items = await callMiddlewareApi(
+        'GET',
+        `/account/api/users/me/item-requests`,
+        undefined,
+        { signal: abortSignal }
+      );
+      if (items.data) {
+        setRequestedItems(items.data);
+        setState('success');
       }
+    } catch (e) {
+      setState('failed');
     }
+  }
 
-    fetchRequests();
+  useAbortSignalEffect(signal => {
+    fetchRequests(signal).catch(abortErrorHandler);
+  }, []);
 
-    return cancelSource.cancel;
-  }, [userId]);
-
-  return requestedItems;
+  return { requestedItems, state, fetchRequests };
 }
