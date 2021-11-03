@@ -26,7 +26,9 @@ export const Container = styled(LayoutContainer)`
 export const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})``;
+})`
+  position: relative;
+`;
 
 export const ButtonWrapper = styled(Space).attrs({
   as: 'span',

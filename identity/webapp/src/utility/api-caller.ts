@@ -29,7 +29,7 @@ export async function callRemoteApi(
   let request: AxiosRequestConfig = {
     method,
     url,
-    headers: identityInstance.defaults.headers,
+    headers: identityInstance.defaults.headers.common,
     validateStatus: (status: number) => status >= 200 && status < 300,
   };
 
