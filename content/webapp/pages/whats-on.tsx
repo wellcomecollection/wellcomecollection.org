@@ -52,7 +52,9 @@ import { SectionPageHeader } from '@weco/common/views/components/styled/SectionP
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const segmentedControlItems = [
   {
@@ -340,10 +342,14 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
 const pageDescription =
   'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
 
-export class WhatsOnPage extends Component<Props> {
-  static getInitialProps = async (context: NextPageContext) => {
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
     const globalContextData = getGlobalContextData(context);
-    const period = context.query.period || 'current-and-coming-up';
+
+    const period = context.query.period
+      ? context.query.period.toString()
+      : 'current-and-coming-up';
+
     const { memoizedPrismic } = context.query;
 
     // call prisimic for specific content for section page such as featured text
@@ -352,6 +358,7 @@ export class WhatsOnPage extends Component<Props> {
       prismicPageIds.whatsOn,
       memoizedPrismic
     );
+
     const exhibitionsPromise = getExhibitions(
       context.req,
       {
@@ -360,6 +367,7 @@ export class WhatsOnPage extends Component<Props> {
       },
       memoizedPrismic
     );
+
     const eventsPromise = getEvents(
       context.req,
       {
@@ -386,276 +394,274 @@ export class WhatsOnPage extends Component<Props> {
         availableOnlineEventsPromise,
         whatsOnPagePromise,
       ]);
+
     const dateRange = getMomentsForPeriod(period);
+
     const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
 
     if (period && events && exhibitions) {
       return {
-        period,
-        exhibitions,
-        events,
-        availableOnlineEvents,
-        dateRange,
-        tryTheseTooPromos: [readingRoomPromo],
-        eatShopPromos: [cafePromo],
-        cafePromo,
-        dailyTourPromo,
-        featuredText,
-        globalContextData,
+        props: removeUndefinedProps({
+          period,
+          exhibitions,
+          events,
+          availableOnlineEvents,
+          dateRange,
+          tryTheseTooPromos: [readingRoomPromo],
+          eatShopPromos: [cafePromo],
+          cafePromo,
+          dailyTourPromo,
+          featuredText,
+          globalContextData,
+        }),
       };
     } else {
-      return { statusCode: 404 };
+      return { notFound: true };
     }
   };
 
-  render() {
-    const {
-      globalContextData,
-      period,
-      dateRange,
-      tryTheseTooPromos,
-      eatShopPromos,
-      featuredText,
-    } = this.props;
+const WhatsOnPage = (props: Props) => {
+  const {
+    globalContextData,
+    period,
+    dateRange,
+    tryTheseTooPromos,
+    eatShopPromos,
+    featuredText,
+  } = props;
 
-    const events = this.props.events.results.map(convertJsonToDates);
-    const availableOnlineEvents =
-      this.props.availableOnlineEvents.results.map(convertJsonToDates);
-    const exhibitions = this.props.exhibitions.results.map(exhibition => {
-      return {
-        ...exhibition,
-        start: exhibition.start && new Date(exhibition.start),
-        end: exhibition.end && new Date(exhibition.end),
-      };
-    });
-    const firstExhibition = exhibitions[0];
+  const events = props.events.results.map(convertJsonToDates);
 
-    const extraTitleText = segmentedControlItems.find(
-      item => item.id === period
-    );
-    const pageTitle = extraTitleText
-      ? `What's on${` - ${extraTitleText.text}`}`
-      : `What's on`;
+  const availableOnlineEvents =
+    props.availableOnlineEvents.results.map(convertJsonToDates);
 
-    return (
-      <PageLayout
-        title={pageTitle}
-        description={pageDescription}
-        url={{ pathname: `/whats-on` }}
-        jsonLd={
-          [
-            ...exhibitions.map(exhibitionLd),
-            ...events.map(eventLd),
-          ] as JsonLdObj[]
-        }
-        openGraphType={'website'}
-        siteSection={'whats-on'}
-        imageUrl={
-          firstExhibition &&
+  const exhibitions = props.exhibitions.results.map(exhibition => {
+    return {
+      ...exhibition,
+      start: exhibition.start && new Date(exhibition.start),
+      end: exhibition.end && new Date(exhibition.end),
+    };
+  });
+
+  const firstExhibition = exhibitions[0];
+
+  const extraTitleText = segmentedControlItems.find(item => item.id === period);
+  const pageTitle = extraTitleText
+    ? `What's on${` - ${extraTitleText.text}`}`
+    : `What's on`;
+
+  return (
+    <PageLayout
+      title={pageTitle}
+      description={pageDescription}
+      url={{ pathname: `/whats-on` }}
+      jsonLd={
+        [
+          ...exhibitions.map(exhibitionLd),
+          ...events.map(eventLd),
+        ] as JsonLdObj[]
+      }
+      openGraphType={'website'}
+      siteSection={'whats-on'}
+      imageUrl={
+        firstExhibition &&
+        firstExhibition.image &&
+        convertImageUri(firstExhibition.image.contentUrl, 800)
+      }
+      imageAltText={
+        (firstExhibition &&
           firstExhibition.image &&
-          convertImageUri(firstExhibition.image.contentUrl, 800)
-        }
-        imageAltText={
-          (firstExhibition &&
-            firstExhibition.image &&
-            firstExhibition.image.alt) ??
-          undefined
-        }
-        globalContextData={globalContextData}
-      >
-        <OpeningTimesContext.Consumer>
-          {openingTimes => (
-            <Fragment>
-              <Header
-                activeId={period}
+          firstExhibition.image.alt) ??
+        undefined
+      }
+      globalContextData={globalContextData}
+    >
+      <OpeningTimesContext.Consumer>
+        {openingTimes => (
+          <Fragment>
+            <Header
+              activeId={period}
+              openingTimes={openingTimes}
+              featuredText={featuredText}
+            />
+            <Layout12>
+              <DateRange
+                dateRange={dateRange}
+                period={period}
+                cafePromo={eatShopPromos[0]}
                 openingTimes={openingTimes}
-                featuredText={featuredText}
               />
-              <Layout12>
-                <DateRange
-                  dateRange={dateRange}
-                  period={period}
-                  cafePromo={eatShopPromos[0]}
-                  openingTimes={openingTimes}
-                />
-              </Layout12>
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                {period === 'current-and-coming-up' && (
-                  <Fragment>
-                    <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                      <SpacingSection>
-                        <Layout12>
-                          <div className="flex flex--v-center flex--h-space-between">
-                            <h2 className="h1">Exhibitions</h2>
-                            <span className={font('hnb', 5)}>
-                              Free admission
-                            </span>
-                          </div>
-                        </Layout12>
-                        <Space
-                          v={{ size: 'xl', properties: ['margin-bottom'] }}
-                        >
-                          {firstExhibition ? (
-                            <Layout12>
-                              <FeaturedCardExhibition
-                                exhibition={firstExhibition}
-                                background={'cream'}
-                                color={'black'}
-                              />
-                            </Layout12>
-                          ) : (
-                            <Layout12>
-                              <p data-test-id="no-exhibitions">
-                                There are no current exhibitions
-                              </p>
-                            </Layout12>
-                          )}
-                        </Space>
-                        <CardGrid
-                          items={exhibitions.slice(1)}
-                          itemsPerRow={3}
-                          links={[
-                            {
-                              text: 'View all exhibitions',
-                              url: '/exhibitions',
-                            },
-                          ]}
-                        />
-                      </SpacingSection>
-
-                      <SpacingSection>
-                        <SpacingComponent>
-                          <SectionHeader title="Events" />
-                        </SpacingComponent>
-                        <SpacingComponent>
-                          {events.length > 0 ? (
-                            <EventsByMonth
-                              events={events}
-                              links={[
-                                { text: 'View all events', url: '/events' },
-                              ]}
-                            />
-                          ) : (
-                            <Layout12>
-                              <p>There are no upcoming events</p>
-                            </Layout12>
-                          )}
-                        </SpacingComponent>
-                      </SpacingSection>
-
-                      <SpacingSection>
-                        <SpacingComponent>
-                          <SectionHeader title="Catch up" />
-                        </SpacingComponent>
-                        <SpacingComponent>
-                          {availableOnlineEvents.length > 0 ? (
-                            <CardGrid
-                              items={availableOnlineEvents}
-                              itemsPerRow={3}
-                              links={[
-                                {
-                                  text: 'View all catch up events',
-                                  url: '/events/past?availableOnline=true',
-                                },
-                              ]}
-                            />
-                          ) : (
-                            <Layout12>
-                              <p>There are no upcoming catch up events</p>
-                            </Layout12>
-                          )}
-                        </SpacingComponent>
-                      </SpacingSection>
-                    </Space>
-                  </Fragment>
-                )}
-                {period !== 'current-and-coming-up' && (
-                  <SpacingSection>
-                    <Space
-                      v={{
-                        size: 'm',
-                        properties: ['padding-top', 'margin-bottom'],
-                      }}
-                    >
+            </Layout12>
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+              {period === 'current-and-coming-up' && (
+                <Fragment>
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SpacingSection>
                       <Layout12>
                         <div className="flex flex--v-center flex--h-space-between">
-                          <h2 className="h1">Exhibitions and Events</h2>
-                          <span className={font('hnb', 4)}>Free admission</span>
+                          <h2 className="h1">Exhibitions</h2>
+                          <span className={font('hnb', 5)}>Free admission</span>
                         </div>
                       </Layout12>
-                    </Space>
-                    <ExhibitionsAndEvents
-                      exhibitions={exhibitions}
-                      events={
-                        period === 'today'
-                          ? filterEventsForToday(events)
-                          : period === 'this-weekend'
-                          ? filterEventsForWeekend(events)
-                          : events
-                      }
-                      links={[
-                        { text: 'View all exhibitions', url: '/exhibitions' },
-                        { text: 'View all events', url: '/events' },
-                      ]}
-                    />
-                  </SpacingSection>
-                )}
-              </Space>
+                      <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                        {firstExhibition ? (
+                          <Layout12>
+                            <FeaturedCardExhibition
+                              exhibition={firstExhibition}
+                              background={'cream'}
+                              color={'black'}
+                            />
+                          </Layout12>
+                        ) : (
+                          <Layout12>
+                            <p data-test-id="no-exhibitions">
+                              There are no current exhibitions
+                            </p>
+                          </Layout12>
+                        )}
+                      </Space>
+                      <CardGrid
+                        items={exhibitions.slice(1)}
+                        itemsPerRow={3}
+                        links={[
+                          {
+                            text: 'View all exhibitions',
+                            url: '/exhibitions',
+                          },
+                        ]}
+                      />
+                    </SpacingSection>
 
-              <SpacingSection>
-                <SpacingComponent>
-                  <SectionHeader title="Try these too" />
-                </SpacingComponent>
-                <SpacingComponent>
-                  <CssGridContainer>
+                    <SpacingSection>
+                      <SpacingComponent>
+                        <SectionHeader title="Events" />
+                      </SpacingComponent>
+                      <SpacingComponent>
+                        {events.length > 0 ? (
+                          <EventsByMonth
+                            events={events}
+                            links={[
+                              { text: 'View all events', url: '/events' },
+                            ]}
+                          />
+                        ) : (
+                          <Layout12>
+                            <p>There are no upcoming events</p>
+                          </Layout12>
+                        )}
+                      </SpacingComponent>
+                    </SpacingSection>
+
+                    <SpacingSection>
+                      <SpacingComponent>
+                        <SectionHeader title="Catch up" />
+                      </SpacingComponent>
+                      <SpacingComponent>
+                        {availableOnlineEvents.length > 0 ? (
+                          <CardGrid
+                            items={availableOnlineEvents}
+                            itemsPerRow={3}
+                            links={[
+                              {
+                                text: 'View all catch up events',
+                                url: '/events/past?availableOnline=true',
+                              },
+                            ]}
+                          />
+                        ) : (
+                          <Layout12>
+                            <p>There are no upcoming catch up events</p>
+                          </Layout12>
+                        )}
+                      </SpacingComponent>
+                    </SpacingSection>
+                  </Space>
+                </Fragment>
+              )}
+              {period !== 'current-and-coming-up' && (
+                <SpacingSection>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: ['padding-top', 'margin-bottom'],
+                    }}
+                  >
+                    <Layout12>
+                      <div className="flex flex--v-center flex--h-space-between">
+                        <h2 className="h1">Exhibitions and Events</h2>
+                        <span className={font('hnb', 4)}>Free admission</span>
+                      </div>
+                    </Layout12>
+                  </Space>
+                  <ExhibitionsAndEvents
+                    exhibitions={exhibitions}
+                    events={
+                      period === 'today'
+                        ? filterEventsForToday(events)
+                        : period === 'this-weekend'
+                        ? filterEventsForWeekend(events)
+                        : events
+                    }
+                    links={[
+                      { text: 'View all exhibitions', url: '/exhibitions' },
+                      { text: 'View all events', url: '/events' },
+                    ]}
+                  />
+                </SpacingSection>
+              )}
+            </Space>
+
+            <SpacingSection>
+              <SpacingComponent>
+                <SectionHeader title="Try these too" />
+              </SpacingComponent>
+              <SpacingComponent>
+                <CssGridContainer>
+                  <div
+                    className={classNames({
+                      'css-grid': true,
+                    })}
+                  >
                     <div
                       className={classNames({
-                        'css-grid': true,
+                        'css-grid__scroll-container container--scroll touch-scroll':
+                          true,
+                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                       })}
                     >
-                      <div
-                        className={classNames({
-                          'css-grid__scroll-container container--scroll touch-scroll':
-                            true,
-                          [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                        })}
-                      >
-                        <div className="css-grid grid--scroll card-theme card-theme--transparent">
-                          {tryTheseTooPromos
-                            .concat(eatShopPromos)
-                            .map(promo => (
-                              <div
-                                key={promo.id}
-                                className={cssGrid({
-                                  s: 12,
-                                  m: 6,
-                                  l: 4,
-                                  xl: 4,
-                                })}
-                              >
-                                <FacilityPromo
-                                  id={promo.id}
-                                  title={promo.title}
-                                  url={promo.url}
-                                  description={promo.description}
-                                  imageProps={promo.image}
-                                  metaText={promo.metaText}
-                                  metaIcon={promo.metaIcon}
-                                />
-                              </div>
-                            ))}
-                        </div>
+                      <div className="css-grid grid--scroll card-theme card-theme--transparent">
+                        {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
+                          <div
+                            key={promo.id}
+                            className={cssGrid({
+                              s: 12,
+                              m: 6,
+                              l: 4,
+                              xl: 4,
+                            })}
+                          >
+                            <FacilityPromo
+                              id={promo.id}
+                              title={promo.title}
+                              url={promo.url}
+                              description={promo.description}
+                              imageProps={promo.image}
+                              metaText={promo.metaText}
+                              metaIcon={promo.metaIcon}
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  </CssGridContainer>
-                </SpacingComponent>
-              </SpacingSection>
-            </Fragment>
-          )}
-        </OpeningTimesContext.Consumer>
-      </PageLayout>
-    );
-  }
-}
+                  </div>
+                </CssGridContainer>
+              </SpacingComponent>
+            </SpacingSection>
+          </Fragment>
+        )}
+      </OpeningTimesContext.Consumer>
+    </PageLayout>
+  );
+};
 
 export default WhatsOnPage;
