@@ -1,12 +1,9 @@
-// @flow
-import type { Context } from 'next';
-import { type UiExhibition } from '@weco/common/model/exhibitions';
-import { type UiEvent } from '@weco/common/model/events';
-import { type Period } from '@weco/common/model/periods';
-import { type PaginatedResults } from '@weco/common/services/prismic/types';
-import NextLink from 'next/link';
 import { Component, Fragment } from 'react';
-// $FlowFixMe (ts)
+import NextLink from 'next/link';
+import { UiExhibition } from '@weco/common/model/exhibitions';
+import { UiEvent } from '@weco/common/model/events';
+import { Period } from '@weco/common/model/periods';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
@@ -19,40 +16,28 @@ import {
   filterEventsForWeekend,
 } from '@weco/common/services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
-// $FlowFixMe (tsx)
 import { clock } from '@weco/common/icons';
-// $FlowFixMe (tsx)
-import { convertJsonToDates } from './event';
 import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
 import {
   cafePromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '@weco/common/data/facility-promos';
-// $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-// $FlowFixMe (tsx)
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
-// $FlowFixMe
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
-// $FlowFixMe (tsx)
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-// $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-// $FlowFixMe
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
-// $FlowFixMe (tsx)
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
@@ -62,11 +47,12 @@ import {
 } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
-import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
-// $FlowFixMe (tsx)
+import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-// $FlowFixMe
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { convertJsonToDates } from './event';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { NextPageContext } from 'next';
 
 const segmentedControlItems = [
   {
@@ -86,17 +72,17 @@ const segmentedControlItems = [
   },
 ];
 
-type Props = {|
-  exhibitions: PaginatedResults<UiExhibition>,
-  events: PaginatedResults<UiEvent>,
-  availableOnlineEvents: PaginatedResults<UiEvent>,
-  period: string,
-  dateRange: any[],
-  tryTheseTooPromos: any[],
-  eatShopPromos: any[],
-  featuredText: FeaturedTextType,
-  globalContextData: any,
-|};
+type Props = {
+  exhibitions: PaginatedResults<UiExhibition>;
+  events: PaginatedResults<UiEvent>;
+  availableOnlineEvents: PaginatedResults<UiEvent>;
+  period: string;
+  dateRange: any[];
+  tryTheseTooPromos: any[];
+  eatShopPromos: any[];
+  featuredText: FeaturedTextType;
+  globalContextData: any;
+};
 
 function getListHeader(openingTimes: any) {
   const galleriesOpeningTimes = getParseCollectionVenueById(
@@ -163,18 +149,14 @@ function getWeekendToDate(today) {
     return london(today).day(7);
   }
 }
-type DateRangeProps = {|
-  dateRange: any,
-  period: string,
-  cafePromo: any,
-  openingTimes: any, // TODO
-|};
-const DateRange = ({
-  dateRange,
-  period,
-  cafePromo,
-  openingTimes,
-}: DateRangeProps) => {
+
+type DateRangeProps = {
+  dateRange: any;
+  period: string;
+  cafePromo: any;
+  openingTimes: any;
+};
+const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
   // TODO: reinstate after lockdown
@@ -241,11 +223,12 @@ const DateRange = ({
     </Fragment>
   );
 };
-type HeaderProps = {|
-  activeId: string,
-  openingTimes: any, // TODO
-  featuredText: ?FeaturedTextType,
-|};
+
+type HeaderProps = {
+  activeId: string;
+  openingTimes: any;
+  featuredText?: FeaturedTextType;
+};
 const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
   const todayOpeningHours = listHeader.todayOpeningHours;
@@ -356,20 +339,21 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
 
 const pageDescription =
   'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
+
 export class WhatsOnPage extends Component<Props> {
-  static getInitialProps = async (ctx: Context) => {
-    const globalContextData = getGlobalContextData(ctx);
-    const period = ctx.query.period || 'current-and-coming-up';
-    const { memoizedPrismic } = ctx.query;
+  static getInitialProps = async (context: NextPageContext) => {
+    const globalContextData = getGlobalContextData(context);
+    const period = context.query.period || 'current-and-coming-up';
+    const { memoizedPrismic } = context.query;
 
     // call prisimic for specific content for section page such as featured text
     const whatsOnPagePromise = getPage(
-      ctx.req,
+      context.req,
       prismicPageIds.whatsOn,
       memoizedPrismic
     );
     const exhibitionsPromise = getExhibitions(
-      ctx.req,
+      context.req,
       {
         period,
         order: 'asc',
@@ -377,7 +361,7 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
     const eventsPromise = getEvents(
-      ctx.req,
+      context.req,
       {
         period: 'current-and-coming-up',
         pageSize: 100,
@@ -386,7 +370,7 @@ export class WhatsOnPage extends Component<Props> {
     );
 
     const availableOnlineEventsPromise = getEvents(
-      ctx.req,
+      context.req,
       {
         period: 'past',
         pageSize: 6,
@@ -439,9 +423,9 @@ export class WhatsOnPage extends Component<Props> {
       this.props.availableOnlineEvents.results.map(convertJsonToDates);
     const exhibitions = this.props.exhibitions.results.map(exhibition => {
       return {
+        ...exhibition,
         start: exhibition.start && new Date(exhibition.start),
         end: exhibition.end && new Date(exhibition.end),
-        ...exhibition,
       };
     });
     const firstExhibition = exhibitions[0];
@@ -458,7 +442,12 @@ export class WhatsOnPage extends Component<Props> {
         title={pageTitle}
         description={pageDescription}
         url={{ pathname: `/whats-on` }}
-        jsonLd={[...exhibitions.map(exhibitionLd), ...events.map(eventLd)]}
+        jsonLd={
+          [
+            ...exhibitions.map(exhibitionLd),
+            ...events.map(eventLd),
+          ] as JsonLdObj[]
+        }
         openGraphType={'website'}
         siteSection={'whats-on'}
         imageUrl={
@@ -467,7 +456,10 @@ export class WhatsOnPage extends Component<Props> {
           convertImageUri(firstExhibition.image.contentUrl, 800)
         }
         imageAltText={
-          firstExhibition && firstExhibition.image && firstExhibition.image.alt
+          (firstExhibition &&
+            firstExhibition.image &&
+            firstExhibition.image.alt) ??
+          undefined
         }
         globalContextData={globalContextData}
       >
@@ -623,7 +615,8 @@ export class WhatsOnPage extends Component<Props> {
                     >
                       <div
                         className={classNames({
-                          'css-grid__scroll-container container--scroll touch-scroll': true,
+                          'css-grid__scroll-container container--scroll touch-scroll':
+                            true,
                           [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
                         })}
                       >
