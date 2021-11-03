@@ -18,6 +18,12 @@ jest.mock('../components/PageWrapper', () => ({
   PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
 }));
 
+jest.mock('@weco/common/server-data', () => ({
+  __esModule: true,
+  getServerData: async () =>
+    (await import('@weco/common/server-data/types')).defaultServerData,
+}));
+
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>

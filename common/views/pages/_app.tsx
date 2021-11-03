@@ -19,6 +19,7 @@ import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
 import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
+import UserProvider from '../components/UserProvider/UserProvider';
 
 declare global {
   interface Window {
@@ -363,25 +364,27 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   return (
     <>
       <ServerDataContext.Provider value={serverData}>
-        <AppContextProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle
-              toggles={serverData.toggles}
-              isFontsLoaded={useIsFontsLoaded()}
-            />
-            <OutboundLinkTracker>
-              <LoadingIndicator />
-              {!pageProps.err && <Component {...pageProps} />}
-              {pageProps.err && (
-                <ErrorPage
-                  statusCode={pageProps.err.statusCode}
-                  title={pageProps.err.message}
-                  globalContextData={globalContextData}
-                />
-              )}
-            </OutboundLinkTracker>
-          </ThemeProvider>
-        </AppContextProvider>
+        <UserProvider>
+          <AppContextProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle
+                toggles={serverData.toggles}
+                isFontsLoaded={useIsFontsLoaded()}
+              />
+              <OutboundLinkTracker>
+                <LoadingIndicator />
+                {!pageProps.err && <Component {...pageProps} />}
+                {pageProps.err && (
+                  <ErrorPage
+                    statusCode={pageProps.err.statusCode}
+                    title={pageProps.err.message}
+                    globalContextData={globalContextData}
+                  />
+                )}
+              </OutboundLinkTracker>
+            </ThemeProvider>
+          </AppContextProvider>
+        </UserProvider>
       </ServerDataContext.Provider>
     </>
   );
