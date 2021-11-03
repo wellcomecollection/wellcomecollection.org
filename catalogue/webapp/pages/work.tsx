@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const workResponse = await getWork({
       id,
-      toggles: globalContextData.toggles,
+      toggles: serverData.toggles,
     });
 
     if (workResponse.type === 'Redirect') {

@@ -11,6 +11,7 @@ import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   exhibition: UiExhibition;
@@ -43,6 +44,7 @@ const ExhibitionPage: FC<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const { exhibition, pages } = await getExhibitionWithRelatedContent({
@@ -57,6 +59,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibition,
           pages: pages?.results || [],
           globalContextData,
+          serverData,
           gaDimensions: {
             partOf: exhibition.seasons.map(season => season.id),
           },

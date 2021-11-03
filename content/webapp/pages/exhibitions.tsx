@@ -15,6 +15,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
@@ -27,6 +28,7 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { page = 1, period, memoizedPrismic } = context.query;
     const exhibitions = await getExhibitions(
@@ -41,6 +43,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibitions,
           displayTitle: title,
           period,
+          serverData,
           globalContextData,
         }),
       };

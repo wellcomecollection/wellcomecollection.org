@@ -31,6 +31,7 @@ import {
 } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -254,6 +255,7 @@ const Images: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const params = fromQuery(context.query);
     const aggregations = [
@@ -266,7 +268,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const images = hasQuery
       ? await getImages({
           params: apiProps,
-          toggles: globalContextData.toggles,
+          toggles: serverData.toggles,
         })
       : undefined;
 

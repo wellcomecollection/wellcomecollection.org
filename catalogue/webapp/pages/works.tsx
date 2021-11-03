@@ -280,7 +280,7 @@ export const getServerSideProps = async (
 
   const works = await getWorks({
     params: worksApiProps,
-    toggles: globalContextData.toggles,
+    toggles: serverData.toggles,
   });
 
   if (works.type === 'Error') {

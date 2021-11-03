@@ -32,6 +32,7 @@ import {
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   articles: Article[];
@@ -82,6 +83,7 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
@@ -112,6 +114,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           series,
           featuredText,
           globalContextData,
+          serverData,
         }),
       };
     } else {
