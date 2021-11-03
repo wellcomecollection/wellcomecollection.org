@@ -19,6 +19,7 @@ import {
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   image: Image;
@@ -113,6 +114,7 @@ const ImagePage: FunctionComponent<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, workId } = context.query;
 
@@ -122,7 +124,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const image = await getImage({
       id,
-      toggles: globalContextData.toggles,
+      toggles: serverData.toggles,
     });
 
     if (image.type === 'Error') {
@@ -143,7 +145,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const work = await getWork({
       id: workId,
-      toggles: globalContextData.toggles,
+      toggles: serverData.toggles,
     });
 
     if (work.type === 'Error') {

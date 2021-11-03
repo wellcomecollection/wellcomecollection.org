@@ -1,5 +1,4 @@
-// @flow
-import type { GetServerSideProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { FC } from 'react';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -22,6 +21,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   series: ArticleSeries;
@@ -31,6 +31,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const seriesAndArticles = await getArticleSeries(
@@ -50,6 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           series,
           articles,
           globalContextData,
+          serverData,
           gaDimensions: {
             partOf: series.seasons.map<string>(season => season.id),
           },

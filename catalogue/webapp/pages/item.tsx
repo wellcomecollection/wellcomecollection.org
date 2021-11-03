@@ -43,6 +43,7 @@ import {
   fromQuery,
 } from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
+import { getServerData } from '@weco/common/server-data';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -363,6 +364,7 @@ const ItemPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const {
       workId,
@@ -389,7 +391,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const work = await getWork({
       id: workId,
-      toggles: globalContextData.toggles,
+      toggles: serverData.toggles,
     });
 
     if (work.type === 'Error') {

@@ -55,6 +55,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps, NextPageContext } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 const segmentedControlItems = [
   {
@@ -345,6 +346,7 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const globalContextData = getGlobalContextData(context);
+    const serverData = await getServerData(context);
 
     const period = context.query.period
       ? context.query.period.toString()
@@ -413,6 +415,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           dailyTourPromo,
           featuredText,
           globalContextData,
+          serverData,
         }),
       };
     } else {

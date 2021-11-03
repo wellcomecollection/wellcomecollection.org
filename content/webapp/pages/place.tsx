@@ -14,6 +14,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   place: Place;
@@ -21,6 +22,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const place = await getPlace(context.req, id, memoizedPrismic);
@@ -30,6 +32,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           place,
           globalContextData,
+          serverData,
         }),
       };
     } else {

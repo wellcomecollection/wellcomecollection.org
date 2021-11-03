@@ -50,6 +50,8 @@ import {
   speechToText,
   ticket,
 } from '@weco/common/icons';
+import { getServerData } from '@weco/common/server-data';
+import { removeUndefinedProps } from '@weco/common/utils/json';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -528,6 +530,7 @@ const EventPage: NextPage<Props> = ({
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
+  const serverData = await getServerData(context);
   const globalContextData = getGlobalContextData(context);
   const { id, memoizedPrismic } = context.query;
   const event = await getEvent(context.req, { id }, memoizedPrismic);
@@ -542,15 +545,16 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   // which we could pick out explicitly, or do this.
   // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
   return {
-    props: {
+    props: removeUndefinedProps({
       jsonEvent: JSON.parse(JSON.stringify(event)),
       globalContextData,
+      serverData,
       gaDimensions: {
         partOf: event.seasons
           .map(season => season.id)
           .concat(event.series.map(series => series.id)),
       },
-    },
+    }),
   };
 };
 

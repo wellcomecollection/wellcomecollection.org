@@ -27,6 +27,7 @@ import {
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   workId: string;
@@ -163,6 +164,7 @@ const DownloadPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { workId, sierraId } = context.query;
 
@@ -174,11 +176,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const manifestUrl =
       sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+
     const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
+
     const work = await getWork({
       id: workId,
-      toggles: globalContextData.toggles,
+      toggles: serverData.toggles,
     });
+
     if (work.type === 'Error') {
       return appError(context, work.httpStatus, work.description);
     } else if (work.type === 'Redirect') {

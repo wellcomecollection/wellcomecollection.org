@@ -26,6 +26,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   article: Article;
@@ -40,6 +41,7 @@ function articleHasOutro(article: Article) {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const article = await getArticle(context.req, id, memoizedPrismic);
@@ -49,6 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           article,
           globalContextData,
+          serverData,
           gaDimensions: {
             partOf: article.seasons
               .map(season => season.id)

@@ -40,6 +40,7 @@ import {
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   page: PageType;
@@ -58,6 +59,7 @@ type OrderInParent = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const page: PageType | undefined = await getPage(
@@ -89,6 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           children,
           ordersInParents,
           globalContextData,
+          serverData,
           gaDimensions: {
             partOf: page.seasons.map<string>(season => season.id),
           },
