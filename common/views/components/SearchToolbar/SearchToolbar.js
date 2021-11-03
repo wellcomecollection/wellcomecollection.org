@@ -1,5 +1,5 @@
 // @flow
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import swagger from '../../../services/catalogue/swagger';
@@ -11,7 +11,7 @@ import Space from '../styled/Space';
 import { classNames, font } from '../../../utils/classnames';
 import cookies from 'next-cookies';
 // $FlowFixMe (tsx)
-import TogglesContext from '../TogglesContext/TogglesContext';
+import { useToggles } from '../../../server-data/Context';
 
 const Form = styled(Space).attrs({
   className: classNames({
@@ -59,7 +59,7 @@ const Input = styled(Space).attrs({
 })``;
 
 const SearchToolbar = () => {
-  const { stagingApi } = useContext(TogglesContext);
+  const { stagingApi } = useToggles();
   const [queryTypes, setQueryTypes] = useState<string[]>([]);
   const [selectedQueryType, setSelectedQueryType] = useState<?string>(null);
   const [stagingApiState, setStagingApiState] = useState<boolean>(stagingApi);

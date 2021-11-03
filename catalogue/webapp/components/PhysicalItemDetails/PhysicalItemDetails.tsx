@@ -10,7 +10,6 @@ import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import {
   getLocationLabel,
@@ -25,6 +24,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -81,7 +81,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 }) => {
   const { state: userState, enabled: userEnabled } = useUser();
   const isArchive = useContext(IsArchiveContext);
-  const { enableRequesting } = useContext(TogglesContext);
+  const { enableRequesting } = useToggles();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);

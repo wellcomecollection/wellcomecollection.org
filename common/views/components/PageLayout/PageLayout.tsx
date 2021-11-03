@@ -27,9 +27,9 @@ import GlobalContextProvider, {
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
-import useHotjar from '@weco/common/hooks/useHotjar';
+import useHotjar from '../../../hooks/useHotjar';
+import { useToggles } from '../../../server-data/Context';
 
 export type SiteSection =
   | 'collections'
@@ -75,7 +75,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     u => url.pathname && url.pathname.match(u)
   );
   useHotjar(shouldLoadHotjar);
-  const { apiToolbar, enableRequesting } = useContext(TogglesContext);
+  const { apiToolbar, enableRequesting } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''

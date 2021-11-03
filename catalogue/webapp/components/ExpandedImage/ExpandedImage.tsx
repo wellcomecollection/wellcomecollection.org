@@ -3,7 +3,6 @@ import {
   getFirstChildManifestLocation,
   getServiceId,
 } from '@weco/common/utils/iiif';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import NextLink from 'next/link';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
@@ -35,6 +34,7 @@ import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import { cross, eye } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   image: ImageType;
@@ -187,7 +187,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   resultPosition,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
-  const toggles = useContext(TogglesContext);
+  const toggles = useToggles();
   const [detailedWork, setDetailedWork] = useState<Work | undefined>();
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined

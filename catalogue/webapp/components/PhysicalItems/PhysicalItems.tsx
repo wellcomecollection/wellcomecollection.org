@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import PhysicalItemDetails from '../PhysicalItemDetails/PhysicalItemDetails';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { isCatalogueApiError } from '../../pages/api/works/items/[workId]';
@@ -13,7 +13,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -34,7 +34,7 @@ const getItemsState = (
 const useItemsState = (
   items: PhysicalItem[]
 ): [ItemsState, (s: ItemsState) => void] => {
-  const { enableRequesting } = useContext(TogglesContext);
+  const { enableRequesting } = useToggles();
   /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
    *
    * What if we don’t call the items API? There are two possible error cases:
