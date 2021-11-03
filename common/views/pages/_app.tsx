@@ -161,7 +161,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   pageProps,
   globalContextData,
 }) => {
-  // TODO: We should throw this error as soon as we have removed globalContextData
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
