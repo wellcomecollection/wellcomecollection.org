@@ -227,7 +227,7 @@ const AccountPage: NextPage = () => {
                           <InlineLoading />
                         </Space>
                       );
-                    case 'success':
+                    case 'failed':
                       return <RequestsFailed retry={fetchRequests} />;
                     case 'success':
                       if (requestedItems.totalResults === 0) {
