@@ -41,7 +41,7 @@ function articleHasOutro(article: Article) {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = getServerData(context);
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const article = await getArticle(context.req, id, memoizedPrismic);

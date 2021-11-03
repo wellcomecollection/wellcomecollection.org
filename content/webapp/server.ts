@@ -8,6 +8,7 @@ import next from 'next';
 import Prismic from '@prismicio/client';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { init as initServerData } from '@weco/common/server-data';
 import bodyParser from 'koa-bodyparser';
 import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
 
@@ -43,6 +44,8 @@ function pageVanityUrl(router, app, url, pageId, template = '/page') {
 const appPromise = nextApp
   .prepare()
   .then(async () => {
+    await initServerData();
+
     const koaApp = new Koa();
     const router = new Router();
 
