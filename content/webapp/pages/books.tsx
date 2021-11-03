@@ -24,7 +24,7 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
+    const serverData = getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const books = await getBooks(context.req, { page }, memoizedPrismic);

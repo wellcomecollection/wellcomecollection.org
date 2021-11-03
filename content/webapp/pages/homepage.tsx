@@ -70,7 +70,7 @@ const pageImage =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
+    const serverData = getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(

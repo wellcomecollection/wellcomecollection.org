@@ -67,8 +67,6 @@ import { type FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 // $FlowFixMe
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
-// $FlowFixMe
-import { getServerData } from '@weco/common/server-data';
 
 const segmentedControlItems = [
   {
@@ -359,20 +357,19 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
 const pageDescription =
   'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
 export class WhatsOnPage extends Component<Props> {
-  static getInitialProps = async (context: Context) => {
-    const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
-    const period = context.query.period || 'current-and-coming-up';
-    const { memoizedPrismic } = context.query;
+  static getInitialProps = async (ctx: Context) => {
+    const globalContextData = getGlobalContextData(ctx);
+    const period = ctx.query.period || 'current-and-coming-up';
+    const { memoizedPrismic } = ctx.query;
 
     // call prisimic for specific content for section page such as featured text
     const whatsOnPagePromise = getPage(
-      context.req,
+      ctx.req,
       prismicPageIds.whatsOn,
       memoizedPrismic
     );
     const exhibitionsPromise = getExhibitions(
-      context.req,
+      ctx.req,
       {
         period,
         order: 'asc',
@@ -380,7 +377,7 @@ export class WhatsOnPage extends Component<Props> {
       memoizedPrismic
     );
     const eventsPromise = getEvents(
-      context.req,
+      ctx.req,
       {
         period: 'current-and-coming-up',
         pageSize: 100,
@@ -389,7 +386,7 @@ export class WhatsOnPage extends Component<Props> {
     );
 
     const availableOnlineEventsPromise = getEvents(
-      context.req,
+      ctx.req,
       {
         period: 'past',
         pageSize: 6,
@@ -421,7 +418,6 @@ export class WhatsOnPage extends Component<Props> {
         dailyTourPromo,
         featuredText,
         globalContextData,
-        serverData,
       };
     } else {
       return { statusCode: 404 };
