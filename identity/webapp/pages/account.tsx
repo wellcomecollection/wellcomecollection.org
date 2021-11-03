@@ -1,4 +1,9 @@
-import React, { FC, ComponentProps, useState } from 'react';
+import React, {
+  FC,
+  ComponentProps,
+  useState,
+  ComponentPropsWithoutRef,
+} from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { NextPage } from 'next';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
@@ -64,23 +69,34 @@ const DetailList: FC<DetailListProps> = ({ listItems }) => {
   );
 };
 
+const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
+  children,
+  ...props
+}) => (
+  <button
+    className={font('hnr', 5)}
+    style={{
+      border: 'none',
+      background: 'none',
+      cursor: 'pointer',
+      textDecoration: 'underline',
+    }}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
 const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
   <p className={`${font('hnr', 5)}`}>
     Something went wrong fetching your item requests.
-    <button
-      className={font('hnr', 5)}
+    <TextButton
       onClick={() => {
         retry();
       }}
-      style={{
-        border: 'none',
-        background: 'none',
-        cursor: 'pointer',
-        textDecoration: 'underline',
-      }}
     >
       Try again
-    </button>
+    </TextButton>
   </p>
 );
 
