@@ -112,7 +112,7 @@ const CardGrid: FunctionComponent<Props> = ({
       </CssGridContainer>
       {links && links.length > 0 && (
         <Layout12>
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {links.map(link => (
               <Space
                 v={{ size: 'm', properties: ['margin-top'] }}
