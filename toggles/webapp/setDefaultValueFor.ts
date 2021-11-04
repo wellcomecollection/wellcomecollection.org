@@ -1,10 +1,8 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import fetch from 'node-fetch';
-import { TogglesResp } from '.';
 import { bucket, key, region } from './config';
-import { getCredentials, getS3Client } from './aws';
+import { getCredentials, getS3Client, getTogglesObject } from './aws';
 import {
   CloudFrontClient,
   CreateInvalidationCommand,
@@ -12,16 +10,9 @@ import {
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-async function getRemoteToggles(): Promise<TogglesResp> {
-  const response = await fetch(
-    'https://toggles.wellcomecollection.org/toggles.json'
-  );
-  const data = await response.json();
-  return data as any as TogglesResp;
-}
-
 async function run() {
-  const remoteToggles = await getRemoteToggles();
+  const s3Client = await getS3Client();
+  const remoteToggles = await getTogglesObject(s3Client);
 
   const toggles = remoteToggles.toggles.map(toggle => {
     const arg = argv[toggle.id];
@@ -39,8 +30,6 @@ async function run() {
     toggles,
     tests: remoteToggles.tests,
   };
-
-  const s3Client = await getS3Client();
 
   const putObjectCommand = new PutObjectCommand({
     Bucket: bucket,
