@@ -1,7 +1,6 @@
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { bucket, key, region } from './config';
+import { key, region } from './config';
 import {
   getCredentials,
   getS3Client,
@@ -65,4 +64,3 @@ async function run() {
 }
 
 run();
-console.info(argv);
