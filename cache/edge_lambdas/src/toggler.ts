@@ -80,7 +80,7 @@ export const request = (event: CloudFrontRequestEvent): void => {
       } catch (error) {
         console.log(
           `Toggles request: a/b test when() broke with error:`,
-          error.message
+          (error as Error).message
         );
 
         if (process.env.NODE_ENV === 'test') {
