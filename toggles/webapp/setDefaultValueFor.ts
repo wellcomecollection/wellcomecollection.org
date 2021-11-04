@@ -2,7 +2,12 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { bucket, key, region } from './config';
-import { getCredentials, getS3Client, getTogglesObject } from './aws';
+import {
+  getCredentials,
+  getS3Client,
+  getTogglesObject,
+  putTogglesObject,
+} from './aws';
 import {
   CloudFrontClient,
   CreateInvalidationCommand,
@@ -31,16 +36,9 @@ async function run() {
     tests: remoteToggles.tests,
   };
 
-  const putObjectCommand = new PutObjectCommand({
-    Bucket: bucket,
-    Key: `test-${key}`,
-    Body: JSON.stringify(togglesAndTests),
-    ACL: 'public-read',
-    ContentType: 'application/json',
-  });
-
-  const { $metadata: putObjectResponseMetadata } = await s3Client.send(
-    putObjectCommand
+  const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
+    s3Client,
+    togglesAndTests
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {
