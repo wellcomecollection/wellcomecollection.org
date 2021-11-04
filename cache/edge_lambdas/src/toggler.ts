@@ -20,7 +20,7 @@ type Test = {
 
 // This is mutable for testing
 export let tests: Test[] = [];
-export const setTests = function(newTests: Test[]): void {
+export const setTests = function (newTests: Test[]): void {
   tests = newTests;
 };
 
@@ -71,8 +71,6 @@ export const request = (event: CloudFrontRequestEvent): void => {
 
   const newToggles = tests
     .map(test => {
-      // Isn't already set
-
       try {
         if (shouldRun(test, request)) {
           // Roll the dice
@@ -98,6 +96,7 @@ export const request = (event: CloudFrontRequestEvent): void => {
     const togglesCookieString = newToggles
       .map(cookie => `${cookie.key}=${cookie.value}`)
       .join(';');
+
     const newCookieHeader = [
       {
         key: 'Cookie',
@@ -107,7 +106,9 @@ export const request = (event: CloudFrontRequestEvent): void => {
             : togglesCookieString,
       },
     ];
+
     request.headers.cookie = newCookieHeader;
+
     // To be read by the response
     request.headers['x-toggled'] = [
       {
