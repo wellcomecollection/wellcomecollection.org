@@ -1,27 +1,74 @@
-#!/usr/bin/env ts-node-script
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { Readable } from 'stream';
+import localToggles, { Toggle } from './toggles';
+import { TogglesResp } from '.';
+import { bucket, key } from './config';
+import { putTogglesObject } from './aws';
 
-import AWS from 'aws-sdk';
-import fs from 'fs';
+export const withDefaultValuesUnmodified = (
+  from: Toggle[],
+  to: Toggle[]
+): Toggle[] => {
+  /**
+   * We don't deploy over the defaultValue as this can be set manually by
+   * updating the toggle via setDefaultValueFor.
+   *
+   * If we have turned a toggle off manually - we expect it to remain
+   * off even after a deploy.
+   *
+   */
+  const toggles = to.map(toggle => {
+    const { defaultValue } = from.find(({ id }) => id === toggle.id) ?? {
+      defaultValue: toggle.defaultValue,
+    };
+    return { ...toggle, defaultValue };
+  });
 
-const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+  return toggles;
+};
 
-try {
-  const data = fs.readFileSync('toggles.json', 'utf8');
+// see: https://github.com/aws/aws-sdk-js-v3/issues/1877
+async function streamToString(stream: Readable): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Uint8Array[] = [];
+    stream.on('data', chunk => chunks.push(chunk));
+    stream.on('error', reject);
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf-8')));
+  });
+}
 
-  const params = {
-    Body: data,
-    Bucket: 'toggles.wellcomecollection.org',
-    Key: 'toggles.json',
-    ACL: 'public-read',
-    ContentType: 'application/json',
+export async function deploy(client: S3Client) {
+  const getObjectCommand = new GetObjectCommand({
+    Bucket: bucket,
+    Key: key,
+  });
+
+  const { Body: body } = await client.send(getObjectCommand);
+
+  const remoteToggles: TogglesResp = JSON.parse(
+    await streamToString(body as Readable)
+  );
+
+  const togglesToDeploy = withDefaultValuesUnmodified(remoteToggles.toggles, [
+    ...localToggles.toggles,
+  ]);
+
+  // We don't bother looking at the `.tests` during deployments as the `defaultValue`s
+  // don't do anything as values are randomly assigned.
+  // We should probably look at the structure of features vs tests.
+  const togglesAndTests: TogglesResp = {
+    toggles: togglesToDeploy,
+    tests: localToggles.tests,
   };
 
-  s3.putObject(params, function (err) {
-    if (err) console.log(err, err.stack);
-    else console.log('Finished uploading toggles.json');
-  });
-} catch (e) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  console.error('Error:', e.stack);
+  const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
+    client,
+    togglesAndTests
+  );
+
+  if (putObjectResponseMetadata.httpStatusCode === 200) {
+    console.info(`Success!`);
+  } else {
+    throw new Error(`Error putting toggles in S3 ${putObjectResponseMetadata}`);
+  }
 }

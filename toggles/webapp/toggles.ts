@@ -12,6 +12,7 @@ export type ABTest = {
   defaultValue: boolean;
 };
 export default {
+  // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
       id: 'buildingReopening',

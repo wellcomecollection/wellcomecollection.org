@@ -8,9 +8,18 @@
     "deploy": "ts-node ./deploy"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.39.0",
+    "@aws-sdk/client-sts": "^3.39.0",
+    "@babel/preset-typescript": "^7.16.0",
     "@types/node": "12.19.0",
-    "aws-sdk": "^2.813.0",
+    "@types/yargs": "^17.0.5",
+    "jest": "^27.3.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.39.0",
+    "node-fetch": "2.6.2",
+    "yargs": "^17.2.1"
   }
 }
