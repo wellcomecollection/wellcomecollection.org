@@ -56,7 +56,7 @@ async function run() {
     DistributionId: process.env.CLOUDFRONT_DISTRIBUTION_ID,
     InvalidationBatch: {
       Paths: { Items: [`/test-${key}.json`], Quantity: 1 },
-      CallerReference: 'TogglesInvalidationCallerReference',
+      CallerReference: `TogglesInvalidationCallerReference${Date.now()}`,
     },
   });
   const response = await client.send(command);
