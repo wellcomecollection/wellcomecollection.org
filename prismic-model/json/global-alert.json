@@ -3,7 +3,7 @@
     "text": {
       "type": "StructuredText",
       "config": {
-        "multi": "paragraph,hyperlink,strong,em,heading2",
+        "multi": "heading2,paragraph,strong,em,hyperlink",
         "label": "text",
         "placeholder": "text"
       }
@@ -11,12 +11,12 @@
     "isShown": {
       "type": "Select",
       "config": {
-        "label": "Display",
         "options": [
           "hide",
           "show"
         ],
         "default_value": "hide",
+        "label": "Display",
         "placeholder": "Show or hide"
       }
     },
