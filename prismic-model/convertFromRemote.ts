@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-type PrismicType = {
+export type PrismicCustomType = {
   id: string;
   label: string;
   repeatable: boolean;
@@ -12,8 +12,8 @@ type PrismicType = {
   status: boolean;
 };
 
-async function main() {
-  const types: PrismicType[] = await fetch(
+async function run() {
+  const types: PrismicCustomType[] = await fetch(
     'https://customtypes.prismic.io/customtypes',
     {
       headers: {
@@ -33,6 +33,6 @@ async function main() {
     });
 }
 
-main();
+run();
 
 export {};

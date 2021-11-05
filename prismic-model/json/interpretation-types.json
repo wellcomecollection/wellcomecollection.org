@@ -3,15 +3,17 @@
     "title": {
       "type": "StructuredText",
       "config": {
-        "single": "heading1",
         "label": "Title",
+        "single": "heading1",
         "useAsTitle": true
       }
     },
     "abbreviation": {
       "type": "StructuredText",
       "config": {
-        "single": "paragraph",
+        "single": [
+          "paragraph"
+        ],
         "label": "Abbreviation"
       }
     },
