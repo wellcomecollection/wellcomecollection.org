@@ -25,9 +25,13 @@
 import Prismic from '@prismicio/client';
 import yargs from 'yargs';
 
-const { label, type } = yargs(process.argv.slice(2)).usage(
-  'Usage: $0 --label [string] --type [string]'
-).argv;
+const { label, type } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --label [string] --type [string]')
+  .options({
+    label: { type: 'string' },
+    type: { type: 'string' },
+  })
+  .parseSync();
 
 let a;
 async function api() {
