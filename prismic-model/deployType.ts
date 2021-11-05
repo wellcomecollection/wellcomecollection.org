@@ -30,21 +30,21 @@ async function run() {
     }
   ).then(resp => resp.json());
 
-  const typeJson = (await import(`./src/${id}`)).default;
+  const localType = (await import(`./src/${id}`)).default;
 
   const data: PrismicCustomType = {
     id,
     label: remoteType.label,
     repeatable: remoteType.repeatable,
     status: remoteType.status,
-    json: typeJson,
+    json: localType,
   };
 
-  const delta = jsondiffpatch.diff(remoteType, { ...data });
-  const output = jsondiffpatch.formatters.console.format(delta, remoteType);
+  const delta = jsondiffpatch.diff(remoteType, data);
+  const diff = jsondiffpatch.formatters.console.format(delta, remoteType);
 
   console.info('------------------------');
-  console.info(output);
+  console.info(diff);
   console.info('------------------------');
 
   const { confirm } = argsConfirm
