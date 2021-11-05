@@ -30,7 +30,7 @@ async function run() {
     }
   ).then(resp => resp.json());
 
-  const typeJson = (await import(`./json/${id}.json`)).default;
+  const typeJson = (await import(`./src/${id}`)).default;
 
   const data: PrismicCustomType = {
     id,
