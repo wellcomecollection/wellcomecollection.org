@@ -3,13 +3,6 @@ const nextMock = jest.fn();
 const mockToggleResponse = {
   toggles: [
     {
-      id: 'buildingReopening',
-      title: 'Wellcome Collection reopening UI changes',
-      description:
-        'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: true,
-    },
-    {
       id: 'modalFiltersPrototype',
       title: 'Use the modal filter prototype',
       defaultValue: false,
@@ -44,7 +37,6 @@ describe('withToggles', () => {
       },
       query: {},
       toggles: {
-        buildingReopening: true,
         modalFiltersPrototype: false,
       },
     };
@@ -61,7 +53,6 @@ describe('withToggles', () => {
     const cookieFn = jest.fn();
     const defaultCtx = {
       toggles: {
-        buildingReopening: true,
         modalFiltersPrototype: false,
       },
       cookies: {
@@ -94,7 +85,6 @@ describe('withToggles', () => {
       };
       withToggles.enableDisableToggle(ctx);
       expect(ctx.toggles).toEqual({
-        buildingReopening: true,
         modalFiltersPrototype: true, // update the state
       });
     });
@@ -108,7 +98,6 @@ describe('withToggles', () => {
       };
       withToggles.enableDisableToggle(ctx);
       expect(ctx.toggles).toEqual({
-        buildingReopening: true,
         modalFiltersPrototype: false, // sets this to original state
       });
     });

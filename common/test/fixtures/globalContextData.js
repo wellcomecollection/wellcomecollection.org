@@ -1,6 +1,5 @@
 export default {
   toggles: {
-    buildingReopening: true,
     showLogin: false,
     showItemRequestFlow: false,
     stagingApi: false,
