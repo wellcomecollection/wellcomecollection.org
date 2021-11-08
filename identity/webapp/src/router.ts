@@ -33,7 +33,6 @@ export const createRouter = (): Router<
   );
 
   const apiRouter = new Router<ApplicationState, ApplicationContext>();
-  apiRouter.use(koaBody());
 
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
