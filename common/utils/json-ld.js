@@ -1,4 +1,4 @@
-import type { EventPromo, Event } from '../model/events';
+import type { Event } from '../model/events';
 import {
   wellcomeCollectionGallery,
   wellcomeCollectionAddress,
@@ -116,28 +116,6 @@ export function exhibitionLd(exhibition) {
   );
 }
 
-export function exhibitionPromoLd(exhibitionPromo) {
-  return objToJsonLd(
-    {
-      name: exhibitionPromo.title,
-      description: exhibitionPromo.description,
-      image:
-        exhibitionPromo.image.contentUrl &&
-        convertImageUri(exhibitionPromo.image.contentUrl, 1920, false),
-      location: {
-        '@type': 'Place',
-        name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
-      },
-      startDate: exhibitionPromo.start,
-      endDate: exhibitionPromo.end,
-      url: `https://wellcomecollection.org/exhibitions/${exhibitionPromo.id}`,
-      isAccessibleForFree: true,
-    },
-    'ExhibitionEvent'
-  );
-}
-
 export function workLd(content) {
   const creators = (content.creators || []).map(c => {
     return {
@@ -232,25 +210,6 @@ export function eventLd(event: Event) {
         'Event'
       );
     });
-}
-
-export function eventPromoLd(eventPromo: EventPromo) {
-  return objToJsonLd(
-    {
-      name: eventPromo.title,
-      location: {
-        '@type': 'Place',
-        name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
-      },
-      startDate: eventPromo.start,
-      endDate: eventPromo.end,
-      description: eventPromo.description,
-      image:
-        eventPromo && convertImageUri(eventPromo.image.contentUrl, 1920, false),
-    },
-    'Event'
-  );
 }
 
 export function breadcrumbsLd(breadcrumbs) {
