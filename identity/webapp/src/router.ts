@@ -33,7 +33,6 @@ export const createRouter = (): Router<
   );
 
   const apiRouter = new Router<ApplicationState, ApplicationContext>();
-  apiRouter.use(koaBody());
 
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
@@ -50,7 +49,11 @@ export const createRouter = (): Router<
       requestDelete
     )
     .get('/users/:user_id/item-requests', getItemRequests)
-    .post('/users/:user_id/item-requests', createItemRequest);
+    .post(
+      '/users/:user_id/item-requests',
+      requestBody('CreateItemRequestSchema'),
+      createItemRequest
+    );
 
   accountRouter.use(
     '/account/api',
