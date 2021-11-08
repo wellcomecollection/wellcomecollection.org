@@ -37,7 +37,7 @@ export const createRouter = (): Router<
   apiRouter
     .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
     .get('/users/me', getCurrentUser)
-    .put('/users/me', updateCurrentUser)
+    .put('/users/me', requestBody('UpdateUserSchema'), updateCurrentUser)
     .put(
       '/users/me/password',
       requestBody('UpdatePasswordSchema'),
