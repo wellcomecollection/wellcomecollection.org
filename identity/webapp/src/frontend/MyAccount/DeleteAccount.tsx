@@ -30,6 +30,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
   onComplete,
   onCancel,
   isActive,
+  setIsModalLoading,
 }) => {
   const defaultValues: DeleteAccountInputs = useMemo(
     () => ({ password: '' }),
@@ -53,6 +54,10 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       onComplete();
     }
   }, [isSuccess, onComplete]);
+
+  useEffect(() => {
+    setIsModalLoading(isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     switch (error) {
