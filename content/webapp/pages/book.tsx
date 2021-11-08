@@ -9,7 +9,6 @@ import Body from '@weco/common/views/components/Body/Body';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
@@ -141,51 +140,6 @@ const BookPage: FC<Props> = props => {
     />
   );
 
-  // TODO: (drupal migration) we can drop reading the text fields once we've
-  // migrated the content over
-  const drupalPerson = book.authorName && {
-    type: 'people',
-    id: 'xxx',
-    name: book.authorName || '',
-    image: book.authorImage
-      ? {
-          contentUrl: book.authorImage || '',
-          width: 800,
-          height: 0,
-          alt: `Image of ${book.authorName}`,
-          tasl: {
-            sourceName: 'Unknown',
-            title: null,
-            author: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        }
-      : defaultContributorImage,
-    twitterHandle: null,
-    // parse this as string
-    description: book.authorDescription,
-    sameAs: [],
-  };
-  const drupalContributor = drupalPerson && {
-    contributor: drupalPerson,
-    description: null,
-    role: {
-      id: 'WcUWeCgAAFws-nGh',
-      title: 'Author',
-      describedBy: 'words',
-    },
-  };
-  const contributors =
-    book.contributors.length > 0
-      ? book.contributors
-      : drupalContributor
-      ? [drupalContributor]
-      : [];
-
   return (
     <PageLayout
       title={book.title}
@@ -202,7 +156,7 @@ const BookPage: FC<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        contributorProps={{ contributors }}
+        contributorProps={book.contributors}
         seasons={book.seasons}
       >
         <Fragment>
