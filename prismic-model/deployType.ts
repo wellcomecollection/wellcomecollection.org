@@ -3,10 +3,17 @@ import fetch from 'node-fetch';
 import * as dotenv from 'dotenv';
 import * as jsondiffpatch from 'jsondiffpatch';
 import prompts from 'prompts';
-import { PrismicCustomType } from './convertFromRemote';
 import { error, success } from './console';
 
 dotenv.config();
+
+type PrismicCustomType = {
+  id: string;
+  label: string;
+  repeatable: boolean;
+  json: unknown;
+  status: boolean;
+};
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
