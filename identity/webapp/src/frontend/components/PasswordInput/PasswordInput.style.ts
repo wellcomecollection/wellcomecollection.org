@@ -3,8 +3,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 
 export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
-  position: absolute;
-  right: 0;
   height: 55px;
   width: 55px;
   background: none;
