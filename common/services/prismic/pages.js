@@ -235,23 +235,6 @@ export async function getChildren(
   }
 }
 
-export async function getPageFromDrupalPath(
-  req: Request,
-  path: string
-): Promise<?Page> {
-  const pages = await getDocuments(
-    req,
-    [Prismic.Predicates.at('my.pages.drupalPath', path)],
-    {
-      fetchLinks: pagesFields.concat(eventSeriesFields),
-    }
-  );
-
-  if (pages.results.length > 0) {
-    return parsePage(pages.results[0]);
-  }
-}
-
 export const getPageFeaturedText = (page: Page): ?FeaturedText => {
   const filteredFeaturedText = page.body.filter(
     slice => slice.weight === 'featured'

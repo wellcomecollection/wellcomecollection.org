@@ -38,6 +38,7 @@ export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
+  contactUs: 'YVMbEBAAAPaMBrz7',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {

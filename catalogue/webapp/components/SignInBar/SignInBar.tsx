@@ -2,7 +2,6 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import LL from '@weco/common/views/components/styled/LL';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';
@@ -60,30 +59,18 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
   );
 };
 
-const Loading = () => {
-  return (
-    <>
-      <AlignFont>
-        <span className={font('hnb', 5)}>Loading…</span>
-      </AlignFont>
-      <LL small={true} />
-    </>
-  );
-};
-
 const SignInBar: FC = () => {
   const { state, reload } = useUser();
 
-  return state === 'signedin' || state === 'initial' ? null : (
+  return state === 'signedout' || state === 'failed' ? (
     <StyledComponent>
       <Space h={{ size: 's', properties: ['margin-right'] }}>
         <Icon icon={memberCard} />
       </Space>
-      {state === 'loading' && <Loading />}
       {state === 'signedout' && <SignInLink />}
       {state === 'failed' && <Reload reload={reload} />}
     </StyledComponent>
-  );
+  ) : null;
 };
 
 export default SignInBar;

@@ -27,8 +27,8 @@ import GlobalContextProvider, {
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
+import { useToggles } from '../../../server-data/Context';
 
 export type SiteSection =
   | 'collections'
@@ -69,7 +69,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
-  const { apiToolbar, enableRequesting } = useContext(TogglesContext);
+  const { apiToolbar, enableRequesting } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''

@@ -13,6 +13,7 @@ import {
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { FC } from 'react';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   books: PaginatedResults<Book>;
@@ -23,6 +24,7 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const books = await getBooks(context.req, { page }, memoizedPrismic);
@@ -31,6 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           books,
           globalContextData,
+          serverData,
         }),
       };
     } else {

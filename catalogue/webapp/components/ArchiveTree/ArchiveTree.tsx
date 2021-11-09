@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWork } from '../../services/catalogue/works';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import TogglesContext from '@weco/common/views/components/TogglesContext/TogglesContext';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
@@ -23,6 +22,7 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import { chevron, tree } from '@weco/common/icons';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -515,7 +515,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
-  const toggles = useContext(TogglesContext);
+  const toggles = useToggles();
   const { updateLastFocusableRef } = useContext(ModalContext);
   const descendentIsSelected =
     archiveAncestorArray &&
@@ -835,7 +835,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 }: {
   work: Work;
 }) => {
-  const toggles = useContext(TogglesContext);
+  const toggles = useToggles();
   const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);

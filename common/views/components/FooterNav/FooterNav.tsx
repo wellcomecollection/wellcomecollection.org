@@ -3,6 +3,7 @@ import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import { links } from '../Header/Header';
 import styled from 'styled-components';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 const NavLink = styled(Space).attrs({
   className: font('wb', 5),
@@ -32,6 +33,11 @@ const FooterNav: FunctionComponent = () => {
               </NavLink>
             </li>
           ))}
+          <li>
+            <NavLink as="a" href={`/pages/${prismicPageIds.contactUs}`}>
+              Contact us
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>

@@ -9,7 +9,6 @@ import Body from '@weco/common/views/components/Body/Body';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { defaultContributorImage } from '@weco/common/services/prismic/parsers';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
@@ -20,6 +19,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -72,6 +72,7 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const book: Book = await getBook(context.req, id, memoizedPrismic);
@@ -81,6 +82,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           book,
           globalContextData,
+          serverData,
           gaDimensions: {
             partOf: book.seasons.map(season => season.id),
           },
@@ -138,51 +140,6 @@ const BookPage: FC<Props> = props => {
     />
   );
 
-  // TODO: (drupal migration) we can drop reading the text fields once we've
-  // migrated the content over
-  const drupalPerson = book.authorName && {
-    type: 'people',
-    id: 'xxx',
-    name: book.authorName || '',
-    image: book.authorImage
-      ? {
-          contentUrl: book.authorImage || '',
-          width: 800,
-          height: 0,
-          alt: `Image of ${book.authorName}`,
-          tasl: {
-            sourceName: 'Unknown',
-            title: null,
-            author: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-          crops: {},
-        }
-      : defaultContributorImage,
-    twitterHandle: null,
-    // parse this as string
-    description: book.authorDescription,
-    sameAs: [],
-  };
-  const drupalContributor = drupalPerson && {
-    contributor: drupalPerson,
-    description: null,
-    role: {
-      id: 'WcUWeCgAAFws-nGh',
-      title: 'Author',
-      describedBy: 'words',
-    },
-  };
-  const contributors =
-    book.contributors.length > 0
-      ? book.contributors
-      : drupalContributor
-      ? [drupalContributor]
-      : [];
-
   return (
     <PageLayout
       title={book.title}
@@ -199,7 +156,7 @@ const BookPage: FC<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        contributorProps={{ contributors }}
+        contributorProps={book.contributors}
         seasons={book.seasons}
       >
         <Fragment>

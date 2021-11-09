@@ -19,6 +19,7 @@ import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
 import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
+import UserProvider from '../components/UserProvider/UserProvider';
 
 declare global {
   interface Window {
@@ -80,6 +81,7 @@ export function appError(
 ): { props: AppErrorProps } {
   const globalContextData = getGlobalContextData(context);
   context.res.statusCode = statusCode;
+
   return {
     props: {
       err: {
@@ -159,6 +161,23 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   pageProps,
   globalContextData,
 }) => {
+  // We throw on dev as all pages should set this
+  // You can set `skipServerData: true` to explicitly bypass this
+  // e.g. for error pages
+  const dev = process.env.NODE_ENV !== 'production';
+  const needsServerData =
+    pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
+
+  if (dev && needsServerData) {
+    throw new Error(
+      'Please set serverData on your getServerSideProps or getStaticProps'
+    );
+  }
+
+  const serverData = isServerData(pageProps.serverData)
+    ? pageProps.serverData
+    : defaultServerData;
+
   // enhanced
   useEffect(() => {
     makeSurePageIsTallEnough();
@@ -201,7 +220,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
 
     ReactGA.set({
-      dimension5: JSON.stringify(globalContextData.toggles),
+      dimension5: JSON.stringify(serverData.toggles),
     });
     trackGaPageview();
     Router.events.on('routeChangeComplete', trackGaPageview);
@@ -341,46 +360,30 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   }
 
-  // TODO: We should throw this error as soon as we have removed globalContextData
-  // We throw on dev as all pages should set this
-  // You can set `skipServerData: true` to explicitly bypass this
-  // e.g. for error pages
-  // const dev = process.env.NODE_ENV !== 'production';
-  // const needsServerData =
-  //   pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
-
-  // if (dev && needsServerData) {
-  //   throw new Error(
-  //     'Please set serverData on your getServerSideProps or getStaticProps'
-  //   );
-  // }
-
-  const serverData = isServerData(pageProps.serverData)
-    ? pageProps.serverData
-    : defaultServerData;
-
   return (
     <>
       <ServerDataContext.Provider value={serverData}>
-        <AppContextProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyle
-              toggles={globalContextData.toggles}
-              isFontsLoaded={useIsFontsLoaded()}
-            />
-            <OutboundLinkTracker>
-              <LoadingIndicator />
-              {!pageProps.err && <Component {...pageProps} />}
-              {pageProps.err && (
-                <ErrorPage
-                  statusCode={pageProps.err.statusCode}
-                  title={pageProps.err.message}
-                  globalContextData={globalContextData}
-                />
-              )}
-            </OutboundLinkTracker>
-          </ThemeProvider>
-        </AppContextProvider>
+        <UserProvider>
+          <AppContextProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyle
+                toggles={serverData.toggles}
+                isFontsLoaded={useIsFontsLoaded()}
+              />
+              <OutboundLinkTracker>
+                <LoadingIndicator />
+                {!pageProps.err && <Component {...pageProps} />}
+                {pageProps.err && (
+                  <ErrorPage
+                    statusCode={pageProps.err.statusCode}
+                    title={pageProps.err.message}
+                    globalContextData={globalContextData}
+                  />
+                )}
+              </OutboundLinkTracker>
+            </ThemeProvider>
+          </AppContextProvider>
+        </UserProvider>
       </ServerDataContext.Provider>
     </>
   );

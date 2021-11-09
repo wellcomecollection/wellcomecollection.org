@@ -105,6 +105,7 @@ const GuidePage = ({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   ctx: NextPageContext
 ) => {
+  const serverData = await getServerData(context);
   const globalContextData = getGlobalContextData(ctx);
   const { format, memoizedPrismic } = ctx.query;
   const guidesPromise = getGuides(
@@ -128,6 +129,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         guideFormats,
         formatId: format || null,
         globalContextData,
+        serverData,
       }),
     };
   } else {

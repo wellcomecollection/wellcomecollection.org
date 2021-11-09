@@ -9,11 +9,9 @@ import GlobalAlertContext, {
 import PopupDialogContext, {
   PopupDialog,
 } from '../PopupDialogContext/PopupDialogContext';
-import TogglesContext from '../TogglesContext/TogglesContext';
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
 import { ApmContextProvider } from '../ApmContext/ApmContext';
-import UserProvider from '../UserProvider/UserProvider';
 
 export type GlobalContextData = {
   toggles: Toggles;
@@ -52,9 +50,7 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
         <OpeningTimesContext.Provider value={parsedOpeningTimes}>
           <GlobalAlertContext.Provider value={value.globalAlert}>
             <PopupDialogContext.Provider value={value.popupDialog}>
-              <TogglesContext.Provider value={value.toggles}>
-                <UserProvider>{children}</UserProvider>
-              </TogglesContext.Provider>
+              {children}
             </PopupDialogContext.Provider>
           </GlobalAlertContext.Provider>
         </OpeningTimesContext.Provider>

@@ -22,6 +22,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   series: EventSeries;
@@ -30,6 +31,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const seriesAndEvents = await getEventSeries(
@@ -48,6 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           series,
           events,
           globalContextData,
+          serverData,
         }),
       };
     } else {

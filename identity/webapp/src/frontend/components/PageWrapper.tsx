@@ -1,9 +1,9 @@
 import { FC } from 'react';
+import Head from 'next/head';
+import styled from 'styled-components';
 import HeaderPrototype from '@weco/common/views/components/Header/HeaderPrototype';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
-import styled from 'styled-components';
-import Head from 'next/head';
 import Favicons from '@weco/common/views/components/Favicons/Favicons';
 
 const Main = styled.div`

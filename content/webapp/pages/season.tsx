@@ -19,6 +19,7 @@ import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import { getServerData } from '@weco/common/server-data';
 
 type Props = SeasonWithContent & WithGlobalContextData;
 const SeasonPage = ({
@@ -93,11 +94,12 @@ const SeasonPage = ({
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async ctx => {
-    const globalContextData = getGlobalContextData(ctx);
-    const { id, memoizedPrismic } = ctx.query;
+  async context => {
+    const serverData = await getServerData(context);
+    const globalContextData = getGlobalContextData(context);
+    const { id, memoizedPrismic } = context.query;
     const seasonWithContent = await getSeasonWithContent({
-      request: ctx.req,
+      request: context.req,
       id: id?.toString() || '',
       memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
     });
@@ -107,6 +109,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           ...seasonWithContent,
           globalContextData,
+          serverData,
         }),
       };
     } else {

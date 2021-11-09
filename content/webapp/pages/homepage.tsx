@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { articleLd } from '@weco/common/utils/json-ld';
@@ -36,6 +35,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { getServerData } from '@weco/common/server-data';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -70,6 +70,7 @@ const pageImage =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(
@@ -108,6 +109,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibitions,
           events,
           globalContextData,
+          serverData,
         }),
       };
     } else {

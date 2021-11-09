@@ -466,33 +466,6 @@ export async function getExhibitionRelatedContent(
   };
 }
 
-type ExhibitQuery = {| ids: string[] |};
-export async function getExhibitionExhibits(
-  req: Request,
-  { ids }: ExhibitQuery
-): Promise<?PaginatedResults<UiExhibit>> {
-  const predicates = [Prismic.Predicates.in('document.id', ids)];
-  const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(contributorsFields, placesFields),
-  });
-
-  const exhibitResults = parseExhibits(
-    apiResponse.results.map(result => {
-      return {
-        item: result,
-      };
-    })
-  );
-
-  return {
-    currentPage: apiResponse.currentPage,
-    pageSize: apiResponse.pageSize,
-    totalResults: apiResponse.totalResults,
-    totalPages: apiResponse.totalPages,
-    results: exhibitResults,
-  };
-}
-
 export async function getExhibitExhibition(
   req: ?Request,
   exhibitId: string
@@ -510,22 +483,5 @@ export async function getExhibitExhibition(
 
   if (apiResponse.results.length > 0) {
     return parseExhibitionDoc(apiResponse.results[0]);
-  }
-}
-
-export async function getExhibitionFromDrupalPath(
-  req: Request,
-  path: string
-): Promise<?UiExhibition> {
-  const exhibitions = await getDocuments(
-    req,
-    [Prismic.Predicates.at('my.exhibitions.drupalPath', path)],
-    {
-      fetchLinks: peopleFields.concat(contributorsFields, placesFields),
-    }
-  );
-
-  if (exhibitions.results.length > 0) {
-    return parseExhibitionDoc(exhibitions.results[0]);
   }
 }

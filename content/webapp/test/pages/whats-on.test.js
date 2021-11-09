@@ -1,6 +1,8 @@
 import { whatsOn } from '@weco/common/test/fixtures/pages/whats-on';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 
+jest.mock('@weco/common/server-data');
+
 // We pull in the page after we've set the config
 const WhatsOnPage = require('../../pages/whats-on').default;
 
