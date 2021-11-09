@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { useState, useEffect, FunctionComponent } from 'react';
+import { useState, useEffect, FunctionComponent, useContext } from 'react';
 import moment from 'moment';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies } from '@weco/common/icons';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
@@ -37,7 +38,8 @@ const CloseCookieNotice = styled.button`
 `;
 
 const CookieNotice: FunctionComponent = () => {
-  const [shouldRender, setShouldRender] = useState(true);
+  const { isEnhanced } = useContext(AppContext);
+  const [shouldRender, setShouldRender] = useState(isEnhanced);
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
       path: '/',
