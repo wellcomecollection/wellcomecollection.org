@@ -16,6 +16,8 @@ export const TextInputWrap = styled.div.attrs({
     'flex relative': true,
   }),
 })<TextInputWrapProps>`
+  border: 1px solid ${props => props.theme.color('pumice')};
+  border-radius: 6px;
   font-size: ${props => (props.big ? '20px' : '16px')};
 
   &:focus-within {
@@ -90,8 +92,6 @@ export const TextInputInput = styled.input.attrs(props => ({
   appearance: none;
   border: 0;
   height: 100%;
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-radius: 6px;
   font-size: inherit;
   width: 100%;
 
