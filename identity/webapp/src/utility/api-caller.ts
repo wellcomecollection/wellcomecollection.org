@@ -8,7 +8,7 @@ import axios, {
 import { ApplicationContext, ApplicationState } from '../types/application';
 import { ParameterizedContext } from 'koa';
 
-const identityInstance: AxiosInstance = axios.create({
+export const identityAxios: AxiosInstance = axios.create({
   baseURL: config.remoteApi.host,
   headers: {
     'x-api-key': config.remoteApi.apiKey,
@@ -27,7 +27,7 @@ export async function callRemoteApi(
   let request: AxiosRequestConfig = {
     url: path,
     method: context.method as AxiosMethod,
-    headers: identityInstance.defaults.headers.common,
+    headers: identityAxios.defaults.headers.common,
     validateStatus: (status: number) => status >= 200 && status < 300,
   };
 
@@ -48,7 +48,7 @@ export async function callRemoteApi(
     };
   }
 
-  return identityInstance.request(request).catch(function (error) {
+  return identityAxios.request(request).catch(function (error) {
     console.error(error);
     return error.response;
   });
