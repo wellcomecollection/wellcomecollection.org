@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import { RouterParamContext } from '@koa/router';
-import { Ajv } from 'ajv';
 
 export interface ApplicationState {
   // User.
@@ -13,7 +12,6 @@ export interface ApplicationState {
 export interface ApplicationContext {
   logout: () => void;
   isAuthenticated: () => boolean;
-  ajv: Ajv;
 }
 
 export type RouteContext<Params = any> = ApplicationContext &
