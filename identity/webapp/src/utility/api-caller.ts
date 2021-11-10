@@ -2,10 +2,11 @@ import { config } from '../config';
 import axios, {
   AxiosInstance,
   AxiosResponse,
-  Method,
   AxiosRequestConfig,
+  Method as AxiosMethod,
 } from 'axios';
-import { ApplicationState } from '../types/application';
+import { ApplicationContext, ApplicationState } from '../types/application';
+import { ParameterizedContext } from 'koa';
 
 const identityInstance: AxiosInstance = axios.create({
   baseURL: config.remoteApi.host,
@@ -20,36 +21,30 @@ const isAuthenticated = (contextState: ContextState): boolean =>
   !!contextState.user?.accessToken;
 
 export async function callRemoteApi(
-  method: Method,
-  url: string,
-  contextState: ContextState,
-  body?: unknown,
-  authenticate = true
+  path: string,
+  context: ParameterizedContext<ContextState, ApplicationContext>
 ): Promise<AxiosResponse> {
   let request: AxiosRequestConfig = {
-    method,
-    url,
+    url: path,
+    method: context.method as AxiosMethod,
     headers: identityInstance.defaults.headers.common,
     validateStatus: (status: number) => status >= 200 && status < 300,
   };
 
-  if (authenticate && isAuthenticated(contextState)) {
+  if (isAuthenticated(context.state)) {
     request = {
       ...request,
       headers: {
         ...request.headers,
-        Authorization: 'Bearer ' + contextState.user.accessToken,
+        Authorization: 'Bearer ' + context.state.user.accessToken,
       },
     };
   }
-  if (body) {
+
+  if (context.body) {
     request = {
       ...request,
-      headers: {
-        ...request.headers,
-        'Content-Type': 'application/json',
-      },
-      data: body,
+      data: context.body,
     };
   }
 
