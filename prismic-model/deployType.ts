@@ -24,9 +24,6 @@ const { id, argsConfirm } = yargs(process.argv.slice(2))
   .parseSync();
 
 async function run() {
-  // There are things that we don't currently control in the model here, but can
-  // e.g. repeatable, label etc. For now we just replicate remote.
-  // TODO: control the data in the repo.
   const remoteType: PrismicCustomType = await fetch(
     `https://customtypes.prismic.io/customtypes/${id}`,
     {
@@ -39,15 +36,7 @@ async function run() {
 
   const localType = (await import(`./src/${id}`)).default;
 
-  const data: PrismicCustomType = {
-    id,
-    label: remoteType.label,
-    repeatable: remoteType.repeatable,
-    status: remoteType.status,
-    json: localType,
-  };
-
-  const delta = jsondiffpatch.diff(remoteType, data);
+  const delta = jsondiffpatch.diff(remoteType, localType);
   const diff = jsondiffpatch.formatters.console.format(delta, remoteType);
 
   console.info('------------------------');
@@ -74,7 +63,7 @@ async function run() {
         repository: process.env.PRISMIC_REPOSITORY,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(localType),
     }
   );
 

@@ -4,22 +4,29 @@ import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
 import structuredText from './parts/structured-text';
+import { CustomType } from './types/CustomType';
 
-const EventSeries = {
-  'Event series': {
-    title,
-    backgroundTexture: link('Background texture', 'document', [
-      'background-textures',
-    ]),
-    body,
-  },
-  Contributors: contributorsWithTitle(),
-  Promo: {
-    promo,
-  },
-  Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single'),
+const eventSeries: CustomType = {
+  id: 'event-series',
+  label: 'Event series',
+  repeatable: true,
+  status: true,
+  json: {
+    'Event series': {
+      title,
+      backgroundTexture: link('Background texture', 'document', [
+        'background-textures',
+      ]),
+      body,
+    },
+    Contributors: contributorsWithTitle(),
+    Promo: {
+      promo,
+    },
+    Metadata: {
+      metadataDescription: structuredText('Metadata description', 'single'),
+    },
   },
 };
 
-export default EventSeries;
+export default eventSeries;

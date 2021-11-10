@@ -1,11 +1,18 @@
 import structuredText from './parts/structured-text';
 import text from './parts/text';
+import { CustomType } from './types/CustomType';
 
-const ContributorRoles = {
-  Contributor: {
-    title: structuredText('Title', 'single', ['heading1']),
-    describedBy: text('Word to describe output of the role'),
+const editorialContributorRoles: CustomType = {
+  id: 'editorial-contributor-roles',
+  label: 'Contributor role',
+  repeatable: true,
+  status: true,
+  json: {
+    Contributor: {
+      title: structuredText('Title', 'single', ['heading1']),
+      describedBy: text('Word to describe output of the role'),
+    },
   },
 };
 
-export default ContributorRoles;
+export default editorialContributorRoles;

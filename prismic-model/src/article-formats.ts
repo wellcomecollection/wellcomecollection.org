@@ -1,4 +1,12 @@
+import { CustomType } from './types/CustomType';
 import label from './types/label';
 
-const ArticleFormat = label('Article format');
-export default ArticleFormat;
+const articleFormats: CustomType = {
+  id: 'article-formats',
+  label: 'Story format',
+  repeatable: true,
+  status: true,
+  json: label('Article format'),
+};
+
+export default articleFormats;

@@ -2,16 +2,23 @@ import structuredText from './parts/structured-text';
 import text from './parts/text';
 import boolean from './parts/boolean';
 import link from './parts/link';
+import { CustomType } from './types/CustomType';
 
-const PopupDialog = {
-  PopupDialog: {
-    openButtonText: text('Open button text'),
-    title: text('Title inside the open dialog'),
-    text: structuredText('Text inside the open dialog', 'single'),
-    linkText: text('CTA inside the open dialog button text'),
-    link: link('CTA inside the open dialog button link', 'web'),
-    isShown: boolean('Is shown?', false),
+const popupDialog: CustomType = {
+  id: 'popup-dialog',
+  label: 'Popup dialog',
+  repeatable: false,
+  status: true,
+  json: {
+    'Popup dialog': {
+      openButtonText: text('Open button text'),
+      title: text('Title inside the open dialog'),
+      text: structuredText('Text inside the open dialog', 'single'),
+      linkText: text('CTA inside the open dialog button text'),
+      link: link('CTA inside the open dialog button link', 'web'),
+      isShown: boolean('Is shown?', false),
+    },
   },
 };
 
-export default PopupDialog;
+export default popupDialog;
