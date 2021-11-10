@@ -9,10 +9,7 @@ import session from 'koa-session';
 import logger from 'koa-logger';
 import koaPassport from 'koa-passport';
 import Router from '@koa/router';
-import Ajv from 'ajv';
-import * as path from 'path';
 import next from 'next';
-import { readdirSync, readFileSync } from 'fs';
 import { errorHandler } from './middleware/error-handler';
 import { configureLocalAuth } from './utility/configure-local-auth';
 import { config } from './config';
@@ -51,22 +48,6 @@ export async function createApp(
 
   app.use(koaPassport.initialize());
   app.use(koaPassport.session());
-
-  // Validator.
-  app.context.ajv = new Ajv();
-  for (const file of readdirSync(path.resolve(__dirname, '..', 'schemas'))) {
-    if (file.endsWith('.json')) {
-      const name = path.basename(file, '.json');
-      app.context.ajv.addSchema(
-        JSON.parse(
-          readFileSync(path.resolve(__dirname, '..', 'schemas', file)).toString(
-            'utf-8'
-          )
-        ),
-        name
-      );
-    }
-  }
 
   app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
   app.use(logger());
