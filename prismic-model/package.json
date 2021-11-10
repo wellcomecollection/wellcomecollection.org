@@ -3,7 +3,8 @@
     "convertFromSrc": "ts-node convertFromSrc",
     "convertFromRemote": "ts-node convertFromRemote",
     "contentHasSlice": "ts-node contentHasSlice",
-    "deployType": "ts-node deployType"
+    "deployType": "ts-node deployType",
+    "diffCustomTypes": "ts-node diffCustomTypes"
   },
   "dependencies": {
     "@prismicio/client": "^5.1.0",

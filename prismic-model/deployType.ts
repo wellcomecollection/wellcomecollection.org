@@ -4,16 +4,9 @@ import * as dotenv from 'dotenv';
 import * as jsondiffpatch from 'jsondiffpatch';
 import prompts from 'prompts';
 import { error, success } from './console';
+import { CustomType } from './src/types/CustomType';
 
 dotenv.config();
-
-type PrismicCustomType = {
-  id: string;
-  label: string;
-  repeatable: boolean;
-  json: unknown;
-  status: boolean;
-};
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -24,7 +17,7 @@ const { id, argsConfirm } = yargs(process.argv.slice(2))
   .parseSync();
 
 async function run() {
-  const remoteType: PrismicCustomType = await fetch(
+  const remoteType: CustomType = await fetch(
     `https://customtypes.prismic.io/customtypes/${id}`,
     {
       headers: {
