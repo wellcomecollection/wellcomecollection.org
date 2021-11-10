@@ -1,78 +1,97 @@
 const manifest = {
   '@context': 'http://iiif.io/api/presentation/2/context.json',
-  '@id': 'https://wellcomelibrary.org/iiif/b21538906/manifest',
+  '@id': 'https://iiif.wellcomecollection.org/presentation/v2/b21538906',
   '@type': 'sc:Manifest',
-  label: 'Egg cookery : how to cook eggs in 150 ways, English and foreign',
+  label:
+    'Egg cookery : how to cook eggs in 150 ways, English and foreign / by Mrs. Hugh Coleman Davidson.',
   metadata: [
     {
-      label: 'Title',
-      value: 'Egg cookery :',
+      label: 'Publication/creation',
+      value: '[London] : L. Upcott Gill, 1899.',
     },
     {
-      label: 'Author(s)',
-      value: 'Davidson, J. E; University of Leeds',
+      label: 'Physical description',
+      value: '86 pages ; 19 cm',
     },
     {
-      label: 'Publication date',
-      value: '1899.',
+      label: 'Contributors',
+      value: 'Davidson, J. E.; University of Leeds. Library',
     },
     {
-      label: 'Repository',
-      value:
-        "<img src='https://wellcomelibrary.org/biblio/b21538906/repositoryLogo' alt='The University of Leeds Library' /><br/><br/>This material has been provided by The University of Leeds Library where the originals may be consulted.",
+      label: 'Type/technique',
+      value: 'Electronic books',
     },
     {
-      label: '',
-      value:
-        "<a href='https://search.wellcomelibrary.org/iii/encore/record/C__Rb2153890'>View full catalogue record</a>",
+      label: 'Attribution',
+      value: 'Leeds University Archive',
     },
     {
       label: 'Full conditions of use',
       value:
-        'This work has been identified as being free of known restrictions under copyright law, including all related and neighbouring rights and is being made available under the <a target="_top" href="http://creativecommons.org/publicdomain/mark/1.0/">Creative Commons, Public Domain Mark</a>.<br/><br/>You can copy, modify, distribute and perform the work, even for commercial purposes, without asking permission.',
+        "&lt;span&gt;This work has been identified as being free of known restrictions under copyright law, including all related and neighbouring rights and is being made available under the &lt;a target='_top' href='http://creativecommons.org/publicdomain/mark/1.0/';&gt;Creative Commons, Public Domain Mark&lt;/a&gt;.&lt;br/&gt;&lt;br/&gt;You can copy, modify, distribute and perform the work, even for commercial purposes, without asking permission.&lt;/span&gt;",
+    },
+    {
+      label: 'Repository',
+      value:
+        '&lt;img src="https://iiif.wellcomecollection.org/partners/leeds-logo.jpg&apos; alt="Leeds University Archive"" /&gt;&lt;br/&gt;&lt;br/&gt;This material has been provided by This material has been provided by The University of Leeds Library. The original may be consulted at The University of Leeds Library. where the originals may be consulted.',
     },
   ],
-  license: 'https://creativecommons.org/publicdomain/mark/1.0/',
-  logo: 'https://wellcomelibrary.org/assets/img/squarelogo64.png',
-  related: {
-    '@id': 'https://wellcomelibrary.org/item/b21538906',
-    format: 'text/html',
+  thumbnail: {
+    '@id':
+      'https://iiif.wellcomecollection.org/thumbs/b21538906_0007.jp2/full/63,100/0/default.jpg',
+    '@type': 'dctypes:Image',
+    service: {
+      '@context': 'http://iiif.io/api/image/2/context.json',
+      '@id': 'https://iiif.wellcomecollection.org/thumbs/b21538906_0007.jp2',
+      profile: 'http://iiif.io/api/image/2/level0.json',
+      protocol: 'http://iiif.io/api/image',
+      width: 649,
+      height: 1024,
+      sizes: [
+        {
+          width: 63,
+          height: 100,
+        },
+        {
+          width: 127,
+          height: 200,
+        },
+        {
+          width: 253,
+          height: 400,
+        },
+        {
+          width: 649,
+          height: 1024,
+        },
+      ],
+    },
   },
-  seeAlso: [
-    {
-      '@id': 'https://wellcomelibrary.org/data/b21538906.json',
-      format: 'application/json',
-      profile: 'http://wellcomelibrary.org/profiles/res',
-    },
-    {
-      '@id': 'https://wellcomelibrary.org/resource/schemaorg/b21538906',
-      format: 'application/ld+json',
-      profile: 'http://iiif.io/community/profiles/discovery/schema',
-    },
-    {
-      '@id': 'https://wellcomelibrary.org/resource/dublincore/b21538906',
-      format: 'application/ld+json',
-      profile: 'http://iiif.io/community/profiles/discovery/dc',
-    },
-  ],
+  license: 'http://creativecommons.org/publicdomain/mark/1.0/',
+  logo: 'https://iiif.wellcomecollection.org/logos/wellcome-collection-black.png',
+  related: {
+    '@id': 'https://wellcomecollection.org/works/pxv98cnk',
+    format: 'text/html',
+    label:
+      'Egg cookery : how to cook eggs in 150 ways, English and foreign / by Mrs. Hugh Coleman Davidson.',
+  },
+  seeAlso: {
+    '@id': 'https://api.wellcomecollection.org/catalogue/v2/works/pxv98cnk',
+    profile: 'https://api.wellcomecollection.org/catalogue/v2/context.json',
+    format: 'application/json',
+    label: 'Wellcome Collection Catalogue API',
+  },
   service: [
     {
-      '@context': 'http://wellcomelibrary.org/ld/iiif-ext/0/context.json',
-      '@id':
-        'https://wellcomelibrary.org/iiif/b21538906-0/access-control-hints-service',
-      profile: 'http://wellcomelibrary.org/ld/iiif-ext/access-control-hints',
-      accessHint: 'open',
-    },
-    {
       '@context': 'http://iiif.io/api/search/0/context.json',
-      '@id': 'https://wellcomelibrary.org/annoservices/search/b21538906',
+      '@id': 'https://iiif.wellcomecollection.org/search/v0/b21538906',
       profile: 'http://iiif.io/api/search/0/search',
       label: 'Search within this manifest',
       service: {
         '@id':
-          'https://wellcomelibrary.org/annoservices/autocomplete/b21538906',
+          'https://iiif.wellcomecollection.org/search/autocomplete/v1/b21538906',
         profile: 'http://iiif.io/api/search/0/autocomplete',
-        label: 'Get suggested words in this manifest',
+        label: 'Autocomplete words in this manifest',
       },
     },
     {
@@ -80,43 +99,53 @@ const manifest = {
       '@id': 'http://wellcomelibrary.org/service/trackingLabels/b21538906',
       profile: 'http://universalviewer.io/tracking-extensions-profile',
       trackingLabel:
-        'Format: monograph, Institution: The University of Leeds Library, Identifier: b21538906, Digicode: digleeds, Collection code: n/a',
+        'Format: Monograph, Institution: Leeds University Archive, Identifier: b21538906, Digicode: digleeds, Collection code: n/a',
+    },
+    {
+      '@context': 'http://wellcomelibrary.org/ld/iiif-ext/0/context.json',
+      '@id':
+        'https://wellcomelibrary.org/iiif/b21538906/access-control-hints-service',
+      profile: 'http://wellcomelibrary.org/ld/iiif-ext/access-control-hints',
+      accessHint: 'open',
     },
   ],
   sequences: [
     {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/sequence/s0',
+      '@id':
+        'https://iiif.wellcomecollection.org/presentation/v2/b21538906/sequences/s0',
       '@type': 'sc:Sequence',
       label: 'Sequence s0',
       rendering: [
         {
-          '@id': 'https://dlcs.io/pdf/wellcome/pdf-item/b21538906/0',
+          '@id': 'https://iiif.wellcomecollection.org/pdf/b21538906',
+          label: 'View as PDF',
           format: 'application/pdf',
-          label: 'Download as PDF',
         },
         {
-          '@id':
-            'https://wellcomelibrary.org/service/fulltext/b21538906/0?raw=true',
+          '@id': 'https://api.wellcomecollection.org/text/v1/b21538906',
+          label: 'View raw text',
           format: 'text/plain',
-          label: 'Download raw text',
         },
       ],
       viewingHint: 'paged',
       canvases: [
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c0',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0001.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0001.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0001.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0001.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -135,14 +164,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=0',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0001.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3506,
@@ -150,12 +178,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0001.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0001.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0001.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -163,36 +191,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0001.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0001.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2244,
+                  height: 3506,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c0',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/0',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0001.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c1',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0002.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0002.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0002.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0002.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 658,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -211,14 +246,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=1',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0002.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3441,
@@ -226,12 +260,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0002.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0002.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0002.jp2/full/658,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -239,36 +273,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0002.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0002.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2212,
+                  height: 3441,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c1',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0002.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/1',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0002.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c2',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0003.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0003.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0003.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0003.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 658,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -287,14 +328,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=2',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0003.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3441,
@@ -302,12 +342,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0003.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0003.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0003.jp2/full/658,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -315,36 +355,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0003.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0003.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2212,
+                  height: 3441,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c2',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0003.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/2',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0003.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c3',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0004.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0004.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0004.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0004.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0004.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -363,14 +410,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=3',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0004.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -378,12 +424,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0004.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0004.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0004.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0004.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -391,36 +437,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0004.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0004.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c3',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0004.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/3',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0004.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c4',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0005.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0005.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0005.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0005.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0005.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -439,14 +492,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=4',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0005.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -454,12 +506,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0005.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0005.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0005.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0005.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -467,36 +519,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0005.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0005.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c4',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0005.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/4',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0005.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c5',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0006.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0006.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0006.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0006.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -515,14 +574,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=5',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0006.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -530,12 +588,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0006.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0006.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0006.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -543,36 +601,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0006.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0006.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c5',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0006.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/5',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0006.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c6',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0007.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0007.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0007.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0007.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -591,14 +656,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=6',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0007.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -606,12 +670,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0007.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0007.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0007.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -619,36 +683,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0007.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0007.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c6',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/6',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0007.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c7',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0008.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0008.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0008.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0008.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0008.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -667,14 +738,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=7',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0008.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -682,12 +752,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0008.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0008.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0008.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0008.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -695,36 +765,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0008.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0008.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c7',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0008.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/7',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0008.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c8',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0009.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0009.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0009.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0009.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -743,14 +820,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=8',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0009.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -758,12 +834,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0009.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0009.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0009.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -771,36 +847,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0009.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0009.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c8',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0009.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/8',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0009.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c9',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0010.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0010.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0010.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0010.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -819,14 +902,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=9',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0010.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -834,12 +916,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0010.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0010.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0010.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -847,36 +929,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0010.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0010.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c9',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0010.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/9',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0010.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c10',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0011.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0011.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0011.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0011.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0011.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -895,14 +984,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=10',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0011.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -910,12 +998,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0011.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0011.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0011.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0011.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -923,36 +1011,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0011.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0011.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c10',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0011.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/10',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0011.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c11',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0012.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0012.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0012.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0012.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0012.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -971,14 +1066,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=11',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0012.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -986,12 +1080,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0012.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0012.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0012.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0012.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -999,36 +1093,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0012.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0012.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c11',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0012.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/11',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0012.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c12',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0013.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0013.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0013.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0013.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0013.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1047,14 +1148,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=12',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0013.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1062,12 +1162,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0013.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0013.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0013.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0013.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1075,36 +1175,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0013.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0013.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c12',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0013.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/12',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0013.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c13',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0014.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0014.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0014.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0014.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0014.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1123,14 +1230,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=13',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0014.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1138,12 +1244,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0014.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0014.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0014.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0014.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1151,36 +1257,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0014.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0014.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c13',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0014.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/13',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0014.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c14',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0015.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0015.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0015.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0015.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0015.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1199,14 +1312,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=14',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0015.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1214,12 +1326,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0015.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0015.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0015.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0015.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1227,36 +1339,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0015.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0015.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c14',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0015.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/14',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0015.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c15',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0016.jp2',
           '@type': 'sc:Canvas',
           label: '12',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0016.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0016.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0016.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0016.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1275,14 +1394,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=15',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0016.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1290,12 +1408,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0016.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0016.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0016.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0016.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1303,36 +1421,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0016.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0016.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c15',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0016.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/15',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0016.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 12',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c16',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0017.jp2',
           '@type': 'sc:Canvas',
           label: '13',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0017.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0017.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0017.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0017.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1351,14 +1476,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=16',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0017.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1366,12 +1490,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0017.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0017.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0017.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0017.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1379,36 +1503,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0017.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0017.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c16',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0017.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/16',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0017.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 13',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c17',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0018.jp2',
           '@type': 'sc:Canvas',
           label: '14',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0018.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0018.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0018.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0018.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1427,14 +1558,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=17',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0018.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1442,12 +1572,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0018.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0018.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0018.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0018.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1455,36 +1585,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0018.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0018.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c17',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0018.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/17',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0018.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 14',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c18',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0019.jp2',
           '@type': 'sc:Canvas',
           label: '15',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0019.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0019.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0019.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0019.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1503,14 +1640,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=18',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0019.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1518,12 +1654,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0019.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0019.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0019.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0019.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1531,36 +1667,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0019.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0019.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c18',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0019.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/18',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0019.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 15',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c19',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0020.jp2',
           '@type': 'sc:Canvas',
           label: '16',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0020.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0020.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0020.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0020.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1579,14 +1722,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=19',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0020.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1594,12 +1736,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0020.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0020.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0020.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0020.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1607,36 +1749,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0020.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0020.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c19',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0020.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/19',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0020.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 16',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c20',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0021.jp2',
           '@type': 'sc:Canvas',
           label: '17',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0021.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0021.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0021.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0021.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 649,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -1655,14 +1804,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=20',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0021.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3355,
@@ -1670,12 +1818,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0021.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0021.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0021.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0021.jp2/full/649,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1683,36 +1831,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0021.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0021.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2126,
+                  height: 3355,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c20',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0021.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/20',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0021.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 17',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c21',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0022.jp2',
           '@type': 'sc:Canvas',
           label: '18',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0022.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0022.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0022.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0022.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -1731,14 +1886,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=21',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0022.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -1746,12 +1900,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0022.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0022.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0022.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0022.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1759,36 +1913,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0022.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0022.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c21',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0022.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/21',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0022.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 18',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c22',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0023.jp2',
           '@type': 'sc:Canvas',
           label: '19',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0023.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0023.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0023.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0023.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -1807,14 +1968,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=22',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0023.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -1822,12 +1982,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0023.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0023.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0023.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0023.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1835,36 +1995,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0023.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0023.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c22',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0023.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/22',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0023.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 19',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c23',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0024.jp2',
           '@type': 'sc:Canvas',
           label: '20',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0024.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0024.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0024.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0024.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -1883,14 +2050,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=23',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0024.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -1898,12 +2064,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0024.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0024.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0024.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0024.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1911,36 +2077,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0024.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0024.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c23',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0024.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/23',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0024.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 20',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c24',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0025.jp2',
           '@type': 'sc:Canvas',
           label: '21',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0025.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0025.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0025.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0025.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -1959,14 +2132,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=24',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0025.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -1974,12 +2146,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0025.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0025.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0025.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0025.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -1987,36 +2159,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0025.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0025.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c24',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0025.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/24',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0025.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 21',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c25',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0026.jp2',
           '@type': 'sc:Canvas',
           label: '22',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0026.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0026.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0026.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0026.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2035,14 +2214,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=25',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0026.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2050,12 +2228,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0026.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0026.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0026.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0026.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2063,36 +2241,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0026.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0026.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c25',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0026.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/25',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0026.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 22',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c26',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0027.jp2',
           '@type': 'sc:Canvas',
           label: '23',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0027.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0027.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0027.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0027.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2111,14 +2296,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=26',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0027.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2126,12 +2310,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0027.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0027.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0027.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0027.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2139,36 +2323,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0027.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0027.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c26',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0027.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/26',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0027.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 23',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c27',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0028.jp2',
           '@type': 'sc:Canvas',
           label: '24',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0028.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0028.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0028.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0028.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2187,14 +2378,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=27',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0028.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2202,12 +2392,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0028.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0028.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0028.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0028.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2215,36 +2405,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0028.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0028.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c27',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0028.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/27',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0028.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 24',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c28',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0029.jp2',
           '@type': 'sc:Canvas',
           label: '25',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0029.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0029.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0029.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0029.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2263,14 +2460,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=28',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0029.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2278,12 +2474,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0029.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0029.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0029.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0029.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2291,36 +2487,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0029.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0029.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c28',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0029.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/28',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0029.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 25',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c29',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0030.jp2',
           '@type': 'sc:Canvas',
           label: '26',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0030.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0030.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0030.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0030.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2339,14 +2542,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=29',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0030.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2354,12 +2556,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0030.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0030.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0030.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0030.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2367,36 +2569,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0030.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0030.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c29',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0030.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/29',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0030.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 26',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c30',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0031.jp2',
           '@type': 'sc:Canvas',
           label: '27',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0031.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0031.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0031.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0031.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2415,14 +2624,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=30',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0031.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2430,12 +2638,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0031.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0031.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0031.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0031.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2443,36 +2651,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0031.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0031.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c30',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0031.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/30',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0031.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 27',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c31',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0032.jp2',
           '@type': 'sc:Canvas',
           label: '28',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0032.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0032.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0032.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0032.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2491,14 +2706,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=31',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0032.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2506,12 +2720,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0032.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0032.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0032.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0032.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2519,36 +2733,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0032.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0032.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c31',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0032.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/31',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0032.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 28',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c32',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0033.jp2',
           '@type': 'sc:Canvas',
           label: '29',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0033.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0033.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0033.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0033.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2567,14 +2788,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=32',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0033.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2582,12 +2802,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0033.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0033.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0033.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0033.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2595,36 +2815,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0033.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0033.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c32',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0033.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/32',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0033.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 29',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c33',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0034.jp2',
           '@type': 'sc:Canvas',
           label: '30',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0034.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0034.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0034.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0034.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2643,14 +2870,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=33',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0034.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2658,12 +2884,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0034.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0034.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0034.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0034.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2671,36 +2897,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0034.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0034.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c33',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0034.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/33',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0034.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 30',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c34',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0035.jp2',
           '@type': 'sc:Canvas',
           label: '31',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0035.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0035.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0035.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0035.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2719,14 +2952,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=34',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0035.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2734,12 +2966,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0035.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0035.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0035.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0035.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2747,36 +2979,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0035.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0035.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c34',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0035.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/34',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0035.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 31',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c35',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0036.jp2',
           '@type': 'sc:Canvas',
           label: '32',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0036.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0036.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0036.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0036.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2795,14 +3034,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=35',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0036.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2810,12 +3048,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0036.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0036.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0036.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0036.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2823,36 +3061,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0036.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0036.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c35',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0036.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/35',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0036.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 32',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c36',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0037.jp2',
           '@type': 'sc:Canvas',
           label: '33',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0037.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0037.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0037.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0037.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2871,14 +3116,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=36',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0037.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2886,12 +3130,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0037.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0037.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0037.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0037.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2899,36 +3143,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0037.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0037.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c36',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0037.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/36',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0037.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 33',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c37',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0038.jp2',
           '@type': 'sc:Canvas',
           label: '34',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0038.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0038.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0038.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0038.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -2947,14 +3198,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=37',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0038.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -2962,12 +3212,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0038.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0038.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0038.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0038.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -2975,36 +3225,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0038.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0038.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c37',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0038.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/37',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0038.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 34',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c38',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0039.jp2',
           '@type': 'sc:Canvas',
           label: '35',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0039.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0039.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0039.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0039.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3023,14 +3280,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=38',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0039.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3038,12 +3294,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0039.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0039.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0039.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0039.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3051,36 +3307,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0039.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0039.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c38',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0039.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/38',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0039.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 35',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c39',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0040.jp2',
           '@type': 'sc:Canvas',
           label: '36',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0040.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0040.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0040.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0040.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3099,14 +3362,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=39',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0040.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3114,12 +3376,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0040.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0040.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0040.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0040.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3127,36 +3389,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0040.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0040.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c39',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0040.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/39',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0040.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 36',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c40',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0041.jp2',
           '@type': 'sc:Canvas',
           label: '37',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0041.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0041.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0041.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0041.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3175,14 +3444,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=40',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0041.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3190,12 +3458,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0041.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0041.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0041.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0041.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3203,36 +3471,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0041.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0041.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c40',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0041.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/40',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0041.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 37',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c41',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0042.jp2',
           '@type': 'sc:Canvas',
           label: '38',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0042.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0042.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0042.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0042.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3251,14 +3526,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=41',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0042.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3266,12 +3540,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0042.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0042.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0042.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0042.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3279,36 +3553,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0042.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0042.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c41',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0042.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/41',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0042.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 38',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c42',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0043.jp2',
           '@type': 'sc:Canvas',
           label: '39',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0043.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0043.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0043.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0043.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3327,14 +3608,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=42',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0043.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3342,12 +3622,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0043.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0043.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0043.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0043.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3355,36 +3635,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0043.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0043.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c42',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0043.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/42',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0043.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 39',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c43',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0044.jp2',
           '@type': 'sc:Canvas',
           label: '40',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0044.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0044.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0044.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0044.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3403,14 +3690,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=43',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0044.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3418,12 +3704,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0044.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0044.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0044.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0044.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3431,36 +3717,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0044.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0044.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c43',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0044.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/43',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0044.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 40',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c44',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0045.jp2',
           '@type': 'sc:Canvas',
           label: '41',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0045.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0045.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0045.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0045.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3479,14 +3772,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=44',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0045.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3494,12 +3786,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0045.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0045.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0045.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0045.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3507,36 +3799,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0045.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0045.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c44',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0045.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/44',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0045.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 41',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c45',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0046.jp2',
           '@type': 'sc:Canvas',
           label: '42',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0046.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0046.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0046.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0046.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3555,14 +3854,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=45',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0046.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3570,12 +3868,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0046.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0046.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0046.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0046.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3583,36 +3881,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0046.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0046.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c45',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0046.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/45',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0046.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 42',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c46',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0047.jp2',
           '@type': 'sc:Canvas',
           label: '43',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0047.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0047.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0047.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0047.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3631,14 +3936,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=46',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0047.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3646,12 +3950,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0047.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0047.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0047.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0047.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3659,36 +3963,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0047.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0047.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c46',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0047.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/46',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0047.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 43',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c47',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0048.jp2',
           '@type': 'sc:Canvas',
           label: '44',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0048.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0048.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0048.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0048.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3707,14 +4018,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=47',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0048.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3722,12 +4032,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0048.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0048.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0048.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0048.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3735,36 +4045,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0048.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0048.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c47',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0048.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/47',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0048.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 44',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c48',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0049.jp2',
           '@type': 'sc:Canvas',
           label: '45',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0049.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0049.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0049.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0049.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3783,14 +4100,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=48',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0049.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3798,12 +4114,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0049.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0049.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0049.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0049.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3811,36 +4127,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0049.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0049.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c48',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0049.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/48',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0049.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 45',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c49',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0050.jp2',
           '@type': 'sc:Canvas',
           label: '46',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0050.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0050.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0050.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0050.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3859,14 +4182,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=49',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0050.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3874,12 +4196,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0050.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0050.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0050.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0050.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3887,36 +4209,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0050.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0050.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c49',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0050.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/49',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0050.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 46',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c50',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0051.jp2',
           '@type': 'sc:Canvas',
           label: '47',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0051.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0051.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0051.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0051.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -3935,14 +4264,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=50',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0051.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -3950,12 +4278,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0051.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0051.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0051.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0051.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -3963,36 +4291,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0051.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0051.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c50',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0051.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/50',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0051.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 47',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c51',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0052.jp2',
           '@type': 'sc:Canvas',
           label: '48',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0052.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0052.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0052.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0052.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4011,14 +4346,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=51',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0052.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4026,12 +4360,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0052.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0052.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0052.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0052.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4039,36 +4373,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0052.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0052.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c51',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0052.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/51',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0052.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 48',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c52',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0053.jp2',
           '@type': 'sc:Canvas',
           label: '49',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0053.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0053.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0053.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0053.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4087,14 +4428,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=52',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0053.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4102,12 +4442,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0053.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0053.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0053.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0053.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4115,36 +4455,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0053.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0053.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c52',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0053.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/52',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0053.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 49',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c53',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0054.jp2',
           '@type': 'sc:Canvas',
           label: '50',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0054.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0054.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0054.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0054.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4163,14 +4510,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=53',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0054.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4178,12 +4524,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0054.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0054.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0054.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0054.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4191,36 +4537,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0054.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0054.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c53',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0054.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/53',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0054.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 50',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c54',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0055.jp2',
           '@type': 'sc:Canvas',
           label: '51',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0055.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0055.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0055.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0055.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4239,14 +4592,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=54',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0055.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4254,12 +4606,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0055.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0055.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0055.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0055.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4267,36 +4619,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0055.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0055.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c54',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0055.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/54',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0055.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 51',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c55',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0056.jp2',
           '@type': 'sc:Canvas',
           label: '52',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0056.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0056.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0056.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0056.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4315,14 +4674,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=55',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0056.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4330,12 +4688,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0056.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0056.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0056.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0056.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4343,36 +4701,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0056.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0056.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c55',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0056.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/55',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0056.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 52',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c56',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0057.jp2',
           '@type': 'sc:Canvas',
           label: '53',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0057.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0057.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0057.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0057.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4391,14 +4756,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=56',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0057.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4406,12 +4770,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0057.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0057.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0057.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0057.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4419,36 +4783,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0057.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0057.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c56',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0057.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/56',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0057.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 53',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c57',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0058.jp2',
           '@type': 'sc:Canvas',
           label: '54',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0058.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0058.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0058.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0058.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4467,14 +4838,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=57',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0058.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4482,12 +4852,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0058.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0058.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0058.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0058.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4495,36 +4865,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0058.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0058.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c57',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0058.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/57',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0058.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 54',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c58',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0059.jp2',
           '@type': 'sc:Canvas',
           label: '55',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0059.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0059.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0059.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0059.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4543,14 +4920,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=58',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0059.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4558,12 +4934,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0059.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0059.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0059.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0059.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4571,36 +4947,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0059.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0059.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c58',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0059.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/58',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0059.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 55',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c59',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0060.jp2',
           '@type': 'sc:Canvas',
           label: '56',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0060.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0060.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0060.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0060.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4619,14 +5002,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=59',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0060.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4634,12 +5016,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0060.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0060.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0060.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0060.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4647,36 +5029,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0060.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0060.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c59',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0060.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/59',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0060.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 56',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c60',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0061.jp2',
           '@type': 'sc:Canvas',
           label: '57',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0061.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0061.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0061.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0061.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4695,14 +5084,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=60',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0061.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4710,12 +5098,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0061.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0061.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0061.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0061.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4723,36 +5111,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0061.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0061.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c60',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0061.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/60',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0061.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 57',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c61',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0062.jp2',
           '@type': 'sc:Canvas',
           label: '58',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0062.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0062.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0062.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0062.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4771,14 +5166,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=61',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0062.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4786,12 +5180,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0062.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0062.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0062.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0062.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4799,36 +5193,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0062.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0062.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c61',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0062.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/61',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0062.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 58',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c62',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0063.jp2',
           '@type': 'sc:Canvas',
           label: '59',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0063.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0063.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0063.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0063.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4847,14 +5248,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=62',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0063.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4862,12 +5262,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0063.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0063.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0063.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0063.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4875,36 +5275,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0063.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0063.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c62',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0063.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/62',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0063.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 59',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c63',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0064.jp2',
           '@type': 'sc:Canvas',
           label: '60',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0064.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0064.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0064.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0064.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4923,14 +5330,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=63',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0064.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -4938,12 +5344,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0064.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0064.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0064.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0064.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -4951,36 +5357,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0064.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0064.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c63',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0064.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/63',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0064.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 60',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c64',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0065.jp2',
           '@type': 'sc:Canvas',
           label: '61',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0065.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0065.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0065.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0065.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -4999,14 +5412,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=64',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0065.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5014,12 +5426,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0065.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0065.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0065.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0065.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5027,36 +5439,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0065.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0065.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c64',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0065.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/64',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0065.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 61',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c65',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0066.jp2',
           '@type': 'sc:Canvas',
           label: '62',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0066.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0066.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0066.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0066.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5075,14 +5494,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=65',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0066.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5090,12 +5508,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0066.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0066.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0066.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0066.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5103,36 +5521,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0066.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0066.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c65',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0066.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/65',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0066.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 62',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c66',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0067.jp2',
           '@type': 'sc:Canvas',
           label: '63',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0067.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0067.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0067.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0067.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5151,14 +5576,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=66',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0067.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5166,12 +5590,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0067.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0067.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0067.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0067.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5179,36 +5603,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0067.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0067.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c66',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0067.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/66',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0067.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 63',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c67',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0068.jp2',
           '@type': 'sc:Canvas',
           label: '64',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0068.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0068.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0068.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0068.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5227,14 +5658,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=67',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0068.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5242,12 +5672,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0068.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0068.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0068.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0068.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5255,36 +5685,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0068.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0068.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c67',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0068.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/67',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0068.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 64',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c68',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0069.jp2',
           '@type': 'sc:Canvas',
           label: '65',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0069.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0069.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0069.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0069.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5303,14 +5740,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=68',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0069.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5318,12 +5754,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0069.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0069.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0069.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0069.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5331,36 +5767,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0069.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0069.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c68',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0069.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/68',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0069.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 65',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c69',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0070.jp2',
           '@type': 'sc:Canvas',
           label: '66',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0070.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0070.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0070.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0070.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5379,14 +5822,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=69',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0070.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5394,12 +5836,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0070.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0070.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0070.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0070.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5407,36 +5849,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0070.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0070.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c69',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0070.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/69',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0070.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 66',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c70',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0071.jp2',
           '@type': 'sc:Canvas',
           label: '67',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0071.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0071.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0071.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0071.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5455,14 +5904,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=70',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0071.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5470,12 +5918,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0071.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0071.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0071.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0071.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5483,36 +5931,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0071.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0071.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c70',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0071.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/70',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0071.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 67',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c71',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0072.jp2',
           '@type': 'sc:Canvas',
           label: '68',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0072.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0072.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0072.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0072.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5531,14 +5986,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=71',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0072.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5546,12 +6000,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0072.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0072.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0072.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0072.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5559,36 +6013,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0072.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0072.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c71',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0072.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/71',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0072.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 68',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c72',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0073.jp2',
           '@type': 'sc:Canvas',
           label: '69',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0073.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0073.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0073.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0073.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5607,14 +6068,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=72',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0073.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5622,12 +6082,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0073.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0073.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0073.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0073.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5635,36 +6095,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0073.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0073.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c72',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0073.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/72',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0073.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 69',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c73',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0074.jp2',
           '@type': 'sc:Canvas',
           label: '70',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0074.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0074.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0074.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0074.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5683,14 +6150,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=73',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0074.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5698,12 +6164,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0074.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0074.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0074.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0074.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5711,36 +6177,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0074.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0074.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c73',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0074.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/73',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0074.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 70',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c74',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0075.jp2',
           '@type': 'sc:Canvas',
           label: '71',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0075.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0075.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0075.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0075.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5759,14 +6232,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=74',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0075.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5774,12 +6246,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0075.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0075.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0075.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0075.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5787,36 +6259,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0075.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0075.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c74',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0075.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/74',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0075.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 71',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c75',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0076.jp2',
           '@type': 'sc:Canvas',
           label: '72',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0076.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0076.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0076.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0076.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5835,14 +6314,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=75',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0076.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5850,12 +6328,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0076.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0076.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0076.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0076.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5863,36 +6341,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0076.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0076.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c75',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0076.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/75',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0076.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 72',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c76',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0077.jp2',
           '@type': 'sc:Canvas',
           label: '73',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0077.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0077.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0077.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0077.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5911,14 +6396,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=76',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0077.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -5926,12 +6410,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0077.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0077.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0077.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0077.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -5939,36 +6423,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0077.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0077.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c76',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0077.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/76',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0077.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 73',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c77',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0078.jp2',
           '@type': 'sc:Canvas',
           label: '74',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0078.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0078.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0078.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0078.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -5987,14 +6478,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=77',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0078.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6002,12 +6492,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0078.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0078.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0078.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0078.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6015,36 +6505,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0078.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0078.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c77',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0078.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/77',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0078.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 74',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c78',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0079.jp2',
           '@type': 'sc:Canvas',
           label: '75',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0079.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0079.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0079.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0079.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6063,14 +6560,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=78',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0079.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6078,12 +6574,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0079.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0079.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0079.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0079.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6091,36 +6587,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0079.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0079.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c78',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0079.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/78',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0079.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 75',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c79',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0080.jp2',
           '@type': 'sc:Canvas',
           label: '76',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0080.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0080.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0080.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0080.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6139,14 +6642,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=79',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0080.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6154,12 +6656,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0080.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0080.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0080.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0080.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6167,36 +6669,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0080.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0080.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c79',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0080.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/79',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0080.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 76',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c80',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0081.jp2',
           '@type': 'sc:Canvas',
           label: '77',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0081.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0081.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0081.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0081.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6215,14 +6724,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=80',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0081.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6230,12 +6738,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0081.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0081.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0081.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0081.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6243,36 +6751,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0081.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0081.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c80',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0081.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/80',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0081.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 77',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c81',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0082.jp2',
           '@type': 'sc:Canvas',
           label: '78',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0082.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0082.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0082.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0082.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6291,14 +6806,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=81',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0082.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6306,12 +6820,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0082.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0082.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0082.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0082.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6319,36 +6833,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0082.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0082.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c81',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0082.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/81',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0082.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 78',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c82',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0083.jp2',
           '@type': 'sc:Canvas',
           label: '79',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0083.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0083.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0083.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0083.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6367,14 +6888,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=82',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0083.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6382,12 +6902,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0083.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0083.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0083.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0083.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6395,36 +6915,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0083.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0083.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c82',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0083.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/82',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0083.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 79',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c83',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0084.jp2',
           '@type': 'sc:Canvas',
           label: '80',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0084.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0084.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0084.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0084.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6443,14 +6970,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=83',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0084.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6458,12 +6984,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0084.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0084.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0084.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0084.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6471,36 +6997,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0084.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0084.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c83',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0084.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/83',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0084.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 80',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c84',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0085.jp2',
           '@type': 'sc:Canvas',
           label: '81',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0085.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0085.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0085.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0085.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6519,14 +7052,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=84',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0085.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6534,12 +7066,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0085.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0085.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0085.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0085.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6547,36 +7079,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0085.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0085.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c84',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0085.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/84',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0085.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 81',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c85',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0086.jp2',
           '@type': 'sc:Canvas',
           label: '82',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0086.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0086.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0086.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0086.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6595,14 +7134,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=85',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0086.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6610,12 +7148,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0086.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0086.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0086.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0086.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6623,36 +7161,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0086.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0086.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c85',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0086.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/85',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0086.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 82',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c86',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0087.jp2',
           '@type': 'sc:Canvas',
           label: '83',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0087.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0087.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0087.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0087.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6671,14 +7216,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=86',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0087.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6686,12 +7230,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0087.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0087.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0087.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0087.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6699,36 +7243,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0087.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0087.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c86',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0087.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/86',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0087.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 83',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c87',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0088.jp2',
           '@type': 'sc:Canvas',
           label: '84',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0088.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0088.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0088.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0088.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6747,14 +7298,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=87',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0088.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6762,12 +7312,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0088.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0088.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0088.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0088.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6775,36 +7325,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0088.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0088.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c87',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0088.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/87',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0088.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 84',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c88',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0089.jp2',
           '@type': 'sc:Canvas',
           label: '85',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0089.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0089.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0089.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0089.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6823,14 +7380,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=88',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0089.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6838,12 +7394,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0089.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0089.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0089.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0089.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6851,36 +7407,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0089.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0089.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c88',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0089.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/88',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0089.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 85',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c89',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0090.jp2',
           '@type': 'sc:Canvas',
           label: '86',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0090.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0090.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0090.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0090.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6899,14 +7462,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=89',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0090.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6914,12 +7476,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0090.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0090.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0090.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0090.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -6927,36 +7489,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0090.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0090.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c89',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0090.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/89',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0090.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page 86',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c90',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0091.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0091.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0091.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0091.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0091.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -6975,14 +7544,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=90',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0091.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -6990,12 +7558,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0091.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0091.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0091.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0091.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7003,36 +7571,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0091.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0091.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c90',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0091.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/90',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0091.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c91',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0092.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0092.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0092.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0092.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0092.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -7051,14 +7626,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=91',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0092.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -7066,12 +7640,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0092.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0092.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0092.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0092.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7079,36 +7653,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0092.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0092.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c91',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0092.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/91',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0092.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c92',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0093.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0093.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0093.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0093.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0093.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -7127,14 +7708,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=92',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0093.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -7142,12 +7722,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0093.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0093.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0093.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0093.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7155,36 +7735,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0093.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0093.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c92',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0093.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/92',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0093.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c93',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0094.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0094.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0094.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0094.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0094.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -7203,14 +7790,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=93',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0094.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -7218,12 +7804,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0094.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0094.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0094.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0094.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7231,36 +7817,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0094.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0094.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c93',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0094.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/93',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0094.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c94',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0095.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0095.jp2/full/64,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0095.jp2/full/64,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0095.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0095.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 655,
+              height: 1024,
               sizes: [
                 {
                   width: 64,
@@ -7279,14 +7872,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=94',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0095.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3290,
@@ -7294,12 +7886,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0095.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0095.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0095.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0095.jp2/full/655,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7307,36 +7899,43 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0095.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0095.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2105,
+                  height: 3290,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c94',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0095.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/94',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0095.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
         {
-          '@id': 'https://wellcomelibrary.org/iiif/b21538906/canvas/c95',
+          '@id':
+            'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0096.jp2',
           '@type': 'sc:Canvas',
-          label: ' - ',
+          label: '-',
           thumbnail: {
             '@id':
-              'https://dlcs.io/thumbs/wellcome/5/b21538906_0096.jp2/full/63,100/0/default.jpg',
+              'https://iiif.wellcomecollection.org/thumbs/b21538906_0096.jp2/full/63,100/0/default.jpg',
             '@type': 'dctypes:Image',
             service: {
               '@context': 'http://iiif.io/api/image/2/context.json',
-              '@id': 'https://dlcs.io/thumbs/wellcome/5/b21538906_0096.jp2',
+              '@id':
+                'https://iiif.wellcomecollection.org/thumbs/b21538906_0096.jp2',
+              profile: 'http://iiif.io/api/image/2/level0.json',
               protocol: 'http://iiif.io/api/image',
-              height: 1024,
               width: 646,
+              height: 1024,
               sizes: [
                 {
                   width: 63,
@@ -7355,14 +7954,13 @@ const manifest = {
                   height: 1024,
                 },
               ],
-              profile: ['http://iiif.io/api/image/2/level0.json'],
             },
           },
           seeAlso: {
             '@id':
-              'https://wellcomelibrary.org/service/alto/b21538906/0?image=95',
-            format: 'text/xml',
+              'https://api.wellcomecollection.org/text/alto/b21538906/b21538906_0096.jp2',
             profile: 'http://www.loc.gov/standards/alto/v3/alto.xsd',
+            format: 'text/xml',
             label: 'METS-ALTO XML',
           },
           height: 3561,
@@ -7370,12 +7968,12 @@ const manifest = {
           images: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/imageanno/b21538906_0096.jp2',
+                'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0096.jp2/painting/anno',
               '@type': 'oa:Annotation',
               motivation: 'sc:painting',
               resource: {
                 '@id':
-                  'https://dlcs.io/iiif-img/wellcome/5/b21538906_0096.jp2/full/!1024,1024/0/default.jpg',
+                  'https://iiif.wellcomecollection.org/image/b21538906_0096.jp2/full/646,1024/0/default.jpg',
                 '@type': 'dctypes:Image',
                 format: 'image/jpeg',
                 height: 1024,
@@ -7383,56 +7981,70 @@ const manifest = {
                 service: {
                   '@context': 'http://iiif.io/api/image/2/context.json',
                   '@id':
-                    'https://dlcs.io/iiif-img/wellcome/5/b21538906_0096.jp2',
+                    'https://iiif.wellcomecollection.org/image/b21538906_0096.jp2',
                   profile: 'http://iiif.io/api/image/2/level1.json',
+                  protocol: 'http://iiif.io/api/image',
+                  width: 2245,
+                  height: 3561,
                 },
               },
-              on: 'https://wellcomelibrary.org/iiif/b21538906/canvas/c95',
+              on: 'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0096.jp2',
             },
           ],
           otherContent: [
             {
               '@id':
-                'https://wellcomelibrary.org/iiif/b21538906/contentAsText/95',
+                'https://iiif.wellcomecollection.org/annotations/v2/b21538906/b21538906_0096.jp2/line',
               '@type': 'sc:AnnotationList',
-              label: 'Text of this page',
+              label: 'Text of page  -',
             },
           ],
+          within: '',
         },
       ],
     },
   ],
   structures: [
     {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/range/r-0',
+      '@id':
+        'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0001',
       '@type': 'sc:Range',
       label: 'Cover',
-      canvases: ['https://wellcomelibrary.org/iiif/b21538906/canvas/c0'],
+      canvases: [
+        'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0001.jp2',
+      ],
+      within: '',
     },
     {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/range/r-1',
+      '@id':
+        'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0002',
       '@type': 'sc:Range',
       label: 'Title Page',
-      canvases: ['https://wellcomelibrary.org/iiif/b21538906/canvas/c6'],
+      canvases: [
+        'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0007.jp2',
+      ],
+      within: '',
     },
     {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/range/r-2',
+      '@id':
+        'https://iiif.wellcomecollection.org/presentation/b21538906/ranges/LOG_0003',
       '@type': 'sc:Range',
       label: 'Cover',
-      canvases: ['https://wellcomelibrary.org/iiif/b21538906/canvas/c95'],
+      canvases: [
+        'https://iiif.wellcomecollection.org/presentation/b21538906/canvases/b21538906_0096.jp2',
+      ],
+      within: '',
     },
   ],
   otherContent: [
     {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/images',
+      '@id':
+        'https://iiif.wellcomecollection.org/annotations/v2/b21538906/images',
       '@type': 'sc:AnnotationList',
       label: 'OCR-identified images and figures for b21538906',
     },
-    {
-      '@id': 'https://wellcomelibrary.org/iiif/b21538906/allcontent',
-      '@type': 'sc:AnnotationList',
-      label: 'All OCR-derived annotations for b21538906',
-    },
   ],
+  within:
+    'https://iiif.wellcomecollection.org/presentation/v2/collections/contributors/xmk3e978',
 };
 export default manifest;
