@@ -40,7 +40,7 @@ const CloseCookieNotice = styled.button`
 
 const CookieNotice: FunctionComponent = () => {
   const { isEnhanced } = useContext(AppContext);
-  const [shouldRender, setShouldRender] = useState(isEnhanced);
+  const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
       path: '/',
@@ -49,7 +49,7 @@ const CookieNotice: FunctionComponent = () => {
 
     trackEvent({
       category: 'CookieNotice',
-      action: 'clicked close cookie notice button',
+      action: 'click close cookie notice button',
     });
 
     setShouldRender(false);
@@ -79,10 +79,14 @@ const CookieNotice: FunctionComponent = () => {
                 Read our policy
               </a>
             </div>
-            <CloseCookieNotice onClick={hideCookieNotice}>
-              <Icon icon={clear} />
-              <span className="visually-hidden">Close cookie notification</span>
-            </CloseCookieNotice>
+            {isEnhanced && (
+              <CloseCookieNotice onClick={hideCookieNotice}>
+                <Icon icon={clear} />
+                <span className="visually-hidden">
+                  Close cookie notification
+                </span>
+              </CloseCookieNotice>
+            )}
           </div>
         </Space>
       </Layout12>
