@@ -1,14 +1,19 @@
 # Content model for Prismic
 
-These are the JSON / js files needed to create custom types in [Prismic](https://prismic.io).
+All models are created in TypeScript, and stored in Prismic as [custom types][custom-types].
 
-We can create the models in JS to avoid copy / paste errors, and then run:
+We use the [Custom types API][custom-types-api] to deploy types into Prismic.
 
-  yarn convert custom_type
-  # e.g.
-  yarn convert installations
+As these deploys could potentially take the website down, we deploy locally and not through CI.
 
-To eliminate the possibility of overwriting changes to the custom types in Prismic, any changes should be merged to `main` before starting work on a feature that uses them and you should rerun convert on the `main` branch to make sure nothing has changed before applying it in Prismic.
+To deploy a type:
 
-N.B. In order for model changes to take effect in prismic, a custom type of the one created/amended needs to be saved.
+    yarn deployType --id {custom_type_id}
 
+You'll then be given a diff to validate, and deploy. We have no test environment for Prismic.
+
+If you change [a part](./src/parts) included in multiple types, e.g. [`body`](./src/parts/body.ts),
+you will have to remember to deploy all affected types.
+
+[custom-types]: https://prismic.io/docs/core-concepts/custom-types
+[custom-types-api]: https://prismic.io/docs/technologies/custom-types-api
