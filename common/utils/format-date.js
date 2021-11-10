@@ -67,18 +67,6 @@ export function formatDateRangeWithMessage({
   }
 }
 
-export function formatAndDedupeOnDate(d1: Date, d2: Date): string[] {
-  return Array.from(new Set([d1, d2].map(formatDayDate)));
-}
-
-export function formatAndDedupeOnTime(d1: Date, d2: Date): string[] {
-  return Array.from(new Set([d1, d2].map(formatTime)));
-}
-
-export function joinDateStrings(dateStrings: string[]): string {
-  return dateStrings.join('–');
-}
-
 export function formatYear(date: Date): string {
   return london(date).format('YYYY');
 }
