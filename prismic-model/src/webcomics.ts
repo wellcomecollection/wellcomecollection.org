@@ -10,12 +10,6 @@ export default {
   Webcomic: {
     title,
     format: link('Format', 'document', ['article-formats']),
-    image: {
-      type: 'Image',
-      config: {
-        label: 'Webcomic',
-      },
-    },
     body: articleBody,
   },
   Contributors: contributorsWithTitle(),
@@ -36,6 +30,12 @@ export default {
         label: 'Override publish date',
       },
       type: 'Timestamp',
+    },
+    image: {
+      type: 'Image',
+      config: {
+        label: 'Webcomic',
+      },
     },
   },
 };
