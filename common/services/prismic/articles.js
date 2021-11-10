@@ -25,6 +25,20 @@ import type {
 const graphQuery = `{
   webcomics {
     ...webcomicsFields
+    format {
+      ...formatFields
+    }
+    body {
+      ...on editorialImageGallery {
+        non-repeat {
+          title
+        }
+        repeat {
+          image
+          caption
+        }
+      }
+    }
     series {
       series {
         ...seriesFields
@@ -380,68 +394,8 @@ function parseArticleDoc(document: PrismicDocument): Article {
   };
 }
 
-function parseWebcomicDoc(document: PrismicDocument): Article {
-  const { data } = document;
-  const datePublished =
-    data.publishDate || document.first_publication_date || undefined;
-  const article = {
-    type: 'articles',
-    ...parseGenericFields(document),
-    format: {
-      id: 'W7d_ghAAALWY3Ujc',
-      title: 'Comic',
-      description: null,
-    },
-    datePublished: london(datePublished).toDate(),
-    series: parseSingleLevelGroup(data.series, 'series').map(series => {
-      return parseArticleSeries(series);
-    }),
-    seasons: [],
-  };
-  const labels = [
-    article.format ? { text: article.format.title || '' } : null,
-    article.series.find(series => series.schedule.length > 0)
-      ? { text: 'Serial' }
-      : null,
-  ].filter(Boolean);
-  const body = data.image
-    ? [
-        {
-          type: 'imageGallery',
-          weight: 'standalone',
-          value: {
-            title: null,
-            items: [
-              {
-                image: checkAndParseImage(data.image),
-                caption: null,
-              },
-            ],
-          },
-        },
-        ...article.body,
-      ]
-    : article.body;
-
-  return {
-    ...article,
-    body,
-    labels: labels.length > 0 ? labels : [{ text: 'Story' }],
-    outroResearchLinkText: null,
-    outroResearchItem: null,
-    outroReadLinkText: null,
-    outroReadItem: null,
-    outroVisitLinkText: null,
-    outroVisitItem: null,
-  };
-}
-
 export function parseArticle(document: PrismicDocument): Article {
-  if (document.type === 'webcomics') {
-    return parseWebcomicDoc(document);
-  } else {
-    return parseArticleDoc(document);
-  }
+  return parseArticleDoc(document);
 }
 
 export async function getArticle(
