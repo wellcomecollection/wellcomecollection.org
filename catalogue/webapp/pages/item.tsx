@@ -461,6 +461,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           iiifImageLocation,
           globalContextData,
           pageview,
+          serverData,
         }),
       };
     }
@@ -476,6 +477,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           iiifImageLocation,
           globalContextData,
           pageview,
+          serverData,
         }),
       };
     }
