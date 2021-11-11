@@ -1,13 +1,13 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames } from '@weco/common/utils/classnames';
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '../../utils/works';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '../WorkHeader/WorkHeader';
-import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
+import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetails from '../WorkDetails/WorkDetails';
 import ArchiveTree from '../ArchiveTree/ArchiveTree';

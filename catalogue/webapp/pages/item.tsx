@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas, IIIFManifest } from '../model/iiif';
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import {
   getDownloadOptionsFromManifest,

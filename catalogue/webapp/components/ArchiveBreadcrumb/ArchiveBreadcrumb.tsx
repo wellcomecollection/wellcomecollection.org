@@ -1,14 +1,14 @@
 import { Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
-import DropdownButton from '../DropdownButton/DropdownButton';
-import Icon from '../Icon/Icon';
+import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
-import { getArchiveAncestorArray } from '@weco/common/utils/works';
+import { getArchiveAncestorArray } from '../../utils/works';
 import { FunctionComponent, ReactNode, useContext } from 'react';
-import WorkLink from '../WorkLink/WorkLink';
+import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
-import AlignFont from '../styled/AlignFont';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {

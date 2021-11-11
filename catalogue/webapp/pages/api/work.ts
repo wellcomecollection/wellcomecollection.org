@@ -1,4 +1,4 @@
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '../utils/works';
 import {
   getAudio,
   getVideo,
