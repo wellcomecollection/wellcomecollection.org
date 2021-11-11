@@ -2,6 +2,7 @@ import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { removeHtmlTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
@@ -62,17 +63,19 @@ const Work: FunctionComponent<Props> = ({
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
       : null;
 
+  const title = removeHtmlTags(work.title);
+
   return (
     <IsArchiveContext.Provider value={isArchive}>
       <CataloguePageLayout
-        title={work.title}
-        description={work.description || work.title}
+        title={title}
+        description={work.description || title}
         url={{ pathname: `/works/${work.id}`, query: {} }}
         openGraphType={'website'}
         jsonLd={workLd(work)}
         siteSection={'collections'}
         imageUrl={imageUrl}
-        imageAltText={work.title}
+        imageAltText={title}
         hideNewsletterPromo={true}
         globalContextData={globalContextData}
       >

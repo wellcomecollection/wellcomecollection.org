@@ -4,6 +4,7 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { fetchJson } from '@weco/common/utils/http';
+import { removeHtmlTags } from '@weco/common/utils/string';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -111,7 +112,8 @@ const ItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(false);
-  const title = (manifest && manifest.label) || (work && work.title) || '';
+  const title =
+    (manifest && manifest.label) || (work && removeHtmlTags(work.title)) || '';
   const serviceId = getServiceId(currentCanvas);
   const mainImageService = serviceId && {
     '@id': serviceId,
@@ -461,6 +463,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           iiifImageLocation,
           globalContextData,
           pageview,
+          serverData,
         }),
       };
     }
@@ -476,6 +479,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           iiifImageLocation,
           globalContextData,
           pageview,
+          serverData,
         }),
       };
     }
