@@ -5,37 +5,52 @@ import promo from './parts/promo';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import structuredText from './parts/structured-text';
+import { CustomType } from './types/CustomType';
 
-export default {
-  Webcomic: {
-    title,
-    format: link('Format', 'document', ['article-formats']),
-    body: articleBody,
-  },
-  Contributors: contributorsWithTitle(),
-  Promo: {
-    promo,
-  },
-  Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single'),
-  },
-  'Content relationships': {
-    series: list('Series', {
-      series: link('Series', 'document', ['webcomic-series']),
-    }),
-  },
-  Deprecated: {
-    publishDate: {
-      config: {
-        label: 'Override publish date',
+const webcomics: CustomType = {
+  id: 'webcomics',
+  label: 'Webcomic',
+  repeatable: true,
+  status: false,
+  json: {
+    Webcomic: {
+      title,
+      format: link('Format', 'document', ['article-formats']),
+      image: {
+        type: 'Image',
+        config: {
+          label: 'Webcomic',
+        },
       },
-      type: 'Timestamp',
+      body: articleBody,
     },
-    image: {
-      type: 'Image',
-      config: {
-        label: 'Webcomic',
+    Contributors: contributorsWithTitle(),
+    Promo: {
+      promo,
+    },
+    Metadata: {
+      metadataDescription: structuredText('Metadata description', 'single'),
+    },
+    'Content relationships': {
+      series: list('Series', {
+        series: link('Series', 'document', ['webcomic-series']),
+      }),
+    },
+    Deprecated: {
+      publishDate: {
+        config: {
+          label: 'Override publish date',
+        },
+        type: 'Timestamp',
+      },
+      image: {
+        type: 'Image',
+        config: {
+          label: 'Webcomic',
+        },
       },
     },
   },
 };
+
+export default webcomics;

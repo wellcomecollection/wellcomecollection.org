@@ -1,11 +1,18 @@
 import title from './parts/title';
 import structuredText from './parts/structured-text';
+import { CustomType } from './types/CustomType';
 
-const Audiences = {
-  Audience: {
-    title,
-    description: structuredText('Description', 'single'),
+const audiences: CustomType = {
+  id: 'audiences',
+  label: 'Audience',
+  repeatable: true,
+  status: true,
+  json: {
+    Audience: {
+      title,
+      description: structuredText('Description', 'single'),
+    },
   },
 };
 
-export default Audiences;
+export default audiences;

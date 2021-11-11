@@ -9,45 +9,52 @@ import structuredText from './parts/structured-text';
 import number from './parts/number';
 import boolean from './parts/boolean';
 import contributorsWithTitle from './parts/contributorsWithTitle';
+import { CustomType } from './types/CustomType';
 
-const Page = {
-  Page: {
-    title,
-    format: link('Format', 'document', ['page-formats']),
-    datePublished: timestamp('Date published'),
-    showOnThisPage: boolean(
-      "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
-      false
-    ),
-    body,
-  },
-  Promo: {
-    promo,
-  },
-  Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single'),
-  },
-  'Content relationships': {
-    seasons: list('Seasons', {
-      season: link('Season', 'document', ['seasons'], 'Select a Season'),
-    }),
-    parents: list('Parent pages', {
-      order: number('Order'),
-      parent: link(
-        'Parent page',
-        'document',
-        ['pages', 'exhibitions'],
-        'Select a parent page'
+const pages: CustomType = {
+  id: 'pages',
+  label: 'Page',
+  repeatable: true,
+  status: true,
+  json: {
+    Page: {
+      title,
+      format: link('Format', 'document', ['page-formats']),
+      datePublished: timestamp('Date published'),
+      showOnThisPage: boolean(
+        "Show 'On this page' anchor links. This will only appear if there are more than 2 H2s in the body",
+        false
       ),
-    }),
-  },
-  Contributors: contributorsWithTitle(),
-  // TODO: (drupal migration) Remove this
-  Migration: {
-    drupalPromoImage: link('Drupal promo image', 'web'),
-    drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path'),
+      body,
+    },
+    Promo: {
+      promo,
+    },
+    Metadata: {
+      metadataDescription: structuredText('Metadata description', 'single'),
+    },
+    'Content relationships': {
+      seasons: list('Seasons', {
+        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+      }),
+      parents: list('Parent pages', {
+        order: number('Order'),
+        parent: link(
+          'Parent page',
+          'document',
+          ['pages', 'exhibitions'],
+          'Select a parent page'
+        ),
+      }),
+    },
+    Contributors: contributorsWithTitle(),
+    // TODO: (drupal migration) Remove this
+    Migration: {
+      drupalPromoImage: link('Drupal promo image', 'web'),
+      drupalNid: text('Drupal node ID'),
+      drupalPath: text('Drupal path'),
+    },
   },
 };
 
-export default Page;
+export default pages;

@@ -2,12 +2,13 @@ import { config } from '../config';
 import axios, {
   AxiosInstance,
   AxiosResponse,
-  Method,
   AxiosRequestConfig,
+  Method as AxiosMethod,
 } from 'axios';
-import { ApplicationState } from '../types/application';
+import { ApplicationContext, ApplicationState } from '../types/application';
+import { ParameterizedContext } from 'koa';
 
-const identityInstance: AxiosInstance = axios.create({
+export const identityAxios: AxiosInstance = axios.create({
   baseURL: config.remoteApi.host,
   headers: {
     'x-api-key': config.remoteApi.apiKey,
@@ -20,40 +21,34 @@ const isAuthenticated = (contextState: ContextState): boolean =>
   !!contextState.user?.accessToken;
 
 export async function callRemoteApi(
-  method: Method,
-  url: string,
-  contextState: ContextState,
-  body?: unknown,
-  authenticate = true
+  path: string,
+  context: ParameterizedContext<ContextState, ApplicationContext>
 ): Promise<AxiosResponse> {
   let request: AxiosRequestConfig = {
-    method,
-    url,
-    headers: identityInstance.defaults.headers.common,
+    url: path,
+    method: context.method as AxiosMethod,
+    headers: identityAxios.defaults.headers.common,
     validateStatus: (status: number) => status >= 200 && status < 300,
   };
 
-  if (authenticate && isAuthenticated(contextState)) {
+  if (isAuthenticated(context.state)) {
     request = {
       ...request,
       headers: {
         ...request.headers,
-        Authorization: 'Bearer ' + contextState.user.accessToken,
+        Authorization: 'Bearer ' + context.state.user.accessToken,
       },
-    };
-  }
-  if (body) {
-    request = {
-      ...request,
-      headers: {
-        ...request.headers,
-        'Content-Type': 'application/json',
-      },
-      data: body,
     };
   }
 
-  return identityInstance.request(request).catch(function (error) {
+  if (context.request.length) {
+    request = {
+      ...request,
+      data: context.request.body,
+    };
+  }
+
+  return identityAxios.request(request).catch(function (error) {
     console.error(error);
     return error.response;
   });
