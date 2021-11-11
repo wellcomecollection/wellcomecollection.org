@@ -110,13 +110,15 @@ export function convertImageUri(
     if (determineIfGif(originalUri)) {
       return originalUri;
     } else {
-      const imagePath = originalUri.split(iiifBaseUri)[1].split('/', 2)[0];
+      const imageIdentifier = originalUri
+        .split(iiifBaseUri)[1]
+        .split('/', 2)[0];
 
       const params = {
         size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
         format: determineFinalFormat(originalUri),
       };
-      return iiifImageTemplate(`${iiifBaseUri}${imagePath}`)(params);
+      return iiifImageTemplate(`${iiifBaseUri}${imageIdentifier}`)(params);
     }
   } else {
     return originalUri;
