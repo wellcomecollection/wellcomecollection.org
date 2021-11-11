@@ -21,17 +21,12 @@
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
     "@weco/toggles": "1.0.0",
-    "autoprefixer": "^9.5.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
-    "base64url": "^3.0.1",
     "cookies": "^0.7.1",
-    "crypto-browserify": "^3.12.0",
     "elastic-apm-node": "^3.21.1",
     "flow-bin": "^0.95.1",
-    "fontfaceobserver": "^2.0.13",
     "jest": "^24.5.0",
-    "jsonwebtoken": "^8.5.1",
     "koa": "^2.5.0",
     "koa-router": "^7.4.0",
     "lazysizes": "^5.2.1",
@@ -49,8 +44,7 @@
     "supertest": "^4.0.2",
     "ts-jest": "^26.4.4",
     "ts-node": "^10.2.1",
-    "typescript": "^4.1.5",
-    "uuid": "^3.3.3"
+    "typescript": "^4.1.5"
   },
   "browserslist": [
     "last 2 versions",
