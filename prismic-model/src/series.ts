@@ -47,7 +47,6 @@ const articleSeries: CustomType = {
         '[Deprecated] Description. Please use standfirst slice'
       ),
       commissionedLength: number('[Deprecated] Commissioned length'),
-      wordpressSlug: text('[Deprecated] Wordpress slug'),
     },
   },
 };

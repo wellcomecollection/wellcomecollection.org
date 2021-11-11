@@ -60,8 +60,7 @@ export const bannerCardItem = {
         'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+      alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
       tasl: {
         title: "Alzheimer's disease",
         author: 'Florence Winterflood',
@@ -82,8 +81,7 @@ export const bannerCardItem = {
       'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
     width: 3200,
     height: 1800,
-    alt:
-      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
     tasl: {
       title: "Alzheimer's disease",
       author: 'Florence Winterflood',
@@ -100,8 +98,7 @@ export const bannerCardItem = {
       'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format',
     width: 1600,
     height: 900,
-    alt:
-      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
     tasl: {
       title: "Alzheimer's disease",
       author: 'Florence Winterflood',
@@ -117,8 +114,7 @@ export const bannerCardItem = {
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
         width: 3200,
         height: 1500,
-        alt:
-          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
         tasl: {
           title: "Alzheimer's disease",
           author: 'Florence Winterflood',
@@ -135,8 +131,7 @@ export const bannerCardItem = {
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt:
-          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
         tasl: {
           title: "Alzheimer's disease",
           author: 'Florence Winterflood',
@@ -153,8 +148,7 @@ export const bannerCardItem = {
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
         width: 3200,
         height: 3200,
-        alt:
-          'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
         tasl: {
           title: "Alzheimer's disease",
           author: 'Florence Winterflood',
@@ -173,8 +167,7 @@ export const bannerCardItem = {
       'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
     width: 3200,
     height: 3200,
-    alt:
-      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
     tasl: {
       title: "Alzheimer's disease",
       author: 'Florence Winterflood',
@@ -191,8 +184,7 @@ export const bannerCardItem = {
       'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
     width: 3200,
     height: 1800,
-    alt:
-      'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
+    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
     tasl: {
       title: "Alzheimer's disease",
       author: 'Florence Winterflood',
@@ -254,8 +246,7 @@ export const pictureImages = [
       'https://images.prismic.io/wellcomecollection/fb5b20a53897d484fde6afc612fb9563e987fd5f_tf_180516_2060224.jpg?auto=compress,format',
     width: 3200,
     height: 1500,
-    alt:
-      'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
+    alt: 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
     tasl: {
       title: 'Teeth exhibition',
       author: 'Thomas SG Farnetti',
@@ -272,8 +263,7 @@ export const pictureImages = [
       'https://images.prismic.io/wellcomecollection/3ab79986b581a18eabd68602d0f27e989535e0dc_tf_180516_2060224.jpg?auto=compress,format',
     width: 3200,
     height: 3200,
-    alt:
-      'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
+    alt: 'Photograph of a man and a woman looking at an exhibit in the Teeth exhibition at Wellcome Collection.',
     tasl: {
       title: 'Teeth exhibition',
       author: 'Thomas SG Farnetti',
@@ -322,7 +312,6 @@ export const editorialSeries = [
       },
     ],
     promo: [],
-    wordpressSlug: null,
   },
 ];
 
@@ -333,8 +322,7 @@ export const eventSeries = [
     description: [
       {
         type: 'paragraph',
-        text:
-          'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ',
+        text: 'The BBC World Service is joining forces with Wellcome Collection for this series of events and radio programmes exploring health in the context of society and civilisation. ',
         spans: [],
       },
     ],
@@ -428,8 +416,7 @@ export const event = {
         'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
-      alt:
-        'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+      alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
       tasl: {
         title: 'Exploring Research event',
         author: 'Steven Pocock',
@@ -450,8 +437,7 @@ export const event = {
       'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
     width: 3200,
     height: 1800,
-    alt:
-      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
     tasl: {
       title: 'Exploring Research event',
       author: 'Steven Pocock',
@@ -468,8 +454,7 @@ export const event = {
       'https://images.prismic.io/wellcomecollection/a4e2a07674bb171ba0b7d7dc7dcf09f1694e13ff_sdp_20181009_0007.jpg?auto=compress,format',
     width: 4000,
     height: 2250,
-    alt:
-      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
     tasl: {
       title: 'Exploring Research event',
       author: 'Steven Pocock',
@@ -485,8 +470,7 @@ export const event = {
           'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 3200,
-        alt:
-          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
         tasl: {
           title: 'Exploring Research event',
           author: 'Steven Pocock',
@@ -503,8 +487,7 @@ export const event = {
           'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 1500,
-        alt:
-          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
         tasl: {
           title: 'Exploring Research event',
           author: 'Steven Pocock',
@@ -521,8 +504,7 @@ export const event = {
           'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
-        alt:
-          'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
         tasl: {
           title: 'Exploring Research event',
           author: 'Steven Pocock',
@@ -541,8 +523,7 @@ export const event = {
       'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
     width: 3200,
     height: 3200,
-    alt:
-      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
     tasl: {
       title: 'Exploring Research event',
       author: 'Steven Pocock',
@@ -559,8 +540,7 @@ export const event = {
       'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
     width: 3200,
     height: 1800,
-    alt:
-      'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
+    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
     tasl: {
       title: 'Exploring Research event',
       author: 'Steven Pocock',
@@ -585,8 +565,7 @@ export const event = {
     information: [
       {
         type: 'paragraph',
-        text:
-          'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
+        text: 'We’ll be in the Viewing Room. It’s next to the Library entrance on level 2, which you can reach by taking the lift or the stairs.',
         spans: [],
       },
     ],
@@ -603,8 +582,7 @@ export const event = {
       description: [
         {
           type: 'paragraph',
-          text:
-            'You can claim your place for this event 15 minutes before it starts. Spaces are first come, first served and may run out if we are busy.',
+          text: 'You can claim your place for this event 15 minutes before it starts. Spaces are first come, first served and may run out if we are busy.',
           spans: [],
         },
       ],
@@ -639,9 +617,7 @@ export const event = {
 };
 
 export const imageGallery = () => {
-  const items = Array(randomNumber(3, 5))
-    .fill()
-    .map(captionedImage);
+  const items = Array(randomNumber(3, 5)).fill().map(captionedImage);
   return {
     id: '123',
     title: singleLineOfText(),
@@ -738,8 +714,7 @@ export const article = {
         description: [
           {
             type: 'paragraph',
-            text:
-              'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+            text: 'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
             spans: [],
           },
         ],
@@ -767,8 +742,7 @@ export const article = {
                 'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format',
               width: 6000,
               height: 6000,
-              alt:
-                'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+              alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
               tasl: {
                 title: 'Weewaaz',
               },
@@ -778,8 +752,7 @@ export const article = {
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1594,6000,2813&w=3200&h=1500',
                   width: 3200,
                   height: 1500,
-                  alt:
-                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
                   tasl: {
                     title: 'Weewaaz',
                   },
@@ -790,8 +763,7 @@ export const article = {
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1313,6000,3375&w=3200&h=1800',
                   width: 3200,
                   height: 1800,
-                  alt:
-                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
                   tasl: {
                     title: 'Weewaaz',
                   },
@@ -802,8 +774,7 @@ export const article = {
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,0,6000,6000&w=3200&h=3200',
                   width: 3200,
                   height: 3200,
-                  alt:
-                    'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
+                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
                   tasl: {
                     title: 'Weewaaz',
                   },
@@ -824,8 +795,7 @@ export const article = {
         'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
       width: 3200,
       height: 1800,
-      alt:
-        'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+      alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
       tasl: {
         title: 'Weewaaz',
       },
@@ -839,8 +809,7 @@ export const article = {
       'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
     width: 3200,
     height: 1800,
-    alt:
-      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
     tasl: {
       title: 'Weewaaz',
     },
@@ -851,8 +820,7 @@ export const article = {
       'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format',
     width: 1600,
     height: 900,
-    alt:
-      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
     tasl: {
       title: 'Weewaaz',
     },
@@ -862,8 +830,7 @@ export const article = {
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
         width: 3200,
         height: 1500,
-        alt:
-          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
         tasl: {
           title: 'Weewaaz',
         },
@@ -874,8 +841,7 @@ export const article = {
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt:
-          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
         tasl: {
           title: 'Weewaaz',
         },
@@ -886,8 +852,7 @@ export const article = {
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
         width: 3200,
         height: 3200,
-        alt:
-          'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
         tasl: {
           title: 'Weewaaz',
         },
@@ -900,8 +865,7 @@ export const article = {
       'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
     width: 3200,
     height: 3200,
-    alt:
-      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
     tasl: {
       title: 'Weewaaz',
     },
@@ -912,8 +876,7 @@ export const article = {
       'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
     width: 3200,
     height: 1800,
-    alt:
-      'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
+    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
     tasl: {
       title: 'Weewaaz',
     },
@@ -959,8 +922,7 @@ export const article = {
             description: [
               {
                 type: 'paragraph',
-                text:
-                  'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
+                text: 'Nikolina Sika (aka Weewaaz) is a 26 year old non-binary artist and visual designer from Brisbane, Australia. You can find them working mostly digitally but often painting, embroidering and sculpting. Creating fun, funky and hopefully uplifting work for you.',
                 spans: [],
               },
             ],
