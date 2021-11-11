@@ -15,7 +15,7 @@ import {
   getLocationLink,
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';

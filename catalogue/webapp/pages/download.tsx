@@ -3,7 +3,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+} from '../utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,

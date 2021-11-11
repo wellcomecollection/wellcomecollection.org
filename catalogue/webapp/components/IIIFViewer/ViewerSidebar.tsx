@@ -24,7 +24,7 @@ import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
-import IIIFSearchWithin from './IIIFSearchWithin';
+import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
 import { getSearchService } from '../../utils/iiif';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';

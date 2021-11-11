@@ -1,9 +1,9 @@
-import { getDigitalLocationOfType } from '../utils/works';
+import { getDigitalLocationOfType } from '../../utils/works';
 import {
   getAudio,
   getVideo,
   getDownloadOptionsFromManifest,
-} from '../utils/iiif';
+} from '../../utils/iiif';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (

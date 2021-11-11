@@ -5,7 +5,7 @@ import {
   getProductionDates,
   getArchiveLabels,
   getCardLabels,
-} from '@weco/common/utils/works';
+} from '../utils/works';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import Space from '@weco/common/views/components/styled/Space';
