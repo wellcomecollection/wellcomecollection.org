@@ -11,7 +11,7 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import {
   getUiExtensions,
   isUiEnabled,

@@ -17,7 +17,7 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
