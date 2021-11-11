@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "ts-node ./build",
+    "test": "jest",
     "deploy": "ts-node ./deploy"
   },
   "devDependencies": {
