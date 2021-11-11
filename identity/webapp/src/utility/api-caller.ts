@@ -41,10 +41,10 @@ export async function callRemoteApi(
     };
   }
 
-  if (context.body) {
+  if (context.request.length) {
     request = {
       ...request,
-      data: context.body,
+      data: context.request.body,
     };
   }
 

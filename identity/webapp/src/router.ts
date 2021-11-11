@@ -18,7 +18,6 @@ export const createRouter = (): Router<
       : localAuthRouter;
   accountRouter.use(
     '/account',
-    koaBody(),
     authRouter.routes(),
     authRouter.allowedMethods()
   );
