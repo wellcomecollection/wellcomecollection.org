@@ -2,7 +2,6 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import LL from '@weco/common/views/components/styled/LL';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { font } from '@weco/common/utils/classnames';

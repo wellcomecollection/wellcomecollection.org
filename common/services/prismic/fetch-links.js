@@ -72,7 +72,6 @@ export const teamsFields = [
   'teams.url',
 ];
 export const audiencesFields = ['audiences.title'];
-export const backgroundTexturesFields = ['background-textures.image'];
 export const eventPoliciesFields = [
   'event-policies.title',
   'event-policies.description',

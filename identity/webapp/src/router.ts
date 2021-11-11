@@ -1,19 +1,10 @@
 import Router from '@koa/router';
 import koaBody from 'koa-body';
-import { requestBody } from './middleware/request-body';
 import { config } from './config';
 import { auth0AuthRouter } from './routes/auth0-auth';
 import { localAuthRouter } from './routes/local-auth';
-import {
-  registerUser,
-  getCurrentUser,
-  updateCurrentUser,
-  updatePassword,
-  requestDelete,
-  getItemRequests,
-  createItemRequest,
-} from './routes/api';
 import { ApplicationContext, ApplicationState } from './types/application';
+import { callRemoteApi } from './utility/api-caller';
 
 export const createRouter = (): Router<
   ApplicationState,
@@ -32,31 +23,13 @@ export const createRouter = (): Router<
     authRouter.allowedMethods()
   );
 
-  const apiRouter = new Router<ApplicationState, ApplicationContext>();
-  apiRouter.use(koaBody());
+  accountRouter.all('/account/api/:api_route*', koaBody(), async context => {
+    const apiRoute = context.params.api_route;
+    const { status, data } = await callRemoteApi(apiRoute, context);
 
-  apiRouter
-    .post('/user/create', requestBody('RegisterUserSchema'), registerUser)
-    .get('/users/me', getCurrentUser)
-    .put('/users/me', updateCurrentUser)
-    .put(
-      '/users/me/password',
-      requestBody('UpdatePasswordSchema'),
-      updatePassword
-    )
-    .put(
-      '/users/me/deletion-request',
-      requestBody('RequestDeleteSchema'),
-      requestDelete
-    )
-    .get('/users/:user_id/item-requests', getItemRequests)
-    .post('/users/:user_id/item-requests', createItemRequest);
-
-  accountRouter.use(
-    '/account/api',
-    apiRouter.routes(),
-    apiRouter.allowedMethods()
-  );
+    context.response.status = status;
+    context.response.body = data;
+  });
 
   return accountRouter;
 };

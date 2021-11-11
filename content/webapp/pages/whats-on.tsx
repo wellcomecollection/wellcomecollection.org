@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Fragment } from 'react';
 import NextLink from 'next/link';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
@@ -52,7 +52,7 @@ import { SectionPageHeader } from '@weco/common/views/components/styled/SectionP
 import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { GetServerSideProps, NextPageContext } from 'next';
+import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';

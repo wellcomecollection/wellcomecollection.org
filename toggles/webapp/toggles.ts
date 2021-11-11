@@ -15,13 +15,6 @@ export default {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
-      id: 'buildingReopening',
-      title: 'Wellcome Collection reopening UI changes',
-      description:
-        'Show additions/amendments made in preparation for the reopening of the Wellcome Collection building',
-      defaultValue: true,
-    },
-    {
       id: 'enableRequesting',
       title: 'Enables login and requesting functionality',
       description:

@@ -28,7 +28,6 @@ import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
-import useHotjar from '../../../hooks/useHotjar';
 import { useToggles } from '../../../server-data/Context';
 
 export type SiteSection =
@@ -70,11 +69,6 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
-  const hotjarUrls = ['YSZh_hEAAGTR0xn7', 'YRU7vBEAAOvZyGS2']; // Photo stories
-  const shouldLoadHotjar = hotjarUrls.some(
-    u => url.pathname && url.pathname.match(u)
-  );
-  useHotjar(shouldLoadHotjar);
   const { apiToolbar, enableRequesting } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =

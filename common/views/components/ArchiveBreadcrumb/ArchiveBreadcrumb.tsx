@@ -8,10 +8,10 @@ import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '../WorkLink/WorkLink';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
+import AlignFont from '../styled/AlignFont';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
-    font-family: 'helvetica neue' !important;
     font-weight: normal !important;
     font-size: 14px !important;
   }
@@ -44,7 +44,7 @@ const ArchiveBreadcrumbNav = styled.nav`
     &:after {
       content: '>';
       position: absolute;
-      top: 3px;
+      top: 0;
       right: -15px;
       color: #888;
     }
@@ -85,9 +85,11 @@ const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
   children,
 }: ArchiveWorkLinkProps) => {
   return (
-    <WorkLink id={id} source={'archive_tree'}>
-      {children}
-    </WorkLink>
+    <AlignFont>
+      <WorkLink id={id} source={'archive_tree'}>
+        {children}
+      </WorkLink>
+    </AlignFont>
   );
 };
 
@@ -175,9 +177,11 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
           <li className={'flex'}>
             <Icon matchText={true} color={'currentColor'} icon={folder} />
             <span className="crumb-inner">
-              <WorkTitle
-                title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}
-              />
+              <AlignFont>
+                <WorkTitle
+                  title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}
+                />
+              </AlignFont>
             </span>
           </li>
         )}
