@@ -41,7 +41,7 @@ export async function callRemoteApi(
     };
   }
 
-  if (context.request.body) {
+  if (context.request.length) {
     request = {
       ...request,
       data: context.request.body,
