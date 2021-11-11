@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { useState, useEffect, FunctionComponent, useContext } from 'react';
+import { useState, useEffect, FunctionComponent } from 'react';
 import moment from 'moment';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies } from '@weco/common/icons';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const CookieNoticeStyle = styled.div.attrs({
@@ -39,7 +38,6 @@ const CloseCookieNotice = styled.button`
 `;
 
 const CookieNotice: FunctionComponent = () => {
-  const { isEnhanced } = useContext(AppContext);
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
@@ -79,14 +77,10 @@ const CookieNotice: FunctionComponent = () => {
                 Read our policy
               </a>
             </div>
-            {isEnhanced && (
-              <CloseCookieNotice onClick={hideCookieNotice}>
-                <Icon icon={clear} />
-                <span className="visually-hidden">
-                  Close cookie notification
-                </span>
-              </CloseCookieNotice>
-            )}
+            <CloseCookieNotice onClick={hideCookieNotice}>
+              <Icon icon={clear} />
+              <span className="visually-hidden">Close cookie notification</span>
+            </CloseCookieNotice>
           </div>
         </Space>
       </Layout12>
