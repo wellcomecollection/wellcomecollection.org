@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '../../model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';

@@ -36,7 +36,7 @@ import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
-import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
+import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';

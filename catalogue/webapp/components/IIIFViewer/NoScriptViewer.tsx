@@ -14,7 +14,7 @@ import Paginator, {
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '../../model/iiif';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';

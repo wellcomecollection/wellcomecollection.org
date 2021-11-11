@@ -1,12 +1,12 @@
 import { createContext } from 'react';
-import { Work } from '../../../model/catalogue';
+import { Work } from '@weco/common/model/catalogue';
 import {
   IIIFCanvas,
   IIIFManifest,
   IIIFRendering,
   SearchResults,
-} from '../../../model/iiif';
-import { LicenseData } from '../../../utils/licenses';
+} from '../../model/iiif';
+import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
 type Props = {
   work: Work;

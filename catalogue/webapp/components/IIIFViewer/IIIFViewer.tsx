@@ -6,7 +6,7 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFCanvas, IIIFManifest } from '../../model/iiif';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
@@ -24,7 +24,7 @@ import ViewerTopBar from './ViewerTopBar';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
-} from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+} from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
