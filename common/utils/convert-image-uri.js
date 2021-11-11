@@ -126,6 +126,12 @@ export function convertImageUri(
 }
 
 export function convertIiifUriToInfoUri(originalUriPath: string) {
+  // Note: this regex assumes that our image identifiers have a three-letter
+  // file extension.  This won't always be the case, e.g. Miro images have
+  // identifiers like "B0009730".
+  //
+  // Is this going to be an issue?  Would we be better off counting slashes
+  // in the URL?
   const match =
     originalUriPath &&
     originalUriPath.match(
