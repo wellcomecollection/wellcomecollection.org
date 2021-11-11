@@ -6,7 +6,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import { workLd } from '@weco/common/utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
-import WorkHeader from '@weco/common/views/components/WorkHeader/WorkHeader';
+import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '@weco/common/views/components/ArchiveBreadcrumb/ArchiveBreadcrumb';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetails from '../WorkDetails/WorkDetails';

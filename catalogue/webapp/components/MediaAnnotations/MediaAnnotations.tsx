@@ -3,7 +3,7 @@ import {
   IIIFMediaElement,
   IIIFAnnotationResource,
 } from '@weco/common/model/iiif';
-import { getAnnotationFromMediaElement } from '@weco/common/utils/iiif';
+import { getAnnotationFromMediaElement } from '../../utils/iiif';
 import Space from '@weco/common/views/components/styled/Space';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
 

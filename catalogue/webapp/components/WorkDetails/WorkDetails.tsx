@@ -16,10 +16,7 @@ import {
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
 } from '@weco/common/utils/works';
-import {
-  getMediaClickthroughService,
-  getTokenService,
-} from '@weco/common/utils/iiif';
+import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
 import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -38,7 +35,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';

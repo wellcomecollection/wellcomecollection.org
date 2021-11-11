@@ -33,9 +33,8 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
   const audio = getAudio(manifest);
   const video = getVideo(manifest);
   const iiifCredit = getIIIFPresentationCredit(manifest);
-  const iiifPresentationDownloadOptions = getDownloadOptionsFromManifest(
-    manifest
-  );
+  const iiifPresentationDownloadOptions =
+    getDownloadOptionsFromManifest(manifest);
   const iiifDownloadEnabled = isUiEnabled(
     getUiExtensions(manifest),
     'mediaDownload'

@@ -2,7 +2,7 @@ import {
   getCanvases,
   getFirstChildManifestLocation,
   getServiceId,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import NextLink from 'next/link';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {

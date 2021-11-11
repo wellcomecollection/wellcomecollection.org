@@ -5,17 +5,17 @@ import {
   RefObject,
   useRef,
 } from 'react';
-import { getSearchService } from '../../../utils/iiif';
+import { getSearchService } from '../../utils/iiif';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
 import Raven from 'raven-js';
-import ClearSearch from '../ClearSearch/ClearSearch';
+import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 
 type Props = {

@@ -10,7 +10,7 @@ import {
   getIIIFPresentationCredit,
   getUiExtensions,
   isUiEnabled,
-} from '@weco/common/utils/iiif';
+} from '../utils/iiif';
 import { IIIFManifest } from '@weco/common/model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';

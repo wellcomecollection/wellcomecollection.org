@@ -17,7 +17,7 @@ import {
   isUiEnabled,
   getServiceId,
   getDownloadOptionsFromManifest,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';

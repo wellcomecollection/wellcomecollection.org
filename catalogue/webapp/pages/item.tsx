@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFCanvas, IIIFManifest } from '../model/iiif';
 import { getDigitalLocationOfType } from '@weco/common/utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import {
@@ -14,7 +14,7 @@ import {
   getAuthService,
   getTokenService,
   getIIIFManifest,
-} from '@weco/common/utils/iiif';
+} from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';

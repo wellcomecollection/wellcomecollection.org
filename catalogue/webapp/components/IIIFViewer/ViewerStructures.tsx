@@ -1,8 +1,4 @@
-import {
-  getStructures,
-  groupStructures,
-  getCanvases,
-} from '@weco/common/utils/iiif';
+import { getStructures, groupStructures, getCanvases } from '../../utils/iiif';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
