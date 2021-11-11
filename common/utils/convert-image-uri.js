@@ -110,13 +110,15 @@ export function convertImageUri(
     if (determineIfGif(originalUri)) {
       return originalUri;
     } else {
-      const imagePath = originalUri.split(iiifBaseUri)[1].split('/', 2)[0];
+      const imageIdentifier = originalUri
+        .split(iiifBaseUri)[1]
+        .split('/', 2)[0];
 
       const params = {
         size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
         format: determineFinalFormat(originalUri),
       };
-      return iiifImageTemplate(`${iiifBaseUri}${imagePath}`)(params);
+      return iiifImageTemplate(`${iiifBaseUri}${imageIdentifier}`)(params);
     }
   } else {
     return originalUri;
@@ -124,6 +126,12 @@ export function convertImageUri(
 }
 
 export function convertIiifUriToInfoUri(originalUriPath: string) {
+  // Note: this regex assumes that our image identifiers have a three-letter
+  // file extension.  This won't always be the case, e.g. Miro images have
+  // identifiers like "B0009730".
+  //
+  // Is this going to be an issue?  Would we be better off counting slashes
+  // in the URL?
   const match =
     originalUriPath &&
     originalUriPath.match(
