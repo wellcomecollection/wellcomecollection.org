@@ -1,4 +1,12 @@
+import { CustomType } from './types/CustomType';
 import label from './types/label';
 
-const EventFormats = label('Event format');
-export default EventFormats;
+const eventFormats: CustomType = {
+  id: 'event-formats',
+  label: 'Event format',
+  repeatable: true,
+  status: true,
+  json: label('Event format'),
+};
+
+export default eventFormats;
