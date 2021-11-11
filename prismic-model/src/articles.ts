@@ -55,45 +55,6 @@ const articles: CustomType = {
         },
         type: 'Timestamp',
       },
-      wordpressSlug: {
-        config: {
-          label: 'Wordpress slug',
-        },
-        type: 'Text',
-      },
-      // TODO: deprecate
-      contributorsDeprecated: {
-        type: 'Slices',
-        fieldset: 'Contributors',
-        config: {
-          choices: {
-            person: {
-              type: 'Slice',
-              fieldset: 'Person',
-              'non-repeat': {
-                role: {
-                  type: 'Link',
-                  config: {
-                    label: 'Role',
-                    select: 'document',
-                    customtypes: ['editorial-contributor-roles'],
-                    tags: ['editorial'],
-                  },
-                },
-                person: {
-                  type: 'Link',
-                  config: {
-                    label: 'Person',
-                    select: 'document',
-                    customtypes: ['people'],
-                    placeholder: 'Select a person…',
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
     },
   },
 };
