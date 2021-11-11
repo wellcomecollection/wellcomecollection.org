@@ -5,7 +5,6 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
 import number from './parts/number';
 import select from './parts/select';
-import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import link from './parts/link';
