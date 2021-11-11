@@ -1,4 +1,7 @@
-import { convertImageUri } from '../../utils/convert-image-uri';
+import {
+  convertIiifUriToInfoUri,
+  convertImageUri,
+} from '../../utils/convert-image-uri';
 
 describe('convertImageUri for Prismic images', () => {
   it('creates a full-sized image', () => {
@@ -49,6 +52,78 @@ describe('convertImageUri for Prismic images', () => {
     );
     expect(wideResult).toEqual(
       'https://images.prismic.io/wellcomecollection/EP_0004.jpg?auto=&rect=&w=300&h='
+    );
+  });
+});
+
+describe('convertImageUri for IIIF images', () => {
+  it('passes through GIFs unmodified', () => {
+    const result = convertImageUri(
+      'https://iiif.wellcomecollection.org/image/b0001.gif',
+      'full'
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0001.gif'
+    );
+  });
+
+  it('sets the size parameter on a URI to full', () => {
+    const result = convertImageUri(
+      'https://iiif.wellcomecollection.org/image/b0002.jpg',
+      'full'
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0002.jpg/full/full/0/default.jpg'
+    );
+  });
+
+  it('sets the size parameter on a URI to a number', () => {
+    const result = convertImageUri(
+      'https://iiif.wellcomecollection.org/image/b0003.jpg',
+      300
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0003.jpg/full/300%2C/0/default.jpg'
+    );
+  });
+
+  it('returns a URI for a PNG image', () => {
+    const result = convertImageUri(
+      'https://iiif.wellcomecollection.org/image/b0004.png',
+      300
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0004.png/full/300%2C/0/default.png'
+    );
+  });
+
+  it('defaults to a URI for a JPEG image', () => {
+    const result = convertImageUri(
+      'https://iiif.wellcomecollection.org/image/b0005',
+      300
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0005/full/300%2C/0/default.jpg'
+    );
+  });
+});
+
+describe('convertIiifUriToInfoUri', () => {
+  it('finds the info.json for a IIIF URI', () => {
+    const result = convertIiifUriToInfoUri(
+      'https://iiif.wellcomecollection.org/image/b0006.jpg/full/300%2C/0/default.jpg'
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0006.jpg/info.json'
+    );
+  });
+
+  it('finds the info.json for an unrecognised URI', () => {
+    const result = convertIiifUriToInfoUri(
+      'https://iiif.wellcomecollection.org/image/b0007.jp2'
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/image/b0007.jp2/info.json'
     );
   });
 });
