@@ -1,3 +1,4 @@
+- wait
 - label: ":docker: build common"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -53,6 +54,19 @@
           - identity
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
+- label: "diff prismic model"
+  branches: "main feat/prismic_model_check_in_ci"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: prismic_model
+        env:
+          - IS_CI=true
+        command: ["yarn", "diffCustomTypes"]
+
 - wait
 
 - label: "test common"
@@ -104,6 +118,8 @@
     - docker-compose#v3.5.0:
         run: edge_lambdas
         command: ["yarn", "test"]
+
+
 
 - wait
 

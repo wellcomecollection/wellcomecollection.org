@@ -42,3 +42,6 @@ services:
   e2e:
     build:
       context: ./playwright
+  prismic_model:
+    build:
+      context: ./prismic-model
