@@ -38,7 +38,6 @@ export default async function diffContentTypes(credentials?): Promise<void> {
     )
   ).filter(Boolean) as { id: string; delta: jsondiffpatch.Delta }[];
 
-  console.info(deltas);
   if (deltas.length > 0) {
     error(`Diffs found on ${deltas.map(delta => delta.id).join(', ')}`);
     process.exit(1);
