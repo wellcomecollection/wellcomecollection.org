@@ -18,7 +18,8 @@
     "storybook": "start-storybook -p 4009",
     "build-storybook": "build-storybook",
     "test": "jest",
-    "lint:next": "next lint"
+    "lint:next": "next lint",
+    "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
     "@hookform/error-message": "^0.0.5",
