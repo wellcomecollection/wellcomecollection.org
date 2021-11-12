@@ -1,22 +1,22 @@
-import CardGrid from '../CardGrid/CardGrid';
-import Layout12 from '../Layout12/Layout12';
-import Divider from '../Divider/Divider';
-import Pagination from '../Pagination/Pagination';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { classNames, font } from '../../../utils/classnames';
-import type { Period } from '../../../model/periods';
-import type { UiExhibition } from '../../../model/exhibitions';
-import type { UiEvent } from '../../../model/events';
-import type { Book } from '../../../model/books';
-import type { Article } from '../../../model/articles';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { classNames, font } from '@weco/common/utils/classnames';
+import type { Period } from '@weco/common/model/periods';
+import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { UiEvent } from '@weco/common/model/events';
+import type { Book } from '@weco/common/model/books';
+import type { Article } from '@weco/common/model/articles';
 import type {
   PaginatedResults,
   HTMLString,
-} from '../../../services/prismic/types';
-import SpacingSection from '../SpacingSection/SpacingSection';
-import Space from '../styled/Space';
-import PageHeader from '../PageHeader/PageHeader';
-import { headerBackgroundLs } from '../../../../common/utils/backgrounds';
+} from '@weco/common/services/prismic/types';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import Space from '@weco/common/views/components/styled/Space';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { FC } from 'react';
 
 type PaginatedResultsTypes =
