@@ -11,7 +11,7 @@ import Rotator from '@weco/common/views/components/styled/Rotator';
 import Paginator, {
   PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction,
   PaginatorRenderFunctionProps,
-} from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+} from './RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import { IIIFCanvas } from '../../model/iiif';
