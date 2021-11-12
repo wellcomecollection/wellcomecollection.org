@@ -2,7 +2,7 @@ import { Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import WorkTitle from '../WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '../../utils/works';
 import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';

@@ -14,7 +14,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
-import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 

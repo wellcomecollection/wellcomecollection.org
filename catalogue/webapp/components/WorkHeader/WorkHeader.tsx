@@ -11,7 +11,7 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import Space from '@weco/common/views/components/styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
-import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
+import WorkTitle from '../WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 
