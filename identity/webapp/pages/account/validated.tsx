@@ -88,7 +88,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         serverData,
-        skipSeverData: true,
         success: success === 'true',
         message: message || null,
         isNewSignUp: supportSignUp === 'true',
