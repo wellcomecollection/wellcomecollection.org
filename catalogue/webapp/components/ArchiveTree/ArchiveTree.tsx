@@ -20,7 +20,7 @@ import { RelatedWork, Work } from '@weco/common/model/catalogue';
 import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { Toggles } from '@weco/toggles';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { chevron, tree } from '@weco/common/icons';
 import { useToggles } from '@weco/common/server-data/Context';
 

@@ -39,7 +39,7 @@ import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
 import { eye } from '@weco/common/icons';
 import {

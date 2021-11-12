@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import {
   getLocationLabel,

@@ -6,7 +6,7 @@ import WorkTitle from '../WorkTitle/WorkTitle';
 import { getArchiveAncestorArray } from '../../utils/works';
 import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
