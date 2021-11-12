@@ -22,6 +22,7 @@ const renderPage = (location: string) => {
         success={success}
         message={message}
         isNewSignUp={isNewSignUp}
+        serverData={null}
       />
     </ThemeProvider>
   );

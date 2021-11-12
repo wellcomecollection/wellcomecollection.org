@@ -10,7 +10,7 @@ const renderComponent = (location: string) => {
 
   render(
     <ThemeProvider theme={theme}>
-      <ErrorPage errorDescription={errorDescription} />
+      <ErrorPage errorDescription={errorDescription} serverData={null} />
     </ThemeProvider>
   );
 };
