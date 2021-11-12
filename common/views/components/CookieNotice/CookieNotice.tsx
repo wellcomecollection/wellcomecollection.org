@@ -7,6 +7,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { clear, cookies } from '@weco/common/icons';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
@@ -42,6 +43,11 @@ const CookieNotice: FunctionComponent = () => {
     cookie.set('WC_cookiesAccepted', 'true', {
       path: '/',
       expires: moment().add(1, 'month').toDate(),
+    });
+
+    trackEvent({
+      category: 'CookieNotice',
+      action: 'click close cookie notice button',
     });
 
     setShouldRender(false);
