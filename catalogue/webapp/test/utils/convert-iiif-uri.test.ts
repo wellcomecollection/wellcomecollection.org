@@ -1,3 +1,5 @@
+import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+
 describe('convertIiifUriToInfoUri', () => {
   it('finds the info.json for a IIIF URI', () => {
     const result = convertIiifUriToInfoUri(
