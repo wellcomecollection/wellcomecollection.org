@@ -43,6 +43,12 @@ const webcomics: CustomType = {
         },
         type: 'Timestamp',
       },
+      image: {
+        type: 'Image',
+        config: {
+          label: 'Webcomic',
+        },
+      },
     },
   },
 };
