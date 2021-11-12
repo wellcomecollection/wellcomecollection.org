@@ -110,7 +110,8 @@ const Works: NextPage<Props> = ({
         >
           <div className="container">
             {/* Showing the h1 on `/works` (without a query string) in an attempt to
-            have Google use it as the link text in sitelinks */}
+            have Google use it as the link text in sitelinks
+            https://github.com/wellcomecollection/wellcomecollection.org/issues/7297 */}
             <SearchTitle isVisuallyHidden={Boolean(works) && !isWorksLanding} />
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
