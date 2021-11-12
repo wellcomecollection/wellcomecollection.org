@@ -1,4 +1,3 @@
-- wait
 - label: ":docker: build common"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
