@@ -1,4 +1,7 @@
-import { convertImageUri } from '../../utils/convert-image-uri';
+import {
+  convertIiifImageUri,
+  convertImageUri,
+} from '../../utils/convert-image-uri';
 
 describe('convertImageUri for Prismic images', () => {
   it('creates a full-sized image', () => {
@@ -101,6 +104,16 @@ describe('convertImageUri for IIIF images', () => {
     );
     expect(result).toEqual(
       'https://iiif.wellcomecollection.org/image/b0005/full/300%2C/0/default.jpg'
+    );
+  });
+
+  it('ignores a thumbnail', () => {
+    const result = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
+      'full'
+    );
+    expect(result).toEqual(
+      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg'
     );
   });
 });
