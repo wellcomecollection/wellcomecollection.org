@@ -33,7 +33,7 @@ jobs:
         with:
           urls: |
             http://localhost:3000/works/kxvgmysq
-            http://localhost:3001/whats-on
+            http://localhost:3001/
           configPath: "./lighthouse/lighthouserc.local-servers.js"
       - name: Create summary table
         id: table
