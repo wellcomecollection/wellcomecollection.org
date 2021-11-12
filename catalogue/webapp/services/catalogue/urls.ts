@@ -1,5 +1,5 @@
 import { NextLinkType } from '@weco/common/model/next-link-type';
-import { removeEmptyProps } from '../../utils/json';
+import { removeEmptyProps } from '@weco/common/utils/json';
 
 export type DownloadUrlProps = {
   workId: string;

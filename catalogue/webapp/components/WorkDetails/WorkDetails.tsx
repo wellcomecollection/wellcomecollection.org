@@ -2,7 +2,7 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { FunctionComponent, useContext, useState } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
