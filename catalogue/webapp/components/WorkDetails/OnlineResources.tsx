@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { getItemsByLocationType } from '@weco/common/utils/works';
+import { getItemsByLocationType } from '../../utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';

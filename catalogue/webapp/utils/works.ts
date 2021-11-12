@@ -8,11 +8,13 @@ import {
   Holding,
   PhysicalItem,
   AccessCondition,
-} from '../model/catalogue';
+} from '@weco/common/model/catalogue';
 import { IIIFRendering } from '../model/iiif';
-import { convertImageUri } from '../utils/convert-image-uri';
-import { Label } from '../model/labels';
-import getAugmentedLicenseInfo, { LicenseData } from '../utils/licenses';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { Label } from '@weco/common/model/labels';
+import getAugmentedLicenseInfo, {
+  LicenseData,
+} from '@weco/common/utils/licenses';
 
 export function getProductionDates(work: Work): string[] {
   return work.production
@@ -44,7 +46,7 @@ export function getDownloadOptionsFromImageUrl(
   if (downloadImage.url) {
     return [
       {
-        '@id': convertImageUri(downloadImage.url, 'full'),
+        '@id': convertIiifImageUri(downloadImage.url, 'full'),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.fullWidth && imageDimensions.fullHeight
@@ -54,7 +56,7 @@ export function getDownloadOptionsFromImageUrl(
         width: 'full',
       },
       {
-        '@id': convertImageUri(downloadImage.url, smallImageWidth),
+        '@id': convertIiifImageUri(downloadImage.url, smallImageWidth),
         format: 'image/jpeg',
         label: `This image (${
           imageDimensions.smallHeight

@@ -12,118 +12,125 @@ import body from './parts/body';
 import booleanDeprecated from './parts/boolean-deprecated';
 import singleLineText from './parts/single-line-text';
 import number from './parts/number';
+import { CustomType } from './types/CustomType';
 
-const Exhibitions = {
-  Exhibition: {
-    format: link('Format', 'document', ['exhibition-formats']),
-    title,
-    shortTitle: singleLineText('Short title', 'heading1'),
-    body,
-    start: timestamp('Start date'),
-    end: timestamp('End date'),
-    isPermanent: booleanDeprecated('Is permanent?'),
-    statusOverride: structuredText('Status override', 'single'),
-    place,
-  },
-  'In this exhibition': {
-    exhibits: list('Exhibits', {
-      item: link('Exhibit', 'document', ['exhibitions']),
-    }),
-    events: list('Gallery tours', {
-      item: link('Gallery tour', 'document', ['events']),
-    }),
-  },
-  'About this exhibition': {
-    articles: list('Articles', {
-      item: link('Article', 'document', ['articles']),
-    }),
-  },
-  Resources: {
-    resources: list('Resources', {
-      resource: link('Resource', 'document', ['exhibition-resources']),
-    }),
-  },
-  Contributors: contributorsWithTitle(),
-  Promo: {
-    promo,
-  },
-  Metadata: {
-    metadataDescription: structuredText('Metadata description', 'single'),
-  },
-  'Content relationships': {
-    seasons: list('Seasons', {
-      season: link('Season', 'document', ['seasons'], 'Select a Season'),
-    }),
-    parents: list('Parents', {
-      order: number('Order'),
-      parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
-    }),
-  },
-  Migration: {
-    drupalPromoImage: link('Drupal promo image', 'web'),
-    drupalNid: text('Drupal node ID'),
-    drupalPath: text('Drupal path'),
-  },
-  Deprecated: {
-    description,
-    intro: {
-      type: 'StructuredText',
-      config: {
-        label: 'Intro',
-        multi: 'heading2',
-      },
+const exhibitions: CustomType = {
+  id: 'exhibitions',
+  label: 'Exhibition',
+  repeatable: true,
+  status: true,
+  json: {
+    Exhibition: {
+      format: link('Format', 'document', ['exhibition-formats']),
+      title,
+      shortTitle: singleLineText('Short title', 'heading1'),
+      body,
+      start: timestamp('Start date'),
+      end: timestamp('End date'),
+      isPermanent: booleanDeprecated('Is permanent?'),
+      statusOverride: structuredText('Status override', 'single'),
+      place,
     },
-    textAndCaptionsDocument: link('Text and captions document', 'media'),
-    promoList: {
-      type: 'Group',
-      config: {
-        label: 'Related Promos',
-        fields: {
-          image: {
-            type: 'Image',
-            config: {
-              label: 'Image',
-              thumbnails: [
-                {
-                  name: '16:9',
-                  width: 3200,
-                  height: 1800,
-                },
-                {
-                  name: 'square',
-                  width: 3200,
-                  height: 3200,
-                },
-              ],
+    'In this exhibition': {
+      exhibits: list('Exhibits', {
+        item: link('Exhibit', 'document', ['exhibitions']),
+      }),
+      events: list('Gallery tours', {
+        item: link('Gallery tour', 'document', ['events']),
+      }),
+    },
+    'About this exhibition': {
+      articles: list('Articles', {
+        item: link('Article', 'document', ['articles']),
+      }),
+    },
+    Resources: {
+      resources: list('Resources', {
+        resource: link('Resource', 'document', ['exhibition-resources']),
+      }),
+    },
+    Contributors: contributorsWithTitle(),
+    Promo: {
+      promo,
+    },
+    Metadata: {
+      metadataDescription: structuredText('Metadata description', 'single'),
+    },
+    'Content relationships': {
+      seasons: list('Seasons', {
+        season: link('Season', 'document', ['seasons'], 'Select a Season'),
+      }),
+      parents: list('Parents', {
+        order: number('Order'),
+        parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
+      }),
+    },
+    Migration: {
+      drupalPromoImage: link('Drupal promo image', 'web'),
+      drupalNid: text('Drupal node ID'),
+      drupalPath: text('Drupal path'),
+    },
+    Deprecated: {
+      description,
+      intro: {
+        type: 'StructuredText',
+        config: {
+          label: 'Intro',
+          multi: 'heading2',
+        },
+      },
+      textAndCaptionsDocument: link('Text and captions document', 'media'),
+      promoList: {
+        type: 'Group',
+        config: {
+          label: 'Related Promos',
+          fields: {
+            image: {
+              type: 'Image',
+              config: {
+                label: 'Image',
+                thumbnails: [
+                  {
+                    name: '16:9',
+                    width: 3200,
+                    height: 1800,
+                  },
+                  {
+                    name: 'square',
+                    width: 3200,
+                    height: 3200,
+                  },
+                ],
+              },
             },
-          },
-          type: {
-            type: 'Select',
-            config: {
-              label: 'Type',
-              options: ['gallery', 'book', 'event', 'article'],
+            type: {
+              type: 'Select',
+              config: {
+                label: 'Type',
+                options: ['gallery', 'book', 'event', 'article'],
+              },
             },
-          },
-          title: {
-            type: 'StructuredText',
-            config: {
-              single: 'heading3',
-              label: 'Title',
+            title: {
+              type: 'StructuredText',
+              config: {
+                single: 'heading3',
+                label: 'Title',
+              },
             },
-          },
-          description: {
-            type: 'StructuredText',
-            config: {
-              single: 'paragraph',
-              label: 'Description',
+            description: {
+              type: 'StructuredText',
+              config: {
+                single: 'paragraph',
+                label: 'Description',
+              },
             },
-          },
-          link: {
-            config: {
-              label: 'Link',
-              select: 'web',
+            link: {
+              config: {
+                label: 'Link',
+                select: 'web',
+              },
+              type: 'Link',
             },
-            type: 'Link',
           },
         },
       },
@@ -131,4 +138,4 @@ const Exhibitions = {
   },
 };
 
-export default Exhibitions;
+export default exhibitions;

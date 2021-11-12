@@ -28,7 +28,7 @@ export async function callRemoteApi(
     url: path,
     method: context.method as AxiosMethod,
     headers: identityAxios.defaults.headers.common,
-    validateStatus: (status: number) => status >= 200 && status < 300,
+    validateStatus: (status: number) => status >= 200 && status < 500,
   };
 
   if (isAuthenticated(context.state)) {
@@ -41,10 +41,10 @@ export async function callRemoteApi(
     };
   }
 
-  if (context.body) {
+  if (context.request.length) {
     request = {
       ...request,
-      data: context.body,
+      data: context.request.body,
     };
   }
 

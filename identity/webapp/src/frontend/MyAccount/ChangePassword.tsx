@@ -103,7 +103,14 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <form onSubmit={handleSubmit(data => updatePassword(data, onComplete))}>
+      <form
+        onSubmit={handleSubmit(data =>
+          updatePassword(
+            { password: data.password, newPassword: data.newPassword },
+            onComplete
+          )
+        )}
+      >
         <FieldMargin>
           <PasswordInput
             label="Current password"
