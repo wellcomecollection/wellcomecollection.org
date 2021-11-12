@@ -29,7 +29,7 @@ import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
-import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
