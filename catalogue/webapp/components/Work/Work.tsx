@@ -16,7 +16,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;

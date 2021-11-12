@@ -13,11 +13,9 @@ import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
-import {
-  iiifImageTemplate,
-  convertIiifUriToInfoUri,
-} from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { getCanvasOcr } from '../../services/catalogue/works';
 import {
   getServiceId,
