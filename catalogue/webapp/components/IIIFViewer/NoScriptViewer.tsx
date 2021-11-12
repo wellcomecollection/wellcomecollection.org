@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '../../utils/iiif';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';

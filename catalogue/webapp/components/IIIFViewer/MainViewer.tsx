@@ -17,7 +17,7 @@ import {
   iiifImageTemplate,
   convertIiifUriToInfoUri,
 } from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { getCanvasOcr } from '../../services/catalogue/works';
 import {
   getServiceId,
