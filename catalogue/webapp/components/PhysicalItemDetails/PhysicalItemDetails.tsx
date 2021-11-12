@@ -17,7 +17,7 @@ import {
   getFirstPhysicalLocation,
   getEncoreLink,
   getFirstAccessCondition,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';

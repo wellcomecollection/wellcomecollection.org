@@ -3,15 +3,15 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+} from '../utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
   getUiExtensions,
   isUiEnabled,
-} from '@weco/common/utils/iiif';
-import { IIIFManifest } from '@weco/common/model/iiif';
+} from '../utils/iiif';
+import { IIIFManifest } from '../model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';

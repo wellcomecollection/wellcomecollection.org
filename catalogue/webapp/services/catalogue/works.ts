@@ -4,7 +4,7 @@ import {
   CatalogueResultsList,
   Work,
 } from '@weco/common/model/catalogue';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '../../model/iiif';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
 import Raven from 'raven-js';
 import {

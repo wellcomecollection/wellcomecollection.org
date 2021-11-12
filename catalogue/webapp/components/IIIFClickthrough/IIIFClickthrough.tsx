@@ -1,11 +1,11 @@
 import { FunctionComponent, ReactNode, useEffect, useState } from 'react';
-import { AuthService, AuthServiceService } from '../../../model/iiif';
-import { font } from '../../../utils/classnames';
+import { AuthService, AuthServiceService } from '../../model/iiif';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import useShowClickthrough from '@weco/common/hooks/useShowClickthrough';
+import useShowClickthrough from '../../hooks/useShowClickthrough';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -74,7 +74,7 @@ const IIIFClickthrough: FunctionComponent<Props> = ({
                     `${authService?.['@id'] || ''}?origin=${origin}`
                   );
                   authServiceWindow &&
-                    authServiceWindow.addEventListener('unload', function() {
+                    authServiceWindow.addEventListener('unload', function () {
                       reloadAuthIframe(document, iframeId);
                     });
                 }}

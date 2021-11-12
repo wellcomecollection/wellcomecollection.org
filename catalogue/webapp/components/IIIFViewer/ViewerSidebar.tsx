@@ -17,15 +17,15 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import MultipleManifestList from './MultipleManifestList';
-import IIIFSearchWithin from '@weco/common/views/components/IIIFSearchWithin/IIIFSearchWithin';
-import { getSearchService } from '@weco/common/utils/iiif';
+import IIIFSearchWithin from '../IIIFSearchWithin/IIIFSearchWithin';
+import { getSearchService } from '../../utils/iiif';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import { toHtmlId } from '@weco/common/utils/string';
 import { arrow, chevron } from '@weco/common/icons';

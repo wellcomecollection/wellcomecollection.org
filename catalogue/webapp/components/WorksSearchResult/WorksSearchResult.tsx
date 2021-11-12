@@ -7,7 +7,7 @@ import {
   getArchiveLabels,
   getProductionDates,
   getCardLabels,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

@@ -24,10 +24,10 @@ import {
   getImageAuthService,
   isImageRestricted,
   getThumbnailService,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import { IIIFCanvas, SearchResults } from '../../model/iiif';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
 type SearchTermHighlightProps = {

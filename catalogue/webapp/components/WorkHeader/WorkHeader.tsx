@@ -1,16 +1,19 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { Work } from '../../../model/work';
-import { font, classNames, grid } from '../../../utils/classnames';
-import { getProductionDates } from '../../../utils/works';
-import SpacingComponent from '../SpacingComponent/SpacingComponent';
-import LinkLabels from '../LinkLabels/LinkLabels';
-import Space from '../styled/Space';
+import { Work } from '@weco/common/model/work';
+import { font, classNames, grid } from '@weco/common/utils/classnames';
+import {
+  getProductionDates,
+  getArchiveLabels,
+  getCardLabels,
+} from '../../utils/works';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import Space from '@weco/common/views/components/styled/Space';
 import Number from '@weco/common/views/components/Number/Number';
 import styled from 'styled-components';
 import WorkTitle from '@weco/common/views/components/WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { getArchiveLabels, getCardLabels } from '@weco/common/utils/works';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
+import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 
 const WorkHeaderContainer = styled.div.attrs({
   className: classNames({

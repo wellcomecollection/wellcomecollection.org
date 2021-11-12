@@ -10,7 +10,7 @@ import {
   isUiEnabled,
   getIIIFManifest,
 } from '../utils/iiif';
-import { Work } from '../model/catalogue';
+import { Work } from '@weco/common/model/catalogue';
 import { IIIFManifest, IIIFMediaElement, IIIFRendering } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 
@@ -33,9 +33,8 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
   const audio = getAudio(manifest);
   const video = getVideo(manifest);
   const iiifCredit = getIIIFPresentationCredit(manifest);
-  const iiifPresentationDownloadOptions = getDownloadOptionsFromManifest(
-    manifest
-  );
+  const iiifPresentationDownloadOptions =
+    getDownloadOptionsFromManifest(manifest);
   const iiifDownloadEnabled = isUiEnabled(
     getUiExtensions(manifest),
     'mediaDownload'

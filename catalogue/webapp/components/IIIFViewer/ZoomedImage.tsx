@@ -11,7 +11,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { cross, minus, plus, rotateRight } from '@weco/common/icons';
 
 const ZoomedImageContainer = styled.div`
