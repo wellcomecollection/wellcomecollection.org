@@ -10,6 +10,12 @@ jest.mock('../components/PageWrapper', () => ({
   PageWrapper: ({ children }) => <>{children}</>, // eslint-disable-line react/display-name
 }));
 
+jest.mock('@weco/common/server-data', () => ({
+  __esModule: true,
+  getServerData: async () =>
+    (await import('@weco/common/server-data/types')).defaultServerData,
+}));
+
 const renderPage = (location: string) => {
   const url = new URL(`https://localhost:3000/${location}`);
   const success = url.searchParams.get('success') === 'true';
