@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import { convertIiifUriToInfoUri } from '../../utils/convert-image-uri';
+import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { getCanvasOcr } from '../../services/catalogue/works';
 import {
