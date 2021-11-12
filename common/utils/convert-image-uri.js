@@ -2,11 +2,13 @@
 import urlTemplate from 'url-template';
 
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
-const iiifBaseUri = 'https://iiif.wellcomecollection.org/image/';
+const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
+const iiifThumbUri = 'https://iiif.wellcomecollection.org/thumbs/';
+
 function determineSrc(url: string): string {
   if (url.startsWith(prismicBaseUri)) {
     return 'prismic';
-  } else if (url.startsWith(iiifBaseUri)) {
+  } else if (url.startsWith(iiifImageUri)) {
     return 'iiif';
   } else {
     return 'unknown';
@@ -100,16 +102,16 @@ export function convertIiifImageUri(
   originalUri: string,
   requiredSize: number | 'full'
 ): string {
-  if (determineIfGif(originalUri)) {
+  if (determineIfGif(originalUri) || originalUri.startsWith(iiifThumbUri)) {
     return originalUri;
   } else {
-    const imageIdentifier = originalUri.split(iiifBaseUri)[1].split('/', 2)[0];
+    const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
 
     const params = {
       size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
       format: determineFinalFormat(originalUri),
     };
-    return iiifImageTemplate(`${iiifBaseUri}${imageIdentifier}`)(params);
+    return iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)(params);
   }
 }
 
