@@ -1,12 +1,10 @@
-// @flow
-import { type NextLinkType } from '@weco/common/model/next-link-type';
-// $FlowFixMe
+import { NextLinkType } from '@weco/common/model/next-link-type';
 import { removeEmptyProps } from '../../utils/json';
 
-export type DownloadUrlProps = {|
-  workId: string,
-  sierraId: ?string,
-|};
+export type DownloadUrlProps = {
+  workId: string;
+  sierraId?: string;
+};
 
 export function downloadUrl({
   workId,
