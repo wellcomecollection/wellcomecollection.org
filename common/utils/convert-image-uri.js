@@ -96,6 +96,23 @@ function prismicTemplateParts( // gets the params from the original Prismic imag
   };
 }
 
+export function convertIiifImageUri(
+  originalUri: string,
+  requiredSize: number | 'full'
+): string {
+  if (determineIfGif(originalUri)) {
+    return originalUri;
+  } else {
+    const imageIdentifier = originalUri.split(iiifBaseUri)[1].split('/', 2)[0];
+
+    const params = {
+      size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
+      format: determineFinalFormat(originalUri),
+    };
+    return iiifImageTemplate(`${iiifBaseUri}${imageIdentifier}`)(params);
+  }
+}
+
 export function convertImageUri(
   originalUri: string,
   requiredSize: number | 'full'
@@ -107,19 +124,7 @@ export function convertImageUri(
       ...parts.params,
     });
   } else if (imageSrc === 'iiif') {
-    if (determineIfGif(originalUri)) {
-      return originalUri;
-    } else {
-      const imageIdentifier = originalUri
-        .split(iiifBaseUri)[1]
-        .split('/', 2)[0];
-
-      const params = {
-        size: requiredSize === 'full' ? 'full' : `${requiredSize},`,
-        format: determineFinalFormat(originalUri),
-      };
-      return iiifImageTemplate(`${iiifBaseUri}${imageIdentifier}`)(params);
-    }
+    return convertIiifImageUri(originalUri, requiredSize);
   } else {
     return originalUri;
   }

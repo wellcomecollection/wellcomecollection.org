@@ -10,7 +10,7 @@ import {
 } from '../../utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
 import Image from '@weco/common/views/components/Image/Image';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
@@ -168,7 +168,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 <Image
                   defaultSize={178}
                   alt={''}
-                  contentUrl={convertImageUri(work.thumbnail.url, 178)}
+                  contentUrl={convertIiifImageUri(work.thumbnail.url, 178)}
                   tasl={null}
                   srcsetRequired={false}
                   style={{ margin: 'auto' }}
