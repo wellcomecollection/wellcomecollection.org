@@ -118,8 +118,6 @@
         run: edge_lambdas
         command: ["yarn", "test"]
 
-
-
 - wait
 
 - label: "deploy catalogue (ecr image)"
