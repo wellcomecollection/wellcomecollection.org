@@ -6,7 +6,7 @@ import { GetServerSideProps, NextPageContext } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import LayoutPaginatedResults from '../LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import {

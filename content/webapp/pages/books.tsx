@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import { getBooks } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '../LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { Book } from '@weco/common/model/books';
 import { PaginatedResults } from '@weco/common/services/prismic/types';

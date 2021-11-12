@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '../LayoutPaginatedResults/LayoutPaginatedResults';
+import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
