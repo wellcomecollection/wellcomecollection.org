@@ -32,13 +32,8 @@ jobs:
         uses: treosh/lighthouse-ci-action@v8
         with:
           urls: |
-            http://localhost:3000/works
             http://localhost:3000/works/kxvgmysq
-            http://localhost:3000/works/kxvgmysq/items
             http://localhost:3001/whats-on
-            http://localhost:3001/articles
-            http://localhost:3001/series/X24JnhEAAMplRFYN
-            http://localhost:3001/articles/YCppthUAACgAaYI5
           configPath: "./lighthouse/lighthouserc.local-servers.js"
       - name: Create summary table
         id: table
