@@ -1,12 +1,12 @@
 import yargs from 'yargs';
 import fetch from 'node-fetch';
-import * as dotenv from 'dotenv';
+import { setEnvsFromSecrets } from '@weco/ts-aws/secrets-manager';
+import { getCreds } from '@weco/ts-aws/sts';
 import * as jsondiffpatch from 'jsondiffpatch';
 import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
-
-dotenv.config();
+import { secrets } from './config';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -17,12 +17,15 @@ const { id, argsConfirm } = yargs(process.argv.slice(2))
   .parseSync();
 
 async function run() {
+  const credentials = await getCreds('experience', 'developer');
+  await setEnvsFromSecrets(secrets, credentials);
+
   const remoteType: CustomType = await fetch(
     `https://customtypes.prismic.io/customtypes/${id}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-        repository: process.env.PRISMIC_REPOSITORY,
+        repository: 'wellcomecollection',
       },
     }
   ).then(resp => resp.json());
@@ -53,7 +56,7 @@ async function run() {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-        repository: process.env.PRISMIC_REPOSITORY,
+        repository: 'wellcomecollection',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(localType),
@@ -63,7 +66,8 @@ async function run() {
   if (response.status === 204) {
     success(`Updated ${id} successfully`);
   } else {
-    error(`Failed updating ${id}`, response);
+    console.error(response);
+    error(`Failed updating ${id}`);
   }
 }
 
