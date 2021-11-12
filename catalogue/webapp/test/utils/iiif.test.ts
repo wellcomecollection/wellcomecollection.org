@@ -1,5 +1,5 @@
 import { getCanvases, groupStructures } from '../../utils/iiif';
-import manifest from '../../common/__mocks__/iiif-manifest';
+import manifest from '../../__mocks__/iiif-manifest';
 
 const canvases = getCanvases(manifest);
 const structures = [
