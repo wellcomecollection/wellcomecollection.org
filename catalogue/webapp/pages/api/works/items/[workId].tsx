@@ -1,4 +1,4 @@
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { ItemsList, CatalogueApiError } from '@weco/common/model/catalogue';
 import {
   catalogueApiError,
@@ -8,9 +8,7 @@ import {
 } from '../../../../services/catalogue/common';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { Toggles } from '@weco/toggles';
-import withToggles, {
-  NextApiRequestWithToggles,
-} from '@weco/common/api-routes-middleware/withToggles';
+import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 
 export function isCatalogueApiError(
   response: ItemsList | CatalogueApiError
@@ -53,11 +51,25 @@ async function fetchWorkItems({
 }
 
 const ItemsApi = async (
-  req: NextApiRequestWithToggles,
+  req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
+  // As the only toggle we care about here for now is the stagingApi
+  // this is a mega hack to get this working so we can remove toggles from the query
+  // TODO : get toggles working here
+  const togglesResp = {
+    toggles: [
+      {
+        id: 'stagingApi',
+        title: 'Staging API',
+        defaultValue: false,
+        description: 'Use the staging catalogue API',
+      },
+    ],
+    tests: [],
+  };
+  const toggles = getTogglesFromContext(togglesResp, { req });
   const { workId } = req.query;
-  const toggles = req.toggles;
   const id = Array.isArray(workId) ? workId[0] : workId;
   const response = await fetchWorkItems({
     toggles,
@@ -78,4 +90,4 @@ const ItemsApi = async (
   res.json(response);
 };
 
-export default withToggles(ItemsApi);
+export default ItemsApi;
