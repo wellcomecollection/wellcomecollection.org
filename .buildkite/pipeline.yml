@@ -173,6 +173,21 @@
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
 
+- label: "deploy identity (bundle analysis)"
+  branches: "main"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+    - docker-compose#v3.5.0:
+        run: identity
+        command: [ "yarn", "deployBundleAnalysis" ]
+        env:
+          - AWS_ACCESS_KEY_ID
+          - AWS_SECRET_ACCESS_KEY
+          - AWS_SESSION_TOKEN
+
 - label: "deploy dash"
   branches: "main"
   plugins:
