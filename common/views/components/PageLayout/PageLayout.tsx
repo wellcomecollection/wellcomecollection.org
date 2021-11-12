@@ -29,6 +29,7 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { useToggles } from '../../../server-data/Context';
+import useHotjar from '../../../hooks/useHotjar';
 
 export type SiteSection =
   | 'collections'
@@ -69,6 +70,11 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
+  const hotjarUrls = ['YLCu9hEAACYAUiJx', 'YLCzexEAACMAUi41']; // Digital guides
+  const shouldLoadHotjar = hotjarUrls.some(
+    u => url.pathname && url.pathname.match(u)
+  );
+  useHotjar(shouldLoadHotjar);
   const { apiToolbar, enableRequesting } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
