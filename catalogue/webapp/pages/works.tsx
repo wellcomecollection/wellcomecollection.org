@@ -64,6 +64,8 @@ const Works: NextPage<Props> = ({
   }, []);
 
   const filters = worksFilters({ works, props: worksRouteProps });
+  const url = toLink({ ...worksRouteProps }, 'unknown').as;
+  const isWorksLanding = url.query ? Object.keys(url.query).length === 0 : true;
 
   return (
     <Fragment>
@@ -90,7 +92,7 @@ const Works: NextPage<Props> = ({
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
-        url={toLink({ ...worksRouteProps }, 'unknown').as}
+        url={url}
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
@@ -107,8 +109,9 @@ const Works: NextPage<Props> = ({
           className={classNames(['row'])}
         >
           <div className="container">
-            <SearchTitle isVisuallyHidden={Boolean(works)} />
-
+            {/* Showing the h1 on `/works` (without a query string) in an attempt to
+            have Google use it as the link text in sitelinks */}
+            <SearchTitle isVisuallyHidden={Boolean(works) && !isWorksLanding} />
             <div className="grid">
               <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
