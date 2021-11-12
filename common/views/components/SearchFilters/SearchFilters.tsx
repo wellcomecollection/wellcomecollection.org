@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
-import SearchFiltersDesktop from '../SearchFiltersDesktop/SearchFiltersDesktop';
-import SearchFiltersMobile from '../SearchFiltersMobile/SearchFiltersMobile';
+import SearchFiltersDesktop from './SearchFiltersDesktop';
+import SearchFiltersMobile from './SearchFiltersMobile';
 import { LinkProps } from '../../../model/link-props';
 import { Filter } from '../../../services/catalogue/filters';
 import { AppContext } from '../AppContext/AppContext';
