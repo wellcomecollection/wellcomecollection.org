@@ -1,9 +1,6 @@
-// @flow
 import { Fragment } from 'react';
-import type { Book } from '../../../model/books';
-// $FlowFixMe (ts)
+import { Book } from '../../../model/books';
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -18,12 +15,12 @@ const Pre = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('smoke')};
 `;
 
-type Props = {|
-  title: string,
-  content: string,
-  source: ?Book,
-  audio: ?string,
-|};
+type Props = {
+  title: string;
+  content: string;
+  source?: Book;
+  audio?: string;
+};
 const Excerpt = ({ title, content, source, audio }: Props) => (
   <Fragment>
     <h2 className="h2">{title}</h2>
