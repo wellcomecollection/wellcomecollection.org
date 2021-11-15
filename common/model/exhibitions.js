@@ -25,7 +25,6 @@ export type Exhibition = {|
   end: ?Date,
   isPermanent: boolean,
   statusOverride: ?string,
-  intro: ?HTMLString,
   contributors: Contributor[],
   place: ?Place,
   exhibits: {|
@@ -55,12 +54,7 @@ export type UiExhibition = {|
   ...{|
     promo: ?ExhibitionPromo,
     galleryLevel: number, // this should be deprecated for place
-    textAndCaptionsDocument: any, // TODO: <= not this
     featuredImageList: Picture[],
-    relatedBooks: ImagePromo[],
-    relatedEvents: ImagePromo[],
-    relatedGalleries: ImagePromo[],
-    relatedArticles: ImagePromo[],
     exhibits: {|
       exhibitType: 'exhibitions',
       item: UiExhibition,
