@@ -10,7 +10,7 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import SeriesNavigation from '@weco/common/views/components/SeriesNavigation/SeriesNavigation';
+import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader, {
   getFeaturedMedia,
