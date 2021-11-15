@@ -17,7 +17,7 @@ import {
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
 import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
-import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
+import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Download from '../Download/Download';
