@@ -1,4 +1,4 @@
-import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHeader';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 
 const image = {
@@ -28,8 +28,7 @@ const headerProps = {
   standfirst: [
     {
       type: 'paragraph',
-      text:
-        'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
+      text: 'Throughout history, pandemics have been powerful engines of change, exposing structural inequalities in the distribution of health and wealth.',
       spans: [],
     },
   ],
