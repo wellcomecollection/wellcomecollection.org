@@ -6,7 +6,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
 import { FunctionComponent, ComponentProps, ReactElement } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
