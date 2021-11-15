@@ -1,14 +1,13 @@
-// @flow
 import SelectContainer from '../SelectContainer/SelectContainer';
 
 type Props = {
-  name: string,
-  label: string,
-  defaultValue: string,
+  name: string;
+  label: string;
+  defaultValue: string;
   options: {
-    value: ?string,
-    text: string,
-  }[],
+    value?: string;
+    text: string;
+  }[];
 };
 
 const SelectUncontrolled = ({ name, label, options, defaultValue }: Props) => {
