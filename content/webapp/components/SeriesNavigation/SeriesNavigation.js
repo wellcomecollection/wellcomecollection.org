@@ -1,7 +1,7 @@
 // @flow
-import SearchResults from '../SearchResults/SearchResults';
+import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 // $FlowFixMe
-import MoreLink from '../MoreLink/MoreLink';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 // $FlowFixMe
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 // $FlowFixMe
