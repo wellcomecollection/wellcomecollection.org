@@ -1,8 +1,8 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
-import { getServiceId } from '@weco/common/utils/iiif';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { getServiceId } from '../../utils/iiif';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -14,7 +14,7 @@ import Paginator, {
 } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '../../model/iiif';
 import { FunctionComponent } from 'react';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { arrow } from '@weco/common/icons';

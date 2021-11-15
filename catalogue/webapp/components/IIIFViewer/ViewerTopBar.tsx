@@ -6,7 +6,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent, useContext, RefObject } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';

@@ -3,7 +3,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { classNames, grid, font } from '@weco/common/utils/classnames';
 import { FunctionComponent, PropsWithChildren, useContext } from 'react';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;

@@ -1,5 +1,5 @@
 import Raven from 'raven-js';
-import { classNames } from '../../../utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 

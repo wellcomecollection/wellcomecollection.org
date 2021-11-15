@@ -1,6 +1,6 @@
 import { useEffect, FormEvent } from 'react';
 import usePasswordRules from '../../src/frontend/hooks/usePasswordRules';
-import { NextPage } from 'next';
+import { NextPage, GetServerSideProps } from 'next';
 import { useForm, Controller, useWatch } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import NextLink from 'next/link';
@@ -42,6 +42,10 @@ import { info2 } from '@weco/common/icons';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { ServerData } from '@weco/common/server-data/types';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -297,5 +301,20 @@ const RegistrationPage: NextPage = () => {
     </PageWrapper>
   );
 };
+
+type Props = {
+  serverData: ServerData;
+};
+
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+      }),
+    };
+  };
 
 export default RegistrationPage;

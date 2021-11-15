@@ -1,9 +1,9 @@
-import { getDigitalLocationOfType } from '@weco/common/utils/works';
+import { getDigitalLocationOfType } from '../../utils/works';
 import {
   getAudio,
   getVideo,
   getDownloadOptionsFromManifest,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (

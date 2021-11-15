@@ -7,14 +7,13 @@ import {
 } from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import { font } from '@weco/common/utils/classnames';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
-
-type Props = {
-  success: boolean;
-  message: string | string[];
-  isNewSignUp: boolean;
-};
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { ServerData } from '@weco/common/server-data/types';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const urlUsed = message === 'This URL can be used only once';
@@ -29,7 +28,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             <Wrapper>
               {success || urlUsed ? (
                 <>
-                  <Title>Email verified</Title>
+                  <Title className={font('hnb', 3)}>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
@@ -73,17 +72,27 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async context => {
-  const { query } = context;
-  const { success, message, supportSignUp } = query;
-
-  return {
-    props: {
-      success: success === 'true',
-      message: message || null,
-      isNewSignUp: supportSignUp === 'true',
-    },
-  };
+type Props = {
+  serverData: ServerData;
+  success: boolean;
+  message: string | string[];
+  isNewSignUp: boolean;
 };
+
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const { query } = context;
+    const { success, message, supportSignUp } = query;
+    const serverData = await getServerData(context);
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        success: success === 'true',
+        message: message || null,
+        isNewSignUp: supportSignUp === 'true',
+      }),
+    };
+  };
 
 export default ValidatedPage;

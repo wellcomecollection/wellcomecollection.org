@@ -2,13 +2,13 @@ import {
   getCanvases,
   getFirstChildManifestLocation,
   getServiceId,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import NextLink from 'next/link';
 import { font, classNames } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';

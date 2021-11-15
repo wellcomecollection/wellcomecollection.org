@@ -1,4 +1,12 @@
+import { CustomType } from './types/CustomType';
 import label from './types/label';
 
-const ExhibitionFormats = label('Exhibition format');
-export default ExhibitionFormats;
+const exhibitionFormats: CustomType = {
+  id: 'exhibition-formats',
+  label: 'Exhibition format',
+  repeatable: true,
+  status: true,
+  json: label('Exhibition format'),
+};
+
+export default exhibitionFormats;

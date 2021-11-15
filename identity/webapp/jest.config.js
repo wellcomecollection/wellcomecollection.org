@@ -14,6 +14,7 @@ module.exports = {
     {
       displayName: 'client',
       testMatch: ['<rootDir>/src/frontend/**/*.test.ts*'],
+      testEnvironment: 'jsdom',
       setupFilesAfterEnv: ['<rootDir>/src/frontend/jest-setup.ts'],
     },
   ],

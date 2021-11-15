@@ -13,21 +13,19 @@ import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
-import {
-  iiifImageTemplate,
-  convertIiifUriToInfoUri,
-} from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import { getCanvasOcr } from '../../services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
   isImageRestricted,
   getThumbnailService,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults } from '@weco/common/model/iiif';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import { IIIFCanvas, SearchResults } from '../../model/iiif';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
 type SearchTermHighlightProps = {

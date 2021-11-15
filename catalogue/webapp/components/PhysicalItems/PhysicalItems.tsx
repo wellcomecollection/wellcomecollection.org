@@ -8,7 +8,7 @@ import {
   abortErrorHandler,
 } from '@weco/common/hooks/useAbortSignalEffect';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { getItemsWithPhysicalLocation } from '@weco/common/utils/works';
+import { getItemsWithPhysicalLocation } from '../../utils/works';
 import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,

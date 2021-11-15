@@ -1,4 +1,12 @@
+import { CustomType } from './types/CustomType';
 import label from './types/label';
 
-const GuideFormat = label('Guide format');
-export default GuideFormat;
+const guideFormat: CustomType = {
+  id: 'guide-formats',
+  label: 'Guide format',
+  repeatable: true,
+  status: true,
+  json: label('Guide format'),
+};
+
+export default guideFormat;

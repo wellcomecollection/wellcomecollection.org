@@ -4,13 +4,19 @@ import ErrorPage from '../../../pages/account/error';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
+jest.mock('@weco/common/server-data', () => ({
+  __esModule: true,
+  getServerData: async () =>
+    (await import('@weco/common/server-data/types')).defaultServerData,
+}));
+
 const renderComponent = (location: string) => {
   const url = new URL(`https://localhost:3000/${location}`);
   const errorDescription = url.searchParams.get('error_description');
 
   render(
     <ThemeProvider theme={theme}>
-      <ErrorPage errorDescription={errorDescription} />
+      <ErrorPage errorDescription={errorDescription} serverData={null} />
     </ThemeProvider>
   );
 };

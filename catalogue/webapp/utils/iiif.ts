@@ -11,7 +11,7 @@ import {
   IIIFAnnotationResource,
   IIIFThumbnailService,
 } from '../model/iiif';
-import { fetchJson } from '../utils/http';
+import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {

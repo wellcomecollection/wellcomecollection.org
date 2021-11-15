@@ -1,14 +1,11 @@
 import { FunctionComponent, useState } from 'react';
-import { IIIFCanvas } from '@weco/common/model/iiif';
+import { IIIFCanvas } from '../../model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
-import {
-  isImageRestricted,
-  getThumbnailService,
-} from '@weco/common/utils/iiif';
+import { isImageRestricted, getThumbnailService } from '../../utils/iiif';
 import Padlock from '@weco/common/views/components/styled/Padlock';
 import Space from '@weco/common/views/components/styled/Space';
 
