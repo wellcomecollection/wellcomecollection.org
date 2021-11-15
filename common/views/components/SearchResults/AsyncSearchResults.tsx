@@ -1,19 +1,16 @@
-// @flow
 import { Component, Fragment } from 'react';
 import SearchResults from '../SearchResults/SearchResults';
-// $FlowFixMe (ts)
 import { grid } from '../../../utils/classnames';
 import { search } from '../../../services/prismic/search';
-import type { MultiContent } from '../../../model/multi-content';
-// $FlowFixMe (tsx)
+import { MultiContent } from '../../../model/multi-content';
 import Space from '../styled/Space';
 
-type Props = {|
-  title: ?string,
-  query: string,
-|};
+type Props = {
+  title?: string;
+  query: string;
+};
 
-type State = {| items: MultiContent[] |};
+type State = { items: MultiContent[] };
 
 class AsyncSearchResults extends Component<Props, State> {
   state = {
