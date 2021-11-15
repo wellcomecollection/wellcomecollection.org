@@ -89,12 +89,6 @@ const events: CustomType = {
         parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
       }),
     },
-    Deprecated: {
-      description: structuredText('Description', 'multi', [
-        'heading2',
-        'list-item',
-      ]),
-    },
   },
 };
 

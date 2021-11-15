@@ -23,7 +23,6 @@ export type Exhibition = GenericContentFields & {
   isPermanent: boolean;
   statusOverride?: string;
   intro?: HTMLString;
-  description: HTMLString;
   contributors: Contributor[];
   place?: Place;
   exhibits: {

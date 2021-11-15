@@ -186,7 +186,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const format = data.format && parseExhibitionFormat(data.format);
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
-  const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
@@ -208,7 +207,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     type: 'exhibitions',
     shortTitle: data.shortTitle && asText(data.shortTitle),
     format: format,
-    description: description,
     intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,

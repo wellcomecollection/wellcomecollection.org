@@ -71,7 +71,6 @@ const exhibitions: CustomType = {
       drupalPath: text('Drupal path'),
     },
     Deprecated: {
-      description,
       intro: {
         type: 'StructuredText',
         config: {
