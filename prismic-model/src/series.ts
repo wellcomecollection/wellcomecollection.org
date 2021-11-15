@@ -41,12 +41,6 @@ const articleSeries: CustomType = {
         season: link('Season', 'document', ['seasons'], 'Select a Season'),
       }),
     },
-    Deprecated: {
-      description: structuredText(
-        '[Deprecated] Description. Please use standfirst slice'
-      ),
-      commissionedLength: number('[Deprecated] Commissioned length'),
-    },
   },
 };
 

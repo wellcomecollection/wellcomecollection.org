@@ -288,7 +288,6 @@ export const editorialSeries = [
       },
     ],
     color: 'turquoise',
-    commissionedLength: 6,
     schedule: [
       {
         title: [{ type: 'heading1', text: 'First heading', spans: [] }],
