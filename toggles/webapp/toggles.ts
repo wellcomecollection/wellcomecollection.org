@@ -4,6 +4,7 @@ export type Toggle = {
   description: string;
   defaultValue: boolean;
 };
+
 export type ABTest = {
   id: string;
   title: string;
@@ -11,7 +12,8 @@ export type ABTest = {
   description: string;
   defaultValue: boolean;
 };
-export default {
+
+const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
@@ -42,3 +44,5 @@ export default {
   ] as const,
   tests: [] as ABTest[],
 };
+
+export default toggles;

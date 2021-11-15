@@ -1,21 +1,18 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { key, region } from './config';
-import {
-  getCredentials,
-  getS3Client,
-  getTogglesObject,
-  putTogglesObject,
-} from './aws';
+import { getTogglesObject, putTogglesObject } from './s3-utils';
 import {
   CloudFrontClient,
   CreateInvalidationCommand,
 } from '@aws-sdk/client-cloudfront';
+import { S3Client } from '@aws-sdk/client-s3';
+import { getCreds } from '@weco/ts-aws/sts';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
 async function run() {
-  const s3Client = await getS3Client();
+  const s3Client = new S3Client({ region });
   const remoteToggles = await getTogglesObject(s3Client);
 
   const toggles = remoteToggles.toggles.map(toggle => {
@@ -47,9 +44,7 @@ async function run() {
   }
 
   // create an invalidation on the object
-  const credentials = await getCredentials(
-    'arn:aws:iam::130871440101:role/experience-admin'
-  );
+  const credentials = await getCreds('experience', 'admin');
   const client = new CloudFrontClient({ region, credentials });
   const command = new CreateInvalidationCommand({
     // We just know this

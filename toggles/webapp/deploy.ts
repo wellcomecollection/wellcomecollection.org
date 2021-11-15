@@ -1,6 +1,6 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { TogglesResp } from '.';
-import { getTogglesObject, putTogglesObject } from './aws';
+import { getTogglesObject, putTogglesObject } from './s3-utils';
 import localToggles, { Toggle } from './toggles';
 
 export const withDefaultValuesUnmodified = (
