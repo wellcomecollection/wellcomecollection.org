@@ -30,23 +30,13 @@ variable "secret_env_vars" {
   default = {}
 }
 
-variable "nginx_cpu" {
-  default = 512
-  type    = number
-}
-
-variable "nginx_memory" {
+variable "cpu" {
   default = 1024
   type    = number
 }
 
-variable "app_cpu" {
-  default = 512
-  type    = number
-}
-
-variable "app_memory" {
-  default = 1024
+variable "memory" {
+  default = 2048
   type    = number
 }
 
