@@ -10,12 +10,12 @@ import Raven from 'raven-js';
 import {
   catalogueApiError,
   globalApiOptions,
-  queryString,
   rootUris,
   notFound,
   getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type GetWorkProps = {
   id: string;
@@ -73,10 +73,12 @@ export async function getWorks({
     include: worksIncludes,
     _index: index,
   };
-  const filterQueryString = queryString(extendedParams);
-  const url = encodeURI(
-    `${rootUris[apiOptions.env]}/v2/works${filterQueryString}`
-  );
+
+  const searchParams = new URLSearchParams(
+    propsToQuery(extendedParams)
+  ).toString();
+
+  const url = `${rootUris[apiOptions.env]}/v2/works?${searchParams}`;
 
   try {
     const res = await fetch(url);
@@ -101,8 +103,10 @@ export async function getWork({
     include: workIncludes,
     _index: index,
   };
-  const query = queryString(params);
-  const url = encodeURI(`${rootUris[apiOptions.env]}/v2/works/${id}${query}`);
+
+  const searchParams = new URLSearchParams(propsToQuery(params)).toString();
+  const url = `${rootUris[apiOptions.env]}/v2/works/${id}?${searchParams}`;
+
   const res = await fetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the

@@ -139,6 +139,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     'Object.fromEntries',
     'WeakMap',
     'URL',
+    'URLSearchParams',
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);

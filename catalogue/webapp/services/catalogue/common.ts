@@ -1,5 +1,4 @@
 import { CatalogueApiError } from '@weco/common/model/catalogue';
-import { propsToQuery } from '@weco/common/utils/routes';
 import { Toggles } from '@weco/toggles';
 
 export const rootUris = {
@@ -15,14 +14,6 @@ export type GlobalApiOptions = {
 export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => ({
   env: toggles?.stagingApi ? 'stage' : 'prod',
 });
-
-export const queryString = (params: { [key: string]: any }): string => {
-  const strings = Object.keys(propsToQuery(params)).map(key => {
-    const val = params[key];
-    return `${key}=${val}`;
-  });
-  return strings.length > 0 ? `?${strings.join('&')}` : '';
-};
 
 export const notFound = (): CatalogueApiError => ({
   errorType: 'http',
