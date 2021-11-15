@@ -5,11 +5,11 @@ import {
   ReactElement,
   FunctionComponent,
 } from 'react';
-import { trackEvent } from '../../../utils/ga';
-import TextInput from '../TextInput/TextInput';
-import Space from '../styled/Space';
-import { AppContext } from '../AppContext/AppContext';
-import ButtonInline from '../ButtonInline/ButtonInline';
+import { trackEvent } from '@weco/common/utils/ga';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Space from '@weco/common/views/components/styled/Space';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import { check } from '@weco/common/icons';
 
 type Props = {

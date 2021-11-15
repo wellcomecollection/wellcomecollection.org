@@ -1,4 +1,4 @@
-import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
+import CopyUrl from '@weco/catalogue/components/CopyUrl/CopyUrl';
 
 const Template = args => <CopyUrl {...args} />;
 export const basic = Template.bind({});
