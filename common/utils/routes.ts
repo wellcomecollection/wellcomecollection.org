@@ -19,11 +19,9 @@ type Codec<T> = {
 type CodecMap = Record<string, Codec<unknown>>;
 // Gets the returns type of decode, and creates the type
 // { key: returnTypeOfDecode }
-export type FromCodecMap<Map extends CodecMap> = UndefinableToOptional<
-  {
-    [K in keyof Map]: ReturnType<Map[K]['decode']>;
-  }
->;
+export type FromCodecMap<Map extends CodecMap> = UndefinableToOptional<{
+  [K in keyof Map]: ReturnType<Map[K]['decode']>;
+}>;
 
 function paramParser<T>(
   param: QueryParam,
@@ -202,7 +200,7 @@ export function encodeQuery<T>(props: T, codecMap: CodecMap): ParsedUrlQuery {
 
 export function propsToQuery(
   props: Record<string, string | string[] | number | undefined>
-): ParsedUrlQuery {
+): Record<string, string> {
   return Object.keys(props).reduce((acc, key) => {
     const val = props[key];
 
