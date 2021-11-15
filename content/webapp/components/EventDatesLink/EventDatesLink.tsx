@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-import Icon from '../Icon/Icon';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import { arrowSmall } from '@weco/common/icons';
 
 type Props = {

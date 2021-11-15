@@ -32,7 +32,7 @@ import {
   searchFilterCheckBox,
   searchFilterCloseButton,
 } from '../../../text/aria-labels';
-import { dateRegex } from '../SearchFiltersDesktop/SearchFiltersDesktop';
+import { dateRegex } from './SearchFiltersDesktop';
 import { cross, filter } from '@weco/common/icons';
 
 const PaletteColorPicker = dynamic(

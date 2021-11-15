@@ -20,7 +20,7 @@ import {
 } from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
-import { ResetActiveFilters } from '../ResetActiveFilters/ResetActiveFilters';
+import { ResetActiveFilters } from './ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import AlignFont from '../styled/AlignFont';
 import { eye, filter } from '@weco/common/icons';

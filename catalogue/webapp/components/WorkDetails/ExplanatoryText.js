@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // $FlowFixMe (tsx)
 import { plus } from '@weco/common/icons';
 // $FlowFixMe (ts)
-import { classNames, font } from '../../../utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 // $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
 // $FlowFixMe (tsx)

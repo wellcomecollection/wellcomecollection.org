@@ -32,7 +32,7 @@ import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
-import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from './RenderlessPaginator';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';

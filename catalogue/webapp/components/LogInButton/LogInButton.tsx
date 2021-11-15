@@ -1,7 +1,10 @@
-// @flow
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-type Props = {| workId: string, loginUrl: string |};
+
+type Props = {
+  workId: string;
+  loginUrl: string;
+};
+
 const LogInButton = ({ workId, loginUrl }: Props) => {
   function setRedirectCookie(workId: string) {
     const searchParams = new URLSearchParams(window.location.search);
@@ -16,7 +19,7 @@ const LogInButton = ({ workId, loginUrl }: Props) => {
       <ButtonSolidLink
         text="Log in to request"
         link={loginUrl}
-        clickHandler={event => {
+        clickHandler={() => {
           setRedirectCookie(workId);
         }}
         trackingEvent={{

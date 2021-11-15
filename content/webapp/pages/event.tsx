@@ -31,7 +31,7 @@ import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
-import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';

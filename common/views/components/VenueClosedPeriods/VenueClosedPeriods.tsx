@@ -1,4 +1,4 @@
-import type { Venue } from '@weco/common/views/model/opening-hours';
+import { Venue } from '@weco/common/model/opening-hours';
 import { useContext } from 'react';
 import {
   backfillExceptionalVenueDays,
@@ -13,9 +13,9 @@ import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/services/prismic/hardcoded-id';
-type Props = {|
-  venue: Venue,
-|};
+type Props = {
+  venue: Venue;
+};
 
 const VenueClosedPeriods = ({ venue }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
