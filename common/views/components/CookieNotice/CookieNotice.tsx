@@ -38,10 +38,10 @@ const CloseCookieNotice = styled.button`
 `;
 
 type Props = {
-  url: string;
+  source: string;
 };
 
-const CookieNotice: FunctionComponent<Props> = ({ url }) => {
+const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
     cookie.set('WC_cookiesAccepted', 'true', {
@@ -52,7 +52,7 @@ const CookieNotice: FunctionComponent<Props> = ({ url }) => {
     trackEvent({
       category: 'CookieNotice',
       action: 'click close cookie notice button',
-      label: url,
+      label: source,
     });
 
     setShouldRender(false);
