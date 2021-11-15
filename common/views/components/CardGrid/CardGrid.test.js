@@ -118,13 +118,8 @@ describe('CardGrid', () => {
       },
       exhibits: [],
       galleryLevel: undefined,
-      textAndCaptionsDocument: null,
       featuredImageList: [],
       resources: [],
-      relatedBooks: [],
-      relatedEvents: [],
-      relatedGalleries: [],
-      relatedArticles: [],
       relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
     },
   ];
