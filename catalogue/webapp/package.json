@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "dev": "NODE_ENV=development nodemon --watch server.ts --exec ts-node --project tsconfig.server.json start",
-    "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json start",
+    "dev": "NODE_ENV=development nodemon --watch server.ts --exec ts-node --project tsconfig.server.json server",
+    "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
     "test:updateSnapshots": "yarn test -- --updateSnapshot",
