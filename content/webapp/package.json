@@ -13,6 +13,7 @@
   "dependencies": {
     "@babel/preset-flow": "^7.12.1",
     "@prismicio/client": "^5.1.0",
+    "@prismicio/types": "^0.1.17",
     "@types/koa-router": "^7.4.4",
     "@types/jest": "^27.0.2",
     "@types/supertest": "^2.0.11",

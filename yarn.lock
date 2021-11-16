@@ -2657,6 +2657,11 @@
   resolved "https://registry.yarnpkg.com/@prismicio/richtext/-/richtext-1.1.0.tgz#c8769c3d953ae42854a2aba951e3b2121682b8c7"
   integrity sha512-925JuFiZiIkwu9jmlR9O/U8xCSZk/Y6BQDXKpavoVsKo+n90ml1hGdtWkglIupX+ITQO1ZINyDgUgiY1oG9dsA==
 
+"@prismicio/types@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@prismicio/types/-/types-0.1.17.tgz#79979e2f98297c04fe0869bf80be224d9f120a4d"
+  integrity sha512-zjzuBT3vpYSA8rkWztJ8S1u0Qsu0pE1casSEblBMeoml6IjDoDVSaRZ6jftAxmkwhiuK6Rg/k3JkFDVSYELO+Q==
+
 "@reach/router@^1.3.4":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@reach/router/-/router-1.3.4.tgz#d2574b19370a70c80480ed91f3da840136d10f8c"
