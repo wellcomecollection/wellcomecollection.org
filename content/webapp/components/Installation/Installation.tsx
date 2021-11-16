@@ -16,11 +16,11 @@ import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {
   installation: UiExhibition;
-  globalContextData: any;
-};
+} & WithGlobalContextData;
 
 const Installation = ({ installation, globalContextData }: Props) => {
   const [partOf, setPartOf] = useState<UiExhibition>();

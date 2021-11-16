@@ -32,6 +32,7 @@ import {
   family,
   // $FlowFixMe (tsx)
 } from '@weco/common/icons';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -168,8 +169,7 @@ export function getInfoItems(exhibition: UiExhibition) {
 type Props = {
   exhibition: UiExhibition;
   pages: Page[];
-  globalContextData: any;
-};
+} & WithGlobalContextData;
 
 const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
