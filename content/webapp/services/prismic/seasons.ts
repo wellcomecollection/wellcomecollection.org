@@ -1,20 +1,6 @@
-import {
-  KeyTextField,
-  RichTextField,
-  RTHeading1Node,
-  Slice,
-  SliceZone,
-  TimestampField,
-} from '@prismicio/types';
-import { Image } from './image';
+import { RTHeading1Node, TimestampField } from '@prismicio/types';
 import { Body } from './body';
-
-type Promo = SliceZone<
-  Slice<
-    'editorialImage',
-    { caption: RichTextField; image: Image; text: KeyTextField }
-  >
->;
+import { Promo } from './promo';
 
 export type SeasonPrismicDocument = {
   title: [RTHeading1Node];
