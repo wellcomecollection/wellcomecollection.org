@@ -115,17 +115,6 @@ export default {
           content: link('Content item', 'document', ['teams']),
         },
       }),
-      inPageAnchor: slice('In page anchor', {
-        nonRepeat: {
-          id: {
-            type: 'Text',
-            config: {
-              label: 'id',
-              placeholder: 'unique identifier without spaces',
-            },
-          },
-        },
-      }),
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading('Title', 2),

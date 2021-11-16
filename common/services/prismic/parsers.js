@@ -705,12 +705,6 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             },
           };
 
-        case 'inPageAnchor':
-          return {
-            type: 'inPageAnchor',
-            value: slice.primary.id,
-          };
-
         case 'searchResults':
           return {
             type: 'searchResults',
