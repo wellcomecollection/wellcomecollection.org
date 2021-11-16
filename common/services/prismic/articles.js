@@ -361,8 +361,12 @@ function parseContentLink(document: ?PrismicDocument): ?MultiContent {
 
 function parseArticleDoc(document: PrismicDocument): Article {
   const { data } = document;
+  // When we imported data into Prismic from the Wordpress blog some content
+  // needed to have it's original publication date displayed. This is no
+  // longer a feature that editors can, but we still want to display the value
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
+
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
@@ -375,6 +379,7 @@ function parseArticleDoc(document: PrismicDocument): Article {
       return parseSeason(season);
     }),
   };
+
   const labels = [
     article.format ? { text: article.format.title || '' } : null,
     article.series.find(series => series.schedule.length > 0)
@@ -420,8 +425,7 @@ export async function getArticles(
   { predicates = [], ...opts }: ArticleQueryProps,
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Article>> {
-  const orderings =
-    '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
+  const orderings = '[document.first_publication_date desc]';
   const paginatedResults = await getDocuments(
     req,
     [Prismic.Predicates.any('document.type', ['articles', 'webcomics'])].concat(
