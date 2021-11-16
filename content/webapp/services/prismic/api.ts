@@ -1,6 +1,6 @@
 import Prismic from '@prismicio/client';
-import { Document } from '@prismicio/client/types/documents';
 import ResolvedApi from '@prismicio/client/types/ResolvedApi';
+import { PrismicDocument } from '@prismicio/types';
 import { GetServerSidePropsContext } from 'next';
 
 type Req = GetServerSidePropsContext['req'];
@@ -24,15 +24,25 @@ export async function api(req: Req): Promise<ResolvedApi> {
   return api;
 }
 
-type PrismicTypesDocument<Data> = Document & {
-  data: Data;
-};
+type ModdedPrismicDocument<Data> = Omit<
+  PrismicDocument<Data>,
+  'linked_documents'
+>;
 
 export async function getDocument<Data>(
   prismic: ResolvedApi,
   id: string
-): Promise<PrismicTypesDocument<Data>> {
+): Promise<ModdedPrismicDocument<Data>> {
   const document = await prismic.getByID(id);
-  return document;
+
+  return {
+    ...document,
+    uid: document.uid ?? null,
+    url: document.url ?? null,
+    // These are always returned as strings and reflected as such in @prismicio/types
+    // but not the @prismicio/client
+    lang: document.lang as string,
+    first_publication_date: document.first_publication_date as string,
+    last_publication_date: document.first_publication_date as string,
+  };
 }
-// export type GetDocument = (Parameters<typeof getDocument>) => Prismic;

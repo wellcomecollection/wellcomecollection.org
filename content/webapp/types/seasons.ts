@@ -1,6 +1,6 @@
 import { RTHeading1Node, TimestampField } from '@prismicio/types';
-import { Body } from './body';
-import { Promo } from './promo';
+import { Promo } from './prismic';
+import { Body } from './prismic-body';
 
 export type SeasonPrismicDocument = {
   title: [RTHeading1Node];

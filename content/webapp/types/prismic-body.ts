@@ -12,7 +12,7 @@ import {
   EmbedField,
   RelationField,
 } from '@prismicio/types';
-import { Image } from './image';
+import { Image } from './prismic';
 
 type TextSlice = Slice<'slice', { text: RichTextField }>;
 

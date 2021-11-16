@@ -1,4 +1,11 @@
-import { ImageField, ImageFieldImage } from '@prismicio/types';
+import {
+  ImageField,
+  ImageFieldImage,
+  KeyTextField,
+  RichTextField,
+  Slice,
+  SliceZone,
+} from '@prismicio/types';
 
 type Dimension = {
   width: number;
@@ -25,3 +32,10 @@ export type Image = ThumbnailedImageField<{
     height: 3200;
   };
 }>;
+
+export type Promo = SliceZone<
+  Slice<
+    'editorialImage',
+    { caption: RichTextField; image: Image; text: KeyTextField }
+  >
+>;
