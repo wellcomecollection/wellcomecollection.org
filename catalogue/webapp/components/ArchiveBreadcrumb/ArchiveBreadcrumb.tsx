@@ -179,7 +179,11 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
             <span className="crumb-inner">
               <AlignFont>
                 <WorkTitle
-                  title={`${lastCrumb.title} ${lastCrumb.referenceNumber}`}
+                  title={`${lastCrumb.title}${
+                    lastCrumb.referenceNumber
+                      ? ` ${lastCrumb.referenceNumber}`
+                      : ''
+                  }`}
                 />
               </AlignFont>
             </span>
