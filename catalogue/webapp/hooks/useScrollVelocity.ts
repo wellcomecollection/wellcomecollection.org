@@ -1,6 +1,6 @@
 import { useState, useReducer, useEffect } from 'react';
 
-const useScrollVelocity = offset => {
+const useScrollVelocity = (offset: number) => {
   const [then, setThen] = useState(Date.now());
   const [scrollVelocity, setScrollVelocity] = useState(0);
   const [lastOffsets, lastOffsetsDispatch] = useReducer(
