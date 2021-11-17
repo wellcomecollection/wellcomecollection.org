@@ -1,15 +1,15 @@
-import { font } from '../../../utils/classnames';
-import LabelsList from '../LabelsList/LabelsList';
-import { UiImage } from '../Images/Images';
-import Layout8 from '../Layout10/Layout10';
-import Layout12 from '../Layout12/Layout12';
-import WobblyBottom from '../WobblyBottom/WobblyBottom';
+import { font } from '@weco/common/utils/classnames';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import Layout8 from '@weco/common/views/components/Layout10/Layout10';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
 import { FunctionComponent, ComponentProps, ReactElement } from 'react';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
-import { HTMLString } from '../../../services/prismic/types';
-import DateRange from '../DateRange/DateRange';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('charcoal')};

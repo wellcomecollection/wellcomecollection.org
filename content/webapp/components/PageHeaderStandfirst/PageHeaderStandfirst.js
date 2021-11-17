@@ -1,10 +1,10 @@
 // @flow
-import type { HTMLString } from '../../../services/prismic/types';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
+import type { HTMLString } from '@weco/common/services/prismic/types';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 // $FlowFixMe (ts)
-import { classNames } from '../../../utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 // $FlowFixMe (tsx)
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = { html: HTMLString };
 const PageHeaderStandfirst = ({ html }: Props) => (
