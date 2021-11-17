@@ -26,12 +26,10 @@ import {
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,
-  parseDescription,
   parseContributors,
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
