@@ -156,7 +156,7 @@ const BookPage: FC<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        contributorProps={book.contributors}
+        contributorProps={{ contributors: book.contributors }}
         seasons={book.seasons}
       >
         <Fragment>

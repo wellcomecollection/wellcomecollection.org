@@ -284,8 +284,7 @@ const Body: FunctionComponent<Props> = ({
 
       {filteredBody.map((slice, i) => (
         <Fragment key={i}>
-          {slice.type === 'inPageAnchor' && <span id={slice.value} />}
-          {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
+          {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
             <Layout8 shift={!sectionLevelPage}>
               <div className="body-text spaced-text">

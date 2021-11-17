@@ -10,7 +10,7 @@ import {
   CSSProperties,
 } from 'react';
 import { FixedSizeGrid, FixedSizeList, areEqual } from 'react-window';
-import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
+import useScrollVelocity from '../../hooks/useScrollVelocity';
 import LL from '@weco/common/views/components/styled/LL';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 import Space from '@weco/common/views/components/styled/Space';

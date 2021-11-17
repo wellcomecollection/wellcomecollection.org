@@ -1,35 +1,25 @@
-// @flow
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
-// $FlowFixMe (tsx)
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-// $FlowFixMe (tsx)
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-// $FlowFixMe (tsx)
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
-// $FlowFixMe (tsx)
 import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
-// $FlowFixMe (tsx)
-import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
-// $FlowFixMe (ts)
-import { font, grid } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
-import { type Page } from '@weco/common/model/pages';
-
-// $FlowFixMe (tsx)
+import { UiExhibition } from '@weco/common/model/exhibitions';
+import { Page } from '@weco/common/model/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   calendar,
@@ -42,6 +32,7 @@ import {
   family,
   // $FlowFixMe (tsx)
 } from '@weco/common/icons';
+import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -119,7 +110,7 @@ function getPlaceObject(exhibition) {
 }
 
 // These options are defined in exhibition-resources.js
-const resourceIcons: { [string]: React$StatelessFunctionalComponent<{}> } = {
+const resourceIcons: { [key: string]: FunctionComponent } = {
   information: information,
   family: family,
 };
@@ -175,11 +166,10 @@ export function getInfoItems(exhibition: UiExhibition) {
   ].filter(Boolean);
 }
 
-type Props = {|
-  exhibition: UiExhibition,
-  pages: Page[],
-  globalContextData: any,
-|};
+type Props = {
+  exhibition: UiExhibition;
+  pages: Page[];
+} & WithGlobalContextData;
 
 const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
@@ -279,7 +269,7 @@ const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
       imageUrl={
         exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
       }
-      imageAltText={exhibition.image && exhibition.image.alt}
+      imageAltText={exhibition.image ? exhibition.image.alt : undefined}
       globalContextData={globalContextData}
     >
       <ContentPage
@@ -290,7 +280,7 @@ const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
       >
         {exhibition.contributors.length > 0 && (
           <Contributors
-            titleOverride={exhibition.contributorsTitle}
+            titleOverride={exhibition.contributorsTitle ?? undefined}
             contributors={exhibition.contributors}
           />
         )}

@@ -332,7 +332,7 @@ const EventPage: NextPage<Props> = ({
         {event.contributors.length > 0 && (
           <Contributors
             titlePrefix="About your"
-            titleOverride={event.contributorsTitle}
+            titleOverride={event.contributorsTitle ?? undefined}
             contributors={event.contributors}
           />
         )}

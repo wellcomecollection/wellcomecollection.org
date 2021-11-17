@@ -1,16 +1,13 @@
-// @flow
-import type { HTMLString } from '../../../services/prismic/types';
-// $FlowFixMe (ts)
+import { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
-type Props = {|
-  text: HTMLString,
-  citation: ?HTMLString,
-  isPullOrReview: boolean,
-|};
+type Props = {
+  text: HTMLString;
+  citation?: HTMLString;
+  isPullOrReview: boolean;
+};
 
 const Quote = ({ text, citation, isPullOrReview }: Props) => (
   <blockquote

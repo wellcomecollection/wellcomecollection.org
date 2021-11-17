@@ -79,7 +79,7 @@ const colours = {
   success: css`
     background-color: rgba(0, 120, 108, 0.1);
     border: 1px solid rgba(0, 120, 108, 0.3);
-    color: ${props => props.theme.color('green')};
+    color: ${props => props.theme.color('green', 'dark')};
   `,
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);

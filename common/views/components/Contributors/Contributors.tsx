@@ -1,19 +1,18 @@
-// @flow
 import Contributor from '../Contributor/Contributor';
 import { Fragment } from 'react';
-import type { Contributor as ContributorType } from '../../../model/contributors';
-// $FlowFixMe (tsx)
+import { Contributor as ContributorType } from '../../../model/contributors';
 import Space from '../styled/Space';
+import { isNotUndefined } from '../../../utils/array';
 
-type Props = {|
-  contributors: ContributorType[],
-  titleOverride?: ?string,
-  titlePrefix?: string,
-  excludeTitle?: boolean,
-|};
+type Props = {
+  contributors: ContributorType[];
+  titleOverride?: string;
+  titlePrefix?: string;
+  excludeTitle?: boolean;
+};
 
-export function dedupeAndPluraliseRoles(roles: string[]) {
-  const dedupedWithCount: { [string]: number } = roles
+export function dedupeAndPluraliseRoles(roles: string[]): string[] {
+  const dedupedWithCount: { [key: string]: number } = roles
     .filter(Boolean)
     .reduce((acc, role) => {
       if (!acc.hasOwnProperty(role)) {
@@ -35,7 +34,7 @@ export function dedupeAndPluraliseRoles(roles: string[]) {
 
 export function getContributorsTitle(
   roles: string[],
-  titlePrefix: string = 'About the'
+  titlePrefix = 'About the'
 ): string {
   const lowerCaseRoles = roles.map(role => role.toLowerCase());
 
@@ -58,8 +57,8 @@ const Contributors = ({
 }: Props) => {
   const roles = dedupeAndPluraliseRoles(
     contributors
-      .map(contributor => contributor.role && contributor.role.title)
-      .filter(Boolean)
+      .map(contributor => contributor?.role?.title)
+      .filter(isNotUndefined)
   );
 
   return (

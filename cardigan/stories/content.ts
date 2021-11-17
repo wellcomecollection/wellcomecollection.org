@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { openingTimes as openingTimesFixture } from '@weco/common/test/fixtures/components/opening-times';
-export function randomNumber(min, max) {
+export function randomNumber(min, max): number {
   return Math.floor(Math.random() * max) + min;
 }
 
