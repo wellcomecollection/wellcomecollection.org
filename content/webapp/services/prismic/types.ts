@@ -1,21 +1,24 @@
 import {
-  ImageField,
-  ImageFieldImage,
+  FilledImageFieldImage,
   KeyTextField,
   RichTextField,
   Slice,
   SliceZone,
+  RTHeading1Node,
 } from '@prismicio/types';
+import { Body } from './prismic-body';
 
 type Dimension = {
   width: number;
   height: number;
 };
 
+export type Crop = '32:15' | '16:9' | 'square';
+
 // Currently the Prismic types only allow you to specify 1 image
 type ThumbnailedImageField<Thumbnails extends Record<string, Dimension>> =
-  ImageField & {
-    [Property in keyof Thumbnails]: ImageFieldImage & Thumbnails[Property];
+  FilledImageFieldImage & {
+    [Property in keyof Thumbnails]?: FilledImageFieldImage;
   };
 
 export type Image = ThumbnailedImageField<{
@@ -33,9 +36,12 @@ export type Image = ThumbnailedImageField<{
   };
 }>;
 
-export type Promo = SliceZone<
-  Slice<
-    'editorialImage',
-    { caption: RichTextField; image: Image; text: KeyTextField }
-  >
->;
+type Promo = { caption: RichTextField; image: Image; link: KeyTextField };
+type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
+
+export type CommonPrismicData = {
+  title: [RTHeading1Node];
+  body: Body;
+  promo: PromoSliceZone;
+  metadataDescription: KeyTextField;
+};

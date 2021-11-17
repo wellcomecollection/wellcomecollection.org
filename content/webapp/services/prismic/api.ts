@@ -1,48 +1,40 @@
-import Prismic from '@prismicio/client';
-import ResolvedApi from '@prismicio/client/types/ResolvedApi';
+import * as prismic from 'prismic-client-beta';
 import { PrismicDocument } from '@prismicio/types';
 import { GetServerSidePropsContext } from 'next';
+import fetch from 'node-fetch';
 
 type Req = GetServerSidePropsContext['req'];
 
-// We enforce have a req object as we should never be using this method in the client.
+const routes = [
+  {
+    type: 'seasons',
+    path: '/seasons/:uid',
+  },
+];
+const endpoint = prismic.getEndpoint('wellcomecollection');
+const client = prismic.createClient(endpoint, { routes, fetch });
+
+// We enforce have a req object as we should never be using the API on the client.
 // To fetch stuff via the client, use the ./api paths.
-let initialised = false;
-export async function api(req: Req): Promise<ResolvedApi> {
+const initialised = false;
+export function api(req: Req): prismic.Client {
+  if (!req) {
+    throw Error('Give me a req');
+  }
   if (initialised) {
     throw Error(
       'Prismic has already been initialised, please use the previously initialised API reference'
     );
   }
 
-  const api = await Prismic.getApi('https://wellcomecollection.prismic.io', {
-    req,
-  });
-
-  initialised = true;
-
-  return api;
+  return client;
 }
 
-type ModdedPrismicDocument<Data> = Omit<
-  PrismicDocument<Data>,
-  'linked_documents'
->;
-
-export async function getDocument<Data>(
-  prismic: ResolvedApi,
+export async function getDocument<Doc extends PrismicDocument>(
+  client: prismic.Client,
   id: string
-): Promise<ModdedPrismicDocument<Data>> {
-  const document = await prismic.getByID(id);
+): Promise<Doc> {
+  const document = await client.getByID<Doc>(id);
 
-  return {
-    ...document,
-    uid: document.uid ?? null,
-    url: document.url ?? null,
-    // These are always returned as strings and reflected as such in @prismicio/types
-    // but not the @prismicio/client
-    lang: document.lang as string,
-    first_publication_date: document.first_publication_date as string,
-    last_publication_date: document.first_publication_date as string,
-  };
+  return document;
 }
