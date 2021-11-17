@@ -472,11 +472,6 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
 }
 
-// We always get returned a { link_type: 'Web' } but it might not have a URL
-export function isWebLink(fragment: ?PrismicFragment): boolean {
-  return Boolean(fragment && fragment.url);
-}
-
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
 function getWeight(weight: ?string): Weight {
