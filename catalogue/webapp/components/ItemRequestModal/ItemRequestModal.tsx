@@ -10,6 +10,10 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
+import { formatDate, parseDate } from 'react-day-picker/moment';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -83,47 +87,93 @@ const RequestDialog: FC<RequestDialogProps> = ({
   confirmRequest,
   setIsActive,
   currentHoldNumber,
-}) => (
-  <Request isLoading={isLoading}>
-    <Header>
-      <span className={`h2`}>Request item</span>
-      <RemainingRequests
-        allowedHoldRequests={allowedRequests}
-        currentHoldRequests={currentHoldNumber}
-      />
-    </Header>
-    <p
-      className={classNames({
-        [font('hnb', 5)]: true,
-        'no-margin': true,
-      })}
-    >
-      You are about to request the following item:
-    </p>
-    <p className={'no-margin'}>
-      {work.title && <span className="block">{work.title}</span>}
-      {item.title && <span>{item.title}</span>}
-    </p>
-    <CTAs>
-      <Space
-        h={{ size: 'l', properties: ['margin-right'] }}
-        v={{ size: 's', properties: ['margin-bottom'] }}
-        className={'inline-block'}
-      >
-        <ButtonSolid
-          disabled={isLoading}
-          text={`Confirm request`}
-          clickHandler={confirmRequest}
+}) => {
+  const now = new Date();
+  const nextAvailableDate = new Date();
+  const isBeforeTen = now.getHours() <= 10;
+  // If it's before 10am, we can request on the next day
+  // otherwise, in two days' time
+  nextAvailableDate.setDate(
+    nextAvailableDate.getDate() + (isBeforeTen ? 1 : 2)
+  );
+
+  // …if that's a Sunday, move it to Monday
+  const nextAvailableDatsIsSunday = nextAvailableDate.getDay() === 0;
+  nextAvailableDate.setDate(
+    nextAvailableDate.getDate() + (nextAvailableDatsIsSunday ? 1 : 0)
+  );
+
+  const twoWeeksFromNow = new Date();
+  twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+  const [holdDate, setHoldDate] = useState<Date>(nextAvailableDate);
+
+  function handleOnDayChange(date: Date) {
+    console.log(date);
+    setHoldDate(date);
+  }
+  return (
+    <Request isLoading={isLoading}>
+      <Header>
+        <span className={`h2`}>Request item</span>
+        <RemainingRequests
+          allowedHoldRequests={allowedRequests}
+          currentHoldRequests={currentHoldNumber}
         />
-      </Space>
-      <ButtonOutlined
-        disabled={isLoading}
-        text={`Cancel`}
-        clickHandler={() => setIsActive(false)}
+      </Header>
+      <p
+        className={classNames({
+          [font('hnb', 5)]: true,
+          'no-margin': true,
+        })}
+      >
+        You are about to request the following item:
+      </p>
+      <p className={'no-margin'}>
+        {work.title && <span className="block">{work.title}</span>}
+        {item.title && <span>{item.title}</span>}
+      </p>
+
+      <DayPickerInput
+        formatDate={formatDate}
+        parseDate={parseDate}
+        format="D MMMM YYYY"
+        placeholder={`${formatDate(holdDate, 'DD MMMM YYYY')}`}
+        onDayChange={handleOnDayChange}
+        hideOnDayClick={false}
+        value={holdDate}
+        dayPickerProps={{
+          firstDayOfWeek: 1,
+          disabledDays: [
+            { daysOfWeek: [0] }, // Sundays
+            { before: nextAvailableDate, after: twoWeeksFromNow },
+            // TODO: add holidays/exceptional dates from Prismic
+          ],
+        }}
       />
-    </CTAs>
-  </Request>
-);
+
+      {/* <DayPicker onDayClick={date => console.log(date)} /> */}
+
+      <CTAs>
+        <Space
+          h={{ size: 'l', properties: ['margin-right'] }}
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={'inline-block'}
+        >
+          <ButtonSolid
+            disabled={isLoading}
+            text={`Confirm request`}
+            clickHandler={confirmRequest}
+          />
+        </Space>
+        <ButtonOutlined
+          disabled={isLoading}
+          text={`Cancel`}
+          clickHandler={() => setIsActive(false)}
+        />
+      </CTAs>
+    </Request>
+  );
+};
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;
