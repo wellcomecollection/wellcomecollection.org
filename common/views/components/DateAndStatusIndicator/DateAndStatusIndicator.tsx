@@ -1,16 +1,13 @@
-// @flow
 import { Fragment } from 'react';
-// $FlowFixMe (tsx)
 import DateRange from '../DateRange/DateRange';
 import HTMLDate from '../HTMLDate/HTMLDate';
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
-type Props = {|
-  start: Date,
-  end: ?Date,
-|};
+type Props = {
+  start: Date;
+  end?: Date;
+};
 
 const DateAndStatusIndicator = ({ start, end }: Props) => (
   <Fragment>
