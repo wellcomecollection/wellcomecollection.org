@@ -1,24 +1,18 @@
-// @flow
-// $FlowFixMe (ts)
 import { classNames, cssGrid } from '../../../utils/classnames';
-import type { Card as CardType } from '@weco/common/model/card';
+import { Card as CardType } from '@weco/common/model/card';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
-// $FlowFixMe (tsx)
 import Card from '../Card/Card';
-// $FlowFixMe (tsx)
 import Layout12 from '../Layout12/Layout12';
-// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
-// $FlowFixMe (tsx)
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-type Props = {|
-  items: $ReadOnlyArray<CardType>,
-  isFeaturedFirst?: boolean,
-|};
+type Props = {
+  items: readonly CardType[];
+  isFeaturedFirst?: boolean;
+};
 
-type CardGridFeaturedCardProps = {|
-  item: CardType,
-|};
+type CardGridFeaturedCardProps = {
+  item: CardType;
+};
 
 const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   const image = item.image ? item.image.crops['16:9'] : {};
