@@ -1,97 +1,91 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
+import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import SeasonsHeader from '@weco/common/views/components/SeasonsHeader/SeasonsHeader';
+import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import Body from '@weco/common/views/components/Body/Body';
+import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { convertJsonToDates } from './event';
 import {
   getGlobalContextData,
   WithGlobalContextData,
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { getServerData } from '@weco/common/server-data';
-import { getSeason, SeasonPrismicDocument } from '../services/prismic/seasons';
-import { api } from '../services/prismic/api';
-import { Article } from '@weco/common/model/articles';
-import { Book } from '@weco/common/model/books';
-import { Event } from '@weco/common/model/events';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
-import { ArticleSeries } from '@weco/common/model/article-series';
-import { Project } from '@weco/common/model/projects';
-import {
-  transformLabels,
-  transformMeta,
-} from '../services/prismic/transformers';
-import { getImageUrlAtSize } from '../services/prismic/images';
-import Image from 'components/Image/Image';
 
-type Props = {
-  season: SeasonPrismicDocument;
-  events?: Event[];
-  exhibitions?: Exhibition[];
-  articles?: Article[];
-  books?: Book[];
-  pages?: Page[];
-  articleSeries?: ArticleSeries[];
-  projects?: Project[];
-} & WithGlobalContextData;
-
+type Props = SeasonWithContent & WithGlobalContextData;
 const SeasonPage = ({
   season,
-
+  articles,
+  books,
+  events,
+  exhibitions,
+  pages,
+  articleSeries,
+  projects,
   globalContextData,
 }: Props): ReactElement<Props> => {
-  const start = season.data.start ? new Date(season.data.start) : undefined;
-  const end = season.data.end ? new Date(season.data.end) : undefined;
-  const meta = transformMeta(season);
-  const labels = transformLabels(season);
-  const relatedContent = [];
+  const Header = (
+    <SeasonsHeader
+      labels={{ labels: season.labels }}
+      title={season.title}
+      FeaturedMedia={
+        <UiImage {...season.superWidescreenImage} sizesQueries="" />
+      }
+      standfirst={season?.standfirst}
+      start={season.start}
+      end={season.end}
+    />
+  );
+  const parsedEvents = events.map(convertJsonToDates);
+  const parsedExhibitions = exhibitions.map(exhibition => {
+    return {
+      ...exhibition,
+      start: exhibition.start && new Date(exhibition.start),
+      end: exhibition.end && new Date(exhibition.end),
+    };
+  });
+
+  const allItems = [
+    ...parsedExhibitions,
+    ...parsedEvents,
+    ...articles,
+    ...books,
+    ...pages,
+    ...articleSeries,
+    ...projects,
+  ];
 
   return (
     <PageLayout
-      title={meta.title}
-      description={meta.description ?? ''}
-      url={{ pathname: meta.url }}
+      title={season.title}
+      description={season.metadataDescription || season.promoText || ''}
+      url={{ pathname: `/seasons/${season.id}` }}
       jsonLd={contentLd(season)}
       siteSection={'whats-on'}
-      openGraphType={meta.type}
-      imageUrl={meta.image && getImageUrlAtSize(meta.image, { w: 600 })}
-      // The type here is `string | undefined | null` as `alt: string | null`
-      // because prismic does actually return `null` and `image?: Image`.
-      // I'm okay with this here as it's at hte
-      // TODO: think of a way to deal with Prismic `null` values.
-      imageAltText={meta.image?.alt ?? undefined}
+      openGraphType={'website'}
+      imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
+      imageAltText={season?.image?.alt}
       globalContextData={globalContextData}
     >
       <ContentPage
         id={season.id}
-        Header={
-          <SeasonsHeader
-            labels={{ labels }}
-            title={meta.title}
-            FeaturedMedia={
-              meta.image?.['32:15'] ? (
-                <Image image={meta.image?.['32:15']} />
-              ) : null
-            }
-            standfirst={null}
-            start={start}
-            end={end}
-          />
-        }
-        Body={<Body body={[]} pageId={season.id} />}
+        Header={Header}
+        Body={<Body body={season.body} pageId={season.id} />}
       />
 
-      {relatedContent.length > 0 && (
+      {allItems.length > 0 && (
         <SpacingSection>
           <SpacingComponent>
-            <CardGrid items={relatedContent} itemsPerRow={3} />
+            <CardGrid items={allItems} itemsPerRow={3} />
           </SpacingComponent>
         </SpacingSection>
       )}
@@ -99,29 +93,21 @@ const SeasonPage = ({
   );
 };
 
-function isString(v: any): v is string {
-  if (typeof v === 'string') {
-    return true;
-  }
-  return false;
-}
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { id } = context.query;
-    if (!isString(id)) {
-      return { notFound: true };
-    }
-
-    const client = api(context.req);
-    const season = await getSeason(client, id);
     const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);
+    const { id, memoizedPrismic } = context.query;
+    const seasonWithContent = await getSeasonWithContent({
+      request: context.req,
+      id: id?.toString() || '',
+      memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
+    });
 
-    if (season) {
+    if (seasonWithContent) {
       return {
         props: removeUndefinedProps({
-          season,
+          ...seasonWithContent,
           globalContextData,
           serverData,
         }),
