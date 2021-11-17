@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import { london } from '@weco/common/views/components/utils/format-date';
+import { london } from '@weco/common/utils/format-date';
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 // $FlowFixMe (ts)
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
