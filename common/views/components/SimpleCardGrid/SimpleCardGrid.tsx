@@ -6,7 +6,7 @@ import Layout12 from '../Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 type Props = {
-  items: ReadOnlyArray<CardType>;
+  items: readonly CardType[];
   isFeaturedFirst?: boolean;
 };
 
