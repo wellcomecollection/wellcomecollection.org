@@ -6,7 +6,7 @@ import { formatDate, parseDate } from 'react-day-picker/moment';
 import styled from 'styled-components';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { chevron } from '@weco/common/icons';
+import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 
@@ -44,6 +44,30 @@ const DayPickerWrapper = styled.div`
     color: ${props => props.theme.color('pewter')};
     font-size: 15px;
     ${fontFamilyMixin('hnb', true)};
+  }
+
+  .DayPickerInput {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid ${props => props.theme.color('marble')};
+
+    &:focus-within {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+    }
+
+    input {
+      width: 100%;
+
+      &,
+      &:focus,
+      &:focus-visible {
+        border: 0;
+        outline: 0;
+        appearance: none;
+      }
+    }
   }
 `;
 
@@ -138,6 +162,22 @@ const RequestingDayPicker: FC<Props> = ({
   // …if that's a Sunday, move it to Monday
   nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
 
+  const WrappedInput = props => {
+    return (
+      <>
+        <input {...props} />
+        <span
+          className={classNames({
+            [font('hnr', 3)]: true,
+            'flex-inline': true,
+          })}
+        >
+          <Icon color={'pewter'} matchText icon={calendar} />
+        </span>
+      </>
+    );
+  };
+
   function handleOnDayChange(date: Date) {
     setPickUpDate(date);
   }
@@ -150,6 +190,7 @@ const RequestingDayPicker: FC<Props> = ({
         placeholder={`Select a date`}
         onDayChange={handleOnDayChange}
         value={pickUpDate}
+        component={WrappedInput}
         inputProps={{
           required: true,
         }}
