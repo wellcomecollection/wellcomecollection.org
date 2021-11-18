@@ -26,12 +26,10 @@ import {
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,
-  parseDescription,
   parseContributors,
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
@@ -335,9 +333,9 @@ function putPermanentAfterCurrentExhibitions(
   ];
 }
 
-export async function getExhibition(
-  req: ?Request,
+async function getExhibition(
   id: string,
+  req: ?Request,
   memoizedPrismic: ?Object
 ): Promise<?UiExhibition> {
   const document = await getDocument(
@@ -374,7 +372,7 @@ export async function getExhibitionWithRelatedContent({
   memoizedPrismic: ?Object,
   id: string,
 }) {
-  const exhibitionPromise = getExhibition(request, id, memoizedPrismic);
+  const exhibitionPromise = getExhibition(id, request, memoizedPrismic);
   const pagesPromise = getPages(
     request,
     {
