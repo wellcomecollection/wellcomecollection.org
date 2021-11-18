@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, MutableRefObject } from 'react';
+import { FC, useState, useEffect, MutableRefObject, FormEvent } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -10,10 +10,7 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from 'react-day-picker/moment';
+import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -23,7 +20,7 @@ const Header = styled(Space).attrs({
   align-items: center;
 `;
 
-const Request = styled.div<{ isLoading: boolean }>`
+const Request = styled.form<{ isLoading: boolean }>`
   opacity: ${props => (props.isLoading ? 0.2 : 1)};
   transition: opacity ${props => props.theme.transitionProperties};
 `;
@@ -75,7 +72,7 @@ type RequestDialogProps = {
   isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: () => void;
+  confirmRequest: (date: Date) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
@@ -88,31 +85,18 @@ const RequestDialog: FC<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
-  const now = new Date();
-  const nextAvailableDate = new Date();
-  const isBeforeTen = now.getHours() <= 10;
-  // If it's before 10am, we can request on the next day
-  // otherwise, in two days' time
-  nextAvailableDate.setDate(
-    nextAvailableDate.getDate() + (isBeforeTen ? 1 : 2)
-  );
+  const [pickUpDate, setPickUpDate] = useState<Date | undefined>();
 
-  // …if that's a Sunday, move it to Monday
-  const nextAvailableDatsIsSunday = nextAvailableDate.getDay() === 0;
-  nextAvailableDate.setDate(
-    nextAvailableDate.getDate() + (nextAvailableDatsIsSunday ? 1 : 0)
-  );
+  function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-  const twoWeeksFromNow = new Date();
-  twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
-  const [holdDate, setHoldDate] = useState<Date>(nextAvailableDate);
-
-  function handleOnDayChange(date: Date) {
-    console.log(date);
-    setHoldDate(date);
+    if (pickUpDate) {
+      confirmRequest(pickUpDate);
+    }
   }
+
   return (
-    <Request isLoading={isLoading}>
+    <Request isLoading={isLoading} onSubmit={handleConfirmRequest}>
       <Header>
         <span className={`h2`}>Request item</span>
         <RemainingRequests
@@ -133,25 +117,10 @@ const RequestDialog: FC<RequestDialogProps> = ({
         {item.title && <span>{item.title}</span>}
       </p>
 
-      <DayPickerInput
-        formatDate={formatDate}
-        parseDate={parseDate}
-        format="D MMMM YYYY"
-        placeholder={`${formatDate(holdDate, 'DD MMMM YYYY')}`}
-        onDayChange={handleOnDayChange}
-        hideOnDayClick={false}
-        value={holdDate}
-        dayPickerProps={{
-          firstDayOfWeek: 1,
-          disabledDays: [
-            { daysOfWeek: [0] }, // Sundays
-            { before: nextAvailableDate, after: twoWeeksFromNow },
-            // TODO: add holidays/exceptional dates from Prismic
-          ],
-        }}
+      <RequestingDayPicker
+        pickUpDate={pickUpDate}
+        setPickUpDate={setPickUpDate}
       />
-
-      {/* <DayPicker onDayClick={date => console.log(date)} /> */}
 
       <CTAs>
         <Space
@@ -159,14 +128,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
           v={{ size: 's', properties: ['margin-bottom'] }}
           className={'inline-block'}
         >
-          <ButtonSolid
-            disabled={isLoading}
-            text={`Confirm request`}
-            clickHandler={confirmRequest}
-          />
+          <ButtonSolid disabled={isLoading} text={`Confirm request`} />
         </Space>
         <ButtonOutlined
-          disabled={isLoading}
           text={`Cancel`}
           clickHandler={() => setIsActive(false)}
         />
@@ -270,7 +234,9 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest() {
+  async function confirmRequest(pickUpDate: Date) {
+    console.log(pickUpDate);
+    return;
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
