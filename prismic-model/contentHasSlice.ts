@@ -9,21 +9,25 @@
  *
  * e.g. we notice we have a "Discussion" slice, but need to know if it's used.
  *
- * yarn contentHasSlice --type discussion.
+ * yarn sliceAnalysis --type discussion.
  *
  * Another aspect to slices is that you can label them. For instance we label images
  * in order to give them different weighting on the page. For this we run:
  *
- * yarn contentHasSlice --label standalone
+ * yarn sliceAnalysis --label standalone
  *
  * This will return the IDs and titles of the content that use these slices, as well as the
  * number of matching pieces of content.
+ *
+ * This script will also give you a map of slice types => slice usage count
  *
  * †: https://prismic.io/docs/technologies/query-predicates-reference-rest-api
  * see: https://prismic.io/docs/core-concepts/slices
  */
 import Prismic from '@prismicio/client';
 import yargs from 'yargs';
+import body from './src/parts/body';
+import articleBody from './src/parts/article-body';
 
 const { label, type } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --label [string] --type [string]')
@@ -69,10 +73,22 @@ async function* getAllResults() {
 }
 
 async function main() {
+  const sliceNames = Object.keys(articleBody.config.choices).concat(
+    Object.keys(body.config.choices)
+  );
+
+  const sliceCounter = new Map(sliceNames.map(sliceName => [sliceName, 0]));
   const matches = [];
 
   for await (const result of getAllResults()) {
     if (result.data.body) {
+      for (const slice of result.data.body) {
+        sliceCounter.set(
+          slice.slice_type,
+          sliceCounter.get(slice.slice_type) + 1
+        );
+      }
+
       const isWithType: boolean = type
         ? result.data.body.some(slice => slice.slice_type === type)
         : true;
@@ -91,6 +107,10 @@ async function main() {
       }
     }
   }
+  console.info(
+    'Slice count',
+    Array.from(sliceCounter.entries()).sort((a, b) => a[1] - b[1])
+  );
   console.info(matches);
   console.info(`found ${matches.length}`);
 }
