@@ -56,23 +56,7 @@ export function parsePage(document: PrismicDocument): Page {
   const siteSections = links.map(link => link.siteSection);
   const siteSection = document.tags.find(tag => siteSections.includes(tag));
 
-  // TODO: (drupal migration) Just deal with normal promo once we deprecate the
-  // drupal stuff
   const promo = genericFields.promo;
-  const drupalPromoImage =
-    data.drupalPromoImage && data.drupalPromoImage.url
-      ? data.drupalPromoImage
-      : null;
-  const drupalisedPromo = drupalPromoImage
-    ? {
-        caption: promo && promo.caption,
-        image: {
-          contentUrl: data.drupalPromoImage.url,
-          width: data.drupalPromoImage.width,
-          height: data.drupalPromoImage.height,
-        },
-      }
-    : null;
   return {
     type: 'pages',
     format: data.format && parseFormat(data.format),
@@ -81,10 +65,9 @@ export function parsePage(document: PrismicDocument): Page {
     parentPages,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
-    promo: promo && promo.image ? promo : drupalisedPromo,
+    promo: promo && promo.image ? promo : null,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     siteSection: siteSection,
-    drupalPromoImage: drupalPromoImage,
     drupalNid: data.drupalNid,
     drupalPath: data.drupalPath,
   };

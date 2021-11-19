@@ -48,9 +48,7 @@ const pages: CustomType = {
       }),
     },
     Contributors: contributorsWithTitle(),
-    // TODO: (drupal migration) Remove this
     Migration: {
-      drupalPromoImage: link('Drupal promo image', 'web'),
       drupalNid: text('Drupal node ID'),
       drupalPath: text('Drupal path'),
     },

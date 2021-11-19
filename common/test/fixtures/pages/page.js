@@ -5,7 +5,6 @@ export const pageWithoutBody = {
     datePublished: null,
     showOnThisPage: null,
     metadataDescription: [],
-    drupalPromoImage: { link_type: 'Web' },
     drupalNid: null,
     drupalPath: null,
   },
