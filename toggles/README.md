@@ -9,7 +9,7 @@ We currently use three categories of toggles:
 
 ## Feature development toggle
 
-Used to release a feature early, generally internally. We then devvelop the feature until
+Used to release a feature early, generally internally. We then develop the feature until
 we are happy for it to be released to the public. These should expire over time.
 
 * create new toggle with `defaultValue: false`
