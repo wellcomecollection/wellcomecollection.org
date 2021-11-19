@@ -26,7 +26,6 @@
   },
   "homepage": "https://github.com/wellcomecollection/wellcomecollection.org#readme",
   "devDependencies": {
-    "@types/styled-components": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "babel-cli": "^6.26.0",
