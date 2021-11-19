@@ -9,7 +9,7 @@
   "author": "Wellcome Collection <digital@wellcomecollection.org>",
   "license": "MIT",
   "scripts": {
-    "start": "NODE_ENV=production ts-node -r tsconfig-paths/register src/index.ts",
+    "start": "NODE_ENV=production ts-node-transpile-only -r tsconfig-paths/register src/index.ts",
     "start:dev": "NODE_ENV=development nodemon --ignore './src/frontend/' src/index.ts",
     "watch:client": "yarn build:frontend --watch",
     "build": "NODE_ENV=production && yarn build:next",
