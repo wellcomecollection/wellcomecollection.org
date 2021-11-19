@@ -30,7 +30,7 @@ e.g. An API toolbar adding more context to works for internal users.
 
 This is to serve different content to different cohorts of people randomly based on a toggle.
 
-The implmenetation for A/B testing is contained within the [cache directory of this repo](../cache).
+The implementation for A/B testing is contained within the [cache directory of this repo](../cache).
 You can read more about it there.
 
 We replicate the tests in [the lambda@dege](../cache/edge_lambdas/src/toggler.ts) here to allow
