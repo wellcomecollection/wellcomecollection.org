@@ -32,7 +32,7 @@ import {
   transformMeta,
 } from '../../services/prismic/transformers';
 import { getImageUrlAtSize } from '../../services/prismic/images';
-import Image from 'components/Image/Image';
+import PrismicImage from 'components/PrismicImage/PrismicImage';
 
 type Props = {
   season: SeasonPrismicDocument;
@@ -80,7 +80,7 @@ const SeasonPage = ({
             title={meta.title}
             FeaturedMedia={
               meta.image?.['32:15'] ? (
-                <Image image={meta.image?.['32:15']} />
+                <PrismicImage image={meta.image?.['32:15']} />
               ) : null
             }
             standfirst={null}
