@@ -26,7 +26,7 @@ import {
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
-import EventsByMonth from '@weco/common/views/components/EventsByMonth/EventsByMonth';
+import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';

@@ -2,19 +2,19 @@
 
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import { london } from '../../../utils/format-date';
-import { getEarliestFutureDateRange } from '../../../utils/dates';
+import { london } from '@weco/common/utils/format-date';
+import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 // $FlowFixMe (ts)
-import { classNames, cssGrid } from '../../../utils/classnames';
-import SegmentedControl from '../SegmentedControl/SegmentedControl';
+import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 // $FlowFixMe (tsx)
-import CardGrid from '../CardGrid/CardGrid';
-import { type UiEvent } from '../../../model/events';
-import { type Link } from '../../../model/link';
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import { type UiEvent } from '@weco/common/model/events';
+import { type Link } from '@weco/common/model/link';
 // $FlowFixMe (tsx)
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
-import CssGridContainer from '../styled/CssGridContainer';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 
 type Props = {|
   events: UiEvent[],
@@ -109,14 +109,7 @@ class EventsByMonth extends Component<Props, State> {
     const orderedMonths = {};
     Object.keys(eventsInMonths)
       .sort((a, b) => {
-        return (
-          london(a)
-            .toDate()
-            .getTime() -
-          london(b)
-            .toDate()
-            .getTime()
-        );
+        return london(a).toDate().getTime() - london(b).toDate().getTime();
       })
       .map(key => (orderedMonths[key] = eventsInMonths[key]));
 

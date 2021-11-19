@@ -8,7 +8,6 @@ import type {
   PersonContributor,
   OrganisationContributor,
 } from '../../model/contributors';
-import type { Picture } from '../../model/picture';
 import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
@@ -100,32 +99,8 @@ export function parseTitle(title: HTMLString): string {
   return asText(title) || '';
 }
 
-export function parseDescription(description: HTMLString): HTMLString {
-  return description;
-}
-
 export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
-}
-
-// Deprecated, use parseImage
-const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
-export function parsePicture(
-  captionedImage: Object,
-  minWidth: ?string = null
-): Picture {
-  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const imageCopyright = image ? image.copyright : '';
-  const tasl = parseTaslFromString(imageCopyright);
-
-  return ({
-    contentUrl: (image && image.url) || placeholderImage,
-    width: (image && image.dimensions && image.dimensions.width) || 160,
-    height: (image && image.dimensions && image.dimensions.height) || 90,
-    alt: (image && image.alt) || '',
-    tasl: tasl,
-    minWidth,
-  }: Picture);
 }
 
 export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
@@ -394,32 +369,6 @@ export function parseNumber(fragment: PrismicFragment): number {
   return parseInt(fragment, 10);
 }
 
-type PrismicPromoListFragment = {|
-  type: string,
-  link: {| url: string |},
-  title: HTMLString,
-  description: HTMLString,
-  image: Picture,
-|};
-type PromoListItem = {|
-  contentType: string,
-  url: string,
-  title: string,
-  description: string,
-  image: Picture,
-|};
-export function parsePromoListItem(
-  item: PrismicPromoListFragment
-): PromoListItem {
-  return {
-    contentType: item.type,
-    url: item.link.url,
-    title: asText(item.title) || 'TITLE MISSING',
-    description: asText(item.description) || '',
-    image: parsePicture(item),
-  };
-}
-
 export function parseBackgroundTexture(
   backgroundTexture: PrismicBackgroundTexture
 ): BackgroundTexture {
@@ -521,11 +470,6 @@ export function isDocumentLink(fragment: ?PrismicFragment): boolean {
 // { '32:15': {}, '16:9': {}, square: {} }
 export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
-}
-
-// We always get returned a { link_type: 'Web' } but it might not have a URL
-export function isWebLink(fragment: ?PrismicFragment): boolean {
-  return Boolean(fragment && fragment.url);
 }
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
