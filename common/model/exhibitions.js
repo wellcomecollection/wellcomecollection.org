@@ -1,7 +1,5 @@
 // @flow
-import type { HTMLString } from '../services/prismic/types';
 import type { Picture } from './picture';
-import type { ImagePromo } from './image-promo';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
 import type { ImageType } from './image';

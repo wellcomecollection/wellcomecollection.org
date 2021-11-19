@@ -23,7 +23,6 @@ import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '../Layout/Layout';
 import Layout8 from '../Layout8/Layout8';
-import Layout6 from '../Layout6/Layout6';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
