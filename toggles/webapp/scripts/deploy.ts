@@ -3,7 +3,7 @@ import { getCreds } from '@weco/ts-aws/sts';
 import { region } from '../config';
 import { deploy } from '../deploy';
 
-export const isCi = process.env.IS_CI === 'true';
+export const isCi = process.env.CI === 'true';
 
 async function run() {
   const credentials = isCi
