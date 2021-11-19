@@ -47,8 +47,7 @@ async function run() {
   const credentials = await getCreds('experience', 'admin');
   const client = new CloudFrontClient({ region, credentials });
   const command = new CreateInvalidationCommand({
-    // We just know this
-    DistributionId: process.env.CLOUDFRONT_DISTRIBUTION_ID,
+    DistributionId: 'E34PPJX23D6HKG',
     InvalidationBatch: {
       Paths: { Items: [`/test-${key}.json`], Quantity: 1 },
       CallerReference: `TogglesInvalidationCallerReference${Date.now()}`,
