@@ -67,7 +67,8 @@ const SeasonPage = ({
       imageUrl={meta.image && getImageUrlAtSize(meta.image, { w: 600 })}
       // The type here is `string | undefined | null` as `alt: string | null`
       // because prismic does actually return `null` and `image?: Image`.
-      // I'm okay with this here as it's at hte
+      // I'm okay with this here as it's at the edge of the application and it exposed further on
+      // as our standard `undefined` for None values.
       // TODO: think of a way to deal with Prismic `null` values.
       imageAltText={meta.image?.alt ?? undefined}
       globalContextData={globalContextData}
