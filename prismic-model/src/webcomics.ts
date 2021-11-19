@@ -36,6 +36,15 @@ const webcomics: CustomType = {
         series: link('Series', 'document', ['webcomic-series']),
       }),
     },
+    Overrides: {
+      publishDate: {
+        config: {
+          label:
+            'Override publish date rendering. This will not affect ordering',
+        },
+        type: 'Timestamp',
+      },
+    },
   },
 };
 
