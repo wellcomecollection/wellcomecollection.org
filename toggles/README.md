@@ -5,17 +5,17 @@ different cohorts of people and stakeholders safely and incrementally.
 
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
-We currently use three categorisations of toggles:
+We currently use three categories of toggles:
 
 ## Feature development toggle
 
-Used to release a feature early, generally internally. We then devvelop the feature until
+Used to release a feature early, generally internally. We then develop the feature until
 we are happy for it to be released to the public. These should expire over time.
 
 * create new toggle with `defaultValue: false`
 * let internal users know they can turn this feature on via the [toggles dashboard][toggles-dashboard]
 * iterate!
-* set `defaultValue: true` once you're happy with releasing the feature publically
+* set `defaultValue: true` once you're happy with releasing the feature publicly
 * if anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`
 * once you're happy, remove the toggle from the code
 
@@ -30,7 +30,7 @@ e.g. An API toolbar adding more context to works for internal users.
 
 This is to serve different content to different cohorts of people randomly based on a toggle.
 
-The implmenetation for A/B testing is contained within the [cache directory of this repo](../cache).
+The implementation for A/B testing is contained within the [cache directory of this repo](../cache).
 You can read more about it there.
 
 We replicate the tests in [the lambda@dege](../cache/edge_lambdas/src/toggler.ts) here to allow
