@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { london } from '@weco/common/utils/format-date';
 import 'react-day-picker/lib/style.css';
@@ -10,7 +10,12 @@ import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 
-const DayPickerWrapper = styled.div`
+type DayPickerWrapperProps = {
+  isPrevMonthDisabled: boolean;
+  isNextMonthDisabled: boolean;
+};
+
+const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
   .DayPicker-Day {
     line-height: 1;
   }
@@ -38,6 +43,18 @@ const DayPickerWrapper = styled.div`
     position: absolute;
     right: 1rem;
     top: 20px;
+
+    button:nth-of-type(1) {
+      visibility: ${props =>
+        props.isPrevMonthDisabled ? 'hidden' : 'visible'};
+      pointer-events: ${props => (props.isPrevMonthDisabled ? 'none' : 'auto')};
+    }
+
+    button:nth-of-type(2) {
+      visibility: ${props =>
+        props.isNextMonthDisabled ? 'hidden' : 'visible'};
+      pointer-events: ${props => (props.isNextMonthDisabled ? 'none' : 'auto')};
+    }
   }
 
   .DayPicker-Caption {
@@ -135,6 +152,7 @@ const RequestingDayPicker: FC<Props> = ({
     return (
       <div className={className}>
         <button
+          type="button"
           className="plain-button no-padding"
           onClick={() => onPreviousClick()}
         >
@@ -147,7 +165,11 @@ const RequestingDayPicker: FC<Props> = ({
             />
           </IconWrapper>
         </button>
-        <button className="plain-button" onClick={() => onNextClick()}>
+        <button
+          type="button"
+          className="plain-button"
+          onClick={() => onNextClick()}
+        >
           <IconWrapper>
             <Icon
               matchText={true}
@@ -197,11 +219,26 @@ const RequestingDayPicker: FC<Props> = ({
     );
   };
 
+  const fromMonth = nextAvailableDate.toDate();
+  const toMonth = twoWeeksFromNow.toDate();
+
+  const [isPrevMonthDisabled, setIsPrevMonthDisabled] = useState(true);
+  const [isNextMonthDisabled, setIsNextMonthDisabled] = useState(false);
+
+  function handleOnMonthChange(month: Date) {
+    setIsPrevMonthDisabled(london(month).isSameOrBefore(fromMonth, 'month'));
+    setIsNextMonthDisabled(london(month).isSameOrAfter(toMonth, 'month'));
+  }
+
   function handleOnDayChange(date: Date) {
     setPickUpDate(date);
   }
+
   return (
-    <DayPickerWrapper>
+    <DayPickerWrapper
+      isPrevMonthDisabled={isPrevMonthDisabled}
+      isNextMonthDisabled={isNextMonthDisabled}
+    >
       <DayPickerInput
         formatDate={formatDate}
         parseDate={parseDate}
@@ -218,9 +255,10 @@ const RequestingDayPicker: FC<Props> = ({
           renderDay: renderDay,
           navbarElement: Navbar,
           weekdayElement: Weekday,
+          onMonthChange: handleOnMonthChange,
           firstDayOfWeek: 1,
-          fromMonth: nextAvailableDate.toDate(),
-          toMonth: twoWeeksFromNow.toDate(),
+          fromMonth,
+          toMonth,
           disabledDays: [
             { daysOfWeek: [0] }, // Sundays
             {
