@@ -48,10 +48,6 @@ const pages: CustomType = {
       }),
     },
     Contributors: contributorsWithTitle(),
-    Migration: {
-      drupalNid: text('Drupal node ID'),
-      drupalPath: text('Drupal path'),
-    },
   },
 };
 

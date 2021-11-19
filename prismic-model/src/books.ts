@@ -48,9 +48,6 @@ const books: CustomType = {
       }),
     },
     Migration: {
-      drupalPromoImage: link('Drupal promo image', 'web'),
-      drupalNid: text('Drupal node ID'),
-      drupalPath: text('Drupal path'),
       authorName: structuredText("Author's name", 'single'),
       authorImage: link("Author's image", 'web'),
       authorDescription: structuredText('About the author', 'single'),

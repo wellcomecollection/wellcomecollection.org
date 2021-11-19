@@ -16,7 +16,5 @@ export type Page = GenericContentFields & {
   onThisPage: Link[];
   datePublished?: Date;
   siteSection?: string;
-  drupalNid?: string;
-  drupalPath?: string;
   showOnThisPage: boolean;
 };

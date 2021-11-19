@@ -23,7 +23,5 @@ export type Page = {|
   // TODO (tagging): This is just for now, we will be implementing a proper site tagging
   // strategy for this later
   siteSection: ?string,
-  drupalNid: ?string,
-  drupalPath: ?string,
   showOnThisPage: boolean,
 |};
