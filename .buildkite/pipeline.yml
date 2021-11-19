@@ -63,7 +63,7 @@
     - docker-compose#v3.5.0:
         run: prismic_model
         env:
-          - IS_CI=true
+          - CI
         command: ["yarn", "diffCustomTypes"]
 
 - wait
@@ -245,6 +245,7 @@
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
+          - CI
 
 - label: "deploy pa11y"
   branches: "main"

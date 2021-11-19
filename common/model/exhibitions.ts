@@ -1,6 +1,4 @@
-import { HTMLString } from '../services/prismic/types';
 import { Picture } from './picture';
-import { ImagePromo } from './image-promo';
 import { Place } from './places';
 import { Contributor } from './contributors';
 import { ImageType } from './image';

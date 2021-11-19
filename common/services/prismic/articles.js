@@ -7,7 +7,6 @@ import {
   parseSingleLevelGroup,
   parseLabelType,
   isDocumentLink,
-  checkAndParseImage,
   asText,
 } from './parsers';
 import { parseMultiContent } from './multi-content';

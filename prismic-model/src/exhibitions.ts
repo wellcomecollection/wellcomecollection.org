@@ -1,5 +1,4 @@
 import title from './parts/title';
-import description from './parts/description';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import place from './parts/place';
