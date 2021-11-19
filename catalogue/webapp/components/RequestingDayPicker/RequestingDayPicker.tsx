@@ -47,6 +47,7 @@ const DayPickerWrapper = styled.div`
   }
 
   .DayPickerInput {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -68,6 +69,16 @@ const DayPickerWrapper = styled.div`
         appearance: none;
       }
     }
+  }
+
+  .DayPickerInput-OverlayWrapper {
+    position: absolute;
+    top: 100%;
+    left: 10px;
+  }
+
+  .DayPickerInput-Overlay {
+    border-radius: 6px;
   }
 `;
 
@@ -150,6 +161,14 @@ const RequestingDayPicker: FC<Props> = ({
     );
   };
 
+  const Overlay = ({ classNames, selectedDay, children, ...props }) => {
+    return (
+      <div className={classNames.overlayWrapper} {...props}>
+        <div className={classNames.overlay}>{children}</div>
+      </div>
+    );
+  };
+
   const now = london(new Date());
   const nextAvailableDate = london(new Date());
   const twoWeeksFromNow = london(new Date());
@@ -194,6 +213,7 @@ const RequestingDayPicker: FC<Props> = ({
         inputProps={{
           required: true,
         }}
+        overlayComponent={Overlay}
         dayPickerProps={{
           renderDay: renderDay,
           navbarElement: Navbar,
