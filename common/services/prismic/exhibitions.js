@@ -124,53 +124,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoSquare =
     promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  // TODO: (drupal migration) Remove this
-  const drupalPromoImage =
-    document.data.drupalPromoImage && document.data.drupalPromoImage.url
-      ? {
-          caption: promoThin && promoThin.caption,
-          image: {
-            contentUrl: document.data.drupalPromoImage.url,
-            width: document.data.drupalPromoImage.width || 1600,
-            height: document.data.drupalPromoImage.height || 900,
-            alt: '',
-            tasl: {
-              title: null,
-              author: null,
-              sourceName: null,
-              sourceLink: null,
-              license: null,
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-        }
-      : null;
-
-  const promos = drupalPromoImage
-    ? [
-        {
-          contentUrl: drupalPromoImage.image.contentUrl,
-          width: drupalPromoImage.image.width,
-          height: drupalPromoImage.image.height,
-          alt: '',
-          minWidth: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-        },
-      ]
-    : [promoThin, promoSquare]
-        .filter(Boolean)
-        .map(p => p.image)
-        .filter(Boolean);
+  const promos = [promoThin, promoSquare]
+    .filter(Boolean)
+    .map(p => p.image)
+    .filter(Boolean);
 
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
@@ -180,8 +137,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const promoImage =
-    drupalPromoImage ||
-    (promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null);
+    promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
