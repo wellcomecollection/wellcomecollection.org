@@ -5,7 +5,7 @@ different cohorts of people and stakeholders safely and incrementally.
 
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
-We currently use three categorisations of toggles:
+We currently use three categories of toggles:
 
 ## Feature development toggle
 
