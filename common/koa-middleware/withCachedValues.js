@@ -3,7 +3,6 @@ const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
 const withPopupDialog = require('./withPopupDialog');
 const withOpeningtimes = require('./withOpeningTimes');
-const withToggles = require('./withToggles');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
 
@@ -12,7 +11,6 @@ const withCachedValues = compose([
   withGlobalAlert,
   withPopupDialog,
   withOpeningtimes,
-  withToggles,
   withPrismicPreviewStatus,
 ]);
 
@@ -64,5 +62,5 @@ module.exports = {
   middleware: withCachedValues,
   route,
   handleAllRoute,
-  timers: [withToggles.timer, withMemoizedPrismic.timer],
+  timers: [withMemoizedPrismic.timer],
 };

@@ -26,12 +26,10 @@ import {
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,
-  parseDescription,
   parseContributors,
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
@@ -174,30 +172,16 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
         .map(p => p.image)
         .filter(Boolean);
 
-  const sizeInKb = isDocumentLink(document.data.textAndCaptionsDocument)
-    ? Math.round(document.data.textAndCaptionsDocument.size / 1024)
-    : null;
-  const textAndCaptionsDocument = isDocumentLink(
-    document.data.textAndCaptionsDocument
-  )
-    ? Object.assign({}, document.data.textAndCaptionsDocument, { sizeInKb })
-    : null;
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
-  const description = parseDescription(data.description);
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const promoImage =
     drupalPromoImage ||
     (promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null);
-  // As we store the intro as an H2 in the model, incorrectly, we then convert
-  // it here to a paragraph
-  const intro = data.intro &&
-    data.intro[0] && [Object.assign({}, data.intro[0], { type: 'paragraph' })];
-  const promoList = document.data.promoList || [];
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
@@ -208,8 +192,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     type: 'exhibitions',
     shortTitle: data.shortTitle && asText(data.shortTitle),
     format: format,
-    description: description,
-    intro: intro,
     contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
@@ -230,23 +212,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       statusOverride,
     },
     galleryLevel: document.data.galleryLevel,
-    textAndCaptionsDocument: textAndCaptionsDocument,
     featuredImageList: promos,
     resources: Array.isArray(data.resources)
       ? parseResourceTypeList(data.resources, 'resource')
       : [],
-    relatedBooks: promoList
-      .filter(x => x.type === 'book')
-      .map(parsePromoListItem),
-    relatedEvents: promoList
-      .filter(x => x.type === 'event')
-      .map(parsePromoListItem),
-    relatedGalleries: promoList
-      .filter(x => x.type === 'gallery')
-      .map(parsePromoListItem),
-    relatedArticles: promoList
-      .filter(x => x.type === 'article')
-      .map(parsePromoListItem),
     relatedIds,
     seasons,
   };
@@ -364,9 +333,9 @@ function putPermanentAfterCurrentExhibitions(
   ];
 }
 
-export async function getExhibition(
-  req: ?Request,
+async function getExhibition(
   id: string,
+  req: ?Request,
   memoizedPrismic: ?Object
 ): Promise<?UiExhibition> {
   const document = await getDocument(
@@ -403,7 +372,7 @@ export async function getExhibitionWithRelatedContent({
   memoizedPrismic: ?Object,
   id: string,
 }) {
-  const exhibitionPromise = getExhibition(request, id, memoizedPrismic);
+  const exhibitionPromise = getExhibition(id, request, memoizedPrismic);
   const pagesPromise = getPages(
     request,
     {

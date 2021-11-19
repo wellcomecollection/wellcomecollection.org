@@ -3,7 +3,6 @@ import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
-import number from './parts/number';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
@@ -40,12 +39,6 @@ const articleSeries: CustomType = {
       seasons: list('Seasons', {
         season: link('Season', 'document', ['seasons'], 'Select a Season'),
       }),
-    },
-    Deprecated: {
-      description: structuredText(
-        '[Deprecated] Description. Please use standfirst slice'
-      ),
-      commissionedLength: number('[Deprecated] Commissioned length'),
     },
   },
 };

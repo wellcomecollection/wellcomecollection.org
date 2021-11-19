@@ -1,0 +1,154 @@
+import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { classNames, font } from '@weco/common/utils/classnames';
+import type { Period } from '@weco/common/model/periods';
+import type { UiExhibition } from '@weco/common/model/exhibitions';
+import type { UiEvent } from '@weco/common/model/events';
+import type { Book } from '@weco/common/model/books';
+import type { Article } from '@weco/common/model/articles';
+import type {
+  PaginatedResults,
+  HTMLString,
+} from '@weco/common/services/prismic/types';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import Space from '@weco/common/views/components/styled/Space';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { FC } from 'react';
+
+type PaginatedResultsTypes =
+  | PaginatedResults<UiExhibition>
+  | PaginatedResults<UiEvent>
+  | PaginatedResults<Book>
+  | PaginatedResults<Article>;
+
+type Props = {
+  title: string;
+  description?: HTMLString;
+  paginationRoot: string;
+  paginatedResults: PaginatedResultsTypes;
+  period?: Period;
+  showFreeAdmissionMessage: boolean;
+  children?: Node;
+};
+
+const LayoutPaginatedResults: FC<Props> = ({
+  title,
+  description,
+  paginatedResults,
+  paginationRoot,
+  period,
+  showFreeAdmissionMessage,
+  children,
+}) => (
+  <>
+    <SpacingSection>
+      <PageHeader
+        breadcrumbs={{ items: [] }}
+        labels={null}
+        title={title}
+        ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
+        Background={null}
+        backgroundTexture={headerBackgroundLs}
+        FeaturedMedia={null}
+        HeroPicture={null}
+        highlightHeading={true}
+        isContentTypeInfoBeforeMedia={false}
+      />
+    </SpacingSection>
+    {children}
+    {paginatedResults.totalPages > 1 && (
+      <Layout12>
+        <Space
+          v={{
+            size: 'l',
+            properties: ['padding-bottom'],
+          }}
+          className={classNames({
+            flex: true,
+            'flex--v-center': true,
+            'font-pewter': true,
+            [font('lr', 6)]: true,
+          })}
+        >
+          {paginatedResults.pageSize * paginatedResults.currentPage -
+            (paginatedResults.pageSize - 1)}
+          -
+          {paginatedResults.currentPage < paginatedResults.totalPages
+            ? paginatedResults.pageSize * paginatedResults.currentPage
+            : null}
+          {paginatedResults.currentPage === paginatedResults.totalPages
+            ? paginatedResults.totalResults
+            : null}
+        </Space>
+        <Divider color={`pumice`} isKeyline={true} />
+      </Layout12>
+    )}
+    {showFreeAdmissionMessage && (
+      <Layout12>
+        <div className="flex-inline flex--v-center">
+          <span
+            className={classNames({
+              [font('hnb', 4)]: true,
+            })}
+          >
+            Free admission
+          </span>
+        </div>
+      </Layout12>
+    )}
+
+    <Space v={{ size: 'l', properties: ['margin-top'] }}>
+      {paginatedResults.results.length > 0 ? (
+        <CardGrid items={paginatedResults.results} itemsPerRow={3} />
+      ) : (
+        <Layout12>
+          <p>There are no results.</p>
+        </Layout12>
+      )}
+    </Space>
+
+    {paginatedResults.totalPages > 1 && (
+      <Space v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}>
+        <Layout12>
+          <div className="text-align-right">
+            <Pagination
+              total={paginatedResults.totalResults}
+              currentPage={paginatedResults.currentPage}
+              pageCount={paginatedResults.totalPages}
+              prevPage={
+                paginatedResults.currentPage > 1
+                  ? paginatedResults.currentPage - 1
+                  : undefined
+              }
+              nextPage={
+                paginatedResults.currentPage < paginatedResults.totalPages
+                  ? paginatedResults.currentPage + 1
+                  : undefined
+              }
+              prevQueryString={
+                `/${paginationRoot}` +
+                (period ? `/${period}` : '') +
+                (paginatedResults.currentPage > 1
+                  ? `?page=${paginatedResults.currentPage - 1}`
+                  : '')
+              }
+              nextQueryString={
+                `/${paginationRoot}` +
+                (period ? `/${period}` : '') +
+                (paginatedResults.currentPage < paginatedResults.totalPages
+                  ? `?page=${paginatedResults.currentPage + 1}`
+                  : '')
+              }
+            />
+          </div>
+        </Layout12>
+      </Space>
+    )}
+  </>
+);
+
+export default LayoutPaginatedResults;

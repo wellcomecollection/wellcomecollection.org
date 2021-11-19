@@ -12,7 +12,7 @@ import { FixedSizeList, areEqual } from 'react-window';
 import debounce from 'lodash.debounce';
 import styled from 'styled-components';
 import LL from '@weco/common/views/components/styled/LL';
-import useScrollVelocity from '@weco/common/hooks/useScrollVelocity';
+import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFResponsiveImage from './IIIFResponsiveImage';

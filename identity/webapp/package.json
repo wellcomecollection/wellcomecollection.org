@@ -24,7 +24,7 @@
   "dependencies": {
     "@hookform/error-message": "^0.0.5",
     "@koa/router": "^10.0.0",
-    "@types/styled-components": "^5.1.5",
+    "@types/styled-components": "^5.1.15",
     "@weco/common": "1.0.0",
     "dotenv": "^8.2.0",
     "elastic-apm-node": "^3.21.1",

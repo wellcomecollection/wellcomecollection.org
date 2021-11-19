@@ -1,5 +1,5 @@
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
+import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
@@ -22,8 +22,7 @@ const ContentTypeInfo = (
       html={[
         {
           type: 'paragraph',
-          text:
-            'Colluding with an audience that wants to believe, the magician’s assistant has her own armoury of tricks to help maintain the illusion. Performer Naomi Paxton takes us inside the ingenious world of onstage magic.',
+          text: 'Colluding with an audience that wants to believe, the magician’s assistant has her own armoury of tricks to help maintain the illusion. Performer Naomi Paxton takes us inside the ingenious world of onstage magic.',
           spans: [],
         },
       ]}
@@ -108,8 +107,7 @@ const exhibitionPictureImages = [
       'https://images.prismic.io/wellcomecollection/b40da45c5b49cc5dd946dffeddbf8ce114ac0003_ep_000832_058.jpg?auto=compress,format',
     width: 3200,
     height: 1800,
-    alt:
-      'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
+    alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
     tasl: {
       title: 'Being Human gallery',
       author: 'Steven Pocock',
@@ -127,8 +125,7 @@ const exhibitionPictureImages = [
       'https://images.prismic.io/wellcomecollection/2e7bcd148d629cd8fe670d42bac997051f4112ea_ep_000832_058.jpg?auto=compress,format',
     width: 3200,
     height: 3200,
-    alt:
-      'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
+    alt: 'Photograph of an exhibition gallery space, with a blue stained wood wall in the background, in front of which a young man looks at a life-size artwork of a figure resembling an astronaut. In the foreground a young woman sits on a wooden bench holding an audio speaker to her ear.',
     tasl: {
       title: 'Being Human gallery',
       author: 'Steven Pocock',
@@ -219,8 +216,7 @@ const bookImage = {
     'https://images.prismic.io/wellcomecollection/db52c5b0-d4bf-4def-b83e-14a2d7e9b42d_Together+book+cover.jpg?auto=compress,format',
   width: 1848,
   height: 2839,
-  alt:
-    'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',
+  alt: 'Book cover featuring the word ‘Together’, multicoloured and in joined-up text',
   tasl: {
     title: null,
     author: null,

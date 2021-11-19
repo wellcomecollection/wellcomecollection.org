@@ -2,7 +2,7 @@
   "scripts": {
     "convertFromSrc": "ts-node convertFromSrc",
     "convertFromRemote": "ts-node convertFromRemote",
-    "contentHasSlice": "ts-node contentHasSlice",
+    "sliceAnalysis": "ts-node sliceAnalysis",
     "deployType": "ts-node deployType",
     "diffCustomTypes": "ts-node diffCustomTypes"
   },

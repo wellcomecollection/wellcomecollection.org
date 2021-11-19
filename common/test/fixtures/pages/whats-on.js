@@ -1312,7 +1312,6 @@ const beingHuman = {
     ],
   },
   exhibits: [],
-  textAndCaptionsDocument: null,
   featuredImageList: [
     {
       contentUrl:
@@ -1350,10 +1349,6 @@ const beingHuman = {
     },
   ],
   resources: [],
-  relatedBooks: [],
-  relatedEvents: [],
-  relatedGalleries: [],
-  relatedArticles: [],
   relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
 };
 

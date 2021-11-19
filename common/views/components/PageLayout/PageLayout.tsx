@@ -139,6 +139,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     'Object.fromEntries',
     'WeakMap',
     'URL',
+    'URLSearchParams',
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
@@ -263,7 +264,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 
       <div id="root">
         {apiToolbar && <ApiToolbar />}
-        <CookieNotice />
+        <CookieNotice source={url.pathname || ''} />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>

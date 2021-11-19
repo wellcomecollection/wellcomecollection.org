@@ -6,7 +6,7 @@ import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import IIIFResponsiveImage from './IIIFResponsiveImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { isImageRestricted, getThumbnailService } from '../../utils/iiif';
-import Padlock from '@weco/common/views/components/styled/Padlock';
+import Padlock from './Padlock';
 import Space from '@weco/common/views/components/styled/Space';
 
 type ViewerThumbProps = {
