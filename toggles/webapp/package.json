@@ -4,7 +4,6 @@
   "description": "Feature toggles",
   "license": "MIT",
   "scripts": {
-    "build": "ts-node ./build",
     "test": "jest",
     "deploy": "ts-node ./scripts/deploy"
   },
