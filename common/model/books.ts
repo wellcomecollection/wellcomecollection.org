@@ -18,8 +18,6 @@ export type Book = GenericContentFields & {
   isbn: string | null;
   reviews: Review[] | null;
   datePublished: Date | null;
-  authorImage: string | null; // This is a link in Prismic >.<
-  authorDescription: HTMLString | null;
   cover: ImageType | null;
   seasons: Season[];
 };

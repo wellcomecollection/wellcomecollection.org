@@ -47,10 +47,6 @@ const books: CustomType = {
         parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
       }),
     },
-    Migration: {
-      authorImage: link("Author's image", 'web'),
-      authorDescription: structuredText('About the author', 'single'),
-    },
   },
 };
 

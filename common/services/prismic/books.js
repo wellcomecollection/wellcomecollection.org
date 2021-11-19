@@ -54,9 +54,7 @@ export function parseBook(document: PrismicDocument): Book {
         };
       }),
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
-    authorImage: data.authorImage && data.authorImage.url,
-    authorDescription: data.authorDescription,
-    cover: cover && cover.image,
+     cover: cover && cover.image,
     seasons,
   };
 }
