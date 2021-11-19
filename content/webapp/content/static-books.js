@@ -318,7 +318,6 @@ export const staticBooks = [
       },
     ],
     datePublished: '2021-06-02T23:00:00.000Z',
-    authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:
@@ -696,7 +695,6 @@ export const staticBooks = [
       },
     ],
     datePublished: '2020-08-26T23:00:00.000Z',
-    authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:
@@ -1054,7 +1052,6 @@ export const staticBooks = [
     isbn: '9781788166546',
     reviews: [],
     datePublished: '2021-05-05T23:00:00.000Z',
-    authorName: '',
     authorDescription: [],
     cover: {
       contentUrl:

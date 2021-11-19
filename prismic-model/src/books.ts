@@ -48,7 +48,6 @@ const books: CustomType = {
       }),
     },
     Migration: {
-      authorName: structuredText("Author's name", 'single'),
       authorImage: link("Author's image", 'web'),
       authorDescription: structuredText('About the author', 'single'),
     },
