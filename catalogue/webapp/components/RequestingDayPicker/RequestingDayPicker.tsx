@@ -20,6 +20,21 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     line-height: 1;
   }
 
+  .DayPickerInput-Overlay {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid ${props => props.theme.color('white')};
+      transform: translateX(-50%) rotate(180deg) translateY(100%);
+    }
+  }
+
   .DayPicker-Day--disabled,
   .DayPicker-Day--today {
     color: ${props => props.theme.color('marble')};
