@@ -104,6 +104,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   left: 0;
   right: 0;
   position: fixed;
+  overflow: auto;
   transition: opacity 350ms ease, transform 350ms ease;
 
   &,
