@@ -64,6 +64,7 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
   }
 
   .DayPickerInput {
+    min-width: 190px;
     position: relative;
     display: flex;
     align-items: center;
@@ -88,14 +89,10 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     }
   }
 
-  .DayPickerInput-OverlayWrapper {
-    position: absolute;
-    top: 100%;
-    left: 10px;
-  }
-
   .DayPickerInput-Overlay {
     border-radius: 6px;
+    top: 30px;
+    right: 0;
   }
 `;
 

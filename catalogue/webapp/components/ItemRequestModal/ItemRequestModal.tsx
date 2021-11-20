@@ -12,6 +12,28 @@ import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 
+const PickUpDate = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: [
+      'margin-top',
+      'margin-bottom',
+      'padding-top',
+      'padding-bottom',
+    ],
+  },
+})`
+  border-top: 1px solid ${props => props.theme.color('smoke')};
+  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+
+  @media (min-width: 600px) {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: min(80vw, 700px);
+  }
+`;
+
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
@@ -117,10 +139,30 @@ const RequestDialog: FC<RequestDialogProps> = ({
         {item.title && <span>{item.title}</span>}
       </p>
 
-      <RequestingDayPicker
-        pickUpDate={pickUpDate}
-        setPickUpDate={setPickUpDate}
-      />
+      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+        <PickUpDate>
+          <div>
+            <p className="no-margin">
+              The date you would like to view this item in the library
+            </p>
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <p
+                className={classNames({
+                  [font('hnr', 6)]: true,
+                  'no-margin': true,
+                })}
+              >
+                Item requests need to be placed by 10am the day before your
+                visit
+              </p>
+            </Space>
+          </div>
+          <RequestingDayPicker
+            pickUpDate={pickUpDate}
+            setPickUpDate={setPickUpDate}
+          />
+        </PickUpDate>
+      </Space>
 
       <CTAs>
         <Space
