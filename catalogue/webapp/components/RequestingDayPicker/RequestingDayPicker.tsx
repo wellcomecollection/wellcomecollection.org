@@ -89,10 +89,19 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     }
   }
 
+  .DayPickerInput-OverlayWrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
   .DayPickerInput-Overlay {
     border-radius: 6px;
-    top: 30px;
     right: 0;
+    left: auto;
+    top: calc(100% + 10px);
   }
 `;
 

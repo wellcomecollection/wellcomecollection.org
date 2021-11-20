@@ -11,6 +11,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -107,6 +108,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
+  const { enablePickUpDate } = useToggles();
   const [pickUpDate, setPickUpDate] = useState<Date | undefined>();
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
@@ -139,30 +141,32 @@ const RequestDialog: FC<RequestDialogProps> = ({
         {item.title && <span>{item.title}</span>}
       </p>
 
-      <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
-        <PickUpDate>
-          <div>
-            <p className="no-margin">
-              The date you would like to view this item in the library
-            </p>
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <p
-                className={classNames({
-                  [font('hnr', 6)]: true,
-                  'no-margin': true,
-                })}
-              >
-                Item requests need to be placed by 10am the day before your
-                visit
+      {enablePickUpDate && (
+        <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+          <PickUpDate>
+            <div>
+              <p className="no-margin">
+                The date you would like to view this item in the library
               </p>
-            </Space>
-          </div>
-          <RequestingDayPicker
-            pickUpDate={pickUpDate}
-            setPickUpDate={setPickUpDate}
-          />
-        </PickUpDate>
-      </Space>
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <p
+                  className={classNames({
+                    [font('hnr', 6)]: true,
+                    'no-margin': true,
+                  })}
+                >
+                  Item requests need to be placed by 10am the day before your
+                  visit
+                </p>
+              </Space>
+            </div>
+            <RequestingDayPicker
+              pickUpDate={pickUpDate}
+              setPickUpDate={setPickUpDate}
+            />
+          </PickUpDate>
+        </Space>
+      )}
 
       <CTAs>
         <Space
