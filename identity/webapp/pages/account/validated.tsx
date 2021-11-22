@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
 import {
   Container,
-  Title,
+  SectionHeading,
   Wrapper,
 } from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
@@ -24,11 +24,11 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
     <PageWrapper title={`Email verified`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <SectionHeading>Email verified</SectionHeading>
           <Container>
-            <Wrapper>
+            <Wrapper className={font('hnr', 5)}>
               {success || urlUsed ? (
                 <>
-                  <Title className={font('hnb', 3)}>Email verified</Title>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
@@ -50,9 +50,8 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                 </>
               ) : (
                 <>
-                  <Title>Failed to verify email</Title>
                   <p>{message}</p>
-                  <div>
+                  <p>
                     If you need help, please{' '}
                     <a
                       href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
@@ -61,7 +60,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                     >
                       contact us
                     </a>
-                  </div>
+                  </p>
                 </>
               )}
             </Wrapper>
