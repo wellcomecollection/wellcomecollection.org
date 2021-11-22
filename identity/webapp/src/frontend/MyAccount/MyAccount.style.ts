@@ -19,10 +19,6 @@ export const ProgressIndicator = styled.div<{ percentage: number }>`
   height: 10px;
 `;
 
-export const Container = styled(LayoutContainer)`
-  max-width: 1024px;
-`;
-
 export const Wrapper = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
