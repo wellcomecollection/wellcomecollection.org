@@ -24,9 +24,11 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
     <PageWrapper title={`Email verified`}>
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-          <SectionHeading as="h1">Email verified</SectionHeading>
           <Container>
             <Wrapper className={font('hnr', 5)}>
+              <SectionHeading removeBottomPadding={true}>
+                Email verified
+              </SectionHeading>
               {success || urlUsed ? (
                 <>
                   <p>Thank you for verifying your email address.</p>
