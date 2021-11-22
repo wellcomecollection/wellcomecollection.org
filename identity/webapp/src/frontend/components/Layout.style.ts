@@ -20,6 +20,14 @@ export const Header = styled(Space)`
 
 export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
+export const SectionHeading = styled(Space).attrs({
+  as: 'h2',
+  v: { size: 'm', properties: ['padding-bottom'] },
+  className: font('wb', 3),
+})`
+  font-weight: bold;
+`;
+
 export const Intro = styled(Space).attrs({
   as: 'p',
   className: grid({ s: 12, m: 12, l: 8, xl: 8 }),

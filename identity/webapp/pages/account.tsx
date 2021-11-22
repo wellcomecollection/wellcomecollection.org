@@ -12,9 +12,9 @@ import {
   Container,
   Title,
   Header,
+  SectionHeading,
 } from '../src/frontend/components/Layout.style';
 import {
-  SectionHeading,
   StatusAlert,
   Wrapper,
   StyledDl,
