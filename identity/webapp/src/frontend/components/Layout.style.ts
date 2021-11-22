@@ -32,11 +32,17 @@ export const Header = styled(Space)`
 
 export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
-export const SectionHeading = styled(Space).attrs({
-  as: 'h2',
-  v: { size: 'm', properties: ['padding-bottom'] },
-  className: font('wb', 3),
-})`
+type SectionHeadingProps = {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+};
+
+export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
+  props => ({
+    as: props.as || 'h2',
+    v: { size: 'm', properties: ['padding-bottom'] },
+    className: font('wb', 3),
+  })
+)<SectionHeadingProps>`
   font-weight: bold;
 `;
 
