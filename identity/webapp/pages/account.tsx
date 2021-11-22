@@ -313,7 +313,7 @@ const AccountPage: NextPage = () => {
                               className={`${font('hnr', 5)}`}
                               v={{
                                 size: 'l',
-                                properties: ['margin-top', 'margin-bottom'],
+                                properties: ['margin-top'],
                               }}
                             >
                               Requests made will be available to pick up from
@@ -339,14 +339,12 @@ const AccountPage: NextPage = () => {
                   your membership. The library team will be notified and your
                   online account will be closed.
                 </p>
-                <ButtonWrapper>
-                  <ChangeDetailsModal
-                    id="delete-account"
-                    buttonText="Cancel your membership"
-                    onComplete={logoutOnDeletionRequest}
-                    render={props => <DeleteAccount {...props} />}
-                  />
-                </ButtonWrapper>
+                <ChangeDetailsModal
+                  id="delete-account"
+                  buttonText="Cancel your membership"
+                  onComplete={logoutOnDeletionRequest}
+                  render={props => <DeleteAccount {...props} />}
+                />
               </Wrapper>
             </Container>
           </>
