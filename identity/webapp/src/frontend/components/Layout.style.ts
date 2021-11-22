@@ -10,10 +10,19 @@ export const Container = styled(Space).attrs({
   border-radius: 10px;
 `;
 
-export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+type WrapperProps = {
+  removeBottomPadding?: boolean;
+};
+
+export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
+  v: {
+    size: 'l',
+    properties: props.removeBottomPadding
+      ? ['padding-top']
+      : ['padding-top', 'padding-bottom'],
+  },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})`
+}))<WrapperProps>`
   position: relative;
 `;
 

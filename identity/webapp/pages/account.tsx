@@ -201,7 +201,7 @@ const AccountPage: NextPage = () => {
             )}
             <SectionHeading>Personal details</SectionHeading>
             <Container>
-              <Wrapper>
+              <Wrapper removeBottomPadding={true}>
                 <DetailList
                   listItems={[
                     {
