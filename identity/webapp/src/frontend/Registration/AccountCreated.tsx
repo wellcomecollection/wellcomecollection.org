@@ -3,7 +3,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { PageWrapper } from '../components/PageWrapper';
 import { SuccessMessage } from './Registration.style';
-import { Container, Wrapper } from '../components/Layout.style';
+import { Container, Wrapper, SectionHeading } from '../components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { info2 } from '@weco/common/icons';
@@ -15,9 +15,9 @@ export const AccountCreated: React.FC = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <h1 className="font-wb font-size-1">
+              <SectionHeading as="h1" removeBottomPadding={true}>
                 Activate your library account
-              </h1>
+              </SectionHeading>
               <SuccessMessage>
                 <Icon icon={info2} />
                 Your library account has been created. Before you can sign in,

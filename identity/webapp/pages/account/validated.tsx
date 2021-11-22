@@ -2,8 +2,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
 import {
   Container,
-  SectionHeading,
   Wrapper,
+  SectionHeading,
 } from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -25,8 +25,8 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
-            <Wrapper className={font('hnr', 5)}>
-              <SectionHeading removeBottomPadding={true}>
+            <Wrapper>
+              <SectionHeading as="h1" removeBottomPadding={true}>
                 Email verified
               </SectionHeading>
               {success || urlUsed ? (
