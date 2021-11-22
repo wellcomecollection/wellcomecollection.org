@@ -2,16 +2,14 @@ import SearchResults from '@weco/common/views/components/SearchResults/SearchRes
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import { EventSeries } from '@weco/common/model/event-series';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import { Article } from '@weco/common/model/articles';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
-import { UiEvent } from '@weco/common/model/events';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
-  series: ArticleSeries | EventSeries;
-  items: readonly (Article | UiEvent | ArticleScheduleItem)[];
+  series: ArticleSeries;
+  items: readonly (Article | ArticleScheduleItem)[];
 };
 
 const SeriesNavigation = ({ series, items }: Props) => {
