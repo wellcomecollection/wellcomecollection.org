@@ -10,8 +10,11 @@ export const Container = styled(Space).attrs({
   border-radius: 10px;
 `;
 
-export const Wrapper = styled.div`
-  padding: 1em;
+export const Wrapper = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  position: relative;
 `;
 
 export const Header = styled(Space)`

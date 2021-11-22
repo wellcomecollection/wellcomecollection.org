@@ -9,6 +9,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
+  Wrapper,
   Container,
   Title,
   Header,
@@ -16,7 +17,6 @@ import {
 } from '../src/frontend/components/Layout.style';
 import {
   StatusAlert,
-  Wrapper,
   StyledDl,
   StyledDd,
   ProgressBar,
