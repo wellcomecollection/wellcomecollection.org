@@ -1,5 +1,5 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { IIIFRendering } from '@weco/common/model/iiif';
+import { IIIFRendering } from '../../model/iiif';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { useContext, useRef } from 'react';
 import styled from 'styled-components';

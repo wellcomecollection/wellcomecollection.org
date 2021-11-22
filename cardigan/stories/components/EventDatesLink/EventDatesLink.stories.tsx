@@ -1,4 +1,4 @@
-import EventDatesLink from '@weco/common/views/components/EventDatesLink/EventDatesLink';
+import EventDatesLink from '@weco/content/components/EventDatesLink/EventDatesLink';
 
 const Template = args => <EventDatesLink {...args} />;
 export const basic = Template.bind({});

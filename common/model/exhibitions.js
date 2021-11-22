@@ -1,7 +1,5 @@
 // @flow
-import type { HTMLString } from '../services/prismic/types';
 import type { Picture } from './picture';
-import type { ImagePromo } from './image-promo';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
 import type { ImageType } from './image';
@@ -25,8 +23,6 @@ export type Exhibition = {|
   end: ?Date,
   isPermanent: boolean,
   statusOverride: ?string,
-  intro: ?HTMLString,
-  description: HTMLString,
   contributors: Contributor[],
   place: ?Place,
   exhibits: {|
@@ -56,12 +52,7 @@ export type UiExhibition = {|
   ...{|
     promo: ?ExhibitionPromo,
     galleryLevel: number, // this should be deprecated for place
-    textAndCaptionsDocument: any, // TODO: <= not this
     featuredImageList: Picture[],
-    relatedBooks: ImagePromo[],
-    relatedEvents: ImagePromo[],
-    relatedGalleries: ImagePromo[],
-    relatedArticles: ImagePromo[],
     exhibits: {|
       exhibitType: 'exhibitions',
       item: UiExhibition,

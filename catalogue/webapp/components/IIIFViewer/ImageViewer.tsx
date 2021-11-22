@@ -9,9 +9,9 @@ import {
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import IIIFResponsiveImage from '@weco/common/views/components/IIIFResponsiveImage/IIIFResponsiveImage';
+import IIIFResponsiveImage from './IIIFResponsiveImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
 const ImageWrapper = styled.div`
   position: absolute;

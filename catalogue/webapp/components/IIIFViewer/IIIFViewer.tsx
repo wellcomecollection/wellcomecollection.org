@@ -6,25 +6,25 @@ import {
   useContext,
 } from 'react';
 import styled from 'styled-components';
-import { IIIFCanvas, IIIFManifest } from '@weco/common/model/iiif';
+import { IIIFCanvas, IIIFManifest } from '../../model/iiif';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   getDigitalLocationOfType,
   getDownloadOptionsFromImageUrl,
-} from '@weco/common/utils/works';
+} from '../../utils/works';
 import {
   getUiExtensions,
   isUiEnabled,
   getServiceId,
   getDownloadOptionsFromManifest,
-} from '@weco/common/utils/iiif';
+} from '../../utils/iiif';
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
-} from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+} from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import Router from 'next/router';
@@ -32,7 +32,7 @@ import GridViewer from './GridViewer';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import dynamic from 'next/dynamic';
 import LL from '@weco/common/views/components/styled/LL';
-import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from '@weco/common/views/components/RenderlessPaginator/RenderlessPaginator';
+import { PropsWithoutRenderFunction as PaginatorPropsWithoutRenderFunction } from './RenderlessPaginator';
 import ImageViewer from './ImageViewer';
 import ImageViewerControls from './ImageViewerControls';
 import ViewerBottomBar from './ViewerBottomBar';

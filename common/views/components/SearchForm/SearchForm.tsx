@@ -17,7 +17,7 @@ import SearchFilters from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
 import Space from '../styled/Space';
 import SelectUncontrolled from '../SelectUncontrolled/SelectUncontrolled';
-import SearchFormSortByPortal from '../SearchFormSortByPortal/SearchFormSortByPortal';
+import SearchFormSortByPortal from './SearchFormSortByPortal';
 import ClearSearch from '../ClearSearch/ClearSearch';
 import { AppContext } from '../AppContext/AppContext';
 import {

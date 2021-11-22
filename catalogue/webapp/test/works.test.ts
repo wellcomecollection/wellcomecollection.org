@@ -6,7 +6,7 @@ import {
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getAccessConditionForDigitalLocation,
-} from '@weco/common/utils/works';
+} from '../utils/works';
 import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree';
 import {
   workFixture,

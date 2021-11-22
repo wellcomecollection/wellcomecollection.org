@@ -7,12 +7,12 @@ import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api'
 import {
   rootUris,
   globalApiOptions,
-  queryString,
   catalogueApiError,
   notFound,
   getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 type GetImagesProps = {
   params: CatalogueImagesApiProps;
@@ -46,10 +46,15 @@ export async function getImages({
     pageSize,
     _index: index,
   };
-  const filterQueryString = queryString(extendedParams);
-  const url = encodeURI(
-    `${rootUris[apiOptions.env]}/v2/images${filterQueryString}`
-  );
+
+  const searchParams = new URLSearchParams(
+    propsToQuery(extendedParams)
+  ).toString();
+
+  const url = `${
+    rootUris[apiOptions.env]
+  }/v2/images?${searchParams.toString()}`;
+
   try {
     const res = await fetch(url);
     const json = await res.json();
@@ -72,8 +77,12 @@ export async function getImage({
     include: include,
     _index: index,
   };
-  const query = queryString(params);
-  const url = encodeURI(`${rootUris[apiOptions.env]}/v2/images/${id}${query}`);
+
+  const searchParams = new URLSearchParams(propsToQuery(params));
+
+  const url = `${
+    rootUris[apiOptions.env]
+  }/v2/images/${id}?${searchParams.toString()}`;
 
   try {
     const res = await fetch(url);

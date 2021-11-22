@@ -4,16 +4,25 @@ import image from './parts/image';
 import list from './parts/list';
 import title from './parts/title';
 import heading from './parts/heading';
+import { CustomType } from './types/CustomType';
 
-export default {
-  Organisation: {
-    name: title,
-    description: description,
-    image: image('Image'),
-    sameAs: list('Same as', {
-      link: text('Link'),
-      title: heading('Title (override)'),
-    }),
-    url: text('URL (deprecated)'),
+const organisations: CustomType = {
+  id: 'organisations',
+  label: 'Organisation',
+  repeatable: true,
+  status: true,
+  json: {
+    Organisation: {
+      name: title,
+      description: description,
+      image: image('Image'),
+      sameAs: list('Same as', {
+        link: text('Link'),
+        title: heading('Title (override)'),
+      }),
+      url: text('URL (deprecated)'),
+    },
   },
 };
+
+export default organisations;

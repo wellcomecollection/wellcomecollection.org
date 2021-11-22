@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "next build",
-    "dev": "NODE_ENV=development nodemon --watch server.ts --exec ts-node --project tsconfig.server.json start",
-    "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json start",
+    "dev": "NODE_ENV=development nodemon --watch server.ts --exec ts-node --project tsconfig.server.json server",
+    "start": "NODE_ENV=production ts-node-transpile-only --project tsconfig.server.json server",
     "test": "NODE_ENV=test jest --no-cache",
     "test:watch": "yarn test -- --watchAll",
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
@@ -14,14 +14,15 @@
     "@babel/preset-flow": "^7.12.1",
     "@prismicio/client": "^5.1.0",
     "@types/koa-router": "^7.4.4",
-    "@types/react": "^16.9.35",
+    "@types/jest": "^27.0.2",
+    "@types/styled-components": "^5.1.15",
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
     "autoprefixer": "^9.5.0",
     "cookies": "^0.7.1",
     "dotenv": "^8.2.0",
     "elastic-apm-node": "^3.21.1",
-    "jest": "^24.5.0",
+    "jest": "^27.3.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
@@ -35,6 +36,7 @@
     "react-transition-group": "^2.4.0",
     "styled-components": "^5.2.1",
     "supertest": "^4.0.2",
-    "typescript": "^4.1.5"
+    "typescript": "^4.1.5",
+    "ts-jest": "27.0.7"
   }
 }

@@ -3,7 +3,6 @@ const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
 const withPopupDialog = require('./withPopupDialog');
 const withOpeningtimes = require('./withOpeningTimes');
-const withToggles = require('./withToggles');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
 
@@ -12,7 +11,6 @@ const withCachedValues = compose([
   withGlobalAlert,
   withPopupDialog,
   withOpeningtimes,
-  withToggles,
   withPrismicPreviewStatus,
 ]);
 
@@ -24,34 +22,6 @@ async function route(path, page, router, app, extraParams = {}) {
     const query = ctx.query;
 
     await app.render(ctx.req, ctx.res, page, {
-      toggles,
-      globalAlert,
-      popupDialog,
-      openingTimes,
-      memoizedPrismic,
-      ...params,
-      ...query,
-      ...extraParams,
-    });
-    ctx.respond = false;
-  });
-}
-
-async function renderIfToggleOn(
-  path,
-  page,
-  router,
-  app,
-  extraParams,
-  toggleToCheck
-) {
-  router.get(path, async ctx => {
-    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
-      ctx;
-    const params = ctx.params;
-    const query = ctx.query;
-
-    await app.render(ctx.req, ctx.res, toggles[toggleToCheck] ? page : '404', {
       toggles,
       globalAlert,
       popupDialog,
@@ -92,6 +62,5 @@ module.exports = {
   middleware: withCachedValues,
   route,
   handleAllRoute,
-  renderIfToggleOn,
-  timers: [withToggles.timer, withMemoizedPrismic.timer],
+  timers: [withMemoizedPrismic.timer],
 };

@@ -1,6 +1,4 @@
-import { HTMLString } from '../services/prismic/types';
 import { Picture } from './picture';
-import { ImagePromo } from './image-promo';
 import { Place } from './places';
 import { Contributor } from './contributors';
 import { ImageType } from './image';
@@ -22,8 +20,6 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  intro?: HTMLString;
-  description: HTMLString;
   contributors: Contributor[];
   place?: Place;
   exhibits: {
@@ -51,12 +47,7 @@ export type ExhibitionPromo = {
 export type UiExhibition = Exhibition & {
   promo?: ExhibitionPromo;
   galleryLevel: number; // this should be deprecated for place
-  textAndCaptionsDocument: TextAndCaptionsDocument;
   featuredImageList: Picture[];
-  relatedBooks: ImagePromo[];
-  relatedEvents: ImagePromo[];
-  relatedGalleries: ImagePromo[];
-  relatedArticles: ImagePromo[];
   exhibits: Exhibit[];
 };
 
@@ -68,12 +59,4 @@ export type Exhibit = {
 export type UiExhibit = {
   exhibitType: 'exhibitions';
   item: UiExhibition;
-};
-
-type TextAndCaptionsDocument = {
-  link_type: 'Media'; // eslint-disable-line camelcase
-  name: string;
-  kind: 'document';
-  url: string;
-  sizeInKb: number;
 };

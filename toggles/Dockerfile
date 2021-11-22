@@ -6,8 +6,6 @@ WORKDIR /usr/src/app/webapp
 
 ADD ./webapp /usr/src/app/webapp
 
-RUN yarn && \
-    yarn build && \
-    yarn cache clean
+RUN yarn && yarn cache clean
 
 CMD ["true"]

@@ -1,5 +1,5 @@
 import {
-  convertIiifUriToInfoUri,
+  convertIiifImageUri,
   convertImageUri,
 } from '../../utils/convert-image-uri';
 
@@ -106,24 +106,14 @@ describe('convertImageUri for IIIF images', () => {
       'https://iiif.wellcomecollection.org/image/b0005/full/300%2C/0/default.jpg'
     );
   });
-});
 
-describe('convertIiifUriToInfoUri', () => {
-  it('finds the info.json for a IIIF URI', () => {
-    const result = convertIiifUriToInfoUri(
-      'https://iiif.wellcomecollection.org/image/b0006.jpg/full/300%2C/0/default.jpg'
+  it('ignores a thumbnail', () => {
+    const result = convertIiifImageUri(
+      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
+      'full'
     );
     expect(result).toEqual(
-      'https://iiif.wellcomecollection.org/image/b0006.jpg/info.json'
-    );
-  });
-
-  it('finds the info.json for an unrecognised URI', () => {
-    const result = convertIiifUriToInfoUri(
-      'https://iiif.wellcomecollection.org/image/b0007.jp2'
-    );
-    expect(result).toEqual(
-      'https://iiif.wellcomecollection.org/image/b0007.jp2/info.json'
+      'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg'
     );
   });
 });

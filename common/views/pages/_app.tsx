@@ -156,27 +156,42 @@ function makeSurePageIsTallEnough() {
 
 export type WecoAppProps = AppProps & WithGlobalContextData;
 
+// Error pages can't send anything via the data fetching methods as
+// the page needs to be rendered as soon as the error happens.
+// We just use the route to determine if this is an error page to ignore
+// serverData not being set
+// see: https://github.com/vercel/next.js/discussions/11945#discussioncomment-6790
+function isErrorPage(route: string): boolean {
+  switch (route) {
+    case '/404':
+    case '/ _error':
+      return true;
+    default:
+      return false;
+  }
+}
+
 const WecoApp: FunctionComponent<WecoAppProps> = ({
   Component,
   pageProps,
   globalContextData,
+  router,
 }) => {
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
   const dev = process.env.NODE_ENV !== 'production';
-  const needsServerData =
-    pageProps.skipServerData !== true && !isServerData(pageProps.serverData);
+  const isServerDataSet = isServerData(pageProps.serverData);
 
-  if (dev && needsServerData) {
+  // We allow error pages through as they don't need, and can't set
+  // serverData as they don't have data fetching methods.exi
+  if (dev && !isServerDataSet && !isErrorPage(router.route)) {
     throw new Error(
       'Please set serverData on your getServerSideProps or getStaticProps'
     );
   }
 
-  const serverData = isServerData(pageProps.serverData)
-    ? pageProps.serverData
-    : defaultServerData;
+  const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
   // enhanced
   useEffect(() => {

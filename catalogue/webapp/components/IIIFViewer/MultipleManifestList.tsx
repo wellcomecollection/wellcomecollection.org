@@ -1,7 +1,7 @@
 import { useContext, FunctionComponent } from 'react';
 import NextLink from 'next/link';
 import { itemLink } from '@weco/common/services/catalogue/routes';
-import ItemViewerContext from '@weco/common/views/components/ItemViewerContext/ItemViewerContext';
+import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { classNames } from '@weco/common/utils/classnames';
 import { volumesNavigationLabel } from '@weco/common/text/aria-labels';
 

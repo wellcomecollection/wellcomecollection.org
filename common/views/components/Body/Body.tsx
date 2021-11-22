@@ -23,7 +23,6 @@ import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '../Layout/Layout';
 import Layout8 from '../Layout8/Layout8';
-import Layout6 from '../Layout6/Layout6';
 import Layout10 from '../Layout10/Layout10';
 import Layout12 from '../Layout12/Layout12';
 import VenueHours from '../VenueHours/VenueHours';
@@ -284,8 +283,7 @@ const Body: FunctionComponent<Props> = ({
 
       {filteredBody.map((slice, i) => (
         <Fragment key={i}>
-          {slice.type === 'inPageAnchor' && <span id={slice.value} />}
-          {/* If the first slice is featured text we display it above inPageAnchors and any static content, i.e. <AdditionalContent /> */}
+          {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
             <Layout8 shift={!sectionLevelPage}>
               <div className="body-text spaced-text">

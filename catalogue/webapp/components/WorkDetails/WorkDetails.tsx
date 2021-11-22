@@ -2,7 +2,7 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { FunctionComponent, useContext, useState } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { downloadUrl } from '@weco/common/services/catalogue/urls';
+import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import {
@@ -15,12 +15,9 @@ import {
   getLocationLink,
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
-} from '@weco/common/utils/works';
-import {
-  getMediaClickthroughService,
-  getTokenService,
-} from '@weco/common/utils/iiif';
-import CopyUrl from '@weco/common/views/components/CopyUrl/CopyUrl';
+} from '../../utils/works';
+import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
+import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Download from '../Download/Download';
@@ -32,17 +29,17 @@ import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
-import ExplanatoryText from '@weco/common/views/components/ExplanatoryText/ExplanatoryText';
+import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
 import PhysicalItems from '../PhysicalItems/PhysicalItems';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import useIIIFManifestData from '@weco/common/hooks/useIIIFManifestData';
-import IIIFClickthrough from '@weco/common/views/components/IIIFClickthrough/IIIFClickthrough';
+import useIIIFManifestData from '../../hooks/useIIIFManifestData';
+import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
-import IsArchiveContext from '@weco/common/views/components/IsArchiveContext/IsArchiveContext';
+import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import SignInBar from '../SignInBar/SignInBar';
 import { eye } from '@weco/common/icons';
 import {

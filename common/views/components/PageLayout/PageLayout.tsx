@@ -29,6 +29,7 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { useToggles } from '../../../server-data/Context';
+import useHotjar from '../../../hooks/useHotjar';
 
 export type SiteSection =
   | 'collections'
@@ -69,6 +70,37 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }: ComponentProps) => {
+  const hotjarUrls = [
+    'YLCu9hEAACYAUiJx',
+    'YLCzexEAACMAUi41',
+    'YLCuxhEAACMAUiGQ',
+    'YLCz6hEAACMAUjAx',
+    'YLC0GxEAACUAUjEW',
+    'YLC0bxEAACUAUjKf',
+    'YLC0ShEAACUAUjHz',
+    'YLC03xEAACYAUjSe',
+    'YLC1DREAACYAUjVy',
+    'YLC1QREAACUAUjZP',
+    'YLC2ixEAACUAUjmM',
+    'YLC2tREAACYAUjnP',
+    'YLC22hEAACQAUjoc',
+    'YLC3BBEAACUAUjrf',
+    'YLC3JxEAACYAUjuC',
+    'YLC3TxEAACYAUjwC',
+    'YLC3bxEAACMAUjw3',
+    'YLC3shEAACYAUjz0',
+    'YLC3jhEAACUAUjxr',
+    'YLC38BEAACQAUj4Y',
+    'YLC30REAACMAUj2F',
+    'YLC4MBEAACUAUj6O',
+    'YLC4DhEAACQAUj5X',
+    'YLC4bBEAACYAUj88',
+    'YLC4mREAACMAUkAL',
+  ]; // Digital guides
+  const shouldLoadHotjar = hotjarUrls.some(
+    u => url.pathname && url.pathname.match(u)
+  );
+  useHotjar(shouldLoadHotjar);
   const { apiToolbar, enableRequesting } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -107,6 +139,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
     'Object.fromEntries',
     'WeakMap',
     'URL',
+    'URLSearchParams',
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
@@ -231,7 +264,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 
       <div id="root">
         {apiToolbar && <ApiToolbar />}
-        <CookieNotice />
+        <CookieNotice source={url.pathname || ''} />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>

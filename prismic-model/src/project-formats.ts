@@ -1,4 +1,12 @@
+import { CustomType } from './types/CustomType';
 import label from './types/label';
 
-const ProjectFormat = label('Project format');
-export default ProjectFormat;
+const projectFormat: CustomType = {
+  id: 'project-formats',
+  label: 'Project format',
+  repeatable: true,
+  status: true,
+  json: label('Project format'),
+};
+
+export default projectFormat;
