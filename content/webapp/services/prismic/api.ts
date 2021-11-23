@@ -13,15 +13,13 @@ const routes = [
 const endpoint = prismic.getEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { routes, fetch });
 
-// We enforce have a req object as we should never be using the API on the client.
-// To fetch stuff via the client, use the ./api paths.
+// `req` is required as we should never be using the API on the client.
+// To fetch Prismic content asynchronously via the client, use the ./api paths.
 // The API should only ever be initialised once per request, usually the entry point
-// of the page of the page e.g. `getServerSideProperties`.
+// of the page e.g. `getServerSideProperties`.
 let initialised = false;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function api(req: Req): prismic.Client {
-  if (!req) {
-    throw Error('Give me a req');
-  }
   if (initialised) {
     throw Error(
       'Prismic has already been initialised, please use the previously initialised API reference'
