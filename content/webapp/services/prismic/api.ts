@@ -18,7 +18,7 @@ const client = prismic.createClient(endpoint, { routes, fetch });
 // To fetch stuff via the client, use the ./api paths.
 // The API should only ever be initialised once per request, usually the entry point
 // of the page of the page e.g. `getServerSideProperties`.
-const initialised = false;
+let initialised = false;
 export function api(req: Req): prismic.Client {
   if (!req) {
     throw Error('Give me a req');
