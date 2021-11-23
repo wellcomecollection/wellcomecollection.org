@@ -25,11 +25,11 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1" removeBottomPadding={true}>
-                Email verified
-              </SectionHeading>
               {success || urlUsed ? (
                 <>
+                  <SectionHeading as="h1" removeBottomPadding={true}>
+                    Email verified
+                  </SectionHeading>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
@@ -51,6 +51,9 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                 </>
               ) : (
                 <>
+                  <SectionHeading as="h1" removeBottomPadding={true}>
+                    Failed to verify email
+                  </SectionHeading>
                   <p>{message}</p>
                   <p>
                     If you need help, please{' '}
