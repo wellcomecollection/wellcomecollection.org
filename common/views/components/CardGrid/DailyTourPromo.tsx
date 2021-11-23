@@ -1,4 +1,3 @@
-// @flow
 import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
