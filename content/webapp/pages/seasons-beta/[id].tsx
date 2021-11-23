@@ -19,7 +19,7 @@ import {
   getSeason,
   SeasonPrismicDocument,
 } from '../../services/prismic/seasons';
-import { api } from '../../services/prismic/api';
+import { createClient } from '../../services/prismic/client';
 import { Article } from '@weco/common/model/articles';
 import { Book } from '@weco/common/model/books';
 import { Event } from '@weco/common/model/events';
@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const client = api(context.req);
+    const client = createClient(context);
     const season = await getSeason(client, id);
     const serverData = await getServerData(context);
     const globalContextData = getGlobalContextData(context);

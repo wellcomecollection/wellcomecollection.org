@@ -1,5 +1,5 @@
 import { TimestampField, PrismicDocument } from '@prismicio/types';
-import { Client } from 'prismic-client-beta';
+import { GetServerSidePropsPrismicClient } from './client';
 import { CommonPrismicData } from './types';
 
 export type SeasonPrismicDocument = PrismicDocument<
@@ -9,7 +9,10 @@ export type SeasonPrismicDocument = PrismicDocument<
   } & CommonPrismicData
 >;
 
-export async function getSeason(client: Client, id: string) {
+export async function getSeason(
+  { client }: GetServerSidePropsPrismicClient,
+  id: string
+): Promise<SeasonPrismicDocument | undefined> {
   const document = await client.getByID<SeasonPrismicDocument>(id);
 
   if (document.type === 'seasons') {
