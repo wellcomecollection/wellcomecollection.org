@@ -1,5 +1,4 @@
 import * as prismic from 'prismic-client-beta';
-import { PrismicDocument } from '@prismicio/types';
 import { GetServerSidePropsContext } from 'next';
 import fetch from 'node-fetch';
 
@@ -31,13 +30,4 @@ export function api(req: Req): prismic.Client {
 
   initialised = true;
   return client;
-}
-
-export async function getDocument<Doc extends PrismicDocument>(
-  client: prismic.Client,
-  id: string
-): Promise<Doc> {
-  const document = await client.getByID<Doc>(id);
-
-  return document;
 }
