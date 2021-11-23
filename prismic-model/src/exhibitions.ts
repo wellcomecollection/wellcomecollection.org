@@ -64,11 +64,6 @@ const exhibitions: CustomType = {
         parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
       }),
     },
-    Migration: {
-      drupalPromoImage: link('Drupal promo image', 'web'),
-      drupalNid: text('Drupal node ID'),
-      drupalPath: text('Drupal path'),
-    },
   },
 };
 

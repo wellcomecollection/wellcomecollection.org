@@ -131,7 +131,6 @@ const BookPage: FC<Props> = props => {
               {book.subtitle}
             </p>
           )}
-          {book.authorName && <p className="no-margin">{book.authorName}</p>}
         </Fragment>
       }
       isContentTypeInfoBeforeMedia={true}

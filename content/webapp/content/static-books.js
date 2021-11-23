@@ -318,8 +318,6 @@ export const staticBooks = [
       },
     ],
     datePublished: '2021-06-02T23:00:00.000Z',
-    authorName: '',
-    authorDescription: [],
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format',
@@ -696,8 +694,6 @@ export const staticBooks = [
       },
     ],
     datePublished: '2020-08-26T23:00:00.000Z',
-    authorName: '',
-    authorDescription: [],
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format',
@@ -1054,8 +1050,6 @@ export const staticBooks = [
     isbn: '9781788166546',
     reviews: [],
     datePublished: '2021-05-05T23:00:00.000Z',
-    authorName: '',
-    authorDescription: [],
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format',
