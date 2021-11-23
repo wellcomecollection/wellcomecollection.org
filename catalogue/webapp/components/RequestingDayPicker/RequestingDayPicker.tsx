@@ -2,13 +2,15 @@ import { FC, useState } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { london } from '@weco/common/utils/format-date';
 import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from 'react-day-picker/moment';
+import LocaleUtils from 'react-day-picker/moment';
 import styled from 'styled-components';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
+
+const { formatDate, parseDate } = LocaleUtils;
 
 type DayPickerWrapperProps = {
   isPrevMonthDisabled: boolean;
