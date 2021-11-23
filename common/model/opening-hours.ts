@@ -2,7 +2,14 @@ import { Moment } from 'moment';
 import { ImageType } from './image';
 import { Link as LinkType } from './link';
 
-export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Day =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
 
 export type OverrideType =
   | 'Bank holiday'

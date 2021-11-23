@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useContext } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { london } from '@weco/common/utils/format-date';
 import 'react-day-picker/lib/style.css';
@@ -9,6 +9,11 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
+// import { getExceptionalOpeningDates } from '@weco/common/services/prismic/opening-times';
+// $FlowFixMe (tsx)
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import Day from '@weco/common/model/opening-hours';
 
 const { formatDate, parseDate } = LocaleUtils;
 
@@ -142,6 +147,27 @@ const IconWrapper = styled.div.attrs({
   }
 `;
 
+function getDayNumber(day: Day): number {
+  switch (day) {
+    case 'Monday':
+      return 1;
+    case 'Tuesday':
+      return 2;
+    case 'Wednesday':
+      return 3;
+    case 'Thursday':
+      return 4;
+    case 'Friday':
+      return 5;
+    case 'Saturday':
+      return 6;
+    case 'Sunday':
+      return 0;
+    default:
+      return 8;
+  }
+}
+
 type Props = {
   pickUpDate?: Date;
   setPickUpDate: (date: Date) => void;
@@ -214,10 +240,27 @@ const RequestingDayPicker: FC<Props> = ({
     );
   };
 
+  const openingTimes = useContext(OpeningTimesContext);
   const now = london(new Date());
   const nextAvailableDate = london(new Date());
-  const twoWeeksFromNow = london(new Date());
-  twoWeeksFromNow.add(14, 'days');
+  const twoWeeksFromNow = london(new Date()).add(14, 'days');
+
+  const libraryVenue =
+    openingTimes?.collectionOpeningTimes.placesOpeningHours.find(
+      venue => venue.id === collectionVenueId.libraries.id
+    );
+  const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
+  const regularClosedDays = regularLibraryOpeningTimes
+    ?.filter(day => day.opens === null)
+    .map(day => getDayNumber(day.dayOfWeek));
+  const exceptionalLibraryOpeningTimes =
+    libraryVenue?.openingHours.exceptional || [];
+  const exceptionalClosedDates = exceptionalLibraryOpeningTimes
+    .filter(day => day.opens === null)
+    .map(day => {
+      return day.overrideDate.toDate();
+    });
+
   const isBeforeTen = now.isBefore(10);
   // If it's before 10am, we can request on the next day
   // otherwise, in two days' time
@@ -283,12 +326,12 @@ const RequestingDayPicker: FC<Props> = ({
           fromMonth,
           toMonth,
           disabledDays: [
-            { daysOfWeek: [0] }, // Sundays
+            { daysOfWeek: regularClosedDays },
             {
               before: nextAvailableDate.toDate(),
               after: twoWeeksFromNow.toDate(),
             },
-            // TODO: add holidays/exceptional dates from Prismic
+            ...exceptionalClosedDates,
           ],
         }}
       />
