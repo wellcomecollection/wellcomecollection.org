@@ -10,7 +10,6 @@ import { Book } from '@weco/common/model/books';
 import { Article } from '@weco/common/model/articles';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
 import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -18,6 +17,7 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Card from '@weco/common/views/components/Card/Card';
+import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 
 import DailyTourPromo from './DailyTourPromo';
@@ -71,16 +71,20 @@ const CardGrid: FunctionComponent<Props> = ({
             >
               {item.id === 'tours' && <DailyTourPromo />}
 
-              {item.type === 'exhibitions' && ( // TODO: (remove Picture type)
+              {item.type === 'exhibitions' && (
                 <ExhibitionPromo
                   id={item.id}
                   url={`/exhibitions/${item.id}`}
                   title={item.title}
                   shortTitle={item.shortTitle}
-                  format={item.format} // TODO: (remove Picture type)
-                  image={item.promoImage}
-                  start={!item.isPermanent ? item.start : null}
-                  end={!item.isPermanent ? item.end : null}
+                  format={item.format}
+                  image={
+                    item.promoImage
+                      ? { ...item.promoImage, crops: {} }
+                      : undefined
+                  }
+                  start={!item.isPermanent ? item.start : undefined}
+                  end={!item.isPermanent ? item.end : undefined}
                   statusOverride={item.statusOverride}
                   position={i}
                 />
