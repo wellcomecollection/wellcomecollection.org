@@ -361,8 +361,8 @@ function parseContentLink(document: ?PrismicDocument): ?MultiContent {
 function parseArticleDoc(document: PrismicDocument): Article {
   const { data } = document;
   // When we imported data into Prismic from the Wordpress blog some content
-  // needed to have its original publication date displayed. This is no
-  // longer a feature that editors can, but we still want to display the value
+  // needed to have its original publication date displayed. It is purely a display
+  // value and does not affect ordering.
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
 
