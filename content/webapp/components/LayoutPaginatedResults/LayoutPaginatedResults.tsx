@@ -1,4 +1,3 @@
-import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
@@ -18,6 +17,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { FC } from 'react';
+import CardGrid from '../CardGrid/CardGrid';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>

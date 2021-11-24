@@ -5,6 +5,7 @@ import type { UiExhibition } from '../../../../common/model/exhibitions';
 import type { UiEvent } from '../../../../common/model/events';
 import type { Article } from '../../../../common/model/articles';
 import type { Season } from '../../../../common/model/seasons';
+// $FlowFixMe (ts)
 import type { Card } from '../../../../common/model/card';
 import { type Label } from '../../../../common/model/labels';
 import { type Link } from '../../../../common/model/link';

@@ -20,6 +20,7 @@ import type {
 } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+// $FlowFixMe (ts)
 import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';

@@ -3,7 +3,7 @@ import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
-import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
+import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {

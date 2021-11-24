@@ -7,14 +7,14 @@ import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 // $FlowFixMe (ts)
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-// $FlowFixMe (tsx)
-import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import { type UiEvent } from '@weco/common/model/events';
 import { type Link } from '@weco/common/model/link';
 // $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 // $FlowFixMe (tsx)
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+// $FlowFixMe (tsx)
+import CardGrid from '../components/CardGrid/CardGrid';
 
 type Props = {|
   events: UiEvent[],
