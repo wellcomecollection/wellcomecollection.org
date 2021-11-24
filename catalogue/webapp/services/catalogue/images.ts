@@ -9,7 +9,6 @@ import {
   globalApiOptions,
   catalogueApiError,
   notFound,
-  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
@@ -39,12 +38,10 @@ export async function getImages({
   pageSize = 25,
 }: GetImagesProps): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  const index = await getTeiIndexName(toggles, 'images');
 
   const extendedParams = {
     ...params,
     pageSize,
-    _index: index,
   };
 
   const searchParams = new URLSearchParams(
@@ -71,11 +68,9 @@ export async function getImage({
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  const index = await getTeiIndexName(toggles, 'images');
 
   const params = {
     include: include,
-    _index: index,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params));

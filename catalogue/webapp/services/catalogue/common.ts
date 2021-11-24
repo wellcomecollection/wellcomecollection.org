@@ -30,34 +30,3 @@ export const catalogueApiError = (): CatalogueApiError => ({
   description: '',
   type: 'Error',
 });
-
-type ElasticConfig = {
-  worksIndex: string;
-  imagesIndex: string;
-};
-
-export const getElasticConfig = async (): Promise<ElasticConfig> => {
-  const response = await fetch(
-    'https://api.wellcomecollection.org/catalogue/v2/_elasticConfig'
-  );
-  const data: ElasticConfig = await response.json();
-  return data;
-};
-
-// This only ever uses HTTP behind a toggle so that
-// we only degrade performance for people with that
-// toggle on
-export const getTeiIndexName = async (
-  toggles: Toggles,
-  index: 'works' | 'images'
-): Promise<string | undefined> => {
-  const indexName = toggles.tei
-    ? await getElasticConfig().then(config =>
-        index === 'works'
-          ? `${config.worksIndex}-tei-on`
-          : `${config.imagesIndex}-tei-on`
-      )
-    : undefined;
-
-  return indexName;
-};
