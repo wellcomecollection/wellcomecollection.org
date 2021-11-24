@@ -3,11 +3,11 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
 import { ExhibitionPromo as ExhibitionPromoProps } from '@weco/common/model/exhibitions';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import PrismicImage from '../PrismicImage/PrismicImage';
 
 type Props = ExhibitionPromoProps & {
   position?: number;
@@ -40,11 +40,22 @@ const ExhibitionPromo = ({
     >
       <div className="relative">
         {image && image.contentUrl && (
-          <UiImage
-            {...image}
-            alt=""
-            sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
-            showTasl={false}
+          <PrismicImage
+            image={{
+              url: image.contentUrl,
+              dimensions: {
+                width: image.width,
+                height: image.height || 0,
+              },
+              alt: image.alt,
+              copyright: '',
+            }}
+            sizes={{
+              xlarge: 1 / 3,
+              large: 1 / 3,
+              medium: 1 / 2,
+              small: 1,
+            }}
           />
         )}
 

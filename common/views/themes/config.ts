@@ -120,6 +120,17 @@ export const colors = {
   currentColor: { base: 'currentColor', dark: '', light: '' },
 };
 
+export const sizes = {
+  small: 0,
+  medium: 600,
+  large: 960,
+  xlarge: 1338,
+  // Tweakpoints
+  // Occasionally we need to respond to specific breakpoints beyond the defaults
+  headerMedium: 825,
+  headerLarge: 1040,
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -131,16 +142,7 @@ export const themeValues = {
     large: 60,
     xlarge: 60,
   },
-  sizes: {
-    small: 0,
-    medium: 600,
-    large: 960,
-    xlarge: 1338,
-    // Tweakpoints
-    // Occasionally we need to respond to specific breakpoints beyond the defaults
-    headerMedium: 825,
-    headerLarge: 1040,
-  },
+  sizes,
   gutter: {
     small: 18,
     medium: 24,
@@ -198,5 +200,5 @@ export const themeValues = {
   },
 };
 
-export type Breakpoint = keyof typeof themeValues.sizes;
+export type Breakpoint = keyof typeof sizes;
 export type PaletteColor = keyof typeof colors;
