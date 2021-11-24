@@ -10,13 +10,13 @@ import { Book } from '@weco/common/model/books';
 import { Article } from '@weco/common/model/articles';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
 import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import Card from '@weco/common/views/components/Card/Card';
+import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 

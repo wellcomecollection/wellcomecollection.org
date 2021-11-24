@@ -1,4 +1,4 @@
-import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
+import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
   contentUrl:
