@@ -1,32 +1,32 @@
-// @flow
-
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
+import { Moment } from 'moment';
 import { london } from '@weco/common/utils/format-date';
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
-// $FlowFixMe (ts)
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-// $FlowFixMe (tsx)
-import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
-import { type UiEvent } from '@weco/common/model/events';
-import { type Link } from '@weco/common/model/link';
-// $FlowFixMe (tsx)
+import { UiEvent } from '@weco/common/model/events';
+import { Link } from '@weco/common/model/link';
 import Space from '@weco/common/views/components/styled/Space';
-// $FlowFixMe (tsx)
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import CardGrid from '../CardGrid/CardGrid';
 
-type Props = {|
-  events: UiEvent[],
-  links?: Link[],
-|};
+type Props = {
+  events: UiEvent[];
+  links?: Link[];
+};
 
-type State = {|
-  activeId: ?string,
-|};
+type State = {
+  activeId?: string;
+};
 
 // recursive - TODO: make tail recursive?
-function getMonthsInDateRange({ start, end }, acc = []) {
+type StartEnd = { start: Moment; end: Moment };
+
+function getMonthsInDateRange(
+  { start, end }: StartEnd,
+  acc: string[] = []
+): string[] {
   if (start.isSameOrBefore(end, 'month')) {
     const newAcc = acc.concat([start.format('YYYY-MM')]);
     const newStart = start.add(1, 'month');
@@ -38,8 +38,9 @@ function getMonthsInDateRange({ start, end }, acc = []) {
 
 class EventsByMonth extends Component<Props, State> {
   state = {
-    activeId: null,
+    activeId: undefined,
   };
+
   render() {
     const { events, links } = this.props;
     const { activeId } = this.state;
@@ -65,6 +66,7 @@ class EventsByMonth extends Component<Props, State> {
 
         const start =
           firstRange.range && london(firstRange.range.startDateTime);
+
         const end = lastRange.range && london(lastRange.range.endDateTime);
 
         const months = getMonthsInDateRange({ start, end });

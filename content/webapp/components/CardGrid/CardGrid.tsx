@@ -1,25 +1,26 @@
-import { classNames, cssGrid } from '../../../utils/classnames';
-import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
-import EventPromo from '../EventPromo/EventPromo';
-import DailyTourPromo from './DailyTourPromo';
-import BookPromo from '../BookPromo/BookPromo';
-import Layout12 from '../Layout12/Layout12';
-import StoryPromo from '../StoryPromo/StoryPromo';
-import MoreLink from '../MoreLink/MoreLink';
-import { Link } from '../../../model/link';
-import { Exhibition, UiExhibition } from '../../../model/exhibitions';
-import { UiEvent } from '../../../model/events';
-import { Book } from '../../../model/books';
-import { Article } from '../../../model/articles';
-import { Page } from '../../../model/pages';
-import { ArticleSeries } from '../../../model/article-series';
-import Space from '../styled/Space';
-import CssGridContainer from '../styled/CssGridContainer';
-import Moment from 'moment';
-import Card from '../Card/Card';
-import { convertItemToCardProps } from '@weco/common/model/card';
 import { FunctionComponent } from 'react';
-import { ArticleScheduleItem } from '../../../model/article-schedule-items';
+import Moment from 'moment';
+import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { Link } from '@weco/common/model/link';
+import { convertItemToCardProps } from '@weco/common/model/card';
+import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
+import { UiEvent } from '@weco/common/model/events';
+import { Book } from '@weco/common/model/books';
+import { Article } from '@weco/common/model/articles';
+import { Page } from '@weco/common/model/pages';
+import { ArticleSeries } from '@weco/common/model/article-series';
+import ExhibitionPromo from '@weco/common/views/components/ExhibitionPromo/ExhibitionPromo';
+import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
+import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
+import Space from '@weco/common/views/components/styled/Space';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+import Card from '@weco/common/views/components/Card/Card';
+import StoryPromo from '../StoryPromo/StoryPromo';
+
+import DailyTourPromo from './DailyTourPromo';
 
 // TODO: This should be MultiContent
 type ContentTypes =

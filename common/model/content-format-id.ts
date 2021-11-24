@@ -16,6 +16,7 @@ export const GuideFormatIds = {
   ExhibitionGuide: 'YC_GfxMAACEADdI9',
 } as const;
 
-export type ArticleFormatId = typeof ArticleFormatIds[keyof typeof ArticleFormatIds];
+export type ArticleFormatId =
+  typeof ArticleFormatIds[keyof typeof ArticleFormatIds];
 export type PageFormatId = typeof PageFormatIds[keyof typeof PageFormatIds];
 export type GuideFormatId = typeof GuideFormatIds[keyof typeof GuideFormatIds];

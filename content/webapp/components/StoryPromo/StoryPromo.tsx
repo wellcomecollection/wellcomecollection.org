@@ -1,16 +1,20 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
 import {
   getPositionInSeries,
   getArticleColor,
   Article,
-} from '../../../model/articles';
-import { UiImage } from '../Images/Images';
-import LabelsList from '../LabelsList/LabelsList';
-import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import Space from '../styled/Space';
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
+} from '@weco/common/model/articles';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import Space from '@weco/common/views/components/styled/Space';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+} from '@weco/common/views/components/Card/Card';
 
 type Props = {
   item: Article;

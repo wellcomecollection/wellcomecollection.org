@@ -1,5 +1,4 @@
-// @flow
-import EventPromo from '../EventPromo/EventPromo';
+import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
 
 const image = {
   contentUrl:
