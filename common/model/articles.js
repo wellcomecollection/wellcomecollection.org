@@ -5,6 +5,7 @@ import type { LabelField } from './label-field';
 import type { ColorSelection } from './color-selections';
 import type { MultiContent } from './multi-content';
 import type { Season } from './seasons';
+import type { PrismicDocument } from '../services/prismic/types';
 
 export type Article = {|
   type: 'articles',
@@ -20,6 +21,7 @@ export type Article = {|
   outroReadItem: ?MultiContent,
   outroVisitLinkText: ?string,
   outroVisitItem: ?MultiContent,
+  prismicDocument: PrismicDocument,
 |};
 
 export function getPositionInSeries(article: Article): ?number {

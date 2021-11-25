@@ -8,6 +8,7 @@ import {
   PrismicDocument,
 } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from './client';
+import { SeriesPrismicDocument } from './series';
 import { CommonPrismicData, InferDataInterface } from './types';
 
 const typeEnum = 'articles';
@@ -17,7 +18,7 @@ type ArticleFormat = PrismicDocument<
     title: RichTextField;
     description: RichTextField;
   },
-  'exhibition-formats'
+  'article-formats'
 >;
 
 export type ArticlePrismicDocument = PrismicDocument<
@@ -39,7 +40,13 @@ export type ArticlePrismicDocument = PrismicDocument<
       contributor: RelationField<'people' | 'organisations'>;
       description: RichTextField;
     }>;
-    series: GroupField<{ series: RelationField<'series'> }>;
+    series: GroupField<{
+      series: RelationField<
+        'series',
+        'en-gb',
+        InferDataInterface<SeriesPrismicDocument>
+      >;
+    }>;
     seasons: GroupField<{ season: RelationField<'seasons'> }>;
     parents: GroupField<{
       order: NumberField;

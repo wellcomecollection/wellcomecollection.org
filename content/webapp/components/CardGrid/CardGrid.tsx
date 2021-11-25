@@ -21,6 +21,7 @@ import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
 import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
+import { ArticlePrismicDocument } from 'services/prismic/articles';
 
 // TODO: This should be MultiContent
 type ContentTypes =
@@ -84,7 +85,7 @@ const CardGrid: FunctionComponent<Props> = ({
               )}
               {item.type === 'articles' && (
                 <StoryPromo
-                  item={item}
+                  article={item.prismicDocument as ArticlePrismicDocument}
                   position={i}
                   hidePromoText={hidePromoText}
                 />
