@@ -1,30 +1,23 @@
-// @flow
 import { Fragment } from 'react';
-// $FlowFixMe (ts)
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-import { formatDate } from '../../../utils/format-date';
-import { UiImage } from '../Images/Images';
-// $FlowFixMe (tsx)
-import LabelsList from '../LabelsList/LabelsList';
-import { type ExhibitionPromo as ExhibitionPromoProps } from '../../../model/exhibitions';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
-// $FlowFixMe (tsx)
-import { CardOuter, CardBody } from '../Card/Card';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import { formatDate } from '@weco/common/utils/format-date';
+import { ExhibitionPromo as ExhibitionPromoProps } from '@weco/common/model/exhibitions';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import Space from '@weco/common/views/components/styled/Space';
+import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
 
-type Props = {|
-  ...ExhibitionPromoProps,
-  position?: number,
-|};
+type Props = ExhibitionPromoProps & {
+  position?: number;
+};
 
 const ExhibitionPromo = ({
   format,
   id,
   url,
   title,
-  shortTitle,
   image,
   start,
   end,

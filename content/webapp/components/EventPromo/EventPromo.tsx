@@ -1,31 +1,27 @@
-// @flow
-// $FlowFixMe (ts)
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-import { UiImage } from '../Images/Images';
-// $FlowFixMe (tsx)
-import LabelsList from '../LabelsList/LabelsList';
-// $FlowFixMe (tsx)
-import Dot from '../Dot/Dot';
-import EventDateRange from '../EventDateRange/EventDateRange';
-import { type UiEvent, isEventFullyBooked } from '../../../model/events';
-import Moment from 'moment';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
-// $FlowFixMe (tsx)
-import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
-/* $FlowFixMe (tsx) */
-import Divider from '../Divider/Divider';
-/* $FlowFixMe (ts) */
-import WatchLabel from '../WatchLabel/WatchLabel';
+import moment from 'moment';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Dot from '@weco/common/views/components/Dot/Dot';
+import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
+import { UiEvent, isEventFullyBooked } from '@weco/common/model/events';
+import Space from '@weco/common/views/components/styled/Space';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+} from '@weco/common/views/components/Card/Card';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 
-type Props = {|
-  event: UiEvent,
-  position?: number,
-  dateString?: string,
-  timeString?: string,
-  fromDate?: Moment,
-|};
+type Props = {
+  event: UiEvent;
+  position?: number;
+  dateString?: string;
+  timeString?: string;
+  fromDate?: moment.Moment;
+};
 
 const EventPromo = ({
   event,
@@ -50,9 +46,7 @@ const EventPromo = ({
       }}
     >
       <div className="relative">
-        {/* FIXME: Image type tidy */}
         {event.promoImage && (
-          // $FlowFixMe
           <UiImage
             {...event.promoImage}
             alt=""

@@ -1,4 +1,5 @@
-import EventPromo from '@weco/common/views/components/EventPromo/EventPromo';
+import { UiEvent } from '@weco/common/model/events';
+import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
   contentUrl:
@@ -16,31 +17,31 @@ const image = {
     title: null,
   },
   crops: {},
+  minWidth: null,
 };
 
-export const data = {
+export const data: UiEvent = {
   type: 'events',
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
-  place: null,
-  bookingEnquiryTeam: null,
+  place: undefined,
+  bookingEnquiryTeam: undefined,
   interpretations: [],
   audiences: [],
   policies: [],
-  bookingInformation: null,
-  cost: null,
-  bookingType: null,
-  thirdPartyBooking: null,
+  bookingInformation: undefined,
+  cost: undefined,
+  bookingType: undefined,
+  thirdPartyBooking: undefined,
   isCompletelySoldOut: false,
   isPast: false,
   isRelaxedPerformance: false,
   format: {
     id: 'WmYRpCQAACUAn-Ap',
     title: 'Gallery tour',
-    shortName: null,
-    description: null,
+    description: undefined,
   },
   body: [],
   contributors: [],
@@ -69,7 +70,7 @@ export const data = {
   squareImage: null,
   widescreenImage: null,
   superWidescreenImage: null,
-  ticketSalesStart: null,
+  ticketSalesStart: undefined,
   displayEnd: new Date(),
   displayStart: new Date(),
   standfirst: null,
