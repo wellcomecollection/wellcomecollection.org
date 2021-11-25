@@ -32,8 +32,6 @@ function transformLabels(
 }
 
 const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
-  // We can't import `ExhibitionPrismicDocument` into `UiExhibition` because
-  // they are in content / common apps respectively, we have to type coerce here
   const meta = transformMeta(exhibition);
   const { format } = exhibition.data;
 

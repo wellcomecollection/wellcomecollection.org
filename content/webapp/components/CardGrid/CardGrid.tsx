@@ -72,6 +72,8 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.id === 'tours' && <DailyTourPromo />}
 
               {item.type === 'exhibitions' && (
+                // We can't import `ExhibitionPrismicDocument` into `UiExhibition` because
+                // they are in content / common apps respectively, we have to type coerce here
                 <ExhibitionPromo
                   exhibition={item.prismicDocument as ExhibitionPrismicDocument}
                   position={i}
