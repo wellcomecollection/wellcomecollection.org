@@ -19,8 +19,8 @@ import Card from '@weco/common/views/components/Card/Card';
 import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
-
 import DailyTourPromo from './DailyTourPromo';
+import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
 
 // TODO: This should be MultiContent
 type ContentTypes =
