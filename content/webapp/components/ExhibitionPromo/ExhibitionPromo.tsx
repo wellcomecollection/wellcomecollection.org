@@ -45,6 +45,8 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
     ? prismicH.asText(exhibition.data.statusOverride)
     : undefined;
 
+  const isPermanent = exhibition.data.isPermanent === 'yes';
+
   return (
     <CardOuter
       data-component="ExhibitionPromo"
@@ -92,7 +94,7 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
             {meta.title}
           </Space>
 
-          {!statusOverride && start && end && (
+          {!statusOverride && !isPermanent && start && end && (
             <Space
               as="p"
               v={{ size: 'm', properties: ['margin-bottom'] }}
