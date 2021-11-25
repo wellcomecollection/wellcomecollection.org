@@ -1,73 +1,79 @@
 import { Fragment } from 'react';
+import * as prismicH from 'prismic-helpers-beta';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
-import { ExhibitionPromo as ExhibitionPromoProps } from '@weco/common/model/exhibitions';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import PrismicImage from '../PrismicImage/PrismicImage';
+import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
+import { transformMeta } from '../../services/prismic/transformers';
+import {
+  InferDataInterface,
+  isFilledLinkToDocument,
+} from '../../services/prismic/types';
 
-type Props = ExhibitionPromoProps & {
+type Props = {
+  exhibition: ExhibitionPrismicDocument;
   position?: number;
 };
 
-const ExhibitionPromo = ({
-  format,
-  id,
-  url,
-  title,
-  image,
-  start,
-  end,
-  statusOverride,
-  position = 0,
-}: Props) => {
+function transformLabels(
+  format: InferDataInterface<ExhibitionPrismicDocument>['format']
+) {
+  if (isFilledLinkToDocument(format) && format.data) {
+    const title = prismicH.asText(format.data.title);
+    return [{ text: title }];
+  }
+
+  return [{ text: 'Exhibition' }];
+}
+
+const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
+  const meta = transformMeta(exhibition);
+  const { format } = exhibition.data;
+
+  const start = exhibition.data.start
+    ? new Date(exhibition.data.start)
+    : undefined;
+
+  const end = exhibition.data.end ? new Date(exhibition.data.end) : undefined;
+
+  const statusOverride = exhibition.data.statusOverride
+    ? prismicH.asText(exhibition.data.statusOverride)
+    : undefined;
+
   return (
     <CardOuter
       data-component="ExhibitionPromo"
       data-component-state={JSON.stringify({ position: position })}
-      id={id}
-      href={url}
+      id={exhibition.id}
+      href={meta.url}
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
           action: 'follow link',
-          label: `${id} | position: ${position}`,
+          label: `${exhibition.id} | position: ${position}`,
         });
       }}
     >
       <div className="relative">
-        {image && image.contentUrl && (
-          <UiImage
-            {...image}
-            alt=""
-            sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
-            showTasl={false}
+        {meta.image?.['16:9'] && (
+          <PrismicImage
+            image={meta.image['16:9']}
+            sizes={{
+              xlarge: 1 / 3,
+              large: 1 / 3,
+              medium: 1 / 2,
+              small: 1,
+            }}
           />
         )}
 
         <div style={{ position: 'absolute', bottom: 0 }}>
-          {/*
-            TODO: Change the format label in Prismic to Permanent exhibition,
-            and remove this hack
-          */}
-          <LabelsList
-            labels={
-              format
-                ? [
-                    {
-                      text: `${
-                        format.title === 'Permanent'
-                          ? 'Permanent exhibition'
-                          : format.title
-                      }`,
-                    },
-                  ]
-                : [{ text: 'Exhibition' }]
-            }
-          />
+          <LabelsList labels={transformLabels(format)} />
         </div>
       </div>
 
@@ -83,7 +89,7 @@ const ExhibitionPromo = ({
               [font('wb', 3)]: true,
             })}
           >
-            {title}
+            {meta.title}
           </Space>
 
           {!statusOverride && start && end && (

@@ -1,7 +1,7 @@
 import { PrismicDocument } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
-import { CommonPrismicData, Image } from 'services/prismic/types';
+import { CommonPrismicData, Image } from './types';
 
 type Meta = {
   title: string;

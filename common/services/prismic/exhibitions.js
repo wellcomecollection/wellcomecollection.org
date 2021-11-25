@@ -46,8 +46,8 @@ import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
 import type {
   PrismicFragment,
-  PrismicDocument,
   PaginatedResults,
+  PrismicDocument,
 } from './types';
 import type {
   UiExhibition,
@@ -174,6 +174,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       : [],
     relatedIds,
     seasons,
+    prismicDocument: document,
   };
 
   const labels = exhibition.isPermanent

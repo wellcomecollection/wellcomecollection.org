@@ -29,6 +29,7 @@ export type Exhibition = GenericContentFields & {
   resources: Resource[];
   relatedIds: string[];
   seasons: Season[];
+  prismicDocument: any;
 };
 
 export type ExhibitionPromo = {

@@ -1,4 +1,5 @@
 // @flow
+import type { PrismicDocument } from '../services/prismic/types';
 import type { Picture } from './picture';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
@@ -32,6 +33,7 @@ export type Exhibition = {|
   resources: Resource[],
   relatedIds: string[],
   seasons: Season[],
+  prismicDocument: PrismicDocument,
 |};
 
 export type ExhibitionPromo = {|

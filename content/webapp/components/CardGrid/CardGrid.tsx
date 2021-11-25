@@ -19,8 +19,8 @@ import Card from '@weco/common/views/components/Card/Card';
 import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
-
 import DailyTourPromo from './DailyTourPromo';
+import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
 
 // TODO: This should be MultiContent
 type ContentTypes =
@@ -72,20 +72,10 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.id === 'tours' && <DailyTourPromo />}
 
               {item.type === 'exhibitions' && (
+                // We can't import `ExhibitionPrismicDocument` into `UiExhibition` because
+                // they are in content / common apps respectively, we have to type coerce here
                 <ExhibitionPromo
-                  id={item.id}
-                  url={`/exhibitions/${item.id}`}
-                  title={item.title}
-                  shortTitle={item.shortTitle}
-                  format={item.format}
-                  image={
-                    item.promoImage
-                      ? { ...item.promoImage, crops: {} }
-                      : undefined
-                  }
-                  start={!item.isPermanent ? item.start : undefined}
-                  end={!item.isPermanent ? item.end : undefined}
-                  statusOverride={item.statusOverride}
+                  exhibition={item.prismicDocument as ExhibitionPrismicDocument}
                   position={i}
                 />
               )}
