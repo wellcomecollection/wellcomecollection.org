@@ -6,6 +6,7 @@ import {
   getArticleColor,
   Article,
 } from '@weco/common/model/articles';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,7 +15,6 @@ import {
   CardBody,
   CardPostBody,
 } from '@weco/common/views/components/Card/Card';
-import PrismicImage from 'components/PrismicImage/PrismicImage';
 
 type Props = {
   item: Article;
@@ -29,6 +29,7 @@ const StoryPromo: FunctionComponent<Props> = ({
   position,
   hidePromoText = false,
   hasTransparentBackground = false,
+  sizesQueries = `(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)`,
 }: Props) => {
   const positionInSeries = getPositionInSeries(item);
   return (
@@ -48,22 +49,12 @@ const StoryPromo: FunctionComponent<Props> = ({
       <div className="relative">
         {/* FIXME: Image type tidy */}
         {item.promoImage && (
-          <PrismicImage
-            image={{
-              url: item.promoImage.contentUrl,
-              dimensions: {
-                width: item.promoImage.width,
-                height: item.promoImage.height || 0,
-              },
-              alt: item.promoImage.alt,
-              copyright: '',
-            }}
-            sizes={{
-              xlarge: 1 / 3,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
-            }}
+          // $FlowFixMe
+          <UiImage
+            {...item.promoImage}
+            alt=""
+            sizesQueries={sizesQueries}
+            showTasl={false}
           />
         )}
 

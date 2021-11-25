@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
@@ -13,7 +14,6 @@ import {
 } from '@weco/common/views/components/Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
-import PrismicImage from '../PrismicImage/PrismicImage';
 
 type Props = {
   event: UiEvent;
@@ -47,22 +47,11 @@ const EventPromo = ({
     >
       <div className="relative">
         {event.promoImage && (
-          <PrismicImage
-            image={{
-              url: event.promoImage.contentUrl,
-              dimensions: {
-                width: event.promoImage.width,
-                height: event.promoImage.height || 0,
-              },
-              alt: event.promoImage.alt,
-              copyright: '',
-            }}
-            sizes={{
-              xlarge: 1 / 3,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
-            }}
+          <UiImage
+            {...event.promoImage}
+            alt=""
+            sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
+            showTasl={false}
           />
         )}
 

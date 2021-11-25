@@ -4,6 +4,7 @@ import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
+import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -19,7 +20,6 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
-import PrismicImage from '../components/PrismicImage/PrismicImage';
 
 type Props = SeasonWithContent & WithGlobalContextData;
 const SeasonPage = ({
@@ -38,19 +38,7 @@ const SeasonPage = ({
       labels={{ labels: season.labels }}
       title={season.title}
       FeaturedMedia={
-        season.superWidescreenImage && (
-          <PrismicImage
-            image={{
-              url: season.superWidescreenImage.contentUrl,
-              dimensions: {
-                width: season.superWidescreenImage.width,
-                height: season.superWidescreenImage.height || 0,
-              },
-              alt: season.superWidescreenImage.alt,
-              copyright: '',
-            }}
-          />
-        )
+        <UiImage {...season.superWidescreenImage} sizesQueries="" />
       }
       standfirst={season?.standfirst}
       start={season.start}
