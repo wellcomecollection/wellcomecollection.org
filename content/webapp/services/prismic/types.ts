@@ -5,8 +5,34 @@ import {
   Slice,
   SliceZone,
   RTHeading1Node,
+  PrismicDocument,
+  AnyRegularField,
+  GroupField,
+  RelationField,
+  FilledLinkToDocumentField,
 } from '@prismicio/types';
 import { Body } from './prismic-body';
+
+/**
+ * This allows as to get the DataInterface from PrismicDocuments when we
+ * Need them for `RelationField`s e.g.
+ * type Doc = PrismicDocument<{ title: RichTextField }>
+ * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
+ * RelationField<'formats', 'en-gb', DataInterface>
+ */
+export type InferDataInterface<T> = T extends PrismicDocument<
+  infer DataInterface
+>
+  ? DataInterface
+  : never;
+
+/**
+ * This is a convenience type as iot's generally what DataInterface types extend in @prismicio.types
+ */
+export type DataInterface = Record<
+  string,
+  AnyRegularField | GroupField | SliceZone
+>;
 
 type Dimension = {
   width: number;
@@ -45,3 +71,10 @@ export type CommonPrismicData = {
   promo: PromoSliceZone;
   metadataDescription: KeyTextField;
 };
+
+// Guards
+export function isFilledLinkToDocument<T, L, D extends DataInterface>(
+  field: RelationField<T, L, D>
+): field is FilledLinkToDocumentField<T, L, D> {
+  return 'isBroken' in field && field.isBroken === false;
+}

@@ -2,11 +2,14 @@ import { TimestampField, PrismicDocument } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from './client';
 import { CommonPrismicData } from './types';
 
+const typeEnum = 'seasons';
+
 export type SeasonPrismicDocument = PrismicDocument<
   {
     start: TimestampField;
     end: TimestampField;
-  } & CommonPrismicData
+  } & CommonPrismicData,
+  typeof typeEnum
 >;
 
 export async function getSeason(
@@ -15,7 +18,7 @@ export async function getSeason(
 ): Promise<SeasonPrismicDocument | undefined> {
   const document = await client.getByID<SeasonPrismicDocument>(id);
 
-  if (document.type === 'seasons') {
+  if (document.type === typeEnum) {
     return document;
   }
 }

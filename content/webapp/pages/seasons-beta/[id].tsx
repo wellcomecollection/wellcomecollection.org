@@ -81,7 +81,7 @@ const SeasonPage = ({
             title={meta.title}
             FeaturedMedia={
               meta.image?.['32:15'] ? (
-                <PrismicImage image={meta.image?.['32:15']} />
+                <PrismicImage image={meta.image['32:15']} />
               ) : null
             }
             standfirst={null}

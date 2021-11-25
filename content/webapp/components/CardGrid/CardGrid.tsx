@@ -73,19 +73,7 @@ const CardGrid: FunctionComponent<Props> = ({
 
               {item.type === 'exhibitions' && (
                 <ExhibitionPromo
-                  id={item.id}
-                  url={`/exhibitions/${item.id}`}
-                  title={item.title}
-                  shortTitle={item.shortTitle}
-                  format={item.format}
-                  image={
-                    item.promoImage
-                      ? { ...item.promoImage, crops: {} }
-                      : undefined
-                  }
-                  start={!item.isPermanent ? item.start : undefined}
-                  end={!item.isPermanent ? item.end : undefined}
-                  statusOverride={item.statusOverride}
+                  exhibition={item.prismicDocument as ExhibitionPrismicDocument}
                   position={i}
                 />
               )}
