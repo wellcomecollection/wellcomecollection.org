@@ -27,7 +27,7 @@ export type InferDataInterface<T> = T extends PrismicDocument<
   : never;
 
 /**
- * This is a convenience type for what the generic DataInterfac type extend in @prismicio/types
+ * This is a convenience type for what the generic DataInterface type extend in @prismicio/types
  */
 export type DataInterface = Record<
   string,
