@@ -35,7 +35,7 @@ export async function getTogglesObject(client: S3Client) {
 export async function putTogglesObject(client: S3Client, obj: TogglesResp) {
   const putObjectCommand = new PutObjectCommand({
     Bucket: bucket,
-    Key: `test-${key}`,
+    Key: `${key}`,
     Body: JSON.stringify(obj),
     ACL: 'public-read',
     ContentType: 'application/json',
