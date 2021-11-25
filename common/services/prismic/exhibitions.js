@@ -44,7 +44,11 @@ import { london } from '../../utils/format-date';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
-import type { PrismicFragment, PaginatedResults } from './types';
+import type {
+  PrismicFragment,
+  PaginatedResults,
+  PrismicDocument,
+} from './types';
 import type {
   UiExhibition,
   UiExhibit,
