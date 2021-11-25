@@ -3,7 +3,6 @@ import type { PrismicDocument } from '../services/prismic/types';
 import type { Picture } from './picture';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
-import type { ImageType } from './image';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Resource } from './resource';
 import type { Season } from './seasons';
@@ -36,23 +35,9 @@ export type Exhibition = {|
   prismicDocument: PrismicDocument,
 |};
 
-export type ExhibitionPromo = {|
-  id: string,
-  format: ?ExhibitionFormat,
-  url: string,
-  title: string,
-  shortTitle: ?string,
-  image: ImageType,
-  squareImage: ?Picture,
-  start: Date,
-  end: ?Date,
-  statusOverride: ?string,
-|};
-
 export type UiExhibition = {|
   ...Exhibition,
   ...{|
-    promo: ?ExhibitionPromo,
     galleryLevel: number, // this should be deprecated for place
     featuredImageList: Picture[],
     exhibits: {|

@@ -4,6 +4,7 @@ import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCar
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
+import exhibitionDocument from '../../data/prismic/exhibition';
 
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import {
@@ -13,7 +14,6 @@ import {
   article,
   image,
   event,
-  url,
 } from '../../content';
 
 const primaryLabelList = [{ text: 'Study day' }, { text: 'Schools' }];
@@ -88,16 +88,7 @@ eventPromo.storyName = 'EventPromo';
 
 const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
-exhibitionPromo.args = {
-  id: '1',
-  url: url,
-  format: { title: 'Permanent' },
-  image: image(),
-  title: 'Being Human',
-  start: null,
-  end: null,
-  statusOverride: null,
-};
+exhibitionPromo.args = { exhibition: exhibitionDocument };
 exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
