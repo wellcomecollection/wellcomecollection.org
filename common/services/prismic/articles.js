@@ -394,10 +394,6 @@ function parseArticleDoc(document: PrismicDocument): Article {
   };
 }
 
-export function parseArticle(document: PrismicDocument): Article {
-  return parseArticleDoc(document);
-}
-
 export async function getArticle(
   req: ?Request,
   id: string,
@@ -406,7 +402,7 @@ export async function getArticle(
   const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
   return document &&
     (document.type === 'articles' || document.type === 'webcomics')
-    ? parseArticle(document)
+    ? parseArticleDoc(document)
     : null;
 }
 
@@ -436,7 +432,7 @@ export async function getArticles(
   );
 
   const articles = paginatedResults.results.map(doc => {
-    const article = parseArticle(doc);
+    const article = parseArticleDoc(doc);
     return article;
   });
 

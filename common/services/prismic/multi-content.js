@@ -6,7 +6,7 @@ import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseBook } from './books';
 import { parseEventDoc } from './events';
-import { parseArticle } from './articles';
+import { parseArticleDoc } from './articles';
 import { parseExhibitionDoc } from './exhibitions';
 import {
   pagesFields,
@@ -44,7 +44,7 @@ export function parseMultiContent(
           return parseEventDoc(document);
         case 'articles':
         case 'webcomics':
-          return parseArticle(document);
+          return parseArticleDoc(document);
         case 'exhibitions':
           return parseExhibitionDoc(document);
         case 'series':
@@ -58,16 +58,8 @@ export async function getMultiContent(
   req: ?Request,
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<PaginatedResults<MultiContent>> {
-  const {
-    types,
-    type,
-    id,
-    ids,
-    tags,
-    tag,
-    pageSize,
-    orderings,
-  } = structuredSearchQuery;
+  const { types, type, id, ids, tags, tag, pageSize, orderings } =
+    structuredSearchQuery;
   const articleSeries = structuredSearchQuery['article-series'];
   const idsPredicate =
     ids.length > 0 ? Prismic.Predicates.at('document.id', ids) : null;
