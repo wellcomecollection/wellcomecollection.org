@@ -59,7 +59,7 @@ const StoryPromo: FunctionComponent<Props> = ({
     ?.map(scheduleItem => prismicH.asText(scheduleItem.title))
     .indexOf(meta.title);
   const positionInSeriesSchedule =
-    indexInSeriesSchedule && indexInSeriesSchedule !== -1
+    isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
       ? indexInSeriesSchedule + 1
       : undefined;
 
