@@ -33,6 +33,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
+import { ArticlePrismicDocument } from 'services/prismic/articles';
 
 type Props = {
   articles: Article[];
@@ -216,7 +217,12 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo item={article} position={i} />
+                      <StoryPromo
+                        article={
+                          article.prismicDocument as ArticlePrismicDocument
+                        }
+                        position={i}
+                      />
                     </div>
                   );
                 })}
