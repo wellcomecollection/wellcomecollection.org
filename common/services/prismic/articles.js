@@ -358,7 +358,7 @@ function parseContentLink(document: ?PrismicDocument): ?MultiContent {
   return parsedDocuments.length > 0 ? parsedDocuments[0] : null;
 }
 
-function parseArticleDoc(document: PrismicDocument): Article {
+export function parseArticleDoc(document: PrismicDocument): Article {
   const { data } = document;
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
