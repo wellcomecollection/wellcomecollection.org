@@ -13,7 +13,7 @@ import {
 } from '@weco/common/views/components/Card/Card';
 import { ArticlePrismicDocument } from '../../services/prismic/articles';
 import { transformMeta } from '../../services/prismic/transformers';
-import { isFilledLinkToDocument } from '../../services/prismic/types';
+import { isFilledLinkToDocumentWithData } from '../../services/prismic/types';
 import PrismicImage from '../PrismicImage/PrismicImage';
 
 type Props = {
@@ -27,13 +27,13 @@ type Props = {
 function transformSeries(article: ArticlePrismicDocument) {
   return article.data.series
     .map(({ series }) => series)
-    .filter(isFilledLinkToDocument);
+    .filter(isFilledLinkToDocumentWithData);
 }
 
 function transformFormat(article: ArticlePrismicDocument) {
   const { format } = article.data;
 
-  if (isFilledLinkToDocument(format) && format.data) {
+  if (isFilledLinkToDocumentWithData(format) && format.data) {
     return prismicH.asText(format.data.title);
   }
 }
@@ -52,10 +52,10 @@ const StoryPromo: FunctionComponent<Props> = ({
   // So this only works on series that have a schedule, and a schedule where the titles
   // match exactly with the schedule items. This wouldn't work with any series.
   const seriesWithSchedule = series.find(
-    series => (series.data?.schedule ?? []).length > 0
+    series => (series.data.schedule ?? []).length > 0
   );
-  const seriesColor = seriesWithSchedule?.data?.color ?? undefined;
-  const indexInSeriesSchedule = seriesWithSchedule?.data?.schedule
+  const seriesColor = seriesWithSchedule?.data.color ?? undefined;
+  const indexInSeriesSchedule = seriesWithSchedule?.data.schedule
     ?.map(scheduleItem => prismicH.asText(scheduleItem.title))
     .indexOf(meta.title);
   const positionInSeriesSchedule =

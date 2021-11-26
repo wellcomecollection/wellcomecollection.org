@@ -12,7 +12,7 @@ import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
 import { transformMeta } from '../../services/prismic/transformers';
 import {
   InferDataInterface,
-  isFilledLinkToDocument,
+  isFilledLinkToDocumentWithData,
 } from '../../services/prismic/types';
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 function transformLabels(
   format: InferDataInterface<ExhibitionPrismicDocument>['format']
 ) {
-  if (isFilledLinkToDocument(format) && format.data) {
+  if (isFilledLinkToDocumentWithData(format)) {
     const title = prismicH.asText(format.data.title);
     return [{ text: title }];
   }
