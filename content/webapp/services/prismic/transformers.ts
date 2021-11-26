@@ -22,7 +22,7 @@ export function transformMeta(doc: Doc): Meta {
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
-    promoText: prismicH.asText([]) || undefined,
+    promoText: prismicH.asText(promo.caption) || undefined,
     image: promo.image,
     // TODO: This needs to account for more cases, should probably use the link resolver.
     url: `/${doc.type}/${doc.id}`,

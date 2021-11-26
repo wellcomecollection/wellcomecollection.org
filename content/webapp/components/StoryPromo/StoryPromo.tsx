@@ -6,7 +6,11 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import {
+  CardOuter,
+  CardBody,
+  CardPostBody,
+} from '@weco/common/views/components/Card/Card';
 import { ArticlePrismicDocument } from '../../services/prismic/articles';
 import { transformMeta } from '../../services/prismic/transformers';
 import { isFilledLinkToDocument } from '../../services/prismic/types';
@@ -26,17 +30,10 @@ function transformSeries(article: ArticlePrismicDocument) {
     .filter(isFilledLinkToDocument);
 }
 
-function transformSeriesWithSchedule(article: ArticlePrismicDocument) {
-  return transformSeries(article).find(series => {
-    return (series.data?.schedule ?? []).length > 0;
-  });
-}
-
 function transformFormat(article: ArticlePrismicDocument) {
   const { format } = article.data;
 
   if (isFilledLinkToDocument(format) && format.data) {
-    console.info(format);
     return prismicH.asText(format.data.title);
   }
 }
@@ -48,16 +45,23 @@ const StoryPromo: FunctionComponent<Props> = ({
   hasTransparentBackground = false,
 }: Props) => {
   const meta = transformMeta(article);
-  const seriesWithSchedule = transformSeriesWithSchedule(article);
-  const seriesColor = seriesWithSchedule?.data?.color ?? undefined;
+  const series = transformSeries(article);
 
   // This is a bit of nastiness as we can't access the articles within a series i.e.
   // `thisArticle.series.schedule.articles.map(article => article.id === thisArticle.id)`
   // So this only works on series that have a schedule, and a schedule where the titles
   // match exactly with the schedule items. This wouldn't work with any series.
+  const seriesWithSchedule = series.find(
+    series => (series.data?.schedule ?? []).length > 0
+  );
+  const seriesColor = seriesWithSchedule?.data?.color ?? undefined;
   const indexInSeriesSchedule = seriesWithSchedule?.data?.schedule
     ?.map(scheduleItem => prismicH.asText(scheduleItem.title))
     .indexOf(meta.title);
+  const positionInSeriesSchedule =
+    indexInSeriesSchedule && indexInSeriesSchedule !== -1
+      ? indexInSeriesSchedule + 1
+      : undefined;
 
   const format = transformFormat(article);
   const isSerial = Boolean(seriesWithSchedule);
@@ -101,9 +105,9 @@ const StoryPromo: FunctionComponent<Props> = ({
 
       <CardBody>
         <div>
-          {indexInSeriesSchedule && (
+          {positionInSeriesSchedule && (
             <PartNumberIndicator
-              number={indexInSeriesSchedule + 1}
+              number={positionInSeriesSchedule}
               color={seriesColor}
             />
           )}
@@ -132,15 +136,16 @@ const StoryPromo: FunctionComponent<Props> = ({
           )}
         </div>
       </CardBody>
-      {/* {item.series.length > 0 && (
+      {series.length > 0 && (
         <CardPostBody>
-          {item.series.map(series => (
-            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span> {series.title}
+          {series.map(series => (
+            <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
+              <span className={font('hnr', 6)}>Part of</span>{' '}
+              {prismicH.asText(series.data.title)}
             </p>
           ))}
         </CardPostBody>
-      )} */}
+      )}
     </CardOuter>
   );
 };
