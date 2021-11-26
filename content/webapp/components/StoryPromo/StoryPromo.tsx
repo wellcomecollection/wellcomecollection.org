@@ -1,16 +1,16 @@
 import { FunctionComponent } from 'react';
+import * as prismicH from 'prismic-helpers-beta';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
+import { isNotUndefined } from '@weco/common/utils/array';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
 import { ArticlePrismicDocument } from '../../services/prismic/articles';
 import { transformMeta } from '../../services/prismic/transformers';
+import { isFilledLinkToDocument } from '../../services/prismic/types';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { isFilledLinkToDocument } from 'services/prismic/types';
-import * as prismicH from 'prismic-helpers-beta';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
   article: ArticlePrismicDocument;
@@ -36,6 +36,7 @@ function transformFormat(article: ArticlePrismicDocument) {
   const { format } = article.data;
 
   if (isFilledLinkToDocument(format) && format.data) {
+    console.info(format);
     return prismicH.asText(format.data.title);
   }
 }
@@ -119,14 +120,14 @@ const StoryPromo: FunctionComponent<Props> = ({
           >
             {meta.title}
           </Space>
-          {!hidePromoText && (
+          {!hidePromoText && meta.promoText && (
             <p
               className={classNames({
                 'inline-block no-margin': true,
                 [font('hnr', 5)]: true,
               })}
             >
-              {/* {item.promoText} */}
+              {meta.promoText}
             </p>
           )}
         </div>
