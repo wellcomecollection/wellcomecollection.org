@@ -1,7 +1,6 @@
 import { Picture } from './picture';
 import { Place } from './places';
 import { Contributor } from './contributors';
-import { ImageType } from './image';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
@@ -32,22 +31,7 @@ export type Exhibition = GenericContentFields & {
   prismicDocument: any;
 };
 
-export type ExhibitionPromo = {
-  id: string;
-  format?: ExhibitionFormat;
-  url: string;
-  title: string;
-  shortTitle?: string;
-  image?: ImageType;
-  squareImage?: Picture;
-  start?: Date;
-  end?: Date;
-  statusOverride?: string;
-};
-
 export type UiExhibition = Exhibition & {
-  promo?: ExhibitionPromo;
-  galleryLevel: number; // this should be deprecated for place
   featuredImageList: Picture[];
   exhibits: Exhibit[];
 };

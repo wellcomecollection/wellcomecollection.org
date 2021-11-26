@@ -14,6 +14,13 @@ module.exports = {
     '@storybook/addon-backgrounds',
   ],
   webpackFinal: async (config, { configType }) => {
+    // Adds support for modules using mjs
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: "javascript/auto",
+    });
+
     config.module.rules.push({
       test: /\.js$/,
       exclude: /node_modules/,
