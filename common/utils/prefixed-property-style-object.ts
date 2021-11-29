@@ -1,5 +1,7 @@
-// @flow
-const prefixPropertyStyleObject = (property: string, value: string): {} => {
+const prefixPropertyStyleObject = (
+  property: string,
+  value: string
+): Record<string[], string> => {
   const cappedProperty = property[0].toUpperCase() + property.substring(1);
 
   return {
