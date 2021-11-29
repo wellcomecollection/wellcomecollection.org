@@ -259,7 +259,7 @@ export function getUpcomingExceptionalPeriods(
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
-        d.overrideDate.isSameOrBefore(london().add(14, 'day'), 'day') &&
+        d.overrideDate.isSameOrBefore(london().add(28, 'day'), 'day') &&
         d.overrideDate.isSameOrAfter(london(), 'day')
       );
     });
