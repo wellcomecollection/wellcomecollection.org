@@ -32,6 +32,7 @@ import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseExhibitionDoc } from './exhibitions';
+// $FlowFixMe (tsx)
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
@@ -43,7 +44,7 @@ import { parseEventDoc } from './events';
 import { parseSeason } from './seasons';
 // $FlowFixMe (tsx)
 import { links } from '../../views/components/Header/Header';
-// $FlowFixMe (ts)
+// $FlowFixMe (tsx)
 import { MediaObjectType } from '../../model/media-object';
 import type { Guide } from '../../model/guides';
 import type { PrismicDocument } from './types';

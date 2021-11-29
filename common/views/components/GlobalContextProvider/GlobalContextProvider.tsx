@@ -1,8 +1,6 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { createContext, FunctionComponent, ReactNode } from 'react';
-import OpeningTimesContext, {
-  OpeningTimes,
-} from '../OpeningTimesContext/OpeningTimesContext';
+import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext, {
   GlobalAlert,
 } from '../GlobalAlertContext/GlobalAlertContext';
@@ -12,12 +10,13 @@ import PopupDialogContext, {
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
 import { ApmContextProvider } from '../ApmContext/ApmContext';
+import { PrismicFragment } from '../../../services/prismic/types';
 
 export type GlobalContextData = {
   toggles: Toggles;
+  openingTimes: PrismicFragment;
   globalAlert: GlobalAlert | null;
   popupDialog: PopupDialog | null;
-  openingTimes: OpeningTimes | null;
 };
 
 type Props = {
@@ -27,9 +26,9 @@ type Props = {
 
 export const defaultValue = {
   toggles: {} as Toggles,
+  openingTimes: {},
   globalAlert: null,
   popupDialog: null,
-  openingTimes: null,
 };
 
 export type WithGlobalContextData = {
@@ -41,8 +40,7 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
   value,
   children,
 }: Props) => {
-  const parsedOpeningTimes =
-    value.openingTimes && parseCollectionVenues(value.openingTimes);
+  const parsedOpeningTimes = parseCollectionVenues(value.openingTimes);
 
   return (
     <Context.Provider value={value}>
@@ -69,7 +67,7 @@ export function getGlobalContextData(
     toggles: context.query?.toggles as unknown as Toggles,
     globalAlert: context.query?.globalAlert as unknown as GlobalAlert,
     popupDialog: context.query?.popupDialog as unknown as PopupDialog,
-    openingTimes: context.query?.openingTimes as unknown as OpeningTimes,
+    openingTimes: context.query?.openingTimes as unknown as PrismicFragment,
   };
 }
 
