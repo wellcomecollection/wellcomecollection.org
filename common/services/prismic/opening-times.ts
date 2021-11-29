@@ -12,7 +12,8 @@ import { PrismicFragment } from '../../services/prismic/types';
 import { Moment } from 'moment';
 import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
-import { isNotUndefined } from 'utils/array';
+import { isNotUndefined } from '../../utils/array';
+import { OpeningTimes } from '../../views/components/OpeningTimesContext/OpeningTimesContext';
 
 // TODO add comprehensive comments and probably rename some functions
 
@@ -202,34 +203,31 @@ export function backfillExceptionalVenueDays(
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
+
   // if it's type is other then we don't backfill
-  return allVenueExceptionalPeriods
-    ? allVenueExceptionalPeriods.map(period => {
-        const sortedDates = period.dates.sort((a, b) => {
-          return a.diff(b, 'days');
+  return (allVenueExceptionalPeriods ?? []).map(period => {
+    const sortedDates = period.dates.sort((a, b) => {
+      return a.diff(b, 'days');
+    });
+    const type = period.type || 'other';
+    const days = sortedDates
+      .map(date => {
+        const matchingVenueGroup = groupedExceptionalDays.find(group => {
+          return group.find(day => day.overrideDate.isSame(date, 'day'));
         });
-        const type = period.type || 'other';
-        const days = sortedDates
-          .map(date => {
-            const matchingVenueGroup = groupedExceptionalDays.find(group => {
-              return group.find(day => day.overrideDate.isSame(date, 'day'));
-            });
-            const matchingDay =
-              matchingVenueGroup &&
-              matchingVenueGroup.find(day =>
-                day.overrideDate.isSame(date, 'day')
-              );
-            const backfillDay = exceptionalFromRegular(venue, date, type);
-            if (type === 'other') {
-              return matchingDay;
-            } else {
-              return matchingDay || backfillDay;
-            }
-          })
-          .filter(isNotUndefined);
-        return days;
+        const matchingDay =
+          matchingVenueGroup &&
+          matchingVenueGroup.find(day => day.overrideDate.isSame(date, 'day'));
+        const backfillDay = exceptionalFromRegular(venue, date, type);
+        if (type === 'other') {
+          return matchingDay;
+        } else {
+          return matchingDay || backfillDay;
+        }
       })
-    : [];
+      .filter(isNotUndefined);
+    return days;
+  });
 }
 
 export function groupConsecutiveDays(
@@ -376,7 +374,7 @@ export function getParseCollectionVenueById(
   return venue;
 }
 
-export function parseCollectionVenues(doc: PrismicFragment) {
+export function parseCollectionVenues(doc: PrismicFragment): OpeningTimes {
   const placesOpeningHours = (doc as any).results.map(venue => {
     return parseCollectionVenue(venue);
   });
@@ -386,7 +384,10 @@ export function parseCollectionVenues(doc: PrismicFragment) {
       placesOpeningHours: placesOpeningHours.sort((a, b) => {
         return a.order - b.order;
       }),
+      upcomingExceptionalOpeningPeriods: [],
     },
+    placesOpeningHours: [],
+    upcomingExceptionalOpeningPeriods: [],
   };
 }
 
