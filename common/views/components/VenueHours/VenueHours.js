@@ -19,6 +19,7 @@ import {
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
+  // $FlowFixMe (tsx)
 } from '../../../services/prismic/opening-times';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
