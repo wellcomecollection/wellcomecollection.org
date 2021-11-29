@@ -48,10 +48,11 @@ const articles: CustomType = {
         parent: link('Parent', 'document', ['exhibitions'], 'Select a parent'),
       }),
     },
-    Migration: {
+    Overrides: {
       publishDate: {
         config: {
-          label: 'Override publish date',
+          label:
+            'Override publish date rendering. This will not affect ordering',
         },
         type: 'Timestamp',
       },
