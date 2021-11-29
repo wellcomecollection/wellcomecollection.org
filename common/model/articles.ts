@@ -20,6 +20,7 @@ export type Article = GenericContentFields & {
   outroReadItem?: MultiContent;
   outroVisitLinkText?: string;
   outroVisitItem?: MultiContent;
+  prismicDocument: any;
 };
 
 export function getPositionInSeries(article: Article): number | undefined {

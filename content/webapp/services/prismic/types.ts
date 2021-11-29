@@ -73,8 +73,8 @@ export type CommonPrismicData = {
 };
 
 // Guards
-export function isFilledLinkToDocument<T, L, D extends DataInterface>(
+export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
   field: RelationField<T, L, D>
-): field is FilledLinkToDocumentField<T, L, D> {
-  return 'isBroken' in field && field.isBroken === false;
+): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
+  return 'id' in field && field.isBroken === false && 'data' in field;
 }

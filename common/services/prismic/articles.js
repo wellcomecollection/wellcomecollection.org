@@ -358,7 +358,7 @@ function parseContentLink(document: ?PrismicDocument): ?MultiContent {
   return parsedDocuments.length > 0 ? parsedDocuments[0] : null;
 }
 
-function parseArticleDoc(document: PrismicDocument): Article {
+export function parseArticleDoc(document: PrismicDocument): Article {
   const { data } = document;
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
@@ -390,11 +390,8 @@ function parseArticleDoc(document: PrismicDocument): Article {
     outroReadItem: parseContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: parseContentLink(data.outroVisitItem),
+    prismicDocument: document,
   };
-}
-
-export function parseArticle(document: PrismicDocument): Article {
-  return parseArticleDoc(document);
 }
 
 export async function getArticle(
@@ -405,7 +402,7 @@ export async function getArticle(
   const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
   return document &&
     (document.type === 'articles' || document.type === 'webcomics')
-    ? parseArticle(document)
+    ? parseArticleDoc(document)
     : null;
 }
 
@@ -435,7 +432,7 @@ export async function getArticles(
   );
 
   const articles = paginatedResults.results.map(doc => {
-    const article = parseArticle(doc);
+    const article = parseArticleDoc(doc);
     return article;
   });
 

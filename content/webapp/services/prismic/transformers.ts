@@ -8,6 +8,7 @@ type Meta = {
   type: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
   url: string;
   description?: string;
+  promoText?: string;
   image?: Image;
 };
 
@@ -19,7 +20,9 @@ export function transformMeta(doc: Doc): Meta {
   return {
     title: prismicH.asText(doc.data.title),
     type: 'website',
-    description: doc.data.metadataDescription ?? undefined,
+    // We use `||` over `??` as we want empty strigs to revert to undefined
+    description: doc.data.metadataDescription || undefined,
+    promoText: prismicH.asText(promo.caption) || undefined,
     image: promo.image,
     // TODO: This needs to account for more cases, should probably use the link resolver.
     url: `/${doc.type}/${doc.id}`,

@@ -37,7 +37,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
-import { parseArticle } from './articles';
+import { parseArticleDoc } from './articles';
 import { parseEventDoc } from './events';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
@@ -627,7 +627,7 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                     case 'exhibitions':
                       return parseExhibitionDoc(item.content);
                     case 'articles':
-                      return parseArticle(item.content);
+                      return parseArticleDoc(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
                     case 'seasons':
