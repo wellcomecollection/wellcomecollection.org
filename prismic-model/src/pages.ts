@@ -3,7 +3,6 @@ import body from './parts/body';
 import promo from './parts/promo';
 import link from './parts/link';
 import list from './parts/list';
-import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import number from './parts/number';
