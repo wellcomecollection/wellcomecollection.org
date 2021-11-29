@@ -1,7 +1,6 @@
-import { FunctionComponent, ReactNode, useContext } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import { classNames, font, grid } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -9,6 +8,8 @@ import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 import { clock } from '@weco/common/icons';
+import { usePrismicData } from '@weco/common/server-data/Context';
+import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
 
 type ContainerProps = {
   children: ReactNode;
@@ -26,7 +27,8 @@ const Container: FunctionComponent<ContainerProps> = ({
 );
 
 const VisitUsStaticContent: FunctionComponent = () => {
-  const openingTimes = useContext(OpeningTimesContext);
+  const prismicData = usePrismicData();
+  const openingTimes = parseCollectionVenues(prismicData.openingTimes);
 
   return (
     <Container>

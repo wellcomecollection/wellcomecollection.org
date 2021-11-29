@@ -9,7 +9,7 @@ export type OverrideType =
   | 'Bank holiday'
   | 'Easter'
   | 'Christmas and New Year'
-  | 'Late Spectacluar'
+  | 'Late Spectacular'
   | 'other';
 
 export type OverrideDate = {|

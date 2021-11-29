@@ -29,7 +29,6 @@ import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import VenueHours from '@weco/common/views/components/VenueHours/VenueHours';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '@weco/common/views/components/VenueClosedPeriods/VenueClosedPeriods';
 import Table from '@weco/common/views/components/Table/Table';
@@ -54,6 +53,7 @@ import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
+import VenueHours from '../VenueHours/VenueHours';
 
 const Map = dynamic(import('@weco/common/views/components/Map/Map'), {
   ssr: false,

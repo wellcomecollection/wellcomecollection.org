@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { createContext, FunctionComponent, ReactNode } from 'react';
+import { Query } from '@prismicio/types';
 import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext, {
   GlobalAlert,
@@ -10,11 +11,14 @@ import PopupDialogContext, {
 import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
 import { ApmContextProvider } from '../ApmContext/ApmContext';
-import { PrismicFragment } from '../../../services/prismic/types';
+import {
+  CollectionVenuePrismicDocument,
+  emptyPrismicQuery,
+} from '../../../services/prismic/types';
 
 export type GlobalContextData = {
   toggles: Toggles;
-  openingTimes: PrismicFragment;
+  openingTimes: Query<CollectionVenuePrismicDocument>;
   globalAlert: GlobalAlert | null;
   popupDialog: PopupDialog | null;
 };
@@ -26,7 +30,7 @@ type Props = {
 
 export const defaultValue = {
   toggles: {} as Toggles,
-  openingTimes: {},
+  openingTimes: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
   globalAlert: null,
   popupDialog: null,
 };
@@ -67,7 +71,8 @@ export function getGlobalContextData(
     toggles: context.query?.toggles as unknown as Toggles,
     globalAlert: context.query?.globalAlert as unknown as GlobalAlert,
     popupDialog: context.query?.popupDialog as unknown as PopupDialog,
-    openingTimes: context.query?.openingTimes as unknown as PrismicFragment,
+    openingTimes: context.query
+      ?.openingTimes as unknown as Query<CollectionVenuePrismicDocument>,
   };
 }
 

@@ -1,14 +1,16 @@
 import Prismic from '@prismicio/client';
+import { Query } from '@prismicio/types';
 import ResolvedApi from '@prismicio/client/types/ResolvedApi';
+import { emptyPrismicQuery } from '../services/prismic/types';
 import { Handler } from './';
 
 export const defaultValue = {
-  popupDialogue: null,
-  openingTimes: null,
+  popupDialogue: emptyPrismicQuery(),
+  openingTimes: emptyPrismicQuery(),
 } as const;
 
 type Key = keyof typeof defaultValue;
-export type PrismicData = Record<Key, unknown>;
+export type PrismicData = Record<Key, Query>;
 
 export const handler: Handler<PrismicData> = {
   defaultValue,
@@ -28,7 +30,7 @@ const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
   },
 };
 
-async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
+async function fetchPrismicValues(): Promise<Record<Key, Query>> {
   // We should probably make this generic somewhere.
   // The only place we have it is JS not TS, so leaving it ungenerified for now
   const api = await Prismic.getApi(

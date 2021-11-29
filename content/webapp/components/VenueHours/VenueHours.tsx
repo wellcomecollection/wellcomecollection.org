@@ -1,30 +1,22 @@
-// @flow
-import { type Weight } from '@weco/common/services/prismic/parsers';
-import { useContext, type ComponentType } from 'react';
-// $FlowFixMe (ts)
+import { Weight } from '@weco/common/services/prismic/parsers';
+import { useContext, ComponentType, Fragment } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
-// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
-// $FlowFixMe(tsx)
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { UiImage } from '@weco/common/views/components/Images/Images';
-// $FlowFixMe (tsx)
 import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
-  // $FlowFixMe (tsx)
-} from '../../../services/prismic/opening-times';
-// $FlowFixMe (tsx)
+} from '@weco/common/services/prismic/opening-times';
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
-// $FlowFixMe (tsx)
-import Space, { type SpaceComponentProps } from '../styled/Space';
+import Space, {
+  SpaceComponentProps,
+} from '@weco/common/views/components/styled/Space';
 
 const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
@@ -46,13 +38,19 @@ const VenueHoursTimes: ComponentType<SpaceComponentProps> = styled(Space)`
   `}
 `;
 
-const JauntyBox: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      'bg-yellow inline-block': true,
-    }),
-  })
-)`
+type JauntyBoxProps = {
+  topLeft: string;
+  topRight: string;
+  bottomLeft: string;
+  bottomRight: string;
+};
+const JauntyBox: ComponentType<SpaceComponentProps & JauntyBoxProps> = styled(
+  Space
+).attrs(() => ({
+  className: classNames({
+    'bg-yellow inline-block': true,
+  }),
+}))<JauntyBoxProps>`
   padding-left: 30px;
   padding-right: 42px;
   margin-left: -12px;
@@ -73,10 +71,10 @@ const JauntyBox: ComponentType<SpaceComponentProps> = styled(Space).attrs(
 
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
-type Props = {|
-  venue: any, // FIXME: Flow
-  weight: Weight,
-|};
+type Props = {
+  venue: any; // FIXME: Type this up
+  weight: Weight;
+};
 
 const VenueHours = ({ venue, weight }: Props) => {
   const openingTimes = useContext(OpeningTimesContext);
@@ -99,7 +97,7 @@ const VenueHours = ({ venue, weight }: Props) => {
               <Divider color={`pumice`} isKeyline={true} />
             </span>
           </Space>
-          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }} s>
+          <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
             {venue.image && venue.image?.url && (
               <UiImage
                 contentUrl={venue.image.url}
@@ -156,13 +154,12 @@ const VenueHours = ({ venue, weight }: Props) => {
             ? 'Unusual'
             : firstOverride && firstOverride.overrideType;
         return (
-          <>
+          <Fragment key={`JauntyBox-${i}`}>
             <JauntyBox
               v={{
                 size: 'l',
                 properties: ['padding-top', 'padding-bottom'],
               }}
-              key={i}
               topLeft={randomPx()}
               topRight={randomPx()}
               bottomRight={randomPx()}
@@ -187,23 +184,9 @@ const VenueHours = ({ venue, weight }: Props) => {
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
-              <ul
-                className={classNames({
-                  'plain-list no-padding no-margin': true,
-                  [font('hnr', 5)]: true,
-                })}
-              >
-                {upcomingExceptionalPeriod.map(p => (
-                  <li key={p.overrideDate.toString()}>
-                    {formatDay(p.overrideDate.toDate())}{' '}
-                    {formatDayMonth(p.overrideDate.toDate())}{' '}
-                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
-                  </li>
-                ))}
-              </ul>
             </JauntyBox>
             <br />
-          </>
+          </Fragment>
         );
       })}
       <Space
