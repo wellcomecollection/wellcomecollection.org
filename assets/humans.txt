@@ -56,7 +56,6 @@ Digital Preservation and Data:
  Jonathan Tweed
  Natalie Pollecutt
  James Gorrie
- Alice Fuzier-Cayla
  Alex Chan
  Harrison Pim
  Jamie Parkinson
@@ -88,6 +87,7 @@ Access:
  Tomi Lahdesmaki
  Chloe Guest
  Dave Thompson
+ Alice Fuzier-Cayla
 
 /* THANKS */
 
