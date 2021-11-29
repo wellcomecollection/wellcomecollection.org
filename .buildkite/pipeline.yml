@@ -307,6 +307,6 @@
     - wellcomecollection/github-deployments#v0.2.4:
         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
         environment: stage
-        ref: "refs/heads/${BUILDKITE_BRANCH}"
+        ref: "${BUILDKITE_COMMIT}"
   agents:
     queue: nano
