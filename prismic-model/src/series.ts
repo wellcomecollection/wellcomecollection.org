@@ -19,7 +19,7 @@ const articleSeries: CustomType = {
   json: {
     'Story series': {
       title: title,
-      color: select('Colour', ['teal', 'red', 'green', 'purple']),
+      color: select('Colour', ['green', 'purple', 'red', 'teal']),
       body,
     },
     Schedule: {

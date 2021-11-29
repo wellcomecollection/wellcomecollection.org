@@ -287,7 +287,7 @@ export const editorialSeries = [
         spans: [],
       },
     ],
-    color: 'turquoise',
+    color: 'teal',
     schedule: [
       {
         title: [{ type: 'heading1', text: 'First heading', spans: [] }],

@@ -1,12 +1,7 @@
-export type EditorialSeriesColour =
-  | 'teal'
-  | 'turquoise'
-  | 'red'
-  | 'green'
-  | 'purple';
+import { ColorSelection } from './color-selections';
 
 export type EditorialSeries = {
   name: string;
   description: string;
-  colour: EditorialSeriesColour;
+  colour: ColorSelection;
 };
