@@ -1,7 +1,7 @@
 import IIIFViewer from '@weco/catalogue/components/IIIFViewer/IIIFViewer';
 import { workFixture } from '@weco/common/test/fixtures/catalogueApi/work';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
-import manifest from '@weco/common/__mocks__/iiif-manifest';
+import manifest from '@weco/catalogue/__mocks__/iiif-manifest';
 import Router from 'next/router';
 
 const rejectedPromise = () => {

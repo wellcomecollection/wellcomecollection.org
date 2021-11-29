@@ -1,5 +1,5 @@
 import { getCanvases, groupStructures } from '../../utils/iiif';
-import manifest from '@weco/common/__mocks__/iiif-manifest';
+import manifest from '@weco/catalogue/__mocks__/iiif-manifest';
 
 const canvases = getCanvases(manifest);
 const structures = [
