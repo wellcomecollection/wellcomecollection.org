@@ -4,7 +4,16 @@ import { Picture } from './picture';
 import { ImageType } from './image';
 import { Label } from './labels';
 import { HTMLString } from '../services/prismic/types';
-import { BodyType } from '../views/components/Body/Body';
+import { Weight } from '../services/prismic/parsers';
+
+type BodySlice = {
+  type: string;
+  weight?: Weight;
+  // TODO: Sync up types with the body slices and the components they return
+  value: any;
+};
+
+export type BodyType = BodySlice[];
 
 // TODO: we need to get type in here to be able to union on these
 // i.e. search results

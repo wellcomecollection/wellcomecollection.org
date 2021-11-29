@@ -1,13 +1,13 @@
 import { FunctionComponent, ReactNode, useContext } from 'react';
 import { classNames, font, grid } from '@weco/common/utils/classnames';
-import Icon from '../Icon/Icon';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
-import FindUs from '../FindUs/FindUs';
-import SpacingSection from '../SpacingSection/SpacingSection';
-import SpacingComponent from '../SpacingComponent/SpacingComponent';
-import Space from '../styled/Space';
-import Layout12 from '../Layout12/Layout12';
-import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
+import FindUs from '@weco/common/views/components/FindUs/FindUs';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import Space from '@weco/common/views/components/styled/Space';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
 import { clock } from '@weco/common/icons';
 
 type ContainerProps = {

@@ -6,7 +6,6 @@ import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusI
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import Body from '@weco/common/views/components/Body/Body';
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -17,6 +16,7 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import Body from '../Body/Body';
 
 type Props = {
   installation: UiExhibition;

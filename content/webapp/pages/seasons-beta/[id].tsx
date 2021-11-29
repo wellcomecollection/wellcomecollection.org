@@ -5,7 +5,6 @@ import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import SeasonsHeader from '../../components/SeasonsHeader/SeasonsHeader';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import Body from '@weco/common/views/components/Body/Body';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -33,6 +32,7 @@ import {
 import { getImageUrlAtSize } from '../../services/prismic/images';
 import PrismicImage from 'components/PrismicImage/PrismicImage';
 import CardGrid from '../../components/CardGrid/CardGrid';
+import Body from '../../components/Body/Body';
 
 type Props = {
   season: SeasonPrismicDocument;

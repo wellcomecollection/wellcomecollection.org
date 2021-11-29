@@ -1,4 +1,3 @@
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -6,6 +5,7 @@ import { ArticleSeries } from '@weco/common/model/article-series';
 import { Article } from '@weco/common/model/articles';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
+import SearchResults from '../SearchResults/SearchResults';
 
 type Props = {
   series: ArticleSeries;
@@ -20,7 +20,7 @@ const SeriesNavigation = ({ series, items }: Props) => {
         <SearchResults
           key={series.id}
           title={`Read more from ${series.title}`}
-          summary={series.promoText}
+          summary={series.promoText ?? undefined}
           items={items}
           showPosition={showPosition}
         />

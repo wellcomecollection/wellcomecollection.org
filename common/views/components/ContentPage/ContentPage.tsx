@@ -1,9 +1,14 @@
+/**
+ * The reason this page lives in the common library is that the common
+ * `ErrorPage` component depends on it.
+ */
 import {
   Children,
   Fragment,
   createContext,
   ReactNode,
   ComponentProps,
+  ReactElement,
 } from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
@@ -22,21 +27,19 @@ import {
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
 import BannerCard from '../BannerCard/BannerCard';
-import Body from '../Body/Body';
 import { Season } from '../../../model/seasons';
 import { ElementFromComponent } from '../../../utils/utility-types';
 import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
 import styled from 'styled-components';
 import { MultiContent } from '../../../model/multi-content';
-/*eslint-disable */
+
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
-// TODO: use Element<typeof Component>
 type Props = {
   id: string;
   isCreamy?: boolean;
   Header: ElementFromComponent<typeof PageHeader>;
-  Body: ElementFromComponent<typeof Body>;
+  Body?: ReactElement<{ body: { type: string }[] }>;
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
   contributorProps?: ComponentProps<typeof Contributors>;
@@ -101,6 +104,8 @@ const ContentPage = ({
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
   function shouldRenderBody() {
+    if (!Body) return false;
+
     if (
       Body.props.body.length === 1 &&
       Body.props.body[0].type === 'standfirst'
@@ -136,7 +141,7 @@ const ContentPage = ({
 
           {children && (
             <SpacingSection>
-              {Children.map(children, (child, i) => (
+              {Children.map(children, child => (
                 <Fragment>
                   {child && (
                     <SpacingComponent>
@@ -158,7 +163,7 @@ const ContentPage = ({
 
           {RelatedContent.length > 0 && (
             <SpacingSection>
-              {Children.map(RelatedContent, (child, i) => (
+              {Children.map(RelatedContent, child => (
                 <Fragment>{child}</Fragment>
               ))}
             </SpacingSection>
