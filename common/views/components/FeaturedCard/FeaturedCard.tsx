@@ -1,46 +1,38 @@
-// @flow
-import { type Node } from 'react';
-import { type UiImageProps, UiImage } from '../../components/Images/Images';
-import type { UiExhibition } from '../../../../common/model/exhibitions';
-import type { UiEvent } from '../../../../common/model/events';
-import type { Article } from '../../../../common/model/articles';
-import type { Season } from '../../../../common/model/seasons';
-// $FlowFixMe (ts)
-import type { Card } from '../../../../common/model/card';
-import { type Label } from '../../../../common/model/labels';
-import { type Link } from '../../../../common/model/link';
-// $FlowFixMe(tsx)
-import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
-// $FlowFixMe (ts)
-import { grid, classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
-import LabelsList from '../LabelsList/LabelsList';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
-import { formatDate } from '../../../../common/utils/format-date';
+import { UiImageProps, UiImage } from '../../components/Images/Images';
+import { UiExhibition } from '../../../../common/model/exhibitions';
+import { UiEvent } from '../../../../common/model/events';
 import {
+  Article,
   getPositionInSeries,
   getArticleColor,
 } from '../../../../common/model/articles';
+import { Season } from '../../../../common/model/seasons';
+import { Card } from '../../../../common/model/card';
+import { Label } from '../../../../common/model/labels';
+import { Link } from '../../../../common/model/link';
+import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
+import { grid, classNames, font } from '../../../utils/classnames';
+import Space from '../styled/Space';
+import LabelsList from '../LabelsList/LabelsList';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
+import { formatDate } from '../../../../common/utils/format-date';
 import { trackEvent } from '../../../utils/ga';
 import linkResolver from '../../../../common/services/prismic/link-resolver';
 
-type PartialFeaturedCard = {|
-  id: string,
-  image: ?UiImageProps,
-  labels: Label[],
-  link: Link,
-|};
+type PartialFeaturedCard = {
+  id: string;
+  image?: UiImageProps;
+  labels: Label[];
+  link: Link;
+};
 
-type Props = {|
-  ...PartialFeaturedCard,
-  children: Node,
-  background: string,
-  color: string,
-  isReversed?: boolean,
-|};
+type Props = PartialFeaturedCard & {
+  background: string;
+  color: string;
+  isReversed?: boolean;
+};
 
 export function convertCardToFeaturedCardProps(
   item: Card
@@ -82,90 +74,64 @@ export function convertItemToFeaturedCardProps(
   };
 }
 
-type FeaturedCardArticleProps = {|
-  article: Article,
-  background: string,
-  color: string,
-|};
+type FeaturedCardArticleProps = {
+  article: Article;
+  background: string;
+  color: string;
+};
 
-type FeaturedCardArticleBodyProps = {|
-  article: Article,
-|};
-
-export const FeaturedCardArticle = ({
-  article,
-  background,
-  color,
-}: FeaturedCardArticleProps) => {
-  const props = convertItemToFeaturedCardProps(article);
-
-  return (
-    <FeaturedCard {...props} background={background} color={color}>
-      <FeaturedCardArticleBody article={article} />
-    </FeaturedCard>
-  );
+type FeaturedCardArticleBodyProps = {
+  article: Article;
 };
 
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
-const FeaturedCardArticleBody = ({ article }: FeaturedCardArticleBodyProps) => {
-  const positionInSeries = getPositionInSeries(article);
-  const seriesColor = getArticleColor(article);
-  return (
-    <>
-      {positionInSeries && (
-        <PartNumberIndicator number={positionInSeries} color={seriesColor} />
-      )}
-      <h2
-        className={classNames({
-          [font('wb', 2)]: true,
-        })}
-      >
-        {article.title}
-      </h2>
-      {article.promoText && (
-        <p
+const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
+  ({ article }) => {
+    const positionInSeries = getPositionInSeries(article);
+    const seriesColor = getArticleColor(article);
+    return (
+      <>
+        {positionInSeries && (
+          <PartNumberIndicator number={positionInSeries} color={seriesColor} />
+        )}
+        <h2
           className={classNames({
-            [font('hnr', 5)]: true,
+            [font('wb', 2)]: true,
           })}
         >
-          {article.promoText}
-        </p>
-      )}
-      {article.series.length > 0 && (
-        <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          {article.series.map(series => (
-            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span> {series.title}
-            </p>
-          ))}
-        </Space>
-      )}
-    </>
-  );
+          {article.title}
+        </h2>
+        {article.promoText && (
+          <p
+            className={classNames({
+              [font('hnr', 5)]: true,
+            })}
+          >
+            {article.promoText}
+          </p>
+        )}
+        {article.series.length > 0 && (
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            {article.series.map(series => (
+              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
+                <span className={font('hnr', 6)}>Part of</span> {series.title}
+              </p>
+            ))}
+          </Space>
+        )}
+      </>
+    );
+  };
+
+type FeaturedCardExhibitionProps = {
+  exhibition: UiExhibition;
+  background: string;
+  color: string;
 };
 
-type FeaturedCardExhibitionProps = {|
-  exhibition: UiExhibition,
-  background: string,
-  color: string,
-|};
-
-export const FeaturedCardExhibition = ({
-  exhibition,
-  background,
-  color,
-}: FeaturedCardExhibitionProps) => {
-  const props = convertItemToFeaturedCardProps(exhibition);
-
-  return (
-    <FeaturedCard {...props} background={background} color={color}>
-      <FeaturedCardExhibitionBody exhibition={exhibition} />
-    </FeaturedCard>
-  );
+type FeaturedCardExhibitionBodyProps = {
+  exhibition: UiExhibition;
 };
-type FeaturedCardExhibitionBodyProps = {|
-  exhibition: UiExhibition,
-|};
 
 const FeaturedCardExhibitionBody = ({
   exhibition,
@@ -186,11 +152,13 @@ const FeaturedCardExhibitionBody = ({
           className={`${font('hnr', 4)} no-margin no-padding`}
         >
           <>
-            <time dateTime={exhibition.start}>
+            <time dateTime={exhibition.start.toUTCString()}>
               {formatDate(exhibition.start)}
             </time>
-            —{/* $FlowFixMe */}
-            <time dateTime={exhibition.end}>{formatDate(exhibition.end)}</time>
+            —
+            <time dateTime={exhibition.end.toISOString()}>
+              {formatDate(exhibition.end)}
+            </time>
           </>
         </Space>
       )}
@@ -213,11 +181,12 @@ const FeaturedCardWrap = styled.div`
   `}
 `;
 
-const FeaturedCardLink = styled.a.attrs(props => ({
+type HasIsReversed = { isReversed: boolean };
+const FeaturedCardLink = styled.a.attrs(() => ({
   className: classNames({
     'grid flex-end promo-link plain-link': true,
   }),
-}))`
+}))<HasIsReversed>`
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
 
@@ -231,7 +200,7 @@ const FeaturedCardRight = styled.div.attrs({
   className: classNames({
     'flex flex--column': true,
   }),
-})`
+})<HasIsReversed>`
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
     props.isReversed ? props.theme.gutter.small : 0}px;
@@ -252,7 +221,7 @@ const FeaturedCardRight = styled.div.attrs({
   `}
 `;
 
-const FeaturedCardCopy = styled(Space).attrs(props => ({
+const FeaturedCardCopy = styled(Space).attrs(() => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
@@ -264,13 +233,13 @@ const FeaturedCardCopy = styled(Space).attrs(props => ({
   `}
 `;
 
-const FeaturedCardShim = styled.div.attrs(props => ({
+const FeaturedCardShim = styled.div.attrs<{ background: string }>(props => ({
   className: classNames({
     [`bg-${props.background}`]: true,
     'is-hidden-s is-hidden-m relative': true,
     [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
   }),
-}))`
+}))<HasIsReversed & { background: string }>`
   height: 21px;
   /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;
@@ -278,7 +247,7 @@ const FeaturedCardShim = styled.div.attrs(props => ({
     props.isReversed ? props.theme.gutter.large + 'px' : null};
 `;
 
-const FeaturedCard = ({
+const FeaturedCard: FunctionComponent<Props> = ({
   id,
   image,
   labels,
@@ -286,8 +255,8 @@ const FeaturedCard = ({
   link,
   color,
   background,
-  isReversed,
-}: Props) => {
+  isReversed = false,
+}) => {
   return (
     <FeaturedCardWrap>
       <FeaturedCardLink
@@ -333,5 +302,30 @@ const FeaturedCard = ({
     </FeaturedCardWrap>
   );
 };
+
+export const FeaturedCardArticle = ({
+  article,
+  background,
+  color,
+}: FeaturedCardArticleProps) => {
+  const props = convertItemToFeaturedCardProps(article);
+
+  return (
+    <FeaturedCard {...props} background={background} color={color}>
+      <FeaturedCardArticleBody article={article} />
+    </FeaturedCard>
+  );
+};
+
+export const FeaturedCardExhibition: FunctionComponent<FeaturedCardExhibitionProps> =
+  ({ exhibition, background, color }) => {
+    const props = convertItemToFeaturedCardProps(exhibition);
+
+    return (
+      <FeaturedCard {...props} background={background} color={color}>
+        <FeaturedCardExhibitionBody exhibition={exhibition} />
+      </FeaturedCard>
+    );
+  };
 
 export default FeaturedCard;
