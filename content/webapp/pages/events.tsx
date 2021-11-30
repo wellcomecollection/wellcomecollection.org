@@ -15,10 +15,6 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -28,7 +24,7 @@ type Props = {
   displayTitle: string;
   events: PaginatedResults<UiEvent>;
   period?: Period;
-} & WithGlobalContextData;
+};
 
 const pageDescription =
   'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
@@ -36,7 +32,6 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const {
       page = 1,
       memoizedPrismic,
@@ -65,7 +60,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           title,
           period,
           displayTitle: title,
-          globalContextData,
           serverData,
         }),
       };
@@ -75,7 +69,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventsPage: FC<Props> = props => {
-  const { globalContextData, events, displayTitle, period } = props;
+  const { events, displayTitle, period } = props;
   const convertedEvents = events.results.map(convertJsonToDates);
   const convertedPaginatedResults = {
     ...events,
@@ -101,7 +95,6 @@ const EventsPage: FC<Props> = props => {
       imageAltText={
         (firstEvent && firstEvent.image && firstEvent.image.alt) ?? undefined
       }
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults

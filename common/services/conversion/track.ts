@@ -64,7 +64,7 @@ function resetSessionId(): string {
 function removeCacheValuesFromUrlQuery(query: ParsedUrlQuery) {
   // We remove these as they're added through the koa middleware
   // And we really don't want them.
-  const { globalAlert, memoizedPrismic, toggles, ...restOfQuery } = query;
+  const { memoizedPrismic, ...restOfQuery } = query;
 
   return restOfQuery;
 }

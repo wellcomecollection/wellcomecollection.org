@@ -35,10 +35,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import { GetServerSideProps, NextPage } from 'next';
 import styled from 'styled-components';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { WithGaDimensions } from '@weco/common/views/pages/_app';
 import {
   audioDescribed,
@@ -71,8 +67,7 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: UiEvent;
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
@@ -171,10 +166,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({
-  jsonEvent,
-  globalContextData,
-}: Props) => {
+const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<UiEvent>();
   const getScheduledIn = async () => {
     const scheduledIn = await getEvents(null, {
@@ -321,7 +313,6 @@ const EventPage: NextPage<Props> = ({
       siteSection={'whats-on'}
       imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
       imageAltText={event?.image?.alt}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={event.id}
@@ -531,7 +522,6 @@ const EventPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const serverData = await getServerData(context);
-  const globalContextData = getGlobalContextData(context);
   const { id, memoizedPrismic } = context.query;
   const event = await getEvent(context.req, { id }, memoizedPrismic);
 
@@ -547,7 +537,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   return {
     props: removeUndefinedProps({
       jsonEvent: JSON.parse(JSON.stringify(event)),
-      globalContextData,
       serverData,
       gaDimensions: {
         partOf: event.seasons

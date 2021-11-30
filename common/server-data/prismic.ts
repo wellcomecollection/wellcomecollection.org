@@ -6,16 +6,20 @@ import {
   PopupDialogPrismicDocument,
   emptyPopupDialog,
   emptyPrismicQuery,
+  GlobalAlertPrismicDocument,
+  emptyGlobalAlert,
 } from '../services/prismic/documents';
 import { Handler } from './';
 
 export const defaultValue = {
+  globalAlert: emptyGlobalAlert(),
   popupDialog: emptyPopupDialog(),
   collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
 } as const;
 
 type Key = keyof typeof defaultValue;
 export type PrismicData = {
+  globalAlert: GlobalAlertPrismicDocument;
   popupDialog: PopupDialogPrismicDocument;
   collectionVenues: Query<CollectionVenuePrismicDocument>;
 };
@@ -26,9 +30,14 @@ export const handler: Handler<PrismicData> = {
 };
 
 const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
+  globalAlert: async api => {
+    const document = await api.getSingle('global-alert');
+    return document;
+  },
+
   popupDialog: async api => {
     const document = await api.getSingle('popup-dialog');
-    return document.data;
+    return document;
   },
 
   collectionVenues: async api => {

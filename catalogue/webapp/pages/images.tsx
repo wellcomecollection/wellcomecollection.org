@@ -1,5 +1,11 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement, useContext } from 'react';
+import { GetServerSideProps } from 'next';
+import {
+  useEffect,
+  useState,
+  ReactElement,
+  useContext,
+  FunctionComponent,
+} from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -13,10 +19,6 @@ import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults
 import { getImages } from '../services/catalogue/images';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
 import {
@@ -36,8 +38,7 @@ import { getServerData } from '@weco/common/server-data';
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
-} & WithGlobalContextData &
-  WithPageview;
+} & WithPageview;
 
 type ImagesPaginationProps = {
   query?: string;
@@ -84,11 +85,10 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images: NextPage<Props> = ({
+const Images: FunctionComponent<Props> = ({
   images,
   imagesRouteProps,
-  globalContextData,
-}: Props): ReactElement<Props> => {
+}): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
@@ -154,7 +154,6 @@ const Images: NextPage<Props> = ({
         siteSection={'collections'}
         imageUrl={undefined}
         imageAltText={undefined}
-        globalContextData={globalContextData}
       >
         <Space
           v={{
@@ -256,7 +255,6 @@ const Images: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const params = fromQuery(context.query);
     const aggregations = [
       'locations.license',
@@ -280,7 +278,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       props: removeUndefinedProps({
         images,
         imagesRouteProps: params,
-        globalContextData,
         pageview: {
           name: 'images',
           properties: images

@@ -7,10 +7,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { Place } from '@weco/common/model/places';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
@@ -18,12 +14,11 @@ import Body from '../components/Body/Body';
 
 type Props = {
   place: Place;
-} & WithGlobalContextData;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const place = await getPlace(context.req, id, memoizedPrismic);
 
@@ -31,7 +26,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           place,
-          globalContextData,
           serverData,
         }),
       };
@@ -40,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const PlacePage: FC<Props> = ({ place, globalContextData }) => {
+const PlacePage: FC<Props> = ({ place }) => {
   const breadcrumbs = {
     items: [
       {
@@ -75,7 +69,6 @@ const PlacePage: FC<Props> = ({ place, globalContextData }) => {
       siteSection={'visit-us'}
       imageUrl={place.image && convertImageUri(place.image.contentUrl, 800)}
       imageAltText={(place.image && place.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={place.id}

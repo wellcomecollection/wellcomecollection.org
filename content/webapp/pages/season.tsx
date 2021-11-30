@@ -13,15 +13,11 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { convertJsonToDates } from './event';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 
-type Props = SeasonWithContent & WithGlobalContextData;
+type Props = SeasonWithContent;
 const SeasonPage = ({
   season,
   articles,
@@ -31,7 +27,6 @@ const SeasonPage = ({
   pages,
   articleSeries,
   projects,
-  globalContextData,
 }: Props): ReactElement<Props> => {
   const Header = (
     <SeasonsHeader
@@ -74,7 +69,6 @@ const SeasonPage = ({
       openGraphType={'website'}
       imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
       imageAltText={season?.image?.alt}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={season.id}
@@ -96,7 +90,6 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const seasonWithContent = await getSeasonWithContent({
       request: context.req,
@@ -108,7 +101,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           ...seasonWithContent,
-          globalContextData,
           serverData,
         }),
       };

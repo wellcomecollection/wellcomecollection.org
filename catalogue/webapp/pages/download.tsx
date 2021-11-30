@@ -20,30 +20,25 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
-import {
-  GlobalContextData,
-  getGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { GetServerSideProps, NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
+import { FunctionComponent } from 'react';
 
 type Props = {
   workId: string;
   sierraId: string;
   manifest?: IIIFManifest;
   work?: Work;
-  globalContextData: GlobalContextData;
 };
 
-const DownloadPage: NextPage<Props> = ({
+const DownloadPage: FunctionComponent<Props> = ({
   workId,
   sierraId,
   manifest,
   work,
-  globalContextData,
-}: Props) => {
+}) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation = work
     ? getDigitalLocationOfType(work, 'iiif-image')
@@ -96,7 +91,6 @@ const DownloadPage: NextPage<Props> = ({
       imageUrl={undefined}
       imageAltText={''}
       hideNewsletterPromo={true}
-      globalContextData={globalContextData}
     >
       <Layout8>
         <SpacingSection>
@@ -165,7 +159,6 @@ const DownloadPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { workId, sierraId } = context.query;
 
     if (typeof workId !== 'string' || typeof sierraId !== 'string') {
@@ -201,7 +194,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         sierraId,
         manifest,
         work,
-        globalContextData,
       }),
     };
   };

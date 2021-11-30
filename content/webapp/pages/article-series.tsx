@@ -13,10 +13,6 @@ import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -26,13 +22,11 @@ import SearchResults from '../components/SearchResults/SearchResults';
 type Props = {
   series: ArticleSeries;
   articles: Article[];
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const seriesAndArticles = await getArticleSeries(
       context.req,
@@ -50,7 +44,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           series,
           articles,
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: series.seasons.map<string>(season => season.id),
@@ -63,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ArticleSeriesPage: FC<Props> = props => {
-  const { globalContextData, series, articles } = props;
+  const { series, articles } = props;
   const breadcrumbs = {
     items: [
       {
@@ -128,7 +121,6 @@ const ArticleSeriesPage: FC<Props> = props => {
       openGraphType={'website'}
       imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
       imageAltText={(series.image && series.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={series.id}

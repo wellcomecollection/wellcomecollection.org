@@ -49,7 +49,6 @@ import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedTex
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
@@ -87,7 +86,6 @@ type Props = {
   tryTheseTooPromos: any[];
   eatShopPromos: any[];
   featuredText: FeaturedTextType;
-  globalContextData: any;
 };
 
 function getListHeader(openingTimes: any) {
@@ -348,7 +346,6 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const globalContextData = getGlobalContextData(context);
     const serverData = await getServerData(context);
 
     const period = context.query.period
@@ -417,7 +414,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           cafePromo,
           dailyTourPromo,
           featuredText,
-          globalContextData,
           serverData,
         }),
       };
@@ -427,14 +423,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage = (props: Props) => {
-  const {
-    globalContextData,
-    period,
-    dateRange,
-    tryTheseTooPromos,
-    eatShopPromos,
-    featuredText,
-  } = props;
+  const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
+    props;
 
   const events = props.events.results.map(convertJsonToDates);
 
@@ -483,7 +473,6 @@ const WhatsOnPage = (props: Props) => {
           firstExhibition.image.alt) ??
         undefined
       }
-      globalContextData={globalContextData}
     >
       <Fragment>
         <Header

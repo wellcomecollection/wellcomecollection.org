@@ -48,6 +48,12 @@ export type CollectionVenuePrismicDocument = PrismicDocument<{
   }>;
 }>;
 
+export type GlobalAlertPrismicDocument = PrismicDocument<{
+  text: RichTextField;
+  isShown: SelectField<'hide' | 'show'>;
+  routeRegex: KeyTextField;
+}>;
+
 export type PopupDialogPrismicDocument = PrismicDocument<{
   openButtonText: KeyTextField;
   title: KeyTextField;
@@ -88,6 +94,14 @@ export function emptyDocument<T extends PrismicDocument>(
     alternate_languages: [],
     data,
   };
+}
+
+export function emptyGlobalAlert(): GlobalAlertPrismicDocument {
+  return emptyDocument<GlobalAlertPrismicDocument>({
+    isShown: null,
+    routeRegex: null,
+    text: [],
+  });
 }
 
 export function emptyPopupDialog(): PopupDialogPrismicDocument {

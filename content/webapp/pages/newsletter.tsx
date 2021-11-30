@@ -4,10 +4,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -15,24 +11,22 @@ import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   result?: string;
-} & WithGlobalContextData;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { result } = context.query;
 
     return {
       props: removeUndefinedProps({
         result: result ? result.toString() : undefined,
-        globalContextData,
         serverData,
       }),
     };
   };
 
-const Newsletter: FC<Props> = ({ result, globalContextData }) => {
+const Newsletter: FC<Props> = ({ result }) => {
   return (
     <PageLayout
       title={'Sign up to our newsletter'}
@@ -46,7 +40,6 @@ const Newsletter: FC<Props> = ({ result, globalContextData }) => {
         'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg'
       }
       imageAltText={''}
-      globalContextData={globalContextData}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
