@@ -1,7 +1,7 @@
-import { Weight } from '@weco/common/services/prismic/parsers';
 import { ComponentType, Fragment } from 'react';
-import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import { Weight } from '@weco/common/services/prismic/parsers';
+import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -18,6 +18,7 @@ import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 
 const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
@@ -186,6 +187,20 @@ const VenueHours = ({ venue, weight }: Props) => {
                   <span>{overrideType} hours</span>
                 </div>
               </h3>
+              <ul
+                className={classNames({
+                  'plain-list no-padding no-margin': true,
+                  [font('hnr', 5)]: true,
+                })}
+              >
+                {upcomingExceptionalPeriod.map(p => (
+                  <li key={p.overrideDate?.toString()}>
+                    {formatDay(p.overrideDate?.toDate())}{' '}
+                    {formatDayMonth(p.overrideDate?.toDate())}{' '}
+                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
+                  </li>
+                ))}
+              </ul>
             </JauntyBox>
             <br />
           </Fragment>
