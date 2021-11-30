@@ -30,7 +30,6 @@ import GlobalInfoBarContext, {
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
-import { PrismicFragment } from '../../../services/prismic/types';
 
 export type SiteSection =
   | 'collections'
@@ -317,9 +316,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 };
 
 export type Props = {
-  globalContextData: GlobalContextData & {
-    openingTimes: PrismicFragment;
-  };
+  globalContextData: GlobalContextData;
 } & ComponentProps;
 
 const PageLayout: FunctionComponent<Props> = ({

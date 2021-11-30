@@ -1,3 +1,4 @@
+import { emptyPrismicQuery } from '../../services/prismic/types';
 import { ServerData } from '../types';
 
 export async function init() {
@@ -12,8 +13,8 @@ export async function getServerData(): Promise<ServerData> {
   return {
     toggles: {},
     prismic: {
-      openingTimes: null,
-      popupDialogue: null,
+      openingTimes: emptyPrismicQuery(),
+      popupDialogue: emptyPrismicQuery(),
     },
   };
 }
