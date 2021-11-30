@@ -1,4 +1,6 @@
 import {
+  CollectionVenuePrismicDocument,
+  emptyGlobalAlert,
   emptyPopupDialog,
   emptyPrismicQuery,
 } from '../../services/prismic/documents';
@@ -16,8 +18,9 @@ export async function getServerData(): Promise<ServerData> {
   return {
     toggles: {},
     prismic: {
-      collectionVenues: emptyPrismicQuery(),
+      globalAlert: emptyGlobalAlert(),
       popupDialog: emptyPopupDialog(),
+      collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
     },
   };
 }
