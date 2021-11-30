@@ -1,6 +1,7 @@
 // @flow
 import moment from 'moment';
 import Prismic from '@prismicio/client';
+// $FlowFixMe
 import { london } from '../../utils/format-date';
 import { getNextWeekendDateRange } from '../../utils/dates';
 import type { Period } from '../../model/periods';
@@ -42,10 +43,7 @@ export function getPeriodPredicates(
       ? [
           Predicates.dateBefore(
             startField,
-            now
-              .add(6, 'days')
-              .endOf('day')
-              .toDate()
+            now.add(6, 'days').endOf('day').toDate()
           ),
           Predicates.dateAfter(endField, startOfDay.toDate()),
         ]

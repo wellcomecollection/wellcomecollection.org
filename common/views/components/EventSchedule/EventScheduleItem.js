@@ -12,6 +12,7 @@ import {
   formatDayDate,
   isTimePast,
   isDatePast,
+  // $FlowFixMe
 } from '../../../utils/format-date';
 import type { UiEvent } from '../../../model/events';
 // $FlowFixMe (tsx)

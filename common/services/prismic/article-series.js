@@ -1,5 +1,6 @@
 // @flow
 import Prismic from '@prismicio/client';
+// $FlowFixMe
 import { london } from '../../utils/format-date';
 import { getDocument, getDocuments } from './api';
 import { getArticles } from './articles';
@@ -168,9 +169,8 @@ export async function getMultipleArticleSeries(
     memoizedPrismic
   );
 
-  const articleSeries: ArticleSeries[] = paginatedResults.results.map(
-    parseArticleSeries
-  );
+  const articleSeries: ArticleSeries[] =
+    paginatedResults.results.map(parseArticleSeries);
 
   return {
     currentPage: paginatedResults.currentPage,
