@@ -457,7 +457,7 @@ const WhatsOnPage = (props: Props) => {
     : `What's on`;
 
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.openingTimes);
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
 
   return (
     <PageLayout

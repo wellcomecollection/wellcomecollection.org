@@ -112,7 +112,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   const globalAlert = useContext(GlobalAlertContext);
   const popupDialog = useContext(PopupDialogContext);
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.openingTimes);
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
   const galleries =
     openingTimes &&
     getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);

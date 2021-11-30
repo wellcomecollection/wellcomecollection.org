@@ -13,7 +13,7 @@ export async function getServerData(): Promise<ServerData> {
   return {
     toggles: {},
     prismic: {
-      openingTimes: emptyPrismicQuery(),
+      collectionVenues: emptyPrismicQuery(),
       popupDialogue: emptyPrismicQuery(),
     },
   };

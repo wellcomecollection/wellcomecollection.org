@@ -7,13 +7,13 @@ import { emptyPrismicQuery } from '../services/prismic/query';
 
 export const defaultValue = {
   popupDialogue: emptyPrismicQuery(),
-  openingTimes: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
+  collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
 } as const;
 
 type Key = keyof typeof defaultValue;
 export type PrismicData = {
   popupDialogue: Query;
-  openingTimes: Query<CollectionVenuePrismicDocument>;
+  collectionVenues: Query<CollectionVenuePrismicDocument>;
 };
 
 export const handler: Handler<PrismicData> = {
@@ -27,7 +27,7 @@ const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
     return document.data;
   },
 
-  openingTimes: async api => {
+  collectionVenues: async api => {
     return api.query([
       Prismic.Predicates.any('document.type', ['collection-venue']),
     ]);

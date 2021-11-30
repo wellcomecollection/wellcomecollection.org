@@ -19,7 +19,7 @@ type Props = {
 
 const VenueClosedPeriods = ({ venue }: Props) => {
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.openingTimes);
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),
