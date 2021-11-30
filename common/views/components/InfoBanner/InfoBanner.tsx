@@ -6,7 +6,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
-import { GlobalAlertPrismicDocument } from 'services/prismic/documents';
+import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
 
 type Props = {
   cookieName?: string;

@@ -96,11 +96,14 @@ export function emptyDocument<T extends PrismicDocument>(
   };
 }
 
-export function emptyGlobalAlert(): GlobalAlertPrismicDocument {
+export function emptyGlobalAlert(
+  overrides: Partial<GlobalAlertPrismicDocument['data']> = {}
+): GlobalAlertPrismicDocument {
   return emptyDocument<GlobalAlertPrismicDocument>({
     isShown: null,
     routeRegex: null,
     text: [],
+    ...overrides,
   });
 }
 

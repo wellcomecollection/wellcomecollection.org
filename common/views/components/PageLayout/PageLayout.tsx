@@ -34,7 +34,7 @@ export type SiteSection =
   | 'whats-on'
   | 'identity';
 
-type Props = {
+export type Props = {
   title: string;
   description: string;
   url: Url;
