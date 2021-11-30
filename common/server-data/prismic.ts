@@ -1,18 +1,21 @@
 import Prismic from '@prismicio/client';
 import { Query } from '@prismicio/types';
 import ResolvedApi from '@prismicio/client/types/ResolvedApi';
-import { CollectionVenuePrismicDocument } from '../services/prismic/types';
+import {
+  CollectionVenuePrismicDocument,
+  PopupDialogPrismicDocument,
+} from '../services/prismic/types';
 import { Handler } from './';
-import { emptyPrismicQuery } from '../services/prismic/query';
+import { emptyPopupDialog, emptyPrismicQuery } from '../services/prismic/query';
 
 export const defaultValue = {
-  popupDialogue: emptyPrismicQuery(),
+  popupDialog: emptyPopupDialog(),
   collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
 } as const;
 
 type Key = keyof typeof defaultValue;
 export type PrismicData = {
-  popupDialogue: Query;
+  popupDialog: PopupDialogPrismicDocument;
   collectionVenues: Query<CollectionVenuePrismicDocument>;
 };
 
@@ -22,7 +25,7 @@ export const handler: Handler<PrismicData> = {
 };
 
 const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
-  popupDialogue: async api => {
+  popupDialog: async api => {
     const document = await api.getSingle('popup-dialog');
     return document.data;
   },

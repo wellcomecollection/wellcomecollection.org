@@ -9,7 +9,6 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
-import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
@@ -110,9 +109,8 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const globalAlert = useContext(GlobalAlertContext);
-  const popupDialog = useContext(PopupDialogContext);
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const { popupDialog, collectionVenues } = usePrismicData();
+  const openingTimes = parseCollectionVenues(collectionVenues);
   const galleries =
     openingTimes &&
     getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);
@@ -286,7 +284,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
               }}
             />
           )}
-        {popupDialog && popupDialog.isShown && <PopupDialog {...popupDialog} />}
+        {popupDialog.data.isShown && <PopupDialog document={popupDialog} />}
         <div
           id="main"
           className="main"

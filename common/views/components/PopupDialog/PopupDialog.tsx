@@ -14,7 +14,7 @@ import { classNames, font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
-import { HTMLString, PrismicLink } from '../../../services/prismic/types';
+import { PopupDialogPrismicDocument } from '../../../services/prismic/types';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 import { chat, clear } from '@weco/common/icons';
@@ -160,20 +160,11 @@ const PopupDialogCTA = styled(Space).attrs({
 `;
 
 type Props = {
-  openButtonText: string;
-  title: string;
-  text: HTMLString;
-  linkText: string;
-  link: PrismicLink;
+  document: PopupDialogPrismicDocument;
 };
 
-const PopupDialog: FunctionComponent<Props> = ({
-  openButtonText,
-  title,
-  text,
-  linkText,
-  link,
-}: Props) => {
+const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
+  const { link, linkText, openButtonText, text, title } = document.data;
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);

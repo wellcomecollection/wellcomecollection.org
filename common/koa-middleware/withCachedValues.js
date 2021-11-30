@@ -1,29 +1,24 @@
 const { parse } = require('url'); // eslint-disable-line node/no-deprecated-api
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
-const withPopupDialog = require('./withPopupDialog');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
 
 const withCachedValues = compose([
   withMemoizedPrismic,
   withGlobalAlert,
-  withPopupDialog,
   withPrismicPreviewStatus,
 ]);
 
 async function route(path, page, router, app, extraParams = {}) {
   router.get(path, async ctx => {
-    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
-      ctx;
+    const { toggles, globalAlert, memoizedPrismic } = ctx;
     const params = ctx.params;
     const query = ctx.query;
 
     await app.render(ctx.req, ctx.res, page, {
       toggles,
       globalAlert,
-      popupDialog,
-      openingTimes,
       memoizedPrismic,
       ...params,
       ...query,
@@ -36,15 +31,12 @@ async function route(path, page, router, app, extraParams = {}) {
 function handleAllRoute(handle) {
   return async function (ctx, extraCtxParams = {}) {
     const parsedUrl = parse(ctx.request.url, true);
-    const { toggles, globalAlert, popupDialog, openingTimes, memoizedPrismic } =
-      ctx;
+    const { toggles, globalAlert, memoizedPrismic } = ctx;
     const query = {
       ...parsedUrl.query,
       ...extraCtxParams,
       toggles,
       globalAlert,
-      popupDialog,
-      openingTimes,
       memoizedPrismic,
     };
     const url = {

@@ -15,8 +15,6 @@ export default function IdentityApp(props: WecoAppProps) {
       globalContextData={{
         toggles: { enableRequestion: true },
         globalAlert: null,
-        popupDialog: null,
-        openingTimes: null,
       }}
     />
   );

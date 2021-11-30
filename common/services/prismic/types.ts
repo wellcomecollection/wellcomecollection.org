@@ -9,6 +9,7 @@ import {
   SelectField,
   KeyTextField,
   ImageField,
+  BooleanField,
 } from '@prismicio/types';
 
 export type PrismicDocument = {
@@ -133,4 +134,13 @@ export type CollectionVenuePrismicDocument = PrismicDoc<{
     startDateTime: TimestampField;
     endDateTime: TimestampField;
   }>;
+}>;
+
+export type PopupDialogPrismicDocument = PrismicDoc<{
+  openButtonText: KeyTextField;
+  title: KeyTextField;
+  text: RichTextField;
+  linkText: KeyTextField;
+  link: KeyTextField;
+  isShown: BooleanField;
 }>;
