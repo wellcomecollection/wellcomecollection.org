@@ -1,4 +1,4 @@
-import Body from '@weco/common/views/components/Body/Body';
+import Body from '@weco/content/components/Body/Body';
 import {
   captionedImage,
   text as textContent,
