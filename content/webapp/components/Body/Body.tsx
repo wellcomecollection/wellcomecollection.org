@@ -209,7 +209,7 @@ const Body: FunctionComponent<Props> = ({
               });
 
               return (
-                <>
+                <Fragment key={index}>
                   {!isFirst && (
                     <WobblyEdge
                       background={sectionTheme.rowBackground}
@@ -250,7 +250,7 @@ const Body: FunctionComponent<Props> = ({
                     )}
                   </Space>
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
-                </>
+                </Fragment>
               );
             })}
         </>
