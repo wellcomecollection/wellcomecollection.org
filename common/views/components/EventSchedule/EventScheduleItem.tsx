@@ -1,10 +1,7 @@
-// @flow
 import { Fragment } from 'react';
-// $FlowFixMe (ts)
 import { grid, font, classNames } from '../../../utils/classnames';
 import EventBookingButton from '../EventBookingButton/EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
-// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import Message from '../Message/Message';
 import {
@@ -12,17 +9,15 @@ import {
   formatDayDate,
   isTimePast,
   isDatePast,
-  // $FlowFixMe
 } from '../../../utils/format-date';
 import type { UiEvent } from '../../../model/events';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
-type Props = {|
-  event: UiEvent,
-  isNotLinked: boolean,
-|};
+type Props = {
+  event: UiEvent;
+  isNotLinked: boolean;
+};
 
 const GridWrapper = styled(Space).attrs({
   v: {
@@ -95,11 +90,13 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </Space>
             )}
 
-            <Space
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={font('hnr', 5)}
-              dangerouslySetInnerHTML={{ __html: event.promoText }}
-            />
+            {event.promoText && (
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={font('hnr', 5)}
+                dangerouslySetInnerHTML={{ __html: event.promoText }}
+              />
+            )}
 
             {!isNotLinked && (
               <Space

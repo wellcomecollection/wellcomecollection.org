@@ -3,6 +3,7 @@ import { type UiEvent } from '../../../model/events';
 // $FlowFixMe(tsx)
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
+// $FlowFixMe(tsx)
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
 // $FlowFixMe (ts)
