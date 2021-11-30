@@ -2,7 +2,6 @@ const { parse } = require('url'); // eslint-disable-line node/no-deprecated-api
 const compose = require('koa-compose');
 const withGlobalAlert = require('./withGlobalAlert');
 const withPopupDialog = require('./withPopupDialog');
-const withOpeningtimes = require('./withOpeningTimes');
 const withPrismicPreviewStatus = require('./withPrismicPreviewStatus');
 const withMemoizedPrismic = require('./withMemoizedPrismic');
 
@@ -10,7 +9,6 @@ const withCachedValues = compose([
   withMemoizedPrismic,
   withGlobalAlert,
   withPopupDialog,
-  withOpeningtimes,
   withPrismicPreviewStatus,
 ]);
 
