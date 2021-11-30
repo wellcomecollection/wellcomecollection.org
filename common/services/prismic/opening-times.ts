@@ -10,7 +10,7 @@ import type {
   PlacesOpeningHours,
   CollectionOpeningTimes,
 } from '../../model/opening-hours';
-import { CollectionVenuePrismicDocument } from '../../services/prismic/types';
+import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
 import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';

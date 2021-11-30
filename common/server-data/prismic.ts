@@ -4,9 +4,10 @@ import ResolvedApi from '@prismicio/client/types/ResolvedApi';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,
-} from '../services/prismic/types';
+  emptyPopupDialog,
+  emptyPrismicQuery,
+} from '../services/prismic/documents';
 import { Handler } from './';
-import { emptyPopupDialog, emptyPrismicQuery } from '../services/prismic/query';
 
 export const defaultValue = {
   popupDialog: emptyPopupDialog(),

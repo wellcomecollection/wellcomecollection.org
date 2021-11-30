@@ -1,17 +1,4 @@
 /* eslint-disable camelcase */
-import {
-  PrismicDocument as PrismicDoc,
-  NumberField,
-  RichTextField,
-  LinkField,
-  GroupField,
-  TimestampField,
-  SelectField,
-  KeyTextField,
-  ImageField,
-  BooleanField,
-} from '@prismicio/types';
-
 export type PrismicDocument = {
   id: string;
   uid?: string;
@@ -103,44 +90,3 @@ export type DocumentType =
   | 'events'
   | 'exhibitions'
   | 'books';
-
-type DayField = GroupField<{
-  startDateTime: TimestampField;
-  endDateTime: TimestampField;
-}>;
-
-export type CollectionVenuePrismicDocument = PrismicDoc<{
-  title: KeyTextField;
-  order: NumberField;
-  image: ImageField;
-  link: LinkField;
-  linkText: RichTextField;
-  monday: DayField;
-  tuesday: DayField;
-  wednesday: DayField;
-  thursday: DayField;
-  friday: DayField;
-  saturday: DayField;
-  sunday: DayField;
-  modifiedDayOpeningTimes: GroupField<{
-    overrideDate: TimestampField;
-    type: SelectField<
-      | 'Bank holiday'
-      | 'Easter'
-      | 'Christmas and New Year'
-      | 'Late Spectacular'
-      | 'other'
-    >;
-    startDateTime: TimestampField;
-    endDateTime: TimestampField;
-  }>;
-}>;
-
-export type PopupDialogPrismicDocument = PrismicDoc<{
-  openButtonText: KeyTextField;
-  title: KeyTextField;
-  text: RichTextField;
-  linkText: KeyTextField;
-  link: KeyTextField;
-  isShown: BooleanField;
-}>;

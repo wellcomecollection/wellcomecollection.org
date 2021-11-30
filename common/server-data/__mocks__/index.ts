@@ -1,7 +1,7 @@
 import {
   emptyPopupDialog,
   emptyPrismicQuery,
-} from '../../services/prismic/query';
+} from '../../services/prismic/documents';
 import { ServerData } from '../types';
 
 export async function init() {
