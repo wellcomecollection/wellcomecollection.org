@@ -14,8 +14,10 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
+  const { state: userState } = useUser();
   const urlUsed = message === 'This URL can be used only once';
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
@@ -46,7 +48,14 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                       </HighlightMessage>
                     </div>
                   )}
-                  <ButtonSolidLink link="/account" text="Sign in" />
+                  <ButtonSolidLink
+                    link="/account"
+                    text={
+                      userState === 'signedin'
+                        ? 'View your library account'
+                        : 'Sign in'
+                    }
+                  />
                 </>
               ) : (
                 <>
