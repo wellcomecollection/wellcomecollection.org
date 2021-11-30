@@ -1,5 +1,5 @@
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
-import { emptyPopupDialog } from '@weco/common/services/prismic/query';
+import { emptyPopupDialog } from '@weco/common/services/prismic/documents';
 
 const Template = () => <PopupDialog document={emptyPopupDialog()} />;
 export const basic = Template.bind({});
