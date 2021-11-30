@@ -1,11 +1,9 @@
 import Prismic from '@prismicio/client';
 import { Query } from '@prismicio/types';
 import ResolvedApi from '@prismicio/client/types/ResolvedApi';
-import {
-  CollectionVenuePrismicDocument,
-  emptyPrismicQuery,
-} from '../services/prismic/types';
+import { CollectionVenuePrismicDocument } from '../services/prismic/types';
 import { Handler } from './';
+import { emptyPrismicQuery } from '../services/prismic/query';
 
 export const defaultValue = {
   popupDialogue: emptyPrismicQuery(),

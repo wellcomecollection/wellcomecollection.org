@@ -9,7 +9,6 @@ import {
   SelectField,
   KeyTextField,
   ImageField,
-  Query,
 } from '@prismicio/types';
 
 export type PrismicDocument = {
@@ -135,16 +134,3 @@ export type CollectionVenuePrismicDocument = PrismicDoc<{
     endDateTime: TimestampField;
   }>;
 }>;
-
-export function emptyPrismicQuery<T extends PrismicDoc>(): Query<T> {
-  return {
-    page: 1,
-    results_per_page: 0,
-    results_size: 0,
-    total_results_size: 0,
-    total_pages: 0,
-    next_page: null,
-    prev_page: null,
-    results: [] as T[],
-  };
-}

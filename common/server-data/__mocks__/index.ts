@@ -1,4 +1,4 @@
-import { emptyPrismicQuery } from '../../services/prismic/types';
+import { emptyPrismicQuery } from '../../services/prismic/query';
 import { ServerData } from '../types';
 
 export async function init() {

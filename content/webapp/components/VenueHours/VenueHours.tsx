@@ -1,5 +1,5 @@
 import { Weight } from '@weco/common/services/prismic/parsers';
-import { useContext, ComponentType, Fragment } from 'react';
+import { ComponentType, Fragment } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -12,11 +12,12 @@ import {
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
+  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
+import { usePrismicData } from '@weco/common/server-data/Context';
 
 const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   ${props => props.theme.media.medium`
@@ -77,7 +78,8 @@ type Props = {
 };
 
 const VenueHours = ({ venue, weight }: Props) => {
-  const openingTimes = useContext(OpeningTimesContext);
+  const prismicData = usePrismicData();
+  const openingTimes = parseCollectionVenues(prismicData.openingTimes);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),

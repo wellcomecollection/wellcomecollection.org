@@ -1,20 +1,16 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { createContext, FunctionComponent, ReactNode } from 'react';
 import { Query } from '@prismicio/types';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import GlobalAlertContext, {
   GlobalAlert,
 } from '../GlobalAlertContext/GlobalAlertContext';
 import PopupDialogContext, {
   PopupDialog,
 } from '../PopupDialogContext/PopupDialogContext';
-import { parseCollectionVenues } from '../../../services/prismic/opening-times';
 import { Toggles } from '@weco/toggles';
 import { ApmContextProvider } from '../ApmContext/ApmContext';
-import {
-  CollectionVenuePrismicDocument,
-  emptyPrismicQuery,
-} from '../../../services/prismic/types';
+import { CollectionVenuePrismicDocument } from '../../../services/prismic/types';
+import { emptyPrismicQuery } from '../../../services/prismic/query';
 
 export type GlobalContextData = {
   toggles: Toggles;
@@ -44,18 +40,14 @@ const GlobalContextProvider: FunctionComponent<Props> = ({
   value,
   children,
 }: Props) => {
-  const parsedOpeningTimes = parseCollectionVenues(value.openingTimes);
-
   return (
     <Context.Provider value={value}>
       <ApmContextProvider>
-        <OpeningTimesContext.Provider value={parsedOpeningTimes}>
-          <GlobalAlertContext.Provider value={value.globalAlert}>
-            <PopupDialogContext.Provider value={value.popupDialog}>
-              {children}
-            </PopupDialogContext.Provider>
-          </GlobalAlertContext.Provider>
-        </OpeningTimesContext.Provider>
+        <GlobalAlertContext.Provider value={value.globalAlert}>
+          <PopupDialogContext.Provider value={value.popupDialog}>
+            {children}
+          </PopupDialogContext.Provider>
+        </GlobalAlertContext.Provider>
       </ApmContextProvider>
     </Context.Provider>
   );

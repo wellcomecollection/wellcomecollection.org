@@ -8,13 +8,18 @@ import type {
   ExceptionalOpeningHoursDay,
   Venue,
   PlacesOpeningHours,
+  CollectionOpeningTimes,
 } from '../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../../services/prismic/types';
 import { Moment } from 'moment';
 import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
-import { OpeningTimes } from '../../views/components/OpeningTimesContext/OpeningTimesContext';
+
+// This appears to be nested in various confusing ways hence the inheritance
+export interface OpeningTimes extends CollectionOpeningTimes {
+  collectionOpeningTimes: CollectionOpeningTimes;
+}
 
 // TODO add comprehensive comments and probably rename some functions
 
