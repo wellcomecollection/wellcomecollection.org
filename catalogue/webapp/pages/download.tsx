@@ -21,10 +21,9 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsText from '../components/WorkDetailsText/WorkDetailsText';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
-import { FunctionComponent } from 'react';
 
 type Props = {
   workId: string;
@@ -33,7 +32,7 @@ type Props = {
   work?: Work;
 };
 
-const DownloadPage: FunctionComponent<Props> = ({
+const DownloadPage: NextPage<Props> = ({
   workId,
   sierraId,
   manifest,

@@ -1,11 +1,5 @@
-import { GetServerSideProps } from 'next';
-import {
-  useEffect,
-  useState,
-  ReactElement,
-  useContext,
-  FunctionComponent,
-} from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -85,7 +79,7 @@ const ImagesPagination = ({
   </div>
 );
 
-const Images: FunctionComponent<Props> = ({
+const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
 }): ReactElement<Props> => {
