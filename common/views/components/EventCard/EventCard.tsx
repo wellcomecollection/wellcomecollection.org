@@ -1,18 +1,14 @@
-// @flow
-import { type UiEvent } from '../../../model/events';
-// $FlowFixMe(tsx)
+import { UiEvent } from '../../../model/events';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '../Image/Image';
-// $FlowFixMe(tsx)
 import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 
-type Props = {|
-  event: UiEvent,
-  xOfY: {| x: number, y: number |},
-|};
+type Props = {
+  event: UiEvent;
+  xOfY: { x: number; y: number };
+};
 
 const EventCard = ({ event, xOfY }: Props) => {
   const DateRangeComponent = <EventDateRange event={event} />;
@@ -34,8 +30,6 @@ const EventCard = ({ event, xOfY }: Props) => {
     <CompactCard
       url={`/events/${event.id}`}
       title={event.title}
-      partNumber={null}
-      color={null}
       primaryLabels={event.primaryLabels}
       secondaryLabels={event.secondaryLabels}
       description={null}

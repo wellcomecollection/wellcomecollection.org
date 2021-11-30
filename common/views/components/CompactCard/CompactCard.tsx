@@ -24,10 +24,10 @@ type Props = {
   description: string | ReactElement | null;
   urlOverride: string | null;
   extraClasses?: string;
-  partNumber: number | undefined;
+  partNumber?: number;
   partDescription?: 'Part' | 'Episode';
-  color: ColorSelection | undefined;
   Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
+  color?: ColorSelection;
   DateInfo:
     | ReactElement<typeof DateRange>
     | ReactElement<typeof EventDateRange>
