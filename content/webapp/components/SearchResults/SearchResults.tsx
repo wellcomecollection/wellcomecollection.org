@@ -1,30 +1,25 @@
-// @flow
 import { Fragment } from 'react';
-import type { MultiContent } from '../../../model/multi-content';
-// $FlowFixMe (ts)
-import { grid } from '../../../utils/classnames';
-import { formatDate } from '../../../utils/format-date';
-import Image from '../Image/Image';
-// $FlowFixMe(tsx)
-import CompactCard from '../CompactCard/CompactCard';
-import EventCard from '../EventCard/EventCard';
-// $FlowFixMe(tsx)
-import ArticleCard from '../ArticleCard/ArticleCard';
-import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
 import styled from 'styled-components';
+import type { MultiContent } from '@weco/common/model/multi-content';
+import { grid } from '@weco/common/utils/classnames';
+import { formatDate } from '@weco/common/utils/format-date';
+import Image from '@weco/common/views/components/Image/Image';
+import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import EventCard from '@weco/common/views/components/EventCard/EventCard';
+import ArticleCard from '@weco/common/views/components/ArticleCard/ArticleCard';
+import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/ImagePlaceholder';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
-type Props = {|
-  title?: string,
-  summary?: ?string,
-  items: $ReadOnlyArray<MultiContent>,
-  showPosition?: boolean,
-|};
+type Props = {
+  title?: string;
+  summary?: string;
+  items: readonly MultiContent[];
+  showPosition?: boolean;
+};
 
 const SearchResults = ({
   items,
@@ -54,8 +49,8 @@ const SearchResults = ({
           <CompactCard
             url={`/pages/${item.id}`}
             title={item.title || ''}
-            partNumber={null}
-            color={null}
+            partNumber={undefined}
+            color={undefined}
             primaryLabels={[]}
             secondaryLabels={[]}
             description={item.promo && item.promo.caption}
@@ -76,8 +71,8 @@ const SearchResults = ({
           <CompactCard
             url={`/event-series/${item.id}`}
             title={item.title || ''}
-            partNumber={null}
-            color={null}
+            partNumber={undefined}
+            color={undefined}
             primaryLabels={item.labels}
             secondaryLabels={[]}
             description={item.promo && item.promo.caption}
@@ -100,8 +95,8 @@ const SearchResults = ({
             title={item.title || ''}
             primaryLabels={item.labels}
             secondaryLabels={[]}
-            partNumber={null}
-            color={null}
+            partNumber={undefined}
+            color={undefined}
             description={item.promo && item.promo.caption}
             urlOverride={item.promo && item.promo.link}
             Image={
@@ -129,7 +124,7 @@ const SearchResults = ({
             title={item.title || ''}
             partNumber={item.partNumber}
             color={item.color}
-            primaryLabels={{ labels: [{ text: 'Story' }] }}
+            primaryLabels={[{ text: 'Story' }]}
             secondaryLabels={[]}
             description={`Available ${formatDate(item.publishDate)}`}
             urlOverride={null}
@@ -146,8 +141,8 @@ const SearchResults = ({
           <CompactCard
             url={`/exhibitions/${item.id}`}
             title={item.title}
-            partNumber={null}
-            color={null}
+            partNumber={undefined}
+            color={undefined}
             primaryLabels={item.labels}
             secondaryLabels={[]}
             description={item.promoText}

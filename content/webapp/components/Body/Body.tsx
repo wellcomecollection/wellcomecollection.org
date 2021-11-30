@@ -5,66 +5,59 @@ import React, {
   FunctionComponent,
   Fragment,
 } from 'react';
-import { classNames } from '../../../utils/classnames';
-import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
-import SearchResults from '../SearchResults/SearchResults';
-import { CaptionedImage } from '../Images/Images';
-import SpacingComponent from '../SpacingComponent/SpacingComponent';
-import SectionHeader from '../SectionHeader/SectionHeader';
-import Space from '../styled/Space';
-import Quote from '../Quote/Quote';
-import ImageGallery from '../ImageGallery/ImageGallery';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import FeaturedText from '../FeaturedText/FeaturedText';
-import VideoEmbed from '../VideoEmbed/VideoEmbed';
-import GifVideo from '../GifVideo/GifVideo';
-import Contact from '../Contact/Contact';
-import Iframe from '../Iframe/Iframe';
-import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
-import Layout from '../Layout/Layout';
-import Layout8 from '../Layout8/Layout8';
-import Layout10 from '../Layout10/Layout10';
-import Layout12 from '../Layout12/Layout12';
-import VenueHours from '../VenueHours/VenueHours';
-import { Link } from '../../../model/link';
-import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
-import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
-import Table from '../Table/Table';
+import { classNames } from '@weco/common/utils/classnames';
+import { Link } from '@weco/common/model/link';
 import {
   defaultSerializer,
   dropCapSerializer,
-} from '../../../services/prismic/html-serializers';
-import { Weight } from '../../../services/prismic/parsers';
-import MediaObjectList from '../MediaObjectList/MediaObjectList';
-import InfoBlock from '../InfoBlock/InfoBlock';
-import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
-
-import TitledTextList from '../TitledTextList/TitledTextList';
-import TagsGroup from '../TagsGroup/TagsGroup';
-import Discussion from '../Discussion/Discussion';
-import WobblyEdgedContainer from '../WobblyEdgedContainer/WobblyEdgedContainer';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
-
-import GridFactory, { sectionLevelPageGrid } from '../GridFactory/GridFactory';
-import Card from '../Card/Card';
+} from '@weco/common/services/prismic/html-serializers';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import Space from '@weco/common/views/components/styled/Space';
+import Quote from '@weco/common/views/components/Quote/Quote';
+import ImageGallery from '@weco/common/views/components/ImageGallery/ImageGallery';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import GifVideo from '@weco/common/views/components/GifVideo/GifVideo';
+import Contact from '@weco/common/views/components/Contact/Contact';
+import Iframe from '@weco/common/views/components/Iframe/Iframe';
+import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import Layout from '@weco/common/views/components/Layout/Layout';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import VenueHours from '@weco/common/views/components/VenueHours/VenueHours';
+import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import VenueClosedPeriods from '@weco/common/views/components/VenueClosedPeriods/VenueClosedPeriods';
+import Table from '@weco/common/views/components/Table/Table';
+import MediaObjectList from '@weco/common/views/components/MediaObjectList/MediaObjectList';
+import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
+import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
+import Discussion from '@weco/common/views/components/Discussion/Discussion';
+import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
+import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import GridFactory, {
+  sectionLevelPageGrid,
+} from '@weco/common/views/components/GridFactory/GridFactory';
+import Card from '@weco/common/views/components/Card/Card';
 import FeaturedCard, {
   convertItemToFeaturedCardProps,
   convertCardToFeaturedCardProps,
-} from '../FeaturedCard/FeaturedCard';
+} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
+import { BodyType } from '@weco/common/model/generic-content-fields';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
+import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
+import SearchResults from '../SearchResults/SearchResults';
 
-const Map = dynamic(import('../Map/Map'), { ssr: false });
-
-type BodySlice = {
-  type: string;
-  weight?: Weight;
-  // TODO: Sync up types with the body slices and the components they return
-  value: any;
-};
-
-export type BodyType = BodySlice[];
+const Map = dynamic(import('@weco/common/views/components/Map/Map'), {
+  ssr: false,
+});
 
 type LayoutWidthProps = {
   width: 8 | 10;
@@ -369,8 +362,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'contentList' && !isLanding && (
                   <LayoutWidth width={minWidth}>
-                    {/* FIXME: this makes what-we-do contentLists synchronous,
-                but it's hacky. */}
+                    {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
                     {pageId === prismicPageIds.whatWeDo ? (
                       <SearchResults
                         title={slice.value.title}

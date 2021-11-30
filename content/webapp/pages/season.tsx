@@ -8,7 +8,6 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import Body from '@weco/common/views/components/Body/Body';
 import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -20,6 +19,7 @@ import {
 } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
+import Body from '../components/Body/Body';
 
 type Props = SeasonWithContent & WithGlobalContextData;
 const SeasonPage = ({

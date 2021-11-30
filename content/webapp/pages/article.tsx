@@ -8,7 +8,6 @@ import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import Body from '@weco/common/views/components/Body/Body';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
@@ -27,6 +26,7 @@ import {
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import Body from '../components/Body/Body';
 
 type Props = {
   article: Article;

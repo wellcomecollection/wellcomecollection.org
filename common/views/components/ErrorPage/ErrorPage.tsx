@@ -2,7 +2,6 @@ import { FunctionComponent } from 'react';
 import PageLayout from '../PageLayout/PageLayout';
 import ContentPage from '../ContentPage/ContentPage';
 import PageHeader from '../PageHeader/PageHeader';
-import Body from '../Body/Body';
 import MoreLink from '../MoreLink/MoreLink';
 import Space from '../styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -49,7 +48,6 @@ const ErrorPage: FunctionComponent<Props> = ({
             highlightHeading={true}
           />
         }
-        Body={<Body body={[]} pageId={'error'} />}
       >
         <Space
           className="plain-list no-padding"

@@ -1,4 +1,3 @@
-// @flow
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '@weco/common/model/event-series';
 import { UiEvent } from '@weco/common/model/events';
@@ -6,8 +5,6 @@ import { FC } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import Body from '@weco/common/views/components/Body/Body';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
@@ -23,6 +20,8 @@ import {
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import Body from '../components/Body/Body';
+import SearchResults from '../components/SearchResults/SearchResults';
 
 type Props = {
   series: EventSeries;

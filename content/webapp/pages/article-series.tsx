@@ -4,8 +4,6 @@ import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import Body from '@weco/common/views/components/Body/Body';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
@@ -22,6 +20,8 @@ import {
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import Body from '../components/Body/Body';
+import SearchResults from '../components/SearchResults/SearchResults';
 
 type Props = {
   series: ArticleSeries;

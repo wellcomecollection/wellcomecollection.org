@@ -1,9 +1,9 @@
 import { Component, Fragment } from 'react';
-import SearchResults from '../SearchResults/SearchResults';
-import { grid } from '../../../utils/classnames';
-import { search } from '../../../services/prismic/search';
-import { MultiContent } from '../../../model/multi-content';
-import Space from '../styled/Space';
+import SearchResults from './SearchResults';
+import { grid } from '@weco/common/utils/classnames';
+import { search } from '@weco/common/services/prismic/search';
+import { MultiContent } from '@weco/common/model/multi-content';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   title?: string;
