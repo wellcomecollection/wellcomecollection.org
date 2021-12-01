@@ -1,14 +1,12 @@
-// @flow
 import { Fragment } from 'react';
 import type { EventSchedule as EventScheduleType } from '../../../model/events';
 import EventScheduleItem from './EventScheduleItem';
 import { groupEventsBy } from '../../../services/prismic/events';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 
-type Props = {|
-  schedule: EventScheduleType,
-|};
+type Props = {
+  schedule: EventScheduleType;
+};
 
 const EventSchedule = ({ schedule }: Props) => {
   const events = schedule.map(({ event }) => event);
