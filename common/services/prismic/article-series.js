@@ -54,6 +54,7 @@ export function parseArticleSeries(document: PrismicDocument): ArticleSeries {
     color: data.color,
     items: [],
     seasons,
+    prismicDocument: document,
   };
 }
 

@@ -10,9 +10,11 @@ import {
   GroupField,
   RelationField,
   FilledLinkToDocumentField,
+  NumberField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
-import { Body } from './prismic-body';
+import { Body } from './body';
+import { SeasonPrismicDocument } from './seasons';
 import { SeriesPrismicDocument } from './series';
 
 /**
@@ -85,12 +87,38 @@ export type WithSeries = {
   }>;
 };
 
+export type WithSeasons = {
+  seasons: GroupField<{
+    season: RelationField<
+      'seasons',
+      'en-gb',
+      InferDataInterface<SeasonPrismicDocument>
+    >;
+  }>;
+};
+
 export type WithFormat = {
   format: RelationField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>
   >;
+};
+
+export type WithParents = {
+  parents: GroupField<{
+    order: NumberField;
+    parent: RelationField<'exhibitions'>;
+  }>;
+};
+
+export type WithContributors = {
+  contributorsTitle: RichTextField;
+  contributors: GroupField<{
+    role: RelationField<'editorial-contributor-roles'>;
+    contributor: RelationField<'people' | 'organisations'>;
+    description: RichTextField;
+  }>;
 };
 
 // Guards

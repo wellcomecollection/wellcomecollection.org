@@ -68,6 +68,7 @@ export function parsePage(document: PrismicDocument): Page {
     promo: promo && promo.image ? promo : null,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     siteSection: siteSection,
+    prismicDocument: document,
   };
 }
 

@@ -6,4 +6,5 @@ export type EventSeries = {|
   type: 'event-series',
   ...GenericContentFields,
   backgroundTexture: ?BackgroundTexture,
+  prismicDocument: any,
 |};

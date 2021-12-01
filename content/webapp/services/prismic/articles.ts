@@ -1,14 +1,17 @@
 import {
-  GroupField,
   LinkField,
-  NumberField,
-  RelationField,
   RichTextField,
   TimestampField,
   PrismicDocument,
 } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from './client';
-import { CommonPrismicData, WithFormat, WithSeries } from './types';
+import {
+  CommonPrismicData,
+  WithFormat,
+  WithParents,
+  WithSeasons,
+  WithSeries,
+} from './types';
 
 const typeEnum = 'articles';
 
@@ -21,18 +24,10 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroReadLinkText: RichTextField;
     outroVisitItem: LinkField;
     outroVisitLinkText: RichTextField;
-    contributors: GroupField<{
-      role: RelationField<'editorial-contributor-roles'>;
-      contributor: RelationField<'people' | 'organisations'>;
-      description: RichTextField;
-    }>;
-    seasons: GroupField<{ season: RelationField<'seasons'> }>;
-    parents: GroupField<{
-      order: NumberField;
-      parent: RelationField<'exhibitions'>;
-    }>;
   } & WithSeries &
+    WithSeasons &
     WithFormat &
+    WithParents &
     CommonPrismicData,
   'articles'
 >;
