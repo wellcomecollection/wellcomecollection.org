@@ -26,7 +26,9 @@ type Props = {
 
 export const defaultValue = {
   toggles: {} as Toggles,
-  openingTimes: {},
+  openingTimes: {
+    results: [],
+  },
   globalAlert: null,
   popupDialog: null,
 };
