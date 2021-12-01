@@ -31,14 +31,16 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import { FeaturedCardExhibition } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
-import { getParseCollectionVenueById } from '@weco/common/services/prismic/opening-times';
+import {
+  getParseCollectionVenueById,
+  parseCollectionVenues,
+} from '@weco/common/services/prismic/opening-times';
 import {
   collectionVenueId,
   prismicPageIds,
@@ -47,7 +49,6 @@ import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedTex
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
@@ -56,6 +57,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
+import { usePrismicData } from '@weco/common/server-data/Context';
 
 const segmentedControlItems = [
   {
@@ -84,7 +86,6 @@ type Props = {
   tryTheseTooPromos: any[];
   eatShopPromos: any[];
   featuredText: FeaturedTextType;
-  globalContextData: any;
 };
 
 function getListHeader(openingTimes: any) {
@@ -345,7 +346,6 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const globalContextData = getGlobalContextData(context);
     const serverData = await getServerData(context);
 
     const period = context.query.period
@@ -414,7 +414,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           cafePromo,
           dailyTourPromo,
           featuredText,
-          globalContextData,
           serverData,
         }),
       };
@@ -424,14 +423,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage = (props: Props) => {
-  const {
-    globalContextData,
-    period,
-    dateRange,
-    tryTheseTooPromos,
-    eatShopPromos,
-    featuredText,
-  } = props;
+  const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
+    props;
 
   const events = props.events.results.map(convertJsonToDates);
 
@@ -452,6 +445,9 @@ const WhatsOnPage = (props: Props) => {
   const pageTitle = extraTitleText
     ? `What's on${` - ${extraTitleText.text}`}`
     : `What's on`;
+
+  const prismicData = usePrismicData();
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
 
   return (
     <PageLayout
@@ -477,192 +473,185 @@ const WhatsOnPage = (props: Props) => {
           firstExhibition.image.alt) ??
         undefined
       }
-      globalContextData={globalContextData}
     >
-      <OpeningTimesContext.Consumer>
-        {openingTimes => (
-          <Fragment>
-            <Header
-              activeId={period}
-              openingTimes={openingTimes}
-              featuredText={featuredText}
-            />
-            <Layout12>
-              <DateRange
-                dateRange={dateRange}
-                period={period}
-                cafePromo={eatShopPromos[0]}
-                openingTimes={openingTimes}
-              />
-            </Layout12>
-            <Space v={{ size: 'l', properties: ['margin-top'] }}>
-              {period === 'current-and-coming-up' && (
-                <Fragment>
-                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SpacingSection>
-                      <Layout12>
-                        <div className="flex flex--v-center flex--h-space-between">
-                          <h2 className="h1">Exhibitions</h2>
-                          <span className={font('hnb', 5)}>Free admission</span>
-                        </div>
-                      </Layout12>
-                      <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-                        {firstExhibition ? (
-                          <Layout12>
-                            <FeaturedCardExhibition
-                              exhibition={firstExhibition}
-                              background={'cream'}
-                              color={'black'}
-                            />
-                          </Layout12>
-                        ) : (
-                          <Layout12>
-                            <p data-test-id="no-exhibitions">
-                              There are no current exhibitions
-                            </p>
-                          </Layout12>
-                        )}
-                      </Space>
-                      <CardGrid
-                        items={exhibitions.slice(1)}
-                        itemsPerRow={3}
-                        links={[
-                          {
-                            text: 'View all exhibitions',
-                            url: '/exhibitions',
-                          },
-                        ]}
-                      />
-                    </SpacingSection>
-
-                    <SpacingSection>
-                      <SpacingComponent>
-                        <SectionHeader title="Events" />
-                      </SpacingComponent>
-                      <SpacingComponent>
-                        {events.length > 0 ? (
-                          <EventsByMonth
-                            events={events}
-                            links={[
-                              { text: 'View all events', url: '/events' },
-                            ]}
-                          />
-                        ) : (
-                          <Layout12>
-                            <p>There are no upcoming events</p>
-                          </Layout12>
-                        )}
-                      </SpacingComponent>
-                    </SpacingSection>
-
-                    <SpacingSection>
-                      <SpacingComponent>
-                        <SectionHeader title="Catch up" />
-                      </SpacingComponent>
-                      <SpacingComponent>
-                        {availableOnlineEvents.length > 0 ? (
-                          <CardGrid
-                            items={availableOnlineEvents}
-                            itemsPerRow={3}
-                            links={[
-                              {
-                                text: 'View all catch up events',
-                                url: '/events/past?availableOnline=true',
-                              },
-                            ]}
-                          />
-                        ) : (
-                          <Layout12>
-                            <p>There are no upcoming catch up events</p>
-                          </Layout12>
-                        )}
-                      </SpacingComponent>
-                    </SpacingSection>
-                  </Space>
-                </Fragment>
-              )}
-              {period !== 'current-and-coming-up' && (
+      <Fragment>
+        <Header
+          activeId={period}
+          openingTimes={openingTimes}
+          featuredText={featuredText}
+        />
+        <Layout12>
+          <DateRange
+            dateRange={dateRange}
+            period={period}
+            cafePromo={eatShopPromos[0]}
+            openingTimes={openingTimes}
+          />
+        </Layout12>
+        <Space v={{ size: 'l', properties: ['margin-top'] }}>
+          {period === 'current-and-coming-up' && (
+            <Fragment>
+              <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['padding-top', 'margin-bottom'],
-                    }}
-                  >
-                    <Layout12>
-                      <div className="flex flex--v-center flex--h-space-between">
-                        <h2 className="h1">Exhibitions and Events</h2>
-                        <span className={font('hnb', 4)}>Free admission</span>
-                      </div>
-                    </Layout12>
+                  <Layout12>
+                    <div className="flex flex--v-center flex--h-space-between">
+                      <h2 className="h1">Exhibitions</h2>
+                      <span className={font('hnb', 5)}>Free admission</span>
+                    </div>
+                  </Layout12>
+                  <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                    {firstExhibition ? (
+                      <Layout12>
+                        <FeaturedCardExhibition
+                          exhibition={firstExhibition}
+                          background={'cream'}
+                          color={'black'}
+                        />
+                      </Layout12>
+                    ) : (
+                      <Layout12>
+                        <p data-test-id="no-exhibitions">
+                          There are no current exhibitions
+                        </p>
+                      </Layout12>
+                    )}
                   </Space>
-                  <ExhibitionsAndEvents
-                    exhibitions={exhibitions}
-                    events={
-                      period === 'today'
-                        ? filterEventsForToday(events)
-                        : period === 'this-weekend'
-                        ? filterEventsForWeekend(events)
-                        : events
-                    }
+                  <CardGrid
+                    items={exhibitions.slice(1)}
+                    itemsPerRow={3}
                     links={[
-                      { text: 'View all exhibitions', url: '/exhibitions' },
-                      { text: 'View all events', url: '/events' },
+                      {
+                        text: 'View all exhibitions',
+                        url: '/exhibitions',
+                      },
                     ]}
                   />
                 </SpacingSection>
-              )}
-            </Space>
 
+                <SpacingSection>
+                  <SpacingComponent>
+                    <SectionHeader title="Events" />
+                  </SpacingComponent>
+                  <SpacingComponent>
+                    {events.length > 0 ? (
+                      <EventsByMonth
+                        events={events}
+                        links={[{ text: 'View all events', url: '/events' }]}
+                      />
+                    ) : (
+                      <Layout12>
+                        <p>There are no upcoming events</p>
+                      </Layout12>
+                    )}
+                  </SpacingComponent>
+                </SpacingSection>
+
+                <SpacingSection>
+                  <SpacingComponent>
+                    <SectionHeader title="Catch up" />
+                  </SpacingComponent>
+                  <SpacingComponent>
+                    {availableOnlineEvents.length > 0 ? (
+                      <CardGrid
+                        items={availableOnlineEvents}
+                        itemsPerRow={3}
+                        links={[
+                          {
+                            text: 'View all catch up events',
+                            url: '/events/past?availableOnline=true',
+                          },
+                        ]}
+                      />
+                    ) : (
+                      <Layout12>
+                        <p>There are no upcoming catch up events</p>
+                      </Layout12>
+                    )}
+                  </SpacingComponent>
+                </SpacingSection>
+              </Space>
+            </Fragment>
+          )}
+          {period !== 'current-and-coming-up' && (
             <SpacingSection>
-              <SpacingComponent>
-                <SectionHeader title="Try these too" />
-              </SpacingComponent>
-              <SpacingComponent>
-                <CssGridContainer>
-                  <div
-                    className={classNames({
-                      'css-grid': true,
-                    })}
-                  >
-                    <div
-                      className={classNames({
-                        'css-grid__scroll-container container--scroll touch-scroll':
-                          true,
-                        [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
-                    >
-                      <div className="css-grid grid--scroll card-theme card-theme--transparent">
-                        {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
-                          <div
-                            key={promo.id}
-                            className={cssGrid({
-                              s: 12,
-                              m: 6,
-                              l: 4,
-                              xl: 4,
-                            })}
-                          >
-                            <FacilityPromo
-                              id={promo.id}
-                              title={promo.title}
-                              url={promo.url}
-                              description={promo.description}
-                              imageProps={promo.image}
-                              metaText={promo.metaText}
-                              metaIcon={promo.metaIcon}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+              <Space
+                v={{
+                  size: 'm',
+                  properties: ['padding-top', 'margin-bottom'],
+                }}
+              >
+                <Layout12>
+                  <div className="flex flex--v-center flex--h-space-between">
+                    <h2 className="h1">Exhibitions and Events</h2>
+                    <span className={font('hnb', 4)}>Free admission</span>
                   </div>
-                </CssGridContainer>
-              </SpacingComponent>
+                </Layout12>
+              </Space>
+              <ExhibitionsAndEvents
+                exhibitions={exhibitions}
+                events={
+                  period === 'today'
+                    ? filterEventsForToday(events)
+                    : period === 'this-weekend'
+                    ? filterEventsForWeekend(events)
+                    : events
+                }
+                links={[
+                  { text: 'View all exhibitions', url: '/exhibitions' },
+                  { text: 'View all events', url: '/events' },
+                ]}
+              />
             </SpacingSection>
-          </Fragment>
-        )}
-      </OpeningTimesContext.Consumer>
+          )}
+        </Space>
+
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader title="Try these too" />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CssGridContainer>
+              <div
+                className={classNames({
+                  'css-grid': true,
+                })}
+              >
+                <div
+                  className={classNames({
+                    'css-grid__scroll-container container--scroll touch-scroll':
+                      true,
+                    [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
+                  })}
+                >
+                  <div className="css-grid grid--scroll card-theme card-theme--transparent">
+                    {tryTheseTooPromos.concat(eatShopPromos).map(promo => (
+                      <div
+                        key={promo.id}
+                        className={cssGrid({
+                          s: 12,
+                          m: 6,
+                          l: 4,
+                          xl: 4,
+                        })}
+                      >
+                        <FacilityPromo
+                          id={promo.id}
+                          title={promo.title}
+                          url={promo.url}
+                          description={promo.description}
+                          imageProps={promo.image}
+                          metaText={promo.metaText}
+                          metaIcon={promo.metaIcon}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CssGridContainer>
+          </SpacingComponent>
+        </SpacingSection>
+      </Fragment>
     </PageLayout>
   );
 };

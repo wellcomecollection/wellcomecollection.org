@@ -5,18 +5,15 @@ import PageHeader from '../PageHeader/PageHeader';
 import MoreLink from '../MoreLink/MoreLink';
 import Space from '../styled/Space';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { GlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = {
   statusCode?: number;
   title?: string;
-  globalContextData: GlobalContextData;
 };
 
 const ErrorPage: FunctionComponent<Props> = ({
   statusCode = 500,
   title,
-  globalContextData,
 }: Props) => {
   return (
     <PageLayout
@@ -28,7 +25,6 @@ const ErrorPage: FunctionComponent<Props> = ({
       siteSection={'stories'}
       imageUrl={undefined}
       imageAltText={undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={'error'}

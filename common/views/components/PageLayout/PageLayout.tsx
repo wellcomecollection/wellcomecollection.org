@@ -9,28 +9,22 @@ import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
-import PopupDialogContext from '../PopupDialogContext/PopupDialogContext';
 import PopupDialog from '../PopupDialog/PopupDialog';
-import OpeningTimesContext from '../OpeningTimesContext/OpeningTimesContext';
 import Space from '../styled/Space';
-import GlobalAlertContext from '../GlobalAlertContext/GlobalAlertContext';
 import { museumLd, libraryLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
 import {
   getParseCollectionVenueById,
   openingHoursToOpeningHoursSpecification,
+  parseCollectionVenues,
 } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
-import GlobalContextProvider, {
-  GlobalContextData,
-} from '../GlobalContextProvider/GlobalContextProvider';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
-import { useToggles } from '../../../server-data/Context';
+import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
-import { PrismicFragment } from '../../../services/prismic/types';
 
 export type SiteSection =
   | 'collections'
@@ -40,7 +34,7 @@ export type SiteSection =
   | 'whats-on'
   | 'identity';
 
-type ComponentProps = {
+export type Props = {
   title: string;
   description: string;
   url: Url;
@@ -56,7 +50,7 @@ type ComponentProps = {
   excludeRoleMain?: boolean;
 };
 
-const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
+const PageLayoutComponent: FunctionComponent<Props> = ({
   title,
   description,
   url,
@@ -70,7 +64,7 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   hideNewsletterPromo = false,
   hideFooter = false,
   excludeRoleMain = false,
-}: ComponentProps) => {
+}) => {
   const hotjarUrls = [
     'YLCu9hEAACYAUiJx',
     'YLCzexEAACMAUi41',
@@ -110,9 +104,8 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
       : 'Wellcome Collection | A free museum and library exploring health and human experience';
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
-  const globalAlert = useContext(GlobalAlertContext);
-  const popupDialog = useContext(PopupDialogContext);
-  const openingTimes = useContext(OpeningTimesContext);
+  const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
+  const openingTimes = parseCollectionVenues(collectionVenues);
   const galleries =
     openingTimes &&
     getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);
@@ -274,19 +267,18 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
         ) : (
           <Header siteSection={siteSection} />
         )}
-        {globalAlert &&
-          globalAlert.isShown === 'show' &&
-          (!globalAlert.routeRegex ||
-            urlString.match(new RegExp(globalAlert.routeRegex))) && (
+        {globalAlert.data.isShown === 'show' &&
+          (!globalAlert.data.routeRegex ||
+            urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
             <InfoBanner
-              text={globalAlert.text}
+              document={globalAlert}
               cookieName="WC_globalAlert"
               onVisibilityChange={isVisible => {
                 globalInfoBar.setIsVisible(isVisible);
               }}
             />
           )}
-        {popupDialog && popupDialog.isShown && <PopupDialog {...popupDialog} />}
+        {popupDialog.data.isShown && <PopupDialog document={popupDialog} />}
         <div
           id="main"
           className="main"
@@ -316,22 +308,11 @@ const PageLayoutComponent: FunctionComponent<ComponentProps> = ({
   );
 };
 
-export type Props = {
-  globalContextData: GlobalContextData & {
-    openingTimes: PrismicFragment;
-  };
-} & ComponentProps;
-
-const PageLayout: FunctionComponent<Props> = ({
-  globalContextData,
-  ...props
-}: Props) => {
+const PageLayout: FunctionComponent<Props> = (props: Props) => {
   return (
-    <GlobalContextProvider value={globalContextData}>
-      <GlobalInfoBarContextProvider>
-        <PageLayoutComponent {...props} />
-      </GlobalInfoBarContextProvider>
-    </GlobalContextProvider>
+    <GlobalInfoBarContextProvider>
+      <PageLayoutComponent {...props} />
+    </GlobalInfoBarContextProvider>
   );
 };
 

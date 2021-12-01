@@ -3,12 +3,7 @@ import { grid } from '@weco/common/utils/classnames';
 import PROGRESS_NOTES from '../PROGRESS_NOTES.md';
 import { webpageLd } from '@weco/common/utils/json-ld';
 import Space from '@weco/common/views/components/styled/Space';
-import { ReactElement } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 
@@ -17,10 +12,7 @@ const description =
   'We are working to make a more welcoming space where you' +
   'can discover more of what Wellcome Collection has to offer.';
 
-type Props = WithGlobalContextData;
-const ProgressPage: NextPage<Props> = ({
-  globalContextData,
-}: Props): ReactElement => (
+const ProgressPage: NextPage = () => (
   <PageLayout
     title={title}
     description={description}
@@ -30,7 +22,6 @@ const ProgressPage: NextPage<Props> = ({
     siteSection={'collections'}
     imageUrl={undefined}
     imageAltText={undefined}
-    globalContextData={globalContextData}
   >
     <Space v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">
@@ -48,11 +39,9 @@ const ProgressPage: NextPage<Props> = ({
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const serverData = await getServerData(context);
-  const globalContextData = getGlobalContextData(context);
 
   return {
     props: removeUndefinedProps({
-      globalContextData,
       serverData,
     }),
   };

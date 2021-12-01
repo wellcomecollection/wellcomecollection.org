@@ -31,10 +31,6 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import { PageFormatIds } from '@weco/common/model/content-format-id';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -47,8 +43,7 @@ type Props = {
   siblings: SiblingsGroup[];
   children: SiblingsGroup;
   ordersInParents: OrderInParent[];
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 type OrderInParent = {
   id: string;
@@ -60,7 +55,6 @@ type OrderInParent = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const page: PageType | undefined = await getPage(
       context.req,
@@ -90,7 +84,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           siblings,
           children,
           ordersInParents,
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: page.seasons.map<string>(season => season.id),
@@ -102,13 +95,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({
-  page,
-  siblings,
-  children,
-  ordersInParents,
-  globalContextData,
-}) => {
+const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -264,7 +251,6 @@ const Page: FC<Props> = ({
       siteSection={page?.siteSection as SiteSection}
       imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
       imageAltText={(page.image && page.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={page.id}

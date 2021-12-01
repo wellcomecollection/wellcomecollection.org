@@ -9,10 +9,6 @@ import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -21,7 +17,7 @@ type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
   period?: Period;
   displayTitle: string;
-} & WithGlobalContextData;
+};
 
 const pageDescription =
   'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.';
@@ -29,7 +25,6 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
 
     const { page = 1, period, memoizedPrismic } = context.query;
     const exhibitions = await getExhibitions(
@@ -37,6 +32,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       { page, period },
       memoizedPrismic
     );
+
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
       return {
@@ -45,7 +41,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           displayTitle: title,
           period,
           serverData,
-          globalContextData,
         }),
       };
     } else {
@@ -54,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { globalContextData, exhibitions, period, displayTitle } = props;
+  const { exhibitions, period, displayTitle } = props;
   const firstExhibition = exhibitions[0];
 
   return (
@@ -73,7 +68,6 @@ const ExhibitionsPage: FC<Props> = props => {
       imageAltText={
         firstExhibition && firstExhibition.image && firstExhibition.image.alt
       }
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults

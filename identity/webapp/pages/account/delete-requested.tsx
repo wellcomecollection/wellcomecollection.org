@@ -50,9 +50,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         serverData,
-        globalContextData: {
-          toggles: { enableRequesting: true },
-        },
       }),
     };
   };

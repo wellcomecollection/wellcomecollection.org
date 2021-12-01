@@ -25,10 +25,6 @@ import styled from 'styled-components';
 import Space, {
   SpaceComponentProps,
 } from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
@@ -90,8 +86,7 @@ type Props = {
   video?: Video;
   audio?: Audio;
   iiifImageLocation?: DigitalLocation;
-} & WithGlobalContextData &
-  WithPageview;
+} & WithPageview;
 
 const ItemPage: NextPage<Props> = ({
   manifest,
@@ -106,8 +101,7 @@ const ItemPage: NextPage<Props> = ({
   video,
   audio,
   iiifImageLocation,
-  globalContextData,
-}: Props) => {
+}) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
@@ -209,7 +203,6 @@ const ItemPage: NextPage<Props> = ({
       imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
-      globalContextData={globalContextData}
       hideTopContent={true}
     >
       {tokenService && origin && (
@@ -369,7 +362,6 @@ const ItemPage: NextPage<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const {
       workId,
       page = 1,
@@ -463,7 +455,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           video,
           audio,
           iiifImageLocation,
-          globalContextData,
           pageview,
           serverData,
         }),
@@ -479,7 +470,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           work,
           canvases: [],
           iiifImageLocation,
-          globalContextData,
           pageview,
           serverData,
         }),

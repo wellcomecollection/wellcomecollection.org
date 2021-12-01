@@ -12,10 +12,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
-import {
-  GlobalContextData,
-  getGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
@@ -24,14 +20,9 @@ import { getServerData } from '@weco/common/server-data';
 type Props = {
   image: Image;
   sourceWork: Work;
-  globalContextData: GlobalContextData;
 } & WithPageview;
 
-const ImagePage: FunctionComponent<Props> = ({
-  image,
-  sourceWork,
-  globalContextData,
-}: Props) => {
+const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
   const title = sourceWork.title || '';
   const iiifImageLocation = image.locations[0];
 
@@ -81,7 +72,6 @@ const ImagePage: FunctionComponent<Props> = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
-      globalContextData={globalContextData}
     >
       {iiifImageLocation ? (
         <>
@@ -115,7 +105,6 @@ const ImagePage: FunctionComponent<Props> = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, workId } = context.query;
 
     if (typeof id !== 'string') {
@@ -170,7 +159,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'image',
           properties: {},
         },
-        globalContextData,
       }),
     };
   };

@@ -15,14 +15,13 @@ import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
-import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Body from '../Body/Body';
 
 type Props = {
   installation: UiExhibition;
-} & WithGlobalContextData;
+};
 
-const Installation = ({ installation, globalContextData }: Props) => {
+const Installation = ({ installation }: Props) => {
   const [partOf, setPartOf] = useState<UiExhibition>();
   useEffect(() => {
     getExhibitExhibition(null, installation.id).then(partOf => {
@@ -111,7 +110,6 @@ const Installation = ({ installation, globalContextData }: Props) => {
         convertImageUri(installation.image.contentUrl, 800)
       }
       imageAltText={installation.image ? installation.image.alt : undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={installation.id}

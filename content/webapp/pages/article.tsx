@@ -19,10 +19,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -30,8 +26,7 @@ import Body from '../components/Body/Body';
 
 type Props = {
   article: Article;
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 function articleHasOutro(article: Article) {
   return Boolean(
@@ -42,7 +37,6 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const article = await getArticle(context.req, id, memoizedPrismic);
 
@@ -50,7 +44,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           article,
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: article.seasons
@@ -64,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const AP: FC<Props> = ({ article, globalContextData }) => {
+const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<any[]>();
 
   useEffect(() => {
@@ -273,7 +266,6 @@ const AP: FC<Props> = ({ article, globalContextData }) => {
       siteSection={'stories'}
       imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
       imageAltText={(article.image && article.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={article.id}
@@ -307,4 +299,4 @@ const AP: FC<Props> = ({ article, globalContextData }) => {
   );
 };
 
-export default AP;
+export default ArticlePage;
