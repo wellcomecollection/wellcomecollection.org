@@ -13,7 +13,7 @@ import { Page as PageType } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
+import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
