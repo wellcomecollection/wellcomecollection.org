@@ -1,6 +1,3 @@
-import { StrategyOption } from 'passport-auth0';
-import { opts as SessionOpts } from 'koa-session';
-
 import { config as dotEnvConfig } from 'dotenv';
 
 dotEnvConfig();
@@ -30,11 +27,6 @@ export const config = {
     ? process.env.KOA_SESSION_KEYS.split(',')
     : ['local_value'],
 
-  // Method, set to local for testing.
-  authMethod: (isProduction ? 'auth0' : process.env.AUTH_METHOD || 'local') as
-    | 'auth0'
-    | 'local',
-
   // Auth0 configuration.
   auth0: {
     domain: process.env.AUTH0_DOMAIN,
@@ -43,16 +35,7 @@ export const config = {
     callbackURL:
       process.env.AUTH0_CALLBACK_URL ||
       `http://localhost:${port}/account/callback`,
-  } as StrategyOption,
-
-  // Session / cookie options.
-  session: {
-    // This should be <= the idle_session_lifetime in Auth0
-    maxAge: 8 * 60 * 60 * 1000, // 8 hours
-    // Session / cookie options.
-    secure: isProduction, // Needs to be HTTPS
-    httpOnly: true,
-  } as Partial<SessionOpts>,
+  },
 
   logout: {
     redirectUrl: process.env.LOGOUT_REDIRECT_URL,
