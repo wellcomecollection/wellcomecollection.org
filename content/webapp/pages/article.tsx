@@ -1,7 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect } from 'react';
-import { Article } from '@weco/common/model/articles';
-import { getArticle } from '@weco/common/services/prismic/articles';
+import { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -15,41 +13,57 @@ import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import Body from '../components/Body/Body';
+import {
+  ArticlePrismicDocument,
+  getArticle,
+} from '../services/prismic/articles';
+import { createClient } from '../services/prismic/client';
+import {
+  transformMeta,
+  transformSeasons,
+  transformSeries,
+} from '../services/prismic/transformers';
+import { transform } from '../services/prismic/transformers/articles';
+import { getImageUrlAtSize } from '../services/prismic/images';
 
 type Props = {
-  article: Article;
+  document: ArticlePrismicDocument;
 } & WithGaDimensions;
 
-function articleHasOutro(article: Article) {
-  return Boolean(
-    article.outroResearchItem || article.outroReadItem || article.outroVisitItem
-  );
-}
+// function articleHasOutro(article: Article) {
+//   return Boolean(
+//     article.outroResearchItem || article.outroReadItem || article.outroVisitItem
+//   );
+// }
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const article = await getArticle(context.req, id, memoizedPrismic);
+    const client = createClient(context);
+    const article = await getArticle(client, id);
 
     if (article) {
+      const seasons = transformSeasons(article);
+      const series = transformSeries(article);
+      const partOf = [...seasons, ...series].map(_ => _.id);
       return {
         props: removeUndefinedProps({
-          article,
+          document: article,
           serverData,
-          gaDimensions: {
-            partOf: article.seasons
-              .map(season => season.id)
-              .concat(article.series.map(series => series.id)),
-          },
+          gaDimensions: { partOf },
         }),
       };
     } else {
@@ -57,7 +71,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const ArticlePage: FC<Props> = ({ article }) => {
+const ArticlePage: FunctionComponent<Props> = ({ document }) => {
+  const article = transform(document);
+  const meta = transformMeta(document);
+  const labels = [
+    article.format ? { text: article.format.title || '' } : undefined,
+    article.series.find(series => series.schedule.length > 0)
+      ? { text: 'Serial' }
+      : undefined,
+  ].filter(isNotUndefined);
+
   const [listOfSeries, setListOfSeries] = useState<any[]>();
 
   useEffect(() => {
@@ -124,7 +147,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
     title: article.title,
     contributors: article.contributors,
     contributorsTitle: article.contributorsTitle,
-    promo: article.promo,
     body: article.body,
     standfirst: article.standfirst,
     promoImage: article.promoImage,
@@ -133,7 +155,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
     squareImage: article.squareImage,
     widescreenImage: article.widescreenImage,
     superWidescreenImage: article.superWidescreenImage,
-    labels: article.labels,
+    labels: labels,
     metadataDescription: article.metadataDescription,
   };
 
@@ -209,7 +231,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={{ labels: article.labels }}
+      labels={{ labels: labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={null}
@@ -258,14 +280,14 @@ const ArticlePage: FC<Props> = ({ article }) => {
 
   return (
     <PageLayout
-      title={article.title}
-      description={article.metadataDescription || article.promoText || ''}
-      url={{ pathname: `/articles/${article.id}` }}
+      title={meta.title}
+      description={meta.description ?? ''}
+      url={{ pathname: meta.url }}
       jsonLd={articleLd(article)}
       openGraphType={'article'}
       siteSection={'stories'}
-      imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
-      imageAltText={(article.image && article.image.alt) ?? undefined}
+      imageUrl={meta.image && getImageUrlAtSize(meta.image, { w: 600 })}
+      imageAltText={meta.image?.alt ?? undefined}
     >
       <ContentPage
         id={article.id}
@@ -273,27 +295,29 @@ const ArticlePage: FC<Props> = ({ article }) => {
         Header={Header}
         Body={
           <Body
-            body={article.body}
+            // body={article.body}
+            body={[]}
             isDropCapped={true}
             pageId={article.id}
             minWidth={isPodcast ? 10 : 8}
           />
         }
         RelatedContent={Siblings}
-        contributorProps={{ contributors: article.contributors }}
+        // contributorProps={{ contributors: article.contributors }}
         outroProps={
-          articleHasOutro(article)
-            ? {
-                researchLinkText: article.outroResearchLinkText,
-                researchItem: article.outroResearchItem,
-                readLinkText: article.outroReadLinkText,
-                readItem: article.outroReadItem,
-                visitLinkText: article.outroVisitLinkText,
-                visitItem: article.outroVisitItem,
-              }
-            : undefined
+          undefined
+          // articleHasOutro(article)
+          //   ? {
+          //       researchLinkText: article.outroResearchLinkText,
+          //       researchItem: article.outroResearchItem,
+          //       readLinkText: article.outroReadLinkText,
+          //       readItem: article.outroReadItem,
+          //       visitLinkText: article.outroVisitLinkText,
+          //       visitItem: article.outroVisitItem,
+          //     }
+          //   : undefined
         }
-        seasons={article.seasons}
+        // seasons={article.seasons}
       />
     </PageLayout>
   );

@@ -4,7 +4,7 @@ import * as prismicH from 'prismic-helpers-beta';
 import { isSliceType } from '../body';
 import { transformMeta } from '../transformers';
 
-export function transformer(document: ArticlePrismicDocument): Article {
+export function transform(document: ArticlePrismicDocument): Article {
   const meta = transformMeta(document);
   const standfirstSlice = document.data.body.find(slice =>
     isSliceType(slice, 'standfirst')

@@ -29,6 +29,7 @@ import { getImageUrlAtSize } from '../../services/prismic/images';
 import PrismicImage from 'components/PrismicImage/PrismicImage';
 import CardGrid from '../../components/CardGrid/CardGrid';
 import Body from '../../components/Body/Body';
+import { isString } from '@weco/common/utils/array';
 
 type Props = {
   season: SeasonPrismicDocument;
@@ -93,13 +94,6 @@ const SeasonPage = ({ season }: Props): ReactElement<Props> => {
     </PageLayout>
   );
 };
-
-function isString(v: any): v is string {
-  if (typeof v === 'string') {
-    return true;
-  }
-  return false;
-}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {

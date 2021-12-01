@@ -6,6 +6,7 @@ import {
   Image,
   isFilledLinkToDocumentWithData,
   WithFormat,
+  WithSeasons,
   WithSeries,
 } from './types';
 
@@ -61,6 +62,12 @@ export function transformLabels(doc: Doc): Label[] {
 export function transformSeries(document: PrismicDocument<WithSeries>) {
   return document.data.series
     .map(({ series }) => series)
+    .filter(isFilledLinkToDocumentWithData);
+}
+
+export function transformSeasons(document: PrismicDocument<WithSeasons>) {
+  return document.data.seasons
+    .map(({ season }) => season)
     .filter(isFilledLinkToDocumentWithData);
 }
 

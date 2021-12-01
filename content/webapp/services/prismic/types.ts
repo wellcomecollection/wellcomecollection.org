@@ -13,6 +13,7 @@ import {
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
 import { Body } from './body';
+import { SeasonPrismicDocument } from './seasons';
 import { SeriesPrismicDocument } from './series';
 
 /**
@@ -81,6 +82,16 @@ export type WithSeries = {
       'series',
       'en-gb',
       InferDataInterface<SeriesPrismicDocument>
+    >;
+  }>;
+};
+
+export type WithSeasons = {
+  seasons: GroupField<{
+    season: RelationField<
+      'season',
+      'en-gb',
+      InferDataInterface<SeasonPrismicDocument>
     >;
   }>;
 };
