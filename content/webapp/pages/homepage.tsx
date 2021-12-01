@@ -13,8 +13,6 @@ import { Page as PageType } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
-import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -36,6 +34,8 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
+import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
+import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
