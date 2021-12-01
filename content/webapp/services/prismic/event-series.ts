@@ -16,5 +16,5 @@ export type EventSeriesPrismicDocument = PrismicDocument<
     >;
   } & WithContributors &
     CommonPrismicData,
-  'series'
+  'event-series'
 >;
