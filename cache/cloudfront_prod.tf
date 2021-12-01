@@ -360,7 +360,7 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
   logging_config {
     include_cookies = false
     bucket          = "wellcomecollection-experience-cloudfront-logs.s3.amazonaws.com"
-    prefix          = "wellcomecollection.org/stage/"
+    prefix          = "wellcomecollection.org/prod/"
   }
 
   retain_on_delete = false
