@@ -1,14 +1,28 @@
 import Prismic from '@prismicio/client';
+import { Query } from '@prismicio/types';
 import ResolvedApi from '@prismicio/client/types/ResolvedApi';
+import {
+  CollectionVenuePrismicDocument,
+  PopupDialogPrismicDocument,
+  emptyPopupDialog,
+  emptyPrismicQuery,
+  GlobalAlertPrismicDocument,
+  emptyGlobalAlert,
+} from '../services/prismic/documents';
 import { Handler } from './';
 
 export const defaultValue = {
-  popupDialogue: null,
-  openingTimes: null,
+  globalAlert: emptyGlobalAlert(),
+  popupDialog: emptyPopupDialog(),
+  collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
 } as const;
 
 type Key = keyof typeof defaultValue;
-export type PrismicData = Record<Key, unknown>;
+export type PrismicData = {
+  globalAlert: GlobalAlertPrismicDocument;
+  popupDialog: PopupDialogPrismicDocument;
+  collectionVenues: Query<CollectionVenuePrismicDocument>;
+};
 
 export const handler: Handler<PrismicData> = {
   defaultValue,
@@ -16,19 +30,24 @@ export const handler: Handler<PrismicData> = {
 };
 
 const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
-  popupDialogue: async api => {
-    const document = await api.getSingle('popup-dialog');
-    return document.data;
+  globalAlert: async api => {
+    const document = await api.getSingle('global-alert');
+    return document;
   },
 
-  openingTimes: async api => {
+  popupDialog: async api => {
+    const document = await api.getSingle('popup-dialog');
+    return document;
+  },
+
+  collectionVenues: async api => {
     return api.query([
       Prismic.Predicates.any('document.type', ['collection-venue']),
     ]);
   },
 };
 
-async function fetchPrismicValues(): Promise<Record<Key, unknown>> {
+async function fetchPrismicValues(): Promise<PrismicData> {
   // We should probably make this generic somewhere.
   // The only place we have it is JS not TS, so leaving it ungenerified for now
   const api = await Prismic.getApi(

@@ -17,10 +17,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Format } from '@weco/common/model/format';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 const pageDescription = 'Guides intro text...';
 const displayTitle = 'Guides';
@@ -61,13 +57,12 @@ type Props = {
   guides: PaginatedResults<Page>;
   guideFormats: Format[];
   formatId: string | string[] | null;
-} & WithGlobalContextData;
+};
 
 const GuidePage = ({
   guides,
   guideFormats,
   formatId,
-  globalContextData,
 }: Props): ReactElement<Props> => {
   return (
     <PageLayout
@@ -79,7 +74,6 @@ const GuidePage = ({
       siteSection={'what-we-do'}
       imageUrl={undefined}
       imageAltText={undefined}
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -106,7 +100,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   ctx: NextPageContext
 ) => {
   const serverData = await getServerData(context);
-  const globalContextData = getGlobalContextData(ctx);
   const { format, memoizedPrismic } = ctx.query;
   const guidesPromise = getGuides(
     ctx.req,
@@ -128,7 +121,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         guides,
         guideFormats,
         formatId: format || null,
-        globalContextData,
         serverData,
       }),
     };

@@ -29,7 +29,6 @@ import {
   information,
   family,
 } from '@weco/common/icons';
-import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 
@@ -168,9 +167,9 @@ export function getInfoItems(exhibition: UiExhibition) {
 type Props = {
   exhibition: UiExhibition;
   pages: Page[];
-} & WithGlobalContextData;
+};
 
-const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
+const Exhibition = ({ exhibition, pages }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
 
@@ -269,7 +268,6 @@ const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
         exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
       }
       imageAltText={exhibition.image ? exhibition.image.alt : undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={exhibition.id}

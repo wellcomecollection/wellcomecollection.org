@@ -10,8 +10,21 @@ export const Container = styled(Space).attrs({
   border-radius: 10px;
 `;
 
-export const Wrapper = styled.div`
-  padding: 1em;
+type WrapperProps = {
+  removeBottomPadding?: boolean;
+};
+
+export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
+  v: {
+    size: 'l',
+    properties: props.removeBottomPadding
+      ? ['padding-top']
+      : ['padding-top', 'padding-bottom'],
+  },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+  className: font('hnr', 5),
+}))<WrapperProps>`
+  position: relative;
 `;
 
 export const Header = styled(Space)`
@@ -19,6 +32,24 @@ export const Header = styled(Space)`
 `;
 
 export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
+
+type SectionHeadingProps = {
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  addBottomPadding?: boolean;
+};
+
+export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
+  props => ({
+    as: props.as || 'h2',
+    v: {
+      size: 'm',
+      properties: props.addBottomPadding ? ['padding-bottom'] : [],
+    },
+    className: font('wb', 3),
+  })
+)<SectionHeadingProps>`
+  font-weight: bold;
+`;
 
 export const Intro = styled(Space).attrs({
   as: 'p',

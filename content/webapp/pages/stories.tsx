@@ -22,10 +22,6 @@ import {
 } from '@weco/common/services/prismic/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -39,7 +35,7 @@ type Props = {
   articles: Article[];
   series: ArticleSeries;
   featuredText?: FeaturedTextType;
-} & WithGlobalContextData;
+};
 
 const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
   return (
@@ -85,7 +81,6 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
@@ -114,7 +109,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           articles: articles.results,
           series,
           featuredText,
-          globalContextData,
           serverData,
         }),
       };
@@ -123,12 +117,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({
-  series,
-  articles,
-  featuredText,
-  globalContextData,
-}) => {
+const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
   const firstArticle = articles[0];
 
   return (
@@ -149,7 +138,6 @@ const StoriesPage: FC<Props> = ({
         undefined
       }
       rssUrl={'https://rss.wellcomecollection.org/stories'}
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <Space

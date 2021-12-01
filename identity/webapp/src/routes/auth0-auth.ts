@@ -5,6 +5,15 @@ import { config } from '../config';
 import * as querystring from 'query-string';
 import { URL } from 'url';
 
+const identityApiScopes = [
+  'create:requests',
+  'delete:patron',
+  'read:user',
+  'read:requests',
+  'update:email',
+  'update:password',
+];
+
 const loginAction: RouteMiddleware = (ctx, next) => {
   if (!ctx.session.returnTo) {
     // Don't overwrite returnTo if e.g. user enters wrong password
@@ -12,7 +21,8 @@ const loginAction: RouteMiddleware = (ctx, next) => {
   }
 
   koaPassport.authenticate('auth0', {
-    scope: 'openid profile email',
+    scope: ['openid', ...identityApiScopes].join(' '),
+    audience: config.remoteApi.host,
   })(ctx, next);
 };
 

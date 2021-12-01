@@ -3,10 +3,6 @@ import { Page } from '@weco/common/model/pages';
 import { getExhibitionWithRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import Exhibition from '../components/Exhibition/Exhibition';
 import Installation from '../components/Installation/Installation';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
@@ -16,36 +12,19 @@ import { getServerData } from '@weco/common/server-data';
 type Props = {
   exhibition: UiExhibition;
   pages: Page[];
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
-const ExhibitionPage: FC<Props> = ({
-  exhibition,
-  pages,
-  globalContextData,
-}) => {
+const ExhibitionPage: FC<Props> = ({ exhibition, pages }) => {
   if (exhibition.format && exhibition.format.title === 'Installation') {
-    return (
-      <Installation
-        installation={exhibition}
-        globalContextData={globalContextData}
-      />
-    );
+    return <Installation installation={exhibition} />;
   } else {
-    return (
-      <Exhibition
-        exhibition={exhibition}
-        pages={pages}
-        globalContextData={globalContextData}
-      />
-    );
+    return <Exhibition exhibition={exhibition} pages={pages} />;
   }
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const { exhibition, pages } = await getExhibitionWithRelatedContent({
       request: context.req,
@@ -58,7 +37,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           exhibition,
           pages: pages?.results || [],
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: exhibition.seasons.map(season => season.id),

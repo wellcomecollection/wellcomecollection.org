@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { HTMLString } from '../../../../common/services/prismic/types';
 import cookie from 'cookie-cutter';
 import { grid, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -7,20 +6,22 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
+import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
 
 type Props = {
   cookieName?: string;
-  text: HTMLString;
+  document: GlobalAlertPrismicDocument;
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 
 const InfoBanner: FunctionComponent<Props> = ({
   cookieName,
-  text,
+  document,
   onVisibilityChange = () => {
     // noop
   },
 }: Props) => {
+  const { text } = document.data;
   const defaultValue = false;
   const [isVisible, setIsVisible] = useState<boolean>(defaultValue);
   const prevIsVisible = usePrevious(defaultValue);

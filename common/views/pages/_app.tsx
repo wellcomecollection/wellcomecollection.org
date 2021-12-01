@@ -1,3 +1,4 @@
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
@@ -9,17 +10,12 @@ import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingInd
 import { trackEvent } from '../../utils/ga';
 import { AppContextProvider } from '../components/AppContext/AppContext';
 import ErrorPage from '../components/ErrorPage/ErrorPage';
-import {
-  getGlobalContextData,
-  GlobalContextData,
-  WithGlobalContextData,
-} from '../components/GlobalContextProvider/GlobalContextProvider';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 import { trackPageview } from '../../services/conversion/track';
 import useIsFontsLoaded from '../../hooks/useIsFontsLoaded';
 import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
+import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 
 declare global {
   interface Window {
@@ -50,7 +46,6 @@ export type AppErrorProps = {
     statusCode: number;
     message: string;
   };
-  globalContextData: GlobalContextData;
 };
 
 type Pageview = {
@@ -79,7 +74,6 @@ export function appError(
   statusCode: number,
   message: string
 ): { props: AppErrorProps } {
-  const globalContextData = getGlobalContextData(context);
   context.res.statusCode = statusCode;
 
   return {
@@ -88,7 +82,6 @@ export function appError(
         statusCode,
         message,
       },
-      globalContextData,
     },
   };
 }
@@ -154,7 +147,7 @@ function makeSurePageIsTallEnough() {
   });
 }
 
-export type WecoAppProps = AppProps & WithGlobalContextData;
+export type WecoAppProps = AppProps;
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -174,7 +167,6 @@ function isErrorPage(route: string): boolean {
 const WecoApp: FunctionComponent<WecoAppProps> = ({
   Component,
   pageProps,
-  globalContextData,
   router,
 }) => {
   // We throw on dev as all pages should set this
@@ -377,29 +369,30 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   return (
     <>
-      <ServerDataContext.Provider value={serverData}>
-        <UserProvider>
-          <AppContextProvider>
-            <ThemeProvider theme={theme}>
-              <GlobalStyle
-                toggles={serverData.toggles}
-                isFontsLoaded={useIsFontsLoaded()}
-              />
-              <OutboundLinkTracker>
-                <LoadingIndicator />
-                {!pageProps.err && <Component {...pageProps} />}
-                {pageProps.err && (
-                  <ErrorPage
-                    statusCode={pageProps.err.statusCode}
-                    title={pageProps.err.message}
-                    globalContextData={globalContextData}
-                  />
-                )}
-              </OutboundLinkTracker>
-            </ThemeProvider>
-          </AppContextProvider>
-        </UserProvider>
-      </ServerDataContext.Provider>
+      <ApmContextProvider>
+        <ServerDataContext.Provider value={serverData}>
+          <UserProvider>
+            <AppContextProvider>
+              <ThemeProvider theme={theme}>
+                <GlobalStyle
+                  toggles={serverData.toggles}
+                  isFontsLoaded={useIsFontsLoaded()}
+                />
+                <OutboundLinkTracker>
+                  <LoadingIndicator />
+                  {!pageProps.err && <Component {...pageProps} />}
+                  {pageProps.err && (
+                    <ErrorPage
+                      statusCode={pageProps.err.statusCode}
+                      title={pageProps.err.message}
+                    />
+                  )}
+                </OutboundLinkTracker>
+              </ThemeProvider>
+            </AppContextProvider>
+          </UserProvider>
+        </ServerDataContext.Provider>
+      </ApmContextProvider>
     </>
   );
 };

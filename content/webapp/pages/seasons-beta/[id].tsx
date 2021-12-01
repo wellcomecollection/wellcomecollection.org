@@ -8,10 +8,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { getServerData } from '@weco/common/server-data';
 import {
   getSeason,
@@ -43,13 +39,9 @@ type Props = {
   pages?: Page[];
   articleSeries?: ArticleSeries[];
   projects?: Project[];
-} & WithGlobalContextData;
+};
 
-const SeasonPage = ({
-  season,
-
-  globalContextData,
-}: Props): ReactElement<Props> => {
+const SeasonPage = ({ season }: Props): ReactElement<Props> => {
   const start = season.data.start ? new Date(season.data.start) : undefined;
   const end = season.data.end ? new Date(season.data.end) : undefined;
   const meta = transformMeta(season);
@@ -71,7 +63,6 @@ const SeasonPage = ({
       // as our standard `undefined` for None values.
       // TODO: think of a way to deal with Prismic `null` values.
       imageAltText={meta.image?.alt ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={season.id}
@@ -120,13 +111,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
     const season = await getSeason(client, id);
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
 
     if (season) {
       return {
         props: removeUndefinedProps({
           season,
-          globalContextData,
           serverData,
         }),
       };

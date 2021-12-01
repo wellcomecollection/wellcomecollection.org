@@ -30,5 +30,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ]
+  ],
+  "ts-node": {
+    "preferTsExts": true
+  }
 }

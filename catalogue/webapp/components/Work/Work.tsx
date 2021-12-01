@@ -15,7 +15,6 @@ import ArchiveTree from '../ArchiveTree/ArchiveTree';
 import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
-import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
@@ -34,11 +33,10 @@ declare global {
 
 type Props = {
   work: WorkType;
-} & WithGlobalContextData;
+};
 
 const Work: FunctionComponent<Props> = ({
   work,
-  globalContextData,
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
 
@@ -77,7 +75,6 @@ const Work: FunctionComponent<Props> = ({
         imageUrl={imageUrl}
         imageAltText={title}
         hideNewsletterPromo={true}
-        globalContextData={globalContextData}
       >
         <div className="container">
           <div className="grid">

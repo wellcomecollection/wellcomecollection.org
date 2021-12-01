@@ -8,18 +8,7 @@ export function reportWebVitals(metric: NextWebVitalsMetric): void {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function IdentityApp(props: WecoAppProps) {
-  return (
-    <App
-      {...props}
-      // We can remove this once we have removed globalContextData
-      globalContextData={{
-        toggles: { enableRequestion: true },
-        globalAlert: null,
-        popupDialog: null,
-        openingTimes: null,
-      }}
-    />
-  );
+  return <App {...props} />;
 }
 
 // This is here to disable Automatic Static Optimisation as per
