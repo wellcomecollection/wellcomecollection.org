@@ -40,6 +40,7 @@ export function parseSeason(document: PrismicDocument): Season {
     seasons,
     labels: [{ text: 'Season' }],
     promo: promo && promo.image && promo,
+    prismicDocument: document,
   };
 }
 
