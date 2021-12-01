@@ -12,6 +12,7 @@ import {
   EmbedField,
   RelationField,
 } from '@prismicio/types';
+import { isUndefined } from '@weco/common/utils/array';
 import { Image } from './types';
 
 type TextSlice = Slice<'slice', { text: RichTextField }>;
@@ -177,7 +178,7 @@ type MediaObjectList = Slice<
   { title: RichTextField; text: RichTextField; image: Image }
 >;
 
-export type Body = SliceZone<
+export type SliceTypes =
   | TextSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
@@ -196,5 +197,23 @@ export type Body = SliceZone<
   | TitledTextList
   | ContentList
   | SearchResults
-  | MediaObjectList
->;
+  | MediaObjectList;
+
+export type Body = SliceZone<SliceTypes>;
+
+// This generates a map of { [key: SliceKey]: SliceType }
+type SliceMap = {
+  [S in SliceTypes as S extends Slice<infer X> ? X : never]: S;
+};
+
+export function isSliceType<SliceType extends keyof SliceMap>(
+  type: SliceType,
+  label?: string
+) {
+  return (slice: SliceTypes): slice is SliceMap[typeof type] => {
+    return (
+      slice.slice_type === type &&
+      (isUndefined(label) || slice.slice_label === label)
+    );
+  };
+}

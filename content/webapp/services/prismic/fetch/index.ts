@@ -1,6 +1,6 @@
 import * as prismic from 'prismic-client-beta';
 import fetch from 'node-fetch';
-import { GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext, NextApiRequest } from 'next';
 
 const routes = [
   {
@@ -47,7 +47,7 @@ export type GetServerSidePropsPrismicClient = {
  */
 export function createClient(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  context: GetServerSidePropsContext
+  context: GetServerSidePropsContext | NextApiRequest
 ): GetServerSidePropsPrismicClient {
   return { type: 'GetServerSidePropsPrismicClient', client };
 }

@@ -10,7 +10,6 @@ import {
   KeyTextField,
   LinkField,
 } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient } from './client';
 import {
   CommonPrismicData,
   InferDataInterface,
@@ -81,14 +80,3 @@ export type EventPrismicDocument = PrismicDocument<
     CommonPrismicData,
   typeof typeEnum
 >;
-
-export async function getExhibition(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<EventPrismicDocument | undefined> {
-  const document = await client.getByID<EventPrismicDocument>(id);
-
-  if (document.type === typeEnum) {
-    return document;
-  }
-}

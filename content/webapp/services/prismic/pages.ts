@@ -5,7 +5,6 @@ import {
   RichTextField,
   BooleanField,
 } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient } from './client';
 import {
   CommonPrismicData,
   InferDataInterface,
@@ -41,14 +40,3 @@ export type PagesPrismicDocument = PrismicDocument<
     CommonPrismicData,
   typeof typeEnum
 >;
-
-export async function getExhibition(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<PagesPrismicDocument | undefined> {
-  const document = await client.getByID<PagesPrismicDocument>(id);
-
-  if (document.type === typeEnum) {
-    return document;
-  }
-}

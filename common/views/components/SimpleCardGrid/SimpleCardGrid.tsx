@@ -1,10 +1,11 @@
 import { classNames, cssGrid } from '../../../utils/classnames';
 import { Card as CardType } from '@weco/common/model/card';
+import Space from '@weco/common/views/components/styled/Space';
+import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
 import Card from '../Card/Card';
 import Layout12 from '../Layout12/Layout12';
-import Space from '@weco/common/views/components/styled/Space';
-import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
+
 type Props = {
   items: readonly CardType[];
   isFeaturedFirst?: boolean;
