@@ -199,7 +199,9 @@ const AccountPage: NextPage = () => {
             {isPasswordUpdated && (
               <AccountStatus type="success">Password updated</AccountStatus>
             )}
-            <SectionHeading>Personal details</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Personal details
+            </SectionHeading>
             <Container>
               <Wrapper removeBottomPadding={true}>
                 <DetailList
@@ -236,7 +238,9 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Item requests</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Item requests
+            </SectionHeading>
             <Container>
               <Wrapper>
                 {(() => {
@@ -331,7 +335,9 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Cancel library membership</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Cancel library membership
+            </SectionHeading>
             <Container>
               <Wrapper>
                 <p className={font('hnr', 5)}>

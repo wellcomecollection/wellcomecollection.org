@@ -15,7 +15,7 @@ export const AccountCreated: React.FC = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1" removeBottomPadding={true}>
+              <SectionHeading as="h1">
                 Activate your library account
               </SectionHeading>
               <SuccessMessage>

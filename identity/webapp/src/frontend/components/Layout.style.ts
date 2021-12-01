@@ -35,7 +35,7 @@ export const Title = styled.h1.attrs({ className: font('wb', 0) })``;
 
 type SectionHeadingProps = {
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  removeBottomPadding?: boolean;
+  addBottomPadding?: boolean;
 };
 
 export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
@@ -43,7 +43,7 @@ export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
     as: props.as || 'h2',
     v: {
       size: 'm',
-      properties: props.removeBottomPadding ? [] : ['padding-bottom'],
+      properties: props.addBottomPadding ? ['padding-bottom'] : [],
     },
     className: font('wb', 3),
   })

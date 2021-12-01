@@ -19,9 +19,7 @@ const DeleteRequestedPage: NextPage = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1" removeBottomPadding={true}>
-                Delete request received
-              </SectionHeading>
+              <SectionHeading as="h1">Delete request received</SectionHeading>
 
               <p>Your request for account deletion has been received.</p>
 

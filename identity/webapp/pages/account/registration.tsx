@@ -102,7 +102,7 @@ const RegistrationPage: NextPage = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1" removeBottomPadding={true}>
+              <SectionHeading as="h1">
                 Register for a library account
               </SectionHeading>
               {registrationError && (

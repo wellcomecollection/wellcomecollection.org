@@ -20,9 +20,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1" removeBottomPadding={true}>
-                An error occurred
-              </SectionHeading>
+              <SectionHeading as="h1">An error occurred</SectionHeading>
 
               <p>{errorDescription}</p>
               <OutlinedButton>
