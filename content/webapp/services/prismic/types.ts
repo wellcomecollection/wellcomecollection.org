@@ -13,7 +13,7 @@ import {
   NumberField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
-import { Body } from './prismic-body';
+import { Body } from './body';
 import { SeasonPrismicDocument } from './seasons';
 import { SeriesPrismicDocument } from './series';
 

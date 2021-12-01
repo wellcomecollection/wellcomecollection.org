@@ -1,14 +1,19 @@
 import {
   GroupField,
   TimestampField,
-  NumberField,
   PrismicDocument,
   RelationField,
   RichTextField,
   SelectField,
 } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from './client';
-import { CommonPrismicData, InferDataInterface } from './types';
+import {
+  CommonPrismicData,
+  InferDataInterface,
+  WithContributors,
+  WithParents,
+  WithSeasons,
+} from './types';
 
 const typeEnum = 'exhibitions';
 
@@ -33,12 +38,6 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     isPermanent: SelectField<'yes'>;
     statusOverride: RichTextField;
     place: RelationField<'place'>;
-    contributorsTitle: RichTextField;
-    contributors: GroupField<{
-      contributor: RelationField<'people', 'organisation'>;
-      role: RelationField<'editorial-contributor-roles'>;
-      description: RichTextField;
-    }>;
     exhibits: GroupField<{
       item: RelationField<'exhibitions'>;
     }>;
@@ -51,14 +50,10 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     resources: GroupField<{
       item: RelationField<'resources'>;
     }>;
-    seasons: GroupField<{
-      season: RelationField<'seasons'>;
-    }>;
-    parents: GroupField<{
-      parent: RelationField<'exhibitions'>;
-      order: NumberField;
-    }>;
-  } & CommonPrismicData,
+  } & WithContributors &
+    WithParents &
+    WithSeasons &
+    CommonPrismicData,
   typeof typeEnum
 >;
 

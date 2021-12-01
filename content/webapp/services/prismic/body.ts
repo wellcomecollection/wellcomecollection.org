@@ -167,12 +167,12 @@ type ContentList = Slice<
 >;
 
 type SearchResults = Slice<
-  'contentList',
+  'searchResults',
   { title: RichTextField; query: KeyTextField }
 >;
 
 type MediaObjectList = Slice<
-  'contentList',
+  'mediaObjectList',
   Record<string, never>,
   { title: RichTextField; text: RichTextField; image: Image }
 >;
