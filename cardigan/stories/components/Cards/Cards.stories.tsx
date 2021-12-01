@@ -1,6 +1,6 @@
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
 import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
-import FeaturedCard from '@weco/common/views/components/FeaturedCard/FeaturedCard';
+import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
@@ -48,9 +48,9 @@ bannerCard.storyName = 'BannerCard';
 const FeaturedCardTemplate = args => {
   return (
     <FeaturedCard
+      id={'id'}
       image={{ ...image(), showTasl: false }}
       labels={[{ text: 'Essay' }]}
-      title={`Remote diagnosis from wee to web`}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={args.background}
       color={args.color}
