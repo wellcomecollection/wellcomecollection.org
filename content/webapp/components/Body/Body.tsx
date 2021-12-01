@@ -43,10 +43,6 @@ import GridFactory, {
   sectionLevelPageGrid,
 } from '@weco/common/views/components/GridFactory/GridFactory';
 import Card from '@weco/common/views/components/Card/Card';
-import FeaturedCard, {
-  convertItemToFeaturedCardProps,
-  convertCardToFeaturedCardProps,
-} from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { BodyType } from '@weco/common/model/generic-content-fields';
 import VisitUsStaticContent from './VisitUsStaticContent';
@@ -54,6 +50,10 @@ import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import VenueHours from '../VenueHours/VenueHours';
+import FeaturedCard, {
+  convertItemToFeaturedCardProps,
+  convertCardToFeaturedCardProps,
+} from '../FeaturedCard/FeaturedCard';
 
 const Map = dynamic(import('@weco/common/views/components/Map/Map'), {
   ssr: false,
