@@ -191,8 +191,8 @@ const VenueHours = ({ venue, weight }: Props) => {
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {formatDay(p.overrideDate?.toDate())}{' '}
-                    {formatDayMonth(p.overrideDate?.toDate())}{' '}
+                    {formatDay(p.overrideDate!.toDate())}{' '}
+                    {formatDayMonth(p.overrideDate!.toDate())}{' '}
                     {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
                   </li>
                 ))}
