@@ -14,7 +14,7 @@ import {
   WithSeasons,
 } from './types';
 
-const typeEnum = 'events';
+const typeEnum = 'pages';
 
 type PageFormat = PrismicDocument<
   {
@@ -24,7 +24,7 @@ type PageFormat = PrismicDocument<
   'page-formats'
 >;
 
-export type EventPrismicDocument = PrismicDocument<
+export type PagesPrismicDocument = PrismicDocument<
   {
     format: RelationField<
       'page-formats',
@@ -45,8 +45,8 @@ export type EventPrismicDocument = PrismicDocument<
 export async function getExhibition(
   { client }: GetServerSidePropsPrismicClient,
   id: string
-): Promise<EventPrismicDocument | undefined> {
-  const document = await client.getByID<EventPrismicDocument>(id);
+): Promise<PagesPrismicDocument | undefined> {
+  const document = await client.getByID<PagesPrismicDocument>(id);
 
   if (document.type === typeEnum) {
     return document;
