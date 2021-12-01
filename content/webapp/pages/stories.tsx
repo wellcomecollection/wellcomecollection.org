@@ -13,7 +13,6 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
-import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
@@ -33,7 +32,8 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
-import { ArticlePrismicDocument } from 'services/prismic/articles';
+import { ArticlePrismicDocument } from '../services/prismic/articles';
+import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
 
 type Props = {
   articles: Article[];

@@ -1,25 +1,29 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { UiImageProps, UiImage } from '../../components/Images/Images';
-import { UiExhibition } from '../../../../common/model/exhibitions';
-import { UiEvent } from '../../../../common/model/events';
+import { UiExhibition } from '@weco/common/model/exhibitions';
+import { UiEvent } from '@weco/common/model/events';
 import {
   Article,
   getPositionInSeries,
   getArticleColor,
-} from '../../../../common/model/articles';
-import { Season } from '../../../../common/model/seasons';
-import { Card } from '../../../../common/model/card';
-import { Label } from '../../../../common/model/labels';
-import { Link } from '../../../../common/model/link';
-import PartNumberIndicator from '../../components/PartNumberIndicator/PartNumberIndicator';
-import { grid, classNames, font } from '../../../utils/classnames';
-import Space from '../styled/Space';
-import LabelsList from '../LabelsList/LabelsList';
-import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
-import { formatDate } from '../../../../common/utils/format-date';
-import { trackEvent } from '../../../utils/ga';
-import linkResolver from '../../../../common/services/prismic/link-resolver';
+} from '@weco/common/model/articles';
+import { Season } from '@weco/common/model/seasons';
+import { Card } from '@weco/common/model/card';
+import { Label } from '@weco/common/model/labels';
+import { Link } from '@weco/common/model/link';
+import { trackEvent } from '@weco/common/utils/ga';
+import { grid, classNames, font } from '@weco/common/utils/classnames';
+import {
+  UiImageProps,
+  UiImage,
+} from '@weco/common/views/components/Images/Images';
+import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import Space from '@weco/common/views/components/styled/Space';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import { formatDate } from '@weco/common/utils/format-date';
+
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type PartialFeaturedCard = {
   id: string;
