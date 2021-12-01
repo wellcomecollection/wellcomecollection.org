@@ -21,6 +21,7 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroReadLinkText: RichTextField;
     outroVisitItem: LinkField;
     outroVisitLinkText: RichTextField;
+    contributorsTitle: RichTextField;
     contributors: GroupField<{
       role: RelationField<'editorial-contributor-roles'>;
       contributor: RelationField<'people' | 'organisations'>;

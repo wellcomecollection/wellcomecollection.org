@@ -14,7 +14,7 @@ import {
 } from '@prismicio/types';
 import { Image } from './types';
 
-type TextSlice = Slice<'slice', { text: RichTextField }>;
+type TextSlice = Slice<'text', { text: RichTextField }>;
 
 type EditorialImageSlice = Slice<
   'editorialImage',
@@ -60,7 +60,7 @@ type Quote = Slice<
   }
 >;
 
-type Standfirst = Slice<
+export type Standfirst = Slice<
   'standfirst',
   {
     text: RichTextField;
@@ -177,7 +177,7 @@ type MediaObjectList = Slice<
   { title: RichTextField; text: RichTextField; image: Image }
 >;
 
-export type Body = SliceZone<
+type SliceTypes =
   | TextSlice
   | EditorialImageSlice
   | EditorialImageGallerySlice
@@ -196,5 +196,18 @@ export type Body = SliceZone<
   | TitledTextList
   | ContentList
   | SearchResults
-  | MediaObjectList
->;
+  | MediaObjectList;
+
+export type Body = SliceZone<SliceTypes>;
+
+// This generates a map of { [key: SliceKey]: SliceType }
+type SliceMap = {
+  [S in SliceTypes as S extends Slice<infer X> ? X : never]: S;
+};
+
+export function isSliceType<SliceKey extends keyof SliceMap>(
+  slice: SliceTypes,
+  sliceKey: SliceKey
+): slice is SliceMap[typeof sliceKey] {
+  return slice.slice_type === sliceKey;
+}

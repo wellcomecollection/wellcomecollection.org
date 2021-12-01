@@ -210,7 +210,7 @@ const AP: FC<Props> = ({ article, globalContextData }) => {
     : null;
   const isImageGallery =
     article.format &&
-    (article.format.id === ArticleFormatIds.ImageGallery ||
+    (article.format.id === ArticleFormatIds.InPictures ||
       article.format.id === ArticleFormatIds.Comic);
 
   const Header = (

@@ -1,8 +1,12 @@
 export const ArticleFormatIds = {
-  ImageGallery: 'W5uKaCQAACkA3C0T',
+  InPictures: 'W5uKaCQAACkA3C0T',
   Essay: 'W7TfJRAAAJ1D0eLK',
   Comic: 'W7d_ghAAALWY3Ujc',
   Podcast: 'XwRZ6hQAAG4K-bbt',
+  Article: 'W7TfJRAAAJ1D0eLK',
+  PhotoStory: 'XTYCkRAAACUANeph',
+  Interview: 'W9BoHhIAANBp1EXg',
+  BookExtract: 'W8CbPhEAAB8Nq4aG',
 } as const;
 
 export const PageFormatIds = {

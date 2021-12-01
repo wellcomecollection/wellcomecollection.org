@@ -12,7 +12,7 @@ import {
   FilledLinkToDocumentField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
-import { Body } from './prismic-body';
+import { Body } from './body';
 import { SeriesPrismicDocument } from './series';
 
 /**
