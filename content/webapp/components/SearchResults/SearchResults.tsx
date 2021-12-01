@@ -6,9 +6,9 @@ import { formatDate } from '@weco/common/utils/format-date';
 import Image from '@weco/common/views/components/Image/Image';
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
 import EventCard from '@weco/common/views/components/EventCard/EventCard';
-import ArticleCard from '@weco/common/views/components/ArticleCard/ArticleCard';
 import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
+import ArticleCard from '../ArticleCard/ArticleCard';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
@@ -113,7 +113,7 @@ const SearchResults = ({
         )}
         {item.type === 'articles' && (
           <ArticleCard
-            article={item}
+            article={item.prismicDocument}
             showPosition={showPosition}
             xOfY={{ x: index + 1, y: items.length }}
           />
