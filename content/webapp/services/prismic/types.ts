@@ -11,7 +11,9 @@ import {
   RelationField,
   FilledLinkToDocumentField,
 } from '@prismicio/types';
+import { ArticleFormat } from './article-format';
 import { Body } from './prismic-body';
+import { SeriesPrismicDocument } from './series';
 
 /**
  * This allows as to get the DataInterface from PrismicDocuments when we
@@ -70,6 +72,25 @@ export type CommonPrismicData = {
   body: Body;
   promo: PromoSliceZone;
   metadataDescription: KeyTextField;
+};
+
+// These fields are shared amonst a lot of types, but not all
+export type WithSeries = {
+  series: GroupField<{
+    series: RelationField<
+      'series',
+      'en-gb',
+      InferDataInterface<SeriesPrismicDocument>
+    >;
+  }>;
+};
+
+export type WithFormat = {
+  format: RelationField<
+    'article-formats',
+    'en-gb',
+    InferDataInterface<ArticleFormat>
+  >;
 };
 
 // Guards

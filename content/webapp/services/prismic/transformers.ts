@@ -1,7 +1,13 @@
 import { PrismicDocument } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
-import { CommonPrismicData, Image } from './types';
+import {
+  CommonPrismicData,
+  Image,
+  isFilledLinkToDocumentWithData,
+  WithFormat,
+  WithSeries,
+} from './types';
 
 type Meta = {
   title: string;
@@ -50,4 +56,18 @@ export function transformLabels(doc: Doc): Label[] {
 
   const labels = typeLabels[doc.type];
   return labels ?? [];
+}
+
+export function transformSeries(document: PrismicDocument<WithSeries>) {
+  return document.data.series
+    .map(({ series }) => series)
+    .filter(isFilledLinkToDocumentWithData);
+}
+
+export function transformFormat(document: PrismicDocument<WithFormat>) {
+  const { format } = document.data;
+
+  if (isFilledLinkToDocumentWithData(format) && format.data) {
+    return format;
+  }
 }

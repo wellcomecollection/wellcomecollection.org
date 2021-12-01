@@ -12,8 +12,11 @@ import {
   CardPostBody,
 } from '@weco/common/views/components/Card/Card';
 import { ArticlePrismicDocument } from '../../services/prismic/articles';
-import { transformMeta } from '../../services/prismic/transformers';
-import { isFilledLinkToDocumentWithData } from '../../services/prismic/types';
+import {
+  transformFormat,
+  transformMeta,
+  transformSeries,
+} from '../../services/prismic/transformers';
 import PrismicImage from '../PrismicImage/PrismicImage';
 
 type Props = {
@@ -24,20 +27,6 @@ type Props = {
   sizesQueries?: string;
 };
 
-function transformSeries(article: ArticlePrismicDocument) {
-  return article.data.series
-    .map(({ series }) => series)
-    .filter(isFilledLinkToDocumentWithData);
-}
-
-function transformFormat(article: ArticlePrismicDocument) {
-  const { format } = article.data;
-
-  if (isFilledLinkToDocumentWithData(format) && format.data) {
-    return prismicH.asText(format.data.title);
-  }
-}
-
 const StoryPromo: FunctionComponent<Props> = ({
   article,
   position,
@@ -46,6 +35,7 @@ const StoryPromo: FunctionComponent<Props> = ({
 }: Props) => {
   const meta = transformMeta(article);
   const series = transformSeries(article);
+  const format = transformFormat(article);
 
   // This is a bit of nastiness as we can't access the articles within a series i.e.
   // `thisArticle.series.schedule.articles.map(article => article.id === thisArticle.id)`
@@ -54,18 +44,24 @@ const StoryPromo: FunctionComponent<Props> = ({
   const seriesWithSchedule = series.find(
     series => (series.data.schedule ?? []).length > 0
   );
+
   const seriesColor = seriesWithSchedule?.data.color ?? undefined;
+
   const indexInSeriesSchedule = seriesWithSchedule?.data.schedule
     ?.map(scheduleItem => prismicH.asText(scheduleItem.title))
     .indexOf(meta.title);
+
   const positionInSeriesSchedule =
     isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
       ? indexInSeriesSchedule + 1
       : undefined;
 
-  const format = transformFormat(article);
   const isSerial = Boolean(seriesWithSchedule);
-  const labels = [format, isSerial ? 'Serial' : undefined]
+
+  const labels = [
+    format?.data.title ? prismicH.asText(format.data.title) : undefined,
+    isSerial ? 'Serial' : undefined,
+  ]
     .filter(isNotUndefined)
     .map(text => ({ text }));
 
