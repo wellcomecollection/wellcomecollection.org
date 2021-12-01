@@ -1,6 +1,6 @@
 # Cache
 
-We use CloudFormation for the cache of wellcomecollection.org.
+We use CloudFront for the cache of wellcomecollection.org.
 
 ## lambda@edge
 
@@ -10,8 +10,8 @@ Redirects traffic at the edge, mitigating against any latency of having to route
 
 The list is controlled via [a static map of URLs](./edge_lambdas/src/redirects.ts).
 
-We don't control marketing URLs or alias URLs here. Marketing URLs are generally best handled with a 
-link shortener for tracking etc. Alias URLs, e.g. `/whats-on` are managed with the 
+We don't control marketing URLs or alias URLs here. Marketing URLs are generally best handled with a
+link shortener for tracking etc. Alias URLs, e.g. `/whats-on` are managed with the
 [routing of the relevant application](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/content/webapp/server.ts).
 
 `redirector` runs @ the `origin-request` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).

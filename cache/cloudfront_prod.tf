@@ -357,6 +357,12 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     }
   }
 
+  logging_config {
+    include_cookies = false
+    bucket          = "wellcomecollection-experience-cloudfront-logs.s3.amazonaws.com"
+    prefix          = "wellcomecollection.org/stage/"
+  }
+
   retain_on_delete = false
 }
 
