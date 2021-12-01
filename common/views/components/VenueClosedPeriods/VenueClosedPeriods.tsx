@@ -48,15 +48,19 @@ const VenueClosedPeriods = ({ venue }: Props) => {
           (closedGroup, i) =>
             closedGroup.length > 0 && (
               <li key={i}>
-                {formatDayDate(closedGroup[0].overrideDate?.toDate())}
-                {closedGroup.length > 1 && (
-                  <>
-                    &mdash;
-                    {formatDayDate(
-                      closedGroup[closedGroup.length - 1].overrideDate?.toDate()
-                    )}
-                  </>
-                )}
+                {closedGroup[0].overrideDate &&
+                  formatDayDate(closedGroup[0].overrideDate.toDate())}
+                {closedGroup.length > 1 &&
+                  closedGroup[closedGroup.length - 1].overrideDate && (
+                    <>
+                      &mdash;
+                      {formatDayDate(
+                        closedGroup[
+                          closedGroup.length - 1
+                        ].overrideDate!.toDate()
+                      )}
+                    </>
+                  )}
               </li>
             )
         )}

@@ -1,4 +1,4 @@
-import { ComponentType, Fragment } from 'react';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { Weight } from '@weco/common/services/prismic/parsers';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -14,13 +14,11 @@ import {
   convertJsonDateStringsToMoment,
   parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
-import Space, {
-  SpaceComponentProps,
-} from '@weco/common/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
+import { Fragment } from 'react';
 
-const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
+const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
     width: 50%;
   `}
@@ -31,7 +29,7 @@ const VenueHoursImage: ComponentType<SpaceComponentProps> = styled(Space)`
   `}
 `;
 
-const VenueHoursTimes: ComponentType<SpaceComponentProps> = styled(Space)`
+const VenueHoursTimes = styled(Space)`
   ${props => props.theme.media.medium`
     float: left;
     width:33%;
@@ -46,9 +44,7 @@ type JauntyBoxProps = {
   bottomLeft: string;
   bottomRight: string;
 };
-const JauntyBox: ComponentType<SpaceComponentProps & JauntyBoxProps> = styled(
-  Space
-).attrs(() => ({
+const JauntyBox = styled(Space).attrs(() => ({
   className: classNames({
     'bg-yellow inline-block': true,
   }),

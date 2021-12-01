@@ -2,12 +2,11 @@ import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
 import {
   Container,
-  Title,
   Wrapper,
+  SectionHeading,
 } from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { font } from '@weco/common/utils/classnames';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
@@ -30,7 +29,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             <Wrapper>
               {success || urlUsed ? (
                 <>
-                  <Title className={font('hnb', 3)}>Email verified</Title>
+                  <SectionHeading as="h1">Email verified</SectionHeading>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
@@ -59,9 +58,11 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                 </>
               ) : (
                 <>
-                  <Title>Failed to verify email</Title>
+                  <SectionHeading as="h1">
+                    Failed to verify email
+                  </SectionHeading>
                   <p>{message}</p>
-                  <div>
+                  <p>
                     If you need help, please{' '}
                     <a
                       href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
@@ -70,7 +71,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                     >
                       contact us
                     </a>
-                  </div>
+                  </p>
                 </>
               )}
             </Wrapper>

@@ -289,7 +289,7 @@ export function getExceptionalClosedDays(
 }
 
 function createRegularDay(day: Day, venue: CollectionVenuePrismicDocument) {
-  const data: any = venue.data;
+  const data = venue.data;
   const lowercaseDay = day.toLowerCase();
   const start = data && data[lowercaseDay][0].startDateTime;
   const end = data && data[lowercaseDay][0].endDateTime;
@@ -302,8 +302,8 @@ function createRegularDay(day: Day, venue: CollectionVenuePrismicDocument) {
   } else {
     return {
       dayOfWeek: day,
-      opens: null,
-      closes: null,
+      opens: undefined,
+      closes: undefined,
     };
   }
 }
@@ -329,11 +329,11 @@ export function parseCollectionVenue(
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes.map(modified => {
-    const start: Moment | undefined = modified.startDateTime
+    const start: string | undefined = modified.startDateTime
       ? london(modified.startDateTime).format('HH:mm')
       : undefined;
-    const end: Moment | undefined = modified.startDateTime
-      ? london(modified.endDateTime).format('HH:mm')
+    const end: string | undefined = modified.startDateTime
+      ? london(modified.endDateTime!).format('HH:mm')
       : undefined;
     const overrideDate: Moment | undefined = modified.overrideDate
       ? london(modified.overrideDate)

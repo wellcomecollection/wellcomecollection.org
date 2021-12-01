@@ -1,5 +1,6 @@
 // @flow
 import Prismic from '@prismicio/client';
+// $FlowFixMe
 import { london } from '../../utils/format-date';
 import { getDocument, getDocuments } from './api';
 import {

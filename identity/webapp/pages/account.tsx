@@ -9,14 +9,14 @@ import { GetServerSideProps, NextPage } from 'next';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
+  Wrapper,
   Container,
   Title,
   Header,
+  SectionHeading,
 } from '../src/frontend/components/Layout.style';
 import {
-  SectionHeading,
   StatusAlert,
-  Wrapper,
   StyledDl,
   StyledDd,
   ProgressBar,
@@ -196,9 +196,11 @@ const AccountPage: NextPage = () => {
             {isPasswordUpdated && (
               <AccountStatus type="success">Password updated</AccountStatus>
             )}
-            <SectionHeading>Personal details</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Personal details
+            </SectionHeading>
             <Container>
-              <Wrapper>
+              <Wrapper removeBottomPadding={true}>
                 <DetailList
                   listItems={[
                     {
@@ -233,7 +235,9 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Item requests</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Item requests
+            </SectionHeading>
             <Container>
               <Wrapper>
                 {(() => {
@@ -310,7 +314,7 @@ const AccountPage: NextPage = () => {
                               className={`${font('hnr', 5)}`}
                               v={{
                                 size: 'l',
-                                properties: ['margin-top', 'margin-bottom'],
+                                properties: ['margin-top'],
                               }}
                             >
                               Requests made will be available to pick up from
@@ -328,7 +332,9 @@ const AccountPage: NextPage = () => {
               </Wrapper>
             </Container>
 
-            <SectionHeading>Cancel library membership</SectionHeading>
+            <SectionHeading addBottomPadding={true}>
+              Cancel library membership
+            </SectionHeading>
             <Container>
               <Wrapper>
                 <p className={font('hnr', 5)}>
@@ -336,14 +342,12 @@ const AccountPage: NextPage = () => {
                   your membership. The library team will be notified and your
                   online account will be closed.
                 </p>
-                <ButtonWrapper>
-                  <ChangeDetailsModal
-                    id="delete-account"
-                    buttonText="Cancel your membership"
-                    onComplete={logoutOnDeletionRequest}
-                    render={props => <DeleteAccount {...props} />}
-                  />
-                </ButtonWrapper>
+                <ChangeDetailsModal
+                  id="delete-account"
+                  buttonText="Cancel your membership"
+                  onComplete={logoutOnDeletionRequest}
+                  render={props => <DeleteAccount {...props} />}
+                />
               </Wrapper>
             </Container>
           </>

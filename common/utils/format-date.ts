@@ -1,13 +1,9 @@
-// @flow
-// $FlowFixMe
+import moment, { Moment } from 'moment';
 import 'moment-timezone';
-import moment from 'moment';
-import type Moment from 'moment';
 
-export function london(
-  d?: Date | string | Moment | { M: string } | { year: string }
-) {
-  // $FlowFixMe
+type DateObj = { M?: number; Y?: number };
+
+export function london(d?: Date | string | Moment | DateObj): Moment {
   return moment.tz(d, 'Europe/London');
 }
 
@@ -49,9 +45,9 @@ export function formatDateRangeWithMessage({
   start,
   end,
 }: {
-  start: Date,
-  end: Date,
-}): { text: string, color: string } {
+  start: Date;
+  end: Date;
+}): { text: string; color: string } {
   const now = london();
   const s = london(start);
   const e = london(end);

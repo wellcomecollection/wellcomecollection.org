@@ -108,8 +108,8 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
           )}
 
           <StatusIndicator
-            start={start}
-            end={end || new Date()}
+            start={start ?? new Date()}
+            end={end ?? new Date()}
             statusOverride={statusOverride}
           />
         </div>
