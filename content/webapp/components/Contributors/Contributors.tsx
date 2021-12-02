@@ -1,8 +1,8 @@
-import Contributor from '../Contributor/Contributor';
 import { Fragment } from 'react';
-import { Contributor as ContributorType } from '../../../model/contributors';
-import Space from '../styled/Space';
-import { isNotUndefined } from '../../../utils/array';
+import { Contributor as ContributorType } from '@weco/common/model/contributors';
+import { isNotUndefined } from '@weco/common/utils/array';
+import Space from '@weco/common/views/components/styled/Space';
+import Contributor from './Contributor';
 
 type Props = {
   contributors: ContributorType[];

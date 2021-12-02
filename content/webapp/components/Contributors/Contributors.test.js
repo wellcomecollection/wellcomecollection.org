@@ -1,4 +1,4 @@
-import { dedupeAndPluraliseRoles } from '../../views/components/Contributors/Contributors';
+import { dedupeAndPluraliseRoles } from './Contributors';
 
 const facilitator = 'Facilitator';
 const guide = 'Guide';
