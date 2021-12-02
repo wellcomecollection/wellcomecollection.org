@@ -20,7 +20,6 @@ const organisations: CustomType = {
         link: text('Link'),
         title: heading('Title (override)'),
       }),
-      url: text('URL (deprecated)'),
     },
   },
 };
