@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import { SeasonWithContent } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -16,6 +15,7 @@ import { convertJsonToDates } from './event';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
 
 type Props = SeasonWithContent;
 const SeasonPage = ({

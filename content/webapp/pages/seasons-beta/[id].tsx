@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import SeasonsHeader from '../../components/SeasonsHeader/SeasonsHeader';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -17,6 +16,7 @@ import { Exhibition } from '@weco/common/model/exhibitions';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import { Project } from '@weco/common/model/projects';
+import { isString } from '@weco/common/utils/array';
 import {
   transformLabels,
   transformMeta,
@@ -25,9 +25,9 @@ import { getImageUrlAtSize } from '../../services/prismic/images';
 import PrismicImage from 'components/PrismicImage/PrismicImage';
 import CardGrid from '../../components/CardGrid/CardGrid';
 import Body from '../../components/Body/Body';
+import ContentPage from '../../components/ContentPage/ContentPage';
 import { createClient } from '../../services/prismic/fetch';
 import { fetchSeason } from '../../services/prismic/fetch/seasons';
-import { isString } from '@weco/common/utils/array';
 
 type Props = {
   season: SeasonPrismicDocument;
