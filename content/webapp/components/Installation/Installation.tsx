@@ -116,6 +116,7 @@ const Installation = ({ installation }: Props) => {
         Header={Header}
         Body={<Body body={installation.body} pageId={installation.id} />}
         contributorProps={{ contributors: installation.contributors }}
+        seasons={installation.seasons}
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>
