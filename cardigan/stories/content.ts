@@ -717,7 +717,6 @@ export const article = {
             spans: [],
           },
         ],
-        twitterHandle: null,
         sameAs: [
           {
             link: 'https://www.instagram.com/weewaaz/',
@@ -925,7 +924,6 @@ export const article = {
                 spans: [],
               },
             ],
-            twitterHandle: null,
             sameAs: [
               {
                 link: 'https://www.instagram.com/weewaaz/',

@@ -217,7 +217,6 @@ function parsePersonContributor(frag: PrismicFragment): PersonContributor {
     pronouns: frag.data.pronouns || '',
     image: checkAndParseImage(image) || defaultContributorImage,
     description: frag.data.description,
-    twitterHandle: null,
     sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : [],
   };
 }
