@@ -7,8 +7,5 @@ export function isUndefined<T>(val: T | undefined): val is T {
 }
 
 export function isString(v: any): v is string {
-  if (typeof v === 'string') {
-    return true;
-  }
-  return false;
+  return typeof v === 'string';
 }
