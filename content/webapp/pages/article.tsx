@@ -76,11 +76,17 @@ const ArticlePage: FC<Props> = ({ article }) => {
     async function setSeries() {
       const series = article.series[0];
       if (series) {
+        const seriesField =
+          series.id === 'WleP3iQAACUAYEoN' || series.id === 'X8D9qxIAACIAcKSf'
+            ? 'my.webcomics.series.series'
+            : 'my.articles.series.series';
+
         const articlesInSeries =
           series &&
           (await fetchArticlesClientSide({
-            predicates: [`[at(my.articles.series.series, "${series.id}")]`],
+            predicates: [`[at(${seriesField}, "${series.id}")]`],
           }));
+
         const articles = articlesInSeries?.results.map(parseArticleDoc);
 
         if (series) {

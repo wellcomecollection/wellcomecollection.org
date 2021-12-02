@@ -364,6 +364,7 @@ export function parseArticleDoc(document: PrismicDocument): Article {
   // When we imported data into Prismic from the Wordpress blog some content
   // needed to have its original publication date displayed. It is purely a display
   // value and does not affect ordering.
+
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
 

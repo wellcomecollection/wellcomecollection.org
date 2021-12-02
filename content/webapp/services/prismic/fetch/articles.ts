@@ -2,8 +2,20 @@ import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
 import { ArticlePrismicDocument } from '../articles';
 
+// This is for the outro links
+const documentLinkTypes = [
+  'pages',
+  'event-series',
+  'books',
+  'events',
+  'articles',
+  'exhibitions',
+  'series',
+  'webcomic-series',
+].flatMap(type => [`${type}.title`, `${type}.promo`]);
+
 const fetchLinks = [
-  'series.title',
+  ...documentLinkTypes,
   'article-formats.title',
   'people.name',
   'people.image',
@@ -14,8 +26,6 @@ const fetchLinks = [
   'editorial-contributor-roles.title',
 ];
 
-const typeEnum = 'articles';
-
 export async function fetchArticle(
   { client }: GetServerSidePropsPrismicClient,
   id: string
@@ -24,7 +34,7 @@ export async function fetchArticle(
     fetchLinks,
   });
 
-  if (document.type === typeEnum) {
+  if (document.type === 'articles' || document.type === 'webcomics') {
     return document;
   }
 }
@@ -36,9 +46,20 @@ export async function fetchArticles(
   { client }: GetServerSidePropsPrismicClient,
   params: Params = {}
 ): Promise<Query<ArticlePrismicDocument>> {
-  const document = await client.getByType<ArticlePrismicDocument>(typeEnum, {
+  /**
+   * articles and webcomics share the same functionality as we
+   * can't change the types of documents in Prismic.
+   *
+   * We thus have to fetch both here
+   * {@link} https://community.prismic.io/t/import-export-change-type-of-imported-document/7814
+   */
+  const articleAndWebcomicPredicate =
+    '[any(document.type, ["articles", "webcomics"])]';
+
+  const document = await client.get<ArticlePrismicDocument>({
     fetchLinks,
     ...params,
+    predicates: [articleAndWebcomicPredicate, ...(params.predicates ?? [])],
   });
 
   return document;

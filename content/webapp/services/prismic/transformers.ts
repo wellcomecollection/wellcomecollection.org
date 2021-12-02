@@ -1,6 +1,7 @@
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
+import linkResolver from './link-resolver';
 import {
   CommonPrismicFields,
   Image,
@@ -30,8 +31,7 @@ export function transformMeta(doc: Doc): Meta {
     description: doc.data.metadataDescription || undefined,
     promoText: transformRichTextFieldToString(promo.caption) || undefined,
     image: promo.image,
-    // TODO: This needs to account for more cases, should probably use the link resolver.
-    url: `/${doc.type}/${doc.id}`,
+    url: linkResolver(doc) || '',
   };
 }
 
