@@ -25,19 +25,18 @@ const exceptionalClosedDates = [
 
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
-    const result = determineNextAvailableDate(london('2021-12-9 09:00'));
+    const result = determineNextAvailableDate(london('2021-12-9 09:00'), [0]);
     expect(result.toDate()).toEqual(london('2021-12-10 09:00').toDate());
   });
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
-    const result = determineNextAvailableDate(london('2021-12-9 11:00'));
+    const result = determineNextAvailableDate(london('2021-12-9 11:00'), [0]);
     expect(result.toDate()).toEqual(london('2021-12-11 11:00').toDate());
   });
 
   it('returns the following Monday rather than a Sunday', () => {
-    // TODO use regular closed days from Prismic rather than hard coded Sunday
-    const result = determineNextAvailableDate(london('2021-12-10 10:30'));
-    expect(result.toDate()).toEqual(london('2021-12-13').toDate());
+    const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]);
+    expect(result.toDate()).toEqual(london('2021-12-13 10:30').toDate());
   });
 });
 

@@ -20,17 +20,30 @@ export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   }
 }
 
-export function determineNextAvailableDate(date: Moment): Moment {
+type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+function findNonClosedDay(
+  date: Moment,
+  regularClosedDays: DayNumber[]
+): Moment {
+  const isClosed = regularClosedDays.includes(date.day() as DayNumber);
+  if (isClosed) {
+    return findNonClosedDay(date.add(1, 'day'), regularClosedDays);
+  } else {
+    return date;
+  }
+}
+
+export function determineNextAvailableDate(
+  date: Moment,
+  regularClosedDays: (0 | 1 | 2 | 3 | 4 | 5 | 6)[]
+): Moment {
   const nextAvailableDate = date.clone();
   const isBeforeTen = nextAvailableDate.isBefore(
     date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
   );
-  // If it's before 10am, we can pick up on the next day
-  // otherwise, in two days' time
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  const nextAvailableDateIsSunday = nextAvailableDate.day() === 0; // TODO if it's a regular closed day, rather than hard coded
-  // …if that's a Sunday, move it to Monday // TODO regularClosedDay
-  return nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
+  return findNonClosedDay(nextAvailableDate, regularClosedDays);
 }
 
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };

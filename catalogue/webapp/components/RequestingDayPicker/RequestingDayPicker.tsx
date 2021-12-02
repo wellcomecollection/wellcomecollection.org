@@ -242,9 +242,12 @@ const RequestingDayPicker: FC<Props> = ({
       return day.overrideDate;
     });
 
-  const nextAvailableDate = determineNextAvailableDate(london(new Date()));
+  const nextAvailableDate = determineNextAvailableDate(
+    london(new Date()),
+    regularClosedDays
+  );
   // there should be a 2 week window in which to select a date
-  const lastAvailableDate = nextAvailableDate.add(13, 'days'); // TODO rename
+  const lastAvailableDate = nextAvailableDate.add(13, 'days');
   // we want to know if the library is closed on any days during the selection window
   // so that we can extend the lastAvailableDate to take these into account
   const extendedLastAvailableDate = extendEndDate({
