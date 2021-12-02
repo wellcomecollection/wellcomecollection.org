@@ -38,7 +38,6 @@ export const staticBooks = [
               spans: [],
             },
           ],
-          twitterHandle: null,
           sameAs: [],
         },
         description: null,
@@ -429,7 +428,6 @@ export const staticBooks = [
               spans: [],
             },
           ],
-          twitterHandle: null,
           sameAs: [
             {
               link: 'https://www.elifsafak.com.tr/',
@@ -805,7 +803,6 @@ export const staticBooks = [
               spans: [],
             },
           ],
-          twitterHandle: null,
           sameAs: [],
         },
         description: null,

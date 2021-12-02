@@ -151,14 +151,12 @@ export function workLd(content) {
 export function museumLd(museum) {
   const logo = imageLd(museum.logo);
   const newMuseum = Object.assign({}, museum, { logo });
-  delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Museum');
 }
 
 export function libraryLd(museum) {
   const logo = imageLd(museum.logo);
   const newMuseum = Object.assign({}, museum, { logo, image: logo });
-  delete newMuseum.twitterHandle;
   return objToJsonLd(newMuseum, 'Library');
 }
 
