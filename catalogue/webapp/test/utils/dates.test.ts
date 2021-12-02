@@ -21,7 +21,7 @@ const exceptionalClosedDates = [
   london(new Date('2020-01-20')),
   london(new Date('2020-01-22')),
 ];
-// TODO check all the tests are doing what I think they are doing
+
 describe('filterExceptionalClosedDates', () => {
   it('removes any date that is a regular closed day', () => {
     const result = filterExceptionalClosedDates(

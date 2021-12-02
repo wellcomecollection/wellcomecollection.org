@@ -238,7 +238,7 @@ const RequestingDayPicker: FC<Props> = ({
       return day.overrideDate;
     });
 
-  const nextAvailableDate = london(new Date('2021-12-9')); // TODO put back to new Date()
+  const nextAvailableDate = london(new Date());
   const isBeforeTen = nextAvailableDate.isBefore(10);
   // If it's before 10am, we can request on the next day
   // otherwise, in two days' time
