@@ -5,22 +5,22 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import { font, classNames } from '../../../utils/classnames';
-import { CaptionedImage } from '../Images/Images';
-import WobblyEdge from '../WobblyEdge/WobblyEdge';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import Control from '../Buttons/Control/Control';
-import Icon from '../Icon/Icon';
-import Layout12 from '../Layout12/Layout12';
-import { CaptionedImage as CaptionedImageProps } from '../../../model/captioned-image';
-import { PageBackgroundContext } from '../ContentPage/ContentPage';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { repeatingLsBlack } from '../../../utils/backgrounds';
-import { breakpoints } from '../../../utils/breakpoints';
-import { trackEvent } from '../../../utils/ga';
-import Space from '../styled/Space';
 import styled from 'styled-components';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
+import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
+import { breakpoints } from '@weco/common/utils/breakpoints';
+import { trackEvent } from '@weco/common/utils/ga';
+import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
+import { PageBackgroundContext } from '../ContentPage/ContentPage';
 
 type TitleStyle = {
   transform?: string;

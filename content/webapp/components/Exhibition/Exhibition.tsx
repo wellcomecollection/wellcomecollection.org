@@ -4,7 +4,6 @@ import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
@@ -31,6 +30,7 @@ import {
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
+import ContentPage from '../ContentPage/ContentPage';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)

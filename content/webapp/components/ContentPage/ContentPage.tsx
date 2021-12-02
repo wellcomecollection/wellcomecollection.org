@@ -1,7 +1,4 @@
-/**
- * The reason this page lives in the common library is that the common
- * `ErrorPage` component depends on it.
- */
+import styled from 'styled-components';
 import {
   Children,
   Fragment,
@@ -10,28 +7,28 @@ import {
   ComponentProps,
   ReactElement,
 } from 'react';
-import Contributors from '../Contributors/Contributors';
-import Layout8 from '../Layout8/Layout8';
-import Layout12 from '../Layout12/Layout12';
-import PageHeader from '../PageHeader/PageHeader';
-import Outro from '../Outro/Outro';
-import { classNames } from '../../../utils/classnames';
-import SpacingSection from '../SpacingSection/SpacingSection';
-import SpacingComponent from '../SpacingComponent/SpacingComponent';
-import CompactCard from '../CompactCard/CompactCard';
-import Image from '../Image/Image';
-import Space from '../styled/Space';
-import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import {
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
-import BannerCard from '../BannerCard/BannerCard';
-import { Season } from '../../../model/seasons';
-import { ElementFromComponent } from '../../../utils/utility-types';
-import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader';
-import styled from 'styled-components';
-import { MultiContent } from '../../../model/multi-content';
+import { classNames } from '@weco/common/utils/classnames';
+import { Season } from '@weco/common/model/seasons';
+import { ElementFromComponent } from '@weco/common/utils/utility-types';
+import { MultiContent } from '@weco/common/model/multi-content';
+import Contributors from '@weco/common/views/components/Contributors/Contributors';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import PageHeader, {
+  headerSpaceSize,
+} from '@weco/common/views/components/PageHeader/PageHeader';
+import Outro from '@weco/common/views/components/Outro/Outro';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
+import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import Image from '@weco/common/views/components/Image/Image';
+import Space from '@weco/common/views/components/styled/Space';
+import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
+import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
