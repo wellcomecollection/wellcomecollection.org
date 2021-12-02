@@ -29,6 +29,7 @@ const config = function (webpack) {
   });
 
   return withTM({
+    basePath: '/account',
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org`

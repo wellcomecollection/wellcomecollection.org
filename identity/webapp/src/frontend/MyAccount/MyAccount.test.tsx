@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import AccountPage from '../../../pages/account';
+import AccountPage from '../../../pages';
 import {
   mockItemRequests,
   mockUser,

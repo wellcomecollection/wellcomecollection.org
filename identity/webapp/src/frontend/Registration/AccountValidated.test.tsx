@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import ValidatedPage from '../../../pages/account/validated';
+import ValidatedPage from '../../../pages/validated';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 
