@@ -20,13 +20,16 @@ export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   }
 }
 
-export function determineNextAvailableDate(nextAvailableDate: Moment): Moment {
-  const isBeforeTen = nextAvailableDate.isBefore(10);
-  // If it's before 10am, we can request on the next day
+export function determineNextAvailableDate(date: Moment): Moment {
+  const nextAvailableDate = date.clone();
+  const isBeforeTen = nextAvailableDate.isBefore(
+    date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
+  );
+  // If it's before 10am, we can pick up on the next day
   // otherwise, in two days' time
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  const nextAvailableDateIsSunday = nextAvailableDate.day() === 0;
-  // …if that's a Sunday, move it to Monday
+  const nextAvailableDateIsSunday = nextAvailableDate.day() === 0; // TODO if it's a regular closed day, rather than hard coded
+  // …if that's a Sunday, move it to Monday // TODO regularClosedDay
   return nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
 }
 
