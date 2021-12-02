@@ -20,6 +20,16 @@ export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   }
 }
 
+export function determineNextAvailableDate(nextAvailableDate: Moment): Moment {
+  const isBeforeTen = nextAvailableDate.isBefore(10);
+  // If it's before 10am, we can request on the next day
+  // otherwise, in two days' time
+  nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
+  const nextAvailableDateIsSunday = nextAvailableDate.day() === 0;
+  // …if that's a Sunday, move it to Monday
+  return nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
+}
+
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
 
 export function groupExceptionalClosedDates(params: {

@@ -12,7 +12,11 @@ import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
-import { getDayNumber, extendEndDate } from '@weco/catalogue/utils/dates';
+import {
+  determineNextAvailableDate,
+  getDayNumber,
+  extendEndDate,
+} from '@weco/catalogue/utils/dates';
 
 const { formatDate, parseDate } = LocaleUtils;
 
@@ -238,16 +242,9 @@ const RequestingDayPicker: FC<Props> = ({
       return day.overrideDate;
     });
 
-  const nextAvailableDate = london(new Date());
-  const isBeforeTen = nextAvailableDate.isBefore(10);
-  // If it's before 10am, we can request on the next day
-  // otherwise, in two days' time
-  nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  const nextAvailableDateIsSunday = nextAvailableDate.day() === 0;
-  // …if that's a Sunday, move it to Monday
-  nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
+  const nextAvailableDate = determineNextAvailableDate(london(new Date()));
   // there should be a 2 week window in which to select a date
-  const lastAvailableDate = london(nextAvailableDate).add(13, 'days');
+  const lastAvailableDate = nextAvailableDate.add(13, 'days'); // TODO rename
   // we want to know if the library is closed on any days during the selection window
   // so that we can extend the lastAvailableDate to take these into account
   const extendedLastAvailableDate = extendEndDate({
