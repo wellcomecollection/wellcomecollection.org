@@ -274,7 +274,7 @@ const RequestingDayPicker: FC<Props> = ({
   };
 
   const fromMonth = nextAvailableDate.toDate();
-  const toMonth = lastAvailableDate.toDate();
+  const toMonth = extendedLastAvailableDate.toDate();
 
   const [isPrevMonthDisabled, setIsPrevMonthDisabled] = useState(true);
   const [isNextMonthDisabled, setIsNextMonthDisabled] = useState(false);
