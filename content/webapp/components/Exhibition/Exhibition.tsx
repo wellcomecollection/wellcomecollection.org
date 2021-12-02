@@ -11,7 +11,6 @@ import PageHeader, {
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -31,6 +30,7 @@ import {
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
+import Contributors from '../Contributors/Contributors';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)

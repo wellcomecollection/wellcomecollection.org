@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import Prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -48,6 +47,7 @@ import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
+import Contributors from '../components/Contributors/Contributors';
 
 const TimeWrapper = styled(Space).attrs({
   v: {

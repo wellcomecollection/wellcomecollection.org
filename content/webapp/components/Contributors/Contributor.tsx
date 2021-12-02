@@ -1,16 +1,12 @@
-// @flow
-// $FlowFixMe (ts)
-import { font, grid, classNames } from '../../../utils/classnames';
-import Image from '../Image/Image';
-// $FlowFixMe (tsx)
-import Avatar from '../Avatar/Avatar';
-// $FlowFixMe (tsx)
-import LinkLabels from '../LinkLabels/LinkLabels';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { Contributor as ContributorType } from '../../../model/contributors';
-import type { Props as ImageProps } from '../Image/Image';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
+import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { Contributor as ContributorType } from '@weco/common/model/contributors';
+import Image, {
+  Props as ImageProps,
+} from '@weco/common/views/components/Image/Image';
+import Avatar from '@weco/common/views/components/Avatar/Avatar';
+import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -57,29 +53,29 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
               </a>
             </h3>
           )}
-          {!contributor.url && (
-            <div className={`flex flex--h-baseline`}>
-              <h3
+
+          <div className={`flex flex--h-baseline`}>
+            <h3
+              className={classNames({
+                [font('hnb', 4)]: true,
+                'no-margin': true,
+              })}
+            >
+              {contributor.name}
+            </h3>
+            {contributor.type === 'people' && contributor.pronouns && (
+              <Space
+                h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnb', 4)]: true,
-                  'no-margin': true,
+                  [font('hnr', 5)]: true,
+                  'font-pewter': true,
                 })}
               >
-                {contributor.name}
-              </h3>
-              {contributor.pronouns && (
-                <Space
-                  h={{ size: 's', properties: ['margin-left'] }}
-                  className={classNames({
-                    [font('hnr', 5)]: true,
-                    'font-pewter': true,
-                  })}
-                >
-                  ({contributor.pronouns})
-                </Space>
-              )}
-            </div>
-          )}
+                ({contributor.pronouns})
+              </Space>
+            )}
+          </div>
+
           {role && role.title && (
             <div className={'font-pewter ' + font('hnb', 5)}>{role.title}</div>
           )}
