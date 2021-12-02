@@ -17,7 +17,6 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
 import Quote from '@weco/common/views/components/Quote/Quote';
-import ImageGallery from '@weco/common/views/components/ImageGallery/ImageGallery';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -54,6 +53,7 @@ import FeaturedCard, {
   convertItemToFeaturedCardProps,
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
+import ImageGallery from '../ImageGallery/ImageGallery';
 
 const Map = dynamic(import('@weco/common/views/components/Map/Map'), {
   ssr: false,

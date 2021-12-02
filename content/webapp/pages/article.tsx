@@ -5,7 +5,6 @@ import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader, {
@@ -23,6 +22,7 @@ import { isString } from '@weco/common/utils/array';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchArticle,
