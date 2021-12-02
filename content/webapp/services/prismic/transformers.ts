@@ -1,8 +1,8 @@
-import { PrismicDocument } from '@prismicio/types';
+import { PrismicDocument, KeyTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
   WithFormat,
@@ -18,7 +18,7 @@ type Meta = {
   image?: Image;
 };
 
-type Doc = PrismicDocument<CommonPrismicData>;
+type Doc = PrismicDocument<CommonPrismicFields>;
 
 export function transformMeta(doc: Doc): Meta {
   const promo = tranformPromo(doc);
@@ -70,4 +70,9 @@ export function transformFormat(document: PrismicDocument<WithFormat>) {
   if (isFilledLinkToDocumentWithData(format) && format.data) {
     return format;
   }
+}
+
+// This is to avoid introducing nulls into our codebase
+export function transformKeyTextField(field: KeyTextField) {
+  return field ?? undefined;
 }

@@ -5,7 +5,7 @@ import {
   PrismicDocument,
 } from '@prismicio/types';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   WithFormat,
   WithParents,
   WithSeasons,
@@ -25,6 +25,6 @@ export type ArticlePrismicDocument = PrismicDocument<
     WithSeasons &
     WithFormat &
     WithParents &
-    CommonPrismicData,
+    CommonPrismicFields,
   'articles'
 >;

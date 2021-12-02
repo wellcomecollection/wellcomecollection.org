@@ -7,7 +7,7 @@ import {
   PrismicDocument,
   SelectField,
 } from '@prismicio/types';
-import { CommonPrismicData } from './types';
+import { CommonPrismicFields } from './types';
 
 const typeEnum = 'series';
 
@@ -26,6 +26,6 @@ export type SeriesPrismicDocument = PrismicDocument<
     seasons: GroupField<{
       season: RelationField<'seasons'>;
     }>;
-  } & CommonPrismicData,
+  } & CommonPrismicFields,
   typeof typeEnum
 >;
