@@ -1,7 +1,6 @@
 export const peopleFields = [
   'people.name',
   'people.image',
-  'people.twitterHandle',
   'people.description',
   'people.pronouns',
   'people.sameAs',
