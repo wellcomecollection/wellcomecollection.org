@@ -1,7 +1,7 @@
 import { GetServerSidePropsPrismicClient } from '.';
 import { SeasonPrismicDocument } from '../seasons';
 
-export async function getSeason(
+export async function fetchSeason(
   { client }: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<SeasonPrismicDocument | undefined> {
