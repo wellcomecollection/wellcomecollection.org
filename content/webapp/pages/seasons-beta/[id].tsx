@@ -27,6 +27,7 @@ import CardGrid from '../../components/CardGrid/CardGrid';
 import Body from '../../components/Body/Body';
 import { createClient } from '../../services/prismic/fetch';
 import { fetchSeason } from '../../services/prismic/fetch/seasons';
+import { isString } from '@weco/common/utils/array';
 
 type Props = {
   season: SeasonPrismicDocument;
@@ -91,13 +92,6 @@ const SeasonPage = ({ season }: Props): ReactElement<Props> => {
     </PageLayout>
   );
 };
-
-function isString(v: any): v is string {
-  if (typeof v === 'string') {
-    return true;
-  }
-  return false;
-}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
