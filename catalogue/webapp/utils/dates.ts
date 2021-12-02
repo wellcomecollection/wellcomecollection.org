@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 import { Day } from '@weco/common/model/opening-hours';
 
-export function getDayNumber(day: Day): number | null {
+export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   switch (day) {
     case 'Monday':
       return 1;
