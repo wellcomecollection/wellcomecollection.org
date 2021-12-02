@@ -44,6 +44,62 @@ describe('ArchiveBreadcrumb', () => {
     ).toBeTruthy();
   });
 
+  it("omits the reference number in a middle crumb if there isn't one", () => {
+    const w: Work = {
+      id: 'x56u8dnf',
+      title: 'Cĕrita hantu setan',
+      alternativeTitles: [],
+      workType: {
+        id: 'h',
+        label: 'Archives and manuscripts',
+        type: 'Format',
+      },
+      parts: [],
+      partOf: [
+        {
+          id: 'wz7z8468',
+          title: 'Wellcome Malay 3 part 2',
+          partOf: [
+            {
+              id: 'v495u8s2',
+              title: 'Wellcome Malay 3',
+              referenceNumber: 'Wellcome Malay 3',
+              partOf: [],
+              totalParts: 6,
+              totalDescendentParts: 15,
+              type: 'Work',
+            },
+          ],
+          totalParts: 1,
+          totalDescendentParts: 1,
+          type: 'Work',
+        },
+      ],
+      precededBy: [],
+      succeededBy: [],
+      physicalDescription: '1 file',
+      contributors: [],
+      subjects: [],
+      genres: [],
+      identifiers: [],
+      production: [],
+      languages: [],
+      notes: [],
+      holdings: [],
+      availabilities: [],
+      availableOnline: false,
+      type: 'Work',
+    };
+
+    const component = shallowWithTheme(
+      <IsArchiveContext.Provider value={true}>
+        <ArchiveBreadcrumb work={w} />
+      </IsArchiveContext.Provider>
+    );
+    const componentHtml = component.html();
+    expect(componentHtml.indexOf('undefined')).toBe(-1);
+  });
+
   it("omits the reference number in the last crumb if there isn't one", () => {
     const w: Work = {
       id: 'eyfq7xd9',
