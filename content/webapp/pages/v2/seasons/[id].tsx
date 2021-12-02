@@ -2,14 +2,14 @@ import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import SeasonsHeader from '../../components/SeasonsHeader/SeasonsHeader';
+import { isString } from '@weco/common/utils/array';
 import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
-import { SeasonPrismicDocument } from '../../services/prismic/seasons';
+import { SeasonPrismicDocument } from '../../../services/prismic/seasons';
 import { Article } from '@weco/common/model/articles';
 import { Book } from '@weco/common/model/books';
 import { Event } from '@weco/common/model/events';
@@ -20,14 +20,14 @@ import { Project } from '@weco/common/model/projects';
 import {
   transformLabels,
   transformMeta,
-} from '../../services/prismic/transformers';
-import { getImageUrlAtSize } from '../../services/prismic/images';
-import PrismicImage from 'components/PrismicImage/PrismicImage';
-import CardGrid from '../../components/CardGrid/CardGrid';
-import Body from '../../components/Body/Body';
-import { createClient } from '../../services/prismic/fetch';
-import { fetchSeason } from '../../services/prismic/fetch/seasons';
-import { isString } from '@weco/common/utils/array';
+} from '../../../services/prismic/transformers';
+import { getImageUrlAtSize } from '../../../services/prismic/images';
+import PrismicImage from '../../../components/PrismicImage/PrismicImage';
+import SeasonsHeader from '../../../components/SeasonsHeader/SeasonsHeader';
+import CardGrid from '../../../components/CardGrid/CardGrid';
+import Body from '../../../components/Body/Body';
+import { createClient } from '../../../services/prismic/fetch';
+import { fetchSeason } from '../../../services/prismic/fetch/seasons';
 
 type Props = {
   season: SeasonPrismicDocument;
