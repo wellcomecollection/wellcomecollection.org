@@ -153,9 +153,7 @@ const AccountPage: NextPage = () => {
 
   const logoutOnDeletionRequest = () => {
     router.replace(
-      `/account/logout?returnTo=${encodeURIComponent(
-        '/account/delete-requested'
-      )}`
+      `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
     );
   };
 

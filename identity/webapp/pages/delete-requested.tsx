@@ -3,8 +3,8 @@ import {
   Container,
   Wrapper,
   SectionHeading,
-} from '../../src/frontend/components/Layout.style';
-import { PageWrapper } from '../../src/frontend/components/PageWrapper';
+} from '../src/frontend/components/Layout.style';
+import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
