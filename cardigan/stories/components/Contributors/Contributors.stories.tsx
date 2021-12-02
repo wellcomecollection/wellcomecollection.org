@@ -1,4 +1,4 @@
-import Contributors from '@weco/common/views/components/Contributors/Contributors';
+import Contributors from '@weco/content/components/Contributors/Contributors';
 import { organisation, person } from '../../content';
 
 const Template = args => <Contributors {...args} />;
