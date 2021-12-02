@@ -1,12 +1,13 @@
 import { PrismicDocument, KeyTextField } from '@prismicio/types';
-import {
-  isFilledLinkToDocumentWithData,
-  isFilledLinkToWebField,
-  WithContributors,
-} from '../types';
+import * as prismicH from 'prismic-helpers-beta';
+import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../model/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { transformKeyTextField } from '../transformers';
+import {
+  transformKeyTextField,
+  transformRichTextField,
+  transformRichTextFieldToString,
+} from '../transformers';
 
 function transformContributorAgent(
   agent: WithContributors['contributors'][number]['contributor']
@@ -15,14 +16,12 @@ function transformContributorAgent(
     const commonFields = {
       id: agent.id,
       name: agent.data.name ?? undefined,
-      description: agent.data.description,
+      description: transformRichTextField(agent.data.description),
       image: agent.data.image,
       sameAs: agent.data.sameAs
         .map(sameAs => {
-          const link = isFilledLinkToWebField(sameAs.link)
-            ? sameAs.link.url
-            : undefined;
-          const title = transformKeyTextField(sameAs.title);
+          const link = transformKeyTextField(sameAs.link);
+          const title = prismicH.asText(sameAs.title);
           return title && link ? { title, link } : undefined;
         })
         .filter(isNotUndefined),
@@ -59,12 +58,12 @@ export function transformContributors(
       const role = roleDocument
         ? {
             id: roleDocument.id,
-            title: transformKeyTextField(roleDocument.data.title),
-            describedBy: roleDocument.data.describedBy,
+            title: transformRichTextFieldToString(roleDocument.data.title),
+            describedBy: transformKeyTextField(roleDocument.data.describedBy),
           }
         : undefined;
 
-      const description = contributor.description;
+      const description = transformRichTextField(contributor.description);
 
       return agent
         ? {

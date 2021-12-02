@@ -115,7 +115,7 @@ const Installation = ({ installation }: Props) => {
         id={installation.id}
         Header={Header}
         Body={<Body body={installation.body} pageId={installation.id} />}
-        contributorProps={{ contributors: installation.contributors }}
+        document={installation.prismicDocument}
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>

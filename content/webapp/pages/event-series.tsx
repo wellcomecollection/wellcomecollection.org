@@ -140,7 +140,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        contributorProps={{ contributors: series.contributors }}
+        document={series.prismicDocument}
       >
         {upcomingEvents.length > 0 && (
           <SearchResults items={upcomingEvents} title={`What's next`} />

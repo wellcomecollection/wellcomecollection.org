@@ -293,7 +293,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           />
         }
         RelatedContent={Siblings}
-        contributorProps={{ contributors: article.contributors }}
+        document={article.prismicDocument}
         outroProps={
           articleHasOutro(article)
             ? {

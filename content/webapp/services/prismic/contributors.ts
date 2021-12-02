@@ -13,8 +13,8 @@ import { Image } from './types';
  * See {@link https://community.prismic.io/t/import-export-change-type-of-imported-document/7814}
  */
 export type EditorialContributorRoles = PrismicDocument<{
-  title: KeyTextField;
-  describedBy: RichTextField;
+  title: RichTextField;
+  describedBy: KeyTextField;
 }>;
 
 export type Person = PrismicDocument<
@@ -24,8 +24,8 @@ export type Person = PrismicDocument<
     pronouns: KeyTextField;
     image: Image;
     sameAs: GroupField<{
-      link: LinkField;
-      title: KeyTextField;
+      link: KeyTextField;
+      title: RichTextField;
     }>;
   },
   'people'

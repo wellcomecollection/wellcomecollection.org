@@ -28,7 +28,7 @@ type Organisation = {
 type ContributorRole = {
   id: string;
   title?: string;
-  describedBy?: RichTextField;
+  describedBy?: string;
 };
 
 export type Contributor = {

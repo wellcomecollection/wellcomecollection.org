@@ -319,12 +319,14 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         Header={Header}
         Body={<Body body={body} pageId={event.id} />}
         seasons={event.seasons}
+        document={event.prismicDocument}
+        // We hide contributors as we render them higher up the page on events
+        hideContributors={true}
       >
         {event.contributors.length > 0 && (
           <Contributors
+            document={event.prismicDocument}
             titlePrefix="About your"
-            titleOverride={event.contributorsTitle ?? undefined}
-            contributors={event.contributors}
           />
         )}
         <DateWrapper>

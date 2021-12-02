@@ -126,7 +126,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        contributorProps={{ contributors: series.contributors }}
+        document={series.prismicDocument}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

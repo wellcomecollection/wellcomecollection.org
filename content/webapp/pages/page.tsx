@@ -271,7 +271,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
-        contributorProps={{ contributors: page.contributors }}
+        document={page.prismicDocument}
         seasons={page.seasons}
       />
     </PageLayout>

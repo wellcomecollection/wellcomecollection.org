@@ -274,12 +274,12 @@ const Exhibition = ({ exhibition, pages }: Props) => {
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
+        document={exhibition.prismicDocument}
+        // We hide contributors as we show then further up the page
+        hideContributors={true}
       >
         {exhibition.contributors.length > 0 && (
-          <Contributors
-            titleOverride={exhibition.contributorsTitle ?? undefined}
-            contributors={exhibition.contributors}
-          />
+          <Contributors document={exhibition.prismicDocument} />
         )}
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
         a reasonable starting place. Update this once the UX has shaken out. */}
