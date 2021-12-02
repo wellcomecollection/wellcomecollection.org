@@ -2,8 +2,19 @@ import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
 import { ArticlePrismicDocument } from '../articles';
 
+// This is for the outro links
+const documentLinkTypes = [
+  'pages',
+  'event-series',
+  'books',
+  'events',
+  'articles',
+  'exhibitions',
+  'series',
+].flatMap(type => [`${type}.title`, `${type}.promo`]);
+
 const fetchLinks = [
-  'series.title',
+  ...documentLinkTypes,
   'article-formats.title',
   'people.name',
   'people.image',
