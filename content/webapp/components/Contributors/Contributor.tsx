@@ -8,22 +8,6 @@ import PrismicImage from '../PrismicImage/PrismicImage';
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
 
-  // const imageProps: ImageProps =
-  //   contributor.type === 'organisations'
-  //     ? {
-  //         width: 78,
-  //         contentUrl: contributor.image && contributor.image.contentUrl,
-  //         alt: `Logo for ${contributor.name}`,
-  //         tasl: null,
-  //       }
-  //     : {
-  //         width: 78,
-  //         height: 78,
-  //         contentUrl: contributor.image && contributor.image.contentUrl,
-  //         alt: `Photograph of ${contributor.name}`,
-  //         tasl: null,
-  //       };
-
   return (
     <div className="grid">
       <div className={`flex ${grid({ s: 12, m: 12, l: 12, xl: 12 })}`}>
