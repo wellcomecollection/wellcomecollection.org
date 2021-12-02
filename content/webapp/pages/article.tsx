@@ -28,6 +28,7 @@ import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
+import { transformContributors } from '../services/prismic/transformers/contributors';
 
 type Props = {
   article: Article;
@@ -135,8 +136,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
   const genericFields = {
     id: article.id,
     title: article.title,
-    contributors: article.contributors,
-    contributorsTitle: article.contributorsTitle,
     promo: article.promo,
     body: article.body,
     standfirst: article.standfirst,
@@ -150,6 +149,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
     metadataDescription: article.metadataDescription,
   };
 
+  const contributors = transformContributors(article.prismicDocument);
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -166,34 +166,37 @@ const ArticlePage: FC<Props> = ({ article }) => {
               [font('hnr', 6)]: true,
             })}
           >
-            {article.contributors.map(({ contributor, role }, i, arr) => (
-              <Fragment key={contributor.id}>
-                {role && role.describedBy && (
-                  <span>
-                    {i === 0 ? capitalize(role.describedBy) : role.describedBy}{' '}
-                    by{' '}
+            {contributors.length > 0 &&
+              contributors.map(({ contributor, role }, i, arr) => (
+                <Fragment key={contributor.id}>
+                  {role && role.describedBy && (
+                    <span>
+                      {i === 0
+                        ? capitalize(role.describedBy)
+                        : role.describedBy}{' '}
+                      by{' '}
+                    </span>
+                  )}
+                  <span
+                    className={classNames({
+                      [font('hnb', 6)]: true,
+                    })}
+                  >
+                    {contributor.name}
                   </span>
-                )}
-                <span
-                  className={classNames({
-                    [font('hnb', 6)]: true,
-                  })}
-                >
-                  {contributor.name}
-                </span>
-                <Space
-                  as="span"
-                  h={{
-                    size: 's',
-                    properties: ['margin-left', 'margin-right'],
-                  }}
-                >
-                  {arr.length > 1 && i < arr.length - 1 && '|'}
-                </Space>
-              </Fragment>
-            ))}
+                  <Space
+                    as="span"
+                    h={{
+                      size: 's',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
+                  >
+                    {arr.length > 1 && i < arr.length - 1 && '|'}
+                  </Space>
+                </Fragment>
+              ))}
 
-            {article.contributors.length > 0 && ' '}
+            {contributors.length > 0 && ' '}
 
             <span
               className={classNames({

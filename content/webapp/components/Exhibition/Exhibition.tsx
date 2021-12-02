@@ -200,8 +200,6 @@ const Exhibition = ({ exhibition, pages }: Props) => {
   const genericFields = {
     id: exhibition.id,
     title: exhibition.title,
-    contributors: exhibition.contributors,
-    contributorsTitle: exhibition.contributorsTitle,
     promo: exhibition.promo,
     body: exhibition.body,
     standfirst: exhibition.standfirst,
@@ -278,7 +276,7 @@ const Exhibition = ({ exhibition, pages }: Props) => {
         // We hide contributors as we show then further up the page
         hideContributors={true}
       >
-        {exhibition.contributors.length > 0 && (
+        {exhibition.prismicDocument.contributors.length > 0 && (
           <Contributors document={exhibition.prismicDocument} />
         )}
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's

@@ -74,8 +74,6 @@ const ArticleSeriesPage: FC<Props> = props => {
   const genericFields = {
     id: series.id,
     title: series.title,
-    contributors: series.contributors,
-    contributorsTitle: series.contributorsTitle,
     promo: series.promo,
     body: series.body,
     standfirst: series.standfirst,

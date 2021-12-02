@@ -188,8 +188,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const genericFields = {
     id: event.id,
     title: event.title,
-    contributors: event.contributors,
-    contributorsTitle: event.contributorsTitle,
     promo: event.promo,
     body: event.body,
     standfirst: event.standfirst,
@@ -323,7 +321,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.contributors.length > 0 && (
+        {event.prismicDocument.data.contributors.length > 0 && (
           <Contributors
             document={event.prismicDocument}
             titlePrefix="About your"

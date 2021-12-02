@@ -34,8 +34,6 @@ const Installation = ({ installation }: Props) => {
   const FeaturedMedia = getFeaturedMedia({
     id: installation.id,
     title: installation.title,
-    contributors: installation.contributors,
-    contributorsTitle: installation.contributorsTitle,
     promo: installation.promo,
     body: installation.body,
     standfirst: installation.standfirst,
