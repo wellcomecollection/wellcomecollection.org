@@ -19,7 +19,6 @@ import type { ImagePromo } from '../../model/image-promo';
 import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
-import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
 // $FlowFixMe (tsx)
 import { type BodyType } from '../../views/components/Body/Body';
@@ -181,25 +180,6 @@ export const defaultContributorImage = ({
   alt: '',
   crops: {},
 }: ImageType);
-
-export function parseSameAs(frag: PrismicFragment[]): SameAs {
-  return frag
-    .filter(({ link, title }) => Boolean(link || title.length > 0))
-    .map(({ link, title }) => {
-      const autoTitle =
-        link &&
-        (link.startsWith('https://twitter.com/')
-          ? `@${link.replace('https://twitter.com/', '')}`
-          : link.match(/^https?:\/\//)
-          ? link.replace(/^https?:\/\//, '')
-          : null);
-
-      return {
-        link: link,
-        title: asText(title) || autoTitle || link,
-      };
-    });
-}
 
 export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink

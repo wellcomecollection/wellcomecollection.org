@@ -1,6 +1,5 @@
 // @flow
 /* eslint-disable */
-import type { Person } from './people';
 import type { Picture } from './picture';
 import { List } from 'immutable';
 
@@ -15,15 +14,6 @@ type ContentBlockType =
 type ContentBlock = {|
   blockType: ContentBlockType,
   id: string,
-|};
-
-type ContributorRole = {|
-  title: string,
-|};
-
-export type Contributor = {|
-  role: ContributorRole,
-  person: Person,
 |};
 
 export type ImagePromo = {|
