@@ -9,11 +9,10 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
-// import { getExceptionalOpeningDates } from '@weco/common/services/prismic/opening-times';
 // $FlowFixMe (tsx)
 import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
-import Day from '@weco/common/model/opening-hours';
+import { getDayNumber, extendEndDate } from '@weco/catalogue/utils/dates';
 
 const { formatDate, parseDate } = LocaleUtils;
 
@@ -147,27 +146,6 @@ const IconWrapper = styled.div.attrs({
   }
 `;
 
-function getDayNumber(day: Day): number {
-  switch (day) {
-    case 'Monday':
-      return 1;
-    case 'Tuesday':
-      return 2;
-    case 'Wednesday':
-      return 3;
-    case 'Thursday':
-      return 4;
-    case 'Friday':
-      return 5;
-    case 'Saturday':
-      return 6;
-    case 'Sunday':
-      return 0;
-    default:
-      return 8;
-  }
-}
-
 type Props = {
   pickUpDate?: Date;
   setPickUpDate: (date: Date) => void;
@@ -240,34 +218,44 @@ const RequestingDayPicker: FC<Props> = ({
     );
   };
 
+  // We get the regular and exceptional days on which the library is closed from Prismic data,
+  // so we can make these unavailable in the calendar.
   const openingTimes = useContext(OpeningTimesContext);
-  const now = london(new Date());
-  const nextAvailableDate = london(new Date());
-  const twoWeeksFromNow = london(new Date()).add(14, 'days');
-
   const libraryVenue =
     openingTimes?.collectionOpeningTimes.placesOpeningHours.find(
       venue => venue.id === collectionVenueId.libraries.id
     );
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
-  const regularClosedDays = regularLibraryOpeningTimes
-    ?.filter(day => day.opens === null)
-    .map(day => getDayNumber(day.dayOfWeek));
+  const regularClosedDays =
+    regularLibraryOpeningTimes
+      ?.filter(day => day.opens === null)
+      .map(day => getDayNumber(day.dayOfWeek)) || [];
   const exceptionalLibraryOpeningTimes =
     libraryVenue?.openingHours.exceptional || [];
   const exceptionalClosedDates = exceptionalLibraryOpeningTimes
     .filter(day => day.opens === null)
     .map(day => {
-      return day.overrideDate.toDate();
+      return day.overrideDate;
     });
 
-  const isBeforeTen = now.isBefore(10);
+  const nextAvailableDate = london(new Date('2021-12-9')); // TODO put back to new Date()
+  const isBeforeTen = nextAvailableDate.isBefore(10);
   // If it's before 10am, we can request on the next day
   // otherwise, in two days' time
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
   const nextAvailableDateIsSunday = nextAvailableDate.day() === 0;
   // …if that's a Sunday, move it to Monday
   nextAvailableDate.add(nextAvailableDateIsSunday ? 1 : 0, 'days');
+  // there should be a 2 week window in which to select a date
+  const lastAvailableDate = london(nextAvailableDate).add(13, 'days');
+  // we want to know if the library is closed on any days during the selection window
+  // so that we can extend the lastAvailableDate to take these into account
+  const extendedLastAvailableDate = extendEndDate({
+    startDate: nextAvailableDate,
+    endDate: lastAvailableDate,
+    exceptionalClosedDates: exceptionalClosedDates,
+    regularClosedDays,
+  });
 
   const WrappedInput = props => {
     return (
@@ -286,7 +274,7 @@ const RequestingDayPicker: FC<Props> = ({
   };
 
   const fromMonth = nextAvailableDate.toDate();
-  const toMonth = twoWeeksFromNow.toDate();
+  const toMonth = lastAvailableDate.toDate();
 
   const [isPrevMonthDisabled, setIsPrevMonthDisabled] = useState(true);
   const [isNextMonthDisabled, setIsNextMonthDisabled] = useState(false);
@@ -299,6 +287,15 @@ const RequestingDayPicker: FC<Props> = ({
   function handleOnDayChange(date: Date) {
     setPickUpDate(date);
   }
+
+  const disabledDays = [
+    {
+      before: nextAvailableDate.toDate(),
+      after: extendedLastAvailableDate.toDate(),
+    },
+    { daysOfWeek: regularClosedDays },
+    ...exceptionalClosedDates.map(moment => moment.toDate()),
+  ];
 
   return (
     <DayPickerWrapper
@@ -325,14 +322,7 @@ const RequestingDayPicker: FC<Props> = ({
           firstDayOfWeek: 1,
           fromMonth,
           toMonth,
-          disabledDays: [
-            { daysOfWeek: regularClosedDays },
-            {
-              before: nextAvailableDate.toDate(),
-              after: twoWeeksFromNow.toDate(),
-            },
-            ...exceptionalClosedDates,
-          ],
+          disabledDays,
         }}
       />
     </DayPickerWrapper>
