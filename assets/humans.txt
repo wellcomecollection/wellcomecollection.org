@@ -56,7 +56,6 @@ Digital Preservation and Data:
  Jonathan Tweed
  Natalie Pollecutt
  James Gorrie
- Alice Fuzier-Cayla
  Alex Chan
  Harrison Pim
  Jamie Parkinson
@@ -68,6 +67,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Alice Fuzier-Cayla
  Robert Kenny
  Jennifer Phillips-Bacher
  Vanessa Peterson

@@ -78,8 +78,21 @@ export const getServerData = async (
 ): Promise<ServerData> => {
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
+  const { toggle } = context.query;
+
+  const enableToggle: string | undefined =
+    typeof toggle === 'string' ? toggle : undefined;
 
   const toggles = getTogglesFromContext(togglesResp, context);
+
+  const isEnableToggleValid = Object.keys(toggles).some(
+    id => id === enableToggle
+  );
+
+  if (enableToggle && isEnableToggleValid) {
+    context.res.setHeader('Set-Cookie', `toggle_${enableToggle}=true; Path=/`);
+    toggles[enableToggle] = true;
+  }
 
   const serverData = { toggles, prismic };
   return serverData;

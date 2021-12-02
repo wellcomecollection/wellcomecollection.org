@@ -1,10 +1,8 @@
 // @flow
-import type { HTMLString } from '../services/prismic/types';
+import type { PrismicDocument } from '../services/prismic/types';
 import type { Picture } from './picture';
-import type { ImagePromo } from './image-promo';
 import type { Place } from './places';
 import type { Contributor } from './contributors';
-import type { ImageType } from './image';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Resource } from './resource';
 import type { Season } from './seasons';
@@ -34,25 +32,12 @@ export type Exhibition = {|
   resources: Resource[],
   relatedIds: string[],
   seasons: Season[],
-|};
-
-export type ExhibitionPromo = {|
-  id: string,
-  format: ?ExhibitionFormat,
-  url: string,
-  title: string,
-  shortTitle: ?string,
-  image: ImageType,
-  squareImage: ?Picture,
-  start: Date,
-  end: ?Date,
-  statusOverride: ?string,
+  prismicDocument: PrismicDocument,
 |};
 
 export type UiExhibition = {|
   ...Exhibition,
   ...{|
-    promo: ?ExhibitionPromo,
     galleryLevel: number, // this should be deprecated for place
     featuredImageList: Picture[],
     exhibits: {|

@@ -1,4 +1,10 @@
-import { Children, Fragment, createContext, ReactNode } from 'react';
+import {
+  Children,
+  Fragment,
+  createContext,
+  ReactNode,
+  ComponentProps,
+} from 'react';
 import Contributors from '../Contributors/Contributors';
 import Layout8 from '../Layout8/Layout8';
 import Layout12 from '../Layout12/Layout12';
@@ -33,7 +39,7 @@ type Props = {
   Body: ElementFromComponent<typeof Body>;
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
-  contributorProps?: typeof Contributors;
+  contributorProps?: ComponentProps<typeof Contributors>;
   RelatedContent?: ReactNode[];
   outroProps?: {
     researchLinkText?: string;

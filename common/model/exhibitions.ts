@@ -1,9 +1,6 @@
-import { HTMLString } from '../services/prismic/types';
 import { Picture } from './picture';
-import { ImagePromo } from './image-promo';
 import { Place } from './places';
 import { Contributor } from './contributors';
-import { ImageType } from './image';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
@@ -31,24 +28,10 @@ export type Exhibition = GenericContentFields & {
   resources: Resource[];
   relatedIds: string[];
   seasons: Season[];
-};
-
-export type ExhibitionPromo = {
-  id: string;
-  format?: ExhibitionFormat;
-  url: string;
-  title: string;
-  shortTitle?: string;
-  image: ImageType;
-  squareImage?: Picture;
-  start: Date;
-  end?: Date;
-  statusOverride?: string;
+  prismicDocument: any;
 };
 
 export type UiExhibition = Exhibition & {
-  promo?: ExhibitionPromo;
-  galleryLevel: number; // this should be deprecated for place
   featuredImageList: Picture[];
   exhibits: Exhibit[];
 };

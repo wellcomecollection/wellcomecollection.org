@@ -26,12 +26,10 @@ import {
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,
-  parseDescription,
   parseContributors,
   parseImagePromo,
   parseTimestamp,
   parsePlace,
-  parsePromoListItem,
   parsePromoToCaptionedImage,
   isDocumentLink,
   asText,
@@ -48,8 +46,8 @@ import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
 import type {
   PrismicFragment,
-  PrismicDocument,
   PaginatedResults,
+  PrismicDocument,
 } from './types';
 import type {
   UiExhibition,
@@ -126,53 +124,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const promoSquare =
     promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  // TODO: (drupal migration) Remove this
-  const drupalPromoImage =
-    document.data.drupalPromoImage && document.data.drupalPromoImage.url
-      ? {
-          caption: promoThin && promoThin.caption,
-          image: {
-            contentUrl: document.data.drupalPromoImage.url,
-            width: document.data.drupalPromoImage.width || 1600,
-            height: document.data.drupalPromoImage.height || 900,
-            alt: '',
-            tasl: {
-              title: null,
-              author: null,
-              sourceName: null,
-              sourceLink: null,
-              license: null,
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-        }
-      : null;
-
-  const promos = drupalPromoImage
-    ? [
-        {
-          contentUrl: drupalPromoImage.image.contentUrl,
-          width: drupalPromoImage.image.width,
-          height: drupalPromoImage.image.height,
-          alt: '',
-          minWidth: null,
-          tasl: {
-            title: null,
-            author: null,
-            sourceName: null,
-            sourceLink: null,
-            license: null,
-            copyrightHolder: null,
-            copyrightLink: null,
-          },
-        },
-      ]
-    : [promoThin, promoSquare]
-        .filter(Boolean)
-        .map(p => p.image)
-        .filter(Boolean);
+  const promos = [promoThin, promoSquare]
+    .filter(Boolean)
+    .map(p => p.image)
+    .filter(Boolean);
 
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
@@ -182,8 +137,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const promoImage =
-    drupalPromoImage ||
-    (promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null);
+    promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
@@ -220,6 +174,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       : [],
     relatedIds,
     seasons,
+    prismicDocument: document,
   };
 
   const labels = exhibition.isPermanent
@@ -335,9 +290,9 @@ function putPermanentAfterCurrentExhibitions(
   ];
 }
 
-export async function getExhibition(
-  req: ?Request,
+async function getExhibition(
   id: string,
+  req: ?Request,
   memoizedPrismic: ?Object
 ): Promise<?UiExhibition> {
   const document = await getDocument(
@@ -374,7 +329,7 @@ export async function getExhibitionWithRelatedContent({
   memoizedPrismic: ?Object,
   id: string,
 }) {
-  const exhibitionPromise = getExhibition(request, id, memoizedPrismic);
+  const exhibitionPromise = getExhibition(id, request, memoizedPrismic);
   const pagesPromise = getPages(
     request,
     {

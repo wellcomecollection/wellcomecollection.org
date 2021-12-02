@@ -8,7 +8,6 @@ import type {
   PersonContributor,
   OrganisationContributor,
 } from '../../model/contributors';
-import type { Picture } from '../../model/picture';
 import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
@@ -21,6 +20,7 @@ import type {
 } from '../../model/background-texture';
 import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
+// $FlowFixMe (ts)
 import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
@@ -32,18 +32,19 @@ import { licenseTypeArray } from '../../model/license';
 import { parsePage } from './pages';
 import { parseEventSeries } from './event-series';
 import { parseExhibitionDoc } from './exhibitions';
+// $FlowFixMe (tsx)
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
 import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
-import { parseArticle } from './articles';
+import { parseArticleDoc } from './articles';
 import { parseEventDoc } from './events';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 // $FlowFixMe (tsx)
 import { links } from '../../views/components/Header/Header';
-// $FlowFixMe (ts)
+// $FlowFixMe (tsx)
 import { MediaObjectType } from '../../model/media-object';
 import type { Guide } from '../../model/guides';
 import type { PrismicDocument } from './types';
@@ -100,32 +101,8 @@ export function parseTitle(title: HTMLString): string {
   return asText(title) || '';
 }
 
-export function parseDescription(description: HTMLString): HTMLString {
-  return description;
-}
-
 export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
-}
-
-// Deprecated, use parseImage
-const placeholderImage = 'https://via.placeholder.com/160x90?text=placeholder';
-export function parsePicture(
-  captionedImage: Object,
-  minWidth: ?string = null
-): Picture {
-  const image = isEmptyObj(captionedImage.image) ? null : captionedImage.image;
-  const imageCopyright = image ? image.copyright : '';
-  const tasl = parseTaslFromString(imageCopyright);
-
-  return ({
-    contentUrl: (image && image.url) || placeholderImage,
-    width: (image && image.dimensions && image.dimensions.width) || 160,
-    height: (image && image.dimensions && image.dimensions.height) || 90,
-    alt: (image && image.alt) || '',
-    tasl: tasl,
-    minWidth,
-  }: Picture);
 }
 
 export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
@@ -394,32 +371,6 @@ export function parseNumber(fragment: PrismicFragment): number {
   return parseInt(fragment, 10);
 }
 
-type PrismicPromoListFragment = {|
-  type: string,
-  link: {| url: string |},
-  title: HTMLString,
-  description: HTMLString,
-  image: Picture,
-|};
-type PromoListItem = {|
-  contentType: string,
-  url: string,
-  title: string,
-  description: string,
-  image: Picture,
-|};
-export function parsePromoListItem(
-  item: PrismicPromoListFragment
-): PromoListItem {
-  return {
-    contentType: item.type,
-    url: item.link.url,
-    title: asText(item.title) || 'TITLE MISSING',
-    description: asText(item.description) || '',
-    image: parsePicture(item),
-  };
-}
-
 export function parseBackgroundTexture(
   backgroundTexture: PrismicBackgroundTexture
 ): BackgroundTexture {
@@ -521,11 +472,6 @@ export function isDocumentLink(fragment: ?PrismicFragment): boolean {
 // { '32:15': {}, '16:9': {}, square: {} }
 export function isImageLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.dimensions);
-}
-
-// We always get returned a { link_type: 'Web' } but it might not have a URL
-export function isWebLink(fragment: ?PrismicFragment): boolean {
-  return Boolean(fragment && fragment.url);
 }
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -682,7 +628,7 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
                     case 'exhibitions':
                       return parseExhibitionDoc(item.content);
                     case 'articles':
-                      return parseArticle(item.content);
+                      return parseArticleDoc(item.content);
                     case 'events':
                       return parseEventDoc(item.content);
                     case 'seasons':

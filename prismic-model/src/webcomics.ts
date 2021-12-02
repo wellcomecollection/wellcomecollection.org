@@ -36,10 +36,11 @@ const webcomics: CustomType = {
         series: link('Series', 'document', ['webcomic-series']),
       }),
     },
-    Deprecated: {
+    Overrides: {
       publishDate: {
         config: {
-          label: 'Override publish date',
+          label:
+            'Override publish date rendering. This will not affect ordering',
         },
         type: 'Timestamp',
       },

@@ -5,8 +5,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import StoryPromo from '@weco/common/views/components/StoryPromo/StoryPromo';
-import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { Article } from '@weco/common/model/articles';
@@ -33,6 +31,9 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import StoryPromo from '../components/StoryPromo/StoryPromo';
+import CardGrid from '../components/CardGrid/CardGrid';
+import { ArticlePrismicDocument } from 'services/prismic/articles';
 
 type Props = {
   articles: Article[];
@@ -216,7 +217,12 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo item={article} position={i} />
+                      <StoryPromo
+                        article={
+                          article.prismicDocument as ArticlePrismicDocument
+                        }
+                        position={i}
+                      />
                     </div>
                   );
                 })}

@@ -4,7 +4,6 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { getPage } from '@weco/common/services/prismic/pages';
-import CardGrid from '@weco/common/views/components/CardGrid/CardGrid';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -15,8 +14,7 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
-import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import ExhibitionsAndEvents from '@weco/common/views/components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   getEvents,
@@ -36,6 +34,8 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getServerData } from '@weco/common/server-data';
+import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
+import CardGrid from '../components/CardGrid/CardGrid';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',

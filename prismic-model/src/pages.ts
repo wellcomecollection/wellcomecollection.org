@@ -3,7 +3,6 @@ import body from './parts/body';
 import promo from './parts/promo';
 import link from './parts/link';
 import list from './parts/list';
-import text from './parts/text';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
 import number from './parts/number';
@@ -48,12 +47,6 @@ const pages: CustomType = {
       }),
     },
     Contributors: contributorsWithTitle(),
-    // TODO: (drupal migration) Remove this
-    Migration: {
-      drupalPromoImage: link('Drupal promo image', 'web'),
-      drupalNid: text('Drupal node ID'),
-      drupalPath: text('Drupal path'),
-    },
   },
 };
 

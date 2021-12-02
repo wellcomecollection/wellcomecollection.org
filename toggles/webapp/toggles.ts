@@ -4,6 +4,7 @@ export type Toggle = {
   description: string;
   defaultValue: boolean;
 };
+
 export type ABTest = {
   id: string;
   title: string;
@@ -11,7 +12,9 @@ export type ABTest = {
   description: string;
   defaultValue: boolean;
 };
-export default {
+
+const toggles = {
+  // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
       id: 'enableRequesting',
@@ -38,12 +41,8 @@ export default {
       defaultValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
-    {
-      id: 'tei',
-      title: 'Tei visible',
-      defaultValue: false,
-      description: 'Makes Tei visible',
-    },
   ] as const,
   tests: [] as ABTest[],
 };
+
+export default toggles;

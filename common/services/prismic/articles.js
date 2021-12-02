@@ -7,7 +7,6 @@ import {
   parseSingleLevelGroup,
   parseLabelType,
   isDocumentLink,
-  checkAndParseImage,
   asText,
 } from './parsers';
 import { parseMultiContent } from './multi-content';
@@ -359,10 +358,14 @@ function parseContentLink(document: ?PrismicDocument): ?MultiContent {
   return parsedDocuments.length > 0 ? parsedDocuments[0] : null;
 }
 
-function parseArticleDoc(document: PrismicDocument): Article {
+export function parseArticleDoc(document: PrismicDocument): Article {
   const { data } = document;
+  // When we imported data into Prismic from the Wordpress blog some content
+  // needed to have its original publication date displayed. It is purely a display
+  // value and does not affect ordering.
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
+
   const article = {
     type: 'articles',
     ...parseGenericFields(document),
@@ -375,6 +378,7 @@ function parseArticleDoc(document: PrismicDocument): Article {
       return parseSeason(season);
     }),
   };
+
   const labels = [
     article.format ? { text: article.format.title || '' } : null,
     article.series.find(series => series.schedule.length > 0)
@@ -391,11 +395,8 @@ function parseArticleDoc(document: PrismicDocument): Article {
     outroReadItem: parseContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: parseContentLink(data.outroVisitItem),
+    prismicDocument: document,
   };
-}
-
-export function parseArticle(document: PrismicDocument): Article {
-  return parseArticleDoc(document);
 }
 
 export async function getArticle(
@@ -406,7 +407,7 @@ export async function getArticle(
   const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
   return document &&
     (document.type === 'articles' || document.type === 'webcomics')
-    ? parseArticle(document)
+    ? parseArticleDoc(document)
     : null;
 }
 
@@ -420,8 +421,7 @@ export async function getArticles(
   { predicates = [], ...opts }: ArticleQueryProps,
   memoizedPrismic: ?Object
 ): Promise<PaginatedResults<Article>> {
-  const orderings =
-    '[my.articles.publishDate, my.webcomics.publishDate, document.first_publication_date desc]';
+  const orderings = '[document.first_publication_date desc]';
   const paginatedResults = await getDocuments(
     req,
     [Prismic.Predicates.any('document.type', ['articles', 'webcomics'])].concat(
@@ -436,7 +436,7 @@ export async function getArticles(
   );
 
   const articles = paginatedResults.results.map(doc => {
-    const article = parseArticle(doc);
+    const article = parseArticleDoc(doc);
     return article;
   });
 

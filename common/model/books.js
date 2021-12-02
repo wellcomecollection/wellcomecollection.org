@@ -19,9 +19,6 @@ export type Book = {|
   isbn: ?string,
   reviews: ?(Review[]),
   datePublished: ?Date,
-  authorName: ?string, // This is structuredText in Prismic >.<
-  authorImage: ?string, // This is a link in Prismic >.<
-  authorDescription: ?HTMLString,
   cover: ?ImageType,
   seasons: Season[],
 |};

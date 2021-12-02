@@ -24,6 +24,7 @@ const createConfig =
     return withMDX(
       withTM({
         ...defaultConfig,
+        images: options.images || {},
         assetPrefix:
           isProd && prodSubdomain
             ? `https://${prodSubdomain}.wellcomecollection.org`

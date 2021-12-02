@@ -1,14 +1,14 @@
 import { ArticleSeries } from './article-series';
 import { GenericContentFields } from './generic-content-fields';
-import { LabelField } from './label-field';
 import { ColorSelection } from './color-selections';
 import { MultiContent } from './multi-content';
 import { Season } from './seasons';
-import { EditorialSeriesColour } from './editorial-series';
+import { Format } from './format';
+import { ArticleFormatId } from './content-format-id';
 
 export type Article = GenericContentFields & {
   type: 'articles';
-  format?: LabelField;
+  format?: Format<ArticleFormatId>;
   datePublished: Date;
   series: ArticleSeries[];
   seasons: Season[];
@@ -19,6 +19,7 @@ export type Article = GenericContentFields & {
   outroReadItem?: MultiContent;
   outroVisitLinkText?: string;
   outroVisitItem?: MultiContent;
+  prismicDocument: any;
 };
 
 export function getPositionInSeries(article: Article): number | undefined {
@@ -32,6 +33,6 @@ export function getPositionInSeries(article: Article): number | undefined {
   }
 }
 
-export function getArticleColor(article: Article): EditorialSeriesColour {
+export function getArticleColor(article: Article): ColorSelection {
   return article.series.map(series => series.color).find(Boolean) || 'purple';
 }

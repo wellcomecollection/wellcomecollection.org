@@ -63,7 +63,7 @@
     - docker-compose#v3.5.0:
         run: prismic_model
         env:
-          - IS_CI=true
+          - CI
         command: ["yarn", "diffCustomTypes"]
 
 - wait
@@ -245,6 +245,7 @@
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
+          - CI
 
 - label: "deploy pa11y"
   branches: "main"
@@ -306,6 +307,6 @@
     - wellcomecollection/github-deployments#v0.2.4:
         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
         environment: stage
-        ref: "refs/heads/${BUILDKITE_BRANCH}"
+        ref: "${BUILDKITE_COMMIT}"
   agents:
     queue: nano

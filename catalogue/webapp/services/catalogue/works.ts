@@ -12,7 +12,6 @@ import {
   globalApiOptions,
   rootUris,
   notFound,
-  getTeiIndexName,
 } from './common';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
@@ -65,13 +64,11 @@ export async function getWorks({
   pageSize = 25,
 }: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
   const apiOptions = globalApiOptions(toggles);
-  const index = await getTeiIndexName(toggles, 'works');
 
   const extendedParams = {
     ...params,
     pageSize,
     include: worksIncludes,
-    _index: index,
   };
 
   const searchParams = new URLSearchParams(
@@ -97,11 +94,9 @@ export async function getWork({
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
   const apiOptions = globalApiOptions(toggles);
-  const index = await getTeiIndexName(toggles, 'works');
 
   const params = {
     include: workIncludes,
-    _index: index,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();

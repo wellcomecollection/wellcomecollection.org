@@ -3,7 +3,6 @@ import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
-import number from './parts/number';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
 import structuredText from './parts/structured-text';
@@ -20,7 +19,7 @@ const articleSeries: CustomType = {
   json: {
     'Story series': {
       title: title,
-      color: select('Colour', ['teal', 'red', 'green', 'purple']),
+      color: select('Colour', ['green', 'purple', 'red', 'teal']),
       body,
     },
     Schedule: {
