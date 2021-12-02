@@ -11,6 +11,7 @@ const documentLinkTypes = [
   'articles',
   'exhibitions',
   'series',
+  'webcomic-series',
 ].flatMap(type => [`${type}.title`, `${type}.promo`]);
 
 const fetchLinks = [
