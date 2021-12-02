@@ -26,5 +26,5 @@ export type ArticlePrismicDocument = PrismicDocument<
     WithFormat &
     WithParents &
     CommonPrismicData,
-  'articles'
+  'articles' | 'webcomics'
 >;
