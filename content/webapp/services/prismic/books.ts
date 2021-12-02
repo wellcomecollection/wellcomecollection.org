@@ -6,7 +6,6 @@ import {
   PrismicDocument,
   KeyTextField,
 } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient } from './client';
 import {
   CommonPrismicData,
   WithContributors,
@@ -15,8 +14,6 @@ import {
   WithSeasons,
   WithSeries,
 } from './types';
-
-const typeEnum = 'books';
 
 export type BookPrismicDocument = PrismicDocument<
   {
@@ -39,14 +36,3 @@ export type BookPrismicDocument = PrismicDocument<
     CommonPrismicData,
   'books'
 >;
-
-export async function getArticle(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<BookPrismicDocument | undefined> {
-  const document = await client.getByID<BookPrismicDocument>(id);
-
-  if (document.type === typeEnum) {
-    return document;
-  }
-}

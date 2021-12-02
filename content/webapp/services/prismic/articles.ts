@@ -4,7 +4,6 @@ import {
   TimestampField,
   PrismicDocument,
 } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient } from './client';
 import {
   CommonPrismicData,
   WithFormat,
@@ -12,8 +11,6 @@ import {
   WithSeasons,
   WithSeries,
 } from './types';
-
-const typeEnum = 'articles';
 
 export type ArticlePrismicDocument = PrismicDocument<
   {
@@ -31,14 +28,3 @@ export type ArticlePrismicDocument = PrismicDocument<
     CommonPrismicData,
   'articles'
 >;
-
-export async function getArticle(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<ArticlePrismicDocument | undefined> {
-  const document = await client.getByID<ArticlePrismicDocument>(id);
-
-  if (document.type === typeEnum) {
-    return document;
-  }
-}

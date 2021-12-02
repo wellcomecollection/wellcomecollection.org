@@ -9,11 +9,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
-import {
-  getSeason,
-  SeasonPrismicDocument,
-} from '../../services/prismic/seasons';
-import { createClient } from '../../services/prismic/client';
+import { SeasonPrismicDocument } from '../../services/prismic/seasons';
 import { Article } from '@weco/common/model/articles';
 import { Book } from '@weco/common/model/books';
 import { Event } from '@weco/common/model/events';
@@ -29,6 +25,9 @@ import { getImageUrlAtSize } from '../../services/prismic/images';
 import PrismicImage from 'components/PrismicImage/PrismicImage';
 import CardGrid from '../../components/CardGrid/CardGrid';
 import Body from '../../components/Body/Body';
+import { createClient } from '../../services/prismic/fetch';
+import { fetchSeason } from '../../services/prismic/fetch/seasons';
+import { isString } from '@weco/common/utils/array';
 
 type Props = {
   season: SeasonPrismicDocument;
@@ -94,13 +93,6 @@ const SeasonPage = ({ season }: Props): ReactElement<Props> => {
   );
 };
 
-function isString(v: any): v is string {
-  if (typeof v === 'string') {
-    return true;
-  }
-  return false;
-}
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
@@ -109,7 +101,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const season = await getSeason(client, id);
+    const season = await fetchSeason(client, id);
     const serverData = await getServerData(context);
 
     if (season) {

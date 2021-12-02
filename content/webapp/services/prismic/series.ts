@@ -9,6 +9,8 @@ import {
 } from '@prismicio/types';
 import { CommonPrismicData } from './types';
 
+const typeEnum = 'series';
+
 export type SeriesPrismicDocument = PrismicDocument<
   {
     color: SelectField<'teal' | 'red' | 'green' | 'purple'>;
@@ -25,5 +27,5 @@ export type SeriesPrismicDocument = PrismicDocument<
       season: RelationField<'seasons'>;
     }>;
   } & CommonPrismicData,
-  'series'
+  typeof typeEnum
 >;
