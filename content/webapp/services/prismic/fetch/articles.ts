@@ -15,7 +15,6 @@ const documentLinkTypes = [
 
 const fetchLinks = [
   ...documentLinkTypes,
-  'series.title',
   'article-formats.title',
   'people.name',
   'people.image',
