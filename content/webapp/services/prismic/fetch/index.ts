@@ -1,6 +1,8 @@
+import { Query, PrismicDocument } from '@prismicio/types';
 import * as prismic from 'prismic-client-beta';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
+import { ContentType } from '../link-resolver';
 
 const routes = [
   {
@@ -57,4 +59,56 @@ export function createClient(
   _: GetServerSidePropsContext | NextApiRequest
 ): GetServerSidePropsPrismicClient {
   return { type: 'GetServerSidePropsPrismicClient', client };
+}
+
+/**
+ * We do this so often, and it is very often standardise apart from webcomics
+ * it felt sillty not to abstract
+ */
+
+type Params = Parameters<
+  GetServerSidePropsPrismicClient['client']['getByType']
+>[1];
+
+export function fetcher<Document extends PrismicDocument>(
+  contentType: ContentType,
+  fetchLinks: string[]
+) {
+  return {
+    getById: async (
+      { client }: GetServerSidePropsPrismicClient,
+      id: string
+    ): Promise<Document | undefined> => {
+      const document = await client.getByID<Document>(id, {
+        fetchLinks,
+      });
+
+      if (document.type === contentType) {
+        return document;
+      }
+    },
+
+    getByType: async (
+      { client }: GetServerSidePropsPrismicClient,
+      params: Params = {}
+    ): Promise<Query<Document>> => {
+      const response = await client.getByType<Document>(contentType, params);
+      return response;
+    },
+
+    getByTypeClientSide: async (
+      params?: Params
+    ): Promise<Query<Document> | undefined> => {
+      const urlSearchParams = new URLSearchParams();
+      urlSearchParams.set('params', JSON.stringify(params));
+      const response = await fetch(
+        `/api/${contentType}?${urlSearchParams.toString()}`
+      );
+
+      if (response.ok) {
+        const json: Query<Document> = await response.json();
+        return json;
+      }
+    },
+  };
 }

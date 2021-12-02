@@ -11,7 +11,7 @@ const contentTypes = [
   'seasons',
   'series',
 ] as const;
-type ContentType = typeof contentTypes[number];
+export type ContentType = typeof contentTypes[number];
 
 function isContentType(type: any): type is ContentType {
   return typeof type && contentTypes.includes(type);
