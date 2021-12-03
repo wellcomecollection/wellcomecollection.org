@@ -79,7 +79,7 @@ export function transformKeyTextField(field: KeyTextField) {
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out
 export function transformRichTextField(field: RichTextField) {
-  return field.length > 0 ? field : undefined;
+  return field && field.length > 0 ? field : undefined;
 }
 
 // We have to use this annoyingly often as right at the beginning of the project
