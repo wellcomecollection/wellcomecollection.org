@@ -20,7 +20,6 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageHeader, {
   headerSpaceSize,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import Outro from '@weco/common/views/components/Outro/Outro';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
@@ -30,6 +29,7 @@ import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIco
 import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import { WithContributors } from '../../services/prismic/types';
+import Outro from '../Outro/Outro';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 

@@ -1,23 +1,20 @@
-// @flow
-import type { MultiContent } from '../../../model/multi-content';
-// $FlowFixMe (ts)
-import { classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe(tsx)
-import CompactCard from '../../components/CompactCard/CompactCard';
-// $FlowFixMe(tsx)
-import Divider from '../../components/Divider/Divider';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
+import type { MultiContent } from '@weco/common/model/multi-content';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Space from '@weco/common/views/components/styled/Space';
+import linkResolver from '../../services/prismic/link-resolver';
 
-type Props = {|
-  researchLinkText: ?string,
-  researchItem: ?MultiContent,
-  readLinkText: ?string,
-  readItem: ?MultiContent,
-  visitLinkText: ?string,
-  visitItem: ?MultiContent,
-|};
+type Props = {
+  researchLinkText?: string;
+  researchItem?: MultiContent;
+  readLinkText?: string;
+  readItem?: MultiContent;
+  visitLinkText?: string;
+  visitItem?: MultiContent;
+};
 
 const Outro = ({
   researchLinkText,
@@ -89,7 +86,7 @@ const Outro = ({
         })}
       >
         {[researchItem, readItem, visitItem]
-          .filter(Boolean)
+          .filter(isNotUndefined)
           .map((item, index, arr) => {
             const { type, title, description } = getItemInfo(item);
 
@@ -105,20 +102,14 @@ const Outro = ({
                 }}
               >
                 <CompactCard
-                  partNumber={null}
                   Image={null}
                   urlOverride={null}
-                  color={null}
                   StatusIndicator={null}
                   DateInfo={null}
                   title={title}
-                  primaryLabels={item.labels || []}
+                  primaryLabels={[]}
                   secondaryLabels={[]}
-                  url={
-                    item.type === 'weblinks'
-                      ? item.url
-                      : `/${item.type}/${item.id}`
-                  }
+                  url={item.type === 'weblinks' ? item.url : linkResolver(item)}
                   description={description}
                   xOfY={{ x: index + 1, y: arr.length }}
                 />

@@ -2,14 +2,8 @@ import * as prismic from 'prismic-client-beta';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 
-const routes = [
-  {
-    type: 'seasons',
-    path: '/seasons/:uid',
-  },
-];
 const endpoint = prismic.getEndpoint('wellcomecollection');
-const client = prismic.createClient(endpoint, { routes, fetch });
+const client = prismic.createClient(endpoint, { fetch });
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -56,5 +50,8 @@ export function createClient(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _: GetServerSidePropsContext | NextApiRequest
 ): GetServerSidePropsPrismicClient {
+  if ('req' in _) {
+    client.enableAutoPreviewsFromReq(_.req);
+  }
   return { type: 'GetServerSidePropsPrismicClient', client };
 }
