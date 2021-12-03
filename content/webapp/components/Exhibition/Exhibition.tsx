@@ -276,9 +276,10 @@ const Exhibition = ({ exhibition, pages }: Props) => {
         // We hide contributors as we show then further up the page
         hideContributors={true}
       >
-        {exhibition.prismicDocument.contributors.length > 0 && (
+        {exhibition.prismicDocument.data.contributors.length > 0 && (
           <Contributors document={exhibition.prismicDocument} />
         )}
+
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
         a reasonable starting place. Update this once the UX has shaken out. */}
         {(exhibitionOfs.length > 0 || pages.length > 0) && (
