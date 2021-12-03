@@ -48,9 +48,8 @@ export type GetServerSidePropsPrismicClient = {
  */
 export function createClient(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  reqLink: GetServerSidePropsContext | { req: NextApiRequest }
+  { req }: GetServerSidePropsContext | { req: NextApiRequest }
 ): GetServerSidePropsPrismicClient {
-  const { req } = reqLink;
   client.enableAutoPreviewsFromReq(req);
   return { type: 'GetServerSidePropsPrismicClient', client };
 }
