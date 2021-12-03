@@ -1,5 +1,5 @@
 import { createApp } from './app';
-import { port } from './config';
+import { port } from '../config';
 
 async function main() {
   const app = await createApp();

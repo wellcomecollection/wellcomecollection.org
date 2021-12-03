@@ -1,6 +1,7 @@
 const withTM = require('next-transpile-modules')(['@weco/common']);
 const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
+const { getConfig } = require('./config');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -34,6 +35,7 @@ const config = function () {
         ? `https://${prodSubdomain}.wellcomecollection.org`
         : '',
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
+    serverRuntimeConfig: getConfig(),
     ...withBundleAnalyzerConfig,
   });
 };

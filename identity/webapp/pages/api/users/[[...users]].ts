@@ -1,7 +1,9 @@
 import { NextApiHandler } from 'next';
+import getConfig from 'next/config';
 import auth0 from '../../../src/utility/auth0';
 import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
-import { config } from '../../../src/config';
+
+const { serverRuntimeConfig: config } = getConfig();
 
 export const identityAxios: AxiosInstance = axios.create({
   baseURL: config.remoteApi.host,

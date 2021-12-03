@@ -3,8 +3,24 @@ import {
   WithPageAuthRequiredOptions,
   PageRoute,
 } from '@auth0/nextjs-auth0';
-import { config } from '../config';
+import getConfig from 'next/config';
 import { GetServerSidePropsContext } from 'next';
+
+const { serverRuntimeConfig } = getConfig();
+const config = serverRuntimeConfig as {
+  sessionKeys: string[];
+  siteBaseUrl: string;
+  identityBasePath: string;
+  auth0: {
+    domain: string;
+    clientID: string;
+    clientSecret: string;
+  };
+  remoteApi: {
+    host: string;
+    apiKey: string;
+  };
+};
 
 const identityApiScopes = [
   'create:requests',
