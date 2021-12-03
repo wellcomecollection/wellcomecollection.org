@@ -1,7 +1,7 @@
 import { fetcher } from '.';
-import { SeriesPrismicDocument } from '../series';
+import { seriesFetchLinks, SeriesPrismicDocument } from '../series';
 
-const fetchLinks = [];
+const fetchLinks = seriesFetchLinks;
 
 const seriesFetcher = fetcher<SeriesPrismicDocument>('series', fetchLinks);
 

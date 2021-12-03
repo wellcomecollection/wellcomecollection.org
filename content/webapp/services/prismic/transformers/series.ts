@@ -4,7 +4,7 @@ import { Series } from '../../../model/series';
 import { SeriesPrismicDocument } from '../series';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function transformGuide(document: SeriesPrismicDocument): Series {
+export function transformSeries(document: SeriesPrismicDocument): Series {
   const series: DeprecatedArticleSeries = parseArticleSeries(document);
 
   return {

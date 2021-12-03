@@ -12,7 +12,7 @@ import { Image } from './types';
  * as renaming types in Prismic is impossible.
  * See {@link https://community.prismic.io/t/import-export-change-type-of-imported-document/7814}
  */
-const editorialContributorRoleType = 'editorial-contributor-role';
+const editorialContributorRoleType = 'editorial-contributor-roles';
 export type EditorialContributorRole = PrismicDocument<
   {
     title: RichTextField;

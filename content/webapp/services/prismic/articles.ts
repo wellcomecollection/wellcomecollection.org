@@ -7,7 +7,7 @@ import {
 import {
   articleFormatsFetchLinks,
   CommonPrismicFields,
-  commonPrismicFildsFetchLinks,
+  commonPrismicFieldsFetchLinks,
   seriesFetchLink,
   WithArticleFormat,
   WithExhibitionParents,
@@ -33,7 +33,7 @@ export type ArticlePrismicDocument = PrismicDocument<
 >;
 
 export const articlesFetchLinks = [
-  ...commonPrismicFildsFetchLinks,
+  ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
   ...seriesFetchLink,
 ];

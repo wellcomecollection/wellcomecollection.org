@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { FC } from 'react';
-import { getArticleSeries } from '@weco/common/services/prismic/article-series';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -10,7 +9,6 @@ import PageHeader, {
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
-import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -18,6 +16,12 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { fetchSeriesById } from '../services/prismic/fetch/series';
+import { isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformSeries } from '../services/prismic/transformers/series';
+import { transformArticle } from '../services/prismic/transformers/articles';
 
 type Props = {
   series: ArticleSeries;
@@ -26,20 +30,30 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const seriesAndArticles = await getArticleSeries(
-      context.req,
-      {
-        id,
-        pageSize: 100,
-        fetchLinks: seasonsFields,
-      },
-      memoizedPrismic
-    );
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+    const client = createClient(context);
+    const seriesField =
+      id === 'WleP3iQAACUAYEoN' || id === 'X8D9qxIAACIAcKSf'
+        ? 'my.webcomics.series.series'
+        : 'my.articles.series.series';
+    const seriesDocumentPromise = fetchSeriesById(client, id);
+    const articlesQueryPromise = fetchArticles(client, {
+      predicates: [`[at(${seriesField}, "${id}")]`],
+      pageSize: 100,
+    });
+    const [seriesDocument, articlesQuery] = await Promise.all([
+      seriesDocumentPromise,
+      articlesQueryPromise,
+    ]);
 
-    if (seriesAndArticles) {
-      const { series, articles } = seriesAndArticles;
+    if (seriesDocument) {
+      const serverData = await getServerData(context);
+      const series = transformSeries(seriesDocument);
+      const articles = articlesQuery.results.map(transformArticle);
+
       return {
         props: removeUndefinedProps({
           series,
@@ -55,7 +69,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const ArticleSeriesPage: FC<Props> = props => {
+const ArticleSeriesPage: FunctionComponent<Props> = props => {
   const { series, articles } = props;
   const breadcrumbs = {
     items: [
@@ -128,7 +142,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         seasons={series.seasons}
       >
         {articles.length > 0 && (
-          <SearchResults items={series.items} showPosition={true} />
+          <SearchResults items={articles} showPosition={true} />
         )}
       </ContentPage>
     </PageLayout>

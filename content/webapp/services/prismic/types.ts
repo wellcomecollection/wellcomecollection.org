@@ -102,7 +102,7 @@ export type CommonPrismicFields = {
   metadataDescription: KeyTextField;
 };
 // We need these for links in the `contentList` slice
-export const commonPrismicFildsFetchLinks = [
+export const commonPrismicFieldsFetchLinks = [
   'pages',
   'event-series',
   'books',
@@ -206,8 +206,8 @@ type ContributorFetchLink = (
   | FetchLinks<Organisation>[number]
 )[];
 export const contributorFetchLinks: ContributorFetchLink = [
-  'editorial-contributor-role.title',
-  'editorial-contributor-role.describedBy',
+  'editorial-contributor-roles.title',
+  'editorial-contributor-roles.describedBy',
   'people.name',
   'people.description',
   'people.pronouns',
