@@ -1,9 +1,9 @@
 import { fetcher } from '.';
-import { PagesPrismicDocument } from '../pages';
+import { PagePrismicDocument } from '../pages';
 
 const fetchLinks = [];
 
-const projectsFetcher = fetcher<PagesPrismicDocument>('projects', fetchLinks);
+const projectsFetcher = fetcher<PagePrismicDocument>('projects', fetchLinks);
 
 export const fetchProject = projectsFetcher.getById;
 export const fetchProjects = projectsFetcher.getByType;

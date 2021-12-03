@@ -23,7 +23,6 @@ export function parseEventSeries(document: PrismicDocument): EventSeries {
       ? parseBackgroundTexture(backgroundTexture)
       : null,
     labels: labels,
-    prismicDocument: document,
   };
 }
 

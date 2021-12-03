@@ -30,7 +30,6 @@ export type Exhibition = {|
   resources: Resource[],
   relatedIds: string[],
   seasons: Season[],
-  prismicDocument: PrismicDocument,
 |};
 
 export type UiExhibition = {|

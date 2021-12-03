@@ -56,7 +56,6 @@ export function parseBook(document: PrismicDocument): Book {
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     cover: cover && cover.image,
     seasons,
-    prismicDocument: document,
   };
 }
 

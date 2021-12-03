@@ -21,5 +21,4 @@ export type Book = {|
   datePublished: ?Date,
   cover: ?ImageType,
   seasons: Season[],
-  prismicDocument: any,
 |};

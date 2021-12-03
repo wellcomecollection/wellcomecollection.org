@@ -21,7 +21,6 @@ export type Article = {|
   outroReadItem: ?MultiContent,
   outroVisitLinkText: ?string,
   outroVisitItem: ?MultiContent,
-  prismicDocument: PrismicDocument,
 |};
 
 export function getPositionInSeries(article: Article): ?number {

@@ -318,7 +318,6 @@ export function parseEventDoc(
     isRelaxedPerformance,
     isOnline,
     availableOnline,
-    prismicDocument: document,
   };
 
   const eventFormat = event.format

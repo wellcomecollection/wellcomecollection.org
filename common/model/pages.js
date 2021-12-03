@@ -24,5 +24,4 @@ export type Page = {|
   // strategy for this later
   siteSection: ?string,
   showOnThisPage: boolean,
-  prismicDocument: any,
 |};

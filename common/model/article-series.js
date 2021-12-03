@@ -15,5 +15,4 @@ export type ArticleSeries = {|
   items: $ReadOnlyArray<ItemType>,
   color?: ?ColorSelection,
   seasons: Season[],
-  prismicDocument: any,
 |};

@@ -397,7 +397,6 @@ export function parseArticleDoc(document: PrismicDocument): Article {
     outroReadItem: parseContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: parseContentLink(data.outroVisitItem),
-    prismicDocument: document,
   };
 }
 

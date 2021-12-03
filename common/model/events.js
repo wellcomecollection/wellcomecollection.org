@@ -117,7 +117,6 @@ export type Event = {|
   availableOnline: boolean,
   primaryLabels: Label[],
   secondaryLabels: Label[],
-  prismicDocument: any,
 |};
 /* eslint-enable no-use-before-define */
 

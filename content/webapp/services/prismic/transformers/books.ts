@@ -23,5 +23,6 @@ export function transformBook(document: BookPrismicDocument): Book {
     format: transformKeyTextField(data.format),
     extent: transformKeyTextField(data.extent),
     isbn: transformKeyTextField(data.isbn),
+    prismicDocument: document,
   };
 }

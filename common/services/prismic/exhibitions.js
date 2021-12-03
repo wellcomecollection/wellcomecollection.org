@@ -173,7 +173,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       : [],
     relatedIds,
     seasons,
-    prismicDocument: document,
   };
 
   const labels = exhibition.isPermanent
