@@ -80,17 +80,12 @@ export type ElementFromComponent<C extends FunctionComponent> = ReactElement<
 export type Prefix<S extends string> = `${S}${string}`;
 
 /**
- * used to convert `1 | 2 | 3` => `[1, 2, 3]`
- * {@link https://github.com/microsoft/TypeScript/issues/13298#issuecomment-885980381}
+ * {@link https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file}
+ *
+ * type Old = { title: string }
+ * type New = { title?: string }
+ * type T = Old & New // { title: string } <= undesired
+ * Override<Old, New> // { title?: string } <= desired
+ *
  */
-type UnionToIntersection<U> = (
-  U extends never ? never : (arg: U) => never
-) extends (arg: infer I) => void
-  ? I
-  : never;
-
-export type UnionToTuple<T> = UnionToIntersection<
-  T extends never ? never : (t: T) => T
-> extends (_: never) => infer W
-  ? [...UnionToTuple<Exclude<T, W>>, W]
-  : [];
+export type Override<T, R> = Omit<T, keyof R> & R;

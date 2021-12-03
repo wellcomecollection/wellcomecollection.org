@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
-import { Book } from '@weco/common/model/books';
-import { Fragment, FC } from 'react';
+import { Book } from '../model/books';
+import { Fragment, FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -18,6 +18,7 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import { isString } from '@weco/common/utils/array';
 import { fetchBook } from '../services/prismic/fetch/books';
 import { createClient } from '../services/prismic/fetch';
+import { transformBook } from '../services/prismic/transformers/books';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -94,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return { notFound: true };
   };
 
-const BookPage: FC<Props> = props => {
+const BookPage: FunctionComponent<Props> = props => {
   if (!('book' in props)) return null;
 
   const { book } = props;

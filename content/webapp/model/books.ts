@@ -1,26 +1,16 @@
-import { RichTextField } from '@prismicio/types';
-import { Image } from '../services/prismic/types';
+import { Book as DeprecatedBook } from '@weco/common/model/books';
+import { Override } from '@weco/common/utils/utility-types';
 import { BookPrismicDocument } from '../services/prismic/books';
-import { CommonFields } from './common-fields';
 
-type Review = {
-  text: RichTextField;
-  citation: RichTextField;
-};
-type Season = {
-  title?: string;
-};
-export type Book = CommonFields & {
-  type: 'books';
-  subtitle?: string;
-  orderLink?: string;
-  price?: string;
-  format?: string;
-  extent?: string;
-  isbn?: string;
-  reviews: Review[];
-  datePublished?: Date;
-  cover?: Image;
-  seasons: Season[];
-  prismicDocument: BookPrismicDocument;
-};
+export type Book = Override<
+  DeprecatedBook,
+  {
+    subtitle?: string | undefined;
+    orderLink?: string | undefined;
+    price?: string | undefined;
+    format?: string | undefined;
+    extent?: string | undefined;
+    isbn?: string | undefined;
+    prismicDocument: BookPrismicDocument;
+  }
+>;
