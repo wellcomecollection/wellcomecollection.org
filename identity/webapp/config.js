@@ -4,19 +4,6 @@ const port = Number(process.env.PORT) || 3000;
 
 const getConfig = () => {
   dotEnvConfig();
-
-  const isProduction = process.env.NODE_ENV === 'production';
-
-  if (isProduction) {
-    // Required environment variables.
-    if (!process.env.SESSION_KEYS || process.env.SESSION_KEYS.trim() === '') {
-      throw new Error(`Missing environment variable SESSION_KEYS`);
-    }
-    if (!process.env.SITE_BASE_URL) {
-      throw new Error(`Missing environment variable SITE_BASE_URL`);
-    }
-  }
-
   return {
     // Random values used for encrypting cookies used for the session. Can be comma separated list.
     sessionKeys: process.env.SESSION_KEYS
