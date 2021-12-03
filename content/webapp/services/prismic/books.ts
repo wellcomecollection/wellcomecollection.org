@@ -7,7 +7,7 @@ import {
   KeyTextField,
 } from '@prismicio/types';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   WithContributors,
   WithFormat,
   WithParents,
@@ -33,6 +33,6 @@ export type BookPrismicDocument = PrismicDocument<
     WithContributors &
     WithSeasons &
     WithParents &
-    CommonPrismicData,
+    CommonPrismicFields,
   'books'
 >;

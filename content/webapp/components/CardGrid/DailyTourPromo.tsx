@@ -44,8 +44,6 @@ export const data: UiEvent = {
     description: undefined,
   },
   body: [],
-  contributors: [],
-  contributorsTitle: null,
   dateRange: {
     firstDate: new Date(),
     lastDate: new Date(),

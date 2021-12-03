@@ -7,7 +7,7 @@ import {
   SelectField,
 } from '@prismicio/types';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   InferDataInterface,
   WithContributors,
   WithParents,
@@ -52,6 +52,6 @@ export type ExhibitionPrismicDocument = PrismicDocument<
   } & WithContributors &
     WithParents &
     WithSeasons &
-    CommonPrismicData,
+    CommonPrismicFields,
   typeof typeEnum
 >;

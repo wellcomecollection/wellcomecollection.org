@@ -1,9 +1,9 @@
-import { PrismicDocument } from '@prismicio/types';
+import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
 import linkResolver from './link-resolver';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
   WithFormat,
@@ -19,17 +19,17 @@ type Meta = {
   image?: Image;
 };
 
-type Doc = PrismicDocument<CommonPrismicData>;
+type Doc = PrismicDocument<CommonPrismicFields>;
 
 export function transformMeta(doc: Doc): Meta {
   const promo = tranformPromo(doc);
 
   return {
-    title: prismicH.asText(doc.data.title),
+    title: transformRichTextFieldToString(doc.data.title) ?? '',
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
-    promoText: prismicH.asText(promo.caption) || undefined,
+    promoText: transformRichTextFieldToString(promo.caption) || undefined,
     image: promo.image,
     url: linkResolver(doc) || '',
   };
@@ -70,4 +70,20 @@ export function transformFormat(document: PrismicDocument<WithFormat>) {
   if (isFilledLinkToDocumentWithData(format) && format.data) {
     return format;
   }
+}
+
+// This is to avoid introducing nulls into our codebase
+export function transformKeyTextField(field: KeyTextField) {
+  return field ?? undefined;
+}
+
+// Prismic often returns empty RichText fields as `[]`, this filters them out
+export function transformRichTextField(field: RichTextField) {
+  return field && field.length > 0 ? field : undefined;
+}
+
+// We have to use this annoyingly often as right at the beginning of the project
+// we created titles as `RichTextField`s.
+export function transformRichTextFieldToString(field: RichTextField) {
+  return field && field.length > 0 ? prismicH.asText(field) : undefined;
 }

@@ -4,14 +4,8 @@ import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '../link-resolver';
 
-const routes = [
-  {
-    type: 'seasons',
-    path: '/seasons/:uid',
-  },
-];
 const endpoint = prismic.getEndpoint('wellcomecollection');
-const client = prismic.createClient(endpoint, { routes, fetch });
+const client = prismic.createClient(endpoint, { fetch });
 
 export type GetServerSidePropsPrismicClient = {
   type: 'GetServerSidePropsPrismicClient';
@@ -31,10 +25,10 @@ export type GetServerSidePropsPrismicClient = {
  *    const events = await getEvents(client)
  * }
  *
- * Or from an API endpoint
+ * Or from an API route {@link https://nextjs.org/docs/api-routes/introduction}
  *
  * export default async (req: NextApiRequest, res: NextApiResponse) => {
- *   const client = createClient(req);
+ *   const client = createClient({ req });
  *    // ...
  * }
  *
@@ -56,8 +50,9 @@ export type GetServerSidePropsPrismicClient = {
  */
 export function createClient(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _: GetServerSidePropsContext | NextApiRequest
+  { req }: GetServerSidePropsContext | { req: NextApiRequest }
 ): GetServerSidePropsPrismicClient {
+  client.enableAutoPreviewsFromReq(req);
   return { type: 'GetServerSidePropsPrismicClient', client };
 }
 

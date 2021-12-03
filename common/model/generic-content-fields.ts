@@ -1,4 +1,3 @@
-import { Contributor } from './contributors';
 import { ImagePromo } from './image-promo';
 import { Picture } from './picture';
 import { ImageType } from './image';
@@ -20,8 +19,6 @@ export type BodyType = BodySlice[];
 export type GenericContentFields = {
   id: string;
   title: string;
-  contributorsTitle: string | null;
-  contributors: Contributor[];
   promo: ImagePromo | null;
   body: BodyType;
   standfirst: HTMLString | null;

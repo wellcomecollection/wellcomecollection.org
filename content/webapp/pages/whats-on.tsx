@@ -32,7 +32,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { exhibitionLd, eventLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
@@ -55,6 +54,10 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { usePrismicData } from '@weco/common/server-data/Context';
+import {
+  exhibitionLd,
+  eventLd,
+} from '../services/prismic/transformers/json-ld';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';

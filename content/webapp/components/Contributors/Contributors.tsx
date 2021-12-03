@@ -1,14 +1,15 @@
 import { Fragment } from 'react';
-import { Contributor as ContributorType } from '@weco/common/model/contributors';
+import { PrismicDocument } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
+import { WithContributors } from '../../services/prismic/types';
+import { transformContributors } from '../../services/prismic/transformers/contributors';
+import { transformRichTextFieldToString } from '../../services/prismic/transformers';
 
 type Props = {
-  contributors: ContributorType[];
-  titleOverride?: string;
   titlePrefix?: string;
-  excludeTitle?: boolean;
+  document: PrismicDocument<WithContributors>;
 };
 
 export function dedupeAndPluraliseRoles(roles: string[]): string[] {
@@ -49,12 +50,11 @@ export function getContributorsTitle(
   return `${titlePrefix} ${rolesString}`;
 }
 
-const Contributors = ({
-  contributors,
-  titleOverride,
-  excludeTitle,
-  titlePrefix = 'About the',
-}: Props) => {
+const Contributors = ({ titlePrefix = 'About the', document }: Props) => {
+  const titleOverride = transformRichTextFieldToString(
+    document.data.contributorsTitle
+  );
+  const contributors = transformContributors(document);
   const roles = dedupeAndPluraliseRoles(
     contributors
       .map(contributor => contributor?.role?.title)
@@ -64,7 +64,7 @@ const Contributors = ({
   return (
     <Fragment>
       {titleOverride && <h2 className="h2">{titleOverride}</h2>}
-      {!titleOverride && !excludeTitle && (
+      {!titleOverride && (
         <h2 className="h2">{`${getContributorsTitle(roles, titlePrefix)}`}</h2>
       )}
 
@@ -79,7 +79,7 @@ const Contributors = ({
           */}
           <Contributor
             contributor={contributor}
-            role={roles.length > 1 ? role : null}
+            role={roles.length > 1 ? role : undefined}
             description={description}
           />
         </Space>

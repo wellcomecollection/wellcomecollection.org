@@ -1,4 +1,4 @@
-import Outro from '@weco/common/views/components/Outro/Outro';
+import Outro from '@weco/content/components/Outro/Outro';
 
 const Template = args => <Outro {...args} />;
 export const basic = Template.bind({});

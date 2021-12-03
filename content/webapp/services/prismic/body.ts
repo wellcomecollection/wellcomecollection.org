@@ -17,7 +17,7 @@ import { Image } from './types';
 
 type TextSlice = Slice<'slice', { text: RichTextField }>;
 
-type EditorialImageSlice = Slice<
+export type EditorialImageSlice = Slice<
   'editorialImage',
   { image: Image; caption: RichTextField }
 >;

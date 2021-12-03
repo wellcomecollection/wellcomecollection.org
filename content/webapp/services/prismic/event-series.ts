@@ -2,7 +2,7 @@
 import { RelationField, PrismicDocument } from '@prismicio/types';
 import { BackgroundTexturesDocument } from './background-textures';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   InferDataInterface,
   WithContributors,
 } from './types';
@@ -15,6 +15,6 @@ export type EventSeriesPrismicDocument = PrismicDocument<
       InferDataInterface<BackgroundTexturesDocument>
     >;
   } & WithContributors &
-    CommonPrismicData,
+    CommonPrismicFields,
   'event-series'
 >;

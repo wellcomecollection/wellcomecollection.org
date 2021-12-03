@@ -24,19 +24,22 @@ const fetchLinks = [
   'people.pronouns',
   'organisation.name',
   'editorial-contributor-roles.title',
+  'editorial-contributor-roles.describedBy',
 ];
 
 export async function fetchArticle(
   { client }: GetServerSidePropsPrismicClient,
   id: string
 ): Promise<ArticlePrismicDocument | undefined> {
-  const document = await client.getByID<ArticlePrismicDocument>(id, {
-    fetchLinks,
-  });
+  try {
+    const document = await client.getByID<ArticlePrismicDocument>(id, {
+      fetchLinks,
+    });
 
-  if (document.type === 'articles' || document.type === 'webcomics') {
-    return document;
-  }
+    if (document.type === 'articles' || document.type === 'webcomics') {
+      return document;
+    }
+  } catch {}
 }
 
 type Params = Parameters<

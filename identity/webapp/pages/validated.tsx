@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { PageWrapper } from '../../src/frontend/components/PageWrapper';
+import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
   Container,
   Wrapper,
   SectionHeading,
-} from '../../src/frontend/components/Layout.style';
-import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
+} from '../src/frontend/components/Layout.style';
+import { HighlightMessage } from '../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -48,7 +48,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                     </div>
                   )}
                   <ButtonSolidLink
-                    link="/account"
+                    link="/"
                     text={
                       userState === 'signedin'
                         ? 'View your library account'

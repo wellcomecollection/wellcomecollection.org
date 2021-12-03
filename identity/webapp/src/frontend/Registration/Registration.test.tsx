@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import RegistrationPage from '../../../pages/account/registration';
+import RegistrationPage from '../../../pages/registration';
 import userEvent from '@testing-library/user-event';
 import { server } from '../mocks/server';
 import { rest } from 'msw';

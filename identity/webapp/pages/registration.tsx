@@ -1,11 +1,11 @@
 import { useEffect, FormEvent } from 'react';
-import usePasswordRules from '../../src/frontend/hooks/usePasswordRules';
+import usePasswordRules from '../src/frontend/hooks/usePasswordRules';
 import { NextPage, GetServerSideProps } from 'next';
 import { useForm, Controller, useWatch } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import NextLink from 'next/link';
-import { AccountCreated } from '../../src/frontend/Registration/AccountCreated';
-import { PageWrapper } from '../../src/frontend/components/PageWrapper';
+import { AccountCreated } from '../src/frontend/Registration/AccountCreated';
+import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import { useRouter } from 'next/router';
 import {
   Cancel,
@@ -14,12 +14,12 @@ import {
   ExternalLink,
   CheckboxLabel,
   InProgress,
-} from '../../src/frontend/Registration/Registration.style';
+} from '../src/frontend/Registration/Registration.style';
 import {
   Container,
   Wrapper,
   SectionHeading,
-} from '../../src/frontend/components/Layout.style';
+} from '../src/frontend/components/Layout.style';
 import WellcomeTextInput, {
   TextInputErrorMessage,
 } from '@weco/common/views/components/TextInput/TextInput';
@@ -27,14 +27,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   useRegisterUser,
   RegistrationError,
-} from '../../src/frontend/Registration/useRegisterUser';
-import { usePageTitle } from '../../src/frontend/hooks/usePageTitle';
+} from '../src/frontend/Registration/useRegisterUser';
+import { usePageTitle } from '../src/frontend/hooks/usePageTitle';
 import {
   validEmailPattern,
   validPasswordPattern,
-} from '../../src/frontend/components/ValidationPatterns';
-import { PasswordRules } from '../../src/frontend/components/PasswordInput';
-import { PasswordInput } from '../../src/frontend/Registration/PasswordInput';
+} from '../src/frontend/components/ValidationPatterns';
+import { PasswordRules } from '../src/frontend/components/PasswordInput';
+import { PasswordInput } from '../src/frontend/Registration/PasswordInput';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -114,7 +114,7 @@ const RegistrationPage: NextPage = () => {
                       <span id="error-text">
                         An account with this email address already exists,
                         please{' '}
-                        <NextLink href="/account">
+                        <NextLink href="/">
                           <a>sign in</a>
                         </NextLink>
                         .
