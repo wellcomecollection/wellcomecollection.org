@@ -1,4 +1,3 @@
-import { wellcomeCollectionGallery } from '../model/organization';
 import { convertImageUri } from './convert-image-uri';
 
 export function objToJsonLd<T>(obj: T, type: string, root = true) {
