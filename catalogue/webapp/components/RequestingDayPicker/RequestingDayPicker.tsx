@@ -1,4 +1,4 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useState } from 'react';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { london } from '@weco/common/utils/format-date';
 import 'react-day-picker/lib/style.css';
@@ -9,14 +9,14 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron, calendar } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
-// $FlowFixMe (tsx)
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
 import {
   determineNextAvailableDate,
   getDayNumber,
   extendEndDate,
 } from '@weco/catalogue/utils/dates';
+import { usePrismicData } from '@weco/common/server-data/Context';
+import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
 
 const { formatDate, parseDate } = LocaleUtils;
 
@@ -224,7 +224,8 @@ const RequestingDayPicker: FC<Props> = ({
 
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
-  const openingTimes = useContext(OpeningTimesContext);
+  const prismicData = usePrismicData();
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
   const libraryVenue =
     openingTimes?.collectionOpeningTimes.placesOpeningHours.find(
       venue => venue.id === collectionVenueId.libraries.id
@@ -232,16 +233,15 @@ const RequestingDayPicker: FC<Props> = ({
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays =
     regularLibraryOpeningTimes
-      ?.filter(day => day.opens === null)
+      ?.filter(day => !day.opens)
       .map(day => getDayNumber(day.dayOfWeek)) || [];
   const exceptionalLibraryOpeningTimes =
     libraryVenue?.openingHours.exceptional || [];
   const exceptionalClosedDates = exceptionalLibraryOpeningTimes
-    .filter(day => day.opens === null)
+    .filter(day => !day.opens)
     .map(day => {
       return day.overrideDate;
     });
-
   const nextAvailableDate = determineNextAvailableDate(
     london(new Date()),
     regularClosedDays
