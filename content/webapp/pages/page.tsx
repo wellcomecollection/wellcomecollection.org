@@ -13,7 +13,6 @@ import {
   getPageSiblings,
   getChildren,
 } from '@weco/common/services/prismic/pages';
-import { contentLd } from '@weco/common/utils/json-ld';
 import { Page as PageType } from '@weco/common/model/pages';
 import { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
@@ -37,6 +36,7 @@ import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { contentLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   page: PageType;

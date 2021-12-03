@@ -12,7 +12,6 @@ import PageHeader, {
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -29,6 +28,7 @@ import {
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
 import { transformContributors } from '../services/prismic/transformers/contributors';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   article: Article;

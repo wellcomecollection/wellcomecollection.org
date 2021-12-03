@@ -26,7 +26,6 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -48,6 +47,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
+import { eventLd } from '../services/prismic/transformers/json-ld';
 
 const TimeWrapper = styled(Space).attrs({
   v: {

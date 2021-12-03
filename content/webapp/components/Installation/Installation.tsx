@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
@@ -16,6 +15,7 @@ import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
+import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 
 type Props = {
   installation: UiExhibition;

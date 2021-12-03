@@ -9,7 +9,6 @@ import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { eventLd } from '@weco/common/utils/json-ld';
 import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -18,6 +17,7 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
+import { eventLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   series: EventSeries;
@@ -128,7 +128,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       title={series.title}
       description={series.metadataDescription || series.promoText || ''}
       url={{ pathname: `/event-series/${series.id}` }}
-      jsonLd={events.map(eventLd)}
+      jsonLd={events.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}

@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader, {
   getFeaturedMedia,
@@ -31,6 +30,7 @@ import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
+import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)

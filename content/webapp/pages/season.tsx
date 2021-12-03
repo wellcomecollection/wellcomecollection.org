@@ -5,7 +5,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { contentLd } from '@weco/common/utils/json-ld';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -16,6 +15,7 @@ import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { contentLd } from '../services/prismic/transformers/json-ld';
 
 type Props = SeasonWithContent;
 const SeasonPage = ({

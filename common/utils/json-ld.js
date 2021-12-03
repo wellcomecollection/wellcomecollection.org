@@ -42,20 +42,17 @@ export function articleLd(article) {
 
   return objToJsonLd(
     {
-      contributor: article.contributors.map(
-        ({ contributor, role, description }) => {
-          const type =
-            contributor.type === 'person' ? 'Person' : 'Organization';
-          return objToJsonLd(
-            {
-              name: contributor.name,
-              image: contributor.image && contributor.image.contentUrl,
-            },
-            type,
-            false
-          );
-        }
-      ),
+      contributor: article.contributors.map(({ contributor }) => {
+        const type = contributor.type === 'person' ? 'Person' : 'Organization';
+        return objToJsonLd(
+          {
+            name: contributor.name,
+            image: contributor.image && contributor.image.contentUrl,
+          },
+          type,
+          false
+        );
+      }),
       dateCreated: article.datePublished,
       datePublished: article.datePublished,
       headline: article.title,
@@ -190,20 +187,18 @@ export function eventLd(event: Event) {
             event.promoImage.contentUrl &&
             convertImageUri(event.promoImage.contentUrl, 1920, false),
           isAccessibleForFree: !event.cost,
-          performers: event.contributors.map(
-            ({ contributor, role, description }) => {
-              const type =
-                contributor.type === 'person' ? 'Person' : 'Organization';
-              return objToJsonLd(
-                {
-                  name: contributor.name,
-                  image: contributor.image && contributor.image.contentUrl,
-                },
-                type,
-                false
-              );
-            }
-          ),
+          performers: event.contributors.map(({ contributor }) => {
+            const type =
+              contributor.type === 'person' ? 'Person' : 'Organization';
+            return objToJsonLd(
+              {
+                name: contributor.name,
+                image: contributor.image && contributor.image.contentUrl,
+              },
+              type,
+              false
+            );
+          }),
         },
         'Event'
       );
