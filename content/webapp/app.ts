@@ -1,23 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires, import/first */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
-
 import Koa from 'koa';
 import Router from 'koa-router';
 import next from 'next';
 import Prismic from '@prismicio/client';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 import bodyParser from 'koa-bodyparser';
 import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
-
 import {
   middleware,
   route,
   handleAllRoute,
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
+import linkResolver from './services/prismic/link-resolver';
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -126,12 +124,21 @@ const appPromise = nextApp
         }
       );
 
+      /**
+       * This is because the type in api.resolve are not true
+       */
+      const retypedLinkResolver = doc => {
+        return (linkResolver(doc) as string) || '/';
+      };
+
       const url = await api
         .getPreviewResolver(token!.toString(), documentId!.toString())
-        .resolve(linkResolver, '/');
+        .resolve(retypedLinkResolver, '/');
+
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,
       });
+
       ctx.redirect(url);
     });
 
