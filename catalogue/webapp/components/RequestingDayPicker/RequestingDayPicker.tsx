@@ -247,7 +247,7 @@ const RequestingDayPicker: FC<Props> = ({
     regularClosedDays
   );
   // there should be a 2 week window in which to select a date
-  const lastAvailableDate = nextAvailableDate.add(13, 'days');
+  const lastAvailableDate = nextAvailableDate.clone().add(13, 'days');
   // we want to know if the library is closed on any days during the selection window
   // so that we can extend the lastAvailableDate to take these into account
   const extendedLastAvailableDate = extendEndDate({
