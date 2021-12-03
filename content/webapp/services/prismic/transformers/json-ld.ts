@@ -209,7 +209,7 @@ export function contentLd(content: Page | Season) {
       datePublished: prismicDocument.first_publication_date,
       dateModified: prismicDocument.first_publication_date,
       publisher: orgLd(wellcomeCollectionGallery),
-      mainEntityOfPage: `https://wellcomecollection.org${content.url}`,
+      mainEntityOfPage: `https://wellcomecollection.org${meta.url}`,
     },
     'Article'
   );
