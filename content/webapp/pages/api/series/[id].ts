@@ -16,7 +16,7 @@ export default async (
     return res.status(404).json({ notFound: true });
   }
 
-  const client = createClient(req);
+  const client = createClient({ req });
   const response = await fetchSeries(client, id);
 
   if (response) {

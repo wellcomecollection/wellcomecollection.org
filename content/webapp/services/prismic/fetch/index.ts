@@ -23,10 +23,10 @@ export type GetServerSidePropsPrismicClient = {
  *    const events = await getEvents(client)
  * }
  *
- * Or from an API endpoint
+ * Or from an API route {@link https://nextjs.org/docs/api-routes/introduction}
  *
  * export default async (req: NextApiRequest, res: NextApiResponse) => {
- *   const client = createClient(req);
+ *   const client = createClient({ req });
  *    // ...
  * }
  *
@@ -48,10 +48,9 @@ export type GetServerSidePropsPrismicClient = {
  */
 export function createClient(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _: GetServerSidePropsContext | NextApiRequest
+  reqLink: GetServerSidePropsContext | { req: NextApiRequest }
 ): GetServerSidePropsPrismicClient {
-  if ('req' in _) {
-    client.enableAutoPreviewsFromReq(_.req);
-  }
+  const { req } = reqLink;
+  client.enableAutoPreviewsFromReq(req);
   return { type: 'GetServerSidePropsPrismicClient', client };
 }
