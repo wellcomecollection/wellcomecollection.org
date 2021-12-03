@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { Book } from '@weco/common/model/books';
 import { Fragment, FC } from 'react';
-import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -16,6 +15,9 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { isString } from '@weco/common/utils/array';
+import { fetchBook } from '../services/prismic/fetch/books';
+import { createClient } from '../services/prismic/fetch';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -67,11 +69,17 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const book: Book = await getBook(context.req, id, memoizedPrismic);
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+    const client = createClient(context);
+    const bookDocument = await fetchBook(client, id);
 
-    if (book) {
+    if (bookDocument) {
+      const serverData = await getServerData(context);
+      const book = transformBook(bookDocument);
+
       return {
         props: removeUndefinedProps({
           book,

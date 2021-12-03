@@ -49,10 +49,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const articleDocument = await fetchArticle(client, id);
-    const serverData = await getServerData(context);
 
     if (articleDocument) {
       const article = parseArticleDoc(articleDocument);
+      const serverData = await getServerData(context);
+
       return {
         props: removeUndefinedProps({
           article,

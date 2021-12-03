@@ -1,7 +1,7 @@
 import { fetcher } from '.';
-import { BookPrismicDocument } from '../books';
+import { BookPrismicDocument, booksFetchLinks } from '../books';
 
-const fetchLinks = [];
+const fetchLinks = booksFetchLinks;
 
 const booksFetcher = fetcher<BookPrismicDocument>('books', fetchLinks);
 
