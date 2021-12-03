@@ -52,7 +52,7 @@ type InterpretationType = PrismicDocument<
   },
   'interpretation-types'
 >;
-const interpretationTypeFetchLink: FetchLinks<InterpretationType> = [
+const interpretationTypeFetchLinks: FetchLinks<InterpretationType> = [
   'interpretation-types.title',
   'interpretation-types.abbreviation',
   'interpretation-types.description',
@@ -182,7 +182,7 @@ export const eventsFetchLinks = [
   ...eventSeriesFetchLink,
   ...exhibitionsFetchLinks,
   ...eventFormatFetchLink,
-  ...interpretationTypeFetchLink,
+  ...interpretationTypeFetchLinks,
   ...audienceFetchLinks,
   ...eventPoliciyFetchLink,
   ...placesFetchLink,

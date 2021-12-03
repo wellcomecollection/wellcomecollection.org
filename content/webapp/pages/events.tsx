@@ -1,11 +1,7 @@
 import { FC } from 'react';
-import {
-  getEvents,
-  orderEventsByNextAvailableDate,
-} from '@weco/common/services/prismic/events';
+import { orderEventsByNextAvailableDate } from '@weco/common/services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -15,14 +11,26 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import {
+  availableOnlinePredicate,
+  getPeriodPredicates,
+  isOnlinePredicate,
+  isPeriod,
+} from '../services/prismic/predicates';
+import { Event } from '../model/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformEvent } from '../services/prismic/transformers/events';
 
 type Props = {
   displayTitle: string;
-  events: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
   period?: Period;
 };
 
@@ -31,41 +39,61 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const {
-      page = 1,
-      memoizedPrismic,
-      period = 'current-and-coming-up',
-      isOnline,
-      availableOnline,
-    } = context.query;
-
-    const events = await getEvents(
-      context.req,
-      {
-        page,
-        period,
-        pageSize: 100,
-        isOnline: isOnline === 'true',
-        availableOnline: availableOnline === 'true',
-      },
-      memoizedPrismic
-    );
-
-    if (events) {
-      const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
-      return {
-        props: removeUndefinedProps({
-          events,
-          title,
-          period,
-          displayTitle: title,
-          serverData,
-        }),
-      };
-    } else {
+    const { page = '1', period = 'current-and-coming-up' } = context.query;
+    if (!isString(page)) {
       return { notFound: true };
     }
+    const parsedPage = parseInt(page, 10);
+    if (isNaN(parsedPage)) {
+      return appError(context, 400, `${page} is not a number`);
+    }
+
+    if (!isPeriod(period)) {
+      return appError(context, 400, `${period} is not a period`);
+    }
+    const startField = 'my.events.times.startDateTime';
+    const endField = 'my.events.times.endDateTime';
+    const periodPredicates = getPeriodPredicates({
+      startField,
+      endField,
+      period,
+    });
+
+    const isOnline = context.query.isOnline === 'true';
+    const availableOnline = context.query.availableOnline === 'true';
+    const predicates = [
+      isOnline ? isOnlinePredicate : undefined,
+      availableOnline ? availableOnlinePredicate : undefined,
+      ...periodPredicates,
+    ].filter(isNotUndefined);
+
+    const direction = period === 'past' ? 'desc' : ('asc' as const);
+    const orderings: { field: string; direction: typeof direction } = {
+      field: 'my.events.times.startDateTime',
+      direction,
+    };
+
+    const client = createClient(context);
+    const eventsQuery = await fetchEvents(client, {
+      page: parsedPage,
+      predicates,
+      orderings,
+    });
+
+    const events = transformQuery(eventsQuery, transformEvent);
+
+    const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
+
+    const serverData = await getServerData(context);
+    return {
+      props: removeUndefinedProps({
+        events,
+        title,
+        period,
+        displayTitle: title,
+        serverData,
+      }),
+    };
   };
 
 const EventsPage: FC<Props> = props => {
@@ -77,8 +105,10 @@ const EventsPage: FC<Props> = props => {
       period !== 'past'
         ? orderEventsByNextAvailableDate(convertedEvents)
         : convertedEvents,
-  } as PaginatedResults<UiEvent>;
+  } as PaginatedResults<Event>;
+
   const firstEvent = events.results[0];
+
   return (
     <PageLayout
       title={displayTitle}
