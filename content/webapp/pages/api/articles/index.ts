@@ -15,7 +15,7 @@ export default async (
 ) => {
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
-  const client = createClient(req);
+  const client = createClient({ req });
   const response = await fetchArticles(client, parsedParams);
 
   if (response) {
