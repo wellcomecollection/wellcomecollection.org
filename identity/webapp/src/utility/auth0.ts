@@ -3,6 +3,7 @@ import { config } from '../config';
 import { GetServerSidePropsContext } from 'next';
 import { WithPageAuthRequiredOptions } from '@auth0/nextjs-auth0/src/helpers/with-page-auth-required';
 import { PageRoute } from '@auth0/nextjs-auth0/dist/helpers/with-page-auth-required';
+import { AuthorizationParams } from '@auth0/nextjs-auth0/dist/handlers/login';
 
 const identityApiScopes = [
   'create:requests',
@@ -12,6 +13,19 @@ const identityApiScopes = [
   'update:email',
   'update:password',
 ];
+
+const utilityScopes = [
+  'openid', // Required, also gives the token access to the userinfo endpoint
+  'offline_access', // Enables refresh tokens
+];
+
+// Things we want in the JWT
+const profileScopes = ['given_name', 'family_name'];
+
+const identityAuthorizationParams: AuthorizationParams = {
+  audience: config.remoteApi.host,
+  scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
+};
 
 const ONE_HOUR_S = 60 * 60;
 const ONE_DAY_S = 24 * ONE_HOUR_S;
@@ -31,7 +45,7 @@ const auth0 = initAuth0({
   clientSecret: config.auth0.clientSecret,
   authorizationParams: {
     response_type: 'code',
-    scope: ['openid', ...identityApiScopes].join(' '),
+    ...identityAuthorizationParams,
   },
   routes: {
     postLogoutRedirect: config.siteBaseUrl,

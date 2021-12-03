@@ -15,9 +15,7 @@ import { init as initServerData } from '@weco/common/server-data';
 
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
-export async function createApp(
-  router: Router<ApplicationState, ApplicationContext>
-): Promise<Koa> {
+export async function createApp(): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';
   await initServerData();
 
@@ -35,13 +33,12 @@ export async function createApp(
   app.use(logger());
   app.use(errorHandler);
 
-  // Next catch-all route
-  router.get('(.*)', async ctx => {
+  const router = new Router<ApplicationState, ApplicationContext>();
+  router.all('(.*)', async ctx => {
     await nextHandler(ctx.req, ctx.res);
     ctx.respond = false;
   });
 
-  // API routes
   app.use(router.routes()).use(router.allowedMethods());
 
   process.on('SIGINT', async () => {
