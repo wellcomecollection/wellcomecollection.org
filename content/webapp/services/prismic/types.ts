@@ -114,19 +114,6 @@ export const commonPrismicFieldsFetchLinks = [
 ].flatMap(type => [`${type}.title`, `${type}.promo`]);
 
 // These fields are shared amongst a lot of types, but not all
-export type WithSeries = {
-  series: GroupField<{
-    series: RelationField<
-      'series',
-      'en-gb',
-      InferDataInterface<SeriesPrismicDocument>
-    >;
-  }>;
-};
-export const seriesFetchLink: FetchLinks<SeriesPrismicDocument> = [
-  'series.title',
-  'series.promo',
-];
 
 export type WithEventSeries = {
   series: GroupField<{

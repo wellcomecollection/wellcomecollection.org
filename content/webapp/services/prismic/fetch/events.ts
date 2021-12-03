@@ -1,7 +1,7 @@
 import { fetcher } from '.';
-import { EventPrismicDocument } from '../events';
+import { EventPrismicDocument, eventsFetchLinks } from '../events';
 
-const fetchLinks = [];
+const fetchLinks = eventsFetchLinks;
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
 

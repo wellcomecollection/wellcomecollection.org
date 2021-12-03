@@ -1,6 +1,5 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -24,9 +23,8 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
+import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -49,6 +47,14 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
 import { eventLd } from '../services/prismic/transformers/json-ld';
 import { Event } from '../model/events';
+import {
+  fetchEvent,
+  fetchEventsClientSide,
+} from '../services/prismic/fetch/events';
+import { isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -67,7 +73,7 @@ const DateWrapper = styled.div.attrs({
 `;
 
 type Props = {
-  jsonEvent: UiEvent;
+  event: Event;
 } & WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
@@ -149,7 +155,7 @@ export function convertJsonToDates(jsonEvent: Event): Event {
     jsonEvent.schedule &&
     jsonEvent.schedule.map(item => ({
       ...item,
-      event: convertJsonToDates(item.event),
+      event: convertJsonToDates(item.event as Event),
     }));
 
   return {
@@ -167,20 +173,21 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
-  const [scheduledIn, setScheduledIn] = useState<UiEvent>();
-  const getScheduledIn = async () => {
-    const scheduledIn = await getEvents(null, {
-      predicates: [
-        Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
-      ],
-    });
+const EventPage: NextPage<Props> = (props: Props) => {
+  const { event: jsonEvent } = props;
 
-    if (scheduledIn && scheduledIn.results.length > 0) {
-      setScheduledIn(scheduledIn.results[0]);
-    }
-  };
+  const [scheduledIn, setScheduledIn] = useState<Event>();
   useEffect(() => {
+    const getScheduledIn = async () => {
+      const scheduledInQuery = await fetchEventsClientSide({
+        predicates: [`[at(my.events.schedule.event, "${jsonEvent.id}")]`],
+      });
+
+      if (scheduledInQuery) {
+        const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
+        setScheduledIn(scheduledIn.results?.[0]);
+      }
+    };
     getScheduledIn();
   }, []);
 
@@ -522,30 +529,31 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
-  const serverData = await getServerData(context);
-  const { id, memoizedPrismic } = context.query;
-  const event = await getEvent(context.req, { id }, memoizedPrismic);
+  const { id } = context.query;
+  if (!isString(id)) {
+    return { notFound: true };
+  }
+  const client = createClient(context);
+  const eventDocument = await fetchEvent(client, id);
 
-  if (!event) {
+  if (eventDocument) {
+    const serverData = await getServerData(context);
+    const event = transformEvent(eventDocument);
+
     return {
-      notFound: true,
+      props: removeUndefinedProps({
+        event,
+        serverData,
+        gaDimensions: {
+          partOf: event.seasons
+            .map(season => season.id)
+            .concat(event.series.map(series => series.id)),
+        },
+      }),
     };
   }
 
-  // This is a bit of nonsense as the event type has loads `undefined` values
-  // which we could pick out explicitly, or do this.
-  // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
-  return {
-    props: removeUndefinedProps({
-      jsonEvent: JSON.parse(JSON.stringify(event)),
-      serverData,
-      gaDimensions: {
-        partOf: event.seasons
-          .map(season => season.id)
-          .concat(event.series.map(series => series.id)),
-      },
-    }),
-  };
+  return { notFound: true };
 };
 
 export default EventPage;

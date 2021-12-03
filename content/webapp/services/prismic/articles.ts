@@ -3,17 +3,34 @@ import {
   RichTextField,
   TimestampField,
   PrismicDocument,
+  GroupField,
+  RelationField,
 } from '@prismicio/types';
+import { SeriesPrismicDocument } from './series';
 import {
   articleFormatsFetchLinks,
   CommonPrismicFields,
   commonPrismicFieldsFetchLinks,
-  seriesFetchLink,
+  FetchLinks,
+  InferDataInterface,
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
-  WithSeries,
 } from './types';
+
+export type WithSeries = {
+  series: GroupField<{
+    series: RelationField<
+      'series',
+      'en-gb',
+      InferDataInterface<SeriesPrismicDocument>
+    >;
+  }>;
+};
+export const seriesFetchLink: FetchLinks<SeriesPrismicDocument> = [
+  'series.title',
+  'series.promo',
+];
 
 export type ArticlePrismicDocument = PrismicDocument<
   {
