@@ -9,13 +9,17 @@ export const createRouter = (): Router<
 > => {
   const accountRouter = new Router<ApplicationState, ApplicationContext>();
 
-  accountRouter.all('/account/api/:api_route*', koaBody(), async context => {
-    const apiRoute = context.params.api_route;
-    const { status, data } = await callRemoteApi(apiRoute, context);
+  accountRouter.all(
+    '/account/api/users/:api_route*',
+    koaBody(),
+    async context => {
+      const apiRoute = 'users/' + context.params.api_route;
+      const { status, data } = await callRemoteApi(apiRoute, context);
 
-    context.response.status = status;
-    context.response.body = data;
-  });
+      context.response.status = status;
+      context.response.body = data;
+    }
+  );
 
   return accountRouter;
 };

@@ -16,7 +16,10 @@ module "identity-prod" {
   interservice_security_group_id   = local.prod_interservice_security_group_id
   service_egress_security_group_id = local.prod_service_egress_security_group_id
 
-  env_vars = local.service_env["prod"]["env_vars"]
+  env_vars = merge(
+    local.service_env["prod"]["env_vars"],
+    { SITE_BASE_URL = "https://wellcomecollection.org" }
+  )
   secret_env_vars = local.service_env["prod"]["secret_env_vars"]
 
   subdomain = "identity.www"
@@ -40,7 +43,10 @@ module "identity-stage" {
   interservice_security_group_id   = local.stage_interservice_security_group_id
   service_egress_security_group_id = local.stage_service_egress_security_group_id
 
-  env_vars = local.service_env["stage"]["env_vars"]
+  env_vars = merge(
+    local.service_env["stage"]["env_vars"],
+    { SITE_BASE_URL = "https://www-stage.wellcomecollection.org" }
+  )
   secret_env_vars = local.service_env["stage"]["secret_env_vars"]
 
   subdomain = "identity.www-stage"

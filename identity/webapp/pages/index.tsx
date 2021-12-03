@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { GetServerSideProps, NextPage } from 'next';
+import { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -31,7 +32,6 @@ import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
 import { useRequestedItems } from '../src/frontend/hooks/useRequestedItems';
-import { useRouter } from 'next/router';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -128,19 +128,20 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 type Props = {
   serverData: ServerData;
 };
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
 
-    return {
-      props: removeUndefinedProps({
-        serverData,
-      }),
-    };
-  };
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  withPageAuthRequiredSSR({
+    getServerSideProps: async context => {
+      const serverData = await getServerData(context);
+      return {
+        props: removeUndefinedProps({
+          serverData,
+        }),
+      };
+    },
+  });
 
 const AccountPage: NextPage = () => {
-  const router = useRouter();
   const { user, state: userState } = useUser();
 
   const {
@@ -150,12 +151,6 @@ const AccountPage: NextPage = () => {
   } = useRequestedItems();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-
-  const logoutOnDeletionRequest = () => {
-    router.replace(
-      `/logout?returnTo=${encodeURIComponent('/delete-requested')}`
-    );
-  };
 
   return (
     <PageWrapper title={`Your library account`}>
@@ -343,7 +338,9 @@ const AccountPage: NextPage = () => {
                 <ChangeDetailsModal
                   id="delete-account"
                   buttonText="Cancel your membership"
-                  onComplete={logoutOnDeletionRequest}
+                  onComplete={() => {
+                    /* TODO: implement this */
+                  }}
                   render={props => <DeleteAccount {...props} />}
                 />
               </Wrapper>

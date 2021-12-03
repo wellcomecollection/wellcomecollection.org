@@ -25,7 +25,7 @@ const SignInLink: FC = () => {
   return (
     <AlignFont>
       <span className={font('hnb', 5)}>Library members:</span>{' '}
-      <a href="/account/login" className={font('hnr', 5)}>
+      <a href="/account" className={font('hnr', 5)}>
         sign in to your library account to request items
       </a>
     </AlignFont>
