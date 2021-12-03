@@ -147,7 +147,7 @@ const BookPage: FC<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        contributorProps={{ contributors: book.contributors }}
+        document={book.prismicDocument}
         seasons={book.seasons}
       >
         <Fragment>

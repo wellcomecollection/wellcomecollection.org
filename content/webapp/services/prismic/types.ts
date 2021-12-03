@@ -10,10 +10,17 @@ import {
   GroupField,
   RelationField,
   FilledLinkToDocumentField,
+  FilledLinkToWebField,
   NumberField,
+  LinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
 import { Body } from './body';
+import {
+  EditorialContributorRoles,
+  Organisation,
+  Person,
+} from './contributors';
 import { SeasonPrismicDocument } from './seasons';
 import { SeriesPrismicDocument } from './series';
 
@@ -69,7 +76,7 @@ export type Image = ThumbnailedImageField<{
 type Promo = { caption: RichTextField; image: Image; link: KeyTextField };
 type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
 
-export type CommonPrismicData = {
+export type CommonPrismicFields = {
   title: [RTHeading1Node];
   body: Body;
   promo: PromoSliceZone;
@@ -115,8 +122,16 @@ export type WithParents = {
 export type WithContributors = {
   contributorsTitle: RichTextField;
   contributors: GroupField<{
-    role: RelationField<'editorial-contributor-roles'>;
-    contributor: RelationField<'people' | 'organisations'>;
+    role: RelationField<
+      'editorial-contributor-roles',
+      'en-gb',
+      InferDataInterface<EditorialContributorRoles>
+    >;
+    contributor: RelationField<
+      'people' | 'organisations',
+      'en-gb',
+      InferDataInterface<Person | Organisation>
+    >;
     description: RichTextField;
   }>;
 };
@@ -126,4 +141,10 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
   field: RelationField<T, L, D>
 ): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
   return 'id' in field && field.isBroken === false && 'data' in field;
+}
+
+export function isFilledLinkToWebField(
+  field: LinkField
+): field is FilledLinkToWebField {
+  return field.link_type === 'Web' && 'url' in field;
 }

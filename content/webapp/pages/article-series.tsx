@@ -74,8 +74,6 @@ const ArticleSeriesPage: FC<Props> = props => {
   const genericFields = {
     id: series.id,
     title: series.title,
-    contributors: series.contributors,
-    contributorsTitle: series.contributorsTitle,
     promo: series.promo,
     body: series.body,
     standfirst: series.standfirst,
@@ -126,7 +124,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        contributorProps={{ contributors: series.contributors }}
+        document={series.prismicDocument}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

@@ -11,7 +11,7 @@ import {
   LinkField,
 } from '@prismicio/types';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   InferDataInterface,
   WithContributors,
   WithParents,
@@ -77,6 +77,6 @@ export type EventPrismicDocument = PrismicDocument<
     WithSeries &
     WithParents &
     WithSeasons &
-    CommonPrismicData,
+    CommonPrismicFields,
   typeof typeEnum
 >;

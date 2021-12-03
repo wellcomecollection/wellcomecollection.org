@@ -1,30 +1,12 @@
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { Contributor as ContributorType } from '@weco/common/model/contributors';
-import Image, {
-  Props as ImageProps,
-} from '@weco/common/views/components/Image/Image';
-import Avatar from '@weco/common/views/components/Avatar/Avatar';
+import { Contributor as ContributorType } from '../../model/contributors';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
+import PrismicImage from '../PrismicImage/PrismicImage';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
-  const imageProps: ImageProps =
-    contributor.type === 'organisations'
-      ? {
-          width: 78,
-          contentUrl: contributor.image && contributor.image.contentUrl,
-          alt: `Logo for ${contributor.name}`,
-          tasl: null,
-        }
-      : {
-          width: 78,
-          height: 78,
-          contentUrl: contributor.image && contributor.image.contentUrl,
-          alt: `Photograph of ${contributor.name}`,
-          tasl: null,
-        };
 
   return (
     <div className="grid">
@@ -33,27 +15,32 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           style={{ minWidth: '78px' }}
           h={{ size: 'm', properties: ['margin-right'] }}
         >
-          {contributor.type === 'people' && <Avatar imageProps={imageProps} />}
-          {contributor.type !== 'people' && (
+          {contributor.image && contributor.type === 'people' && (
+            <div
+              style={{
+                width: 72,
+                height: 72,
+                borderRadius: 6,
+                transform: 'rotateZ(-6deg)',
+                overflow: `hidden`,
+              }}
+            >
+              <div
+                style={{
+                  transform: 'rotateZ(6deg) scale(1.2)',
+                }}
+              >
+                <PrismicImage image={contributor.image} />
+              </div>
+            </div>
+          )}
+          {contributor.image && contributor.type !== 'organisations' && (
             <div style={{ width: '72px' }}>
-              <Image {...imageProps} extraClasses={'width-inherit'} />
+              <PrismicImage image={contributor.image} />
             </div>
           )}
         </Space>
         <div>
-          {contributor.type === 'organisations' && contributor.url && (
-            <h3
-              className={classNames({
-                [font('hnb', 4)]: true,
-                'no-margin': true,
-              })}
-            >
-              <a className="plain-link" href={contributor.url}>
-                {contributor.name}
-              </a>
-            </h3>
-          )}
-
           <div className={`flex flex--h-baseline`}>
             <h3
               className={classNames({

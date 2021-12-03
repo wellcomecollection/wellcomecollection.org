@@ -26,7 +26,6 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { eventLd } from '@weco/common/utils/json-ld';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -48,6 +47,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
+import { eventLd } from '../services/prismic/transformers/json-ld';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -188,8 +188,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const genericFields = {
     id: event.id,
     title: event.title,
-    contributors: event.contributors,
-    contributorsTitle: event.contributorsTitle,
     promo: event.promo,
     body: event.body,
     standfirst: event.standfirst,
@@ -319,12 +317,14 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         Header={Header}
         Body={<Body body={body} pageId={event.id} />}
         seasons={event.seasons}
+        document={event.prismicDocument}
+        // We hide contributors as we render them higher up the page on events
+        hideContributors={true}
       >
-        {event.contributors.length > 0 && (
+        {event.prismicDocument.data.contributors.length > 0 && (
           <Contributors
+            document={event.prismicDocument}
             titlePrefix="About your"
-            titleOverride={event.contributorsTitle ?? undefined}
-            contributors={event.contributors}
           />
         )}
         <DateWrapper>

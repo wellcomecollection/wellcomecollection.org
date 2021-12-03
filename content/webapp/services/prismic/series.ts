@@ -1,13 +1,12 @@
 // Annoyingly this file and type is called series, but it is only used for articles
 import {
   GroupField,
-  RelationField,
   RichTextField,
   TimestampField,
   PrismicDocument,
   SelectField,
 } from '@prismicio/types';
-import { CommonPrismicData } from './types';
+import { CommonPrismicFields, WithContributors, WithSeasons } from './types';
 
 const typeEnum = 'series';
 
@@ -18,14 +17,8 @@ export type SeriesPrismicDocument = PrismicDocument<
       title: RichTextField;
       publishDate: TimestampField;
     }>;
-    contributors: GroupField<{
-      contributor: RelationField<'people', 'organisation'>;
-      role: RelationField<'editorial-contributor-roles'>;
-      description: RichTextField;
-    }>;
-    seasons: GroupField<{
-      season: RelationField<'seasons'>;
-    }>;
-  } & CommonPrismicData,
+  } & WithContributors &
+    WithSeasons &
+    CommonPrismicFields,
   typeof typeEnum
 >;

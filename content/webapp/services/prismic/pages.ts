@@ -6,7 +6,7 @@ import {
   BooleanField,
 } from '@prismicio/types';
 import {
-  CommonPrismicData,
+  CommonPrismicFields,
   InferDataInterface,
   WithContributors,
   WithParents,
@@ -37,6 +37,6 @@ export type PagesPrismicDocument = PrismicDocument<
   } & WithContributors &
     WithParents &
     WithSeasons &
-    CommonPrismicData,
+    CommonPrismicFields,
   typeof typeEnum
 >;

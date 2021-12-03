@@ -3,11 +3,6 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 // $FlowFixMe (tsx)
 import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import flattenDeep from 'lodash.flattendeep';
-import type {
-  Contributor,
-  PersonContributor,
-  OrganisationContributor,
-} from '../../model/contributors';
 import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
@@ -24,7 +19,6 @@ import type { ImagePromo } from '../../model/image-promo';
 import type { Card } from '../../model/card';
 import type { GenericContentFields } from '../../model/generic-content-fields';
 import type { LabelField } from '../../model/label-field';
-import type { SameAs } from '../../model/same-as';
 import type { HtmlSerializer } from './html-serializers';
 // $FlowFixMe (tsx)
 import { type BodyType } from '../../views/components/Body/Body';
@@ -35,7 +29,6 @@ import { parseExhibitionDoc } from './exhibitions';
 // $FlowFixMe (tsx)
 import { parseCollectionVenue } from '../../services/prismic/opening-times';
 import isEmptyObj from '../../utils/is-empty-object';
-import isEmptyDocLink from '../../utils/is-empty-doc-link';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import { parseArticleDoc } from './articles';
@@ -187,91 +180,6 @@ export const defaultContributorImage = ({
   alt: '',
   crops: {},
 }: ImageType);
-
-export function parseSameAs(frag: PrismicFragment[]): SameAs {
-  return frag
-    .filter(({ link, title }) => Boolean(link || title.length > 0))
-    .map(({ link, title }) => {
-      const autoTitle =
-        link &&
-        (link.startsWith('https://twitter.com/')
-          ? `@${link.replace('https://twitter.com/', '')}`
-          : link.match(/^https?:\/\//)
-          ? link.replace(/^https?:\/\//, '')
-          : null);
-
-      return {
-        link: link,
-        title: asText(title) || autoTitle || link,
-      };
-    });
-}
-
-function parsePersonContributor(frag: PrismicFragment): PersonContributor {
-  // As we don't have square images retrospectively, we fallback.
-  const image = frag.data.image && (frag.data.image.square || frag.data.image);
-  return {
-    type: 'people',
-    id: frag.id,
-    name: frag.data.name || '',
-    pronouns: frag.data.pronouns || '',
-    image: checkAndParseImage(image) || defaultContributorImage,
-    description: frag.data.description,
-    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : [],
-  };
-}
-
-function parseOrganisationContributor(
-  frag: PrismicFragment
-): OrganisationContributor {
-  return {
-    type: 'organisations',
-    id: frag.id,
-    name: asText(frag.data.name) || '',
-    image: checkAndParseImage(frag.data.image) || defaultContributorImage,
-    url: frag.data.url,
-    description: frag.data.description,
-    sameAs: frag.data.sameAs ? parseSameAs(frag.data.sameAs) : [],
-  };
-}
-
-export function parseContributors(
-  contributorsDoc: PrismicFragment[]
-): Contributor[] {
-  const contributors = contributorsDoc
-    .map(contributor => {
-      const role =
-        contributor.role.isBroken === false
-          ? {
-              id: contributor.role.id,
-              title: asText(contributor.role.data.title) || '',
-              describedBy: contributor.role.data.describedBy,
-            }
-          : null;
-
-      return (() => {
-        switch (contributor.contributor.type) {
-          case 'organisations':
-            return {
-              role,
-              contributor: parseOrganisationContributor(
-                contributor.contributor
-              ),
-              description: parseStructuredText(contributor.description),
-            };
-          case 'people':
-            return {
-              role,
-              contributor: parsePersonContributor(contributor.contributor),
-              description: parseStructuredText(contributor.description),
-            };
-        }
-      })();
-    })
-    .filter(Boolean);
-
-  return contributors;
-}
 
 export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
@@ -836,9 +744,6 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
 export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   const { data } = doc;
   const promo = data.promo && parseImagePromo(data.promo);
-  const contributors =
-    data.contributors &&
-    data.contributors.filter(c => !isEmptyDocLink(c.contributor));
 
   const promoImages =
     data.promo && data.promo.length > 0
@@ -878,8 +783,6 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   return {
     id: doc.id,
     title: parseTitle(data.title),
-    contributorsTitle: asText(data.contributorsTitle),
-    contributors: contributors ? parseContributors(contributors) : [],
     body: body,
     standfirst: standfirst && standfirst.value,
     promo: promo,

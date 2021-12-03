@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next';
 import { FC } from 'react';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
@@ -12,6 +11,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   exhibitions: PaginatedResults<UiExhibition>;

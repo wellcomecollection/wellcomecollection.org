@@ -2,7 +2,6 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getArticles } from '@weco/common/services/prismic/articles';
-import { articleLd } from '@weco/common/utils/json-ld';
 import { getPage } from '@weco/common/services/prismic/pages';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -28,10 +27,10 @@ import { convertItemToCardProps } from '@weco/common/model/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -135,7 +134,7 @@ const Homepage: FC<Props> = props => {
       title={''}
       description={pageDescription}
       url={{ pathname: '/' }}
-      jsonLd={[...articles.results.map(articleLd)] as JsonLdObj[]}
+      jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}
       siteSection={null}
       imageUrl={pageImage}

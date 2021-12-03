@@ -12,7 +12,6 @@ import PageHeader, {
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -28,6 +27,8 @@ import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
+import { transformContributors } from '../services/prismic/transformers/contributors';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   article: Article;
@@ -141,8 +142,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
   const genericFields = {
     id: article.id,
     title: article.title,
-    contributors: article.contributors,
-    contributorsTitle: article.contributorsTitle,
     promo: article.promo,
     body: article.body,
     standfirst: article.standfirst,
@@ -156,6 +155,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
     metadataDescription: article.metadataDescription,
   };
 
+  const contributors = transformContributors(article.prismicDocument);
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -172,34 +172,37 @@ const ArticlePage: FC<Props> = ({ article }) => {
               [font('hnr', 6)]: true,
             })}
           >
-            {article.contributors.map(({ contributor, role }, i, arr) => (
-              <Fragment key={contributor.id}>
-                {role && role.describedBy && (
-                  <span>
-                    {i === 0 ? capitalize(role.describedBy) : role.describedBy}{' '}
-                    by{' '}
+            {contributors.length > 0 &&
+              contributors.map(({ contributor, role }, i, arr) => (
+                <Fragment key={contributor.id}>
+                  {role && role.describedBy && (
+                    <span>
+                      {i === 0
+                        ? capitalize(role.describedBy)
+                        : role.describedBy}{' '}
+                      by{' '}
+                    </span>
+                  )}
+                  <span
+                    className={classNames({
+                      [font('hnb', 6)]: true,
+                    })}
+                  >
+                    {contributor.name}
                   </span>
-                )}
-                <span
-                  className={classNames({
-                    [font('hnb', 6)]: true,
-                  })}
-                >
-                  {contributor.name}
-                </span>
-                <Space
-                  as="span"
-                  h={{
-                    size: 's',
-                    properties: ['margin-left', 'margin-right'],
-                  }}
-                >
-                  {arr.length > 1 && i < arr.length - 1 && '|'}
-                </Space>
-              </Fragment>
-            ))}
+                  <Space
+                    as="span"
+                    h={{
+                      size: 's',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
+                  >
+                    {arr.length > 1 && i < arr.length - 1 && '|'}
+                  </Space>
+                </Fragment>
+              ))}
 
-            {article.contributors.length > 0 && ' '}
+            {contributors.length > 0 && ' '}
 
             <span
               className={classNames({
@@ -299,7 +302,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           />
         }
         RelatedContent={Siblings}
-        contributorProps={{ contributors: article.contributors }}
+        document={article.prismicDocument}
         outroProps={
           articleHasOutro(article)
             ? {

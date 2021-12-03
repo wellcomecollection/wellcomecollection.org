@@ -4,9 +4,9 @@ import {
   Fragment,
   createContext,
   ReactNode,
-  ComponentProps,
   ReactElement,
 } from 'react';
+import { PrismicDocument } from '@prismicio/types';
 import {
   prismicPageIds,
   sectionLevelPages,
@@ -28,6 +28,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
+import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
@@ -39,7 +40,6 @@ type Props = {
   Body?: ReactElement<{ body: { type: string }[] }>;
   // This is used for content type specific components e.g. InfoBox
   children?: ReactNode;
-  contributorProps?: ComponentProps<typeof Contributors>;
   RelatedContent?: ReactNode[];
   outroProps?: {
     researchLinkText?: string;
@@ -50,6 +50,8 @@ type Props = {
     visitItem?: MultiContent;
   };
   seasons?: Season[];
+  document: PrismicDocument<WithContributors>;
+  hideContributors?: true;
 };
 
 const ShameBorder = styled(Space).attrs({
@@ -93,10 +95,11 @@ const ContentPage = ({
   Header,
   Body,
   children,
-  contributorProps,
   RelatedContent = [],
   outroProps,
   seasons = [],
+  document,
+  hideContributors,
 }: Props) => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
@@ -150,10 +153,10 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {contributorProps && contributorProps.contributors.length > 0 && (
+          {!hideContributors && document.data.contributors.length > 0 && (
             <SpacingSection>
               <Layout8>
-                <Contributors {...contributorProps} />
+                <Contributors document={document} />
               </Layout8>
             </SpacingSection>
           )}

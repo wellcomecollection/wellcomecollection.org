@@ -10,6 +10,7 @@ import type { ArticleSeries } from './article-series';
 export type Season = {
   ...GenericContentFields,
   type: 'seasons',
+  prismicDocument: any,
 };
 
 export type SeasonWithContent = {
