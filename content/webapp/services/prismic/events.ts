@@ -10,8 +10,10 @@ import {
   KeyTextField,
   LinkField,
 } from '@prismicio/types';
-import { BackgroundTexture } from '@weco/common/model/background-texture';
-import { BackgroundTexturesDocument, backgroundTexturesFetchLink } from './background-textures';
+import {
+  BackgroundTexturesDocument,
+  backgroundTexturesFetchLink,
+} from './background-textures';
 import { PlacePrismicDocument, placesFetchLink } from './places';
 import {
   CommonPrismicFields,
