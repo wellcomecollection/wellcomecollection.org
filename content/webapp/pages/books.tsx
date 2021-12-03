@@ -1,15 +1,19 @@
 import type { GetServerSideProps } from 'next';
-import { getBooks } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { Book } from '@weco/common/model/books';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { FC } from 'react';
+import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
+import { isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformBook } from '../services/prismic/transformers/books';
+import { fetchBooks } from '../services/prismic/fetch/books';
+import { Book } from '../model/books';
 
 type Props = {
   books: PaginatedResults<Book>;
@@ -20,9 +24,23 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const { page = '1' } = context.query;
+    if (!isString(page)) {
+      return { notFound: true };
+    }
+    const parsedPage = parseInt(page, 10);
+    if (isNaN(parsedPage)) {
+      return appError(context, 400, `${page} is not a number`);
+    }
+
+    const client = createClient(context);
+    const articlesQuery = await fetchBooks(client, {
+      page: parsedPage,
+      pageSize: 21,
+    });
+    const books = transformQuery(articlesQuery, transformBook);
+
     const serverData = await getServerData(context);
-    const { page = 1, memoizedPrismic } = context.query;
-    const books = await getBooks(context.req, { page }, memoizedPrismic);
     if (books) {
       return {
         props: removeUndefinedProps({
@@ -34,7 +52,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
   };
-const BooksPage: FC<Props> = props => {
+const BooksPage: FunctionComponent<Props> = props => {
   const { books } = props;
   const firstBook = books.results[0];
 

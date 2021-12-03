@@ -10,12 +10,12 @@ type Review = {
 
 export type Book = GenericContentFields & {
   type: 'books';
-  subtitle: string | null;
-  orderLink: string | null;
-  price: string | null;
-  format: string | null;
-  extent: string | null;
-  isbn: string | null;
+  subtitle?: string;
+  orderLink?: string;
+  price?: string;
+  format?: string;
+  extent?: string;
+  isbn?: string;
   reviews: Review[] | null;
   datePublished: Date | null;
   cover: ImageType | null;
