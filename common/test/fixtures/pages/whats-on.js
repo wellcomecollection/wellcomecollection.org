@@ -1,4 +1,3 @@
-import globalContextData from '../globalContextData';
 import { clock } from '@weco/common/icons';
 
 const beingHuman = {
@@ -1353,7 +1352,6 @@ const beingHuman = {
 };
 
 export const whatsOn = hasExhibition => ({
-  globalContextData,
   period: 'current-and-coming-up',
   exhibitions: {
     currentPage: 1,

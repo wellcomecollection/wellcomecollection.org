@@ -10,8 +10,12 @@ import {
   GroupField,
   RelationField,
   FilledLinkToDocumentField,
+  NumberField,
 } from '@prismicio/types';
-import { Body } from './prismic-body';
+import { ArticleFormat } from './article-format';
+import { Body } from './body';
+import { SeasonPrismicDocument } from './seasons';
+import { SeriesPrismicDocument } from './series';
 
 /**
  * This allows as to get the DataInterface from PrismicDocuments when we
@@ -70,6 +74,51 @@ export type CommonPrismicData = {
   body: Body;
   promo: PromoSliceZone;
   metadataDescription: KeyTextField;
+};
+
+// These fields are shared amonst a lot of types, but not all
+export type WithSeries = {
+  series: GroupField<{
+    series: RelationField<
+      'series',
+      'en-gb',
+      InferDataInterface<SeriesPrismicDocument>
+    >;
+  }>;
+};
+
+export type WithSeasons = {
+  seasons: GroupField<{
+    season: RelationField<
+      'seasons',
+      'en-gb',
+      InferDataInterface<SeasonPrismicDocument>
+    >;
+  }>;
+};
+
+export type WithFormat = {
+  format: RelationField<
+    'article-formats',
+    'en-gb',
+    InferDataInterface<ArticleFormat>
+  >;
+};
+
+export type WithParents = {
+  parents: GroupField<{
+    order: NumberField;
+    parent: RelationField<'exhibitions'>;
+  }>;
+};
+
+export type WithContributors = {
+  contributorsTitle: RichTextField;
+  contributors: GroupField<{
+    role: RelationField<'editorial-contributor-roles'>;
+    contributor: RelationField<'people' | 'organisations'>;
+    description: RichTextField;
+  }>;
 };
 
 // Guards

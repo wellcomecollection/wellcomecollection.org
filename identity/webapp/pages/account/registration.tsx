@@ -17,8 +17,8 @@ import {
 } from '../../src/frontend/Registration/Registration.style';
 import {
   Container,
-  Title,
   Wrapper,
+  SectionHeading,
 } from '../../src/frontend/components/Layout.style';
 import WellcomeTextInput, {
   TextInputErrorMessage,
@@ -102,7 +102,9 @@ const RegistrationPage: NextPage = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <Title>Register for a library account</Title>
+              <SectionHeading as="h1">
+                Register for a library account
+              </SectionHeading>
               {registrationError && (
                 <>
                   <ErrorAlert aria-labelledby="error-text">

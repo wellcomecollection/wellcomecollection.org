@@ -6,10 +6,6 @@ import { articleLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -18,7 +14,7 @@ import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   articles: PaginatedResults<Article>;
-} & WithGlobalContextData;
+};
 
 const pageDescription =
   'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
@@ -26,20 +22,18 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const articles = await getArticles(context.req, { page }, memoizedPrismic);
 
     return {
       props: removeUndefinedProps({
         articles,
-        globalContextData,
         serverData,
       }),
     };
   };
 
-const ArticlesPage: FC<Props> = ({ articles, globalContextData }: Props) => {
+const ArticlesPage: FC<Props> = ({ articles }: Props) => {
   const firstArticle = articles.results[0];
 
   return (
@@ -59,7 +53,6 @@ const ArticlesPage: FC<Props> = ({ articles, globalContextData }: Props) => {
         (firstArticle && firstArticle.image && firstArticle.image.alt) ??
         undefined
       }
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults

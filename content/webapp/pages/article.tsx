@@ -1,16 +1,12 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect } from 'react';
 import { Article } from '@weco/common/model/articles';
-import { getArticle } from '@weco/common/services/prismic/articles';
-import { getArticleSeries } from '@weco/common/services/prismic/article-series';
+import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import Body from '@weco/common/views/components/Body/Body';
-import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
-import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader, {
   getFeaturedMedia,
@@ -20,18 +16,22 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { isString } from '@weco/common/utils/array';
+import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
+import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
+import Body from '../components/Body/Body';
+import { createClient } from '../services/prismic/fetch';
+import {
+  fetchArticle,
+  fetchArticlesClientSide,
+} from '../services/prismic/fetch/articles';
 
 type Props = {
   article: Article;
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 function articleHasOutro(article: Article) {
   return Boolean(
@@ -41,16 +41,20 @@ function articleHasOutro(article: Article) {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+
+    const client = createClient(context);
+    const articleDocument = await fetchArticle(client, id);
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
-    const { id, memoizedPrismic } = context.query;
-    const article = await getArticle(context.req, id, memoizedPrismic);
+    const article = parseArticleDoc(articleDocument);
 
     if (article) {
       return {
         props: removeUndefinedProps({
           article,
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: article.seasons
@@ -64,22 +68,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const AP: FC<Props> = ({ article, globalContextData }) => {
+const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<any[]>();
 
   useEffect(() => {
     async function setSeries() {
-      // GOTCHA: we only take the first of the series list as the data is being
-      // used a little bit badly, but we don't have capacity to implement a
-      // better solution
-      const seriesPromises = article.series.slice(0, 1).map(series =>
-        getArticleSeries(null, {
-          id: series.id,
-          pageSize: 6,
-        })
-      );
-      const listOfSeries = await Promise.all(seriesPromises);
-      setListOfSeries(listOfSeries);
+      const series = article.series[0];
+      if (series) {
+        const articlesInSeries =
+          series &&
+          (await fetchArticlesClientSide({
+            predicates: [`[at(my.articles.series.series, "${series.id}")]`],
+          }));
+        const articles = articlesInSeries?.results.map(parseArticleDoc);
+
+        if (series) {
+          setListOfSeries([{ series, articles }]);
+        }
+      }
     }
 
     setSeries();
@@ -273,7 +279,6 @@ const AP: FC<Props> = ({ article, globalContextData }) => {
       siteSection={'stories'}
       imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
       imageAltText={(article.image && article.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={article.id}
@@ -307,4 +312,4 @@ const AP: FC<Props> = ({ article, globalContextData }) => {
   );
 };
 
-export default AP;
+export default ArticlePage;

@@ -13,7 +13,6 @@ export type Organization = {|
   name: string,
   url: string,
   logo: {| url: string |},
-  twitterHandle: string,
   sameAs: Array<string>,
   openingHoursSpecification: OpeningHoursDay[],
   specialOpeningHoursSpecification?: ?(SpecialOpeningHours[]),
@@ -37,7 +36,6 @@ export const wellcomeCollectionGallery: Organization = {
   logo: {
     url: 'https://wellcomecollection.org/assets/icons/apple-touch-icon.png',
   },
-  twitterHandle: 'ExploreWellcome',
   sameAs: [
     'https://twitter.com/ExploreWellcome',
     'https://www.facebook.com/wellcomecollection',

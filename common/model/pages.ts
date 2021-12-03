@@ -17,4 +17,5 @@ export type Page = GenericContentFields & {
   datePublished?: Date;
   siteSection?: string;
   showOnThisPage: boolean;
+  prismicDocument: any;
 };

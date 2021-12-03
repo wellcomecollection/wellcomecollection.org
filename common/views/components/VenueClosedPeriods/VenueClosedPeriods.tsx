@@ -1,24 +1,25 @@
 import { Venue } from '@weco/common/model/opening-hours';
-import { useContext } from 'react';
 import {
   backfillExceptionalVenueDays,
   getExceptionalOpeningPeriods,
   getExceptionalClosedDays,
   groupConsecutiveDays,
   convertJsonDateStringsToMoment,
+  parseCollectionVenues,
 } from '../../../services/prismic/opening-times';
 import { formatDayDate } from '@weco/common/utils/format-date';
-import OpeningTimesContext from '@weco/common/views/components/OpeningTimesContext/OpeningTimesContext';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '@weco/common/services/prismic/hardcoded-id';
+import { usePrismicData } from '../../../server-data/Context';
 type Props = {
   venue: Venue;
 };
 
 const VenueClosedPeriods = ({ venue }: Props) => {
-  const openingTimes = useContext(OpeningTimesContext);
+  const prismicData = usePrismicData();
+  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),
@@ -47,15 +48,19 @@ const VenueClosedPeriods = ({ venue }: Props) => {
           (closedGroup, i) =>
             closedGroup.length > 0 && (
               <li key={i}>
-                {formatDayDate(closedGroup[0].overrideDate.toDate())}
-                {closedGroup.length > 1 && (
-                  <>
-                    &mdash;
-                    {formatDayDate(
-                      closedGroup[closedGroup.length - 1].overrideDate.toDate()
-                    )}
-                  </>
-                )}
+                {closedGroup[0].overrideDate &&
+                  formatDayDate(closedGroup[0].overrideDate.toDate())}
+                {closedGroup.length > 1 &&
+                  closedGroup[closedGroup.length - 1].overrideDate && (
+                    <>
+                      &mdash;
+                      {formatDayDate(
+                        closedGroup[
+                          closedGroup.length - 1
+                        ].overrideDate!.toDate()
+                      )}
+                    </>
+                  )}
               </li>
             )
         )}

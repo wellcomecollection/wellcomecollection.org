@@ -1,4 +1,3 @@
-// @flow
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '@weco/common/model/event-series';
 import { UiEvent } from '@weco/common/model/events';
@@ -6,8 +5,6 @@ import { FC } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
-import Body from '@weco/common/views/components/Body/Body';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
@@ -16,23 +13,20 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { eventLd } from '@weco/common/utils/json-ld';
 import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import Body from '../components/Body/Body';
+import SearchResults from '../components/SearchResults/SearchResults';
 
 type Props = {
   series: EventSeries;
   events: UiEvent[];
-} & WithGlobalContextData;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const seriesAndEvents = await getEventSeries(
       context.req,
@@ -49,7 +43,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           series,
           events,
-          globalContextData,
           serverData,
         }),
       };
@@ -58,11 +51,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const EventSeriesPage: FC<Props> = ({
-  series,
-  events: jsonEvents,
-  globalContextData,
-}) => {
+const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
   // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
   // This could probably be done at the time of use, instead of globally...
   const events = jsonEvents.map(convertJsonToDates);
@@ -146,7 +135,6 @@ const EventSeriesPage: FC<Props> = ({
       siteSection={'whats-on'}
       imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
       imageAltText={(series.image && series.image.alt) ?? undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={series.id}

@@ -1,16 +1,10 @@
 import { NextPage } from 'next';
 import ErrorPage from '@weco/common/views/components/ErrorPage/ErrorPage';
-import { defaultValue } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 
 type Props = { statusCode?: number };
 
 const Page: NextPage<Props> = ({ statusCode }) => {
-  return (
-    <ErrorPage
-      statusCode={statusCode || 404}
-      globalContextData={defaultValue}
-    />
-  );
+  return <ErrorPage statusCode={statusCode || 404} />;
 };
 
 // We currently do this to allow the page to work locally

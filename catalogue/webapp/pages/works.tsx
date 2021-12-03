@@ -3,7 +3,6 @@ import Router from 'next/router';
 import Head from 'next/head';
 import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { getGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
 import { worksRouteToApiUrl } from '@weco/common/services/catalogue/ts_api';
@@ -27,11 +26,7 @@ import { getServerData } from '@weco/common/server-data';
 
 type Props = PageProps<typeof getServerSideProps>;
 
-const Works: NextPage<Props> = ({
-  works,
-  worksRouteProps,
-  globalContextData,
-}) => {
+const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -98,7 +93,6 @@ const Works: NextPage<Props> = ({
         siteSection={'collections'}
         imageUrl={undefined}
         imageAltText={undefined}
-        globalContextData={globalContextData}
         excludeRoleMain={true}
       >
         <Space
@@ -263,7 +257,6 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const serverData = await getServerData(context);
-  const globalContextData = getGlobalContextData(context);
   const props = fromQuery(context.query);
 
   const aggregations = [
@@ -295,7 +288,6 @@ export const getServerSideProps = async (
     props: removeUndefinedProps({
       works,
       worksRouteProps: props,
-      globalContextData,
       serverData,
       pageview: {
         name: 'works',

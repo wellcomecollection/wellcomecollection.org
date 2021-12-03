@@ -6,10 +6,6 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { Book } from '@weco/common/model/books';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { FC } from 'react';
@@ -17,7 +13,7 @@ import { getServerData } from '@weco/common/server-data';
 
 type Props = {
   books: PaginatedResults<Book>;
-} & WithGlobalContextData;
+};
 
 const pageDescription =
   'We publish thought-provoking books exploring health and human experiences.';
@@ -25,14 +21,12 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const books = await getBooks(context.req, { page }, memoizedPrismic);
     if (books) {
       return {
         props: removeUndefinedProps({
           books,
-          globalContextData,
           serverData,
         }),
       };
@@ -41,7 +35,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 const BooksPage: FC<Props> = props => {
-  const { globalContextData, books } = props;
+  const { books } = props;
   const firstBook = books.results[0];
 
   return (
@@ -60,7 +54,6 @@ const BooksPage: FC<Props> = props => {
       imageAltText={
         (firstBook && firstBook.image && firstBook.image.alt) ?? undefined
       }
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <LayoutPaginatedResults

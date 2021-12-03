@@ -5,7 +5,6 @@ import { getBook } from '@weco/common/services/prismic/books';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import Body from '@weco/common/views/components/Body/Body';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -13,13 +12,10 @@ import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '@weco/common/views/components/BookImage/BookImage';
 import styled from 'styled-components';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import Body from '../components/Body/Body';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -27,8 +23,7 @@ const MetadataWrapper = styled.div`
 
 type Props = {
   book: Book;
-} & WithGlobalContextData &
-  WithGaDimensions;
+} & WithGaDimensions;
 
 // FIXME: This is nonsense
 type BookMetadataProps = { book: Book };
@@ -73,7 +68,6 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const book: Book = await getBook(context.req, id, memoizedPrismic);
 
@@ -81,7 +75,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           book,
-          globalContextData,
           serverData,
           gaDimensions: {
             partOf: book.seasons.map(season => season.id),
@@ -96,7 +89,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const BookPage: FC<Props> = props => {
   if (!('book' in props)) return null;
 
-  const { globalContextData, book } = props;
+  const { book } = props;
   const FeaturedMedia = book.cover && (
     <BookImage image={{ ...book.cover, sizesQueries: '' }} />
   );
@@ -149,7 +142,6 @@ const BookPage: FC<Props> = props => {
       siteSection={null}
       imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
       imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={book.id}

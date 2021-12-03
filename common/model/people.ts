@@ -6,7 +6,6 @@ export type Person = {
   id: string;
   name: string;
   pronouns: string;
-  twitterHandle: string | null;
   description: HTMLString | null;
   image: ImageType;
   sameAs: SameAs;

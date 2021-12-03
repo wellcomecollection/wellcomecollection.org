@@ -1,6 +1,4 @@
 import { Moment } from 'moment';
-import { ImageType } from './image';
-import { Link as LinkType } from './link';
 
 export type Day =
   | 'Monday'
@@ -15,12 +13,12 @@ export type OverrideType =
   | 'Bank holiday'
   | 'Easter'
   | 'Christmas and New Year'
-  | 'Late Spectacluar'
+  | 'Late Spectacular'
   | 'other';
 
 export type OverrideDate = {
-  overrideDate: Moment;
-  overrideType: OverrideType | null;
+  overrideDate?: Moment;
+  overrideType?: OverrideType;
 };
 
 export type ExceptionalPeriod = {
@@ -30,15 +28,15 @@ export type ExceptionalPeriod = {
 
 export type OpeningHoursDay = {
   dayOfWeek: Day;
-  opens: string | null;
-  closes: string | null;
+  opens?: string;
+  closes?: string;
 };
 
 export type ExceptionalOpeningHoursDay = {
-  overrideDate: Moment;
-  overrideType: OverrideType;
-  opens: string | null;
-  closes: string | null;
+  overrideDate?: Moment;
+  overrideType?: OverrideType;
+  opens?: string;
+  closes?: string;
 };
 
 export type OpeningHours = {
@@ -49,11 +47,11 @@ export type OpeningHours = {
 export type Venue = {
   id: string;
   name: string;
-  order: number;
+  order?: number;
   openingHours: OpeningHours;
-  url?: LinkType;
-  linkText?: string | null;
-  image?: ImageType;
+  url?: string;
+  linkText?: string;
+  image?: unknown;
 };
 
 export type PlacesOpeningHours = Venue[];

@@ -13,7 +13,7 @@ import { Page as PageType } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
-import SimpleCardGrid from '@weco/common/views/components/SimpleCardGrid/SimpleCardGrid';
+import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
@@ -25,10 +25,6 @@ import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -60,7 +56,7 @@ type Props = {
   events: PaginatedResults<UiEvent>;
   articles: PaginatedResults<Article>;
   page: PageType;
-} & WithGlobalContextData;
+};
 
 const pageDescription =
   'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.';
@@ -71,7 +67,6 @@ const pageImage =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { id, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(
       context.req,
@@ -108,7 +103,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           page,
           exhibitions,
           events,
-          globalContextData,
           serverData,
         }),
       };
@@ -135,7 +129,6 @@ const Homepage: FC<Props> = props => {
   const lists = page.body.filter(slice => slice.type === 'contentList');
   const headerList = lists.length === 2 ? lists[0] : null;
   const contentList = lists.length === 2 ? lists[1] : lists[0];
-  const { globalContextData } = props;
 
   return (
     <PageLayout
@@ -147,7 +140,6 @@ const Homepage: FC<Props> = props => {
       siteSection={null}
       imageUrl={pageImage}
       imageAltText={''}
-      globalContextData={globalContextData}
     >
       <Layout10>
         <SpacingSection>

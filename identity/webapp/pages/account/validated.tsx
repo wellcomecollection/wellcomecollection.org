@@ -2,20 +2,21 @@ import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../../src/frontend/components/PageWrapper';
 import {
   Container,
-  Title,
   Wrapper,
+  SectionHeading,
 } from '../../src/frontend/components/Layout.style';
 import { HighlightMessage } from '../../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { font } from '@weco/common/utils/classnames';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
+  const { state: userState } = useUser();
   const urlUsed = message === 'This URL can be used only once';
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
@@ -28,7 +29,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             <Wrapper>
               {success || urlUsed ? (
                 <>
-                  <Title className={font('hnb', 3)}>Email verified</Title>
+                  <SectionHeading as="h1">Email verified</SectionHeading>
                   <p>Thank you for verifying your email address.</p>
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
@@ -46,13 +47,22 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                       </HighlightMessage>
                     </div>
                   )}
-                  <ButtonSolidLink link="/account" text="Sign in" />
+                  <ButtonSolidLink
+                    link="/account"
+                    text={
+                      userState === 'signedin'
+                        ? 'View your library account'
+                        : 'Sign in'
+                    }
+                  />
                 </>
               ) : (
                 <>
-                  <Title>Failed to verify email</Title>
+                  <SectionHeading as="h1">
+                    Failed to verify email
+                  </SectionHeading>
                   <p>{message}</p>
-                  <div>
+                  <p>
                     If you need help, please{' '}
                     <a
                       href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
@@ -61,7 +71,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                     >
                       contact us
                     </a>
-                  </div>
+                  </p>
                 </>
               )}
             </Wrapper>

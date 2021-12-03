@@ -1,6 +1,7 @@
 import PopupDialog from '@weco/common/views/components/PopupDialog/PopupDialog';
+import { emptyPopupDialog } from '@weco/common/services/prismic/documents';
 
-const Template = args => <PopupDialog {...args} />;
+const Template = () => <PopupDialog document={emptyPopupDialog()} />;
 export const basic = Template.bind({});
 basic.args = {
   openButtonText: 'Got five minutes?',

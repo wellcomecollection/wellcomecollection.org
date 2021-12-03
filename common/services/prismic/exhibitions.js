@@ -40,6 +40,7 @@ import {
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
+// $FlowFixMe
 import { london } from '../../utils/format-date';
 import { getPeriodPredicates } from './utils';
 import type { Period } from '../../model/periods';

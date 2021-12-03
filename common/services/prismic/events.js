@@ -42,6 +42,7 @@ import { parseEventSeries } from './event-series';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 import isEmptyObj from '../../utils/is-empty-object';
+// $FlowFixMe
 import { london, formatDayDate } from '../../utils/format-date';
 import { getNextWeekendDateRange, isPast } from '../../utils/dates';
 
@@ -317,6 +318,7 @@ export function parseEventDoc(
     isRelaxedPerformance,
     isOnline,
     availableOnline,
+    prismicDocument: document,
   };
 
   const eventFormat = event.format
@@ -515,10 +517,7 @@ function filterEventsByTimeRange(events, start, end) {
 
 export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
   const startOfToday = london().startOf('day');
-  const endOfNext7Days = startOfToday
-    .clone()
-    .add(7, 'day')
-    .endOf('day');
+  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 

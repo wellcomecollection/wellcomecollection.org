@@ -1,4 +1,5 @@
 // @flow
+// $FlowFixMe
 import { isDatePast } from '../utils/format-date';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Format } from './format';
@@ -116,6 +117,7 @@ export type Event = {|
   availableOnline: boolean,
   primaryLabels: Label[],
   secondaryLabels: Label[],
+  prismicDocument: any,
 |};
 /* eslint-enable no-use-before-define */
 

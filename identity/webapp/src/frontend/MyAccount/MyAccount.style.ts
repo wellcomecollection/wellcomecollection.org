@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Container as LayoutContainer } from '../components/Layout.style';
 import Space from '@weco/common/views/components/styled/Space';
-import { font } from '@weco/common/utils/classnames';
 
 export const ProgressBar = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -17,17 +15,6 @@ export const ProgressIndicator = styled.div<{ percentage: number }>`
   background-color: ${props => props.theme.color('black')};
   width: ${props => `${props.percentage}%`};
   height: 10px;
-`;
-
-export const Container = styled(LayoutContainer)`
-  max-width: 1024px;
-`;
-
-export const Wrapper = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top'] },
-  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-})`
-  position: relative;
 `;
 
 export const ButtonWrapper = styled(Space).attrs({
@@ -121,14 +108,6 @@ export const Section = styled.section`
   & > h2 {
     grid-column: 1 / -1;
   }
-`;
-
-export const SectionHeading = styled(Space).attrs({
-  as: 'h2',
-  v: { size: 'm', properties: ['padding-bottom'] },
-  className: font('wb', 3),
-})`
-  font-weight: bold;
 `;
 
 export const StyledDl = styled(Space).attrs({

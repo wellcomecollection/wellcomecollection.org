@@ -104,6 +104,7 @@ export type Event = GenericContentFields & {
   availableOnline: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
+  prismicDocument: any;
 };
 
 export type EventPromo = {

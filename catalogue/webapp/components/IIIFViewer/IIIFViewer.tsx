@@ -254,6 +254,8 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const firstRotation = firstRotatedImage ? firstRotatedImage.rotation : 0;
   const activeIndexRef = useRef(activeIndex);
   const previousManifestIndex = useRef(manifestIndex);
+  const hasIiifImage = urlTemplate && imageUrl && iiifImageLocation;
+  const hasImageService = mainImageService['@id'] && currentCanvas;
 
   useEffect(() => {
     const fetchImageJson = async () => {
@@ -488,7 +490,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
           ref={mainAreaRef}
         >
           {!showZoomed && <ImageViewerControls />}
-          {urlTemplate && imageUrl && iiifImageLocation && (
+          {hasIiifImage && !hasImageService && (
             <ImageViewer
               infoUrl={iiifImageLocation.url}
               id={imageUrl}
@@ -504,7 +506,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
               setImageContainerRect={() => undefined}
             />
           )}
-          {mainImageService['@id'] && currentCanvas && (
+          {hasImageService && (
             <MainViewer
               mainViewerRef={mainViewerRef}
               mainAreaRef={mainAreaRef}

@@ -13,8 +13,6 @@ import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Contributors from '@weco/common/views/components/Contributors/Contributors';
-import SearchResults from '@weco/common/views/components/SearchResults/SearchResults';
-import Body from '@weco/common/views/components/Body/Body';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -30,9 +28,9 @@ import {
   a11YVisual,
   information,
   family,
-  // $FlowFixMe (tsx)
 } from '@weco/common/icons';
-import { WithGlobalContextData } from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
+import Body from '../Body/Body';
+import SearchResults from '../SearchResults/SearchResults';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -169,9 +167,9 @@ export function getInfoItems(exhibition: UiExhibition) {
 type Props = {
   exhibition: UiExhibition;
   pages: Page[];
-} & WithGlobalContextData;
+};
 
-const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
+const Exhibition = ({ exhibition, pages }: Props) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
 
@@ -270,7 +268,6 @@ const Exhibition = ({ exhibition, pages, globalContextData }: Props) => {
         exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
       }
       imageAltText={exhibition.image ? exhibition.image.alt : undefined}
-      globalContextData={globalContextData}
     >
       <ContentPage
         id={exhibition.id}

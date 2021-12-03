@@ -7,7 +7,6 @@ export type Person = {|
   id: string,
   name: string,
   pronouns: string,
-  twitterHandle: ?string,
   description: ?HTMLString,
   image: ImageType,
   sameAs: SameAs,

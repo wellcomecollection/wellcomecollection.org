@@ -13,7 +13,6 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
-import { FeaturedCardArticle } from '@weco/common/views/components/FeaturedCard/FeaturedCard';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
@@ -23,23 +22,20 @@ import {
 } from '@weco/common/services/prismic/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import {
-  getGlobalContextData,
-  WithGlobalContextData,
-} from '@weco/common/views/components/GlobalContextProvider/GlobalContextProvider';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
-import { ArticlePrismicDocument } from 'services/prismic/articles';
+import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
+import { ArticlePrismicDocument } from '../services/prismic/articles';
 
 type Props = {
   articles: Article[];
   series: ArticleSeries;
   featuredText?: FeaturedTextType;
-} & WithGlobalContextData;
+};
 
 const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
   return (
@@ -85,7 +81,6 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const globalContextData = getGlobalContextData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
     const seriesPromise = getArticleSeries(
@@ -114,7 +109,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           articles: articles.results,
           series,
           featuredText,
-          globalContextData,
           serverData,
         }),
       };
@@ -123,12 +117,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({
-  series,
-  articles,
-  featuredText,
-  globalContextData,
-}) => {
+const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
   const firstArticle = articles[0];
 
   return (
@@ -149,7 +138,6 @@ const StoriesPage: FC<Props> = ({
         undefined
       }
       rssUrl={'https://rss.wellcomecollection.org/stories'}
-      globalContextData={globalContextData}
     >
       <SpacingSection>
         <Space
