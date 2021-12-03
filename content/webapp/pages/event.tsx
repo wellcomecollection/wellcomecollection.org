@@ -48,6 +48,7 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { Event } from '../model/events';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -128,7 +129,7 @@ function showTicketSalesStart(dateTime) {
 
 // Convert dates back to Date types because it's serialised through
 // `getInitialProps`
-export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
+export function convertJsonToDates(jsonEvent: Event): Event {
   const dateRange = {
     ...jsonEvent.dateRange,
     firstDate: new Date(jsonEvent.dateRange.firstDate),

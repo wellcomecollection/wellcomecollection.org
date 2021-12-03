@@ -1,8 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { EventSeries } from '@weco/common/model/event-series';
-import { UiEvent } from '@weco/common/model/events';
 import { FC } from 'react';
-import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
@@ -18,30 +15,45 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformEventSeries } from '../services/prismic/transformers/event-series';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { Event } from '../model/events';
+import { EventSeries } from '../model/event-series';
 
 type Props = {
   series: EventSeries;
-  events: UiEvent[];
+  events: Event[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const seriesAndEvents = await getEventSeries(
-      context.req,
-      {
-        id,
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+    const client = createClient(context);
+    const eventSeriesDocumentPromise = fetchEventSeriesById(client, id);
+    const eventsQueryPromise = fetchEvents(client, {
+      predicates: [`[at(my.events.series.series, "${id}")]`],
+      pageSize: 100,
+    });
+    const [eventSeriesDocument, articlesQuery] = await Promise.all([
+      eventSeriesDocumentPromise,
+      eventsQueryPromise,
+    ]);
 
-    if (seriesAndEvents) {
-      const { series, events } = seriesAndEvents;
+    if (eventSeriesDocument) {
+      const serverData = await getServerData(context);
+      const eventSeries = transformEventSeries(eventSeriesDocument);
+      const events = articlesQuery.results.map(transformEvent);
+
       return {
         props: removeUndefinedProps({
-          series,
+          series: eventSeries,
           events,
           serverData,
         }),
@@ -52,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
-  // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
+  // events are passed down through getServerSideProps as JSON, so we parse them before moving forward
   // This could probably be done at the time of use, instead of globally...
   const events = jsonEvents.map(convertJsonToDates);
 
