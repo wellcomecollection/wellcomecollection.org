@@ -1,9 +1,10 @@
-import { initAuth0 } from '@auth0/nextjs-auth0';
+import {
+  initAuth0,
+  WithPageAuthRequiredOptions,
+  PageRoute,
+} from '@auth0/nextjs-auth0';
 import { config } from '../config';
 import { GetServerSidePropsContext } from 'next';
-import { WithPageAuthRequiredOptions } from '@auth0/nextjs-auth0/src/helpers/with-page-auth-required';
-import { PageRoute } from '@auth0/nextjs-auth0/dist/helpers/with-page-auth-required';
-import { AuthorizationParams } from '@auth0/nextjs-auth0/dist/handlers/login';
 
 const identityApiScopes = [
   'create:requests',
@@ -22,7 +23,7 @@ const utilityScopes = [
 // Things we want in the JWT
 const profileScopes = ['given_name', 'family_name'];
 
-const identityAuthorizationParams: AuthorizationParams = {
+const identityAuthorizationParams = {
   audience: config.remoteApi.host,
   scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
 };
