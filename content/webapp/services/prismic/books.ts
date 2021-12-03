@@ -9,10 +9,9 @@ import {
 import {
   CommonPrismicFields,
   WithContributors,
-  WithFormat,
-  WithParents,
+  WithArticleFormat,
+  WithExhibitionParents,
   WithSeasons,
-  WithSeries,
 } from './types';
 
 export type BookPrismicDocument = PrismicDocument<
@@ -28,11 +27,10 @@ export type BookPrismicDocument = PrismicDocument<
       citation: RichTextField;
     }>;
     datePublished: TimestampField;
-  } & WithSeries &
-    WithFormat &
+  } & WithArticleFormat &
     WithContributors &
     WithSeasons &
-    WithParents &
+    WithExhibitionParents &
     CommonPrismicFields,
   'books'
 >;

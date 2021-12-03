@@ -5,9 +5,12 @@ import {
   PrismicDocument,
 } from '@prismicio/types';
 import {
+  articleFormatsFetchLinks,
   CommonPrismicFields,
-  WithFormat,
-  WithParents,
+  commonPrismicFildsFetchLinks,
+  seriesFetchLink,
+  WithArticleFormat,
+  WithExhibitionParents,
   WithSeasons,
   WithSeries,
 } from './types';
@@ -23,8 +26,14 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroVisitLinkText: RichTextField;
   } & WithSeries &
     WithSeasons &
-    WithFormat &
-    WithParents &
+    WithArticleFormat &
+    WithExhibitionParents &
     CommonPrismicFields,
   'articles' | 'webcomics'
 >;
+
+export const articlesFetchLinks = [
+  ...commonPrismicFildsFetchLinks,
+  ...articleFormatsFetchLinks,
+  ...seriesFetchLink,
+];

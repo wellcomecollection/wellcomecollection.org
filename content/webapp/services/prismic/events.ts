@@ -14,9 +14,9 @@ import {
   CommonPrismicFields,
   InferDataInterface,
   WithContributors,
-  WithParents,
+  WithEventSeries,
+  WithExhibitionParents,
   WithSeasons,
-  WithSeries,
 } from './types';
 
 const typeEnum = 'events';
@@ -74,8 +74,8 @@ export type EventPrismicDocument = PrismicDocument<
     }>;
     backgroundTexture: RelationField<'background-textures'>;
   } & WithContributors &
-    WithSeries &
-    WithParents &
+    WithEventSeries &
+    WithExhibitionParents &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

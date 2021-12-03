@@ -9,7 +9,7 @@ import {
   CommonPrismicFields,
   InferDataInterface,
   WithContributors,
-  WithParents,
+  WithExhibitionParents,
   WithSeasons,
 } from './types';
 
@@ -35,7 +35,7 @@ export type PagesPrismicDocument = PrismicDocument<
     availableOnline: BooleanField;
     showOnThisPage: BooleanField;
   } & WithContributors &
-    WithParents &
+    WithExhibitionParents &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

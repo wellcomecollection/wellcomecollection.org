@@ -6,7 +6,7 @@ import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
-  WithFormat,
+  WithArticleFormat,
   WithSeries,
 } from './types';
 
@@ -64,7 +64,7 @@ export function transformSeries(document: PrismicDocument<WithSeries>) {
     .filter(isFilledLinkToDocumentWithData);
 }
 
-export function transformFormat(document: PrismicDocument<WithFormat>) {
+export function transformFormat(document: PrismicDocument<WithArticleFormat>) {
   const { format } = document.data;
 
   if (isFilledLinkToDocumentWithData(format) && format.data) {
