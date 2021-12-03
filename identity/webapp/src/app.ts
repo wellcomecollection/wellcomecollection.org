@@ -8,7 +8,6 @@ import json from 'koa-json';
 import logger from 'koa-logger';
 import Router from '@koa/router';
 import next from 'next';
-import { errorHandler } from './middleware/error-handler';
 import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
 import { ApplicationContext, ApplicationState } from './types/application';
 import { init as initServerData } from '@weco/common/server-data';
@@ -31,7 +30,6 @@ export async function createApp(): Promise<Koa> {
 
   app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
   app.use(logger());
-  app.use(errorHandler);
 
   const router = new Router<ApplicationState, ApplicationContext>();
   router.all('(.*)', async ctx => {
