@@ -85,5 +85,5 @@ export function transformRichTextField(field: RichTextField) {
 // We have to use this annoyingly often as right at the beginning of the project
 // we created titles as `RichTextField`s.
 export function transformRichTextFieldToString(field: RichTextField) {
-  return field.length > 0 ? prismicH.asText(field) : undefined;
+  return field && field.length > 0 ? prismicH.asText(field) : undefined;
 }
