@@ -34,7 +34,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
               </div>
             </div>
           )}
-          {contributor.image && contributor.type !== 'organisations' && (
+          {contributor.image && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
               <PrismicImage image={contributor.image} />
             </div>
