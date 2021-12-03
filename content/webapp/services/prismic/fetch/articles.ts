@@ -24,6 +24,7 @@ const fetchLinks = [
   'people.pronouns',
   'organisation.name',
   'editorial-contributor-roles.title',
+  'editorial-contributor-roles.describedBy',
 ];
 
 export async function fetchArticle(
