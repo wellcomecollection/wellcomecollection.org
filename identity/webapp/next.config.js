@@ -1,11 +1,10 @@
-const webpack = require('webpack');
 const withTM = require('next-transpile-modules')(['@weco/common']);
 const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-const config = function (webpack) {
+const config = function () {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -39,4 +38,4 @@ const config = function (webpack) {
   });
 };
 
-module.exports = config(webpack);
+module.exports = config();
