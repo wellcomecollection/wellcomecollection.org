@@ -3,3 +3,7 @@
 
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638456535135800
 /articles/W9m2QxcAAF8AFvE5
+
+# https://wellcome.slack.com/archives/C8X9YKM5X/p1638800127140100
+/event-series/WlYT_SQAACcAWccj
+/articles/WpmW_yUAAKUUF6mV

@@ -1,9 +1,6 @@
 import { PrismicDocument, KeyTextField } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
-import {
-  isFilledLinkToDocumentWithData,
-  WithContributors,
-} from '../types';
+import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
@@ -12,7 +9,7 @@ import {
   transformRichTextFieldToString,
 } from '.';
 
-function transformContributorAgent(
+export function transformContributorAgent(
   agent: WithContributors['contributors'][number]['contributor']
 ): Contributor['contributor'] | undefined {
   if (isFilledLinkToDocumentWithData(agent)) {
@@ -21,7 +18,7 @@ function transformContributorAgent(
       name: agent.data.name ?? undefined,
       description: transformRichTextField(agent.data.description),
       image: agent.data.image,
-      sameAs: agent.data.sameAs
+      sameAs: (agent.data.sameAs ?? [])
         .map(sameAs => {
           const link = transformKeyTextField(sameAs.link);
           const title = prismicH.asText(sameAs.title);
