@@ -21,6 +21,12 @@ steps:
 
   - wait
 
+  - label: "Check URLs"
+    command:
+      .buildkite/scripts/check_urls_with_curl.sh
+    agents:
+      queue: nano
+
   - label: "Trigger e2e tests"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: ".buildkite/scripts/trigger-e2e.sh"
