@@ -1,6 +1,6 @@
+import * as prismicH from 'prismic-helpers-beta';
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
-import * as prismicH from 'prismic-helpers-beta';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
@@ -22,20 +22,21 @@ type Meta = {
 type Doc = PrismicDocument<CommonPrismicFields>;
 
 export function transformMeta(doc: Doc): Meta {
-  const promo = tranformPromo(doc);
+  const promo = transformPromo(doc);
 
   return {
     title: transformRichTextFieldToString(doc.data.title) ?? '',
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
-    promoText: transformRichTextFieldToString(promo.caption) || undefined,
-    image: promo.image,
+    promoText:
+      transformRichTextFieldToString(promo?.caption ?? []) || undefined,
+    image: promo?.image,
     url: linkResolver(doc) || '',
   };
 }
 
-function tranformPromo(doc: Doc) {
+export function transformPromo(doc: Doc) {
   /**
    * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
    * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
@@ -46,7 +47,9 @@ function tranformPromo(doc: Doc) {
    * This method flattens out the `SliceZone` into just a Promo
    */
 
-  return doc.data?.promo?.[0].primary;
+  // We have to explicitly set undefined here as we don't have the
+  // `noUncheckedIndexedAccess` tsconfig compiler option set
+  return doc.data?.promo?.[0]?.primary ?? undefined;
 }
 
 export function transformLabels(doc: Doc): Label[] {

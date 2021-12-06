@@ -95,7 +95,7 @@ type Promo = { caption: RichTextField; image: Image; link: KeyTextField };
 type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
 
 export type CommonPrismicFields = {
-  title: [RTHeading1Node];
+  title: RichTextField;
   body: Body;
   promo: PromoSliceZone;
   metadataDescription: KeyTextField;
