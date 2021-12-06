@@ -30,7 +30,7 @@ export function transformContributorAgent(
     
     // The .name field can be either RichText or Text.
     const name =
-      isString(agent.data.name === 'string')
+      isString(agent.data.name)
         ? transformKeyTextField(agent.data.name)
         : Array.isArray(agent.data.name)
         ? transformRichTextFieldToString(agent.data.name)
