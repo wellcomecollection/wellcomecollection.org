@@ -1,6 +1,6 @@
+import * as prismicH from 'prismic-helpers-beta';
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
-import * as prismicH from 'prismic-helpers-beta';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
@@ -46,7 +46,7 @@ function tranformPromo(doc: Doc) {
    * This method flattens out the `SliceZone` into just a Promo
    */
 
-  return doc.data?.promo?.[0].primary;
+  return doc.data?.promo?.[0]?.primary || {};
 }
 
 export function transformLabels(doc: Doc): Label[] {
