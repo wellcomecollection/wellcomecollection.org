@@ -29,8 +29,9 @@ export function transformMeta(doc: Doc): Meta {
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
-    promoText: transformRichTextFieldToString(promo.caption) || undefined,
-    image: promo.image,
+    promoText:
+      transformRichTextFieldToString(promo?.caption ?? []) || undefined,
+    image: promo?.image,
     url: linkResolver(doc) || '',
   };
 }
@@ -46,7 +47,9 @@ function tranformPromo(doc: Doc) {
    * This method flattens out the `SliceZone` into just a Promo
    */
 
-  return doc.data?.promo?.[0]?.primary || {};
+  // We have to explicitly set undefined here as we don't have the
+  // `noUncheckedIndexedAccess` tsconfig compiler option set
+  return doc.data?.promo?.[0]?.primary ?? undefined;
 }
 
 export function transformLabels(doc: Doc): Label[] {
