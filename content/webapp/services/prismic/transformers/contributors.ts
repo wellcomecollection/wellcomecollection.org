@@ -2,7 +2,7 @@ import { PrismicDocument, KeyTextField } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
 import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
   transformKeyTextField,
   transformRichTextField,
@@ -27,9 +27,10 @@ export function transformContributorAgent(
         })
         .filter(isNotUndefined),
     };
-
+    
+    // The .name field can be either RichText or Text.
     const name =
-      typeof agent.data.name === 'string'
+      isString(agent.data.name === 'string')
         ? transformKeyTextField(agent.data.name)
         : Array.isArray(agent.data.name)
         ? transformRichTextFieldToString(agent.data.name)
