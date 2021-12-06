@@ -3,6 +3,7 @@ import * as prismic from 'prismic-client-beta';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '../link-resolver';
+import { isString } from '@weco/common/utils/array';
 
 const endpoint = prismic.getEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
@@ -58,7 +59,7 @@ export function createClient(
 
 /**
  * We do this so often, and it is very often standardise apart from webcomics
- * it felt sillty not to abstract
+ * it felt silly not to abstract
  */
 
 type Params = Parameters<
@@ -87,7 +88,20 @@ export function fetcher<Document extends PrismicDocument>(
       { client }: GetServerSidePropsPrismicClient,
       params: Params = {}
     ): Promise<Query<Document>> => {
-      const response = await client.getByType<Document>(contentType, params);
+      const delistPredicate = prismic.predicate.not('document.tags', [
+        'delist',
+      ]);
+
+      const predicates = isString(params.predicates)
+        ? [params.predicates]
+        : Array.isArray(params.predicates)
+        ? params.predicates
+        : [];
+
+      const response = await client.getByType<Document>(contentType, {
+        ...params,
+        predicates: [...predicates, delistPredicate],
+      });
       return response;
     },
 

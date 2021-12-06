@@ -6,7 +6,6 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import type { Period } from '@weco/common/model/periods';
 import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { UiEvent } from '@weco/common/model/events';
-import type { Book } from '@weco/common/model/books';
 import type { Article } from '@weco/common/model/articles';
 import type {
   PaginatedResults,
@@ -18,6 +17,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { FC } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
+import { Book } from '../../types/books';
 
 type PaginatedResultsTypes =
   | PaginatedResults<UiExhibition>

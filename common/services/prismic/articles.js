@@ -119,14 +119,6 @@ const graphQuery = `{
           citation
         }
       }
-      ...on excerpt {
-        non-repeat {
-          title
-          content
-          source
-          audio
-        }
-      }
       ...on embed {
         non-repeat {
           embed
