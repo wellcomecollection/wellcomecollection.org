@@ -5,12 +5,12 @@ import { BookPrismicDocument } from '../services/prismic/types/books';
 export type Book = Override<
   DeprecatedBook,
   {
-    subtitle?: string | undefined;
-    orderLink?: string | undefined;
-    price?: string | undefined;
-    format?: string | undefined;
-    extent?: string | undefined;
-    isbn?: string | undefined;
+    subtitle?: string;
+    orderLink?: string;
+    price?: string;
+    format?: string;
+    extent?: string;
+    isbn?: string;
     prismicDocument: BookPrismicDocument;
   }
 >;
