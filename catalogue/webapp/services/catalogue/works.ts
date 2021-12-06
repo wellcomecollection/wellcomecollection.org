@@ -93,6 +93,16 @@ export async function getWork({
   id,
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
+  // We have occasionally seen requests for URLs with IDs which are
+  // obviously wrong, e.g. with spaces or special characters.
+  //
+  // In these cases, there's no point forwarding the request to the API
+  // (and we could serve 500 errors from malformed IDs).  If the ID isn't
+  // alphanumeric, reject it immediately.
+  if (!/^([a-z0-9]+)$/.test(id)) {
+    return notFound();
+  }
+
   const apiOptions = globalApiOptions(toggles);
 
   const params = {
