@@ -122,7 +122,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ]);
 
     const books = transformQuery(booksQuery, transformBook);
-    console.info(books);
 
     if (seasonWithContent) {
       const serverData = await getServerData(context);
