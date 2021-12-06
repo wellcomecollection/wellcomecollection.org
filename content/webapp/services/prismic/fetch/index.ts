@@ -59,7 +59,7 @@ export function createClient(
 
 /**
  * We do this so often, and it is very often standardise apart from webcomics
- * it felt sillty not to abstract
+ * it felt silly not to abstract
  */
 
 type Params = Parameters<
