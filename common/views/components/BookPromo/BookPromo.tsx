@@ -30,7 +30,7 @@ const BookPromoImage = styled(Space).attrs({
 type Props = {
   url: string;
   title: string;
-  subtitle: string | null;
+  subtitle?: string;
   description: string | null;
   image: ImageType | null;
 };

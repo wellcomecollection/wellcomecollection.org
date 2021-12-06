@@ -136,42 +136,6 @@ export default {
         },
       },
       quoteV2: body.config.choices.quote,
-      excerpt: {
-        type: 'Slice',
-        fieldset: 'Excerpt',
-        'non-repeat': {
-          title: {
-            type: 'StructuredText',
-            config: {
-              single: 'paragraph',
-              label: 'Title',
-            },
-          },
-          content: {
-            type: 'StructuredText',
-            config: {
-              multi: 'paragraph,heading2,hyperlink,strong,em,preformatted',
-              label: 'Content',
-            },
-          },
-          source: {
-            type: 'Link',
-            config: {
-              label: 'Source',
-              select: 'document',
-              customtypes: ['books'],
-              placeholder: 'Choose a book…',
-            },
-          },
-          audio: {
-            type: 'Link',
-            config: {
-              select: 'media',
-              label: 'Audio content',
-            },
-          },
-        },
-      },
       embed: {
         type: 'Slice',
         fieldset: 'Embed',

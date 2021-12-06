@@ -16,17 +16,25 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { contentLd } from '../services/prismic/transformers/json-ld';
+import { fetchBooks } from '../services/prismic/fetch/books';
+import { isString } from '@weco/common/utils/array';
+import { createClient } from '../services/prismic/fetch';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformBook } from '../services/prismic/transformers/books';
+import { Book } from '../types/books';
 
-type Props = SeasonWithContent;
+type Props = SeasonWithContent & {
+  books: Book[];
+};
 const SeasonPage = ({
   season,
   articles,
-  books,
   events,
   exhibitions,
   pages,
   articleSeries,
   projects,
+  books,
 }: Props): ReactElement<Props> => {
   const Header = (
     <SeasonsHeader
@@ -53,10 +61,10 @@ const SeasonPage = ({
     ...parsedExhibitions,
     ...parsedEvents,
     ...articles,
-    ...books,
     ...pages,
     ...articleSeries,
     ...projects,
+    ...books,
   ];
 
   return (
@@ -91,18 +99,37 @@ const SeasonPage = ({
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const seasonWithContent = await getSeasonWithContent({
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+
+    const client = createClient(context);
+    const booksQueryPromise = fetchBooks(client, {
+      predicates: [`[at(my.books.seasons.season, "${id}")]`],
+    });
+
+    const { memoizedPrismic } = context.query;
+    const seasonWithContentPromise = getSeasonWithContent({
       request: context.req,
       id: id?.toString() || '',
       memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
     });
 
+    const [booksQuery, seasonWithContent] = await Promise.all([
+      booksQueryPromise,
+      seasonWithContentPromise,
+    ]);
+
+    const books = transformQuery(booksQuery, transformBook);
+    console.info(books);
+
     if (seasonWithContent) {
+      const serverData = await getServerData(context);
       return {
         props: removeUndefinedProps({
           ...seasonWithContent,
+          books: books.results,
           serverData,
         }),
       };

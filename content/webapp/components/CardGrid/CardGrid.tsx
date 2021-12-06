@@ -6,7 +6,6 @@ import { convertItemToCardProps } from '@weco/common/model/card';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
-import { Book } from '@weco/common/model/books';
 import { Article } from '@weco/common/model/articles';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
@@ -22,6 +21,7 @@ import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
 import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
 import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
+import { Book } from '../../types/books';
 
 // TODO: This should be MultiContent
 type ContentTypes =
