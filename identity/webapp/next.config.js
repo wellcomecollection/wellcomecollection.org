@@ -7,6 +7,8 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const config = function (webpack) {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
+  const basePath = '/account';
+
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -29,11 +31,11 @@ const config = function (webpack) {
   });
 
   return withTM({
-    basePath: '/account',
     assetPrefix:
       isProd && prodSubdomain
-        ? `https://${prodSubdomain}.wellcomecollection.org`
+        ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
         : '',
+    basePath,
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
     ...withBundleAnalyzerConfig,
   });
