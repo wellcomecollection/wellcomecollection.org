@@ -46,6 +46,7 @@ import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { useRouter } from 'next/router';
 
 type DetailProps = {
   label: string;
@@ -151,6 +152,13 @@ const AccountPage: NextPage = () => {
   } = useRequestedItems();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+
+  const router = useRouter();
+  const logoutOnDeletionRequest = () => {
+    router.replace(
+      `/api/auth/logout?returnTo=${encodeURIComponent('/delete-requested')}`
+    );
+  };
 
   return (
     <PageWrapper title={`Your library account`}>
@@ -338,9 +346,7 @@ const AccountPage: NextPage = () => {
                 <ChangeDetailsModal
                   id="delete-account"
                   buttonText="Cancel your membership"
-                  onComplete={() => {
-                    /* TODO: implement this */
-                  }}
+                  onComplete={logoutOnDeletionRequest}
                   render={props => <DeleteAccount {...props} />}
                 />
               </Wrapper>

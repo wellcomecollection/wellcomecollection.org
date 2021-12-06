@@ -1,3 +1,12 @@
 import auth0 from '../../../src/utility/auth0';
 
-export default auth0.handleAuth();
+export default auth0.handleAuth({
+  logout: async (req, res) => {
+    // A given returnTo value must be in the client's `allowed_logout_urls`
+    // See https://github.com/auth0/nextjs-auth0/issues/532
+    const { returnTo } = req.query;
+    return auth0.handleLogout(req, res, {
+      returnTo: Array.isArray(returnTo) ? returnTo[0] : returnTo,
+    });
+  },
+});

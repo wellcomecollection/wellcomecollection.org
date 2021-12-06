@@ -7,7 +7,9 @@ type Props = {
 const SignIn: FunctionComponent<Props> = ({ user }) => {
   return (
     <>
-      {!user && <a href="/account">Sign in to your library account</a>}
+      {!user && (
+        <a href="/account/api/auth/login">Sign in to your library account</a>
+      )}
       {user && (
         <>
           <a href="/account">Library account</a>
