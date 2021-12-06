@@ -183,7 +183,8 @@ export function contentLd(content: Page | Season) {
     prismicDocument: PrismicDocument<CommonPrismicFields & WithContributors>;
   } = content;
   const meta = transformMeta(prismicDocument);
-  const contributors = transformContributors(prismicDocument);
+  const contributors =
+    content.type === 'seasons' ? [] : transformContributors(prismicDocument);
 
   const author: Contributor = contributors.find(
     ({ role }) => role && role.title === 'Author'
