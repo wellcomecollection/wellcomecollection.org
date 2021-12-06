@@ -1,6 +1,9 @@
 - label: "check pages with cURL"
   command:
     curl "https://wellcomecollection.org/covid-book-your-ticket"
+  agents:
+    queue: nano
+
 
 # - label: ":docker: build common"
 #   plugins:
