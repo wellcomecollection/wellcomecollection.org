@@ -153,13 +153,15 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {!hideContributors && document.data.contributors.length > 0 && (
-            <SpacingSection>
-              <Layout8>
-                <Contributors document={document} />
-              </Layout8>
-            </SpacingSection>
-          )}
+          {!hideContributors &&
+            document.data.contributors &&
+            document.data.contributors.length > 0 && (
+              <SpacingSection>
+                <Layout8>
+                  <Contributors document={document} />
+                </Layout8>
+              </SpacingSection>
+            )}
 
           {RelatedContent.length > 0 && (
             <SpacingSection>

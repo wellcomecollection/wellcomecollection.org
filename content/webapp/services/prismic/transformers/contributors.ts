@@ -47,7 +47,7 @@ export function transformContributors(
   document: PrismicDocument<WithContributors>
 ): Contributor[] {
   const { data } = document;
-  const contributors = data.contributors
+  const contributors = (data.contributors ?? [])
     .map(contributor => {
       const agent = transformContributorAgent(contributor.contributor);
 
