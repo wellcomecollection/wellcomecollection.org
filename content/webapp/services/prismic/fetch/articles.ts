@@ -1,6 +1,6 @@
 import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
-import { ArticlePrismicDocument, articlesFetchLinks } from '../articles';
+import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 
 const fetchLinks = articlesFetchLinks;
 export async function fetchArticle(

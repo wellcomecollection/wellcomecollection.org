@@ -27,7 +27,7 @@ import {
   WithEventSeries,
   WithExhibitionParents,
   WithSeasons,
-} from './types';
+} from '.';
 
 const typeEnum = 'events';
 

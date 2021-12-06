@@ -1,14 +1,14 @@
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
-import { WithSeries } from './articles';
-import linkResolver from './link-resolver';
+import { WithSeries } from '../types/articles';
+import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
   WithArticleFormat,
-} from './types';
+} from '../types';
 
 type Meta = {
   title: string;

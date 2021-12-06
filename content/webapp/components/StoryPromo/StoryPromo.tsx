@@ -11,7 +11,7 @@ import {
   CardBody,
   CardPostBody,
 } from '@weco/common/views/components/Card/Card';
-import { ArticlePrismicDocument } from '../../services/prismic/articles';
+import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import {
   transformFormat,
   transformMeta,

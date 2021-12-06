@@ -1,5 +1,5 @@
 import { font, grid, classNames } from '@weco/common/utils/classnames';
-import { Contributor as ContributorType } from '../../model/contributors';
+import { Contributor as ContributorType } from '../../types/contributors';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';

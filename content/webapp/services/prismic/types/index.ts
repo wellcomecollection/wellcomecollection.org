@@ -20,7 +20,6 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
-import { SeriesPrismicDocument } from './series';
 
 /**
  * This allows as to get the DataInterface from PrismicDocuments when we

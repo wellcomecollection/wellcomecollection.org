@@ -5,7 +5,7 @@ import {
   PrismicDocument,
 } from '@prismicio/types';
 import { Body } from './body';
-import { FetchLinks } from './types';
+import { FetchLinks } from '.';
 
 export type PlacePrismicDocument = PrismicDocument<
   {

@@ -16,7 +16,7 @@ import {
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
-} from './types';
+} from '.';
 
 export type WithSeries = {
   series: GroupField<{

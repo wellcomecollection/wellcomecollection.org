@@ -1,5 +1,5 @@
 import { fetcher } from '.';
-import { PagePrismicDocument } from '../pages';
+import { PagePrismicDocument } from '../types/pages';
 
 const fetchLinks = [];
 

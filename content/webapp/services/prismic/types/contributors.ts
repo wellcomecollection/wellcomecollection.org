@@ -5,7 +5,7 @@ import {
   GroupField,
   LinkField,
 } from '@prismicio/types';
-import { Image } from './types';
+import { Image } from '.';
 
 /**
  * Odd name but we've used it since the start, and never been able to change it

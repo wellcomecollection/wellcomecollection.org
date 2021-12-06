@@ -1,7 +1,7 @@
 import { PrismicDocument } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
 import { CommonPrismicFields } from '../types';
-import { CommonFields } from '../../../model/common-fields';
+import { CommonFields } from '../../../types/common-fields';
 
 export function transformCommonFields(
   document: PrismicDocument<CommonPrismicFields>

@@ -1,5 +1,5 @@
 import { fetcher } from '.';
-import { ExhibitionPrismicDocument } from '../exhibitions';
+import { ExhibitionPrismicDocument } from '../types/exhibitions';
 
 const fetchLinks = [];
 

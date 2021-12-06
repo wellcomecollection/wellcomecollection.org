@@ -13,7 +13,7 @@ import {
   seasonsFetchLinks,
   WithContributors,
   WithSeasons,
-} from './types';
+} from '.';
 
 const typeEnum = 'series';
 

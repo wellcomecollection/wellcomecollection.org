@@ -2,7 +2,7 @@ import { fetcher } from '.';
 import {
   eventSeriesFetchLinks,
   EventSeriesPrismicDocument,
-} from '../event-series';
+} from '../types/event-series';
 
 const fetchLinks = eventSeriesFetchLinks;
 

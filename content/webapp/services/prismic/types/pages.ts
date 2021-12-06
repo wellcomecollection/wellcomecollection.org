@@ -11,7 +11,7 @@ import {
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
-} from './types';
+} from '.';
 
 const typeEnum = 'pages';
 

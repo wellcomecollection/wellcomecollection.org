@@ -1,6 +1,6 @@
 import { parseSeason } from '@weco/common/services/prismic/seasons';
-import { Season } from '../../../model/seasons';
-import { SeasonPrismicDocument } from '../seasons';
+import { Season } from '../../../types/seasons';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformGuide(document: SeasonPrismicDocument): Season {

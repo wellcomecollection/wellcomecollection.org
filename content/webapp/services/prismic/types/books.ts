@@ -13,7 +13,7 @@ import {
   WithSeasons,
   contributorFetchLinks,
   commonPrismicFieldsFetchLinks,
-} from './types';
+} from '.';
 
 export type BookPrismicDocument = PrismicDocument<
   {

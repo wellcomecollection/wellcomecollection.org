@@ -1,5 +1,5 @@
 import { fetcher } from '.';
-import { seriesFetchLinks, SeriesPrismicDocument } from '../series';
+import { seriesFetchLinks, SeriesPrismicDocument } from '../types/series';
 
 const fetchLinks = seriesFetchLinks;
 

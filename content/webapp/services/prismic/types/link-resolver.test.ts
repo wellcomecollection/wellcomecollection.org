@@ -1,4 +1,4 @@
-import linkResolver from './link-resolver';
+import linkResolver from '../link-resolver';
 
 /**
  * articles and webcomics look and act the same, but we're unable

@@ -1,5 +1,5 @@
 import { fetcher } from '.';
-import { BookPrismicDocument, booksFetchLinks } from '../books';
+import { BookPrismicDocument, booksFetchLinks } from '../types/books';
 
 const fetchLinks = booksFetchLinks;
 

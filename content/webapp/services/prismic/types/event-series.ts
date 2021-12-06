@@ -7,7 +7,7 @@ import {
   contributorFetchLinks,
   InferDataInterface,
   WithContributors,
-} from './types';
+} from '.';
 
 export type EventSeriesPrismicDocument = PrismicDocument<
   {

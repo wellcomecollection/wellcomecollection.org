@@ -1,11 +1,8 @@
 import { parseBook } from '@weco/common/services/prismic/books';
 import { Book as DeprecatedBook } from '@weco/common/model/books';
-import { Book } from '../../../model/books';
-import { BookPrismicDocument } from '../books';
-import {
-  transformKeyTextField,
-  transformRichTextFieldToString,
-} from '../transformers';
+import { Book } from '../../../types/books';
+import { BookPrismicDocument } from '../types/books';
+import { transformKeyTextField, transformRichTextFieldToString } from '.';
 import { isFilledLinkToWebField } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

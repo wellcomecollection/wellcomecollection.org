@@ -28,7 +28,7 @@ import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { ArticlePrismicDocument } from '../services/prismic/articles';
+import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {

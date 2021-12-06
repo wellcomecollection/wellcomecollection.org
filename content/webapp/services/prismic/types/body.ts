@@ -13,7 +13,7 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image } from './types';
+import { Image } from '.';
 
 type TextSlice = Slice<'slice', { text: RichTextField }>;
 

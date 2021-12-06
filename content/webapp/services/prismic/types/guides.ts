@@ -3,6 +3,7 @@ import {
   PrismicDocument,
   RelationField,
   RichTextField,
+  BooleanField,
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
@@ -10,27 +11,28 @@ import {
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
-} from './types';
+} from '.';
 
-const typeEnum = 'projects';
+const typeEnum = 'guides';
 
-type ProjectFormat = PrismicDocument<
+type GuideFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
-  'project-formats'
+  'guide-formats'
 >;
 
-export type ProjectPrismicDocument = PrismicDocument<
+export type GuidePrismicDocument = PrismicDocument<
   {
     format: RelationField<
-      'project-formats',
+      'guide-formats',
       'en-gb',
-      InferDataInterface<ProjectFormat>
+      InferDataInterface<GuideFormat>
     >;
-    start: TimestampField;
-    end: TimestampField;
+    datePublished: TimestampField;
+    availableOnline: BooleanField;
+    showOnThisPage: BooleanField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &

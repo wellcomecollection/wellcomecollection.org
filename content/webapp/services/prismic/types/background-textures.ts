@@ -1,5 +1,5 @@
 import { PrismicDocument, ImageField, KeyTextField } from '@prismicio/types';
-import { FetchLinks } from './types';
+import { FetchLinks } from '.';
 
 export type BackgroundTexturesDocument = PrismicDocument<
   {
