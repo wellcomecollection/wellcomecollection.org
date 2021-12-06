@@ -1,5 +1,10 @@
 import { FC, useState } from 'react';
+import { Moment } from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import {
+  OpeningHoursDay,
+  ExceptionalOpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 import { london } from '@weco/common/utils/format-date';
 import 'react-day-picker/lib/style.css';
 import LocaleUtils from 'react-day-picker/moment';
@@ -12,8 +17,9 @@ import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
 import {
   determineNextAvailableDate,
-  getDayNumber,
+  convertOpeningHoursDayToDayNumber,
   extendEndDate,
+  findClosedDays,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
@@ -231,21 +237,22 @@ const RequestingDayPicker: FC<Props> = ({
       venue => venue.id === collectionVenueId.libraries.id
     );
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
-  const regularClosedDays =
-    regularLibraryOpeningTimes
-      ?.filter(day => !day.opens)
-      .map(day => getDayNumber(day.dayOfWeek)) || [];
+  const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
+    day => convertOpeningHoursDayToDayNumber(day as OpeningHoursDay)
+  );
   const exceptionalLibraryOpeningTimes =
     libraryVenue?.openingHours.exceptional || [];
-  const exceptionalClosedDates = exceptionalLibraryOpeningTimes
-    .filter(day => !day.opens)
+  const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
     .map(day => {
-      return day.overrideDate;
-    });
+      const exceptionalDay = day as ExceptionalOpeningHoursDay;
+      return exceptionalDay.overrideDate as Moment;
+    })
+    .filter(Boolean);
   const nextAvailableDate = determineNextAvailableDate(
     london(new Date()),
     regularClosedDays
   );
+
   // there should be a 2 week window in which to select a date
   const lastAvailableDate = nextAvailableDate.clone().add(13, 'days');
   // we want to know if the library is closed on any days during the selection window
@@ -253,7 +260,7 @@ const RequestingDayPicker: FC<Props> = ({
   const extendedLastAvailableDate = extendEndDate({
     startDate: nextAvailableDate,
     endDate: lastAvailableDate,
-    exceptionalClosedDates: exceptionalClosedDates,
+    exceptionalClosedDates,
     regularClosedDays,
   });
 

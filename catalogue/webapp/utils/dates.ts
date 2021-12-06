@@ -1,8 +1,20 @@
 import { Moment } from 'moment';
-import { Day } from '@weco/common/model/opening-hours';
+import {
+  DayNumber,
+  OpeningHoursDay,
+  ExceptionalOpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 
-export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
-  switch (day) {
+export function findClosedDays(
+  days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
+): (OpeningHoursDay | ExceptionalOpeningHoursDay)[] {
+  return days.filter(day => !day.opens);
+}
+
+export function convertOpeningHoursDayToDayNumber(
+  day: OpeningHoursDay
+): DayNumber {
+  switch (day.dayOfWeek) {
     case 'Monday':
       return 1;
     case 'Tuesday':
@@ -20,8 +32,6 @@ export function getDayNumber(day: Day): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   }
 }
 
-type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-
 function findNonClosedDay(
   date: Moment,
   regularClosedDays: DayNumber[]
@@ -36,7 +46,7 @@ function findNonClosedDay(
 
 export function determineNextAvailableDate(
   date: Moment,
-  regularClosedDays: (0 | 1 | 2 | 3 | 4 | 5 | 6)[]
+  regularClosedDays: DayNumber[]
 ): Moment {
   const nextAvailableDate = date.clone();
   const isBeforeTen = nextAvailableDate.isBefore(
@@ -68,7 +78,7 @@ export function groupExceptionalClosedDates(params: {
 
 export function filterExceptionalClosedDates(
   exceptionalClosedDates: Moment[],
-  regularClosedDays: (0 | 1 | 2 | 3 | 4 | 5 | 6)[]
+  regularClosedDays: DayNumber[]
 ): Moment[] {
   return exceptionalClosedDates.filter(date => {
     return regularClosedDays.every(day => {
@@ -97,7 +107,7 @@ export function extendEndDate(params: {
   startDate: Moment;
   endDate: Moment;
   exceptionalClosedDates: Moment[];
-  regularClosedDays: (0 | 1 | 2 | 3 | 4 | 5 | 6)[];
+  regularClosedDays: DayNumber[];
 }): Moment {
   const { startDate, endDate, exceptionalClosedDates, regularClosedDays } =
     params;
