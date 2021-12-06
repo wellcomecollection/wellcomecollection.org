@@ -1,5 +1,5 @@
 - label: "check pages with cURL"
-  script:
+  command:
     curl "https://wellcomecollection.org/covid-book-your-ticket"
 
 # - label: ":docker: build common"
