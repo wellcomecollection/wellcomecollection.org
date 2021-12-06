@@ -97,7 +97,7 @@ type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
 export type CommonPrismicFields = {
   title: RichTextField;
   body: Body;
-  promo: PromoSliceZone | null;
+  promo: PromoSliceZone;
   metadataDescription: KeyTextField;
 };
 // We need these for links in the `contentList` slice
