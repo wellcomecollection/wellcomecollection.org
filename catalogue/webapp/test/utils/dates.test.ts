@@ -5,7 +5,9 @@ import {
   includedRegularClosedDays,
   groupExceptionalClosedDates,
   extendEndDate,
+  findClosedDays,
 } from '../../utils/dates';
+import { OverrideType } from '@weco/common/model/opening-hours';
 
 const exceptionalClosedDates = [
   london(new Date('2019-12-03')),
@@ -22,6 +24,90 @@ const exceptionalClosedDates = [
   london(new Date('2020-01-20')),
   london(new Date('2020-01-22')),
 ];
+
+const regularOpeningHours = [
+  {
+    dayOfWeek: 'Monday',
+    opens: '10:00',
+    closes: '18:00',
+  },
+  {
+    dayOfWeek: 'Tuesday',
+    opens: '10:00',
+    closes: '18:00',
+  },
+  {
+    dayOfWeek: 'Wednesday',
+    opens: '10:00',
+    closes: '18:00',
+  },
+  {
+    dayOfWeek: 'Thursday',
+    opens: '10:00',
+    closes: '18:00',
+  },
+  {
+    dayOfWeek: 'Friday',
+    opens: '10:00',
+    closes: '18:00',
+  },
+  {
+    dayOfWeek: 'Saturday',
+    opens: '10:00',
+    closes: '16:00',
+  },
+  {
+    dayOfWeek: 'Sunday',
+    opens: undefined,
+    closes: undefined,
+  },
+];
+
+const exceptionalOpeningHours = [
+  {
+    overrideDate: london('2021-12-25T00:00:00.000Z'),
+    overrideType: 'Christmas and New Year' as OverrideType,
+    opens: undefined,
+    closes: undefined,
+  },
+  {
+    overrideDate: london('2021-12-26T00:00:00.000Z'),
+    overrideType: 'Christmas and New Year' as OverrideType,
+    opens: '12:00',
+    closes: '14:00',
+  },
+  {
+    overrideDate: london('2021-12-27T00:00:00.000Z'),
+    overrideType: 'Christmas and New Year' as OverrideType,
+    opens: undefined,
+    closes: undefined,
+  },
+];
+
+describe('findClosedDays', () => {
+  it('filters out any non closed days from regular opening hours', () => {
+    const result = findClosedDays(regularOpeningHours);
+    expect(result).toEqual([{ dayOfWeek: 'Sunday' }]);
+  });
+
+  it('filters out any non closed days from exceptional opening hours', () => {
+    const result = findClosedDays(exceptionalOpeningHours);
+    expect(result).toEqual([
+      {
+        overrideDate: london('2021-12-25T00:00:00.000Z'),
+        overrideType: 'Christmas and New Year',
+        opens: undefined,
+        closes: undefined,
+      },
+      {
+        overrideDate: london('2021-12-27T00:00:00.000Z'),
+        overrideType: 'Christmas and New Year',
+        opens: undefined,
+        closes: undefined,
+      },
+    ]);
+  });
+});
 
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
@@ -102,7 +188,7 @@ describe('groupExceptionalClosedDates', () => {
 });
 
 describe('extendEndDate: Determines the end date to use, so that there are always the same number of available dates between the start and end date', () => {
-  it('it returns the original end date if no exceptional closed dates occur between the start and end date', () => {
+  it('returns the original end date if no exceptional closed dates occur between the start and end date', () => {
     const result = extendEndDate({
       startDate: london(new Date('2021-11-03')),
       endDate: london(new Date('2021-11-16')),
@@ -124,7 +210,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     expect(result.toDate()).toEqual(london(new Date('2020-01-15')).toDate());
   });
 
-  it('it increases the end date again to account for any regular closed days that occur between the start date and an extended end date', () => {
+  it('increases the end date again to account for any regular closed days that occur between the start date and an extended end date', () => {
     const result = extendEndDate({
       startDate: london(new Date('2019-12-28')),
       endDate: london(new Date('2020-01-10')),
@@ -146,7 +232,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     expect(result.toDate()).toEqual(london(new Date('2020-01-01')).toDate());
   });
 
-  it('it repeatedly increases the end date to account for a combination of exceptional closed dates and regular closed days that occur between the start date and extended end dates', () => {
+  it('repeatedly increases the end date to account for a combination of exceptional closed dates and regular closed days that occur between the start date and extended end dates', () => {
     const result = extendEndDate({
       startDate: london(new Date('2020-01-03')),
       endDate: london(new Date('2020-01-16')),
@@ -157,7 +243,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     expect(result.toDate()).toEqual(london(new Date('2020-01-24')).toDate());
   });
 
-  it("it doesn't extend the end date for any regular closed day that occurs between the start date and the extended end date, if that day is also one of the exceptional closed dates", () => {
+  it("doesn't extend the end date for any regular closed day that occurs between the start date and the extended end date, if that day is also one of the exceptional closed dates", () => {
     const result = extendEndDate({
       startDate: london(new Date('2019-12-24')),
       endDate: london(new Date('2019-12-31')),
