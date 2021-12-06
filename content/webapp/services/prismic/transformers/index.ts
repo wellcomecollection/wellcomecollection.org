@@ -22,7 +22,7 @@ type Meta = {
 type Doc = PrismicDocument<CommonPrismicFields>;
 
 export function transformMeta(doc: Doc): Meta {
-  const promo = tranformPromo(doc);
+  const promo = transformPromo(doc);
 
   return {
     title: transformRichTextFieldToString(doc.data.title) ?? '',
@@ -36,7 +36,7 @@ export function transformMeta(doc: Doc): Meta {
   };
 }
 
-function tranformPromo(doc: Doc) {
+export function transformPromo(doc: Doc) {
   /**
    * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
    * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
