@@ -2,20 +2,21 @@ import { PrismicDocument, KeyTextField } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
 import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
   transformKeyTextField,
   transformRichTextField,
   transformRichTextFieldToString,
 } from '.';
 
+type Agent = WithContributors['contributors'][number]['contributor'];
+
 export function transformContributorAgent(
-  agent: WithContributors['contributors'][number]['contributor']
+  agent: Agent
 ): Contributor['contributor'] | undefined {
   if (isFilledLinkToDocumentWithData(agent)) {
     const commonFields = {
       id: agent.id,
-      name: agent.data.name ?? undefined,
       description: transformRichTextField(agent.data.description),
       image: agent.data.image,
       sameAs: (agent.data.sameAs ?? [])
@@ -26,15 +27,25 @@ export function transformContributorAgent(
         })
         .filter(isNotUndefined),
     };
+    
+    // The .name field can be either RichText or Text.
+    const name =
+      isString(agent.data.name)
+        ? transformKeyTextField(agent.data.name)
+        : Array.isArray(agent.data.name)
+        ? transformRichTextFieldToString(agent.data.name)
+        : undefined;
 
     if (agent.type === 'organisations') {
       return {
         type: agent.type,
+        name,
         ...commonFields,
       };
     } else if (agent.type === 'people') {
       return {
         type: agent.type,
+        name,
         ...commonFields,
         // I'm not sure why I have to coerce this type here as it is that type?
         pronouns: transformKeyTextField(agent.data.pronouns as KeyTextField),

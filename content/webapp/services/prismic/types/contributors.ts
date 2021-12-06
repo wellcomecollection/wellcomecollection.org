@@ -39,7 +39,7 @@ export type Person = PrismicDocument<
 const organisationType = 'organisations';
 export type Organisation = PrismicDocument<
   {
-    name: KeyTextField;
+    name: RichTextField;
     description: RichTextField;
     image: Image;
     sameAs: GroupField<{
