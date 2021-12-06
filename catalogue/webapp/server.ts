@@ -1,7 +1,7 @@
 import appPromise, { timers } from './app';
 import { clear as clearServerDataTimers } from '@weco/common/server-data';
 
-const port = process.env.PORT ?? 3001;
+const port = process.env.PORT ?? 3000;
 
 const serverPromise = appPromise
   .then(app => {
