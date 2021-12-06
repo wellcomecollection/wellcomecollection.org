@@ -1,6 +1,6 @@
 - label: "check pages with cURL"
   command:
-    curl "https://wellcomecollection.org/covid-book-your-ticket"
+    .buildkite/scripts/check_urls_with_curl.sh
   agents:
     queue: nano
 
