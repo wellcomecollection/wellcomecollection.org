@@ -1,32 +1,8 @@
 import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
-import { ArticlePrismicDocument } from '../articles';
+import { ArticlePrismicDocument, articlesFetchLinks } from '../articles';
 
-// This is for the outro links
-const documentLinkTypes = [
-  'pages',
-  'event-series',
-  'books',
-  'events',
-  'articles',
-  'exhibitions',
-  'series',
-  'webcomic-series',
-].flatMap(type => [`${type}.title`, `${type}.promo`]);
-
-const fetchLinks = [
-  ...documentLinkTypes,
-  'article-formats.title',
-  'people.name',
-  'people.image',
-  'people.description',
-  'people.sameAs',
-  'people.pronouns',
-  'organisation.name',
-  'editorial-contributor-roles.title',
-  'editorial-contributor-roles.describedBy',
-];
-
+const fetchLinks = articlesFetchLinks;
 export async function fetchArticle(
   { client }: GetServerSidePropsPrismicClient,
   id: string

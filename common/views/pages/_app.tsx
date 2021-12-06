@@ -177,7 +177,12 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
 
   // We allow error pages through as they don't need, and can't set
   // serverData as they don't have data fetching methods.exi
-  if (dev && !isServerDataSet && !isErrorPage(router.route)) {
+  if (
+    dev &&
+    !isServerDataSet &&
+    !isErrorPage(router.route) &&
+    !('err' in pageProps)
+  ) {
     throw new Error(
       'Please set serverData on your getServerSideProps or getStaticProps'
     );

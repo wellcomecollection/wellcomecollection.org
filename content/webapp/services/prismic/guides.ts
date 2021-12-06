@@ -13,25 +13,24 @@ import {
   WithSeasons,
 } from './types';
 
-const typeEnum = 'pages';
+const typeEnum = 'guides';
 
-type PageFormat = PrismicDocument<
+type GuideFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
-  'page-formats'
+  'guide-formats'
 >;
 
-export type PagePrismicDocument = PrismicDocument<
+export type GuidePrismicDocument = PrismicDocument<
   {
     format: RelationField<
-      'page-formats',
+      'guide-formats',
       'en-gb',
-      InferDataInterface<PageFormat>
+      InferDataInterface<GuideFormat>
     >;
     datePublished: TimestampField;
-    isOnline: BooleanField;
     availableOnline: BooleanField;
     showOnThisPage: BooleanField;
   } & WithContributors &

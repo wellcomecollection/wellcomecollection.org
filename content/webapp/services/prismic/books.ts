@@ -9,10 +9,10 @@ import {
 import {
   CommonPrismicFields,
   WithContributors,
-  WithFormat,
-  WithParents,
+  WithExhibitionParents,
   WithSeasons,
-  WithSeries,
+  contributorFetchLinks,
+  commonPrismicFieldsFetchLinks,
 } from './types';
 
 export type BookPrismicDocument = PrismicDocument<
@@ -28,11 +28,14 @@ export type BookPrismicDocument = PrismicDocument<
       citation: RichTextField;
     }>;
     datePublished: TimestampField;
-  } & WithSeries &
-    WithFormat &
-    WithContributors &
+  } & WithContributors &
     WithSeasons &
-    WithParents &
+    WithExhibitionParents &
     CommonPrismicFields,
   'books'
 >;
+
+export const booksFetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+];

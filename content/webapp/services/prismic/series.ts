@@ -6,7 +6,14 @@ import {
   PrismicDocument,
   SelectField,
 } from '@prismicio/types';
-import { CommonPrismicFields, WithContributors, WithSeasons } from './types';
+import {
+  CommonPrismicFields,
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
+  seasonsFetchLinks,
+  WithContributors,
+  WithSeasons,
+} from './types';
 
 const typeEnum = 'series';
 
@@ -22,3 +29,9 @@ export type SeriesPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export const seriesFetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+  ...seasonsFetchLinks,
+];

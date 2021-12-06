@@ -10,7 +10,7 @@ import {
   CommonPrismicFields,
   InferDataInterface,
   WithContributors,
-  WithParents,
+  WithExhibitionParents,
   WithSeasons,
 } from './types';
 
@@ -50,7 +50,7 @@ export type ExhibitionPrismicDocument = PrismicDocument<
       item: RelationField<'resources'>;
     }>;
   } & WithContributors &
-    WithParents &
+    WithExhibitionParents &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

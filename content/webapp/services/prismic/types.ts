@@ -16,11 +16,9 @@ import {
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
 import { Body } from './body';
-import {
-  EditorialContributorRoles,
-  Organisation,
-  Person,
-} from './contributors';
+import { EditorialContributorRole, Organisation, Person } from './contributors';
+import { EventSeriesPrismicDocument } from './event-series';
+import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
 import { SeriesPrismicDocument } from './series';
 
@@ -36,6 +34,27 @@ export type InferDataInterface<T> = T extends PrismicDocument<
 >
   ? DataInterface
   : never;
+
+export type InferCustomType<T> = T extends PrismicDocument<
+  unknown,
+  infer CustomType
+>
+  ? CustomType
+  : never;
+
+/**
+ * This converts
+ * PrismicDocument<{ field1: string, field2: Image }, 'customType'> => ("customType.field1" | "customType.field2")[]
+ *
+ * If we wanted to ensure all the fields, you could use `UnionToTuple<FetchLinks<T>>` and remove the array type.
+ *
+ * Given that we use this mainly for fetching links, which is an incomplete list, this is better.
+ */
+export type FetchLinks<T extends PrismicDocument> = {
+  [D in keyof InferDataInterface<T>]: D extends string
+    ? `${InferCustomType<T>}.${D}`
+    : never;
+}[keyof InferDataInterface<T>][];
 
 /**
  * This is a convenience type for what the generic DataInterface type extend in @prismicio/types
@@ -82,17 +101,33 @@ export type CommonPrismicFields = {
   promo: PromoSliceZone;
   metadataDescription: KeyTextField;
 };
+// We need these for links in the `contentList` slice
+export const commonPrismicFieldsFetchLinks = [
+  'pages',
+  'event-series',
+  'books',
+  'events',
+  'articles',
+  'exhibitions',
+  'series',
+  'webcomic-series',
+].flatMap(type => [`${type}.title`, `${type}.promo`]);
 
-// These fields are shared amonst a lot of types, but not all
-export type WithSeries = {
+// These fields are shared amongst a lot of types, but not all
+
+export type WithEventSeries = {
   series: GroupField<{
     series: RelationField<
       'series',
       'en-gb',
-      InferDataInterface<SeriesPrismicDocument>
+      InferDataInterface<EventSeriesPrismicDocument>
     >;
   }>;
 };
+export const eventSeriesFetchLink: FetchLinks<EventSeriesPrismicDocument> = [
+  'event-series.title',
+  'event-series.promo',
+];
 
 export type WithSeasons = {
   seasons: GroupField<{
@@ -103,21 +138,37 @@ export type WithSeasons = {
     >;
   }>;
 };
+export const seasonsFetchLinks: FetchLinks<SeasonPrismicDocument> = [
+  'seasons.title',
+  'seasons.promo',
+];
 
-export type WithFormat = {
+export type WithArticleFormat = {
   format: RelationField<
     'article-formats',
     'en-gb',
     InferDataInterface<ArticleFormat>
   >;
 };
+export const articleFormatsFetchLinks: FetchLinks<ArticleFormat> = [
+  'article-formats.title',
+  'article-formats.description',
+];
 
-export type WithParents = {
+export type WithExhibitionParents = {
   parents: GroupField<{
     order: NumberField;
-    parent: RelationField<'exhibitions'>;
+    parent: RelationField<
+      'exhibitions',
+      InferDataInterface<ExhibitionPrismicDocument>
+    >;
   }>;
 };
+export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
+  'exhibitions.title',
+  'exhibitions.promo',
+  'exhibitions.shortTitle',
+];
 
 export type WithContributors = {
   contributorsTitle: RichTextField;
@@ -125,7 +176,7 @@ export type WithContributors = {
     role: RelationField<
       'editorial-contributor-roles',
       'en-gb',
-      InferDataInterface<EditorialContributorRoles>
+      InferDataInterface<EditorialContributorRole>
     >;
     contributor: RelationField<
       'people' | 'organisations',
@@ -135,6 +186,25 @@ export type WithContributors = {
     description: RichTextField;
   }>;
 };
+
+type ContributorFetchLink = (
+  | FetchLinks<EditorialContributorRole>[number]
+  | FetchLinks<Person>[number]
+  | FetchLinks<Organisation>[number]
+)[];
+export const contributorFetchLinks: ContributorFetchLink = [
+  'editorial-contributor-roles.title',
+  'editorial-contributor-roles.describedBy',
+  'people.name',
+  'people.description',
+  'people.pronouns',
+  'people.image',
+  'people.sameAs',
+  'organisations.name',
+  'organisations.description',
+  'organisations.image',
+  'organisations.sameAs',
+];
 
 // Guards
 export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
