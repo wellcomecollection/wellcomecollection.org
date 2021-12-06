@@ -9,13 +9,14 @@ import {
   transformRichTextFieldToString,
 } from '.';
 
+type Agent = WithContributors['contributors'][number]['contributor'];
+
 export function transformContributorAgent(
-  agent: WithContributors['contributors'][number]['contributor']
+  agent: Agent
 ): Contributor['contributor'] | undefined {
   if (isFilledLinkToDocumentWithData(agent)) {
     const commonFields = {
       id: agent.id,
-      name: agent.data.name ?? undefined,
       description: transformRichTextField(agent.data.description),
       image: agent.data.image,
       sameAs: (agent.data.sameAs ?? [])
@@ -27,14 +28,23 @@ export function transformContributorAgent(
         .filter(isNotUndefined),
     };
 
+    const name =
+      typeof agent.data.name === 'string'
+        ? transformKeyTextField(agent.data.name)
+        : Array.isArray(agent.data.name)
+        ? transformRichTextFieldToString(agent.data.name)
+        : undefined;
+
     if (agent.type === 'organisations') {
       return {
         type: agent.type,
+        name,
         ...commonFields,
       };
     } else if (agent.type === 'people') {
       return {
         type: agent.type,
+        name,
         ...commonFields,
         // I'm not sure why I have to coerce this type here as it is that type?
         pronouns: transformKeyTextField(agent.data.pronouns as KeyTextField),
