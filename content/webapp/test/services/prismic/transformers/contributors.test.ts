@@ -1,4 +1,7 @@
-import { transformContributorAgent } from '@weco/content/services/prismic/transformers/contributors';
+import {
+  transformContributorAgent,
+  transformContributors,
+} from '@weco/content/services/prismic/transformers/contributors';
 
 describe('transformContributorAgent', () => {
   it('transforms an organisation without a sameAs', () => {
@@ -25,5 +28,24 @@ describe('transformContributorAgent', () => {
     });
 
     expect(contributor.sameAs).toStrictEqual([]);
+  });
+});
+
+describe('transformContributors', () => {
+  it('transforms a document without contributors', () => {
+    // From e.g. https://wellcomecollection.org/guides/YL9OAxIAAB8AHsyv
+    const document = {
+      title: [
+        {
+          type: 'heading1',
+          text: 'Archives at Wellcome Collection',
+          spans: [],
+        },
+      ],
+    };
+
+    const contributor = transformContributors(document);
+
+    expect(contributor).toStrictEqual([]);
   });
 });
