@@ -3,9 +3,11 @@ import { RelationField, PrismicDocument } from '@prismicio/types';
 import { BackgroundTexturesDocument } from './background-textures';
 import {
   CommonPrismicFields,
+  commonPrismicFieldsFetchLinks,
+  contributorFetchLinks,
   InferDataInterface,
   WithContributors,
-} from './types';
+} from '.';
 
 export type EventSeriesPrismicDocument = PrismicDocument<
   {
@@ -18,3 +20,8 @@ export type EventSeriesPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   'event-series'
 >;
+
+export const eventSeriesFetchLinks = [
+  ...commonPrismicFieldsFetchLinks,
+  ...contributorFetchLinks,
+];

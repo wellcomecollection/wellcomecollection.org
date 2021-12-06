@@ -6,11 +6,11 @@ import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
 } from '@weco/common/model/organization';
-import { getImageUrlAtSize } from '../images';
-import { transformMeta } from '../transformers';
+import { getImageUrlAtSize } from '../types/images';
+import { transformMeta } from '.';
 import { transformContributors } from './contributors';
 import { Article } from '@weco/common/model/articles';
-import { Contributor } from '../../../model/contributors';
+import { Contributor } from '../../../types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Page } from '@weco/common/model/pages';
 import { Season } from '@weco/common/model/seasons';

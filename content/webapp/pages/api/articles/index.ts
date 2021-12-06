@@ -1,7 +1,7 @@
 import { Query } from '@prismicio/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { ArticlePrismicDocument } from '../../../services/prismic/articles';
+import { ArticlePrismicDocument } from '../../../services/prismic/types/articles';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchArticles } from '../../../services/prismic/fetch/articles';

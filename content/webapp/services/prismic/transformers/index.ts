@@ -1,14 +1,14 @@
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import * as prismicH from 'prismic-helpers-beta';
-import linkResolver from './link-resolver';
+import { WithSeries } from '../types/articles';
+import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
-  WithFormat,
-  WithSeries,
-} from './types';
+  WithArticleFormat,
+} from '../types';
 
 type Meta = {
   title: string;
@@ -64,7 +64,7 @@ export function transformSeries(document: PrismicDocument<WithSeries>) {
     .filter(isFilledLinkToDocumentWithData);
 }
 
-export function transformFormat(document: PrismicDocument<WithFormat>) {
+export function transformFormat(document: PrismicDocument<WithArticleFormat>) {
   const { format } = document.data;
 
   if (isFilledLinkToDocumentWithData(format) && format.data) {

@@ -1,8 +1,8 @@
 import { isString } from '@weco/common/utils/array';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { fetchSeries } from 'services/prismic/fetch/series';
+import { fetchSeriesById } from 'services/prismic/fetch/series';
 import { createClient } from '../../../services/prismic/fetch';
-import { SeriesPrismicDocument } from '../../../services/prismic/series';
+import { SeriesPrismicDocument } from '../../../services/prismic/types/series';
 
 type Data = SeriesPrismicDocument;
 type NotFound = { notFound: true };
@@ -17,7 +17,7 @@ export default async (
   }
 
   const client = createClient({ req });
-  const response = await fetchSeries(client, id);
+  const response = await fetchSeriesById(client, id);
 
   if (response) {
     return res.status(200).json(response);

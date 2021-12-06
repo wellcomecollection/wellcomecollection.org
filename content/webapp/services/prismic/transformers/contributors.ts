@@ -1,13 +1,16 @@
 import { PrismicDocument, KeyTextField } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
-import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
-import { Contributor } from '../../../model/contributors';
+import {
+  isFilledLinkToDocumentWithData,
+  WithContributors,
+} from '../types';
+import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   transformKeyTextField,
   transformRichTextField,
   transformRichTextFieldToString,
-} from '../transformers';
+} from '.';
 
 function transformContributorAgent(
   agent: WithContributors['contributors'][number]['contributor']

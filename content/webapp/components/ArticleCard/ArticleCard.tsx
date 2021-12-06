@@ -5,7 +5,7 @@ import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
-import { ArticlePrismicDocument } from '../../services/prismic/articles';
+import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import {
   transformFormat,
   transformMeta,

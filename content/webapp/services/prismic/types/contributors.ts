@@ -5,18 +5,23 @@ import {
   GroupField,
   LinkField,
 } from '@prismicio/types';
-import { Image } from './types';
+import { Image } from '.';
 
 /**
  * Odd name but we've used it since the start, and never been able to change it
  * as renaming types in Prismic is impossible.
  * See {@link https://community.prismic.io/t/import-export-change-type-of-imported-document/7814}
  */
-export type EditorialContributorRoles = PrismicDocument<{
-  title: RichTextField;
-  describedBy: KeyTextField;
-}>;
+const editorialContributorRoleType = 'editorial-contributor-roles';
+export type EditorialContributorRole = PrismicDocument<
+  {
+    title: RichTextField;
+    describedBy: KeyTextField;
+  },
+  typeof editorialContributorRoleType
+>;
 
+const personType = 'people';
 export type Person = PrismicDocument<
   {
     name: KeyTextField;
@@ -28,9 +33,10 @@ export type Person = PrismicDocument<
       title: RichTextField;
     }>;
   },
-  'people'
+  typeof personType
 >;
 
+const organisationType = 'organisations';
 export type Organisation = PrismicDocument<
   {
     name: KeyTextField;
@@ -41,5 +47,5 @@ export type Organisation = PrismicDocument<
       title: KeyTextField;
     }>;
   },
-  'organisations'
+  typeof organisationType
 >;

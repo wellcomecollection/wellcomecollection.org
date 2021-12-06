@@ -3,39 +3,36 @@ import {
   PrismicDocument,
   RelationField,
   RichTextField,
-  BooleanField,
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
   InferDataInterface,
   WithContributors,
-  WithParents,
+  WithExhibitionParents,
   WithSeasons,
-} from './types';
+} from '.';
 
-const typeEnum = 'pages';
+const typeEnum = 'projects';
 
-type PageFormat = PrismicDocument<
+type ProjectFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
-  'page-formats'
+  'project-formats'
 >;
 
-export type PagesPrismicDocument = PrismicDocument<
+export type ProjectPrismicDocument = PrismicDocument<
   {
     format: RelationField<
-      'page-formats',
+      'project-formats',
       'en-gb',
-      InferDataInterface<PageFormat>
+      InferDataInterface<ProjectFormat>
     >;
-    datePublished: TimestampField;
-    isOnline: BooleanField;
-    availableOnline: BooleanField;
-    showOnThisPage: BooleanField;
+    start: TimestampField;
+    end: TimestampField;
   } & WithContributors &
-    WithParents &
+    WithExhibitionParents &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

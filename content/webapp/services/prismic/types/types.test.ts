@@ -1,4 +1,4 @@
-import { isFilledLinkToDocumentWithData } from './types';
+import { isFilledLinkToDocumentWithData } from '.';
 
 const emptyLink = {
   link_type: 'Document',
