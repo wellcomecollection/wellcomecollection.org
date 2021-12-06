@@ -9,3 +9,6 @@
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638800127140100
 /event-series/WlYT_SQAACcAWccj
 /articles/WpmW_yUAAKUUF6mV
+
+# https://github.com/wellcomecollection/wellcomecollection.org/issues/7438
+/exhibitions/XOVfTREAAOJmx-Uw
