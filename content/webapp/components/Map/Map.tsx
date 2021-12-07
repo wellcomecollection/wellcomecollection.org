@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { FunctionComponent, useEffect, useRef } from 'react';
 import GoogleMapsLoader from 'google-maps';
 import styled from 'styled-components';
-type Props = {|
-  title: string,
-  latitude: number,
-  longitude: number,
-|};
+type Props = {
+  title: string;
+  latitude: number;
+  longitude: number;
+};
 
 const MapContainer = styled.div`
   position: relative;
@@ -16,7 +16,7 @@ const MapContainer = styled.div`
   `}
 `;
 
-const Map = ({ title, latitude, longitude }: Props) => {
+const Map: FunctionComponent<Props> = ({ title, latitude, longitude }: Props) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
@@ -38,12 +38,13 @@ const Map = ({ title, latitude, longitude }: Props) => {
         },
       };
       const map = new google.maps.Map(mapCanvas, mapOptions);
-      /* eslint-disable-next-line no-unused-vars */
+      /* eslint-disable @typescript-eslint/no-unused-vars */
       const marker = new google.maps.Marker({
         position: latLng,
         map: map,
         title: title,
       });
+      /* eslint-enable @typescript-eslint/no-unused-vars */
     });
     return () => {
       GoogleMapsLoader.release();
