@@ -144,7 +144,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
       {enablePickUpDate && (
         <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
           <PickUpDate>
-            <div>
+            <>
               <p className="no-margin">
                 The date you would like to view this item in the library
               </p>
@@ -159,7 +159,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
                   visit
                 </p>
               </Space>
-            </div>
+            </>
             <RequestingDayPicker
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
@@ -174,7 +174,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
           v={{ size: 's', properties: ['margin-bottom'] }}
           className={'inline-block'}
         >
-          <ButtonSolid disabled={isLoading} text={`Confirm request`} />
+          <ButtonSolid
+            disabled={isLoading}
+            text={`Confirm request`}
+            clickHandler={confirmRequest}
+          />
         </Space>
         <ButtonOutlined
           text={`Cancel`}
@@ -281,8 +285,7 @@ const ItemRequestModal: FC<Props> = ({
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
   async function confirmRequest(pickUpDate: Date) {
-    console.log(pickUpDate);
-    return;
+    console.log(pickUpDate); // TODO send in POST request body
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
