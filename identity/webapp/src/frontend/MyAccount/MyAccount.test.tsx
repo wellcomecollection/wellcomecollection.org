@@ -24,6 +24,23 @@ jest.mock('@weco/common/server-data', () => ({
     (await import('@weco/common/server-data/types')).defaultServerData,
 }));
 
+jest.mock('next/config', () => () => ({
+  serverRuntimeConfig: {
+    sessionKeys: 'test_test_test',
+    siteBaseUrl: 'http://test.test',
+    identityBasePath: '/account',
+    auth0: {
+      domain: 'test.test',
+      clientID: 'test',
+      clientSecret: 'test',
+    },
+    remoteApi: {
+      host: 'test.test',
+      apiKey: 'test',
+    },
+  },
+}));
+
 const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
