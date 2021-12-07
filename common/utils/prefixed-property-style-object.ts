@@ -1,4 +1,4 @@
-export const prefixPropertyStyleObject = (
+export const prefixedPropertyStyleObject = (
   property: string,
   value: string
 ): Record<string, string> => {
