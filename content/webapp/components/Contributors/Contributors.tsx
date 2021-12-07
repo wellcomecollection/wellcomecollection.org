@@ -57,8 +57,9 @@ const Contributors: FunctionComponent<Props> = ({
   // The transformContributors() method will remove contributors that don't
   // have any visible fields.
   //
-  // This means we may be in a situation where `document.contributors` is non-empty
-  // but `contributors` is empty
+  // This means we may be in a situation where `document.contributors` is
+  // non-empty but `contributors` is empty, in which case we don't want to
+  // render anything at all.
   const contributors = transformContributors(document);
   if (contributors.length === 0) {
     return null;
