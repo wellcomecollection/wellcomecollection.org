@@ -63,6 +63,11 @@ const worksSearch = async (): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/works`);
 };
 
+const article = async (id: string): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/articles/${id}`);
+};
+
 export const isMobile = Boolean(deviceName);
 
 export {
@@ -74,4 +79,5 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  article,
 };
