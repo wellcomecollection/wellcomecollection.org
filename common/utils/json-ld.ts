@@ -3,7 +3,7 @@ import { Organization } from '../model/organization';
 import { BreadcrumbItems } from '../model/breadcrumbs';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
-export function objToJsonLd<T>(obj: T, type: string, root = true): JsonLdObj {
+export function objToJsonLd<T>(obj: T, type: string, root = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
   const jsonLdAddition = root
     ? {
@@ -24,7 +24,7 @@ export function museumLd(museum: Organization): JsonLdObj {
   );
 }
 
-export function libraryLd(library: Organization): JsonLdObj {
+export function libraryLd(library: Organization) {
   return objToJsonLd(
     {
       ...library,
@@ -34,7 +34,7 @@ export function libraryLd(library: Organization): JsonLdObj {
   );
 }
 
-export function breadcrumbsLd(breadcrumbs: BreadcrumbItems): JsonLdObj {
+export function breadcrumbsLd(breadcrumbs: BreadcrumbItems) {
   return objToJsonLd(
     {
       itemListElement: breadcrumbs.items.map(({ url, text }, i) => {
@@ -57,7 +57,7 @@ type WebpageProps = {
   url: string;
 };
 
-export function webpageLd(url: WebpageProps): JsonLdObj {
+export function webpageLd(url: WebpageProps) {
   return objToJsonLd({ url }, 'WebPage');
 }
 
