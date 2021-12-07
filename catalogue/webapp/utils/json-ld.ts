@@ -25,7 +25,6 @@ export function workLd(work: WorkType) {
       keywords: keywords,
       name: work.title,
       description: work.description,
-      image: work.imgLink,
       thumbnailUrl: work?.thumbnail?.url,
       license: work?.thumbnail?.license?.url,
     },
