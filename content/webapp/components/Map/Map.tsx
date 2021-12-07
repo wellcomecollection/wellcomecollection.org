@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { FunctionComponent, useEffect, useRef } from 'react';
 import GoogleMapsLoader from 'google-maps';
 import styled from 'styled-components';
 type Props = {
@@ -16,7 +16,7 @@ const MapContainer = styled.div`
   `}
 `;
 
-const Map = ({ title, latitude, longitude }: Props): MapContainer => {
+const Map: FunctionComponent<Props> = ({ title, latitude, longitude }: Props) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {
