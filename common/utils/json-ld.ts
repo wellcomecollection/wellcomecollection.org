@@ -1,5 +1,6 @@
 import { convertImageUri } from './convert-image-uri';
-import { Organization } from '@weco/common/model/organization';
+import { Organization } from '../model/organization';
+import { Breadcrumbs } from '../model/breadcrumbs';
 
 export function objToJsonLd<T>(obj: T, type: string, root = true) {
   const jsonObj = JSON.parse(JSON.stringify(obj));
@@ -30,6 +31,33 @@ export function libraryLd(library: Organization) {
     },
     'Library'
   );
+}
+
+export function breadcrumbsLd(breadcrumbs: Breadcrumbs) {
+  return objToJsonLd(
+    {
+      itemListElement: breadcrumbs.items.map(({ url, text }, i) => {
+        return objToJsonLd(
+          {
+            position: i,
+            name: text,
+            item: `https://wellcomecollection.org${url}`,
+          },
+          'ListItem',
+          false
+        );
+      }),
+    },
+    'BreadcrumbList'
+  );
+}
+
+type WebpageProps = {
+  url: string;
+};
+
+export function webpageLd(url: WebpageProps) {
+  return objToJsonLd({ url }, 'WebPage');
 }
 
 type Image = {

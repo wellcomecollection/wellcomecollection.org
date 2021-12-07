@@ -3,6 +3,7 @@ import { breadcrumbsLd } from '../../../utils/json-ld';
 import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+import { Breadcrumbs } from '../../../model/breadcrumbs';
 
 type ItemWrapperProps = {
   isFirst: boolean;
@@ -26,13 +27,6 @@ const ItemWrapper = styled(Space).attrs<ItemWrapperProps>(props => ({
   border-left: 1px solid ${props.theme.color('black')};
 `}
 `;
-
-export type Breadcrumbs = {
-  text: string;
-  url?: string;
-  prefix?: string;
-  isHidden?: boolean;
-}[];
 
 type Props = {
   items: Breadcrumbs;
