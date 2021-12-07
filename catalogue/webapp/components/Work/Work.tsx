@@ -5,7 +5,7 @@ import { getDigitalLocationOfType } from '../../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
-import { workLd } from '@weco/common/utils/json-ld';
+import { workLd } from '../../utils/json-ld';
 import BackToResults from '@weco/common/views/components/BackToResults/BackToResults';
 import WorkHeader from '../WorkHeader/WorkHeader';
 import ArchiveBreadcrumb from '../ArchiveBreadcrumb/ArchiveBreadcrumb';

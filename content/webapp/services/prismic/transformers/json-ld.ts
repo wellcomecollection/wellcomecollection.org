@@ -15,17 +15,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Page } from '@weco/common/model/pages';
 import { Season } from '@weco/common/model/seasons';
 import { CommonPrismicFields, WithContributors } from '../types';
-
-export function objToJsonLd<T>(obj: T, type: string, root = true) {
-  const jsonObj = JSON.parse(JSON.stringify(obj));
-  const jsonLdAddition = root
-    ? {
-        '@context': 'http://schema.org',
-        '@type': type,
-      }
-    : { '@type': type };
-  return { ...jsonObj, ...jsonLdAddition };
-}
+import { objToJsonLd } from '@weco/common/utils/json-ld';
 
 export function exhibitionLd(exhibition: Exhibition) {
   const meta = transformMeta(exhibition.prismicDocument);

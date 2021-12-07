@@ -64,7 +64,7 @@ const MobileSignIn: FC = () => {
       {user && (
         <>
           <a href="/account">Library account</a>
-          <a href="/account/logout">Sign out</a>
+          <a href="/account/api/auth/logout">Sign out</a>
         </>
       )}
     </StyledComponent>

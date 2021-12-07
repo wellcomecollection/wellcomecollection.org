@@ -36,29 +36,8 @@ const createConfig =
           if (phase === PHASE_DEVELOPMENT_SERVER) {
             return [
               {
-                source: '/account/api/users/me',
-                destination: `${identityHost}/account/api/users/me`,
-              },
-              {
-                source: '/account/api/users/:user_id/item-requests',
-                destination: `${identityHost}/account/api/users/:user_id/item-requests`,
-              },
-            ];
-          }
-          return [];
-        },
-        async redirects() {
-          if (phase === PHASE_DEVELOPMENT_SERVER) {
-            return [
-              {
-                source: '/account',
-                destination: `${identityHost}`,
-                permanent: true,
-              },
-              {
-                source: '/account/logout',
-                destination: `${identityHost}/logout`,
-                permanent: true,
+                source: '/account/:path*',
+                destination: `${identityHost}/account/:path*`,
               },
             ];
           }

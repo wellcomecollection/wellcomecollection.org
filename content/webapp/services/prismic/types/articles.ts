@@ -9,6 +9,7 @@ import {
 import { SeriesPrismicDocument } from './series';
 import {
   articleFormatsFetchLinks,
+  contributorFetchLinks,
   CommonPrismicFields,
   commonPrismicFieldsFetchLinks,
   FetchLinks,
@@ -52,5 +53,6 @@ export type ArticlePrismicDocument = PrismicDocument<
 export const articlesFetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
+  ...contributorFetchLinks,
   ...seriesFetchLink,
 ];
