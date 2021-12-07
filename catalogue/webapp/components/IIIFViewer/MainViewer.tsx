@@ -397,7 +397,9 @@ const MainViewer: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
+    getCanvasOcr(canvases[canvasIndex]).then(t =>
+      setOcrText(t || 'No text description is available for this image')
+    );
   }, [canvasIndex]);
 
   return (
