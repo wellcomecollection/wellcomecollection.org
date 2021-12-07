@@ -88,7 +88,7 @@ const DesktopSignIn: FC = () => {
               <AccountA as="a" href="/account">
                 Library account
               </AccountA>
-              <AccountA as="a" href="/account/logout" last>
+              <AccountA as="a" href="/account/api/auth/logout" last>
                 Sign out
               </AccountA>
             </span>
