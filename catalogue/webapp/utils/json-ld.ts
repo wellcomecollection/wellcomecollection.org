@@ -2,10 +2,10 @@ import { Work as WorkType } from '@weco/common/model/catalogue';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 
 export function workLd(work: WorkType) {
-  const creators = (work.creators || []).map(c => {
+  const creators = (work.contributors || []).map(c => {
     return {
-      '@type': 'Person',
-      name: c.label,
+      '@type': c.agent.type,
+      name: c.agent.label,
     };
   });
 
