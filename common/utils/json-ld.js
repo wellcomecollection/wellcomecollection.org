@@ -78,35 +78,6 @@ export function webpageLd(url) {
   return objToJsonLd({ url }, 'WebPage');
 }
 
-function orgLd(org) {
-  return (
-    org &&
-    objToJsonLd(
-      {
-        name: org.name,
-        url: org.url,
-        logo: imageLd(org.logo),
-        sameAs: org.sameAs,
-      },
-      'Organization'
-    )
-  );
-}
-
-function personLd(person) {
-  return (
-    person &&
-    objToJsonLd(
-      {
-        name: person.name,
-        description: person.description,
-        image: person.image,
-      },
-      'Person'
-    )
-  );
-}
-
 function imageLd(image) {
   return (
     image &&
