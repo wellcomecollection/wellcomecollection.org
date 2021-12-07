@@ -1,8 +1,9 @@
 import { convertImageUri } from './convert-image-uri';
 import { Organization } from '../model/organization';
-import { Breadcrumbs } from '../model/breadcrumbs';
+import { BreadcrumbItems } from '../model/breadcrumbs';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
-export function objToJsonLd<T>(obj: T, type: string, root = true) {
+export function objToJsonLd<T>(obj: T, type: string, root = true): JsonLdObj {
   const jsonObj = JSON.parse(JSON.stringify(obj));
   const jsonLdAddition = root
     ? {
@@ -13,7 +14,7 @@ export function objToJsonLd<T>(obj: T, type: string, root = true) {
   return { ...jsonObj, ...jsonLdAddition };
 }
 
-export function museumLd(museum: Organization) {
+export function museumLd(museum: Organization): JsonLdObj {
   return objToJsonLd(
     {
       ...museum,
@@ -23,7 +24,7 @@ export function museumLd(museum: Organization) {
   );
 }
 
-export function libraryLd(library: Organization) {
+export function libraryLd(library: Organization): JsonLdObj {
   return objToJsonLd(
     {
       ...library,
@@ -33,7 +34,7 @@ export function libraryLd(library: Organization) {
   );
 }
 
-export function breadcrumbsLd(breadcrumbs: Breadcrumbs) {
+export function breadcrumbsLd(breadcrumbs: BreadcrumbItems): JsonLdObj {
   return objToJsonLd(
     {
       itemListElement: breadcrumbs.items.map(({ url, text }, i) => {
@@ -56,7 +57,7 @@ type WebpageProps = {
   url: string;
 };
 
-export function webpageLd(url: WebpageProps) {
+export function webpageLd(url: WebpageProps): JsonLdObj {
   return objToJsonLd({ url }, 'WebPage');
 }
 

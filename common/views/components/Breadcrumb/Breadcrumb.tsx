@@ -3,7 +3,7 @@ import { breadcrumbsLd } from '../../../utils/json-ld';
 import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import { Breadcrumbs } from '../../../model/breadcrumbs';
+import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
 type ItemWrapperProps = {
   isFirst: boolean;
@@ -28,13 +28,9 @@ const ItemWrapper = styled(Space).attrs<ItemWrapperProps>(props => ({
 `}
 `;
 
-type Props = {
-  items: Breadcrumbs;
-};
-
-const Breadcrumb: FunctionComponent<Props> = ({
+const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
-}: Props): ReactElement => (
+}: BreadcrumbItems): ReactElement => (
   <div
     className={classNames({
       flex: true,
