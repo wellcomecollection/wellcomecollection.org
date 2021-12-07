@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -16,6 +14,8 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 import Body from '../Body/Body';
+import ContentPage from '../ContentPage/ContentPage';
+import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 
 type Props = {
   installation: UiExhibition;
@@ -34,8 +34,6 @@ const Installation = ({ installation }: Props) => {
   const FeaturedMedia = getFeaturedMedia({
     id: installation.id,
     title: installation.title,
-    contributors: installation.contributors,
-    contributorsTitle: installation.contributorsTitle,
     promo: installation.promo,
     body: installation.body,
     standfirst: installation.standfirst,
@@ -115,7 +113,8 @@ const Installation = ({ installation }: Props) => {
         id={installation.id}
         Header={Header}
         Body={<Body body={installation.body} pageId={installation.id} />}
-        contributorProps={{ contributors: installation.contributors }}
+        seasons={installation.seasons}
+        document={installation.prismicDocument}
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>

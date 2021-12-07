@@ -5,7 +5,6 @@ import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader, {
@@ -13,7 +12,6 @@ import PageHeader, {
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { articleLd } from '@weco/common/utils/json-ld';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -23,11 +21,14 @@ import { isString } from '@weco/common/utils/array';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
+import { transformContributors } from '../services/prismic/transformers/contributors';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   article: Article;
@@ -49,9 +50,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
     const articleDocument = await fetchArticle(client, id);
     const serverData = await getServerData(context);
-    const article = parseArticleDoc(articleDocument);
 
-    if (article) {
+    if (articleDocument) {
+      const article = parseArticleDoc(articleDocument);
       return {
         props: removeUndefinedProps({
           article,
@@ -75,11 +76,17 @@ const ArticlePage: FC<Props> = ({ article }) => {
     async function setSeries() {
       const series = article.series[0];
       if (series) {
+        const seriesField =
+          series.id === 'WleP3iQAACUAYEoN' || series.id === 'X8D9qxIAACIAcKSf'
+            ? 'my.webcomics.series.series'
+            : 'my.articles.series.series';
+
         const articlesInSeries =
           series &&
           (await fetchArticlesClientSide({
-            predicates: [`[at(my.articles.series.series, "${series.id}")]`],
+            predicates: [`[at(${seriesField}, "${series.id}")]`],
           }));
+
         const articles = articlesInSeries?.results.map(parseArticleDoc);
 
         if (series) {
@@ -135,8 +142,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
   const genericFields = {
     id: article.id,
     title: article.title,
-    contributors: article.contributors,
-    contributorsTitle: article.contributorsTitle,
     promo: article.promo,
     body: article.body,
     standfirst: article.standfirst,
@@ -150,6 +155,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
     metadataDescription: article.metadataDescription,
   };
 
+  const contributors = transformContributors(article.prismicDocument);
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -166,34 +172,37 @@ const ArticlePage: FC<Props> = ({ article }) => {
               [font('hnr', 6)]: true,
             })}
           >
-            {article.contributors.map(({ contributor, role }, i, arr) => (
-              <Fragment key={contributor.id}>
-                {role && role.describedBy && (
-                  <span>
-                    {i === 0 ? capitalize(role.describedBy) : role.describedBy}{' '}
-                    by{' '}
+            {contributors.length > 0 &&
+              contributors.map(({ contributor, role }, i, arr) => (
+                <Fragment key={contributor.id}>
+                  {role && role.describedBy && (
+                    <span>
+                      {i === 0
+                        ? capitalize(role.describedBy)
+                        : role.describedBy}{' '}
+                      by{' '}
+                    </span>
+                  )}
+                  <span
+                    className={classNames({
+                      [font('hnb', 6)]: true,
+                    })}
+                  >
+                    {contributor.name}
                   </span>
-                )}
-                <span
-                  className={classNames({
-                    [font('hnb', 6)]: true,
-                  })}
-                >
-                  {contributor.name}
-                </span>
-                <Space
-                  as="span"
-                  h={{
-                    size: 's',
-                    properties: ['margin-left', 'margin-right'],
-                  }}
-                >
-                  {arr.length > 1 && i < arr.length - 1 && '|'}
-                </Space>
-              </Fragment>
-            ))}
+                  <Space
+                    as="span"
+                    h={{
+                      size: 's',
+                      properties: ['margin-left', 'margin-right'],
+                    }}
+                  >
+                    {arr.length > 1 && i < arr.length - 1 && '|'}
+                  </Space>
+                </Fragment>
+              ))}
 
-            {article.contributors.length > 0 && ' '}
+            {contributors.length > 0 && ' '}
 
             <span
               className={classNames({
@@ -293,7 +302,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           />
         }
         RelatedContent={Siblings}
-        contributorProps={{ contributors: article.contributors }}
+        document={article.prismicDocument}
         outroProps={
           articleHasOutro(article)
             ? {

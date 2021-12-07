@@ -2,7 +2,6 @@ import type { Article } from '@weco/common/model/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { articleLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -11,6 +10,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   articles: PaginatedResults<Article>;

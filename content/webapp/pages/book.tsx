@@ -1,9 +1,6 @@
 import { GetServerSideProps } from 'next';
-import { Book } from '@weco/common/model/books';
-import { Fragment, FC } from 'react';
-import { getBook } from '@weco/common/services/prismic/books';
+import { Fragment, FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -15,7 +12,13 @@ import styled from 'styled-components';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { isString } from '@weco/common/utils/array';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
+import { fetchBook } from '../services/prismic/fetch/books';
+import { createClient } from '../services/prismic/fetch';
+import { transformBook } from '../services/prismic/transformers/books';
+import { Book } from '../types/books';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -67,11 +70,17 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const book: Book = await getBook(context.req, id, memoizedPrismic);
+    const { id } = context.query;
+    if (!isString(id)) {
+      return { notFound: true };
+    }
+    const client = createClient(context);
+    const bookDocument = await fetchBook(client, id);
 
-    if (book) {
+    if (bookDocument) {
+      const serverData = await getServerData(context);
+      const book = transformBook(bookDocument);
+
       return {
         props: removeUndefinedProps({
           book,
@@ -86,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return { notFound: true };
   };
 
-const BookPage: FC<Props> = props => {
+const BookPage: FunctionComponent<Props> = props => {
   if (!('book' in props)) return null;
 
   const { book } = props;
@@ -147,7 +156,7 @@ const BookPage: FC<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        contributorProps={{ contributors: book.contributors }}
+        document={book.prismicDocument}
         seasons={book.seasons}
       >
         <Fragment>

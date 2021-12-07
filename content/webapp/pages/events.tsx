@@ -3,7 +3,6 @@ import {
   getEvents,
   orderEventsByNextAvailableDate,
 } from '@weco/common/services/prismic/events';
-import { eventLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiEvent } from '@weco/common/model/events';
@@ -19,6 +18,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { eventLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   displayTitle: string;
@@ -84,7 +84,7 @@ const EventsPage: FC<Props> = props => {
       title={displayTitle}
       description={pageDescription}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
-      jsonLd={events.results.map(eventLd)}
+      jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       imageUrl={

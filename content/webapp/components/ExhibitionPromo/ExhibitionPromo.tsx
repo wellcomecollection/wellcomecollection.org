@@ -8,7 +8,7 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { ExhibitionPrismicDocument } from '../../services/prismic/exhibitions';
+import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
 import { transformMeta } from '../../services/prismic/transformers';
 import {
   InferDataInterface,

@@ -2,7 +2,6 @@ import { FC } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -14,7 +13,6 @@ import {
   getPageSiblings,
   getChildren,
 } from '@weco/common/services/prismic/pages';
-import { contentLd } from '@weco/common/utils/json-ld';
 import { Page as PageType } from '@weco/common/model/pages';
 import { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
@@ -37,6 +35,8 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
+import { contentLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   page: PageType;
@@ -271,7 +271,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
-        contributorProps={{ contributors: page.contributors }}
+        document={page.prismicDocument}
         seasons={page.seasons}
       />
     </PageLayout>

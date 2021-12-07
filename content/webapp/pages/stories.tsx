@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { articleLd } from '@weco/common/utils/json-ld';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -29,7 +28,8 @@ import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { ArticlePrismicDocument } from '../services/prismic/articles';
+import { ArticlePrismicDocument } from '../services/prismic/types/articles';
+import { articleLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   articles: Article[];

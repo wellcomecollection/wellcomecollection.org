@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react';
+import { RichTextNodeType } from '@prismicio/types';
 import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import { emptyGlobalAlert } from '../../../services/prismic/documents';
-import { RichTextNodeType } from '@prismicio/types';
 
 type Props = {
   hideTopContent?: boolean;

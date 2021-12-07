@@ -1,12 +1,14 @@
-const webpack = require('webpack');
 const withTM = require('next-transpile-modules')(['@weco/common']);
 const apmConfig = require('@weco/common/services/apm/apmConfig');
 const withBundleAnalyzer = require('@next/bundle-analyzer');
+const { getConfig } = require('./config');
 const buildHash = process.env.BUILD_HASH || 'test';
 const isProd = process.env.NODE_ENV === 'production';
 
-const config = function (webpack) {
+const config = function () {
   const prodSubdomain = process.env.PROD_SUBDOMAIN || '';
+  const basePath = '/account';
+
   const withBundleAnalyzerConfig = withBundleAnalyzer({
     analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
     analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
@@ -31,11 +33,13 @@ const config = function (webpack) {
   return withTM({
     assetPrefix:
       isProd && prodSubdomain
-        ? `https://${prodSubdomain}.wellcomecollection.org`
+        ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
         : '',
+    basePath,
     publicRuntimeConfig: { apmConfig: apmConfig.client('identity-webapp') },
+    serverRuntimeConfig: getConfig(),
     ...withBundleAnalyzerConfig,
   });
 };
 
-module.exports = config(webpack);
+module.exports = config();

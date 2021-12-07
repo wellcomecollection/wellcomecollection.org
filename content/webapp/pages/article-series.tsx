@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
@@ -18,6 +17,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
+import ContentPage from '../components/ContentPage/ContentPage';
 
 type Props = {
   series: ArticleSeries;
@@ -74,8 +74,6 @@ const ArticleSeriesPage: FC<Props> = props => {
   const genericFields = {
     id: series.id,
     title: series.title,
-    contributors: series.contributors,
-    contributorsTitle: series.contributorsTitle,
     promo: series.promo,
     body: series.body,
     standfirst: series.standfirst,
@@ -126,7 +124,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        contributorProps={{ contributors: series.contributors }}
+        document={series.prismicDocument}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

@@ -4,20 +4,20 @@ import { UiEvent } from '@weco/common/model/events';
 import { FC } from 'react';
 import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { eventLd } from '@weco/common/utils/json-ld';
 import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
+import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
+import { eventLd } from '../services/prismic/transformers/json-ld';
 
 type Props = {
   series: EventSeries;
@@ -73,8 +73,6 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
   const genericFields = {
     id: series.id,
     title: series.title,
-    contributors: series.contributors,
-    contributorsTitle: series.contributorsTitle,
     promo: series.promo,
     body: series.body,
     standfirst: series.standfirst,
@@ -130,7 +128,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       title={series.title}
       description={series.metadataDescription || series.promoText || ''}
       url={{ pathname: `/event-series/${series.id}` }}
-      jsonLd={events.map(eventLd)}
+      jsonLd={events.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
@@ -140,7 +138,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        contributorProps={{ contributors: series.contributors }}
+        document={series.prismicDocument}
       >
         {upcomingEvents.length > 0 && (
           <SearchResults items={upcomingEvents} title={`What's next`} />

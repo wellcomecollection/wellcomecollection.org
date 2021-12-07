@@ -1,6 +1,5 @@
 import { Picture } from './picture';
 import { Place } from './places';
-import { Contributor } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
@@ -19,7 +18,6 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  contributors: Contributor[];
   place?: Place;
   exhibits: {
     exhibitType: 'exhibitions';

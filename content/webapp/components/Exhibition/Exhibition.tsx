@@ -2,9 +2,7 @@ import React, { Fragment, useState, useEffect, FunctionComponent } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
-import { exhibitionLd } from '@weco/common/utils/json-ld';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import ContentPage from '@weco/common/views/components/ContentPage/ContentPage';
 import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
@@ -12,7 +10,6 @@ import PageHeader, {
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import Contributors from '@weco/common/views/components/Contributors/Contributors';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -31,6 +28,9 @@ import {
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
+import ContentPage from '../ContentPage/ContentPage';
+import Contributors from '../Contributors/Contributors';
+import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 
 function getUpcomingExhibitionObject(exhibition) {
   return isFuture(exhibition.start)
@@ -200,8 +200,6 @@ const Exhibition = ({ exhibition, pages }: Props) => {
   const genericFields = {
     id: exhibition.id,
     title: exhibition.title,
-    contributors: exhibition.contributors,
-    contributorsTitle: exhibition.contributorsTitle,
     promo: exhibition.promo,
     body: exhibition.body,
     standfirst: exhibition.standfirst,
@@ -274,13 +272,14 @@ const Exhibition = ({ exhibition, pages }: Props) => {
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
+        document={exhibition.prismicDocument}
+        // We hide contributors as we show then further up the page
+        hideContributors={true}
       >
-        {exhibition.contributors.length > 0 && (
-          <Contributors
-            titleOverride={exhibition.contributorsTitle ?? undefined}
-            contributors={exhibition.contributors}
-          />
+        {exhibition.prismicDocument.data.contributors.length > 0 && (
+          <Contributors document={exhibition.prismicDocument} />
         )}
+
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
         a reasonable starting place. Update this once the UX has shaken out. */}
         {(exhibitionOfs.length > 0 || pages.length > 0) && (

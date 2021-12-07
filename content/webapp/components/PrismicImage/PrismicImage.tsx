@@ -10,6 +10,8 @@ type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 type Props = {
   image: FilledImageFieldImage;
   sizes?: BreakpointSizes;
+  width?: number;
+  height?: number;
 };
 
 export function convertBreakpointSizesToSizes(
@@ -53,15 +55,15 @@ const prismicLoader = ({ src, width, quality }) => {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage = ({ image, sizes }: Props) => {
+const PrismicImage = ({ image, sizes, width, height }: Props) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
 
   return (
     <Image
-      width={image.dimensions.width}
-      height={image.dimensions.height}
+      width={width ?? image.dimensions.width}
+      height={height ?? image.dimensions.height}
       layout="responsive"
       className={classNames({
         'image bg-charcoal font-white': true,

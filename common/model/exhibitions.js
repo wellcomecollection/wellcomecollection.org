@@ -2,7 +2,6 @@
 import type { PrismicDocument } from '../services/prismic/types';
 import type { Picture } from './picture';
 import type { Place } from './places';
-import type { Contributor } from './contributors';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Resource } from './resource';
 import type { Season } from './seasons';
@@ -23,7 +22,6 @@ export type Exhibition = {|
   end: ?Date,
   isPermanent: boolean,
   statusOverride: ?string,
-  contributors: Contributor[],
   place: ?Place,
   exhibits: {|
     exhibitType: 'exhibitions',

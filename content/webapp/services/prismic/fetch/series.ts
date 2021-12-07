@@ -1,22 +1,10 @@
-import { GetServerSidePropsPrismicClient } from '.';
-import { SeriesPrismicDocument } from '../series';
+import { fetcher } from '.';
+import { seriesFetchLinks, SeriesPrismicDocument } from '../types/series';
 
-export async function fetchSeries(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<SeriesPrismicDocument | undefined> {
-  const document = await client.getByID<SeriesPrismicDocument>(id);
+const fetchLinks = seriesFetchLinks;
 
-  if (document.type === 'series') {
-    return document;
-  }
-}
+const seriesFetcher = fetcher<SeriesPrismicDocument>('series', fetchLinks);
 
-export async function fetchSeriesClientSide(
-  id: string
-): Promise<SeriesPrismicDocument | undefined> {
-  const response = await fetch(`/api/series/${id}`);
-  if (response.ok) {
-    return response.json();
-  }
-}
+export const fetchSeriesById = seriesFetcher.getById;
+export const fetchSeries = seriesFetcher.getByType;
+export const fetchSeriesClientSide = seriesFetcher.getByTypeClientSide;

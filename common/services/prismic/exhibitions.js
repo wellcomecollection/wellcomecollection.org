@@ -26,7 +26,6 @@ import {
 import { breakpoints } from '../../utils/breakpoints';
 import {
   parseTitle,
-  parseContributors,
   parseImagePromo,
   parseTimestamp,
   parsePlace,
@@ -149,7 +148,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     type: 'exhibitions',
     shortTitle: data.shortTitle && asText(data.shortTitle),
     format: format,
-    contributors: data.contributors ? parseContributors(data.contributors) : [],
     start: start,
     end: end,
     isPermanent: parseBoolean(data.isPermanent),

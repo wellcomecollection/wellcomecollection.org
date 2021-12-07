@@ -11,7 +11,7 @@ import {
   CardBody,
   CardPostBody,
 } from '@weco/common/views/components/Card/Card';
-import { ArticlePrismicDocument } from '../../services/prismic/articles';
+import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import {
   transformFormat,
   transformMeta,
@@ -41,8 +41,8 @@ const StoryPromo: FunctionComponent<Props> = ({
   // `thisArticle.series.schedule.articles.map(article => article.id === thisArticle.id)`
   // So this only works on series that have a schedule, and a schedule where the titles
   // match exactly with the schedule items. This wouldn't work with any series.
-  const seriesWithSchedule = series.find(
-    series => (series.data.schedule ?? []).length > 0
+  const seriesWithSchedule = series.find(series =>
+    (series.data.schedule ?? []).find(schedule => schedule.publishDate)
   );
 
   const seriesColor = seriesWithSchedule?.data.color ?? undefined;

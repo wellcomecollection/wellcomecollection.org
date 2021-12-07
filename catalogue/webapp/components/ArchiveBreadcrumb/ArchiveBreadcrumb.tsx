@@ -164,7 +164,11 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
                   <ArchiveWorkLink id={crumb.id}>
                     <a className="crumb-inner">
                       <WorkTitle
-                        title={`${crumb.title} ${crumb.referenceNumber}`}
+                        title={`${crumb.title}${
+                          crumb.referenceNumber
+                            ? ` ${crumb.referenceNumber}`
+                            : ''
+                        }`}
                       />
                     </a>
                   </ArchiveWorkLink>
