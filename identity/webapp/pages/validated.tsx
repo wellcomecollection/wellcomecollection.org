@@ -48,7 +48,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                     </div>
                   )}
                   <ButtonSolidLink
-                    link="/"
+                    link="/account"
                     text={
                       userState === 'signedin'
                         ? 'View your library account'
