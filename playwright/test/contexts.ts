@@ -63,7 +63,7 @@ const worksSearch = async (): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/works`);
 };
 
-const imageGalleryArticle = async (id: string): Promise<void> => {
+const article = async (id: string): Promise<void> => {
   context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/articles/${id}`);
 };
@@ -79,5 +79,5 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
-  imageGalleryArticle,
+  article,
 };

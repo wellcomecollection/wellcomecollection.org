@@ -1,4 +1,4 @@
-import { imageGalleryArticle } from './contexts';
+import { article } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleAndTestCookies } from './helpers/utils';
 
@@ -15,6 +15,6 @@ beforeAll(async () => {
 });
 
 test('contributors are shown on articles', async () => {
-  await imageGalleryArticle('Ya4jyRAAAGNLAejB');
+  await article('Ya4jyRAAAGNLAejB');
   await page.waitForSelector('h3 >> text="Yiling Zhang"');
 });
