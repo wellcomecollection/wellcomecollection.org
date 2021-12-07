@@ -13,18 +13,19 @@ export function workLd(work: WorkType) {
 
   return objToJsonLd(
     {
-      additionalType: null, // TODO: needs API
-      locationCreated: null, // TODO: needs API
-      genre: null, // TODO: needs API
-      datePublished: null, // TODO: needs API
-      dateCreated: null, // TODO: needs API
-      dateModified: null, // TODO: needs API
-      alternativeHeadline: null, // TODO: needs API
-      publishedBy: null, // TODO: needs API
+      additionalType: undefined, // TODO: needs API
+      locationCreated: undefined, // TODO: needs API
+      genre: undefined, // TODO: needs API
+      datePublished: undefined, // TODO: needs API
+      dateCreated: undefined, // TODO: needs API
+      dateModified: undefined, // TODO: needs API
+      alternativeHeadline: undefined, // TODO: needs API
+      publishedBy: undefined, // TODO: needs API
       creator: creators,
       keywords: keywords,
       name: work.title,
       description: work.description,
+
       thumbnailUrl: work?.thumbnail?.url,
       license: work?.thumbnail?.license?.url,
     },
