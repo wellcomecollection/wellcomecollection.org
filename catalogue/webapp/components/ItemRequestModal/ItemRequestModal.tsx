@@ -174,11 +174,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
           v={{ size: 's', properties: ['margin-bottom'] }}
           className={'inline-block'}
         >
-          <ButtonSolid
-            disabled={isLoading}
-            text={`Confirm request`}
-            clickHandler={confirmRequest}
-          />
+          <ButtonSolid disabled={isLoading} text={`Confirm request`} />
         </Space>
         <ButtonOutlined
           text={`Cancel`}
