@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import { PrismicDocument } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import Space from '@weco/common/views/components/styled/Space';
@@ -50,11 +50,25 @@ export function getContributorsTitle(
   return `${titlePrefix} ${rolesString}`;
 }
 
-const Contributors = ({ titlePrefix = 'About the', document }: Props) => {
+const Contributors: FunctionComponent<Props> = ({
+  titlePrefix = 'About the',
+  document,
+}: Props) => {
+  // The transformContributors() method will remove contributors that don't
+  // have any visible fields.
+  //
+  // This means we may be in a situation where `document.contributors` is
+  // non-empty but `contributors` is empty, in which case we don't want to
+  // render anything at all.
+  const contributors = transformContributors(document);
+  if (contributors.length === 0) {
+    return null;
+  }
+
   const titleOverride = transformRichTextFieldToString(
     document.data.contributorsTitle
   );
-  const contributors = transformContributors(document);
+
   const roles = dedupeAndPluraliseRoles(
     contributors
       .map(contributor => contributor?.role?.title)

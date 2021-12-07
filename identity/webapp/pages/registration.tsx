@@ -114,8 +114,8 @@ const RegistrationPage: NextPage = () => {
                       <span id="error-text">
                         An account with this email address already exists,
                         please{' '}
-                        <NextLink href="/">
-                          <a>sign in</a>
+                        <NextLink href="/account">
+                          <a>Sign in</a>
                         </NextLink>
                         .
                       </span>

@@ -74,7 +74,7 @@ describe('AccountValidated', () => {
     const links = screen.getAllByRole('link');
     const link = links[1];
     expect(link).toHaveTextContent('Sign in');
-    expect(link).toHaveAttribute('href', '/');
+    expect(link).toHaveAttribute('href', '/account');
   });
 
   it('shows a link to customer support on failure', () => {

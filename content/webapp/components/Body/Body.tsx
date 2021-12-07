@@ -55,7 +55,7 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
 
-const Map = dynamic(import('@weco/common/views/components/Map/Map'), {
+const Map = dynamic(import('../Map/Map'), {
   ssr: false,
 });
 
