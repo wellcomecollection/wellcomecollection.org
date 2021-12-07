@@ -1,4 +1,4 @@
-import Map from '@weco/common/views/components/Map/Map';
+import Map from '@weco/content/components/Map/Map';
 
 const Template = args => <Map {...args} />;
 export const basic = Template.bind({});
