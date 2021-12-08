@@ -70,7 +70,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                           />
                         </div>
                       )}
-                      <PageHeaderStandfirst html={standfirst} />
+                      {standfirst && <PageHeaderStandfirst html={standfirst} />}
                     </Space>
                   </Space>
                 </TextWrapper>
