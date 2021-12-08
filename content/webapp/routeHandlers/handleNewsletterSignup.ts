@@ -55,4 +55,4 @@ async function handleNewsletterSignup(ctx, next) {
   next();
 }
 
-module.exports = handleNewsletterSignup;
+export default handleNewsletterSignup;
