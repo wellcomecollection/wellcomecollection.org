@@ -156,7 +156,7 @@ const BookPage: FunctionComponent<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        document={book.prismicDocument}
+        document={book.prismicDocument!}
         seasons={book.seasons}
       >
         <Fragment>
