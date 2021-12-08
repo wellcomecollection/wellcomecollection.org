@@ -1,5 +1,5 @@
-import type { Promo } from '../model/promo';
-import type { EventPromo } from '../model/events';
+import { Promo } from '../model/promo';
+import { EventPromo } from '../model/events';
 import { clock, memberCard } from '@weco/common/icons';
 
 export const readingRoomPromo: Promo = {
