@@ -1,37 +1,22 @@
-// @flow
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe(tsx)
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
-// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
-// $FlowFixMe(tsx)
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
-// $FlowFixMe(tsx)
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
-import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
-// $FlowFixMe (tsx)
+import HighlightedHeading from './HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
-// $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
-// $FlowFixMe (tsx)
 import { gridSize12 } from '../Layout12/Layout12';
-// $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-// $FlowFixMe(tsx)
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-// $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
-import type { Node, Element, ElementProps } from 'react';
-import type { GenericContentFields } from '../../../model/generic-content-fields';
-// $FlowFixMe (tsx)
+import { ReactNode, ReactElement, ComponentProps } from 'react';
+import { GenericContentFields } from '../../../model/generic-content-fields';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-// $FlowFixMe (tsx);
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 // The `bottom` values here are coupled to the space
@@ -64,11 +49,11 @@ const HeroPictureContainer = styled.div`
 `;
 
 export type FeaturedMedia =
-  | Element<typeof UiImage>
-  | Element<typeof VideoEmbed>
-  | Element<typeof Picture>;
+  | ReactElement<typeof UiImage>
+  | ReactElement<typeof VideoEmbed>
+  | ReactElement<typeof Picture>;
 
-type BackgroundType = Element<typeof HeaderBackground>;
+type BackgroundType = ReactElement<typeof HeaderBackground>;
 
 export function getFeaturedMedia(
   fields: GenericContentFields,
@@ -108,7 +93,7 @@ export function getFeaturedMedia(
 
 export function getHeroPicture(
   fields: GenericContentFields
-): ?Element<typeof Picture> {
+): ?ReactElement<typeof Picture> {
   const { squareImage, widescreenImage } = fields;
 
   return (
@@ -135,25 +120,25 @@ function addFreeLabel(labelListProps) {
   return { ...(labelListProps ?? {}), labels };
 }
 
-type Props = {|
-  breadcrumbs: ElementProps<typeof Breadcrumb>,
-  labels: ?ElementProps<typeof LabelsList>,
-  title: string,
-  ContentTypeInfo: ?Node,
-  Background: ?BackgroundType,
-  FeaturedMedia: ?FeaturedMedia,
-  HeroPicture: ?Element<typeof Picture>,
-  isFree?: boolean,
-  heroImageBgColor?: 'white' | 'cream',
-  backgroundTexture?: ?string,
-  highlightHeading?: boolean,
-  asyncBreadcrumbsRoute?: string,
-  isContentTypeInfoBeforeMedia?: boolean,
-  sectionLevelPage?: boolean,
+type Props = {
+  breadcrumbs: ComponentProps<typeof Breadcrumb>;
+  labels?: ComponentProps<typeof LabelsList>;
+  title: string;
+  ContentTypeInfo?: ReactNode;
+  Background?: BackgroundType;
+  FeaturedMedia?: FeaturedMedia;
+  HeroPicture?: ReactElement<typeof Picture>;
+  isFree?: boolean;
+  heroImageBgColor?: 'white' | 'cream';
+  backgroundTexture?: string;
+  highlightHeading?: boolean;
+  asyncBreadcrumbsRoute?: string;
+  isContentTypeInfoBeforeMedia?: boolean;
+  sectionLevelPage?: boolean;
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
-  TitleTopper?: Node,
-|};
+  TitleTopper?: ReactNode;
+};
 
 const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
 const PageHeader = ({
