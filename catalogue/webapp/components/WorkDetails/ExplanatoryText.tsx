@@ -1,18 +1,22 @@
-// @flow
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { useState, useEffect, useContext, type Element } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import { plus } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
-// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
-const IconContainer = styled.div`
+type IconContainerProps = {
+  open: boolean;
+};
+
+const IconContainer = styled.div<IconContainerProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
@@ -22,6 +26,12 @@ const IconContainer = styled.div`
     transition: transform 300ms ease;
   }
 `;
+
+type ControlProps = {
+  hideFocus: boolean;
+};
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const Control = styled.button.attrs(props => ({
   className: classNames({
     'plain-button': true,
@@ -29,7 +39,7 @@ const Control = styled.button.attrs(props => ({
     'flex--v-center': true,
     [font('hnb', 5)]: true,
   }),
-}))`
+}))<ControlProps>`
   cursor: pointer;
   padding: 0;
   &:focus {
@@ -41,17 +51,25 @@ const ControlText = styled.span`
   text-decoration: underline;
 `;
 
-const Content = styled.div`
+type ContentProps = {
+  hidden: boolean;
+};
+
+const Content = styled.div<ContentProps>`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
-type Props = {|
-  id: string,
-  controlText: string,
-  children: Element<any>,
-|};
+type Props = {
+  id: string;
+  controlText: string;
+  children: ReactElement;
+};
 
-const ExplanatoryText = ({ id, controlText, children }: Props) => {
+const ExplanatoryText: FunctionComponent<Props> = ({
+  id,
+  controlText,
+  children,
+}: Props) => {
   const { isEnhanced, isKeyboard } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {

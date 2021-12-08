@@ -1,4 +1,6 @@
-const collectionTree = {
+import { Work } from '@weco/common/model/catalogue';
+
+const collectionTree: Work = {
   id: 'mrhxzfyr',
   title: '"The organization of DNA in chromatin"',
   alternativeTitles: [],
