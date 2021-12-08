@@ -1,26 +1,21 @@
-// @flow
-import React from 'react';
-// $FlowFixMe (ts)
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe (tsx)
-import Icon from '../Icon/Icon';
-import { UiImage } from '../Images/Images';
-import type { ImageType } from '../../../model/image';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
-// $FlowFixMe (tsx)
-import { CardOuter, CardBody } from '../Card/Card';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import { ImageType } from '@weco/common/model/image';
+import Space from '@weco/common/views/components/styled/Space';
+import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import { IconSvg } from '@weco/common/icons';
 
-type Props = {|
-  id: string,
-  url: string,
-  title: string,
-  imageProps: ImageType,
-  description: string,
-  metaText: ?string,
-  metaIcon: ?React$StatelessFunctionalComponent<{}>,
-|};
+type Props = {
+  id: string;
+  url: string;
+  title: string;
+  imageProps: ImageType;
+  description: string;
+  metaText?: string;
+  metaIcon?: IconSvg;
+};
 
 const sizesQueries =
   '(min-width: 1420px) 475px, (min-width: 960px) 34.32vw, (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)';
