@@ -32,16 +32,16 @@ const ErrorPage: FunctionComponent<Props> = ({
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
           breadcrumbs={{ items: [] }}
-          labels={null}
+          labels={undefined}
           title={
             title ||
             'This isn’t the page you’re looking for, but how about these?'
           }
           ContentTypeInfo={null}
-          Background={null}
+          Background={undefined}
           backgroundTexture={headerBackgroundLs}
-          FeaturedMedia={null}
-          HeroPicture={null}
+          FeaturedMedia={undefined}
+          HeroPicture={undefined}
           highlightHeading={true}
         />
         <div
