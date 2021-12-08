@@ -1,5 +1,11 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { useState, useEffect, useContext, ReactElement } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -16,20 +22,23 @@ const IconContainer = styled.div`
     transition: transform 300ms ease;
   }
 `;
-const Control = styled.button.attrs({
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+const Control = styled.button.attrs(props => ({
   className: classNames({
     'plain-button': true,
     flex: true,
     'flex--v-center': true,
     [font('hnb', 5)]: true,
   }),
-})`
+}))`
   cursor: pointer;
   padding: 0;
   &:focus {
     outline: ${props => (!props.hideFocus ? 'intial' : 'none')};
   }
 `;
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const ControlText = styled.span`
   text-decoration: underline;
@@ -45,7 +54,11 @@ type Props = {
   children: ReactElement;
 };
 
-const ExplanatoryText = ({ id, controlText, children }: Props) => {
+const ExplanatoryText: FunctionComponent<Props> = ({
+  id,
+  controlText,
+  children,
+}: Props) => {
   const { isEnhanced, isKeyboard } = useContext(AppContext);
   const [showContent, setShowContent] = useState(true);
   useEffect(() => {
