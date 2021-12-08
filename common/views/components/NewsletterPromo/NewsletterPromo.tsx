@@ -1,18 +1,12 @@
-// @flow
 import { useState, useContext } from 'react';
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import Raven from 'raven-js';
-// $FlowFixMe (tsx)
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
-// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 const FormElementWrapper = styled.div`
