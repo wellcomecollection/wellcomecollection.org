@@ -273,8 +273,15 @@ describe("Scenario 9: A user wants to be able to search inside an item's text", 
 });
 
 describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
-  test.only('the image should have alt text', async () => {
+  test('images should have alt text', async () => {
     await itemWithAltText({ canvasNumber: 2 });
-    await page.waitForSelector(`img[alt='22900393554']`); // N.B. the alt text is changed client side
+    await page.waitForSelector(`img[alt='22900393554']`);
+  });
+
+  test('image alt text should be unique', async () => {
+    await itemWithAltText({ canvasNumber: 2 });
+    await page.waitForSelector(`img[alt='22900393554']`);
+    const imagesWithSameText = await page.$$(`img[alt='22900393554']`);
+    expect(imagesWithSameText.length).toBe(1);
   });
 });
