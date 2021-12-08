@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
 
@@ -54,4 +55,4 @@ async function handleNewsletterSignup(ctx, next) {
   next();
 }
 
-module.exports = handleNewsletterSignup;
+export default handleNewsletterSignup;
