@@ -1,4 +1,4 @@
-import { fetch } from 'node-fetch';
+import fetch from 'node-fetch';
 
 const dotdigitalUsername = process.env.dotdigital_username;
 const dotdigitalPassword = process.env.dotdigital_password;
