@@ -1,15 +1,9 @@
-// @flow
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { useState, useEffect, useContext, type Element } from 'react';
+import { useState, useEffect, useContext, ReactElement } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import { plus } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { classNames, font } from '@weco/common/utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '@weco/common/views/components/Icon/Icon';
-// $FlowFixMe (tsx)
 import Space from '@weco/common/views/components/styled/Space';
 
 const IconContainer = styled.div`
@@ -22,14 +16,14 @@ const IconContainer = styled.div`
     transition: transform 300ms ease;
   }
 `;
-const Control = styled.button.attrs(props => ({
+const Control = styled.button.attrs({
   className: classNames({
     'plain-button': true,
     flex: true,
     'flex--v-center': true,
     [font('hnb', 5)]: true,
   }),
-}))`
+})`
   cursor: pointer;
   padding: 0;
   &:focus {
@@ -45,11 +39,11 @@ const Content = styled.div`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
-type Props = {|
-  id: string,
-  controlText: string,
-  children: Element<any>,
-|};
+type Props = {
+  id: string;
+  controlText: string;
+  children: ReactElement;
+};
 
 const ExplanatoryText = ({ id, controlText, children }: Props) => {
   const { isEnhanced, isKeyboard } = useContext(AppContext);
