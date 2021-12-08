@@ -4,7 +4,6 @@ import {
   RichTextField,
   Slice,
   SliceZone,
-  RTHeading1Node,
   PrismicDocument,
   AnyRegularField,
   GroupField,
