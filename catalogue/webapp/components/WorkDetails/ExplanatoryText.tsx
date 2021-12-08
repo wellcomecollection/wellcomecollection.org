@@ -32,14 +32,14 @@ type ControlProps = {
 };
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const Control = styled.button.attrs<ControlProps>(props => ({
+const Control = styled.button.attrs(props => ({
   className: classNames({
     'plain-button': true,
     flex: true,
     'flex--v-center': true,
     [font('hnb', 5)]: true,
   }),
-}))`
+}))<ControlProps>`
   cursor: pointer;
   padding: 0;
   &:focus {
