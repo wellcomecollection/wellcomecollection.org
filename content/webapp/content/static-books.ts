@@ -1,4 +1,4 @@
-import { Book } from '@weco/common/model/books';
+import { Book } from '../types/books';
 
 // This is the list of books that are shown on https://wellcomecollection.org/stories
 //
@@ -273,7 +273,7 @@ export const staticBooks: Book[] = [
     subtitle: 'A story of caring, ageing and everyday acts of love',
     orderLink:
       'https://www.waterstones.com/book/an-extra-pair-of-hands/kate-mosse//9781788169943',
-    price: null,
+    price: undefined,
     format: 'Hardback',
     extent: '208 pages',
     isbn: '9781788162616',
@@ -351,7 +351,6 @@ export const staticBooks: Book[] = [
     seasons: [],
     standfirst: null,
     superWidescreenImage: null,
-    prismicDocument: null,
   },
   {
     type: 'books',
@@ -678,7 +677,6 @@ export const staticBooks: Book[] = [
     seasons: [],
     standfirst: null,
     superWidescreenImage: null,
-    prismicDocument: null,
   },
   {
     type: 'books',
@@ -917,7 +915,7 @@ export const staticBooks: Book[] = [
       },
     ],
     subtitle: 'Postnatal Depression and the Utter Weirdness of New Motherhood',
-    price: null,
+    price: undefined,
     format: 'Hardback',
     extent: '176 pages',
     isbn: '9781788166546',
@@ -993,9 +991,7 @@ export const staticBooks: Book[] = [
       },
     },
     seasons: [],
-    orderLink: null,
     standfirst: null,
     superWidescreenImage: null,
-    prismicDocument: null,
   },
 ];
