@@ -125,7 +125,7 @@ describe('CardGrid', () => {
   ];
 
   describe('Links inside CardGrid', () => {
-    it('Should be able to render multiple links within CardGrid component', () => {
+    it('renders multiple links within CardGrid component', () => {
       const mockLinks = [
         {
           text: 'View all exhibitions',
