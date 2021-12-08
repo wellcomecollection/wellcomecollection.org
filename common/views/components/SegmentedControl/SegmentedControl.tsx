@@ -1,13 +1,8 @@
-// @flow
 import { Component, Fragment } from 'react';
-// $FlowFixMe (tsx)
 import { chevron, cross } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -167,19 +162,19 @@ const Wrapper = styled.div.attrs({})`
   }
 `;
 
-type Props = {|
-  id: string,
-  items: {| id: string, text: string, url: string |}[],
-  activeId: ?string,
-  onActiveIdChange?: (id: string) => void,
-  extraClasses?: string,
-  ariaCurrentText?: string,
-|};
+type Props = {
+  id: string;
+  items: { id: string; text: string; url: string }[];
+  activeId?: string;
+  onActiveIdChange?: (id: string) => void;
+  extraClasses?: string;
+  ariaCurrentText?: string;
+};
 
-type State = {|
-  activeId: ?string,
-  isActive: boolean,
-|};
+type State = {
+  activeId?: string;
+  isActive: boolean;
+};
 
 class SegmentedControl extends Component<Props, State> {
   state = {
