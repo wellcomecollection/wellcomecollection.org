@@ -1,8 +1,6 @@
-import { Promo } from '../model/promo';
-import { EventPromo } from '../model/events';
 import { clock, memberCard } from '@weco/common/icons';
 
-export const readingRoomPromo: Promo = {
+export const readingRoomPromo = {
   type: 'promo',
   id: 'readingRoomPromo',
   contentType: 'place',
@@ -22,7 +20,7 @@ export const readingRoomPromo: Promo = {
   },
 };
 
-export const cafePromo: Promo = {
+export const cafePromo = {
   type: 'promo',
   id: 'cafePromo',
   contentType: 'place',
@@ -40,7 +38,7 @@ export const cafePromo: Promo = {
   },
 };
 
-export const libraryPromo: Promo = {
+export const libraryPromo = {
   type: 'promo',
   id: 'libraryPromo',
   contentType: 'place',
@@ -60,7 +58,7 @@ export const libraryPromo: Promo = {
   },
 };
 
-export const restaurantPromo: Promo = {
+export const restaurantPromo = {
   type: 'promo',
   id: 'restaurantPromo',
   contentType: 'place',
@@ -77,7 +75,7 @@ export const restaurantPromo: Promo = {
   },
 };
 
-export const shopPromo: Promo = {
+export const shopPromo = {
   type: 'promo',
   id: 'shopPromo',
   contentType: 'place',
@@ -94,7 +92,7 @@ export const shopPromo: Promo = {
   },
 };
 
-export const dailyTourPromo: EventPromo = {
+export const dailyTourPromo = {
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   url: 'https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sma',
