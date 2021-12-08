@@ -12,7 +12,11 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
-const IconContainer = styled.div`
+type IconContainerProps = {
+  open: boolean;
+};
+
+const IconContainer = styled.div<IconContainerProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
@@ -23,8 +27,12 @@ const IconContainer = styled.div`
   }
 `;
 
+type ControlProps = {
+  hideFocus: boolean;
+};
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
-const Control = styled.button.attrs(props => ({
+const Control = styled.button.attrs<ControlProps>(props => ({
   className: classNames({
     'plain-button': true,
     flex: true,
@@ -38,13 +46,16 @@ const Control = styled.button.attrs(props => ({
     outline: ${props => (!props.hideFocus ? 'intial' : 'none')};
   }
 `;
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const ControlText = styled.span`
   text-decoration: underline;
 `;
 
-const Content = styled.div`
+type ContentProps = {
+  hidden: boolean;
+};
+
+const Content = styled.div<ContentProps>`
   display: ${props => (props.hidden ? 'none' : 'block')};
 `;
 
