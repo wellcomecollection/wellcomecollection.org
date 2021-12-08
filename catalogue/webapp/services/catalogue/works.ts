@@ -52,6 +52,9 @@ const workIncludes = [
   'holdings',
 ];
 
+export const missingAltTextMessage =
+  'No text description is available for this image';
+
 const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   type: 'Redirect',
   redirectToId: id,
@@ -152,7 +155,7 @@ export async function getCanvasOcr(
     canvas.otherContent.find(
       content =>
         content['@type'] === 'sc:AnnotationList' &&
-        content.label === 'Text of this page'
+        content.label.startsWith('Text of page')
     );
 
   const textService = textContent && textContent['@id'];
@@ -167,7 +170,7 @@ export async function getCanvasOcr(
         })
         .map(resource => resource.resource.chars)
         .join(' ');
-      return textString.length > 0 ? textString : 'text unavailable';
+      return textString.length > 0 ? textString : missingAltTextMessage;
     } catch (e) {
       Raven.captureException(new Error(`IIIF text service error: ${e}`), {
         tags: {
@@ -175,7 +178,7 @@ export async function getCanvasOcr(
         },
       });
 
-      return 'text unavailable';
+      return missingAltTextMessage;
     }
   }
 }

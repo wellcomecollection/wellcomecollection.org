@@ -16,7 +16,10 @@ import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFResponsiveImage from './IIIFResponsiveImage';
-import { getCanvasOcr } from '../../services/catalogue/works';
+import {
+  getCanvasOcr,
+  missingAltTextMessage,
+} from '../../services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
@@ -398,7 +401,7 @@ const MainViewer: FunctionComponent<Props> = ({
 
   useEffect(() => {
     getCanvasOcr(canvases[canvasIndex]).then(t =>
-      setOcrText(t || 'No text description is available for this image')
+      setOcrText(t || missingAltTextMessage)
     );
   }, [canvasIndex]);
 
