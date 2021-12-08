@@ -1,4 +1,6 @@
-export const staticBooks = [
+import { Book } from '@weco/common/model/books';
+
+export const staticBooks: Book[] = [
   {
     type: 'books',
     id: 'YKUlSxAAACMAGjAT',
@@ -192,7 +194,7 @@ export const staticBooks = [
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
+      minWidth: null,
     },
     image: {
       contentUrl:
@@ -310,13 +312,8 @@ export const staticBooks = [
     format: 'Hardback',
     extent: '208 pages',
     isbn: '9781788162616',
-    reviews: [
-      {
-        text: null,
-        citation: null,
-      },
-    ],
-    datePublished: '2021-06-02T23:00:00.000Z',
+    reviews: [],
+    datePublished: new Date(2021, 6, 2, 23, 0, 0),
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/3c29e13f-eaf1-4b66-b08c-1c49a1706e38_An+Extra+Pair+of+Hands_book+jacket.jpg?auto=compress,format',
@@ -546,7 +543,7 @@ export const staticBooks = [
           copyrightHolder: null,
           copyrightLink: null,
         },
-        crops: {},
+        minWidth: null,
       },
       link: null,
     },
@@ -567,7 +564,7 @@ export const staticBooks = [
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
+      minWidth: null,
     },
     image: {
       contentUrl:
@@ -685,13 +682,8 @@ export const staticBooks = [
     format: 'Paperback',
     extent: '96 pages',
     isbn: '9781788165723',
-    reviews: [
-      {
-        text: null,
-        citation: null,
-      },
-    ],
-    datePublished: '2020-08-26T23:00:00.000Z',
+    reviews: [],
+    datePublished: new Date(2020, 8, 26, 23, 0, 0),
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format',
@@ -908,7 +900,7 @@ export const staticBooks = [
           copyrightHolder: null,
           copyrightLink: null,
         },
-        crops: {},
+        minWidth: null,
       },
       link: null,
     },
@@ -929,7 +921,7 @@ export const staticBooks = [
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
+      minWidth: null,
     },
     image: {
       contentUrl:
@@ -1046,7 +1038,7 @@ export const staticBooks = [
     extent: '176 pages',
     isbn: '9781788166546',
     reviews: [],
-    datePublished: '2021-05-05T23:00:00.000Z',
+    datePublished: new Date(2021, 5, 5, 23, 0, 0),
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/f2bf2ced-3fe8-4df0-aff4-3342a138b628_After+the+Storm+book+cover.jpg?auto=compress,format',
