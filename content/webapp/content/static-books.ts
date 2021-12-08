@@ -1,50 +1,15 @@
 import { Book } from '@weco/common/model/books';
 
+// This is the list of books that are shown on https://wellcomecollection.org/stories
+//
+// Unlike the book pages themselves (which fetch data from Prismic), we cache
+// these books here because they change infrequently and it saves us a fetch.
+
 export const staticBooks: Book[] = [
   {
     type: 'books',
     id: 'YKUlSxAAACMAGjAT',
     title: 'An Extra Pair of Hands',
-    contributorsTitle: '',
-    contributors: [
-      {
-        role: {
-          id: 'WcUWeCgAAFws-nGh',
-          title: 'Author',
-        },
-        contributor: {
-          type: 'people',
-          id: 'YJEmaxEAACEA4ZTf',
-          name: 'Kate Mosse',
-          pronouns: '',
-          image: {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/e0e4e281-389d-4105-8972-dba7da9ba834_Black+%26+white+portrait+of+Kate+Mosse+%28c%29+Ruth+Crafer.jpg?auto=compress,format&rect=0,0,3011,3011&w=3200&h=3200',
-            width: 3200,
-            height: 3200,
-            alt: 'Black and white head and shoulders portrait of Kate Mosse who has a short-cropped blonde bob and is wearing a black shirt.',
-            tasl: {
-              title: 'Kate Mosse',
-              author: null,
-              sourceName: null,
-              sourceLink: null,
-              copyrightHolder: 'Ruth Crafer',
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-          description: [
-            {
-              type: 'paragraph',
-              text: 'Kate Mosse is a bestselling novelist, playwright and non-fiction author with sales of more than eight million copies in 38 languages. Renowned for bringing under-heard histories to life, she is a champion of women’s creativity. She is Founder Director of the Women’s Prize for Fiction, sits on the Executive Committee of Women of the World and is a Visiting Professor of Contemporary Fiction and Creative Writing at the University of Chichester. Her novel ‘The City of Tears’ was published in January 2021. ',
-              spans: [],
-            },
-          ],
-          sameAs: [],
-        },
-        description: null,
-      },
-    ],
     body: [
       {
         type: 'quote',
@@ -173,7 +138,7 @@ export const staticBooks: Book[] = [
           copyrightHolder: null,
           copyrightLink: null,
         },
-        crops: {},
+        minWidth: null,
       },
       link: null,
     },
@@ -384,57 +349,14 @@ export const staticBooks: Book[] = [
       },
     },
     seasons: [],
+    standfirst: null,
+    superWidescreenImage: null,
+    prismicDocument: null,
   },
   {
     type: 'books',
     id: 'X0PFqRAAACkAOXoQ',
     title: 'How to Stay Sane in an Age of Division',
-    contributorsTitle: '',
-    contributors: [
-      {
-        role: {
-          id: 'WcUWeCgAAFws-nGh',
-          title: 'Author',
-        },
-        contributor: {
-          type: 'people',
-          id: 'X0PGiBAAACYAOX52',
-          name: 'Elif Shafak',
-          pronouns: '',
-          image: {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/2664b181-349c-438a-ad3e-d09f6c5b0791_ElifShafak+image+c_ZeynelAbidin.jpg?auto=compress,format&rect=0,12,1677,1677&w=3200&h=3200',
-            width: 3200,
-            height: 3200,
-            alt: 'Colour photograph portrait of Elif Shafak',
-            tasl: {
-              title: null,
-              author: null,
-              sourceName: null,
-              sourceLink: null,
-              license: null,
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-          description: [
-            {
-              type: 'paragraph',
-              text: 'Elif Shafak is an award-winning British-Turkish writer, storyteller, essayist, academic, public speaker and activist. She writes in both Turkish and English, and has published 17 books, 11 of which are novels. Her work has been translated into 50 languages. Her latest novel, ‘10 Minutes 38 Seconds in this Strange World’, was shortlisted for the Booker Prize and RSL Ondaatje Prize, and chosen as Blackwell’s Book of the Year. An advocate for women’s rights, LGBT rights and freedom of speech, Shafak is an inspiring public speaker and twice TED Global speaker, each time receiving a standing ovation. In 2017 she was chosen by Politico as one of the 12 people “who will give you a much-needed lift of the heart”.',
-              spans: [],
-            },
-          ],
-          sameAs: [
-            {
-              link: 'https://www.elifsafak.com.tr/',
-              title: 'elifsafak.com.tr',
-            },
-          ],
-        },
-        description: null,
-      },
-    ],
     body: [
       {
         type: 'text',
@@ -754,52 +676,14 @@ export const staticBooks: Book[] = [
       },
     },
     seasons: [],
+    standfirst: null,
+    superWidescreenImage: null,
+    prismicDocument: null,
   },
   {
     type: 'books',
     id: 'YD-kkhAAACMAKv31',
     title: 'After the Storm',
-    contributorsTitle: '',
-    contributors: [
-      {
-        role: {
-          id: 'WcUWeCgAAFws-nGh',
-          title: 'Author',
-        },
-        contributor: {
-          type: 'people',
-          id: 'YD-lTxAAACMAKwGe',
-          name: 'Emma Jane Unsworth',
-          pronouns: '',
-          image: {
-            contentUrl:
-              'https://images.prismic.io/wellcomecollection/61dfc71c-a748-453c-96cd-b7e7a3e45746_Emma+Jane+Unsworth.jpg?auto=compress,format&rect=0,0,3744,3744&w=3200&h=3200',
-            width: 3200,
-            height: 3200,
-            alt: 'Black and white photograph of Emma Jane Unsworth',
-            tasl: {
-              title: null,
-              author: null,
-              sourceName: null,
-              sourceLink: null,
-              license: null,
-              copyrightHolder: null,
-              copyrightLink: null,
-            },
-            crops: {},
-          },
-          description: [
-            {
-              type: 'paragraph',
-              text: 'Emma Jane Unsworth is an award-winning novelist and screenwriter. Her first novel, ‘Animals’, is now a major motion picture, for which Unsworth wrote the screenplay. The film premiered at the Sundance Film Festival in 2019. She also writes for television and various magazines. Her latest novel, ‘Adults’, has been heralded as “hilarious” (Dolly Alderton), “tender” (Jessie Burton) and “dazzling” (Marian Keyes), and is a Sunday Times bestseller.',
-              spans: [],
-            },
-          ],
-          sameAs: [],
-        },
-        description: null,
-      },
-    ],
     body: [
       {
         type: 'quote',
@@ -1109,5 +993,9 @@ export const staticBooks: Book[] = [
       },
     },
     seasons: [],
+    orderLink: null,
+    standfirst: null,
+    superWidescreenImage: null,
+    prismicDocument: null,
   },
 ];
