@@ -75,13 +75,15 @@ export function fetcher<Document extends PrismicDocument>(
       { client }: GetServerSidePropsPrismicClient,
       id: string
     ): Promise<Document | undefined> => {
-      const document = await client.getByID<Document>(id, {
-        fetchLinks,
-      });
+      try {
+        const document = await client.getByID<Document>(id, {
+          fetchLinks,
+        });
 
-      if (document.type === contentType) {
-        return document;
-      }
+        if (document.type === contentType) {
+          return document;
+        }
+      } catch {}
     },
 
     getByType: async (

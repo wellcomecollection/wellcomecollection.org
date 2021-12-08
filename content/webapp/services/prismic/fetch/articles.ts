@@ -3,6 +3,11 @@ import { GetServerSidePropsPrismicClient } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 
 const fetchLinks = articlesFetchLinks;
+
+// For other types we use fetcher.getById (see e.g. books.ts).
+//
+// That method looks for matching documents with a single type (e.g. document.type === 'books');
+// because an article can have two types, we can't use that here.
 export async function fetchArticle(
   { client }: GetServerSidePropsPrismicClient,
   id: string
