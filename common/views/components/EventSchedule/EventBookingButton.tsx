@@ -1,22 +1,16 @@
-// @flow
-
-import type { UiEvent } from '../../../model/events';
+import { UiEvent } from '../../../model/events';
 import { Fragment } from 'react';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
-// $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import { ticketAvailable, email } from '@weco/common/icons';
 
-type Props = {|
-  event: UiEvent,
-|};
+type Props = {
+  event: UiEvent;
+};
 
-function getButtonMarkup(event) {
+function getButtonMarkup(event: UiEvent) {
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
