@@ -8,7 +8,7 @@ import Caption from '../Caption/Caption';
 import { HTMLString } from '../../../services/prismic/types';
 import { Tasl as TaslType } from '../../../model/tasl';
 import styled from 'styled-components';
-import { isNotUndefined } from 'utils/array';
+import { isNotUndefined } from '../../../utils/array';
 
 const Video = styled.video`
   max-height: 80vh;
