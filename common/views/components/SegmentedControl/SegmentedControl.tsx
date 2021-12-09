@@ -5,6 +5,7 @@ import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { isNotUndefined } from '../../../utils/array';
 
 type IsActiveProps = {
   isActive: boolean;
@@ -68,19 +69,7 @@ const Item = styled.li.attrs({
   `}
 `;
 
-type ItemInnerProps = {
-  isActive: boolean;
-  href: string;
-};
-
-const ItemInner = styled(Space).attrs<ItemInnerProps>(props => ({
-  as: 'a',
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-
+const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active bg-black font-white': props.isActive,
     'bg-white font-black': !props.isActive,
@@ -90,7 +79,22 @@ const ItemInner = styled(Space).attrs<ItemInnerProps>(props => ({
     'transition-bg': true,
     'no-visible-focus': true,
   }),
-}))<ItemInnerProps>`
+}))<IsActiveProps>`
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-top', 'padding-bottom'],
+      undefined,
+      undefined
+    )}
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-left', 'padding-right'],
+      undefined,
+      undefined
+    )}
+
   &:hover,
   &:focus {
     background: ${props =>
@@ -349,8 +353,8 @@ class SegmentedControl extends Component<Props, State> {
                 href={item.url}
                 aria-current={
                   item.id === activeId
-                    ? this.props.ariaCurrentText || true
-                    : null
+                    ? isNotUndefined(this.props.ariaCurrentText)
+                    : undefined
                 }
               >
                 {item.text}
