@@ -2,8 +2,8 @@ import { classNames, grid } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
 type Props = {
-  items: any[],
-  overrideGridSizes?: any,
+  items: any[];
+  overrideGridSizes?: any;
 };
 
 export const sectionLevelPageGrid = {
