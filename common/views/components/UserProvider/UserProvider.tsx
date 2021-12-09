@@ -1,5 +1,9 @@
 import { createContext, FC, useContext, useState } from 'react';
-import { UserInfo } from '../../../model/user';
+import {
+  Auth0UserProfile,
+  auth0UserProfileToUserInfo,
+  UserInfo,
+} from '../../../model/user';
 import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
 import { useToggles } from '../../../server-data/Context';
 
@@ -34,10 +38,14 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
   const updateUserState = (update: Partial<UserInfo>) =>
     setUser(user => (user ? { ...user, ...update } : undefined));
 
-  const fetchUser = async (abortSignal?: AbortSignal) => {
+  const fetchUser = async (abortSignal?: AbortSignal, refresh = false) => {
     setState('loading');
     try {
-      const resp = await fetch('/account/api/users/me', {
+      let profileUrl = '/account/api/auth/me';
+      if (refresh) {
+        profileUrl += '?refresh=true';
+      }
+      const resp = await fetch(profileUrl, {
         signal: abortSignal,
       });
       switch (resp.status) {
@@ -46,9 +54,9 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
           break;
 
         case 200:
-          const data = await resp.json();
+          const data: Auth0UserProfile = await resp.json();
           setState('signedin');
-          setUser(data);
+          setUser(auth0UserProfileToUserInfo(data));
           break;
 
         default:
@@ -75,7 +83,7 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
               enabled,
               user,
               state,
-              reload: fetchUser,
+              reload: () => fetchUser(undefined, true),
               // This is intended for "internal" use only in the identity app
               _updateUserState: updateUserState,
             }
