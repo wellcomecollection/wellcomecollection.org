@@ -33,7 +33,7 @@ export const wellcomeCollectionGallery: Organization = {
   name: 'Wellcome Collection',
   url: 'https://wellcomecollection.org',
   logo: {
-    url: 'https://wellcomecollection.org/assets/icons/apple-touch-icon.png',
+    url: 'https://i.wellcomecollection.org/assets/icons/apple-touch-icon.png',
   },
   sameAs: [
     'https://twitter.com/ExploreWellcome',
