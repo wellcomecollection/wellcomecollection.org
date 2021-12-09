@@ -48,7 +48,7 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-export type FeaturedMedia = UiImage | VideoEmbed | Picture;
+export type FeaturedMedia = UiImage | typeof VideoEmbed | Picture;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 
