@@ -18,7 +18,7 @@ export function museumLd(museum: Organization): JsonLdObj {
   return objToJsonLd(
     {
       ...museum,
-      ...imageLd(museum.logo),
+      logo: imageLd(museum.logo),
     },
     'Museum'
   );
@@ -28,7 +28,7 @@ export function libraryLd(library: Organization) {
   return objToJsonLd(
     {
       ...library,
-      ...imageLd(library.logo),
+      logo: imageLd(library.logo),
     },
     'Library'
   );
