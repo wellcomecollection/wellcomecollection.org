@@ -12,7 +12,12 @@ import { gridSize12 } from '../Layout12/Layout12';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
 import { breakpoints } from '../../../utils/breakpoints';
-import { ReactNode, ReactElement, ComponentProps } from 'react';
+import {
+  FunctionComponent,
+  ReactNode,
+  ReactElement,
+  ComponentProps,
+} from 'react';
 import { GenericContentFields } from '../../../model/generic-content-fields';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -131,7 +136,7 @@ type Props = {
 };
 
 const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
-const PageHeader = ({
+const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
   title,
