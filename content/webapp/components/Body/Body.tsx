@@ -23,7 +23,6 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '@weco/common/views/components/GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -482,12 +481,6 @@ const Body: FunctionComponent<Props> = ({
                       title={slice.value.title}
                       tags={slice.value.tags}
                     />
-                  </LayoutWidth>
-                )}
-                {/* deprecated */}
-                {slice.type === 'deprecatedImageList' && (
-                  <LayoutWidth width={minWidth}>
-                    <DeprecatedImageList {...slice.value} />
                   </LayoutWidth>
                 )}
                 {slice.type === 'mediaObjectList' && (
