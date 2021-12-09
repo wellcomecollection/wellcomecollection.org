@@ -1,16 +1,12 @@
-// @flow
 import { useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
-// $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
-import type { HTMLString } from '../../../services/prismic/types';
-import type { Tasl as TaslType } from '../../../model/tasl';
+import { HTMLString } from '../../../services/prismic/types';
+import { Tasl as TaslType } from '../../../model/tasl';
 import styled from 'styled-components';
 
 const Video = styled.video`
@@ -48,16 +44,16 @@ const Text = styled.span.attrs({
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
-type Props = {|
-  playbackRate: number,
-  videoUrl: string,
-  caption: ?HTMLString,
-  tasl: ?TaslType,
-  autoPlay: boolean,
-  loop: boolean,
-  mute: boolean,
-  showControls: boolean,
-|};
+type Props = {
+  playbackRate: number;
+  videoUrl: string;
+  caption?: HTMLString;
+  tasl?: TaslType;
+  autoPlay: boolean;
+  loop: boolean;
+  mute: boolean;
+  showControls: boolean;
+};
 
 const inViewport = (video: HTMLElement) => {
   const rect = video.getBoundingClientRect();
