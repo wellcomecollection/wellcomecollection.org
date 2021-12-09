@@ -11,7 +11,7 @@ import { Moment } from 'moment';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
-import { OpeningTimes } from 'services/prismic/opening-times';
+import { OpeningTimes } from '../../../services/prismic/opening-times';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
