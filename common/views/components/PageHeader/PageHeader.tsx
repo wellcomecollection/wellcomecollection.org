@@ -154,7 +154,7 @@ const PageHeader = ({
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <SectionPageHeader sectionLevelPage={sectionLevelPage}>
+      <SectionPageHeader sectionLevelPage={sectionLevelPage ?? false}>
         {title}
       </SectionPageHeader>
     );
@@ -169,8 +169,8 @@ const PageHeader = ({
         style={{
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`
-            : null,
-          backgroundSize: backgroundTexture ? 'cover' : null,
+            : undefined,
+          backgroundSize: backgroundTexture ? 'cover' : undefined,
         }}
       >
         {Background}
@@ -225,7 +225,7 @@ const PageHeader = ({
               </Space>
             )}
             <ConditionalWrapper
-              condition={sectionLevelPage}
+              condition={sectionLevelPage ?? false}
               wrapper={children => (
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   {children}

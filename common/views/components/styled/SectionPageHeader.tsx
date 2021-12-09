@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 
 type Props = {
-  sectionLevelPage?: boolean;
+  sectionLevelPage: boolean;
 };
 
 export const SectionPageHeader = styled.h1.attrs<Props>(props => ({
