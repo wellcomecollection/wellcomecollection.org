@@ -16,7 +16,10 @@ import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
 import IIIFResponsiveImage from './IIIFResponsiveImage';
-import { getCanvasOcr } from '../../services/catalogue/works';
+import {
+  getCanvasOcr,
+  missingAltTextMessage,
+} from '../../services/catalogue/works';
 import {
   getServiceId,
   getImageAuthService,
@@ -87,7 +90,6 @@ type ItemRendererProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rotatedImages: any[];
     setIsLoading: (value: boolean) => void;
-    ocrText: string;
     errorHandler?: () => void;
   };
 };
@@ -139,14 +141,8 @@ function getPositionData(
 }
 
 const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
-  const {
-    scrollVelocity,
-    canvases,
-    rotatedImages,
-    setIsLoading,
-    ocrText,
-    mainAreaRef,
-  } = data;
+  const { scrollVelocity, canvases, rotatedImages, setIsLoading, mainAreaRef } =
+    data;
   const [mainLoaded, setMainLoaded] = useState(false);
   const [thumbLoaded, setThumbLoaded] = useState(false);
   const currentCanvas = canvases[index];
@@ -174,6 +170,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [imageContainerRect, setImageContainerRect] = useState<
     ClientRect | undefined
   >();
+  const [ocrText, setOcrText] = useState(missingAltTextMessage);
 
   type OverlayPositionData = {
     canvasNumber: number;
@@ -190,6 +187,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [overlayPositionData, setOverlayPositionData] = useState<
     OverlayPositionData[]
   >([]);
+
+  useEffect(() => {
+    const fetchOcr = async () => {
+      const ocrText = await getCanvasOcr(canvases[index]);
+      setOcrText(ocrText || missingAltTextMessage);
+    };
+    fetchOcr();
+  }, []);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
@@ -356,7 +361,6 @@ const MainViewer: FunctionComponent<Props> = ({
   } = useContext(ItemViewerContext);
   const [newScrollOffset, setNewScrollOffset] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
-  const [ocrText, setOcrText] = useState('');
   const firstRenderRef = useRef(firstRender);
   firstRenderRef.current = firstRender;
   const scrollVelocity = useScrollVelocity(newScrollOffset);
@@ -396,12 +400,8 @@ const MainViewer: FunctionComponent<Props> = ({
     }
   }
 
-  useEffect(() => {
-    getCanvasOcr(canvases[canvasIndex]).then(t => setOcrText(t || ''));
-  }, [canvasIndex]);
-
   return (
-    <div aria-live="assertive" data-test-id="main-viewer">
+    <div data-test-id="main-viewer">
       <FixedSizeList
         width={mainAreaWidth}
         style={{ width: `${mainAreaWidth}px`, margin: '0 auto' }}
@@ -415,7 +415,6 @@ const MainViewer: FunctionComponent<Props> = ({
           rotatedImages,
           setActiveIndex,
           setIsLoading,
-          ocrText,
           mainAreaRef,
           errorHandler,
         }}
