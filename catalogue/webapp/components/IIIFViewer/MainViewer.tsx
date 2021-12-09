@@ -188,10 +188,13 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
     OverlayPositionData[]
   >([]);
 
-  useEffect(async () => {
-    const ocrText = await getCanvasOcr(canvases[index]);
-    setOcrText(ocrText || missingAltTextMessage);
-  }, [index]);
+  useEffect(() => {
+    const fetchOcr = async () => {
+      const ocrText = await getCanvasOcr(canvases[index]);
+      setOcrText(ocrText || missingAltTextMessage);
+    };
+    fetchOcr();
+  }, []);
 
   useEffect(() => {
     // The search hit dimensions and coordinates are given relative to the full size image.
