@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import { font, classNames } from '../../../utils/classnames';
@@ -8,6 +8,7 @@ import Caption from '../Caption/Caption';
 import { HTMLString } from '../../../services/prismic/types';
 import { Tasl as TaslType } from '../../../model/tasl';
 import styled from 'styled-components';
+import { isNotUndefined } from 'utils/array';
 
 const Video = styled.video`
   max-height: 80vh;
@@ -81,8 +82,8 @@ const GifVideo: FunctionComponent<Props> = ({
     !mute ? true : !autoPlay // we never want to autoplay something with audio on
   );
   const [computedVideoWidth, setComputedVideoWidth] = useState<number>(0);
-  const videoRef = useRef<HTMLMediaElement>(null);
-  const canPlayRef = useRef();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canPlayRef = useRef<boolean>();
   canPlayRef.current = canPlay;
 
   const playVideo = (video: HTMLMediaElement) => {
@@ -111,7 +112,9 @@ const GifVideo: FunctionComponent<Props> = ({
 
   const computeVideoWidth = () => {
     const computedVideoWidth = videoRef?.current?.clientWidth;
-    computedVideoWidth ? setComputedVideoWidth(computedVideoWidth) : undefined;
+    if (isNotUndefined(computedVideoWidth)) {
+      setComputedVideoWidth(computedVideoWidth!);
+    }
   };
 
   const manualControlGif = () => {
