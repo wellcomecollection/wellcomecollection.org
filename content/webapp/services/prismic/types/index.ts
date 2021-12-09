@@ -4,7 +4,6 @@ import {
   RichTextField,
   Slice,
   SliceZone,
-  RTHeading1Node,
   PrismicDocument,
   AnyRegularField,
   GroupField,
@@ -110,6 +109,7 @@ export const commonPrismicFieldsFetchLinks = [
   'exhibitions',
   'series',
   'webcomic-series',
+  'webcomics',
 ].flatMap(type => [`${type}.title`, `${type}.promo`]);
 
 // These fields are shared amongst a lot of types, but not all

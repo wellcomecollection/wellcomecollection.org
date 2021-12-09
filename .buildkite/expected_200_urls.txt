@@ -12,3 +12,6 @@
 
 # https://github.com/wellcomecollection/wellcomecollection.org/issues/7438
 /exhibitions/XOVfTREAAOJmx-Uw
+
+# This is an article with a webcomics link in the "Try these next" section
+/articles/XLSV-BEAALNzvQVz
