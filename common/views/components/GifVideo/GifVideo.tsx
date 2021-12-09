@@ -65,7 +65,7 @@ const inViewport = (video: HTMLElement) => {
   );
 };
 
-const GifVideo = ({
+const GifVideo: FunctionComponent<Props> = ({
   playbackRate,
   videoUrl,
   caption,
@@ -80,8 +80,8 @@ const GifVideo = ({
   const [autoPlayDisabled, setAutoPlayDisabled] = useState(
     !mute ? true : !autoPlay // we never want to autoplay something with audio on
   );
-  const [computedVideoWidth, setComputedVideoWidth] = useState(null);
-  const videoRef = useRef(null);
+  const [computedVideoWidth, setComputedVideoWidth] = useState<number>(0);
+  const videoRef = useRef<HTMLMediaElement>(null);
   const canPlayRef = useRef();
   canPlayRef.current = canPlay;
 
@@ -111,7 +111,7 @@ const GifVideo = ({
 
   const computeVideoWidth = () => {
     const computedVideoWidth = videoRef?.current?.clientWidth;
-    setComputedVideoWidth(computedVideoWidth);
+    computedVideoWidth ? setComputedVideoWidth(computedVideoWidth) : undefined;
   };
 
   const manualControlGif = () => {
