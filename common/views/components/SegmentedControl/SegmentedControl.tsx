@@ -68,7 +68,12 @@ const Item = styled.li.attrs({
   `}
 `;
 
-const ItemInner = styled(Space).attrs<IsActiveProps>(props => ({
+type ItemInnerProps = {
+  isActive: boolean;
+  href: string;
+};
+
+const ItemInner = styled(Space).attrs<ItemInnerProps>(props => ({
   as: 'a',
   v: {
     size: 'm',
@@ -85,7 +90,7 @@ const ItemInner = styled(Space).attrs<IsActiveProps>(props => ({
     'transition-bg': true,
     'no-visible-focus': true,
   }),
-}))<IsActiveProps>`
+}))<ItemInnerProps>`
   &:hover,
   &:focus {
     background: ${props =>
@@ -284,7 +289,7 @@ class SegmentedControl extends Component<Props, State> {
                 <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
-                      const url = e.target.getAttribute('href');
+                      const url = e.currentTarget.getAttribute('href')!;
                       const isHash = url.startsWith('#');
 
                       trackEvent({
@@ -324,7 +329,7 @@ class SegmentedControl extends Component<Props, State> {
               <ItemInner
                 isActive={item.id === activeId}
                 onClick={e => {
-                  const url = e.target.getAttribute('href');
+                  const url = e.currentTarget.getAttribute('href')!;
                   const isHash = url.startsWith('#');
 
                   trackEvent({
