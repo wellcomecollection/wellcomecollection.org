@@ -4,7 +4,7 @@ import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FooterNav from '../FooterNav/FooterNav';
 import FindUs from '../FindUs/FindUs';
-import FooterSocial from '../FooterSocial/FooterSocial';
+import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
 import { OverrideType } from '../../../model/opening-hours';
 import { Moment } from 'moment';
