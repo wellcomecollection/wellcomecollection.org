@@ -1,15 +1,19 @@
-// @flow
 import { Component, Fragment } from 'react';
-// $FlowFixMe (tsx)
 import { chevron, cross } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { isNotUndefined } from '../../../utils/array';
+
+type IsActiveProps = {
+  isActive: boolean;
+};
+
+type DrawerItemProps = {
+  isFirst: boolean;
+};
 
 const DrawerItem = styled(Space).attrs({
   v: {
@@ -21,7 +25,7 @@ const DrawerItem = styled(Space).attrs({
     [font('wb', 4)]: true,
     'segmented-control__drawer-item': true,
   }),
-})`
+})<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 
   ${props =>
@@ -44,6 +48,10 @@ const List = styled.ul.attrs({
   border: 1px solid ${props => props.theme.color('black')};
 `;
 
+type ItemProps = {
+  isLast: boolean;
+};
+
 const Item = styled.li.attrs({
   className: classNames({
     [font('wb', 6)]: true,
@@ -51,7 +59,7 @@ const Item = styled.li.attrs({
     'line-height-1': true,
     flex: true,
   }),
-})`
+})<ItemProps>`
   border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
@@ -61,14 +69,7 @@ const Item = styled.li.attrs({
   `}
 `;
 
-const ItemInner = styled(Space).attrs(props => ({
-  as: 'a',
-  v: {
-    size: 'm',
-    properties: ['padding-top', 'padding-bottom'],
-  },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-
+const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
     'is-active bg-black font-white': props.isActive,
     'bg-white font-black': !props.isActive,
@@ -78,7 +79,22 @@ const ItemInner = styled(Space).attrs(props => ({
     'transition-bg': true,
     'no-visible-focus': true,
   }),
-}))`
+}))<IsActiveProps>`
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-top', 'padding-bottom'],
+      undefined,
+      undefined
+    )}
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['padding-left', 'padding-right'],
+      undefined,
+      undefined
+    )}
+
   &:hover,
   &:focus {
     background: ${props =>
@@ -88,7 +104,7 @@ const ItemInner = styled(Space).attrs(props => ({
   }
 `;
 
-const Wrapper = styled.div.attrs({})`
+const Wrapper = styled.div.attrs({})<IsActiveProps>`
   .segmented-control__drawer {
     display: none;
 
@@ -167,23 +183,23 @@ const Wrapper = styled.div.attrs({})`
   }
 `;
 
-type Props = {|
-  id: string,
-  items: {| id: string, text: string, url: string |}[],
-  activeId: ?string,
-  onActiveIdChange?: (id: string) => void,
-  extraClasses?: string,
-  ariaCurrentText?: string,
-|};
+type Props = {
+  id: string;
+  items: { id: string; text: string; url: string }[];
+  activeId?: string;
+  onActiveIdChange?: (id: string) => void;
+  extraClasses?: string;
+  ariaCurrentText?: string;
+};
 
-type State = {|
-  activeId: ?string,
-  isActive: boolean,
-|};
+type State = {
+  activeId?: string;
+  isActive: boolean;
+};
 
 class SegmentedControl extends Component<Props, State> {
   state = {
-    activeId: null,
+    activeId: undefined,
     isActive: false,
   };
 
@@ -277,7 +293,7 @@ class SegmentedControl extends Component<Props, State> {
                 <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
-                      const url = e.target.getAttribute('href');
+                      const url = e.currentTarget.getAttribute('href')!;
                       const isHash = url.startsWith('#');
 
                       trackEvent({
@@ -317,7 +333,7 @@ class SegmentedControl extends Component<Props, State> {
               <ItemInner
                 isActive={item.id === activeId}
                 onClick={e => {
-                  const url = e.target.getAttribute('href');
+                  const url = e.currentTarget.getAttribute('href')!;
                   const isHash = url.startsWith('#');
 
                   trackEvent({
@@ -337,8 +353,8 @@ class SegmentedControl extends Component<Props, State> {
                 href={item.url}
                 aria-current={
                   item.id === activeId
-                    ? this.props.ariaCurrentText || true
-                    : null
+                    ? isNotUndefined(this.props.ariaCurrentText)
+                    : undefined
                 }
               >
                 {item.text}

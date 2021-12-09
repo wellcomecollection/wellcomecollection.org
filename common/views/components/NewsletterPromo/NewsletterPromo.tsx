@@ -1,18 +1,12 @@
-// @flow
 import { useState, useContext } from 'react';
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import Raven from 'raven-js';
-// $FlowFixMe (tsx)
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
-// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
 
 const FormElementWrapper = styled.div`
@@ -38,13 +32,11 @@ const ShameButtonWrap = styled.div`
   }
 `;
 
-const NewsletterForm = styled(Space).attrs({
-  as: 'form',
+const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
   id: 'newsletter-signup',
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
-  v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -55,6 +47,14 @@ const NewsletterForm = styled(Space).attrs({
   label {
     flex: 1;
   }
+
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['margin-bottom'],
+      undefined,
+      undefined
+    )}
 
   ${props => props.theme.media.medium`
     flex-wrap: nowrap;

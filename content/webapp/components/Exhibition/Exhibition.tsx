@@ -225,14 +225,14 @@ const Exhibition = ({ exhibition, pages }: Props) => {
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture
     ? getFeaturedMedia(genericFields)
-    : null;
+    : undefined;
 
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
       labels={{ labels: exhibition.labels }}
       title={exhibition.title}
-      Background={null}
+      Background={undefined}
       ContentTypeInfo={
         <Fragment>
           {!exhibition.isPermanent && (

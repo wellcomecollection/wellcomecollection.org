@@ -67,7 +67,6 @@ export const data: UiEvent = {
   promoText: null,
   squareImage: null,
   widescreenImage: null,
-  superWidescreenImage: null,
   ticketSalesStart: undefined,
   displayEnd: new Date(),
   displayStart: new Date(),

@@ -1,5 +1,6 @@
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
 const Heading = styled(Space)`
   display: block;
@@ -11,11 +12,11 @@ const Heading = styled(Space)`
   }
 `;
 
-type Props = {|
-  text: string,
-|};
+type Props = {
+  text: string;
+};
 
-const HighlightedHeading = ({ text }: Props) => {
+const HighlightedHeading: FunctionComponent<Props> = ({ text }: Props) => {
   return (
     <h1 className="h1">
       <Heading

@@ -118,7 +118,7 @@ const BookPage: FunctionComponent<Props> = props => {
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={null}
+      labels={undefined}
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={
@@ -136,8 +136,8 @@ const BookPage: FunctionComponent<Props> = props => {
         </Fragment>
       }
       isContentTypeInfoBeforeMedia={true}
-      HeroPicture={null}
-      Background={null}
+      HeroPicture={undefined}
+      Background={undefined}
     />
   );
 

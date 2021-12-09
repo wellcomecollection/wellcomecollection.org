@@ -16,6 +16,7 @@ import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions'
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
   installation: UiExhibition;
@@ -52,17 +53,19 @@ const Installation = ({ installation }: Props) => {
       {
         text: 'Installations',
       },
-      partOf && {
-        url: `/exhibitions/${partOf.id}`,
-        text: partOf.shortTitle || partOf.title,
-        prefix: 'Part of',
-      },
+      partOf
+        ? {
+            url: `/exhibitions/${partOf.id}`,
+            text: partOf.shortTitle || partOf.title,
+            prefix: 'Part of',
+          }
+        : undefined,
       {
         url: `/exhibitions/${installation.id}`,
         text: installation.title,
         isHidden: true,
       },
-    ].filter(Boolean),
+    ].filter(isNotUndefined),
   };
 
   const Header = (
@@ -89,7 +92,7 @@ const Installation = ({ installation }: Props) => {
           )}
         </>
       }
-      HeroPicture={null}
+      HeroPicture={undefined}
       isContentTypeInfoBeforeMedia={true}
     />
   );

@@ -43,15 +43,15 @@ const Newsletter: FC<Props> = ({ result }) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={null}
+        labels={undefined}
         title={'Newsletters'}
-        ContentTypeInfo={null}
-        Background={null}
+        ContentTypeInfo={undefined}
+        Background={undefined}
         backgroundTexture={
           'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'
         }
-        FeaturedMedia={null}
-        HeroPicture={null}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
       />
 

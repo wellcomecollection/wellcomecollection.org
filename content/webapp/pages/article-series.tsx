@@ -104,7 +104,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         />
       }
       FeaturedMedia={FeaturedMedia}
-      HeroPicture={null}
+      HeroPicture={undefined}
       isContentTypeInfoBeforeMedia={true}
     />
   );

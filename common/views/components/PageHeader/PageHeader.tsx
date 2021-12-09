@@ -1,37 +1,27 @@
-// @flow
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe(tsx)
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
-// $FlowFixMe (tsx)
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
-// $FlowFixMe(tsx)
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
-// $FlowFixMe(tsx)
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
-import HighlightedHeading from '../HighlightedHeading/HighlightedHeading';
-// $FlowFixMe (tsx)
+import HighlightedHeading from './HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
-// $FlowFixMe (tsx)
 import Layout from '../Layout/Layout';
-// $FlowFixMe (tsx)
 import { gridSize12 } from '../Layout12/Layout12';
-// $FlowFixMe(tsx)
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
-// $FlowFixMe(tsx)
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-// $FlowFixMe (ts)
 import { breakpoints } from '../../../utils/breakpoints';
-import type { Node, Element, ElementProps } from 'react';
-import type { GenericContentFields } from '../../../model/generic-content-fields';
-// $FlowFixMe (tsx)
+import {
+  FunctionComponent,
+  ReactNode,
+  ReactElement,
+  ComponentProps,
+} from 'react';
+import { GenericContentFields } from '../../../model/generic-content-fields';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-// $FlowFixMe (tsx);
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 
 // The `bottom` values here are coupled to the space
@@ -63,30 +53,20 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-export type FeaturedMedia =
-  | Element<typeof UiImage>
-  | Element<typeof VideoEmbed>
-  | Element<typeof Picture>;
+export type FeaturedMedia = UiImage | typeof VideoEmbed | Picture;
 
-type BackgroundType = Element<typeof HeaderBackground>;
+type BackgroundType = ReactElement<typeof HeaderBackground>;
 
 export function getFeaturedMedia(
   fields: GenericContentFields,
   isPicture?: boolean
-): ?FeaturedMedia {
+): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
   const { squareImage, widescreenImage } = fields;
   const { body } = fields;
-  const tasl = image && {
-    title: image.title,
-    author: image.author,
-    sourceName: image.source && image.source.name,
-    sourceLink: image.source && image.source.link,
-    license: image.license,
-    copyrightHolder: image.copyright && image.copyright.holder,
-    copyrightLink: image.copyright && image.copyright.link,
-  };
+
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+
   const FeaturedMedia = hasFeaturedVideo ? (
     <VideoEmbed {...body[0].value} />
   ) : isPicture && widescreenImage && squareImage ? (
@@ -97,10 +77,10 @@ export function getFeaturedMedia(
       ]}
       isFull={true}
     />
-  ) : widescreenImage && tasl ? (
-    <UiImage tasl={tasl} {...widescreenImage} sizesQueries="" />
-  ) : image && tasl ? (
-    <UiImage tasl={tasl} {...image} sizesQueries="" />
+  ) : widescreenImage ? (
+    <UiImage {...widescreenImage} sizesQueries="" />
+  ) : image ? (
+    <UiImage {...image} sizesQueries="" />
   ) : null;
 
   return FeaturedMedia;
@@ -108,7 +88,7 @@ export function getFeaturedMedia(
 
 export function getHeroPicture(
   fields: GenericContentFields
-): ?Element<typeof Picture> {
+): Picture | undefined {
   const { squareImage, widescreenImage } = fields;
 
   return (
@@ -135,28 +115,28 @@ function addFreeLabel(labelListProps) {
   return { ...(labelListProps ?? {}), labels };
 }
 
-type Props = {|
-  breadcrumbs: ElementProps<typeof Breadcrumb>,
-  labels: ?ElementProps<typeof LabelsList>,
-  title: string,
-  ContentTypeInfo: ?Node,
-  Background: ?BackgroundType,
-  FeaturedMedia: ?FeaturedMedia,
-  HeroPicture: ?Element<typeof Picture>,
-  isFree?: boolean,
-  heroImageBgColor?: 'white' | 'cream',
-  backgroundTexture?: ?string,
-  highlightHeading?: boolean,
-  asyncBreadcrumbsRoute?: string,
-  isContentTypeInfoBeforeMedia?: boolean,
-  sectionLevelPage?: boolean,
+type Props = {
+  breadcrumbs: ComponentProps<typeof Breadcrumb>;
+  labels?: ComponentProps<typeof LabelsList>;
+  title: string;
+  ContentTypeInfo?: ReactNode;
+  Background?: BackgroundType;
+  FeaturedMedia?: FeaturedMedia;
+  HeroPicture?: ReactElement<typeof Picture>;
+  isFree?: boolean;
+  heroImageBgColor?: 'white' | 'cream';
+  backgroundTexture?: string;
+  highlightHeading?: boolean;
+  asyncBreadcrumbsRoute?: string;
+  isContentTypeInfoBeforeMedia?: boolean;
+  sectionLevelPage?: boolean;
   // TODO: Don't overload this, it's just for putting things in till
   // we find a pattern
-  TitleTopper?: Node,
-|};
+  TitleTopper?: ReactNode;
+};
 
 const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
-const PageHeader = ({
+const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
   title,
@@ -179,7 +159,7 @@ const PageHeader = ({
     highlightHeading && !sectionLevelPage ? (
       <HighlightedHeading text={title} />
     ) : (
-      <SectionPageHeader sectionLevelPage={sectionLevelPage}>
+      <SectionPageHeader sectionLevelPage={sectionLevelPage ?? false}>
         {title}
       </SectionPageHeader>
     );
@@ -194,8 +174,8 @@ const PageHeader = ({
         style={{
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`
-            : null,
-          backgroundSize: backgroundTexture ? 'cover' : null,
+            : undefined,
+          backgroundSize: backgroundTexture ? 'cover' : undefined,
         }}
       >
         {Background}
@@ -250,7 +230,7 @@ const PageHeader = ({
               </Space>
             )}
             <ConditionalWrapper
-              condition={sectionLevelPage}
+              condition={sectionLevelPage ?? false}
               wrapper={children => (
                 <Space v={{ size: 'l', properties: ['margin-top'] }}>
                   {children}

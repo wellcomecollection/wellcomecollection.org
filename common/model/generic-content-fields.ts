@@ -16,6 +16,7 @@ export type BodyType = BodySlice[];
 
 // TODO: we need to get type in here to be able to union on these
 // i.e. search results
+// TODO: These 'null's should be optional values.
 export type GenericContentFields = {
   id: string;
   title: string;
@@ -27,7 +28,7 @@ export type GenericContentFields = {
   image: ImageType | null;
   squareImage: ImageType | null;
   widescreenImage: ImageType | null;
-  superWidescreenImage: ImageType | null;
+  superWidescreenImage?: ImageType;
   metadataDescription: string | null;
   labels: Label[];
 };
