@@ -33,7 +33,7 @@ const Text = styled.span.attrs({
   className: classNames({
     [font('lr', 5)]: true,
   }),
-})`
+})<{ isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('charcoal')};
   padding: 6px;
