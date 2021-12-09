@@ -2,7 +2,7 @@ import { useRef, useEffect, FunctionComponent } from 'react';
 import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
-import FooterNav from '../FooterNav/FooterNav';
+import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
