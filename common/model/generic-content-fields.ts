@@ -27,7 +27,7 @@ export type GenericContentFields = {
   image: ImageType | null;
   squareImage: ImageType | null;
   widescreenImage: ImageType | null;
-  superWidescreenImage: ImageType | null;
+  superWidescreenImage?: ImageType;
   metadataDescription: string | null;
   labels: Label[];
 };
