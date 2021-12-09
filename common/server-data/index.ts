@@ -47,7 +47,16 @@ async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   const data = await fetch();
   const fileName = path.join(pathName, `${key}.json`);
   await fs.mkdir(pathName, { recursive: true });
-  await fs.writeFile(fileName, JSON.stringify(data));
+
+  // Write the JSON to a temp file, then rename it.  On most filesystems,
+  // the rename is an atomic operation.
+  //
+  // This means that whenever you try to read ${key}.json, you'll always get
+  // a valid JSON.  If we wrote directly to the file, you might get an
+  // empty file or invalid JSON if you tried to read while we were writing.
+  const tmpFileName = path.join(pathName, `${key}.json.tmp`);
+  await fs.writeFile(tmpFileName, JSON.stringify(data));
+  await fs.rename(tmpFileName, fileName);
 
   const timer = setTimeout(() => {
     clearTimeout(timer);
