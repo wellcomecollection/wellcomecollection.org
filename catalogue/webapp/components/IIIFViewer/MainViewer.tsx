@@ -170,7 +170,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const [imageContainerRect, setImageContainerRect] = useState<
     ClientRect | undefined
   >();
-  const [ocrText, setOcrText] = useState('');
+  const [ocrText, setOcrText] = useState(missingAltTextMessage);
 
   type OverlayPositionData = {
     canvasNumber: number;
