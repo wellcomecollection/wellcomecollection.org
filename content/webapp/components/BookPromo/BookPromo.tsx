@@ -1,10 +1,10 @@
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-import UiImage from '../Image/Image';
-import { ImageType } from '../../../model/image';
-import Space from '../styled/Space';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import UiImage from '@weco/common/views/components/Image/Image';
+import { ImageType } from '@weco/common/model/image';
+import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import LabelsList from '../LabelsList/LabelsList';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { FunctionComponent, ReactElement } from 'react';
 
 const BookPromoImageContainer = styled.div.attrs({

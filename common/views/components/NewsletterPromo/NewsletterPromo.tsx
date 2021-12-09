@@ -32,13 +32,11 @@ const ShameButtonWrap = styled.div`
   }
 `;
 
-const NewsletterForm = styled(Space).attrs({
-  as: 'form',
+const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
   id: 'newsletter-signup',
   action: 'https://r1-t.trackedlink.net/signup.ashx',
   method: 'post',
-  v: { size: 'm', properties: ['margin-bottom'] },
 })`
   display: flex;
   flex-wrap: wrap;
@@ -49,6 +47,14 @@ const NewsletterForm = styled(Space).attrs({
   label {
     flex: 1;
   }
+
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      'm',
+      ['margin-bottom'],
+      undefined,
+      undefined
+    )}
 
   ${props => props.theme.media.medium`
     flex-wrap: nowrap;

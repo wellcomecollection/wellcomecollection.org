@@ -9,7 +9,7 @@ import { UiEvent } from '@weco/common/model/events';
 import { Article } from '@weco/common/model/articles';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
+import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';

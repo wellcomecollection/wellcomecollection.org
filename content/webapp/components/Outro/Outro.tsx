@@ -101,6 +101,7 @@ const Outro = ({
                   });
                 }}
               >
+                OUTRO
                 <CompactCard
                   Image={null}
                   urlOverride={null}

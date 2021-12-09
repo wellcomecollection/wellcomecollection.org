@@ -58,7 +58,7 @@ type BackgroundType = ReactElement<typeof HeaderBackground>;
 export function getFeaturedMedia(
   fields: GenericContentFields,
   isPicture?: boolean
-): ?FeaturedMedia {
+): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
   const { squareImage, widescreenImage } = fields;
   const { body } = fields;
@@ -93,7 +93,7 @@ export function getFeaturedMedia(
 
 export function getHeroPicture(
   fields: GenericContentFields
-): ?ReactElement<typeof Picture> {
+): ReactElement<typeof Picture> | undefined {
   const { squareImage, widescreenImage } = fields;
 
   return (
