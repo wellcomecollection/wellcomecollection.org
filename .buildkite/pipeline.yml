@@ -1,4 +1,5 @@
 - label: ":docker: build common"
+  key: "build_common"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -10,6 +11,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ":docker: build cardigan"
+  key: "build_cardigan"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -21,6 +23,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ":docker: build catalogue"
+  key: "build_catalogue"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -32,6 +35,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ":docker: build content"
+  key: "build_content"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -43,6 +47,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ":docker: build edge_lambdas"
+  key: "build_edge_lambdas"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -54,6 +59,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
 - label: ":docker: build identity"
+  key: "build_identity"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -77,9 +83,8 @@
           - CI
         command: ["yarn", "diffCustomTypes"]
 
-- wait
-
 - label: "test common"
+  depends_on: "build_common"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -90,6 +95,7 @@
         command: ["yarn", "test"]
 
 - label: "test catalogue"
+  depends_on: "build_catalogue"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -100,6 +106,7 @@
         command: ["yarn", "test"]
 
 - label: "test content"
+  depends_on: "build_content"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -110,6 +117,7 @@
         command: ["yarn", "test"]
 
 - label: "test identity"
+  depends_on: "build_identity"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -120,6 +128,7 @@
         command: ["yarn", "test"]
 
 - label: "test edge_lambdas"
+  depends_on: "build_edge_lambdas"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
