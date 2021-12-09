@@ -6,6 +6,14 @@ import { trackEvent } from '../../../utils/ga';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
+type IsActiveProps = {
+  isActive: boolean;
+};
+
+type DrawerItemProps = {
+  isFirst: boolean;
+};
+
 const DrawerItem = styled(Space).attrs({
   v: {
     size: 'm',
@@ -16,7 +24,7 @@ const DrawerItem = styled(Space).attrs({
     [font('wb', 4)]: true,
     'segmented-control__drawer-item': true,
   }),
-})`
+})<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 
   ${props =>
@@ -39,6 +47,10 @@ const List = styled.ul.attrs({
   border: 1px solid ${props => props.theme.color('black')};
 `;
 
+type ItemProps = {
+  isLast: boolean;
+};
+
 const Item = styled.li.attrs({
   className: classNames({
     [font('wb', 6)]: true,
@@ -46,7 +58,7 @@ const Item = styled.li.attrs({
     'line-height-1': true,
     flex: true,
   }),
-})`
+})<ItemProps>`
   border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
@@ -56,7 +68,7 @@ const Item = styled.li.attrs({
   `}
 `;
 
-const ItemInner = styled(Space).attrs(props => ({
+const ItemInner = styled(Space).attrs<IsActiveProps>(props => ({
   as: 'a',
   v: {
     size: 'm',
@@ -73,7 +85,7 @@ const ItemInner = styled(Space).attrs(props => ({
     'transition-bg': true,
     'no-visible-focus': true,
   }),
-}))`
+}))<IsActiveProps>`
   &:hover,
   &:focus {
     background: ${props =>
@@ -83,7 +95,7 @@ const ItemInner = styled(Space).attrs(props => ({
   }
 `;
 
-const Wrapper = styled.div.attrs({})`
+const Wrapper = styled.div.attrs({})<IsActiveProps>`
   .segmented-control__drawer {
     display: none;
 
@@ -178,7 +190,7 @@ type State = {
 
 class SegmentedControl extends Component<Props, State> {
   state = {
-    activeId: null,
+    activeId: undefined,
     isActive: false,
   };
 
