@@ -2,7 +2,7 @@ import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
-import VideoEmbed from '../VideoEmbed/VideoEmbed';
+import { VideoEmbed } from '../VideoEmbed/VideoEmbed';
 import Picture from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import HighlightedHeading from './HighlightedHeading';
@@ -48,10 +48,7 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-export type FeaturedMedia =
-  | ReactElement<typeof UiImage>
-  | ReactElement<typeof VideoEmbed>
-  | ReactElement<typeof Picture>;
+export type FeaturedMedia = UiImage | VideoEmbed | Picture;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 
@@ -62,16 +59,9 @@ export function getFeaturedMedia(
   const image = fields.promo && fields.promo.image;
   const { squareImage, widescreenImage } = fields;
   const { body } = fields;
-  const tasl = image && {
-    title: image.title,
-    author: image.author,
-    sourceName: image.source && image.source.name,
-    sourceLink: image.source && image.source.link,
-    license: image.license,
-    copyrightHolder: image.copyright && image.copyright.holder,
-    copyrightLink: image.copyright && image.copyright.link,
-  };
+
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+
   const FeaturedMedia = hasFeaturedVideo ? (
     <VideoEmbed {...body[0].value} />
   ) : isPicture && widescreenImage && squareImage ? (
@@ -82,10 +72,10 @@ export function getFeaturedMedia(
       ]}
       isFull={true}
     />
-  ) : widescreenImage && tasl ? (
-    <UiImage tasl={tasl} {...widescreenImage} sizesQueries="" />
-  ) : image && tasl ? (
-    <UiImage tasl={tasl} {...image} sizesQueries="" />
+  ) : widescreenImage ? (
+    <UiImage {...widescreenImage} sizesQueries="" />
+  ) : image ? (
+    <UiImage {...image} sizesQueries="" />
   ) : null;
 
   return FeaturedMedia;
@@ -93,7 +83,7 @@ export function getFeaturedMedia(
 
 export function getHeroPicture(
   fields: GenericContentFields
-): ReactElement<typeof Picture> | undefined {
+): Picture | undefined {
   const { squareImage, widescreenImage } = fields;
 
   return (
