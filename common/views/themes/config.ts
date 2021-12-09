@@ -120,6 +120,9 @@ export const colors = {
   currentColor: { base: 'currentColor', dark: '', light: '' },
 };
 
+const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
+  colors[name][variant];
+
 export const sizes = {
   small: 0,
   medium: 600,
@@ -195,9 +198,7 @@ export const themeValues = {
   fontVerticalOffset: '0.15em',
   grid,
   colors,
-  color(name: PaletteColor, variant: ColorVariant = 'base'): string {
-    return this.colors[name][variant];
-  },
+  color: getColor,
 };
 
 export type Breakpoint = keyof typeof sizes;
