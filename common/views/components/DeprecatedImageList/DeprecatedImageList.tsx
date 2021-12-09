@@ -1,17 +1,16 @@
-// @flow
 import { CaptionedImage } from '../Images/Images';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import type { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
-import type { HTMLString } from '../../../services/prismic/types';
+import { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
+import { HTMLString } from '../../../services/prismic/types';
 
-type Props = {|
-  items: {|
-    title: string,
-    subtitle: string,
-    image: CaptionedImageType,
-    description: HTMLString,
-  |}[],
-|};
+type Props = {
+  items: {
+    title: string;
+    subtitle: string;
+    image: CaptionedImageType;
+    description: HTMLString;
+  }[];
+};
 const DeprecatedImageList = ({ items }: Props) => {
   return (
     // Missing type annotation for U.
