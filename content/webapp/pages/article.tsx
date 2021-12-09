@@ -234,7 +234,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
-      Background={null}
+      Background={undefined}
       FeaturedMedia={isImageGallery || isPodcast ? null : maybeFeaturedMedia}
       HeroPicture={isImageGallery || isPodcast ? null : maybeHeroPicture}
       heroImageBgColor={isImageGallery ? 'white' : 'cream'}
