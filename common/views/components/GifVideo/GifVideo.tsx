@@ -193,7 +193,7 @@ const GifVideo: FunctionComponent<Props> = ({
           (tasl.title ||
             tasl.sourceName ||
             tasl.copyrightHolder ||
-            tasl.license) && <Tasl {...tasl} />}
+            tasl.license) && <Tasl {...tasl} isFull={false} />}
       </div>
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
     </figure>
