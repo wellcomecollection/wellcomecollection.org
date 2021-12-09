@@ -91,6 +91,5 @@ export const staticBooks: Book[] = books.map(b => {
     datePublished: new Date(2021, 6, 2, 23, 0, 0),
     seasons: [],
     standfirst: null,
-    superWidescreenImage: null,
   };
 });
