@@ -235,8 +235,10 @@ const ArticlePage: FC<Props> = ({ article }) => {
       title={article.title}
       ContentTypeInfo={ContentTypeInfo}
       Background={undefined}
-      FeaturedMedia={isImageGallery || isPodcast ? null : maybeFeaturedMedia}
-      HeroPicture={isImageGallery || isPodcast ? null : maybeHeroPicture}
+      FeaturedMedia={
+        isImageGallery || isPodcast ? undefined : maybeFeaturedMedia
+      }
+      HeroPicture={isImageGallery || isPodcast ? undefined : maybeHeroPicture}
       heroImageBgColor={isImageGallery ? 'white' : 'cream'}
       TitleTopper={TitleTopper}
       isContentTypeInfoBeforeMedia={true}

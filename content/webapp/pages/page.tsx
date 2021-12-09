@@ -107,7 +107,9 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   );
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
   const labels =
-    !isLanding && page.format?.title ? makeLabels(page.format?.title) : null;
+    !isLanding && page.format?.title
+      ? makeLabels(page.format?.title)
+      : undefined;
 
   const backgroundTexture = isLanding
     ? landingHeaderBackgroundLs
@@ -173,7 +175,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
         backgroundTexture={backgroundTexture}
         hasWobblyEdge={!isLanding}
       />
-    ) : null;
+    ) : undefined;
 
   const Header = (
     <PageHeader
@@ -183,9 +185,9 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       FeaturedMedia={FeaturedMedia}
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
-      HeroPicture={null}
+      HeroPicture={undefined}
       backgroundTexture={
-        !FeaturedMedia && !sectionLevelPage ? backgroundTexture : null
+        !FeaturedMedia && !sectionLevelPage ? backgroundTexture : undefined
       }
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}

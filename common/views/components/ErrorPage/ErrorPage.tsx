@@ -37,7 +37,7 @@ const ErrorPage: FunctionComponent<Props> = ({
             title ||
             'This isn’t the page you’re looking for, but how about these?'
           }
-          ContentTypeInfo={null}
+          ContentTypeInfo={undefined}
           Background={undefined}
           backgroundTexture={headerBackgroundLs}
           FeaturedMedia={undefined}
