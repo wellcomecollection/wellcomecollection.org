@@ -1,14 +1,12 @@
-// @flow
 import { getEarliestFutureDateRange } from '../../../utils/dates';
-// $FlowFixMe (tsx)
 import DateRange from '../DateRange/DateRange';
-import type { UiEvent } from '../../../model/events';
-import type Moment from 'moment';
-type Props = {|
-  event: UiEvent,
-  splitTime?: boolean,
-  fromDate?: Moment,
-|};
+import { UiEvent } from '../../../model/events';
+import { Moment } from 'moment';
+type Props = {
+  event: UiEvent;
+  splitTime?: boolean;
+  fromDate?: Moment;
+};
 
 const EventDateRange = ({ event, splitTime, fromDate }: Props) => {
   const dateRanges = event.times.map(({ range }) => ({
