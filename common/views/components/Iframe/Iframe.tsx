@@ -1,14 +1,10 @@
-// @flow
 import { Component, Fragment, createRef } from 'react';
 import { trackEvent } from '../../../utils/ga';
 import { UiImage } from '../Images/Images';
-// $FlowFixMe (tsx)
 import Control from '../Buttons/Control/Control';
-// $FlowFixMe (tsx)
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import type { ImageType } from '../../../model/image';
+import { ImageType } from '../../../model/image';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import { cross } from '@weco/common/icons';
 
 export const IframeContainer = styled.div`
@@ -81,14 +77,14 @@ export const IframeContainer = styled.div`
   }
 `;
 
-type Props = {|
-  image: ImageType,
-  src: string,
-|};
+type Props = {
+  image: ImageType;
+  src: string;
+};
 
-type State = {|
-  iframeShowing: boolean,
-|};
+type State = {
+  iframeShowing: boolean;
+};
 
 class Iframe extends Component<Props, State> {
   state = {
@@ -152,11 +148,7 @@ class Iframe extends Component<Props, State> {
             src={src}
             frameBorder="0"
             scrolling="no"
-            allowvr="true"
-            allowFullScreen
-            mozallowfullscreen="true"
-            webkitallowfullscreen="true"
-            onmousewheel="true"
+            allow="fullscreen; xr-spatial-tracking"
           />
         )}
       </IframeContainer>

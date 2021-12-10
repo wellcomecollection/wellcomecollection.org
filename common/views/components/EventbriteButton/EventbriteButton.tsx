@@ -1,19 +1,13 @@
-// @flow
-import type { UiEvent } from '../../../model/events';
-// $FlowFixMe (tsx)
+import { UiEvent } from '../../../model/events';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import { ticket } from '@weco/common/icons';
 
 type Props = {
-  event: UiEvent,
+  event: UiEvent;
 };
 
 // FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}

@@ -23,7 +23,6 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '@weco/common/views/components/GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -38,9 +37,7 @@ import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
 import Discussion from '@weco/common/views/components/Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import GridFactory, {
-  sectionLevelPageGrid,
-} from '@weco/common/views/components/GridFactory/GridFactory';
+import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '@weco/common/views/components/Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { BodyType } from '@weco/common/model/generic-content-fields';
@@ -484,12 +481,6 @@ const Body: FunctionComponent<Props> = ({
                       title={slice.value.title}
                       tags={slice.value.tags}
                     />
-                  </LayoutWidth>
-                )}
-                {/* deprecated */}
-                {slice.type === 'deprecatedImageList' && (
-                  <LayoutWidth width={minWidth}>
-                    <DeprecatedImageList {...slice.value} />
                   </LayoutWidth>
                 )}
                 {slice.type === 'mediaObjectList' && (

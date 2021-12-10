@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react';
 import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
 // $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';
-import FooterWellcomeLogo from '../FooterWellcomeLogo/FooterWellcomeLogo';
+import FooterWellcomeLogo from './FooterWellcomeLogo';
 // $FlowFixMe(tsx)
 import FooterNav from '../FooterNav/FooterNav';
 // $FlowFixMe(tsx)

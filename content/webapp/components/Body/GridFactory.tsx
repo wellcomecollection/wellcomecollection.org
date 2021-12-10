@@ -1,9 +1,9 @@
-import { classNames, grid } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import { classNames, grid } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
-  items: any[],
-  overrideGridSizes?: any,
+  items: any[];
+  overrideGridSizes?: any;
 };
 
 export const sectionLevelPageGrid = {

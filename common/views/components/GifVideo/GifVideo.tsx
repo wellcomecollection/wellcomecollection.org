@@ -1,17 +1,14 @@
-// @flow
-import { useState, useEffect, useRef } from 'react';
+import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-// $FlowFixMe (ts)
 import { font, classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
-// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
-// $FlowFixMe (tsx)
 import Caption from '../Caption/Caption';
-import type { HTMLString } from '../../../services/prismic/types';
-import type { Tasl as TaslType } from '../../../model/tasl';
+import { HTMLString } from '../../../services/prismic/types';
+import { Tasl as TaslType } from '../../../model/tasl';
 import styled from 'styled-components';
+import { isNotUndefined } from '../../../utils/array';
 
 const Video = styled.video`
   max-height: 80vh;
@@ -37,7 +34,7 @@ const Text = styled.span.attrs({
   className: classNames({
     [font('lr', 5)]: true,
   }),
-})`
+})<{ isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('charcoal')};
   padding: 6px;
@@ -48,16 +45,16 @@ const Text = styled.span.attrs({
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
-type Props = {|
-  playbackRate: number,
-  videoUrl: string,
-  caption: ?HTMLString,
-  tasl: ?TaslType,
-  autoPlay: boolean,
-  loop: boolean,
-  mute: boolean,
-  showControls: boolean,
-|};
+type Props = {
+  playbackRate: number;
+  videoUrl: string;
+  caption?: HTMLString;
+  tasl?: TaslType;
+  autoPlay: boolean;
+  loop: boolean;
+  mute: boolean;
+  showControls: boolean;
+};
 
 const inViewport = (video: HTMLElement) => {
   const rect = video.getBoundingClientRect();
@@ -69,7 +66,7 @@ const inViewport = (video: HTMLElement) => {
   );
 };
 
-const GifVideo = ({
+const GifVideo: FunctionComponent<Props> = ({
   playbackRate,
   videoUrl,
   caption,
@@ -84,9 +81,9 @@ const GifVideo = ({
   const [autoPlayDisabled, setAutoPlayDisabled] = useState(
     !mute ? true : !autoPlay // we never want to autoplay something with audio on
   );
-  const [computedVideoWidth, setComputedVideoWidth] = useState(null);
-  const videoRef = useRef(null);
-  const canPlayRef = useRef();
+  const [computedVideoWidth, setComputedVideoWidth] = useState<number>(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canPlayRef = useRef<boolean>();
   canPlayRef.current = canPlay;
 
   const playVideo = (video: HTMLMediaElement) => {
@@ -115,7 +112,9 @@ const GifVideo = ({
 
   const computeVideoWidth = () => {
     const computedVideoWidth = videoRef?.current?.clientWidth;
-    setComputedVideoWidth(computedVideoWidth);
+    if (isNotUndefined(computedVideoWidth)) {
+      setComputedVideoWidth(computedVideoWidth!);
+    }
   };
 
   const manualControlGif = () => {
@@ -194,7 +193,7 @@ const GifVideo = ({
           (tasl.title ||
             tasl.sourceName ||
             tasl.copyrightHolder ||
-            tasl.license) && <Tasl {...tasl} />}
+            tasl.license) && <Tasl {...tasl} isFull={false} />}
       </div>
       {caption && <Caption width={computedVideoWidth} caption={caption} />}
     </figure>
