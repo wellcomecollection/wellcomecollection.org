@@ -46,6 +46,13 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "result",
         "toggle",
         "uri",
+
+        # This is used to fetch articles client-side, e.g. related stories.
+        # When it's missing, we may show the wrong stories as "read this next"
+        # on articles.
+        #
+        # See https://github.com/wellcomecollection/wellcomecollection.org/issues
+        "params",
       ]
 
       cookies {
