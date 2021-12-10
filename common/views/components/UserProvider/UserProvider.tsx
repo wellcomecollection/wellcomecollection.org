@@ -12,16 +12,14 @@ type Props = {
   enabled: boolean;
   user: UserInfo | undefined;
   state: State;
-  reload: () => void;
-  _updateUserState: (update: Partial<UserInfo>) => void;
+  reload: () => Promise<void>;
 };
 
 const defaultUserContext: Props = {
   enabled: false,
   user: undefined,
   state: 'initial',
-  reload: () => void 0,
-  _updateUserState: () => void 0,
+  reload: async () => void 0,
 };
 
 export const UserContext = createContext<Props>(defaultUserContext);
@@ -35,15 +33,12 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
-  const updateUserState = (update: Partial<UserInfo>) =>
-    setUser(user => (user ? { ...user, ...update } : undefined));
-
-  const fetchUser = async (abortSignal?: AbortSignal, refresh = false) => {
+  const fetchUser = async (abortSignal?: AbortSignal, refetch = false) => {
     setState('loading');
     try {
       let profileUrl = '/account/api/auth/me';
-      if (refresh) {
-        profileUrl += '?refresh=true';
+      if (refetch) {
+        profileUrl += '?refetch';
       }
       const resp = await fetch(profileUrl, {
         signal: abortSignal,
@@ -84,8 +79,6 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
               user,
               state,
               reload: () => fetchUser(undefined, true),
-              // This is intended for "internal" use only in the identity app
-              _updateUserState: updateUserState,
             }
           : defaultUserContext
       }

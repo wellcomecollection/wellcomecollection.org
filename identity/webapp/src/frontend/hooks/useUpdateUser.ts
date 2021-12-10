@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { UserInfo } from '@weco/common/model/user';
@@ -23,44 +23,45 @@ type UseUpdateUserMutation = {
 };
 
 export function useUpdateUser(): UseUpdateUserMutation {
-  const { _updateUserState } = useUser();
+  const { reload: refreshUserSession } = useUser();
   const [state, setState] = useState<State>('initial');
   const [error, setError] = useState<UpdateUserError>();
 
-  const updateUser: UseUpdateUserMutation['updateUser'] = (
+  const updateUser: UseUpdateUserMutation['updateUser'] = async (
     userDetails,
     onComplete = () => void 0
   ) => {
     setState('loading');
-    axios
-      .put('/account/api/users/me', userDetails)
-      .then(response => {
-        setState('success');
-        const updatedUser = response.data as UserInfo;
-        _updateUserState(updatedUser);
-        onComplete(updatedUser);
-      })
-      .catch((err: AxiosError) => {
-        setState('error');
-        switch (err.response?.status) {
-          case 401: {
-            setError(UpdateUserError.INCORRECT_PASSWORD);
-            break;
-          }
-          case 409: {
-            setError(UpdateUserError.EMAIL_ALREADY_EXISTS);
-            break;
-          }
-          case 429: {
-            setError(UpdateUserError.BRUTE_FORCE_BLOCKED);
-            break;
-          }
-          default: {
-            setError(UpdateUserError.UNKNOWN);
-            break;
-          }
+    try {
+      const updateResponse = await axios.put(
+        '/account/api/users/me',
+        userDetails
+      );
+      await refreshUserSession();
+      setState('success');
+      const updatedUser = updateResponse.data as UserInfo;
+      onComplete(updatedUser);
+    } catch (err) {
+      setState('error');
+      switch (err.response?.status) {
+        case 401: {
+          setError(UpdateUserError.INCORRECT_PASSWORD);
+          break;
         }
-      });
+        case 409: {
+          setError(UpdateUserError.EMAIL_ALREADY_EXISTS);
+          break;
+        }
+        case 429: {
+          setError(UpdateUserError.BRUTE_FORCE_BLOCKED);
+          break;
+        }
+        default: {
+          setError(UpdateUserError.UNKNOWN);
+          break;
+        }
+      }
+    }
   };
 
   return { updateUser, state, error };

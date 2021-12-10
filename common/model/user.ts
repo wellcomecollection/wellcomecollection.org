@@ -35,12 +35,13 @@ const auth0IdToPublic = (subjectClaim: string): string => {
 };
 
 export const auth0UserProfileToUserInfo = (
-  auth0Profile: Auth0UserProfile
-): UserInfo => ({
-  firstName: auth0Profile.given_name,
-  lastName: auth0Profile.family_name,
-  email: auth0Profile.email,
-  emailValidated: !!auth0Profile.email_verified,
-  barcode: auth0Profile['https://wellcomecollection.org/patron_barcode'],
-  userId: auth0IdToPublic(auth0Profile.sub),
-});
+  auth0Profile?: Auth0UserProfile
+): UserInfo | undefined =>
+  auth0Profile && {
+    firstName: auth0Profile.given_name,
+    lastName: auth0Profile.family_name,
+    email: auth0Profile.email,
+    emailValidated: !!auth0Profile.email_verified,
+    barcode: auth0Profile['https://wellcomecollection.org/patron_barcode'],
+    userId: auth0IdToPublic(auth0Profile.sub),
+  };

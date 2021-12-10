@@ -9,4 +9,7 @@ export default auth0.handleAuth({
       returnTo: Array.isArray(returnTo) ? returnTo[0] : returnTo,
     });
   },
+  profile: async (req, res) => {
+    return auth0.handleProfile(req, res, { refetch: 'refetch' in req.query });
+  },
 });

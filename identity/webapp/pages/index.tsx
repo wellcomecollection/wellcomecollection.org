@@ -41,6 +41,7 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
@@ -49,7 +50,6 @@ import { useRouter } from 'next/router';
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
-  UserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
 
@@ -154,10 +154,14 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const user: UserInfo | undefined =
-    auth0UserClaims &&
+
+  // Use the user from the context provider as first preference, as it will
+  // change without a page reload being required
+  const user =
+    contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   const router = useRouter();
