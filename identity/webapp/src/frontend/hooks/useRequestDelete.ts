@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { RequestDeleteSchema } from '../../types/schemas/request-delete';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum RequestDeleteError { // eslint-disable-line no-shadow
   INCORRECT_PASSWORD,
@@ -23,11 +22,8 @@ export function useRequestDelete(): UseRequestDeleteMutation {
 
   const requestDelete = (requestDeleteBody: RequestDeleteSchema) => {
     setIsLoading(true);
-    callMiddlewareApi(
-      'PUT',
-      '/account/api/users/me/deletion-request',
-      requestDeleteBody
-    )
+    axios
+      .put('/account/api/users/me/deletion-request', requestDeleteBody)
       .then(() => {
         setIsSuccess(true);
       })

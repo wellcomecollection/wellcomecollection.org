@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { UserInfo } from '@weco/common/model/user';
 
@@ -33,7 +32,8 @@ export function useUpdateUser(): UseUpdateUserMutation {
     onComplete = () => void 0
   ) => {
     setState('loading');
-    callMiddlewareApi('PUT', '/account/api/users/me', userDetails)
+    axios
+      .put('/account/api/users/me', userDetails)
       .then(response => {
         setState('success');
         const updatedUser = response.data as UserInfo;

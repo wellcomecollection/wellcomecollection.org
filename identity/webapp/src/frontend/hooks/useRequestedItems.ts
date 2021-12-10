@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import axios from 'axios';
 import { RequestsList } from '@weco/common/model/requesting';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
 import {
   abortErrorHandler,
   useAbortSignalEffect,
@@ -23,12 +23,9 @@ export function useRequestedItems(): UseRequestedItems {
   async function fetchRequests(abortSignal?: AbortSignal) {
     setState('loading');
     try {
-      const items = await callMiddlewareApi(
-        'GET',
-        `/account/api/users/me/item-requests`,
-        undefined,
-        { signal: abortSignal }
-      );
+      const items = await axios.get(`/account/api/users/me/item-requests`, {
+        signal: abortSignal,
+      });
       if (items.data) {
         setRequestedItems(items.data);
         setState('success');
