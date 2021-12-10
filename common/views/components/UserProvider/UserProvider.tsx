@@ -12,7 +12,7 @@ type Props = {
   enabled: boolean;
   user: UserInfo | undefined;
   state: State;
-  reload: () => Promise<void>;
+  reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
 const defaultUserContext: Props = {
@@ -78,7 +78,8 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
               enabled,
               user,
               state,
-              reload: () => fetchUser(undefined, true),
+              reload: (abortSignal?: AbortSignal) =>
+                fetchUser(abortSignal, true),
             }
           : defaultUserContext
       }
