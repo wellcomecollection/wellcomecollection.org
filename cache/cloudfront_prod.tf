@@ -63,8 +63,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = local.default_origin_id
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -121,8 +121,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/works*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -180,8 +180,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/account*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["*"]
@@ -201,8 +201,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/images*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -252,8 +252,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       headers      = ["Host"]
@@ -277,8 +277,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       headers      = ["Host"]
@@ -297,8 +297,8 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 60
-    max_ttl                = 60
+    default_ttl            = local.one_minute
+    max_ttl                = local.one_minute
 
     forwarded_values {
       headers      = ["Host"]
@@ -320,9 +320,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
-    default_ttl            = 86400
-    max_ttl                = 3153600
+    min_ttl                = local.one_day
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       query_string = false
@@ -339,9 +339,9 @@ resource "aws_cloudfront_distribution" "wellcomecollection_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
-    default_ttl            = 86400
-    max_ttl                = 3153600
+    min_ttl                = local.one_day
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       query_string = false
