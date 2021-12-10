@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import type { MultiContent } from '@weco/common/model/multi-content';
 import { grid } from '@weco/common/utils/classnames';
@@ -21,12 +21,12 @@ type Props = {
   showPosition?: boolean;
 };
 
-const SearchResults = ({
+const SearchResults: FunctionComponent<Props> = ({
   items,
   title,
   summary,
   showPosition = false,
-}: Props) => (
+}) => (
   <Fragment>
     {title && (
       <Space
