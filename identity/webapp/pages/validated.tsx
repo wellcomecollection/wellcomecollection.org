@@ -15,7 +15,10 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { useAbortSignalEffect } from '@weco/common/hooks/useAbortSignalEffect';
+import {
+  abortErrorHandler,
+  useAbortSignalEffect,
+} from '@weco/common/hooks/useAbortSignalEffect';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState, reload: reloadUserSession } = useUser();
@@ -29,7 +32,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   useAbortSignalEffect(
     abortSignal => {
       if (success && userState === 'signedin' && !userWasRefreshed.current) {
-        reloadUserSession(abortSignal);
+        reloadUserSession(abortSignal).catch(abortErrorHandler);
         userWasRefreshed.current = true;
       }
     },

@@ -50,8 +50,8 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
 
         case 200:
           const data: Auth0UserProfile = await resp.json();
-          setState('signedin');
           setUser(auth0UserProfileToUserInfo(data));
+          setState('signedin');
           break;
 
         default:
