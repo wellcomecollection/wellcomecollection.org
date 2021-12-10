@@ -18,6 +18,7 @@ import {
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { EventPrismicDocument } from './events';
 
 export type WithSeries = {
   series: GroupField<{
@@ -31,6 +32,15 @@ export type WithSeries = {
 export const seriesFetchLink: FetchLinks<SeriesPrismicDocument> = [
   'series.title',
   'series.promo',
+];
+
+export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
+  'events.audiences',
+  'events.schedule',
+  'events.interpretations',
+  'events.series',
+  'events.times',
+  'events.place',
 ];
 
 export type ArticlePrismicDocument = PrismicDocument<
@@ -55,4 +65,5 @@ export const articlesFetchLinks = [
   ...articleFormatsFetchLinks,
   ...contributorFetchLinks,
   ...seriesFetchLink,
+  ...eventsFetchLinks,
 ];
