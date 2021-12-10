@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect } from 'react';
 import { Article } from '@weco/common/model/articles';
+import { ArticleSeries } from '@weco/common/model/article-series';
 import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -69,8 +70,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
+type ArticleSeriesList = {
+  series: ArticleSeries;
+  articles: Article[];
+}[];
+
 const ArticlePage: FC<Props> = ({ article }) => {
-  const [listOfSeries, setListOfSeries] = useState<any[]>();
+  const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
     async function setSeries() {
@@ -87,7 +93,8 @@ const ArticlePage: FC<Props> = ({ article }) => {
             predicates: [`[at(${seriesField}, "${series.id}")]`],
           }));
 
-        const articles = articlesInSeries?.results.map(parseArticleDoc);
+        const articles =
+          articlesInSeries?.results.map(doc => parseArticleDoc(doc)) ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);
@@ -269,13 +276,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           const dedupedArticles = articles
             .filter(a => a.id !== article.id)
             .slice(0, 2);
-          return (
-            <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={dedupedArticles}
-            />
-          );
+          return <SeriesNavigation series={series} items={dedupedArticles} />;
         }
       })
       .filter(Boolean);

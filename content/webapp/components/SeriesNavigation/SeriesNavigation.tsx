@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
@@ -12,7 +13,7 @@ type Props = {
   items: readonly (Article | ArticleScheduleItem)[];
 };
 
-const SeriesNavigation = ({ series, items }: Props) => {
+const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
   const showPosition = !!(series.schedule && series.schedule.length > 0);
   return (
     <SpacingComponent>
