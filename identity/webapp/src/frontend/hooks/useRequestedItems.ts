@@ -31,7 +31,7 @@ export function useRequestedItems(): UseRequestedItems {
         setState('success');
       }
     } catch (e) {
-      if (e.name !== 'AbortError') {
+      if (!abortSignal?.aborted) {
         setState('failed');
       }
     }

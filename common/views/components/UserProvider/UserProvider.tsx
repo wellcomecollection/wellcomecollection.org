@@ -50,8 +50,12 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
 
         case 200:
           const data: Auth0UserProfile = await resp.json();
-          setUser(auth0UserProfileToUserInfo(data));
-          setState('signedin');
+          // There is a race condition here where the cancel can happen
+          // after the fetch has finished but before the response has been deserialised
+          if (!abortSignal?.aborted) {
+            setUser(auth0UserProfileToUserInfo(data));
+            setState('signedin');
+          }
           break;
 
         default:
@@ -59,7 +63,7 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
           setState('failed');
       }
     } catch (e) {
-      if (e.name !== 'AbortError') {
+      if (!abortSignal?.aborted) {
         console.error('Failed fetching user', e);
         setState('failed');
       }
