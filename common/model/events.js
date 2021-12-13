@@ -3,7 +3,6 @@
 import { isDatePast } from '../utils/format-date';
 import type { GenericContentFields } from './generic-content-fields';
 import type { Format } from './format';
-import type { HTMLString } from './content-blocks';
 import type { BackgroundTexture } from './background-texture';
 import type { ImageType } from './image';
 import type { LabelField } from './label-field';
@@ -25,7 +24,7 @@ export type EventTime = {|
 export type EventSeries = {|
   id: string,
   title: string,
-  description: ?HTMLString,
+  description: ?string,
 |};
 
 export type UiEventSeries = {|
