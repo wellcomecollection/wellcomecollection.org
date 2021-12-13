@@ -184,7 +184,7 @@ const Modal: FunctionComponent<Props> = ({
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const lastFocusableRef = useRef<HTMLInputElement | null>(null);
-  const modalRef: RefObject<HTMLDivElement> = createRef();
+  const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = overrideDefaultModalStyle
     ? ModalWindowPaddingNoOverflow
@@ -200,7 +200,7 @@ const Modal: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    const focusables = modalRef &&
+    const focusables: HTMLInputElement[] | null = modalRef &&
       modalRef.current && [
         ...getFocusableElements<HTMLInputElement>(modalRef.current),
       ];
@@ -240,7 +240,7 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, lastFocusableRef);
+  useFocusTrap(closeButtonRef, lastFocusableRef!);
 
   return (
     <>

@@ -12,10 +12,10 @@ import {
   workFixture,
   workWithPartOf,
 } from '@weco/common/test/fixtures/catalogueApi/work';
-import { uiTree, idArray } from '@weco/common/test/fixtures/uiTree/uiTree';
+import { uiTree, idArray } from '../__mocks__/uiTree';
 
 describe('getProductionDates', () => {
-  it('should extract date labels from a work', () => {
+  it('extracts date labels from a work', () => {
     const dateLabel = getProductionDates(workFixture);
 
     expect(dateLabel).toStrictEqual(['[between 1990 and 1999?]']);
@@ -35,7 +35,7 @@ describe('getItemsWith', () => {
 });
 
 describe('getWorkIdentifiersWith', () => {
-  it('should get the work identifiers indicated by the parameters', () => {
+  it('gets the work identifiers indicated by the parameters', () => {
     const identifiers = getWorkIdentifiersWith(workFixture, {
       identifierId: 'sierra-system-number',
     });

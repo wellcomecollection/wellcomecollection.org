@@ -1,23 +1,22 @@
-// @flow
-import { type WorksRouteProps } from './routes';
+import { WorksRouteProps } from './routes';
 
-function toIsoDateString(s: ?string): ?string {
+function toIsoDateString(s: string | undefined): string | undefined {
   if (s) {
     try {
       return new Date(s).toISOString().split('T')[0];
     } catch (e) {
-      return null;
+      return undefined;
     }
   }
-  return null;
+  return undefined;
 }
 
-export type CatalogueWorksApiProps = {|
-  query: ?string,
-  page: ?number,
-  workType: ?(string[]),
-  'items.locations.locationType': ?(string[]),
-  'items.locations.accessConditions.status': ?((
+export type CatalogueWorksApiProps = {
+  query?: string;
+  page?: number;
+  workType?: string[];
+  'items.locations.locationType'?: string[];
+  'items.locations.accessConditions.status'?: (
     | 'open'
     | 'open-with-advisory'
     | 'restricted'
@@ -32,28 +31,28 @@ export type CatalogueWorksApiProps = {|
     | '!licensed-resources'
     | '!unavailable'
     | '!permission-required'
-  )[]),
-  availabilities: ?(string[]),
-  sort: ?string,
-  sortOrder: ?string,
-  'production.dates.from': ?string,
-  'production.dates.to': ?string,
-  _queryType: ?string,
-  aggregations: ?(string[]),
-|};
+  )[];
+  availabilities?: string[];
+  sort?: string;
+  sortOrder?: string;
+  'production.dates.from'?: string;
+  'production.dates.to'?: string;
+  _queryType?: string;
+  aggregations?: string[];
+};
 
-export type CatalogueImagesApiProps = {|
-  query: ?string,
-  page: ?number,
-  'locations.license': ?(string[]),
-  'source.genres.label': ?(string[]),
-  'source.contributors.agent.label': ?(string[]),
-  color: ?string,
-|};
+export type CatalogueImagesApiProps = {
+  query?: string;
+  page?: number;
+  'locations.license'?: string[];
+  'source.genres.label'?: string[];
+  'source.contributors.agent.label'?: string[];
+  color?: string;
+};
 
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
-  overrides: $Shape<CatalogueWorksApiProps>
+  overrides: CatalogueWorksApiProps
 ): CatalogueWorksApiProps {
   return {
     query: worksRouteProps.query,

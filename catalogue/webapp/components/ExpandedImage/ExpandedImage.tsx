@@ -192,9 +192,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined
   >();
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLInputElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const endRef = useRef<HTMLElement>();
+  const endRef = useRef<HTMLInputElement>();
 
   const workId = image.source.id;
   const displayTitle = detailedWork?.title ?? '';
@@ -202,7 +202,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const focusables =
-      (modalRef?.current && [...getFocusableElements(modalRef.current)]) || [];
+      (modalRef?.current && [
+        ...getFocusableElements<HTMLInputElement>(modalRef.current),
+      ]) ||
+      [];
 
     endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);

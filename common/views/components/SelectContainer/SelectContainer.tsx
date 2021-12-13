@@ -1,22 +1,20 @@
-// @flow
-import { useContext, type Element } from 'react';
-// $FlowFixMe (tsx)
+import { useContext, ReactElement } from 'react';
 import { chevron } from '@weco/common/icons';
-// $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
 
-const StyledSelect = styled.div.attrs(props => ({
+type IsKeyboardProps = {
+  isKeyboard: boolean;
+};
+
+const StyledSelect = styled.div.attrs({
   className: classNames({
     [font('hnr', 5)]: true,
   }),
-}))`
+})<IsKeyboardProps>`
   position: relative;
 
   .icon {
@@ -57,8 +55,8 @@ const StyledSelect = styled.div.attrs(props => ({
 `;
 
 type Props = {
-  label: string,
-  children: Element<'select'>,
+  label: string;
+  children: ReactElement<'select'>;
 };
 
 const SelectContainer = ({ label, children }: Props) => {

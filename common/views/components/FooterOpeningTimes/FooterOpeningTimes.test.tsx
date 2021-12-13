@@ -43,7 +43,7 @@ describe('FooterOpeningTimes', () => {
       },
     };
     spyOnGetTodaysVenueHours.mockImplementation(() => {
-      return null;
+      return undefined;
     });
 
     const component = mountWithTheme(
@@ -57,7 +57,7 @@ describe('FooterOpeningTimes', () => {
     expect(footerOpeningTimes.find('li').length).toEqual(0);
   });
 
-  it('Should render venue opening times as closed', () => {
+  it('renders venue opening times as closed', () => {
     const mockOpeningTimes = {
       collectionOpeningTimes: {
         placesOpeningHours: [
@@ -67,13 +67,13 @@ describe('FooterOpeningTimes', () => {
             name: 'Shop',
             openingHours: {
               regular: [
-                { dayOfWeek: 'Monday', opens: null, closes: null },
-                { dayOfWeek: 'Tuesday', opens: null, closes: null },
-                { dayOfWeek: 'Wednesday', opens: null, closes: null },
-                { dayOfWeek: 'Thursday', opens: null, closes: null },
-                { dayOfWeek: 'Friday', opens: null, closes: null },
-                { dayOfWeek: 'Saturday', opens: null, closes: null },
-                { dayOfWeek: 'Sunday', opens: null, closes: null },
+                { dayOfWeek: 'Monday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Tuesday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Wednesday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Thursday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Friday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Saturday', opens: undefined, closes: undefined },
+                { dayOfWeek: 'Sunday', opens: undefined, closes: undefined },
               ],
               exceptional: [],
             },
@@ -83,7 +83,7 @@ describe('FooterOpeningTimes', () => {
     };
 
     spyOnGetTodaysVenueHours.mockImplementation(() => {
-      return { dayOfWeek: 'Wednesday', opens: null, closes: null };
+      return { dayOfWeek: 'Wednesday', opens: undefined, closes: undefined };
     });
     const component = shallowWithTheme(
       <FooterOpeningTimes
