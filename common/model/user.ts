@@ -14,8 +14,11 @@ export type Auth0UserProfile = {
   email: string;
   email_verified?: boolean;
   updated_at: string;
+  picture?: string;
+  name: string;
   given_name: string;
   family_name: string;
+  nickname: string;
   'https://wellcomecollection.org/patron_barcode': string;
 };
 /* eslint-enable camelcase */
