@@ -62,8 +62,6 @@ const SearchResults: FunctionComponent<Props> = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -84,8 +82,6 @@ const SearchResults: FunctionComponent<Props> = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -106,8 +102,6 @@ const SearchResults: FunctionComponent<Props> = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -120,17 +114,13 @@ const SearchResults: FunctionComponent<Props> = ({
         )}
         {item.type === 'article-schedule-items' && (
           <CompactCard
-            url={null}
             title={item.title || ''}
             partNumber={item.partNumber}
             color={item.color}
             primaryLabels={[{ text: 'Story' }]}
             secondaryLabels={[]}
             description={`Available ${formatDate(item.publishDate)}`}
-            urlOverride={null}
             Image={<ImagePlaceholder color={item.color} />}
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -146,7 +136,6 @@ const SearchResults: FunctionComponent<Props> = ({
             primaryLabels={item.labels}
             secondaryLabels={[]}
             description={item.promoText}
-            urlOverride={null}
             Image={
               item.image &&
               item.image.crops &&
@@ -154,8 +143,6 @@ const SearchResults: FunctionComponent<Props> = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}

@@ -1,28 +1,25 @@
-// @flow
-import React, { Fragment } from 'react';
-// $FlowFixMe (ts)
+import React, { Fragment, FunctionComponent, ReactElement } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
-import type { Element } from 'react';
-import type { LabelField } from '../../../model/label-field';
-// $FlowFixMe (tsx)
+import { LabelField } from '../../../model/label-field';
 import Space from '../styled/Space';
+import { IconSvg } from '../../../icons';
 
-type Props = {|
-  title: string,
-  items: {|
-    ...LabelField,
-    icon: ?React$StatelessFunctionalComponent<{}>,
-  |}[],
-  children: Element<'p'>,
-|};
+type InfoBoxItem = LabelField & {
+  icon?: IconSvg;
+};
 
-const InfoBox = ({ title, items, children }: Props) => {
+type Props = {
+  title: string;
+  items: InfoBoxItem[];
+  children: ReactElement<'p'>;
+};
+
+const InfoBox: FunctionComponent<Props> = (props: Props) => {
   return (
     <Fragment>
-      <h2 className="h2">{title}</h2>
+      <h2 className="h2">{props.title}</h2>
       <Space
         v={{
           size: 'l',
@@ -33,7 +30,7 @@ const InfoBox = ({ title, items, children }: Props) => {
           'bg-yellow': true,
         })}
       >
-        {items.map(({ title, description, icon }, i) => (
+        {props.items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
             <div className={font('hnb', 4)}>
               {icon && (title || description) && (
@@ -63,7 +60,7 @@ const InfoBox = ({ title, items, children }: Props) => {
             </div>
           </Fragment>
         ))}
-        {children}
+        {props.children}
       </Space>
     </Fragment>
   );

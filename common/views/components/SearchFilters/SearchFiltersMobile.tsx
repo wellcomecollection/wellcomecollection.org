@@ -295,7 +295,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     const focusables =
       filtersModalRef &&
       filtersModalRef.current &&
-      getFocusableElements(filtersModalRef.current);
+      getFocusableElements<HTMLDivElement>(filtersModalRef.current);
 
     if (isActive) {
       setPageScrollLock(true);

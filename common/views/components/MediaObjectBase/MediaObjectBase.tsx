@@ -23,24 +23,23 @@ import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 
 type Props = {
-  url: string | null;
+  url?: string;
   title: string;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  description: string | ReactElement | null;
-  urlOverride: string | null;
+  description?: string | ReactElement;
+  urlOverride?: string;
   extraClasses?: string;
-  partNumber: number | undefined;
+  partNumber?: number;
   partDescription: 'Part' | 'Episode';
-  color: ColorSelection | undefined;
-  Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
-  DateInfo:
+  color?: ColorSelection;
+  Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
+  DateInfo?:
     | ReactElement<typeof DateRange>
-    | ReactElement<typeof EventDateRange>
-    | null;
-  StatusIndicator: ReactElement<typeof StatusIndicator> | null;
-  ExtraInfo?: ReactNode | null;
-  xOfY: { x: number; y: number } | undefined;
+    | ReactElement<typeof EventDateRange>;
+  StatusIndicator?: ReactElement<typeof StatusIndicator>;
+  ExtraInfo?: ReactNode;
+  xOfY?: { x: number; y: number };
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;

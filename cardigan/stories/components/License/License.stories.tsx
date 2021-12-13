@@ -1,4 +1,4 @@
-import License from '@weco/common/views/components/License/License';
+import License from '@weco/catalogue/components/License/License';
 import { getLicenseInfo } from '@weco/common/utils/licenses';
 
 const Template = args => <License {...args} />;

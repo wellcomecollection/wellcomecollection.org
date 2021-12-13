@@ -9,19 +9,11 @@ const extraClass = 'my_extra_extra_class';
 describe('CompactCard', () => {
   const componentWithImage = mountWithTheme(
     <CompactCard
-      url={null}
       title={mockData.title}
       Image={<Image {...mockData.image.crops.square} />}
-      partNumber={null}
-      color={null}
-      StatusIndicator={null}
       description={mockData.text}
-      urlOverride={null}
-      DateInfo={null}
-      ExtraInfo={null}
       primaryLabels={[]}
       secondaryLabels={[]}
-      xOfY={{ x: null, y: null }}
       extraClasses={extraClass}
     />
   );

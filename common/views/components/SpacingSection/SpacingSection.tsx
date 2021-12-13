@@ -1,14 +1,11 @@
-// @flow
-
-import type { Node } from 'react';
-// $FlowFixMe (tsx)
+import { FunctionComponent, ReactNode } from 'react';
 import Space from '../styled/Space';
 
-type Props = {|
-  children: Node,
-|};
+type Props = {
+  children: ReactNode;
+};
 
-const SpacingSection = ({ children }: Props) => {
+const SpacingSection: FunctionComponent<Props> = ({ children }: Props) => {
   return (
     <Space v={{ size: 'xl', properties: ['padding-bottom'] }}>{children}</Space>
   );

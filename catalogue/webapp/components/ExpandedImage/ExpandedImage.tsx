@@ -12,7 +12,7 @@ import {
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
-import License from '@weco/common/views/components/License/License';
+import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import {

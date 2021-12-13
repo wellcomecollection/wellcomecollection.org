@@ -69,9 +69,6 @@ const ShameWhatWeDoHack = () => (
       primaryLabels={[]}
       secondaryLabels={[]}
       description="Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more."
-      urlOverride={null}
-      partNumber={undefined}
-      color={undefined}
       Image={
         <Image
           contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}
@@ -81,9 +78,6 @@ const ShameWhatWeDoHack = () => (
           tasl={null}
         />
       }
-      DateInfo={null}
-      StatusIndicator={null}
-      ExtraInfo={null}
       xOfY={{ x: 1, y: 1 }}
     />
   </Layout8>
