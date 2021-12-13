@@ -4,7 +4,7 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
 import { LabelField } from '../../../model/label-field';
 import Space from '../styled/Space';
-import { IconSvg } from 'icons';
+import { IconSvg } from '../../../icons';
 
 type InfoBoxItem = LabelField & {
   icon?: IconSvg;
