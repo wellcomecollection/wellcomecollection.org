@@ -33,7 +33,7 @@ type Props = {
     | ReactElement<typeof EventDateRange>;
   StatusIndicator?: ReactElement<typeof StatusIndicator>;
   ExtraInfo?: ReactNode;
-  xOfY: { x: number; y: number };
+  xOfY?: { x: number; y: number };
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;
