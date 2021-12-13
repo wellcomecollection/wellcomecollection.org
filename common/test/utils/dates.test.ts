@@ -2,7 +2,7 @@
 // import { london } from '../../utils/format-date';
 // import { getEarliestFutureDateRange } from '../../utils/dates';
 
-it('should get the earliest future date', () => {
+it('gets the earliest future date', () => {
   // const rightAnswer = {
   //   start: london()
   //     .add(1, 'minute')
