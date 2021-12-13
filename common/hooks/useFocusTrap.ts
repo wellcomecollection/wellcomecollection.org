@@ -1,7 +1,7 @@
 import { useEffect, RefObject } from 'react';
 
 const useFocusTrap = (
-  startRef: RefObject<HTMLDivElement>,
+  startRef: RefObject<HTMLButtonElement> | RefObject<HTMLDivElement>,
   endRef: RefObject<HTMLButtonElement> | RefObject<HTMLInputElement>
 ) => {
   function handleTrapStartKeyDown(event) {
