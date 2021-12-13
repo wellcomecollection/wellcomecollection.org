@@ -1,12 +1,9 @@
-// @flow
+import { useEffect, RefObject } from 'react';
 
-import { useEffect, type ElementRef } from 'react';
-
-type TrapElRef = {|
-  current: ElementRef<any>,
-|};
-
-const useFocusTrap = (startRef: TrapElRef, endRef: TrapElRef) => {
+const useFocusTrap = (
+  startRef: RefObject<HTMLDivElement>,
+  endRef: RefObject<HTMLButtonElement> | RefObject<HTMLInputElement>
+) => {
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.key === 'Tab') {
       event.preventDefault();
