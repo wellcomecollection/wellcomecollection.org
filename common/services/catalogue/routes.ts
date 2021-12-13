@@ -119,7 +119,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
     };
   },
 
-  toLink(params) {
+  toLink(params: WorksRouteProps) {
     const pathname = '/works';
     const { source, ...paramsWithoutSource } = params;
 
@@ -135,7 +135,7 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
     };
   },
 
-  toQuery(params) {
+  toQuery(params: WorksRouteProps) {
     return serialiseUrl({
       query: params.query,
       page: params.page,
@@ -191,6 +191,7 @@ export type ItemRouteProps = {
   workId: string;
   langCode: string;
   canvas: number;
+  manifest?: number;
   sierraId?: string;
   isOverview?: boolean;
   page: number;
@@ -204,6 +205,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
       langCode = 'eng',
       canvas,
       sierraId,
+      manifest,
       isOverview,
       page,
       pageSize,
@@ -214,6 +216,7 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
       sierraId: maybeString(sierraId),
       pageSize: pageSize ? parseInt(pageSize, 10) : 4,
       canvas: defaultTo1(canvas),
+      manifest: defaultTo1(manifest),
       isOverview: Boolean(isOverview),
       page: defaultTo1(page),
     };
