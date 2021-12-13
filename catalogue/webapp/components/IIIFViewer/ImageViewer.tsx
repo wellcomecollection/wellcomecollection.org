@@ -67,7 +67,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
-    root: mainAreaRef?.current ? mainAreaRef?.current : undefined,
+    root: mainAreaRef?.current || undefined,
     ref: imageViewer || undefined,
     threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });
