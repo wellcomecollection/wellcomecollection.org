@@ -9,7 +9,6 @@ export const uiTree: UiTree = [
       alternativeTitles: [],
       referenceNumber: 'PP/CRI',
       type: 'Collection',
-      availableOnline: false,
     },
     children: [
       {
