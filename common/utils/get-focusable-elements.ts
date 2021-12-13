@@ -1,5 +1,3 @@
-// @flow
-
 // https://gomakethings.com/how-to-get-the-first-and-last-focusable-elements-in-the-dom/
 const getFocusableElements = (el: HTMLElement): HTMLElement[] => {
   return [
