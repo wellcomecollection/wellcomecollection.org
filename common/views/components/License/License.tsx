@@ -1,8 +1,7 @@
-// @flow
-import type { LicenseData } from '../../../utils/licenses';
-type Props = {|
-  license: LicenseData,
-|};
+import { LicenseData } from '../../../utils/licenses';
+type Props = {
+  license: LicenseData;
+};
 
 const License = ({ license }: Props) => {
   return (
