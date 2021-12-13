@@ -280,7 +280,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
     };
   }, []);
 
-  useFocusTrap(closeButtonRef, endRef);
+  useFocusTrap(closeButtonRef, endRef!);
 
   const iiifImageLocation = image.locations[0];
   const license =
