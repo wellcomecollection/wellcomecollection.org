@@ -2,6 +2,7 @@ import { CaptionedImage } from '../Images/Images';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
 import { HTMLString } from '../../../services/prismic/types';
+import { FunctionComponent } from 'react';
 
 type Props = {
   items: {
@@ -11,21 +12,20 @@ type Props = {
     description: HTMLString;
   }[];
 };
-const DeprecatedImageList = ({ items }: Props) => {
+const DeprecatedImageList: FunctionComponent<Props> = ({ items }: Props) => {
   return (
-    // Missing type annotation for U.
-    // Not sure why I am getting the above, don't really care as this is deprecated.
-    // $FlowFixMe
-    items.map((item, i) => (
-      <div className="body-text" key={i}>
-        <h2>{item.title}</h2>
-        <CaptionedImage
-          {...item.image}
-          sizesQueries="(min-width: 1540px) 1402px, (min-width: 600px) 92.39vw, 100vw"
-        />
-        <PrismicHtmlBlock html={item.description} />
-      </div>
-    ))
+    <>
+      {items.map((item, i) => (
+        <div className="body-text" key={i}>
+          <h2>{item.title}</h2>
+          <CaptionedImage
+            {...item.image}
+            sizesQueries="(min-width: 1540px) 1402px, (min-width: 600px) 92.39vw, 100vw"
+          />
+          <PrismicHtmlBlock html={item.description} />
+        </div>
+      ))}
+    </>
   );
 };
 
