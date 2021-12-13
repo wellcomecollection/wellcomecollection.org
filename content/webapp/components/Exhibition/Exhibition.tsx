@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, FunctionComponent } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -16,6 +16,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { Page } from '@weco/common/model/pages';
 import Space from '@weco/common/views/components/styled/Space';
+import { LabelField } from '@weco/common/model/label-field';
 import {
   calendar,
   clock,
@@ -25,18 +26,26 @@ import {
   a11YVisual,
   information,
   family,
+  IconSvg,
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
+import { isNotUndefined } from '@weco/common/utils/array';
 
-function getUpcomingExhibitionObject(exhibition) {
+type ExhibitionItem = LabelField & {
+  icon?: IconSvg;
+};
+
+function getUpcomingExhibitionObject(
+  exhibition: UiExhibition
+): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
-        id: null,
-        title: null,
+        id: undefined,
+        title: undefined,
         description: [
           {
             type: 'paragraph',
@@ -46,13 +55,13 @@ function getUpcomingExhibitionObject(exhibition) {
         ],
         icon: calendar,
       }
-    : null;
+    : undefined;
 }
 
-function getadmissionObject() {
+function getadmissionObject(): ExhibitionItem {
   return {
-    id: null,
-    title: null,
+    id: undefined,
+    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -64,12 +73,12 @@ function getadmissionObject() {
   };
 }
 
-function getTodaysHoursObject() {
+function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
   return {
-    id: null,
-    title: null,
+    id: undefined,
+    title: undefined,
     description: [
       {
         type: 'paragraph',
@@ -90,11 +99,11 @@ function getTodaysHoursObject() {
   };
 }
 
-function getPlaceObject(exhibition) {
+function getPlaceObject(exhibition: UiExhibition): ExhibitionItem | undefined {
   return (
     exhibition.place && {
-      id: null,
-      title: null,
+      id: undefined,
+      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -107,28 +116,28 @@ function getPlaceObject(exhibition) {
   );
 }
 
-// These options are defined in exhibition-resources.js
-const resourceIcons: { [key: string]: FunctionComponent } = {
+// These options are defined in exhibition-resources.ts
+const resourceIcons: { [key: string]: IconSvg } = {
   information: information,
   family: family,
 };
 
-function getResourcesItems(exhibition) {
+function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
-      id: null,
-      title: null,
+      id: undefined,
+      title: undefined,
       description: resource.description,
       icon: resource.icon ? resourceIcons[resource.icon] : undefined,
     };
   });
 }
 
-function getAccessibilityItems() {
+function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
-      id: null,
-      title: null,
+      id: undefined,
+      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -139,8 +148,8 @@ function getAccessibilityItems() {
       icon: a11Y,
     },
     {
-      id: null,
-      title: null,
+      id: undefined,
+      title: undefined,
       description: [
         {
           type: 'paragraph',
@@ -153,7 +162,7 @@ function getAccessibilityItems() {
   ];
 }
 
-export function getInfoItems(exhibition: UiExhibition) {
+export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
@@ -161,7 +170,7 @@ export function getInfoItems(exhibition: UiExhibition) {
     getPlaceObject(exhibition),
     ...getResourcesItems(exhibition),
     ...getAccessibilityItems(),
-  ].filter(Boolean);
+  ].filter(isNotUndefined);
 }
 
 type Props = {
