@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { RegisterUserSchema } from '../../types/schemas/register-user';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum RegistrationError { // eslint-disable-line no-shadow
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
@@ -23,7 +22,8 @@ export function useRegisterUser(): UseRegisterUserMutation {
 
   const registerUser = (userDetails: RegisterUserSchema) => {
     setIsLoading(true);
-    callMiddlewareApi('POST', '/account/api/user/create', userDetails)
+    axios
+      .post('/account/api/user/create', userDetails)
       .then(() => {
         setIsLoading(false);
         setIsSuccess(true);

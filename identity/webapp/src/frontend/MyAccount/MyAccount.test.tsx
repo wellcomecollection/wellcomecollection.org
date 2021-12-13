@@ -2,15 +2,15 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import AccountPage from '../../../pages';
 import {
+  mockAuth0Profile,
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
+import { ServerData } from '@weco/common/server-data/types';
 import UserProvider from '@weco/common/views/components/UserProvider/UserProvider';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('../components/PageWrapper', () => ({
@@ -41,25 +41,16 @@ jest.mock('next/config', () => () => ({
   },
 }));
 
-const renderComponent = () =>
+const renderComponent = (user = mockAuth0Profile) =>
   render(
     <ThemeProvider theme={theme}>
       <UserProvider forceEnable={true}>
-        <AccountPage />
+        <AccountPage user={user} serverData={{} as ServerData} />
       </UserProvider>
     </ThemeProvider>
   );
 
 describe('MyAccount', () => {
-  it('shows an indicator while loading user data', async () => {
-    renderComponent();
-    const loading = screen.getByRole('status', {
-      name: /loading/i,
-      hidden: true,
-    });
-    expect(loading).toBeInTheDocument();
-  });
-
   it('shows a page title', async () => {
     renderComponent();
     const heading = await screen.findByRole('heading', { level: 1 });
@@ -68,13 +59,7 @@ describe('MyAccount', () => {
   });
 
   it('informs the user when their email has not been validated', async () => {
-    server.use(
-      rest.get('/account/api/users/me', (req, res, ctx) => {
-        return res.once(ctx.json({ ...mockUser, emailValidated: false }));
-      })
-    );
-
-    renderComponent();
+    renderComponent({ ...mockAuth0Profile, email_verified: false });
     expect(
       await screen.findByText(/you have not yet validated your email address/i)
     ).toBeInTheDocument();
@@ -182,7 +167,7 @@ describe('MyAccount', () => {
     });
     userEvent.click(changeEmailButton);
 
-    const emailInput = screen.getByLabelText(/email address/i);
+    const emailInput = await screen.findByLabelText(/email address/i);
     const passwordConfirmInput = screen.getByLabelText(/confirm password/i);
     userEvent.clear(emailInput);
     userEvent.type(emailInput, 'clarkkent@dailybugle.com');
@@ -200,8 +185,6 @@ describe('MyAccount', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /email updated/i
     );
-    const email = screen.queryAllByText('clarkkent@dailybugle.com');
-    expect(email[0]).toBeVisible();
   });
 
   it('shows a status message after the user updates their password', async () => {

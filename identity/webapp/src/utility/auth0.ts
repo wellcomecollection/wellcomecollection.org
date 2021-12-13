@@ -37,7 +37,7 @@ const utilityScopes = [
 ];
 
 // Things we want in the JWT
-const profileScopes = ['given_name', 'family_name'];
+const profileScopes = ['profile', 'email', 'weco:patron_barcode'];
 
 const identityAuthorizationParams = {
   audience: config.remoteApi.host,

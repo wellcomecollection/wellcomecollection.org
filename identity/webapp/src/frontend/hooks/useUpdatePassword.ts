@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { UpdatePasswordSchema } from '../../types/schemas/update-password';
-import { callMiddlewareApi } from '../../utility/middleware-api-client';
 
 export enum UpdatePasswordError { // eslint-disable-line no-shadow
   INCORRECT_PASSWORD,
@@ -30,11 +29,8 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
     onComplete
   ) => {
     setIsLoading(true);
-    callMiddlewareApi(
-      'PUT',
-      '/account/api/users/me/password',
-      updatePasswordBody
-    )
+    axios
+      .put('/account/api/users/me/password', updatePasswordBody)
       .then(() => {
         setIsSuccess(true);
         onComplete();

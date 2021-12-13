@@ -1,4 +1,4 @@
-import { UserInfo } from '../../../model/user';
+import { UserInfo, Auth0UserProfile } from '../../../model/user';
 import { RequestsList } from '../../../model/requesting';
 
 export const mockUser: UserInfo = {
@@ -8,6 +8,19 @@ export const mockUser: UserInfo = {
   email: 'bruciebaby@wayneenterprises.com',
   emailValidated: true,
   barcode: '1234567',
+};
+
+export const mockAuth0Profile: Auth0UserProfile = {
+  'https://wellcomecollection.org/patron_barcode': mockUser.barcode,
+  email: mockUser.email,
+  email_verified: mockUser.emailValidated,
+  family_name: mockUser.lastName,
+  given_name: mockUser.firstName,
+  name: `${mockUser.firstName} ${mockUser.lastName}`,
+  nickname: `${mockUser.firstName[0]}.${mockUser.lastName}`.toLowerCase(),
+  picture: 'https://test.test/picture.jpg',
+  sub: `auth0|p${mockUser.userId}`,
+  updated_at: '2021-12-10T12:55:52.958Z',
 };
 
 export const mockRequestItem = {

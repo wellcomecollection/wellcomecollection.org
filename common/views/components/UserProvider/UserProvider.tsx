@@ -1,5 +1,9 @@
 import { createContext, FC, useContext, useState } from 'react';
-import { UserInfo } from '../../../model/user';
+import {
+  Auth0UserProfile,
+  auth0UserProfileToUserInfo,
+  UserInfo,
+} from '../../../model/user';
 import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
 import { useToggles } from '../../../server-data/Context';
 
@@ -8,16 +12,14 @@ type Props = {
   enabled: boolean;
   user: UserInfo | undefined;
   state: State;
-  reload: () => void;
-  _updateUserState: (update: Partial<UserInfo>) => void;
+  reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
 const defaultUserContext: Props = {
   enabled: false,
   user: undefined,
   state: 'initial',
-  reload: () => void 0,
-  _updateUserState: () => void 0,
+  reload: async () => void 0,
 };
 
 export const UserContext = createContext<Props>(defaultUserContext);
@@ -31,13 +33,14 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
-  const updateUserState = (update: Partial<UserInfo>) =>
-    setUser(user => (user ? { ...user, ...update } : undefined));
-
-  const fetchUser = async (abortSignal?: AbortSignal) => {
+  const fetchUser = async (abortSignal?: AbortSignal, refetch = false) => {
     setState('loading');
     try {
-      const resp = await fetch('/account/api/users/me', {
+      let profileUrl = '/account/api/auth/me';
+      if (refetch) {
+        profileUrl += '?refetch';
+      }
+      const resp = await fetch(profileUrl, {
         signal: abortSignal,
       });
       switch (resp.status) {
@@ -46,9 +49,13 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
           break;
 
         case 200:
-          const data = await resp.json();
-          setState('signedin');
-          setUser(data);
+          const data: Auth0UserProfile = await resp.json();
+          // There is a race condition here where the cancel can happen
+          // after the fetch has finished but before the response has been deserialised
+          if (!abortSignal?.aborted) {
+            setUser(auth0UserProfileToUserInfo(data));
+            setState('signedin');
+          }
           break;
 
         default:
@@ -56,7 +63,7 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
           setState('failed');
       }
     } catch (e) {
-      if (e.name !== 'AbortError') {
+      if (!abortSignal?.aborted) {
         console.error('Failed fetching user', e);
         setState('failed');
       }
@@ -75,9 +82,8 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
               enabled,
               user,
               state,
-              reload: fetchUser,
-              // This is intended for "internal" use only in the identity app
-              _updateUserState: updateUserState,
+              reload: (abortSignal?: AbortSignal) =>
+                fetchUser(abortSignal, true),
             }
           : defaultUserContext
       }

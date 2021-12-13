@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -14,10 +15,30 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import {
+  abortErrorHandler,
+  useAbortSignalEffect,
+} from '@weco/common/hooks/useAbortSignalEffect';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
-  const { state: userState } = useUser();
+  const { state: userState, reload: reloadUserSession } = useUser();
   const urlUsed = message === 'This URL can be used only once';
+
+  // If the user is currently signed in, refresh their session so that we know
+  // that their email is verified.
+  // We use this ref because otherwise we get into a loop where the loading state
+  // of the new user triggers another refresh
+  const userWasRefreshed = useRef(false);
+  useAbortSignalEffect(
+    abortSignal => {
+      if (success && userState === 'signedin' && !userWasRefreshed.current) {
+        reloadUserSession(abortSignal).catch(abortErrorHandler);
+        userWasRefreshed.current = true;
+      }
+    },
+    [success, userState, userWasRefreshed]
+  );
+
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
   // auth0.com/docs/brand-and-customize/email/email-template-descriptions#redirect-to-results-for-verification-email-template
