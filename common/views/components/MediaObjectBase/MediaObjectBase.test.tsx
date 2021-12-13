@@ -6,7 +6,7 @@ import {
 import {
   mockData,
   mockDataWithPrismicText,
-} from '../../../test/fixtures/components/media-object-base';
+} from '../../../test/fixtures/components/compact-card';
 import Image from '../Image/Image';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';

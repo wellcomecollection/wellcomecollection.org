@@ -3,8 +3,7 @@ export const mockImage = {
     'https://images.prismic.io/wellcomecollection/c8f7b7f4-d455-4c3f-ae65-9dc7428ae60a_EP001430_0001.jpg?auto=compress,format',
   width: 3630,
   height: 2836,
-  alt:
-    'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
+  alt: 'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
   tasl: {
     title:
       'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
@@ -22,8 +21,7 @@ export const mockImage = {
         'https://images.prismic.io/wellcomecollection/c8f7b7f4-d455-4c3f-ae65-9dc7428ae60a_EP001430_0001.jpg?auto=compress,format&rect=397,0,2836,2836&w=3200&h=3200',
       width: 3200,
       height: 3200,
-      alt:
-        'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
+      alt: 'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
       tasl: {
         title:
           'Two St. Bernard dogs with an avalanche victim, one tries to revive him while the other alerts the rescue party.',
@@ -59,8 +57,7 @@ export const mockDataWithPrismicText = {
           type: 'hyperlink',
           data: {
             link_type: 'Web',
-            url:
-              'https://www.gov.uk/government/publications/face-coverings-when-to-wear-one-and-how-to-make-your-own#when-you-do-not-need-to-wear-a-face-covering',
+            url: 'https://www.gov.uk/government/publications/face-coverings-when-to-wear-one-and-how-to-make-your-own#when-you-do-not-need-to-wear-a-face-covering',
           },
         },
       ],
