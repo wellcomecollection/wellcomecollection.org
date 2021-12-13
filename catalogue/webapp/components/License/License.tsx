@@ -1,4 +1,4 @@
-import { LicenseData } from '../../../utils/licenses';
+import { LicenseData } from '@weco/common/utils/licenses';
 type Props = {
   license: LicenseData;
 };
