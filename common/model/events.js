@@ -130,7 +130,7 @@ export type EventPromo = {|
   isMultiDate: boolean,
   isFullyBooked: boolean,
   hasNotFullyBookedTimes: boolean,
-  description: ?HTMLString,
+  description: ?string,
   format: ?Format,
   bookingType: ?string,
   image: ?ImageType,
