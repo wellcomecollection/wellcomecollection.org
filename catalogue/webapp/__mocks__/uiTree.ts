@@ -1,4 +1,6 @@
-export const uiTree = [
+import { UiTree } from '../components/ArchiveTree/ArchiveTree';
+
+export const uiTree: UiTree = [
   {
     openStatus: true,
     work: {
@@ -7,6 +9,7 @@ export const uiTree = [
       alternativeTitles: [],
       referenceNumber: 'PP/CRI',
       type: 'Collection',
+      availableOnline: false,
     },
     children: [
       {

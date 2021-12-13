@@ -211,7 +211,7 @@ type UiTreeNode = {
   children?: UiTree;
 };
 
-type UiTree = UiTreeNode[];
+export type UiTree = UiTreeNode[];
 
 export function getTabbableIds(tree: UiTree): string[] {
   const tabbableIds = tree.reduce((acc: (string | string[])[], curr) => {
