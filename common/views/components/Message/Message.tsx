@@ -1,7 +1,4 @@
-// @flow
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -19,9 +16,9 @@ const Wrapper = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;
 
-type Props = {|
-  text: string,
-|};
+type Props = {
+  text: string;
+};
 
 const Message = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
 export default Message;
