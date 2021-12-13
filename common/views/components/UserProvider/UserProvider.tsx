@@ -1,7 +1,7 @@
 import { createContext, FC, useContext, useState } from 'react';
 import {
-  Auth0UserProfile,
   auth0UserProfileToUserInfo,
+  isFullAuth0Profile,
   UserInfo,
 } from '../../../model/user';
 import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
@@ -49,12 +49,20 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
           break;
 
         case 200:
-          const data: Auth0UserProfile = await resp.json();
-          // There is a race condition here where the cancel can happen
-          // after the fetch has finished but before the response has been deserialised
-          if (!abortSignal?.aborted) {
-            setUser(auth0UserProfileToUserInfo(data));
-            setState('signedin');
+          const data = await resp.json();
+          if (isFullAuth0Profile(data)) {
+            // There is a race condition here where the cancel can happen
+            // after the fetch has finished but before the response has been deserialised
+            if (!abortSignal?.aborted) {
+              setUser(auth0UserProfileToUserInfo(data));
+              setState('signedin');
+            }
+          } else {
+            console.error(
+              'Profile in session did not contain all necessary claims',
+              data
+            );
+            setState('failed');
           }
           break;
 

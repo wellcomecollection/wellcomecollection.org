@@ -14,11 +14,8 @@ export type Auth0UserProfile = {
   email: string;
   email_verified?: boolean;
   updated_at: string;
-  picture?: string;
-  name: string;
   given_name: string;
   family_name: string;
-  nickname: string;
   'https://wellcomecollection.org/patron_barcode': string;
 };
 /* eslint-enable camelcase */
@@ -33,6 +30,15 @@ const auth0IdToPublic = (subjectClaim: string): string => {
     return subjectClaim;
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isFullAuth0Profile = (data: any): data is Auth0UserProfile =>
+  data &&
+  data.given_name &&
+  data.family_name &&
+  data.email &&
+  data.sub &&
+  data['https://wellcomecollection.org/patron_barcode'];
 
 export const auth0UserProfileToUserInfo = (
   auth0Profile?: Auth0UserProfile
