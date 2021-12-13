@@ -38,6 +38,13 @@ const utilityScopes = [
 ];
 
 // Things we want in the JWT
+//
+// Are you here because you want to change 'profile' to something more specific?
+// Are you now confused because even though you've asked for given_name, it's not in the token?
+// Be aware that these are *scopes*, so while you can see lovely granular *claims* here:
+// https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+// you can actually only ask for quite general *scopes*:
+// https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims
 const profileScopes = ['profile', 'email', 'weco:patron_barcode'];
 
 const identityAuthorizationParams = {
