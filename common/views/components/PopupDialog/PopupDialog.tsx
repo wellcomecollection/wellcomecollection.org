@@ -256,7 +256,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
   function setFocusable(value: boolean) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
-    const focusables = dialog && getFocusableElements(dialog);
+    const focusables = dialog && getFocusableElements<HTMLDivElement>(dialog);
 
     focusables &&
       focusables.forEach(item =>

@@ -190,7 +190,7 @@ const Modal: FunctionComponent<Props> = ({
     ? ModalWindowPaddingNoOverflow
     : BaseModalWindow;
 
-  function updateLastFocusableRef(newRef) {
+  function updateLastFocusableRef(newRef: HTMLInputElement) {
     lastFocusableRef.current = newRef;
   }
 
@@ -201,7 +201,9 @@ const Modal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const focusables = modalRef &&
-      modalRef.current && [...getFocusableElements(modalRef.current)];
+      modalRef.current && [
+        ...getFocusableElements<HTMLInputElement>(modalRef.current),
+      ];
     lastFocusableRef.current = focusables && focusables[focusables.length - 1];
   }, [modalRef.current]);
 
