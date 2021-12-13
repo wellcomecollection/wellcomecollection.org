@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
 import { fontFamilyMixin } from '../../themes/typography';
-import { ReactElement, FunctionComponent } from 'react';
+import { ReactElement, FunctionComponent, ReactNode } from 'react';
 
 type TableProps = {
   useFixedWidth: boolean;
@@ -95,7 +95,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
 type TdProps = {
   plain?: boolean;
   maxWidth?: number;
-  content?: string | ReactElement;
+  content?: string | ReactNode;
   key?: number;
 };
 
@@ -135,7 +135,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
 `;
 
 type Props = {
-  rows: (string | ReactElement)[][];
+  rows: (string | ReactNode)[][];
   plain?: boolean;
   maxWidth?: number;
   columnWidths?: (number | undefined)[];

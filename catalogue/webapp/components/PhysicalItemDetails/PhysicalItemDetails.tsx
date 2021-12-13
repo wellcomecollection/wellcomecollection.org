@@ -228,7 +228,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           rows={createRows()}
           plain={true}
           maxWidth={isArchive ? 980 : 620}
-          columnWidths={[180, 200, null, null]}
+          columnWidths={[180, 200, undefined, undefined]}
         />
         {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
