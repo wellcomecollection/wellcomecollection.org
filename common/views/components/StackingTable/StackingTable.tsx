@@ -2,12 +2,18 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
 import { fontFamilyMixin } from '../../themes/typography';
+import { ReactElement, FunctionComponent } from 'react';
+
+type TableProps = {
+  useFixedWidth: boolean;
+  maxWidth?: number;
+};
 
 const StyledTable = styled.table.attrs({
   className: classNames({
     [font('hnr', 5)]: true,
   }),
-})`
+})<TableProps>`
    {
     table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
     width: 100%;
@@ -36,9 +42,13 @@ const StyledTable = styled.table.attrs({
   }
 `;
 
+type TrProps = {
+  plain?: boolean;
+};
+
 const StyledTr = styled(Space).attrs({
   as: 'tr',
-})`
+})<TrProps>`
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   &:last-of-type {
@@ -46,7 +56,14 @@ const StyledTr = styled(Space).attrs({
   }
 `;
 
-const StyledTh = styled(Space).attrs(props => ({
+type ThProps = {
+  plain?: boolean;
+  maxWidth?: number;
+  key?: number;
+  width?: number;
+};
+
+const StyledTh = styled(Space).attrs<ThProps>(props => ({
   as: 'th',
   v: {
     size: 's',
@@ -61,7 +78,7 @@ const StyledTh = styled(Space).attrs(props => ({
   className: classNames({
     [font('hnb', 5)]: true,
   }),
-}))`
+}))<ThProps>`
   background: ${props =>
     props.plain
       ? props.theme.color('transparent')
@@ -75,7 +92,14 @@ const StyledTh = styled(Space).attrs(props => ({
   }
 `;
 
-const StyledTd = styled(Space).attrs(props => ({
+type TdProps = {
+  plain?: boolean;
+  maxWidth?: number;
+  content?: string | ReactElement;
+  key?: number;
+};
+
+const StyledTd = styled(Space).attrs<TdProps>(props => ({
   as: 'td',
   v: {
     size: 'm',
@@ -87,7 +111,7 @@ const StyledTd = styled(Space).attrs(props => ({
       Boolean
     ),
   },
-}))`
+}))<TdProps>`
   text-align: left;
   vertical-align: top;
   @media (max-width: ${props =>
@@ -111,16 +135,14 @@ const StyledTd = styled(Space).attrs(props => ({
 `;
 
 type Props = {
-  rows: (string | ReactElement)[][],
-  caption?: string,
-  plain?: boolean,
-  maxWidth?: number,
-  columnWidths?: (number | null)[],
+  rows: (string | ReactElement)[][];
+  plain?: boolean;
+  maxWidth?: number;
+  columnWidths?: (number | undefined)[];
 };
 
 const StackingTable: FunctionComponent<Props> = ({
   rows,
-  caption,
   plain,
   maxWidth,
   columnWidths = [],
