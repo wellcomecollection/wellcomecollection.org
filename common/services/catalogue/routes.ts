@@ -1,9 +1,13 @@
-// @flow
-import { type NextLinkType } from '@weco/common/model/next-link-type';
-// $FlowFixMe
+import { NextLinkType } from '@weco/common/model/next-link-type';
 import { parseCsv } from '@weco/common/utils/csv';
+import { isNotUndefined } from 'utils/array';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type Params = { [key: string]: any };
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
 export type UrlParams = { [key: string]: string };
+
 export function serialiseUrl(params: Params): UrlParams {
   return Object.keys(params).reduce((acc, key) => {
     const val = params[key];
@@ -45,19 +49,19 @@ export function serialiseUrl(params: Params): UrlParams {
   }, {});
 }
 
-function stringToCsv(s: ?string): string[] {
+function stringToCsv(s: string | undefined): string[] {
   return s ? s.split(',') : [];
 }
 
-function maybeString(s: ?string): ?string {
-  return s || null;
+function maybeString(s: string | undefined): string | undefined {
+  return s || undefined;
 }
 
-function defaultTo1(v: ?(string | number)): number {
-  return v ? parseInt(v, 10) : 1;
+function defaultTo1(v: string | number | undefined): number {
+  return typeof v === 'number' ? v : isNotUndefined(v) ? parseInt(v, 10) : 1;
 }
 
-function defaultToEmptyString(s: ?string): string {
+function defaultToEmptyString(s: string | undefined): string {
   return s || '';
 }
 
@@ -65,31 +69,31 @@ function quotedCsv(v: string | null) {
   return v ? parseCsv(v) : [];
 }
 
-type NextRoute<T> = {|
-  fromQuery: (q: UrlParams) => T,
-  toLink: (t: $Shape<T>) => NextLinkType,
-  toQuery: (t: $Shape<T>) => UrlParams,
-|};
+type NextRoute<T> = {
+  fromQuery: (q: UrlParams) => T;
+  toLink: (t: T) => NextLinkType;
+  toQuery: (t: T) => UrlParams;
+};
 
 // route: /works
-export type WorksRouteProps = {|
-  query: string,
-  page: number,
-  workType: string[],
-  itemsLocationsLocationType: string[],
-  availabilities: string[],
-  sort: ?string,
-  sortOrder: ?string,
-  productionDatesFrom: ?string,
-  productionDatesTo: ?string,
-  imagesColor: ?string,
-  search: ?string,
-  source: ?string,
-  languages: ?(string[]),
-  subjectsLabel: ?(string[]),
-  genresLabel: ?(string[]),
-  contributorsAgentLabel: ?(string[]),
-|};
+export type WorksRouteProps = {
+  query: string;
+  page: number;
+  workType: string[];
+  itemsLocationsLocationType: string[];
+  availabilities: string[];
+  sort?: string;
+  sortOrder?: string;
+  productionDatesFrom?: string;
+  productionDatesTo?: string;
+  imagesColor?: string;
+  search?: string;
+  source?: string;
+  languages?: string[];
+  subjectsLabel?: string[];
+  genresLabel?: string[];
+  contributorsAgentLabel?: string[];
+};
 
 export const WorksRoute: NextRoute<WorksRouteProps> = {
   fromQuery(q) {
@@ -151,9 +155,9 @@ export const WorksRoute: NextRoute<WorksRouteProps> = {
 };
 
 // route: /works/{id}
-export type WorkRouteProps = {|
-  id: string,
-|};
+export type WorkRouteProps = {
+  id: string;
+};
 
 export const WorkRoute: NextRoute<WorkRouteProps> = {
   fromQuery(q) {
@@ -183,18 +187,18 @@ export const WorkRoute: NextRoute<WorkRouteProps> = {
 
 // route: /works/{id}/items
 // /works/{id}/items
-export type ItemRouteProps = {|
-  workId: string,
-  langCode: string,
-  canvas: number,
-  sierraId: ?string,
-  isOverview?: boolean,
-  page: number,
-  pageSize: number,
-|};
+export type ItemRouteProps = {
+  workId: string;
+  langCode: string;
+  canvas: number;
+  sierraId?: string;
+  isOverview?: boolean;
+  page: number;
+  pageSize: number;
+};
 
 export const ItemRoute: NextRoute<ItemRouteProps> = {
-  fromQuery(q) {
+  fromQuery(q: UrlParams) {
     const {
       workId,
       langCode = 'eng',
@@ -214,8 +218,8 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
       page: defaultTo1(page),
     };
   },
-  toLink(params) {
-    const { workId, ...as } = params;
+  toLink(params: ItemRouteProps) {
+    const { workId } = params;
     return {
       href: {
         pathname: `/item`,
@@ -223,23 +227,23 @@ export const ItemRoute: NextRoute<ItemRouteProps> = {
       },
       as: {
         pathname: `/works/${workId}/items`,
-        query: ItemRoute.toQuery(as),
+        query: ItemRoute.toQuery(params),
       },
     };
   },
-  toQuery(params) {
+  toQuery(params: ItemRouteProps) {
     return serialiseUrl(params);
   },
 };
 
-export type ImageRouteProps = {|
-  id: string,
-  workId: string,
-  langCode: string,
-|};
+export type ImageRouteProps = {
+  id: string;
+  workId: string;
+  langCode: string;
+};
 
 export const ImageRoute: NextRoute<ImageRouteProps> = {
-  fromQuery(q) {
+  fromQuery(q: UrlParams) {
     const { workId, langCode = 'eng', id } = q;
     return {
       workId: defaultToEmptyString(workId),
@@ -247,8 +251,8 @@ export const ImageRoute: NextRoute<ImageRouteProps> = {
       id: defaultToEmptyString(id),
     };
   },
-  toLink(params) {
-    const { workId, ...as } = params;
+  toLink(params: ImageRouteProps) {
+    const { workId } = params;
     return {
       href: {
         pathname: '/image',
@@ -256,16 +260,16 @@ export const ImageRoute: NextRoute<ImageRouteProps> = {
       },
       as: {
         pathname: `/works/${workId}/images`,
-        query: ImageRoute.toQuery(as),
+        query: ImageRoute.toQuery(params),
       },
     };
   },
-  toQuery(params) {
+  toQuery(params: ImageRouteProps) {
     return serialiseUrl(params);
   },
 };
 
-export const worksLink = (params: $Shape<WorksRouteProps>, source: string) =>
+export const worksLink = (params: WorksRouteProps, source: string) =>
   WorksRoute.toLink({ ...params, source });
 export const itemLink = ItemRoute.toLink;
 export const imageLink = ImageRoute.toLink;
