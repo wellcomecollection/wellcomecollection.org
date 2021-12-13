@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent, ReactElement } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '../Icon/Icon';
@@ -13,6 +13,7 @@ type InfoBoxItem = LabelField & {
 type Props = {
   title: string;
   items: InfoBoxItem[];
+  children: ReactElement<'p'>;
 };
 
 const InfoBox: FunctionComponent<Props> = (props: Props) => {
