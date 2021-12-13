@@ -1,6 +1,6 @@
 import { NextLinkType } from '@weco/common/model/next-link-type';
 import { parseCsv } from '@weco/common/utils/csv';
-import { isNotUndefined } from 'utils/array';
+import { isNotUndefined } from '../../utils/array';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Params = { [key: string]: any };
@@ -194,8 +194,8 @@ export type ItemRouteProps = {
   manifest?: number;
   sierraId?: string;
   isOverview?: boolean;
-  page: number;
-  pageSize: number;
+  page?: number;
+  pageSize?: number;
 };
 
 export const ItemRoute: NextRoute<ItemRouteProps> = {
