@@ -20,7 +20,7 @@ import Quote from '@weco/common/views/components/Quote/Quote';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import GifVideo from '@weco/common/views/components/GifVideo/GifVideo';
+import GifVideo from '../GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
 import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
