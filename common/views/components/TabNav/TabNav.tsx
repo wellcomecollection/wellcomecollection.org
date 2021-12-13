@@ -1,22 +1,17 @@
-// @flow
-
-import { type ComponentType } from 'react';
+import { ComponentType } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
-import { type TextLink } from '../../../model/text-links';
-// $FlowFixMe (ts)
+import { TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
-import Space, { type SpaceComponentProps } from '../styled/Space';
+import Space, { SpaceComponentProps } from '../styled/Space';
 
-type SelectableTextLink = {|
-  ...TextLink,
-  selected: boolean,
-  onClick?: (SyntheticEvent<HTMLAnchorElement>) => void,
-|};
+type SelectableTextLink = TextLink & {
+  selected: boolean;
+  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+};
 
 type Props = {
-  items: SelectableTextLink[],
+  items: SelectableTextLink[];
 };
 
 const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
@@ -60,14 +55,7 @@ const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
   }
 `;
 
-const NavItem = ({
-  link,
-  text,
-  selected,
-  onClick,
-}: {|
-  ...SelectableTextLink,
-|}) => (
+const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
   <NextLink {...link} passHref>
     <Space
       v={{
