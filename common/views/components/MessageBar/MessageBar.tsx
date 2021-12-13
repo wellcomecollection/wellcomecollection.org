@@ -1,33 +1,27 @@
-// @flow
-import { type Node, type ComponentType } from 'react';
+import { ReactNode, ComponentType, FunctionComponent } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (ts)
 import { classNames, font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import AlignFont from '../styled/AlignFont';
-// $FlowFixMe (tsx)
-import Space, { type SpaceComponentProps } from '../styled/Space';
+import Space, { SpaceComponentProps } from '../styled/Space';
 
-const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
-    className: classNames({
-      caps: true,
-      'inline-block': true,
-      'bg-charcoal': true,
-      'font-white': true,
-      [font('hnb', 6)]: true,
-    }),
-  })
-)`
+const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs({
+  className: classNames({
+    caps: true,
+    'inline-block': true,
+    'bg-charcoal': true,
+    'font-white': true,
+    [font('hnb', 6)]: true,
+  }),
+})`
   padding: 0.2em 0.5em;
 `;
 
-type Props = {|
-  tagText?: string,
-  children: Node,
-|};
+type Props = {
+  tagText?: string;
+  children: ReactNode;
+};
 
-const MessageBar = ({ tagText, children }: Props) => (
+const MessageBar: FunctionComponent<Props> = ({ tagText, children }: Props) => (
   <Space
     v={{
       size: 'm',
