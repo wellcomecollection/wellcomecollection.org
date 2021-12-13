@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import TextInput from '../../views/components/TextInput/TextInput';
-import { mountWithTheme } from '../fixtures/enzyme-helpers';
-import useValidation from '../../hooks/useValidation';
+import TextInput from './TextInput';
+import { mountWithTheme } from '../../../test/fixtures/enzyme-helpers';
+import useValidation from '../../../hooks/useValidation';
 
 const testErrorMessage = 'test error message';
 
