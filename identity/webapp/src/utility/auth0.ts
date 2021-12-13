@@ -9,6 +9,7 @@ import { GetServerSidePropsContext } from 'next';
 const { serverRuntimeConfig } = getConfig();
 const config = serverRuntimeConfig as {
   sessionKeys: string[];
+  sessionVersion: string;
   siteBaseUrl: string;
   identityBasePath: string;
   auth0: {
@@ -71,6 +72,7 @@ const auth0 = initAuth0({
     rolling: true, // Session expiry time is reset every time the user interacts with the server
     absoluteDuration: 7 * ONE_DAY_S, // 1 week
     rollingDuration: 8 * ONE_HOUR_S, // 8 hours
+    name: `wecoIdentitySession_${config.sessionVersion}`,
   },
 });
 
