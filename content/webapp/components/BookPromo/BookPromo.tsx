@@ -31,8 +31,8 @@ type Props = {
   url: string;
   title: string;
   subtitle?: string;
-  description: string | null;
-  image: ImageType | null;
+  description?: string;
+  image?: ImageType;
 };
 
 type LinkOrSpanSpaceAttrs = {
