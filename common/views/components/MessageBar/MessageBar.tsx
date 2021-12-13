@@ -1,10 +1,10 @@
-import { ReactNode, ComponentType, FunctionComponent } from 'react';
+import { ReactNode, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import AlignFont from '../styled/AlignFont';
 import Space, { SpaceComponentProps } from '../styled/Space';
 
-const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs({
+const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
   className: classNames({
     caps: true,
     'inline-block': true,
@@ -12,8 +12,15 @@ const ColouredTag: ComponentType<SpaceComponentProps> = styled(Space).attrs({
     'font-white': true,
     [font('hnb', 6)]: true,
   }),
-})`
+})<SpaceComponentProps>`
   padding: 0.2em 0.5em;
+  ${props =>
+    props.theme.makeSpacePropertyValues(
+      's',
+      ['margin-right'],
+      undefined,
+      undefined
+    )}
 `;
 
 type Props = {
@@ -32,13 +39,7 @@ const MessageBar: FunctionComponent<Props> = ({ tagText, children }: Props) => (
     })}
   >
     {tagText && (
-      <ColouredTag
-        as="span"
-        h={{
-          size: 's',
-          properties: ['margin-right'],
-        }}
-      >
+      <ColouredTag>
         <AlignFont>{tagText}</AlignFont>
       </ColouredTag>
     )}
