@@ -12,6 +12,10 @@ const getConfig = () => {
       ? process.env.SESSION_KEYS.split(',')
       : ['build_keys'],
 
+    // Versioning the session means that we can invalidate all users' sessions if we need to
+    // eg if we change the claims on the identity token
+    sessionVersion: 'v1',
+
     // The base URL of the whole website (eg https://wellcomecollection.org)
     siteBaseUrl: process.env.SITE_BASE_URL ?? `http://localhost:${port}`,
     identityBasePath: '/account',

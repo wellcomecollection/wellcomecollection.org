@@ -34,6 +34,15 @@ const auth0IdToPublic = (subjectClaim: string): string => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isFullAuth0Profile = (data: any): data is Auth0UserProfile =>
+  data &&
+  data.given_name &&
+  data.family_name &&
+  data.email &&
+  data.sub &&
+  data['https://wellcomecollection.org/patron_barcode'];
+
 export const auth0UserProfileToUserInfo = (
   auth0Profile?: Auth0UserProfile
 ): UserInfo | undefined =>
