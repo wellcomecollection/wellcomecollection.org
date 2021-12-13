@@ -5,7 +5,10 @@ const useFocusTrap = (
     | RefObject<HTMLButtonElement>
     | RefObject<HTMLDivElement>
     | RefObject<HTMLInputElement>,
-  endRef: RefObject<HTMLButtonElement> | RefObject<HTMLInputElement>
+  endRef:
+    | RefObject<HTMLButtonElement>
+    | RefObject<HTMLInputElement>
+    | RefObject<undefined>
 ) => {
   function handleTrapStartKeyDown(event) {
     if (event.shiftKey && event.key === 'Tab') {
