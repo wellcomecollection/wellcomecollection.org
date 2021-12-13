@@ -1,22 +1,17 @@
-// @flow
-
-import type { UiEvent } from '../../../model/events';
+import { UiEvent } from '../../../model/events';
 import { Fragment } from 'react';
-// $FlowFixMe (tsx)
 import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import Message from '../Message/Message';
-// $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
+import styled from 'styled-components';
 import { ticketAvailable, email } from '@weco/common/icons';
 
-type Props = {|
-  event: UiEvent,
-|};
+type Props = {
+  event: UiEvent;
+};
 
-function getButtonMarkup(event) {
+function getButtonMarkup(event: UiEvent) {
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
@@ -53,6 +48,22 @@ function getBookingEnquiryMarkup(event) {
   }
 }
 
+type EventBookingButtonProps = {
+  email: string;
+  title: string;
+};
+
+const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
+  props => ({
+    v: {
+      size: 's',
+      properties: ['margin-top'],
+    },
+    className: `block font-charcoal ${font('hnr', 4)}`,
+    href: `mailto:${props.email}?subject=${props.title}`,
+  })
+)<EventBookingButtonProps>``;
+
 const EventBookingButton = ({ event }: Props) => {
   const team = event.bookingEnquiryTeam; // Not sure why, but this solves flow null check problem below
 
@@ -61,16 +72,9 @@ const EventBookingButton = ({ event }: Props) => {
       {getButtonMarkup(event)}
       {getBookingEnquiryMarkup(event)}
       {team && (
-        <Space
-          v={{
-            size: 's',
-            properties: ['margin-top'],
-          }}
-          className={`block font-charcoal ${font('hnr', 4)}`}
-          href={`mailto:${team.email}?subject=${event.title}`}
-        >
+        <EventBookingButtonLink email={team.email} title={event.title}>
           {team.email}
-        </Space>
+        </EventBookingButtonLink>
       )}
     </Fragment>
   );

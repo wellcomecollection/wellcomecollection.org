@@ -1,24 +1,17 @@
-// @flow
-import { useRef, useEffect } from 'react';
-// $FlowFixMe (tsx)
+import { useRef, useEffect, FunctionComponent } from 'react';
 import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
-// $FlowFixMe(tsx)
-import FooterNav from '../FooterNav/FooterNav';
-// $FlowFixMe(tsx)
+import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
-import FooterSocial from '../FooterSocial/FooterSocial';
-// $FlowFixMe (tsx)
+import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
-import type { OverrideType } from '../../../model/opening-hours';
-import type Moment from 'moment';
+import { OverrideType } from '../../../model/opening-hours';
+import { Moment } from 'moment';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
-// $FlowFixMe (tsx)
 import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
+import { OpeningTimes } from '../../../services/prismic/opening-times';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -169,27 +162,28 @@ const TopBorderBox = styled.div`
     border-bottom: 0;
   }
 `;
-type Props = {|
-  hide: boolean,
-  openingTimes: any, // TODO
-  upcomingExceptionalOpeningPeriods: ?({
-    dates: Moment[],
-    type: OverrideType,
-  }[]),
-  extraClasses?: string,
-|};
+type Props = {
+  hide: boolean;
+  openingTimes: OpeningTimes;
+  // TODO: This is never used in the Footer component.  Should we put it
+  // back in the component, or can it be safely removed from Props and
+  // all the callers of this component?
+  upcomingExceptionalOpeningPeriods?: {
+    dates: Moment[];
+    type: OverrideType;
+  }[];
+  extraClasses?: string;
+};
 
-const Footer = ({
-  upcomingExceptionalOpeningPeriods,
+const Footer: FunctionComponent<Props> = ({
   openingTimes,
   hide = false,
 }: Props) => {
-  const footer = useRef(null);
+  const footer = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    hide &&
-      footer &&
-      footer.current &&
+    if (hide && footer && footer.current) {
       footer.current.classList.add('is-hidden');
+    }
   }, []);
   return (
     <Space
@@ -261,7 +255,7 @@ const Footer = ({
                   as="span"
                   h={{ size: 'm', properties: ['margin-right'] }}
                 >
-                  <Icon icon={clock} extraClasses={`float-l`} />
+                  <Icon icon={clock} />
                 </Space>
                 <div
                   className={classNames({

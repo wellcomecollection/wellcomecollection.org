@@ -1,16 +1,10 @@
-// @flow
-import { useState, useEffect } from 'react';
-// $FlowFixMe (tsx)
-import TextInput from '../TextInput/TextInput';
-// $FlowFixMe (tsx)
-import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
-// $FlowFixMe (ts)
-import { font, classNames } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
-import Space from '../styled/Space';
-import useValidation from '../../../hooks/useValidation';
-// $FlowFixMe (tsx)
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import { SyntheticEvent, useState, useEffect } from 'react';
+import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
+import { font, classNames } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import useValidation from '@weco/common/hooks/useValidation';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 
 const ErrorBox = styled(Space).attrs({
@@ -29,13 +23,20 @@ const ErrorBox = styled(Space).attrs({
   color: ${props => props.theme.color('red')};
 `;
 
-type Props = {|
-  isSuccess?: boolean,
-  isError?: boolean,
-  isConfirmed?: boolean,
-|};
+type Props = {
+  isSuccess?: boolean;
+  isError?: boolean;
+  isConfirmed?: boolean;
+};
 
-const addressBooks = [
+type AddressBook = {
+  id: string;
+  label: string;
+  name: string;
+  description?: string;
+};
+
+const addressBooks: AddressBook[] = [
   {
     id: 'accessibility',
     label: `Access events, tours and activities`,
@@ -60,7 +61,7 @@ const addressBooks = [
 ];
 
 const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
-  const [checkedInputs, setCheckedInputs] = useState([]);
+  const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [isCheckboxError, setIsCheckboxError] = useState(true);
   const [noValidate, setNoValidate] = useState(false);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);

@@ -53,7 +53,7 @@ export type CollectionOpeningTimes = {
   placesOpeningHours: PlacesOpeningHours;
   upcomingExceptionalOpeningPeriods:
     | { dates: Moment[]; type: OverrideType }[]
-    | null;
+    | undefined;
 };
 
 // http://schema.org/specialOpeningHoursSpecification

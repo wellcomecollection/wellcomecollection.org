@@ -1,4 +1,3 @@
-// @flow
 import {
   facebook,
   instagram,
@@ -6,13 +5,10 @@ import {
   tripadvisor,
   twitter,
   youtube,
-  // $FlowFixMe (tsx)
+  IconSvg,
 } from '@weco/common/icons';
-// $FlowFixMe (ts)
 import { font } from '../../../utils/classnames';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
-// $FlowFixMe (tsx)
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -51,6 +47,10 @@ const Cell = styled.div`
   `}
 `;
 
+type LinkProps = {
+  href: string;
+};
+
 const Link = styled(Space).attrs({
   v: {
     size: 'l',
@@ -58,7 +58,7 @@ const Link = styled(Space).attrs({
   },
   as: 'a',
   className: font('hnb', 6),
-})`
+})<LinkProps>`
   color: ${props => props.theme.color('white')};
   text-decoration: none;
   display: flex;
@@ -75,7 +75,14 @@ const Link = styled(Space).attrs({
   }
 `;
 
-const items = [
+type SocialItem = {
+  url: string;
+  title: string;
+  service: string;
+  icon: IconSvg;
+};
+
+const items: SocialItem[] = [
   {
     url: 'https://twitter.com/explorewellcome',
     title: 'Twitter',

@@ -53,7 +53,7 @@ const VideoPlayer: FunctionComponent<Props> = ({
     () => {
       setSecondsPlayed(secondsPlayed + 1);
     },
-    isPlaying ? 1000 : null
+    isPlaying ? 1000 : undefined
   );
 
   return (

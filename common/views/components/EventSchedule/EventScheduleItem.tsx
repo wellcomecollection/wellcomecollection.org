@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { grid, font, classNames } from '../../../utils/classnames';
-import EventBookingButton from '../EventBookingButton/EventBookingButton';
+import EventBookingButton from './EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '../LabelsList/LabelsList';
 import Message from '../Message/Message';

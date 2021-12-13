@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
+import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
