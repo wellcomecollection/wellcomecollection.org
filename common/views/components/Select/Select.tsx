@@ -1,15 +1,15 @@
-// @flow
+import { ChangeEvent } from 'react';
 import SelectContainer from '../SelectContainer/SelectContainer';
 
 type Props = {
-  name: string,
-  label: string,
-  value: string,
+  name: string;
+  label: string;
+  value: string;
   options: {
-    value: ?string,
-    text: string,
-  }[],
-  onChange: (event: SyntheticEvent<HTMLInputElement>) => void,
+    value?: string;
+    text: string;
+  }[];
+  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const Select = ({ name, label, options, value, onChange }: Props) => {
