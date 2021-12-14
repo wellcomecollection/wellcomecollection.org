@@ -7,7 +7,7 @@ import Dot from '@weco/common/views/components/Dot/Dot';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import BookImage from '@weco/common/views/components/BookImage/BookImage';
+import BookImage from '@weco/content/components/BookImage/BookImage';
 
 const breadcrumbItems = [
   {
