@@ -5,6 +5,7 @@ import {
   createContext,
   ReactNode,
   ReactElement,
+  FunctionComponent,
 } from 'react';
 import { PrismicDocument } from '@prismicio/types';
 import {
@@ -75,7 +76,6 @@ const ShameWhatWeDoHack = () => (
           width={3200}
           height={3200}
           alt={''}
-          tasl={null}
         />
       }
       xOfY={{ x: 1, y: 1 }}
@@ -94,7 +94,7 @@ const ContentPage = ({
   seasons = [],
   document,
   hideContributors,
-}: Props) => {
+}: Props): FunctionComponent<Props> => {
   // We don't want to add a spacing unit if there's nothing to render
   // in the body (we don't render the 'standfirst' here anymore).
   function shouldRenderBody() {

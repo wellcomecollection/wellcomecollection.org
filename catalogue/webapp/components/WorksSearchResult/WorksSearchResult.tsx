@@ -169,7 +169,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                   defaultSize={178}
                   alt={''}
                   contentUrl={convertIiifImageUri(work.thumbnail.url, 178)}
-                  tasl={null}
                   srcsetRequired={false}
                   style={{ margin: 'auto' }}
                 />
