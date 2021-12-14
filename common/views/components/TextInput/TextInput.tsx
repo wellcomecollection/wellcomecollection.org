@@ -143,7 +143,7 @@ type Props = {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  id: string;
+  id?: string;
   name?: string;
   type?: string;
   pattern?: string;

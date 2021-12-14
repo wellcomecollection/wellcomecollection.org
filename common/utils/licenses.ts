@@ -1,21 +1,21 @@
-// @flow
 import merge from 'lodash.merge';
+
 // We have to deal with licenses in both the Catalogue App (using the catalogue API) and the Content App (using the Prismic API)
 // The catalogue API provides licenses as follows:
-export type LicenseAPIData = {|
-  id: string,
-  label: string,
-  url: string,
-  type: 'License',
-|};
+export type LicenseAPIData = {
+  id: string;
+  label: string;
+  url: string;
+  type: 'License';
+};
+
 // For the UI, we want to add to this data, with an icons array, description and human readable text.
 type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
-export type LicenseData = {|
-  ...LicenseAPIData,
-  icons: CcIcons[],
-  description: ?string,
-  humanReadableText: string[],
-|};
+export type LicenseData = LicenseAPIData & {
+  icons: CcIcons[];
+  description?: string;
+  humanReadableText: string[];
+};
 // This is achieved with the getAugmentedLicenseInfo function and the data contained in the additionalData object.
 
 // However, the only license information we receive from Prismic is a license id.
@@ -26,7 +26,6 @@ export type LicenseData = {|
 export const additionalData = {
   pdm: {
     icons: ['ccPdm'],
-    description: null,
     humanReadableText: [
       'You can use this work for any purpose without restriction under copyright law.',
       'Public Domain Mark (PDM) terms and conditions <a href="https://creativecommons.org/publicdomain/mark/1.0">https://creativecommons.org/publicdomain/mark/1.0</a>',
@@ -73,27 +72,22 @@ export const additionalData = {
   },
   'cc-by-sa': {
     icons: ['cc', 'ccBy'],
-    description: null,
     humanReadableText: [],
   },
   'cc-by-nc-sa': {
     icons: ['cc', 'ccBy', 'ccNc'],
-    description: null,
     humanReadableText: [],
   },
   ogl: {
     icons: [],
-    description: null,
     humanReadableText: [],
   },
   opl: {
     icons: [],
-    description: null,
     humanReadableText: [],
   },
   inc: {
     icons: [],
-    description: null,
     humanReadableText: [],
   },
 };
@@ -162,15 +156,13 @@ const defaultLicenseMap = {
   ogl: {
     id: 'ogl',
     label: 'Open Government Licence',
-    url:
-      'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
+    url: 'http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/',
     type: 'License',
   },
   opl: {
     id: 'opl',
     label: 'Open Parliament Licence',
-    url:
-      'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence',
+    url: 'https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence',
     type: 'License',
   },
   inc: {

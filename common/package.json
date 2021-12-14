@@ -48,7 +48,6 @@
     "lodash.groupby": "^4.6.0",
     "lodash.merge": "^4.6.2",
     "lodash.sortby": "^4.7.0",
-    "lodash.throttle": "^4.1.1",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "next": "^11.1.2",

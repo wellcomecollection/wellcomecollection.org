@@ -1,14 +1,14 @@
 import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-import { font, classNames } from '../../../utils/classnames';
-import { trackEvent } from '../../../utils/ga';
-import Tasl from '../Tasl/Tasl';
-import Caption from '../Caption/Caption';
-import { HTMLString } from '../../../services/prismic/types';
-import { Tasl as TaslType } from '../../../model/tasl';
+import { font, classNames } from '@weco/common/utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import { Tasl as TaslType } from '@weco/common/model/tasl';
 import styled from 'styled-components';
-import { isNotUndefined } from '../../../utils/array';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const Video = styled.video`
   max-height: 80vh;

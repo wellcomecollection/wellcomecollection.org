@@ -19,7 +19,7 @@ type Props = {
   gridVisible: boolean;
   setGridVisible: (v: boolean) => void;
   currentManifestLabel?: string;
-  licenseInfo: LicenseData;
+  licenseInfo?: LicenseData;
   iiifImageLocationCredit: string | undefined;
   downloadOptions: IIIFRendering[];
   iiifPresentationDownloadOptions: IIIFRendering[];
