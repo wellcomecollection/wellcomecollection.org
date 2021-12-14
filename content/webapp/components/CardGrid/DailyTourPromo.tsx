@@ -7,17 +7,7 @@ const image = {
   width: 2996,
   height: 2000,
   alt: '',
-  tasl: {
-    author: null,
-    copyrightHolder: null,
-    copyrightLink: null,
-    license: null,
-    sourceLink: null,
-    sourceName: null,
-    title: null,
-  },
   crops: {},
-  minWidth: null,
 };
 
 export const data: UiEvent = {
@@ -62,7 +52,7 @@ export const data: UiEvent = {
     image: image,
     link: '/pages/Wuw19yIAAK1Z3Sma',
   },
-  promoImage: { ...image, minWidth: null },
+  promoImage: { ...image },
   displayEnd: new Date(),
   displayStart: new Date(),
   scheduleLength: 0,

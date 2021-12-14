@@ -53,7 +53,10 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-export type FeaturedMedia = UiImage | typeof VideoEmbed | Picture;
+export type FeaturedMedia =
+  | ReactElement<typeof UiImage>
+  | typeof VideoEmbed
+  | typeof Picture;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 
@@ -67,13 +70,13 @@ export function getFeaturedMedia(
 
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
 
-  const FeaturedMedia = hasFeaturedVideo ? (
+  const featuredMedia = hasFeaturedVideo ? (
     <VideoEmbed {...body[0].value} />
   ) : isPicture && widescreenImage && squareImage ? (
     <Picture
       images={[
         { ...widescreenImage, minWidth: breakpoints.medium },
-        { ...squareImage, minWidth: null },
+        squareImage,
       ]}
       isFull={true}
     />
@@ -83,12 +86,12 @@ export function getFeaturedMedia(
     <UiImage {...image} sizesQueries="" />
   ) : undefined;
 
-  return FeaturedMedia;
+  return featuredMedia;
 }
 
 export function getHeroPicture(
   fields: GenericContentFields
-): Picture | undefined {
+): ReactElement<typeof Picture> | undefined {
   const { squareImage, widescreenImage } = fields;
 
   return (
@@ -97,7 +100,7 @@ export function getHeroPicture(
       <Picture
         images={[
           { ...widescreenImage, minWidth: breakpoints.medium },
-          { ...squareImage, minWidth: null },
+          squareImage,
         ]}
         isFull={true}
       />

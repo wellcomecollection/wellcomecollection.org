@@ -31,12 +31,14 @@ export const Picture: FunctionComponent<Props> = ({
                 key={image.contentUrl}
                 media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
                 sizes="100vw"
-                srcSet={sizes.map(size => {
-                  return (
-                    image.contentUrl &&
-                    `${convertImageUri(image.contentUrl, size)} ${size}w`
-                  );
-                })}
+                srcSet={sizes
+                  .map(size => {
+                    return (
+                      image.contentUrl &&
+                      `${convertImageUri(image.contentUrl, size)} ${size}w`
+                    );
+                  })
+                  .join(', ')}
               />
             );
           }
