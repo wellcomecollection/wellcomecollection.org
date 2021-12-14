@@ -3,6 +3,7 @@ import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { UiImageProps } from '../Images/Images';
 import { Picture as PictureProps } from '../../../model/picture';
+import { FunctionComponent } from 'react';
 
 type Props = {
   images: PictureProps[];
@@ -11,7 +12,11 @@ type Props = {
 };
 
 // Deprecated: Use `PictureFromImages`. We're deprecating the Picture type.
-const Picture = ({ images, extraClasses, isFull = false }: Props) => {
+export const Picture: FunctionComponent<Props> = ({
+  images,
+  extraClasses,
+  isFull = false,
+}: Props) => {
   const lastImage = images[images.length - 1];
   const { tasl } = lastImage;
 

@@ -3,7 +3,7 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
-import Picture from '../Picture/Picture';
+import { Picture } from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import HighlightedHeading from './HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
@@ -81,7 +81,7 @@ export function getFeaturedMedia(
     <UiImage {...widescreenImage} sizesQueries="" />
   ) : image ? (
     <UiImage {...image} sizesQueries="" />
-  ) : null;
+  ) : undefined;
 
   return FeaturedMedia;
 }

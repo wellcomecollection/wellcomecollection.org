@@ -6,9 +6,7 @@ export type ImageType = {
   height: number;
   alt: string;
   tasl: Tasl;
-  crops: {
-    [key: string]: ImageType;
-  };
+  crops?: Record<string, ImageType>;
 };
 
 export type UiImageType = ImageType & {
