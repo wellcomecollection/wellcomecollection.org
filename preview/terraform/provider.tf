@@ -3,12 +3,10 @@ provider "aws" {
     role_arn = "arn:aws:iam::130871440101:role/experience-developer"
   }
 
-  region  = var.aws_region
-  version = "~> 2.47.0"
+  region = var.aws_region
 }
 
 provider "aws" {
-  version = "~> 2.0"
   region  = "us-east-1"
   alias   = "us-east-1"
 
