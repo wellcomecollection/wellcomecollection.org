@@ -20,7 +20,9 @@ export type Props = {
   clickHandler?: () => void;
   zoomable?: boolean;
   extraClasses?: string;
-  crops?: Record<string, ImageType>;
+  crops?: {
+    [key: string]: ImageType;
+  };
   style?: Record<string, string>;
   srcsetRequired?: boolean;
 };

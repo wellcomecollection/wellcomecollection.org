@@ -83,7 +83,7 @@ export function getFeaturedMedia(
   ) : widescreenImage ? (
     <UiImage {...widescreenImage} sizesQueries="" />
   ) : image ? (
-    <UiImage {...image} sizesQueries="" />
+    <UiImage {...image} crops={{}} sizesQueries="" />
   ) : undefined;
 
   return featuredMedia;

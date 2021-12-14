@@ -229,7 +229,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   const maybeHeroPicture = getHeroPicture(genericFields);
   const maybeFeaturedMedia = !maybeHeroPicture
     ? getFeaturedMedia(genericFields)
-    : null;
+    : undefined;
   const isImageGallery =
     article.format &&
     (article.format.id === ArticleFormatIds.ImageGallery ||
