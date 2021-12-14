@@ -18,4 +18,6 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_preview_5xx" {
   }
 
   alarm_actions = [local.cloudfront_error_topic_arn]
+
+  provider = aws.us-east-1
 }
