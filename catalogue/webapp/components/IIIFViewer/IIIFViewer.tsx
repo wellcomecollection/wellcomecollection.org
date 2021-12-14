@@ -438,7 +438,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
         activeIndex: activeIndex,
         gridVisible: gridVisible,
         currentManifestLabel: currentManifestLabel,
-        licenseInfo: licenseInfo,
+        licenseInfo: licenseInfo!,
         iiifImageLocationCredit: iiifImageLocationCredit,
         downloadOptions: downloadOptions,
         iiifPresentationDownloadOptions: iiifPresentationDownloadOptions,
