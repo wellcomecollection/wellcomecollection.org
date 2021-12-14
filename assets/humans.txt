@@ -55,7 +55,6 @@ Digital Experience:
 Digital Preservation and Data:
  Jonathan Tweed
  Natalie Pollecutt
- James Gorrie
  Alex Chan
  Harrison Pim
  Jamie Parkinson
@@ -67,6 +66,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ James Gorrie
  Alice Fuzier-Cayla
  Robert Kenny
  Jennifer Phillips-Bacher
