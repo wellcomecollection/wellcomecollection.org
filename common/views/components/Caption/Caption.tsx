@@ -15,7 +15,7 @@ const CaptionWrapper = styled(Space).attrs({
 type Props = {
   caption: HTMLString;
   preCaptionNode?: ReactNode;
-  width?: number | null;
+  width?: number;
 };
 
 const Caption: FunctionComponent<Props> = ({
