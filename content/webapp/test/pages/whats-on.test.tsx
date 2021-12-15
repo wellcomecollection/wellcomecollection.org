@@ -1,4 +1,4 @@
-import { whatsOn } from '@weco/common/test/fixtures/pages/whats-on';
+import { whatsOn } from '../../__mocks__/whats-on';
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 
 // We pull in the page after we've set the config
