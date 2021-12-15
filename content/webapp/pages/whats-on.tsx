@@ -37,6 +37,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {
   getParseCollectionVenueById,
+  OpeningTimes,
   parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import {
@@ -161,7 +162,7 @@ type DateRangeProps = {
   dateRange: any;
   period: string;
   cafePromo: any;
-  openingTimes: any;
+  openingTimes: OpeningTimes;
 };
 const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const fromDate = dateRange[0];
@@ -233,7 +234,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
 
 type HeaderProps = {
   activeId: string;
-  openingTimes: any;
+  openingTimes: OpeningTimes;
   featuredText?: FeaturedTextType;
 };
 const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
