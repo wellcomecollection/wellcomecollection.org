@@ -1,5 +1,4 @@
 import { GenericContentFields } from './generic-content-fields';
-import { Article } from './articles';
 import { Event } from './events';
 import { Exhibition } from './exhibitions';
 import { Page } from './pages';
@@ -14,7 +13,6 @@ export type Season = GenericContentFields & {
 
 export type SeasonWithContent = {
   season: Season;
-  articles: Article[];
   events: Event[];
   exhibitions: Exhibition[];
   pages: Page[];
