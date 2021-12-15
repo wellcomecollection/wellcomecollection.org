@@ -18,17 +18,21 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import { contentLd } from '../services/prismic/transformers/json-ld';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { fetchBooks } from '../services/prismic/fetch/books';
+import { fetchEvents } from '../services/prismic/fetch/events';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { transformBook } from '../services/prismic/transformers/books';
+import { transformEvent } from '../services/prismic/transformers/events';
 import { Article } from '../types/articles';
 import { Book } from '../types/books';
+import { Event } from '../types/events';
 
 type Props = SeasonWithContent & {
   articles: Article[];
   books: Book[];
+  events: Event[];
 };
 const SeasonPage = ({
   season,
@@ -115,6 +119,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articlesQueryPromise = fetchArticles(client, {
       predicates: [`[at(my.articles.seasons.season, "${id}")]`],
     });
+    const eventsQueryPromise = fetchEvents(client, {
+      predicates: [`[at(my.events.seasons.season, "${id}")]`],
+    });
 
     const { memoizedPrismic } = context.query;
     const seasonWithContentPromise = getSeasonWithContent({
@@ -123,14 +130,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
     });
 
-    const [articlesQuery, booksQuery, seasonWithContent] = await Promise.all([
-      articlesQueryPromise,
-      booksQueryPromise,
-      seasonWithContentPromise,
-    ]);
+    const [articlesQuery, booksQuery, eventsQuery, seasonWithContent] =
+      await Promise.all([
+        articlesQueryPromise,
+        booksQueryPromise,
+        eventsQueryPromise,
+        seasonWithContentPromise,
+      ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
     const books = transformQuery(booksQuery, transformBook);
+    const events = transformQuery(eventsQuery, transformEvent);
 
     if (seasonWithContent) {
       const serverData = await getServerData(context);
@@ -139,6 +149,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ...seasonWithContent,
           articles: articles.results,
           books: books.results,
+          events: events.results,
           serverData,
         }),
       };
