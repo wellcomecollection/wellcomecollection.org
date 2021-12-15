@@ -1,6 +1,6 @@
 import { HTMLString } from '../../../services/prismic/types';
 import { font, classNames } from '../../../utils/classnames';
-import { ReactElement, FunctionComponent } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -14,8 +14,8 @@ const CaptionWrapper = styled(Space).attrs({
 
 type Props = {
   caption: HTMLString;
-  preCaptionNode?: ReactElement;
-  width?: number | null | undefined;
+  preCaptionNode?: ReactNode;
+  width?: number;
 };
 
 const Caption: FunctionComponent<Props> = ({

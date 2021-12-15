@@ -73,7 +73,7 @@ function imageLd(image: Image) {
     image &&
     objToJsonLd(
       {
-        url: convertImageUri(image.contentUrl || image.url, 1200),
+        url: convertImageUri((image.contentUrl || image.url)!, 1200),
         width: image.width,
         height: image.height,
       },

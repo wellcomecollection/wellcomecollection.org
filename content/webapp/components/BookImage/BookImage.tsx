@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import Space from '../styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
-import { UiImageType } from '../../../model/image';
+import { UiImageType } from '@weco/common/model/image';
 import { FunctionComponent, ReactElement } from 'react';
 
 const Outer = styled('div').attrs({

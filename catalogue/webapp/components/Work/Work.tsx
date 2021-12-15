@@ -59,7 +59,7 @@ const Work: FunctionComponent<Props> = ({
   const imageUrl =
     iiifImageLocation && iiifImageLocation.url
       ? iiifImageTemplate(iiifImageLocation.url)({ size: `800,` })
-      : null;
+      : undefined;
 
   const title = removeIdiomaticTextTags(work.title);
 

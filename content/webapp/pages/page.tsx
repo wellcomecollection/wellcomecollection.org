@@ -123,7 +123,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     ? page.body.slice(1, page.body.length)
     : page.body;
 
-  const FeaturedMedia = hasFeaturedMedia ? (
+  const featuredMedia = hasFeaturedMedia ? (
     page.body[0].type === 'picture' ? (
       <UiImage
         {...(page.body[0].value.image.crops['16:9'] ||
@@ -131,8 +131,8 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       />
     ) : page.body[0].type === 'videoEmbed' ? (
       <VideoEmbed {...page.body[0].value} />
-    ) : null
-  ) : null;
+    ) : undefined
+  ) : undefined;
 
   const hiddenBreadcrumbPages = [
     prismicPageIds.covidWelcomeBack,
@@ -170,7 +170,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   };
 
   const displayBackground =
-    FeaturedMedia && !sectionLevelPage ? (
+    featuredMedia && !sectionLevelPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
         hasWobblyEdge={!isLanding}
@@ -182,12 +182,12 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       breadcrumbs={breadcrumbs}
       labels={labels}
       title={page.title}
-      FeaturedMedia={FeaturedMedia}
+      FeaturedMedia={featuredMedia}
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
       HeroPicture={undefined}
       backgroundTexture={
-        !FeaturedMedia && !sectionLevelPage ? backgroundTexture : undefined
+        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined
       }
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}

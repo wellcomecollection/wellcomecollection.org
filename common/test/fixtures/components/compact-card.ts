@@ -1,4 +1,6 @@
-export const mockImage = {
+import { Props as ImageProps } from '../../../views/components/Image/Image';
+
+export const mockImage: ImageProps = {
   contentUrl:
     'https://images.prismic.io/wellcomecollection/c8f7b7f4-d455-4c3f-ae65-9dc7428ae60a_EP001430_0001.jpg?auto=compress,format',
   width: 3630,
@@ -12,8 +14,6 @@ export const mockImage = {
     sourceLink:
       'https://wellcomecollection.org/works/keh5hjrh/images?id=vkqa2fhr',
     license: 'CC-BY',
-    copyrightHolder: null,
-    copyrightLink: null,
   },
   crops: {
     square: {
@@ -30,8 +30,6 @@ export const mockImage = {
         sourceLink:
           'https://wellcomecollection.org/works/keh5hjrh/images?id=vkqa2fhr',
         license: 'CC-BY',
-        copyrightHolder: null,
-        copyrightLink: null,
       },
       crops: {},
     },

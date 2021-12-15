@@ -1,21 +1,20 @@
-// @flow
-import { Fragment, Component, createRef } from 'react';
+import { Fragment, Component, createRef, ReactNode } from 'react';
 import debounce from 'lodash.debounce';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-// $FlowFixMe (ts)
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
-// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
-import type { Node as ReactNode } from 'react';
-import type { ImageType } from '../../../model/image';
-import type { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
-// $FlowFixMe (tsx)
+import { ImageType } from '../../../model/image';
+import { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
 import Caption from '../Caption/Caption';
 import LL from '../styled/LL';
 import styled from 'styled-components';
 
-const CaptionedImageFigure = styled.div`
+type CaptionedImageProps = {
+  isBody?: boolean;
+};
+
+const CaptionedImageFigure = styled.div<CaptionedImageProps>`
   margin: 0;
   display: inline-block;
   width: 100%;
@@ -43,25 +42,24 @@ const CaptionedImageFigure = styled.div`
   `}
 }`;
 
-export type UiImageProps = {|
-  ...ImageType,
-  sizesQueries: string,
-  extraClasses?: string,
-  isFull?: boolean,
-  showTasl?: boolean,
-  isWidthAuto?: boolean,
-  setComputedImageWidth?: (value: number) => void,
-  setIsWidthAuto?: (value: boolean) => void,
-|};
+export type UiImageProps = ImageType & {
+  sizesQueries: string;
+  extraClasses?: string;
+  isFull?: boolean;
+  showTasl?: boolean;
+  isWidthAuto?: boolean;
+  setComputedImageWidth?: (value: number) => void;
+  setIsWidthAuto?: (value: boolean) => void;
+};
 
-type UiImageState = {|
-  imgRef: any, // FIXME: better Flow
-  isLazyLoaded: boolean,
-|};
+type UiImageState = {
+  imgRef?: HTMLImageElement;
+  isLazyLoaded: boolean;
+};
 
 export class UiImage extends Component<UiImageProps, UiImageState> {
-  state = {
-    imgRef: null,
+  state: UiImageState = {
+    imgRef: undefined,
     isLazyLoaded: false,
   };
 
@@ -90,7 +88,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
     // At that point, setting `display: inline-block` on the parent container
     // ensures the TASL information button is correctly contained within the
     // image.
-    this.setState({ imgRef: this.imgRef.current });
+    this.setState({ imgRef: this.imgRef.current ?? undefined });
     this.imgRef.current &&
       this.imgRef.current.addEventListener('lazyloaded', this.handleLazyLoaded);
     this.props.setIsWidthAuto && this.props.setIsWidthAuto(false);
@@ -163,26 +161,25 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
   }
 }
 
-export type UiCaptionedImageProps = {|
-  ...CaptionedImageType,
-  sizesQueries: string,
-  isBody?: boolean,
-  preCaptionNode?: ReactNode,
-  setTitleStyle?: (value: number) => void,
-|};
+export type UiCaptionedImageProps = CaptionedImageType & {
+  sizesQueries: string;
+  isBody?: boolean;
+  preCaptionNode?: ReactNode;
+  setTitleStyle?: (value: number) => void;
+};
 
-type UiCaptionedImageState = {|
-  computedImageWidth: ?number,
-  isWidthAuto: boolean,
-  isEnhanced: boolean,
-|};
+type UiCaptionedImageState = {
+  computedImageWidth?: number;
+  isWidthAuto: boolean;
+  isEnhanced: boolean;
+};
 
 export class CaptionedImage extends Component<
   UiCaptionedImageProps,
   UiCaptionedImageState
 > {
-  state = {
-    computedImageWidth: null,
+  state: UiCaptionedImageState = {
+    computedImageWidth: undefined,
     isWidthAuto: false,
     isEnhanced: false,
   };

@@ -1,19 +1,22 @@
-// @flow
-// $FlowFixMe (tsx)
 import Tasl from '../Tasl/Tasl';
 import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-import type { UiImageProps } from '../Images/Images';
-import type { Picture as PictureProps } from '../../../model/picture';
+import { UiImageProps } from '../Images/Images';
+import { Picture as PictureProps } from '../../../model/picture';
+import { FunctionComponent } from 'react';
 
-type Props = {|
-  images: PictureProps[],
-  extraClasses?: string,
-  isFull: boolean,
-|};
+type Props = {
+  images: PictureProps[];
+  extraClasses?: string;
+  isFull: boolean;
+};
 
 // Deprecated: Use `PictureFromImages`. We're deprecating the Picture type.
-const Picture = ({ images, extraClasses, isFull = false }: Props) => {
+export const Picture: FunctionComponent<Props> = ({
+  images,
+  extraClasses,
+  isFull = false,
+}: Props) => {
   const lastImage = images[images.length - 1];
   const { tasl } = lastImage;
 
@@ -28,12 +31,14 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
                 key={image.contentUrl}
                 media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
                 sizes="100vw"
-                srcSet={sizes.map(size => {
-                  return (
-                    image.contentUrl &&
-                    `${convertImageUri(image.contentUrl, size)} ${size}w`
-                  );
-                })}
+                srcSet={sizes
+                  .map(size => {
+                    return (
+                      image.contentUrl &&
+                      `${convertImageUri(image.contentUrl, size)} ${size}w`
+                    );
+                  })
+                  .join(', ')}
               />
             );
           }
@@ -54,11 +59,11 @@ const Picture = ({ images, extraClasses, isFull = false }: Props) => {
 
 // The prder of the images is important, you need to have it from:
 // maximum min-width -> minimum min-width
-type PictureFromImagesProps = {|
-  images: { [string | 'default']: UiImageProps }, // the key here is the minwidth
-  extraClasses?: string,
-  isFull: boolean,
-|};
+type PictureFromImagesProps = {
+  images: { string: UiImageProps }; // the key here is the minwidth
+  extraClasses?: string;
+  isFull: boolean;
+};
 export const PictureFromImages = ({
   images,
   extraClasses,

@@ -331,7 +331,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   defaultSize={400}
                   alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
-                  tasl={null}
                   lazyload={false}
                 />
               </ImageWrapper>

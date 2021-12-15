@@ -149,7 +149,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
   const mainImageService = { '@id': getServiceId(currentCanvas) };
   const urlTemplateMain = mainImageService['@id']
     ? iiifImageTemplate(mainImageService['@id'])
-    : null;
+    : undefined;
   const thumbnailService = getThumbnailService(currentCanvas);
   const urlTemplateThumbnail =
     thumbnailService && iiifImageTemplate(thumbnailService['@id']);
