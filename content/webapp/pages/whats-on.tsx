@@ -80,7 +80,7 @@ const segmentedControlItems = [
   },
 ];
 
-type Props = {
+export type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
   events: PaginatedResults<UiEvent>;
   availableOnlineEvents: PaginatedResults<UiEvent>;

@@ -1,10 +1,11 @@
 import { clock } from '@weco/common/icons';
+import { UiExhibition } from '@weco/common/model/exhibitions';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { Props as WhatsOnProps } from '../pages/whats-on';
 
-const beingHuman = {
+const beingHuman: UiExhibition = {
   id: 'XNFfsxAAANwqbNWD',
   title: 'Being Human',
-  contributorsTitle: '',
-  contributors: [],
   body: [
     {
       type: 'quote',
@@ -1112,15 +1113,6 @@ const beingHuman = {
     },
   ],
   promo: {
-    id: 'XNFfsxAAANwqbNWD',
-    format: {
-      id: 'Wvw6wSAAAAuy63fP',
-      title: 'Permanent',
-      description: null,
-    },
-    url: '/exhibitions/XNFfsxAAANwqbNWD',
-    title: 'Being Human',
-    shortTitle: 'Being Human',
     image: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/3eb4b341-6471-4610-9f12-c97f5c7be0bc_SDP_20201005_0278-81.jpg?auto=compress,format&rect=0,0,2955,1662&w=3200&h=1800',
@@ -1136,28 +1128,7 @@ const beingHuman = {
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
     },
-    squareImage: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/3eb4b341-6471-4610-9f12-c97f5c7be0bc_SDP_20201005_0278-81.jpg?auto=compress,format&rect=1185,0,1662,1662&w=3200&h=3200',
-      width: 3200,
-      height: 3200,
-      alt: 'Photograph of a museum gallery space with display cases and exhibits. In the foreground is a woman wearing a face covering and a pair of yellow over the ear headphones. She is in the process of plugging the headphones into the socket of an audio exhibit. To the right of her is another woman also wearing a face covering who is looking up at a transparent model of human being. In the far distance is a man, also wearing a face covering who is exploring the exhibiton.',
-      tasl: {
-        title: 'Being Human gallery',
-        author: 'Steven Pocock',
-        sourceName: 'Wellcome Collection',
-        sourceLink: null,
-        license: 'CC-BY-NC',
-        copyrightHolder: null,
-        copyrightLink: null,
-      },
-      crops: {},
-    },
-    start: '2019-09-04T23:00:00.000Z',
-    end: '2090-01-01T00:00:00.000Z',
-    statusOverride: 'Closed',
   },
   promoText:
     'Our new permanent gallery explores trust, identity and health in a changing world.',
@@ -1176,7 +1147,6 @@ const beingHuman = {
       copyrightHolder: null,
       copyrightLink: null,
     },
-    crops: {},
   },
   image: {
     contentUrl:
@@ -1288,17 +1258,14 @@ const beingHuman = {
   format: {
     id: 'Wvw6wSAAAAuy63fP',
     title: 'Permanent',
-    description: null,
   },
-  description: [],
-  start: '2019-09-04T23:00:00.000Z',
-  end: '2090-01-01T00:00:00.000Z',
+  start: new Date(2019, 9, 4, 23, 0, 0),
+  end: new Date(2090, 1, 1, 0, 0, 0),
   isPermanent: true,
   statusOverride: 'Closed',
   place: {
     id: 'Wn1gdSoAACgAH_-x',
     title: 'Being Human gallery',
-    contributors: [],
     body: [],
     labels: [],
     level: 1,
@@ -1310,7 +1277,6 @@ const beingHuman = {
       },
     ],
   },
-  exhibits: [],
   featuredImageList: [
     {
       contentUrl:
@@ -1327,7 +1293,6 @@ const beingHuman = {
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
     },
     {
       contentUrl:
@@ -1344,21 +1309,25 @@ const beingHuman = {
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
     },
   ],
   resources: [],
   relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
+  exhibits: [],
+  seasons: [],
+  prismicDocument: null,
 };
 
-export const whatsOn = hasExhibition => ({
+export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (
+  hasExhibition: boolean
+) => ({
   period: 'current-and-coming-up',
   exhibitions: {
     currentPage: 1,
     pageSize: 20,
     totalResults: 1,
     totalPages: 1,
-    results: [hasExhibition ? beingHuman : null].filter(Boolean),
+    results: [hasExhibition ? beingHuman : undefined].filter(isNotUndefined),
   },
   events: {
     currentPage: 1,
@@ -1462,5 +1431,10 @@ export const whatsOn = hasExhibition => ({
       height: 2000,
       alt: '',
     },
+  },
+  featuredText: {
+    type: 'text',
+    weight: 'featured',
+    value: [],
   },
 });
