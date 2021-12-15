@@ -21,7 +21,7 @@ import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
 
 /**
- * This allows as to get the DataInterface from PrismicDocuments when we
+ * This allows us to get the DataInterface from PrismicDocuments when we
  * Need them for `RelationField`s e.g.
  * type Doc = PrismicDocument<{ title: RichTextField }>
  * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
