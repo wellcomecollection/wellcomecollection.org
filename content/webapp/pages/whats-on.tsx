@@ -92,7 +92,7 @@ export type Props = {
   featuredText: FeaturedTextType;
 };
 
-function getListHeader(openingTimes: any) {
+function getListHeader(openingTimes: OpeningTimes) {
   const galleriesOpeningTimes = getParseCollectionVenueById(
     openingTimes,
     collectionVenueId.galleries.id
