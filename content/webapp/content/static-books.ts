@@ -31,7 +31,7 @@ const books = [
       'The Booker Prize-shortlisted author Elif Shafak on how staying optimistic can make our world better.',
     cover: {
       contentUrl:
-        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format&rect=0,796,1530,861&w=3200&h=1800',
+        'https://images.prismic.io/wellcomecollection/89ad9a3f-7a0e-4637-b967-1a3dc06dbc78_How+to+Stay+Sane_book+cover.jpg?auto=compress,format',
       width: 3200,
       height: 1800,
     },
