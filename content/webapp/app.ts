@@ -27,9 +27,7 @@ const Periods = {
   ComingUp: 'coming-up',
   ThisWeek: 'this-week',
 };
-const periodPaths = Object.keys(Periods)
-  .map(key => Periods[key])
-  .join('|');
+const periodPaths = Object.values(Periods).join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
