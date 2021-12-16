@@ -27,9 +27,7 @@ const Periods = {
   ComingUp: 'coming-up',
   ThisWeek: 'this-week',
 };
-const periodPaths = Object.keys(Periods)
-  .map(key => Periods[key])
-  .join('|');
+const periodPaths = Object.values(Periods).join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
@@ -38,6 +36,13 @@ const handle = nextApp.getRequestHandler();
 function pageVanityUrl(router, app, url, pageId, template = '/page') {
   route(url, template, router, app, { id: pageId });
 }
+
+// A Prismic ID is an alphanumeric string, plus underscore and hyphen
+//
+// We filter out any requests for pages that obviously aren't Prismic IDs; we know
+// they're not going to work, and they may be attempts to inject malicious data into
+// our Prismic queries.
+const prismicId = '[a-zA-Z0-9-_]+';
 
 const appPromise = nextApp
   .prepare()
@@ -66,21 +71,21 @@ const appPromise = nextApp
 
     route('/events', '/events', router, nextApp);
     route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
-    route('/events/:id', '/event', router, nextApp);
-    route('/event-series/:id', '/event-series', router, nextApp);
+    route(`/events/:id(${prismicId})`, '/event', router, nextApp);
+    route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
     route('/stories', '/stories', router, nextApp);
     route('/articles', '/articles', router, nextApp);
-    route('/articles/:id', '/article', router, nextApp);
-    route('/series/:id', '/article-series', router, nextApp);
-    route('/projects/:id', '/page', router, nextApp);
+    route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
+    route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
+    route(`/projects/:id(${prismicId})`, '/page', router, nextApp);
 
     route('/books', '/books', router, nextApp);
-    route('/books/:id', '/book', router, nextApp);
+    route(`/books/:id(${prismicId})`, '/book', router, nextApp);
 
-    route('/places/:id', '/place', router, nextApp);
-    route('/pages/:id', '/page', router, nextApp);
-    route('/seasons/:id', '/season', router, nextApp);
+    route(`/places/:id(${prismicId})`, '/place', router, nextApp);
+    route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
+    route(`/seasons/:id(${prismicId})`, '/season', router, nextApp);
 
     route('/newsletter', '/newsletter', router, nextApp);
 
@@ -89,7 +94,7 @@ const appPromise = nextApp
     });
 
     route('/guides', '/guides', router, nextApp);
-    route('/guides/:id', '/page', router, nextApp);
+    route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
     pageVanityUrl(router, nextApp, '/opening-times', 'WwQHTSAAANBfDYXU');
     pageVanityUrl(router, nextApp, '/what-we-do', 'WwLGFCAAAPMiB_Ps');

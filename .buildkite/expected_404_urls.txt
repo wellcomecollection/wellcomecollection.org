@@ -7,3 +7,6 @@
 /articles/notfound
 /books/notfound
 /exhibitions/notfound
+
+# Ignore attempts to inject malicious data into our Prismic queries
+/event-series/WlYUDCQAACQAWcdt..%5c..
