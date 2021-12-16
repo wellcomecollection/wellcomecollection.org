@@ -46,7 +46,10 @@ import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import { itemIsRequestable } from '../../utils/requesting';
+import {
+  itemIsRequestable,
+  itemIsTemporarilyUnavailable,
+} from '../../utils/requesting';
 import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
@@ -76,7 +79,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { enableRequesting } = useToggles();
+  const { enableRequesting, buildingClosure } = useToggles();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -218,11 +221,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {enableRequesting && physicalItems.some(itemIsRequestable) && (
-          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <SignInBar />
-          </Space>
-        )}
+        {(enableRequesting || buildingClosure) &&
+          physicalItems.some(
+            item =>
+              itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
+          ) && (
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <SignInBar requestingUnavailable={buildingClosure} />
+            </Space>
+          )}
         {locationOfWork && (
           <WorkDetailsText
             title={locationOfWork.noteType.label}
