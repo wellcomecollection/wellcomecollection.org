@@ -40,7 +40,7 @@ import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import SignInBar from '../SignInBar/SignInBar';
+import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';
 import {
   abortErrorHandler,
@@ -227,7 +227,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
           ) && (
             <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <SignInBar requestingUnavailable={buildingClosure} />
+              <LibraryMembersBar requestingUnavailable={buildingClosure} />
             </Space>
           )}
         {locationOfWork && (

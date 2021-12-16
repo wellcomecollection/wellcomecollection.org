@@ -63,7 +63,7 @@ type Props = {
   requestingUnavailable?: boolean;
 };
 
-const SignInBar: FC<Props> = ({ requestingUnavailable }) => {
+const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
   const { state, reload } = useUser();
 
   if (requestingUnavailable) {
@@ -93,4 +93,4 @@ const SignInBar: FC<Props> = ({ requestingUnavailable }) => {
   ) : null;
 };
 
-export default SignInBar;
+export default LibraryMembersBar;
