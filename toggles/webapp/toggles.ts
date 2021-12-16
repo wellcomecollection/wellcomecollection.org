@@ -21,7 +21,7 @@ const toggles = {
       title: 'The building is currently closed.',
       description:
         'Indicates that the building is closed and associated services are unavailable',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'enableRequesting',
