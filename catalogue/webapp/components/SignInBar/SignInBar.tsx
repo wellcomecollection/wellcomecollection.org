@@ -75,7 +75,7 @@ const SignInBar: FC<Props> = ({ requestingUnavailable }) => {
         <AlignFont>
           <span className={font('hnb', 5)}>Library members:</span>{' '}
           <span className={font('hnr', 5)}>
-            Requesting is currently unavailable due to building closure.
+            Requesting is currently unavailable, while our building is closed.
           </span>
         </AlignFont>
       </StyledComponent>
