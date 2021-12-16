@@ -78,7 +78,7 @@ const CookieNotice: FunctionComponent<Props> = ({ source }) => {
               >
                 <h2 className="no-margin inline">Wellcome uses cookies.</h2>
               </Space>
-              <a href="https://wellcome.ac.uk/about-us/terms-use#cookies">
+              <a href="https://wellcome.org/who-we-are/privacy-and-terms#cookies">
                 Read our policy
               </a>
             </div>
