@@ -313,19 +313,10 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
   }
 }
 
-// This is necessary while we are in the process of switching the source of the iiif presentation manifests
-// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
-// and the one served from iiif.wellcomecollection.org
-// In the former canvas.thumbnail.service is an object and in the latter it is an array.
 export function getThumbnailService(
   canvas: IIIFCanvas
 ): IIIFThumbnailService | undefined {
-  const service = canvas?.thumbnail?.service;
-  if (Array.isArray(service)) {
-    return service[0];
-  } else {
-    return service;
-  }
+  return canvas?.thumbnail?.service[0];
 }
 
 export async function getIIIFManifest(url: string): Promise<IIIFManifest> {
