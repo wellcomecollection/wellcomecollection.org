@@ -128,6 +128,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
       predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
+      orderings: [`my.exhibitions.isPermanent desc, my.exhibitions.end desc`],
     });
 
     const { memoizedPrismic } = context.query;
