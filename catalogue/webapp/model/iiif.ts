@@ -127,7 +127,7 @@ export type Service = {
 export type IIIFManifest = {
   '@id': string;
   label: string;
-  manifests: any; // TODO
+  manifests: IIIFManifest[];
   metadata: IIIFMetadata[];
   mediaSequences?: IIIFMediaSequence[];
   sequences?: IIIFSequence[];
