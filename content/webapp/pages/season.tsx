@@ -125,6 +125,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
     const eventsQueryPromise = fetchEvents(client, {
       predicates: [`[at(my.events.seasons.season, "${id}")]`],
+      orderings: ['my.events.times.startDateTime'],
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
       predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
