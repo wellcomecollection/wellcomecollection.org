@@ -14,6 +14,7 @@ import {
   LinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
+import { ExhibitionFormat } from './exhibition-format';
 import { Body } from './body';
 import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
@@ -152,6 +153,10 @@ export type WithArticleFormat = {
 export const articleFormatsFetchLinks: FetchLinks<ArticleFormat> = [
   'article-formats.title',
   'article-formats.description',
+];
+
+export const exhibitionFormatsFetchLinks: FetchLinks<ExhibitionFormat> = [
+  'exhibition-formats.title',
 ];
 
 export type WithExhibitionParents = {
