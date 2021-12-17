@@ -285,7 +285,10 @@ export function getFirstChildManifestLocation(
   iiifManifest: IIIFManifest
 ): string | undefined {
   if (iiifManifest.manifests) {
-    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
+    const firstChildManifest = iiifManifest.manifests.find(
+      manifest => manifest['@id']
+    );
+    return firstChildManifest ? firstChildManifest['@id'] : undefined;
   }
 }
 
