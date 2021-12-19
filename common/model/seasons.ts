@@ -11,7 +11,6 @@ export type Season = GenericContentFields & {
 
 export type SeasonWithContent = {
   season: Season;
-  pages: Page[];
   articleSeries: ArticleSeries[];
   projects: Page[];
 };
