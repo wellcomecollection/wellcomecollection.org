@@ -9,6 +9,7 @@ import {
   globalApiOptions,
   catalogueApiError,
   notFound,
+  looksLikeCanonicalId,
 } from './common';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
@@ -67,6 +68,10 @@ export async function getImage({
   toggles,
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
+  if (!looksLikeCanonicalId(id)) {
+    return notFound();
+  }
+
   const apiOptions = globalApiOptions(toggles);
 
   const params = {
