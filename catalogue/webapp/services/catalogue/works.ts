@@ -131,12 +131,12 @@ export async function getWork({
     return id ? redirect(id, res.status) : notFound();
   }
 
+  if (res.status === 404) {
+    return notFound();
+  }
+
   try {
-    const json = await res.json();
-    if (res.status === 404) {
-      return notFound();
-    }
-    return json;
+    return await res.json();
   } catch (e) {
     return catalogueApiError();
   }
