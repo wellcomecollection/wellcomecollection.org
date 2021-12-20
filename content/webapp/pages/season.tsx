@@ -21,6 +21,7 @@ import { fetchBooks } from '../services/prismic/fetch/books';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import { fetchPages } from '../services/prismic/fetch/pages';
+import { fetchSeries } from '../services/prismic/fetch/series';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
@@ -29,11 +30,13 @@ import { transformBook } from '../services/prismic/transformers/books';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformExhibition } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
+import { transformSeries } from '../services/prismic/transformers/series';
 import { Article } from '../types/articles';
 import { Book } from '../types/books';
 import { Event } from '../types/events';
 import { Exhibition } from '../types/exhibitions';
 import { Page } from '../types/pages';
+import { Series } from '../types/series';
 
 type Props = SeasonWithContent & {
   articles: Article[];
@@ -41,6 +44,7 @@ type Props = SeasonWithContent & {
   events: Event[];
   exhibitions: Exhibition[];
   pages: Page[];
+  series: Series[];
 };
 const SeasonPage = ({
   season,
@@ -48,7 +52,7 @@ const SeasonPage = ({
   events,
   exhibitions,
   pages,
-  articleSeries,
+  series,
   projects,
   books,
 }: Props): ReactElement<Props> => {
@@ -78,7 +82,7 @@ const SeasonPage = ({
     ...parsedEvents,
     ...articles,
     ...pages,
-    ...articleSeries,
+    ...series,
     ...projects,
     ...books,
   ];
@@ -138,6 +142,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const pagesQueryPromise = fetchPages(client, {
       predicates: [`[at(my.pages.seasons.season, "${id}")]`],
     });
+    const seriesQueryPromise = fetchSeries(client, {
+      predicates: [`[at(my.series.seasons.season, "${id}")]`],
+    });
 
     const { memoizedPrismic } = context.query;
     const seasonWithContentPromise = getSeasonWithContent({
@@ -152,6 +159,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       eventsQuery,
       exhibitionsQuery,
       pagesQuery,
+      seriesQuery,
       seasonWithContent,
     ] = await Promise.all([
       articlesQueryPromise,
@@ -159,6 +167,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       eventsQueryPromise,
       exhibitionsQueryPromise,
       pagesQueryPromise,
+      seriesQueryPromise,
       seasonWithContentPromise,
     ]);
 
@@ -167,6 +176,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const events = transformQuery(eventsQuery, transformEvent);
     const exhibitions = transformQuery(exhibitionsQuery, transformExhibition);
     const pages = transformQuery(pagesQuery, transformPage);
+    const series = transformQuery(seriesQuery, transformSeries);
 
     if (seasonWithContent) {
       const serverData = await getServerData(context);
@@ -178,6 +188,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events: events.results,
           exhibitions: exhibitions.results,
           pages: pages.results,
+          series: series.results,
           serverData,
         }),
       };
