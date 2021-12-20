@@ -10,7 +10,7 @@ import { init as initServerData } from '@weco/common/server-data';
 import bodyParser from 'koa-bodyparser';
 import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
 import {
-  middleware,
+  withCachedValues,
   route,
   handleAllRoute,
   timers as middlewareTimers,
@@ -53,7 +53,7 @@ const appPromise = nextApp
     const router = new Router();
 
     koaApp.use(apmErrorMiddleware);
-    koaApp.use(middleware);
+    koaApp.use(withCachedValues);
     koaApp.use(bodyParser());
 
     pageVanityUrl(router, nextApp, '/', 'XphUbREAACMAgRNP', '/homepage');
