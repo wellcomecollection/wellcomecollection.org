@@ -1,6 +1,6 @@
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
+import { getTodaysVenueHours } from '../../../services/prismic/opening-times';
 import Space from '../styled/Space';
-import { CollectionOpeningTimes } from '@weco/common/model/opening-hours';
+import { OpeningTimes } from '../../../model/opening-hours';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
@@ -8,15 +8,17 @@ import {
 import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
-  collectionOpeningTimes: CollectionOpeningTimes;
+  openingTimes: OpeningTimes;
 };
 
 const FooterOpeningTimes: FunctionComponent<Props> = ({
-  collectionOpeningTimes,
+  openingTimes,
 }: Props): ReactElement<Props> => {
   return (
     <ul className="plain-list no-padding no-margin">
-      {collectionOpeningTimes.placesOpeningHours.map(venue => {
+      {openingTimes.placesOpeningHours.map(venue => {
+        // TODO placesOpeningHours should be Venues
+        // TODO need exceptional time to override regular times if there are any
         const todaysHours = getTodaysVenueHours(venue);
         return (
           todaysHours && (

@@ -6,12 +6,10 @@ import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
-import { OverrideType } from '../../../model/opening-hours';
-import { Moment } from 'moment';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
-import { OpeningTimes } from '../../../services/prismic/opening-times';
+import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
+import { OpeningTimes } from '../../../model/opening-hours';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -261,12 +259,8 @@ const Footer: FunctionComponent<Props> = ({
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
-                  {openingTimes && openingTimes?.collectionOpeningTimes && (
-                    <FooterOpeningTimes
-                      collectionOpeningTimes={
-                        openingTimes.collectionOpeningTimes
-                      }
-                    />
+                  {openingTimes && (
+                    <FooterOpeningTimes openingTimes={openingTimes} />
                   )}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
