@@ -407,11 +407,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     )?.url;
     const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-    let manifestOrCollection: IIIFManifest | undefined;
+    let manifestOrCollection;
     try {
-      manifestOrCollection = iiifPresentationUrl
-        ? await getIIIFManifest(iiifPresentationUrl)
-        : undefined;
+      manifestOrCollection =
+        iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
     } catch (e) {
       return { notFound: true };
     }
