@@ -201,6 +201,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     window.gtag &&
       window.gtag('config', 'G-206J7SLYFC', {
         page_path: `${window.location.pathname}${window.location.search}`,
+        cookie_flags: 'SameSite=None;secure',
       });
   }, []);
 
@@ -213,6 +214,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       {
         trackingId: 'UA-55614-6',
         titleCase: false,
+        gaOptions: {
+          cookieFlags: 'SameSite=None;secure',
+        },
       },
     ]);
 
