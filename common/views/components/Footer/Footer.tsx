@@ -165,14 +165,6 @@ const TopBorderBox = styled.div`
 type Props = {
   hide: boolean;
   openingTimes: OpeningTimes;
-  // TODO: This is never used in the Footer component.  Should we put it
-  // back in the component, or can it be safely removed from Props and
-  // all the callers of this component?
-  upcomingExceptionalOpeningPeriods?: {
-    dates: Moment[];
-    type: OverrideType;
-  }[];
-  extraClasses?: string;
 };
 
 const Footer: FunctionComponent<Props> = ({

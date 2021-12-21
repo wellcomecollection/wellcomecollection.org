@@ -296,13 +296,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        <Footer
-          hide={hideFooter}
-          openingTimes={openingTimes}
-          upcomingExceptionalOpeningPeriods={
-            openingTimes && openingTimes.upcomingExceptionalOpeningPeriods
-          }
-        />
+        <Footer hide={hideFooter} openingTimes={openingTimes} />
       </div>
     </>
   );
