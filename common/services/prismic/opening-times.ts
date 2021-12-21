@@ -332,8 +332,8 @@ export function parseCollectionVenue(
     const start: string | undefined = modified.startDateTime
       ? london(modified.startDateTime).format('HH:mm')
       : undefined;
-    const end: string | undefined = modified.startDateTime
-      ? london(modified.endDateTime!).format('HH:mm')
+    const end: string | undefined = modified.endDateTime
+      ? london(modified.endDateTime).format('HH:mm')
       : undefined;
     const overrideDate: Moment | undefined = modified.overrideDate
       ? london(modified.overrideDate)
