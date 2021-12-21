@@ -285,10 +285,7 @@ export function getFirstChildManifestLocation(
   iiifManifest: IIIFManifest
 ): string | undefined {
   if (iiifManifest.manifests) {
-    const firstChildManifest = iiifManifest.manifests.find(
-      manifest => manifest['@id']
-    );
-    return firstChildManifest ? firstChildManifest['@id'] : undefined;
+    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
   }
 }
 
@@ -313,10 +310,19 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
   }
 }
 
+// This is necessary while we are in the process of switching the source of the iiif presentation manifests
+// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
+// and the one served from iiif.wellcomecollection.org
+// In the former canvas.thumbnail.service is an object and in the latter it is an array.
 export function getThumbnailService(
   canvas: IIIFCanvas
 ): IIIFThumbnailService | undefined {
-  return canvas?.thumbnail?.service[0];
+  const service = canvas?.thumbnail?.service;
+  if (Array.isArray(service)) {
+    return service[0];
+  } else {
+    return service;
+  }
 }
 
 export async function getIIIFManifest(url: string): Promise<IIIFManifest> {
