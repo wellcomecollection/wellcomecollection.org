@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
@@ -17,7 +18,11 @@ import {
 } from '@weco/common/services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
-import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
+import {
+  getTodaysOpeningTimesForVenue,
+  getVenueById,
+  parseOpeningTimes,
+} from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
   readingRoomPromo,
@@ -35,11 +40,7 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import {
-  getParseCollectionVenueById,
-  OpeningTimes,
-  parseCollectionVenues,
-} from '@weco/common/services/prismic/opening-times';
+import type { OpeningTimes } from '@weco/common/model/opening-hours';
 import {
   collectionVenueId,
   prismicPageIds,
@@ -93,15 +94,12 @@ export type Props = {
 };
 
 function getListHeader(openingTimes: OpeningTimes) {
-  const galleriesOpeningTimes = getParseCollectionVenueById(
-    openingTimes,
-    collectionVenueId.galleries.id
-  );
-
+  // TODO change name of parameter? Venue?
+  const galleries = getVenueById(openingTimes, collectionVenueId.galleries.id);
   return {
-    todayOpeningHours: getTodaysGalleriesHours(
-      galleriesOpeningTimes.openingHours.id
-    ),
+    todaysOpeningHours: galleries
+      ? getTodaysOpeningTimesForVenue(galleries.openingHours)
+      : null,
     name: "What's on",
     items: [
       {
@@ -159,19 +157,18 @@ function getWeekendToDate(today) {
 }
 
 type DateRangeProps = {
-  dateRange: any;
+  dateRange: (Date | Moment)[];
   period: string;
-  cafePromo: any;
-  openingTimes: OpeningTimes;
+  // galleriesAreOpenToday: boolean;
 };
-const DateRange = ({ dateRange, period }: DateRangeProps) => {
+
+const DateRange = ({
+  dateRange,
+  period,
+}: // galleriesAreOpenToday,
+DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  // TODO: reinstate after lockdown
-  // const collectionOpeningTimes =
-  // openingTimes && openingTimes.collectionOpeningTimes;
-  // const listHeader = getListHeader(collectionOpeningTimes);
-
   return (
     <Fragment>
       <Space
@@ -201,9 +198,9 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
           </Fragment>
         )}
       </Space>
-      {/* TODO: reinstate after lockdown */}
-      {/* {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
-        period === 'today' && (
+      {/* TODO reinstate after lockdown */}
+      {/* {period === 'today' &&
+        !galleriesAreOpenToday && ( // TODO use shopIsOpenToday, cafeIsOpenToday props to determine message to show and make ClosedMessageComponent
           <Fragment>
             <Space
               v={{
@@ -224,8 +221,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
                 size: 'l',
                 properties: ['margin-top', 'margin-bottom'],
               }}
-            >
-            </Space>
+            ></Space>
           </Fragment>
         )} */}
     </Fragment>
@@ -239,7 +235,7 @@ type HeaderProps = {
 };
 const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   const listHeader = getListHeader(openingTimes);
-  const todayOpeningHours = listHeader.todayOpeningHours;
+  const todaysOpeningHours = listHeader.todaysOpeningHours;
 
   return (
     <Space
@@ -259,7 +255,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                 What{`'`}s on
               </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
-                {todayOpeningHours && (
+                {todaysOpeningHours && (
                   <div className="flex flex--v-center">
                     <Space
                       as="span"
@@ -269,10 +265,10 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                       })}
                     >
                       Galleries
-                      {todayOpeningHours.opens ? ' open ' : ' closed '}
+                      {todaysOpeningHours.opens ? ' open ' : ' closed '}
                       today
                     </Space>
-                    {todayOpeningHours.opens && (
+                    {todaysOpeningHours.opens && (
                       <Fragment>
                         <Space
                           as="span"
@@ -288,9 +284,9 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                           })}
                         >
                           <Fragment>
-                            <time>{todayOpeningHours.opens}</time>
+                            <time>{todaysOpeningHours.opens}</time>
                             {'—'}
-                            <time>{todayOpeningHours.closes}</time>
+                            <time>{todaysOpeningHours.closes}</time>
                           </Fragment>
                         </Space>
                       </Fragment>
@@ -451,7 +447,7 @@ const WhatsOnPage = (props: Props) => {
     : `What's on`;
 
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
 
   return (
     <PageLayout
@@ -488,8 +484,8 @@ const WhatsOnPage = (props: Props) => {
           <DateRange
             dateRange={dateRange}
             period={period}
-            cafePromo={eatShopPromos[0]}
-            openingTimes={openingTimes}
+            // TODO dynamic value for galleriesAreOpenToday,
+            // // galleriesAreOpenToday,={false} // TODO put back when building reopens -
           />
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
