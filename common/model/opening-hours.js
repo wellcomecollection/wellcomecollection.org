@@ -52,12 +52,8 @@ export type Venue = {|
 
 export type PlacesOpeningHours = Venue[];
 
-export type CollectionOpeningTimes = {
+export type OpeningTimes = {
   placesOpeningHours: PlacesOpeningHours,
-  upcomingExceptionalOpeningPeriods: ?({
-    dates: Moment[],
-    type: OverrideType,
-  }[]),
 };
 
 // http://schema.org/specialOpeningHoursSpecification

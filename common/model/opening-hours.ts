@@ -44,14 +44,13 @@ export type Venue = {
   openingHours: OpeningHours;
   url?: string;
   linkText?: string;
-  image?: unknown;
+  image?: any; // TODO
 };
 
 export type PlacesOpeningHours = Venue[];
 
-export type CollectionOpeningTimes = {
+export type OpeningTimes = {
   placesOpeningHours: PlacesOpeningHours;
-  upcomingExceptionalOpeningPeriods?: { dates: Moment[]; type: OverrideType }[];
 };
 
 // http://schema.org/specialOpeningHoursSpecification
