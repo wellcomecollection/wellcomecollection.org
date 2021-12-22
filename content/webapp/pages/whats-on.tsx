@@ -265,10 +265,10 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                       })}
                     >
                       Galleries
-                      {todaysOpeningHours.opens ? ' open ' : ' closed '}
+                      {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
                       today
                     </Space>
-                    {todaysOpeningHours.opens && (
+                    {!todaysOpeningHours.isClosed && (
                       <Fragment>
                         <Space
                           as="span"

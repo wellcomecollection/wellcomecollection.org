@@ -33,14 +33,14 @@ const FooterOpeningTimes: FunctionComponent<Props> = ({
               {venue.id === collectionVenueId.restaurant.id
                 ? 'Kitchen '
                 : `${getNameFromCollectionVenue(venue.id)} `}
-              {todaysHours.opens ? (
+              {todaysHours.isClosed ? (
+                'closed'
+              ) : (
                 <>
                   <time>{todaysHours.opens}</time>
                   {'—'}
                   <time>{todaysHours.closes}</time>
                 </>
-              ) : (
-                'closed'
               )}
             </Space>
           )

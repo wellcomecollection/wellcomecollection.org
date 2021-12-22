@@ -129,11 +129,13 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             [font('hnr', 5)]: true,
           })}
         >
-          {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
-            <li key={dayOfWeek}>
-              {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
-            </li>
-          ))}
+          {venue.openingHours.regular.map(
+            ({ dayOfWeek, opens, closes, isClosed }) => (
+              <li key={dayOfWeek}>
+                {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
+              </li>
+            )
+          )}
         </ul>
       </VenueHoursTimes>
       {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
@@ -185,7 +187,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   <li key={p.overrideDate?.toString()}>
                     {formatDay(p.overrideDate!.toDate())}{' '}
                     {formatDayMonth(p.overrideDate!.toDate())}{' '}
-                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
+                    {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
                   </li>
                 ))}
                 {/* // TODO check this */}
