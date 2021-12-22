@@ -12,6 +12,11 @@ describe('OpeningTimes', () => {
     'getTodaysVenueHours'
   );
 
+  // set Day as Wednesday, so we have something consistent to test against
+  spyOnGetTodaysVenueHours.mockImplementation(() => {
+    return { dayOfWeek: 'Wednesday', opens: '10:00', closes: '18:00' };
+  });
+
   it('Should display opening times name restaurant as Kitchen', () => {
     const component = shallowWithTheme(
       <OpeningTimes openingTimes={openingTimes} />
