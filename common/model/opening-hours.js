@@ -24,15 +24,17 @@ export type ExceptionalPeriod = {|
 
 export type OpeningHoursDay = {|
   dayOfWeek: Day,
-  opens: ?string,
-  closes: ?string,
+  opens: string,
+  closes: string,
+  isClosed: boolean,
 |};
 
 export type ExceptionalOpeningHoursDay = {|
   overrideDate: Moment,
   overrideType: ?OverrideType,
-  opens?: ?string,
-  closes?: ?string,
+  opens: string,
+  closes: string,
+  isClosed: boolean,
 |};
 
 export type OpeningHours = {|

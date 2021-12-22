@@ -190,17 +190,13 @@ function exceptionalFromRegular(
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
   );
-  // If there is no opens time from prismic, then we set both opens and closes to 00:00.
-  // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-  // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-  // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-  const regularOpens = regular?.opens ?? '00:00';
-  const regularCloses = regular?.opens ?? '00:00';
+
   return {
     overrideDate: dateToGet,
     overrideType: type,
-    opens: regularOpens, // TODO opens closes can't be undefined in type
-    closes: regularCloses,
+    opens: regular?.opens || '00:00',
+    closes: regular?.closes || '00:00',
+    isClosed: regular?.isClosed || true,
   };
 }
 
@@ -290,24 +286,25 @@ export function getExceptionalClosedDays(
   );
 }
 
-function createRegularDay(day: Day, venue: CollectionVenuePrismicDocument) {
-  const data = venue.data;
+function createRegularDay(
+  day: Day,
+  venue: CollectionVenuePrismicDocument
+): OpeningHoursDay {
+  const { data } = venue;
   const lowercaseDay = day.toLowerCase();
   const start = data && data[lowercaseDay][0].startDateTime;
   const end = data && data[lowercaseDay][0].endDateTime;
-  if (start && end) {
-    return {
-      dayOfWeek: day,
-      opens: london(start).format('HH:mm'),
-      closes: london(end).format('HH:mm'),
-    };
-  } else {
-    return {
-      dayOfWeek: day,
-      opens: undefined,
-      closes: undefined,
-    };
-  }
+  const isClosed = !start;
+  // If there is no start time from prismic, then we set both opens and closes to 00:00.
+  // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+  // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+  // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+  return {
+    dayOfWeek: day,
+    opens: start ? london(start).format('HH:mm') : '00:00',
+    closes: start && end ? london(end).format('HH:mm') : '00:00',
+    isClosed,
+  };
 }
 
 export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
@@ -331,12 +328,9 @@ export function parseCollectionVenue(
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes.map(modified => {
-    const start: string | undefined = modified.startDateTime
-      ? london(modified.startDateTime).format('HH:mm')
-      : undefined;
-    const end: string | undefined = modified.endDateTime
-      ? london(modified.endDateTime).format('HH:mm')
-      : undefined;
+    const start = modified.startDateTime;
+    const end = modified.endDateTime;
+    const isClosed = !start;
     const overrideDate: Moment | undefined = modified.overrideDate
       ? london(modified.overrideDate)
       : undefined;
@@ -344,8 +338,9 @@ export function parseCollectionVenue(
     return {
       overrideDate,
       overrideType,
-      opens: start,
-      closes: end,
+      opens: start ? london(start).format('HH:mm') : '00:00', // See comment in createRegularDay for why these get set to 00:00
+      closes: start && end ? london(end).format('HH:mm') : '00:00',
+      isClosed,
     };
   });
 
