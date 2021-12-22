@@ -133,6 +133,7 @@ const ItemPage: NextPage<Props> = ({
   ];
   const isAvailableOnline = authService => {
     return (
+      authService &&
       authService['@id'] &&
       !authServiceRestrictedIds.includes(authService['@id'])
     );
@@ -300,7 +301,7 @@ const ItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {isAvailableOnline(authService) && origin && (
+          {isAvailableOnline() && origin && (
             <Space
               className={'flex flex-inline'}
               h={{ size: 'm', properties: ['margin-right'] }}
