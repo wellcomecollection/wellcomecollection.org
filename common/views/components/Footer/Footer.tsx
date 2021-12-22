@@ -8,8 +8,8 @@ import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import FooterOpeningTimes from '../FooterOpeningTimes/FooterOpeningTimes';
-import { OpeningTimes } from '../../../model/opening-hours';
+import OpeningTimes from '../OpeningTimes/OpeningTimes';
+import { OpeningTimes as OpeningTimesType } from '../../../model/opening-hours';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -162,7 +162,7 @@ const TopBorderBox = styled.div`
 `;
 type Props = {
   hide: boolean;
-  openingTimes: OpeningTimes;
+  openingTimes: OpeningTimesType;
 };
 
 const Footer: FunctionComponent<Props> = ({
@@ -259,9 +259,7 @@ const Footer: FunctionComponent<Props> = ({
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
-                  {openingTimes && (
-                    <FooterOpeningTimes openingTimes={openingTimes} />
-                  )}
+                  {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
                   </Space>

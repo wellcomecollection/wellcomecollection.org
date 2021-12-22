@@ -6,7 +6,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import { clock } from '@weco/common/icons';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { parseOpeningTimes } from '@weco/common/services/prismic/opening-times';
@@ -65,9 +65,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
                   'no-margin': true,
                 })}
               >{`Today's opening times`}</h2>
-              {openingTimes && (
-                <FooterOpeningTimes openingTimes={openingTimes} />
-              )}
+              {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
               <Space
                 v={{
                   size: 's',
