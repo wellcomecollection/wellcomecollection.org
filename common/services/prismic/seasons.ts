@@ -1,7 +1,6 @@
 import Prismic from '@prismicio/client';
 import { PrismicDocument } from './types';
 import { getDocument } from './api';
-import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
 import { getProjects } from './projects';
@@ -12,13 +11,7 @@ import {
   parseSingleLevelGroup,
   parseTimestamp,
 } from './parsers';
-import {
-  pagesFields,
-  articlesFields,
-  bookFields,
-  eventsFields,
-  exhibitionFields,
-} from './fetch-links';
+import { pagesFields, exhibitionFields } from './fetch-links';
 import { IncomingMessage } from 'http';
 
 export function parseSeason(document: PrismicDocument): Season {
@@ -51,12 +44,7 @@ export async function getSeason(
     req,
     id,
     {
-      fetchLinks: pagesFields.concat(
-        articlesFields,
-        bookFields,
-        eventsFields,
-        exhibitionFields
-      ),
+      fetchLinks: pagesFields.concat(exhibitionFields),
     },
     memoizedPrismic
   );
@@ -76,12 +64,6 @@ export async function getSeasonWithContent({
   id: string;
 }): Promise<SeasonWithContent | undefined> {
   const seasonPromise = getSeason(request, id, memoizedPrismic);
-
-  const eventsPromise = getEvents(
-    request,
-    { predicates: [Prismic.Predicates.at('my.events.seasons.season', id)] },
-    memoizedPrismic
-  );
 
   const exhibitionsPromise = getExhibitions(
     request,
@@ -115,10 +97,9 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const [season, events, exhibitions, pages, articleSeries, projects] =
+  const [season, exhibitions, pages, articleSeries, projects] =
     await Promise.all([
       seasonPromise,
-      eventsPromise,
       exhibitionsPromise,
       pagesPromise,
       articleSeriesPromise,
@@ -128,7 +109,6 @@ export async function getSeasonWithContent({
   if (season) {
     return {
       season,
-      events: events?.results || [],
       exhibitions: exhibitions?.results || [],
       pages: pages?.results || [],
       articleSeries: articleSeries?.results || [],
