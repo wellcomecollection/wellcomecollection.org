@@ -27,10 +27,7 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
         },
         validateStatus: (status: number) => status >= 200 && status < 500,
       })
-      .catch(error => {
-        console.error(error);
-        return error.response;
-      });
+      .catch(error => error.response);
 
     res.status(remoteResponse.status).send(remoteResponse.data);
   }
