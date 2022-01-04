@@ -104,15 +104,6 @@ const VenueHours = ({ venue, weight }: Props) => {
                 height={900}
                 crops={{}}
                 alt={venue.image?.alt}
-                tasl={{
-                  title: null,
-                  author: null,
-                  sourceName: null,
-                  sourceLink: null,
-                  license: null,
-                  copyrightHolder: null,
-                  copyrightLink: null,
-                }}
                 sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
                 extraClasses=""
                 showTasl={false}

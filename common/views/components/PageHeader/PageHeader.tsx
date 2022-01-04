@@ -3,7 +3,7 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import { UiImage } from '../Images/Images';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
-import Picture from '../Picture/Picture';
+import { Picture } from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import HighlightedHeading from './HighlightedHeading';
 import Layout10 from '../Layout10/Layout10';
@@ -53,7 +53,10 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
-export type FeaturedMedia = UiImage | typeof VideoEmbed | Picture;
+export type FeaturedMedia =
+  | ReactElement<typeof UiImage>
+  | typeof VideoEmbed
+  | typeof Picture;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 
@@ -67,28 +70,28 @@ export function getFeaturedMedia(
 
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
 
-  const FeaturedMedia = hasFeaturedVideo ? (
+  const featuredMedia = hasFeaturedVideo ? (
     <VideoEmbed {...body[0].value} />
   ) : isPicture && widescreenImage && squareImage ? (
     <Picture
       images={[
         { ...widescreenImage, minWidth: breakpoints.medium },
-        { ...squareImage, minWidth: null },
+        squareImage,
       ]}
       isFull={true}
     />
   ) : widescreenImage ? (
     <UiImage {...widescreenImage} sizesQueries="" />
   ) : image ? (
-    <UiImage {...image} sizesQueries="" />
-  ) : null;
+    <UiImage {...image} crops={{}} sizesQueries="" />
+  ) : undefined;
 
-  return FeaturedMedia;
+  return featuredMedia;
 }
 
 export function getHeroPicture(
   fields: GenericContentFields
-): Picture | undefined {
+): ReactElement<typeof Picture> | undefined {
   const { squareImage, widescreenImage } = fields;
 
   return (
@@ -97,7 +100,7 @@ export function getHeroPicture(
       <Picture
         images={[
           { ...widescreenImage, minWidth: breakpoints.medium },
-          { ...squareImage, minWidth: null },
+          squareImage,
         ]}
         isFull={true}
       />

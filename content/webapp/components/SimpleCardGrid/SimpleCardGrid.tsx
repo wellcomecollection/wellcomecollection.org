@@ -16,19 +16,21 @@ type CardGridFeaturedCardProps = {
 };
 
 const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
-  const image = item.image ? item.image.crops['16:9'] : {};
+  const image = item.image ? item.image.crops['16:9'] : undefined;
 
   return (
     <Layout12>
       <FeaturedCard
         id={`featured-card`}
-        image={{
-          ...image,
-          alt: '',
-          sizesQueries:
-            '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-          showTasl: false,
-        }}
+        image={
+          image && {
+            ...image,
+            alt: '',
+            sizesQueries:
+              '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
+            showTasl: false,
+          }
+        }
         labels={
           item.format
             ? [

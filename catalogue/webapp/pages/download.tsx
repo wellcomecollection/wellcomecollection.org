@@ -167,9 +167,42 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const manifestUrl =
-      sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+      sierraId &&
+      `https://iiif.wellcomecollection.org/presentation/v2/${sierraId}`;
 
-    const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
+    const iiifResponse = manifestUrl && (await fetch(manifestUrl));
+
+    // A user should never end up on a /download page that points to a non-existent
+    // IIIF manifest, but we do see a persistent trickle of such requests.
+    // Possibly URLs that used to resolve, but have since been removed?
+    //
+    // In these cases, DLCS returns a 404 and the response text like
+    //
+    //      No IIIF resource found for v2/b18037343
+    //
+    // If we don't catch the 404 here, this bubbles up as an internal server error
+    // when we try to parse the JSON, with the error
+    //
+    //      FetchError: invalid json response body at https://iiif.wellcomecollection.org/presentation/v2/b18037343
+    //      reason: Unexpected token N in JSON at position 0
+    //
+    if (iiifResponse && iiifResponse.status === 404) {
+      return appError(
+        context,
+        404,
+        `There is no IIIF manifest for ${sierraId}`
+      );
+    }
+
+    // I don't know what status codes DLCS should return apart from 200 and 404 --
+    // this warning is to make debugging easier if we see other issues here.
+    if (iiifResponse && iiifResponse.status !== 200) {
+      console.warn(
+        `Unexpected status when fetching IIIF manifest: ${iiifResponse.status}`
+      );
+    }
+
+    const manifest = iiifResponse && (await iiifResponse.json());
 
     const work = await getWork({
       id: workId,

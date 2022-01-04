@@ -53,7 +53,9 @@ const SeasonPage = ({
       labels={{ labels: season.labels }}
       title={season.title}
       FeaturedMedia={
-        <UiImage {...season.superWidescreenImage} sizesQueries="" />
+        season.superWidescreenImage ? (
+          <UiImage {...season.superWidescreenImage} sizesQueries="" />
+        ) : undefined
       }
       standfirst={season?.standfirst}
       start={season.start}

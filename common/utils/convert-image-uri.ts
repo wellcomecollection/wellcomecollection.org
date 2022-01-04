@@ -1,4 +1,3 @@
-// @flow
 import urlTemplate from 'url-template';
 
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
@@ -14,11 +13,11 @@ function determineSrc(url: string): string {
   }
 }
 
-function determineIfGif(originalUriPath) {
+function determineIfGif(originalUriPath: string): boolean {
   return originalUriPath.includes('.gif');
 }
 
-function determineFinalFormat(originalUriPath) {
+function determineFinalFormat(originalUriPath: string): string {
   if (originalUriPath.includes('.png')) {
     return 'png';
   } else {
@@ -26,12 +25,12 @@ function determineFinalFormat(originalUriPath) {
   }
 }
 
-type PrismicUriOpts = {|
-  auto?: string,
-  rect?: string,
-  w?: number | 'full',
-  h?: number,
-|};
+type PrismicUriOpts = {
+  auto?: string;
+  rect?: string;
+  w?: number | 'full';
+  h?: number;
+};
 
 function prismicImageTemplate(baseUrl: string) {
   const templateString = `${baseUrl}?auto={auto}&rect={rect}&w={w}&h={h}`;
@@ -41,15 +40,17 @@ function prismicImageTemplate(baseUrl: string) {
   };
 }
 
-export type IIIFUriProps = {|
-  region?: string,
-  size?: string,
-  rotation?: number,
-  quality?: string,
-  format?: string,
-|};
+export type IIIFUriProps = {
+  region?: string;
+  size?: string;
+  rotation?: number;
+  quality?: string;
+  format?: string;
+};
 
-export function iiifImageTemplate(infoJsonLocation: string) {
+export function iiifImageTemplate(
+  infoJsonLocation: string
+): (opts: IIIFUriProps) => string {
   const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
   const defaultOpts = {
@@ -63,7 +64,7 @@ export function iiifImageTemplate(infoJsonLocation: string) {
   return (opts: IIIFUriProps) => template.expand({ ...defaultOpts, ...opts });
 }
 
-function paramsToObject(entries) {
+function paramsToObject(entries: IterableIterator<[string, string]>) {
   return Array.from(entries).reduce((acc, curr) => {
     const [key, value] = curr;
     acc[key] = value;
