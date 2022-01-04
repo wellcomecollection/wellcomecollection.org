@@ -40,7 +40,7 @@ type ImageViewerProps = {
   height?: number;
   infoUrl: string;
   alt: string;
-  urlTemplate: (v: IIIFUriProps) => () => undefined;
+  urlTemplate: (v: IIIFUriProps) => string;
   rotation: number;
   loadHandler?: () => void;
   mainAreaRef?: RefObject<HTMLDivElement>;

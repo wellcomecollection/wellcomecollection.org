@@ -119,7 +119,8 @@ const WorkHeader: FunctionComponent<Props> = ({
                   'no-margin': true,
                 })}
               >
-                <Number color="yellow" number={childManifestsCount} /> volumes
+                <Number color="yellow" number={childManifestsCount} />
+                {childManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online
               </p>
             </Space>

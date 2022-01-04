@@ -19,10 +19,7 @@ export type Exhibition = GenericContentFields & {
   isPermanent: boolean;
   statusOverride?: string;
   place?: Place;
-  exhibits: {
-    exhibitType: 'exhibitions';
-    item: Exhibition;
-  };
+  exhibits: Exhibit[];
   resources: Resource[];
   relatedIds: string[];
   seasons: Season[];
@@ -31,7 +28,6 @@ export type Exhibition = GenericContentFields & {
 
 export type UiExhibition = Exhibition & {
   featuredImageList: Picture[];
-  exhibits: Exhibit[];
 };
 
 export type Exhibit = {

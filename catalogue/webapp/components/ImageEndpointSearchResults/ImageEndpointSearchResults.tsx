@@ -32,7 +32,6 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               width: 300,
               height: 300,
               alt: '',
-              tasl: null,
             }}
             onClick={event => {
               event.preventDefault();

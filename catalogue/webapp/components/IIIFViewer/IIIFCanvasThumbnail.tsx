@@ -138,7 +138,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                           : 'max'
                       }`,
                     })
-                  : null
+                  : undefined
               }
               srcSet={''}
               sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
