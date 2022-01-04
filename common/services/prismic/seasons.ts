@@ -1,7 +1,6 @@
 import Prismic from '@prismicio/client';
 import { PrismicDocument } from './types';
 import { getDocument } from './api';
-import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
 import { getProjects } from './projects';
 import { getMultipleArticleSeries } from './article-series';
@@ -11,7 +10,6 @@ import {
   parseSingleLevelGroup,
   parseTimestamp,
 } from './parsers';
-import { pagesFields, exhibitionFields } from './fetch-links';
 import { IncomingMessage } from 'http';
 
 export function parseSeason(document: PrismicDocument): Season {
@@ -40,14 +38,7 @@ export async function getSeason(
   id: string,
   memoizedPrismic?: Record<string, unknown>
 ): Promise<Season | undefined> {
-  const season = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: pagesFields.concat(exhibitionFields),
-    },
-    memoizedPrismic
-  );
+  const season = await getDocument(req, id, {}, memoizedPrismic);
 
   if (season) {
     return parseSeason(season);
@@ -64,14 +55,6 @@ export async function getSeasonWithContent({
   id: string;
 }): Promise<SeasonWithContent | undefined> {
   const seasonPromise = getSeason(request, id, memoizedPrismic);
-
-  const exhibitionsPromise = getExhibitions(
-    request,
-    {
-      predicates: [Prismic.Predicates.at('my.exhibitions.seasons.season', id)],
-    },
-    memoizedPrismic
-  );
 
   const pagesPromise = getPages(
     request,
@@ -97,19 +80,16 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const [season, exhibitions, pages, articleSeries, projects] =
-    await Promise.all([
-      seasonPromise,
-      exhibitionsPromise,
-      pagesPromise,
-      articleSeriesPromise,
-      projectsPromise,
-    ]);
+  const [season, pages, articleSeries, projects] = await Promise.all([
+    seasonPromise,
+    pagesPromise,
+    articleSeriesPromise,
+    projectsPromise,
+  ]);
 
   if (season) {
     return {
       season,
-      exhibitions: exhibitions?.results || [],
       pages: pages?.results || [],
       articleSeries: articleSeries?.results || [],
       projects: projects?.results || [],
