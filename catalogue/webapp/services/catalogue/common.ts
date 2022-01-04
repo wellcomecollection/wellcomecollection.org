@@ -30,3 +30,17 @@ export const catalogueApiError = (): CatalogueApiError => ({
   description: '',
   type: 'Error',
 });
+
+// Returns true if a string is plausibly a canonical ID, false otherwise.
+//
+// There's no way for the front-end to know what strings are valid canonical IDs
+// (only the catalogue API knows that), but it can reject certain classes of
+// strings that it knows definitely aren't.
+//
+// e.g. any non-alphanumeric string definitely isn't a canonical ID.
+//
+// This is useful for rejecting queries that are obviously malformed, which might
+// be attempts to inject malicious data into API queries.
+export const looksLikeCanonicalId = (id: string): boolean => {
+  return /^([a-z0-9]+)$/.test(id);
+};

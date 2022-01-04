@@ -59,8 +59,28 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
   );
 };
 
-const SignInBar: FC = () => {
+type Props = {
+  requestingUnavailable?: boolean;
+};
+
+const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
   const { state, reload } = useUser();
+
+  if (requestingUnavailable) {
+    return (
+      <StyledComponent>
+        <Space h={{ size: 's', properties: ['margin-right'] }}>
+          <Icon icon={memberCard} />
+        </Space>
+        <AlignFont>
+          <span className={font('hnb', 5)}>Library members:</span>{' '}
+          <span className={font('hnr', 5)}>
+            Requesting is currently unavailable, while our building is closed.
+          </span>
+        </AlignFont>
+      </StyledComponent>
+    );
+  }
 
   return state === 'signedout' || state === 'failed' ? (
     <StyledComponent>
@@ -73,4 +93,4 @@ const SignInBar: FC = () => {
   ) : null;
 };
 
-export default SignInBar;
+export default LibraryMembersBar;

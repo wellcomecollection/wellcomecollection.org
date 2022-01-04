@@ -10,7 +10,7 @@ describe('CompactCard', () => {
   const componentWithImage = mountWithTheme(
     <CompactCard
       title={mockData.title}
-      Image={<Image {...mockData.image.crops.square} />}
+      Image={<Image {...mockData.image.crops!.square} />}
       description={mockData.text}
       primaryLabels={[]}
       secondaryLabels={[]}

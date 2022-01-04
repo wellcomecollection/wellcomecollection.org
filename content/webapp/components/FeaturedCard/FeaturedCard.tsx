@@ -42,7 +42,7 @@ export function convertCardToFeaturedCardProps(
 ): PartialFeaturedCard {
   return {
     id: item.title || 'card',
-    image: {
+    image: item.image && {
       ...item.image,
       extraClasses: '',
       sizesQueries: '',

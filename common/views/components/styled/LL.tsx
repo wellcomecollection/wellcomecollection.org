@@ -1,8 +1,13 @@
 import styled from 'styled-components';
 
+type LLProps = {
+  small?: boolean;
+  lighten?: boolean;
+};
+
 // We could use `zoom` for props.small, but it isn't supported in Firefox
 // see: https://bugzilla.mozilla.org/show_bug.cgi?id=390936
-const LL = styled.div`
+const LL = styled.div<LLProps>`
   position: absolute;
   opacity: 0.2;
   left: 50%;
