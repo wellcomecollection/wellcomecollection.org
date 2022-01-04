@@ -1,7 +1,6 @@
 import Prismic from '@prismicio/client';
 import { PrismicDocument } from './types';
 import { getDocument } from './api';
-import { getArticles } from './articles';
 import { getEvents } from './events';
 import { getExhibitions } from './exhibitions';
 import { getPages } from './pages';
@@ -78,12 +77,6 @@ export async function getSeasonWithContent({
 }): Promise<SeasonWithContent | undefined> {
   const seasonPromise = getSeason(request, id, memoizedPrismic);
 
-  const articlesPromise = getArticles(
-    request,
-    { predicates: [Prismic.Predicates.at('my.articles.seasons.season', id)] },
-    memoizedPrismic
-  );
-
   const eventsPromise = getEvents(
     request,
     { predicates: [Prismic.Predicates.at('my.events.seasons.season', id)] },
@@ -122,29 +115,19 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const [
-    season,
-    articles,
-    events,
-    exhibitions,
-    pages,
-    articleSeries,
-    projects,
-  ] = await Promise.all([
-    seasonPromise,
-    articlesPromise,
-
-    eventsPromise,
-    exhibitionsPromise,
-    pagesPromise,
-    articleSeriesPromise,
-    projectsPromise,
-  ]);
+  const [season, events, exhibitions, pages, articleSeries, projects] =
+    await Promise.all([
+      seasonPromise,
+      eventsPromise,
+      exhibitionsPromise,
+      pagesPromise,
+      articleSeriesPromise,
+      projectsPromise,
+    ]);
 
   if (season) {
     return {
       season,
-      articles: articles?.results || [],
       events: events?.results || [],
       exhibitions: exhibitions?.results || [],
       pages: pages?.results || [],

@@ -16,14 +16,18 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { contentLd } from '../services/prismic/transformers/json-ld';
+import { fetchArticles } from '../services/prismic/fetch/articles';
 import { fetchBooks } from '../services/prismic/fetch/books';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 import { transformBook } from '../services/prismic/transformers/books';
+import { Article } from '../types/articles';
 import { Book } from '../types/books';
 
 type Props = SeasonWithContent & {
+  articles: Article[];
   books: Book[];
 };
 const SeasonPage = ({
@@ -110,6 +114,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const booksQueryPromise = fetchBooks(client, {
       predicates: [`[at(my.books.seasons.season, "${id}")]`],
     });
+    const articlesQueryPromise = fetchArticles(client, {
+      predicates: [`[at(my.articles.seasons.season, "${id}")]`],
+    });
 
     const { memoizedPrismic } = context.query;
     const seasonWithContentPromise = getSeasonWithContent({
@@ -118,11 +125,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
     });
 
-    const [booksQuery, seasonWithContent] = await Promise.all([
+    const [articlesQuery, booksQuery, seasonWithContent] = await Promise.all([
+      articlesQueryPromise,
       booksQueryPromise,
       seasonWithContentPromise,
     ]);
 
+    const articles = transformQuery(articlesQuery, transformArticle);
     const books = transformQuery(booksQuery, transformBook);
 
     if (seasonWithContent) {
@@ -130,6 +139,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           ...seasonWithContent,
+          articles: articles.results,
           books: books.results,
           serverData,
         }),
