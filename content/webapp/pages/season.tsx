@@ -1,12 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { SeasonWithContent } from '@weco/common/model/seasons';
+import { Season } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { getSeasonWithContent } from '@weco/common/services/prismic/seasons';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -23,6 +22,7 @@ import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import { fetchPages } from '../services/prismic/fetch/pages';
 import { fetchProjects } from '../services/prismic/fetch/projects';
 import { fetchSeries } from '../services/prismic/fetch/series';
+import { fetchSeason } from '../services/prismic/fetch/seasons';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
@@ -33,6 +33,7 @@ import { transformExhibition } from '../services/prismic/transformers/exhibition
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
+import { transformSeason } from '../services/prismic/transformers/seasons';
 import { Article } from '../types/articles';
 import { Book } from '../types/books';
 import { Event } from '../types/events';
@@ -41,7 +42,8 @@ import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
 
-type Props = SeasonWithContent & {
+type Props = {
+  season: Season;
   articles: Article[];
   books: Book[];
   events: Event[];
@@ -50,6 +52,7 @@ type Props = SeasonWithContent & {
   projects: Project[];
   series: Series[];
 };
+
 const SeasonPage = ({
   season,
   articles,
@@ -155,12 +158,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: [`[at(my.series.seasons.season, "${id}")]`],
     });
 
-    const { memoizedPrismic } = context.query;
-    const seasonWithContentPromise = getSeasonWithContent({
-      request: context.req,
-      id: id?.toString() || '',
-      memoizedPrismic: memoizedPrismic as unknown as Record<string, unknown>,
-    });
+    const seasonDocPromise = fetchSeason(client, id);
 
     const [
       articlesQuery,
@@ -170,7 +168,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pagesQuery,
       projectsQuery,
       seriesQuery,
-      seasonWithContent,
+      seasonDoc,
     ] = await Promise.all([
       articlesQueryPromise,
       booksQueryPromise,
@@ -179,7 +177,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pagesQueryPromise,
       projectsQueryPromise,
       seriesQueryPromise,
-      seasonWithContentPromise,
+      seasonDocPromise,
     ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
@@ -189,12 +187,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const pages = transformQuery(pagesQuery, transformPage);
     const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);
+    const season = seasonDoc && transformSeason(seasonDoc);
 
-    if (seasonWithContent) {
+    if (season) {
       const serverData = await getServerData(context);
       return {
         props: removeUndefinedProps({
-          ...seasonWithContent,
+          season,
           articles: articles.results,
           books: books.results,
           events: events.results,

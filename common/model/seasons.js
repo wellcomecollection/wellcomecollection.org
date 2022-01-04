@@ -6,7 +6,3 @@ export type Season = {
   type: 'seasons',
   prismicDocument: any,
 };
-
-export type SeasonWithContent = {
-  season: Season,
-};
