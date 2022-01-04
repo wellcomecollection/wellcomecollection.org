@@ -52,7 +52,7 @@ export async function getSeasonWithContent({
 }): Promise<SeasonWithContent | undefined> {
   const seasonPromise = getSeason(request, id, memoizedPrismic);
 
-  const [season] = await Promise.all([seasonPromise]);
+  const season = await seasonPromise;
   if (season) {
     return {
       season,
