@@ -1,6 +1,5 @@
 // @flow
 import type { GenericContentFields } from './generic-content-fields';
-import type { ArticleSeries } from './article-series';
 
 export type Season = {
   ...GenericContentFields,
@@ -10,5 +9,4 @@ export type Season = {
 
 export type SeasonWithContent = {
   season: Season,
-  articleSeries: ArticleSeries[],
 };

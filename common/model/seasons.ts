@@ -1,6 +1,5 @@
 import { GenericContentFields } from './generic-content-fields';
 import { Page } from './pages';
-import { ArticleSeries } from './article-series';
 
 export type Season = GenericContentFields & {
   type: 'seasons';
@@ -11,6 +10,5 @@ export type Season = GenericContentFields & {
 
 export type SeasonWithContent = {
   season: Season;
-  articleSeries: ArticleSeries[];
   projects: Page[];
 };

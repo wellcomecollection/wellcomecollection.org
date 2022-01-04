@@ -2,7 +2,6 @@ import Prismic from '@prismicio/client';
 import { PrismicDocument } from './types';
 import { getDocument } from './api';
 import { getProjects } from './projects';
-import { getMultipleArticleSeries } from './article-series';
 import { Season, SeasonWithContent } from '../../model/seasons';
 import {
   parseGenericFields,
@@ -55,14 +54,6 @@ export async function getSeasonWithContent({
 }): Promise<SeasonWithContent | undefined> {
   const seasonPromise = getSeason(request, id, memoizedPrismic);
 
-  const articleSeriesPromise = getMultipleArticleSeries(
-    request,
-    {
-      predicates: [Prismic.Predicates.at('my.series.seasons.season', id)],
-    },
-    memoizedPrismic
-  );
-
   const projectsPromise = getProjects(
     request,
     {
@@ -71,16 +62,14 @@ export async function getSeasonWithContent({
     memoizedPrismic
   );
 
-  const [season, articleSeries, projects] = await Promise.all([
+  const [season, projects] = await Promise.all([
     seasonPromise,
-    articleSeriesPromise,
     projectsPromise,
   ]);
 
   if (season) {
     return {
       season,
-      articleSeries: articleSeries?.results || [],
       projects: projects?.results || [],
     };
   }
