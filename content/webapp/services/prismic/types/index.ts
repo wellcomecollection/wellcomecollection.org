@@ -15,6 +15,7 @@ import {
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
 import { ExhibitionFormat } from './exhibition-format';
+import { ProjectFormat } from './project-format';
 import { Body } from './body';
 import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
@@ -157,6 +158,10 @@ export const articleFormatsFetchLinks: FetchLinks<ArticleFormat> = [
 
 export const exhibitionFormatsFetchLinks: FetchLinks<ExhibitionFormat> = [
   'exhibition-formats.title',
+];
+
+export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
+  'project-formats.title',
 ];
 
 export type WithExhibitionParents = {

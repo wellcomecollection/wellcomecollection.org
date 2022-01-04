@@ -1,7 +1,6 @@
 import { fetcher } from '.';
 import { ProjectPrismicDocument } from '../types/projects';
-
-const fetchLinks = [];
+import { projectFormatsFetchLinks as fetchLinks } from '../types';
 
 const projectsFetcher = fetcher<ProjectPrismicDocument>('projects', fetchLinks);
 
