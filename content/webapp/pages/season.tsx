@@ -21,6 +21,7 @@ import { fetchBooks } from '../services/prismic/fetch/books';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import { fetchPages } from '../services/prismic/fetch/pages';
+import { fetchProjects } from '../services/prismic/fetch/projects';
 import { fetchSeries } from '../services/prismic/fetch/series';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
@@ -30,12 +31,14 @@ import { transformBook } from '../services/prismic/transformers/books';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformExhibition } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
+import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
 import { Article } from '../types/articles';
 import { Book } from '../types/books';
 import { Event } from '../types/events';
 import { Exhibition } from '../types/exhibitions';
 import { Page } from '../types/pages';
+import { Project } from '../types/projects';
 import { Series } from '../types/series';
 
 type Props = SeasonWithContent & {
@@ -44,6 +47,7 @@ type Props = SeasonWithContent & {
   events: Event[];
   exhibitions: Exhibition[];
   pages: Page[];
+  projects: Project[];
   series: Series[];
 };
 const SeasonPage = ({
@@ -144,6 +148,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const pagesQueryPromise = fetchPages(client, {
       predicates: [`[at(my.pages.seasons.season, "${id}")]`],
     });
+    const projectsQueryPromise = fetchProjects(client, {
+      predicates: [`[at(my.projects.seasons.season, "${id}")]`],
+    });
     const seriesQueryPromise = fetchSeries(client, {
       predicates: [`[at(my.series.seasons.season, "${id}")]`],
     });
@@ -161,6 +168,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       eventsQuery,
       exhibitionsQuery,
       pagesQuery,
+      projectsQuery,
       seriesQuery,
       seasonWithContent,
     ] = await Promise.all([
@@ -169,6 +177,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       eventsQueryPromise,
       exhibitionsQueryPromise,
       pagesQueryPromise,
+      projectsQueryPromise,
       seriesQueryPromise,
       seasonWithContentPromise,
     ]);
@@ -178,6 +187,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const events = transformQuery(eventsQuery, transformEvent);
     const exhibitions = transformQuery(exhibitionsQuery, transformExhibition);
     const pages = transformQuery(pagesQuery, transformPage);
+    const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);
 
     if (seasonWithContent) {
@@ -190,6 +200,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events: events.results,
           exhibitions: exhibitions.results,
           pages: pages.results,
+          projects: projects.results,
           series: series.results,
           serverData,
         }),
