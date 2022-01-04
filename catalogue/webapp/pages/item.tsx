@@ -131,7 +131,7 @@ const ItemPage: NextPage<Props> = ({
   const authServiceRestrictedIds = [
     'https://iiif.wellcomecollection.org/auth/restrictedlogin',
   ];
-  const isAvailableOnline = authService => {
+  const isAvailableOnline = () => {
     return (
       authService &&
       authService['@id'] &&
