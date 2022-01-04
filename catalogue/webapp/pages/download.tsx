@@ -196,7 +196,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     // I don't know what status codes DLCS should return apart from 200 and 404 --
     // this warning is to make debugging easier if we see other issues here.
-    if (iiifResponse && iiifResponse.status === 200) {
+    if (iiifResponse && iiifResponse.status !== 200) {
       console.warn(
         `Unexpected status when fetching IIIF manifest: ${iiifResponse.status}`
       );
