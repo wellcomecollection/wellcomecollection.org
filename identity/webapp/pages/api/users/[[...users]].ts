@@ -2,6 +2,7 @@ import { NextApiHandler } from 'next';
 import getConfig from 'next/config';
 import auth0 from '../../../src/utility/auth0';
 import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
+import { AccessTokenError } from '@auth0/nextjs-auth0';
 
 const { serverRuntimeConfig: config } = getConfig();
 
@@ -32,9 +33,13 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
 
       res.status(remoteResponse.status).send(remoteResponse.data);
     } catch (e) {
-      // Something went wrong with getting the access token
-      console.error('Unexpected authentication error', e);
-      res.status(401).send({ message: 'Authentication error' });
+      if (e instanceof AccessTokenError) {
+        // Something went wrong with getting the access token
+        console.error('Unexpected authentication error', e);
+        res.status(401).send(e);
+      } else {
+        throw e;
+      }
     }
   }
 );
