@@ -1,4 +1,8 @@
-import { PrismicDocument, KeyTextField } from '@prismicio/types';
+import {
+  PrismicDocument,
+  KeyTextField,
+  FilledImageFieldImage,
+} from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
 import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
@@ -9,6 +13,16 @@ import {
   transformRichTextFieldToString,
 } from '.';
 
+const defaultContributorImage: FilledImageFieldImage = {
+  dimensions: {
+    width: 64,
+    height: 64,
+  },
+  url: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
+  alt: '',
+  copyright: null,
+};
+
 type Agent = WithContributors['contributors'][number]['contributor'];
 
 export function transformContributorAgent(
@@ -18,7 +32,7 @@ export function transformContributorAgent(
     const commonFields = {
       id: agent.id,
       description: transformRichTextField(agent.data.description),
-      image: agent.data.image,
+      image: agent.data.image || defaultContributorImage,
       sameAs: (agent.data.sameAs ?? [])
         .map(sameAs => {
           const link = transformKeyTextField(sameAs.link);
@@ -27,14 +41,13 @@ export function transformContributorAgent(
         })
         .filter(isNotUndefined),
     };
-    
+
     // The .name field can be either RichText or Text.
-    const name =
-      isString(agent.data.name)
-        ? transformKeyTextField(agent.data.name)
-        : Array.isArray(agent.data.name)
-        ? transformRichTextFieldToString(agent.data.name)
-        : undefined;
+    const name = isString(agent.data.name)
+      ? transformKeyTextField(agent.data.name)
+      : Array.isArray(agent.data.name)
+      ? transformRichTextFieldToString(agent.data.name)
+      : undefined;
 
     if (agent.type === 'organisations') {
       return {
