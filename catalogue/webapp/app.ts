@@ -7,12 +7,12 @@ import Router from 'koa-router';
 import next from 'next';
 
 import {
-  middleware,
+  withCachedValues,
   route,
   handleAllRoute,
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
-import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -26,7 +26,7 @@ const appPromise = nextApp.prepare().then(async () => {
   const router = new Router();
 
   koaApp.use(apmErrorMiddleware);
-  koaApp.use(middleware);
+  koaApp.use(withCachedValues);
 
   // Used for redirecting from cognito to actual works pages
   router.get('/works/auth-code', async (ctx, next) => {

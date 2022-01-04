@@ -14,7 +14,6 @@ const ImagePlaceholder = ({ color }: Props) => (
       height={9}
       alt={''}
       extraClasses={`bg-${color || 'purple'}`}
-      tasl={null}
     />
     <div
       className="absolute"
