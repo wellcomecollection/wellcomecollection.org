@@ -163,24 +163,6 @@ export function parsePromoToCaptionedImage(
   return parseCaptionedImage(promo.primary, crop);
 }
 
-export const defaultContributorImage = ({
-  width: 64,
-  height: 64,
-  contentUrl:
-    'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
-  tasl: {
-    sourceName: 'Unknown',
-    title: null,
-    author: null,
-    sourceLink: null,
-    license: null,
-    copyrightHolder: null,
-    copyrightLink: null,
-  },
-  alt: '',
-  crops: {},
-}: ImageType);
-
 export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
