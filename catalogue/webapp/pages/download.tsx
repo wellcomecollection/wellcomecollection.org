@@ -167,7 +167,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const manifestUrl =
-      sierraId && `https://wellcomelibrary.org/iiif/${sierraId}/manifest`;
+      sierraId &&
+      `https://iiif.wellcomecollection.org/presentation/v2/${sierraId}`;
 
     const manifest = manifestUrl && (await (await fetch(manifestUrl)).json());
 
