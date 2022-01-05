@@ -437,20 +437,3 @@ export function openingHoursToOpeningHoursSpecification(
       : [],
   };
 }
-
-export function getTodaysOpeningTimesForVenue(
-  openingHours: OpeningHours
-): OpeningHoursDay | ExceptionalOpeningHoursDay | undefined {
-  const todaysDate = london().startOf('day');
-  const todayString = todaysDate.format('dddd');
-  const regularOpeningHours =
-    openingHours && openingHours.regular.find(i => i.dayOfWeek === todayString);
-  const exceptionalOpeningHours =
-    openingHours &&
-    openingHours.exceptional &&
-    openingHours.exceptional.find(i => {
-      const dayOfWeek = london(i.overrideDate).startOf('day');
-      return todaysDate.isSame(dayOfWeek);
-    });
-  return exceptionalOpeningHours || regularOpeningHours;
-}

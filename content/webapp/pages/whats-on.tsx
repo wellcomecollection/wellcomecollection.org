@@ -19,12 +19,13 @@ import {
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
-  getTodaysOpeningTimesForVenue,
+  getTodaysVenueHours,
   getVenueById,
   parseOpeningTimes,
 } from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
+  shopPromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '../data/facility-promos';
@@ -40,7 +41,10 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import type { OpeningTimes } from '@weco/common/model/opening-hours';
+import {
+  ExceptionalOpeningHoursDay,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 import {
   collectionVenueId,
   prismicPageIds,
@@ -93,34 +97,6 @@ export type Props = {
   featuredText: FeaturedTextType;
 };
 
-function getListHeader(openingTimes: OpeningTimes) {
-  // TODO change name of parameter? Venue?
-  const galleries = getVenueById(openingTimes, collectionVenueId.galleries.id);
-  return {
-    todaysOpeningHours: galleries
-      ? getTodaysOpeningTimesForVenue(galleries.openingHours)
-      : null,
-    name: "What's on",
-    items: [
-      {
-        id: 'everything',
-        title: 'Everything',
-        url: `/whats-on`,
-      },
-      {
-        id: 'today',
-        title: 'Today',
-        url: `/whats-on/today`,
-      },
-      {
-        id: 'the-weekend',
-        title: 'This weekend',
-        url: `/whats-on/the-weekend`,
-      },
-    ],
-  };
-}
-
 export function getMomentsForPeriod(period: Period) {
   const todaysDate = london();
   const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
@@ -156,87 +132,79 @@ function getWeekendToDate(today) {
   }
 }
 
+const ClosedMessage = () => (
+  <>
+    <Space
+      v={{
+        size: 'm',
+        properties: ['margin-bottom'],
+      }}
+      as="p"
+      className={classNames({
+        [font('wb', 2)]: true,
+      })}
+    >
+      Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
+      and <a href={shopPromo.url}>shop</a> are open for your visit.
+    </Space>
+    <Space
+      v={{
+        size: 'l',
+        properties: ['margin-top', 'margin-bottom'],
+      }}
+    ></Space>
+  </>
+);
+
 type DateRangeProps = {
   dateRange: (Date | Moment)[];
   period: string;
-  // galleriesAreOpenToday: boolean;
 };
 
-const DateRange = ({
-  dateRange,
-  period,
-}: // galleriesAreOpenToday,
-DateRangeProps) => {
+const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
   return (
-    <Fragment>
-      <Space
-        v={{
-          size: 's',
-          properties: ['margin-bottom'],
-        }}
-        as="p"
-        className={classNames({
-          [font('hnr', 5)]: true,
-        })}
-      >
-        {period === 'today' && (
+    <Space
+      v={{
+        size: 's',
+        properties: ['margin-bottom'],
+      }}
+      as="p"
+      className={classNames({
+        [font('hnr', 5)]: true,
+      })}
+    >
+      {period === 'today' && (
+        <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
+      )}
+      {period === 'this-weekend' && (
+        <Fragment>
+          <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
+          &ndash;
+          <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
+        </Fragment>
+      )}
+      {period === 'current-and-coming-up' && (
+        <Fragment>
+          From{' '}
           <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-        )}
-        {period === 'this-weekend' && (
-          <Fragment>
-            <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
-            &ndash;
-            <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
-          </Fragment>
-        )}
-        {period === 'current-and-coming-up' && (
-          <Fragment>
-            From{' '}
-            <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-          </Fragment>
-        )}
-      </Space>
-      {/* TODO reinstate after lockdown */}
-      {/* {period === 'today' &&
-        !galleriesAreOpenToday && ( // TODO use shopIsOpenToday, cafeIsOpenToday props to determine message to show and make ClosedMessageComponent
-          <Fragment>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="p"
-              className={classNames({
-                [font('wb', 2)]: true,
-              })}
-            >
-              Our exhibitions are closed today, but our{' '}
-              <a href={cafePromo.url}>café</a> and{' '}
-              <a href={shopPromo.url}>shop</a> are open for your visit.
-            </Space>
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            ></Space>
-          </Fragment>
-        )} */}
-    </Fragment>
+        </Fragment>
+      )}
+    </Space>
   );
 };
 
 type HeaderProps = {
   activeId: string;
-  openingTimes: OpeningTimes;
+  todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay;
   featuredText?: FeaturedTextType;
 };
-const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
-  const listHeader = getListHeader(openingTimes);
-  const todaysOpeningHours = listHeader.todaysOpeningHours;
-
+const Header = ({
+  activeId,
+  todaysOpeningHours,
+  featuredText,
+}: HeaderProps) => {
   return (
     <Space
       v={{
@@ -448,6 +416,8 @@ const WhatsOnPage = (props: Props) => {
 
   const prismicData = usePrismicData();
   const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
+  const galleries = getVenueById(openingTimes, collectionVenueId.galleries.id);
+  const todaysOpeningHours = getTodaysVenueHours(galleries);
 
   return (
     <PageLayout
@@ -477,16 +447,15 @@ const WhatsOnPage = (props: Props) => {
       <Fragment>
         <Header
           activeId={period}
-          openingTimes={openingTimes}
+          todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
         <Layout12>
-          <DateRange
-            dateRange={dateRange}
-            period={period}
-            // TODO dynamic value for galleriesAreOpenToday,
-            // // galleriesAreOpenToday,={false} // TODO put back when building reopens -
-          />
+          <DateRange dateRange={dateRange} period={period} />
+          {/* Put back when building reopens */}
+          {/* {period === 'today' && todaysOpeningHours.isClosed && (
+            <ClosedMessage />
+          )} */}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
