@@ -1,4 +1,7 @@
-import { exceptionalOpeningDates } from '../../../services/prismic/opening-times';
+import {
+  exceptionalOpeningDates,
+  getExceptionalVenueDays,
+} from '../../../services/prismic/opening-times';
 import { openingTimes } from '../../../test/fixtures/components/opening-times';
 import { london } from '../../../utils/format-date';
 
@@ -13,6 +16,10 @@ const openingTimesWithoutExceptionalDates = {
     };
   }),
 };
+
+const galleriesVenue = openingTimes.placesOpeningHours.find(
+  venue => venue.id === 'Wsttgx8AAJeSNmJ4'
+);
 
 describe('opening-times', () => {
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -57,6 +64,49 @@ describe('opening-times', () => {
         result.map(date => date.overrideDate?.toString())
       );
       expect(result.length).toEqual(uniqueDates.size);
+    });
+  });
+  describe('getExceptionalVenueDays: returns the exceptional opening hours of a venue', () => {
+  describe('getExceptionalVenueDays', () => {
+    it('returns all exceptional override dates for a venue', () => {
+      const result = getExceptionalVenueDays(galleriesVenue!);
+      expect(result).toEqual([
+        {
+          overrideDate: london('2022-01-01'),
+          overrideType: 'Christmas and New Year',
+          opens: '12:00',
+          closes: '14:00',
+          isClosed: false,
+        },
+        {
+          overrideDate: london('2021-12-31'),
+          overrideType: 'Christmas and New Year',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-12-20'),
+          overrideType: 'Christmas and New Year',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2022-02-04'),
+          overrideType: 'Bank holiday',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-01-05'),
+          overrideType: 'Bank holiday',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+      ]);
     });
   });
 });
