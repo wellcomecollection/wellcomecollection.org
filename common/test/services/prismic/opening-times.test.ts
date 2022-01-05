@@ -66,7 +66,7 @@ describe('opening-times', () => {
       expect(result.length).toEqual(uniqueDates.size);
     });
   });
-  describe('getExceptionalVenueDays: returns the exceptional opening hours of a venue', () => {
+
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
       const result = getExceptionalVenueDays(galleriesVenue!);
