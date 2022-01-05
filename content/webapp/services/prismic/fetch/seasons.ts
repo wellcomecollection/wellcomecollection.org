@@ -1,9 +1,9 @@
 import { fetcher } from '.';
-import { SeriesPrismicDocument } from '../types/series';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 const fetchLinks = [];
 
-const seasonsFetcher = fetcher<SeriesPrismicDocument>('series', fetchLinks);
+const seasonsFetcher = fetcher<SeasonPrismicDocument>('seasons', fetchLinks);
 
 export const fetchSeason = seasonsFetcher.getById;
 export const fetchSeasons = seasonsFetcher.getByType;

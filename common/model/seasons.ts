@@ -6,7 +6,3 @@ export type Season = GenericContentFields & {
   end: Date | undefined;
   prismicDocument: any;
 };
-
-export type SeasonWithContent = {
-  season: Season;
-};
