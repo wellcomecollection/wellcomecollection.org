@@ -18,12 +18,7 @@ import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
 
-// TODO add return type to functions
-// TODO add comprehensive comments and probably rename some functions
-// TODO write some test for these functions
-
 export function exceptionalOpeningDates(collectionOpeningTimes: {
-  // TODO replace placesOpeningHours with venues?
   placesOpeningHours: Venue[];
 }): OverrideDate[] {
   return collectionOpeningTimes.placesOpeningHours
@@ -416,7 +411,11 @@ export function openingHoursToOpeningHoursSpecification(
     openingHoursSpecification: openingHours?.regular
       ? openingHours.regular.map(openingHoursDay => {
           const specObject = objToJsonLd(
-            openingHoursDay,
+            {
+              dayOfWeek: openingHoursDay.dayOfWeek,
+              opens: openingHoursDay.opens,
+              closes: openingHoursDay.closes,
+            },
             'OpeningHoursSpecification',
             false
           );
