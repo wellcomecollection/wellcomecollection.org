@@ -46,9 +46,15 @@ export function getAuthService(
           service?.['@id'] !==
           'https://iiif.wellcomecollection.org/auth/restrictedlogin'
       );
+      const hasAtLeastOneNonAuthService = iiifManifest.service.some(
+        service => !service.authService
+      );
+      // If any of the manifest services don't include an `authService` then we can show the viewer without a modal.
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
-      return nonRestrictedService || restrictedService;
+      return hasAtLeastOneNonAuthService
+        ? undefined
+        : nonRestrictedService || restrictedService;
     } else {
       return iiifManifest.service.authService;
     }
