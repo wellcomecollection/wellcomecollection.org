@@ -1,24 +1,4 @@
-import {
-  exceptionalOpeningDates,
-  // exceptionalOpeningPeriods,
-  // exceptionalOpeningPeriodsAllDates,
-  // getExceptionalOpeningPeriods,
-  // getExceptionalVenueDays,
-  // groupExceptionalVenueDays,
-  // exceptionalFromRegular,
-  // backfillExceptionalVenueDays,
-  // groupConsecutiveDays,
-  // getUpcomingExceptionalPeriods,
-  // getExceptionalClosedDays,
-  // createRegularDay,
-  // convertJsonDateStringsToMoment,
-  // parseCollectionVenue,
-  // getVenueById,
-  // parseOpeningTimes,
-  // getTodaysVenueHours,
-  // openingHoursToOpeningHoursSpecification,
-  // getTodaysOpeningTimesForVenue,
-} from '../../../services/prismic/opening-times';
+import { exceptionalOpeningDates } from '../../../services/prismic/opening-times';
 import { openingTimes } from '../../../test/fixtures/components/opening-times';
 import { london } from '../../../utils/format-date';
 
@@ -34,7 +14,6 @@ const openingTimesWithoutExceptionalDates = {
   }),
 };
 
-// TODO need to be able to set the date for some of the tests? upcomingExceptional / Today's etc.
 describe('opening-times', () => {
   describe('exceptionalOpeningDates: returns all the dates on which any venue has exceptional opening hours.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {

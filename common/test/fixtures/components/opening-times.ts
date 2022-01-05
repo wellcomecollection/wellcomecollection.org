@@ -55,7 +55,7 @@ export const openingTimes = {
         exceptional: [
           {
             overrideDate: london('2022-01-01'),
-            overrideType: 'Christmas and New Year' as OverrideType, // TODO with these undefined, , // Easter | Bank Holiday | Christmas and New Year | Late spectacular | other
+            overrideType: 'Christmas and New Year' as OverrideType,
             opens: '12:00',
             closes: '14:00',
             isClosed: false,
@@ -316,5 +316,4 @@ export const openingTimes = {
       },
     },
   ],
-  // TODO exceptional opening periods?
 };

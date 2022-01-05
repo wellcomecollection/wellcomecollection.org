@@ -319,7 +319,7 @@ export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
   };
 }
 
-export function parseCollectionVenue( // TODO move this to it's own file?
+export function parseCollectionVenue(
   venue: CollectionVenuePrismicDocument
 ): Venue {
   const data = venue.data;
@@ -402,7 +402,7 @@ export function getTodaysVenueHours(
   return exceptionalOpeningHours || regularOpeningHours;
 }
 
-export function openingHoursToOpeningHoursSpecification( // TODO move to utils/json-ld?
+export function openingHoursToOpeningHoursSpecification(
   openingHours: OpeningHours | undefined
 ): {
   openingHoursSpecification: OpeningHoursDay[];
