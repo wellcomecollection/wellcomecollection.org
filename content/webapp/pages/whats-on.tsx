@@ -197,7 +197,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
 
 type HeaderProps = {
   activeId: string;
-  todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay;
+  todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
 const Header = ({
@@ -418,7 +418,7 @@ const WhatsOnPage = (props: Props) => {
   const prismicData = usePrismicData();
   const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
   const galleries = getVenueById(openingTimes, collectionVenueId.galleries.id);
-  const todaysOpeningHours = getTodaysVenueHours(galleries);
+  const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
   return (
     <PageLayout
@@ -455,7 +455,7 @@ const WhatsOnPage = (props: Props) => {
           <DateRange dateRange={dateRange} period={period} />
           {!buildingClosure &&
             period === 'today' &&
-            todaysOpeningHours.isClosed && <ClosedMessage />}
+            todaysOpeningHours?.isClosed && <ClosedMessage />}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
