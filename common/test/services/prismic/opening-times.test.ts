@@ -15,7 +15,7 @@ const openingTimesWithoutExceptionalDates = {
 };
 
 describe('opening-times', () => {
-  describe('exceptionalOpeningDates: returns all the dates on which any venue has exceptional opening hours.', () => {
+  describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
       const result = exceptionalOpeningDates(
         openingTimesWithoutExceptionalDates
