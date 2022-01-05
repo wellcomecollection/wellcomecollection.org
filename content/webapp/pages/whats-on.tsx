@@ -59,7 +59,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { usePrismicData } from '@weco/common/server-data/Context';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import {
   exhibitionLd,
   eventLd,
@@ -391,6 +391,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage = (props: Props) => {
+  const { buildingClosure } = useToggles();
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
@@ -452,10 +453,9 @@ const WhatsOnPage = (props: Props) => {
         />
         <Layout12>
           <DateRange dateRange={dateRange} period={period} />
-          {/* Put back when building reopens */}
-          {/* {period === 'today' && todaysOpeningHours.isClosed && (
-            <ClosedMessage />
-          )} */}
+          {!buildingClosure &&
+            period === 'today' &&
+            todaysOpeningHours.isClosed && <ClosedMessage />}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
