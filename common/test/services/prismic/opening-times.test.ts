@@ -20,6 +20,17 @@ import {
   // getTodaysOpeningTimesForVenue,
 } from '../../../services/prismic/opening-times';
 import { openingTimes } from '../../../test/fixtures/components/opening-times';
+const openingTimesWithoutExceptionalDates = {
+  placesOpeningHours: openingTimes.placesOpeningHours.map(venue => {
+    return {
+      ...venue,
+      openingHours: {
+        ...venue.openingHours,
+        exceptional: [],
+      },
+    };
+  }),
+};
 
 // TODO need to be able to set the date for some of the tests? upcomingExceptional / Today's etc.
 describe('opening-times', () => {
