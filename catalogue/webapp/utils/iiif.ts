@@ -50,6 +50,10 @@ export function getAuthService(
         service => !service.authService
       );
       // If any of the manifest services don't include an `authService` then we can show the viewer without a modal.
+      // e.g. if the manifest is a mixture of open and restricted images, then
+      // DLCS will hide the images that are restricted -- and we can let the
+      // user click straight through to the images that are open.
+      //
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
       return hasAtLeastOneNonAuthService
