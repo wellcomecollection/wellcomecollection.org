@@ -56,7 +56,7 @@ export function getAuthService(
       //
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
-      return hasAtLeastOneNonAuthService
+      return hasAtLeastOneNonAuthService && !nonRestrictedService
         ? undefined
         : nonRestrictedService || restrictedService;
     } else {
