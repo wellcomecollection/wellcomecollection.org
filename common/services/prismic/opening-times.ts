@@ -233,10 +233,9 @@ export function backfillExceptionalVenueDays(
 }
 
 export function groupConsecutiveDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
+  dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods
-    .reduce((acc, curr) => acc.concat(curr), [])
+  return dates
     .sort((a, b) => {
       return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
     })
