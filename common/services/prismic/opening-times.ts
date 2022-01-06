@@ -191,7 +191,9 @@ function exceptionalFromRegular(
     overrideType: type,
     opens: regular?.opens || '00:00',
     closes: regular?.closes || '00:00',
-    isClosed: regular?.isClosed || true,
+    isClosed:
+      regular?.isClosed ||
+      (regular?.opens === '00:00' && regular?.closes === '00:00'),
   };
 }
 
