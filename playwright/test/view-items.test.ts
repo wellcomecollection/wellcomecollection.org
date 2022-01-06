@@ -3,6 +3,11 @@ import {
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
   itemWithAltText,
+  itemWithOnlyOpenAccess,
+  itemWithOnlyRestrictedAccess,
+  itemWithRestrictedAndOpenAccess,
+  itemWithRestrictedAndNonRestrictedAccess,
+  itemWithNonRestrictedAndOpenAccess,
 } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel, searchWithinLabel } from './text/aria-labels';
@@ -283,5 +288,32 @@ describe('Scenario 10: A user wants to be able to access alt text for the images
     await page.waitForSelector(`img[alt='22900393554']`);
     const imagesWithSameText = await page.$$(`img[alt='22900393554']`);
     expect(imagesWithSameText.length).toBe(1);
+  });
+});
+
+describe.only('Scenario 11: A user wants to view an item with access restrictions', () => {
+  test('an item with only open access items will not display a modal', async () => {
+    await itemWithOnlyOpenAccess();
+    await page.waitForSelector(`h1`);
+  });
+
+  test('an item with only restricted access items will not display a modal', async () => {
+    await itemWithOnlyRestrictedAccess();
+    await page.waitForSelector(`h1`);
+  });
+
+  test('an item with a mix of restricted and open access items will not display a modal', async () => {
+    await itemWithRestrictedAndOpenAccess();
+    await page.waitForSelector(`h1`);
+  });
+
+  test('an item with a mix of restricted and non-restricted access items will display a modal', async () => {
+    await itemWithRestrictedAndNonRestrictedAccess();
+    await page.waitForSelector(`button:has-text('Show the content')`);
+  });
+
+  test('an item with a mix of non-restricted and open access items will display a modal', async () => {
+    await itemWithNonRestrictedAndOpenAccess();
+    await page.waitForSelector(`button:has-text('Show the content')`);
   });
 });
