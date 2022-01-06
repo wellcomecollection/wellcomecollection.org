@@ -275,14 +275,6 @@ export function getUpcomingExceptionalPeriods(
   return nextUpcomingPeriods;
 }
 
-export function getExceptionalClosedDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
-): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods.map(period =>
-    period.filter(date => date.opens === null)
-  );
-}
-
 export function createRegularDay(
   day: Day,
   venue: CollectionVenuePrismicDocument
