@@ -60,12 +60,10 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
             closedGroup.length > 0 && (
               <li key={i}>
                 {firstDate}
-                {/* // TODO check firstDate on page */}
                 {lastDate && (
                   <>
                     &mdash;
                     {lastDate}
-                    {/* // TODO check lastDate on page */}
                   </>
                 )}
               </li>
