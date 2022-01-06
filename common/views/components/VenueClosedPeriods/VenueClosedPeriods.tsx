@@ -1,12 +1,9 @@
 import { FunctionComponent } from 'react';
-import { Venue } from '@weco/common/model/opening-hours';
 import {
-  backfillExceptionalVenueDays,
-  getExceptionalOpeningPeriods,
-  getExceptionalClosedDays,
-  groupConsecutiveDays,
-  convertJsonDateStringsToMoment,
+  getExceptionalVenueDays,
   parseOpeningTimes,
+  getVenueById,
+  groupConsecutiveDays,
 } from '../../../services/prismic/opening-times';
 import { formatDayDate } from '@weco/common/utils/format-date';
 import {
@@ -15,28 +12,22 @@ import {
 } from '@weco/common/services/prismic/hardcoded-id';
 import { usePrismicData } from '../../../server-data/Context';
 type Props = {
-  venue: Venue;
+  venueId: string;
 };
 
-const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
+const VenueClosedPeriods: FunctionComponent<Props> = ({ venueId }) => {
   const prismicData = usePrismicData();
   const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    convertJsonDateStringsToMoment(venue),
-    exceptionalPeriods
-  );
-  const onlyClosedDays =
-    backfilledExceptionalPeriods &&
-    getExceptionalClosedDays(backfilledExceptionalPeriods);
-  const groupedConsectiveClosedDays = onlyClosedDays
-    ? groupConsecutiveDays(onlyClosedDays)
-    : [[]];
+  const venue = getVenueById(openingTimes, venueId);
+  const exceptionalVenueDays = venue ? getExceptionalVenueDays(venue) : [];
+  const onlyClosedDays = exceptionalVenueDays.filter(day => day.isClosed);
+  const groupedConsectiveClosedDays = groupConsecutiveDays(onlyClosedDays);
+
   return groupedConsectiveClosedDays[0] &&
     groupedConsectiveClosedDays[0].length > 0 ? (
     <div className="body-text">
-      <h2>{getNameFromCollectionVenue(venue.id)} closures</h2>
-      {venue.id === collectionVenueId.libraries.id && (
+      <h2>{getNameFromCollectionVenue(venueId)} closures</h2>
+      {venueId === collectionVenueId.libraries.id && (
         <p className="no-margin">
           Planning a research visit? Our library is closed over bank holiday
           weekends and between Christmas Eve and New Year{`'`}s Day:
