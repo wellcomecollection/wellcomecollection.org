@@ -14,7 +14,7 @@ import {
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
   getVenueById,
-  parseOpeningTimes,
+  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
@@ -77,10 +77,10 @@ type Props = {
 
 const VenueHours: FunctionComponent<Props> = ({ venueId, weight }) => {
   const prismicData = usePrismicData();
-  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
-  const venue = getVenueById(openingTimes, venueId);
+  const venues = parseCollectionVenues(prismicData.collectionVenues);
+  const venue = getVenueById(venues, venueId);
 
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
+  const exceptionalPeriods = getExceptionalOpeningPeriods(venues);
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(
         convertJsonDateStringsToMoment(venue),
@@ -189,12 +189,11 @@ const VenueHours: FunctionComponent<Props> = ({ venueId, weight }) => {
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {formatDay(p.overrideDate!.toDate())}{' '}
-                    {formatDayMonth(p.overrideDate!.toDate())}{' '}
+                    {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
+                    {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
                   </li>
                 ))}
-                {/* // TODO check this */}
               </ul>
             </JauntyBox>
             <br />

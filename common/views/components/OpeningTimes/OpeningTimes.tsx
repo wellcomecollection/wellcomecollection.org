@@ -1,6 +1,6 @@
 import { getTodaysVenueHours } from '../../../services/prismic/opening-times';
 import Space from '../styled/Space';
-import { OpeningTimes } from '../../../model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
@@ -8,17 +8,15 @@ import {
 import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
-  openingTimes: OpeningTimes;
+  venues: Venue[];
 };
 
-const FooterOpeningTimes: FunctionComponent<Props> = ({
-  openingTimes,
+const OpeningTimes: FunctionComponent<Props> = ({
+  venues,
 }: Props): ReactElement<Props> => {
   return (
     <ul className="plain-list no-padding no-margin">
-      {openingTimes.placesOpeningHours.map(venue => {
-        // TODO placesOpeningHours should be Venues
-        // TODO need exceptional time to override regular times if there are any
+      {venues.map(venue => {
         const todaysHours = getTodaysVenueHours(venue);
         return (
           todaysHours && (
@@ -49,4 +47,4 @@ const FooterOpeningTimes: FunctionComponent<Props> = ({
     </ul>
   );
 };
-export default FooterOpeningTimes;
+export default OpeningTimes;

@@ -9,7 +9,7 @@ import Icon from '../Icon/Icon';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import OpeningTimes from '../OpeningTimes/OpeningTimes';
-import { OpeningTimes as OpeningTimesType } from '../../../model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -162,13 +162,10 @@ const TopBorderBox = styled.div`
 `;
 type Props = {
   hide: boolean;
-  openingTimes: OpeningTimesType;
+  venues: Venue[];
 };
 
-const Footer: FunctionComponent<Props> = ({
-  openingTimes,
-  hide = false,
-}: Props) => {
+const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (hide && footer && footer.current) {
@@ -259,7 +256,7 @@ const Footer: FunctionComponent<Props> = ({
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
-                  {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
+                  {venues && <OpeningTimes venues={venues} />}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
                   </Space>

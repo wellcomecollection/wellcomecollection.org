@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { UiExhibition } from '@weco/common/model/exhibitions';
@@ -21,7 +21,7 @@ import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
   getVenueById,
-  parseOpeningTimes,
+  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
@@ -97,7 +97,7 @@ export type Props = {
   featuredText: FeaturedTextType;
 };
 
-export function getMomentsForPeriod(period: Period) {
+export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
   const todaysDate = london();
   const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
 
@@ -179,17 +179,17 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
       )}
       {period === 'this-weekend' && (
-        <Fragment>
+        <>
           <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
           &ndash;
           <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
-        </Fragment>
+        </>
       )}
       {period === 'current-and-coming-up' && (
-        <Fragment>
+        <>
           From{' '}
           <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-        </Fragment>
+        </>
       )}
     </Space>
   );
@@ -237,7 +237,7 @@ const Header = ({
                       today
                     </Space>
                     {!todaysOpeningHours.isClosed && (
-                      <Fragment>
+                      <>
                         <Space
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
@@ -251,13 +251,13 @@ const Header = ({
                             [font('hnr', 5)]: true,
                           })}
                         >
-                          <Fragment>
+                          <>
                             <time>{todaysOpeningHours.opens}</time>
                             {'—'}
                             <time>{todaysOpeningHours.closes}</time>
-                          </Fragment>
+                          </>
                         </Space>
-                      </Fragment>
+                      </>
                     )}
                   </div>
                 )}
@@ -390,7 +390,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const WhatsOnPage = (props: Props) => {
+const WhatsOnPage: FunctionComponent<Props> = props => {
   const { buildingClosure } = useToggles();
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
@@ -416,8 +416,8 @@ const WhatsOnPage = (props: Props) => {
     : `What's on`;
 
   const prismicData = usePrismicData();
-  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
-  const galleries = getVenueById(openingTimes, collectionVenueId.galleries.id);
+  const venues = parseCollectionVenues(prismicData.collectionVenues);
+  const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
   return (
@@ -445,7 +445,7 @@ const WhatsOnPage = (props: Props) => {
         undefined
       }
     >
-      <Fragment>
+      <>
         <Header
           activeId={period}
           todaysOpeningHours={todaysOpeningHours}
@@ -459,7 +459,7 @@ const WhatsOnPage = (props: Props) => {
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
-            <Fragment>
+            <>
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <Layout12>
@@ -539,7 +539,7 @@ const WhatsOnPage = (props: Props) => {
                   </SpacingComponent>
                 </SpacingSection>
               </Space>
-            </Fragment>
+            </>
           )}
           {period !== 'current-and-coming-up' && (
             <SpacingSection>
@@ -620,7 +620,7 @@ const WhatsOnPage = (props: Props) => {
             </CssGridContainer>
           </SpacingComponent>
         </SpacingSection>
-      </Fragment>
+      </>
     </PageLayout>
   );
 };

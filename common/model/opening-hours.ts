@@ -49,12 +49,6 @@ export type Venue = {
   image?: any; // TODO
 };
 
-export type PlacesOpeningHours = Venue[];
-
-export type OpeningTimes = {
-  placesOpeningHours: PlacesOpeningHours;
-};
-
 // http://schema.org/specialOpeningHoursSpecification
 export type SpecialOpeningHours = {
   opens: string;

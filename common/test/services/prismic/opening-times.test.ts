@@ -2,35 +2,29 @@ import {
   exceptionalOpeningDates,
   getExceptionalVenueDays,
 } from '../../../services/prismic/opening-times';
-import { openingTimes } from '../../../test/fixtures/components/opening-times';
+import { venues } from '../../../test/fixtures/components/venues';
 import { london } from '../../../utils/format-date';
 
-const openingTimesWithoutExceptionalDates = {
-  placesOpeningHours: openingTimes.placesOpeningHours.map(venue => {
-    return {
-      ...venue,
-      openingHours: {
-        ...venue.openingHours,
-        exceptional: [],
-      },
-    };
-  }),
-};
+const venuesWithoutExceptionalDates = venues.map(venue => {
+  return {
+    ...venue,
+    openingHours: {
+      ...venue.openingHours,
+      exceptional: [],
+    },
+  };
+});
 
-const galleriesVenue = openingTimes.placesOpeningHours.find(
-  venue => venue.id === 'Wsttgx8AAJeSNmJ4'
-);
+const galleriesVenue = venues.find(venue => venue.id === 'Wsttgx8AAJeSNmJ4'); // TODO use getVenueById
 
 describe('opening-times', () => {
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
-      const result = exceptionalOpeningDates(
-        openingTimesWithoutExceptionalDates
-      );
+      const result = exceptionalOpeningDates(venuesWithoutExceptionalDates);
       expect(result).toEqual([]);
     });
     it('returns all dates that have exceptional opening hours for any venue', () => {
-      const result = exceptionalOpeningDates(openingTimes);
+      const result = exceptionalOpeningDates(venues);
       expect(result).toEqual([
         {
           overrideDate: london('2021-01-05'),
@@ -59,7 +53,7 @@ describe('opening-times', () => {
       ]);
     });
     it('does not include a date more than once', () => {
-      const result = exceptionalOpeningDates(openingTimes);
+      const result = exceptionalOpeningDates(venues);
       const uniqueDates = new Set(
         result.map(date => date.overrideDate?.toString())
       );

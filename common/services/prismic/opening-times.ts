@@ -6,7 +6,6 @@ import type {
   ExceptionalPeriod,
   OverrideDate,
   Venue,
-  OpeningTimes,
   OpeningHours,
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
@@ -18,14 +17,11 @@ import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
 
-
-export function exceptionalOpeningDates(openingTimes: {
-  placesOpeningHours: Venue[];
-}): OverrideDate[] {
-  return openingTimes.placesOpeningHours
-    .flatMap(place => {
-      if (place.openingHours.exceptional) {
-        return place.openingHours.exceptional.map(exceptionalDate => {
+export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
+  return venues
+    .flatMap(venue => {
+      if (venue.openingHours.exceptional) {
+        return venue.openingHours.exceptional.map(exceptionalDate => {
           return {
             overrideDate: exceptionalDate.overrideDate,
             overrideType: exceptionalDate.overrideType,
@@ -132,9 +128,9 @@ export function exceptionalOpeningPeriodsAllDates(
 }
 
 export function getExceptionalOpeningPeriods(
-  openingTimes: OpeningTimes
+  venues: Venue[]
 ): OverrideDates[] | undefined {
-  const allExceptionalDates = exceptionalOpeningDates(openingTimes);
+  const allExceptionalDates = exceptionalOpeningDates(venues);
   const groupedExceptionalDates =
     allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
   return (
@@ -359,27 +355,21 @@ export function parseCollectionVenue(
   };
 }
 
-export function getVenueById(
-  openingTimes: OpeningTimes,
-  id: string
-): Venue | undefined {
-  const venue = openingTimes.placesOpeningHours.find(venue => venue.id === id);
+export function getVenueById(venues: Venue[], id: string): Venue | undefined {
+  const venue = venues.find(venue => venue.id === id);
   return venue;
 }
 
-export function parseOpeningTimes(
+export function parseCollectionVenues(
   doc: Query<CollectionVenuePrismicDocument>
-): OpeningTimes {
-  const placesOpeningHours = doc.results.map(venue => {
-    // TODO no need to return whole venue?
+): Venue[] {
+  const venues = doc.results.map(venue => {
     return parseCollectionVenue(venue);
   });
 
-  return {
-    placesOpeningHours: placesOpeningHours.sort((a, b) => {
-      return Number(a.order) - Number(b.order);
-    }),
-  };
+  return venues.sort((a, b) => {
+    return Number(a.order) - Number(b.order);
+  });
 }
 
 export function getTodaysVenueHours(
