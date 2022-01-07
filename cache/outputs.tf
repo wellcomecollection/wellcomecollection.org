@@ -1,5 +1,5 @@
 output "wc_org_cf_distro_id" {
-  value = aws_cloudfront_distribution.wellcomecollection_org.id
+  value = module.prod_wc_org_cloudfront_distribution.distribution_id
 }
 
 output "stage_wc_org_cf_distro_id" {
