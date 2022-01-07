@@ -422,7 +422,7 @@ const Body: FunctionComponent<Props> = ({
                   <>
                     {slice.value.showClosingTimes && (
                       <LayoutWidth width={minWidth}>
-                        <VenueClosedPeriods venueId={slice.value.content.id} />
+                        <VenueClosedPeriods venue={slice.value.content} />
                       </LayoutWidth>
                     )}
                     {!slice.value.showClosingTimes && (
