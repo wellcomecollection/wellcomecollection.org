@@ -25,8 +25,9 @@ module "prod_wc_org_cloudfront_distribution" {
     response = data.aws_lambda_function.versioned_edge_lambda_response.qualified_arn
   }
 
-  cache_policies   = module.cloudfront_policies.cache_policies
-  request_policies = module.cloudfront_policies.request_policies
+  cache_policies    = module.cloudfront_policies.cache_policies
+  request_policies  = module.cloudfront_policies.request_policies
+  response_policies = module.cloudfront_policies.response_policies
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

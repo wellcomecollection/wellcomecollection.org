@@ -20,3 +20,12 @@ output "request_policies" {
     : policy.name => policy.id
   }
 }
+
+output "response_policies" {
+  value = {
+    for policy in [
+      aws_cloudfront_response_headers_policy.weco_security
+    ]
+    : policy.name => policy.id
+  }
+}
