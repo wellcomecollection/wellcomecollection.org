@@ -415,8 +415,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     ? `What's on${` - ${extraTitleText.text}`}`
     : `What's on`;
 
-  const prismicData = usePrismicData();
-  const venues = parseCollectionVenues(prismicData.collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 

@@ -27,8 +27,8 @@ const Container: FunctionComponent<ContainerProps> = ({
 );
 
 const VisitUsStaticContent: FunctionComponent = () => {
-  const prismicData = usePrismicData();
-  const venues = parseCollectionVenues(prismicData.collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
 
   return (
     <Container>
