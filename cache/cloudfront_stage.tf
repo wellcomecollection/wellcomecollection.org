@@ -9,10 +9,9 @@ module "stage_wc_org_cloudfront_distribution" {
     "identity.www-stage.wellcomecollection.org"
   ]
 
-  // TODO use outputs
   assets_origin = {
-    bucket_endpoint = local.assets_s3_website_endpoint
-    website_uri     = local.assets_s3_website_uri
+    bucket_endpoint = data.terraform_remote_state.assets.outputs.bucket_domain_name
+    website_uri     = data.terraform_remote_state.assets.outputs.website_uri
   }
   load_balancer_dns = data.terraform_remote_state.experience.outputs.stage_alb_dns
 

@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
+  region = "us-east-1"
   assume_role {
     role_arn = "arn:aws:iam::130871440101:role/experience-admin"
   }
@@ -54,7 +54,7 @@ data "terraform_remote_state" "assets" {
 
   config = {
     bucket   = "wellcomecollection-infra"
-    key      = "build-state/router.tfstate"
+    key      = "build-state/client.tfstate"
     region   = "eu-west-1"
     role_arn = "arn:aws:iam::130871440101:role/experience-read_only"
   }

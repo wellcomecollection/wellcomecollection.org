@@ -1,5 +1,5 @@
-output "bucket_endpoint" {
-  value = module.static.bucket_endpoint
+output "bucket_domain_name" {
+  value = module.static.bucket_domain_name
 }
 
 output "website_uri" {

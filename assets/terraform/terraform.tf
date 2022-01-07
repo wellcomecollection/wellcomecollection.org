@@ -26,9 +26,10 @@ provider "aws" {
 }
 
 data "aws_acm_certificate" "dotorg" {
-  provider = aws.us_east_1
-  domain = "wellcomecollection.org"
-  statuses = ["ISSUED"]
+  provider    = aws.us_east_1
+  domain      = "wellcomecollection.org"
+  statuses    = ["ISSUED"]
+  most_recent = true
 }
 
 module "static" {
