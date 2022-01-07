@@ -17,10 +17,6 @@ variable "assets_origin" {
   })
 }
 
-variable "logging_prefix" {
-  type = string
-}
-
 variable "lambda_arns" {
   type = object({
     request  = string
@@ -30,4 +26,14 @@ variable "lambda_arns" {
 
 variable "certificate_arn" {
   type = string
+}
+
+variable "cache_policies" {
+  # name -> id
+  type = map(string)
+}
+
+variable "request_policies" {
+  # name -> id
+  type = map(string)
 }

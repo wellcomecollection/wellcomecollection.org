@@ -44,7 +44,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
   logging_config {
     include_cookies = false
     bucket          = "wellcomecollection-experience-cloudfront-logs.s3.amazonaws.com"
-    prefix          = var.logging_prefix
+    prefix          = "wellcomecollection.org/${var.namespace}/"
   }
 
 
@@ -52,13 +52,20 @@ resource "aws_cloudfront_distribution" "wc_org" {
   default_cache_behavior {
     target_origin_id = local.alb_origin_id
 
-    allowed_methods             = local.all_methods
-    cached_methods              = local.stateless_methods
-    lambda_function_association = local.lambda_associations
-    viewer_protocol_policy      = "redirect-to-https"
+    allowed_methods        = local.all_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = module.content_cache_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_query_strings.id
+    cache_policy_id          = var.cache_policies["weco-apps"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
   }
 
   # Works
@@ -66,13 +73,20 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/works*"
     target_origin_id = local.alb_origin_id
 
-    allowed_methods             = local.stateless_methods
-    cached_methods              = local.stateless_methods
-    lambda_function_association = local.lambda_associations
-    viewer_protocol_policy      = "redirect-to-https"
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = module.works_cache_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_query_strings.id
+    cache_policy_id          = var.cache_policies["weco-apps"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
   }
 
   # Account
@@ -81,11 +95,11 @@ resource "aws_cloudfront_distribution" "wc_org" {
     target_origin_id = local.alb_origin_id
 
     allowed_methods        = local.all_methods
-    cached_methods         = []
+    cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = aws_cloudfront_cache_policy.no_cache.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_all.id
+    cache_policy_id          = var.cache_policies["Managed-CachingDisabled"]
+    origin_request_policy_id = var.request_policies["Managed-AllViewer"]
   }
 
   # Images
@@ -93,13 +107,20 @@ resource "aws_cloudfront_distribution" "wc_org" {
     path_pattern     = "/images*"
     target_origin_id = local.alb_origin_id
 
-    allowed_methods             = local.stateless_methods
-    cached_methods              = local.stateless_methods
-    lambda_function_association = local.lambda_associations
-    viewer_protocol_policy      = "redirect-to-https"
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = module.images_cache_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_query_strings.id
+    cache_policy_id          = var.cache_policies["weco-apps"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
   }
 
   # This is for the data fetching routes used in NextJs's getServerSideProps
@@ -112,8 +133,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = module.toggles_only_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_query_strings.id
+    cache_policy_id          = var.cache_policies["toggle-cookies-only"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
   }
 
   # Static next routes
@@ -125,7 +146,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id = module.static_cache_policy.id
+    cache_policy_id          = var.cache_policies["static-content"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
   }
 
   # Events
@@ -137,8 +159,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = module.events_cache_policy.id
-    origin_request_policy_id = aws_cloudfront_origin_request_policy.forward_query_strings.id
+    cache_policy_id          = var.cache_policies["short-lived-toggles-only"]
+    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
   }
 
   ordered_cache_behavior {
@@ -149,7 +171,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id = module.static_cache_policy.id
+    cache_policy_id = var.cache_policies["static-content"]
   }
 
   ordered_cache_behavior {
@@ -160,7 +182,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id = module.static_cache_policy.id
+    cache_policy_id = var.cache_policies["static-content"]
   }
 }
 
