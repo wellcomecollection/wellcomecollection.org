@@ -3,12 +3,12 @@ import {
   getExceptionalVenueDays,
   groupConsecutiveDays,
 } from '../../../services/prismic/opening-times';
-import { formatDayDate } from '../../../utils/format-date';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
 } from '../../../services/prismic/hardcoded-id';
 import { Venue } from '../../../model/opening-hours';
+import HTMLDayDate from '../HTMLDayDate/HTMLDayDate';
 
 type Props = {
   venue: Venue;
@@ -31,26 +31,20 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
       )}
 
       <ul>
-        {/* TODO date range component */}
         {groupedConsectiveClosedDays.map((closedGroup, i) => {
-          const firstDate =
-            closedGroup[0].overrideDate &&
-            formatDayDate(closedGroup[0].overrideDate?.toDate());
+          const firstDate = closedGroup[0].overrideDate?.toDate();
           const lastDate =
-            closedGroup.length > 1 &&
-            closedGroup[closedGroup.length - 1].overrideDate
-              ? formatDayDate(
-                  closedGroup[closedGroup.length - 1].overrideDate!.toDate()
-                )
+            closedGroup.length > 1
+              ? closedGroup[closedGroup.length - 1].overrideDate?.toDate()
               : undefined;
           return (
             closedGroup.length > 0 && (
               <li key={i}>
-                {firstDate}
+                {firstDate && <HTMLDayDate date={firstDate} />}
                 {lastDate && (
                   <>
                     &mdash;
-                    {lastDate}
+                    <HTMLDayDate date={lastDate} />
                   </>
                 )}
               </li>
