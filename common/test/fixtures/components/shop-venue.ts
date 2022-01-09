@@ -49,4 +49,11 @@ export const shopVenue = {
     ],
     exceptional: [],
   },
+  image: {
+    '32:15': {},
+    '16:9': {},
+    square: {},
+  },
+  url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
+  linkText: 'Books and gifts',
 };

@@ -60,4 +60,10 @@ export const restaurantVenue = {
       },
     ],
   },
+  image: {
+    '32:15': {},
+    '16:9': {},
+    square: {},
+  },
+  linkText: 'Explore the menus',
 };
