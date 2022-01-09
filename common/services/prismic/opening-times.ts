@@ -201,8 +201,6 @@ export function backfillExceptionalVenueDays(
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
-
-  // if it's type is other then we don't backfill
   return (allVenueExceptionalPeriods ?? []).map(period => {
     const sortedDates = period.dates.sort((a, b) => {
       return a.diff(b, 'days');
@@ -213,11 +211,12 @@ export function backfillExceptionalVenueDays(
         const matchingVenueGroup = groupedExceptionalDays.find(group => {
           return group.find(day => day.overrideDate?.isSame(date, 'day'));
         });
-        const matchingDay =
-          matchingVenueGroup &&
-          matchingVenueGroup.find(day => day.overrideDate?.isSame(date, 'day'));
+        const matchingDay = matchingVenueGroup?.find(day =>
+          day.overrideDate?.isSame(date, 'day')
+        );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         if (type === 'other') {
+          // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
           return matchingDay;
         } else {
           return matchingDay || backfillDay;
