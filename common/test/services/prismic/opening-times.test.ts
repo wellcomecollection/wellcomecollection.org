@@ -1,6 +1,7 @@
 import {
   exceptionalOpeningDates,
   getExceptionalVenueDays,
+  getVenueById,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { london } from '../../../utils/format-date';
@@ -135,6 +136,12 @@ describe('opening-times', () => {
           isClosed: false,
         },
       ]);
+    });
+  });
+  describe('getVenueById', () => {
+    it('returns a venue object with a matching id from an array of venues', () => {
+      const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
+      expect(result.name).toEqual('Galleries and Reading Room');
     });
   });
 });
