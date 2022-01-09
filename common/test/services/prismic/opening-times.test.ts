@@ -15,8 +15,8 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
     },
   };
 });
-
-const galleriesVenue = venues.find(venue => venue.id === 'Wsttgx8AAJeSNmJ4'); // TODO use getVenueById
+// const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
+const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
