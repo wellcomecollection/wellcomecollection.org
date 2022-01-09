@@ -1,8 +1,8 @@
 import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
-import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
+import { libraryVenue } from '@weco/common/test/fixtures/components/library-venue';
 
 const Template = () => {
-  return <VenueClosedPeriods venue={galleriesVenue} />;
+  return <VenueClosedPeriods venue={libraryVenue} />;
 };
 export const basic = Template.bind({});
 
