@@ -594,20 +594,3 @@ export const groupedVenues = {
     ],
   },
 };
-
-export const upcomingExceptionalOpeningPeriods = [
-  {
-    type: 'Christmas and New Year',
-    dates: [
-      new Date('2018-12-24T00:00:00.000Z'),
-      new Date('2018-12-25T00:00:00.000Z'),
-      new Date('2018-12-26T00:00:00.000Z'),
-      new Date('2018-12-27T00:00:00.000Z'),
-      new Date('2018-12-28T00:00:00.000Z'),
-      new Date('2018-12-29T00:00:00.000Z'),
-      new Date('2018-12-30T00:00:00.000Z'),
-      new Date('2018-12-31T00:00:00.000Z'),
-      new Date('2019-01-01T00:00:00.000Z'),
-    ],
-  },
-];

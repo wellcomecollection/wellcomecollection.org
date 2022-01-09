@@ -14,9 +14,9 @@ import Space from '../styled/Space';
 import { museumLd, libraryLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
 import {
-  getParseCollectionVenueById,
+  getVenueById,
   openingHoursToOpeningHoursSpecification,
-  parseCollectionVenues,
+  parseOpeningTimes,
 } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
@@ -105,13 +105,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const openingTimes = parseCollectionVenues(collectionVenues);
+  const openingTimes = parseOpeningTimes(collectionVenues);
   const galleries =
-    openingTimes &&
-    getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);
+    openingTimes && getVenueById(openingTimes, collectionVenueId.galleries.id);
   const library =
-    openingTimes &&
-    getParseCollectionVenueById(openingTimes, collectionVenueId.libraries.id);
+    openingTimes && getVenueById(openingTimes, collectionVenueId.libraries.id);
   const galleriesOpeningHours = galleries && galleries.openingHours;
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
@@ -296,13 +294,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        <Footer
-          hide={hideFooter}
-          openingTimes={openingTimes}
-          upcomingExceptionalOpeningPeriods={
-            openingTimes && openingTimes.upcomingExceptionalOpeningPeriods
-          }
-        />
+        <Footer hide={hideFooter} openingTimes={openingTimes} />
       </div>
     </>
   );

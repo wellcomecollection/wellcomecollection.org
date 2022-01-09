@@ -1,3 +1,4 @@
+import { FunctionComponent } from 'react';
 import { Venue } from '@weco/common/model/opening-hours';
 import {
   backfillExceptionalVenueDays,
@@ -5,7 +6,7 @@ import {
   getExceptionalClosedDays,
   groupConsecutiveDays,
   convertJsonDateStringsToMoment,
-  parseCollectionVenues,
+  parseOpeningTimes,
 } from '../../../services/prismic/opening-times';
 import { formatDayDate } from '@weco/common/utils/format-date';
 import {
@@ -17,9 +18,9 @@ type Props = {
   venue: Venue;
 };
 
-const VenueClosedPeriods = ({ venue }: Props) => {
+const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),
@@ -44,26 +45,33 @@ const VenueClosedPeriods = ({ venue }: Props) => {
 
       <ul>
         {/* TODO date range component */}
-        {groupedConsectiveClosedDays.map(
-          (closedGroup, i) =>
+        {groupedConsectiveClosedDays.map((closedGroup, i) => {
+          const firstDate =
+            closedGroup[0].overrideDate &&
+            formatDayDate(closedGroup[0].overrideDate?.toDate());
+          const lastDate =
+            closedGroup.length > 1 &&
+            closedGroup[closedGroup.length - 1].overrideDate
+              ? formatDayDate(
+                  closedGroup[closedGroup.length - 1].overrideDate!.toDate()
+                )
+              : undefined;
+          return (
             closedGroup.length > 0 && (
               <li key={i}>
-                {closedGroup[0].overrideDate &&
-                  formatDayDate(closedGroup[0].overrideDate.toDate())}
-                {closedGroup.length > 1 &&
-                  closedGroup[closedGroup.length - 1].overrideDate && (
-                    <>
-                      &mdash;
-                      {formatDayDate(
-                        closedGroup[
-                          closedGroup.length - 1
-                        ].overrideDate!.toDate()
-                      )}
-                    </>
-                  )}
+                {firstDate}
+                {/* // TODO check firstDate on page */}
+                {lastDate && (
+                  <>
+                    &mdash;
+                    {lastDate}
+                    {/* // TODO check lastDate on page */}
+                  </>
+                )}
               </li>
             )
-        )}
+          );
+        })}
       </ul>
     </div>
   ) : null;

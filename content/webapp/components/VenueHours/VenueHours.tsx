@@ -1,5 +1,7 @@
+import { FunctionComponent, Fragment } from 'react';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
+import { Venue } from '@weco/common/model/opening-hours';
 import { Weight } from '@weco/common/services/prismic/parsers';
 import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -12,11 +14,10 @@ import {
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
-  parseCollectionVenues,
+  parseOpeningTimes,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { Fragment } from 'react';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
@@ -70,13 +71,13 @@ const JauntyBox = styled(Space).attrs(() => ({
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {
-  venue: any; // FIXME: Type this up
+  venue: Venue;
   weight: Weight;
 };
 
-const VenueHours = ({ venue, weight }: Props) => {
+const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
   const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
     convertJsonDateStringsToMoment(venue),
@@ -128,11 +129,13 @@ const VenueHours = ({ venue, weight }: Props) => {
             [font('hnr', 5)]: true,
           })}
         >
-          {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
-            <li key={dayOfWeek}>
-              {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
-            </li>
-          ))}
+          {venue.openingHours.regular.map(
+            ({ dayOfWeek, opens, closes, isClosed }) => (
+              <li key={dayOfWeek}>
+                {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
+              </li>
+            )
+          )}
         </ul>
       </VenueHoursTimes>
       {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
@@ -184,9 +187,10 @@ const VenueHours = ({ venue, weight }: Props) => {
                   <li key={p.overrideDate?.toString()}>
                     {formatDay(p.overrideDate!.toDate())}{' '}
                     {formatDayMonth(p.overrideDate!.toDate())}{' '}
-                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
+                    {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
                   </li>
                 ))}
+                {/* // TODO check this */}
               </ul>
             </JauntyBox>
             <br />

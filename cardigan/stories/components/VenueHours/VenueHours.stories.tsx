@@ -16,10 +16,7 @@ const venueMap = {
 const Template = () => {
   const venueIndex = 'Galleries';
 
-  const venue =
-    openingTimes.collectionOpeningTimes.placesOpeningHours[
-      venueMap[venueIndex]
-    ];
+  const venue = openingTimes.placesOpeningHours[venueMap[venueIndex]];
 
   const venueWithImages = {
     ...venue,
