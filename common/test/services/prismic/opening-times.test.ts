@@ -47,8 +47,28 @@ describe('opening-times', () => {
           overrideType: 'Bank holiday',
         },
         {
+          overrideDate: london('2022-02-05'),
+          overrideType: 'Bank holiday',
+        },
+        {
           overrideDate: london('2022-04-10'),
           overrideType: 'other',
+        },
+        {
+          overrideDate: london('2022-12-28'),
+          overrideType: 'Christmas and New Year',
+        },
+        {
+          overrideDate: london('2022-12-30'),
+          overrideType: 'Christmas and New Year',
+        },
+        {
+          overrideDate: london('2022-12-31'),
+          overrideType: 'Christmas and New Year',
+        },
+        {
+          overrideDate: london('2023-01-01'),
+          overrideType: 'Christmas and New Year',
         },
       ]);
     });
@@ -94,11 +114,25 @@ describe('opening-times', () => {
           isClosed: true,
         },
         {
+          overrideDate: london('2022-02-05'),
+          overrideType: 'Bank holiday',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
           overrideDate: london('2021-01-05'),
           overrideType: 'Bank holiday',
           opens: '00:00',
           closes: '00:00',
           isClosed: true,
+        },
+        {
+          overrideDate: london('2022-12-31'),
+          overrideType: 'Christmas and New Year',
+          opens: '10:00',
+          closes: '14:00',
+          isClosed: false,
         },
       ]);
     });

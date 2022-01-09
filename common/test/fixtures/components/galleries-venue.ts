@@ -59,13 +59,6 @@ export const galleriesVenue = {
         isClosed: false,
       },
       {
-        overrideDate: london('2022-01-01'),
-        overrideType: 'Christmas and New Year' as OverrideType,
-        opens: '12:00',
-        closes: '14:00',
-        isClosed: false,
-      },
-      {
         overrideDate: london('2021-12-31'),
         overrideType: 'Christmas and New Year' as OverrideType,
         opens: '00:00',
