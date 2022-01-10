@@ -2,13 +2,13 @@ import { FunctionComponent } from 'react';
 import {
   getExceptionalVenueDays,
   groupConsecutiveDays,
-} from '../../../services/prismic/opening-times';
+} from '@weco/common/services/prismic/opening-times';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
-} from '../../../services/prismic/hardcoded-id';
-import { Venue } from '../../../model/opening-hours';
-import HTMLDayDate from '../HTMLDayDate/HTMLDayDate';
+} from '@weco/common/services/prismic/hardcoded-id';
+import { Venue } from '@weco/common/model/opening-hours';
+import HTMLDayDate from '@weco/common/views/components/HTMLDayDate/HTMLDayDate';
 
 type Props = {
   venue: Venue;

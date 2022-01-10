@@ -29,7 +29,7 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
-import VenueClosedPeriods from '@weco/common/views/components/VenueClosedPeriods/VenueClosedPeriods';
+import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import Table from '@weco/common/views/components/Table/Table';
 import MediaObjectList from '@weco/common/views/components/MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
