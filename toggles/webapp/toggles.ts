@@ -9,7 +9,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  when: (request: any) => boolean; // TODO: should take request of type CloudFrontRequest
+  when: (request: Request) => boolean; // TODO: should take request of type CloudFrontRequest
 };
 
 const toggles = {
