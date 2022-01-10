@@ -36,7 +36,15 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'gaSecureCookies',
+      title: 'GA Secure Cookies',
+      range: [0, 10],
+      description: 'Secure cookies for 10% of users to check nothing breaks',
+      defaultValue: false,
+    },
+  ] as ABTest[],
 };
 
 export default toggles;
