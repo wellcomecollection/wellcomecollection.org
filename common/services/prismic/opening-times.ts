@@ -18,10 +18,11 @@ import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
 
-export function exceptionalOpeningDates(collectionOpeningTimes: {
+
+export function exceptionalOpeningDates(openingTimes: {
   placesOpeningHours: Venue[];
 }): OverrideDate[] {
-  return collectionOpeningTimes.placesOpeningHours
+  return openingTimes.placesOpeningHours
     .flatMap(place => {
       if (place.openingHours.exceptional) {
         return place.openingHours.exceptional.map(exceptionalDate => {
@@ -176,7 +177,7 @@ export function groupExceptionalVenueDays(
     : [];
 }
 
-function exceptionalFromRegular(
+export function exceptionalFromRegular(
   venue: Venue,
   dateToGet: Moment,
   type: OverrideType
@@ -283,7 +284,7 @@ export function getExceptionalClosedDays(
   );
 }
 
-function createRegularDay(
+export function createRegularDay(
   day: Day,
   venue: CollectionVenuePrismicDocument
 ): OpeningHoursDay {

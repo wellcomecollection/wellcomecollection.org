@@ -1,3 +1,6 @@
+import { london } from '../../../utils/format-date';
+import { OverrideType } from '../../../model/opening-hours';
+
 export const openingTimes = {
   placesOpeningHours: [
     {
@@ -49,7 +52,43 @@ export const openingTimes = {
             isClosed: false,
           },
         ],
-        exceptional: [],
+        exceptional: [
+          {
+            overrideDate: london('2022-01-01'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '12:00',
+            closes: '14:00',
+            isClosed: false,
+          },
+          {
+            overrideDate: london('2021-12-31'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-12-20'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-02-04'),
+            overrideType: 'Bank holiday' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-01-05'),
+            overrideType: 'Bank holiday' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
       },
     },
     {
@@ -101,7 +140,15 @@ export const openingTimes = {
             isClosed: true,
           },
         ],
-        exceptional: [],
+        exceptional: [
+          {
+            overrideDate: london('2021-12-31'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
       },
     },
     {
@@ -153,7 +200,15 @@ export const openingTimes = {
             isClosed: false,
           },
         ],
-        exceptional: [],
+        exceptional: [
+          {
+            overrideDate: london('2022-04-10'),
+            overrideType: 'other' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
       },
     },
     {
