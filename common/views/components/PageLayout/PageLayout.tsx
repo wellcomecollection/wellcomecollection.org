@@ -16,7 +16,7 @@ import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
 import {
   getVenueById,
   openingHoursToOpeningHoursSpecification,
-  parseOpeningTimes,
+  parseCollectionVenues,
 } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
@@ -105,11 +105,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const openingTimes = parseOpeningTimes(collectionVenues);
+  const venues = parseCollectionVenues(collectionVenues);
   const galleries =
-    openingTimes && getVenueById(openingTimes, collectionVenueId.galleries.id);
+    venues && getVenueById(venues, collectionVenueId.galleries.id);
   const library =
-    openingTimes && getVenueById(openingTimes, collectionVenueId.libraries.id);
+    venues && getVenueById(venues, collectionVenueId.libraries.id);
   const galleriesOpeningHours = galleries && galleries.openingHours;
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
@@ -294,7 +294,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        <Footer hide={hideFooter} openingTimes={openingTimes} />
+        <Footer hide={hideFooter} venues={venues} />
       </div>
     </>
   );

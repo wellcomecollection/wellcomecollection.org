@@ -14,10 +14,11 @@ import {
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
   getVenueById,
-  parseOpeningTimes,
+  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
+import { Venue } from '@weco/common/model/opening-hours';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
@@ -71,16 +72,14 @@ const JauntyBox = styled(Space).attrs(() => ({
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {
-  venueId: string;
+  venue: Venue;
   weight: Weight;
 };
 
-const VenueHours: FunctionComponent<Props> = ({ venueId, weight }) => {
-  const prismicData = usePrismicData();
-  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
-  const venue = getVenueById(openingTimes, venueId);
-
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
+const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
+  const exceptionalPeriods = getExceptionalOpeningPeriods(venues);
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(
         convertJsonDateStringsToMoment(venue),
@@ -189,12 +188,11 @@ const VenueHours: FunctionComponent<Props> = ({ venueId, weight }) => {
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {formatDay(p.overrideDate!.toDate())}{' '}
-                    {formatDayMonth(p.overrideDate!.toDate())}{' '}
+                    {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
+                    {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
                   </li>
                 ))}
-                {/* // TODO check this */}
               </ul>
             </JauntyBox>
             <br />
