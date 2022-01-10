@@ -22,7 +22,10 @@ import {
   findClosedDays,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
+import {
+  parseCollectionVenues,
+  getVenueById,
+} from '@weco/common/services/prismic/opening-times';
 
 const { formatDate, parseDate } = LocaleUtils;
 
@@ -230,12 +233,9 @@ const RequestingDayPicker: FC<Props> = ({
 
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
-  const libraryVenue =
-    openingTimes?.collectionOpeningTimes.placesOpeningHours.find(
-      venue => venue.id === collectionVenueId.libraries.id
-    );
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
+  const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
     day => convertOpeningHoursDayToDayNumber(day as OpeningHoursDay)
