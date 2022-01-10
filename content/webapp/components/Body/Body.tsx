@@ -450,7 +450,7 @@ const Body: FunctionComponent<Props> = ({
                           }
                         >
                           <VenueHours
-                            venue={slice.value.content}
+                            venueId={slice.value.content.id}
                             weight={slice.weight || 'default'}
                           />
                         </Layout>

@@ -233,10 +233,9 @@ export function backfillExceptionalVenueDays(
 }
 
 export function groupConsecutiveDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
+  dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods
-    .reduce((acc, curr) => acc.concat(curr), [])
+  return dates
     .sort((a, b) => {
       return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
     })
@@ -274,14 +273,6 @@ export function getUpcomingExceptionalPeriods(
     return upcomingPeriod || false;
   });
   return nextUpcomingPeriods;
-}
-
-export function getExceptionalClosedDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
-): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods.map(period =>
-    period.filter(date => date.opens === null)
-  );
 }
 
 export function createRegularDay(
@@ -336,7 +327,11 @@ export function parseCollectionVenue(
     return {
       overrideDate,
       overrideType,
-      opens: start ? london(start).format('HH:mm') : '00:00', // See comment in createRegularDay for why these get set to 00:00
+      // If there is no start time from prismic, then we set both opens and closes to 00:00.
+      // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+      // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+      // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+      opens: start ? london(start).format('HH:mm') : '00:00',
       closes: start && end ? london(end).format('HH:mm') : '00:00',
       isClosed,
     };

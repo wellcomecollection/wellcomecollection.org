@@ -1,7 +1,6 @@
 import { FunctionComponent, Fragment } from 'react';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
-import { Venue } from '@weco/common/model/opening-hours';
 import { Weight } from '@weco/common/services/prismic/parsers';
 import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -14,6 +13,7 @@ import {
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
+  getVenueById,
   parseOpeningTimes,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
@@ -71,18 +71,22 @@ const JauntyBox = styled(Space).attrs(() => ({
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {
-  venue: Venue;
+  venueId: string;
   weight: Weight;
 };
 
-const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
+const VenueHours: FunctionComponent<Props> = ({ venueId, weight }) => {
   const prismicData = usePrismicData();
   const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
+  const venue = getVenueById(openingTimes, venueId);
+
   const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    convertJsonDateStringsToMoment(venue),
-    exceptionalPeriods
-  );
+  const backfilledExceptionalPeriods = venue
+    ? backfillExceptionalVenueDays(
+        convertJsonDateStringsToMoment(venue),
+        exceptionalPeriods
+      )
+    : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
@@ -98,7 +102,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue.image && venue.image?.url && (
+            {venue?.image?.url && (
               <UiImage
                 contentUrl={venue.image.url}
                 width={1600}
@@ -121,7 +125,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             h2: true,
           })}
         >
-          {isFeatured && venue.name ? venue.name : 'Opening hours'}
+          {isFeatured && venue?.name ? venue.name : 'Opening hours'}
         </Space>
         <ul
           className={classNames({
@@ -129,7 +133,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             [font('hnr', 5)]: true,
           })}
         >
-          {venue.openingHours.regular.map(
+          {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
                 {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
@@ -204,8 +208,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         }}
         style={{ clear: 'both' }}
       >
-        {isFeatured && venue.linkText && venue.url && (
-          <MoreLink url={venue.url} name={venue.linkText} />
+        {isFeatured && venue?.linkText && venue?.url && (
+          <MoreLink url={venue?.url} name={venue?.linkText} />
         )}
       </Space>
     </>

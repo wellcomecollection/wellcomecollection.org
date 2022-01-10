@@ -1,37 +1,24 @@
 import { FunctionComponent } from 'react';
-import { Venue } from '@weco/common/model/opening-hours';
 import {
-  backfillExceptionalVenueDays,
-  getExceptionalOpeningPeriods,
-  getExceptionalClosedDays,
+  getExceptionalVenueDays,
   groupConsecutiveDays,
-  convertJsonDateStringsToMoment,
-  parseOpeningTimes,
 } from '../../../services/prismic/opening-times';
-import { formatDayDate } from '@weco/common/utils/format-date';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
-} from '@weco/common/services/prismic/hardcoded-id';
-import { usePrismicData } from '../../../server-data/Context';
+} from '../../../services/prismic/hardcoded-id';
+import { Venue } from '../../../model/opening-hours';
+import HTMLDayDate from '../HTMLDayDate/HTMLDayDate';
+
 type Props = {
   venue: Venue;
 };
 
 const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
-  const prismicData = usePrismicData();
-  const openingTimes = parseOpeningTimes(prismicData.collectionVenues);
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    convertJsonDateStringsToMoment(venue),
-    exceptionalPeriods
-  );
-  const onlyClosedDays =
-    backfilledExceptionalPeriods &&
-    getExceptionalClosedDays(backfilledExceptionalPeriods);
-  const groupedConsectiveClosedDays = onlyClosedDays
-    ? groupConsecutiveDays(onlyClosedDays)
-    : [[]];
+  const exceptionalVenueDays = venue ? getExceptionalVenueDays(venue) : [];
+  const onlyClosedDays = exceptionalVenueDays.filter(day => day.isClosed);
+  const groupedConsectiveClosedDays = groupConsecutiveDays(onlyClosedDays);
+
   return groupedConsectiveClosedDays[0] &&
     groupedConsectiveClosedDays[0].length > 0 ? (
     <div className="body-text">
@@ -44,28 +31,20 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
       )}
 
       <ul>
-        {/* TODO date range component */}
         {groupedConsectiveClosedDays.map((closedGroup, i) => {
-          const firstDate =
-            closedGroup[0].overrideDate &&
-            formatDayDate(closedGroup[0].overrideDate?.toDate());
+          const firstDate = closedGroup[0].overrideDate?.toDate();
           const lastDate =
-            closedGroup.length > 1 &&
-            closedGroup[closedGroup.length - 1].overrideDate
-              ? formatDayDate(
-                  closedGroup[closedGroup.length - 1].overrideDate!.toDate()
-                )
+            closedGroup.length > 1
+              ? closedGroup[closedGroup.length - 1].overrideDate?.toDate()
               : undefined;
           return (
             closedGroup.length > 0 && (
               <li key={i}>
-                {firstDate}
-                {/* // TODO check firstDate on page */}
+                {firstDate && <HTMLDayDate date={firstDate} />}
                 {lastDate && (
                   <>
                     &mdash;
-                    {lastDate}
-                    {/* // TODO check lastDate on page */}
+                    <HTMLDayDate date={lastDate} />
                   </>
                 )}
               </li>
