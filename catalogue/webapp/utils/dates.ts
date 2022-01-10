@@ -1,6 +1,5 @@
 import { Moment } from 'moment';
 import {
-  DayNumber,
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
@@ -11,9 +10,11 @@ export function findClosedDays(
   return days.filter(day => !day.opens);
 }
 
+type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 export function convertOpeningHoursDayToDayNumber(
   day: OpeningHoursDay
-): DayNumber {
+): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
   switch (day.dayOfWeek) {
     case 'Monday':
       return 1;

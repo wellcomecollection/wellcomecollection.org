@@ -30,36 +30,43 @@ const regularOpeningHours = [
     dayOfWeek: 'Monday',
     opens: '10:00',
     closes: '18:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Tuesday',
     opens: '10:00',
     closes: '18:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Wednesday',
     opens: '10:00',
     closes: '18:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Thursday',
     opens: '10:00',
     closes: '18:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Friday',
     opens: '10:00',
     closes: '18:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Saturday',
     opens: '10:00',
     closes: '16:00',
+    isClosed: false,
   },
   {
     dayOfWeek: 'Sunday',
-    opens: undefined,
-    closes: undefined,
+    opens: '00:00',
+    closes: '00:00',
+    isClosed: true,
   },
 ];
 
@@ -67,20 +74,23 @@ const exceptionalOpeningHours = [
   {
     overrideDate: london('2021-12-25T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
-    opens: undefined,
-    closes: undefined,
+    opens: '00:00',
+    closes: '00:00',
+    isClosed: true,
   },
   {
     overrideDate: london('2021-12-26T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
     opens: '12:00',
     closes: '14:00',
+    isClosed: false,
   },
   {
     overrideDate: london('2021-12-27T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
-    opens: undefined,
-    closes: undefined,
+    opens: '00:00',
+    closes: '00:00',
+    isClosed: true,
   },
 ];
 
