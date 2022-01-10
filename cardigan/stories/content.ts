@@ -1,5 +1,4 @@
 import faker from 'faker';
-import { openingTimes as openingTimesFixture } from '@weco/common/test/fixtures/components/opening-times';
 export function randomNumber(min, max): number {
   return Math.floor(Math.random() * max) + min;
 }
@@ -680,8 +679,6 @@ export function organisation() {
     sameAs: [],
   };
 }
-
-export const openingTimes = openingTimesFixture;
 
 export const article = {
   type: 'articles',

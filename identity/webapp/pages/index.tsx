@@ -27,7 +27,7 @@ import {
   ItemPickup,
   ButtonWrapper,
 } from '../src/frontend/MyAccount/MyAccount.style';
-import { InlineLoading, Loading } from '../src/frontend/MyAccount/Loading';
+import { InlineLoading } from '../src/frontend/MyAccount/Loading';
 import { ChangeEmail } from '../src/frontend/MyAccount/ChangeEmail';
 import { ChangePassword } from '../src/frontend/MyAccount/ChangePassword';
 import { DeleteAccount } from '../src/frontend/MyAccount/DeleteAccount';
@@ -47,6 +47,11 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { useRouter } from 'next/router';
+import {
+  Auth0UserProfile,
+  auth0UserProfileToUserInfo,
+} from '@weco/common/model/user';
+import { Claims } from '@auth0/nextjs-auth0';
 
 type DetailProps = {
   label: string;
@@ -128,6 +133,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 
 type Props = {
   serverData: ServerData;
+  user?: Claims;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -142,16 +148,21 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     },
   });
 
-const AccountPage: NextPage = () => {
-  const { user, state: userState } = useUser();
-
+const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const {
     requestedItems,
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+
+  // Use the user from the context provider as first preference, as it will
+  // change without a page reload being required
+  const user =
+    contextUser ||
+    auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   const router = useRouter();
   const logoutOnDeletionRequest = () => {
@@ -183,176 +194,167 @@ const AccountPage: NextPage = () => {
         </div>
       </Header>
       <Layout10>
-        {userState === 'loading' && <Loading />}
-        {userState === 'signedin' && (
-          <>
-            {!user?.emailValidated && (
-              <AccountStatus type="info">
-                You have not yet validated your email address
-              </AccountStatus>
-            )}
-            {isEmailUpdated && (
-              <AccountStatus type="success">Email updated</AccountStatus>
-            )}
-            {isPasswordUpdated && (
-              <AccountStatus type="success">Password updated</AccountStatus>
-            )}
-            <SectionHeading addBottomPadding={true}>
-              Personal details
-            </SectionHeading>
-            <Container>
-              <Wrapper removeBottomPadding={true}>
-                <DetailList
-                  listItems={[
-                    {
-                      label: 'Name',
-                      value: `${user?.firstName} ${user?.lastName}`,
-                    },
-                    { label: 'Email', value: user?.email },
-                    { label: 'Library card number', value: user?.barcode },
-                    /* Membership expiry date? */
-                  ]}
-                />
-                <ButtonWrapper>
-                  <ChangeDetailsModal
-                    id="change-email"
-                    buttonText="Change email"
-                    onComplete={() => {
-                      setIsEmailUpdated(true);
-                    }}
-                    render={props => <ChangeEmail {...props} />}
-                  />
-                </ButtonWrapper>
-                <ButtonWrapper>
-                  <ChangeDetailsModal
-                    id="change-password"
-                    buttonText="Change password"
-                    onComplete={() => {
-                      setIsPasswordUpdated(true);
-                    }}
-                    render={props => <ChangePassword {...props} />}
-                  />
-                </ButtonWrapper>
-              </Wrapper>
-            </Container>
-
-            <SectionHeading addBottomPadding={true}>
-              Item requests
-            </SectionHeading>
-            <Container>
-              <Wrapper>
-                {(() => {
-                  switch (requestedItemsState) {
-                    case 'initial':
-                    case 'loading':
-                      return (
-                        <Space
-                          v={{ size: 'l', properties: ['padding-bottom'] }}
-                        >
-                          <InlineLoading />
-                        </Space>
-                      );
-                    case 'failed':
-                      return <RequestsFailed retry={fetchRequests} />;
-                    case 'success':
-                      if (requestedItems.totalResults === 0) {
-                        return (
-                          <p className={`${font('hnr', 5)}`}>
-                            Any item requests you make will appear here.
-                          </p>
-                        );
-                      } else {
-                        return (
-                          <>
-                            <Space
-                              as="p"
-                              className={`${font('hnb', 5)}`}
-                              v={{ size: 's', properties: ['margin-bottom'] }}
-                            >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
-                            <ProgressBar>
-                              <ProgressIndicator
-                                percentage={
-                                  (requestedItems.totalResults /
-                                    allowedRequests) *
-                                  100
-                                }
-                              />
-                            </ProgressBar>
-                            <StackingTable
-                              rows={[
-                                ['Title', 'Status', 'Pickup location'],
-                                ...requestedItems.results.map(result => [
-                                  <>
-                                    <ItemTitle
-                                      as="a"
-                                      href={`/works/${result.workId}`}
-                                    >
-                                      {result.workTitle || 'Unknown title'}
-                                    </ItemTitle>
-                                    {result.item.title && (
-                                      <Space
-                                        v={{
-                                          size: 's',
-                                          properties: ['margin-top'],
-                                        }}
-                                      >
-                                        <ItemTitle>
-                                          {result.item.title}
-                                        </ItemTitle>
-                                      </Space>
-                                    )}
-                                  </>,
-                                  <ItemStatus key={`${result.item.id}-status`}>
-                                    {result.status.label}
-                                  </ItemStatus>,
-                                  <ItemPickup key={`${result.item.id}-pickup`}>
-                                    {result.pickupLocation.label}
-                                  </ItemPickup>,
-                                ]),
-                              ]}
-                            />
-                            <Space
-                              className={`${font('hnr', 5)}`}
-                              v={{
-                                size: 'l',
-                                properties: ['margin-top'],
-                              }}
-                            >
-                              Requests made will be available to pick up from
-                              the library for one week. If you wish to cancel a
-                              request, please{' '}
-                              <a href="mailto:library@wellcomecollection.org">
-                                contact the library team.
-                              </a>
-                            </Space>
-                          </>
-                        );
-                      }
-                  }
-                })()}
-              </Wrapper>
-            </Container>
-
-            <SectionHeading addBottomPadding={true}>
-              Cancel library membership
-            </SectionHeading>
-            <Container>
-              <Wrapper>
-                <p className={font('hnr', 5)}>
-                  If you no longer wish to be a library member, you can cancel
-                  your membership. The library team will be notified and your
-                  online account will be closed.
-                </p>
+        <>
+          {!user?.emailValidated && (
+            <AccountStatus type="info">
+              You have not yet validated your email address
+            </AccountStatus>
+          )}
+          {isEmailUpdated && (
+            <AccountStatus type="success">Email updated</AccountStatus>
+          )}
+          {isPasswordUpdated && (
+            <AccountStatus type="success">Password updated</AccountStatus>
+          )}
+          <SectionHeading addBottomPadding={true}>
+            Personal details
+          </SectionHeading>
+          <Container>
+            <Wrapper removeBottomPadding={true}>
+              <DetailList
+                listItems={[
+                  {
+                    label: 'Name',
+                    value: `${user?.firstName} ${user?.lastName}`,
+                  },
+                  { label: 'Email', value: user?.email },
+                  { label: 'Library card number', value: user?.barcode },
+                  /* Membership expiry date? */
+                ]}
+              />
+              <ButtonWrapper>
                 <ChangeDetailsModal
-                  id="delete-account"
-                  buttonText="Cancel your membership"
-                  onComplete={logoutOnDeletionRequest}
-                  render={props => <DeleteAccount {...props} />}
+                  id="change-email"
+                  buttonText="Change email"
+                  onComplete={() => {
+                    setIsEmailUpdated(true);
+                  }}
+                  render={props => <ChangeEmail {...props} />}
                 />
-              </Wrapper>
-            </Container>
-          </>
-        )}
+              </ButtonWrapper>
+              <ButtonWrapper>
+                <ChangeDetailsModal
+                  id="change-password"
+                  buttonText="Change password"
+                  onComplete={() => {
+                    setIsPasswordUpdated(true);
+                  }}
+                  render={props => <ChangePassword {...props} />}
+                />
+              </ButtonWrapper>
+            </Wrapper>
+          </Container>
+
+          <SectionHeading addBottomPadding={true}>Item requests</SectionHeading>
+          <Container>
+            <Wrapper>
+              {(() => {
+                switch (requestedItemsState) {
+                  case 'initial':
+                  case 'loading':
+                    return (
+                      <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
+                        <InlineLoading />
+                      </Space>
+                    );
+                  case 'failed':
+                    return <RequestsFailed retry={fetchRequests} />;
+                  case 'success':
+                    if (requestedItems.totalResults === 0) {
+                      return (
+                        <p className={`${font('hnr', 5)}`}>
+                          Any item requests you make will appear here.
+                        </p>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <Space
+                            as="p"
+                            className={`${font('hnb', 5)}`}
+                            v={{ size: 's', properties: ['margin-bottom'] }}
+                          >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
+                          <ProgressBar>
+                            <ProgressIndicator
+                              percentage={
+                                (requestedItems.totalResults /
+                                  allowedRequests) *
+                                100
+                              }
+                            />
+                          </ProgressBar>
+                          <StackingTable
+                            rows={[
+                              ['Title', 'Status', 'Pickup location'],
+                              ...requestedItems.results.map(result => [
+                                <>
+                                  <ItemTitle
+                                    as="a"
+                                    href={`/works/${result.workId}`}
+                                  >
+                                    {result.workTitle || 'Unknown title'}
+                                  </ItemTitle>
+                                  {result.item.title && (
+                                    <Space
+                                      v={{
+                                        size: 's',
+                                        properties: ['margin-top'],
+                                      }}
+                                    >
+                                      <ItemTitle>{result.item.title}</ItemTitle>
+                                    </Space>
+                                  )}
+                                </>,
+                                <ItemStatus key={`${result.item.id}-status`}>
+                                  {result.status.label}
+                                </ItemStatus>,
+                                <ItemPickup key={`${result.item.id}-pickup`}>
+                                  {result.pickupLocation.label}
+                                </ItemPickup>,
+                              ]),
+                            ]}
+                          />
+                          <Space
+                            className={`${font('hnr', 5)}`}
+                            v={{
+                              size: 'l',
+                              properties: ['margin-top'],
+                            }}
+                          >
+                            Requests made will be available to pick up from the
+                            library for one week. If you wish to cancel a
+                            request, please{' '}
+                            <a href="mailto:library@wellcomecollection.org">
+                              contact the library team.
+                            </a>
+                          </Space>
+                        </>
+                      );
+                    }
+                }
+              })()}
+            </Wrapper>
+          </Container>
+
+          <SectionHeading addBottomPadding={true}>
+            Cancel library membership
+          </SectionHeading>
+          <Container>
+            <Wrapper>
+              <p className={font('hnr', 5)}>
+                If you no longer wish to be a library member, you can cancel
+                your membership. The library team will be notified and your
+                online account will be closed.
+              </p>
+              <ChangeDetailsModal
+                id="delete-account"
+                buttonText="Cancel your membership"
+                onComplete={logoutOnDeletionRequest}
+                render={props => <DeleteAccount {...props} />}
+              />
+            </Wrapper>
+          </Container>
+        </>
       </Layout10>
     </PageWrapper>
   );

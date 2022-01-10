@@ -24,7 +24,7 @@ const EventCard = ({ event, xOfY }: Props) => {
       start={firstTime.range.startDateTime}
       end={lastTime.range.endDateTime}
     />
-  ) : null;
+  ) : undefined;
 
   return (
     <CompactCard
@@ -32,7 +32,6 @@ const EventCard = ({ event, xOfY }: Props) => {
       title={event.title}
       primaryLabels={event.primaryLabels}
       secondaryLabels={event.secondaryLabels}
-      description={null}
       urlOverride={event.promo && event.promo.link}
       Image={ImageComponent}
       DateInfo={DateRangeComponent}

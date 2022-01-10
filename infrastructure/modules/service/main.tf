@@ -34,13 +34,14 @@ module "log_router_container_secrets_permissions" {
 }
 
 module "nginx_container" {
-  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.2.0"
+  source = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/nginx/frontend?ref=v3.12.0"
 
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
 
-  // This has an increased max request body size
-  container_tag = "c82bd543f3189c6680dd72a30123ac340bdfcde5"
+  // This has an increased max request body size, and increased proxy buffer sizes
+  container_tag = "9b95057b716a60f9891f77111b0bd524b85839aa"
+  image_name    = "uk.ac.wellcome/nginx_frontend"
 }
 
 module "app_container" {

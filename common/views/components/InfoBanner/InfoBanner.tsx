@@ -7,6 +7,7 @@ import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
 import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
+import { HTMLString } from '../../../services/prismic/types';
 
 type Props = {
   cookieName?: string;
@@ -81,7 +82,7 @@ const InfoBanner: FunctionComponent<Props> = ({
                     </span>
                   </Space>
                   <div className="body-text spaced-text">
-                    <PrismicHtmlBlock html={text} />
+                    <PrismicHtmlBlock html={text as HTMLString} />
                   </div>
                 </span>
               </div>

@@ -148,8 +148,6 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
 
 export type Props = MarkUpProps & {
   isFull: boolean;
-  isActive: boolean;
-  toggle: () => void;
 };
 
 const Tasl: FunctionComponent<Props> = ({

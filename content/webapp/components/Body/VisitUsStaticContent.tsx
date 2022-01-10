@@ -6,7 +6,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
+import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import { clock } from '@weco/common/icons';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
@@ -27,8 +27,8 @@ const Container: FunctionComponent<ContainerProps> = ({
 );
 
 const VisitUsStaticContent: FunctionComponent = () => {
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
 
   return (
     <Container>
@@ -65,17 +65,12 @@ const VisitUsStaticContent: FunctionComponent = () => {
                   'no-margin': true,
                 })}
               >{`Today's opening times`}</h2>
-              {openingTimes && openingTimes?.collectionOpeningTimes && (
-                <FooterOpeningTimes
-                  collectionOpeningTimes={openingTimes.collectionOpeningTimes}
-                />
-              )}
+              {venues && <OpeningTimes venues={venues} />}
               <Space
                 v={{
                   size: 's',
                   properties: ['margin-top'],
                 }}
-                className={`no-margin`}
               >
                 <a href="/opening-times">Opening times</a>
               </Space>

@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { FunctionComponent } from 'react';
+import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
@@ -17,9 +18,14 @@ import {
 } from '@weco/common/services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
-import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
+import {
+  getTodaysVenueHours,
+  getVenueById,
+  parseCollectionVenues,
+} from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
+  shopPromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '../data/facility-promos';
@@ -30,15 +36,15 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import FacilityPromo from '@weco/common/views/components/FacilityPromo/FacilityPromo';
+import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {
-  getParseCollectionVenueById,
-  parseCollectionVenues,
-} from '@weco/common/services/prismic/opening-times';
+  ExceptionalOpeningHoursDay,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 import {
   collectionVenueId,
   prismicPageIds,
@@ -53,7 +59,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { usePrismicData } from '@weco/common/server-data/Context';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import {
   exhibitionLd,
   eventLd,
@@ -80,7 +86,7 @@ const segmentedControlItems = [
   },
 ];
 
-type Props = {
+export type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
   events: PaginatedResults<UiEvent>;
   availableOnlineEvents: PaginatedResults<UiEvent>;
@@ -91,38 +97,7 @@ type Props = {
   featuredText: FeaturedTextType;
 };
 
-function getListHeader(openingTimes: any) {
-  const galleriesOpeningTimes = getParseCollectionVenueById(
-    openingTimes,
-    collectionVenueId.galleries.id
-  );
-
-  return {
-    todayOpeningHours: getTodaysGalleriesHours(
-      galleriesOpeningTimes.openingHours.id
-    ),
-    name: "What's on",
-    items: [
-      {
-        id: 'everything',
-        title: 'Everything',
-        url: `/whats-on`,
-      },
-      {
-        id: 'today',
-        title: 'Today',
-        url: `/whats-on/today`,
-      },
-      {
-        id: 'the-weekend',
-        title: 'This weekend',
-        url: `/whats-on/the-weekend`,
-      },
-    ],
-  };
-}
-
-export function getMomentsForPeriod(period: Period) {
+export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
   const todaysDate = london();
   const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
 
@@ -157,89 +132,79 @@ function getWeekendToDate(today) {
   }
 }
 
+const ClosedMessage = () => (
+  <>
+    <Space
+      v={{
+        size: 'm',
+        properties: ['margin-bottom'],
+      }}
+      as="p"
+      className={classNames({
+        [font('wb', 2)]: true,
+      })}
+    >
+      Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
+      and <a href={shopPromo.url}>shop</a> are open for your visit.
+    </Space>
+    <Space
+      v={{
+        size: 'l',
+        properties: ['margin-top', 'margin-bottom'],
+      }}
+    ></Space>
+  </>
+);
+
 type DateRangeProps = {
-  dateRange: any;
+  dateRange: (Date | Moment)[];
   period: string;
-  cafePromo: any;
-  openingTimes: any;
 };
+
 const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  // TODO: reinstate after lockdown
-  // const collectionOpeningTimes =
-  // openingTimes && openingTimes.collectionOpeningTimes;
-  // const listHeader = getListHeader(collectionOpeningTimes);
-
   return (
-    <Fragment>
-      <Space
-        v={{
-          size: 's',
-          properties: ['margin-bottom'],
-        }}
-        as="p"
-        className={classNames({
-          [font('hnr', 5)]: true,
-        })}
-      >
-        {period === 'today' && (
+    <Space
+      v={{
+        size: 's',
+        properties: ['margin-bottom'],
+      }}
+      as="p"
+      className={classNames({
+        [font('hnr', 5)]: true,
+      })}
+    >
+      {period === 'today' && (
+        <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
+      )}
+      {period === 'this-weekend' && (
+        <>
+          <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
+          &ndash;
+          <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
+        </>
+      )}
+      {period === 'current-and-coming-up' && (
+        <>
+          From{' '}
           <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-        )}
-        {period === 'this-weekend' && (
-          <Fragment>
-            <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
-            &ndash;
-            <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
-          </Fragment>
-        )}
-        {period === 'current-and-coming-up' && (
-          <Fragment>
-            From{' '}
-            <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-          </Fragment>
-        )}
-      </Space>
-      {/* TODO: reinstate after lockdown */}
-      {/* {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
-        period === 'today' && (
-          <Fragment>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="p"
-              className={classNames({
-                [font('wb', 2)]: true,
-              })}
-            >
-              Our exhibitions are closed today, but our{' '}
-              <a href={cafePromo.url}>café</a> and{' '}
-              <a href={shopPromo.url}>shop</a> are open for your visit.
-            </Space>
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            >
-            </Space>
-          </Fragment>
-        )} */}
-    </Fragment>
+        </>
+      )}
+    </Space>
   );
 };
 
 type HeaderProps = {
   activeId: string;
-  openingTimes: any;
+  todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
-const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
-  const listHeader = getListHeader(openingTimes);
-  const todayOpeningHours = listHeader.todayOpeningHours;
-
+const Header = ({
+  activeId,
+  todaysOpeningHours,
+  featuredText,
+}: HeaderProps) => {
   return (
     <Space
       v={{
@@ -258,7 +223,7 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                 What{`'`}s on
               </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
-                {todayOpeningHours && (
+                {todaysOpeningHours && (
                   <div className="flex flex--v-center">
                     <Space
                       as="span"
@@ -268,11 +233,11 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                       })}
                     >
                       Galleries
-                      {todayOpeningHours.opens ? ' open ' : ' closed '}
+                      {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
                       today
                     </Space>
-                    {todayOpeningHours.opens && (
-                      <Fragment>
+                    {!todaysOpeningHours.isClosed && (
+                      <>
                         <Space
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
@@ -286,13 +251,13 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                             [font('hnr', 5)]: true,
                           })}
                         >
-                          <Fragment>
-                            <time>{todayOpeningHours.opens}</time>
+                          <>
+                            <time>{todaysOpeningHours.opens}</time>
                             {'—'}
-                            <time>{todayOpeningHours.closes}</time>
-                          </Fragment>
+                            <time>{todaysOpeningHours.closes}</time>
+                          </>
                         </Space>
-                      </Fragment>
+                      </>
                     )}
                   </div>
                 )}
@@ -425,7 +390,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const WhatsOnPage = (props: Props) => {
+const WhatsOnPage: FunctionComponent<Props> = props => {
+  const { buildingClosure } = useToggles();
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
@@ -449,8 +415,10 @@ const WhatsOnPage = (props: Props) => {
     ? `What's on${` - ${extraTitleText.text}`}`
     : `What's on`;
 
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
+  const galleries = getVenueById(venues, collectionVenueId.galleries.id);
+  const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
   return (
     <PageLayout
@@ -477,23 +445,21 @@ const WhatsOnPage = (props: Props) => {
         undefined
       }
     >
-      <Fragment>
+      <>
         <Header
           activeId={period}
-          openingTimes={openingTimes}
+          todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
         <Layout12>
-          <DateRange
-            dateRange={dateRange}
-            period={period}
-            cafePromo={eatShopPromos[0]}
-            openingTimes={openingTimes}
-          />
+          <DateRange dateRange={dateRange} period={period} />
+          {!buildingClosure &&
+            period === 'today' &&
+            todaysOpeningHours?.isClosed && <ClosedMessage />}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
-            <Fragment>
+            <>
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <Layout12>
@@ -573,7 +539,7 @@ const WhatsOnPage = (props: Props) => {
                   </SpacingComponent>
                 </SpacingSection>
               </Space>
-            </Fragment>
+            </>
           )}
           {period !== 'current-and-coming-up' && (
             <SpacingSection>
@@ -654,7 +620,7 @@ const WhatsOnPage = (props: Props) => {
             </CssGridContainer>
           </SpacingComponent>
         </SpacingSection>
-      </Fragment>
+      </>
     </PageLayout>
   );
 };

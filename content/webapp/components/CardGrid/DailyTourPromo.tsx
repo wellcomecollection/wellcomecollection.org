@@ -7,17 +7,7 @@ const image = {
   width: 2996,
   height: 2000,
   alt: '',
-  tasl: {
-    author: null,
-    copyrightHolder: null,
-    copyrightLink: null,
-    license: null,
-    sourceLink: null,
-    sourceName: null,
-    title: null,
-  },
   crops: {},
-  minWidth: null,
 };
 
 export const data: UiEvent = {
@@ -61,18 +51,10 @@ export const data: UiEvent = {
   promo: {
     image: image,
     link: '/pages/Wuw19yIAAK1Z3Sma',
-    caption: null,
   },
-  promoImage: { ...image, minWidth: null },
-  promoText: null,
-  squareImage: null,
-  widescreenImage: null,
-  superWidescreenImage: null,
-  ticketSalesStart: undefined,
+  promoImage: { ...image },
   displayEnd: new Date(),
   displayStart: new Date(),
-  standfirst: null,
-  metadataDescription: null,
   scheduleLength: 0,
   seasons: [],
   isOnline: false,

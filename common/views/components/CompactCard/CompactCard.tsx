@@ -17,24 +17,23 @@ import MediaObjectBase, {
 } from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
-  url: string | null;
+  url?: string;
   title: string;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  description: string | ReactElement | null;
-  urlOverride: string | null;
+  description?: string | ReactElement;
+  urlOverride?: string;
   extraClasses?: string;
   partNumber?: number;
   partDescription?: 'Part' | 'Episode';
-  Image: ReactElement<typeof ImageType | typeof ImagePlaceholder> | null;
+  Image?: ReactElement<typeof ImageType | typeof ImagePlaceholder>;
   color?: ColorSelection;
-  DateInfo:
+  DateInfo?:
     | ReactElement<typeof DateRange>
-    | ReactElement<typeof EventDateRange>
-    | null;
-  StatusIndicator: ReactElement<typeof StatusIndicator> | null;
-  ExtraInfo?: ReactNode | null;
-  xOfY: { x: number; y: number };
+    | ReactElement<typeof EventDateRange>;
+  StatusIndicator?: ReactElement<typeof StatusIndicator>;
+  ExtraInfo?: ReactNode;
+  xOfY?: { x: number; y: number };
   OverrideImageWrapper?: ComponentType<HasImageProps>;
   OverrideTextWrapper?: ComponentType<HasImageProps>;
   OverrideTitleWrapper?: ComponentType;

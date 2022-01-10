@@ -11,7 +11,7 @@ import { grid, classNames, font } from '../../../utils/classnames';
 
 export type Props = {
   title: string;
-  text: HTMLString | null;
+  text?: HTMLString;
   image: ImageType;
   sizesQueries?: string;
 };
@@ -64,20 +64,13 @@ export const MediaObject: FunctionComponent<Props> = ({
   const description = text && <PrismicHtmlBlock html={text} />;
   return (
     <MediaObjectBase
-      url={null}
       title={title}
       Image={ImageComponent}
-      partNumber={undefined}
       partDescription={'Part'}
       color={undefined}
-      StatusIndicator={null}
       description={description}
-      urlOverride={null}
-      DateInfo={null}
-      ExtraInfo={null}
       primaryLabels={[]}
       secondaryLabels={[]}
-      xOfY={undefined}
       OverrideImageWrapper={ImageWrapper}
       OverrideTextWrapper={TextWrapper}
       OverrideTitleWrapper={TitleWrapper}

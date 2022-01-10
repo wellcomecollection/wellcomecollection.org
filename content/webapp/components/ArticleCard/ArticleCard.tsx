@@ -69,8 +69,7 @@ const ArticleCard: FunctionComponent<Props> = ({
       color={seriesColor}
       primaryLabels={!isPodcast ? labels : []}
       secondaryLabels={[]}
-      description={!isPodcast ? meta.promoText ?? null : null}
-      urlOverride={null}
+      description={!isPodcast ? meta.promoText ?? undefined : undefined}
       Image={
         (meta.image?.['square'] && (
           <PrismicImage
@@ -83,10 +82,8 @@ const ArticleCard: FunctionComponent<Props> = ({
             }}
           />
         )) ||
-        null
+        undefined
       }
-      DateInfo={null}
-      StatusIndicator={null}
       xOfY={xOfY}
       postTitleChildren={
         isPodcast ? (

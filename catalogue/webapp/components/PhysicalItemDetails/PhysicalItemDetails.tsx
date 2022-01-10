@@ -81,7 +81,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 }) => {
   const { state: userState, enabled: userEnabled } = useUser();
   const isArchive = useContext(IsArchiveContext);
-  const { enableRequesting } = useToggles();
+  const { enableRequesting, buildingClosure } = useToggles();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
@@ -148,7 +148,10 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         clickHandler={() => setRequestModalIsActive(true)}
       />
     ) : (
-      requestItemUrl && (
+      // For now, we're only disabling the button for the old/existing
+      // requesting experience
+      requestItemUrl &&
+      !buildingClosure && (
         <ButtonOutlinedLink text={'Request item'} link={requestItemUrl} />
       )
     );
@@ -228,7 +231,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           rows={createRows()}
           plain={true}
           maxWidth={isArchive ? 980 : 620}
-          columnWidths={[180, 200, null, null]}
+          columnWidths={[180, 200, undefined, undefined]}
         />
         {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>

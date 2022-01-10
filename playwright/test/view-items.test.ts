@@ -2,6 +2,7 @@ import {
   multiVolumeItem,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
+  itemWithAltText,
 } from './contexts';
 import { isMobile } from './actions/common';
 import { volumesNavigationLabel, searchWithinLabel } from './text/aria-labels';
@@ -268,5 +269,19 @@ describe("Scenario 9: A user wants to be able to search inside an item's text", 
     if (!isMobile()) {
       await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
     }
+  });
+});
+
+describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
+  test('images should have alt text', async () => {
+    await itemWithAltText({ canvasNumber: 2 });
+    await page.waitForSelector(`img[alt='22900393554']`);
+  });
+
+  test('image alt text should be unique', async () => {
+    await itemWithAltText({ canvasNumber: 2 });
+    await page.waitForSelector(`img[alt='22900393554']`);
+    const imagesWithSameText = await page.$$(`img[alt='22900393554']`);
+    expect(imagesWithSameText.length).toBe(1);
   });
 });

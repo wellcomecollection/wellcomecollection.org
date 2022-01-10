@@ -14,20 +14,18 @@ type BodySlice = {
 
 export type BodyType = BodySlice[];
 
-// TODO: we need to get type in here to be able to union on these
-// i.e. search results
 export type GenericContentFields = {
   id: string;
   title: string;
-  promo: ImagePromo | null;
+  promo?: ImagePromo;
   body: BodyType;
-  standfirst: HTMLString | null;
-  promoText: string | null;
-  promoImage: Picture | null;
-  image: ImageType | null;
-  squareImage: ImageType | null;
-  widescreenImage: ImageType | null;
-  superWidescreenImage: ImageType | null;
-  metadataDescription: string | null;
+  standfirst?: HTMLString;
+  promoText?: string;
+  promoImage?: Picture;
+  image?: ImageType;
+  squareImage?: ImageType;
+  widescreenImage?: ImageType;
+  superWidescreenImage?: ImageType;
+  metadataDescription?: string;
   labels: Label[];
 };

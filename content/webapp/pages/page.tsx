@@ -107,7 +107,9 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   );
   const isLanding = page.format && page.format.id === PageFormatIds.Landing;
   const labels =
-    !isLanding && page.format?.title ? makeLabels(page.format?.title) : null;
+    !isLanding && page.format?.title
+      ? makeLabels(page.format?.title)
+      : undefined;
 
   const backgroundTexture = isLanding
     ? landingHeaderBackgroundLs
@@ -121,7 +123,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     ? page.body.slice(1, page.body.length)
     : page.body;
 
-  const FeaturedMedia = hasFeaturedMedia ? (
+  const featuredMedia = hasFeaturedMedia ? (
     page.body[0].type === 'picture' ? (
       <UiImage
         {...(page.body[0].value.image.crops['16:9'] ||
@@ -129,8 +131,8 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       />
     ) : page.body[0].type === 'videoEmbed' ? (
       <VideoEmbed {...page.body[0].value} />
-    ) : null
-  ) : null;
+    ) : undefined
+  ) : undefined;
 
   const hiddenBreadcrumbPages = [
     prismicPageIds.covidWelcomeBack,
@@ -168,24 +170,24 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   };
 
   const displayBackground =
-    FeaturedMedia && !sectionLevelPage ? (
+    featuredMedia && !sectionLevelPage ? (
       <HeaderBackground
         backgroundTexture={backgroundTexture}
         hasWobblyEdge={!isLanding}
       />
-    ) : null;
+    ) : undefined;
 
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
       labels={labels}
       title={page.title}
-      FeaturedMedia={FeaturedMedia}
+      FeaturedMedia={featuredMedia}
       Background={displayBackground}
       ContentTypeInfo={DateInfo}
-      HeroPicture={null}
+      HeroPicture={undefined}
       backgroundTexture={
-        !FeaturedMedia && !sectionLevelPage ? backgroundTexture : null
+        !featuredMedia && !sectionLevelPage ? backgroundTexture : undefined
       }
       highlightHeading={true}
       isContentTypeInfoBeforeMedia={false}

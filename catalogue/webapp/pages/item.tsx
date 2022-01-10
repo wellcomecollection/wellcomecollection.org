@@ -128,6 +128,16 @@ const ItemPage: NextPage<Props> = ({
 
   const authService = getAuthService(manifest);
   const tokenService = authService && getTokenService(authService);
+  const authServiceRestrictedIds = [
+    'https://iiif.wellcomecollection.org/auth/restrictedlogin',
+  ];
+  const isAvailableOnline = () => {
+    return (
+      authService &&
+      authService['@id'] &&
+      !authServiceRestrictedIds.includes(authService['@id'])
+    );
+  };
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -291,7 +301,7 @@ const ItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {authService?.['@id'] && origin && (
+          {isAvailableOnline() && origin && (
             <Space
               className={'flex flex-inline'}
               h={{ size: 'm', properties: ['margin-right'] }}

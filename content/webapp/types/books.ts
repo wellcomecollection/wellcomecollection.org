@@ -11,6 +11,6 @@ export type Book = Override<
     format?: string;
     extent?: string;
     isbn?: string;
-    prismicDocument: BookPrismicDocument;
+    prismicDocument?: BookPrismicDocument;
   }
 >;

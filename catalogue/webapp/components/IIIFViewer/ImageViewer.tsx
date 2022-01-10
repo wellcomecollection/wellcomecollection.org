@@ -40,7 +40,7 @@ type ImageViewerProps = {
   height?: number;
   infoUrl: string;
   alt: string;
-  urlTemplate: (v: IIIFUriProps) => () => undefined;
+  urlTemplate: (v: IIIFUriProps) => string;
   rotation: number;
   loadHandler?: () => void;
   mainAreaRef?: RefObject<HTMLDivElement>;
@@ -67,8 +67,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const imageViewer = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const isOnScreen = useOnScreen({
-    root: mainAreaRef?.current,
-    ref: imageViewer,
+    root: mainAreaRef?.current || undefined,
+    ref: imageViewer || undefined,
     threshold: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
   });
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));

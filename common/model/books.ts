@@ -10,15 +10,15 @@ type Review = {
 
 export type Book = GenericContentFields & {
   type: 'books';
-  subtitle: string | null;
-  orderLink: string | null;
-  price: string | null;
-  format: string | null;
-  extent: string | null;
-  isbn: string | null;
-  reviews: Review[] | null;
-  datePublished: Date | null;
-  cover: ImageType | null;
+  subtitle?: string;
+  orderLink?: string;
+  price?: string;
+  format?: string;
+  extent?: string;
+  isbn?: string;
+  reviews?: Review[];
+  datePublished?: Date;
+  cover?: ImageType;
   seasons: Season[];
   prismicDocument: any;
 };

@@ -20,7 +20,7 @@ import Quote from '@weco/common/views/components/Quote/Quote';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import GifVideo from '@weco/common/views/components/GifVideo/GifVideo';
+import GifVideo from '../GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
 import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
@@ -29,7 +29,7 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
-import VenueClosedPeriods from '@weco/common/views/components/VenueClosedPeriods/VenueClosedPeriods';
+import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import Table from '@weco/common/views/components/Table/Table';
 import MediaObjectList from '@weco/common/views/components/MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
@@ -38,9 +38,7 @@ import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
 import Discussion from '@weco/common/views/components/Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
-import GridFactory, {
-  sectionLevelPageGrid,
-} from '@weco/common/views/components/GridFactory/GridFactory';
+import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '@weco/common/views/components/Card/Card';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { BodyType } from '@weco/common/model/generic-content-fields';

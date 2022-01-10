@@ -32,8 +32,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     viewer_protocol_policy = "redirect-to-https"
     target_origin_id       = local.default_origin_id
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -46,6 +46,13 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
         "result",
         "toggle",
         "uri",
+
+        # This is used to fetch articles client-side, e.g. related stories.
+        # When it's missing, we may show the wrong stories as "read this next"
+        # on articles.
+        #
+        # See https://github.com/wellcomecollection/wellcomecollection.org/issues
+        "params",
       ]
 
       cookies {
@@ -83,8 +90,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/works*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -142,8 +149,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/account*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["*"]
@@ -163,8 +170,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     target_origin_id       = local.default_origin_id
     path_pattern           = "/images*"
     min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    default_ttl            = local.one_hour
+    max_ttl                = local.one_day
 
     forwarded_values {
       headers      = ["Host"]
@@ -214,8 +221,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       headers      = ["Host"]
@@ -239,8 +246,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       headers      = ["Host"]
@@ -259,8 +266,8 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 60
-    max_ttl                = 60
+    default_ttl            = local.one_minute
+    max_ttl                = local.one_minute
 
     forwarded_values {
       headers      = ["Host"]
@@ -282,9 +289,9 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
-    default_ttl            = 86400
-    max_ttl                = 3153600
+    min_ttl                = local.one_day
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       query_string = false
@@ -301,9 +308,9 @@ resource "aws_cloudfront_distribution" "stage_wc_org" {
     allowed_methods        = ["HEAD", "GET"]
     cached_methods         = ["HEAD", "GET"]
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 86400
-    default_ttl            = 86400
-    max_ttl                = 3153600
+    min_ttl                = local.one_day
+    default_ttl            = local.one_day
+    max_ttl                = local.one_year
 
     forwarded_values {
       query_string = false

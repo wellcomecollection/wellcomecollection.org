@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import type { MultiContent } from '@weco/common/model/multi-content';
 import { grid } from '@weco/common/utils/classnames';
@@ -21,12 +21,12 @@ type Props = {
   showPosition?: boolean;
 };
 
-const SearchResults = ({
+const SearchResults: FunctionComponent<Props> = ({
   items,
   title,
   summary,
   showPosition = false,
-}: Props) => (
+}) => (
   <Fragment>
     {title && (
       <Space
@@ -62,8 +62,6 @@ const SearchResults = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -84,8 +82,6 @@ const SearchResults = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -106,8 +102,6 @@ const SearchResults = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -120,17 +114,13 @@ const SearchResults = ({
         )}
         {item.type === 'article-schedule-items' && (
           <CompactCard
-            url={null}
             title={item.title || ''}
             partNumber={item.partNumber}
             color={item.color}
             primaryLabels={[{ text: 'Story' }]}
             secondaryLabels={[]}
             description={`Available ${formatDate(item.publishDate)}`}
-            urlOverride={null}
             Image={<ImagePlaceholder color={item.color} />}
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}
@@ -146,7 +136,6 @@ const SearchResults = ({
             primaryLabels={item.labels}
             secondaryLabels={[]}
             description={item.promoText}
-            urlOverride={null}
             Image={
               item.image &&
               item.image.crops &&
@@ -154,8 +143,6 @@ const SearchResults = ({
                 <Image {...item.image.crops.square} alt="" />
               )
             }
-            DateInfo={null}
-            StatusIndicator={null}
             xOfY={{ x: index + 1, y: items.length }}
           />
         )}

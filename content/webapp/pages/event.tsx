@@ -48,6 +48,7 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -240,17 +241,19 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         text: series.title || '',
         prefix: 'Part of',
       })),
-      scheduledIn && {
-        url: `/events/${scheduledIn.id}`,
-        text: scheduledIn.title || '',
-        prefix: 'Part of',
-      },
+      scheduledIn
+        ? {
+            url: `/events/${scheduledIn.id}`,
+            text: scheduledIn.title || '',
+            prefix: 'Part of',
+          }
+        : undefined,
       {
         url: `/events/${event.id}`,
         text: event.title,
         isHidden: true,
       },
-    ].filter(Boolean),
+    ].filter(isNotUndefined),
   };
 
   const labels = {
@@ -295,7 +298,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             EventStatus({ text: 'Fully booked', color: 'red' })}
         </>
       }
-      HeroPicture={null}
+      HeroPicture={undefined}
       isFree={!event.cost}
       isContentTypeInfoBeforeMedia={true}
     />

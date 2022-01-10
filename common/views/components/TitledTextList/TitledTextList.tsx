@@ -25,10 +25,10 @@ const TextContainer = styled.div`
 
 type Props = {
   items: {
-    title: string | undefined;
-    link: string | undefined;
-    text: HTMLString | undefined;
-    label: LabelField | undefined;
+    title?: string;
+    link?: string;
+    text?: HTMLString;
+    label?: LabelField;
   }[];
 };
 
@@ -45,9 +45,11 @@ const TitledTextList: FunctionComponent<Props> = ({ items }: Props) => {
             <h3 className="no-margin">
               <HeadingLink href={item.link}>{item.title}</HeadingLink>
             </h3>
-            <TextContainer>
-              <PrismicHtmlBlock key={i} html={item.text} />
-            </TextContainer>
+            {item.text && (
+              <TextContainer>
+                <PrismicHtmlBlock key={i} html={item.text} />
+              </TextContainer>
+            )}
             {item?.label?.title && (
               <LabelsList
                 labels={[{ text: item.label.title }]}

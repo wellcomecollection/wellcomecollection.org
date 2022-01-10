@@ -48,13 +48,13 @@ const LayoutPaginatedResults: FC<Props> = ({
     <SpacingSection>
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={null}
+        labels={undefined}
         title={title}
         ContentTypeInfo={description && <PrismicHtmlBlock html={description} />}
-        Background={null}
+        Background={undefined}
         backgroundTexture={headerBackgroundLs}
-        FeaturedMedia={null}
-        HeroPicture={null}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
         isContentTypeInfoBeforeMedia={false}
       />

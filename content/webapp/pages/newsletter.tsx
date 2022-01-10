@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import NewsletterSignup from '@weco/common/views/components/NewsletterSignup/NewsletterSignup';
+import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
@@ -43,15 +43,15 @@ const Newsletter: FC<Props> = ({ result }) => {
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        labels={null}
+        labels={undefined}
         title={'Newsletters'}
-        ContentTypeInfo={null}
-        Background={null}
+        ContentTypeInfo={undefined}
+        Background={undefined}
         backgroundTexture={
           'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'
         }
-        FeaturedMedia={null}
-        HeroPicture={null}
+        FeaturedMedia={undefined}
+        HeroPicture={undefined}
         highlightHeading={true}
       />
 

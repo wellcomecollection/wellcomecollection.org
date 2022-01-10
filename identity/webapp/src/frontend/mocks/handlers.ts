@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import {
+  mockAuth0Profile,
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
@@ -10,6 +11,9 @@ export const handlers = [
   }),
   rest.get('/account/api/users/:userId', (req, res, ctx) => {
     return res(ctx.json(mockUser));
+  }),
+  rest.get('/account/api/auth/me', (req, res, ctx) => {
+    return res(ctx.json(mockAuth0Profile));
   }),
   rest.put<{ email: string }>('/account/api/users/:userId', (req, res, ctx) => {
     return res(ctx.json({ ...mockUser, email: req.body.email }));

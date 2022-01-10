@@ -12,7 +12,7 @@ import {
 import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
-import License from '@weco/common/views/components/License/License';
+import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWork } from '../../services/catalogue/works';
 import {
@@ -192,9 +192,9 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined
   >();
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLInputElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const endRef = useRef<HTMLElement>();
+  const endRef = useRef<HTMLInputElement>();
 
   const workId = image.source.id;
   const displayTitle = detailedWork?.title ?? '';
@@ -202,7 +202,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const focusables =
-      (modalRef?.current && [...getFocusableElements(modalRef.current)]) || [];
+      (modalRef?.current && [
+        ...getFocusableElements<HTMLInputElement>(modalRef.current),
+      ]) ||
+      [];
 
     endRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
@@ -328,7 +331,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   defaultSize={400}
                   alt={displayTitle}
                   contentUrl={iiifImageLocation.url}
-                  tasl={null}
                   lazyload={false}
                 />
               </ImageWrapper>

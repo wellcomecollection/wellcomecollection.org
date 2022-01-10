@@ -87,7 +87,7 @@ export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
         title: (frag.data && asText(frag.data.title)) || '',
         description: frag.data && asHtml(frag.data.description),
       }
-    : null;
+    : undefined;
 }
 
 function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
@@ -137,7 +137,9 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const promoImage =
-    promo && promo.length > 0 ? parsePromoToCaptionedImage(data.promo) : null;
+    promo && promo.length > 0
+      ? parsePromoToCaptionedImage(data.promo)
+      : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
@@ -152,7 +154,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     end: end,
     isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
-    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: promoImage && {
       id,

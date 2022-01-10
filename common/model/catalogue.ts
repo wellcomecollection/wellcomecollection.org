@@ -27,8 +27,8 @@ export type Work = {
   succeededBy: RelatedWork[];
   totalParts?: number;
   totalDescendentParts?: number;
-  availableOnline: boolean;
-  availabilities: Availability[];
+  availableOnline?: boolean;
+  availabilities?: Availability[];
   holdings: Holding[];
 };
 

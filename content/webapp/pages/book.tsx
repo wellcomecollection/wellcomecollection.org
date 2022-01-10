@@ -7,7 +7,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import BookImage from '@weco/common/views/components/BookImage/BookImage';
+import BookImage from '../components/BookImage/BookImage';
 import styled from 'styled-components';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -118,7 +118,7 @@ const BookPage: FunctionComponent<Props> = props => {
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
-      labels={null}
+      labels={undefined}
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={
@@ -136,8 +136,8 @@ const BookPage: FunctionComponent<Props> = props => {
         </Fragment>
       }
       isContentTypeInfoBeforeMedia={true}
-      HeroPicture={null}
-      Background={null}
+      HeroPicture={undefined}
+      Background={undefined}
     />
   );
 
@@ -156,7 +156,7 @@ const BookPage: FunctionComponent<Props> = props => {
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        document={book.prismicDocument}
+        document={book.prismicDocument!}
         seasons={book.seasons}
       >
         <Fragment>

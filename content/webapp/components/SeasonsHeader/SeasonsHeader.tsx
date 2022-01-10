@@ -22,10 +22,10 @@ const TextWrapper = styled.div`
 type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
-  FeaturedMedia: ReactElement<typeof UiImage> | null;
-  standfirst: HTMLString | null;
-  start: Date | undefined;
-  end: Date | undefined;
+  FeaturedMedia?: ReactElement<typeof UiImage>;
+  standfirst?: HTMLString;
+  start?: Date;
+  end?: Date;
 };
 
 const SeasonsHeader: FunctionComponent<Props> = ({
@@ -70,7 +70,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                           />
                         </div>
                       )}
-                      <PageHeaderStandfirst html={standfirst} />
+                      {standfirst && <PageHeaderStandfirst html={standfirst} />}
                     </Space>
                   </Space>
                 </TextWrapper>

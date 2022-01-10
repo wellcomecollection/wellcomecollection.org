@@ -1,5 +1,5 @@
 import { url, image, singleLineOfText } from '../../content';
-import BookPromo from '@weco/common/views/components/BookPromo/BookPromo';
+import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 
 const Template = args => <BookPromo {...args} />;
 

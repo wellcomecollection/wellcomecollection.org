@@ -1,0 +1,16 @@
+import { Meta, Canvas, Story, ArgsTable, Description } from '@storybook/addon-docs/blocks';
+import VenueClosedPeriods from '@weco/content/components/VenueClosedPeriods/VenueClosedPeriods';
+import Readme from '@weco/content/components/VenueClosedPeriods/README.md';
+import * as stories from './VenueClosedPeriods.stories.tsx';
+
+<Meta title={`Components/VenueClosedPeriods`} component={VenueClosedPeriods} />
+
+# VenueClosedPeriods
+
+<Description>{Readme}</Description>
+
+<Canvas>
+  <Story story={stories.basic} />
+</Canvas>
+
+<ArgsTable />

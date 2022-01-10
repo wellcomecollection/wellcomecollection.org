@@ -18,6 +18,7 @@ import { PopupDialogPrismicDocument } from '../../../services/prismic/documents'
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { parseLink } from '@weco/common/services/prismic/parsers';
 import { chat, clear } from '@weco/common/icons';
+import { HTMLString } from '../../../services/prismic/types';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
@@ -256,7 +257,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
 
   function setFocusable(value: boolean) {
     const dialog = dialogWindowRef && dialogWindowRef.current;
-    const focusables = dialog && getFocusableElements(dialog);
+    const focusables = dialog && getFocusableElements<HTMLDivElement>(dialog);
 
     focusables &&
       focusables.forEach(item =>
@@ -340,7 +341,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               [font('hnr', 5, { medium: 2, large: 2 })]: true,
             })}
           >
-            <PrismicHtmlBlock html={text} />
+            <PrismicHtmlBlock html={text as HTMLString} />
           </div>
         </Space>
         <PopupDialogCTA

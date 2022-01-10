@@ -1,4 +1,4 @@
-import { parseExhibitions } from '@weco/common/services/prismic/exhibitions';
+import { parseExhibitionDoc } from '@weco/common/services/prismic/exhibitions';
 import { Exhibition as DeprecatedExhibition } from '@weco/common/model/exhibitions';
 import { Exhibition } from '../../../types/exhibitions';
 import { ExhibitionPrismicDocument } from '../types/exhibitions';
@@ -7,7 +7,7 @@ import { ExhibitionPrismicDocument } from '../types/exhibitions';
 export function transformExhibition(
   document: ExhibitionPrismicDocument
 ): Exhibition {
-  const exhibition: DeprecatedExhibition = parseExhibitions(document);
+  const exhibition: DeprecatedExhibition = parseExhibitionDoc(document);
 
   return {
     ...exhibition,

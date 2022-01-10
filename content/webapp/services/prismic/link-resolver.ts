@@ -24,7 +24,7 @@ function isContentType(type: any): type is ContentType {
 function linkResolver(doc: {
   id: string;
   type: string;
-}): `/${ContentType}/${string}` | null {
+}): `/${ContentType}/${string}` | undefined {
   const { id, type } = doc;
 
   if (type === 'webcomics') return `/articles/${id}`;
@@ -34,7 +34,7 @@ function linkResolver(doc: {
     return `/${type}/${id}`;
   }
 
-  return null;
+  return undefined;
 }
 
 export default linkResolver;

@@ -102,10 +102,6 @@ const Outro = ({
                 }}
               >
                 <CompactCard
-                  Image={null}
-                  urlOverride={null}
-                  StatusIndicator={null}
-                  DateInfo={null}
                   title={title}
                   primaryLabels={[]}
                   secondaryLabels={[]}

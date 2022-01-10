@@ -1,3 +1,4 @@
+import { FunctionComponent, Fragment } from 'react';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { Weight } from '@weco/common/services/prismic/parsers';
@@ -12,11 +13,12 @@ import {
   getUpcomingExceptionalPeriods,
   getExceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
+  getVenueById,
   parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { Fragment } from 'react';
+import { Venue } from '@weco/common/model/opening-hours';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
@@ -70,18 +72,20 @@ const JauntyBox = styled(Space).attrs(() => ({
 const randomPx = () => `${Math.floor(Math.random() * 20)}px`;
 
 type Props = {
-  venue: any; // FIXME: Type this up
+  venue: Venue;
   weight: Weight;
 };
 
-const VenueHours = ({ venue, weight }: Props) => {
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
-  const exceptionalPeriods = getExceptionalOpeningPeriods(openingTimes);
-  const backfilledExceptionalPeriods = backfillExceptionalVenueDays(
-    convertJsonDateStringsToMoment(venue),
-    exceptionalPeriods
-  );
+const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
+  const exceptionalPeriods = getExceptionalOpeningPeriods(venues);
+  const backfilledExceptionalPeriods = venue
+    ? backfillExceptionalVenueDays(
+        convertJsonDateStringsToMoment(venue),
+        exceptionalPeriods
+      )
+    : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
     getUpcomingExceptionalPeriods(backfilledExceptionalPeriods);
@@ -97,22 +101,13 @@ const VenueHours = ({ venue, weight }: Props) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue.image && venue.image?.url && (
+            {venue?.image?.url && (
               <UiImage
                 contentUrl={venue.image.url}
                 width={1600}
                 height={900}
                 crops={{}}
                 alt={venue.image?.alt}
-                tasl={{
-                  title: null,
-                  author: null,
-                  sourceName: null,
-                  sourceLink: null,
-                  license: null,
-                  copyrightHolder: null,
-                  copyrightLink: null,
-                }}
                 sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
                 extraClasses=""
                 showTasl={false}
@@ -129,7 +124,7 @@ const VenueHours = ({ venue, weight }: Props) => {
             h2: true,
           })}
         >
-          {isFeatured && venue.name ? venue.name : 'Opening hours'}
+          {isFeatured && venue?.name ? venue.name : 'Opening hours'}
         </Space>
         <ul
           className={classNames({
@@ -137,11 +132,13 @@ const VenueHours = ({ venue, weight }: Props) => {
             [font('hnr', 5)]: true,
           })}
         >
-          {venue.openingHours.regular.map(({ dayOfWeek, opens, closes }) => (
-            <li key={dayOfWeek}>
-              {dayOfWeek} {opens ? `${opens}—${closes}` : 'Closed'}
-            </li>
-          ))}
+          {venue?.openingHours.regular.map(
+            ({ dayOfWeek, opens, closes, isClosed }) => (
+              <li key={dayOfWeek}>
+                {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
+              </li>
+            )
+          )}
         </ul>
       </VenueHoursTimes>
       {upcomingExceptionalPeriods.map((upcomingExceptionalPeriod, i) => {
@@ -191,9 +188,9 @@ const VenueHours = ({ venue, weight }: Props) => {
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {formatDay(p.overrideDate!.toDate())}{' '}
-                    {formatDayMonth(p.overrideDate!.toDate())}{' '}
-                    {p.opens && p.closes ? `${p.opens}—${p.closes}` : 'Closed'}
+                    {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
+                    {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
+                    {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
                   </li>
                 ))}
               </ul>
@@ -209,8 +206,8 @@ const VenueHours = ({ venue, weight }: Props) => {
         }}
         style={{ clear: 'both' }}
       >
-        {isFeatured && venue.linkText && venue.url && (
-          <MoreLink url={venue.url} name={venue.linkText} />
+        {isFeatured && venue?.linkText && venue?.url && (
+          <MoreLink url={venue?.url} name={venue?.linkText} />
         )}
       </Space>
     </>

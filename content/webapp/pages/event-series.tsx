@@ -92,10 +92,10 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       breadcrumbs={breadcrumbs}
       labels={{ labels: series.labels }}
       title={series.title}
-      ContentTypeInfo={null}
+      ContentTypeInfo={undefined}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       FeaturedMedia={FeaturedMedia}
-      HeroPicture={null}
+      HeroPicture={undefined}
     />
   );
 

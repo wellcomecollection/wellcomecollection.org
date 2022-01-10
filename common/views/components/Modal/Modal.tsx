@@ -184,13 +184,13 @@ const Modal: FunctionComponent<Props> = ({
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const lastFocusableRef = useRef<HTMLInputElement | null>(null);
-  const modalRef: RefObject<HTMLDivElement> = createRef();
+  const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = overrideDefaultModalStyle
     ? ModalWindowPaddingNoOverflow
     : BaseModalWindow;
 
-  function updateLastFocusableRef(newRef) {
+  function updateLastFocusableRef(newRef: HTMLInputElement) {
     lastFocusableRef.current = newRef;
   }
 
@@ -200,8 +200,10 @@ const Modal: FunctionComponent<Props> = ({
   }
 
   useEffect(() => {
-    const focusables = modalRef &&
-      modalRef.current && [...getFocusableElements(modalRef.current)];
+    const focusables: HTMLInputElement[] | null = modalRef &&
+      modalRef.current && [
+        ...getFocusableElements<HTMLInputElement>(modalRef.current),
+      ];
     lastFocusableRef.current = focusables && focusables[focusables.length - 1];
   }, [modalRef.current]);
 
@@ -238,7 +240,7 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, lastFocusableRef);
+  useFocusTrap(closeButtonRef, lastFocusableRef!);
 
   return (
     <>

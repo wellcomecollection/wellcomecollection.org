@@ -1,7 +1,6 @@
 import { fetcher } from '.';
 import { ExhibitionPrismicDocument } from '../types/exhibitions';
-
-const fetchLinks = [];
+import { exhibitionFormatsFetchLinks as fetchLinks } from '../types';
 
 const exhibitionsFetcher = fetcher<ExhibitionPrismicDocument>(
   'exhibitions',

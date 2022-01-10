@@ -271,7 +271,7 @@ type ArchiveLabels = {
 };
 
 export const isAvailableOnline = (work: Work): boolean =>
-  work.availabilities.some(({ id }) => id === 'online');
+  (work.availabilities ?? []).some(({ id }) => id === 'online');
 
 const getArchiveRoot = (work: RelatedWork): RelatedWork =>
   work?.partOf?.[0] ? getArchiveRoot(work.partOf[0]) : work;

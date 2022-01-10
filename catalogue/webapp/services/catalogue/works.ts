@@ -10,6 +10,7 @@ import Raven from 'raven-js';
 import {
   catalogueApiError,
   globalApiOptions,
+  looksLikeCanonicalId,
   rootUris,
   notFound,
 } from './common';
@@ -52,6 +53,9 @@ const workIncludes = [
   'holdings',
 ];
 
+export const missingAltTextMessage =
+  'No text description is available for this image';
+
 const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   type: 'Redirect',
   redirectToId: id,
@@ -93,13 +97,7 @@ export async function getWork({
   id,
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
-  // We have occasionally seen requests for URLs with IDs which are
-  // obviously wrong, e.g. with spaces or special characters.
-  //
-  // In these cases, there's no point forwarding the request to the API
-  // (and we could serve 500 errors from malformed IDs).  If the ID isn't
-  // alphanumeric, reject it immediately.
-  if (!/^([a-z0-9]+)$/.test(id)) {
+  if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
@@ -133,12 +131,12 @@ export async function getWork({
     return id ? redirect(id, res.status) : notFound();
   }
 
+  if (res.status === 404) {
+    return notFound();
+  }
+
   try {
-    const json = await res.json();
-    if (res.status === 404) {
-      return notFound();
-    }
-    return json;
+    return await res.json();
   } catch (e) {
     return catalogueApiError();
   }
@@ -152,7 +150,7 @@ export async function getCanvasOcr(
     canvas.otherContent.find(
       content =>
         content['@type'] === 'sc:AnnotationList' &&
-        content.label === 'Text of this page'
+        content.label.startsWith('Text of page')
     );
 
   const textService = textContent && textContent['@id'];
@@ -167,7 +165,7 @@ export async function getCanvasOcr(
         })
         .map(resource => resource.resource.chars)
         .join(' ');
-      return textString.length > 0 ? textString : 'text unavailable';
+      return textString.length > 0 ? textString : missingAltTextMessage;
     } catch (e) {
       Raven.captureException(new Error(`IIIF text service error: ${e}`), {
         tags: {
@@ -175,7 +173,7 @@ export async function getCanvasOcr(
         },
       });
 
-      return 'text unavailable';
+      return missingAltTextMessage;
     }
   }
 }
