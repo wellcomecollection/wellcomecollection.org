@@ -9,8 +9,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  description: string;
-  defaultValue: boolean;
+  when: (request: any) => boolean; // TODO: should take request of type CloudFrontRequest
 };
 
 const toggles = {
@@ -41,8 +40,7 @@ const toggles = {
       id: 'gaSecureCookies',
       title: 'GA Secure Cookies',
       range: [0, 10],
-      description: 'Secure cookies for 10% of users to check nothing breaks',
-      defaultValue: false,
+      when: () => true,
     },
   ] as ABTest[],
 };
