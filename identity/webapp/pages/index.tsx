@@ -287,6 +287,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             />
                           </ProgressBar>
                           <StackingTable
+                            maxWidth={enablePickUpDate ? 1180 : 980}
                             rows={[
                               [
                                 'Title',
