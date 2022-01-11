@@ -288,33 +288,47 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                           </ProgressBar>
                           <StackingTable
                             rows={[
-                              ['Title', 'Status', 'Pickup location'],
-                              ...requestedItems.results.map(result => [
-                                <>
-                                  <ItemTitle
-                                    as="a"
-                                    href={`/works/${result.workId}`}
-                                  >
-                                    {result.workTitle || 'Unknown title'}
-                                  </ItemTitle>
-                                  {result.item.title && (
-                                    <Space
-                                      v={{
-                                        size: 's',
-                                        properties: ['margin-top'],
-                                      }}
+                              [
+                                'Title',
+                                'Status',
+                                enablePickUpDate
+                                  ? 'Pickup date requested'
+                                  : null,
+                                'Pickup location',
+                              ].filter(Boolean),
+                              ...requestedItems.results.map(result =>
+                                [
+                                  <>
+                                    <ItemTitle
+                                      as="a"
+                                      href={`/works/${result.workId}`}
                                     >
-                                      <ItemTitle>{result.item.title}</ItemTitle>
-                                    </Space>
-                                  )}
-                                </>,
-                                <ItemStatus key={`${result.item.id}-status`}>
-                                  {result.status.label}
-                                </ItemStatus>,
-                                <ItemPickup key={`${result.item.id}-pickup`}>
-                                  {result.pickupLocation.label}
-                                </ItemPickup>,
-                              ]),
+                                      {result.workTitle || 'Unknown title'}
+                                    </ItemTitle>
+                                    {result.item.title && (
+                                      <Space
+                                        v={{
+                                          size: 's',
+                                          properties: ['margin-top'],
+                                        }}
+                                      >
+                                        <ItemTitle>
+                                          {result.item.title}
+                                        </ItemTitle>
+                                      </Space>
+                                    )}
+                                  </>,
+                                  <ItemStatus key={`${result.item.id}-status`}>
+                                    {result.status.label}
+                                  </ItemStatus>,
+                                  enablePickUpDate ? (
+                                    <HTMLDate date={new Date()} /> // TODO need to pass in the actual date once it's available on resuilt
+                                  ) : null,
+                                  <ItemPickup key={`${result.item.id}-pickup`}>
+                                    {result.pickupLocation.label}
+                                  </ItemPickup>,
+                                ].filter(Boolean)
+                              ),
                             ]}
                           />
                           <Space
