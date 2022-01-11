@@ -40,6 +40,7 @@ import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
