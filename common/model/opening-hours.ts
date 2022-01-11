@@ -10,8 +10,8 @@ export type OverrideType =
   | 'other';
 
 export type OverrideDate = {
-  overrideDate?: Moment;
-  overrideType?: OverrideType;
+  overrideDate: Moment;
+  overrideType: OverrideType;
 };
 
 export type ExceptionalPeriod = {
@@ -27,8 +27,8 @@ export type OpeningHoursDay = {
 };
 
 export type ExceptionalOpeningHoursDay = {
-  overrideDate?: Moment;
-  overrideType?: OverrideType;
+  overrideDate: Moment;
+  overrideType: OverrideType;
   opens: string;
   closes: string;
   isClosed: boolean;
@@ -36,7 +36,7 @@ export type ExceptionalOpeningHoursDay = {
 
 export type OpeningHours = {
   regular: OpeningHoursDay[];
-  exceptional: ExceptionalOpeningHoursDay[] | null;
+  exceptional: ExceptionalOpeningHoursDay[];
 };
 
 export type Venue = {

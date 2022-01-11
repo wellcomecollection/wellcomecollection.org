@@ -311,26 +311,32 @@ export function parseCollectionVenue(
   venue: CollectionVenuePrismicDocument
 ): Venue {
   const data = venue.data;
-  const exceptionalOpeningHours = data.modifiedDayOpeningTimes.map(modified => {
-    const start = modified.startDateTime;
-    const end = modified.endDateTime;
-    const isClosed = !start;
-    const overrideDate: Moment | undefined = modified.overrideDate
-      ? london(modified.overrideDate)
-      : undefined;
-    const overrideType = modified.type ?? undefined;
-    return {
-      overrideDate,
-      overrideType,
-      // If there is no start time from prismic, then we set both opens and closes to 00:00.
-      // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-      // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-      // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-      opens: start ? london(start).format('HH:mm') : '00:00',
-      closes: start && end ? london(end).format('HH:mm') : '00:00',
-      isClosed,
-    };
-  });
+  const exceptionalOpeningHours = data.modifiedDayOpeningTimes
+    ? data.modifiedDayOpeningTimes
+        .filter(modified => modified.overrideDate)
+        .map(modified => {
+          const start = modified.startDateTime;
+          const end = modified.endDateTime;
+          const isClosed = !start;
+          const overrideDate = modified.overrideDate
+            ? london(modified.overrideDate)
+            : undefined;
+          const overrideType = modified.type ?? 'other';
+          if (overrideDate) {
+            return {
+              overrideDate,
+              overrideType,
+              // If there is no start time from prismic, then we set both opens and closes to 00:00.
+              // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+              // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+              // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+              opens: start ? london(start).format('HH:mm') : '00:00',
+              closes: start && end ? london(end).format('HH:mm') : '00:00',
+              isClosed,
+            };
+          }
+        })
+    : [];
 
   return {
     id: venue.id as string,
@@ -346,7 +352,7 @@ export function parseCollectionVenue(
         createRegularDay('Saturday', venue),
         createRegularDay('Sunday', venue),
       ],
-      exceptional: exceptionalOpeningHours,
+      exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
     image: data.image,
     url: 'url' in data.link ? data.link.url : undefined,
