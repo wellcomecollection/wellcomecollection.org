@@ -52,6 +52,7 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type DetailProps = {
   label: string;
@@ -154,6 +155,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const { enablePickUpDate } = useToggles();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
