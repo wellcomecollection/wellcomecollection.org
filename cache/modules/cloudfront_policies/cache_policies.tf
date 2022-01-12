@@ -61,7 +61,14 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
       cookie_behavior = "whitelist"
 
       cookies {
-        items = sort(distinct(concat(local.toggles_cookies, local.works_cookies)))
+        items = sort(
+          distinct(
+            concat(
+              local.toggles_cookies,
+              local.works_cookies
+            )
+          )
+        )
       }
     }
 
@@ -73,7 +80,15 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
       query_string_behavior = "whitelist"
 
       query_strings {
-        items = sort(distinct(concat(local.content_query_params, local.works_query_params, local.images_query_params)))
+        items = sort(
+          distinct(
+            concat(
+              local.content_query_params,
+              local.works_query_params,
+              local.images_query_params
+            )
+          )
+        )
       }
     }
   }

@@ -21,15 +21,17 @@ export type ExceptionalPeriod = {
 
 export type OpeningHoursDay = {
   dayOfWeek: Day;
-  opens?: string;
-  closes?: string;
+  opens: string;
+  closes: string;
+  isClosed: boolean;
 };
 
 export type ExceptionalOpeningHoursDay = {
   overrideDate?: Moment;
   overrideType?: OverrideType;
-  opens?: string;
-  closes?: string;
+  opens: string;
+  closes: string;
+  isClosed: boolean;
 };
 
 export type OpeningHours = {
@@ -44,14 +46,7 @@ export type Venue = {
   openingHours: OpeningHours;
   url?: string;
   linkText?: string;
-  image?: unknown;
-};
-
-export type PlacesOpeningHours = Venue[];
-
-export type CollectionOpeningTimes = {
-  placesOpeningHours: PlacesOpeningHours;
-  upcomingExceptionalOpeningPeriods?: { dates: Moment[]; type: OverrideType }[];
+  image?: any; // TODO
 };
 
 // http://schema.org/specialOpeningHoursSpecification
