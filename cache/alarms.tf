@@ -13,7 +13,7 @@ resource "aws_cloudwatch_metric_alarm" "cloudfront_prod_5xx" {
   statistic           = "Average"
 
   dimensions = {
-    DistributionId = aws_cloudfront_distribution.wellcomecollection_org.id
+    DistributionId = module.prod_wc_org_cloudfront_distribution.distribution_id
     Region         = "Global"
   }
 
