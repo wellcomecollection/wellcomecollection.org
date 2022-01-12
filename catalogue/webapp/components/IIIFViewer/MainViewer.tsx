@@ -227,7 +227,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           <LL lighten={true} />
         </div>
       ) : isRestricted ? (
-        <MessageContainer>
+        <MessageContainer data-test-id={`canvas-${index}`}>
           <h2 className={font('hnb', 4)}>
             {imageAuthService && imageAuthService.label}
           </h2>

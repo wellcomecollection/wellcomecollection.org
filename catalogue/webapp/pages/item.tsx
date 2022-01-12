@@ -178,7 +178,7 @@ const ItemPage: NextPage<Props> = ({
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
-        if (data.hasOwnProperty('accessToken')) {
+        if (data.hasOwnProperty('accessToken') && isAvailableOnline()) {
           setShowModal(false);
           setShowViewer(true);
         } else {

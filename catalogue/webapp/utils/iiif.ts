@@ -28,6 +28,14 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   }
 }
 
+export function isAnyOpen(manifest: IIIFManifest): boolean {
+  const { sequences } = manifest;
+  const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
+  console.log({ canvases });
+
+  return canvases.some(canvas => !isImageRestricted(canvas));
+}
+
 export function getAuthService(
   iiifManifest?: IIIFManifest
 ): AuthService | undefined {
@@ -46,17 +54,25 @@ export function getAuthService(
           service?.['@id'] !==
           'https://iiif.wellcomecollection.org/auth/restrictedlogin'
       );
-      const isOpen =
-        iiifManifest.service.some(service => !service.authService) &&
+
+      // We're only interested in the services about access
+      const servicesOfInterest = iiifManifest.service.filter(
+        s => s.accessHint !== undefined
+      );
+
+      const isAvailableOnline =
+        servicesOfInterest.some(service => !service.authService) &&
         !nonRestrictedService;
-      // If any of the manifest services don't include an `authService` then we can show the viewer without a modal.
+      // If any of the manifest accessHint services don't include an `authService` then we can show the viewer without a modal.
       // e.g. if the manifest is a mixture of open and restricted images, then
       // DLCS will hide the images that are restricted -- and we can let the
       // user click straight through to the images that are open.
       //
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
-      return isOpen ? undefined : nonRestrictedService || restrictedService;
+      return isAvailableOnline
+        ? undefined
+        : nonRestrictedService || restrictedService;
     } else {
       return iiifManifest.service.authService;
     }
@@ -106,8 +122,11 @@ export function getImageAuthService(canvas: IIIFCanvas): AuthService | null {
   return authService || null;
 }
 
+function
+
 export function isImageRestricted(canvas: IIIFCanvas): boolean {
   const imageAuthService = getImageAuthService(canvas);
+  console.log({ imageAuthService });
   return Boolean(
     imageAuthService?.['@id'] ===
       'https://iiif.wellcomecollection.org/auth/restrictedlogin'
