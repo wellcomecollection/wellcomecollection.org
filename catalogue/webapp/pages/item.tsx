@@ -179,7 +179,6 @@ const ItemPage: NextPage<Props> = ({
   useEffect(() => {
     function receiveMessage(event) {
       const data = event.data;
-      console.log(tokenService);
       const serviceOrigin = tokenService && new URL(tokenService['@id']);
       if (
         serviceOrigin &&

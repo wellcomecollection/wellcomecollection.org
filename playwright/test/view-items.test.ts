@@ -291,10 +291,7 @@ describe('Scenario 10: A user wants to be able to access alt text for the images
   });
 });
 
-describe.only('Scenario 11: A user wants to view an item with access restrictions', () => {
-  // If we display a modal, we wait until it is dismissed before showing anything in the
-  // main element. If there's no modal, we won't see a 'Show the content' button and we will see an h1.
-  // If there is a modal, we won't see an h1 and we will see a 'Show the content' button.
+describe('Scenario 11: A user wants to view an item with access restrictions', () => {
   test('an item with only open access items will not display a modal', async () => {
     await itemWithOnlyOpenAccess();
     await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
@@ -313,9 +310,9 @@ describe.only('Scenario 11: A user wants to view an item with access restriction
 
   test('an item with only restricted access items will display a modal with no option to view the content', async () => {
     await itemWithOnlyRestrictedAccess();
-    await page.waitForSelector(`a:has-text('Take me back to the item page')`);
+    await page.waitForSelector(`h2:has-text('Restricted material')`);
     expect(
-      await page.waitForSelector(`button:has-text('Show the content')`)
+      await page.isVisible(`button:has-text('Show the content')`)
     ).toBeFalsy();
     expect(
       await page.isVisible(`css=[data-test-id="canvas-0"] img`)
