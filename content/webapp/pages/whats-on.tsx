@@ -59,7 +59,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
+import { usePrismicData } from '@weco/common/server-data/Context';
 import {
   exhibitionLd,
   eventLd,
@@ -132,29 +132,29 @@ function getWeekendToDate(today) {
   }
 }
 
-const ClosedMessage = () => (
-  <>
-    <Space
-      v={{
-        size: 'm',
-        properties: ['margin-bottom'],
-      }}
-      as="p"
-      className={classNames({
-        [font('wb', 2)]: true,
-      })}
-    >
-      Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
-      and <a href={shopPromo.url}>shop</a> are open for your visit.
-    </Space>
-    <Space
-      v={{
-        size: 'l',
-        properties: ['margin-top', 'margin-bottom'],
-      }}
-    ></Space>
-  </>
-);
+// const ClosedMessage = () => (
+//   <>
+//     <Space
+//       v={{
+//         size: 'm',
+//         properties: ['margin-bottom'],
+//       }}
+//       as="p"
+//       className={classNames({
+//         [font('wb', 2)]: true,
+//       })}
+//     >
+//       Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
+//       and <a href={shopPromo.url}>shop</a> are open for your visit.
+//     </Space>
+//     <Space
+//       v={{
+//         size: 'l',
+//         properties: ['margin-top', 'margin-bottom'],
+//       }}
+//     ></Space>
+//   </>
+// );
 
 type DateRangeProps = {
   dateRange: (Date | Moment)[];
@@ -391,7 +391,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
-  const { buildingClosure } = useToggles();
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
@@ -453,9 +452,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
         />
         <Layout12>
           <DateRange dateRange={dateRange} period={period} />
-          {!buildingClosure &&
-            period === 'today' &&
-            todaysOpeningHours?.isClosed && <ClosedMessage />}
+          {/* TODO put back when building, shop and cafe are open normally */}
+          {/* {period === 'today' && todaysOpeningHours?.isClosed && (
+            <ClosedMessage />
+          )} */}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
