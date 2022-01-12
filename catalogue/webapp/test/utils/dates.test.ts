@@ -6,6 +6,7 @@ import {
   groupExceptionalClosedDates,
   extendEndDate,
   findClosedDays,
+  findNextRegularOpenDay,
 } from '../../utils/dates';
 import { OverrideType } from '@weco/common/model/opening-hours';
 
@@ -120,6 +121,30 @@ describe('findClosedDays', () => {
         isClosed: true,
       },
     ]);
+  });
+});
+
+describe('findNextRegularOpenDay: finds the earliest date on which the venue is normally open', () => {
+  it('returns the same date provided if it occurs on one of the regular open days', () => {
+    const result = findNextRegularOpenDay(
+      london('2022-01-15'), // Saturday
+      [0, 1, 2] // Sunday, Monday, Tuesday
+    );
+    expect(result.toDate()).toEqual(london('2022-01-15').toDate()); // Saturday
+  });
+  it('returns the date of the next regular open day, if the date provided is a regular closed day', () => {
+    const result = findNextRegularOpenDay(
+      london('2022-01-16'), // Sunday
+      [0, 1, 2] // Sunday, Monday, Tuesday
+    );
+    expect(result.toDate()).toEqual(london('2022-01-19').toDate()); // Wednesday
+  });
+  it.only("doesn't return a date if there are no regular days that are open", () => {
+    const result = findNextRegularOpenDay(
+      london('2022-01-16'), // Sunday
+      [0, 1, 2, 3, 4, 5, 6]
+    );
+    expect(result).toEqual(null);
   });
 });
 
