@@ -311,9 +311,12 @@ describe.only('Scenario 11: A user wants to view an item with access restriction
     ).toBeFalsy();
   });
 
-  test('an item with only restricted access items will display a modal', async () => {
+  test('an item with only restricted access items will display a modal with no option to view the content', async () => {
     await itemWithOnlyRestrictedAccess();
-    await page.waitForSelector(`button:has-text('Show the content')`);
+    await page.waitForSelector(`a:has-text('Take me back to the item page')`);
+    expect(
+      await page.waitForSelector(`button:has-text('Show the content')`)
+    ).toBeFalsy();
     expect(
       await page.isVisible(`css=[data-test-id="canvas-0"] img`)
     ).toBeFalsy();

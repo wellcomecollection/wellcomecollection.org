@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas, IIIFManifest } from '../model/iiif';
+import { IIIFCanvas, IIIFManifest, AuthService } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -15,6 +15,8 @@ import {
   getAuthService,
   getTokenService,
   getIIIFManifest,
+  getIsAnyImageOpen,
+  restrictedAuthServiceUrl,
 } from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
 import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
@@ -128,16 +130,20 @@ const ItemPage: NextPage<Props> = ({
 
   const authService = getAuthService(manifest);
   const tokenService = authService && getTokenService(authService);
-  const authServiceRestrictedIds = [
-    'https://iiif.wellcomecollection.org/auth/restrictedlogin',
-  ];
-  const isAvailableOnline = () => {
-    return (
-      authService &&
-      authService['@id'] &&
-      !authServiceRestrictedIds.includes(authService['@id'])
-    );
-  };
+  const isAnyImageOpen = manifest && getIsAnyImageOpen(manifest);
+  const isTotallyRestricted =
+    authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
+
+  function getNeedsModal(authService: AuthService | undefined) {
+    switch (authService?.['@id']) {
+      case undefined:
+        return false;
+      case restrictedAuthServiceUrl:
+        return !isAnyImageOpen;
+      default:
+        return true;
+    }
+  }
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -173,14 +179,15 @@ const ItemPage: NextPage<Props> = ({
   useEffect(() => {
     function receiveMessage(event) {
       const data = event.data;
+      console.log(tokenService);
       const serviceOrigin = tokenService && new URL(tokenService['@id']);
       if (
         serviceOrigin &&
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
-        if (data.hasOwnProperty('accessToken') && isAvailableOnline()) {
-          setShowModal(false);
-          setShowViewer(true);
+        if (data.hasOwnProperty('accessToken')) {
+          setShowModal(isTotallyRestricted);
+          setShowViewer(!isTotallyRestricted);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -188,7 +195,7 @@ const ItemPage: NextPage<Props> = ({
       }
     }
 
-    if (authService) {
+    if (getNeedsModal(authService)) {
       window.addEventListener('message', receiveMessage);
 
       return () => window.removeEventListener('message', receiveMessage);
@@ -301,7 +308,7 @@ const ItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {isAvailableOnline() && origin && (
+          {isAnyImageOpen && origin && (
             <Space
               className={'flex flex-inline'}
               h={{ size: 'm', properties: ['margin-right'] }}

@@ -28,10 +28,13 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   }
 }
 
-export function isAnyOpen(manifest: IIIFManifest): boolean {
+// We don't know at the top-level of a manifest whether any of the canvases
+// contain images that are open access. So we check if _any_ canvas doesn't
+// have a restriction. This allows us to determine whether to show the
+// viewer at all.
+export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
   const { sequences } = manifest;
   const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
-  console.log({ canvases });
 
   return canvases.some(canvas => !isImageRestricted(canvas));
 }
@@ -111,25 +114,29 @@ export function getTokenService(
   );
 }
 
-export function getImageAuthService(canvas: IIIFCanvas): AuthService | null {
+export const restrictedAuthServiceUrl =
+  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+export function getImageAuthService(
+  canvas: IIIFCanvas
+): AuthService | string | null {
   const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
   const authService =
     serviceArray &&
     serviceArray.find(
       service =>
-        service['@context'] === 'http://iiif.io/api/auth/0/context.json'
+        service['@context'] === 'http://iiif.io/api/auth/0/context.json' ||
+        service === restrictedAuthServiceUrl
     );
   return authService || null;
 }
 
-function
-
 export function isImageRestricted(canvas: IIIFCanvas): boolean {
   const imageAuthService = getImageAuthService(canvas);
-  console.log({ imageAuthService });
+
   return Boolean(
-    imageAuthService?.['@id'] ===
-      'https://iiif.wellcomecollection.org/auth/restrictedlogin'
+    imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
+      imageAuthService === restrictedAuthServiceUrl
   );
 }
 
