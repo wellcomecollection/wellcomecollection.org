@@ -300,4 +300,26 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
 
     expect(result.toDate()).toEqual(london(new Date('2019-12-31')).toDate());
   });
+
+  it("doesn't return a date if no start date is provided", () => {
+    const result = extendEndDate({
+      startDate: null,
+      endDate: london(new Date('2020-01-10')),
+      exceptionalClosedDates: exceptionalClosedDates,
+      regularClosedDays: [0],
+    });
+
+    expect(result).toEqual(null);
+  });
+
+  it("doesn't return a date if no end date is provided", () => {
+    const result = extendEndDate({
+      startDate: london(new Date('2019-12-24')),
+      endDate: null,
+      exceptionalClosedDates: exceptionalClosedDates,
+      regularClosedDays: [0],
+    });
+
+    expect(result).toEqual(null);
+  });
 });
