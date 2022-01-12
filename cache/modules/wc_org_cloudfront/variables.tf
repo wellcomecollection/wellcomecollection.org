@@ -37,3 +37,8 @@ variable "request_policies" {
   # name -> id
   type = map(string)
 }
+
+variable "response_policies" {
+  # name -> id
+  type = map(string)
+}

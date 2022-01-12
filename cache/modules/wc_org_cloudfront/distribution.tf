@@ -56,8 +56,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["weco-apps"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -77,8 +78,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["weco-apps"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -100,8 +102,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     // Caching should be always be disabled for the account/identity app, so that we
     // never send responses meant for one user to another
-    cache_policy_id          = var.cache_policies["Managed-CachingDisabled"]
-    origin_request_policy_id = var.request_policies["Managed-AllViewer"]
+    cache_policy_id            = var.cache_policies["Managed-CachingDisabled"]
+    origin_request_policy_id   = var.request_policies["Managed-AllViewer"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 
   # Images
@@ -113,8 +116,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["weco-apps"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -135,8 +139,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["toggle-cookies-only"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["toggle-cookies-only"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 
   # Static next routes
@@ -148,8 +153,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["static-content"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["static-content"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 
   # Events
@@ -161,8 +167,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id          = var.cache_policies["short-lived-toggles-only"]
-    origin_request_policy_id = var.request_policies["host-query-and-toggles"]
+    cache_policy_id            = var.cache_policies["short-lived-toggles-only"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 
   ordered_cache_behavior {
@@ -173,7 +180,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id = var.cache_policies["static-content"]
+    cache_policy_id            = var.cache_policies["static-content"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 
   ordered_cache_behavior {
@@ -184,7 +192,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
-    cache_policy_id = var.cache_policies["static-content"]
+    cache_policy_id            = var.cache_policies["static-content"]
+    response_headers_policy_id = var.response_policies["weco-security"]
   }
 }
 
