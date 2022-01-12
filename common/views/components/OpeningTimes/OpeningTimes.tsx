@@ -1,6 +1,6 @@
-import { getTodaysVenueHours } from '@weco/common/services/prismic/opening-times';
+import { getTodaysVenueHours } from '../../../services/prismic/opening-times';
 import Space from '../styled/Space';
-import { CollectionOpeningTimes } from '@weco/common/model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
@@ -8,15 +8,15 @@ import {
 import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
-  collectionOpeningTimes: CollectionOpeningTimes;
+  venues: Venue[];
 };
 
-const FooterOpeningTimes: FunctionComponent<Props> = ({
-  collectionOpeningTimes,
+const OpeningTimes: FunctionComponent<Props> = ({
+  venues,
 }: Props): ReactElement<Props> => {
   return (
     <ul className="plain-list no-padding no-margin">
-      {collectionOpeningTimes.placesOpeningHours.map(venue => {
+      {venues.map(venue => {
         const todaysHours = getTodaysVenueHours(venue);
         return (
           todaysHours && (
@@ -31,14 +31,14 @@ const FooterOpeningTimes: FunctionComponent<Props> = ({
               {venue.id === collectionVenueId.restaurant.id
                 ? 'Kitchen '
                 : `${getNameFromCollectionVenue(venue.id)} `}
-              {todaysHours.opens ? (
+              {todaysHours.isClosed ? (
+                'closed'
+              ) : (
                 <>
                   <time>{todaysHours.opens}</time>
                   {'—'}
                   <time>{todaysHours.closes}</time>
                 </>
-              ) : (
-                'closed'
               )}
             </Space>
           )
@@ -47,4 +47,4 @@ const FooterOpeningTimes: FunctionComponent<Props> = ({
     </ul>
   );
 };
-export default FooterOpeningTimes;
+export default OpeningTimes;

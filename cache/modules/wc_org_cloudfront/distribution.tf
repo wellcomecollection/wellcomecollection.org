@@ -98,6 +98,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
+    // Caching should be always be disabled for the account/identity app, so that we
+    // never send responses meant for one user to another
     cache_policy_id          = var.cache_policies["Managed-CachingDisabled"]
     origin_request_policy_id = var.request_policies["Managed-AllViewer"]
   }

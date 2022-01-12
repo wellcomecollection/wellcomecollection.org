@@ -14,7 +14,7 @@ locals {
     # When it's missing, we may show the wrong stories as "read this next"
     # on articles.
     #
-    # See https://github.com/wellcomecollection/wellcomecollection.org/issues
+    # See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
     "params"
   ]
 

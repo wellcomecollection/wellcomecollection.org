@@ -5,10 +5,11 @@ import type {
   OverrideType,
   ExceptionalPeriod,
   OverrideDate,
-  ExceptionalOpeningHoursDay,
   Venue,
-  PlacesOpeningHours,
-  CollectionOpeningTimes,
+  OpeningHours,
+  OpeningHoursDay,
+  ExceptionalOpeningHoursDay,
+  SpecialOpeningHours,
 } from '../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
@@ -16,20 +17,11 @@ import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
 
-// This appears to be nested in various confusing ways hence the inheritance
-export interface OpeningTimes extends CollectionOpeningTimes {
-  collectionOpeningTimes: CollectionOpeningTimes;
-}
-
-// TODO add comprehensive comments and probably rename some functions
-
-export function exceptionalOpeningDates(collectionOpeningTimes: {
-  placesOpeningHours: Venue[];
-}): OverrideDate[] {
-  return collectionOpeningTimes.placesOpeningHours
-    .flatMap(place => {
-      if (place.openingHours.exceptional) {
-        return place.openingHours.exceptional.map(exceptionalDate => {
+export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
+  return venues
+    .flatMap(venue => {
+      if (venue.openingHours.exceptional) {
+        return venue.openingHours.exceptional.map(exceptionalDate => {
           return {
             overrideDate: exceptionalDate.overrideDate,
             overrideType: exceptionalDate.overrideType,
@@ -135,14 +127,10 @@ export function exceptionalOpeningPeriodsAllDates(
     : [];
 }
 
-export function getExceptionalOpeningPeriods(openingTimes: {
-  collectionOpeningTimes: {
-    placesOpeningHours: PlacesOpeningHours;
-  };
-}) {
-  const allExceptionalDates = exceptionalOpeningDates(
-    openingTimes.collectionOpeningTimes
-  );
+export function getExceptionalOpeningPeriods(
+  venues: Venue[]
+): OverrideDates[] | undefined {
+  const allExceptionalDates = exceptionalOpeningDates(venues);
   const groupedExceptionalDates =
     allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
   return (
@@ -185,7 +173,7 @@ export function groupExceptionalVenueDays(
     : [];
 }
 
-function exceptionalFromRegular(
+export function exceptionalFromRegular(
   venue: Venue,
   dateToGet: Moment,
   type: OverrideType
@@ -194,11 +182,15 @@ function exceptionalFromRegular(
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
   );
+
   return {
     overrideDate: dateToGet,
     overrideType: type,
-    opens: regular ? regular.opens : undefined,
-    closes: regular ? regular.closes : undefined,
+    opens: regular?.opens || '00:00',
+    closes: regular?.closes || '00:00',
+    isClosed:
+      regular?.isClosed ||
+      (regular?.opens === '00:00' && regular?.closes === '00:00'),
   };
 }
 
@@ -209,8 +201,6 @@ export function backfillExceptionalVenueDays(
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
-
-  // if it's type is other then we don't backfill
   return (allVenueExceptionalPeriods ?? []).map(period => {
     const sortedDates = period.dates.sort((a, b) => {
       return a.diff(b, 'days');
@@ -221,11 +211,12 @@ export function backfillExceptionalVenueDays(
         const matchingVenueGroup = groupedExceptionalDays.find(group => {
           return group.find(day => day.overrideDate?.isSame(date, 'day'));
         });
-        const matchingDay =
-          matchingVenueGroup &&
-          matchingVenueGroup.find(day => day.overrideDate?.isSame(date, 'day'));
+        const matchingDay = matchingVenueGroup?.find(day =>
+          day.overrideDate?.isSame(date, 'day')
+        );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         if (type === 'other') {
+          // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
           return matchingDay;
         } else {
           return matchingDay || backfillDay;
@@ -237,10 +228,9 @@ export function backfillExceptionalVenueDays(
 }
 
 export function groupConsecutiveDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
+  dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods
-    .reduce((acc, curr) => acc.concat(curr), [])
+  return dates
     .sort((a, b) => {
       return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
     })
@@ -280,32 +270,25 @@ export function getUpcomingExceptionalPeriods(
   return nextUpcomingPeriods;
 }
 
-export function getExceptionalClosedDays(
-  openingHoursPeriods: ExceptionalOpeningHoursDay[][]
-): ExceptionalOpeningHoursDay[][] {
-  return openingHoursPeriods.map(period =>
-    period.filter(date => date.opens === null)
-  );
-}
-
-function createRegularDay(day: Day, venue: CollectionVenuePrismicDocument) {
-  const data = venue.data;
+export function createRegularDay(
+  day: Day,
+  venue: CollectionVenuePrismicDocument
+): OpeningHoursDay {
+  const { data } = venue;
   const lowercaseDay = day.toLowerCase();
   const start = data && data[lowercaseDay][0].startDateTime;
   const end = data && data[lowercaseDay][0].endDateTime;
-  if (start && end) {
-    return {
-      dayOfWeek: day,
-      opens: london(start).format('HH:mm'),
-      closes: london(end).format('HH:mm'),
-    };
-  } else {
-    return {
-      dayOfWeek: day,
-      opens: undefined,
-      closes: undefined,
-    };
-  }
+  const isClosed = !start;
+  // If there is no start time from prismic, then we set both opens and closes to 00:00.
+  // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+  // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+  // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+  return {
+    dayOfWeek: day,
+    opens: start ? london(start).format('HH:mm') : '00:00',
+    closes: start && end ? london(end).format('HH:mm') : '00:00',
+    isClosed,
+  };
 }
 
 export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
@@ -329,12 +312,9 @@ export function parseCollectionVenue(
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes.map(modified => {
-    const start: string | undefined = modified.startDateTime
-      ? london(modified.startDateTime).format('HH:mm')
-      : undefined;
-    const end: string | undefined = modified.startDateTime
-      ? london(modified.endDateTime!).format('HH:mm')
-      : undefined;
+    const start = modified.startDateTime;
+    const end = modified.endDateTime;
+    const isClosed = !start;
     const overrideDate: Moment | undefined = modified.overrideDate
       ? london(modified.overrideDate)
       : undefined;
@@ -342,8 +322,13 @@ export function parseCollectionVenue(
     return {
       overrideDate,
       overrideType,
-      opens: start,
-      closes: end,
+      // If there is no start time from prismic, then we set both opens and closes to 00:00.
+      // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+      // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+      // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+      opens: start ? london(start).format('HH:mm') : '00:00',
+      closes: start && end ? london(end).format('HH:mm') : '00:00',
+      isClosed,
     };
   });
 
@@ -369,40 +354,26 @@ export function parseCollectionVenue(
   };
 }
 
-export function getParseCollectionVenueById(
-  collectionVenues: {
-    collectionOpeningTimes: {
-      placesOpeningHours: Venue[];
-    };
-  },
-  id: string
-): any {
-  const venue = collectionVenues.collectionOpeningTimes.placesOpeningHours.find(
-    venue => venue.id === id
-  );
+export function getVenueById(venues: Venue[], id: string): Venue | undefined {
+  const venue = venues.find(venue => venue.id === id);
   return venue;
 }
 
 export function parseCollectionVenues(
   doc: Query<CollectionVenuePrismicDocument>
-): OpeningTimes {
-  const placesOpeningHours = doc.results.map(venue => {
+): Venue[] {
+  const venues = doc.results.map(venue => {
     return parseCollectionVenue(venue);
   });
 
-  return {
-    collectionOpeningTimes: {
-      placesOpeningHours: placesOpeningHours.sort((a, b) => {
-        return Number(a.order) - Number(b.order);
-      }),
-      upcomingExceptionalOpeningPeriods: [],
-    },
-    placesOpeningHours: [],
-    upcomingExceptionalOpeningPeriods: [],
-  };
+  return venues.sort((a, b) => {
+    return Number(a.order) - Number(b.order);
+  });
 }
 
-export function getTodaysVenueHours(venue: Venue) {
+export function getTodaysVenueHours(
+  venue: Venue
+): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = london().startOf('day');
   const todayString = todaysDate.format('dddd');
   const exceptionalOpeningHours =
@@ -417,31 +388,38 @@ export function getTodaysVenueHours(venue: Venue) {
   return exceptionalOpeningHours || regularOpeningHours;
 }
 
-export function openingHoursToOpeningHoursSpecification(openingHours: any) {
+export function openingHoursToOpeningHoursSpecification(
+  openingHours: OpeningHours | undefined
+): {
+  openingHoursSpecification: OpeningHoursDay[];
+  specialOpeningHoursSpecification: SpecialOpeningHours[];
+} {
   return {
-    openingHoursSpecification:
-      openingHours && openingHours.regular
-        ? openingHours.regular.map(openingHoursDay => {
-            const specObject = objToJsonLd(
-              openingHoursDay,
-              'OpeningHoursSpecification',
-              false
-            );
-            delete specObject.note;
-            return specObject;
-          })
-        : [],
-    specialOpeningHoursSpecification:
-      openingHours &&
-      openingHours.exceptional &&
-      openingHours.exceptional.map(openingHoursDate => {
-        const specObject = {
-          opens: openingHoursDate.opens,
-          closes: openingHoursDate.closes,
-          validFrom: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
-          validThrough: openingHoursDate.overrideDate.format('DD MMMM YYYY'),
-        };
-        return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-      }),
+    openingHoursSpecification: openingHours?.regular
+      ? openingHours.regular.map(openingHoursDay => {
+          const specObject = objToJsonLd(
+            {
+              dayOfWeek: openingHoursDay.dayOfWeek,
+              opens: openingHoursDay.opens,
+              closes: openingHoursDay.closes,
+            },
+            'OpeningHoursSpecification',
+            false
+          );
+          delete specObject.note;
+          return specObject;
+        })
+      : [],
+    specialOpeningHoursSpecification: openingHours?.exceptional
+      ? openingHours.exceptional.map(openingHoursDate => {
+          const specObject = {
+            opens: openingHoursDate.opens,
+            closes: openingHoursDate.closes,
+            validFrom: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
+            validThrough: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
+          };
+          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+        })
+      : [],
   };
 }
