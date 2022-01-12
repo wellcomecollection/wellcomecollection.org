@@ -6,7 +6,7 @@ resource "aws_cloudfront_response_headers_policy" "weco_security" {
     strict_transport_security {
       // TODO slowly increase this to > 1 year as per
       // https://github.com/wellcomecollection/wellcomecollection.org/issues/7348
-      access_control_max_age_sec = 5 * local.one_minute
+      access_control_max_age_sec = 7 * local.one_day
       include_subdomains         = false
       override                   = true
       preload                    = false
