@@ -159,9 +159,17 @@ describe('determineNextAvailableDate', () => {
     expect(result.toDate()).toEqual(london('2021-12-11 11:00').toDate());
   });
 
-  it('returns the following Monday rather than a Sunday', () => {
+  it('returns the following Monday rather than a Sunday, if the Sunday is the only closed day', () => {
     const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]);
     expect(result.toDate()).toEqual(london('2021-12-13 10:30').toDate());
+  });
+
+  it("doesn't return a date if there are no regular days that are open", () => {
+    const result = determineNextAvailableDate(
+      london(new Date()),
+      [0, 1, 2, 3, 4, 5, 6]
+    );
+    expect(result).toEqual(null);
   });
 });
 
