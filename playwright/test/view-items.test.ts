@@ -291,7 +291,7 @@ describe('Scenario 10: A user wants to be able to access alt text for the images
   });
 });
 
-describe('Scenario 11: A user wants to view an item with access restrictions', () => {
+describe.only('Scenario 11: A user wants to view an item with access restrictions', () => {
   test('an item with only open access items will not display a modal', async () => {
     await itemWithOnlyOpenAccess();
     await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
