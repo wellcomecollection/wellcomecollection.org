@@ -33,13 +33,14 @@ export function convertOpeningHoursDayToDayNumber(
   }
 }
 
-function findNonClosedDay(
+export function findNextRegularOpenDay(
   date: Moment,
   regularClosedDays: DayNumber[]
-): Moment {
+): Moment | null {
+  if (regularClosedDays.length === 7) return null; // All days are closed, so we'll never be able to find a non closed day.
   const isClosed = regularClosedDays.includes(date.day() as DayNumber);
   if (isClosed) {
-    return findNonClosedDay(date.add(1, 'day'), regularClosedDays);
+    return findNextRegularOpenDay(date.add(1, 'day'), regularClosedDays);
   } else {
     return date;
   }
@@ -48,13 +49,13 @@ function findNonClosedDay(
 export function determineNextAvailableDate(
   date: Moment,
   regularClosedDays: DayNumber[]
-): Moment {
+): Moment | null {
   const nextAvailableDate = date.clone();
   const isBeforeTen = nextAvailableDate.isBefore(
     date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
   );
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  return findNonClosedDay(nextAvailableDate, regularClosedDays);
+  return findNextRegularOpenDay(nextAvailableDate, regularClosedDays);
 }
 
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
@@ -105,13 +106,14 @@ export function includedRegularClosedDays(params: {
 }
 
 export function extendEndDate(params: {
-  startDate: Moment;
-  endDate: Moment;
+  startDate: Moment | null;
+  endDate: Moment | null;
   exceptionalClosedDates: Moment[];
   regularClosedDays: DayNumber[];
-}): Moment {
+}): Moment | null {
   const { startDate, endDate, exceptionalClosedDates, regularClosedDays } =
     params;
+  if (startDate === null || endDate === null) return null;
   // Filter out any exceptional closed dates fall on regular closed days, as we don't want to include these for extending the end date
   const filteredExceptionalClosedDates = filterExceptionalClosedDates(
     exceptionalClosedDates,
