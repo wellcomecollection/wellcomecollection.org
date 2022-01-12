@@ -7,7 +7,7 @@ import {
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
 ): (OpeningHoursDay | ExceptionalOpeningHoursDay)[] {
-  return days.filter(day => !day.opens);
+  return days.filter(day => day.isClosed);
 }
 
 type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
