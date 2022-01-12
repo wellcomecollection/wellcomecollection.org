@@ -139,7 +139,7 @@ describe('findNextRegularOpenDay: finds the earliest date on which the venue is 
     );
     expect(result.toDate()).toEqual(london('2022-01-19').toDate()); // Wednesday
   });
-  it.only("doesn't return a date if there are no regular days that are open", () => {
+  it("doesn't return a date if there are no regular days that are open", () => {
     const result = findNextRegularOpenDay(
       london('2022-01-16'), // Sunday
       [0, 1, 2, 3, 4, 5, 6]
