@@ -57,39 +57,33 @@ export function exceptionalOpeningPeriods(
   dates: OverrideDate[]
 ): ExceptionalPeriod[] {
   let groupedIndex = 0;
-
-  return dates.reduce((acc, date, i, array) => {
-    const previousDate =
-      array[i - 1] && array[i - 1].overrideDate
+  return dates
+    .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
+    .reduce((acc, date, i, array) => {
+      const previousDate = array[i - 1]?.overrideDate
         ? array[i - 1].overrideDate
         : null;
-    if (!previousDate) {
-      acc[groupedIndex] = {
-        type: 'other',
-        dates: [],
-      };
-      acc[groupedIndex].type = date.overrideType || 'other';
-      acc[groupedIndex].dates = [];
-      acc[groupedIndex].dates.push(date);
-    } else if (
-      previousDate &&
-      date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
-      date.overrideType === acc[groupedIndex].type
-    ) {
-      acc[groupedIndex].dates.push(date);
-    } else {
-      groupedIndex++;
-      acc[groupedIndex] = {
-        type: 'other',
-        dates: [],
-      };
-      acc[groupedIndex].type = date.overrideType || 'other';
-      acc[groupedIndex].dates = [];
-      acc[groupedIndex].dates.push(date);
-    }
+      if (!previousDate) {
+        acc[groupedIndex] = {
+          type: date.overrideType || 'other',
+          dates: [date],
+        };
+      } else if (
+        previousDate &&
+        date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
+        date.overrideType === acc[groupedIndex].type
+      ) {
+        acc[groupedIndex].dates.push(date);
+      } else {
+        groupedIndex++;
+        acc[groupedIndex] = {
+          type: date.overrideType || 'other',
+          dates: [date],
+        };
+      }
 
-    return acc;
-  }, [] as ExceptionalPeriod[]);
+      return acc;
+    }, [] as ExceptionalPeriod[]);
 }
 
 type OverrideDates = {
