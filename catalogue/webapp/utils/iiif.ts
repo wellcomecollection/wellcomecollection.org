@@ -28,10 +28,11 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   }
 }
 
-// We don't know at the top-level of a manifest whether any of the canvases
-// contain images that are open access. So we check if _any_ canvas doesn't
-// have a restriction. This allows us to determine whether to show the
-// viewer at all.
+// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
+// The top-level holds information about whether the item contains _any_ images with an authService.
+// Individual images hold information about their own authService (if it has one).
+// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
+// This allows us to determine whether or not to show the viewer at all.
 export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
   const { sequences } = manifest;
   const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
