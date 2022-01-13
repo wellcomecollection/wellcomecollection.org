@@ -1,5 +1,6 @@
 import {
   exceptionalOpeningDates,
+  exceptionalOpeningPeriods,
   getExceptionalVenueDays,
   getVenueById,
 } from '../../../services/prismic/opening-times';
@@ -82,6 +83,89 @@ describe('opening-times', () => {
     });
   });
 
+  describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
+    it.only('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-01') },
+        { overrideType: 'other', overrideDate: london('2020-01-03') },
+        { overrideType: 'other', overrideDate: london('2020-01-06') },
+        { overrideType: 'other', overrideDate: london('2020-01-10') },
+        { overrideType: 'other', overrideDate: london('2020-01-15') },
+        { overrideType: 'other', overrideDate: london('2020-01-21') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-01'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-03'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-06'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-10'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-15'),
+            },
+          ],
+        },
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-21'),
+            },
+          ],
+        },
+      ]);
+    });
+
+    it.only('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-02') },
+        { overrideType: 'other', overrideDate: london('2020-01-04') },
+        {
+          overrideType: 'Christmas and New Year',
+          overrideDate: london('2020-01-02'),
+        },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-02'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-04'),
+            },
+          ],
+        },
+        {
+          type: 'Christmas and New Year',
+          dates: [
+            {
+              overrideType: 'Christmas and New Year',
+              overrideDate: london('2020-01-02'),
+            },
+          ],
+        },
+      ]);
+    });
+  });
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
       const result = getExceptionalVenueDays(galleriesVenue!);
