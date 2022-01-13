@@ -66,6 +66,7 @@ type Props = {
 const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
   const { state, reload } = useUser();
 
+  // Keeping this around in case something bad happens
   if (requestingUnavailable) {
     return (
       <StyledComponent>

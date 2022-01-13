@@ -79,7 +79,7 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { enableRequesting, buildingClosure } = useToggles();
+  const { enableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -221,13 +221,13 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {(enableRequesting || buildingClosure) &&
+        {enableRequesting &&
           physicalItems.some(
             item =>
               itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
           ) && (
             <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <LibraryMembersBar requestingUnavailable={buildingClosure} />
+              <LibraryMembersBar />
             </Space>
           )}
         {locationOfWork && (
