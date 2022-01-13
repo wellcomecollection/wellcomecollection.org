@@ -469,7 +469,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     >
                       Contains:{' '}
                       {childManifestsCount > 0
-                        ? `${childManifestsCount} volumes`
+                        ? `${childManifestsCount} ${
+                            childManifestsCount === 1 ? 'volume' : 'volumes'
+                          }`
                         : imageCount > 0
                         ? `${imageCount} ${
                             imageCount === 1 ? 'image' : 'images'

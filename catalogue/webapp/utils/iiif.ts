@@ -46,9 +46,17 @@ export function getAuthService(
           service?.['@id'] !==
           'https://iiif.wellcomecollection.org/auth/restrictedlogin'
       );
+      const isOpen =
+        iiifManifest.service.some(service => !service.authService) &&
+        !nonRestrictedService;
+      // If any of the manifest services don't include an `authService` then we can show the viewer without a modal.
+      // e.g. if the manifest is a mixture of open and restricted images, then
+      // DLCS will hide the images that are restricted -- and we can let the
+      // user click straight through to the images that are open.
+      //
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
-      return nonRestrictedService || restrictedService;
+      return isOpen ? undefined : nonRestrictedService || restrictedService;
     } else {
       return iiifManifest.service.authService;
     }
@@ -285,10 +293,7 @@ export function getFirstChildManifestLocation(
   iiifManifest: IIIFManifest
 ): string | undefined {
   if (iiifManifest.manifests) {
-    const firstChildManifest = iiifManifest.manifests.find(
-      manifest => manifest['@id']
-    );
-    return firstChildManifest ? firstChildManifest['@id'] : undefined;
+    return iiifManifest.manifests.find(manifest => manifest['@id'])['@id'];
   }
 }
 
@@ -313,10 +318,19 @@ export function getSearchService(manifest: IIIFManifest): Service | undefined {
   }
 }
 
+// This is necessary while we are in the process of switching the source of the iiif presentation manifests
+// There is a slight (temporary) difference between the manifest served from wellcomelibrary.org
+// and the one served from iiif.wellcomecollection.org
+// In the former canvas.thumbnail.service is an object and in the latter it is an array.
 export function getThumbnailService(
   canvas: IIIFCanvas
 ): IIIFThumbnailService | undefined {
-  return canvas?.thumbnail?.service[0];
+  const service = canvas?.thumbnail?.service;
+  if (Array.isArray(service)) {
+    return service[0];
+  } else {
+    return service;
+  }
 }
 
 export async function getIIIFManifest(url: string): Promise<IIIFManifest> {

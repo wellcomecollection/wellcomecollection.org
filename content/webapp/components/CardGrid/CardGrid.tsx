@@ -22,6 +22,7 @@ import DailyTourPromo from './DailyTourPromo';
 import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
 import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import { Book } from '../../types/books';
+import { Project } from '../../types/projects';
 
 // TODO: This should be MultiContent
 type ContentTypes =
@@ -31,6 +32,7 @@ type ContentTypes =
   | Book
   | Article
   | Page
+  | Project
   | ArticleSeries
   | ArticleScheduleItem;
 

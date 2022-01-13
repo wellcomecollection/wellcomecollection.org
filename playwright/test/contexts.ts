@@ -39,6 +39,27 @@ const itemWithAltText = async (params: {
   );
 };
 
+const itemWithOnlyOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/w8t2vh3w/items`);
+};
+const itemWithOnlyRestrictedAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/zg3pt2bp/items`);
+};
+const itemWithRestrictedAndOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/p9gepwjs/items`);
+};
+const itemWithRestrictedAndNonRestrictedAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/jsmqcwvt/items`);
+};
+const itemWithNonRestrictedAndOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/fa7pymra/items`);
+};
+
 const itemWithSearchAndStructures = async (): Promise<void> => {
   context.addCookies(requiredCookies);
   await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`);
@@ -91,5 +112,10 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  itemWithOnlyOpenAccess,
+  itemWithOnlyRestrictedAccess,
+  itemWithRestrictedAndOpenAccess,
+  itemWithRestrictedAndNonRestrictedAccess,
+  itemWithNonRestrictedAndOpenAccess,
   article,
 };

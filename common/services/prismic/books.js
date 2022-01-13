@@ -1,6 +1,4 @@
 // @flow
-import Prismic from '@prismicio/client';
-import { getDocument, getDocuments } from './api';
 import {
   parseGenericFields,
   parseTimestamp,
@@ -11,18 +9,8 @@ import {
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
-import {
-  contributorsFields,
-  peopleFields,
-  organisationsFields,
-  seasonsFields,
-} from './fetch-links';
 import type { Book } from '../../model/books';
-import type {
-  PrismicDocument,
-  PrismicQueryOpts,
-  PaginatedResults,
-} from './types';
+import type { PrismicDocument } from './types';
 
 export function parseBook(document: PrismicDocument): Book {
   const data = document.data;

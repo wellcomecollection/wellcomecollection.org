@@ -12,7 +12,7 @@ import {
   handleAllRoute,
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
-import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -27,32 +27,6 @@ const appPromise = nextApp.prepare().then(async () => {
 
   koaApp.use(apmErrorMiddleware);
   koaApp.use(withCachedValues);
-
-  // Used for redirecting from cognito to actual works pages
-  router.get('/works/auth-code', async (ctx, next) => {
-    const authRedirect = ctx.cookies.get('WC_auth_redirect');
-
-    if (authRedirect) {
-      const originalPathnameAndSearch = authRedirect.split('?');
-      const originalPathname = originalPathnameAndSearch[0];
-      const originalSearchParams = new URLSearchParams(
-        originalPathnameAndSearch[1]
-      );
-      const requestSearchParams = new URLSearchParams(ctx.request.search);
-      const code = requestSearchParams.get('code');
-
-      if (code) {
-        originalSearchParams.set('code', code);
-      }
-
-      ctx.status = 303;
-      ctx.cookies.set('WC_auth_redirect', null);
-      ctx.redirect(`${originalPathname}?${originalSearchParams.toString()}`);
-      return;
-    }
-
-    return next();
-  });
 
   // Next routing
   route('/works/progress', '/progress', router, nextApp);

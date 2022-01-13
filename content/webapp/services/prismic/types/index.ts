@@ -14,6 +14,8 @@ import {
   LinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
+import { ExhibitionFormat } from './exhibition-format';
+import { ProjectFormat } from './project-format';
 import { Body } from './body';
 import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
@@ -21,7 +23,7 @@ import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
 
 /**
- * This allows as to get the DataInterface from PrismicDocuments when we
+ * This allows us to get the DataInterface from PrismicDocuments when we
  * Need them for `RelationField`s e.g.
  * type Doc = PrismicDocument<{ title: RichTextField }>
  * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
@@ -152,6 +154,14 @@ export type WithArticleFormat = {
 export const articleFormatsFetchLinks: FetchLinks<ArticleFormat> = [
   'article-formats.title',
   'article-formats.description',
+];
+
+export const exhibitionFormatsFetchLinks: FetchLinks<ExhibitionFormat> = [
+  'exhibition-formats.title',
+];
+
+export const projectFormatsFetchLinks: FetchLinks<ProjectFormat> = [
+  'project-formats.title',
 ];
 
 export type WithExhibitionParents = {

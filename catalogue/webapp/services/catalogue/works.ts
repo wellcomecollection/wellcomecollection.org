@@ -10,6 +10,7 @@ import Raven from 'raven-js';
 import {
   catalogueApiError,
   globalApiOptions,
+  looksLikeCanonicalId,
   rootUris,
   notFound,
 } from './common';
@@ -96,13 +97,7 @@ export async function getWork({
   id,
   toggles,
 }: GetWorkProps): Promise<WorkResponse> {
-  // We have occasionally seen requests for URLs with IDs which are
-  // obviously wrong, e.g. with spaces or special characters.
-  //
-  // In these cases, there's no point forwarding the request to the API
-  // (and we could serve 500 errors from malformed IDs).  If the ID isn't
-  // alphanumeric, reject it immediately.
-  if (!/^([a-z0-9]+)$/.test(id)) {
+  if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
@@ -136,12 +131,12 @@ export async function getWork({
     return id ? redirect(id, res.status) : notFound();
   }
 
+  if (res.status === 404) {
+    return notFound();
+  }
+
   try {
-    const json = await res.json();
-    if (res.status === 404) {
-      return notFound();
-    }
-    return json;
+    return await res.json();
   } catch (e) {
     return catalogueApiError();
   }

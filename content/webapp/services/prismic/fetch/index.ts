@@ -102,6 +102,7 @@ export function fetcher<Document extends PrismicDocument>(
 
       const response = await client.getByType<Document>(contentType, {
         ...params,
+        fetchLinks,
         predicates: [...predicates, delistPredicate],
       });
       return response;

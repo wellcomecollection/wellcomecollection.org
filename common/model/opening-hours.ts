@@ -1,6 +1,15 @@
 import { Moment } from 'moment';
 
-export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Day =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
+
+export type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 export type OverrideType =
   | 'Bank holiday'

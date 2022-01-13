@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       },
       memoizedPrismic
     );
-    const pagePromise = await getPage(context.req, id, memoizedPrismic);
+    const pagePromise = getPage(context.req, id, memoizedPrismic);
     const [exhibitions, events, articles, page] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,

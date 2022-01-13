@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, MutableRefObject } from 'react';
+import { FC, useState, useEffect, MutableRefObject, FormEvent } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -10,6 +10,30 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
+import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import { useToggles } from '@weco/common/server-data/Context';
+
+const PickUpDate = styled(Space).attrs({
+  v: {
+    size: 's',
+    properties: [
+      'margin-top',
+      'margin-bottom',
+      'padding-top',
+      'padding-bottom',
+    ],
+  },
+})`
+  border-top: 1px solid ${props => props.theme.color('smoke')};
+  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+
+  @media (min-width: 600px) {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    min-width: min(80vw, 700px);
+  }
+`;
 
 const Header = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -19,7 +43,7 @@ const Header = styled(Space).attrs({
   align-items: center;
 `;
 
-const Request = styled.div<{ isLoading: boolean }>`
+const Request = styled.form<{ isLoading: boolean }>`
   opacity: ${props => (props.isLoading ? 0.2 : 1)};
   transition: opacity ${props => props.theme.transitionProperties};
 `;
@@ -71,7 +95,7 @@ type RequestDialogProps = {
   isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: () => void;
+  confirmRequest: (date: Date) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
@@ -83,47 +107,83 @@ const RequestDialog: FC<RequestDialogProps> = ({
   confirmRequest,
   setIsActive,
   currentHoldNumber,
-}) => (
-  <Request isLoading={isLoading}>
-    <Header>
-      <span className={`h2`}>Request item</span>
-      <RemainingRequests
-        allowedHoldRequests={allowedRequests}
-        currentHoldRequests={currentHoldNumber}
-      />
-    </Header>
-    <p
-      className={classNames({
-        [font('hnb', 5)]: true,
-        'no-margin': true,
-      })}
-    >
-      You are about to request the following item:
-    </p>
-    <p className={'no-margin'}>
-      {work.title && <span className="block">{work.title}</span>}
-      {item.title && <span>{item.title}</span>}
-    </p>
-    <CTAs>
-      <Space
-        h={{ size: 'l', properties: ['margin-right'] }}
-        v={{ size: 's', properties: ['margin-bottom'] }}
-        className={'inline-block'}
-      >
-        <ButtonSolid
-          disabled={isLoading}
-          text={`Confirm request`}
-          clickHandler={confirmRequest}
+}) => {
+  const { enablePickUpDate } = useToggles();
+  const [pickUpDate, setPickUpDate] = useState<Date | undefined>();
+
+  function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (pickUpDate) {
+      confirmRequest(pickUpDate);
+    }
+  }
+
+  return (
+    <Request isLoading={isLoading} onSubmit={handleConfirmRequest}>
+      <Header>
+        <span className={`h2`}>Request item</span>
+        <RemainingRequests
+          allowedHoldRequests={allowedRequests}
+          currentHoldRequests={currentHoldNumber}
         />
-      </Space>
-      <ButtonOutlined
-        disabled={isLoading}
-        text={`Cancel`}
-        clickHandler={() => setIsActive(false)}
-      />
-    </CTAs>
-  </Request>
-);
+      </Header>
+      <p
+        className={classNames({
+          [font('hnb', 5)]: true,
+          'no-margin': true,
+        })}
+      >
+        You are about to request the following item:
+      </p>
+      <p className={'no-margin'}>
+        {work.title && <span className="block">{work.title}</span>}
+        {item.title && <span>{item.title}</span>}
+      </p>
+
+      {enablePickUpDate && (
+        <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
+          <PickUpDate>
+            <>
+              <p className="no-margin">
+                The date you would like to view this item in the library
+              </p>
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <p
+                  className={classNames({
+                    [font('hnr', 6)]: true,
+                    'no-margin': true,
+                  })}
+                >
+                  Item requests need to be placed by 10am the day before your
+                  visit
+                </p>
+              </Space>
+            </>
+            <RequestingDayPicker
+              pickUpDate={pickUpDate}
+              setPickUpDate={setPickUpDate}
+            />
+          </PickUpDate>
+        </Space>
+      )}
+
+      <CTAs>
+        <Space
+          h={{ size: 'l', properties: ['margin-right'] }}
+          v={{ size: 's', properties: ['margin-bottom'] }}
+          className={'inline-block'}
+        >
+          <ButtonSolid disabled={isLoading} text={`Confirm request`} />
+        </Space>
+        <ButtonOutlined
+          text={`Cancel`}
+          clickHandler={() => setIsActive(false)}
+        />
+      </CTAs>
+    </Request>
+  );
+};
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;
@@ -220,7 +280,8 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest() {
+  async function confirmRequest(pickUpDate: Date) {
+    console.log(pickUpDate); // TODO send in POST request body
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {

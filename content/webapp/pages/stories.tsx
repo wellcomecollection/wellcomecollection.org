@@ -83,9 +83,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { page = 1, memoizedPrismic } = context.query;
     const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
+    // TODO: we're hardcoding a series id here in order to display whichever series
+    // the content team has chosen to be featured on the stories page. This would
+    // ideally come from Prismic to take devs/deployments out of the loop.
     const seriesPromise = getArticleSeries(
       context.req,
-      { id: 'YRpHthEAAJoN3wfc' },
+      { id: 'YXKNnxEAACEARPrl' },
       memoizedPrismic
     );
 
