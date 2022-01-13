@@ -66,7 +66,12 @@ type Props = {
 const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
   const { state, reload } = useUser();
 
-  // Keeping this around in case something bad happens
+  // We originally designed this banner for the building closure in Christmas 2021.
+  //
+  // We're keeping the banner around in case we need to disable requesting again for
+  // other reasons in future – we can reuse the same design.
+  //
+  // If you do need to disable requesting, remember to update the wording in the explanation.
   if (requestingUnavailable) {
     return (
       <StyledComponent>
