@@ -1,17 +1,16 @@
-// @flow
 import PrismicDOM from 'prismic-dom';
 import linkResolver from './link-resolver';
-import { Fragment, type Element } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 const { Elements } = PrismicDOM.RichText;
 
 export type HtmlSerializer = (
   type: string,
-  element: Object, // There are so many types here
+  element: Record<string, any>, // There are so many types here
   content: string,
-  children: Element<any>[],
+  children: ReactElement<any>[],
   i: number
-) => ?Element<any>;
+) => ReactElement<any> | undefined;
 
 export const dropCapSerializer: HtmlSerializer = (
   type,
@@ -42,6 +41,8 @@ export const dropCapSerializer: HtmlSerializer = (
 
     return <p key={i}>{childrenWithDropCap}</p>;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   return defaultSerializer(type, element, content, children, i);
 };
 
@@ -88,20 +89,15 @@ export const defaultSerializer: HtmlSerializer = (
     case Elements.image:
       const url = element.linkTo
         ? PrismicDOM.Link.url(element.linkTo, linkResolver)
-        : null;
+        : undefined;
       const linkTarget =
         element.linkTo && element.linkTo.target
           ? element.linkTo.target
           : undefined;
       const linkRel = linkTarget ? 'noopener' : undefined;
       const wrapperClassList = [element.label || '', 'block-img'];
-      const img = (
-        <img
-          src={element.url}
-          alt={element.alt || ''}
-          copyright={element.copyright || ''}
-        />
-      );
+
+      const img = <img src={element.url} alt={element.alt || ''} />;
 
       return (
         <p key={i} className={wrapperClassList.join(' ')}>
@@ -240,8 +236,8 @@ export const defaultSerializer: HtmlSerializer = (
               }, [])
             : null}
         </Fragment>
-      ) : null;
+      ) : undefined;
     default:
-      return null;
+      return undefined;
   }
 };
