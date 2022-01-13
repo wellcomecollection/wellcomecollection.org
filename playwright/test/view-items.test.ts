@@ -291,21 +291,10 @@ describe('Scenario 10: A user wants to be able to access alt text for the images
   });
 });
 
-describe('Scenario 11: A user wants to view an item with access restrictions', () => {
-  // If we display a modal, we wait until it is dismissed before showing anything in the
-  // main element. If there's no modal, we won't see a 'Show the content' button and we will see an h1.
-  // If there is a modal, we won't see an h1 and we will see a 'Show the content' button.
+describe.only('Scenario 11: A user wants to view an item with access restrictions', () => {
   test('an item with only open access items will not display a modal', async () => {
     await itemWithOnlyOpenAccess();
-    await page.waitForSelector(`h1`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-  });
-
-  test('an item with only restricted access items will not display a modal', async () => {
-    await itemWithOnlyRestrictedAccess();
-    await page.waitForSelector(`h1`);
+    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
     expect(
       await page.isVisible(`button:has-text('Show the content')`)
     ).toBeFalsy();
@@ -313,21 +302,36 @@ describe('Scenario 11: A user wants to view an item with access restrictions', (
 
   test('an item with a mix of restricted and open access items will not display a modal', async () => {
     await itemWithRestrictedAndOpenAccess();
-    await page.waitForSelector(`h1`);
+    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
     expect(
       await page.isVisible(`button:has-text('Show the content')`)
+    ).toBeFalsy();
+  });
+
+  test('an item with only restricted access items will display a modal with no option to view the content', async () => {
+    await itemWithOnlyRestrictedAccess();
+    await page.waitForSelector(`h2:has-text('Restricted material')`);
+    expect(
+      await page.isVisible(`button:has-text('Show the content')`)
+    ).toBeFalsy();
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
     ).toBeFalsy();
   });
 
   test('an item with a mix of restricted and non-restricted access items will display a modal', async () => {
     await itemWithRestrictedAndNonRestrictedAccess();
     await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(await page.isVisible(`h1`)).toBeFalsy();
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+    ).toBeFalsy();
   });
 
   test('an item with a mix of non-restricted and open access items will display a modal', async () => {
     await itemWithNonRestrictedAndOpenAccess();
     await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(await page.isVisible(`h1`)).toBeFalsy();
+    expect(
+      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+    ).toBeFalsy();
   });
 });

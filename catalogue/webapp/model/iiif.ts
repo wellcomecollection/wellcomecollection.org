@@ -122,6 +122,7 @@ export type Service = {
   profile: string;
   disableUI?: string[];
   authService?: AuthService;
+  accessHint?: string;
 };
 
 export type IIIFManifest = {
