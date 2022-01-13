@@ -64,30 +64,35 @@ export function exceptionalOpeningPeriods(
   ).flat();
 
   let groupedIndex = 0;
-  return exceptionalPeriods.reduce((acc, date, i, array) => {
-    const previousDate = array[i - 1]?.overrideDate
-      ? array[i - 1].overrideDate
-      : null;
-    if (!previousDate) {
-      acc[groupedIndex] = {
-        type: date.overrideType,
-        dates: [date],
-      };
-    } else if (
-      previousDate &&
-      date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
-      date.overrideType === acc[groupedIndex].type
-    ) {
-      acc[groupedIndex].dates.push(date);
-    } else {
-      groupedIndex++;
-      acc[groupedIndex] = {
-        type: date.overrideType,
-        dates: [date],
-      };
-    }
-    return acc;
-  }, [] as ExceptionalPeriod[]);
+  return exceptionalPeriods
+    .reduce((acc, date, i, array) => {
+      const previousDate = array[i - 1]?.overrideDate
+        ? array[i - 1].overrideDate
+        : null;
+      if (!previousDate) {
+        acc[groupedIndex] = {
+          type: date.overrideType,
+          dates: [date],
+        };
+      } else if (
+        previousDate &&
+        date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
+        date.overrideType === acc[groupedIndex].type
+      ) {
+        acc[groupedIndex].dates.push(date);
+      } else {
+        groupedIndex++;
+        acc[groupedIndex] = {
+          type: date.overrideType,
+          dates: [date],
+        };
+      }
+      return acc;
+    }, [] as ExceptionalPeriod[])
+    .sort((a, b) => {
+      // order groups by their earlist date
+      return a.dates[0].overrideDate.isBefore(b.dates[0].overrideDate) ? -1 : 1;
+    });
 }
 
 type OverrideDates = {
