@@ -84,7 +84,7 @@ describe('opening-times', () => {
   });
 
   describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
-    it.only('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
+    it('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
       const result = exceptionalOpeningPeriods([
         { overrideType: 'other', overrideDate: london('2020-01-01') },
         { overrideType: 'other', overrideDate: london('2020-01-03') },
@@ -131,7 +131,7 @@ describe('opening-times', () => {
       ]);
     });
 
-    it.only('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
+    it('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
       const result = exceptionalOpeningPeriods([
         { overrideType: 'other', overrideDate: london('2020-01-02') },
         { overrideType: 'other', overrideDate: london('2020-01-04') },
