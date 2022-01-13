@@ -165,6 +165,91 @@ describe('opening-times', () => {
         },
       ]);
     });
+
+    it('puts dates in chronological order within their groups', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-04') },
+        { overrideType: 'other', overrideDate: london('2020-01-07') },
+        { overrideType: 'other', overrideDate: london('2020-01-02') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-02'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-04'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2020-01-07'),
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('puts Groups in chronological order based on their earliest date', () => {
+      const result = exceptionalOpeningPeriods([
+        {
+          overrideType: 'Bank holiday',
+          overrideDate: london('2021-01-05'),
+        },
+        { overrideType: 'other', overrideDate: london('2021-01-04') },
+        {
+          overrideType: 'Christmas and New Year',
+          overrideDate: london('2021-12-30'),
+        },
+        { overrideType: 'other', overrideDate: london('2021-01-02') },
+        { overrideType: 'other', overrideDate: london('2021-04-10') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2021-01-02'),
+            },
+            {
+              overrideType: 'other',
+              overrideDate: london('2021-01-04'),
+            },
+          ],
+        },
+        {
+          type: 'Bank holiday',
+          dates: [
+            {
+              overrideType: 'Bank holiday',
+              overrideDate: london('2021-01-05'),
+            },
+          ],
+        },
+        {
+          type: 'other',
+          dates: [
+            {
+              overrideType: 'other',
+              overrideDate: london('2021-04-10'),
+            },
+          ],
+        },
+        {
+          type: 'Christmas and New Year',
+          dates: [
+            {
+              overrideType: 'Christmas and New Year',
+              overrideDate: london('2021-12-30'),
+            },
+          ],
+        },
+      ]);
+    });
   });
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
