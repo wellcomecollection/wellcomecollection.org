@@ -6,7 +6,7 @@ import {
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import { london } from '@weco/common/utils/format-date';
-import 'react-day-picker/lib/style.css';
+// import 'react-day-picker/lib/style.css';
 import LocaleUtils from 'react-day-picker/moment';
 import styled from 'styled-components';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
