@@ -1,5 +1,6 @@
 import { Query } from '@prismicio/types';
 import { london } from '../../utils/format-date';
+import groupBy from 'lodash.groupby';
 import type {
   Day,
   OverrideType,
@@ -56,34 +57,37 @@ export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
 export function exceptionalOpeningPeriods(
   dates: OverrideDate[]
 ): ExceptionalPeriod[] {
-  let groupedIndex = 0;
-  return dates
-    .sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate))
-    .reduce((acc, date, i, array) => {
-      const previousDate = array[i - 1]?.overrideDate
-        ? array[i - 1].overrideDate
-        : null;
-      if (!previousDate) {
-        acc[groupedIndex] = {
-          type: date.overrideType || 'other',
-          dates: [date],
-        };
-      } else if (
-        previousDate &&
-        date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
-        date.overrideType === acc[groupedIndex].type
-      ) {
-        acc[groupedIndex].dates.push(date);
-      } else {
-        groupedIndex++;
-        acc[groupedIndex] = {
-          type: date.overrideType || 'other',
-          dates: [date],
-        };
-      }
+  dates.sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate));
 
-      return acc;
-    }, [] as ExceptionalPeriod[]);
+  const exceptionalPeriods = Object.values(
+    groupBy(dates, date => date.overrideType)
+  ).flat();
+
+  let groupedIndex = 0;
+  return exceptionalPeriods.reduce((acc, date, i, array) => {
+    const previousDate = array[i - 1]?.overrideDate
+      ? array[i - 1].overrideDate
+      : null;
+    if (!previousDate) {
+      acc[groupedIndex] = {
+        type: date.overrideType,
+        dates: [date],
+      };
+    } else if (
+      previousDate &&
+      date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
+      date.overrideType === acc[groupedIndex].type
+    ) {
+      acc[groupedIndex].dates.push(date);
+    } else {
+      groupedIndex++;
+      acc[groupedIndex] = {
+        type: date.overrideType,
+        dates: [date],
+      };
+    }
+    return acc;
+  }, [] as ExceptionalPeriod[]);
 }
 
 type OverrideDates = {
