@@ -114,7 +114,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!enablePickUpDate || (enablePickUpDate && pickUpDate)) {
+    if (!enablePickUpDate || pickUpDate) {
       confirmRequest();
     }
   }
