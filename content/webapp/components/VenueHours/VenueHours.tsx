@@ -11,9 +11,10 @@ import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
   getUpcomingExceptionalPeriods,
-  getExceptionalOpeningPeriods,
+  exceptionalOpeningDates,
+  exceptionalOpeningPeriods,
   convertJsonDateStringsToMoment,
-  getVenueById,
+  exceptionalOpeningPeriodsAllDates,
   parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
 import Space from '@weco/common/views/components/styled/Space';
@@ -78,12 +79,17 @@ type Props = {
 
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
-  const exceptionalPeriods = getExceptionalOpeningPeriods(venues);
+  const venues = parseCollectionVenues(collectionVenues); // TODO move all constants and function calls into a single function, with comments describing each step
+  const allExceptionalDates = exceptionalOpeningDates(venues);
+  const groupedExceptionalDates =
+    exceptionalOpeningPeriods(allExceptionalDates);
+  const exceptionalPeriodsAllDates = exceptionalOpeningPeriodsAllDates(
+    groupedExceptionalDates
+  );
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(
         convertJsonDateStringsToMoment(venue),
-        exceptionalPeriods
+        exceptionalPeriodsAllDates
       )
     : [];
   const upcomingExceptionalPeriods =
