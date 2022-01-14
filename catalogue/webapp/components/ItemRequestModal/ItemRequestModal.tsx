@@ -95,7 +95,7 @@ type RequestDialogProps = {
   isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: (date: Date) => void;
+  confirmRequest: () => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
@@ -114,8 +114,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (pickUpDate) {
-      confirmRequest(pickUpDate);
+    if (!enablePickUpDate || (enablePickUpDate && pickUpDate)) {
+      confirmRequest();
     }
   }
 
@@ -280,8 +280,7 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest(pickUpDate: Date) {
-    console.log(pickUpDate); // TODO send in POST request body
+  async function confirmRequest() {
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
