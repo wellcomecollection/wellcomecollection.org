@@ -101,45 +101,31 @@ type OverrideDates = {
 };
 
 export function exceptionalOpeningPeriodsAllDates(
-  exceptionalOpeningPeriods?: ExceptionalPeriod[]
+  exceptionalOpeningPeriods: ExceptionalPeriod[]
 ): OverrideDates[] {
-  return exceptionalOpeningPeriods
-    ? exceptionalOpeningPeriods.map(period => {
-        const startDate: Moment = london(
-          period.dates[0]?.overrideDate?.toDate()
-        ).startOf('day');
+  return exceptionalOpeningPeriods.map(period => {
+    const startDate: Moment = london(
+      period.dates[0]?.overrideDate?.toDate()
+    ).startOf('day');
 
-        const lastDate: Moment = london(
-          period.dates[period.dates.length - 1]?.overrideDate?.toDate()
-        ).startOf('day');
+    const lastDate: Moment = london(
+      period.dates[period.dates.length - 1]?.overrideDate?.toDate()
+    ).startOf('day');
 
-        const completeDateArray: moment.Moment[] = [];
+    const completeDateArray: moment.Moment[] = [];
 
-        while (startDate.startOf('day').isSameOrBefore(lastDate)) {
-          const current = startDate.format('YYYY-MM-DD');
-          const currentDate: moment.Moment = london(new Date(current));
-          completeDateArray.push(currentDate);
-          startDate.add(1, 'day');
-        }
+    while (startDate.startOf('day').isSameOrBefore(lastDate)) {
+      const current = startDate.format('YYYY-MM-DD');
+      const currentDate: moment.Moment = london(new Date(current));
+      completeDateArray.push(currentDate);
+      startDate.add(1, 'day');
+    }
 
-        return {
-          type: period.type,
-          dates: completeDateArray,
-        };
-      })
-    : [];
-}
-
-export function getExceptionalOpeningPeriods(
-  venues: Venue[]
-): OverrideDates[] | undefined {
-  const allExceptionalDates = exceptionalOpeningDates(venues);
-  const groupedExceptionalDates =
-    allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
-  return (
-    groupedExceptionalDates &&
-    exceptionalOpeningPeriodsAllDates(groupedExceptionalDates)
-  );
+    return {
+      type: period.type,
+      dates: completeDateArray,
+    };
+  });
 }
 
 export function getExceptionalVenueDays(
