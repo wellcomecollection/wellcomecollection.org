@@ -2,7 +2,7 @@
 import Prismic from '@prismicio/client';
 // $FlowFixMe
 import { london } from '../../utils/format-date';
-import { getDocument, getDocuments } from './api';
+import { getDocuments } from './api';
 import {
   parseGenericFields,
   parseSingleLevelGroup,
@@ -391,18 +391,6 @@ export function parseArticleDoc(document: PrismicDocument): Article {
     outroVisitItem: parseContentLink(data.outroVisitItem),
     prismicDocument: document,
   };
-}
-
-export async function getArticle(
-  req: ?Request,
-  id: string,
-  memoizedPrismic: ?Object
-): Promise<?Article> {
-  const document = await getDocument(req, id, { graphQuery }, memoizedPrismic);
-  return document &&
-    (document.type === 'articles' || document.type === 'webcomics')
-    ? parseArticleDoc(document)
-    : null;
 }
 
 type ArticleQueryProps = {|
