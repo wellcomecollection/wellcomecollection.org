@@ -37,7 +37,7 @@ describe('Top-level landing pages', () => {
       page.textContent('h1'),
     ]);
 
-    expect(content).toBe("What's on");
+    expect(content).toBe("What’s on");
   });
 
   test(`the stories page renders with an accessible title`, async () => {

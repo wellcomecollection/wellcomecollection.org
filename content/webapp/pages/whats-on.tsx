@@ -220,7 +220,7 @@ const Header = ({
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <SectionPageHeader sectionLevelPage={true}>
-                What{`'`}s on
+                What’s on
               </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
                 {todaysOpeningHours && (
@@ -411,8 +411,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const extraTitleText = segmentedControlItems.find(item => item.id === period);
   const pageTitle = extraTitleText
-    ? `What's on${` - ${extraTitleText.text}`}`
-    : `What's on`;
+    ? `What’s on${` - ${extraTitleText.text}`}`
+    : `What’s on`;
 
   const { collectionVenues } = usePrismicData();
   const venues = parseCollectionVenues(collectionVenues);
