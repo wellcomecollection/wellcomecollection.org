@@ -24,7 +24,7 @@ export type OverrideDate = {
 };
 
 export type ExceptionalPeriod = {
-  type: OverrideType | null;
+  type: OverrideType;
   dates: OverrideDate[];
 };
 
