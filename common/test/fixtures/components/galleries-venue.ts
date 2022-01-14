@@ -1,5 +1,5 @@
 import { london } from '../../../utils/format-date';
-import { OverrideType } from '../../../model/opening-hours';
+import { OverrideType, Day } from '../../../model/opening-hours';
 
 export const galleriesVenue = {
   id: 'Wsttgx8AAJeSNmJ4',
@@ -8,43 +8,43 @@ export const galleriesVenue = {
   openingHours: {
     regular: [
       {
-        dayOfWeek: 'Monday',
+        dayOfWeek: 'Monday' as Day,
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        dayOfWeek: 'Tuesday',
+        dayOfWeek: 'Tuesday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Wednesday',
+        dayOfWeek: 'Wednesday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday',
+        dayOfWeek: 'Thursday' as Day,
         opens: '10:00',
         closes: '21:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Friday',
+        dayOfWeek: 'Friday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Saturday',
+        dayOfWeek: 'Saturday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Sunday',
+        dayOfWeek: 'Sunday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
