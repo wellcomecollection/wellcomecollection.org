@@ -1,12 +1,10 @@
 import { PrismicDocument } from './types';
-import { getDocument } from './api';
 import { Season } from '../../model/seasons';
 import {
   parseGenericFields,
   parseSingleLevelGroup,
   parseTimestamp,
 } from './parsers';
-import { IncomingMessage } from 'http';
 
 export function parseSeason(document: PrismicDocument): Season {
   const data = document.data;
@@ -27,16 +25,4 @@ export function parseSeason(document: PrismicDocument): Season {
     promo: promo && promo.image && promo,
     prismicDocument: document,
   };
-}
-
-export async function getSeason(
-  req: IncomingMessage | undefined,
-  id: string,
-  memoizedPrismic?: Record<string, unknown>
-): Promise<Season | undefined> {
-  const season = await getDocument(req, id, {}, memoizedPrismic);
-
-  if (season) {
-    return parseSeason(season);
-  }
 }
