@@ -19,6 +19,7 @@ import {
   convertOpeningHoursDayToDayNumber,
   extendEndDate,
   findClosedDays,
+  isValidDate,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import {
@@ -452,7 +453,24 @@ const RequestingDayPicker: FC<Props> = ({
   }
 
   function handleOnDayChange(date: Date) {
-    setPickUpDate(date);
+    if (
+      date === undefined || // If the typed value is empty or not valid, day is undefined, see: https://react-day-picker.js.org/api/DayPickerInput/#onDayChange
+      !isValidDate({
+        // We also want to know if the date falls within a collection window and that it's a date on which the library is open
+        date: london(date),
+        startDate: nextAvailableDate,
+        endDate: extendedLastAvailableDate,
+        excludedDates: exceptionalClosedDates,
+        excludedDays: regularClosedDays,
+      })
+    ) {
+      console.log('date', date);
+      console.log('invalid date');
+      // tell the user that the date is invalid
+    } else {
+      console.log('valid date');
+      // setPickUpDate(date);
+    }
   }
 
   const disabledDays = [
