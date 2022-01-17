@@ -97,36 +97,16 @@ describe('opening-times', () => {
         {
           type: 'other',
           dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-01'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-03'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-06'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-10'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-15'),
-            },
+            london('2020-01-01'),
+            london('2020-01-03'),
+            london('2020-01-06'),
+            london('2020-01-10'),
+            london('2020-01-15'),
           ],
         },
         {
           type: 'other',
-          dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-21'),
-            },
-          ],
+          dates: [london('2020-01-21')],
         },
       ]);
     });
@@ -143,25 +123,11 @@ describe('opening-times', () => {
       expect(result).toEqual([
         {
           type: 'other',
-          dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-02'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-04'),
-            },
-          ],
+          dates: [london('2020-01-02'), london('2020-01-04')],
         },
         {
           type: 'Christmas and New Year',
-          dates: [
-            {
-              overrideType: 'Christmas and New Year',
-              overrideDate: london('2020-01-02'),
-            },
-          ],
+          dates: [london('2020-01-02')],
         },
       ]);
     });
@@ -176,18 +142,9 @@ describe('opening-times', () => {
         {
           type: 'other',
           dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-02'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-04'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2020-01-07'),
-            },
+            london('2020-01-02'),
+            london('2020-01-04'),
+            london('2020-01-07'),
           ],
         },
       ]);
@@ -210,43 +167,19 @@ describe('opening-times', () => {
       expect(result).toEqual([
         {
           type: 'other',
-          dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2021-01-02'),
-            },
-            {
-              overrideType: 'other',
-              overrideDate: london('2021-01-04'),
-            },
-          ],
+          dates: [london('2021-01-02'), london('2021-01-04')],
         },
         {
           type: 'Bank holiday',
-          dates: [
-            {
-              overrideType: 'Bank holiday',
-              overrideDate: london('2021-01-05'),
-            },
-          ],
+          dates: [london('2021-01-05')],
         },
         {
           type: 'other',
-          dates: [
-            {
-              overrideType: 'other',
-              overrideDate: london('2021-04-10'),
-            },
-          ],
+          dates: [london('2021-04-10')],
         },
         {
           type: 'Christmas and New Year',
-          dates: [
-            {
-              overrideType: 'Christmas and New Year',
-              overrideDate: london('2021-12-30'),
-            },
-          ],
+          dates: [london('2021-12-30')],
         },
       ]);
     });
