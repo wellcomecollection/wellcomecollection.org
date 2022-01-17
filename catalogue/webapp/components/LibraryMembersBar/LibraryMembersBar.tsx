@@ -66,6 +66,12 @@ type Props = {
 const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
   const { state, reload } = useUser();
 
+  // We originally designed this banner for the building closure in Christmas 2021.
+  //
+  // We're keeping the banner around in case we need to disable requesting again for
+  // other reasons in future – we can reuse the same design.
+  //
+  // If you do need to disable requesting, remember to update the wording in the explanation.
   if (requestingUnavailable) {
     return (
       <StyledComponent>
@@ -75,7 +81,7 @@ const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
         <AlignFont>
           <span className={font('hnb', 5)}>Library members:</span>{' '}
           <span className={font('hnr', 5)}>
-            Requesting is currently unavailable, while our building is closed.
+            Requesting is currently unavailable.
           </span>
         </AlignFont>
       </StyledComponent>

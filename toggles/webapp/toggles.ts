@@ -17,13 +17,6 @@ const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
-      id: 'buildingClosure',
-      title: 'The building is currently closed.',
-      description:
-        'Indicates that the building is closed and associated services are unavailable',
-      defaultValue: true,
-    },
-    {
       id: 'enableRequesting',
       title: 'Enables login and requesting functionality',
       description:

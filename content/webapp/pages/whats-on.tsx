@@ -11,11 +11,11 @@ import {
   getPage,
   getPageFeaturedText,
 } from '@weco/common/services/prismic/pages';
+import { getEvents } from '@weco/common/services/prismic/events';
 import {
-  getEvents,
   filterEventsForToday,
   filterEventsForWeekend,
-} from '@weco/common/services/prismic/events';
+} from '../services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
@@ -50,7 +50,7 @@ import {
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { convertJsonToDates } from './event';
@@ -220,7 +220,7 @@ const Header = ({
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <SectionPageHeader sectionLevelPage={true}>
-                What{`'`}s on
+                What’s on
               </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
                 {todaysOpeningHours && (
@@ -411,8 +411,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
 
   const extraTitleText = segmentedControlItems.find(item => item.id === period);
   const pageTitle = extraTitleText
-    ? `What's on${` - ${extraTitleText.text}`}`
-    : `What's on`;
+    ? `What’s on${` - ${extraTitleText.text}`}`
+    : `What’s on`;
 
   const { collectionVenues } = usePrismicData();
   const venues = parseCollectionVenues(collectionVenues);

@@ -1,9 +1,9 @@
-import { UiEvent } from '../../../model/events';
+import { UiEvent } from '@weco/common/model/events';
 import { Fragment } from 'react';
-import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
-import Message from '../Message/Message';
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Message from '@weco/common/views/components/Message/Message';
+import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { ticketAvailable, email } from '@weco/common/icons';
 

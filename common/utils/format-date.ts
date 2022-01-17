@@ -11,7 +11,7 @@ export function formatDay(date: Date | Moment): string {
   return london(date).format('dddd');
 }
 
-export function formatDayDate(date: Date): string {
+export function formatDayDate(date: Date | Moment): string {
   return london(date).format('dddd D MMMM YYYY');
 }
 

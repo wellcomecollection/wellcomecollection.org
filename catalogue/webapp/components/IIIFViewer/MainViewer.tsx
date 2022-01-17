@@ -27,7 +27,7 @@ import {
   getThumbnailService,
 } from '../../utils/iiif';
 import { font } from '@weco/common/utils/classnames';
-import { IIIFCanvas, SearchResults } from '../../model/iiif';
+import { IIIFCanvas, SearchResults, AuthService } from '../../model/iiif';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import ImageViewer from './ImageViewer';
 
@@ -229,12 +229,14 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
       ) : isRestricted ? (
         <MessageContainer>
           <h2 className={font('hnb', 4)}>
-            {imageAuthService && imageAuthService.label}
+            {imageAuthService && (imageAuthService as AuthService).label}
           </h2>
           <p
             className={font('hnr', 5)}
             dangerouslySetInnerHTML={{
-              __html: imageAuthService ? imageAuthService.description : '',
+              __html: imageAuthService
+                ? (imageAuthService as AuthService).description
+                : '',
             }}
           />
         </MessageContainer>

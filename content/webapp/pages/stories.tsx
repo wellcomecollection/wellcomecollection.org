@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { getArticles } from '@weco/common/services/prismic/articles';
 import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { classNames, grid } from '@weco/common/utils/classnames';
@@ -14,7 +13,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
+import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
   getPage,
   getPageFeaturedText,
@@ -30,6 +29,10 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
 import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 
 type Props = {
   articles: Article[];
@@ -81,8 +84,12 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { page = 1, memoizedPrismic } = context.query;
-    const articlesPromise = getArticles(context.req, { page }, memoizedPrismic);
+    const { memoizedPrismic } = context.query;
+
+    const client = createClient(context);
+
+    const articlesQueryPromise = fetchArticles(client);
+
     // TODO: we're hardcoding a series id here in order to display whichever series
     // the content team has chosen to be featured on the stories page. This would
     // ideally come from Prismic to take devs/deployments out of the loop.
@@ -98,11 +105,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic
     );
 
-    const [articles, seriesAndArticles, storiesPage] = await Promise.all([
-      articlesPromise,
+    const [articlesQuery, seriesAndArticles, storiesPage] = await Promise.all([
+      articlesQueryPromise,
       seriesPromise,
       storiesPagePromise,
     ]);
+    const articles = transformQuery(articlesQuery, transformArticle);
     const series = seriesAndArticles && seriesAndArticles.series;
     const featuredText = storiesPage && getPageFeaturedText(storiesPage);
 
