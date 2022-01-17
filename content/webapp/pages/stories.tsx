@@ -29,10 +29,10 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
 import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
-import { createClient } from 'services/prismic/fetch';
-import { fetchArticles } from 'services/prismic/fetch/articles';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformArticle } from 'services/prismic/transformers/articles';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 
 type Props = {
   articles: Article[];

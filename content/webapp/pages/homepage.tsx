@@ -30,10 +30,10 @@ import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { articleLd } from '../services/prismic/transformers/json-ld';
-import { createClient } from 'services/prismic/fetch';
-import { fetchArticles } from 'services/prismic/fetch/articles';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformArticle } from 'services/prismic/transformers/articles';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
