@@ -366,4 +366,37 @@ describe.only("isValidDate: checks the date falls between 2 specified dates and 
     });
     expect(result).toEqual(false);
   });
+
+  it('returns true if there are no start and end dates', () => {
+    const result = isValidDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no start date and the date falls on or before the end date', () => {
+    const result = isValidDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no end date and the date falls on or after the start date', () => {
+    const result = isValidDate({
+      date: london('2019-12-20'),
+      startDate: london('2019-12-17'),
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
 });
