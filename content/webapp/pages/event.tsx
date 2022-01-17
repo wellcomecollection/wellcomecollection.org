@@ -6,7 +6,7 @@ import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
+import EventbriteButton from '../components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
