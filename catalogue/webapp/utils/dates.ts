@@ -162,3 +162,25 @@ export function extendEndDate(params: {
     }
   }
 }
+
+export function isValidDate(params: {
+  date: Moment;
+  startDate: Moment;
+  endDate: Moment;
+  excludedDates: Moment[];
+  excludedDays: DayNumber[];
+}): boolean {
+  const { date, startDate, endDate, excludedDates, excludedDays } = params;
+  const isExceptionalClosedDay = excludedDates.some(moment =>
+    moment.isSame(date, 'day')
+  );
+  const isRegularClosedDay = excludedDays.includes(date.day() as DayNumber);
+  return (
+    date.isBetween(
+      startDate.clone().subtract(1, 'day'),
+      endDate.clone().add(1, 'day')
+    ) &&
+    !isExceptionalClosedDay &&
+    !isRegularClosedDay
+  );
+}
