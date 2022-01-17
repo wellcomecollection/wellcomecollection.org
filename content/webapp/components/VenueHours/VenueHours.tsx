@@ -79,7 +79,7 @@ type Props = {
 
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues); // TODO move all constants and function calls into a single function, with comments describing each step
+  const venues = parseCollectionVenues(collectionVenues);
   const allExceptionalDates = exceptionalOpeningDates(venues);
   const groupedExceptionalDates =
     exceptionalOpeningPeriods(allExceptionalDates);
