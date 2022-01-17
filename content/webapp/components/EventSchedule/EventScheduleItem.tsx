@@ -1,17 +1,17 @@
 import { Fragment } from 'react';
-import { grid, font, classNames } from '../../../utils/classnames';
+import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
-import EventbriteButton from '../EventbriteButton/EventbriteButton';
-import LabelsList from '../LabelsList/LabelsList';
-import Message from '../Message/Message';
+import EventbriteButton from '@weco/common/views/components/EventbriteButton/EventbriteButton';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Message from '@weco/common/views/components/Message/Message';
 import {
   formatTime,
   formatDayDate,
   isTimePast,
   isDatePast,
-} from '../../../utils/format-date';
-import type { UiEvent } from '../../../model/events';
-import Space from '../styled/Space';
+} from '@weco/common/utils/format-date';
+import type { UiEvent } from '@weco/common/model/events';
+import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
 type Props = {

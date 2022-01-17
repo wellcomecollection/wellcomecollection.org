@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import Prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
+import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';

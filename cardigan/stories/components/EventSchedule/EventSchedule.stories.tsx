@@ -1,4 +1,4 @@
-import EventSchedule from '@weco/common/views/components/EventSchedule/EventSchedule';
+import EventSchedule from '@weco/content/components/EventSchedule/EventSchedule';
 
 const schedule = [
   {
