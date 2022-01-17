@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import type { EventSchedule as EventScheduleType } from '@weco/common/model/events';
 import EventScheduleItem from './EventScheduleItem';
-import { groupEventsBy } from '@weco/common/services/prismic/events';
+import { groupEventsBy } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {

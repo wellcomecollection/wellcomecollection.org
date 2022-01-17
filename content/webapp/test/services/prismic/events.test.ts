@@ -1,9 +1,7 @@
-// @flow
-import {
-  groupEventsBy,
-  getLastEndTime,
-} from '../../../services/prismic/events';
-import { parseTimestamp } from '../../../services/prismic/parsers';
+import { groupEventsBy } from '../../../services/prismic/events';
+import { getLastEndTime } from '@weco/common/services/prismic/events';
+import { parseTimestamp } from '@weco/common/services/prismic/parsers';
+import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 
 const eventTimes = [
   {
@@ -30,46 +28,52 @@ const eventTimes = [
 
 const multiDayEvents = [
   {
+    ...uiEventData,
     times: [
       {
         range: {
           startDateTime: new Date('2018-01-01'),
           endDateTime: new Date('2018-01-01'),
         },
+        isFullyBooked: false,
       },
       {
         range: {
           startDateTime: new Date('2018-01-01'),
           endDateTime: new Date('2018-01-01'),
         },
+        isFullyBooked: false,
       },
       {
         range: {
           startDateTime: new Date('2018-01-02'),
           endDateTime: new Date('2018-01-02'),
         },
+        isFullyBooked: false,
       },
       {
         range: {
           startDateTime: new Date('2018-01-03'),
           endDateTime: new Date('2018-01-04'),
         },
+        isFullyBooked: false,
       },
     ],
   },
   {
+    ...uiEventData,
     times: [
       {
         range: {
           startDateTime: new Date('2018-01-06'),
           endDateTime: new Date('2018-01-07'),
         },
+        isFullyBooked: false,
       },
     ],
   },
 ];
-it('should group events by daterange', () => {
-  // $FlowFixMe
+it('groups events by daterange', () => {
   const eventsGroupedByDay = groupEventsBy(multiDayEvents, 'day');
   expect(eventsGroupedByDay.length).toBe(7);
   eventsGroupedByDay.forEach((eventsGroup, i) => {
@@ -82,7 +86,7 @@ it('should group events by daterange', () => {
   });
 });
 
-it('should return the last end time from the lastest date', () => {
+it('returns the last end time from the lastest date', () => {
   const lastEndTime = getLastEndTime(eventTimes);
   const expectedEndTime = parseTimestamp('2020-02-18T19:00:00+0000');
   expect(lastEndTime).toStrictEqual(expectedEndTime);
