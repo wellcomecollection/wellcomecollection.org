@@ -1,8 +1,6 @@
 import { FC } from 'react';
-import {
-  getEvents,
-  orderEventsByNextAvailableDate,
-} from '@weco/common/services/prismic/events';
+import { getEvents } from '@weco/common/services/prismic/events';
+import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { UiEvent } from '@weco/common/model/events';

@@ -8,7 +8,6 @@ import type {
 } from './types';
 import type { Team } from '../../model/team';
 import Prismic from '@prismicio/client';
-import sortBy from 'lodash.sortby';
 import moment from 'moment';
 import { getDocument, getTypeByIds, getDocuments } from './api';
 import {
@@ -43,8 +42,8 @@ import { parseEventSeries } from './event-series';
 import { parseSeason } from './seasons';
 import isEmptyObj from '../../utils/is-empty-object';
 // $FlowFixMe
-import { london, formatDayDate } from '../../utils/format-date';
-import { getNextWeekendDateRange, isPast } from '../../utils/dates';
+import { london } from '../../utils/format-date';
+import { isPast } from '../../utils/dates';
 
 const startField = 'my.events.times.startDateTime';
 const endField = 'my.events.times.endDateTime';
@@ -478,179 +477,4 @@ export async function getEvents(
     totalPages: paginatedResults.totalPages,
     results: events,
   };
-}
-
-function getNextDateInFuture(event: UiEvent): ?EventTime {
-  const now = london();
-  const futureTimes = event.times.filter(time => {
-    const end = london(time.range.endDateTime);
-    return end.isSameOrAfter(now, 'day');
-  });
-
-  if (futureTimes.length === 0) {
-    return null;
-  } else {
-    return futureTimes.reduce((closestStartingDate, time) => {
-      const start = london(time.range.startDateTime);
-      if (start.isBefore(closestStartingDate.range.startDateTime)) {
-        return time;
-      } else {
-        return closestStartingDate;
-      }
-    });
-  }
-}
-
-function filterEventsByTimeRange(events, start, end) {
-  return events.filter(event => {
-    return event.times.find(time => {
-      const eventStart = london(time.range.startDateTime);
-      const eventEnd = london(time.range.endDateTime);
-      return (
-        eventStart.isBetween(start, end) ||
-        eventEnd.isBetween(start, end) ||
-        (eventStart.isSameOrBefore(start) && eventEnd.isSameOrAfter(end))
-      );
-    });
-  });
-}
-
-export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
-  const startOfToday = london().startOf('day');
-  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
-  return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
-}
-
-export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
-  const startOfToday = london().startOf('day');
-  const endOfToday = london().endOf('day');
-  return filterEventsByTimeRange(events, startOfToday, endOfToday);
-}
-
-export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
-  const { start, end } = getNextWeekendDateRange(new Date());
-  return filterEventsByTimeRange(events, london(start), london(end));
-}
-
-export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
-  const reorderedEvents = sortBy(
-    [...events].filter(getNextDateInFuture),
-    getNextDateInFuture
-  );
-
-  return reorderedEvents;
-}
-
-// TODO: Make this way less forEachy and mutationy 0_0
-// TODO: Type this up properly
-const GroupByFormat = {
-  day: 'dddd',
-  month: 'MMMM',
-};
-type GroupDatesBy = $Keys<typeof GroupByFormat>;
-type EventsGroup = {|
-  label: string,
-  start: Date,
-  end: Date,
-  events: UiEvent[],
-|};
-
-export function groupEventsBy(
-  events: UiEvent[],
-  groupBy: GroupDatesBy
-): EventsGroup[] {
-  // Get the full range of all the events
-  const range = events
-    .map(({ times }) =>
-      times.map(time => ({
-        start: time.range.startDateTime,
-        end: time.range.endDateTime,
-      }))
-    )
-    .reduce((acc, ranges) => acc.concat(ranges))
-    .reduce((acc, range) => {
-      return {
-        start: range.start < acc.start ? range.start : acc.start,
-        end: range.end > acc.end ? range.end : acc.end,
-      };
-    });
-
-  // Convert the range into an array of labeled event groups
-  const ranges = getRanges(
-    {
-      start: london(range.start).startOf(groupBy),
-      end: london(range.end).endOf(groupBy),
-    },
-    groupBy
-  ).map(range => ({
-    label: range.label,
-    start: range.start.toDate(),
-    end: range.end.toDate(),
-    events: [],
-  }));
-
-  // See which events should go into which event group
-  events.forEach(event => {
-    const times = event.times
-      .filter(time => time.range && time.range.startDateTime)
-      .map(time => ({
-        start: time.range.startDateTime,
-        end: time.range.endDateTime,
-      }));
-
-    ranges.forEach(range => {
-      const isInRange = times.find(time => {
-        if (
-          (time.start >= range.start && time.start <= range.end) ||
-          (time.end >= range.start && time.end <= range.end)
-        ) {
-          return true;
-        }
-      });
-      const newEvents = isInRange ? range.events.concat([event]) : range.events;
-      range.events = newEvents;
-    });
-  }, {});
-
-  // Remove times from event that fall outside the range of the current event group it is in
-  const rangesWithFilteredTimes = ranges.map(range => {
-    const start = range.start;
-    const end = range.end;
-    const events = range.events.map(event => {
-      const timesInRange = event.times.filter(time => {
-        return (
-          time.range.startDateTime >= start && time.range.endDateTime <= end
-        );
-      });
-
-      return {
-        ...event,
-        times: timesInRange,
-      };
-    });
-
-    return {
-      ...range,
-      events,
-    };
-  });
-
-  return rangesWithFilteredTimes;
-}
-
-// TODO: maybe use a Map?
-function getRanges({ start, end }, groupBy: GroupDatesBy, acc = []) {
-  if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
-    const newStart = start.clone().add(1, groupBy);
-    const newAcc = acc.concat([
-      {
-        label: formatDayDate(start),
-        start: start.clone().startOf(groupBy),
-        end: start.clone().endOf(groupBy),
-      },
-    ]);
-    return getRanges({ start: newStart, end }, groupBy, newAcc);
-  } else {
-    return acc;
-  }
 }

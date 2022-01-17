@@ -14,11 +14,11 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
+import { getEvents } from '@weco/common/services/prismic/events';
 import {
-  getEvents,
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
-} from '@weco/common/services/prismic/events';
+} from '../services/prismic/events';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { convertJsonToDates } from './event';
@@ -173,7 +173,7 @@ const Homepage: FC<Props> = props => {
         </SpacingSection>
       )}
 
-      {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+      {(nextSevenDaysEvents.length + exhibitions.length) > 2 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="This week" />

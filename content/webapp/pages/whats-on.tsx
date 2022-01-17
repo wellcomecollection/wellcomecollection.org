@@ -11,11 +11,11 @@ import {
   getPage,
   getPageFeaturedText,
 } from '@weco/common/services/prismic/pages';
+import { getEvents } from '@weco/common/services/prismic/events';
 import {
-  getEvents,
   filterEventsForToday,
   filterEventsForWeekend,
-} from '@weco/common/services/prismic/events';
+} from '../services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
