@@ -66,7 +66,6 @@ export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
 }
 
 // TODO: Make this way less forEachy and mutationy 0_0
-// TODO: Type this up properly
 const GroupByFormat = {
   day: 'dddd',
   month: 'MMMM',
