@@ -117,7 +117,7 @@ const SearchResults: FunctionComponent<Props> = ({
             title={item.title || ''}
             partNumber={item.partNumber}
             color={item.color}
-            primaryLabels={[{ text: 'Story' }]}
+            primaryLabels={[]}
             secondaryLabels={[]}
             description={`Available ${formatDate(item.publishDate)}`}
             Image={<ImagePlaceholder color={item.color} />}
