@@ -8,10 +8,11 @@ import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '../services/prismic/transformers/json-ld';
+import { getPage } from '../utils/query-params';
 
 type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
@@ -26,7 +27,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
 
-    const { page = 1, period, memoizedPrismic } = context.query;
+    const page = getPage(context.query);
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
+    }
+
+    const { period, memoizedPrismic } = context.query;
     const exhibitions = await getExhibitions(
       context.req,
       { page, period },

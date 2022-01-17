@@ -8,12 +8,12 @@ import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformBook } from '../services/prismic/transformers/books';
 import { fetchBooks } from '../services/prismic/fetch/books';
 import { Book } from '../types/books';
+import { getPage } from '../utils/query-params';
 
 type Props = {
   books: PaginatedResults<Book>;
@@ -24,18 +24,14 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { page = '1' } = context.query;
-    if (!isString(page)) {
-      return { notFound: true };
-    }
-    const parsedPage = parseInt(page, 10);
-    if (isNaN(parsedPage)) {
-      return appError(context, 400, `${page} is not a number`);
+    const page = getPage(context.query);
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
     }
 
     const client = createClient(context);
     const booksQuery = await fetchBooks(client, {
-      page: parsedPage,
+      page,
       pageSize: 21,
     });
     const books = transformQuery(booksQuery, transformBook);
