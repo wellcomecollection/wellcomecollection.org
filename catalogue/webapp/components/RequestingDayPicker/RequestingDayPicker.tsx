@@ -40,28 +40,13 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
   }
   .DayPicker-wrapper {
     position: relative;
-    -webkit-flex-direction: row;
-    -moz-box-orient: horizontal;
-    -moz-box-direction: normal;
-    -ms-flex-direction: row;
     flex-direction: row;
     padding-bottom: 1em;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
   .DayPicker-Months {
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    -webkit-justify-content: center;
-    -moz-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
   }
   .DayPicker-Month {
@@ -69,9 +54,6 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     margin: 1em 1em 0;
     border-spacing: 0;
     border-collapse: collapse;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
   .DayPicker-NavButton {
@@ -164,7 +146,6 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     border: none;
     background-color: transparent;
     background-image: none;
-    -webkit-box-shadow: none;
     box-shadow: none;
     color: #4a90e2;
     font-size: 0.875em;
@@ -211,7 +192,6 @@ const DayPickerWrapper = styled.div<DayPickerWrapperProps>`
     left: 0;
     z-index: 1;
     background: #fff;
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   }
 
