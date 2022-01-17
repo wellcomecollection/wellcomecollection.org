@@ -189,4 +189,3 @@ function getRanges({ start, end }: RangeProps, groupBy: GroupDatesBy, acc: Range
     return acc;
   }
 }
-  
