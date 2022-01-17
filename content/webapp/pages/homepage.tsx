@@ -168,7 +168,7 @@ const Homepage: FC<Props> = props => {
         </SpacingSection>
       )}
 
-      {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+      {(nextSevenDaysEvents.length + exhibitions.length) > 2 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="This week" />
