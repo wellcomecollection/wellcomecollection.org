@@ -1,6 +1,9 @@
 import type { Article } from '@weco/common/model/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { getArticles } from '@weco/common/services/prismic/articles';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -22,15 +25,16 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const serverData = await getServerData(context);
-
     const page = getPage(context.query);
+
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
     }
 
-    const { memoizedPrismic } = context.query;
-    const articles = await getArticles(context.req, { page }, memoizedPrismic);
+    const client = createClient(context);
+    const articlesQuery = await fetchArticles(client, { page });
+    const articles = transformQuery(articlesQuery, transformArticle);
+    const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
