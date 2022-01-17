@@ -19,7 +19,7 @@ export type OverrideDate = {|
 
 export type ExceptionalPeriod = {|
   type: OverrideType,
-  dates: OverrideDate[],
+  dates: Moment[],
 |};
 
 export type OpeningHoursDay = {|

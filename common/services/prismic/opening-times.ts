@@ -72,26 +72,26 @@ export function exceptionalOpeningPeriods(
       if (!previousDate) {
         acc[groupedIndex] = {
           type: date.overrideType,
-          dates: [date],
+          dates: [date.overrideDate],
         };
       } else if (
         previousDate &&
         date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
         date.overrideType === acc[groupedIndex].type
       ) {
-        acc[groupedIndex].dates.push(date);
+        acc[groupedIndex].dates.push(date.overrideDate);
       } else {
         groupedIndex++;
         acc[groupedIndex] = {
           type: date.overrideType,
-          dates: [date],
+          dates: [date.overrideDate],
         };
       }
       return acc;
     }, [] as ExceptionalPeriod[])
     .sort((a, b) => {
       // order groups by their earlist date
-      return a.dates[0].overrideDate.isBefore(b.dates[0].overrideDate) ? -1 : 1;
+      return a.dates[0].isBefore(b.dates[0]) ? -1 : 1;
     });
 }
 
@@ -104,12 +104,10 @@ export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ExceptionalPeriod[]
 ): OverrideDates[] {
   return exceptionalOpeningPeriods.map(period => {
-    const startDate: Moment = london(
-      period.dates[0]?.overrideDate?.toDate()
-    ).startOf('day');
+    const startDate: Moment = london(period.dates[0]?.toDate()).startOf('day');
 
     const lastDate: Moment = london(
-      period.dates[period.dates.length - 1]?.overrideDate?.toDate()
+      period.dates[period.dates.length - 1]?.toDate()
     ).startOf('day');
 
     const completeDateArray: moment.Moment[] = [];
