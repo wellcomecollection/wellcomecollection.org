@@ -7,6 +7,7 @@ import {
   extendEndDate,
   findClosedDays,
   findNextRegularOpenDay,
+  isValidDate,
 } from '../../utils/dates';
 import { OverrideType } from '@weco/common/model/opening-hours';
 
@@ -321,5 +322,48 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     });
 
     expect(result).toEqual(null);
+  });
+});
+
+describe("isValidDate: checks the date falls between 2 specified dates and also isn't and excluded date, or excluded day", () => {
+  it('returns false if the date falls outside the start and end dates', () => {
+    const result = isValidDate({
+      date: london(new Date('2019-12-12')),
+      startDate: london(new Date('2019-12-17')),
+      endDate: london(new Date('2019-12-31')),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(false);
+  });
+  it('returns true if the date falls between the start and end dates, inclusive', () => {
+    const result = isValidDate({
+      date: london(new Date('2019-12-17')),
+      startDate: london(new Date('2019-12-17')),
+      endDate: london(new Date('2019-12-31')),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+  it('returns false if the date falls on an excluded Day', () => {
+    const result = isValidDate({
+      date: london(new Date('2019-12-17')), // Tuesday
+      startDate: london(new Date('2019-12-17')),
+      endDate: london(new Date('2019-12-31')),
+      excludedDates: [],
+      excludedDays: [2], // Tuesday
+    });
+    expect(result).toEqual(false);
+  });
+  it('returns false if the date falls on an excluded date', () => {
+    const result = isValidDate({
+      date: london(new Date('2019-12-20')),
+      startDate: london(new Date('2019-12-17')),
+      endDate: london(new Date('2019-12-31')),
+      excludedDates: [london(new Date('2019-12-20'))],
+      excludedDays: [2],
+    });
+    expect(result).toEqual(false);
   });
 });
