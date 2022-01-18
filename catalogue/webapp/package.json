@@ -14,6 +14,9 @@
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.12.1",
+    "@date-io/moment": "^2.11.0",
+    "@mui/lab": "^5.0.0-alpha.65",
+    "@mui/material": "^5.3.0",
     "@types/jest": "^27.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/react": "^16.9.35",
@@ -40,7 +43,6 @@
     "react-dom": "^17.0.2",
     "react-ga": "^2.5.6",
     "react-test-renderer": "^16.4.1",
-    "react-transition-group": "^2.4.0",
     "react-window": "^1.8.5",
     "styled-components": "^5.2.1",
     "supertest": "^4.0.2",
