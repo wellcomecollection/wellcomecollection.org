@@ -70,7 +70,7 @@ const RequestingDayPicker: FC<Props> = ({
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
-        label="dd/mm/yyyy"
+        label="Select a date"
         inputFormat="DD/MM/yyyy"
         value={pickUpDate}
         views={['day']}
