@@ -88,7 +88,8 @@ const RequestingDayPicker: FC<Props> = ({
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
-        label="Basic example" // TODO
+        label="dd/mm/yyyy"
+        inputFormat="DD/MM/yyyy"
         value={pickUpDate}
         minDate={nextAvailableDate}
         maxDate={extendedLastAvailableDate}
