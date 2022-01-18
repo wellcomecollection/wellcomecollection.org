@@ -15,6 +15,7 @@
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.12.1",
     "@date-io/moment": "^2.11.0",
+    "@emotion/react": "^11.7.1",
     "@mui/lab": "^5.0.0-alpha.65",
     "@mui/material": "^5.3.0",
     "@types/jest": "^27.0.2",
