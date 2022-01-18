@@ -1,4 +1,5 @@
 import { FC, useState, useEffect, MutableRefObject, FormEvent } from 'react';
+import { Moment } from 'moment';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -109,7 +110,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   currentHoldNumber,
 }) => {
   const { enablePickUpDate } = useToggles();
-  const [pickUpDate, setPickUpDate] = useState<Date | null | undefined>(null);
+  const [pickUpDate, setPickUpDate] = useState<Moment | null | undefined>(null);
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

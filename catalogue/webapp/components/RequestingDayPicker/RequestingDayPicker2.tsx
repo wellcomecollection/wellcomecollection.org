@@ -26,8 +26,8 @@ import DatePicker from '@mui/lab/DatePicker';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
 
 type Props = {
-  pickUpDate?: Date;
-  setPickUpDate: (date: Date) => void;
+  pickUpDate: Moment | null | undefined;
+  setPickUpDate: (date: Moment) => void;
 };
 
 const RequestingDayPicker: FC<Props> = ({
@@ -90,7 +90,7 @@ const RequestingDayPicker: FC<Props> = ({
           );
         }}
         onChange={date => {
-          date && setPickUpDate(london(date).toDate());
+          date && setPickUpDate(london(date));
         }}
         renderInput={params => <TextField {...params} />}
       />
