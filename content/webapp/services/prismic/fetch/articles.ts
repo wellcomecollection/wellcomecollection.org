@@ -1,6 +1,7 @@
 import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
+import { graphQuery } from '@weco/common/services/prismic/articles';
 
 const fetchLinks = articlesFetchLinks;
 
@@ -30,6 +31,8 @@ export async function fetchArticles(
   { client }: GetServerSidePropsPrismicClient,
   params: Params = {}
 ): Promise<Query<ArticlePrismicDocument>> {
+  const orderings = ['document.first_publication_date desc'];
+  
   /**
    * articles and webcomics share the same functionality as we
    * can't change the types of documents in Prismic.
@@ -42,6 +45,8 @@ export async function fetchArticles(
 
   const document = await client.get<ArticlePrismicDocument>({
     fetchLinks,
+    orderings,
+    graphQuery,
     ...params,
     predicates: [articleAndWebcomicPredicate, ...(params.predicates ?? [])],
   });
