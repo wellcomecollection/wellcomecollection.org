@@ -67,24 +67,6 @@ const RequestingDayPicker: FC<Props> = ({
     regularClosedDays,
   });
 
-  const fromMonth = nextAvailableDate?.toDate() ?? new Date();
-  const toMonth = extendedLastAvailableDate?.toDate() ?? new Date();
-
-  // const [isPrevMonthDisabled, setIsPrevMonthDisabled] = useState(true);
-  // const [isNextMonthDisabled, setIsNextMonthDisabled] = useState(false);
-
-  const disabledDays = [
-    {
-      before: nextAvailableDate?.toDate() ?? new Date(),
-      after: extendedLastAvailableDate?.toDate() ?? new Date(),
-    },
-    { daysOfWeek: regularClosedDays },
-    ...exceptionalClosedDates.map(moment => moment.toDate()),
-  ];
-  // TODO use following for min max
-  // nextAvailableDate;
-  // extendedLastAvailableDate;
-
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
