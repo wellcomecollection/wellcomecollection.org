@@ -32,7 +32,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const articlesQuery = await fetchArticles(client, { page });
+    const articlesQuery = await fetchArticles(client, {
+      page,
+      orderings: [`document.first_publication_date desc`],
+    });
     const articles = transformQuery(articlesQuery, transformArticle);
     const serverData = await getServerData(context);
 
