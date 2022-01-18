@@ -107,21 +107,7 @@ const RequestingDayPicker: FC<Props> = ({
           );
         }}
         onChange={date => {
-          if (
-            date &&
-            london(date).isValid() &&
-            isValidDate({
-              date: london(date),
-              startDate: nextAvailableDate,
-              endDate: extendedLastAvailableDate,
-              excludedDates: exceptionalClosedDates,
-              excludedDays: regularClosedDays,
-            })
-          ) {
-            setPickUpDate(london(date).toDate());
-          } else {
-            console.log('invalid date'); // needs to set aria-invalid
-          }
+          date && setPickUpDate(london(date).toDate());
         }}
         renderInput={params => <TextField {...params} />}
       />
