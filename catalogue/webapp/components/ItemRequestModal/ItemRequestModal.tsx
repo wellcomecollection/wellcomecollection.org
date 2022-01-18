@@ -109,7 +109,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   currentHoldNumber,
 }) => {
   const { enablePickUpDate } = useToggles();
-  const [pickUpDate, setPickUpDate] = useState<Date | undefined>();
+  const [pickUpDate, setPickUpDate] = useState<Date | null | undefined>(null);
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
