@@ -11,7 +11,7 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
-import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker2';
+import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { useToggles } from '@weco/common/server-data/Context';
 
 const PickUpDate = styled(Space).attrs({
