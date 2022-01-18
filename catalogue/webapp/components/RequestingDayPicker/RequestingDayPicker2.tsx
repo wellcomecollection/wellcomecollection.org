@@ -91,6 +91,7 @@ const RequestingDayPicker: FC<Props> = ({
         label="dd/mm/yyyy"
         inputFormat="DD/MM/yyyy"
         value={pickUpDate}
+        views={['day']}
         minDate={nextAvailableDate}
         maxDate={extendedLastAvailableDate}
         shouldDisableDate={date => {
