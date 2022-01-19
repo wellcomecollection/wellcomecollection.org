@@ -29,13 +29,24 @@ describe('articles', () => {
     // failing even if the application code hasn't changed.
     //
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
+    console.log('@@AWLC entering the "related stories" article test');
 
     await article('YUrz5RAAACIA4ZrH');
+
+    console.log('@@AWLC loaded the lithium article');
+
     await page.waitForSelector(
       'div >> text="Conflicted and confused about lithium"'
     );
 
+    console.log('@@AWLC found the related stories on the lithium article');
+
     await article('YPAnpxAAACIAbz2c');
+
+    console.log('@@AWLC loaded the happiness article');
+
     await page.waitForSelector('div >> text="This is a MOOD"');
+
+    console.log('@@AWLC found the related stories on the happiness article');
   });
 });
