@@ -74,7 +74,9 @@ const CurrentRequests: FC<{
 }> = ({ allowedHoldRequests, currentHoldRequests }) =>
   typeof currentHoldRequests !== 'undefined' ? (
     <CurrentRequestCount>
-      ${currentHoldRequests}/${allowedHoldRequests} item${currentHoldRequests !== 1 ? 's' : ''} requested
+      {`${currentHoldRequests}/${allowedHoldRequests} item${
+        currentHoldRequests !== 1 ? 's' : ''
+      } requested`}
     </CurrentRequestCount>
   ) : null;
 
