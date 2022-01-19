@@ -7,10 +7,8 @@ import { Period } from '@weco/common/model/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import {
-  getPage,
-  getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
+import { getPage } from '@weco/common/services/prismic/pages';
+import { getPageFeaturedText } from '../services/prismic/transformers/pages';
 import { getEvents } from '@weco/common/services/prismic/events';
 import {
   filterEventsForToday,
