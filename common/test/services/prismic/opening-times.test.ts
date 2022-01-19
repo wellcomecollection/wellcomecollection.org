@@ -1,8 +1,21 @@
 import {
+  // TODO prefix with get?
   exceptionalOpeningDates,
   exceptionalOpeningPeriods,
+  exceptionalOpeningPeriodsAllDates,
   getExceptionalVenueDays,
+  // groupExceptionalVenueDays,
+  // exceptionalFromRegular,
+  // backfillExceptionalVenueDays,
+  // convertJsonDateStringsToMoment,
+  // getUpcomingExceptionalPeriods,
+  // openingHoursToOpeningHoursSpecificationsla
   getVenueById,
+  // getTodaysVenueHours, // DO THIS
+  // parseCollectionVenue, // MOVE THIS
+  // parseCollectionVenues, // MOVE THIS
+  // createRegularDay, // DO THIS
+  // groupConsecutiveDates, // DO THIS
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { london } from '../../../utils/format-date';
@@ -20,6 +33,7 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
 const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
+  // TODO uses the first type it encounters as the the type for that date / maybe rewrite so other gets replaced, with a more specific type
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
       const result = exceptionalOpeningDates(venuesWithoutExceptionalDates);
@@ -184,6 +198,24 @@ describe('opening-times', () => {
       ]);
     });
   });
+
+  describe('exceptionalOpeningPeriodsAllDates: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
+    it.only('fills in missing dates', () => {
+      const result = exceptionalOpeningPeriodsAllDates([
+        {
+          type: 'Christmas and New Year',
+          dates: [
+            london('2020-12-25'),
+            london('2020-12-28'),
+            london('2021-01-01'),
+            london('2021-01-03'),
+          ],
+        },
+      ]);
+      expect(result[0].dates.length).toEqual(10);
+    });
+  });
+
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
       const result = getExceptionalVenueDays(galleriesVenue!);
@@ -240,10 +272,126 @@ describe('opening-times', () => {
       ]);
     });
   });
+
+  // describe('groupExceptionalVenueDays', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('exceptionalFromRegular', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it returns the venues regular opening times for that day.", () => {
+  //   it('returns an exceptional override date type for each of the dates provided', () => {
+  //     const result = backfillExceptionalVenueDays(venue, [
+  //       {
+  //         type: 'Christmas and New Year',
+  //         dates: [
+  //           london('2021-12-31'),
+  //           london('2022-01-01'),
+  //           london('2022-01-02'),
+  //           london('2022-01-03'),
+  //           london('2022-01-04'),
+  //         ],
+  //       },
+  //       {
+  //         type: 'Easter',
+  //         dates: [london('2021-10-05')],
+  //       },
+  //     ]);
+  //     expect(result).toEqual(expectedResult);
+  //   });
+  // });
+  // it("it doesn't return the regular hours if the override type is 'other'", () => {
+  //   const result = backfillExceptionalVenueDays(venue, [
+  //     {
+  //       type: 'Christmas and New Year',
+  //       dates: [
+  //         london('2021-12-31'),
+  //         london('2022-01-01'),
+  //         london('2022-01-02'),
+  //         london('2022-01-03'),
+  //         london('2022-01-04'),
+  //       ],
+  //     },
+  //     {
+  //       type: 'Easter',
+  //       dates: [london('2021-10-05')],
+  //     },
+  //     {
+  //       type: 'other',
+  //       dates: [london('2021-10-08')],
+  //     },
+  //   ]);
+  //   // expect(result).toEqual(expectedResult.push([]));
+  // });
+
+  // describe('convertJsonDateStringsToMoment', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('getUpcomingExceptionalPeriods', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('openingHoursToOpeningHoursSpecification', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
       expect(result.name).toEqual('Galleries and Reading Room');
     });
   });
+
+  // describe('getTodaysVenueHours', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('parseCollectionVenue', () => { // TODO move parsers.test
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('parseCollectionVenues', () => { // TOD move parsers.test
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('createRegularDay', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
+
+  // describe('groupConsecutiveDates', () => {
+  //   it('', () => {
+  //     const result = ;
+  //     expect(result).toEqual();
+  //   });
+  // });
 });
