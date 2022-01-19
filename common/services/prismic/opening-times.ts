@@ -95,14 +95,9 @@ export function exceptionalOpeningPeriods(
     });
 }
 
-type OverrideDates = {
-  type: OverrideType | null;
-  dates: Moment[];
-};
-
 export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ExceptionalPeriod[]
-): OverrideDates[] {
+): ExceptionalPeriod[] {
   return exceptionalOpeningPeriods.map(period => {
     const startDate: Moment = london(period.dates[0]?.toDate()).startOf('day');
 
@@ -183,7 +178,7 @@ export function exceptionalFromRegular(
 
 export function backfillExceptionalVenueDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: OverrideDates[]
+  allVenueExceptionalPeriods?: ExceptionalPeriod[]
 ): ExceptionalOpeningHoursDay[][] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
