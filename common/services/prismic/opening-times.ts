@@ -110,11 +110,11 @@ export function exceptionalOpeningPeriodsAllDates(
       period.dates[period.dates.length - 1]?.toDate()
     ).startOf('day');
 
-    const completeDateArray: moment.Moment[] = [];
+    const completeDateArray: Moment[] = [];
 
     while (startDate.startOf('day').isSameOrBefore(lastDate)) {
       const current = startDate.format('YYYY-MM-DD');
-      const currentDate: moment.Moment = london(new Date(current));
+      const currentDate: Moment = london(new Date(current));
       completeDateArray.push(currentDate);
       startDate.add(1, 'day');
     }
