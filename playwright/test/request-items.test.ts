@@ -64,10 +64,10 @@ describe.skip('Scenario 5: researcher initiates item request', () => {
   });
 
   test('Account indicates number of remaining requests', async () => {
-    const remainingRequests = await page.$(
+    const itemsRequested = await page.$(
       ':has-text("8/15 items requested")'
     );
-    expect(remainingRequests).toBeTruthy();
+    expect(itemsRequested).toBeTruthy();
   });
 
   test('Researcher can cancel request', async () => {
