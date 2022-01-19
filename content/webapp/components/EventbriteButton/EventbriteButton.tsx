@@ -1,9 +1,9 @@
-import { UiEvent } from '../../../model/events';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
+import { UiEvent } from '@weco/common/model/events';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
-import { font, classNames } from '../../../utils/classnames';
-import Space from '../styled/Space';
+import { font, classNames } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
 import { ticket } from '@weco/common/icons';
 
 type Props = {

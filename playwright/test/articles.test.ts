@@ -24,6 +24,15 @@ describe('articles', () => {
     // We're deliberately testing multiple stories here, to catch an issue where
     // the "related stories" section can show related stories for the wrong series.
     //
+    // The exact choice of titles isn't so important; if we change the way articles are
+    // fetched from Prismic (e.g. the ordering), we may get different results here.
+    // The important thing is that the related stories are part of the same serial.
+    //
+    // If this test starts failing because the set of related stories are different,
+    // but they're still part of the same serial, and you know you've changed the way
+    // articles are fetched, it's okay to change the titles.
+    // (e.g. https://github.com/wellcomecollection/wellcomecollection.org/pull/7574)
+    //
     // Note: at time of writing, the related stories were looked up using an /api/articles
     // endpoint which was being incorrectly cached in CloudFront.  This test may start
     // failing even if the application code hasn't changed.
@@ -36,6 +45,6 @@ describe('articles', () => {
     );
 
     await article('YPAnpxAAACIAbz2c');
-    await page.waitForSelector('div >> text="This is a MOOD"');
+    await page.waitForSelector('div >> text="Living with less for spiritual gain"');
   });
 });

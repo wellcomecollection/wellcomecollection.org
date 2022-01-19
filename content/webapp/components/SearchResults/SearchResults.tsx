@@ -117,7 +117,12 @@ const SearchResults: FunctionComponent<Props> = ({
             title={item.title || ''}
             partNumber={item.partNumber}
             color={item.color}
-            primaryLabels={[{ text: 'Story' }]}
+            primaryLabels={
+              /* We don't show a label on items that haven't been published yet, because
+               * we don't know whether they're a story, comic, etc.
+               * See https://github.com/wellcomecollection/wellcomecollection.org/pull/7568 */
+              []
+            }
             secondaryLabels={[]}
             description={`Available ${formatDate(item.publishDate)}`}
             Image={<ImagePlaceholder color={item.color} />}

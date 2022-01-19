@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getArticles } from '@weco/common/services/prismic/articles';
 import { getPage } from '@weco/common/services/prismic/pages';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -15,11 +14,11 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
+import { getEvents } from '@weco/common/services/prismic/events';
 import {
-  getEvents,
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
-} from '@weco/common/services/prismic/events';
+} from '../services/prismic/events';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { convertJsonToDates } from './event';
@@ -31,6 +30,10 @@ import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -67,11 +70,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id, memoizedPrismic } = context.query;
-    const articlesPromise = getArticles(
-      context.req,
-      { pageSize: 4 },
-      memoizedPrismic
-    );
+
+    const client = createClient(context);
+
+    const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+
     const exhibitionsPromise = getExhibitions(
       context.req,
       {
@@ -88,12 +91,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic
     );
     const pagePromise = getPage(context.req, id, memoizedPrismic);
-    const [exhibitions, events, articles, page] = await Promise.all([
+    const [exhibitions, events, articlesQuery, page] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
-      articlesPromise,
+      articlesQueryPromise,
       pagePromise,
     ]);
+
+    const articles = transformQuery(articlesQuery, transformArticle);
 
     if (events && exhibitions && articles && page) {
       return {
@@ -168,7 +173,7 @@ const Homepage: FC<Props> = props => {
         </SpacingSection>
       )}
 
-      {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+      {(nextSevenDaysEvents.length + exhibitions.length) > 2 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="This week" />

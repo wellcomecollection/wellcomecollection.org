@@ -47,7 +47,6 @@
     "lodash.flattendeep": "^4.4.0",
     "lodash.groupby": "^4.6.0",
     "lodash.merge": "^4.6.2",
-    "lodash.sortby": "^4.7.0",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "next": "^11.1.2",
