@@ -65,7 +65,7 @@ describe.skip('Scenario 5: researcher initiates item request', () => {
 
   test('Account indicates number of remaining requests', async () => {
     const remainingRequests = await page.$(
-      ':has-text("7/15 requests remaining")'
+      ':has-text("8/15 items requested")'
     );
     expect(remainingRequests).toBeTruthy();
   });
@@ -87,7 +87,7 @@ describe.skip('Scenario 6: researcher confirms item request', () => {
   test('Researcher can confirm request', async () => {
     await page.click('button:has-text("Confirm request")');
     await page.waitForSelector(':has-text("Request confirmed")');
-    await page.waitForSelector(':has-text("6/15 requests remaining")');
+    await page.waitForSelector(':has-text("9/15 items requested")');
     await page.waitForSelector('a:has-text("Book a ticket")');
   });
 });

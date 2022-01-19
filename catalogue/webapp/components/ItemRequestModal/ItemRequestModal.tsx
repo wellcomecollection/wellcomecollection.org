@@ -48,7 +48,7 @@ const Request = styled.form<{ isLoading: boolean }>`
   transition: opacity ${props => props.theme.transitionProperties};
 `;
 
-const Remaining = styled(Space).attrs({
+const CurrentRequestCount = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'margin-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('yellow')};
@@ -68,17 +68,14 @@ const CTAs = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })``;
 
-const RemainingRequests: FC<{
+const CurrentRequests: FC<{
   allowedHoldRequests: number;
   currentHoldRequests?: number;
 }> = ({ allowedHoldRequests, currentHoldRequests }) =>
   typeof currentHoldRequests !== 'undefined' ? (
-    <Remaining>
-      {`${Math.max(
-        allowedHoldRequests - currentHoldRequests,
-        0
-      )}/${allowedHoldRequests} requests remaining`}
-    </Remaining>
+    <CurrentRequestCount>
+      ${currentHoldRequests}/${allowedHoldRequests} item${currentHoldRequests !== 1 ? 's' : ''} requested
+    </CurrentRequestCount>
   ) : null;
 
 type Props = {
@@ -123,7 +120,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
     <Request isLoading={isLoading} onSubmit={handleConfirmRequest}>
       <Header>
         <span className={`h2`}>Request item</span>
-        <RemainingRequests
+        <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
         />
@@ -193,7 +190,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
   <>
     <Header>
       <span className={`h2`}>Request confirmed</span>
-      <RemainingRequests
+      <CurrentRequests
         allowedHoldRequests={allowedRequests}
         currentHoldRequests={currentHoldNumber}
       />
