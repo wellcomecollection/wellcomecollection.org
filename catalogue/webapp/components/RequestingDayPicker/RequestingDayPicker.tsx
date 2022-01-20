@@ -24,56 +24,44 @@ import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
 import styled from 'styled-components';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
-import Icon from '@weco/common/views/components/Icon/Icon';
-import { calendar } from '@weco/common/icons';
 
 type Props = {
   pickUpDate: Moment | null | undefined;
   setPickUpDate: (date: Moment) => void;
 };
 
-const DatePickerWrapper = styled.div`
+const CalendarWrapper = styled.div<{ isPopUp: boolean }>`
   && {
-    label {
-      transform: none;
-      padding: 10px;
-      &[data-shrink='true'],
-      &.Mui-focused {
-        visibility: hidden;
+    position: relative;
+
+    [data-popper-placement='bottom'] & {
+      margin-top: 12px;
+    }
+
+    [data-popper-placement='top'] & {
+      margin-bottom: 12px;
+    }
+
+    &:before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      [data-popper-placement='bottom'] & {
+        border-bottom: 10px solid white;
+        bottom: 100%;
+      }
+
+      [data-popper-placement='top'] & {
+        border-top: 10px solid white;
+        top: 100%;
       }
     }
-    legend {
-      display: none;
-    }
-
-    .Mui-focused {
-      fieldset {
-        border-color: ${props => props.theme.color('pumice')};
-        box-shadow: ${props => props.theme.focusBoxShadow};
-      }
-    }
-
-    .MuiOutlinedInput-root {
-      &:hover {
-        fieldset {
-          border-color: ${props => props.theme.color('pumice')};
-        }
-      }
-    }
-
-    .Mui-selected {
-      background-color: ${props => props.theme.color('yellow')};
-    }
-
-    input {
-      height: unset;
-      padding: 10px;
-    }
-  }
-`;
-
-const CalendarWrapper = styled.div`
-  && {
     .Mui-selected {
       color: ${props => props.theme.color('black')};
       background-color: ${props => props.theme.color('yellow')} !important;
@@ -81,20 +69,18 @@ const CalendarWrapper = styled.div`
   }
 `;
 
-const PaperComponent = forwardRef(function PaperComponent(props, ref) {
-  return (
-    <CalendarWrapper ref={ref as MutableRefObject<HTMLDivElement>} {...props}>
-      {props.children}
-    </CalendarWrapper>
-  );
-});
-
-const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
-
 const RequestingDayPicker: FC<Props> = ({
   pickUpDate,
   setPickUpDate,
 }: Props) => {
+  const PaperComponent = forwardRef(function PaperComponent(props, ref) {
+    return (
+      <CalendarWrapper ref={ref as MutableRefObject<HTMLDivElement>} {...props}>
+        {props.children}
+      </CalendarWrapper>
+    );
+  });
+
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
   // const { collectionVenues } = usePrismicData(); // TODO just for dev as building not currently open
@@ -130,39 +116,34 @@ const RequestingDayPicker: FC<Props> = ({
 
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
-      <DatePickerWrapper>
-        <DatePicker
-          label="Select a date"
-          inputFormat="DD/MM/yyyy"
-          value={pickUpDate}
-          views={['day']}
-          minDate={nextAvailableDate}
-          maxDate={extendedLastAvailableDate}
-          shouldDisableDate={date => {
-            return Boolean(
-              date &&
-                london(date).isValid() &&
-                !isValidDate({
-                  date: london(date),
-                  startDate: nextAvailableDate,
-                  endDate: extendedLastAvailableDate,
-                  excludedDates: exceptionalClosedDates,
-                  excludedDays: regularClosedDays,
-                })
-            );
-          }}
-          onChange={date => {
-            date && setPickUpDate(london(date));
-          }}
-          renderInput={params => <TextField {...params} />}
-          PaperProps={{
-            component: PaperComponent,
-          }}
-          components={{
-            OpenPickerIcon,
-          }}
-        />
-      </DatePickerWrapper>
+      <DatePicker
+        label="Select a date"
+        inputFormat="DD/MM/yyyy"
+        value={pickUpDate}
+        views={['day']}
+        minDate={nextAvailableDate}
+        maxDate={extendedLastAvailableDate}
+        shouldDisableDate={date => {
+          return Boolean(
+            date &&
+              london(date).isValid() &&
+              !isValidDate({
+                date: london(date),
+                startDate: nextAvailableDate,
+                endDate: extendedLastAvailableDate,
+                excludedDates: exceptionalClosedDates,
+                excludedDays: regularClosedDays,
+              })
+          );
+        }}
+        onChange={date => {
+          date && setPickUpDate(london(date));
+        }}
+        renderInput={params => <TextField {...params} />}
+        PaperProps={{
+          component: PaperComponent,
+        }}
+      />
     </LocalizationProvider>
   );
 };
