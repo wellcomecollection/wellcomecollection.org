@@ -1,4 +1,4 @@
-import { FC, forwardRef } from 'react';
+import { FC, forwardRef, MutableRefObject } from 'react';
 import { Moment } from 'moment';
 import {
   OpeningHoursDay,
@@ -24,6 +24,8 @@ import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
 import styled from 'styled-components';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { calendar } from '@weco/common/icons';
 
 type Props = {
   pickUpDate: Moment | null | undefined;
@@ -33,6 +35,8 @@ type Props = {
 const DatePickerWrapper = styled.div`
   && {
     label {
+      transform: none;
+      padding: 10px;
       &[data-shrink='true'],
       &.Mui-focused {
         visibility: hidden;
@@ -60,6 +64,11 @@ const DatePickerWrapper = styled.div`
     .Mui-selected {
       background-color: ${props => props.theme.color('yellow')};
     }
+
+    input {
+      height: unset;
+      padding: 10px;
+    }
   }
 `;
 
@@ -74,11 +83,13 @@ const CalendarWrapper = styled.div`
 
 const PaperComponent = forwardRef(function PaperComponent(props, ref) {
   return (
-    <CalendarWrapper ref={ref} {...props}>
+    <CalendarWrapper ref={ref as MutableRefObject<HTMLDivElement>} {...props}>
       {props.children}
     </CalendarWrapper>
   );
 });
+
+const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 
 const RequestingDayPicker: FC<Props> = ({
   pickUpDate,
@@ -146,6 +157,9 @@ const RequestingDayPicker: FC<Props> = ({
           renderInput={params => <TextField {...params} />}
           PaperProps={{
             component: PaperComponent,
+          }}
+          components={{
+            OpenPickerIcon,
           }}
         />
       </DatePickerWrapper>
