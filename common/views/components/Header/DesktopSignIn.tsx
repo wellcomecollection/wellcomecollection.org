@@ -6,6 +6,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Space from '../styled/Space';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import { user as userIcon } from '../../../icons';
+import { useLoginURLWithReturnToCurrent } from '../../../utils/useLoginURLWithReturnToCurrent';
 
 type AccountAProps = {
   last?: true;
@@ -22,6 +23,7 @@ const AccountA = styled(Space).attrs<AccountAProps>(props => ({
 
 const DesktopSignIn: FC = () => {
   const { state, user } = useUser();
+  const loginURL = useLoginURLWithReturnToCurrent();
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">
@@ -43,7 +45,7 @@ const DesktopSignIn: FC = () => {
                   Library sign in
                 </span>
               }
-              href="/account"
+              href={loginURL}
             />
           </span>
           <span
@@ -58,7 +60,7 @@ const DesktopSignIn: FC = () => {
               id="signedin-dropdown"
               buttonType="borderless"
             >
-              <a href="/account">Sign in to your library account</a>
+              <a href={loginURL}>Sign in to your library account</a>
             </DropdownButton>
           </span>
         </>

@@ -6,6 +6,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { useUser } from '../UserProvider/UserProvider';
 import { user as userIcon } from '../../../icons';
+import { useLoginURLWithReturnToCurrent } from '../../../utils/useLoginURLWithReturnToCurrent';
 
 const StyledComponent = styled.div.attrs({
   className: classNames({
@@ -50,6 +51,7 @@ const StyledComponent = styled.div.attrs({
 
 const MobileSignIn: FC = () => {
   const { user } = useUser();
+  const loginURL = useLoginURLWithReturnToCurrent();
   return (
     <StyledComponent>
       <Space
@@ -60,7 +62,7 @@ const MobileSignIn: FC = () => {
       >
         <Icon icon={userIcon} matchText={true} />
       </Space>
-      {!user && <a href="/account">Sign in to your library account</a>}
+      {!user && <a href={loginURL}>Sign in to your library account</a>}
       {user && (
         <>
           <a href="/account">Library account</a>
