@@ -317,7 +317,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
             <HygieneList>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/jobs"
+                  href="https://wellcome.org/jobs"
                   className="footer__hygiene-link"
                 >
                   Jobs
@@ -325,7 +325,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
               </HygieneItem>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/about-us/terms-use"
+                  href="https://wellcome.org/who-we-are/privacy-and-terms"
                   className="footer__hygiene-link"
                 >
                   Privacy
@@ -333,7 +333,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
               </HygieneItem>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/about-us/terms-use"
+                  href="https://wellcome.org/who-we-are/privacy-and-terms"
                   className="footer__hygiene-link"
                 >
                   Cookies
