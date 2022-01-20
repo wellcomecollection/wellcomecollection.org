@@ -24,14 +24,24 @@ import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
 import styled from 'styled-components';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
+import { fontFamilyMixin } from '@weco/common/views/themes/typography';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 
 type Props = {
   pickUpDate: Moment | null | undefined;
   setPickUpDate: (date: Moment) => void;
 };
 
-const CalendarWrapper = styled.div<{ isPopUp: boolean }>`
+const CalendarWrapper = styled.div`
   && {
+    color: ${props => props.theme.color('pewter')};
+    background: ${props => props.theme.color('white')};
+    border-radius: ${props => props.theme.borderRadiusUnit}px;
+
+    * {
+      ${fontFamilyMixin('hnb', true)}
+    }
+
     position: relative;
 
     [data-popper-placement='bottom'] & {
@@ -62,9 +72,30 @@ const CalendarWrapper = styled.div<{ isPopUp: boolean }>`
         top: 100%;
       }
     }
-    .Mui-selected {
-      color: ${props => props.theme.color('black')};
-      background-color: ${props => props.theme.color('yellow')} !important;
+
+    .MuiPickersDay-today {
+      border: 0;
+    }
+
+    .MuiPickersDay-root {
+      color: ${props => props.theme.color('teal')};
+
+      &.Mui-selected {
+        color: ${props => props.theme.color('black')};
+        background-color: ${props => props.theme.color('yellow')} !important;
+      }
+    }
+
+    .Mui-disabled {
+      color: ${props => props.theme.color('pumice')};
+    }
+
+    .PrivatePickersToolbar-root {
+      display: none;
+    }
+
+    .MuiButton-text {
+      text-transform: none;
     }
   }
 `;
@@ -141,8 +172,18 @@ const RequestingDayPicker: FC<Props> = ({
         }}
         renderInput={params => <TextField {...params} />}
         PaperProps={{
+          // `component` is a legitimate PaperProps key, but there's something
+          // wrong with these typings. See https://mui.com/api/paper/
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           component: PaperComponent,
         }}
+        DialogProps={{
+          PaperComponent,
+        }}
+        disableCloseOnSelect={false}
+        okText={null}
+        cancelText={<ButtonOutlined text="Cancel" />}
       />
     </LocalizationProvider>
   );
