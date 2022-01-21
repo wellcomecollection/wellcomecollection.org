@@ -20,12 +20,35 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
+import { TextFieldProps } from '@mui/material/TextField';
+import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
+import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarInput';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { calendar } from '@weco/common/icons';
 
 type Props = {
   pickUpDate: Moment | null | undefined;
   setPickUpDate: (date: Moment) => void;
+};
+
+const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
+
+const RenderInput: FC<TextFieldProps & Props> = props => {
+  const { inputRef, inputProps, InputProps, error } = props;
+  console.log(props);
+  return (
+    <CalendarInput
+      id={'test-id'}
+      label="Select a date"
+      error={error}
+      errorMessage={'Your chosen date is not available to book'}
+      ref={inputRef}
+      inputProps={inputProps}
+      InputProps={InputProps}
+    />
+  );
 };
 
 const RequestingDayPicker: FC<Props> = ({
@@ -90,7 +113,7 @@ const RequestingDayPicker: FC<Props> = ({
         onChange={date => {
           date && setPickUpDate(london(date));
         }}
-        renderInput={params => <TextField {...params} />}
+        renderInput={params => <RenderInput {...params} />}
       />
     </LocalizationProvider>
   );
