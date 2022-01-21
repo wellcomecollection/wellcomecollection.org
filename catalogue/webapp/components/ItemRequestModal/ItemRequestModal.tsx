@@ -28,11 +28,19 @@ const PickUpDate = styled(Space).attrs({
   border-top: 1px solid ${props => props.theme.color('smoke')};
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 
-  @media (min-width: 600px) {
+  @media (min-width: 800px) {
     display: flex;
     justify-content: space-between;
     gap: 20px;
     min-width: min(80vw, 700px);
+  }
+`;
+
+const PickUpDateDescription = styled(Space).attrs({
+  id: 'pick-up-date-description',
+})`
+  @media (min-width: 800px) {
+    flex-basis: 84%;
   }
 `;
 
@@ -144,11 +152,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
       {enablePickUpDate && (
         <Space v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}>
           <PickUpDate>
-            <>
+            <PickUpDateDescription>
               <p className="no-margin">
                 The date you would like to view this item in the library
               </p>
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <p
                   className={classNames({
                     [font('hnr', 6)]: true,
@@ -159,7 +167,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
                   visit
                 </p>
               </Space>
-            </>
+            </PickUpDateDescription>
             <RequestingDayPicker
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
