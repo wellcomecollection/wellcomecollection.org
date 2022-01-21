@@ -5,6 +5,7 @@ import {
 } from '@auth0/nextjs-auth0';
 import getConfig from 'next/config';
 import { GetServerSidePropsContext } from 'next';
+import { ParsedUrlQuery } from 'querystring';
 
 const { serverRuntimeConfig } = getConfig();
 const config = serverRuntimeConfig as {
@@ -86,7 +87,7 @@ const auth0 = initAuth0({
 // Wrapping the built-in method as per https://github.com/auth0/nextjs-auth0#base-path-and-internationalized-routing
 // in order to preserve basePath
 export const withPageAuthRequiredSSR =
-  <P>(opts?: WithPageAuthRequiredOptions<P>): PageRoute<P> =>
+  <P>(opts?: WithPageAuthRequiredOptions<P>): PageRoute<P, ParsedUrlQuery> =>
   (ctx: GetServerSidePropsContext) =>
     auth0.withPageAuthRequired<P>({
       ...opts,
