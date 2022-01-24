@@ -13,19 +13,23 @@ import {
   findClosedDays,
   isValidDate,
 } from '@weco/catalogue/utils/dates';
-// import { usePrismicData } from '@weco/common/server-data/Context';
+import { usePrismicData } from '@weco/common/server-data/Context';
 import {
-  // parseCollectionVenues,
+  parseCollectionVenues,
   getVenueById,
 } from '@weco/common/services/prismic/opening-times';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
+
 import styled from 'styled-components';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { TextFieldProps } from '@mui/material/TextField';
+import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarInput';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { calendar } from '@weco/common/icons';
 
 type Props = {
   pickUpDate: Moment | null | undefined;
@@ -100,6 +104,24 @@ const CalendarWrapper = styled.div`
   }
 `;
 
+const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
+
+const RenderInput: FC<TextFieldProps & Props> = props => {
+  const { inputRef, inputProps, InputProps, error } = props;
+  console.log(props);
+  return (
+    <CalendarInput
+      id={'test-id'}
+      label="Select a date"
+      error={!!error}
+      errorMessage={'Your chosen date is not available to book'}
+      ref={inputRef}
+      inputProps={inputProps}
+      InputProps={InputProps}
+    />
+  );
+};
+
 const RequestingDayPicker: FC<Props> = ({
   pickUpDate,
   setPickUpDate,
@@ -114,8 +136,8 @@ const RequestingDayPicker: FC<Props> = ({
 
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
-  // const { collectionVenues } = usePrismicData(); // TODO just for dev as building not currently open
-  // const venues = parseCollectionVenues(collectionVenues); // TODO just for dev as building not currently open
+  // const { collectionVenues } = usePrismicData();
+  // const venues = parseCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
@@ -148,6 +170,9 @@ const RequestingDayPicker: FC<Props> = ({
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
+        components={{
+          OpenPickerIcon,
+        }}
         label="Select a date"
         inputFormat="DD/MM/yyyy"
         value={pickUpDate}
@@ -170,7 +195,6 @@ const RequestingDayPicker: FC<Props> = ({
         onChange={date => {
           date && setPickUpDate(london(date));
         }}
-        renderInput={params => <TextField {...params} />}
         PaperProps={{
           // `component` is a legitimate PaperProps key, but there's something
           // wrong with these typings. See https://mui.com/api/paper/
@@ -184,6 +208,13 @@ const RequestingDayPicker: FC<Props> = ({
         disableCloseOnSelect={false}
         okText={null}
         cancelText={<ButtonOutlined text="Cancel" />}
+        renderInput={params => (
+          <RenderInput
+            {...params}
+            pickUpDate={pickUpDate}
+            setPickUpDate={setPickUpDate}
+          />
+        )}
       />
     </LocalizationProvider>
   );
