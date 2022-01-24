@@ -23,7 +23,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
 import styled from 'styled-components';
-import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { TextFieldProps } from '@mui/material/TextField';
@@ -136,8 +135,8 @@ const RequestingDayPicker: FC<Props> = ({
 
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
-  // const { collectionVenues } = usePrismicData();
-  // const venues = parseCollectionVenues(collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
