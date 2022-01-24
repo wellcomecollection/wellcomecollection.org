@@ -108,12 +108,13 @@ const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 
 const RenderInput: FC<TextFieldProps & Props> = props => {
   const { inputRef, inputProps, InputProps, error } = props;
-  console.log(props);
+  const displayError = Boolean(error && inputProps?.value.length === 10);
+
   return (
     <CalendarInput
       id={'test-id'}
       label="Select a date"
-      error={!!error}
+      error={displayError}
       errorMessage={'Your chosen date is not available to book'}
       ref={inputRef}
       inputProps={inputProps}

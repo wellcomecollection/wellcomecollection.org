@@ -45,6 +45,12 @@ const CalendarInputWrap = styled.div`
   }
 `;
 
+const CalendarErrorMessageWrap = styled.div`
+  > span {
+    padding: 0;
+  }
+`;
+
 const CalendarInput = forwardRef<HTMLInputElement, Props>(
   ({ id, label, error, errorMessage, inputProps, InputProps }, ref) => {
     const { isEnhanced } = useContext(AppContext);
@@ -78,9 +84,11 @@ const CalendarInput = forwardRef<HTMLInputElement, Props>(
           {InputProps?.endAdornment}
         </TextInputWrap>
         {errorMessage && error && (
-          <TextInputErrorMessage id="calendarError">
-            {errorMessage}
-          </TextInputErrorMessage>
+          <CalendarErrorMessageWrap>
+            <TextInputErrorMessage id="calendarError">
+              {errorMessage}
+            </TextInputErrorMessage>
+          </CalendarErrorMessageWrap>
         )}
       </CalendarInputWrap>
     );
