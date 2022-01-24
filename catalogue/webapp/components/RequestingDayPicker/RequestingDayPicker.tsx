@@ -1,4 +1,4 @@
-import { FC /* useState */ } from 'react';
+import { FC, forwardRef, MutableRefObject } from 'react';
 import { Moment } from 'moment';
 import {
   OpeningHoursDay,
@@ -20,24 +20,101 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-// import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
-import { TextFieldProps } from '@mui/material/TextField';
+
+import styled from 'styled-components';
 import { venues } from '@weco/common/test/fixtures/components/venues'; // TODO just for dev as building not currently open
+import { fontFamilyMixin } from '@weco/common/views/themes/typography';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { TextFieldProps } from '@mui/material/TextField';
 import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { calendar } from '@weco/common/icons';
+
+type Props = {
+  pickUpDate: Moment | null | undefined;
+  setPickUpDate: (date: Moment) => void;
+};
+
+const CalendarWrapper = styled.div`
+  && {
+    color: ${props => props.theme.color('pewter')};
+    background: ${props => props.theme.color('white')};
+    border-radius: ${props => props.theme.borderRadiusUnit}px;
+
+    * {
+      ${fontFamilyMixin('hnb', true)}
+    }
+
+    position: relative;
+
+    [data-popper-placement='bottom'] & {
+      margin-top: 12px;
+    }
+
+    [data-popper-placement='top'] & {
+      margin-bottom: 12px;
+    }
+
+    &:before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      [data-popper-placement='bottom'] & {
+        border-bottom: 10px solid white;
+        bottom: 100%;
+      }
+
+      [data-popper-placement='top'] & {
+        border-top: 10px solid white;
+        top: 100%;
+      }
+    }
+
+    .MuiPickersDay-today {
+      border: 0;
+    }
+
+    .MuiPickersDay-root {
+      color: ${props => props.theme.color('teal')};
+
+      &.Mui-selected {
+        color: ${props => props.theme.color('black')};
+        background-color: ${props => props.theme.color('yellow')} !important;
+      }
+    }
+
+    .Mui-disabled {
+      color: ${props => props.theme.color('pumice')};
+    }
+
+    .PrivatePickersToolbar-root {
+      display: none;
+    }
+
+    .MuiButton-text {
+      text-transform: none;
+    }
+  }
+`;
 
 const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 
 const RenderInput: FC<TextFieldProps> = props => {
   const { inputRef, inputProps, InputProps, error } = props;
-  console.log(props);
+  const displayError = Boolean(error && inputProps?.value.length === 10);
+
   return (
     <CalendarInput
       id={'selectDate'}
       label="Select a date"
-      error={error === undefined ? false : error}
+      error={displayError}
       errorMessage={'Your chosen date is not available to book'}
       ref={inputRef}
       inputProps={inputProps}
@@ -54,10 +131,18 @@ const RequestingDayPicker: FC<Props> = ({
   pickUpDate,
   setPickUpDate,
 }: Props) => {
+  const PaperComponent = forwardRef(function PaperComponent(props, ref) {
+    return (
+      <CalendarWrapper ref={ref as MutableRefObject<HTMLDivElement>} {...props}>
+        {props.children}
+      </CalendarWrapper>
+    );
+  });
+
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
-  const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  // const { collectionVenues } = usePrismicData();
+  // const venues = parseCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
@@ -115,7 +200,26 @@ const RequestingDayPicker: FC<Props> = ({
         onChange={date => {
           date && setPickUpDate(london(date));
         }}
-        renderInput={params => <RenderInput {...params} />}
+        PaperProps={{
+          // `component` is a legitimate PaperProps key, but there's something
+          // wrong with these typings. See https://mui.com/api/paper/
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          component: PaperComponent,
+        }}
+        DialogProps={{
+          PaperComponent,
+        }}
+        disableCloseOnSelect={false}
+        okText={null}
+        cancelText={<ButtonOutlined text="Cancel" />}
+        renderInput={params => (
+          <RenderInput
+            {...params}
+            pickUpDate={pickUpDate}
+            setPickUpDate={setPickUpDate}
+          />
+        )}
       />
     </LocalizationProvider>
   );

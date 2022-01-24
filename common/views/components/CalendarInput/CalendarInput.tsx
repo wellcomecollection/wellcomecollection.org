@@ -8,6 +8,7 @@ import {
   TextInputInput,
   TextInputErrorMessage,
 } from '../TextInput/TextInput';
+import styled from 'styled-components';
 
 type Props = {
   id?: string;
@@ -22,14 +23,45 @@ type Props = {
     | undefined;
 };
 
-const CalendarInput = forwardRef(
-  (
-    { id, label, error, errorMessage, inputProps, InputProps }: Props,
-    ref: RefObject<HTMLInputElement>
-  ) => {
+const CalendarInputWrap = styled.div`
+  > div {
+    align-items: center;
+  }
+
+  input {
+    &::placeholder {
+      transition: color ${props => props.theme.transitionProperties};
+      color: ${props => props.theme.color('white')};
+    }
+  }
+
+  &:focus-within {
+    input::placeholder {
+      color: ${props => props.theme.color('pewter')};
+    }
+  }
+
+  .MuiInputAdornment-root {
+    height: auto;
+  }
+
+  button {
+    margin-right: 10px;
+  }
+`;
+
+const CalendarErrorMessageWrap = styled.div`
+  > span {
+    padding: 0;
+  }
+`;
+
+const CalendarInput = forwardRef<HTMLInputElement, Props>(
+  ({ id, label, error, errorMessage, inputProps, InputProps }, ref) => {
     const { isEnhanced } = useContext(AppContext);
+
     return (
-      <div>
+      <CalendarInputWrap>
         <TextInputWrap
           value={inputProps.value}
           hasErrorBorder={error}
@@ -58,11 +90,13 @@ const CalendarInput = forwardRef(
           {InputProps?.endAdornment}
         </TextInputWrap>
         {errorMessage && error && (
-          <TextInputErrorMessage id="calendarError">
-            {errorMessage}
-          </TextInputErrorMessage>
+          <CalendarErrorMessageWrap>
+            <TextInputErrorMessage id="calendarError">
+              {errorMessage}
+            </TextInputErrorMessage>
+          </CalendarErrorMessageWrap>
         )}
-      </div>
+      </CalendarInputWrap>
     );
   }
 );
