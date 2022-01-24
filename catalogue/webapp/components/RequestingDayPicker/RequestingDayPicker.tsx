@@ -28,11 +28,6 @@ import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarI
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { calendar } from '@weco/common/icons';
 
-type Props = {
-  pickUpDate: Moment | null | undefined;
-  setPickUpDate: (date: Moment) => void;
-};
-
 const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 
 const RenderInput: FC<TextFieldProps & Props> = props => {
@@ -51,6 +46,10 @@ const RenderInput: FC<TextFieldProps & Props> = props => {
   );
 };
 
+type Props = {
+  pickUpDate: Moment | null | undefined;
+  setPickUpDate: (date: Moment) => void;
+};
 const RequestingDayPicker: FC<Props> = ({
   pickUpDate,
   setPickUpDate,

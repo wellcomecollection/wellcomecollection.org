@@ -1,4 +1,5 @@
-import { forwardRef, useContext } from 'react';
+import { forwardRef, useContext, RefObject } from 'react';
+import { InputBaseComponentProps } from '@mui/material';
 // $FlowFixMe (tsx)
 import { AppContext } from '../AppContext/AppContext';
 import {
@@ -13,14 +14,18 @@ type Props = {
   label: string;
   error: boolean;
   errorMessage?: string;
-  inputProps: any; // TODO
-  InputProps: any; // TODO
+  inputProps: InputBaseComponentProps | undefined;
+  InputProps:
+    | Partial<InputProps>
+    | Partial<FilledInputProps>
+    | Partial<OutlinedInputProps>
+    | undefined;
 };
 
 const CalendarInput = forwardRef(
   (
     { id, label, error, errorMessage, inputProps, InputProps }: Props,
-    ref: any
+    ref: RefObject<HTMLInputElement>
   ) => {
     const { isEnhanced } = useContext(AppContext);
     return (
