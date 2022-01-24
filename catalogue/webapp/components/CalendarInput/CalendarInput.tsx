@@ -1,13 +1,18 @@
-import { forwardRef, useContext, RefObject } from 'react';
-import { InputBaseComponentProps } from '@mui/material';
+import { forwardRef, useContext, useState } from 'react';
 // $FlowFixMe (tsx)
-import { AppContext } from '../AppContext/AppContext';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import {
+  InputBaseComponentProps,
+  InputProps,
+  FilledInputProps,
+  OutlinedInputProps,
+} from '@mui/material';
 import {
   TextInputWrap,
   TextInputLabel,
   TextInputInput,
   TextInputErrorMessage,
-} from '../TextInput/TextInput';
+} from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
 
 type Props = {
@@ -28,19 +33,6 @@ const CalendarInputWrap = styled.div`
     align-items: center;
   }
 
-  input {
-    &::placeholder {
-      transition: color ${props => props.theme.transitionProperties};
-      color: ${props => props.theme.color('white')};
-    }
-  }
-
-  &:focus-within {
-    input::placeholder {
-      color: ${props => props.theme.color('pewter')};
-    }
-  }
-
   .MuiInputAdornment-root {
     height: auto;
   }
@@ -59,32 +51,36 @@ const CalendarErrorMessageWrap = styled.div`
 const CalendarInput = forwardRef<HTMLInputElement, Props>(
   ({ id, label, error, errorMessage, inputProps, InputProps }, ref) => {
     const { isEnhanced } = useContext(AppContext);
+    const [placeholder, setPlaceholder] = useState('');
 
     return (
       <CalendarInputWrap>
         <TextInputWrap
-          value={inputProps.value}
+          value={inputProps?.value}
           hasErrorBorder={error}
           big={false}
         >
           <TextInputLabel
             isEnhanced={isEnhanced}
-            hasValue={!!inputProps.value}
+            hasValue={!!inputProps?.value}
             htmlFor={id}
           >
             {label}
           </TextInputLabel>
           <TextInputInput
-            id={id}
+            id="test-id" // TODO
             ref={ref}
             type="tel"
-            value={inputProps.value}
+            value={inputProps?.value}
             hasErrorBorder={error}
             {...inputProps}
             aria-invalid={error}
             aria-errormessage="calendarError"
             aria-describedby={'pick-up-date-description'}
-            autocomplete="off" // TODO
+            // autocomplete="off" // TODO
+            placeholder={placeholder}
+            onFocus={() => setPlaceholder('dd/mm/yyyy')}
+            onBlur={() => setPlaceholder('')}
             big={false}
           />
           {InputProps?.endAdornment}

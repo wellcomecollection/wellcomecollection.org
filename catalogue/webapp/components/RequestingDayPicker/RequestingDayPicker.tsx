@@ -26,7 +26,7 @@ import styled from 'styled-components';
 import { fontFamilyMixin } from '@weco/common/views/themes/typography';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { TextFieldProps } from '@mui/material/TextField';
-import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarInput';
+import CalendarInput from '../CalendarInput/CalendarInput';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { calendar } from '@weco/common/icons';
 
