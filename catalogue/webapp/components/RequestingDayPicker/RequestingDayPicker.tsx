@@ -91,6 +91,9 @@ const RequestingDayPicker: FC<Props> = ({
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
+        components={{
+          OpenPickerIcon,
+        }}
         label="Select a date"
         inputFormat="DD/MM/yyyy"
         value={pickUpDate}
