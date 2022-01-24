@@ -68,7 +68,7 @@ const CalendarInput = forwardRef<HTMLInputElement, Props>(
             {label}
           </TextInputLabel>
           <TextInputInput
-            id="test-id" // TODO
+            id={id}
             ref={ref}
             type="tel"
             value={inputProps?.value}
