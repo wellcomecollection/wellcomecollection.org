@@ -30,7 +30,11 @@ const CalendarInput = forwardRef(
     const { isEnhanced } = useContext(AppContext);
     return (
       <div>
-        <TextInputWrap value={inputProps.value} hasErrorBorder={error}>
+        <TextInputWrap
+          value={inputProps.value}
+          hasErrorBorder={error}
+          big={false}
+        >
           <TextInputLabel
             isEnhanced={isEnhanced}
             hasValue={!!inputProps.value}
@@ -49,6 +53,7 @@ const CalendarInput = forwardRef(
             aria-errormessage="calendarError"
             aria-describedby={'pick-up-date-description'}
             autocomplete="off" // TODO
+            big={false}
           />
           {InputProps?.endAdornment}
         </TextInputWrap>

@@ -30,14 +30,14 @@ import { calendar } from '@weco/common/icons';
 
 const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 
-const RenderInput: FC<TextFieldProps & Props> = props => {
+const RenderInput: FC<TextFieldProps> = props => {
   const { inputRef, inputProps, InputProps, error } = props;
   console.log(props);
   return (
     <CalendarInput
       id={'selectDate'}
       label="Select a date"
-      error={error}
+      error={error === undefined ? false : error}
       errorMessage={'Your chosen date is not available to book'}
       ref={inputRef}
       inputProps={inputProps}
