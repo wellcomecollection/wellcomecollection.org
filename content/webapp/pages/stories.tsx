@@ -14,10 +14,8 @@ import { staticBooks } from '../content/static-books';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import {
-  getPage,
-  getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
+import { getPage } from '@weco/common/services/prismic/pages';
+import { getPageFeaturedText } from '../services/prismic/transformers/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
