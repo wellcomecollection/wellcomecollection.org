@@ -35,7 +35,7 @@ const RenderInput: FC<TextFieldProps & Props> = props => {
   console.log(props);
   return (
     <CalendarInput
-      id={'test-id'}
+      id={'selectDate'}
       label="Select a date"
       error={error}
       errorMessage={'Your chosen date is not available to book'}
