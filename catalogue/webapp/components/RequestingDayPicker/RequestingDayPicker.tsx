@@ -31,11 +31,6 @@ import CalendarInput from '@weco/common/views/components/CalendarInput/CalendarI
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { calendar } from '@weco/common/icons';
 
-type Props = {
-  pickUpDate: Moment | null | undefined;
-  setPickUpDate: (date: Moment) => void;
-};
-
 const CalendarWrapper = styled.div`
   && {
     color: ${props => props.theme.color('pewter')};
@@ -213,13 +208,7 @@ const RequestingDayPicker: FC<Props> = ({
         disableCloseOnSelect={false}
         okText={null}
         cancelText={<ButtonOutlined text="Cancel" />}
-        renderInput={params => (
-          <RenderInput
-            {...params}
-            pickUpDate={pickUpDate}
-            setPickUpDate={setPickUpDate}
-          />
-        )}
+        renderInput={params => <RenderInput {...params} />}
       />
     </LocalizationProvider>
   );
