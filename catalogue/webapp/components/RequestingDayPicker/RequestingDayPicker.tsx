@@ -103,7 +103,6 @@ const OpenPickerIcon = () => <Icon icon={calendar} color={'pewter'} />;
 const RenderInput: FC<TextFieldProps> = props => {
   const { inputRef, inputProps, InputProps, error } = props;
   const displayError = Boolean(error && inputProps?.value.length === 10);
-
   return (
     <CalendarInput
       id={'selectDate'}
@@ -166,12 +165,16 @@ const RequestingDayPicker: FC<Props> = ({
     regularClosedDays,
   });
 
+  const reduceMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion').matches;
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DatePicker
         components={{
           OpenPickerIcon,
         }}
+        reduceAnimations={reduceMotion}
         label="Select a date"
         inputFormat="DD/MM/yyyy"
         value={pickUpDate}
