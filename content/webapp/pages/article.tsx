@@ -271,8 +271,8 @@ const ArticlePage: FC<Props> = ({ article }) => {
 
           const nextUp =
             positionInSerial === series.schedule.length
-              ? firstAticle
-              : nextAticle || null;
+              ? firstArticle
+              : nextArticle || null;
 
           return nextUp ? (
             <SeriesNavigation
