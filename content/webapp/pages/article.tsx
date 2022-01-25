@@ -261,13 +261,13 @@ const ArticlePage: FC<Props> = ({ article }) => {
             i => i.partNumber === 1
           );
           const firstArticleTitle = firstArticleFromSchedule?.title;
-          const firstAticle = articles.find(i => i.title === firstArticleTitle);
+          const firstArticle = articles.find(i => i.title === firstArticleTitle);
 
           const nextArticleFromSchedule = series.schedule.find(
             i => i.partNumber === positionInSerial + 1
           );
           const nextArticleTitle = nextArticleFromSchedule?.title;
-          const nextAticle = articles.find(i => i.title === nextArticleTitle);
+          const nextArticle = articles.find(i => i.title === nextArticleTitle);
 
           const nextUp =
             positionInSerial === series.schedule.length
