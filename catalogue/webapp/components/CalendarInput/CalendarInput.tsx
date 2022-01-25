@@ -1,5 +1,4 @@
 import { forwardRef, useContext, useState } from 'react';
-// $FlowFixMe (tsx)
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import {
   InputBaseComponentProps,
