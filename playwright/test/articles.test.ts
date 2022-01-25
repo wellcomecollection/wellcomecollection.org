@@ -41,10 +41,10 @@ describe('articles', () => {
 
     await article('YUrz5RAAACIA4ZrH');
     await page.waitForSelector(
-      'div >> text="Conflicted and confused about lithium"'
+      'div >> text="Diagnosed bipolar, prescribed lithium"'
     );
 
     await article('YPAnpxAAACIAbz2c');
-    await page.waitForSelector('div >> text="Living with less for spiritual gain"');
+    await page.waitForSelector('div >> text="Happiness in time"');
   });
 });

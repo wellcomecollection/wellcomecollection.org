@@ -257,12 +257,22 @@ const ArticlePage: FC<Props> = ({ article }) => {
     listOfSeries
       .map(({ series, articles }) => {
         if (series.schedule.length > 0 && positionInSerial) {
+          const firstArticleFromSchedule = series.schedule.find(
+            i => i.partNumber === 1
+          );
+          const firstArticleTitle = firstArticleFromSchedule?.title;
+          const firstArticle = articles.find(i => i.title === firstArticleTitle);
+
+          const nextArticleFromSchedule = series.schedule.find(
+            i => i.partNumber === positionInSerial + 1
+          );
+          const nextArticleTitle = nextArticleFromSchedule?.title;
+          const nextArticle = articles.find(i => i.title === nextArticleTitle);
+
           const nextUp =
             positionInSerial === series.schedule.length
-              ? series.items[0]
-              : series.items[positionInSerial]
-              ? series.items[positionInSerial]
-              : null;
+              ? firstArticle
+              : nextArticle || null;
 
           return nextUp ? (
             <SeriesNavigation
