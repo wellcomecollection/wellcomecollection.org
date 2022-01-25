@@ -77,7 +77,6 @@ const CalendarInput = forwardRef<HTMLInputElement, Props>(
             aria-invalid={error}
             aria-errormessage="calendarError"
             aria-describedby={'pick-up-date-description'}
-            // autocomplete="off" // TODO
             placeholder={placeholder}
             onFocus={() => setPlaceholder('dd/mm/yyyy')}
             onBlur={() => setPlaceholder('')}
