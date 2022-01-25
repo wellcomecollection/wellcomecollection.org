@@ -29,9 +29,10 @@ export type WithSeries = {
     >;
   }>;
 };
-export const seriesFetchLink: FetchLinks<SeriesPrismicDocument> = [
+export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
   'series.title',
   'series.promo',
+  'series.schedule',
 ];
 
 export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
@@ -64,6 +65,6 @@ export const articlesFetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
   ...contributorFetchLinks,
-  ...seriesFetchLink,
+  ...seriesFetchLinks,
   ...eventsFetchLinks,
 ];
