@@ -327,7 +327,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
-    const whatsOnPagePromise = await fetchPage(client, prismicPageIds.whatsOn);
+    const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
     const exhibitionsPromise = getExhibitions(
       context.req,
