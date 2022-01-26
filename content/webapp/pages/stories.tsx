@@ -11,7 +11,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../content/static-books';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds, featuredStoriesSeriesId } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { getPage } from '@weco/common/services/prismic/pages';
@@ -88,12 +88,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const articlesQueryPromise = fetchArticles(client);
 
-    // TODO: we're hardcoding a series id here in order to display whichever series
-    // the content team has chosen to be featured on the stories page. This would
-    // ideally come from Prismic to take devs/deployments out of the loop.
     const seriesPromise = getArticleSeries(
       context.req,
-      { id: 'YXKNnxEAACEARPrl' },
+      { id: featuredStoriesSeriesId },
       memoizedPrismic
     );
 
