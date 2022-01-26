@@ -252,47 +252,45 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  const Siblings =
-    listOfSeries &&
-    listOfSeries
-      .map(({ series, articles }) => {
-        if (series.schedule.length > 0 && positionInSerial) {
-          const firstArticleFromSchedule = series.schedule.find(
-            i => i.partNumber === 1
-          );
-          const firstArticleTitle = firstArticleFromSchedule?.title;
-          const firstArticle = articles.find(
-            i => i.title === firstArticleTitle
-          );
+  function getNextUp(
+    series: ArticleSeries,
+    articles: Article[],
+    currentPosition?: number
+  ) {
+    if (series.schedule.length > 0 && currentPosition) {
+      const firstArticleFromSchedule = series.schedule.find(
+        i => i.partNumber === 1
+      );
+      const firstArticleTitle = firstArticleFromSchedule?.title;
+      const firstArticle = articles.find(i => i.title === firstArticleTitle);
 
-          const nextArticleFromSchedule = series.schedule.find(
-            i => i.partNumber === positionInSerial + 1
-          );
-          const nextArticleTitle = nextArticleFromSchedule?.title;
-          const nextArticle = articles.find(i => i.title === nextArticleTitle);
+      const nextArticleFromSchedule = series.schedule.find(
+        i => i.partNumber === currentPosition + 1
+      );
+      const nextArticleTitle = nextArticleFromSchedule?.title;
+      const nextArticle = articles.find(i => i.title === nextArticleTitle);
 
-          const nextUp =
-            positionInSerial === series.schedule.length &&
-            series.schedule.length > 1
-              ? firstArticle
-              : nextArticle || null;
+      const nextUp =
+        currentPosition === series.schedule.length && series.schedule.length > 1
+          ? firstArticle
+          : nextArticle || null;
 
-          return nextUp ? (
-            <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={[nextUp]}
-            />
-          ) : null;
-        } else {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles
-            .filter(a => a.id !== article.id)
-            .slice(0, 2);
-          return <SeriesNavigation series={series} items={dedupedArticles} />;
-        }
-      })
-      .filter(Boolean);
+      return nextUp ? (
+        <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+      ) : null;
+    } else {
+      const dedupedArticles = articles
+        .filter(a => a.id !== article.id)
+        .slice(0, 2);
+      return <SeriesNavigation series={series} items={dedupedArticles} />;
+    }
+  }
+
+  const Siblings = listOfSeries
+    ?.map(({ series, articles }) => {
+      return getNextUp(series, articles, positionInSerial);
+    })
+    .filter(Boolean);
 
   return (
     <PageLayout
