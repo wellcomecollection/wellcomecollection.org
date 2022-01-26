@@ -76,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
-    const pageLookupPromise = fetchPage(client, homepageId);
+    const pagePromise = fetchPage(client, homepageId);
 
     const exhibitionsPromise = getExhibitions(
       context.req,
@@ -94,15 +94,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic
     );
 
-    const [exhibitions, events, articlesQuery, pageLookup] = await Promise.all([
+    const [exhibitions, events, articlesQuery, pageDocument] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
       articlesQueryPromise,
-      pageLookupPromise,
+      pagePromise,
     ]);
 
     // The homepage should always exist in Prismic.
-    const page = transformPage(pageLookup!);
+    const page = transformPage(pageDocument!);
     
     const articles = transformQuery(articlesQuery, transformArticle);
 
