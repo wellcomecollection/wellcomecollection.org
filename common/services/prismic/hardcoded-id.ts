@@ -1,6 +1,8 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
+export const homepageId = 'XphUbREAACMAgRNP';
+
 export const collectionVenueId = {
   galleries: {
     id: 'Wsttgx8AAJeSNmJ4',
