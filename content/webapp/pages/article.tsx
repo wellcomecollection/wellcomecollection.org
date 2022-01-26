@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect } from 'react';
+import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '@weco/common/model/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import { parseArticleDoc } from '@weco/common/services/prismic/articles';
@@ -74,6 +74,41 @@ type ArticleSeriesList = {
   series: ArticleSeries;
   articles: Article[];
 }[];
+
+export function getNextUp(
+  series: ArticleSeries,
+  articles: Article[],
+  article: Article,
+  currentPosition?: number
+): ReactElement | null {
+  if (series.schedule.length > 0 && currentPosition) {
+    const firstArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === 1
+    );
+    const firstArticleTitle = firstArticleFromSchedule?.title;
+    const firstArticle = articles.find(i => i.title === firstArticleTitle);
+
+    const nextArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === currentPosition + 1
+    );
+    const nextArticleTitle = nextArticleFromSchedule?.title;
+    const nextArticle = articles.find(i => i.title === nextArticleTitle);
+
+    const nextUp =
+      currentPosition === series.schedule.length && series.schedule.length > 1
+        ? firstArticle
+        : nextArticle || null;
+
+    return nextUp ? (
+      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+    ) : null;
+  } else {
+    const dedupedArticles = articles
+      .filter(a => a.id !== article.id)
+      .slice(0, 2);
+    return <SeriesNavigation series={series} items={dedupedArticles} />;
+  }
+}
 
 const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
@@ -252,43 +287,9 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  function getNextUp(
-    series: ArticleSeries,
-    articles: Article[],
-    currentPosition?: number
-  ) {
-    if (series.schedule.length > 0 && currentPosition) {
-      const firstArticleFromSchedule = series.schedule.find(
-        i => i.partNumber === 1
-      );
-      const firstArticleTitle = firstArticleFromSchedule?.title;
-      const firstArticle = articles.find(i => i.title === firstArticleTitle);
-
-      const nextArticleFromSchedule = series.schedule.find(
-        i => i.partNumber === currentPosition + 1
-      );
-      const nextArticleTitle = nextArticleFromSchedule?.title;
-      const nextArticle = articles.find(i => i.title === nextArticleTitle);
-
-      const nextUp =
-        currentPosition === series.schedule.length && series.schedule.length > 1
-          ? firstArticle
-          : nextArticle || null;
-
-      return nextUp ? (
-        <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
-      ) : null;
-    } else {
-      const dedupedArticles = articles
-        .filter(a => a.id !== article.id)
-        .slice(0, 2);
-      return <SeriesNavigation series={series} items={dedupedArticles} />;
-    }
-  }
-
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, positionInSerial);
+      return getNextUp(series, articles, article, positionInSerial);
     })
     .filter(Boolean);
 

@@ -1,6 +1,7 @@
-import { article } from './contexts';
+import { article, articleWithMockSiblings } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { oneScheduleItem } from './mocks/one-schedule-item';
 
 const domain = new URL(baseUrl).host;
 
@@ -39,12 +40,31 @@ describe('articles', () => {
     //
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
 
+    await article('YPAnpxAAACIAbz2c');
+    await page.waitForSelector('a >> text="Happiness in time"');
+  });
+
+  test('an article in a serial with further parts in a schedule will link to the next part', async () => {
+    await article('YRzdyREAACEAqIu-');
+    await page.waitForSelector(
+      'a >> text="Finding out where my lithium comes from"'
+    );
+  });
+
+  test('the last article in a serial will link to the first part', async () => {
     await article('YUrz5RAAACIA4ZrH');
     await page.waitForSelector(
-      'div >> text="Diagnosed bipolar, prescribed lithium"'
+      'a >> text="Diagnosed bipolar, prescribed lithium"'
     );
+  });
 
-    await article('YPAnpxAAACIAbz2c');
-    await page.waitForSelector('div >> text="Happiness in time"');
+  test('no related story is shown for an article in a serial with only one schedule item', async () => {
+    await articleWithMockSiblings('YeUumhAAAJMQMtKc', oneScheduleItem);
+
+    expect(
+      await page.isVisible(
+        `a >> text="Deciding a date for the end of the world"`
+      )
+    ).toBeFalsy();
   });
 });
