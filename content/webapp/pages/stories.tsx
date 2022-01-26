@@ -14,8 +14,7 @@ import { staticBooks } from '../content/static-books';
 import { prismicPageIds, featuredStoriesSeriesId } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import { getPage } from '@weco/common/services/prismic/pages';
-import { getPageFeaturedText } from '../services/prismic/transformers/pages';
+import { getPageFeaturedText, transformPage } from '../services/prismic/transformers/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
@@ -31,6 +30,7 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
+import { fetchPage } from 'services/prismic/fetch/pages';
 
 type Props = {
   articles: Article[];
@@ -87,16 +87,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client);
+    const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
     const seriesPromise = getArticleSeries(
       context.req,
       { id: featuredStoriesSeriesId },
-      memoizedPrismic
-    );
-
-    const storiesPagePromise = getPage(
-      context.req,
-      prismicPageIds.stories,
       memoizedPrismic
     );
 
@@ -107,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     ]);
     const articles = transformQuery(articlesQuery, transformArticle);
     const series = seriesAndArticles && seriesAndArticles.series;
-    const featuredText = storiesPage && getPageFeaturedText(storiesPage);
+    const featuredText = storiesPage && getPageFeaturedText(transformPage(storiesPage));
 
     if (articles && articles.results) {
       return {
