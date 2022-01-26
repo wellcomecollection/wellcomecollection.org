@@ -16,6 +16,7 @@ import {
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import linkResolver from './services/prismic/link-resolver';
+import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -56,7 +57,7 @@ const appPromise = nextApp
     koaApp.use(withCachedValues);
     koaApp.use(bodyParser());
 
-    pageVanityUrl(router, nextApp, '/', 'XphUbREAACMAgRNP', '/homepage');
+    pageVanityUrl(router, nextApp, '/', homepageId, '/homepage');
     route('/whats-on', '/whats-on', router, nextApp);
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 

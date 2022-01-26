@@ -1,6 +1,6 @@
 // @flow
 import Prismic from '@prismicio/client';
-import { getDocument, getDocuments } from './api';
+import { getDocuments } from './api';
 import {
   parseTimestamp,
   parseGenericFields,
@@ -31,8 +31,6 @@ import {
   contributorsFields,
   peopleFields,
   bookFields,
-  pagesFormatsFields,
-  guidesFields,
 } from './fetch-links';
 
 export function parsePage(document: PrismicDocument): Page {
@@ -69,41 +67,6 @@ export function parsePage(document: PrismicDocument): Page {
     siteSection: siteSection,
     prismicDocument: document,
   };
-}
-
-export async function getPage(
-  req: ?Request,
-  id: string,
-  memoizedPrismic: ?Object
-): Promise<?Page> {
-  const page = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: pagesFields.concat(
-        articleSeriesFields,
-        eventSeriesFields,
-        collectionVenuesFields,
-        exhibitionFields,
-        teamsFields,
-        eventsFields,
-        cardsFields,
-        eventFormatsFields,
-        articleFormatsFields,
-        labelsFields,
-        seasonsFields,
-        contributorsFields,
-        peopleFields,
-        bookFields,
-        pagesFormatsFields,
-        guidesFields
-      ),
-    },
-    memoizedPrismic
-  );
-  if (page) {
-    return parsePage(page);
-  }
 }
 
 type Order = 'desc' | 'asc';
