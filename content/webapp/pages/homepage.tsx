@@ -34,6 +34,7 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
+import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -69,7 +70,7 @@ const pageImage =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
+    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
@@ -90,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       },
       memoizedPrismic
     );
-    const pagePromise = getPage(context.req, id, memoizedPrismic);
+    const pagePromise = getPage(context.req, homepageId, memoizedPrismic);
     const [exhibitions, events, articlesQuery, page] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
