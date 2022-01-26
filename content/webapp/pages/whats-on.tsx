@@ -323,9 +323,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
+    // call prismic for specific content for section page such as featured text
     const whatsOnPagePromise = await fetchPage(client, prismicPageIds.whatsOn);
 
-    // call prismic for specific content for section page such as featured text
     const exhibitionsPromise = getExhibitions(
       context.req,
       {
