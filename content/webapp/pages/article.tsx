@@ -261,7 +261,9 @@ const ArticlePage: FC<Props> = ({ article }) => {
             i => i.partNumber === 1
           );
           const firstArticleTitle = firstArticleFromSchedule?.title;
-          const firstArticle = articles.find(i => i.title === firstArticleTitle);
+          const firstArticle = articles.find(
+            i => i.title === firstArticleTitle
+          );
 
           const nextArticleFromSchedule = series.schedule.find(
             i => i.partNumber === positionInSerial + 1
@@ -270,7 +272,8 @@ const ArticlePage: FC<Props> = ({ article }) => {
           const nextArticle = articles.find(i => i.title === nextArticleTitle);
 
           const nextUp =
-            positionInSerial === series.schedule.length
+            positionInSerial === series.schedule.length &&
+            series.schedule.length > 1
               ? firstArticle
               : nextArticle || null;
 
