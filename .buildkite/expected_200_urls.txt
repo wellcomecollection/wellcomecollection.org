@@ -28,3 +28,6 @@
 /projects/YEIYwhAAACIANd6T
 /seasons/YEY3ZBAAACEASBjA
 /series/X8YMWBIAACUAhwAx
+
+# This is an article which is the 'webcomics' type underneath
+/articles/YbNRQBEAACMAZfvG
