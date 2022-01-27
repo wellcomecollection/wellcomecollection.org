@@ -7,6 +7,7 @@ import {
   extendEndDate,
   findClosedDays,
   findNextRegularOpenDay,
+  isRequestableDate,
 } from '../../utils/dates';
 import { OverrideType } from '@weco/common/model/opening-hours';
 
@@ -318,5 +319,84 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     });
 
     expect(result).toEqual(null);
+  });
+});
+
+describe.only("isRequestableDate: checks the date falls between 2 specified dates and also isn't and excluded date, or excluded day", () => {
+  it('returns false if the date falls outside the start and end dates', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-12'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns true if the date falls between the start and end dates, inclusive', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-17'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns false if the date falls on an excluded Day', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-17'), // Tuesday
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [2], // Tuesday
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns false if the date falls on an excluded date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [london('2019-12-20')],
+      excludedDays: [],
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns true if there are no start and end dates', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no start date and the date falls on or before the end date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no end date and the date falls on or after the start date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: london('2019-12-17'),
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
   });
 });
