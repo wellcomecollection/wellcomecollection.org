@@ -44,7 +44,14 @@ export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
+  access: 'Wvm2uiAAAIYQ4FHP',
   contactUs: 'YVMbEBAAAPaMBrz7',
+  openingTimes: 'WwQHTSAAANBfDYXU',
+  press: 'WuxrKCIAAP9h3hmw',
+  schools: 'Wuw2MSIAACtd3StS',
+  userPanel: 'YH17kRAAACoAyWTB',
+  venueHire: 'Wuw2MSIAACtd3SsC',
+  youth: 'Wuw2MSIAACtd3Ste',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {
