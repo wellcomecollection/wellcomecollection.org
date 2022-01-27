@@ -27,6 +27,7 @@ const exhibitions: CustomType = {
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
       statusOverride: structuredText('Status override', 'single'),
+      accessContentOverride: singleLineText('Access content override'),
       place,
     },
     'In this exhibition': {
