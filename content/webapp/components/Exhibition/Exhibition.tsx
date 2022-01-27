@@ -133,7 +133,10 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
-function getAccessibilityItems(): ExhibitionItem[] {
+function getAccessibilityItems(exhibition: UiExhibition): ExhibitionItem[] {
+  const defaultAccessContent =
+    'Large-print guides, transcripts and magnifiers are available in the gallery';
+
   return [
     {
       id: undefined,
@@ -153,7 +156,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: exhibition.accessContentOverride || defaultAccessContent,
           spans: [],
         },
       ],
@@ -169,7 +172,7 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
     getTodaysHoursObject(),
     getPlaceObject(exhibition),
     ...getResourcesItems(exhibition),
-    ...getAccessibilityItems(),
+    ...getAccessibilityItems(exhibition),
   ].filter(isNotUndefined);
 }
 

@@ -22,6 +22,7 @@ export type Exhibition = {|
   end: ?Date,
   isPermanent: boolean,
   statusOverride: ?string,
+  accessContentOverride: ?string,
   place: ?Place,
   exhibits: {|
     exhibitType: 'exhibitions',

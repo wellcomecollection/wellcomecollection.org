@@ -136,6 +136,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
+  const accessContentOverride = asText(data.accessContentOverride);
   const promoImage =
     promo && promo.length > 0
       ? parsePromoToCaptionedImage(data.promo)
@@ -154,6 +155,7 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     end: end,
     isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
+    accessContentOverride: accessContentOverride,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: promoImage && {
