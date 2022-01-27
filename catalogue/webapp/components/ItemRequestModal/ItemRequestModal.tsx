@@ -3,6 +3,7 @@ import { Moment } from 'moment';
 import {
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
+  DayNumber,
 } from '@weco/common/model/opening-hours';
 import { london } from '@weco/common/utils/format-date';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
@@ -30,6 +31,26 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
+import { convertDayNumberToDay } from '../../utils/dates';
+
+function arrayofItemsToText(arr) {
+  if (arr.length === 1) return arr[0];
+  const initialItems = arr.slice(0, arr.length - 1);
+  const lastItem = arr[arr.length - 1];
+  return initialItems.join(', ') + ' and ' + lastItem;
+}
+
+function regularClosedDaysToText(regularClosedDays: DayNumber[]): string {
+  const days = regularClosedDays.map(day => `${convertDayNumberToDay(day)}s`);
+  return arrayofItemsToText(days);
+}
+
+function exceptionalClosedDatesToText(
+  exceptionalClosedDates: Moment[]
+): string {
+  const dates = exceptionalClosedDates.map(date => date.format('dddd DD MMMM'));
+  return arrayofItemsToText(dates);
+}
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -169,6 +190,29 @@ const RequestDialog: FC<RequestDialogProps> = ({
   const [pickUpDate, setPickUpDate] = useState<string | null>(
     nextAvailableDate?.format('DD/MM/YYYY') || null // TODO or leave this empty?
   );
+
+  const regularClosedDaysText =
+    regularClosedDays.length > 0
+      ? regularClosedDaysToText(regularClosedDays)
+      : null;
+
+  const exceptionalClosedDatesText =
+    exceptionalClosedDates.length > 0
+      ? exceptionalClosedDatesToText(exceptionalClosedDates)
+      : null;
+
+  const availableDatesText = `You can choose a date between ${nextAvailableDate?.format(
+    'dddd DD MMMM'
+  )} and ${extendedLastAvailableDate?.format('dddd DD MMMM')}.${
+    regularClosedDaysText
+      ? ` Please bear in mind the library is closed on ${regularClosedDaysText}`
+      : ''
+  }${
+    exceptionalClosedDatesText
+      ? ` and will also be closed on ${exceptionalClosedDatesText}.`
+      : '.'
+  }`;
+
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -210,11 +254,18 @@ const RequestDialog: FC<RequestDialogProps> = ({
                 <p
                   className={classNames({
                     [font('hnr', 6)]: true,
-                    'no-margin': true,
                   })}
                 >
                   Item requests need to be placed by 10am the day before your
                   visit
+                </p>
+                <p
+                  className={classNames({
+                    [font('hnr', 6)]: true,
+                    'no-margin': true,
+                  })}
+                >
+                  {availableDatesText}
                 </p>
               </Space>
               {/* TODO add info about which dates are/aren't available - should be used as aria-describedby for input, along with above  */}
