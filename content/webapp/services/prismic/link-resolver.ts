@@ -10,6 +10,7 @@ const contentTypes = [
   'projects',
   'seasons',
   'series',
+  'webcomics',
 ] as const;
 export type ContentType = typeof contentTypes[number];
 
