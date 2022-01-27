@@ -1,4 +1,23 @@
 import { FC, useState, useEffect, MutableRefObject, FormEvent } from 'react';
+import { Moment } from 'moment';
+import {
+  OpeningHoursDay,
+  ExceptionalOpeningHoursDay,
+} from '@weco/common/model/opening-hours';
+import { london } from '@weco/common/utils/format-date';
+import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  determineNextAvailableDate,
+  convertOpeningHoursDayToDayNumber,
+  extendEndDate,
+  findClosedDays,
+  // isRequestableDate, // TODO prevent submisson if not requestable
+} from '@weco/catalogue/utils/dates';
+import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
+import {
+  parseCollectionVenues,
+  getVenueById,
+} from '@weco/common/services/prismic/opening-times';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
@@ -11,7 +30,6 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -116,8 +134,41 @@ const RequestDialog: FC<RequestDialogProps> = ({
   currentHoldNumber,
 }) => {
   const { enablePickUpDate } = useToggles();
-  const [pickUpDate, setPickUpDate] = useState<Date | undefined>();
+  // We get the regular and exceptional days on which the library is closed from Prismic data,
+  // so we can make these unavailable in the calendar.
+  const { collectionVenues } = usePrismicData();
+  const venues = parseCollectionVenues(collectionVenues);
+  const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
+  const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
+  const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
+    day => convertOpeningHoursDayToDayNumber(day as OpeningHoursDay)
+  );
+  const exceptionalLibraryOpeningTimes =
+    libraryVenue?.openingHours.exceptional || [];
+  const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
+    .map(day => {
+      const exceptionalDay = day as ExceptionalOpeningHoursDay;
+      return exceptionalDay.overrideDate as Moment;
+    })
+    .filter(Boolean);
+  const nextAvailableDate = determineNextAvailableDate(
+    london(new Date()),
+    regularClosedDays
+  );
 
+  // There should be a minimum of a 2 week window in which to select a date
+  const lastAvailableDate = nextAvailableDate?.clone().add(13, 'days') || null;
+  // If the library is closed on any days during the selection window
+  // we extend the lastAvailableDate to take these into account
+  const extendedLastAvailableDate = extendEndDate({
+    startDate: nextAvailableDate,
+    endDate: lastAvailableDate,
+    exceptionalClosedDates,
+    regularClosedDays,
+  });
+  const [pickUpDate, setPickUpDate] = useState<string | null>(
+    nextAvailableDate?.format('DD/MM/YYYY') || null // TODO or leave this empty?
+  );
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -166,8 +217,13 @@ const RequestDialog: FC<RequestDialogProps> = ({
                   visit
                 </p>
               </Space>
+              {/* TODO add info about which dates are/aren't available - should be used as aria-describedby for input, along with above  */}
             </PickUpDateDescription>
             <RequestingDayPicker
+              startDate={nextAvailableDate}
+              endDate={extendedLastAvailableDate}
+              exceptionalClosedDates={exceptionalClosedDates}
+              regularClosedDays={regularClosedDays}
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
             />
