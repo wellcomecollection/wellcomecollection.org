@@ -60,7 +60,7 @@ const placeHolderImage = ({
   crops: {},
 }: ImageType);
 
-function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
+export function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
   return maybeContent ? asHtml(maybeContent) === null : false;
 }
 

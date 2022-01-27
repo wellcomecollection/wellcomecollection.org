@@ -3,6 +3,7 @@ import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
+import { HTMLString } from 'services/prismic/types';
 // e.g. 'Permanent'
 export type ExhibitionFormat = {
   id: string;
@@ -18,7 +19,8 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  accessContentOverride?: string;
+  bslInfo?: HTMLString;
+  audioDescriptionInfo?: HTMLString;
   place?: Place;
   exhibits: Exhibit[];
   resources: Resource[];
