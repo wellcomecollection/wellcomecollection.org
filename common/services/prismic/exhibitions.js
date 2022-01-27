@@ -1,6 +1,6 @@
 // @flow
 import Prismic from '@prismicio/client';
-import { getDocument, getDocuments, getTypeByIds } from './api';
+import { getDocuments, getTypeByIds } from './api';
 import { parseMultiContent } from './multi-content';
 import {
   exhibitionFields,
@@ -19,8 +19,6 @@ import {
   articleSeriesFields,
   articleFormatsFields,
   articlesFields,
-  eventsFields,
-  seasonsFields,
 } from './fetch-links';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../utils/breakpoints';
@@ -55,7 +53,6 @@ import type {
   ExhibitionFormat,
 } from '../../model/exhibitions';
 import type { MultiContent } from '../../model/multi-content';
-import { getPages } from './pages';
 
 const startField = 'my.exhibitions.start';
 const endField = 'my.exhibitions.end';
@@ -289,65 +286,6 @@ function putPermanentAfterCurrentExhibitions(
     ...groupedResults.comingUp,
     ...groupedResults.past,
   ];
-}
-
-async function getExhibition(
-  id: string,
-  req: ?Request,
-  memoizedPrismic: ?Object
-): Promise<?UiExhibition> {
-  const document = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: peopleFields.concat(
-        exhibitionFields,
-        organisationsFields,
-        contributorsFields,
-        placesFields,
-        exhibitionResourcesFields,
-        eventSeriesFields,
-        articlesFields,
-        eventsFields,
-        seasonsFields
-      ),
-    },
-    memoizedPrismic
-  );
-
-  if (document && document.type === 'exhibitions') {
-    const exhibition = parseExhibitionDoc(document);
-    return exhibition;
-  }
-}
-
-export async function getExhibitionWithRelatedContent({
-  request,
-  id,
-  memoizedPrismic,
-}: {
-  request: ?Request,
-  memoizedPrismic: ?Object,
-  id: string,
-}) {
-  const exhibitionPromise = getExhibition(id, request, memoizedPrismic);
-  const pagesPromise = getPages(
-    request,
-    {
-      predicates: [Prismic.Predicates.at('my.pages.parents.parent', id)],
-    },
-    memoizedPrismic
-  );
-
-  const [exhibition, pages] = await Promise.all([
-    exhibitionPromise,
-    pagesPromise,
-  ]);
-
-  return {
-    exhibition,
-    pages,
-  };
 }
 
 type ExhibitionRelatedContent = {|
