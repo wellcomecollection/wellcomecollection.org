@@ -130,7 +130,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio && getMediaClickthroughService(audio));
+    (audio?.[0] && getMediaClickthroughService(audio?.[0]));
 
   const tokenService = authService && getTokenService(authService);
 
@@ -340,11 +340,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <AudioPlayer audio={audio} />
+            {audio?.map(a => (
+              <Space
+                key={a['@id']}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <AudioPlayer audio={a} />
               </Space>
-            )}
+            ))}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

@@ -17,7 +17,7 @@ import { getDigitalLocationOfType } from '../utils/works';
 type IIIFManifestData = {
   imageCount: number;
   childManifestsCount: number;
-  audio?: IIIFMediaElement;
+  audio: IIIFMediaElement[];
   video?: IIIFMediaElement;
   iiifCredit?: string;
   iiifPresentationDownloadOptions?: IIIFRendering[];
