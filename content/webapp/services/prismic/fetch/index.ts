@@ -138,6 +138,13 @@ export function fetcher<Document extends PrismicDocument>(
     getByTypeClientSide: async (
       params?: Params
     ): Promise<Query<Document> | undefined> => {
+      // If you add more parameters here, you have to update the corresponding cache behaviour
+      // in the CloudFront distribution, or you may get incorrect behaviour.
+      //
+      // e.g. at one point we forgot to include the "params" query in the cache key,
+      // so every article was showing the same set of related stories.
+      //
+      // See https://github.com/wellcomecollection/wellcomecollection.org/issues
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
       const response = await fetch(
