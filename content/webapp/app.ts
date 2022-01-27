@@ -16,7 +16,7 @@ import {
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import linkResolver from './services/prismic/link-resolver';
-import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
+import { homepageId, prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -91,18 +91,18 @@ const appPromise = nextApp
     route('/newsletter', '/newsletter', router, nextApp);
 
     route('/collections', '/page', router, nextApp, {
-      id: 'YBfeAhMAACEAqBTx',
+      id: prismicPageIds.collections,
     });
 
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    pageVanityUrl(router, nextApp, '/opening-times', 'WwQHTSAAANBfDYXU');
-    pageVanityUrl(router, nextApp, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
-    pageVanityUrl(router, nextApp, '/press', 'WuxrKCIAAP9h3hmw');
-    pageVanityUrl(router, nextApp, '/venue-hire', 'Wuw2MSIAACtd3SsC');
-    pageVanityUrl(router, nextApp, '/access', 'Wvm2uiAAAIYQ4FHP');
-    pageVanityUrl(router, nextApp, '/youth', 'Wuw2MSIAACtd3Ste');
+    pageVanityUrl(router, nextApp, '/opening-times', prismicPageIds.openingTimes);
+    pageVanityUrl(router, nextApp, '/what-we-do', prismicPageIds.whatWeDo);
+    pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
+    pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
+    pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
+    pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
     pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
     pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
     pageVanityUrl(

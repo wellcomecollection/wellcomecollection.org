@@ -39,7 +39,10 @@ const fetchLinks = pagesFields.concat(
   guidesFields
 );
 
-const pagesFetcher = fetcher<PagePrismicDocument>('pages', fetchLinks);
+/** Although these are three different document types in Prismic, they all get
+  * rendered (and fetched) by the same component.
+  */
+const pagesFetcher = fetcher<PagePrismicDocument>(['pages', 'guides', 'projects'], fetchLinks);
 
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;

@@ -1,3 +1,25 @@
+// TODO: It should be possible to drastically simplify this by using a vanilla
+// fetcher, and passing multiple content types (cf. pages.ts).
+//
+// For some reason, whenever I try using it (or adding any fetcher to this file),
+// I get an error from the type checker:
+//
+//      ../../node_modules/prismic-client-beta/dist/index.mjs
+//      Attempted import error: 'asLink' is not exported from '@prismicio/helpers' (imported as 'prismicH').
+//
+// e.g. the following line, which we know works because it compiles perfectly in
+// another file:
+//
+//      const booksFetcher = fetcher<BookPrismicDocument>('books', fetchLinks);
+//
+// will cause the error.
+//
+// I've given up trying to fix this today, but we should come back and resolve it
+// rather than putting new logic in this file.
+//
+// This may get fixed when we update our Prismic API client libraries.
+// See https://github.com/wellcomecollection/wellcomecollection.org/issues/7595
+
 import { Query } from '@prismicio/types';
 import { GetServerSidePropsPrismicClient } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
