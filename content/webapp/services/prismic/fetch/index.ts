@@ -74,7 +74,7 @@ type Params = Parameters<
 function hasMatchingContentType(document: PrismicDocument, contentType: ContentType | ContentType[]): boolean {
   return isString(contentType)
     ? document.type === contentType
-    : contentType.map(ct => ct as string).indexOf(document.type) !== -1;
+    : contentType.map(ct => ct as string).includes(document.type);
 }
 
 export function fetcher<Document extends PrismicDocument>(
