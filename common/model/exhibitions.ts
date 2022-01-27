@@ -3,7 +3,7 @@ import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
-import { HTMLString } from 'services/prismic/types';
+import { HTMLString } from '../services/prismic/types';
 // e.g. 'Permanent'
 export type ExhibitionFormat = {
   id: string;
