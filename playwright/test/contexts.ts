@@ -1,6 +1,5 @@
 import { baseUrl, useStageApis } from './helpers/urls';
 import { Response } from 'playwright';
-import type { PrismicApiSearchResponse } from '@weco/common/services/prismic/types';
 export function gotoWithoutCache(url: string): Promise<null | Response> {
   return page.goto(`${url}?cachebust=${Date.now()}`);
 }
@@ -102,7 +101,7 @@ const article = async (id: string): Promise<void> => {
 
 const articleWithMockSiblings = async (
   id: string,
-  response: PrismicApiSearchResponse
+  response: Record<string, any>
 ): Promise<void> => {
   await context.route('**/api/**', route =>
     route.fulfill({
