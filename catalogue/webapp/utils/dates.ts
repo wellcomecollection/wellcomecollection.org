@@ -162,3 +162,35 @@ export function extendEndDate(params: {
     }
   }
 }
+
+export function isRequestableDate(params: {
+  date: Moment;
+  startDate: Moment | null;
+  endDate: Moment | null;
+  excludedDates: Moment[];
+  excludedDays: DayNumber[];
+}): boolean {
+  const { date, startDate, endDate, excludedDates, excludedDays } = params;
+
+  const isExceptionalClosedDay = excludedDates.some(moment =>
+    moment.isSame(date, 'day')
+  );
+  const isRegularClosedDay = excludedDays.includes(date.day() as DayNumber);
+  return (
+    Boolean(
+      // no start and end date
+      (!startDate && !endDate) ||
+        // both start and end date
+        (startDate &&
+          date.isSameOrAfter(startDate) &&
+          endDate &&
+          date.isSameOrBefore(endDate)) ||
+        // only start date
+        (startDate && !endDate && date.isSameOrAfter(startDate)) ||
+        // only end date
+        (endDate && !startDate && date.isSameOrBefore(endDate))
+    ) && // both start and end date
+    !isExceptionalClosedDay &&
+    !isRegularClosedDay
+  );
+}
