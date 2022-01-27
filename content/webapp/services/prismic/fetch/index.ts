@@ -82,6 +82,8 @@ export function fetcher<Document extends PrismicDocument>(
 
         if (document.type === contentType) {
           return document;
+        } else {
+          console.warn(`Asked to fetch document ${id} as type '${contentType}', but ${id} is actually '${document.type}'`);
         }
       } catch {}
     },
