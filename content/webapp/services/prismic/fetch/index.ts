@@ -13,6 +13,10 @@ export type GetServerSidePropsPrismicClient = {
   client: prismic.Client;
 };
 
+export const delistPredicate = prismic.predicate.not('document.tags', [
+  'delist',
+]);
+
 /**
  * We require the `GetServerSidePropsContext` or `NextApiRequest` here to esure that
  * the client is being created at the entry-edge of our application.
@@ -66,8 +70,15 @@ type Params = Parameters<
   GetServerSidePropsPrismicClient['client']['getByType']
 >[1];
 
+/** Returns true if a document has one of the content types specified in `contentType`. */
+function hasMatchingContentType(document: PrismicDocument, contentType: ContentType | ContentType[]): boolean {
+  return isString(contentType)
+    ? document.type === contentType
+    : contentType.map(ct => ct as string).indexOf(document.type) !== -1;
+}
+
 export function fetcher<Document extends PrismicDocument>(
-  contentType: ContentType,
+  contentType: ContentType | ContentType[],
   fetchLinks: string[]
 ) {
   return {
@@ -80,7 +91,7 @@ export function fetcher<Document extends PrismicDocument>(
           fetchLinks,
         });
 
-        if (document.type === contentType) {
+        if (hasMatchingContentType(document, contentType)) {
           return document;
         } else {
           console.warn(`Asked to fetch document ${id} as type '${contentType}', but ${id} is actually '${document.type}'`);
@@ -88,25 +99,39 @@ export function fetcher<Document extends PrismicDocument>(
       } catch {}
     },
 
+    /** Get all the documents of a given type.
+      * 
+      * If `contentType` is an array, this fetches all the documents of any specified type.
+      * This is useful if we use the same fetch/transform method for multiple documents with
+      * different types in Prismic, e.g. articles which could be 'article' or 'webcomic'.
+      */
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
       params: Params = {}
     ): Promise<Query<Document>> => {
-      const delistPredicate = prismic.predicate.not('document.tags', [
-        'delist',
-      ]);
-
       const predicates = isString(params.predicates)
         ? [params.predicates]
         : Array.isArray(params.predicates)
         ? params.predicates
         : [];
 
-      const response = await client.getByType<Document>(contentType, {
-        ...params,
-        fetchLinks,
-        predicates: [...predicates, delistPredicate],
-      });
+      const response =
+        isString(contentType)
+          ? await client.getByType<Document>(contentType, {
+            ...params,
+            fetchLinks,
+            predicates: [...predicates, delistPredicate],
+          })
+          : await client.get<Document>({
+            ...params,
+            fetchLinks,
+            predicates: [
+              prismic.predicate.any('document.type', contentType),
+              delistPredicate,
+              ...(params.predicates ?? []),
+            ],
+          });
+
       return response;
     },
 
