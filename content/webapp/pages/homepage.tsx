@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getPage } from '@weco/common/services/prismic/pages';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -34,6 +33,9 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
+import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
+import { fetchPage } from 'services/prismic/fetch/pages';
+import { transformPage } from 'services/prismic/transformers/pages';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -69,11 +71,12 @@ const pageImage =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
+    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+    const pagePromise = fetchPage(client, homepageId);
 
     const exhibitionsPromise = getExhibitions(
       context.req,
@@ -90,14 +93,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       },
       memoizedPrismic
     );
-    const pagePromise = getPage(context.req, id, memoizedPrismic);
-    const [exhibitions, events, articlesQuery, page] = await Promise.all([
+
+    const [exhibitions, events, articlesQuery, pageDocument] = await Promise.all([
       exhibitionsPromise,
       eventsPromise,
       articlesQueryPromise,
       pagePromise,
     ]);
 
+    // The homepage should always exist in Prismic.
+    const page = transformPage(pageDocument!);
+    
     const articles = transformQuery(articlesQuery, transformArticle);
 
     if (events && exhibitions && articles && page) {

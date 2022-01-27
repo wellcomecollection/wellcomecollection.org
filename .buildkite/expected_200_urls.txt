@@ -1,5 +1,3 @@
-/guides/YL9OAxIAAB8AHsyv
-
 # https://wellcome.slack.com/archives/C294K7D5M/p1638794220158000
 /covid-book-your-ticket
 
@@ -18,3 +16,18 @@
 
 # This is an article with an event link in the "Try these next" section
 /articles/W_LXOxcAACwAxC5_
+
+# This is an example of every content type in Prismic (as of January 2022)
+/articles/YbNRQBEAACMAZfvG
+/books/YRpf9xEAADVQ33g6
+/event-series/XLWcIBEAAGC6wYZr
+/events/YUMsAxAAACUASyMn
+/exhibitions/YLjGYhAAACMAed2Z
+/guides/YL9OAxIAAB8AHsyv
+/pages/YLnuVRAAACMAftOt
+/projects/YEIYwhAAACIANd6T
+/seasons/YEY3ZBAAACEASBjA
+/series/X8YMWBIAACUAhwAx
+
+# This is an article which is the 'webcomics' type underneath
+/articles/YbNRQBEAACMAZfvG

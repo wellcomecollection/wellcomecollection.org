@@ -1,6 +1,6 @@
 // @flow
 import Prismic from '@prismicio/client';
-import { getDocument, getDocuments } from './api';
+import { getDocuments } from './api';
 import {
   parseTimestamp,
   parseGenericFields,
@@ -31,11 +31,8 @@ import {
   contributorsFields,
   peopleFields,
   bookFields,
-  pagesFormatsFields,
-  guidesFields,
 } from './fetch-links';
 
-import { type FeaturedText } from '@weco/common/model/text';
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
   const genericFields = parseGenericFields(document);
@@ -70,41 +67,6 @@ export function parsePage(document: PrismicDocument): Page {
     siteSection: siteSection,
     prismicDocument: document,
   };
-}
-
-export async function getPage(
-  req: ?Request,
-  id: string,
-  memoizedPrismic: ?Object
-): Promise<?Page> {
-  const page = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: pagesFields.concat(
-        articleSeriesFields,
-        eventSeriesFields,
-        collectionVenuesFields,
-        exhibitionFields,
-        teamsFields,
-        eventsFields,
-        cardsFields,
-        eventFormatsFields,
-        articleFormatsFields,
-        labelsFields,
-        seasonsFields,
-        contributorsFields,
-        peopleFields,
-        bookFields,
-        pagesFormatsFields,
-        guidesFields
-      ),
-    },
-    memoizedPrismic
-  );
-  if (page) {
-    return parsePage(page);
-  }
 }
 
 type Order = 'desc' | 'asc';
@@ -216,12 +178,3 @@ export async function getChildren(
     };
   }
 }
-
-export const getPageFeaturedText = (page: Page): ?FeaturedText => {
-  const filteredFeaturedText = page.body.filter(
-    slice => slice.weight === 'featured'
-  );
-  if (filteredFeaturedText.length) {
-    return filteredFeaturedText[0];
-  }
-};

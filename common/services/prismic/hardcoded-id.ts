@@ -1,6 +1,14 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
+export const homepageId = 'XphUbREAACMAgRNP';
+
+// The ID of the series that's featured on the /stories page.
+//
+// Ideally, this should be configurable in Prismic or by the content team,
+// to take devs out of the loop.
+export const featuredStoriesSeriesId = 'YXKNnxEAACEARPrl';
+
 export const collectionVenueId = {
   galleries: {
     id: 'Wsttgx8AAJeSNmJ4',
@@ -36,7 +44,14 @@ export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
+  access: 'Wvm2uiAAAIYQ4FHP',
   contactUs: 'YVMbEBAAAPaMBrz7',
+  openingTimes: 'WwQHTSAAANBfDYXU',
+  press: 'WuxrKCIAAP9h3hmw',
+  schools: 'Wuw2MSIAACtd3StS',
+  userPanel: 'YH17kRAAACoAyWTB',
+  venueHire: 'Wuw2MSIAACtd3SsC',
+  youth: 'Wuw2MSIAACtd3Ste',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {

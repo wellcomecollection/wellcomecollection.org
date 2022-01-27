@@ -9,7 +9,6 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import {
-  getPage,
   getPageSiblings,
   getChildren,
 } from '@weco/common/services/prismic/pages';
@@ -37,6 +36,9 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { contentLd } from '../services/prismic/transformers/json-ld';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { createClient } from '../services/prismic/fetch';
+import { transformPage } from '../services/prismic/transformers/pages';
 
 type Props = {
   page: PageType;
@@ -56,11 +58,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id, memoizedPrismic } = context.query;
-    const page: PageType | undefined = await getPage(
-      context.req,
-      id,
-      memoizedPrismic
-    );
+
+    const client = createClient(context);
+    const pageLookup = await fetchPage(client, id as string);
+    const page = pageLookup && transformPage(pageLookup);
+
     if (page) {
       const siblings = await getPageSiblings(
         page,

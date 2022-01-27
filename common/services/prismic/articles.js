@@ -22,7 +22,7 @@ import type {
   PrismicQueryOpts,
 } from './types';
 
-const graphQuery = `{
+export const graphQuery = `{
   webcomics {
     ...webcomicsFields
     format {

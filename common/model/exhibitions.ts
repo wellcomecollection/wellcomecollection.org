@@ -18,6 +18,7 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
+  accessContentOverride?: string;
   place?: Place;
   exhibits: Exhibit[];
   resources: Resource[];

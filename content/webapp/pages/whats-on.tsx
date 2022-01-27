@@ -7,10 +7,7 @@ import { Period } from '@weco/common/model/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import {
-  getPage,
-  getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
+import { getPageFeaturedText } from '../services/prismic/transformers/pages';
 import { getEvents } from '@weco/common/services/prismic/events';
 import {
   filterEventsForToday,
@@ -67,6 +64,9 @@ import {
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { createClient } from '../services/prismic/fetch';
+import { transformPage } from '../services/prismic/transformers/pages';
 
 const segmentedControlItems = [
   {
@@ -315,19 +315,19 @@ const pageDescription =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const { memoizedPrismic } = context.query;
+
+    const client = createClient(context);
 
     const period = context.query.period
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
-    const { memoizedPrismic } = context.query;
+    // call prismic for specific content for section page such as featured text
 
-    // call prisimic for specific content for section page such as featured text
-    const whatsOnPagePromise = getPage(
-      context.req,
-      prismicPageIds.whatsOn,
-      memoizedPrismic
-    );
+    // TODO: If we're only looking up this page to get the featured text slice,
+    // would it be faster to skip all the fetchLinks?  Is that possible?
+    const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
     const exhibitionsPromise = getExhibitions(
       context.req,
@@ -367,7 +367,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const dateRange = getMomentsForPeriod(period);
 
-    const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
+    const featuredText = whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
 
     if (period && events && exhibitions) {
       return {

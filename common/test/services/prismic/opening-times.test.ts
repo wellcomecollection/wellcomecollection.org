@@ -1,6 +1,8 @@
 import {
   exceptionalOpeningDates,
+  exceptionalOpeningPeriods,
   getExceptionalVenueDays,
+  getVenueById,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { london } from '../../../utils/format-date';
@@ -14,8 +16,8 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
     },
   };
 });
-
-const galleriesVenue = venues.find(venue => venue.id === 'Wsttgx8AAJeSNmJ4'); // TODO use getVenueById
+// const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
+const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
@@ -81,6 +83,107 @@ describe('opening-times', () => {
     });
   });
 
+  describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
+    it('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-01') },
+        { overrideType: 'other', overrideDate: london('2020-01-03') },
+        { overrideType: 'other', overrideDate: london('2020-01-06') },
+        { overrideType: 'other', overrideDate: london('2020-01-10') },
+        { overrideType: 'other', overrideDate: london('2020-01-15') },
+        { overrideType: 'other', overrideDate: london('2020-01-21') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            london('2020-01-01'),
+            london('2020-01-03'),
+            london('2020-01-06'),
+            london('2020-01-10'),
+            london('2020-01-15'),
+          ],
+        },
+        {
+          type: 'other',
+          dates: [london('2020-01-21')],
+        },
+      ]);
+    });
+
+    it('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-02') },
+        { overrideType: 'other', overrideDate: london('2020-01-04') },
+        {
+          overrideType: 'Christmas and New Year',
+          overrideDate: london('2020-01-02'),
+        },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [london('2020-01-02'), london('2020-01-04')],
+        },
+        {
+          type: 'Christmas and New Year',
+          dates: [london('2020-01-02')],
+        },
+      ]);
+    });
+
+    it('puts dates in chronological order within their groups', () => {
+      const result = exceptionalOpeningPeriods([
+        { overrideType: 'other', overrideDate: london('2020-01-04') },
+        { overrideType: 'other', overrideDate: london('2020-01-07') },
+        { overrideType: 'other', overrideDate: london('2020-01-02') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [
+            london('2020-01-02'),
+            london('2020-01-04'),
+            london('2020-01-07'),
+          ],
+        },
+      ]);
+    });
+
+    it('puts Groups in chronological order based on their earliest date', () => {
+      const result = exceptionalOpeningPeriods([
+        {
+          overrideType: 'Bank holiday',
+          overrideDate: london('2021-01-05'),
+        },
+        { overrideType: 'other', overrideDate: london('2021-01-04') },
+        {
+          overrideType: 'Christmas and New Year',
+          overrideDate: london('2021-12-30'),
+        },
+        { overrideType: 'other', overrideDate: london('2021-01-02') },
+        { overrideType: 'other', overrideDate: london('2021-04-10') },
+      ]);
+      expect(result).toEqual([
+        {
+          type: 'other',
+          dates: [london('2021-01-02'), london('2021-01-04')],
+        },
+        {
+          type: 'Bank holiday',
+          dates: [london('2021-01-05')],
+        },
+        {
+          type: 'other',
+          dates: [london('2021-04-10')],
+        },
+        {
+          type: 'Christmas and New Year',
+          dates: [london('2021-12-30')],
+        },
+      ]);
+    });
+  });
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
       const result = getExceptionalVenueDays(galleriesVenue!);
@@ -135,6 +238,12 @@ describe('opening-times', () => {
           isClosed: false,
         },
       ]);
+    });
+  });
+  describe('getVenueById', () => {
+    it('returns a venue object with a matching id from an array of venues', () => {
+      const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
+      expect(result.name).toEqual('Galleries and Reading Room');
     });
   });
 });

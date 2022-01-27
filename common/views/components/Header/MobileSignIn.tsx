@@ -60,7 +60,9 @@ const MobileSignIn: FC = () => {
       >
         <Icon icon={userIcon} matchText={true} />
       </Space>
-      {!user && <a href="/account">Sign in to your library account</a>}
+      {!user && (
+        <a href="/account/api/auth/login">Sign in to your library account</a>
+      )}
       {user && (
         <>
           <a href="/account">Library account</a>
