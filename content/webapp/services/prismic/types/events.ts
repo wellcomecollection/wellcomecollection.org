@@ -78,7 +78,7 @@ type EventPolicy = PrismicDocument<
   },
   'event-policies'
 >;
-const eventPoliciyFetchLink: FetchLinks<EventPolicy> = [
+const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
   'event-policies.title',
   'event-policies.description',
 ];
@@ -184,7 +184,7 @@ export const eventsFetchLinks = [
   ...eventFormatFetchLink,
   ...interpretationTypeFetchLinks,
   ...audienceFetchLinks,
-  ...eventPoliciyFetchLink,
+  ...eventPolicyFetchLink,
   ...placesFetchLink,
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,
