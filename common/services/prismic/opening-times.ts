@@ -1,5 +1,6 @@
 import { Query } from '@prismicio/types';
 import { london } from '../../utils/format-date';
+import groupBy from 'lodash.groupby';
 import type {
   Day,
   OverrideType,
@@ -56,40 +57,42 @@ export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
 export function exceptionalOpeningPeriods(
   dates: OverrideDate[]
 ): ExceptionalPeriod[] {
-  let groupedIndex = 0;
+  dates.sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate));
 
-  return dates.reduce((acc, date, i, array) => {
-    const previousDate =
-      array[i - 1] && array[i - 1].overrideDate
+  const exceptionalPeriods = Object.values(
+    groupBy(dates, date => date.overrideType)
+  ).flat();
+
+  let groupedIndex = 0;
+  return exceptionalPeriods
+    .reduce((acc, date, i, array) => {
+      const previousDate = array[i - 1]?.overrideDate
         ? array[i - 1].overrideDate
         : null;
-    if (!previousDate) {
-      acc[groupedIndex] = {
-        type: 'other',
-        dates: [],
-      };
-      acc[groupedIndex].type = date.overrideType || 'other';
-      acc[groupedIndex].dates = [];
-      acc[groupedIndex].dates.push(date);
-    } else if (
-      previousDate &&
-      date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
-      date.overrideType === acc[groupedIndex].type
-    ) {
-      acc[groupedIndex].dates.push(date);
-    } else {
-      groupedIndex++;
-      acc[groupedIndex] = {
-        type: 'other',
-        dates: [],
-      };
-      acc[groupedIndex].type = date.overrideType || 'other';
-      acc[groupedIndex].dates = [];
-      acc[groupedIndex].dates.push(date);
-    }
-
-    return acc;
-  }, [] as ExceptionalPeriod[]);
+      if (!previousDate) {
+        acc[groupedIndex] = {
+          type: date.overrideType,
+          dates: [date.overrideDate],
+        };
+      } else if (
+        previousDate &&
+        date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
+        date.overrideType === acc[groupedIndex].type
+      ) {
+        acc[groupedIndex].dates.push(date.overrideDate);
+      } else {
+        groupedIndex++;
+        acc[groupedIndex] = {
+          type: date.overrideType,
+          dates: [date.overrideDate],
+        };
+      }
+      return acc;
+    }, [] as ExceptionalPeriod[])
+    .sort((a, b) => {
+      // order groups by their earlist date
+      return a.dates[0].isBefore(b.dates[0]) ? -1 : 1;
+    });
 }
 
 type OverrideDates = {
@@ -98,45 +101,29 @@ type OverrideDates = {
 };
 
 export function exceptionalOpeningPeriodsAllDates(
-  exceptionalOpeningPeriods?: ExceptionalPeriod[]
+  exceptionalOpeningPeriods: ExceptionalPeriod[]
 ): OverrideDates[] {
-  return exceptionalOpeningPeriods
-    ? exceptionalOpeningPeriods.map(period => {
-        const startDate: Moment = london(
-          period.dates[0]?.overrideDate?.toDate()
-        ).startOf('day');
+  return exceptionalOpeningPeriods.map(period => {
+    const startDate: Moment = london(period.dates[0]?.toDate()).startOf('day');
 
-        const lastDate: Moment = london(
-          period.dates[period.dates.length - 1]?.overrideDate?.toDate()
-        ).startOf('day');
+    const lastDate: Moment = london(
+      period.dates[period.dates.length - 1]?.toDate()
+    ).startOf('day');
 
-        const completeDateArray: moment.Moment[] = [];
+    const completeDateArray: Moment[] = [];
 
-        while (startDate.startOf('day').isSameOrBefore(lastDate)) {
-          const current = startDate.format('YYYY-MM-DD');
-          const currentDate: moment.Moment = london(new Date(current));
-          completeDateArray.push(currentDate);
-          startDate.add(1, 'day');
-        }
+    while (startDate.startOf('day').isSameOrBefore(lastDate)) {
+      const current = startDate.format('YYYY-MM-DD');
+      const currentDate: Moment = london(new Date(current));
+      completeDateArray.push(currentDate);
+      startDate.add(1, 'day');
+    }
 
-        return {
-          type: period.type,
-          dates: completeDateArray,
-        };
-      })
-    : [];
-}
-
-export function getExceptionalOpeningPeriods(
-  venues: Venue[]
-): OverrideDates[] | undefined {
-  const allExceptionalDates = exceptionalOpeningDates(venues);
-  const groupedExceptionalDates =
-    allExceptionalDates && exceptionalOpeningPeriods(allExceptionalDates);
-  return (
-    groupedExceptionalDates &&
-    exceptionalOpeningPeriodsAllDates(groupedExceptionalDates)
-  );
+    return {
+      type: period.type,
+      dates: completeDateArray,
+    };
+  });
 }
 
 export function getExceptionalVenueDays(
@@ -311,26 +298,32 @@ export function parseCollectionVenue(
   venue: CollectionVenuePrismicDocument
 ): Venue {
   const data = venue.data;
-  const exceptionalOpeningHours = data.modifiedDayOpeningTimes.map(modified => {
-    const start = modified.startDateTime;
-    const end = modified.endDateTime;
-    const isClosed = !start;
-    const overrideDate: Moment | undefined = modified.overrideDate
-      ? london(modified.overrideDate)
-      : undefined;
-    const overrideType = modified.type ?? undefined;
-    return {
-      overrideDate,
-      overrideType,
-      // If there is no start time from prismic, then we set both opens and closes to 00:00.
-      // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-      // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-      // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-      opens: start ? london(start).format('HH:mm') : '00:00',
-      closes: start && end ? london(end).format('HH:mm') : '00:00',
-      isClosed,
-    };
-  });
+  const exceptionalOpeningHours = data.modifiedDayOpeningTimes
+    ? data.modifiedDayOpeningTimes
+        .filter(modified => modified.overrideDate)
+        .map(modified => {
+          const start = modified.startDateTime;
+          const end = modified.endDateTime;
+          const isClosed = !start;
+          const overrideDate = modified.overrideDate
+            ? london(modified.overrideDate)
+            : undefined;
+          const overrideType = modified.type ?? 'other';
+          if (overrideDate) {
+            return {
+              overrideDate,
+              overrideType,
+              // If there is no start time from prismic, then we set both opens and closes to 00:00.
+              // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+              // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+              // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+              opens: start ? london(start).format('HH:mm') : '00:00',
+              closes: start && end ? london(end).format('HH:mm') : '00:00',
+              isClosed,
+            };
+          }
+        })
+    : [];
 
   return {
     id: venue.id as string,
@@ -346,7 +339,7 @@ export function parseCollectionVenue(
         createRegularDay('Saturday', venue),
         createRegularDay('Sunday', venue),
       ],
-      exceptional: exceptionalOpeningHours,
+      exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
     image: data.image,
     url: 'url' in data.link ? data.link.url : undefined,

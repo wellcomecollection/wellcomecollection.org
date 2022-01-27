@@ -1,3 +1,5 @@
+import { Day } from '../../../model/opening-hours';
+
 export const cafeVenue = {
   id: 'WsuZKh8AAOG_NyUo',
   order: 4,
@@ -5,43 +7,43 @@ export const cafeVenue = {
   openingHours: {
     regular: [
       {
-        dayOfWeek: 'Monday',
+        dayOfWeek: 'Monday' as Day,
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        dayOfWeek: 'Tuesday',
+        dayOfWeek: 'Tuesday' as Day,
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Wednesday',
+        dayOfWeek: 'Wednesday' as Day,
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday',
+        dayOfWeek: 'Thursday' as Day as Day,
         opens: '08:30',
         closes: '21:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Friday',
+        dayOfWeek: 'Friday' as Day,
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Saturday',
+        dayOfWeek: 'Saturday' as Day,
         opens: '09:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Sunday',
+        dayOfWeek: 'Sunday' as Day,
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
