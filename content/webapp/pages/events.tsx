@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { getEvents } from '@weco/common/services/prismic/events';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
@@ -13,10 +12,15 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { createClient } from '../services/prismic/fetch';
+import { fetchEvents } from 'services/prismic/fetch/events';
+import { getPage } from 'utils/query-params';
+import { transformEvent } from 'services/prismic/transformers/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
 
 type Props = {
   displayTitle: string;
@@ -29,26 +33,34 @@ const pageDescription =
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const page = getPage(context.query);
+
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
+    }
+
     const serverData = await getServerData(context);
+
     const {
-      page = 1,
-      memoizedPrismic,
       period = 'current-and-coming-up',
       isOnline,
       availableOnline,
     } = context.query;
 
-    const events = await getEvents(
-      context.req,
+    const client = createClient(context);
+
+    const eventsQueryPromise = await fetchEvents(
+      client,
       {
         page,
-        period,
+        period: period as ('current-and-coming-up' | 'past' | undefined),
         pageSize: 100,
         isOnline: isOnline === 'true',
         availableOnline: availableOnline === 'true',
-      },
-      memoizedPrismic
+      }
     );
+
+    const events = transformQuery(eventsQueryPromise, transformEvent);
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';

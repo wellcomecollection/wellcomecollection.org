@@ -2,7 +2,7 @@ import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
-import { startField, endField, graphQuery } from '@weco/common/services/prismic';
+import { startField, endField, graphQuery } from '@weco/common/services/prismic/events';
 import * as prismic from 'prismic-client-beta';
 
 const fetchLinks = eventsFetchLinks;
@@ -18,6 +18,7 @@ type FetchEventsQueryParams = {
   availableOnline?: boolean,
   page?: number,
   pageSize?: number,
+  orderings?: (prismic.Ordering | string)[];
 };
 
 export const fetchEvents = (
@@ -28,13 +29,14 @@ export const fetchEvents = (
     isOnline,
     availableOnline,
     page,
-    pageSize
+    pageSize,
+    orderings = []
   }: FetchEventsQueryParams
 ): Promise<Query<EventPrismicDocument>> => {
   const order = period === 'past' ? 'desc' : 'asc';
-  const orderings =
+  const startTimeOrderings =
     order === 'desc'
-      ? [{ field: 'my.events.times.startDateTime', order: 'desc' }]
+      ? [{ field: 'my.events.times.startDateTime', direction: 'desc' }] as prismic.Ordering[]
       : [];
 
   const dateRangePredicates = period
@@ -58,7 +60,10 @@ export const fetchEvents = (
         ...availableOnlinePredicates,
         ...predicates
       ],
-      orderings,
+      orderings: [
+        ...orderings,
+        ...startTimeOrderings,
+      ],
       page,
       pageSize,
       graphQuery

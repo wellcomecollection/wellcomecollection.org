@@ -13,7 +13,6 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { getEvents } from '@weco/common/services/prismic/events';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
@@ -34,8 +33,10 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
-import { fetchPage } from 'services/prismic/fetch/pages';
-import { transformPage } from 'services/prismic/transformers/pages';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { transformPage } from '../services/prismic/transformers/pages';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformEvent } from '../services/prismic/transformers/events';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -76,6 +77,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+    const eventsQueryPromise = fetchEvents(
+      client,
+      {
+        period: 'current-and-coming-up',
+      },
+    );
     const pagePromise = fetchPage(client, homepageId);
 
     const exhibitionsPromise = getExhibitions(
@@ -86,17 +93,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       },
       memoizedPrismic
     );
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-      },
-      memoizedPrismic
-    );
 
-    const [exhibitions, events, articlesQuery, pageDocument] = await Promise.all([
+    const [exhibitions, eventsQuery, articlesQuery, pageDocument] = await Promise.all([
       exhibitionsPromise,
-      eventsPromise,
+      eventsQueryPromise,
       articlesQueryPromise,
       pagePromise,
     ]);
@@ -105,6 +105,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const page = transformPage(pageDocument!);
     
     const articles = transformQuery(articlesQuery, transformArticle);
+    const events = transformQuery(eventsQuery, transformEvent);
 
     if (events && exhibitions && articles && page) {
       return {
