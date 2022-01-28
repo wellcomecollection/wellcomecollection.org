@@ -153,7 +153,7 @@ const Homepage: FC<Props> = props => {
       <Layout10>
         <SpacingSection>
           <PageHeading>
-            ${homepageHeading}
+            {homepageHeading}
           </PageHeading>
           {standFirst && (
             <CreamBox>

@@ -234,7 +234,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         <SpacingComponent>
           <Layout12>
             <p>
-              ${booksPromoOnStoriesPage}
+              {booksPromoOnStoriesPage}
             </p>
           </Layout12>
         </SpacingComponent>
