@@ -14,7 +14,7 @@ import { transformBook } from '../services/prismic/transformers/books';
 import { fetchBooks } from '../services/prismic/fetch/books';
 import { Book } from '../types/books';
 import { getPage } from '../utils/query-params';
-import { pageDescriptions } from '../data/microcopy';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   books: PaginatedResults<Book>;

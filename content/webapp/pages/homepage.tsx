@@ -37,7 +37,7 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformEvent } from '../services/prismic/transformers/events';
-import { pageDescriptions } from '../data/microcopy';
+import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -153,7 +153,7 @@ const Homepage: FC<Props> = props => {
       <Layout10>
         <SpacingSection>
           <PageHeading>
-            A free museum and library exploring health and human experience
+            ${homepageHeading}
           </PageHeading>
           {standFirst && (
             <CreamBox>

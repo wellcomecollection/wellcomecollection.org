@@ -31,7 +31,7 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from 'services/prismic/fetch/pages';
-import { pageDescriptions } from 'data/microcopy';
+import { pageDescriptions, booksPromoOnStoriesPage } from 'data/microcopy';
 
 type Props = {
   articles: Article[];
@@ -234,8 +234,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         <SpacingComponent>
           <Layout12>
             <p>
-              Get stuck into one of our books, and explore the complexities of
-              the human condition.
+              ${booksPromoOnStoriesPage}
             </p>
           </Layout12>
         </SpacingComponent>

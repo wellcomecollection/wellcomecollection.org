@@ -21,7 +21,7 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { pageDescriptions } from '../data/microcopy';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   displayTitle: string;

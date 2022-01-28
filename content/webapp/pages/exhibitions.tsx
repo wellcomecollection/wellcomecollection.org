@@ -13,7 +13,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
-import { pageDescriptions } from '../data/microcopy';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   exhibitions: PaginatedResults<UiExhibition>;
