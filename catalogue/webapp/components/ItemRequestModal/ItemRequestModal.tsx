@@ -265,6 +265,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
             <PickUpDateDescription>
               <p className="no-margin">
                 The date you would like to view this item in the library
+                <span className="visually-hidden">
+                  in the format DD/MM/YYYY
+                </span>
               </p>
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                 <p
