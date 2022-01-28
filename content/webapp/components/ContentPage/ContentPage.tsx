@@ -30,6 +30,7 @@ import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -68,7 +69,7 @@ const ShameWhatWeDoHack = () => (
       title="Join our user panel"
       primaryLabels={[]}
       secondaryLabels={[]}
-      description="Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more."
+      description={pageDescriptions.userPanel}
       Image={
         <Image
           contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}
