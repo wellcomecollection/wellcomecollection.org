@@ -18,6 +18,7 @@ export const pageDescriptions = {
   guides: 'Guides intro text...',
   homepage: 'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.',
   stories: 'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.',
+  userPanel: 'Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more.',
   whatsOn: 'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
 };
 
