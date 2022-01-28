@@ -13,3 +13,6 @@
 
 # This is a real Prismic ID, but it's an exhibition, not an event
 /events/YZYdQxEAACQAVm7b
+
+# Ignore requests for bare types
+/event-series
