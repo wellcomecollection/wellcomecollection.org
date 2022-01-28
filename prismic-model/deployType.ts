@@ -20,7 +20,7 @@ async function run() {
   const credentials = await getCreds('experience', 'developer');
   await setEnvsFromSecrets(secrets, credentials);
 
-  const remoteType: CustomType = await fetch(
+  const resp = await fetch(
     `https://customtypes.prismic.io/customtypes/${id}`,
     {
       headers: {
@@ -28,7 +28,14 @@ async function run() {
         repository: 'wellcomecollection',
       },
     }
-  ).then(resp => resp.json());
+  );
+
+  if (resp.status === 404) {
+    error(`Prismic does not know about a custom type '${id}'. Do you have the right name?`);
+    process.exit(1);
+  }
+
+  const remoteType: CustomType = await resp.json();
 
   const localType = (await import(`./src/${id}`)).default;
 
