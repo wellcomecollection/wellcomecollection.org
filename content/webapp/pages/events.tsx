@@ -21,15 +21,13 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { pageDescriptions } from '../data/microcopy';
 
 type Props = {
   displayTitle: string;
   events: PaginatedResults<UiEvent>;
   period?: Period;
 };
-
-const pageDescription =
-  'Our events are now taking place online. Choose from an inspiring range of free talks, discussions and more.';
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -92,7 +90,7 @@ const EventsPage: FC<Props> = props => {
   return (
     <PageLayout
       title={displayTitle}
-      description={pageDescription}
+      description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
       jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
@@ -113,7 +111,7 @@ const EventsPage: FC<Props> = props => {
           description={[
             {
               type: 'paragraph',
-              text: pageDescription,
+              text: pageDescriptions.events,
               spans: [],
             },
           ]}
