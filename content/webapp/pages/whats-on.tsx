@@ -66,9 +66,10 @@ import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard'
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
-import { fetchEvents } from 'services/prismic/fetch/events';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformEvent } from 'services/prismic/transformers/events';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const segmentedControlItems = [
   {
@@ -311,9 +312,6 @@ const Header = ({
   );
 };
 
-const pageDescription =
-  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
@@ -425,7 +423,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   return (
     <PageLayout
       title={pageTitle}
-      description={pageDescription}
+      description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={
         [
