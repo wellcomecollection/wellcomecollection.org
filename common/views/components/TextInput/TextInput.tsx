@@ -156,6 +156,7 @@ type Props = {
   autoFocus?: boolean;
   big?: boolean;
   ariaLabel?: string;
+  ariaDescribedBy?: string;
 };
 
 const TextInput = forwardRef(
@@ -177,6 +178,7 @@ const TextInput = forwardRef(
       autoFocus,
       big,
       ariaLabel,
+      ariaDescribedBy,
     }: Props,
     ref: RefObject<HTMLInputElement>
   ) => {
@@ -230,6 +232,7 @@ const TextInput = forwardRef(
             type={type}
             autoFocus={autoFocus}
             aria-label={ariaLabel}
+            aria-describedby={ariaDescribedBy}
             big={!!big}
           />
           {isValid && showValidity && (
