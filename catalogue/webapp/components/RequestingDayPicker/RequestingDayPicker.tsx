@@ -30,21 +30,25 @@ const RequestingDayPicker: FC<Props> = ({
     const pickUpDateMoment = pickUpDate
       ? londonFromFormat(pickUpDate, stringFormat)
       : null;
+
     setIsCorrectFormat(
-      Boolean(pickUpDate && pickUpDate.match(/^\d{2}\/\d{2}\/\d{4}$/))
+      Boolean(
+        !pickUpDate || (pickUpDate && pickUpDate.match(/^\d{2}\/\d{2}\/\d{4}$/))
+      )
     );
 
     setIsOnRequestableDate(
       Boolean(
-        pickUpDateMoment &&
-          pickUpDateMoment.isValid() &&
-          isRequestableDate({
-            date: pickUpDateMoment,
-            startDate,
-            endDate,
-            excludedDates: exceptionalClosedDates,
-            excludedDays: regularClosedDays,
-          })
+        !pickUpDate ||
+          (pickUpDateMoment &&
+            pickUpDateMoment.isValid() &&
+            isRequestableDate({
+              date: pickUpDateMoment,
+              startDate,
+              endDate,
+              excludedDates: exceptionalClosedDates,
+              excludedDays: regularClosedDays,
+            }))
       )
     );
   }, [pickUpDate]);
@@ -64,6 +68,7 @@ const RequestingDayPicker: FC<Props> = ({
           : `Please enter a date in the correct format (${stringFormat})`
       }
       ariaDescribedBy={'pick-up-date-description'}
+      required={true}
     />
   );
 };
