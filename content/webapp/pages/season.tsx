@@ -158,7 +158,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: [`[at(my.series.seasons.season, "${id}")]`],
     });
 
-    const seasonDocPromise = fetchSeason(client, id);
+    const seasonDocPromise = fetchSeason(client, id as string);
 
     const [
       articlesQuery,
