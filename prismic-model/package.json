@@ -4,6 +4,7 @@
     "deployType": "ts-node deployType",
     "diffCustomTypes": "ts-node diffCustomTypes"
   },
+  "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.40.0",
     "@aws-sdk/client-sts": "^3.40.0",
