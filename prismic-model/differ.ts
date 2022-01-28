@@ -16,7 +16,7 @@
 //      }
 //
 
-type Delta = {
+export type Delta = {
   oldRecordOnly: Record<string, any>
   newRecordOnly: Record<string, any>
 }
