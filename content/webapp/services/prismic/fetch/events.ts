@@ -53,11 +53,12 @@ export const fetchEvents = (
   // TODO: When we upgrade the Prismic client libraries, convert these to the DSL.
   // 
   const onlinePredicates = isOnline
-    ? ['[at("my.events.isOnline", true)]']
+    ? ['[at(my.events.isOnline, true)]']
     : [];
 
+
   const availableOnlinePredicates = availableOnline
-    ? ['[at("my.events.availableOnline", true)]']
+    ? ["[at(my.events.availableOnline, true)]"]
     : [];
 
   return eventsFetcher.getByType(
