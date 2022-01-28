@@ -5,14 +5,14 @@ import {
   ExceptionalOpeningHoursDay,
   DayNumber,
 } from '@weco/common/model/opening-hours';
-import { london } from '@weco/common/utils/format-date';
+import { london, londonFromFormat } from '@weco/common/utils/format-date';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
 import {
   determineNextAvailableDate,
   convertOpeningHoursDayToDayNumber,
   extendEndDate,
   findClosedDays,
-  // isRequestableDate, // TODO prevent submisson if not requestable
+  isRequestableDate,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
 import {
@@ -188,7 +188,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
     regularClosedDays,
   });
   const [pickUpDate, setPickUpDate] = useState<string | null>(
-    nextAvailableDate?.format('DD/MM/YYYY') || null // TODO or leave this empty?
+    nextAvailableDate?.format('DD/MM/YYYY') || null
   );
 
   const regularClosedDaysText =
@@ -216,7 +216,23 @@ const RequestDialog: FC<RequestDialogProps> = ({
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!enablePickUpDate || pickUpDate) {
+    const pickUpDateMoment = pickUpDate
+      ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
+      : null;
+    if (
+      !enablePickUpDate ||
+      Boolean(
+        pickUpDateMoment &&
+          pickUpDateMoment.isValid() &&
+          isRequestableDate({
+            date: pickUpDateMoment,
+            startDate: nextAvailableDate,
+            endDate: extendedLastAvailableDate,
+            excludedDates: exceptionalClosedDates,
+            excludedDays: regularClosedDays,
+          })
+      )
+    ) {
       confirmRequest();
     }
   }
