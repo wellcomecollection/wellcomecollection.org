@@ -24,12 +24,12 @@ const RequestingDayPicker: FC<Props> = ({
   const [isCorrectFormat, setIsCorrectFormat] = useState(false);
   const [isOnRequestableDate, setIsOnRequestableDate] = useState(false);
   const isValid = isCorrectFormat && isOnRequestableDate;
+  const stringFormat = 'DD/MM/YYYY';
 
   useEffect(() => {
     const pickUpDateMoment = pickUpDate
-      ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
+      ? londonFromFormat(pickUpDate, stringFormat)
       : null;
-
     setIsCorrectFormat(
       Boolean(pickUpDate && pickUpDate.match(/^\d{2}\/\d{2}\/\d{4}$/))
     );
@@ -53,6 +53,7 @@ const RequestingDayPicker: FC<Props> = ({
     <TextInput
       id={'selectDate'}
       label="Select a date"
+      placeholder={stringFormat}
       value={pickUpDate || ''}
       setValue={setPickUpDate}
       isValid={isValid}
@@ -60,7 +61,7 @@ const RequestingDayPicker: FC<Props> = ({
       errorMessage={
         isCorrectFormat
           ? 'Your chosen date is not available to book'
-          : 'Please enter a date in the correct format (dd/mm/yyyy)'
+          : `Please enter a date in the correct format (${stringFormat})`
       }
       ariaDescribedBy={'pick-up-date-description'}
     />

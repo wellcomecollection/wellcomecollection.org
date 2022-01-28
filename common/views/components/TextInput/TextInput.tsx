@@ -1,4 +1,4 @@
-import { forwardRef, useContext, RefObject } from 'react';
+import { forwardRef, useContext, useState, RefObject } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
@@ -171,6 +171,7 @@ const TextInput = forwardRef(
       name,
       pattern,
       required,
+      placeholder,
       errorMessage,
       isValid,
       setIsValid,
@@ -184,6 +185,7 @@ const TextInput = forwardRef(
     ref: RefObject<HTMLInputElement>
   ) => {
     const { isEnhanced } = useContext(AppContext);
+    const [displayedPlaceholder, setDisplayedPlaceholder] = useState('');
 
     function onChange(event) {
       const isValueValid = event.currentTarget.validity.valid;
@@ -204,6 +206,7 @@ const TextInput = forwardRef(
     function onBlur(event) {
       setIsValid && setIsValid(event.currentTarget.validity.valid);
       setShowValidity && setShowValidity(!!value && true);
+      setDisplayedPlaceholder('');
     }
 
     return (
@@ -231,6 +234,12 @@ const TextInput = forwardRef(
             onBlur={onBlur}
             hasErrorBorder={!!(!isValid && showValidity)}
             type={type}
+            placeholder={displayedPlaceholder}
+            onFocus={() => {
+              if (placeholder) {
+                setDisplayedPlaceholder(placeholder);
+              }
+            }}
             autoFocus={autoFocus}
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedBy}
