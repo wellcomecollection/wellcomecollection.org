@@ -268,7 +268,6 @@ const RequestDialog: FC<RequestDialogProps> = ({
                   {availableDatesText}
                 </p>
               </Space>
-              {/* TODO add info about which dates are/aren't available - should be used as aria-describedby for input, along with above  */}
             </PickUpDateDescription>
             <RequestingDayPicker
               startDate={nextAvailableDate}

@@ -59,7 +59,7 @@ const RequestingDayPicker: FC<Props> = ({
       showValidity={!isValid}
       errorMessage={
         isCorrectFormat
-          ? 'Your chosen date is not available to book' // TODO what dates are available?
+          ? 'Your chosen date is not available to book'
           : 'Please enter a date in the correct format (dd/mm/yyyy)'
       }
     />
