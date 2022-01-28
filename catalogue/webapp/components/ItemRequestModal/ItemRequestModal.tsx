@@ -469,7 +469,7 @@ const ItemRequestModal: FC<Props> = ({
       setIsActive={innerSetIsActive}
       openButtonRef={openButtonRef}
     >
-      {renderModalContent(requestingState)}
+      {<div aria-live="assertive">{renderModalContent(requestingState)}</div>}
     </Modal>
   );
 };
