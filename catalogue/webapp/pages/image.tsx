@@ -16,6 +16,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
+import { isString } from '@weco/common/utils/array';
 
 type Props = {
   image: Image;
@@ -107,7 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id, workId } = context.query;
 
-    if (typeof id !== 'string') {
+    if (!isString(id)) {
       return { notFound: true };
     }
 
