@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, Delta, EmptyDelta } from './differ';
+import { diffJson, Delta, isEmpty, printDelta } from './differ';
 
 export default async function diffContentTypes(credentials?): Promise<void> {
   await setEnvsFromSecrets(secrets, credentials);
@@ -31,7 +31,9 @@ export default async function diffContentTypes(credentials?): Promise<void> {
 
         const delta = diffJson(remoteCustomType, localCustomType);
 
-        if (delta !== EmptyDelta) {
+        if (!isEmpty(delta)) {
+          console.log(`Diff on ${remoteCustomType.id}:`)
+          printDelta(delta);
           return { id: remoteCustomType.id, delta };
         }
       })

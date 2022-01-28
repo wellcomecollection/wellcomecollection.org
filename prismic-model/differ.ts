@@ -16,15 +16,21 @@
 //      }
 //
 
+import chalk from 'chalk';
+
 export type Delta = {
   oldRecordOnly: Record<string, any>
   newRecordOnly: Record<string, any>
 }
 
-export const EmptyDelta = {
+const EmptyDelta = {
   oldRecordOnly: {},
   newRecordOnly: {},
 };
+
+export const isEmpty = (d: Delta): boolean =>
+  Object.keys(d.oldRecordOnly).length === 0 && Object.keys(d.newRecordOnly).length === 0;
+
 
 export const diffJson = (oldR: Object, newR: Object): Delta => {
 
@@ -35,7 +41,7 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
 
   let oldRecordOnly = {};
   let newRecordOnly = {};
-  
+
   for (const key of Object.keys(oldR)) {
     // If both objects have the key and it's the same, there's nothing to do
     //
@@ -63,7 +69,7 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
       oldRecordOnly[key] = oldR[key];
     }
   }
-  
+
   for (const key of Object.keys(newR)) {
     if (!(key in oldR)) {
       newRecordOnly[key] = newR[key];
@@ -71,4 +77,20 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
   }
 
   return { oldRecordOnly, newRecordOnly };
+}
+
+export const printDelta = (delta: Delta): void => {
+  console.info('------------------------');
+
+  console.info("Only in the remote type; this will be deleted/changed:")
+  const remoteJson = JSON.stringify(delta.oldRecordOnly, null, 2)
+  console.log(chalk.red(remoteJson));
+
+  console.info("");
+
+  console.info("Only in the local type; this will be added/updated:")
+  const localJson = JSON.stringify(delta.newRecordOnly, null, 2);
+  console.log(chalk.green(localJson));
+
+  console.info('------------------------');
 }

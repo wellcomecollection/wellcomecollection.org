@@ -6,8 +6,7 @@ import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
 import { secrets } from './config';
-import { diffJson } from './differ'
-import chalk from 'chalk';
+import { diffJson, printDelta, isEmpty } from './differ'
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -42,19 +41,12 @@ async function run() {
 
   const delta = diffJson(remoteType, localType);
 
-  console.info('------------------------');
-  
-  console.info("Only in the remote type; this will be deleted/changed:")
-  const remoteJson = JSON.stringify(delta.oldRecordOnly, null, 2)
-  console.log(chalk.red(remoteJson));
-  
-  console.info("");
+  if (isEmpty(delta)) {
+    success(`Remote type matches local model; nothing to do.`);
+    process.exit(0);
+  }
 
-  console.info("Only in the local type; this will be added/updated:")
-  const localJson = JSON.stringify(delta.newRecordOnly, null, 2);
-  console.log(chalk.green(localJson));
-  
-  console.info('------------------------');
+  printDelta(delta);
 
   const { confirm } = argsConfirm
     ? { confirm: true }
