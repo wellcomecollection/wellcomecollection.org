@@ -201,13 +201,17 @@ export function isRequestableDate(params: {
       (!startDate && !endDate) ||
         // both start and end date
         (startDate &&
-          date.isSameOrAfter(startDate) &&
+          date.startOf('day').isSameOrAfter(startDate.startOf('day')) &&
           endDate &&
-          date.isSameOrBefore(endDate)) ||
+          date.startOf('day').isSameOrBefore(endDate.startOf('day'))) ||
         // only start date
-        (startDate && !endDate && date.isSameOrAfter(startDate)) ||
+        (startDate &&
+          !endDate &&
+          date.startOf('day').isSameOrAfter(startDate.startOf('day'))) ||
         // only end date
-        (endDate && !startDate && date.isSameOrBefore(endDate))
+        (endDate &&
+          !startDate &&
+          date.startOf('day').isSameOrBefore(endDate.startOf('day')))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay
