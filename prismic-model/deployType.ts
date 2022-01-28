@@ -2,11 +2,12 @@ import yargs from 'yargs';
 import fetch from 'node-fetch';
 import { setEnvsFromSecrets } from '@weco/ts-aws/secrets-manager';
 import { getCreds } from '@weco/ts-aws/sts';
-import * as jsondiffpatch from 'jsondiffpatch';
 import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
 import { secrets } from './config';
+import { diffJson } from './differ'
+import chalk from 'chalk';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -20,7 +21,7 @@ async function run() {
   const credentials = await getCreds('experience', 'developer');
   await setEnvsFromSecrets(secrets, credentials);
 
-  const remoteType: CustomType = await fetch(
+  const resp = await fetch(
     `https://customtypes.prismic.io/customtypes/${id}`,
     {
       headers: {
@@ -28,15 +29,31 @@ async function run() {
         repository: 'wellcomecollection',
       },
     }
-  ).then(resp => resp.json());
+  );
+
+  if (resp.status === 404) {
+    error(`Prismic does not know about a custom type '${id}'. Do you have the right name?`);
+    process.exit(1);
+  }
+
+  const remoteType: CustomType = await resp.json();
 
   const localType = (await import(`./src/${id}`)).default;
 
-  const delta = jsondiffpatch.diff(remoteType, localType);
-  const diff = jsondiffpatch.formatters.console.format(delta, remoteType);
+  const delta = diffJson(remoteType, localType);
 
   console.info('------------------------');
-  console.info(diff);
+  
+  console.info("Only in the remote type; this will be deleted/changed:")
+  const remoteJson = JSON.stringify(delta.oldRecordOnly, null, 2)
+  console.log(chalk.red(remoteJson));
+  
+  console.info("");
+
+  console.info("Only in the local type; this will be added/updated:")
+  const localJson = JSON.stringify(delta.newRecordOnly, null, 2);
+  console.log(chalk.green(localJson));
+  
   console.info('------------------------');
 
   const { confirm } = argsConfirm
