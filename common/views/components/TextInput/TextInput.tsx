@@ -132,6 +132,7 @@ export const TextInputErrorMessage = styled.span.attrs({
     'font-hnb': true,
   }),
 })`
+  display: block;
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
