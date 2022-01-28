@@ -12,6 +12,7 @@ import { fetchExhibition } from 'services/prismic/fetch/exhibitions';
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import { transformPage } from 'services/prismic/transformers/pages';
 import { transformExhibition } from 'services/prismic/transformers/exhibitions';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   exhibition: UiExhibition;
@@ -30,6 +31,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
+
+    if (!looksLikePrismicId(id)) {
+      return { notFound: true };
+    }
 
     const client = createClient(context);
     const { exhibition, pages } = await fetchExhibition(client, id as string);

@@ -23,7 +23,6 @@ import { fetchPages } from '../services/prismic/fetch/pages';
 import { fetchProjects } from '../services/prismic/fetch/projects';
 import { fetchSeries } from '../services/prismic/fetch/series';
 import { fetchSeason } from '../services/prismic/fetch/seasons';
-import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
@@ -41,6 +40,7 @@ import { Exhibition } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   season: Season;
@@ -129,7 +129,7 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
