@@ -137,9 +137,13 @@ export function fetcher<Document extends PrismicDocument>(
       // See https://github.com/wellcomecollection/wellcomecollection.org/issues
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
-      const response = await fetch(
-        `/api/${contentType}?${urlSearchParams.toString()}`
-      );
+
+      const url =
+        isString(contentType)
+          ? `/api/${contentType[0]}?${urlSearchParams.toString()}`
+          : `/api/${contentType}?${urlSearchParams.toString()}`;
+
+      const response = await fetch(url);
 
       if (response.ok) {
         const json: Query<Document> = await response.json();
