@@ -17,9 +17,9 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { eventLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
-import { fetchEvents } from 'services/prismic/fetch/events';
-import { getPage } from 'utils/query-params';
-import { transformEvent } from 'services/prismic/transformers/events';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { getPage } from '../utils/query-params';
+import { transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 
 type Props = {
