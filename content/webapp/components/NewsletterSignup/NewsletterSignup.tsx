@@ -190,6 +190,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
 
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <TextInput
+              id="email"
               label="Your email address"
               placeholder="Your email address"
               name="Email"

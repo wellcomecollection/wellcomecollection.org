@@ -143,7 +143,7 @@ type Props = {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  id?: string;
+  id: string;
   name?: string;
   type?: string;
   pattern?: string;
@@ -234,6 +234,8 @@ const TextInput = forwardRef(
             autoFocus={autoFocus}
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedBy}
+            aria-invalid={!!(!isValid && showValidity)}
+            aria-errormessage={errorMessage && `${id}-errormessage`}
             big={!!big}
           />
           {isValid && showValidity && (
@@ -242,11 +244,11 @@ const TextInput = forwardRef(
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        <div role="status">
-          {errorMessage && !isValid && showValidity && (
-            <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
-          )}
-        </div>
+        {errorMessage && !isValid && showValidity && (
+          <TextInputErrorMessage id={`${id}-errormessage`} role="alert">
+            {errorMessage}
+          </TextInputErrorMessage>
+        )}
       </div>
     );
   }
