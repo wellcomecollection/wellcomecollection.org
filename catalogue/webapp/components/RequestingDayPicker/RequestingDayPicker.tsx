@@ -62,6 +62,7 @@ const RequestingDayPicker: FC<Props> = ({
           ? 'Your chosen date is not available to book'
           : 'Please enter a date in the correct format (dd/mm/yyyy)'
       }
+      ariaDescribedBy={'pick-up-date-description'}
     />
   );
 };
