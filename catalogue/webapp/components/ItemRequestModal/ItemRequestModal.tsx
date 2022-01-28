@@ -78,8 +78,14 @@ const PickUpDateDescription = styled(Space).attrs({
   id: 'pick-up-date-description',
 })`
   @media (min-width: 800px) {
-    flex-basis: 84%;
+    flex-basis: 64%;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
+`;
+
+const PickUpDateInputWrapper = styled.div`
+  flex-grow: 1;
 `;
 
 const Header = styled(Space).attrs({
@@ -187,9 +193,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
     exceptionalClosedDates,
     regularClosedDays,
   });
-  const [pickUpDate, setPickUpDate] = useState<string | null>(
-    nextAvailableDate?.format('DD/MM/YYYY') || null
-  );
+  const [pickUpDate, setPickUpDate] = useState<string | null>(null);
 
   const regularClosedDaysText =
     regularClosedDays.length > 0
@@ -288,14 +292,16 @@ const RequestDialog: FC<RequestDialogProps> = ({
                 </p>
               </Space>
             </PickUpDateDescription>
-            <RequestingDayPicker
-              startDate={nextAvailableDate}
-              endDate={extendedLastAvailableDate}
-              exceptionalClosedDates={exceptionalClosedDates}
-              regularClosedDays={regularClosedDays}
-              pickUpDate={pickUpDate}
-              setPickUpDate={setPickUpDate}
-            />
+            <PickUpDateInputWrapper>
+              <RequestingDayPicker
+                startDate={nextAvailableDate}
+                endDate={extendedLastAvailableDate}
+                exceptionalClosedDates={exceptionalClosedDates}
+                regularClosedDays={regularClosedDays}
+                pickUpDate={pickUpDate}
+                setPickUpDate={setPickUpDate}
+              />
+            </PickUpDateInputWrapper>
           </PickUpDate>
         </Space>
       )}
