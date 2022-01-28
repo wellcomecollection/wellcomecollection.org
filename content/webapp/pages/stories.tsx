@@ -31,6 +31,7 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from 'services/prismic/fetch/pages';
+import { pageDescriptions } from 'data/microcopy';
 
 type Props = {
   articles: Article[];
@@ -75,9 +76,6 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
     </div>
   );
 };
-
-const pageDescription =
-  'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -127,7 +125,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
   return (
     <PageLayout
       title={'Stories'}
-      description={pageDescription}
+      description={pageDescriptions.stories}
       url={{ pathname: `/stories` }}
       jsonLd={articles.map(articleLd)}
       openGraphType={'website'}

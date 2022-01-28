@@ -37,6 +37,7 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions } from '../data/microcopy';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -62,9 +63,6 @@ type Props = {
   articles: PaginatedResults<Article>;
   page: PageType;
 };
-
-const pageDescription =
-  'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.';
 
 const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
@@ -144,7 +142,7 @@ const Homepage: FC<Props> = props => {
   return (
     <PageLayout
       title={''}
-      description={pageDescription}
+      description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
       jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}

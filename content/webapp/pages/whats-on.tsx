@@ -69,6 +69,7 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions } from '../data/microcopy';
 
 const segmentedControlItems = [
   {
