@@ -31,7 +31,7 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from 'services/prismic/fetch/pages';
-import { pageDescriptions, booksPromoOnStoriesPage } from 'data/microcopy';
+import { pageDescriptions, booksPromoOnStoriesPage } from '@weco/common/data/microcopy';
 
 type Props = {
   articles: Article[];

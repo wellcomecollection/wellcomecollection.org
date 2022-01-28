@@ -17,7 +17,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Format } from '@weco/common/model/format';
-import { pageDescriptions } from 'data/microcopy';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const displayTitle = 'Guides';
 
