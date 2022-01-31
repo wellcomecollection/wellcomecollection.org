@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { Period } from '@weco/common/model/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { getPageFeaturedText } from '../services/prismic/transformers/pages';
+import {
+  getPageFeaturedText,
+  transformPage,
+} from '../services/prismic/transformers/pages';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
@@ -21,7 +23,7 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
-  shopPromo,
+  // shopPromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '../data/facility-promos';
@@ -65,11 +67,12 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
-import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -90,7 +93,7 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
+  exhibitions: PaginatedResults<Exhibition>;
   events: PaginatedResults<UiEvent>;
   availableOnlineEvents: PaginatedResults<UiEvent>;
   period: string;
@@ -315,7 +318,6 @@ const Header = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
@@ -329,46 +331,45 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period,
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      period,
+      order: 'asc',
+    });
 
-    const eventsQueryPromise = fetchEvents(
-      client,
-      {
-        period: 'current-and-coming-up',
-        pageSize: 100,
-      },
-    );
+    const eventsQueryPromise = fetchEvents(client, {
+      period: 'current-and-coming-up',
+      pageSize: 100,
+    });
 
-    const availableOnlineEventsQueryPromise = fetchEvents(
-      client,
-      {
-        period: 'past',
-        pageSize: 6,
-        availableOnline: true,
-      },
-    );
+    const availableOnlineEventsQueryPromise = fetchEvents(client, {
+      period: 'past',
+      pageSize: 6,
+      availableOnline: true,
+    });
 
-    const [exhibitions, eventsQuery, availableOnlineEventsQuery, whatsOnPage] =
-      await Promise.all([
-        exhibitionsPromise,
-        eventsQueryPromise,
-        availableOnlineEventsQueryPromise,
-        whatsOnPagePromise,
-      ]);
+    const [
+      exhibitionsQuery,
+      eventsQuery,
+      availableOnlineEventsQuery,
+      whatsOnPage,
+    ] = await Promise.all([
+      exhibitionsQueryPromise,
+      eventsQueryPromise,
+      availableOnlineEventsQueryPromise,
+      whatsOnPagePromise,
+    ]);
 
     const dateRange = getMomentsForPeriod(period);
 
-    const featuredText = whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+    const featuredText =
+      whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
 
     const events = transformQuery(eventsQuery, transformEvent);
-    const availableOnlineEvents = transformQuery(availableOnlineEventsQuery, transformEvent);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    const availableOnlineEvents = transformQuery(
+      availableOnlineEventsQuery,
+      transformEvent
+    );
 
     if (period && events && exhibitions) {
       return {

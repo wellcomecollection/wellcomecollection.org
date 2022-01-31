@@ -4,7 +4,6 @@ import { getDocuments, getTypeByIds } from './api';
 import { parseMultiContent } from './multi-content';
 import {
   exhibitionFields,
-  exhibitionResourcesFields,
   eventAccessOptionsFields,
   teamsFields,
   eventFormatsFields,
@@ -38,24 +37,14 @@ import {
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 // $FlowFixMe
-import { london } from '../../utils/format-date';
-import { getPeriodPredicates } from './utils';
-import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
-import type {
-  PrismicFragment,
-  PaginatedResults,
-  PrismicDocument,
-} from './types';
+import type { PrismicFragment, PrismicDocument } from './types';
 import type {
   UiExhibition,
   UiExhibit,
   ExhibitionFormat,
 } from '../../model/exhibitions';
 import type { MultiContent } from '../../model/multi-content';
-
-const startField = 'my.exhibitions.start';
-const endField = 'my.exhibitions.end';
 
 function parseResourceTypeList(
   fragment: PrismicFragment[],
@@ -192,102 +181,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     : [{ text: 'Exhibition' }];
 
   return { ...exhibition, labels };
-}
-
-type Order = 'desc' | 'asc';
-type GetExhibitionsProps = {|
-  predicates?: Prismic.Predicates[],
-  order?: Order,
-  period?: Period,
-  page?: number,
-|};
-export async function getExhibitions(
-  req: ?Request,
-  {
-    predicates = [],
-    order = 'desc',
-    period,
-    page = 1,
-  }: GetExhibitionsProps = {},
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<UiExhibition>> {
-  const orderings = `[my.exhibitions.isPermanent desc,${endField}${
-    order === 'desc' ? ' desc' : ''
-  }]`;
-  const periodPredicates = period
-    ? getPeriodPredicates(period, startField, endField)
-    : [];
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(
-      predicates,
-      periodPredicates
-    ),
-    {
-      fetchLinks: peopleFields.concat(
-        organisationsFields,
-        contributorsFields,
-        placesFields,
-        exhibitionFields,
-        exhibitionResourcesFields
-      ),
-      orderings,
-      page,
-    },
-    memoizedPrismic
-  );
-
-  const uiExhibitions: UiExhibition[] =
-    paginatedResults.results.map(parseExhibitionDoc);
-  const exhibitionsWithPermAfterCurrent =
-    putPermanentAfterCurrentExhibitions(uiExhibitions);
-
-  // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
-  // battles with spreading.
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: exhibitionsWithPermAfterCurrent,
-  };
-}
-
-function putPermanentAfterCurrentExhibitions(
-  exhibitions: UiExhibition[]
-): UiExhibition[] {
-  // We order the list this way as, from a user's perspective, seeing the
-  // temporary exhibitions is more urgent, so they're at the front of the list,
-  // but there's no good way to express that ordering through Prismic's ordering
-  const groupedResults = exhibitions.reduce(
-    (acc, result) => {
-      // Wishing there was `groupBy`.
-      if (result.isPermanent) {
-        acc.permanent.push(result);
-      } else if (london(result.start).isAfter(london())) {
-        acc.comingUp.push(result);
-      } else if (result.end && london(result.end).isBefore(london())) {
-        acc.past.push(result);
-      } else {
-        acc.current.push(result);
-      }
-
-      return acc;
-    },
-    {
-      current: [],
-      permanent: [],
-      comingUp: [],
-      past: [],
-    }
-  );
-
-  return [
-    ...groupedResults.current,
-    ...groupedResults.permanent,
-    ...groupedResults.comingUp,
-    ...groupedResults.past,
-  ];
 }
 
 type ExhibitionRelatedContent = {|
