@@ -45,3 +45,13 @@ const renderComponent = () => {
   };
   render(<RequestModal />);
 };
+
+describe('ItemRequestModal', () => {
+  // Needs additional tests when calendar introduced
+  it("lets a user select an available date (based on business rules on what dates for collection should be available)/lets a user see what date they've selected", () => {
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    userEvent.type(input, '22/01/2020');
+    expect(input.value).toBe('22/01/2020');
+  });
+});
