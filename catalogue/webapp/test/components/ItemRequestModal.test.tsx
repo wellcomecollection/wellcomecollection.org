@@ -56,15 +56,28 @@ describe('ItemRequestModal', () => {
   });
 
   // Needs additional tests when calendar is introduced
-  it.only('lets users see what dates are available / unavailable to select', () => {
+  it('lets users see what dates are available / unavailable to select', () => {
     renderComponent();
     expect(
-      // TODO find aria-described by id
-      // get text inside of id
-      // check it contains the following
       screen.getByText(
         'You can choose a date between Monday 21 December and Tuesday 05 January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24 December, Friday 25 December and Sunday 27 December.'
       )
+    );
+  });
+
+  it('advises a user that a date they have selected is unavailable and prompts them to re-select', () => {
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    userEvent.type(input, '25/12/2020');
+    expect(screen.getByText('Your chosen date is not available to book'));
+  });
+
+  it("advises a user that the date they've entered is in the wrong format", () => {
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    userEvent.type(input, '2/122020');
+    expect(
+      screen.getByText('Please enter a date in the correct format (DD/MM/YYYY)')
     );
   });
 });
