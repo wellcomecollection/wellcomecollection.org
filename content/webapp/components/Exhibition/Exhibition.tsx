@@ -36,6 +36,7 @@ import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { a11y } from '@weco/common/data/microcopy';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -157,7 +158,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Step-free access is available to all floors of the building',
+          text: a11y.stepFreeAccess,
           spans: [],
         },
       ],
@@ -169,7 +170,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: a11y.largePrintGuides,
           spans: [],
         },
       ],
