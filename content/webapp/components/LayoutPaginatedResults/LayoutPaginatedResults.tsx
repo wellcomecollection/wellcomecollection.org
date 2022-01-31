@@ -4,7 +4,7 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { classNames, font } from '@weco/common/utils/classnames';
 import type { Period } from '@weco/common/model/periods';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '@weco/common/model/exhibitions';
 import type { UiEvent } from '@weco/common/model/events';
 import type { Article } from '@weco/common/model/articles';
 import type {
@@ -20,7 +20,7 @@ import CardGrid from '../CardGrid/CardGrid';
 import { Book } from '../../types/books';
 
 type PaginatedResultsTypes =
-  | PaginatedResults<UiExhibition>
+  | PaginatedResults<Exhibition>
   | PaginatedResults<UiEvent>
   | PaginatedResults<Book>
   | PaginatedResults<Article>;

@@ -12,12 +12,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
@@ -38,6 +37,8 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -58,7 +59,7 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
+  exhibitions: PaginatedResults<Exhibition>;
   events: PaginatedResults<UiEvent>;
   articles: PaginatedResults<Article>;
   page: PageType;
@@ -70,40 +71,33 @@ const pageImage =
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
-    const eventsQueryPromise = fetchEvents(
-      client,
-      {
-        period: 'current-and-coming-up',
-      },
-    );
+    const eventsQueryPromise = fetchEvents(client, {
+      period: 'current-and-coming-up',
+    });
     const pagePromise = fetchPage(client, homepageId);
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      period: 'next-seven-days',
+      order: 'asc',
+    });
 
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period: 'next-seven-days',
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
-
-    const [exhibitions, eventsQuery, articlesQuery, pageDocument] = await Promise.all([
-      exhibitionsPromise,
-      eventsQueryPromise,
-      articlesQueryPromise,
-      pagePromise,
-    ]);
+    const [exhibitionsQuery, eventsQuery, articlesQuery, pageDocument] =
+      await Promise.all([
+        exhibitionsQueryPromise,
+        eventsQueryPromise,
+        articlesQueryPromise,
+        pagePromise,
+      ]);
 
     // The homepage should always exist in Prismic.
     const page = transformPage(pageDocument!);
-    
+
     const articles = transformQuery(articlesQuery, transformArticle);
     const events = transformQuery(eventsQuery, transformEvent);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (events && exhibitions && articles && page) {
       return {
@@ -152,9 +146,7 @@ const Homepage: FC<Props> = props => {
     >
       <Layout10>
         <SpacingSection>
-          <PageHeading>
-            {homepageHeading}
-          </PageHeading>
+          <PageHeading>{homepageHeading}</PageHeading>
           {standFirst && (
             <CreamBox>
               <PageHeaderStandfirst html={standFirst.value} />
@@ -178,7 +170,7 @@ const Homepage: FC<Props> = props => {
         </SpacingSection>
       )}
 
-      {(nextSevenDaysEvents.length + exhibitions.length) > 2 && (
+      {nextSevenDaysEvents.length + exhibitions.length > 2 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="This week" />

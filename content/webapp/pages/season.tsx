@@ -28,7 +28,7 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { transformBook } from '../services/prismic/transformers/books';
 import { transformEvent } from '../services/prismic/transformers/events';
-import { transformExhibition } from '../services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
@@ -146,7 +146,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
       predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
-      orderings: [`my.exhibitions.isPermanent desc, my.exhibitions.end desc`],
+      order: 'desc',
     });
     const pagesQueryPromise = fetchPages(client, {
       predicates: [`[at(my.pages.seasons.season, "${id}")]`],
@@ -183,7 +183,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articles = transformQuery(articlesQuery, transformArticle);
     const books = transformQuery(booksQuery, transformBook);
     const events = transformQuery(eventsQuery, transformEvent);
-    const exhibitions = transformQuery(exhibitionsQuery, transformExhibition);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
     const pages = transformQuery(pagesQuery, transformPage);
     const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);

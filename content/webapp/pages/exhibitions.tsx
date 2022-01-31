@@ -1,9 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import { FC } from 'react';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -14,9 +12,13 @@ import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import { createClient } from '../services/prismic/fetch';
+import { Exhibition } from '../types/exhibitions';
 
 type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
+  exhibitions: PaginatedResults<Exhibition>;
   period?: Period;
   displayTitle: string;
 };
@@ -24,18 +26,16 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const client = createClient(context);
 
     const page = getPage(context.query);
     if (typeof page !== 'number') {
       return appError(context, 400, page.message);
     }
 
-    const { period, memoizedPrismic } = context.query;
-    const exhibitions = await getExhibitions(
-      context.req,
-      { page, period },
-      memoizedPrismic
-    );
+    const { period } = context.query;
+    const exhibitionsQuery = await fetchExhibitions(client, { page, period });
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';

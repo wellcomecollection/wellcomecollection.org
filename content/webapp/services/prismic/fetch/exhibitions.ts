@@ -16,6 +16,8 @@ import {
   eventsFields,
   seasonsFields,
 } from '@weco/common/services/prismic/fetch-links';
+import { Period } from '@weco/common/model/periods';
+import { getPeriodPredicates } from '../types/predicates';
 
 const fetchLinks = peopleFields.concat(
   exhibitionFields,
@@ -44,12 +46,9 @@ export async function fetchExhibition(
   id: string
 ): Promise<FetchExhibitionResult> {
   const exhibitionPromise = exhibitionsFetcher.getById(client, id);
-  const pageQueryPromise = fetchPages(
-    client,
-    {
-      predicates: [prismic.predicate.at('my.pages.parents.parent', id)],
-    }
-  );
+  const pageQueryPromise = fetchPages(client, {
+    predicates: [prismic.predicate.at('my.pages.parents.parent', id)],
+  });
 
   const [exhibition, pages] = await Promise.all([
     exhibitionPromise,
@@ -59,9 +58,44 @@ export async function fetchExhibition(
   return {
     exhibition,
     pages,
-  }
+  };
 }
 
-export const fetchExhibitions = exhibitionsFetcher.getByType;
+const startField = 'my.exhibitions.start';
+const endField = 'my.exhibitions.end';
+
+type Order = 'desc' | 'asc';
+type GetExhibitionsProps = {
+  predicates?: string[];
+  order?: Order;
+  period?: Period;
+  page?: number;
+};
+
+export const fetchExhibitions = (
+  client: GetServerSidePropsPrismicClient,
+  {
+    predicates = [],
+    order = 'desc',
+    period,
+    page = 1,
+  }: GetExhibitionsProps = {}
+): Promise<Query<ExhibitionPrismicDocument>> => {
+  const orderings: prismic.Ordering[] = [
+    { field: 'my.exhibitions.isPermament', direction: 'desc' },
+    { field: endField, direction: order },
+  ];
+
+  const periodPredicates = period
+    ? getPeriodPredicates({ period, startField, endField })
+    : [];
+
+  return exhibitionsFetcher.getByType(client, {
+    predicates: [...predicates, ...periodPredicates],
+    orderings,
+    page,
+  });
+};
+
 export const fetchExhibitionsClientSide =
   exhibitionsFetcher.getByTypeClientSide;
