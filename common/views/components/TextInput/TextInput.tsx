@@ -1,6 +1,5 @@
-import { forwardRef, useContext } from 'react';
+import { forwardRef, useContext, useState, RefObject } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import { classNames } from '../../../utils/classnames';
@@ -133,6 +132,7 @@ export const TextInputErrorMessage = styled.span.attrs({
     'font-hnb': true,
   }),
 })`
+  display: block;
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
@@ -143,7 +143,7 @@ type Props = {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  id?: string;
+  id: string;
   name?: string;
   type?: string;
   pattern?: string;
@@ -157,6 +157,7 @@ type Props = {
   autoFocus?: boolean;
   big?: boolean;
   ariaLabel?: string;
+  ariaDescribedBy?: string;
 };
 
 const TextInput = forwardRef(
@@ -170,6 +171,7 @@ const TextInput = forwardRef(
       name,
       pattern,
       required,
+      placeholder,
       errorMessage,
       isValid,
       setIsValid,
@@ -178,10 +180,12 @@ const TextInput = forwardRef(
       autoFocus,
       big,
       ariaLabel,
+      ariaDescribedBy,
     }: Props,
-    ref: any
+    ref: RefObject<HTMLInputElement>
   ) => {
     const { isEnhanced } = useContext(AppContext);
+    const [displayedPlaceholder, setDisplayedPlaceholder] = useState('');
 
     function onChange(event) {
       const isValueValid = event.currentTarget.validity.valid;
@@ -202,6 +206,7 @@ const TextInput = forwardRef(
     function onBlur(event) {
       setIsValid && setIsValid(event.currentTarget.validity.valid);
       setShowValidity && setShowValidity(!!value && true);
+      setDisplayedPlaceholder('');
     }
 
     return (
@@ -229,8 +234,17 @@ const TextInput = forwardRef(
             onBlur={onBlur}
             hasErrorBorder={!!(!isValid && showValidity)}
             type={type}
+            placeholder={displayedPlaceholder}
+            onFocus={() => {
+              if (placeholder) {
+                setDisplayedPlaceholder(placeholder);
+              }
+            }}
             autoFocus={autoFocus}
             aria-label={ariaLabel}
+            aria-describedby={ariaDescribedBy}
+            aria-invalid={!!(!isValid && showValidity)}
+            aria-errormessage={errorMessage && `${id}-errormessage`}
             big={!!big}
           />
           {isValid && showValidity && (
@@ -239,11 +253,11 @@ const TextInput = forwardRef(
             </TextInputCheckmark>
           )}
         </TextInputWrap>
-        <div role="status">
-          {errorMessage && !isValid && showValidity && (
-            <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
-          )}
-        </div>
+        {errorMessage && !isValid && showValidity && (
+          <TextInputErrorMessage id={`${id}-errormessage`} role="alert">
+            {errorMessage}
+          </TextInputErrorMessage>
+        )}
       </div>
     );
   }
