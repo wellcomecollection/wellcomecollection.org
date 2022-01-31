@@ -70,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ).map(group => {
         return {
           ...group,
-          siblings: group.siblings.map(s => transformPage(s)),
+          siblings: group.siblings.map(transformPage),
         };
       });
       const ordersInParents: OrderInParent[] =
@@ -88,9 +88,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const children = {
         id: page.id,
         title: page.title,
-        siblings: (await fetchChildren(client, page)).map(c =>
-          transformPage(c)
-        ),
+        siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
       return {
