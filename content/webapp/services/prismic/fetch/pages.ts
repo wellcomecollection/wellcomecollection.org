@@ -61,7 +61,8 @@ export const fetchChildren = async (
   const predicates = [prismic.predicate.at('my.pages.parents.parent', page.id)];
 
   try {
-    return await fetchPages(client, { predicates }).then(q => q.results);
+    const pages = await fetchPages(client, { predicates })
+    return pages.results
   } catch (e) {
     console.warn(`Error trying to fetch children on page ${page.id}: ${e}`);
     return [];
