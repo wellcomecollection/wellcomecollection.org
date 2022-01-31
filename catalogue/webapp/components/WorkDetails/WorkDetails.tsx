@@ -51,6 +51,13 @@ import {
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
 import { useToggles } from '@weco/common/server-data/Context';
+import styled from 'styled-components';
+
+const OrderedList = styled.ol`
+  padding: 0;
+  margin: 0;
+  list-style: none;
+`;
 
 type Props = {
   work: Work;
@@ -340,14 +347,36 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio?.map(a => (
-              <Space
-                key={a['@id']}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <AudioPlayer audio={a} />
-              </Space>
-            ))}
+            {audio?.length > 0 && (
+              <OrderedList>
+                {audio?.map((a, index) => (
+                  <Space
+                    as="li"
+                    key={a['@id']}
+                    v={{ size: 'l', properties: ['margin-bottom'] }}
+                    aria-label={
+                      audio.length > 1 ? (index + 1).toString() : undefined
+                    }
+                  >
+                    <span
+                      className={classNames({
+                        'flex flex--v-center': true,
+                      })}
+                    >
+                      {audio.length > 1 && (
+                        <Space
+                          aria-hidden="true"
+                          h={{ size: 's', properties: ['margin-right'] }}
+                        >
+                          {index + 1}
+                        </Space>
+                      )}
+                      <AudioPlayer audio={a} />
+                    </span>
+                  </Space>
+                ))}
+              </OrderedList>
+            )}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

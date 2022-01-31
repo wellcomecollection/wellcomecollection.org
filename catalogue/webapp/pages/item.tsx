@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas, IIIFManifest, AuthService } from '../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  AuthService,
+  IIIFMediaElement,
+} from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -66,10 +71,6 @@ function reloadAuthIframe(document, id: string) {
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
-type Audio = {
-  '@id': string;
-};
-
 type Video = {
   '@id': string;
   format: string;
@@ -86,7 +87,7 @@ type Props = {
   canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audio?: Audio;
+  audio: IIIFMediaElement[];
   iiifImageLocation?: DigitalLocation;
 } & WithPageview;
 
@@ -227,8 +228,8 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {audio && (
-        <Layout12>
+      {audio?.map(a => (
+        <Layout12 key={a['@id']}>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <audio
               controls
@@ -237,14 +238,14 @@ const ItemPage: NextPage<Props> = ({
                 display: 'block',
                 margin: '98px auto 0',
               }}
-              src={audio['@id']}
+              src={a['@id']}
               controlsList={!showDownloadOptions ? 'nodownload' : undefined}
             >
               {`Sorry, your browser doesn't support embedded audio.`}
             </audio>
           </Space>
         </Layout12>
-      )}
+      ))}
       {video && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -264,7 +265,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
-      {!audio &&
+      {!(audio.length > 0) &&
         !video &&
         !pdfRendering &&
         !mainImageService &&
