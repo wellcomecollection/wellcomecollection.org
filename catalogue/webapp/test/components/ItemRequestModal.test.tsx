@@ -54,4 +54,17 @@ describe('ItemRequestModal', () => {
     userEvent.type(input, '22/01/2020');
     expect(input.value).toBe('22/01/2020');
   });
+
+  // Needs additional tests when calendar is introduced
+  it.only('lets users see what dates are available / unavailable to select', () => {
+    renderComponent();
+    expect(
+      // TODO find aria-described by id
+      // get text inside of id
+      // check it contains the following
+      screen.getByText(
+        'You can choose a date between Monday 21 December and Tuesday 05 January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24 December, Friday 25 December and Sunday 27 December.'
+      )
+    );
+  });
 });
