@@ -77,10 +77,9 @@ export function fetcher<Document extends PrismicDocument>(
         // it matches the content type.  So e.g. going to /events/<exhibition ID> will
         // return a 404, rather than a 500 as we find we're missing a bunch of fields
         // we need to render the page.
-        const predicates =
-          isString(contentType) 
-            ? [prismic.predicate.at('document.type', contentType)]
-            : [prismic.predicate.any('document.type', contentType)];
+        const predicates = isString(contentType)
+          ? [prismic.predicate.at('document.type', contentType)]
+          : [prismic.predicate.any('document.type', contentType)];
 
         return await client.getByID<Document>(id, {
           fetchLinks,
@@ -90,11 +89,11 @@ export function fetcher<Document extends PrismicDocument>(
     },
 
     /** Get all the documents of a given type.
-      * 
-      * If `contentType` is an array, this fetches all the documents of any specified type.
-      * This is useful if we use the same fetch/transform method for multiple documents with
-      * different types in Prismic, e.g. articles which could be 'article' or 'webcomic'.
-      */
+     *
+     * If `contentType` is an array, this fetches all the documents of any specified type.
+     * This is useful if we use the same fetch/transform method for multiple documents with
+     * different types in Prismic, e.g. articles which could be 'article' or 'webcomic'.
+     */
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
       params: GetByTypeParams = {}
@@ -105,14 +104,13 @@ export function fetcher<Document extends PrismicDocument>(
         ? params.predicates
         : [];
 
-      const response =
-        isString(contentType)
-          ? await client.getByType<Document>(contentType, {
+      const response = isString(contentType)
+        ? await client.getByType<Document>(contentType, {
             ...params,
             fetchLinks,
             predicates: [...predicates, delistPredicate],
           })
-          : await client.get<Document>({
+        : await client.get<Document>({
             ...params,
             fetchLinks,
             predicates: [
@@ -137,9 +135,14 @@ export function fetcher<Document extends PrismicDocument>(
       // See https://github.com/wellcomecollection/wellcomecollection.org/issues
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
-      const response = await fetch(
-        `/api/${contentType}?${urlSearchParams.toString()}`
-      );
+
+      // If we have multiple content types, just query on the first one client-side.
+      // It's not ideal, but I can't think of an easy and better way to do this right now.
+      const url = isString(contentType)
+        ? `/api/${contentType}?${urlSearchParams.toString()}`
+        : `/api/${contentType[0]}?${urlSearchParams.toString()}`;
+
+      const response = await fetch(url);
 
       if (response.ok) {
         const json: Query<Document> = await response.json();
