@@ -4,6 +4,7 @@ import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { IIIFMediaElement } from '../../model/iiif';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   audio: IIIFMediaElement;
@@ -52,8 +53,20 @@ const AudioPlayer: FunctionComponent<Props> = ({
     },
     isPlaying ? 1000 : undefined
   );
+  const audioPlaceholderThumbnailUrls = [
+    'https://iiif.wellcomecollection.org/thumb/b22488522',
+    'https://iiif.wellcomecollection.org/thumb/b2248887x',
+  ];
+  const showThumbnail =
+    audio.thumbnail && !audioPlaceholderThumbnailUrls.includes(audio.thumbnail);
+
   return (
-    <>
+    <div>
+      {showThumbnail && (
+        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+          <img src={audio.thumbnail} alt={audio.label} />
+        </Space>
+      )}
       <audio
         onPlay={() => {
           setIsPlaying(true);
@@ -73,7 +86,7 @@ const AudioPlayer: FunctionComponent<Props> = ({
         {`Sorry, your browser doesn't support embedded audio.`}
       </audio>
       <MediaAnnotations media={audio} />
-    </>
+    </div>
   );
 };
 
