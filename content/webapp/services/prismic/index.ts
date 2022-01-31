@@ -7,10 +7,10 @@
 // e.g. an empty string definitely isn't a Prismic ID.
 //
 // This is useful for rejecting queries that are obviously malformed, which might
+// be attempts to inject malicious data into Prismic queries.
 
 import { isString } from '@weco/common/utils/array';
 
-// be attempts to inject malicious data into Prismic queries.
 export const looksLikePrismicId = (
   id: string | string[] | undefined
 ): boolean => (isString(id) ? /^([A-Za-z0-9-_]+)$/.test(id) : false);
