@@ -74,8 +74,7 @@ export const fetchSiblings = async (
   page: Page
 ): Promise<SiblingsGroup<PagePrismicDocument>[]> => {
   const relatedPagePromises =
-    page.parentPages &&
-    page.parentPages.map(parentPage => fetchChildren(client, parentPage));
+    page.parentPages?.map(parentPage => fetchChildren(client, parentPage));
   const relatedPages = await Promise.all(relatedPagePromises ?? []);
 
   return relatedPages.map((results, i) => {
