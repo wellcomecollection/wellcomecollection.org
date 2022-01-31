@@ -34,6 +34,7 @@ import {
   parseGenericFields,
   parseBoolean,
   parseSingleLevelGroup,
+  isEmptyHtmlString,
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
@@ -133,7 +134,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
-  const accessContentOverride = asText(data.accessContentOverride);
+  const bslInfo = isEmptyHtmlString(data.bslInfo) ? undefined : data.bslInfo;
+  const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
+    ? undefined
+    : data.audioDescriptionInfo;
   const promoImage =
     promo && promo.length > 0
       ? parsePromoToCaptionedImage(data.promo)
@@ -152,7 +156,8 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     end: end,
     isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
-    accessContentOverride: accessContentOverride,
+    bslInfo: bslInfo,
+    audioDescriptionInfo: audioDescriptionInfo,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: promoImage && {
