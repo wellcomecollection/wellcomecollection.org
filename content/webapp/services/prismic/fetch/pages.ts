@@ -1,4 +1,3 @@
-import { Query } from '@prismicio/types';
 import * as prismic from 'prismic-client-beta';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument } from '../types/pages';
@@ -53,13 +52,16 @@ export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
 export const fetchPagesClientSide = pagesFetcher.getByTypeClientSide;
 
-export const fetchChildren = (
+export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
   pageId: string
-): Promise<Query<PagePrismicDocument>> => {
+): Promise<PagePrismicDocument[]> => {
   const predicates = [prismic.predicate.at('my.pages.parents.parent', pageId)];
 
-  return fetchPages(client, {
-    predicates,
-  });
+  try {
+    return await fetchPages(client, { predicates }).then(q => q.results);
+  } catch (e) {
+    console.warn(`Error trying to fetch children on page ${pageId}: ${e}`);
+    return [];
+  }
 };

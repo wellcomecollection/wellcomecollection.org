@@ -36,7 +36,6 @@ import { contentLd } from '../services/prismic/transformers/json-ld';
 import { fetchChildren, fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
 
 type Props = {
   page: PageType;
@@ -78,14 +77,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           };
         }) || [];
 
-      const childrenQueryPromise = await fetchChildren(client, page.id);
-
       // TODO: Why are we putting 'children' in a 'siblings' attribute?
       // Fix this janky naming.
       const children = {
         id: page.id,
         title: page.title,
-        siblings: transformQuery(childrenQueryPromise, transformPage).results,
+        siblings: (await fetchChildren(client, page.id)).map(c =>
+          transformPage(c)
+        ),
       };
 
       return {
