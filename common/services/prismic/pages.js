@@ -1,6 +1,4 @@
 // @flow
-import Prismic from '@prismicio/client';
-import { getDocuments } from './api';
 import {
   parseTimestamp,
   parseGenericFields,
@@ -13,25 +11,7 @@ import { parseSeason } from './seasons';
 // $FlowFixMe (tsx)
 import { links } from '../../views/components/Header/Header';
 import type { Page } from '../../model/pages';
-import type { SiblingsGroup } from '../../model/siblings-group';
-import type { PrismicDocument, PaginatedResults } from './types';
-import {
-  articleSeriesFields,
-  pagesFields,
-  collectionVenuesFields,
-  eventSeriesFields,
-  exhibitionFields,
-  teamsFields,
-  eventsFields,
-  cardsFields,
-  eventFormatsFields,
-  articleFormatsFields,
-  labelsFields,
-  seasonsFields,
-  contributorsFields,
-  peopleFields,
-  bookFields,
-} from './fetch-links';
+import type { PrismicDocument } from './types';
 
 export function parsePage(document: PrismicDocument): Page {
   const { data } = document;
@@ -67,114 +47,4 @@ export function parsePage(document: PrismicDocument): Page {
     siteSection: siteSection,
     prismicDocument: document,
   };
-}
-
-type Order = 'desc' | 'asc';
-type GetPagesProps = {|
-  predicates?: Prismic.Predicates[],
-  order?: Order,
-  page?: number,
-  pageSize?: number,
-|};
-
-export async function getPages(
-  req: ?Request,
-  {
-    predicates = [],
-    order = 'desc',
-    page = 1,
-    pageSize = 100,
-  }: GetPagesProps = {},
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<Page>> {
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['pages'])].concat(predicates),
-    {
-      page,
-      pageSize,
-      fetchLinks: pagesFields.concat(
-        articleSeriesFields,
-        eventSeriesFields,
-        collectionVenuesFields,
-        exhibitionFields,
-        teamsFields,
-        eventsFields,
-        cardsFields,
-        eventFormatsFields,
-        articleFormatsFields,
-        labelsFields,
-        seasonsFields,
-        contributorsFields,
-        peopleFields,
-        bookFields
-      ),
-    },
-    memoizedPrismic
-  );
-
-  const pages: Page[] = paginatedResults.results.map(parsePage);
-
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: pages,
-  };
-}
-
-export async function getPageSiblings(
-  page: Page,
-  req: ?Request,
-  memoizedPrismic: ?Object
-): Promise<SiblingsGroup[]> {
-  const relatedPagePromises = (page.parentPages &&
-    page.parentPages.map(parentPage =>
-      getPages(
-        req,
-        {
-          predicates: [
-            Prismic.Predicates.at('my.pages.parents.parent', parentPage.id),
-          ],
-        },
-        memoizedPrismic
-      )
-    )) || [Promise.resolve([])];
-  const relatedPages = await Promise.all(relatedPagePromises);
-  const siblingsWithLandingTitle = relatedPages.map((results, i) => {
-    return {
-      id: page.parentPages[i].id,
-      title: page.parentPages[i].title,
-      siblings: results.results.filter(sibling => sibling.id !== page.id),
-    };
-  });
-  return siblingsWithLandingTitle;
-}
-
-export async function getChildren(
-  page: Page,
-  req: ?Request,
-  memoizedPrismic: ?Object
-): Promise<SiblingsGroup> {
-  try {
-    const children = await getPages(
-      req,
-      {
-        predicates: [Prismic.Predicates.at('my.pages.parents.parent', page.id)],
-      },
-      memoizedPrismic
-    );
-    return {
-      id: page.id,
-      title: page.title,
-      siblings: children.results || [],
-    };
-  } catch (e) {
-    return {
-      id: page.id,
-      title: page.title,
-      siblings: [],
-    };
-  }
 }
