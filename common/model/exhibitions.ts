@@ -29,6 +29,8 @@ export type Exhibition = GenericContentFields & {
   prismicDocument: any;
 };
 
+// TODO: I'm pretty sure we don't use this featuredImageList anywhere,
+// and we could collapse this into Exhibition.
 export type UiExhibition = Exhibition & {
   featuredImageList: Picture[];
 };

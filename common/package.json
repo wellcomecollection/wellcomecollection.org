@@ -56,6 +56,7 @@
     "nprogress": "^0.2.0",
     "openseadragon": "^2.4.0",
     "prismic-client-beta": "npm:@prismicio/client@beta",
+    "prismic-helpers-beta": "npm:@prismicio/helpers@beta",
     "prismic-dom": "^2.2.6",
     "prismic-reactjs": "^1.3.4",
     "raven-js": "^3.26.3",

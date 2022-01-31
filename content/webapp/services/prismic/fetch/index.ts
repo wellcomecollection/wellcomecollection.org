@@ -13,9 +13,7 @@ export type GetServerSidePropsPrismicClient = {
   client: prismic.Client;
 };
 
-export const delistPredicate = prismic.predicate.not('document.tags', [
-  'delist',
-]);
+const delistPredicate = prismic.predicate.not('document.tags', ['delist']);
 
 /**
  * We require the `GetServerSidePropsContext` or `NextApiRequest` here to esure that
@@ -61,21 +59,9 @@ export function createClient(
   return { type: 'GetServerSidePropsPrismicClient', client };
 }
 
-/**
- * We do this so often, and it is very often standardise apart from webcomics
- * it felt silly not to abstract
- */
-
-type Params = Parameters<
+export type GetByTypeParams = Parameters<
   GetServerSidePropsPrismicClient['client']['getByType']
 >[1];
-
-/** Returns true if a document has one of the content types specified in `contentType`. */
-function hasMatchingContentType(document: PrismicDocument, contentType: ContentType | ContentType[]): boolean {
-  return isString(contentType)
-    ? document.type === contentType
-    : (contentType as string[]).includes(document.type);
-}
 
 export function fetcher<Document extends PrismicDocument>(
   contentType: ContentType | ContentType[],
@@ -87,27 +73,30 @@ export function fetcher<Document extends PrismicDocument>(
       id: string
     ): Promise<Document | undefined> => {
       try {
-        const document = await client.getByID<Document>(id, {
-          fetchLinks,
-        });
+        // This means that Prismic will only return the document with the given ID if
+        // it matches the content type.  So e.g. going to /events/<exhibition ID> will
+        // return a 404, rather than a 500 as we find we're missing a bunch of fields
+        // we need to render the page.
+        const predicates = isString(contentType)
+          ? [prismic.predicate.at('document.type', contentType)]
+          : [prismic.predicate.any('document.type', contentType)];
 
-        if (hasMatchingContentType(document, contentType)) {
-          return document;
-        } else {
-          console.warn(`Asked to fetch document ${id} as type '${contentType}', but ${id} is actually '${document.type}'`);
-        }
+        return await client.getByID<Document>(id, {
+          fetchLinks,
+          predicates,
+        });
       } catch {}
     },
 
     /** Get all the documents of a given type.
-      * 
-      * If `contentType` is an array, this fetches all the documents of any specified type.
-      * This is useful if we use the same fetch/transform method for multiple documents with
-      * different types in Prismic, e.g. articles which could be 'article' or 'webcomic'.
-      */
+     *
+     * If `contentType` is an array, this fetches all the documents of any specified type.
+     * This is useful if we use the same fetch/transform method for multiple documents with
+     * different types in Prismic, e.g. articles which could be 'article' or 'webcomic'.
+     */
     getByType: async (
       { client }: GetServerSidePropsPrismicClient,
-      params: Params = {}
+      params: GetByTypeParams = {}
     ): Promise<Query<Document>> => {
       const predicates = isString(params.predicates)
         ? [params.predicates]
@@ -115,20 +104,19 @@ export function fetcher<Document extends PrismicDocument>(
         ? params.predicates
         : [];
 
-      const response =
-        isString(contentType)
-          ? await client.getByType<Document>(contentType, {
+      const response = isString(contentType)
+        ? await client.getByType<Document>(contentType, {
             ...params,
             fetchLinks,
             predicates: [...predicates, delistPredicate],
           })
-          : await client.get<Document>({
+        : await client.get<Document>({
             ...params,
             fetchLinks,
             predicates: [
-              prismic.predicate.any('document.type', contentType),
+              ...predicates,
               delistPredicate,
-              ...(params.predicates ?? []),
+              prismic.predicate.any('document.type', contentType),
             ],
           });
 
@@ -136,7 +124,7 @@ export function fetcher<Document extends PrismicDocument>(
     },
 
     getByTypeClientSide: async (
-      params?: Params
+      params?: GetByTypeParams
     ): Promise<Query<Document> | undefined> => {
       // If you add more parameters here, you have to update the corresponding cache behaviour
       // in the CloudFront distribution, or you may get incorrect behaviour.
@@ -147,9 +135,14 @@ export function fetcher<Document extends PrismicDocument>(
       // See https://github.com/wellcomecollection/wellcomecollection.org/issues
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
-      const response = await fetch(
-        `/api/${contentType}?${urlSearchParams.toString()}`
-      );
+
+      // If we have multiple content types, just query on the first one client-side.
+      // It's not ideal, but I can't think of an easy and better way to do this right now.
+      const url = isString(contentType)
+        ? `/api/${contentType}?${urlSearchParams.toString()}`
+        : `/api/${contentType[0]}?${urlSearchParams.toString()}`;
+
+      const response = await fetch(url);
 
       if (response.ok) {
         const json: Query<Document> = await response.json();

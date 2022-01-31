@@ -8,7 +8,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import { getPageFeaturedText } from '../services/prismic/transformers/pages';
-import { getEvents } from '@weco/common/services/prismic/events';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
@@ -67,6 +66,10 @@ import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard'
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 const segmentedControlItems = [
   {
@@ -309,9 +312,6 @@ const Header = ({
   );
 };
 
-const pageDescription =
-  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
@@ -338,36 +338,37 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       memoizedPrismic
     );
 
-    const eventsPromise = getEvents(
-      context.req,
+    const eventsQueryPromise = fetchEvents(
+      client,
       {
         period: 'current-and-coming-up',
         pageSize: 100,
       },
-      memoizedPrismic
     );
 
-    const availableOnlineEventsPromise = getEvents(
-      context.req,
+    const availableOnlineEventsQueryPromise = fetchEvents(
+      client,
       {
         period: 'past',
         pageSize: 6,
         availableOnline: true,
       },
-      memoizedPrismic
     );
 
-    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
+    const [exhibitions, eventsQuery, availableOnlineEventsQuery, whatsOnPage] =
       await Promise.all([
         exhibitionsPromise,
-        eventsPromise,
-        availableOnlineEventsPromise,
+        eventsQueryPromise,
+        availableOnlineEventsQueryPromise,
         whatsOnPagePromise,
       ]);
 
     const dateRange = getMomentsForPeriod(period);
 
     const featuredText = whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+
+    const events = transformQuery(eventsQuery, transformEvent);
+    const availableOnlineEvents = transformQuery(availableOnlineEventsQuery, transformEvent);
 
     if (period && events && exhibitions) {
       return {
@@ -422,7 +423,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   return (
     <PageLayout
       title={pageTitle}
-      description={pageDescription}
+      description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={
         [

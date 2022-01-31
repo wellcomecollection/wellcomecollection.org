@@ -10,7 +10,7 @@ import { ArticleSeries } from '@weco/common/model/article-series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { staticBooks } from '../content/static-books';
+import { staticBooks } from '../data/static-books';
 import { prismicPageIds, featuredStoriesSeriesId } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
@@ -31,6 +31,7 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from 'services/prismic/fetch/pages';
+import { pageDescriptions, booksPromoOnStoriesPage } from '@weco/common/data/microcopy';
 
 type Props = {
   articles: Article[];
@@ -75,9 +76,6 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
     </div>
   );
 };
-
-const pageDescription =
-  'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -127,7 +125,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
   return (
     <PageLayout
       title={'Stories'}
-      description={pageDescription}
+      description={pageDescriptions.stories}
       url={{ pathname: `/stories` }}
       jsonLd={articles.map(articleLd)}
       openGraphType={'website'}
@@ -236,8 +234,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         <SpacingComponent>
           <Layout12>
             <p>
-              Get stuck into one of our books, and explore the complexities of
-              the human condition.
+              {booksPromoOnStoriesPage}
             </p>
           </Layout12>
         </SpacingComponent>

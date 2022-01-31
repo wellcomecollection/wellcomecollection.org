@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { newsletterDescription } from '@weco/common/data/microcopy';
 
 type Props = {
   result?: string;
@@ -30,7 +31,7 @@ const Newsletter: FC<Props> = ({ result }) => {
   return (
     <PageLayout
       title={'Sign up to our newsletter'}
-      description={'Sign up for news and information from Wellcome Collection'}
+      description={newsletterDescription}
       hideNewsletterPromo={true}
       url={{ pathname: `/newsletter` }}
       jsonLd={{ '@type': 'WebPage' }}

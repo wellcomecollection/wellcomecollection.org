@@ -18,7 +18,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import Body from '../components/Body/Body';
@@ -30,6 +29,7 @@ import {
 } from '../services/prismic/fetch/articles';
 import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { looksLikePrismicId } from 'services/prismic';
 
 type Props = {
   article: Article;
@@ -44,12 +44,12 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id);
+    const articleDocument = await fetchArticle(client, id as string);
     const serverData = await getServerData(context);
 
     if (articleDocument) {

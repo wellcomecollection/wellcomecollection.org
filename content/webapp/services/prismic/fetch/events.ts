@@ -1,10 +1,84 @@
-import { fetcher } from '.';
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
+import { Query } from '@prismicio/types';
+import { getPeriodPredicates } from '../types/predicates';
+import { startField, endField, graphQuery } from '@weco/common/services/prismic/events';
+import * as prismic from 'prismic-client-beta';
 
 const fetchLinks = eventsFetchLinks;
 
 const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
 
 export const fetchEvent = eventsFetcher.getById;
-export const fetchEvents = eventsFetcher.getByType;
+
+type FetchEventsQueryParams = {
+  predicates?: string[];
+  period?: 'current-and-coming-up' | 'past',
+  isOnline?: boolean,
+  availableOnline?: boolean,
+  page?: number,
+  pageSize?: number,
+  orderings?: (prismic.Ordering | string)[];
+};
+
+export const fetchEvents = (
+  client: GetServerSidePropsPrismicClient,
+  {
+    predicates = [],
+    period,
+    isOnline,
+    availableOnline,
+    page,
+    pageSize,
+    orderings = []
+  }: FetchEventsQueryParams
+): Promise<Query<EventPrismicDocument>> => {
+  const order = period === 'past' ? 'desc' : 'asc';
+  const startTimeOrderings =
+    order === 'desc'
+      ? [{ field: 'my.events.times.startDateTime', direction: 'desc' }] as prismic.Ordering[]
+      : [];
+
+  const dateRangePredicates = period
+    ? getPeriodPredicates({ period, startField, endField })
+    : [];
+
+  // NOTE: Ideally we'd use the Prismic DSL to construct these predicates rather
+  // than dropping in raw strings, but they interfere with the type checker.
+  //
+  // The current version of the Prismic libraries require the second argument of
+  // the 'at()' predicate to be a `string | number | (string | number)[]`, but they
+  // need to be booleans.
+  //
+  // TODO: When we upgrade the Prismic client libraries, convert these to the DSL.
+  // 
+  const onlinePredicates = isOnline
+    ? ['[at(my.events.isOnline, true)]']
+    : [];
+
+
+  const availableOnlinePredicates = availableOnline
+    ? ["[at(my.events.availableOnline, true)]"]
+    : [];
+
+  return eventsFetcher.getByType(
+    client,
+    {
+      predicates: [
+        ...dateRangePredicates,
+        ...onlinePredicates,
+        ...availableOnlinePredicates,
+        ...predicates
+      ],
+      orderings: [
+        ...orderings,
+        ...startTimeOrderings,
+      ],
+      page,
+      pageSize,
+      graphQuery
+    }
+  )
+};
+
 export const fetchEventsClientSide = eventsFetcher.getByTypeClientSide;

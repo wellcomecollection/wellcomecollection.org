@@ -13,7 +13,6 @@ import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
-import { getEvents } from '@weco/common/services/prismic/events';
 import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
@@ -34,8 +33,11 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
-import { fetchPage } from 'services/prismic/fetch/pages';
-import { transformPage } from 'services/prismic/transformers/pages';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { transformPage } from '../services/prismic/transformers/pages';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -62,9 +64,6 @@ type Props = {
   page: PageType;
 };
 
-const pageDescription =
-  'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.';
-
 const pageImage =
   'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
 
@@ -76,6 +75,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+    const eventsQueryPromise = fetchEvents(
+      client,
+      {
+        period: 'current-and-coming-up',
+      },
+    );
     const pagePromise = fetchPage(client, homepageId);
 
     const exhibitionsPromise = getExhibitions(
@@ -86,17 +91,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       },
       memoizedPrismic
     );
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-      },
-      memoizedPrismic
-    );
 
-    const [exhibitions, events, articlesQuery, pageDocument] = await Promise.all([
+    const [exhibitions, eventsQuery, articlesQuery, pageDocument] = await Promise.all([
       exhibitionsPromise,
-      eventsPromise,
+      eventsQueryPromise,
       articlesQueryPromise,
       pagePromise,
     ]);
@@ -105,6 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const page = transformPage(pageDocument!);
     
     const articles = transformQuery(articlesQuery, transformArticle);
+    const events = transformQuery(eventsQuery, transformEvent);
 
     if (events && exhibitions && articles && page) {
       return {
@@ -143,7 +142,7 @@ const Homepage: FC<Props> = props => {
   return (
     <PageLayout
       title={''}
-      description={pageDescription}
+      description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
       jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}
@@ -154,7 +153,7 @@ const Homepage: FC<Props> = props => {
       <Layout10>
         <SpacingSection>
           <PageHeading>
-            A free museum and library exploring health and human experience
+            {homepageHeading}
           </PageHeading>
           {standFirst && (
             <CreamBox>

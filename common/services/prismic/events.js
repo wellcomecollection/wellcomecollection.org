@@ -45,10 +45,10 @@ import isEmptyObj from '../../utils/is-empty-object';
 import { london } from '../../utils/format-date';
 import { isPast } from '../../utils/dates';
 
-const startField = 'my.events.times.startDateTime';
-const endField = 'my.events.times.endDateTime';
+export const startField = 'my.events.times.startDateTime';
+export const endField = 'my.events.times.endDateTime';
 
-const graphQuery = `{
+export const graphQuery = `{
   events {
     ...eventsFields
     format {
