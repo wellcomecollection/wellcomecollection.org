@@ -76,7 +76,7 @@ export const fetchSiblings = async (
   const relatedPagePromises =
     page.parentPages &&
     page.parentPages.map(parentPage => fetchChildren(client, parentPage));
-  const relatedPages = await Promise.all(relatedPagePromises);
+  const relatedPages = await Promise.all(relatedPagePromises ?? []);
 
   return relatedPages.map((results, i) => {
     return {
