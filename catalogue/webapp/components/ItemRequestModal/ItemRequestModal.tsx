@@ -35,7 +35,7 @@ import { convertDayNumberToDay } from '../../utils/dates';
 
 function arrayofItemsToText(arr) {
   if (arr.length === 1) return arr[0];
-  const initialItems = arr.slice(0, arr.length - 1);
+  const initialItems = arr.slice(0, -1);
   const lastItem = arr[arr.length - 1];
   return initialItems.join(', ') + ' and ' + lastItem;
 }
