@@ -1,4 +1,6 @@
-import { fetcher } from '.';
+import { Query } from '@prismicio/types';
+import * as prismic from 'prismic-client-beta';
+import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument } from '../types/pages';
 import {
   articleSeriesFields,
@@ -40,10 +42,24 @@ const fetchLinks = pagesFields.concat(
 );
 
 /** Although these are three different document types in Prismic, they all get
-  * rendered (and fetched) by the same component.
-  */
-const pagesFetcher = fetcher<PagePrismicDocument>(['pages', 'guides', 'projects'], fetchLinks);
+ * rendered (and fetched) by the same component.
+ */
+const pagesFetcher = fetcher<PagePrismicDocument>(
+  ['pages', 'guides', 'projects'],
+  fetchLinks
+);
 
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
 export const fetchPagesClientSide = pagesFetcher.getByTypeClientSide;
+
+export const fetchChildren = (
+  client: GetServerSidePropsPrismicClient,
+  pageId: string
+): Promise<Query<PagePrismicDocument>> => {
+  const predicates = [prismic.predicate.at('my.pages.parents.parent', pageId)];
+
+  return fetchPages(client, {
+    predicates,
+  });
+};
