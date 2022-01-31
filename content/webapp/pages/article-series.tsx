@@ -18,6 +18,7 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   series: ArticleSeries;
@@ -28,6 +29,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id, memoizedPrismic } = context.query;
+
+    if (!looksLikePrismicId(id)) {
+      return { notFound: true };
+    }
+
     const seriesAndArticles = await getArticleSeries(
       context.req,
       {

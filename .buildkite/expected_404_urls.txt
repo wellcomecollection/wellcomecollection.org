@@ -13,3 +13,10 @@
 
 # This is a real Prismic ID, but it's an exhibition, not an event
 /events/YZYdQxEAACQAVm7b
+
+# Ignore requests for bare types
+/event-series
+
+# Weird characters in the Prismic ID
+# See https://github.com/wellcomecollection/wellcomecollection.org/issues/7611
+/exhibitions/states-mind-tracing-edges-consciousness%22

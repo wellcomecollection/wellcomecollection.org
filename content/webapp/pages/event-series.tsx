@@ -18,6 +18,7 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   series: EventSeries;
@@ -28,6 +29,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id, memoizedPrismic } = context.query;
+
+    if (!looksLikePrismicId(id)) {
+      return { notFound: true };
+    }
+
     const seriesAndEvents = await getEventSeries(
       context.req,
       {
