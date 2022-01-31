@@ -8,7 +8,6 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { getPageSiblings } from '@weco/common/services/prismic/pages';
 import { Page as PageType } from '@weco/common/model/pages';
 import { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
@@ -33,14 +32,18 @@ import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { contentLd } from '../services/prismic/transformers/json-ld';
-import { fetchChildren, fetchPage } from '../services/prismic/fetch/pages';
+import {
+  fetchChildren,
+  fetchPage,
+  fetchSiblings,
+} from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 
 type Props = {
   page: PageType;
-  siblings: SiblingsGroup[];
-  children: SiblingsGroup;
+  siblings: SiblingsGroup<PageType>[];
+  children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
 } & WithGaDimensions;
 
@@ -54,7 +57,7 @@ type OrderInParent = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
+    const { id } = context.query;
 
     const client = createClient(context);
 
@@ -62,11 +65,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const page = pageLookup && transformPage(pageLookup);
 
     if (page) {
-      const siblings = await getPageSiblings(
-        page,
-        context.req,
-        memoizedPrismic
-      );
+      const siblings: SiblingsGroup<PageType>[] = (
+        await fetchSiblings(client, page)
+      ).map(group => {
+        return {
+          ...group,
+          siblings: group.siblings.map(s => transformPage(s)),
+        };
+      });
       const ordersInParents: OrderInParent[] =
         page.parentPages.map(p => {
           return {
@@ -82,7 +88,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const children = {
         id: page.id,
         title: page.title,
-        siblings: (await fetchChildren(client, page.id)).map(c =>
+        siblings: (await fetchChildren(client, page)).map(c =>
           transformPage(c)
         ),
       };
@@ -207,7 +213,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   // Find the items that have an 'order' property, and sort by those first,
   // Then any remaining will be added to the end in the order they
   // come from Prismic (date created)
-  function orderItems(group: SiblingsGroup): PageType[] {
+  function orderItems(group: SiblingsGroup<PageType>): PageType[] {
     const groupWithOrder = group.siblings.map(sibling => {
       const parent = sibling.parentPages.find(p => p.id === group.id);
       const order = parent?.order;
