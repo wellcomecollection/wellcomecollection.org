@@ -9,7 +9,10 @@ import {
   findNextRegularOpenDay,
   isRequestableDate,
 } from '../../utils/dates';
-import { OverrideType } from '@weco/common/model/opening-hours';
+import {
+  OverrideType,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 
 const exceptionalClosedDates = [
   london('2019-12-03'),
@@ -70,7 +73,7 @@ const regularOpeningHours = [
     closes: '00:00',
     isClosed: true,
   },
-];
+] as OpeningHoursDay[];
 
 const exceptionalOpeningHours = [
   {
