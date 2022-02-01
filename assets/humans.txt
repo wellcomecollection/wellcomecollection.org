@@ -23,7 +23,6 @@ Digital Production (digitisation):
 
 Digital Editorial Content:
  Danny Birchall
- Kirsten Riley
  Lalita Kaplish
  Alice White
  Kate Wilkinson
@@ -66,6 +65,7 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Kirsten Riley
  James Gorrie
  Alice Fuzier-Cayla
  Robert Kenny
