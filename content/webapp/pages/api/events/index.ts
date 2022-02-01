@@ -11,7 +11,7 @@ type NotFound = { notFound: true };
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<Data | NotFound>
-): void => {
+): Promise<void> => {
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
   const client = createClient({ req });
