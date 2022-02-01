@@ -3,7 +3,7 @@
 require('@weco/common/services/apm/initApm')('content-server');
 import Koa from 'koa';
 import Router from 'koa-router';
-import next, { NextServer } from 'next';
+import next from 'next';
 import Prismic from '@prismicio/client';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
@@ -39,7 +39,7 @@ const handle = nextApp.getRequestHandler();
 
 function pageVanityUrl(
   router: Router,
-  app: NextServer,
+  app,
   url: string,
   pageId: string,
   template = '/page'
