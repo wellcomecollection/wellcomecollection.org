@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { EventPrismicDocument } from '../../../services/prismic/types/events';
-import { fetchEvents } from '../services/prismic/fetch/events';
+import { fetchEvents } from '../../../services/prismic/fetch/events';
 
 type Data = Query<EventPrismicDocument>;
 type NotFound = { notFound: true };
