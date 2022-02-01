@@ -24,7 +24,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { getEvent, getEvents } from '@weco/common/services/prismic/events';
+import { getEvent } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
@@ -49,6 +49,9 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
 import { eventLd } from '../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { fetchEventsClientSide } from 'services/prismic/fetch/events';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformEvent } from 'services/prismic/transformers/events';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -170,14 +173,18 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
 const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<UiEvent>();
   const getScheduledIn = async () => {
-    const scheduledIn = await getEvents(null, {
+    const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
         Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
-    if (scheduledIn && scheduledIn.results.length > 0) {
-      setScheduledIn(scheduledIn.results[0]);
+    if (scheduledInQuery) {
+      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
+
+      if (scheduledIn.results.length > 0) {
+        setScheduledIn(scheduledIn.results[0]);
+      }
     }
   };
   useEffect(() => {
