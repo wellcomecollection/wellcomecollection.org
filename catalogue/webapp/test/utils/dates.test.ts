@@ -322,7 +322,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
   });
 });
 
-describe.only("isRequestableDate: checks the date falls between 2 specified dates and also isn't and excluded date, or excluded day", () => {
+describe("isRequestableDate: checks the date falls between 2 specified dates and also isn't and excluded date, or excluded day", () => {
   it('returns false if the date falls outside the start and end dates', () => {
     const result = isRequestableDate({
       date: london('2019-12-12'),
