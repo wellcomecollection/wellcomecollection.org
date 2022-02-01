@@ -191,7 +191,7 @@ describe('filterExceptionalClosedDates', () => {
 });
 
 describe('includedRegularClosedDays', () => {
-  it('determines how many regular closed days occur between the start and end dates, inlcusive', () => {
+  it('determines how many regular closed days occur between the start and end dates, inclusive', () => {
     const result = includedRegularClosedDays({
       startDate: london('2020-01-03'),
       endDate: london('2020-01-16'),
@@ -322,7 +322,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
   });
 });
 
-describe("isRequestableDate: checks the date falls between 2 specified dates and also isn't and excluded date, or excluded day", () => {
+describe("isRequestableDate: checks the date falls between 2 specified dates and also isn't an excluded date, or excluded day", () => {
   it('returns false if the date falls outside the start and end dates', () => {
     const result = isRequestableDate({
       date: london('2019-12-12'),
