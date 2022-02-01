@@ -27,7 +27,6 @@ Digital Editorial Content:
  Alice White
  Kate Wilkinson
  Helen Babbs
- Anjuli Sharma
  Kate Quarry
  James Machin
  Richard Sheehan
@@ -67,6 +66,7 @@ Access:
 /* ALUMNI - WE MISS YOU ALL ! */
 
  Kirsten Riley
+ Anjuli Sharma
  James Gorrie
  Alice Fuzier-Cayla
  Robert Kenny
