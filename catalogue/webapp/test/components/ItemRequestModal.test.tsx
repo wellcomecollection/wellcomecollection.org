@@ -17,10 +17,6 @@ jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
 
 jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
-jest
-  .spyOn(dates, 'determineNextAvailableDate')
-  .mockImplementation(() => london('2020-12-21'));
-
 const renderComponent = () => {
   const RequestModal = () => {
     const [requestModalIsActive, setRequestModalIsActive] = useState(true);
@@ -57,12 +53,29 @@ describe('ItemRequestModal', () => {
 
   // Needs additional tests when calendar is introduced
   it('lets users see what dates are available / unavailable to select', () => {
+    const spy = jest
+      .spyOn(dates, 'determineNextAvailableDate')
+      .mockImplementation(() => london('2020-12-21'));
     renderComponent();
     expect(
       screen.getByText(
         'You can choose a date between Monday 21 December and Tuesday 05 January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24 December, Friday 25 December and Sunday 27 December.'
       )
     );
+    spy.mockRestore();
+  });
+
+  it('only shows users closed dates that occur within the selectable period', () => {
+    const spy = jest
+      .spyOn(dates, 'determineNextAvailableDate')
+      .mockImplementation(() => london('2020-12-26'));
+    renderComponent();
+    expect(
+      screen.getByText(
+        'You can choose a date between Saturday 26 December and Friday 08 January. Please bear in mind the library is closed on Sundays and will also be closed on Sunday 27 December.'
+      )
+    );
+    spy.mockRestore();
   });
 
   it('advises a user that a date they have selected is unavailable and prompts them to re-select', () => {
