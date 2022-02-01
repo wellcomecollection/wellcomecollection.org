@@ -99,3 +99,17 @@ export const fetchExhibitions = (
 
 export const fetchExhibitionsClientSide =
   exhibitionsFetcher.getByTypeClientSide;
+
+export const fetchExhibitExhibition = async (
+  exhibitId: string
+): Promise<ExhibitionPrismicDocument | undefined> => {
+  const predicates = [
+    prismic.predicate.at('my.exhibitions.exhibits.item', exhibitId),
+  ];
+
+  const response = await fetchExhibitionsClientSide({ predicates });
+
+  return response && response.results.length > 0
+    ? response.results[0]
+    : undefined;
+};
