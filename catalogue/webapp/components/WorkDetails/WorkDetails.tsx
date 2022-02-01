@@ -26,7 +26,7 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from './ExplanatoryText';
@@ -51,13 +51,6 @@ import {
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
 import { useToggles } from '@weco/common/server-data/Context';
-import styled from 'styled-components';
-
-const OrderedList = styled.ol`
-  padding: 0;
-  margin: 0;
-  list-style: none;
-`;
 
 type Props = {
   work: Work;
@@ -347,36 +340,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio?.length > 0 && (
-              <OrderedList>
-                {audio?.map((a, index) => (
-                  <Space
-                    as="li"
-                    key={a['@id']}
-                    v={{ size: 'l', properties: ['margin-bottom'] }}
-                    aria-label={
-                      audio.length > 1 ? (index + 1).toString() : undefined
-                    }
-                  >
-                    <span
-                      className={classNames({
-                        'flex flex--v-center': true,
-                      })}
-                    >
-                      {audio.length > 1 && (
-                        <Space
-                          aria-hidden="true"
-                          h={{ size: 's', properties: ['margin-right'] }}
-                        >
-                          {index + 1}
-                        </Space>
-                      )}
-                      <AudioPlayer audio={a} />
-                    </span>
-                  </Space>
-                ))}
-              </OrderedList>
-            )}
+            {audio?.length > 0 && <AudioList audio={audio} />}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

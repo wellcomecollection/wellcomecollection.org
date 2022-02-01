@@ -48,6 +48,7 @@ import {
 } from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
+import AudioList from '../components/AudioList/AudioList';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
@@ -228,24 +229,13 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {audio?.map(a => (
-        <Layout12 key={a['@id']}>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <audio
-              controls
-              style={{
-                maxWidth: '100%',
-                display: 'block',
-                margin: '98px auto 0',
-              }}
-              src={a['@id']}
-              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
-            >
-              {`Sorry, your browser doesn't support embedded audio.`}
-            </audio>
-          </Space>
-        </Layout12>
-      ))}
+      {audio?.length > 0 && (
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Layout12>
+            <AudioList audio={audio} />
+          </Layout12>
+        </Space>
+      )}
       {video && (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
