@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { EventSeries } from '@weco/common/model/event-series';
 import { UiEvent } from '@weco/common/model/events';
 import { FC } from 'react';
-import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader, {
@@ -19,6 +18,14 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { createClient } from '../services/prismic/fetch';
+import * as prismic from 'prismic-client-beta';
+import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { transformEventSeries } from '../services/prismic/transformers/event-series';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformEvent } from 'services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;
@@ -28,23 +35,32 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
+    const { id } = context.query;
 
     if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
-    const seriesAndEvents = await getEventSeries(
-      context.req,
-      {
-        id,
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const client = createClient(context);
 
-    if (seriesAndEvents) {
-      const { series, events } = seriesAndEvents;
+    const eventsQueryPromise = fetchEvents(client, {
+      predicates: [
+        prismic.predicate.at('my.events.series.series', id as string),
+      ],
+      pageSize: 100,
+    });
+
+    const seriesPromise = fetchEventSeriesById(client, id as string);
+
+    const [eventsQuery, seriesDocument] = await Promise.all([
+      eventsQueryPromise,
+      seriesPromise,
+    ]);
+
+    if (isNotUndefined(seriesDocument)) {
+      const series = transformEventSeries(seriesDocument);
+      const events = transformQuery(eventsQuery, transformEvent).results;
+
       return {
         props: removeUndefinedProps({
           series,

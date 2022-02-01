@@ -1,15 +1,9 @@
 // @flow
 import type { UiEvent, EventTime } from '../../model/events';
-import type {
-  PrismicDocument,
-  PaginatedResults,
-  PrismicQueryOpts,
-  PrismicApiSearchResponse,
-} from './types';
+import type { PrismicDocument, PrismicApiSearchResponse } from './types';
 import type { Team } from '../../model/team';
-import Prismic from '@prismicio/client';
 import moment from 'moment';
-import { getDocument, getTypeByIds, getDocuments } from './api';
+import { getDocument, getTypeByIds } from './api';
 import {
   eventAccessOptionsFields,
   teamsFields,
@@ -36,7 +30,6 @@ import {
   parseLabelTypeList,
   parseSingleLevelGroup,
 } from './parsers';
-import { getPeriodPredicates } from './utils';
 import { parseEventSeries } from './event-series';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
@@ -410,71 +403,4 @@ export async function getEvent(
 
     return event;
   }
-}
-
-type EventsQueryProps = {|
-  predicates?: Prismic.Predicates[],
-  period?: 'current-and-coming-up' | 'past',
-  isOnline?: boolean,
-  availableOnline?: boolean,
-  ...PrismicQueryOpts,
-|};
-
-const isOnlinePredicate = Prismic.Predicates.at('my.events.isOnline', true);
-const availableOnlinePredicate = Prismic.Predicates.at(
-  'my.events.availableOnline',
-  true
-);
-export async function getEvents(
-  req: ?Request,
-  {
-    predicates = [],
-    period,
-    isOnline,
-    availableOnline,
-    ...opts
-  }: EventsQueryProps,
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<UiEvent>> {
-  const order = period === 'past' ? 'desc' : 'asc';
-  const orderings = `[my.events.times.startDateTime${
-    order === 'desc' ? ' desc' : ''
-  }]`;
-  const dateRangePredicates = period
-    ? getPeriodPredicates(period, startField, endField)
-    : [];
-
-  // We only send the predicates over for true values as
-  // events can either have `false` or `undefined`.
-  const filterPredicates = [
-    [isOnline, isOnlinePredicate],
-    [availableOnline, availableOnlinePredicate],
-  ]
-    .filter(([condition, predicate]) => condition)
-    .map(([condition, predicate]) => predicate);
-
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.at('document.type', 'events')]
-      .concat(predicates, dateRangePredicates, filterPredicates)
-      .filter(Boolean),
-    {
-      orderings,
-      page: opts.page,
-      pageSize: opts.pageSize,
-      graphQuery,
-    },
-    memoizedPrismic
-  );
-  const events = paginatedResults.results.map(doc => {
-    return parseEventDoc(doc, null);
-  });
-
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: events,
-  };
 }
