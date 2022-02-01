@@ -1,5 +1,3 @@
-import { RichTextField, SelectField, LinkField } from '@prismicio/types';
-
 const prismicData = {
   globalAlert: {
     id: 'WrUT4x8AAB4A1FV9',
@@ -60,8 +58,8 @@ const prismicData = {
             },
           ],
         },
-      ] as RichTextField,
-      isShown: 'show' as SelectField<'hide' | 'show'>,
+      ],
+      isShown: 'show',
       routeRegex: '^(?!(.*\\/items)|(.*\\/images)).*$',
     },
   },
@@ -93,12 +91,12 @@ const prismicData = {
           text: 'We’re undertaking research with website visitors to find out some more about you and what you thought about your visit. This survey will take less than 10 minutes to complete. Thank you for your time!',
           spans: [],
         },
-      ] as RichTextField,
+      ],
       linkText: 'Take the survey',
       link: {
         link_type: 'Web',
         url: 'https://interviewer.djsresearch.com/scripts/Dubinterviewer.dll/Frames?Quest=7577',
-      } as LinkField,
+      },
       isShown: false,
     },
   },

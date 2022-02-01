@@ -15,7 +15,9 @@ jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
   enablePickUpDate: true,
 }));
 
-jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
+jest
+  .spyOn(Context, 'usePrismicData')
+  .mockImplementation(() => prismicData as any);
 
 const renderComponent = () => {
   const RequestModal = () => {
