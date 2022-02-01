@@ -202,7 +202,18 @@ const RequestDialog: FC<RequestDialogProps> = ({
 
   const exceptionalClosedDatesText =
     exceptionalClosedDates.length > 0
-      ? exceptionalClosedDatesToText(exceptionalClosedDates)
+      ? exceptionalClosedDatesToText(
+          exceptionalClosedDates.filter(date => {
+            return (
+              date
+                .startOf('day')
+                .isSameOrAfter(nextAvailableDate?.startOf('day')) &&
+              date
+                .startOf('day')
+                .isSameOrBefore(extendedLastAvailableDate?.startOf('day'))
+            );
+          })
+        )
       : null;
 
   const availableDatesText = `You can choose a date between ${nextAvailableDate?.format(
