@@ -130,7 +130,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio?.[0] && getMediaClickthroughService(audio?.[0]));
+    (audio?.[0] && getMediaClickthroughService(audio[0]));
 
   const tokenService = authService && getTokenService(authService);
 

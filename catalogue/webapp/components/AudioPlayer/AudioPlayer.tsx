@@ -4,7 +4,6 @@ import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
 import { IIIFMediaElement } from '../../model/iiif';
 import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
-import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   audio: IIIFMediaElement;
@@ -53,20 +52,15 @@ const AudioPlayer: FunctionComponent<Props> = ({
     },
     isPlaying ? 1000 : undefined
   );
-  const audioPlaceholderThumbnailUrls = [
-    'https://iiif.wellcomecollection.org/thumb/b22488522',
-    'https://iiif.wellcomecollection.org/thumb/b2248887x',
-  ];
-  const showThumbnail =
-    audio.thumbnail && !audioPlaceholderThumbnailUrls.includes(audio.thumbnail);
 
   return (
     <div>
-      {showThumbnail && (
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <img src={audio.thumbnail} alt={audio.label} />
-        </Space>
-      )}
+      {/* TODO: there are currently thumbnails for all pieces of audio, but
+      the vast majority resolve to a placeholder image that we don't want to display.
+      Instead of trying to work out which ones to display, we're going to wait until
+      the placeholder thumbnails have been removed from the IIIF manifests
+
+      see https://github.com/wellcomecollection/wellcomecollection.org/issues/7596#issuecomment-1026686060 */}
       <audio
         onPlay={() => {
           setIsPlaying(true);
