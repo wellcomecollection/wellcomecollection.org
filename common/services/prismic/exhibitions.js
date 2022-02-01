@@ -1,6 +1,5 @@
 // @flow
-import Prismic from '@prismicio/client';
-import { getDocuments, getTypeByIds } from './api';
+import { getTypeByIds } from './api';
 import { parseMultiContent } from './multi-content';
 import {
   exhibitionFields,
@@ -229,24 +228,4 @@ export async function getExhibitionRelatedContent(
       doc => doc.type === 'books' || doc.type === 'articles'
     ),
   };
-}
-
-export async function getExhibitExhibition(
-  req: ?Request,
-  exhibitId: string
-): Promise<?UiExhibition> {
-  const predicates = [
-    Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId),
-  ];
-  const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(
-      exhibitionFields,
-      contributorsFields,
-      placesFields
-    ),
-  });
-
-  if (apiResponse.results.length > 0) {
-    return parseExhibitionDoc(apiResponse.results[0]);
-  }
 }

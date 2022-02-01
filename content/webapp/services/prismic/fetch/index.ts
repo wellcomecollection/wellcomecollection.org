@@ -123,6 +123,13 @@ export function fetcher<Document extends PrismicDocument>(
       return response;
     },
 
+    /** Get all the documents of a given type.
+     *
+     * This makes a request to the /api endpoint for the given document type.
+     * If you use one of these methods, you will need to add a corresponding route
+     * in 'pages/api' (see e.g. 'pages/api/articles/index.ts'), which calls the
+     * appropriate fetch method.
+     */
     getByTypeClientSide: async (
       params?: GetByTypeParams
     ): Promise<Query<Document> | undefined> => {
@@ -136,8 +143,7 @@ export function fetcher<Document extends PrismicDocument>(
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
 
-      // If we have multiple content types, just query on the first one client-side.
-      // It's not ideal, but I can't think of an easy and better way to do this right now.
+      // If we have multiple content types, use the first one as the ID.
       const url = isString(contentType)
         ? `/api/${contentType}?${urlSearchParams.toString()}`
         : `/api/${contentType[0]}?${urlSearchParams.toString()}`;
