@@ -2,11 +2,6 @@ import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
-import {
-  startField,
-  endField,
-  graphQuery,
-} from '@weco/common/services/prismic/events';
 import * as prismic from 'prismic-client-beta';
 
 const fetchLinks = eventsFetchLinks;
@@ -34,6 +29,85 @@ type FetchEventsQueryParams = {
   pageSize?: number;
   orderings?: (prismic.Ordering | string)[];
 };
+
+const startField = 'my.events.times.startDateTime';
+const endField = 'my.events.times.endDateTime';
+
+export const graphQuery = `{
+  events {
+    ...eventsFields
+    format {
+      ...formatFields
+    }
+    place {
+      ...placeFields
+    }
+    series {
+      series {
+        ...seriesFields
+        contributors {
+          ...contributorsFields
+          role {
+            ...roleFields
+          }
+          contributor {
+            ... on people {
+              ...peopleFields
+            }
+            ... on organisations {
+              ...organisationsFields
+            }
+          }
+        }
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
+      }
+    }
+    interpretations {
+      interpretationType {
+        ...interpretationTypeFields
+      }
+    }
+    policies {
+      policy {
+        ...policyFields
+      }
+    }
+    audiences {
+      audience {
+        ...audienceFields
+      }
+    }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+        ... on organisations {
+          ...organisationsFields
+        }
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
+  }
+}`;
 
 export const fetchEvents = (
   client: GetServerSidePropsPrismicClient,
