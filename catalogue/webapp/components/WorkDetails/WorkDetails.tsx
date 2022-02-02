@@ -64,7 +64,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audio,
+  audioItems,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -73,7 +73,7 @@ function getItemLinkState({
   if (accessCondition === 'closed') {
     return 'useNoLink';
   }
-  if (itemUrl && !audio && !video) {
+  if (itemUrl && !(audioItems.length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -216,7 +216,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audio: audioItems?.[0],
+    audioItems,
     video,
   });
 
@@ -344,7 +344,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audioItems?.length > 0 && <AudioList items={audioItems} />}
+            {audioItems.length > 0 && <AudioList items={audioItems} />}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"
