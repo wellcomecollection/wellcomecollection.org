@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -15,29 +14,11 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import {
-  abortErrorHandler,
-  useAbortSignalEffect,
-} from '@weco/common/hooks/useAbortSignalEffect';
+import auth0 from '../src/utility/auth0';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
-  const { state: userState, reload: reloadUserSession } = useUser();
+  const { state: userState } = useUser();
   const urlUsed = message === 'This URL can be used only once';
-
-  // If the user is currently signed in, refresh their session so that we know
-  // that their email is verified.
-  // We use this ref because otherwise we get into a loop where the loading state
-  // of the new user triggers another refresh
-  const userWasRefreshed = useRef(false);
-  useAbortSignalEffect(
-    abortSignal => {
-      if (success && userState === 'signedin' && !userWasRefreshed.current) {
-        reloadUserSession(abortSignal).catch(abortErrorHandler);
-        userWasRefreshed.current = true;
-      }
-    },
-    [success, userState, userWasRefreshed]
-  );
 
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
@@ -112,8 +93,29 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { query } = context;
+    const { query, req, res, resolvedUrl } = context;
     const { success, message, supportSignUp } = query;
+
+    if (success) {
+      const session = await auth0.getSession(req, res);
+      // If the user currently has a session (ie they're logged in), we need to
+      // refresh their profile to get the updated email_verified flag.
+      //
+      // The simplest way to do this from the server side is to redirect them to
+      // login, which won't require any interaction because they already have a
+      // session (but will refresh their user info), and then ping them back here.
+      if (session?.user && !session.user.email_verified) {
+        return {
+          redirect: {
+            // We need to prefix the returnTo URL with /account because the
+            // auth0 redirect does _not_ respect the application baseUrl.
+            destination: `/api/auth/login?returnTo=/account${resolvedUrl}`,
+            permanent: false,
+          },
+        };
+      }
+    }
+
     const serverData = await getServerData(context);
 
     return {
