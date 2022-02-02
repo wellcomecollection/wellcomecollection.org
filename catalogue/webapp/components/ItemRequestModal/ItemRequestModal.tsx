@@ -202,7 +202,17 @@ const RequestDialog: FC<RequestDialogProps> = ({
 
   const exceptionalClosedDatesText =
     exceptionalClosedDates.length > 0
-      ? exceptionalClosedDatesToText(exceptionalClosedDates)
+      ? exceptionalClosedDatesToText(
+          exceptionalClosedDates.filter(
+            date =>
+              date.isBetween(
+                nextAvailableDate,
+                extendedLastAvailableDate,
+                'day',
+                '[]'
+              ) // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+          )
+        )
       : null;
 
   const availableDatesText = `You can choose a date between ${nextAvailableDate?.format(
