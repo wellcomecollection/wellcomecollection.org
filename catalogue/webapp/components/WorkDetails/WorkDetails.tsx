@@ -128,9 +128,13 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
 
+  // We display a content advisory warning at the work level, so it is sufficient
+  // to check if any individual piece of audio content requires an advisory notice
+  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audioItems?.[0] && getMediaClickthroughService(audioItems[0]));
+    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
 
   const tokenService = authService && getTokenService(authService);
 
