@@ -3,6 +3,21 @@ import type { UiEvent, EventTime } from '../../model/events';
 import type { PrismicDocument, PrismicApiSearchResponse } from './types';
 import type { Team } from '../../model/team';
 import moment from 'moment';
+import { getDocument, getTypeByIds } from './api';
+import {
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
+  peopleFields,
+  contributorsFields,
+  eventPoliciesFields,
+  seasonsFields,
+} from './fetch-links';
 import {
   parseTitle,
   parsePlace,
@@ -338,4 +353,54 @@ export function parseEventDoc(
   const secondaryLabels = [...eventInterpretations];
 
   return { ...event, labels, primaryLabels, secondaryLabels };
+}
+
+const fetchLinks = [
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
+  placesFields,
+  interpretationTypesFields,
+  audiencesFields,
+  eventSeriesFields,
+  organisationsFields,
+  peopleFields,
+  contributorsFields,
+  eventSeriesFields,
+  eventPoliciesFields,
+  seasonsFields,
+];
+
+type EventQueryProps = {|
+  id: string,
+|};
+
+export async function getEvent(
+  req: ?Request,
+  { id }: EventQueryProps,
+  memoizedPrismic: ?Object
+): Promise<?UiEvent> {
+  const document = await getDocument(
+    req,
+    id,
+    {
+      fetchLinks: fetchLinks,
+    },
+    memoizedPrismic
+  );
+
+  if (document && document.type === 'events') {
+    const scheduleIds = document.data.schedule
+      .map(({ event }) => event.id)
+      .filter(Boolean);
+    const eventScheduleDocs =
+      scheduleIds.length > 0 &&
+      (await getTypeByIds(req, ['events'], scheduleIds, {
+        fetchLinks,
+        pageSize: 40,
+      }));
+    const event = parseEventDoc(document, eventScheduleDocs || null);
+
+    return event;
+  }
 }
