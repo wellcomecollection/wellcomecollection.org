@@ -102,7 +102,7 @@ function EventStatus({ text, color }: EventStatusProps) {
   );
 }
 
-function DateList(event) {
+function DateList(event: UiEvent) {
   return (
     event.times && (
       <>
@@ -133,7 +133,7 @@ function DateList(event) {
   );
 }
 
-function showTicketSalesStart(dateTime) {
+function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isTimePast(dateTime);
 }
 
