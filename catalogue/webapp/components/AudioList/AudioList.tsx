@@ -3,6 +3,7 @@ import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import { IIIFMediaElement } from '../../model/iiif';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 type Props = {
   items: IIIFMediaElement[];
@@ -32,7 +33,7 @@ const AudioList: FC<Props> = ({ items }) => {
                 aria-hidden="true"
                 h={{ size: 's', properties: ['margin-right'] }}
               >
-                {index + 1}
+                <AlignFont>{index + 1}</AlignFont>
               </Space>
             )}
             <AudioPlayer audio={item} />
