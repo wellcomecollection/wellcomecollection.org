@@ -121,7 +121,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audio,
+    audioItems,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
@@ -130,7 +130,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio?.[0] && getMediaClickthroughService(audio[0]));
+    (audioItems?.[0] && getMediaClickthroughService(audioItems[0]));
 
   const tokenService = authService && getTokenService(authService);
 
@@ -212,7 +212,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audio,
+    audio: audioItems?.[0],
     video,
   });
 
@@ -340,7 +340,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio?.length > 0 && <AudioList audio={audio} />}
+            {audioItems?.length > 0 && <AudioList items={audioItems} />}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"
