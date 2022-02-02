@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -11,10 +10,16 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../data/static-books';
-import { prismicPageIds, featuredStoriesSeriesId } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  prismicPageIds,
+  featuredStoriesSeriesId,
+} from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import { getPageFeaturedText, transformPage } from '../services/prismic/transformers/pages';
+import {
+  getPageFeaturedText,
+  transformPage,
+} from '../services/prismic/transformers/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
@@ -30,8 +35,13 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import { fetchPage } from 'services/prismic/fetch/pages';
-import { pageDescriptions, booksPromoOnStoriesPage } from '@weco/common/data/microcopy';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import {
+  pageDescriptions,
+  booksPromoOnStoriesPage,
+} from '@weco/common/data/microcopy';
+import { fetchSeriesById } from '../services/prismic/fetch/series';
+import { transformSeries } from '../services/prismic/transformers/series';
 
 type Props = {
   articles: Article[];
@@ -80,7 +90,6 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
@@ -90,20 +99,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
-    const seriesPromise = getArticleSeries(
-      context.req,
-      { id: featuredStoriesSeriesId },
-      memoizedPrismic
-    );
+    const seriesPromise = fetchSeriesById(client, featuredStoriesSeriesId);
 
-    const [articlesQuery, seriesAndArticles, storiesPage] = await Promise.all([
+    const [articlesQuery, seriesDocument, storiesPage] = await Promise.all([
       articlesQueryPromise,
       seriesPromise,
       storiesPagePromise,
     ]);
     const articles = transformQuery(articlesQuery, transformArticle);
-    const series = seriesAndArticles && seriesAndArticles.series;
-    const featuredText = storiesPage && getPageFeaturedText(transformPage(storiesPage));
+
+    // The featured series and stories page should always exist
+    const series = transformSeries(seriesDocument!);
+    const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
     if (articles && articles.results) {
       return {
@@ -233,9 +240,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         </SpacingComponent>
         <SpacingComponent>
           <Layout12>
-            <p>
-              {booksPromoOnStoriesPage}
-            </p>
+            <p>{booksPromoOnStoriesPage}</p>
           </Layout12>
         </SpacingComponent>
         <SpacingComponent>
