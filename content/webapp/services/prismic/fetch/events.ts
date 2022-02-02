@@ -15,6 +15,16 @@ const eventsFetcher = fetcher<EventPrismicDocument>('events', fetchLinks);
 
 export const fetchEvent = eventsFetcher.getById;
 
+export const fetchEventScheduleItems = async (
+  { client }: GetServerSidePropsPrismicClient,
+  scheduleIds: string[]
+): Promise<Query<EventPrismicDocument>> => {
+  return client.getByIDs(scheduleIds, {
+    fetchLinks,
+    pageSize: 40,
+  });
+};
+
 type FetchEventsQueryParams = {
   predicates?: string[];
   period?: 'current-and-coming-up' | 'past';

@@ -23,6 +23,7 @@ import {
   exhibitionsFetchLinks,
   FetchLinks,
   InferDataInterface,
+  seasonsFetchLinks,
   WithContributors,
   WithEventSeries,
   WithExhibitionParents,
@@ -188,4 +189,5 @@ export const eventsFetchLinks = [
   ...placesFetchLink,
   ...teamFetchLinks,
   ...backgroundTexturesFetchLink,
+  ...seasonsFetchLinks,
 ];
