@@ -76,6 +76,12 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
   const [manifestData, setManifestData] = useState<IIIFManifestData>({
     imageCount: 0,
     childManifestsCount: 0,
+    audio: [],
+    audioV3: {
+      sounds: [],
+      thumbnail: {},
+      transcript: {},
+    },
   });
 
   async function fetchIIIFPresentationManifest(
