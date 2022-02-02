@@ -59,6 +59,7 @@ import {
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -516,7 +517,9 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           }
         >
           <p className={`no-margin ${font('hnr', 5)}`}>
-            <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
+            <a
+              href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
+            >
               Our event terms and conditions
             </a>
           </p>
