@@ -26,7 +26,7 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from './ExplanatoryText';
@@ -64,7 +64,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audio,
+  audioItems,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -73,7 +73,7 @@ function getItemLinkState({
   if (accessCondition === 'closed') {
     return 'useNoLink';
   }
-  if (itemUrl && !audio && !video) {
+  if (itemUrl && !(audioItems.length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -121,16 +121,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audio,
+    audioItems,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
 
+  // We display a content advisory warning at the work level, so it is sufficient
+  // to check if any individual piece of audio content requires an advisory notice
+  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio && getMediaClickthroughService(audio));
+    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
 
   const tokenService = authService && getTokenService(authService);
 
@@ -212,7 +216,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audio,
+    audioItems,
     video,
   });
 
@@ -340,11 +344,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <AudioPlayer audio={audio} />
-              </Space>
-            )}
+            {audioItems.length > 0 && <AudioList items={audioItems} />}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

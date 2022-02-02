@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas, IIIFManifest, AuthService } from '../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  AuthService,
+  IIIFMediaElement,
+} from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -43,7 +48,8 @@ import {
 } from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
-
+import AudioList from '../components/AudioList/AudioList';
+import { isNotUndefined } from '@weco/common/utils/array';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -66,10 +72,6 @@ function reloadAuthIframe(document, id: string) {
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
-type Audio = {
-  '@id': string;
-};
-
 type Video = {
   '@id': string;
   format: string;
@@ -86,7 +88,7 @@ type Props = {
   canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audio?: Audio;
+  audioItems?: IIIFMediaElement[];
   iiifImageLocation?: DigitalLocation;
 } & WithPageview;
 
@@ -101,7 +103,7 @@ const ItemPage: NextPage<Props> = ({
   canvases,
   currentCanvas,
   video,
-  audio,
+  audioItems,
   iiifImageLocation,
 }) => {
   const workId = work.id;
@@ -227,23 +229,12 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {audio && (
-        <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <audio
-              controls
-              style={{
-                maxWidth: '100%',
-                display: 'block',
-                margin: '98px auto 0',
-              }}
-              src={audio['@id']}
-              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
-            >
-              {`Sorry, your browser doesn't support embedded audio.`}
-            </audio>
-          </Space>
-        </Layout12>
+      {isNotUndefined(audioItems) && audioItems?.length > 0 && (
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Layout12>
+            <AudioList items={audioItems} />
+          </Layout12>
+        </Space>
       )}
       {video && (
         <Layout12>
@@ -264,7 +255,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
-      {!audio &&
+      {!(isNotUndefined(audioItems) && audioItems.length > 0) &&
         !video &&
         !pdfRendering &&
         !mainImageService &&
@@ -445,7 +436,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : manifestOrCollection;
 
       const video = getVideo(manifest);
-      const audio = getAudio(manifest);
+      const audioItems = getAudio(manifest);
 
       const canvases =
         manifest.sequences && manifest.sequences[0].canvases
@@ -469,7 +460,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           canvases,
           currentCanvas,
           video,
-          audio,
+          audioItems,
           iiifImageLocation,
           pageview,
           serverData,

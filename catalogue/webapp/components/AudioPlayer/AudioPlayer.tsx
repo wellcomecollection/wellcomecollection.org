@@ -52,8 +52,15 @@ const AudioPlayer: FunctionComponent<Props> = ({
     },
     isPlaying ? 1000 : undefined
   );
+
   return (
-    <>
+    <div>
+      {/* TODO: there are currently thumbnails for all pieces of audio, but
+      the vast majority resolve to a placeholder image that we don't want to display.
+      Instead of trying to work out which ones to display, we're going to wait until
+      the placeholder thumbnails have been removed from the IIIF manifests
+
+      see https://github.com/wellcomecollection/wellcomecollection.org/issues/7596#issuecomment-1026686060 */}
       <audio
         onPlay={() => {
           setIsPlaying(true);
@@ -73,7 +80,7 @@ const AudioPlayer: FunctionComponent<Props> = ({
         {`Sorry, your browser doesn't support embedded audio.`}
       </audio>
       <MediaAnnotations media={audio} />
-    </>
+    </div>
   );
 };
 

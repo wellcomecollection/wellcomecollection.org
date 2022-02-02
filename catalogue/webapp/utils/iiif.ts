@@ -13,6 +13,7 @@ import {
 } from '../model/iiif';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -290,19 +291,14 @@ export function getVideo(
   );
 }
 
-export function getAudio(
-  iiifManifest: IIIFManifest
-): IIIFMediaElement | undefined {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
+export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
+  const audioSequences = (iiifManifest.mediaSequences || [])
+    .flatMap(sequence =>
       sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-  );
+    )
+    .filter(isNotUndefined);
+
+  return audioSequences;
 }
 
 export function getAnnotationFromMediaElement(
