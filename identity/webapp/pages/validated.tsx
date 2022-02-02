@@ -93,26 +93,18 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { query, req, res, resolvedUrl } = context;
+    const { query, req, res } = context;
     const { success, message, supportSignUp } = query;
 
-    if (success) {
-      const session = await auth0.getSession(req, res);
-      // If the user currently has a session (ie they're logged in), we need to
-      // refresh their profile to get the updated email_verified flag.
-      //
-      // The simplest way to do this from the server side is to redirect them to
-      // login, which won't require any interaction because they already have a
-      // session (but will refresh their user info), and then ping them back here.
-      if (session?.user && !session.user.email_verified) {
-        return {
-          redirect: {
-            // We need to prefix the returnTo URL with /account because the
-            // auth0 redirect does _not_ respect the application baseUrl.
-            destination: `/api/auth/login?returnTo=/account${resolvedUrl}`,
-            permanent: false,
-          },
-        };
+    if (success === 'true') {
+      const authSession = await auth0.getSession(req, res);
+      if (authSession) {
+        // This (persistently) mutates the session.
+        // That isn't ideal, but it seems to be the only reliable way to update
+        // this data from the server side. It isn't really a security issue,
+        // as it does not (and cannot) mutate anything that we trust (ie tokens).
+        // It is really just here so that we show the correct UI.
+        authSession.user.email_verified = true;
       }
     }
 
