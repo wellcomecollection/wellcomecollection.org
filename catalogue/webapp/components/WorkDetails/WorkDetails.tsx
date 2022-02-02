@@ -122,6 +122,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     imageCount,
     childManifestsCount,
     audio,
+    audioV3,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
@@ -340,7 +341,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio?.length > 0 && <AudioList audio={audio} />}
+
+            {audioV3?.sounds?.length > 0 && (
+              <AudioList
+                audio={audioV3.sounds}
+                thumbnail={audioV3.thumbnail}
+                transcript={audioV3.transcript}
+              />
+            )}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"

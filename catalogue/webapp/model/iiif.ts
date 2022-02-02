@@ -84,6 +84,20 @@ export type IIIFMediaElement = {
   service?: AuthService | AuthService[];
 };
 
+export type IIIFSoundElement = {
+  duration: number;
+  id: string;
+  type: 'Sound';
+  label: Record<string, string[]>;
+};
+
+// TODO: all of this
+export type AudioV3 = {
+  sounds: IIIFSoundElement[];
+  thumbnail: any;
+  transcript: any;
+};
+
 type IIIFMediaSequence = {
   '@id': string;
   '@type': string;
@@ -136,6 +150,13 @@ export type IIIFManifest = {
   license: string;
   within?: string;
   service?: Service | Service[];
+};
+
+// TODO: all of this
+export type IIIFManifestV3 = {
+  items: any[];
+  placeholderCanvas: any;
+  rendering: any;
 };
 
 export type SearchService = {

@@ -9,15 +9,23 @@ import {
   getVideo,
   isUiEnabled,
   getIIIFManifest,
+  getAudioV3,
 } from '../utils/iiif';
 import { Work } from '@weco/common/model/catalogue';
-import { IIIFManifest, IIIFMediaElement, IIIFRendering } from '../model/iiif';
+import {
+  AudioV3,
+  IIIFManifest,
+  IIIFManifestV3,
+  IIIFMediaElement,
+  IIIFRendering,
+} from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 
 type IIIFManifestData = {
   imageCount: number;
   childManifestsCount: number;
   audio: IIIFMediaElement[];
+  audioV3: AudioV3;
   video?: IIIFMediaElement;
   iiifCredit?: string;
   iiifPresentationDownloadOptions?: IIIFRendering[];
@@ -25,11 +33,15 @@ type IIIFManifestData = {
   firstChildManifestLocation?: string;
 };
 
-function parseManifest(manifest: IIIFManifest): IIIFManifestData {
+function parseManifest(
+  manifest: IIIFManifest,
+  manifestV3: IIIFManifestV3
+): IIIFManifestData {
   const imageCount = getCanvases(manifest).length;
   const childManifestsCount = manifest.manifests
     ? manifest.manifests.length
     : 0;
+  const audioV3 = getAudioV3(manifestV3);
   const audio = getAudio(manifest);
   const video = getVideo(manifest);
   const iiifCredit = getIIIFPresentationCredit(manifest);
@@ -44,6 +56,7 @@ function parseManifest(manifest: IIIFManifest): IIIFManifestData {
     imageCount,
     childManifestsCount,
     audio,
+    audioV3,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
@@ -75,12 +88,23 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
         'iiif-presentation'
       );
 
-      const iiifManifest =
-        iiifPresentationLocation &&
-        (await getIIIFManifest(iiifPresentationLocation.url));
+      if (!iiifPresentationLocation) return;
 
-      if (iiifManifest) {
-        return parseManifest(iiifManifest);
+      const iiifManifestV3Promise = getIIIFManifest(
+        iiifPresentationLocation.url.replace('/v2/', '/v3/')
+      );
+      const iiifManifestPromise = getIIIFManifest(iiifPresentationLocation.url);
+
+      const [iiifManifestV3, iiifManifest] = await Promise.all([
+        iiifManifestV3Promise,
+        iiifManifestPromise,
+      ]);
+
+      if (iiifManifest && iiifManifestV3) {
+        return parseManifest(
+          iiifManifest as IIIFManifest,
+          iiifManifestV3 as IIIFManifestV3
+        );
       }
     } catch (e) {}
   }

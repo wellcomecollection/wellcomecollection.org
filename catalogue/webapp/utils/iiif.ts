@@ -1,10 +1,12 @@
 import {
   IIIFManifest,
+  IIIFManifestV3,
   IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
   IIIFStructure,
   IIIFMediaElement,
+  AudioV3,
   Service,
   AuthService,
   AuthServiceService,
@@ -301,6 +303,31 @@ export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
   return audioSequences;
 }
 
+export function getAudioV3(iiifManifest: IIIFManifestV3): AudioV3 {
+  const canvases = iiifManifest.items.filter(item => item.type === 'Canvas');
+  const annotationPages = canvases.map(c => {
+    return c.items.find(i => i.type === 'AnnotationPage');
+  });
+  const annotations = annotationPages.map(ap => {
+    return ap.items.find(i => i.type === 'Annotation');
+  });
+  const sounds = annotations
+    .filter(a => a.body.type === 'Sound')
+    .map(a => a.body);
+  const placeholderCanvasItems = iiifManifest.placeholderCanvas.items.find(
+    i => i.type === 'AnnotationPage'
+  );
+  const placeholderCanvasAnnotation = placeholderCanvasItems.items.find(
+    i => i.type === 'Annotation'
+  );
+  const thumbnail = placeholderCanvasAnnotation.body;
+  const transcript = iiifManifest.rendering.find(
+    i => i.format === 'application/pdf'
+  );
+
+  return { sounds, thumbnail, transcript };
+}
+
 export function getAnnotationFromMediaElement(
   mediaElement: IIIFMediaElement
 ): IIIFAnnotationResource | undefined {
@@ -356,7 +383,9 @@ export function getThumbnailService(
   }
 }
 
-export async function getIIIFManifest(url: string): Promise<IIIFManifest> {
+export async function getIIIFManifest(
+  url: string
+): Promise<IIIFManifest | IIIFManifestV3> {
   const manifest = await fetchJson(url);
   return manifest;
 }

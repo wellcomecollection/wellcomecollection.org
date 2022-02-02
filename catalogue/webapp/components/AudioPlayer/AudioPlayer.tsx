@@ -2,11 +2,10 @@ import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-import { IIIFMediaElement } from '../../model/iiif';
-import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
+import { IIIFSoundElement } from '../../model/iiif';
 
 type Props = {
-  audio: IIIFMediaElement;
+  audio: IIIFSoundElement;
 };
 const AudioPlayer: FunctionComponent<Props> = ({
   audio,
@@ -55,12 +54,6 @@ const AudioPlayer: FunctionComponent<Props> = ({
 
   return (
     <div>
-      {/* TODO: there are currently thumbnails for all pieces of audio, but
-      the vast majority resolve to a placeholder image that we don't want to display.
-      Instead of trying to work out which ones to display, we're going to wait until
-      the placeholder thumbnails have been removed from the IIIF manifests
-
-      see https://github.com/wellcomecollection/wellcomecollection.org/issues/7596#issuecomment-1026686060 */}
       <audio
         onPlay={() => {
           setIsPlaying(true);
@@ -68,18 +61,17 @@ const AudioPlayer: FunctionComponent<Props> = ({
           trackEvent({
             category: 'Audio',
             action: 'play audio',
-            label: audio['@id'],
+            label: audio.id,
           });
         }}
         onPause={() => {
           setIsPlaying(false);
         }}
         controls
-        src={audio['@id']}
+        src={audio.id}
       >
         {`Sorry, your browser doesn't support embedded audio.`}
       </audio>
-      <MediaAnnotations media={audio} />
     </div>
   );
 };
