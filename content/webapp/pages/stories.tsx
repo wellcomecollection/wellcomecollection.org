@@ -35,13 +35,13 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import { fetchPage } from 'services/prismic/fetch/pages';
+import { fetchPage } from '../services/prismic/fetch/pages';
 import {
   pageDescriptions,
   booksPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
-import { fetchSeriesById } from 'services/prismic/fetch/series';
-import { transformSeries } from 'services/prismic/transformers/series';
+import { fetchSeriesById } from '../services/prismic/fetch/series';
+import { transformSeries } from '../services/prismic/transformers/series';
 
 type Props = {
   articles: Article[];
