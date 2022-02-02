@@ -34,7 +34,7 @@ resource "aws_ecr_repository" "content_webapp" {
 
 resource "aws_ecr_lifecycle_policy" "content_webapp" {
   repository = aws_ecr_repository.content_webapp.name
-  policy     = local.ecr_policy_only_keep_the_last_50_images
+  policy     = local.ecr_policy_only_keep_the_last_100_images
 }
 
 resource "aws_ecr_repository" "catalogue_webapp" {
@@ -47,7 +47,7 @@ resource "aws_ecr_repository" "catalogue_webapp" {
 
 resource "aws_ecr_lifecycle_policy" "catalogue_webapp" {
   repository = aws_ecr_repository.catalogue_webapp.name
-  policy     = local.ecr_policy_only_keep_the_last_50_images
+  policy     = local.ecr_policy_only_keep_the_last_100_images
 }
 
 resource "aws_ecr_repository" "identity_webapp" {
@@ -60,5 +60,5 @@ resource "aws_ecr_repository" "identity_webapp" {
 
 resource "aws_ecr_lifecycle_policy" "identity_webapp" {
   repository = aws_ecr_repository.identity_webapp.name
-  policy     = local.ecr_policy_only_keep_the_last_50_images
+  policy     = local.ecr_policy_only_keep_the_last_100_images
 }

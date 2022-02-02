@@ -17,15 +17,15 @@ locals {
     ]
   })
 
-  ecr_policy_only_keep_the_last_50_images = jsonencode({
+  ecr_policy_only_keep_the_last_100_images = jsonencode({
     rules = [
       {
         rulePriority = 1
-        description  = "Only keep the last 50 images in a repo"
+        description  = "Only keep the last 100 images in a repo"
         selection = {
           tagStatus   = "any"
           countType   = "imageCountMoreThan"
-          countNumber = 50
+          countNumber = 100
         }
         action = {
           type = "expire"
