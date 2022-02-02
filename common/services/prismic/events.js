@@ -3,21 +3,6 @@ import type { UiEvent, EventTime } from '../../model/events';
 import type { PrismicDocument, PrismicApiSearchResponse } from './types';
 import type { Team } from '../../model/team';
 import moment from 'moment';
-import { getDocument, getTypeByIds } from './api';
-import {
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventPoliciesFields,
-  seasonsFields,
-} from './fetch-links';
 import {
   parseTitle,
   parsePlace,
@@ -37,85 +22,6 @@ import isEmptyObj from '../../utils/is-empty-object';
 // $FlowFixMe
 import { london } from '../../utils/format-date';
 import { isPast } from '../../utils/dates';
-
-export const startField = 'my.events.times.startDateTime';
-export const endField = 'my.events.times.endDateTime';
-
-export const graphQuery = `{
-  events {
-    ...eventsFields
-    format {
-      ...formatFields
-    }
-    place {
-      ...placeFields
-    }
-    series {
-      series {
-        ...seriesFields
-        contributors {
-          ...contributorsFields
-          role {
-            ...roleFields
-          }
-          contributor {
-            ... on people {
-              ...peopleFields
-            }
-            ... on organisations {
-              ...organisationsFields
-            }
-          }
-        }
-        promo {
-          ... on editorialImage {
-            non-repeat {
-              caption
-              image
-            }
-          }
-        }
-      }
-    }
-    interpretations {
-      interpretationType {
-        ...interpretationTypeFields
-      }
-    }
-    policies {
-      policy {
-        ...policyFields
-      }
-    }
-    audiences {
-      audience {
-        ...audienceFields
-      }
-    }
-    contributors {
-      ...contributorsFields
-      role {
-        ...roleFields
-      }
-      contributor {
-        ... on people {
-          ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
-        }
-      }
-    }
-    promo {
-      ... on editorialImage {
-        non-repeat {
-          caption
-          image
-        }
-      }
-    }
-  }
-}`;
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
@@ -353,54 +259,4 @@ export function parseEventDoc(
   const secondaryLabels = [...eventInterpretations];
 
   return { ...event, labels, primaryLabels, secondaryLabels };
-}
-
-const fetchLinks = [
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventSeriesFields,
-  eventPoliciesFields,
-  seasonsFields,
-];
-
-type EventQueryProps = {|
-  id: string,
-|};
-
-export async function getEvent(
-  req: ?Request,
-  { id }: EventQueryProps,
-  memoizedPrismic: ?Object
-): Promise<?UiEvent> {
-  const document = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: fetchLinks,
-    },
-    memoizedPrismic
-  );
-
-  if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule
-      .map(({ event }) => event.id)
-      .filter(Boolean);
-    const eventScheduleDocs =
-      scheduleIds.length > 0 &&
-      (await getTypeByIds(req, ['events'], scheduleIds, {
-        fetchLinks,
-        pageSize: 40,
-      }));
-    const event = parseEventDoc(document, eventScheduleDocs || null);
-
-    return event;
-  }
 }

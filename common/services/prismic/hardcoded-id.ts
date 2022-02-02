@@ -45,6 +45,7 @@ export const prismicPageIds = {
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
   access: 'Wvm2uiAAAIYQ4FHP',
+  bookingAndAttendingOurEvents: 'Wuw19yIAAK1Z3Sng',
   contactUs: 'YVMbEBAAAPaMBrz7',
   dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
   openingTimes: 'WwQHTSAAANBfDYXU',
