@@ -104,6 +104,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         // this data from the server side. It isn't really a security issue,
         // as it does not (and cannot) mutate anything that we trust (ie tokens).
         // It is really just here so that we show the correct UI.
+        //
+        // Previously we tried redirecting the user to the login screen, as a way
+        // to do silent auth and refresh their profile, but this didn't work because
+        // the Auth0 session is separate from our application session.
         authSession.user.email_verified = true;
       }
     }
