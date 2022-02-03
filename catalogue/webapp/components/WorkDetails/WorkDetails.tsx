@@ -359,6 +359,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 items={audio.sounds}
                 thumbnail={audio.thumbnail}
                 transcript={audio.transcript}
+                title={work.title}
               />
             )}
             {itemLinkState === 'useLibraryLink' && (
