@@ -15,13 +15,11 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   articles: PaginatedResults<Article>;
 };
-
-const pageDescription =
-  'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -50,7 +48,7 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
   return (
     <PageLayout
       title={'Articles'}
-      description={pageDescription}
+      description={pageDescriptions.articles}
       url={{ pathname: `/articles` }}
       jsonLd={articles.results.map(articleLd)}
       openGraphType={'website'}
@@ -72,7 +70,7 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
           description={[
             {
               type: 'paragraph',
-              text: pageDescription,
+              text: pageDescriptions.articles,
               spans: [],
             },
           ]}

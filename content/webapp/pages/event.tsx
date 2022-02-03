@@ -24,7 +24,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { getEvent, getEvents } from '@weco/common/services/prismic/events';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
@@ -49,6 +48,18 @@ import ContentPage from '../components/ContentPage/ContentPage';
 import Contributors from '../components/Contributors/Contributors';
 import { eventLd } from '../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import {
+  fetchEvent,
+  fetchEventScheduleItems,
+  fetchEventsClientSide,
+} from '../services/prismic/fetch/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import {
+  getScheduleIds,
+  transformEvent,
+} from '../services/prismic/transformers/events';
+import { createClient } from '../services/prismic/fetch';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -92,7 +103,7 @@ function EventStatus({ text, color }: EventStatusProps) {
   );
 }
 
-function DateList(event) {
+function DateList(event: UiEvent) {
   return (
     event.times && (
       <>
@@ -123,7 +134,7 @@ function DateList(event) {
   );
 }
 
-function showTicketSalesStart(dateTime) {
+function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isTimePast(dateTime);
 }
 
@@ -170,14 +181,18 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
 const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<UiEvent>();
   const getScheduledIn = async () => {
-    const scheduledIn = await getEvents(null, {
+    const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
         Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
-    if (scheduledIn && scheduledIn.results.length > 0) {
-      setScheduledIn(scheduledIn.results[0]);
+    if (scheduledInQuery) {
+      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
+
+      if (scheduledIn.results.length > 0) {
+        setScheduledIn(scheduledIn.results[0]);
+      }
     }
   };
   useEffect(() => {
@@ -502,7 +517,9 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           }
         >
           <p className={`no-margin ${font('hnr', 5)}`}>
-            <a href="https://wellcomecollection.org/pages/Wuw19yIAAK1Z3Sng">
+            <a
+              href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
+            >
               Our event terms and conditions
             </a>
           </p>
@@ -525,14 +542,25 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const serverData = await getServerData(context);
-  const { id, memoizedPrismic } = context.query;
-  const event = await getEvent(context.req, { id }, memoizedPrismic);
+  const { id } = context.query;
 
-  if (!event) {
+  const client = createClient(context);
+  const eventDocument = await fetchEvent(client, id as string);
+
+  if (!eventDocument) {
     return {
       notFound: true,
     };
   }
+
+  const scheduleIds = getScheduleIds(eventDocument);
+
+  const scheduleQuery =
+    scheduleIds.length > 0
+      ? await fetchEventScheduleItems(client, scheduleIds)
+      : undefined;
+
+  const event = transformEvent(eventDocument, scheduleQuery);
 
   // This is a bit of nonsense as the event type has loads `undefined` values
   // which we could pick out explicitly, or do this.

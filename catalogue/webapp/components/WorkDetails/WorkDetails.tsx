@@ -64,7 +64,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audio,
+  audioItems,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -73,7 +73,7 @@ function getItemLinkState({
   if (accessCondition === 'closed') {
     return 'useNoLink';
   }
-  if (itemUrl && !audio && !video) {
+  if (itemUrl && !(audioItems.length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -121,17 +121,22 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audio,
     audioV3,
+    audioItems,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
 
+  // We display a content advisory warning at the work level, so it is sufficient
+  // to check if any individual piece of audio content requires an advisory notice
+  // TODO: use audioV3 to get clickthrough service in WorkDetails.tsx
+  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio?.[0] && getMediaClickthroughService(audio[0]));
+    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
 
   const tokenService = authService && getTokenService(authService);
 
@@ -213,7 +218,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audio,
+    audioItems,
     video,
   });
 
@@ -342,9 +347,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               </Space>
             )}
 
-            {audioV3?.sounds?.length > 0 && (
+            {audioV3.sounds?.length > 0 && (
               <AudioList
-                audio={audioV3.sounds}
+                items={audioV3.sounds}
                 thumbnail={audioV3.thumbnail}
                 transcript={audioV3.transcript}
               />

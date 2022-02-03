@@ -1,29 +1,8 @@
 // @flow
 import type { UiEvent, EventTime } from '../../model/events';
-import type {
-  PrismicDocument,
-  PaginatedResults,
-  PrismicQueryOpts,
-  PrismicApiSearchResponse,
-} from './types';
+import type { PrismicDocument, PrismicApiSearchResponse } from './types';
 import type { Team } from '../../model/team';
-import Prismic from '@prismicio/client';
 import moment from 'moment';
-import { getDocument, getTypeByIds, getDocuments } from './api';
-import {
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventPoliciesFields,
-  seasonsFields,
-} from './fetch-links';
 import {
   parseTitle,
   parsePlace,
@@ -36,7 +15,6 @@ import {
   parseLabelTypeList,
   parseSingleLevelGroup,
 } from './parsers';
-import { getPeriodPredicates } from './utils';
 import { parseEventSeries } from './event-series';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
@@ -44,85 +22,6 @@ import isEmptyObj from '../../utils/is-empty-object';
 // $FlowFixMe
 import { london } from '../../utils/format-date';
 import { isPast } from '../../utils/dates';
-
-const startField = 'my.events.times.startDateTime';
-const endField = 'my.events.times.endDateTime';
-
-const graphQuery = `{
-  events {
-    ...eventsFields
-    format {
-      ...formatFields
-    }
-    place {
-      ...placeFields
-    }
-    series {
-      series {
-        ...seriesFields
-        contributors {
-          ...contributorsFields
-          role {
-            ...roleFields
-          }
-          contributor {
-            ... on people {
-              ...peopleFields
-            }
-            ... on organisations {
-              ...organisationsFields
-            }
-          }
-        }
-        promo {
-          ... on editorialImage {
-            non-repeat {
-              caption
-              image
-            }
-          }
-        }
-      }
-    }
-    interpretations {
-      interpretationType {
-        ...interpretationTypeFields
-      }
-    }
-    policies {
-      policy {
-        ...policyFields
-      }
-    }
-    audiences {
-      audience {
-        ...audienceFields
-      }
-    }
-    contributors {
-      ...contributorsFields
-      role {
-        ...roleFields
-      }
-      contributor {
-        ... on people {
-          ...peopleFields
-        }
-        ... on organisations {
-          ...organisationsFields
-        }
-      }
-    }
-    promo {
-      ... on editorialImage {
-        non-repeat {
-          caption
-          image
-        }
-      }
-    }
-  }
-}`;
 
 function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
@@ -360,121 +259,4 @@ export function parseEventDoc(
   const secondaryLabels = [...eventInterpretations];
 
   return { ...event, labels, primaryLabels, secondaryLabels };
-}
-
-const fetchLinks = [
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventSeriesFields,
-  eventPoliciesFields,
-  seasonsFields,
-];
-
-type EventQueryProps = {|
-  id: string,
-|};
-
-export async function getEvent(
-  req: ?Request,
-  { id }: EventQueryProps,
-  memoizedPrismic: ?Object
-): Promise<?UiEvent> {
-  const document = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: fetchLinks,
-    },
-    memoizedPrismic
-  );
-
-  if (document && document.type === 'events') {
-    const scheduleIds = document.data.schedule
-      .map(({ event }) => event.id)
-      .filter(Boolean);
-    const eventScheduleDocs =
-      scheduleIds.length > 0 &&
-      (await getTypeByIds(req, ['events'], scheduleIds, {
-        fetchLinks,
-        pageSize: 40,
-      }));
-    const event = parseEventDoc(document, eventScheduleDocs || null);
-
-    return event;
-  }
-}
-
-type EventsQueryProps = {|
-  predicates?: Prismic.Predicates[],
-  period?: 'current-and-coming-up' | 'past',
-  isOnline?: boolean,
-  availableOnline?: boolean,
-  ...PrismicQueryOpts,
-|};
-
-const isOnlinePredicate = Prismic.Predicates.at('my.events.isOnline', true);
-const availableOnlinePredicate = Prismic.Predicates.at(
-  'my.events.availableOnline',
-  true
-);
-export async function getEvents(
-  req: ?Request,
-  {
-    predicates = [],
-    period,
-    isOnline,
-    availableOnline,
-    ...opts
-  }: EventsQueryProps,
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<UiEvent>> {
-  const order = period === 'past' ? 'desc' : 'asc';
-  const orderings = `[my.events.times.startDateTime${
-    order === 'desc' ? ' desc' : ''
-  }]`;
-  const dateRangePredicates = period
-    ? getPeriodPredicates(period, startField, endField)
-    : [];
-
-  // We only send the predicates over for true values as
-  // events can either have `false` or `undefined`.
-  const filterPredicates = [
-    [isOnline, isOnlinePredicate],
-    [availableOnline, availableOnlinePredicate],
-  ]
-    .filter(([condition, predicate]) => condition)
-    .map(([condition, predicate]) => predicate);
-
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.at('document.type', 'events')]
-      .concat(predicates, dateRangePredicates, filterPredicates)
-      .filter(Boolean),
-    {
-      orderings,
-      page: opts.page,
-      pageSize: opts.pageSize,
-      graphQuery,
-    },
-    memoizedPrismic
-  );
-  const events = paginatedResults.results.map(doc => {
-    return parseEventDoc(doc, null);
-  });
-
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: events,
-  };
 }

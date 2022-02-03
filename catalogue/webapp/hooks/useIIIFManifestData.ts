@@ -24,8 +24,8 @@ import { getDigitalLocationOfType } from '../utils/works';
 type IIIFManifestData = {
   imageCount: number;
   childManifestsCount: number;
-  audio: IIIFMediaElement[];
   audioV3: AudioV3;
+  audioItems: IIIFMediaElement[];
   video?: IIIFMediaElement;
   iiifCredit?: string;
   iiifPresentationDownloadOptions?: IIIFRendering[];
@@ -42,7 +42,7 @@ function parseManifest(
     ? manifest.manifests.length
     : 0;
   const audioV3 = getAudioV3(manifestV3);
-  const audio = getAudio(manifest);
+  const audioItems = getAudio(manifest);
   const video = getVideo(manifest);
   const iiifCredit = getIIIFPresentationCredit(manifest);
   const iiifPresentationDownloadOptions =
@@ -55,8 +55,8 @@ function parseManifest(
   return {
     imageCount,
     childManifestsCount,
-    audio,
     audioV3,
+    audioItems,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
@@ -76,12 +76,12 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
   const [manifestData, setManifestData] = useState<IIIFManifestData>({
     imageCount: 0,
     childManifestsCount: 0,
-    audio: [],
     audioV3: {
       sounds: [],
       thumbnail: {},
       transcript: {},
     },
+    audioItems: [],
   });
 
   async function fetchIIIFPresentationManifest(

@@ -126,6 +126,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     'AbortController',
     'Array.prototype.find',
     'Array.prototype.flat',
+    'Array.prototype.flatMap',
     'Array.prototype.includes',
     'Object.entries',
     'Object.fromEntries',

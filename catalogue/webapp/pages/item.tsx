@@ -49,7 +49,7 @@ import {
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
-
+import { isNotUndefined } from '@weco/common/utils/array';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -88,7 +88,7 @@ type Props = {
   canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audio: IIIFMediaElement[];
+  audioItems?: IIIFMediaElement[];
   iiifImageLocation?: DigitalLocation;
 } & WithPageview;
 
@@ -103,7 +103,7 @@ const ItemPage: NextPage<Props> = ({
   canvases,
   currentCanvas,
   video,
-  audio,
+  audioItems,
   iiifImageLocation,
 }) => {
   const workId = work.id;
@@ -229,10 +229,10 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {audio?.length > 0 && (
+      {isNotUndefined(audioItems) && audioItems?.length > 0 && (
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
-            <AudioList audio={audio} />
+            <AudioList items={audioItems} />
           </Layout12>
         </Space>
       )}
@@ -255,7 +255,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
-      {!(audio.length > 0) &&
+      {!(isNotUndefined(audioItems) && audioItems.length > 0) &&
         !video &&
         !pdfRendering &&
         !mainImageService &&
@@ -436,7 +436,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : manifestOrCollection;
 
       const video = getVideo(manifest);
-      const audio = getAudio(manifest);
+      const audioItems = getAudio(manifest);
 
       const canvases =
         manifest.sequences && manifest.sequences[0].canvases
@@ -460,7 +460,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           canvases,
           currentCanvas,
           video,
-          audio,
+          audioItems,
           iiifImageLocation,
           pageview,
           serverData,

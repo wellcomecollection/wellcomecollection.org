@@ -3239,14 +3239,13 @@
   resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-1.0.5.tgz#2be60a1b44e6c33d7918fa74fe67648dc8af0c15"
   integrity sha512-TPpuAFHNxlCTrEihHnRKcq6zc0oZV0sfz5/iHoSpl5vorwPbwZWiF88JGeflNdefW4A69b5A3x3mfptKPdpoxg==
 
-"@prismicio/helpers@^2.0.0-beta.0", "prismic-helpers-beta@npm:@prismicio/helpers@beta":
-  name prismic-helpers-beta
-  version "2.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-2.0.0-beta.3.tgz#510d483d1cebab1d963eba08ef1bfae9820fd4eb"
-  integrity sha512-YaMRZ6JBb9f/+BXWq9V+xSQGOnWK3+8ebKi9GSeOjit+JOEZDSBn0hE87j6X7wp8cG5KTqXyBXsmd2vOh8IhdA==
+"@prismicio/helpers@^2.0.0-beta.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-2.0.1.tgz#f2fee681adccac3955363a35301c54bd51031d37"
+  integrity sha512-MDy3VClwXSy3itmLLThrg+010+TBp77wC/ATM4eUYc4XprPrwJnE3hCsmztxrm+hN8ZxS0cu2KnNDahRMts1jA==
   dependencies:
-    "@prismicio/richtext" "^2.0.0-beta.1"
-    "@prismicio/types" "^0.1.17"
+    "@prismicio/richtext" "^2.0.1"
+    "@prismicio/types" "^0.1.22"
     escape-html "^1.0.3"
 
 "@prismicio/richtext@^1.1.0":
@@ -3261,10 +3260,22 @@
   dependencies:
     "@prismicio/types" "^0.1.15"
 
+"@prismicio/richtext@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@prismicio/richtext/-/richtext-2.0.1.tgz#6342f071601d88e99ca03faab382202087fd55a5"
+  integrity sha512-sM+eusvE4PsKnwefDRd0ai3Ny59XJ54dn6xfwq0Fyqj0LAcuyB2gRjSufbIqYOZ1r4JKMQArDKrypNEcrbBFkA==
+  dependencies:
+    "@prismicio/types" "^0.1.22"
+
 "@prismicio/types@^0.1.15", "@prismicio/types@^0.1.17":
   version "0.1.17"
   resolved "https://registry.yarnpkg.com/@prismicio/types/-/types-0.1.17.tgz#79979e2f98297c04fe0869bf80be224d9f120a4d"
   integrity sha512-zjzuBT3vpYSA8rkWztJ8S1u0Qsu0pE1casSEblBMeoml6IjDoDVSaRZ6jftAxmkwhiuK6Rg/k3JkFDVSYELO+Q==
+
+"@prismicio/types@^0.1.22":
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/@prismicio/types/-/types-0.1.22.tgz#fd8e6e419b002ec90ff9ed8e579a1ecce6e5bb80"
+  integrity sha512-lA2tDAN/4rSou/D1ZNMJEytqyl8MGdO1jX3e+u37t2MpQgPUXj30j7qVdhfTcimIlDgKCAB3oyVmJw/RA8n6Kg==
 
 "@reach/router@^1.3.4":
   version "1.3.4"
@@ -14578,6 +14589,15 @@ prismic-dom@^2.2.6:
     "@prismicio/helpers" "^1.0.4"
     "@prismicio/richtext" "^1.1.0"
     escape-html "1.0.3"
+
+"prismic-helpers-beta@npm:@prismicio/helpers@beta":
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@prismicio/helpers/-/helpers-2.0.0-beta.3.tgz#510d483d1cebab1d963eba08ef1bfae9820fd4eb"
+  integrity sha512-YaMRZ6JBb9f/+BXWq9V+xSQGOnWK3+8ebKi9GSeOjit+JOEZDSBn0hE87j6X7wp8cG5KTqXyBXsmd2vOh8IhdA==
+  dependencies:
+    "@prismicio/richtext" "^2.0.0-beta.1"
+    "@prismicio/types" "^0.1.17"
+    escape-html "^1.0.3"
 
 prismic-helpers@^1.0.3:
   version "1.0.3"

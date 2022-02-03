@@ -1,4 +1,5 @@
 import { UiEvent } from '@weco/common/model/events';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
@@ -50,7 +51,7 @@ export const data: UiEvent = {
   secondaryLabels: [],
   promo: {
     image: image,
-    link: '/pages/Wuw19yIAAK1Z3Sma',
+    link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
   promoImage: { ...image },
   displayEnd: new Date(),

@@ -14,13 +14,11 @@ import { transformBook } from '../services/prismic/transformers/books';
 import { fetchBooks } from '../services/prismic/fetch/books';
 import { Book } from '../types/books';
 import { getPage } from '../utils/query-params';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   books: PaginatedResults<Book>;
 };
-
-const pageDescription =
-  'We publish thought-provoking books exploring health and human experiences.';
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -55,7 +53,7 @@ const BooksPage: FunctionComponent<Props> = props => {
   return (
     <PageLayout
       title={'Books'}
-      description={pageDescription}
+      description={pageDescriptions.books}
       url={{ pathname: `/books` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
@@ -76,7 +74,7 @@ const BooksPage: FunctionComponent<Props> = props => {
           description={[
             {
               type: 'paragraph',
-              text: pageDescription,
+              text: pageDescriptions.books,
               spans: [],
             },
           ]}

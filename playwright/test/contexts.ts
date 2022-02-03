@@ -112,6 +112,11 @@ const articleWithMockSiblings = async (
   await gotoWithoutCache(`${baseUrl}/articles/${id}`);
 };
 
+export const event = async (id: string): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/events/${id}`);
+};
+
 export const isMobile = Boolean(deviceName);
 
 export {

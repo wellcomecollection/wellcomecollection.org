@@ -1,6 +1,8 @@
 import { Moment } from 'moment';
 import {
   OpeningHoursDay,
+  DayNumber,
+  Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 
@@ -10,11 +12,9 @@ export function findClosedDays(
   return days.filter(day => day.isClosed);
 }
 
-type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-
 export function convertOpeningHoursDayToDayNumber(
   day: OpeningHoursDay
-): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
+): DayNumber {
   switch (day.dayOfWeek) {
     case 'Monday':
       return 1;
@@ -30,6 +30,25 @@ export function convertOpeningHoursDayToDayNumber(
       return 6;
     case 'Sunday':
       return 0;
+  }
+}
+
+export function convertDayNumberToDay(dayNumber: DayNumber): Day {
+  switch (dayNumber) {
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednesday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+    case 0:
+      return 'Sunday';
   }
 }
 
@@ -161,4 +180,40 @@ export function extendEndDate(params: {
       return extendedEndDate;
     }
   }
+}
+
+export function isRequestableDate(params: {
+  date: Moment;
+  startDate: Moment | null;
+  endDate: Moment | null;
+  excludedDates: Moment[];
+  excludedDays: DayNumber[];
+}): boolean {
+  const { date, startDate, endDate, excludedDates, excludedDays } = params;
+
+  const isExceptionalClosedDay = excludedDates.some(moment =>
+    moment.isSame(date, 'day')
+  );
+  const isRegularClosedDay = excludedDays.includes(date.day() as DayNumber);
+  return (
+    Boolean(
+      // no start and end date
+      (!startDate && !endDate) ||
+        // both start and end date
+        (startDate &&
+          date.startOf('day').isSameOrAfter(startDate.startOf('day')) &&
+          endDate &&
+          date.startOf('day').isSameOrBefore(endDate.startOf('day'))) ||
+        // only start date
+        (startDate &&
+          !endDate &&
+          date.startOf('day').isSameOrAfter(startDate.startOf('day'))) ||
+        // only end date
+        (endDate &&
+          !startDate &&
+          date.startOf('day').isSameOrBefore(endDate.startOf('day')))
+    ) && // both start and end date
+    !isExceptionalClosedDay &&
+    !isRegularClosedDay
+  );
 }

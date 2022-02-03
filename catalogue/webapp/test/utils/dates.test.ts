@@ -7,23 +7,27 @@ import {
   extendEndDate,
   findClosedDays,
   findNextRegularOpenDay,
+  isRequestableDate,
 } from '../../utils/dates';
-import { OverrideType } from '@weco/common/model/opening-hours';
+import {
+  OverrideType,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 
 const exceptionalClosedDates = [
-  london(new Date('2019-12-03')),
-  london(new Date('2019-12-04')),
-  london(new Date('2019-12-05')),
-  london(new Date('2019-12-17')),
-  london(new Date('2019-12-31')),
-  london(new Date('2020-01-06')),
-  london(new Date('2020-01-07')),
-  london(new Date('2020-01-08')),
-  london(new Date('2020-01-09')),
-  london(new Date('2020-01-18')),
-  london(new Date('2020-01-19')),
-  london(new Date('2020-01-20')),
-  london(new Date('2020-01-22')),
+  london('2019-12-03'),
+  london('2019-12-04'),
+  london('2019-12-05'),
+  london('2019-12-17'),
+  london('2019-12-31'),
+  london('2020-01-06'),
+  london('2020-01-07'),
+  london('2020-01-08'),
+  london('2020-01-09'),
+  london('2020-01-18'),
+  london('2020-01-19'),
+  london('2020-01-20'),
+  london('2020-01-22'),
 ];
 
 const regularOpeningHours = [
@@ -69,7 +73,7 @@ const regularOpeningHours = [
     closes: '00:00',
     isClosed: true,
   },
-];
+] as OpeningHoursDay[];
 
 const exceptionalOpeningHours = [
   {
@@ -165,10 +169,7 @@ describe('determineNextAvailableDate', () => {
   });
 
   it("doesn't return a date if there are no regular days that are open", () => {
-    const result = determineNextAvailableDate(
-      london(new Date()),
-      [0, 1, 2, 3, 4, 5, 6]
-    );
+    const result = determineNextAvailableDate(london(), [0, 1, 2, 3, 4, 5, 6]);
     expect(result).toEqual(null);
   });
 });
@@ -181,22 +182,22 @@ describe('filterExceptionalClosedDates', () => {
     );
 
     expect(result).toEqual([
-      london(new Date('2019-12-03')),
-      london(new Date('2019-12-05')),
-      london(new Date('2019-12-17')),
-      london(new Date('2019-12-31')),
-      london(new Date('2020-01-07')),
-      london(new Date('2020-01-09')),
-      london(new Date('2020-01-18')),
+      london('2019-12-03'),
+      london('2019-12-05'),
+      london('2019-12-17'),
+      london('2019-12-31'),
+      london('2020-01-07'),
+      london('2020-01-09'),
+      london('2020-01-18'),
     ]);
   });
 });
 
 describe('includedRegularClosedDays', () => {
-  it('determines how many regular closed days occur between the start and end dates, inlcusive', () => {
+  it('determines how many regular closed days occur between the start and end dates, inclusive', () => {
     const result = includedRegularClosedDays({
-      startDate: london(new Date('2020-01-03')),
-      endDate: london(new Date('2020-01-16')),
+      startDate: london('2020-01-03'),
+      endDate: london('2020-01-16'),
       regularClosedDays: [0, 1, 4],
     });
 
@@ -207,28 +208,28 @@ describe('includedRegularClosedDays', () => {
 describe('groupExceptionalClosedDates', () => {
   it("groups closed dates into those that are excluded by the start and end dates and those that aren't", () => {
     const result = groupExceptionalClosedDates({
-      startDate: london(new Date('2020-01-03')),
-      endDate: london(new Date('2020-01-16')),
+      startDate: london('2020-01-03'),
+      endDate: london('2020-01-16'),
       exceptionalClosedDates: exceptionalClosedDates,
     });
 
     expect(result).toEqual({
       included: [
-        london(new Date('2020-01-06')),
-        london(new Date('2020-01-07')),
-        london(new Date('2020-01-08')),
-        london(new Date('2020-01-09')),
+        london('2020-01-06'),
+        london('2020-01-07'),
+        london('2020-01-08'),
+        london('2020-01-09'),
       ],
       excluded: [
-        london(new Date('2019-12-03')),
-        london(new Date('2019-12-04')),
-        london(new Date('2019-12-05')),
-        london(new Date('2019-12-17')),
-        london(new Date('2019-12-31')),
-        london(new Date('2020-01-18')),
-        london(new Date('2020-01-19')),
-        london(new Date('2020-01-20')),
-        london(new Date('2020-01-22')),
+        london('2019-12-03'),
+        london('2019-12-04'),
+        london('2019-12-05'),
+        london('2019-12-17'),
+        london('2019-12-31'),
+        london('2020-01-18'),
+        london('2020-01-19'),
+        london('2020-01-20'),
+        london('2020-01-22'),
       ],
     });
   });
@@ -237,74 +238,74 @@ describe('groupExceptionalClosedDates', () => {
 describe('extendEndDate: Determines the end date to use, so that there are always the same number of available dates between the start and end date', () => {
   it('returns the original end date if no exceptional closed dates occur between the start and end date', () => {
     const result = extendEndDate({
-      startDate: london(new Date('2021-11-03')),
-      endDate: london(new Date('2021-11-16')),
+      startDate: london('2021-11-03'),
+      endDate: london('2021-11-16'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2021-11-16')).toDate());
+    expect(result.toDate()).toEqual(london('2021-11-16').toDate());
   });
 
   it('increases the end date by the number of exceptional closed dates that occur between the start and end date', () => {
     const result = extendEndDate({
-      startDate: london(new Date('2019-12-28')),
-      endDate: london(new Date('2020-01-10')),
+      startDate: london('2019-12-28'),
+      endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2020-01-15')).toDate());
+    expect(result.toDate()).toEqual(london('2020-01-15').toDate());
   });
 
   it('increases the end date again to account for any regular closed days that occur between the start date and an extended end date', () => {
     const result = extendEndDate({
-      startDate: london(new Date('2019-12-28')),
-      endDate: london(new Date('2020-01-10')),
+      startDate: london('2019-12-28'),
+      endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2020-01-16')).toDate());
+    expect(result.toDate()).toEqual(london('2020-01-16').toDate());
   });
 
   it('increases the end date again to account for any exceptional closed dates that occur between the start date and an extended end date', () => {
     const result = extendEndDate({
-      startDate: london(new Date('2019-12-16')),
-      endDate: london(new Date('2019-12-30')),
+      startDate: london('2019-12-16'),
+      endDate: london('2019-12-30'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2020-01-01')).toDate());
+    expect(result.toDate()).toEqual(london('2020-01-01').toDate());
   });
 
   it('repeatedly increases the end date to account for a combination of exceptional closed dates and regular closed days that occur between the start date and extended end dates', () => {
     const result = extendEndDate({
-      startDate: london(new Date('2020-01-03')),
-      endDate: london(new Date('2020-01-16')),
+      startDate: london('2020-01-03'),
+      endDate: london('2020-01-16'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2020-01-24')).toDate());
+    expect(result.toDate()).toEqual(london('2020-01-24').toDate());
   });
 
   it("doesn't extend the end date for any regular closed day that occurs between the start date and the extended end date, if that day is also one of the exceptional closed dates", () => {
     const result = extendEndDate({
-      startDate: london(new Date('2019-12-24')),
-      endDate: london(new Date('2019-12-31')),
+      startDate: london('2019-12-24'),
+      endDate: london('2019-12-31'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [2],
     });
 
-    expect(result.toDate()).toEqual(london(new Date('2019-12-31')).toDate());
+    expect(result.toDate()).toEqual(london('2019-12-31').toDate());
   });
 
   it("doesn't return a date if no start date is provided", () => {
     const result = extendEndDate({
       startDate: null,
-      endDate: london(new Date('2020-01-10')),
+      endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [0],
     });
@@ -314,12 +315,91 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
 
   it("doesn't return a date if no end date is provided", () => {
     const result = extendEndDate({
-      startDate: london(new Date('2019-12-24')),
+      startDate: london('2019-12-24'),
       endDate: null,
       exceptionalClosedDates: exceptionalClosedDates,
       regularClosedDays: [0],
     });
 
     expect(result).toEqual(null);
+  });
+});
+
+describe("isRequestableDate: checks the date falls between 2 specified dates and also isn't an excluded date, or excluded day", () => {
+  it('returns false if the date falls outside the start and end dates', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-12'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns true if the date falls between the start and end dates, inclusive', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-17'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns false if the date falls on an excluded Day', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-17'), // Tuesday
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [2], // Tuesday
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns false if the date falls on an excluded date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: london('2019-12-17'),
+      endDate: london('2019-12-31'),
+      excludedDates: [london('2019-12-20')],
+      excludedDays: [],
+    });
+    expect(result).toEqual(false);
+  });
+
+  it('returns true if there are no start and end dates', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no start date and the date falls on or before the end date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: null,
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if the there is no end date and the date falls on or after the start date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-20'),
+      startDate: london('2019-12-17'),
+      endDate: null,
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
   });
 });

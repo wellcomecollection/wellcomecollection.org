@@ -16,7 +16,10 @@ import {
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import linkResolver from './services/prismic/link-resolver';
-import { homepageId, prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  homepageId,
+  prismicPageIds,
+} from '@weco/common/services/prismic/hardcoded-id';
 
 // FIXME: Find a way to import this.
 // We can't because it's not a standard es6 module (import and flowtype)
@@ -34,7 +37,13 @@ const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 
-function pageVanityUrl(router, app, url, pageId, template = '/page') {
+function pageVanityUrl(
+  router: Router,
+  app,
+  url: string,
+  pageId: string,
+  template = '/page'
+) {
   route(url, template, router, app, { id: pageId });
 }
 
@@ -97,7 +106,12 @@ const appPromise = nextApp
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    pageVanityUrl(router, nextApp, '/opening-times', prismicPageIds.openingTimes);
+    pageVanityUrl(
+      router,
+      nextApp,
+      '/opening-times',
+      prismicPageIds.openingTimes
+    );
     pageVanityUrl(router, nextApp, '/what-we-do', prismicPageIds.whatWeDo);
     pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
     pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
@@ -152,7 +166,6 @@ const appPromise = nextApp
       ctx.status = 200;
       ctx.body = 'ok';
     });
-
     router.get('*', handleAllRoute(handle));
 
     koaApp.use(async (ctx, next) => {
