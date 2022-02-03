@@ -70,3 +70,7 @@ export const sectionLevelPages = [
   prismicPageIds.collections,
   prismicPageIds.getInvolved,
 ];
+
+// A couple of article series that still use the `webcomics` type.
+export const bodySquabblesSeries = 'WleP3iQAACUAYEoN';
+export const worryLinesSeries = 'X76JKBMAACIAqtZ2';
