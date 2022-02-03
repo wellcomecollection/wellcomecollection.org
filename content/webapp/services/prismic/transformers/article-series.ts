@@ -16,6 +16,9 @@ export const transformArticleSeries = (
   seriesId: string,
   articleQuery: Query<ArticlePrismicDocument>
 ): ArticleSeriesWithArticles | undefined => {
+  // TODO: This function is quite confusing.  Refactor it and add
+  // more helpful comments.
+
   const articles = transformQuery(articleQuery, transformArticle).results;
 
   if (articles.length === 0) {
