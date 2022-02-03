@@ -60,6 +60,20 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       fetchLinks: seasonsFields,
     });
 
+    // TODO: Currently we don't support pagination on article series, which means
+    // anything beyond the first page of results won't be shown.  We should update
+    // the design/rendering of this page to fix that.
+    //
+    // We have at least one series with >100 entries (https://wellcomecollection.org/series/WleP3iQAACUAYEoN);
+    // this warning will tell us if there are more.
+    //
+    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7633
+    if (articlesQuery.total_results_size > articlesQuery.results_size) {
+      console.warn(
+        `Series ${id} has ${articlesQuery.total_results_size} entries, than fit on a single page; some articles have been omitted`
+      );
+    }
+
     if (articlesQuery.results_size > 0) {
       const result = transformArticleSeries(id as string, articlesQuery);
 
