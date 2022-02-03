@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  getAudio,
   getCanvases,
   getDownloadOptionsFromManifest,
   getFirstChildManifestLocation,
@@ -24,13 +23,13 @@ import { getDigitalLocationOfType } from '../utils/works';
 type IIIFManifestData = {
   imageCount: number;
   childManifestsCount: number;
-  audioV3: AudioV3;
-  audioItems: IIIFMediaElement[];
+  audio: AudioV3;
   video?: IIIFMediaElement;
   iiifCredit?: string;
   iiifPresentationDownloadOptions?: IIIFRendering[];
   iiifDownloadEnabled?: boolean;
   firstChildManifestLocation?: string;
+  manifestV3: IIIFManifestV3;
 };
 
 function parseManifest(
@@ -41,8 +40,7 @@ function parseManifest(
   const childManifestsCount = manifest.manifests
     ? manifest.manifests.length
     : 0;
-  const audioV3 = getAudioV3(manifestV3);
-  const audioItems = getAudio(manifest);
+  const audio = getAudioV3(manifestV3);
   const video = getVideo(manifest);
   const iiifCredit = getIIIFPresentationCredit(manifest);
   const iiifPresentationDownloadOptions =
@@ -52,16 +50,17 @@ function parseManifest(
     'mediaDownload'
   );
   const firstChildManifestLocation = getFirstChildManifestLocation(manifest);
+
   return {
     imageCount,
     childManifestsCount,
-    audioV3,
-    audioItems,
+    audio,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions,
     iiifDownloadEnabled,
     firstChildManifestLocation,
+    manifestV3,
   };
 }
 
@@ -76,12 +75,17 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
   const [manifestData, setManifestData] = useState<IIIFManifestData>({
     imageCount: 0,
     childManifestsCount: 0,
-    audioV3: {
+    audio: {
       sounds: [],
       thumbnail: {},
       transcript: {},
     },
-    audioItems: [],
+    manifestV3: {
+      items: [],
+      services: [],
+      placeholderCanvas: {},
+      rendering: [],
+    },
   });
 
   async function fetchIIIFPresentationManifest(

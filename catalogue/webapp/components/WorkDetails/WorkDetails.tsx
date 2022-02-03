@@ -16,7 +16,12 @@ import {
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
+import {
+  getMediaClickthroughService,
+  getMediaClickthroughServiceV3,
+  getTokenService,
+  getTokenServiceV3,
+} from '../../utils/iiif';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -64,7 +69,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audioItems,
+  audio,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -73,7 +78,7 @@ function getItemLinkState({
   if (accessCondition === 'closed') {
     return 'useNoLink';
   }
-  if (itemUrl && !(audioItems.length > 0) && !video) {
+  if (itemUrl && !(audio.sounds.length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -121,24 +126,26 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audioV3,
-    audioItems,
+    audio,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
+    manifestV3,
   } = useIIIFManifestData(work);
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
-  // TODO: use audioV3 to get clickthrough service in WorkDetails.tsx
-  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+  const videoAuthService = video && getMediaClickthroughService(video);
+  const audioAuthService =
+    manifestV3?.services && getMediaClickthroughServiceV3(manifestV3.services);
+  const authService = videoAuthService || audioAuthService;
 
-  const authService =
-    (video && getMediaClickthroughService(video)) ||
-    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
-
-  const tokenService = authService && getTokenService(authService);
+  const tokenService = videoAuthService
+    ? getTokenService(videoAuthService)
+    : audioAuthService
+    ? getTokenServiceV3(audioAuthService['@id'], manifestV3.services)
+    : undefined;
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
@@ -218,7 +225,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audioItems,
+    audio,
     video,
   });
 
@@ -347,11 +354,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               </Space>
             )}
 
-            {audioV3.sounds?.length > 0 && (
+            {audio.sounds.length > 0 && (
               <AudioList
-                items={audioV3.sounds}
-                thumbnail={audioV3.thumbnail}
-                transcript={audioV3.transcript}
+                items={audio.sounds}
+                thumbnail={audio.thumbnail}
+                transcript={audio.transcript}
               />
             )}
             {itemLinkState === 'useLibraryLink' && (

@@ -86,6 +86,14 @@ export function getAuthService(
   }
 }
 
+export function getMediaClickthroughServiceV3(
+  services: AuthService[]
+): AuthService | undefined {
+  return services.find(
+    s => s['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
+  );
+}
+
 export function getMediaClickthroughService(
   media: IIIFMediaElement
 ): AuthService | undefined {
@@ -105,6 +113,19 @@ export function getMediaClickthroughService(
       }
     }
   }
+}
+
+export function getTokenServiceV3(
+  authServiceId: string,
+  services?: AuthService[]
+): AuthServiceService | undefined {
+  const service = services?.find(s => s['@id'] === authServiceId);
+
+  return service?.service?.find(
+    s =>
+      s.profile === 'http://iiif.io/api/auth/0/token' ||
+      s.profile === 'http://iiif.io/api/auth/1/token'
+  );
 }
 
 export function getTokenService(
@@ -303,8 +324,8 @@ export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
   return audioSequences;
 }
 
-export function getAudioV3(iiifManifest: IIIFManifestV3): AudioV3 {
-  const canvases = iiifManifest.items.filter(item => item.type === 'Canvas');
+export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
+  const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const annotationPages = canvases.map(c => {
     return c.items.find(i => i.type === 'AnnotationPage');
   });
@@ -314,14 +335,14 @@ export function getAudioV3(iiifManifest: IIIFManifestV3): AudioV3 {
   const sounds = annotations
     .filter(a => a.body.type === 'Sound')
     .map(a => a.body);
-  const placeholderCanvasItems = iiifManifest.placeholderCanvas.items.find(
+  const placeholderCanvasItems = manifest.placeholderCanvas.items.find(
     i => i.type === 'AnnotationPage'
   );
   const placeholderCanvasAnnotation = placeholderCanvasItems.items.find(
     i => i.type === 'Annotation'
   );
   const thumbnail = placeholderCanvasAnnotation.body;
-  const transcript = iiifManifest.rendering.find(
+  const transcript = manifest?.rendering?.find(
     i => i.format === 'application/pdf'
   );
 
