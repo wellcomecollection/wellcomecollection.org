@@ -1,8 +1,5 @@
-// @flow
-import Prismic from '@prismicio/client';
 // $FlowFixMe
 import { london } from '../../utils/format-date';
-import { getDocuments } from './api';
 import {
   parseGenericFields,
   parseSingleLevelGroup,
@@ -16,11 +13,7 @@ import { parseArticleSeries } from './article-series';
 import { parseSeason } from './seasons';
 import type { Article } from '../../model/articles';
 import type { MultiContent } from '../../model/multi-content';
-import type {
-  PrismicDocument,
-  PaginatedResults,
-  PrismicQueryOpts,
-} from './types';
+import type { PrismicDocument } from './types';
 
 export const graphQuery = `{
   webcomics {
@@ -390,43 +383,5 @@ export function parseArticleDoc(document: PrismicDocument): Article {
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: parseContentLink(data.outroVisitItem),
     prismicDocument: document,
-  };
-}
-
-type ArticleQueryProps = {|
-  predicates?: Prismic.Predicates[],
-  ...PrismicQueryOpts,
-|};
-
-export async function getArticles(
-  req: ?Request,
-  { predicates = [], ...opts }: ArticleQueryProps,
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<Article>> {
-  const orderings = '[document.first_publication_date desc]';
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['articles', 'webcomics'])].concat(
-      predicates
-    ),
-    {
-      orderings,
-      graphQuery,
-      ...opts,
-    },
-    memoizedPrismic
-  );
-
-  const articles = paginatedResults.results.map(doc => {
-    const article = parseArticleDoc(doc);
-    return article;
-  });
-
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: articles,
   };
 }
