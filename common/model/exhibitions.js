@@ -1,5 +1,5 @@
 // @flow
-import type { PrismicDocument } from '../services/prismic/types';
+import type { PrismicDocument, HTMLString } from '../services/prismic/types';
 import type { Picture } from './picture';
 import type { Place } from './places';
 import type { GenericContentFields } from './generic-content-fields';
@@ -22,6 +22,8 @@ export type Exhibition = {|
   end: ?Date,
   isPermanent: boolean,
   statusOverride: ?string,
+  bslInfo: ?HTMLString,
+  audioDescriptionInfo: ?HTMLString,
   place: ?Place,
   exhibits: {|
     exhibitType: 'exhibitions',

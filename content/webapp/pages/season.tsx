@@ -23,13 +23,12 @@ import { fetchPages } from '../services/prismic/fetch/pages';
 import { fetchProjects } from '../services/prismic/fetch/projects';
 import { fetchSeries } from '../services/prismic/fetch/series';
 import { fetchSeason } from '../services/prismic/fetch/seasons';
-import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { transformBook } from '../services/prismic/transformers/books';
 import { transformEvent } from '../services/prismic/transformers/events';
-import { transformExhibition } from '../services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
@@ -41,6 +40,7 @@ import { Exhibition } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   season: Season;
@@ -129,7 +129,7 @@ const SeasonPage = ({
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
@@ -146,7 +146,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
     const exhibitionsQueryPromise = fetchExhibitions(client, {
       predicates: [`[at(my.exhibitions.seasons.season, "${id}")]`],
-      orderings: [`my.exhibitions.isPermanent desc, my.exhibitions.end desc`],
+      order: 'desc',
     });
     const pagesQueryPromise = fetchPages(client, {
       predicates: [`[at(my.pages.seasons.season, "${id}")]`],
@@ -158,7 +158,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       predicates: [`[at(my.series.seasons.season, "${id}")]`],
     });
 
-    const seasonDocPromise = fetchSeason(client, id);
+    const seasonDocPromise = fetchSeason(client, id as string);
 
     const [
       articlesQuery,
@@ -183,7 +183,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articles = transformQuery(articlesQuery, transformArticle);
     const books = transformQuery(booksQuery, transformBook);
     const events = transformQuery(eventsQuery, transformEvent);
-    const exhibitions = transformQuery(exhibitionsQuery, transformExhibition);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
     const pages = transformQuery(pagesQuery, transformPage);
     const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);

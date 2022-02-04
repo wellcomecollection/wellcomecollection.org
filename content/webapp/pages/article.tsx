@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect } from 'react';
+import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '@weco/common/model/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import { parseArticleDoc } from '@weco/common/services/prismic/articles';
@@ -18,7 +18,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import Body from '../components/Body/Body';
@@ -30,6 +29,7 @@ import {
 } from '../services/prismic/fetch/articles';
 import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { looksLikePrismicId } from 'services/prismic';
 
 type Props = {
   article: Article;
@@ -44,12 +44,12 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id);
+    const articleDocument = await fetchArticle(client, id as string);
     const serverData = await getServerData(context);
 
     if (articleDocument) {
@@ -74,6 +74,41 @@ type ArticleSeriesList = {
   series: ArticleSeries;
   articles: Article[];
 }[];
+
+export function getNextUp(
+  series: ArticleSeries,
+  articles: Article[],
+  article: Article,
+  currentPosition?: number
+): ReactElement | null {
+  if (series.schedule.length > 0 && currentPosition) {
+    const firstArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === 1
+    );
+    const firstArticleTitle = firstArticleFromSchedule?.title;
+    const firstArticle = articles.find(i => i.title === firstArticleTitle);
+
+    const nextArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === currentPosition + 1
+    );
+    const nextArticleTitle = nextArticleFromSchedule?.title;
+    const nextArticle = articles.find(i => i.title === nextArticleTitle);
+
+    const nextUp =
+      currentPosition === series.schedule.length && series.schedule.length > 1
+        ? firstArticle
+        : nextArticle || null;
+
+    return nextUp ? (
+      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+    ) : null;
+  } else {
+    const dedupedArticles = articles
+      .filter(a => a.id !== article.id)
+      .slice(0, 2);
+    return <SeriesNavigation series={series} items={dedupedArticles} />;
+  }
+}
 
 const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
@@ -252,34 +287,11 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  const Siblings =
-    listOfSeries &&
-    listOfSeries
-      .map(({ series, articles }) => {
-        if (series.schedule.length > 0 && positionInSerial) {
-          const nextUp =
-            positionInSerial === series.schedule.length
-              ? series.items[0]
-              : series.items[positionInSerial]
-              ? series.items[positionInSerial]
-              : null;
-
-          return nextUp ? (
-            <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={[nextUp]}
-            />
-          ) : null;
-        } else {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles
-            .filter(a => a.id !== article.id)
-            .slice(0, 2);
-          return <SeriesNavigation series={series} items={dedupedArticles} />;
-        }
-      })
-      .filter(Boolean);
+  const Siblings = listOfSeries
+    ?.map(({ series, articles }) => {
+      return getNextUp(series, articles, article, positionInSerial);
+    })
+    .filter(Boolean);
 
   return (
     <PageLayout

@@ -25,7 +25,7 @@ export const cafeVenue = {
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday' as Day as Day,
+        dayOfWeek: 'Thursday' as Day,
         opens: '08:30',
         closes: '21:00',
         isClosed: false,

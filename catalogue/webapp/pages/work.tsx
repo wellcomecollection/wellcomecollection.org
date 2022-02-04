@@ -9,6 +9,7 @@ import {
 import { getServerData } from '@weco/common/server-data';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
+import { isString } from '@weco/common/utils/array';
 
 type Props = {
   workResponse: WorkType;
@@ -25,7 +26,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id } = context.query;
 
-    if (typeof id !== 'string') {
+    if (!isString(id)) {
       return { notFound: true };
     }
 

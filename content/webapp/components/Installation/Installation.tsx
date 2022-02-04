@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
@@ -7,27 +7,29 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
-import { getExhibitExhibition } from '@weco/common/services/prismic/exhibitions';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
+import { transformExhibition } from '../../services/prismic/transformers/exhibitions';
 
 type Props = {
   installation: UiExhibition;
 };
 
-const Installation = ({ installation }: Props) => {
-  const [partOf, setPartOf] = useState<UiExhibition>();
+const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
+  const [partOf, setPartOf] = useState<Exhibition>();
   useEffect(() => {
-    getExhibitExhibition(null, installation.id).then(partOf => {
-      if (partOf) {
-        setPartOf(partOf);
+    fetchExhibitExhibition(installation.id).then(result => {
+      if (isNotUndefined(result)) {
+        const exhibition = transformExhibition(result);
+        setPartOf(exhibition);
       }
     });
   }, []);
@@ -57,7 +59,7 @@ const Installation = ({ installation }: Props) => {
         ? {
             url: `/exhibitions/${partOf.id}`,
             text: partOf.shortTitle || partOf.title,
-            prefix: 'Part of',
+            prefix: '@@AWLC Part of',
           }
         : undefined,
       {

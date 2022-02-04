@@ -1,7 +1,5 @@
-import { Page } from './pages';
-
-export type SiblingsGroup = {
+export type SiblingsGroup<T> = {
   id: string;
   title: string;
-  siblings: Page[];
+  siblings: T[];
 };

@@ -12,13 +12,13 @@ import styled from 'styled-components';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { fetchBook } from '../services/prismic/fetch/books';
 import { createClient } from '../services/prismic/fetch';
 import { transformBook } from '../services/prismic/transformers/books';
 import { Book } from '../types/books';
+import { looksLikePrismicId } from '../services/prismic';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -71,11 +71,11 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
     const client = createClient(context);
-    const bookDocument = await fetchBook(client, id);
+    const bookDocument = await fetchBook(client, id as string);
 
     if (bookDocument) {
       const serverData = await getServerData(context);

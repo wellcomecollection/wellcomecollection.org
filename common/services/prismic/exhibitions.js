@@ -1,10 +1,8 @@
 // @flow
-import Prismic from '@prismicio/client';
-import { getDocument, getDocuments, getTypeByIds } from './api';
+import { getTypeByIds } from './api';
 import { parseMultiContent } from './multi-content';
 import {
   exhibitionFields,
-  exhibitionResourcesFields,
   eventAccessOptionsFields,
   teamsFields,
   eventFormatsFields,
@@ -19,8 +17,6 @@ import {
   articleSeriesFields,
   articleFormatsFields,
   articlesFields,
-  eventsFields,
-  seasonsFields,
 } from './fetch-links';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../utils/breakpoints';
@@ -36,29 +32,19 @@ import {
   parseGenericFields,
   parseBoolean,
   parseSingleLevelGroup,
+  isEmptyHtmlString,
 } from './parsers';
 // $FlowFixMe (tsx)
 import { parseSeason } from './seasons';
 // $FlowFixMe
-import { london } from '../../utils/format-date';
-import { getPeriodPredicates } from './utils';
-import type { Period } from '../../model/periods';
 import type { Resource } from '../../model/resource';
-import type {
-  PrismicFragment,
-  PaginatedResults,
-  PrismicDocument,
-} from './types';
+import type { PrismicFragment, PrismicDocument } from './types';
 import type {
   UiExhibition,
   UiExhibit,
   ExhibitionFormat,
 } from '../../model/exhibitions';
 import type { MultiContent } from '../../model/multi-content';
-import { getPages } from './pages';
-
-const startField = 'my.exhibitions.start';
-const endField = 'my.exhibitions.end';
 
 function parseResourceTypeList(
   fragment: PrismicFragment[],
@@ -136,6 +122,10 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
+  const bslInfo = isEmptyHtmlString(data.bslInfo) ? undefined : data.bslInfo;
+  const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
+    ? undefined
+    : data.audioDescriptionInfo;
   const promoImage =
     promo && promo.length > 0
       ? parsePromoToCaptionedImage(data.promo)
@@ -154,6 +144,8 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     end: end,
     isPermanent: parseBoolean(data.isPermanent),
     statusOverride: statusOverride,
+    bslInfo: bslInfo,
+    audioDescriptionInfo: audioDescriptionInfo,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: promoImage && {
@@ -193,161 +185,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     : [{ text: 'Exhibition' }];
 
   return { ...exhibition, labels };
-}
-
-type Order = 'desc' | 'asc';
-type GetExhibitionsProps = {|
-  predicates?: Prismic.Predicates[],
-  order?: Order,
-  period?: Period,
-  page?: number,
-|};
-export async function getExhibitions(
-  req: ?Request,
-  {
-    predicates = [],
-    order = 'desc',
-    period,
-    page = 1,
-  }: GetExhibitionsProps = {},
-  memoizedPrismic: ?Object
-): Promise<PaginatedResults<UiExhibition>> {
-  const orderings = `[my.exhibitions.isPermanent desc,${endField}${
-    order === 'desc' ? ' desc' : ''
-  }]`;
-  const periodPredicates = period
-    ? getPeriodPredicates(period, startField, endField)
-    : [];
-  const paginatedResults = await getDocuments(
-    req,
-    [Prismic.Predicates.any('document.type', ['exhibitions'])].concat(
-      predicates,
-      periodPredicates
-    ),
-    {
-      fetchLinks: peopleFields.concat(
-        organisationsFields,
-        contributorsFields,
-        placesFields,
-        exhibitionFields,
-        exhibitionResourcesFields
-      ),
-      orderings,
-      page,
-    },
-    memoizedPrismic
-  );
-
-  const uiExhibitions: UiExhibition[] =
-    paginatedResults.results.map(parseExhibitionDoc);
-  const exhibitionsWithPermAfterCurrent =
-    putPermanentAfterCurrentExhibitions(uiExhibitions);
-
-  // { ...paginatedResults, results: uiExhibitions } should work, but Flow still
-  // battles with spreading.
-  return {
-    currentPage: paginatedResults.currentPage,
-    pageSize: paginatedResults.pageSize,
-    totalResults: paginatedResults.totalResults,
-    totalPages: paginatedResults.totalPages,
-    results: exhibitionsWithPermAfterCurrent,
-  };
-}
-
-function putPermanentAfterCurrentExhibitions(
-  exhibitions: UiExhibition[]
-): UiExhibition[] {
-  // We order the list this way as, from a user's perspective, seeing the
-  // temporary exhibitions is more urgent, so they're at the front of the list,
-  // but there's no good way to express that ordering through Prismic's ordering
-  const groupedResults = exhibitions.reduce(
-    (acc, result) => {
-      // Wishing there was `groupBy`.
-      if (result.isPermanent) {
-        acc.permanent.push(result);
-      } else if (london(result.start).isAfter(london())) {
-        acc.comingUp.push(result);
-      } else if (result.end && london(result.end).isBefore(london())) {
-        acc.past.push(result);
-      } else {
-        acc.current.push(result);
-      }
-
-      return acc;
-    },
-    {
-      current: [],
-      permanent: [],
-      comingUp: [],
-      past: [],
-    }
-  );
-
-  return [
-    ...groupedResults.current,
-    ...groupedResults.permanent,
-    ...groupedResults.comingUp,
-    ...groupedResults.past,
-  ];
-}
-
-async function getExhibition(
-  id: string,
-  req: ?Request,
-  memoizedPrismic: ?Object
-): Promise<?UiExhibition> {
-  const document = await getDocument(
-    req,
-    id,
-    {
-      fetchLinks: peopleFields.concat(
-        exhibitionFields,
-        organisationsFields,
-        contributorsFields,
-        placesFields,
-        exhibitionResourcesFields,
-        eventSeriesFields,
-        articlesFields,
-        eventsFields,
-        seasonsFields
-      ),
-    },
-    memoizedPrismic
-  );
-
-  if (document && document.type === 'exhibitions') {
-    const exhibition = parseExhibitionDoc(document);
-    return exhibition;
-  }
-}
-
-export async function getExhibitionWithRelatedContent({
-  request,
-  id,
-  memoizedPrismic,
-}: {
-  request: ?Request,
-  memoizedPrismic: ?Object,
-  id: string,
-}) {
-  const exhibitionPromise = getExhibition(id, request, memoizedPrismic);
-  const pagesPromise = getPages(
-    request,
-    {
-      predicates: [Prismic.Predicates.at('my.pages.parents.parent', id)],
-    },
-    memoizedPrismic
-  );
-
-  const [exhibition, pages] = await Promise.all([
-    exhibitionPromise,
-    pagesPromise,
-  ]);
-
-  return {
-    exhibition,
-    pages,
-  };
 }
 
 type ExhibitionRelatedContent = {|
@@ -391,24 +228,4 @@ export async function getExhibitionRelatedContent(
       doc => doc.type === 'books' || doc.type === 'articles'
     ),
   };
-}
-
-export async function getExhibitExhibition(
-  req: ?Request,
-  exhibitId: string
-): Promise<?UiExhibition> {
-  const predicates = [
-    Prismic.Predicates.at('my.exhibitions.exhibits.item', exhibitId),
-  ];
-  const apiResponse = await getDocuments(req, predicates, {
-    fetchLinks: peopleFields.concat(
-      exhibitionFields,
-      contributorsFields,
-      placesFields
-    ),
-  });
-
-  if (apiResponse.results.length > 0) {
-    return parseExhibitionDoc(apiResponse.results[0]);
-  }
 }

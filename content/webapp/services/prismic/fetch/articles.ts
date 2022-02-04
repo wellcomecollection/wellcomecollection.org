@@ -1,70 +1,334 @@
 import { Query } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient } from '.';
+import { GetServerSidePropsPrismicClient, GetByTypeParams, fetcher } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
+import { ContentType } from '../link-resolver';
 
+const contentTypes = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;
 
-// For other types we use fetcher.getById (see e.g. books.ts).
-//
-// That method looks for matching documents with a single type (e.g. document.type === 'books');
-// because an article can have two types, we can't use that here.
-export async function fetchArticle(
-  { client }: GetServerSidePropsPrismicClient,
-  id: string
-): Promise<ArticlePrismicDocument | undefined> {
-  try {
-    const document = await client.getByID<ArticlePrismicDocument>(id, {
-      fetchLinks,
-    });
+const articlesFetcher = fetcher<ArticlePrismicDocument>(
+  contentTypes as ContentType[],
+  fetchLinks
+);
 
-    if (document.type === 'articles' || document.type === 'webcomics') {
-      return document;
+export const fetchArticle = articlesFetcher.getById;
+
+export const graphQuery = `{
+  webcomics {
+    ...webcomicsFields
+    format {
+      ...formatFields
     }
-  } catch {}
-}
-
-type Params = Parameters<
-  GetServerSidePropsPrismicClient['client']['getByType']
->[1];
-export async function fetchArticles(
-  { client }: GetServerSidePropsPrismicClient,
-  params: Params = {}
-): Promise<Query<ArticlePrismicDocument>> {
-  /**
-   * articles and webcomics share the same functionality as we
-   * can't change the types of documents in Prismic.
-   *
-   * We thus have to fetch both here
-   * {@link} https://community.prismic.io/t/import-export-change-type-of-imported-document/7814
-   */
-  const articleAndWebcomicPredicate =
-    '[any(document.type, ["articles", "webcomics"])]';
-
-  const document = await client.get<ArticlePrismicDocument>({
-    fetchLinks,
-    ...params,
-    predicates: [articleAndWebcomicPredicate, ...(params.predicates ?? [])],
-  });
-
-  return document;
-}
-
-export async function fetchArticlesClientSide(
-  params?: Params
-): Promise<Query<ArticlePrismicDocument> | undefined> {
-  // If you add more parameters here, you have to update the corresponding cache behaviour
-  // in the CloudFront distribution, or you may get incorrect behaviour.
-  //
-  // e.g. at one point we forgot to include the "params" query in the cache key,
-  // so every article was showing the same set of related stories.
-  //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
-  const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', JSON.stringify(params));
-  const response = await fetch(`/api/articles?${urlSearchParams.toString()}`);
-
-  if (response.ok) {
-    const json = await response.json();
-    return json;
+    body {
+      ...on editorialImageGallery {
+        non-repeat {
+          title
+        }
+        repeat {
+          image
+          caption
+        }
+      }
+    }
+    series {
+      series {
+        ...seriesFields
+      }
+    }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
   }
-}
+  articles {
+    ...articlesFields
+    format {
+      ...formatFields
+    }
+    body {
+      ...on text {
+        non-repeat {
+          text
+        }
+      }
+      ...on editorialImage {
+        non-repeat {
+          image
+          caption
+        }
+      }
+      ...on editorialImageGallery {
+        non-repeat {
+          title
+        }
+        repeat {
+          image
+          caption
+        }
+      }
+      ...on gifVideo {
+        non-repeat {
+          caption
+          tasl
+          video
+          playbackRate
+          autoPlay
+          loop
+          mute
+          showControls
+        }
+      }
+      ...on iframe {
+        non-repeat {
+          iframeSrc
+          previewImage
+        }
+      }
+      ...on standfirst {
+        non-repeat {
+          text
+        }
+      }
+      ...on quoteV2 {
+        non-repeat {
+          text
+          citation
+        }
+      }
+      ...on embed {
+        non-repeat {
+          embed
+          caption
+        }
+      }
+      ...on soundcloudEmbed {
+        non-repeat {
+          iframeSrc
+        }
+      }
+      ...on vimeoVideoEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on instagramEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on twitterEmbed {
+        non-repeat {
+          embed
+        }
+      }
+      ...on youtubeVideoEmbed {
+        non-repeat {
+          embed
+          caption
+        }
+      }
+      ...on discussion {
+        non-repeat {
+          title
+          text
+        }
+      }
+      ...on tagList {
+        non-repeat {
+          title
+        }
+        repeat {
+          link
+          linkText
+        }
+      }
+      ...on imageList {
+        non-repeat {
+          listStyle
+          description
+        }
+        repeat {
+          title
+          subtitle
+          image
+          caption
+          description
+        }
+      }
+    }
+    contributors {
+      ...contributorsFields
+      role {
+        ...roleFields
+      }
+      contributor {
+        ... on people {
+          ...peopleFields
+        }
+        ... on organisations {
+          ...organisationsFields
+        }
+      }
+    }
+    series {
+      series {
+        ...seriesFields
+        schedule {
+          ...scheduleFields
+        }
+        contributors {
+          ...contributorsFields
+          role {
+            ...roleFields
+          }
+          contributor {
+            ... on people {
+              ...peopleFields
+            }
+            ... on organisations {
+              ...organisationsFields
+            }
+          }
+        }
+        promo {
+          ... on editorialImage {
+            non-repeat {
+              caption
+              image
+            }
+          }
+        }
+      }
+    }
+    outroResearchItem {
+      ... on events {
+        ...eventsFields
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on webcomics {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+      ... on pages {
+        title
+      }
+    }
+    outroReadItem {
+      ... on events {
+        ...eventsFields
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on webcomics {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+      ... on pages {
+        title
+      }
+    }
+    outroVisitItem {
+      ... on events {
+        ...eventsFields
+      }
+      ... on exhibitions {
+        title
+      }
+      ... on books {
+        title
+      }
+      ... on articles {
+        title
+      }
+      ... on webcomics {
+        title
+      }
+      ... on series {
+        title
+      }
+      ... on event-series {
+        title
+      }
+      ... on pages {
+        title
+      }
+    }
+    promo {
+      ... on editorialImage {
+        non-repeat {
+          caption
+          image
+        }
+      }
+    }
+    seasons {
+      season {
+        ... on seasons {
+          title
+          promo {
+            ... on editorialImage {
+              non-repeat {
+                caption
+                image
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`.replace(/\n(\s+)/g, '\n');
+
+export const fetchArticles = (
+  client: GetServerSidePropsPrismicClient,
+  params: GetByTypeParams = {}
+): Promise<Query<ArticlePrismicDocument>> => {
+  return articlesFetcher.getByType(client, {
+    ...params,
+    orderings: [
+      { field: 'document.first_publication_date', direction: 'desc' },
+    ],
+    graphQuery,
+  });
+};
+export const fetchArticlesClientSide = articlesFetcher.getByTypeClientSide;

@@ -1,6 +1,5 @@
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { Page } from '@weco/common/model/pages';
-import { getExhibitionWithRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import Exhibition from '../components/Exhibition/Exhibition';
 import Installation from '../components/Installation/Installation';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -8,6 +7,12 @@ import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { createClient } from '../services/prismic/fetch';
+import { fetchExhibition } from 'services/prismic/fetch/exhibitions';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformPage } from 'services/prismic/transformers/pages';
+import { transformExhibition } from 'services/prismic/transformers/exhibitions';
+import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   exhibition: UiExhibition;
@@ -25,21 +30,31 @@ const ExhibitionPage: FC<Props> = ({ exhibition, pages }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const { exhibition, pages } = await getExhibitionWithRelatedContent({
-      request: context.req,
-      id,
-      memoizedPrismic,
-    });
+    const { id } = context.query;
+
+    if (!looksLikePrismicId(id)) {
+      return { notFound: true };
+    }
+
+    const client = createClient(context);
+    const { exhibition, pages } = await fetchExhibition(client, id as string);
 
     if (exhibition) {
+      const exhibitionDoc = transformExhibition(exhibition);
+      const relatedPages = transformQuery(pages, transformPage);
+
       return {
         props: removeUndefinedProps({
-          exhibition,
-          pages: pages?.results || [],
+          // TODO: This is a temporary shim until we can get rid of the UiExhibition
+          // type.  Ideally we'd pass the exhibitionDoc directly here.
+          exhibition: {
+            ...exhibitionDoc,
+            featuredImageList: [],
+          },
+          pages: relatedPages?.results || [],
           serverData,
           gaDimensions: {
-            partOf: exhibition.seasons.map(season => season.id),
+            partOf: exhibitionDoc.seasons.map(season => season.id),
           },
         }),
       };

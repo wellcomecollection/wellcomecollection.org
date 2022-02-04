@@ -190,6 +190,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
 
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
             <TextInput
+              id="email"
               label="Your email address"
               placeholder="Your email address"
               name="Email"
@@ -263,7 +264,7 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
             </a>
             , to deliver our newsletters. For information about how we handle
             your data, please read our{' '}
-            <a href="https://wellcome.ac.uk/about-us/privacy-and-terms">
+            <a href="https://wellcome.org/who-we-are/privacy-and-terms">
               privacy notice
             </a>
             . You can unsubscribe at any time using links in the emails you

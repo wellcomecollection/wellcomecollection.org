@@ -60,7 +60,7 @@ const placeHolderImage = ({
   crops: {},
 }: ImageType);
 
-function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
+export function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
   return maybeContent ? asHtml(maybeContent) === null : false;
 }
 
@@ -642,11 +642,15 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
             const embedUrl = slice.primary.embed.html.match(
               /src="([-a-zA-Z0-9://.?=_]+)?/
             )[1];
+            const embedUrlWithEnhancedPrivacy = embedUrl.replace(
+              'www.youtube.com',
+              'www.youtube-nocookie.com'
+            );
             return {
               type: 'videoEmbed',
               weight: getWeight(slice.slice_label),
               value: {
-                embedUrl: `${embedUrl}?rel=0`,
+                embedUrl: `${embedUrlWithEnhancedPrivacy}?rel=0`,
                 caption: slice.primary.caption,
               },
             };

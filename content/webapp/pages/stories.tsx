@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -10,14 +9,17 @@ import { ArticleSeries } from '@weco/common/model/article-series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { staticBooks } from '../content/static-books';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { staticBooks } from '../data/static-books';
+import {
+  prismicPageIds,
+  featuredStoriesSeriesId,
+} from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
-  getPage,
   getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
+  transformPage,
+} from '../services/prismic/transformers/pages';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
@@ -33,6 +35,13 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import {
+  pageDescriptions,
+  booksPromoOnStoriesPage,
+} from '@weco/common/data/microcopy';
+import * as prismic from 'prismic-client-beta';
+import { transformArticleSeries } from 'services/prismic/transformers/article-series';
 
 type Props = {
   articles: Article[];
@@ -78,41 +87,43 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
   );
 };
 
-const pageDescription =
-  'Our words and pictures explore the connections between science, medicine, life and art. Dive into a story no matter where in the world you are.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { memoizedPrismic } = context.query;
 
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client);
 
-    // TODO: we're hardcoding a series id here in order to display whichever series
-    // the content team has chosen to be featured on the stories page. This would
-    // ideally come from Prismic to take devs/deployments out of the loop.
-    const seriesPromise = getArticleSeries(
-      context.req,
-      { id: 'YXKNnxEAACEARPrl' },
-      memoizedPrismic
-    );
+    // TODO: If we're only looking up this page to get the featured text slice,
+    // would it be faster to skip all the fetchLinks?  Is that possible?
+    const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
-    const storiesPagePromise = getPage(
-      context.req,
-      prismicPageIds.stories,
-      memoizedPrismic
-    );
+    const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
+      predicates: [
+        prismic.predicate.at(
+          'my.articles.series.series',
+          featuredStoriesSeriesId
+        ),
+      ],
+      page: 1,
+      pageSize: 100,
+    });
 
-    const [articlesQuery, seriesAndArticles, storiesPage] = await Promise.all([
-      articlesQueryPromise,
-      seriesPromise,
-      storiesPagePromise,
-    ]);
+    const [articlesQuery, featuredSeriesArticles, storiesPage] =
+      await Promise.all([
+        articlesQueryPromise,
+        featuredSeriesArticlesQueryPromise,
+        storiesPagePromise,
+      ]);
     const articles = transformQuery(articlesQuery, transformArticle);
-    const series = seriesAndArticles && seriesAndArticles.series;
-    const featuredText = storiesPage && getPageFeaturedText(storiesPage);
+
+    // The featured series and stories page should always exist
+    const series = transformArticleSeries(
+      featuredStoriesSeriesId,
+      featuredSeriesArticles
+    )!.series;
+    const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
     if (articles && articles.results) {
       return {
@@ -134,7 +145,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
   return (
     <PageLayout
       title={'Stories'}
-      description={pageDescription}
+      description={pageDescriptions.stories}
       url={{ pathname: `/stories` }}
       jsonLd={articles.map(articleLd)}
       openGraphType={'website'}
@@ -242,10 +253,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         </SpacingComponent>
         <SpacingComponent>
           <Layout12>
-            <p>
-              Get stuck into one of our books, and explore the complexities of
-              the human condition.
-            </p>
+            <p>{booksPromoOnStoriesPage}</p>
           </Layout12>
         </SpacingComponent>
         <SpacingComponent>

@@ -1,17 +1,15 @@
 import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '@weco/common/model/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import { Period } from '@weco/common/model/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
-  getPage,
   getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
-import { getEvents } from '@weco/common/services/prismic/events';
+  transformPage,
+} from '../services/prismic/transformers/pages';
 import {
   filterEventsForToday,
   filterEventsForWeekend,
@@ -25,7 +23,7 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import {
   cafePromo,
-  shopPromo,
+  // shopPromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '../data/facility-promos';
@@ -67,6 +65,14 @@ import {
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { createClient } from '../services/prismic/fetch';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformEvent } from '../services/prismic/transformers/events';
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -87,7 +93,7 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
+  exhibitions: PaginatedResults<Exhibition>;
   events: PaginatedResults<UiEvent>;
   availableOnlineEvents: PaginatedResults<UiEvent>;
   period: string;
@@ -309,65 +315,61 @@ const Header = ({
   );
 };
 
-const pageDescription =
-  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
+    const client = createClient(context);
 
     const period = context.query.period
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
-    const { memoizedPrismic } = context.query;
+    // call prismic for specific content for section page such as featured text
 
-    // call prisimic for specific content for section page such as featured text
-    const whatsOnPagePromise = getPage(
-      context.req,
-      prismicPageIds.whatsOn,
-      memoizedPrismic
-    );
+    // TODO: If we're only looking up this page to get the featured text slice,
+    // would it be faster to skip all the fetchLinks?  Is that possible?
+    const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period,
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      period,
+      order: 'asc',
+    });
 
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const eventsQueryPromise = fetchEvents(client, {
+      period: 'current-and-coming-up',
+      pageSize: 100,
+    });
 
-    const availableOnlineEventsPromise = getEvents(
-      context.req,
-      {
-        period: 'past',
-        pageSize: 6,
-        availableOnline: true,
-      },
-      memoizedPrismic
-    );
+    const availableOnlineEventsQueryPromise = fetchEvents(client, {
+      period: 'past',
+      pageSize: 6,
+      availableOnline: true,
+    });
 
-    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
-      await Promise.all([
-        exhibitionsPromise,
-        eventsPromise,
-        availableOnlineEventsPromise,
-        whatsOnPagePromise,
-      ]);
+    const [
+      exhibitionsQuery,
+      eventsQuery,
+      availableOnlineEventsQuery,
+      whatsOnPage,
+    ] = await Promise.all([
+      exhibitionsQueryPromise,
+      eventsQueryPromise,
+      availableOnlineEventsQueryPromise,
+      whatsOnPagePromise,
+    ]);
 
     const dateRange = getMomentsForPeriod(period);
 
-    const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
+    const featuredText =
+      whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+
+    const events = transformQuery(eventsQuery, transformEvent);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    const availableOnlineEvents = transformQuery(
+      availableOnlineEventsQuery,
+      transformEvent
+    );
 
     if (period && events && exhibitions) {
       return {
@@ -422,7 +424,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   return (
     <PageLayout
       title={pageTitle}
-      description={pageDescription}
+      description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={
         [

@@ -27,6 +27,11 @@ const exhibitions: CustomType = {
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
       statusOverride: structuredText('Status override', 'single'),
+      bslInfo: structuredText('BSL information', 'single'),
+      audioDescriptionInfo: structuredText(
+        'Audio description information',
+        'single'
+      ),
       place,
     },
     'In this exhibition': {

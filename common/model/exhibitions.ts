@@ -3,6 +3,7 @@ import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
+import { HTMLString } from '../services/prismic/types';
 // e.g. 'Permanent'
 export type ExhibitionFormat = {
   id: string;
@@ -18,6 +19,8 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
+  bslInfo?: HTMLString;
+  audioDescriptionInfo?: HTMLString;
   place?: Place;
   exhibits: Exhibit[];
   resources: Resource[];
@@ -26,6 +29,8 @@ export type Exhibition = GenericContentFields & {
   prismicDocument: any;
 };
 
+// TODO: I'm pretty sure we don't use this featuredImageList anywhere,
+// and we could collapse this into Exhibition.
 export type UiExhibition = Exhibition & {
   featuredImageList: Picture[];
 };

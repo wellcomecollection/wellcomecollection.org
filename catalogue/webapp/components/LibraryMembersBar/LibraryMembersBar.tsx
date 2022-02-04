@@ -4,6 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
 
@@ -22,10 +23,11 @@ const StyledComponent = styled(Space).attrs({
 `;
 
 const SignInLink: FC = () => {
+  const loginURL = useLoginURLWithReturnToCurrent();
   return (
     <AlignFont>
       <span className={font('hnb', 5)}>Library members:</span>{' '}
-      <a href="/account/api/auth/login" className={font('hnr', 5)}>
+      <a href={loginURL} className={font('hnr', 5)}>
         sign in to your library account to request items
       </a>
     </AlignFont>

@@ -1,10 +1,10 @@
 import { setEnvsFromSecrets } from '@weco/ts-aws/secrets-manager';
 import { getCreds } from '@weco/ts-aws/sts';
-import * as jsondiffpatch from 'jsondiffpatch';
 import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
+import { diffJson, Delta, isEmpty, printDelta } from './differ';
 
 export default async function diffContentTypes(credentials?): Promise<void> {
   await setEnvsFromSecrets(secrets, credentials);
@@ -29,14 +29,16 @@ export default async function diffContentTypes(credentials?): Promise<void> {
         const localCustomType = (await import(`./src/${remoteCustomType.id}`))
           .default;
 
-        const delta = jsondiffpatch.diff(remoteCustomType, localCustomType);
+        const delta = diffJson(remoteCustomType, localCustomType);
 
-        if (delta) {
+        if (!isEmpty(delta)) {
+          console.log(`Diff on ${remoteCustomType.id}:`)
+          printDelta(delta);
           return { id: remoteCustomType.id, delta };
         }
       })
     )
-  ).filter(Boolean) as { id: string; delta: jsondiffpatch.Delta }[];
+  ).filter(Boolean) as { id: string; delta: Delta }[];
 
   if (deltas.length > 0) {
     error(`Diffs found on ${deltas.map(delta => delta.id).join(', ')}`);

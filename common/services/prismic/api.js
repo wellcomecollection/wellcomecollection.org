@@ -48,24 +48,6 @@ export function getPrismicApi(req: ?Request) {
     proxyAgent: keepAliveAgent,
   });
 }
-
-export async function getDocument(
-  req: ?Request,
-  id: string,
-  opts: PrismicQueryOpts,
-  memoizedPrismic: ?Object
-): Promise<?PrismicDocument> {
-  const prismicApi =
-    memoizedPrismic && !isPreview(req)
-      ? memoizedPrismic
-      : await getPrismicApi(req);
-  // If the ID has characters like `"` in it, Prismic returns a 400
-  // rather than a 404
-  const safeId = encodeURIComponent(id);
-  const doc = await prismicApi.getByID(safeId, opts);
-  return doc;
-}
-
 type Predicate = string;
 
 export async function getDocuments(

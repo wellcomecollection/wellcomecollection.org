@@ -1,11 +1,10 @@
 {
   "scripts": {
-    "convertFromSrc": "ts-node convertFromSrc",
-    "convertFromRemote": "ts-node convertFromRemote",
     "sliceAnalysis": "ts-node sliceAnalysis",
     "deployType": "ts-node deployType",
     "diffCustomTypes": "ts-node diffCustomTypes"
   },
+  "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.40.0",
     "@aws-sdk/client-sts": "^3.40.0",
@@ -20,7 +19,6 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "chalk": "^4.1.2",
-    "jsondiffpatch": "^0.4.1",
     "node-fetch": "2",
     "prompts": "^2.4.2",
     "ts-node": "^10.4.0",

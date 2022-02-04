@@ -7,6 +7,13 @@ export function london(d?: Date | string | Moment | DateObj): Moment {
   return moment.tz(d, 'Europe/London');
 }
 
+export function londonFromFormat(
+  d: Date | string | Moment | DateObj,
+  format: string
+): Moment {
+  return moment(d, format).tz('Europe/London');
+}
+
 export function formatDay(date: Date | Moment): string {
   return london(date).format('dddd');
 }

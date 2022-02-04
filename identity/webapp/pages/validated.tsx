@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -15,29 +14,11 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import {
-  abortErrorHandler,
-  useAbortSignalEffect,
-} from '@weco/common/hooks/useAbortSignalEffect';
+import auth0 from '../src/utility/auth0';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
-  const { state: userState, reload: reloadUserSession } = useUser();
+  const { state: userState } = useUser();
   const urlUsed = message === 'This URL can be used only once';
-
-  // If the user is currently signed in, refresh their session so that we know
-  // that their email is verified.
-  // We use this ref because otherwise we get into a loop where the loading state
-  // of the new user triggers another refresh
-  const userWasRefreshed = useRef(false);
-  useAbortSignalEffect(
-    abortSignal => {
-      if (success && userState === 'signedin' && !userWasRefreshed.current) {
-        reloadUserSession(abortSignal).catch(abortErrorHandler);
-        userWasRefreshed.current = true;
-      }
-    },
-    [success, userState, userWasRefreshed]
-  );
 
   // As discussed here https://github.com/wellcomecollection/wellcomecollection.org/issues/6952
   // we want to show the success message in this scenario, and the message value is the only thing we can use to determine that
@@ -112,8 +93,25 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { query } = context;
+    const { query, req, res } = context;
     const { success, message, supportSignUp } = query;
+
+    if (success === 'true') {
+      const authSession = await auth0.getSession(req, res);
+      if (authSession) {
+        // This (persistently) mutates the session.
+        // That isn't ideal, but it seems to be the only reliable way to update
+        // this data from the server side. It isn't really a security issue,
+        // as it does not (and cannot) mutate anything that we trust (ie tokens).
+        // It is really just here so that we show the correct UI.
+        //
+        // Previously we tried redirecting the user to the login screen, as a way
+        // to do silent auth and refresh their profile, but this didn't work because
+        // the Auth0 session is separate from our application session.
+        authSession.user.email_verified = true;
+      }
+    }
+
     const serverData = await getServerData(context);
 
     return {

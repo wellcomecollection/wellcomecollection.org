@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, FC } from 'react';
 import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -27,6 +27,8 @@ import {
   information,
   family,
   IconSvg,
+  britishSignLanguage,
+  audioDescribed,
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
@@ -34,6 +36,7 @@ import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { a11y } from '@weco/common/data/microcopy';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -133,6 +136,20 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
+function getBslAdItems(exhibition: UiExhibition): ExhibitionItem[] {
+  return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
+    .filter(Boolean)
+    .map(item => {
+      return {
+        id: undefined,
+        title: undefined,
+        description: item,
+        icon:
+          item === exhibition.bslInfo ? britishSignLanguage : audioDescribed,
+      };
+    });
+}
+
 function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
@@ -141,7 +158,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Step-free access is available to all floors of the building',
+          text: a11y.stepFreeAccess,
           spans: [],
         },
       ],
@@ -153,7 +170,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: a11y.largePrintGuides,
           spans: [],
         },
       ],
@@ -170,6 +187,7 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
     getPlaceObject(exhibition),
     ...getResourcesItems(exhibition),
     ...getAccessibilityItems(),
+    ...getBslAdItems(exhibition),
   ].filter(isNotUndefined);
 }
 
@@ -178,7 +196,7 @@ type Props = {
   pages: Page[];
 };
 
-const Exhibition = ({ exhibition, pages }: Props) => {
+const Exhibition: FC<Props> = ({ exhibition, pages }) => {
   const [exhibitionOfs, setExhibitionOfs] = useState([]);
   const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
 

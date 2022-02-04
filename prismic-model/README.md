@@ -22,3 +22,18 @@ you will have to remember to deploy all affected types.
 
 [custom-types]: https://prismic.io/docs/core-concepts/custom-types
 [custom-types-api]: https://prismic.io/docs/technologies/custom-types-api
+
+## Find where slices are used
+
+The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image).
+
+We have a tool that shows you examples of where a slice is used.
+This is useful if you want to know if a slice can be safely deleted from the model, or to find an example for testing.
+
+For example:
+
+```console
+$ ts-node sliceAnalysis --type embed
+```
+
+See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)

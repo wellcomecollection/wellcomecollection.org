@@ -43,7 +43,7 @@ const DesktopSignIn: FC = () => {
                   Library sign in
                 </span>
               }
-              href="/account"
+              href="/account/api/auth/login"
             />
           </span>
           <span
@@ -58,7 +58,9 @@ const DesktopSignIn: FC = () => {
               id="signedin-dropdown"
               buttonType="borderless"
             >
-              <a href="/account">Sign in to your library account</a>
+              <a href="/account/api/auth/login">
+                Sign in to your library account
+              </a>
             </DropdownButton>
           </span>
         </>

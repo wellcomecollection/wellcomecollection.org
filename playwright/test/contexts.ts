@@ -1,6 +1,5 @@
 import { baseUrl, useStageApis } from './helpers/urls';
 import { Response } from 'playwright';
-
 export function gotoWithoutCache(url: string): Promise<null | Response> {
   return page.goto(`${url}?cachebust=${Date.now()}`);
 }
@@ -100,6 +99,24 @@ const article = async (id: string): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/articles/${id}`);
 };
 
+const articleWithMockSiblings = async (
+  id: string,
+  response: Record<string, any>
+): Promise<void> => {
+  await context.route('**/api/**', route =>
+    route.fulfill({
+      status: 200,
+      body: JSON.stringify(response),
+    })
+  );
+  await gotoWithoutCache(`${baseUrl}/articles/${id}`);
+};
+
+export const event = async (id: string): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/events/${id}`);
+};
+
 export const isMobile = Boolean(deviceName);
 
 export {
@@ -118,4 +135,5 @@ export {
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithNonRestrictedAndOpenAccess,
   article,
+  articleWithMockSiblings,
 };
