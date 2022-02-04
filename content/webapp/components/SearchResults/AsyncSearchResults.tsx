@@ -2,12 +2,12 @@ import { Component, Fragment } from 'react';
 import SearchResults from './SearchResults';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { fetchMultiContentClientSide } from 'services/prismic/fetch/multi-content';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { fetchMultiContentClientSide } from '../../services/prismic/fetch/multi-content';
+import { transformQuery } from '../../services/prismic/transformers/paginated-results';
 import {
   transformMultiContent,
   MultiContent,
-} from 'services/prismic/transformers/multi-content';
+} from '../../services/prismic/transformers/multi-content';
 
 type Props = {
   title?: string;
