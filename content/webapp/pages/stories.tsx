@@ -40,8 +40,8 @@ import {
   pageDescriptions,
   booksPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
-import { fetchSeriesById } from '../services/prismic/fetch/series';
-import { transformSeries } from '../services/prismic/transformers/series';
+import * as prismic from 'prismic-client-beta';
+import { transformArticleSeries } from 'services/prismic/transformers/article-series';
 
 type Props = {
   articles: Article[];
@@ -99,17 +99,30 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
-    const seriesPromise = fetchSeriesById(client, featuredStoriesSeriesId);
+    const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
+      predicates: [
+        prismic.predicate.at(
+          'my.articles.series.series',
+          featuredStoriesSeriesId
+        ),
+      ],
+      page: 1,
+      pageSize: 100,
+    });
 
-    const [articlesQuery, seriesDocument, storiesPage] = await Promise.all([
-      articlesQueryPromise,
-      seriesPromise,
-      storiesPagePromise,
-    ]);
+    const [articlesQuery, featuredSeriesArticles, storiesPage] =
+      await Promise.all([
+        articlesQueryPromise,
+        featuredSeriesArticlesQueryPromise,
+        storiesPagePromise,
+      ]);
     const articles = transformQuery(articlesQuery, transformArticle);
 
     // The featured series and stories page should always exist
-    const series = transformSeries(seriesDocument!);
+    const series = transformArticleSeries(
+      featuredStoriesSeriesId,
+      featuredSeriesArticles
+    )!.series;
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
     if (articles && articles.results) {
