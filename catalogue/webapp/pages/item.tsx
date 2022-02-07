@@ -4,8 +4,9 @@ import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import {
   IIIFCanvas,
   IIIFManifest,
+  IIIFManifestV3,
   AuthService,
-  IIIFMediaElement,
+  AudioV3,
 } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
@@ -13,7 +14,7 @@ import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
-  getAudio,
+  getAudioV3,
   getServiceId,
   getUiExtensions,
   isUiEnabled,
@@ -88,7 +89,7 @@ type Props = {
   canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audioItems?: IIIFMediaElement[];
+  audio?: AudioV3;
   iiifImageLocation?: DigitalLocation;
 } & WithPageview;
 
@@ -103,7 +104,7 @@ const ItemPage: NextPage<Props> = ({
   canvases,
   currentCanvas,
   video,
-  audioItems,
+  audio,
   iiifImageLocation,
 }) => {
   const workId = work.id;
@@ -229,10 +230,16 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {isNotUndefined(audioItems) && audioItems?.length > 0 && (
+      {isNotUndefined(audio) && audio?.sounds?.length > 0 && (
         <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
           <Layout12>
-            <AudioList items={audioItems} />
+            <AudioList
+              items={audio.sounds}
+              thumbnail={audio.thumbnail}
+              transcript={audio.transcript}
+              audioTitle={audio.title}
+              workTitle={work.title}
+            />
           </Layout12>
         </Space>
       )}
@@ -255,7 +262,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
-      {!(isNotUndefined(audioItems) && audioItems.length > 0) &&
+      {!(isNotUndefined(audio) && audio?.sounds.length > 0) &&
         !video &&
         !pdfRendering &&
         !mainImageService &&
@@ -408,18 +415,31 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
+    // TODO: there is a fair amount of overlap between what we're doing here and
+    // what's happening in useIIIFManifestData. We should refactor this to avoid
+    // duplication.
+
     const iiifPresentationUrl = getDigitalLocationOfType(
       work,
       'iiif-presentation'
     )?.url;
     const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
 
-    let manifestOrCollection;
-    try {
-      manifestOrCollection =
-        iiifPresentationUrl && (await getIIIFManifest(iiifPresentationUrl));
-    } catch (e) {
-      return { notFound: true };
+    const manifestOrCollectionPromise =
+      iiifPresentationUrl && getIIIFManifest(iiifPresentationUrl);
+    const manifestV3Promise =
+      iiifPresentationUrl &&
+      getIIIFManifest(iiifPresentationUrl.replace('/v2/', '/v3/'));
+
+    const [manifestOrCollection, manifestV3] = await Promise.all([
+      manifestOrCollectionPromise as Promise<IIIFManifest>,
+      manifestV3Promise as Promise<IIIFManifestV3>,
+    ]);
+
+    if (!manifestOrCollection) {
+      return {
+        notFound: true,
+      };
     }
 
     if (manifestOrCollection) {
@@ -436,7 +456,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : manifestOrCollection;
 
       const video = getVideo(manifest);
-      const audioItems = getAudio(manifest);
+      const audio = manifestV3 && getAudioV3(manifestV3);
 
       const canvases =
         manifest.sequences && manifest.sequences[0].canvases
@@ -460,7 +480,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           canvases,
           currentCanvas,
           video,
-          audioItems,
+          audio,
           iiifImageLocation,
           pageview,
           serverData,
