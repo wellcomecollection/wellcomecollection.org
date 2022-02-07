@@ -333,8 +333,9 @@ export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
   const annotations = annotationPages.map(ap => {
     return ap.items.find(i => i.type === 'Annotation');
   });
+  const audioTypes = ['Audio', 'Sound'];
   const sounds = annotations
-    .filter(a => a.body.type === 'Sound')
+    .filter(a => audioTypes.includes(a.body.type))
     .map(a => a.body);
   const placeholderCanvasItems = manifest.placeholderCanvas.items.find(
     i => i.type === 'AnnotationPage'
