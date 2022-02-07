@@ -15,7 +15,7 @@ type Props = {
 
 const AudioList: FC<Props> = ({
   items,
-  thumbnail,
+  // thumbnail,
   transcript,
   workTitle,
   audioTitle,
@@ -23,11 +23,12 @@ const AudioList: FC<Props> = ({
   return (
     <div>
       {audioTitle && <h3>{audioTitle}</h3>}
-      {thumbnail && (
+      {/* TODO: add thumbnail once placeholders have been removed from manifests */}
+      {/* {thumbnail && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <img src={thumbnail.id} alt="" />
         </Space>
-      )}
+      )} */}
       <ol
         className={classNames({
           'no-margin no-padding plain-list': true,
