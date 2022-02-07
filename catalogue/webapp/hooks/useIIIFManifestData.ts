@@ -65,6 +65,38 @@ function parseManifest(
 }
 
 const startedFetchingIds = new Set();
+
+export async function fetchIIIFPresentationManifest(
+  work: Work
+): Promise<IIIFManifestData | undefined> {
+  startedFetchingIds.add(work.id);
+  try {
+    const iiifPresentationLocation = getDigitalLocationOfType(
+      work,
+      'iiif-presentation'
+    );
+
+    if (!iiifPresentationLocation) return;
+
+    const iiifManifestV3Promise = getIIIFManifest(
+      iiifPresentationLocation.url.replace('/v2/', '/v3/')
+    );
+    const iiifManifestPromise = getIIIFManifest(iiifPresentationLocation.url);
+
+    const [iiifManifestV3, iiifManifest] = await Promise.all([
+      iiifManifestV3Promise,
+      iiifManifestPromise,
+    ]);
+
+    if (iiifManifest && iiifManifestV3) {
+      return parseManifest(
+        iiifManifest as IIIFManifest,
+        iiifManifestV3 as IIIFManifestV3
+      );
+    }
+  } catch (e) {}
+}
+
 const manifestDataPromises: Map<
   string,
   Promise<IIIFManifestData | undefined>
@@ -87,37 +119,6 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
       rendering: [],
     },
   });
-
-  async function fetchIIIFPresentationManifest(
-    work: Work
-  ): Promise<IIIFManifestData | undefined> {
-    startedFetchingIds.add(work.id);
-    try {
-      const iiifPresentationLocation = getDigitalLocationOfType(
-        work,
-        'iiif-presentation'
-      );
-
-      if (!iiifPresentationLocation) return;
-
-      const iiifManifestV3Promise = getIIIFManifest(
-        iiifPresentationLocation.url.replace('/v2/', '/v3/')
-      );
-      const iiifManifestPromise = getIIIFManifest(iiifPresentationLocation.url);
-
-      const [iiifManifestV3, iiifManifest] = await Promise.all([
-        iiifManifestV3Promise,
-        iiifManifestPromise,
-      ]);
-
-      if (iiifManifest && iiifManifestV3) {
-        return parseManifest(
-          iiifManifest as IIIFManifest,
-          iiifManifestV3 as IIIFManifestV3
-        );
-      }
-    } catch (e) {}
-  }
 
   async function updateManifest(work) {
     const cachedManifest = cachedManifestData.get(work.id);
