@@ -9,12 +9,20 @@ type Props = {
   items: IIIFMediaElementV3[];
   thumbnail: any;
   transcript: any;
-  title: string;
+  audioTitle?: string;
+  workTitle: string;
 };
 
-const AudioList: FC<Props> = ({ items, thumbnail, transcript, title }) => {
+const AudioList: FC<Props> = ({
+  items,
+  thumbnail,
+  transcript,
+  workTitle,
+  audioTitle,
+}) => {
   return (
     <div>
+      {audioTitle && <h3>{audioTitle}</h3>}
       {thumbnail && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <img src={thumbnail.id} alt="" />
@@ -54,7 +62,7 @@ const AudioList: FC<Props> = ({ items, thumbnail, transcript, title }) => {
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <DownloadLink
             href={transcript.id}
-            linkText={`Transcript of ${title} audio`}
+            linkText={`Transcript of ${audioTitle || workTitle} audio`}
             format={'PDF'}
             trackingEvent={{
               category: 'Download link',

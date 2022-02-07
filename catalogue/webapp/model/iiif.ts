@@ -95,6 +95,7 @@ export type IIIFMediaElementV3 = {
 
 // TODO: all of this
 export type AudioV3 = {
+  title?: string;
   sounds: IIIFMediaElementV3[];
   thumbnail: any;
   transcript: any;

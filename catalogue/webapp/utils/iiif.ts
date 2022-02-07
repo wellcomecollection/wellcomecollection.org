@@ -326,6 +326,7 @@ export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
 
 export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
+  const title = canvases.find(c => c?.label?.en)?.[0];
   const annotationPages = canvases.map(c => {
     return c.items.find(i => i.type === 'AnnotationPage');
   });
@@ -346,7 +347,7 @@ export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
     i => i.format === 'application/pdf'
   );
 
-  return { sounds, thumbnail, transcript };
+  return { title, sounds, thumbnail, transcript };
 }
 
 export function getAnnotationFromMediaElement(
