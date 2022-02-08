@@ -11,10 +11,37 @@ import { Book } from '../types/books';
 
 const books = [
   {
+    id: 'Ye6WiRAAAJMQXT6N',
+    title: 'This Book is a Plant',
+    subtitle: 'How to Grow, Learn and Radically Engage with the Natural World',
+    description:
+      'The way we think about plants is about to change for ever: this is your handbook to a new natural world.',
+    cover: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/26a0561b-c91e-40f6-804f-2497d1d7decc_This+Book+is+a+Plant+front+cover.jpg',
+      width: 3200,
+      height: 1800,
+    },
+  },
+  {
+    id: 'YW7YOREAACIANh4F',
+    title: 'Hybrid Humans',
+    subtitle: 'Dispatches from the Frontiers of Man and Machine',
+    description:
+      'Harry Parker meets the people pushing the limits of our bodies and brains, grappling with his own new identity and disability along the way.',
+    cover: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/511191e1-782b-4165-8ce7-e60d6a77fdbb_Hybrid+Humans+cover.jpg',
+      width: 3200,
+      height: 1800,
+    },
+  },
+  {
     id: 'YW7dSREAACAANjZn',
     title: 'Recovery',
     subtitle: 'The Lost Art of Convalescence',
-    description: 'In this uplifting account of hope and healing, GP Gavin Francis explores how and why we get better, revealing the many shapes recovery takes.',
+    description:
+      'In this uplifting account of hope and healing, GP Gavin Francis explores how and why we get better, revealing the many shapes recovery takes.',
     cover: {
       contentUrl:
         'https://images.prismic.io/wellcomecollection/e09277dc-666b-4811-91f7-f93b3166d3a2_Recovery+cover.jpg',
@@ -22,30 +49,6 @@ const books = [
       height: 2453,
     },
   },
-  {
-    id: 'YW7QGhEAACIANf_z',
-    title: 'Dark and Magical Places',
-    subtitle: 'The Neuroscience of How We Navigate',
-    description: 'An extraordinary account of how we navigate the world.',
-    cover: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/f2251287-9ca9-4507-9ae8-a2c4dd604d78_Dark+and+Magical+Places+cover.pdf.jpg',
-      width: 1902,
-      height: 2983
-    },
-  },
-  {
-    id: 'YRpf9xEAADVQ33g6',
-    title: 'Harlots, Whores & Hackabouts',
-    subtitle: 'A History of Sex for Sale',
-    description: 'An enlightening cultural history of the sex trade that puts sex workers centre stage, revealing how they have lived and worked all around the globe.',
-    cover: {
-      contentUrl:
-        'https://images.prismic.io/wellcomecollection/ce111be3-df6d-4f49-ac73-ec79cb5b823f_Harlots+cover.png',
-      width: 878,
-      height: 1226,
-    },
-  }
 ];
 
 export const staticBooks: Book[] = books.map(b => {
