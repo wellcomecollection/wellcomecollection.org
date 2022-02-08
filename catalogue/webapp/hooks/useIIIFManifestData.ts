@@ -102,6 +102,25 @@ const manifestDataPromises: Map<
   Promise<IIIFManifestData | undefined>
 > = new Map();
 const cachedManifestData: Map<string, IIIFManifestData> = new Map();
+const blankLabel = { '': [] };
+const blankManifestV3 = {
+  '@context': '',
+  id: '',
+  type: '',
+  label: blankLabel,
+  summary: blankLabel,
+  homepage: [],
+  metadata: [],
+  items: [],
+  services: [],
+  placeholderCanvas: {
+    id: '',
+    type: 'Canvas' as const,
+    label: blankLabel,
+    items: [],
+  },
+  rendering: [],
+};
 
 const useIIIFManifestData = (work: Work): IIIFManifestData => {
   const [manifestData, setManifestData] = useState<IIIFManifestData>({
@@ -109,15 +128,8 @@ const useIIIFManifestData = (work: Work): IIIFManifestData => {
     childManifestsCount: 0,
     audio: {
       sounds: [],
-      thumbnail: {},
-      transcript: {},
     },
-    manifestV3: {
-      items: [],
-      services: [],
-      placeholderCanvas: {},
-      rendering: [],
-    },
+    manifestV3: blankManifestV3,
   });
 
   async function updateManifest(work) {

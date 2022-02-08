@@ -12,6 +12,9 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
+  IIIFTextV3,
+  IIIFImageV3,
+  IIIFMediaElementV3,
 } from '../model/iiif';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
@@ -87,10 +90,10 @@ export function getAuthService(
 }
 
 export function getMediaClickthroughServiceV3(
-  services: AuthService[]
+  services: (AuthService | IIIFTextV3)[]
 ): AuthService | undefined {
-  return services.find(
-    s => s['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
+  return (services as AuthService[]).find(
+    s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
   );
 }
 
@@ -117,9 +120,11 @@ export function getMediaClickthroughService(
 
 export function getTokenServiceV3(
   authServiceId: string,
-  services?: AuthService[]
+  services?: (AuthService | IIIFTextV3)[]
 ): AuthServiceService | undefined {
-  const service = services?.find(s => s['@id'] === authServiceId);
+  const service = (services as AuthService[])?.find(
+    s => s?.['@id'] === authServiceId
+  );
 
   return service?.service?.find(
     s =>
@@ -330,20 +335,22 @@ export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
   const annotationPages = canvases.map(c => {
     return c.items.find(i => i.type === 'AnnotationPage');
   });
-  const annotations = annotationPages.map(ap => {
-    return ap.items.find(i => i.type === 'Annotation');
-  });
+  const annotations = annotationPages
+    .map(ap => {
+      return ap?.items.find(i => i.type === 'Annotation');
+    })
+    .filter(isNotUndefined);
   const audioTypes = ['Audio', 'Sound'];
   const sounds = annotations
     .filter(a => audioTypes.includes(a.body.type))
-    .map(a => a.body);
+    .map(a => a.body as IIIFMediaElementV3);
   const placeholderCanvasItems = manifest.placeholderCanvas.items.find(
     i => i.type === 'AnnotationPage'
   );
-  const placeholderCanvasAnnotation = placeholderCanvasItems.items.find(
+  const placeholderCanvasAnnotation = placeholderCanvasItems?.items.find(
     i => i.type === 'Annotation'
   );
-  const thumbnail = placeholderCanvasAnnotation.body;
+  const thumbnail = placeholderCanvasAnnotation?.body as IIIFImageV3;
   const transcript = manifest?.rendering?.find(
     i => i.format === 'application/pdf'
   );

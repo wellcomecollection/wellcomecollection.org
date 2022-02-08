@@ -2,13 +2,13 @@ import { FC } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
-import { IIIFMediaElementV3 } from '../../model/iiif';
+import { IIIFImageV3, IIIFMediaElementV3, IIIFTextV3 } from '../../model/iiif';
 import DownloadLink from '../DownloadLink/DownloadLink';
 
 type Props = {
   items: IIIFMediaElementV3[];
-  thumbnail: any;
-  transcript: any;
+  thumbnail?: IIIFImageV3;
+  transcript?: IIIFTextV3;
   audioTitle?: string;
   workTitle: string;
 };

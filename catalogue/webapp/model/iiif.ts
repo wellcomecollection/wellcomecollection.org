@@ -84,21 +84,24 @@ export type IIIFMediaElement = {
   service?: AuthService | AuthService[];
 };
 
-// TODO: all of this
+export type IIIFLabelV3 = Record<string, string[]>;
+
 export type IIIFMediaElementV3 = {
   duration: number;
   id: string;
-  type: 'Sound';
-  label: Record<string, string[]>;
+  type: 'Sound' | 'Audio' | 'Video';
+  label: IIIFLabelV3;
+  format: string;
   service?: AuthService[];
+  height?: number;
+  width?: number;
 };
 
-// TODO: all of this
 export type AudioV3 = {
   title?: string;
   sounds: IIIFMediaElementV3[];
-  thumbnail: any;
-  transcript: any;
+  thumbnail?: IIIFImageV3;
+  transcript?: IIIFTextV3;
 };
 
 type IIIFMediaSequence = {
@@ -155,12 +158,62 @@ export type IIIFManifest = {
   service?: Service | Service[];
 };
 
-// TODO: all of this
+export type IIIFTextV3 = {
+  id: string;
+  type: 'Text';
+  label: IIIFLabelV3;
+  format: string;
+  language: IIIFLabelV3;
+};
+
+export type IIIFImageV3 = {
+  id: string;
+  type: 'Image';
+  label: IIIFLabelV3;
+  format: string;
+};
+
+export type IIIFMetadataV3 = {
+  label: IIIFLabelV3;
+  value: IIIFLabelV3;
+};
+
+export type IIIFAnnotationV3 = {
+  id: string;
+  type: 'Annotation';
+  motivation: string;
+  body: IIIFMediaElementV3 | IIIFImageV3;
+  target: string;
+};
+
+export type IIIFAnnotationpageV3 = {
+  id: string;
+  type: 'AnnotationPage';
+  items: IIIFAnnotationV3[];
+};
+
+export type IIIFCanvasV3 = {
+  id: string;
+  type: 'Canvas';
+  label: IIIFLabelV3;
+  width?: number;
+  height?: number;
+  duration?: number;
+  items: IIIFAnnotationpageV3[];
+};
+
 export type IIIFManifestV3 = {
-  items: any[];
-  placeholderCanvas: any;
-  rendering?: any[];
-  services?: AuthService[];
+  '@context': string;
+  id: string;
+  type: string;
+  label: IIIFLabelV3;
+  summary: IIIFLabelV3;
+  homepage: IIIFTextV3[];
+  metadata: IIIFMetadataV3[];
+  items: IIIFCanvasV3[];
+  placeholderCanvas: IIIFCanvasV3;
+  rendering?: IIIFTextV3[];
+  services?: (IIIFTextV3 | AuthService)[];
 };
 
 export type SearchService = {
