@@ -200,7 +200,7 @@ describe('opening-times', () => {
   });
 
   describe('exceptionalOpeningPeriodsAllDates: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
-    it.only('fills in missing dates', () => {
+    it('fills in missing dates', () => {
       const result = exceptionalOpeningPeriodsAllDates([
         {
           type: 'Christmas and New Year',
