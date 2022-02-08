@@ -434,7 +434,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const [manifestOrCollection, manifestV3] = await Promise.all([
       manifestOrCollectionPromise as Promise<IIIFManifest>,
       manifestV3Promise as Promise<IIIFManifestV3>,
-    ]);
+    ]).catch(() => []);
 
     if (!manifestOrCollection) {
       return {
