@@ -10,10 +10,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../data/static-books';
-import {
-  prismicPageIds,
-  featuredStoriesSeriesId,
-} from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
@@ -98,13 +95,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
+    const featuredSerial = await client.client.getSingle('featured-serial');
+    const featuredSerialId = featuredSerial.data.serial!.id;
 
     const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
       predicates: [
-        prismic.predicate.at(
-          'my.articles.series.series',
-          featuredStoriesSeriesId
-        ),
+        prismic.predicate.at('my.articles.series.series', featuredSerialId),
       ],
       page: 1,
       pageSize: 100,
@@ -120,7 +116,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(
-      featuredStoriesSeriesId,
+      featuredSerialId,
       featuredSeriesArticles
     )!.series;
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
