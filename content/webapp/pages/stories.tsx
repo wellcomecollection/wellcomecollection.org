@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         'featured-serial'
       );
     const featuredSerialId =
-      (isFilledLinkToDocument(featuredSerial.data.serial) &&
+      (isFilledLinkToDocument(featuredSerial?.data?.serial) &&
         featuredSerial.data.serial.id) ||
       featuredStoriesSeriesId; // Fallback to hardcoded default
 
