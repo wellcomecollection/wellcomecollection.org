@@ -222,6 +222,12 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
   return 'id' in field && field.isBroken === false && 'data' in field;
 }
 
+export function isFilledLinkToDocument<T, L>(
+  field: RelationField<T, L>
+): field is FilledLinkToDocumentField<T, L> {
+  return 'id' in field && field.isBroken === false;
+}
+
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {

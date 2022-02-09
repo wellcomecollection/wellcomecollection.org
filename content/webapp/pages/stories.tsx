@@ -10,7 +10,10 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../data/static-books';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import {
+  prismicPageIds,
+  featuredStoriesSeriesId,
+} from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
@@ -33,6 +36,8 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from '../services/prismic/fetch/pages';
+import { isFilledLinkToDocument } from '../services/prismic/types';
+import { FeaturedSerialPrismicDocument } from '../services/prismic/types/series';
 import {
   pageDescriptions,
   booksPromoOnStoriesPage,
@@ -96,9 +101,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
-    const featuredSerial = await client.client.getSingle('featured-serial');
-    const featuredSerialId = (featuredSerial.data as { serial: { id: string } })
-      .serial.id;
+    const featuredSerial =
+      await client.client.getSingle<FeaturedSerialPrismicDocument>(
+        'featured-serial'
+      );
+    const featuredSerialId =
+      (isFilledLinkToDocument(featuredSerial.data.serial) &&
+        featuredSerial.data.serial.id) ||
+      featuredStoriesSeriesId; // Fallback to hardcoded default
 
     const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
       predicates: [

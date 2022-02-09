@@ -5,6 +5,7 @@ import {
   TimestampField,
   PrismicDocument,
   SelectField,
+  RelationField,
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
@@ -16,6 +17,10 @@ import {
 } from '.';
 
 const typeEnum = 'series';
+
+export type FeaturedSerialPrismicDocument = PrismicDocument<{
+  serial: RelationField<'serial', 'en-gb'>;
+}>;
 
 export type SeriesPrismicDocument = PrismicDocument<
   {
