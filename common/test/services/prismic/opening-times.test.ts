@@ -199,12 +199,8 @@ describe('opening-times', () => {
         },
       ]);
       expect(result[0].dates.length).toEqual(10);
-      expect(result[0].dates[2].isSame(london(london('2020-12-27')))).toBe(
-        true
-      );
-      expect(result[0].dates[5].isSame(london(london('2020-12-30')))).toBe(
-        true
-      );
+      expect(result[0].dates[2].isSame(london('2020-12-27'))).toBe(true);
+      expect(result[0].dates[5].isSame(london('2020-12-30'))).toBe(true);
     });
   });
 
