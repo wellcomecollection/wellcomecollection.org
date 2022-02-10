@@ -139,8 +139,25 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
 
-  const imageUrl = image && convertImageUri(image.contentUrl, 800);
-  const imageAltText = image?.alt;
+  // For Twitter cards in particular, we prefer a crop as close to 2:1 as
+  // possible.  This avoids an automated crop by Twitter, which may be less
+  // appropriate or preferable than the one we've selected.
+  //
+  // The closest we have in our selection of crops is 32:15, so we use that.
+  // If no such crop is available, fall back to the full-sized image.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7641
+  // for an example of how this can go wrong.
+  //
+  // See https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+  // for more information on Twitter cards.
+  const socialPreviewCardImage =
+    image && image.crops['32:15'] ? image.crops['32:15'] : image;
+
+  const imageUrl =
+    socialPreviewCardImage &&
+    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+  const imageAltText = socialPreviewCardImage?.alt;
 
   return (
     <>
