@@ -146,8 +146,7 @@ const Images: NextPage<Props> = ({
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
-        imageUrl={undefined}
-        imageAltText={undefined}
+        image={undefined}
       >
         <Space
           v={{

@@ -72,8 +72,7 @@ const GuidePage = ({
       jsonLd={{ '@type': 'Webpage' }}
       openGraphType={'website'}
       siteSection={'what-we-do'}
-      imageUrl={undefined}
-      imageAltText={undefined}
+      image={undefined}
     >
       <SpacingSection>
         <LayoutPaginatedResults

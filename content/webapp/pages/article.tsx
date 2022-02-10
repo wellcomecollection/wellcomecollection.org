@@ -12,7 +12,6 @@ import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -301,8 +300,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       jsonLd={articleLd(article)}
       openGraphType={'article'}
       siteSection={'stories'}
-      imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
-      imageAltText={(article.image && article.image.alt) ?? undefined}
+      image={article.image}
     >
       <ContentPage
         id={article.id}

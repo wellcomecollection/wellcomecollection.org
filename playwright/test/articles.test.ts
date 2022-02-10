@@ -67,4 +67,17 @@ describe('articles', () => {
       )
     ).toBeFalsy();
   });
+
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7641
+  test('articles use the 32:15 crop for their social media preview', async () => {
+    await article('Yd8L-hAAAIAWFxqa');
+
+    const metaTag = await page.waitForSelector('meta[name="twitter:image"]', {
+      state: 'attached',
+    });
+
+    expect(await metaTag.getAttribute('content')).toBe(
+      'https://images.prismic.io/wellcomecollection/2a42de1c-7954-4ece-be5f-775079c4bc54_Lauren+seated+outside.jpg?auto=compress%2Cformat&rect=0%2C275%2C4000%2C1875&w=800&h=375'
+    );
+  });
 });

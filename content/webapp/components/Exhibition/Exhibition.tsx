@@ -12,7 +12,6 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { UiExhibition } from '@weco/common/model/exhibitions';
 import { Page } from '@weco/common/model/pages';
 import Space from '@weco/common/views/components/styled/Space';
@@ -289,10 +288,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
       jsonLd={exhibitionLd(exhibition)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
-      }
-      imageAltText={exhibition.image ? exhibition.image.alt : undefined}
+      image={exhibition.image}
     >
       <ContentPage
         id={exhibition.id}

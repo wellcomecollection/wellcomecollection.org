@@ -25,6 +25,9 @@ import GlobalInfoBarContext, {
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
+import { defaultPageTitle } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export type SiteSection =
   | 'collections'
@@ -41,8 +44,7 @@ export type Props = {
   jsonLd: JsonLdObj | JsonLdObj[];
   openGraphType: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
   siteSection: SiteSection | null;
-  imageUrl: string | undefined;
-  imageAltText: string | undefined;
+  image?: ImageType;
   rssUrl?: string;
   children: ReactNode;
   hideNewsletterPromo?: boolean;
@@ -57,8 +59,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   jsonLd,
   openGraphType,
   siteSection,
-  imageUrl,
-  imageAltText,
+  image,
   rssUrl,
   children,
   hideNewsletterPromo = false,
@@ -101,7 +102,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const fullTitle =
     title !== ''
       ? `${title} | Wellcome Collection`
-      : 'Wellcome Collection | A free museum and library exploring health and human experience';
+      : `Wellcome Collection | ${defaultPageTitle}`;
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
@@ -137,6 +138,27 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+
+  // For Twitter cards in particular, we prefer a crop as close to 2:1 as
+  // possible.  This avoids an automated crop by Twitter, which may be less
+  // appropriate or preferable than the one we've selected.
+  //
+  // The closest we have in our selection of crops is 32:15, so we use that.
+  // If no such crop is available, fall back to the full-sized image.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7641
+  // for an example of how this can go wrong.
+  //
+  // See https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+  // for more information on Twitter cards.
+  const socialPreviewCardImage =
+    image && image.crops['32:15'] ? image.crops['32:15'] : image;
+
+  const imageUrl =
+    socialPreviewCardImage &&
+    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+  const imageAltText = socialPreviewCardImage?.alt;
+
   return (
     <>
       <Head>

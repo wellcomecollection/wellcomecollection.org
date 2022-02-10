@@ -63,6 +63,16 @@ const Work: FunctionComponent<Props> = ({
 
   const title = removeIdiomaticTextTags(work.title);
 
+  const image = imageUrl
+    ? {
+        contentUrl: imageUrl,
+        alt: title,
+        width: 0,
+        height: 0,
+        crops: {},
+      }
+    : undefined;
+
   return (
     <IsArchiveContext.Provider value={isArchive}>
       <CataloguePageLayout
@@ -72,8 +82,7 @@ const Work: FunctionComponent<Props> = ({
         openGraphType={'website'}
         jsonLd={workLd(work)}
         siteSection={'collections'}
-        imageUrl={imageUrl}
-        imageAltText={title}
+        image={image}
         hideNewsletterPromo={true}
       >
         <div className="container">
