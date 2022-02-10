@@ -18,10 +18,7 @@ import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '../services/prismic';
 import { createClient } from 'services/prismic/fetch';
-import {
-  bodySquabblesSeries,
-  worryLinesSeries,
-} from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchArticles } from 'services/prismic/fetch/articles';
 import * as prismic from 'prismic-client-beta';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -43,12 +40,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
 
-    // GOTCHA: This is for two series where we have the `webcomics` type.
+    // GOTCHA: This is for a series where we have the `webcomics` type.
     // This will have to remain like this until we figure out how to migrate them.
     // We create new webcomics as an article with comic format, and add
     // an article-series to them.
     const seriesField =
-      id === bodySquabblesSeries || id === worryLinesSeries
+      id === bodySquabblesSeries
         ? 'my.webcomics.series.series'
         : 'my.articles.series.series';
 
