@@ -1,4 +1,4 @@
-import { parseQuery } from '../../../services/prismic/search';
+import { parseQuery } from './multi-content';
 
 test('search for single tags and single ids', () => {
   const structuredQuery = parseQuery('id:123 tag:things');

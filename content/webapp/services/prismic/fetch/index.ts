@@ -13,7 +13,9 @@ export type GetServerSidePropsPrismicClient = {
   client: prismic.Client;
 };
 
-const delistPredicate = prismic.predicate.not('document.tags', ['delist']);
+export const delistPredicate = prismic.predicate.not('document.tags', [
+  'delist',
+]);
 
 /**
  * We require the `GetServerSidePropsContext` or `NextApiRequest` here to esure that
