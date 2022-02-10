@@ -1,11 +1,18 @@
 import { parseExhibitionDoc } from '@weco/common/services/prismic/exhibitions';
 import { Exhibition as DeprecatedExhibition } from '@weco/common/model/exhibitions';
-import { Exhibition } from '../../../types/exhibitions';
-import { ExhibitionPrismicDocument } from '../types/exhibitions';
+import {
+  Exhibition,
+  ExhibitionRelatedContent,
+} from '../../../types/exhibitions';
+import {
+  ExhibitionPrismicDocument,
+  ExhibitionRelatedContentPrismicDocument,
+} from '../types/exhibitions';
 import { Query } from '@prismicio/types';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
+import { transformMultiContent } from './multi-content';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformExhibition(
@@ -66,3 +73,23 @@ function putPermanentAfterCurrentExhibitions(
     ...groupedResults.past,
   ];
 }
+
+export const transformExhibitionRelatedContent = (
+  query: Query<ExhibitionRelatedContentPrismicDocument>
+): ExhibitionRelatedContent => {
+  const parsedContent = transformQuery(
+    query,
+    transformMultiContent
+  ).results.filter(doc => {
+    return !(doc.type === 'events' && doc.isPast);
+  });
+
+  return {
+    exhibitionOfs: parsedContent.filter(
+      doc => doc.type === 'exhibitions' || doc.type === 'events'
+    ),
+    exhibitionAbouts: parsedContent.filter(
+      doc => doc.type === 'books' || doc.type === 'articles'
+    ),
+  } as ExhibitionRelatedContent;
+};

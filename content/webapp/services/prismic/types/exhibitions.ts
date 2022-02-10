@@ -13,6 +13,9 @@ import {
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { ArticlePrismicDocument } from './articles';
+import { BookPrismicDocument } from './books';
+import { EventPrismicDocument } from './events';
 
 const typeEnum = 'exhibitions';
 
@@ -55,3 +58,9 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export type ExhibitionRelatedContentPrismicDocument =
+  | ExhibitionPrismicDocument
+  | EventPrismicDocument
+  | ArticlePrismicDocument
+  | BookPrismicDocument;

@@ -1,23 +1,3 @@
-// @flow
-import { getTypeByIds } from './api';
-import { parseMultiContent } from './multi-content';
-import {
-  exhibitionFields,
-  eventAccessOptionsFields,
-  teamsFields,
-  eventFormatsFields,
-  placesFields,
-  interpretationTypesFields,
-  audiencesFields,
-  eventSeriesFields,
-  organisationsFields,
-  peopleFields,
-  contributorsFields,
-  eventPoliciesFields,
-  articleSeriesFields,
-  articleFormatsFields,
-  articlesFields,
-} from './fetch-links';
 // $FlowFixMe (ts)
 import { breakpoints } from '../../utils/breakpoints';
 import {
@@ -44,7 +24,6 @@ import type {
   UiExhibit,
   ExhibitionFormat,
 } from '../../model/exhibitions';
-import type { MultiContent } from '../../model/multi-content';
 
 function parseResourceTypeList(
   fragment: PrismicFragment[],
@@ -185,47 +164,4 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
     : [{ text: 'Exhibition' }];
 
   return { ...exhibition, labels };
-}
-
-type ExhibitionRelatedContent = {|
-  exhibitionOfs: MultiContent[],
-  exhibitionAbouts: MultiContent[],
-|};
-
-export async function getExhibitionRelatedContent(
-  req: ?Request,
-  ids: string[]
-): Promise<ExhibitionRelatedContent> {
-  const fetchLinks = [
-    eventAccessOptionsFields,
-    teamsFields,
-    eventFormatsFields,
-    placesFields,
-    interpretationTypesFields,
-    audiencesFields,
-    organisationsFields,
-    peopleFields,
-    contributorsFields,
-    eventSeriesFields,
-    eventPoliciesFields,
-    contributorsFields,
-    articleSeriesFields,
-    articleFormatsFields,
-    exhibitionFields,
-    articlesFields,
-  ];
-  const types = ['exhibitions', 'events', 'articles', 'books'];
-  const extraContent = await getTypeByIds(req, types, ids, { fetchLinks });
-  const parsedContent = parseMultiContent(extraContent.results).filter(doc => {
-    return !(doc.type === 'events' && doc.isPast);
-  });
-
-  return {
-    exhibitionOfs: parsedContent.filter(
-      doc => doc.type === 'exhibitions' || doc.type === 'events'
-    ),
-    exhibitionAbouts: parsedContent.filter(
-      doc => doc.type === 'books' || doc.type === 'articles'
-    ),
-  };
 }

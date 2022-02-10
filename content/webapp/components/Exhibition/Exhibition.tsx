@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, FC } from 'react';
-import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -36,6 +35,12 @@ import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
+import { fetchExhibitionRelatedContentClientSide } from 'services/prismic/fetch/exhibitions';
+import { transformExhibitionRelatedContent } from 'services/prismic/transformers/exhibitions';
+import { Exhibition as ExhibitionType } from '../../types/exhibitions';
+import { Book } from '../../types/books';
+import { Article } from '../../types/articles';
+import { Event as EventType } from '../../types/events';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -196,17 +201,23 @@ type Props = {
 };
 
 const Exhibition: FC<Props> = ({ exhibition, pages }) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
+  type ExhibitionOf = (ExhibitionType | EventType)[];
+  type ExhibitionAbout = (Book | Article)[];
+
+  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout>([]);
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
-    getExhibitionRelatedContent(null, ids).then(
-      ({ exhibitionOfs, exhibitionAbouts }) => {
-        setExhibitionOfs(exhibitionOfs);
-        setExhibitionAbouts(exhibitionAbouts);
+
+    fetchExhibitionRelatedContentClientSide(ids).then(result => {
+      if (isNotUndefined(result)) {
+        const relatedContent = transformExhibitionRelatedContent(result);
+
+        setExhibitionOfs(relatedContent.exhibitionOfs);
+        setExhibitionAbouts(relatedContent.exhibitionAbouts);
       }
-    );
+    });
   }, []);
 
   const breadcrumbs = {
