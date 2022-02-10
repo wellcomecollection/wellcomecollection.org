@@ -26,8 +26,7 @@ const ErrorPage: FunctionComponent<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={undefined}
-      imageAltText={undefined}
+      image={undefined}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader

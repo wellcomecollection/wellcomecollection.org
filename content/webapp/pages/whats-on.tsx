@@ -36,7 +36,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {
@@ -434,17 +433,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       }
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstExhibition &&
-        firstExhibition.image &&
-        convertImageUri(firstExhibition.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstExhibition &&
-          firstExhibition.image &&
-          firstExhibition.image.alt) ??
-        undefined
-      }
+      image={firstExhibition && firstExhibition.image}
     >
       <>
         <Header

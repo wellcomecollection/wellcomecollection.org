@@ -26,6 +26,8 @@ import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from 'data/microcopy';
+import { ImageType } from '@weco/common/model/image';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export type SiteSection =
   | 'collections'
@@ -42,8 +44,7 @@ export type Props = {
   jsonLd: JsonLdObj | JsonLdObj[];
   openGraphType: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
   siteSection: SiteSection | null;
-  imageUrl: string | undefined;
-  imageAltText: string | undefined;
+  image?: ImageType;
   rssUrl?: string;
   children: ReactNode;
   hideNewsletterPromo?: boolean;
@@ -58,8 +59,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   jsonLd,
   openGraphType,
   siteSection,
-  imageUrl,
-  imageAltText,
+  image,
   rssUrl,
   children,
   hideNewsletterPromo = false,
@@ -138,6 +138,10 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+
+  const imageUrl = image && convertImageUri(image.contentUrl, 800);
+  const imageAltText = image?.alt;
+
   return (
     <>
       <Head>

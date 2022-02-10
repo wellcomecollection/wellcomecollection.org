@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -150,15 +149,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
       jsonLd={articles.map(articleLd)}
       openGraphType={'website'}
       siteSection={'stories'}
-      imageUrl={
-        firstArticle &&
-        firstArticle.image &&
-        convertImageUri(firstArticle.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstArticle && firstArticle.image && firstArticle.image.alt) ??
-        undefined
-      }
+      image={firstArticle && firstArticle.image}
       rssUrl={'https://rss.wellcomecollection.org/stories'}
     >
       <SpacingSection>

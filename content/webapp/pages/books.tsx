@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
@@ -58,14 +57,7 @@ const BooksPage: FunctionComponent<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={
-        firstBook &&
-        firstBook.image &&
-        convertImageUri(firstBook.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstBook && firstBook.image && firstBook.image.alt) ?? undefined
-      }
+      image={firstBook && firstBook.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

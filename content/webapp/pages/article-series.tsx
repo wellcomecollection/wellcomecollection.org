@@ -6,7 +6,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import type { ArticleSeries } from '@weco/common/model/article-series';
 import type { Article } from '@weco/common/model/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
@@ -158,8 +157,7 @@ const ArticleSeriesPage: FC<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}
       openGraphType={'website'}
-      imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
-      imageAltText={(series.image && series.image.alt) ?? undefined}
+      image={series.image}
     >
       <ContentPage
         id={series.id}
