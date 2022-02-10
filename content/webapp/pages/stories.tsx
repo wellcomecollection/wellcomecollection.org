@@ -5,15 +5,11 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { Article } from '@weco/common/model/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
 import { staticBooks } from '../data/static-books';
-import {
-  prismicPageIds,
-  featuredStoriesSeriesId,
-} from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
@@ -36,55 +32,19 @@ import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from '../services/prismic/fetch/pages';
+import { fetchSeries } from '../services/prismic/fetch/series';
+import { transformSeries } from '../services/prismic/transformers/series';
 import {
   pageDescriptions,
   booksPromoOnStoriesPage,
+  serialsPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
-import * as prismic from 'prismic-client-beta';
-import { transformArticleSeries } from 'services/prismic/transformers/article-series';
+import { Series } from '../types/series';
 
 type Props = {
   articles: Article[];
-  series: ArticleSeries;
+  serials: Series[];
   featuredText?: FeaturedTextType;
-};
-
-const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
-  return (
-    <div>
-      <Layout12>
-        <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2
-            className={classNames({
-              h1: true,
-              [`font-${series.color}`]: true,
-              'plain-link': true,
-              'no-margin': true,
-            })}
-          >
-            <a
-              className={classNames({
-                'plain-link': true,
-              })}
-              href={`/series/${series.id}`}
-            >
-              {series.title}
-            </a>
-          </h2>
-          <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            <p
-              className={classNames({
-                'no-margin': true,
-              })}
-            >
-              {series.promoText}
-            </p>
-          </Space>
-        </Space>
-      </Layout12>
-      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
-    </div>
-  );
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -98,39 +58,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
+    const seriesQueryPromise = fetchSeries(client);
 
-    const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
-      predicates: [
-        prismic.predicate.at(
-          'my.articles.series.series',
-          featuredStoriesSeriesId
-        ),
-      ],
-      page: 1,
-      pageSize: 100,
-    });
+    const [articlesQuery, seriesQuery, storiesPage] = await Promise.all([
+      articlesQueryPromise,
+      seriesQueryPromise,
+      storiesPagePromise,
+    ]);
 
-    const [articlesQuery, featuredSeriesArticles, storiesPage] =
-      await Promise.all([
-        articlesQueryPromise,
-        featuredSeriesArticlesQueryPromise,
-        storiesPagePromise,
-      ]);
     const articles = transformQuery(articlesQuery, transformArticle);
-
-    // The featured series and stories page should always exist
-    const series = transformArticleSeries(
-      featuredStoriesSeriesId,
-      featuredSeriesArticles
-    )!.series;
+    const series = transformQuery(seriesQuery, transformSeries);
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
+    const serials = series.results
+      .filter(s => s.schedule.length > 0)
+      .slice(1, 7);
 
     if (articles && articles.results) {
       return {
         props: removeUndefinedProps({
           articles: articles.results,
-          series,
           featuredText,
+          serials,
           serverData,
         }),
       };
@@ -139,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
+const StoriesPage: FC<Props> = ({ articles, serials, featuredText }) => {
   const firstArticle = articles[0];
 
   return (
@@ -243,7 +191,15 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
       </SpacingSection>
 
       <SpacingSection>
-        <SerialisedSeries series={series} />
+        <SpacingComponent>
+          <SectionHeader title="Serials" />
+        </SpacingComponent>
+        <SpacingComponent>
+          <Layout12>
+            <p>{serialsPromoOnStoriesPage}</p>
+          </Layout12>
+        </SpacingComponent>
+        <CardGrid items={serials} hidePromoText={true} itemsPerRow={3} />
       </SpacingSection>
 
       {/* TODO: work out logic for making these dynamic */}
