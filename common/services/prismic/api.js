@@ -5,7 +5,6 @@ import type {
   PrismicQueryOpts,
   PrismicApiSearchResponse,
   PaginatedResults,
-  DocumentType,
 } from './types';
 import Cookies from 'universal-cookie';
 
@@ -75,16 +74,4 @@ export async function getDocuments(
   };
 
   return paginatedResults;
-}
-
-export async function getTypeByIds(
-  req: ?Request,
-  types: DocumentType[],
-  ids: string[],
-  qOpts: {}
-) {
-  const prismic = await getPrismicApi(req);
-  const doc = await prismic.getByIDs(ids, qOpts);
-
-  return doc;
 }
