@@ -29,6 +29,10 @@ import {
 import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from 'services/prismic';
+import {
+  bodySquabblesSeries,
+  worryLinesSeries,
+} from '@weco/common/services/prismic/hardcoded-id';
 
 type Props = {
   article: Article;
@@ -117,7 +121,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       const series = article.series[0];
       if (series) {
         const seriesField =
-          series.id === 'WleP3iQAACUAYEoN' || series.id === 'X8D9qxIAACIAcKSf'
+          series.id === bodySquabblesSeries || series.id === worryLinesSeries
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
