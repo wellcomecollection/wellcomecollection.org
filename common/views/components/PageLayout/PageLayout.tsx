@@ -25,7 +25,7 @@ import GlobalInfoBarContext, {
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
-import { defaultPageTitle } from 'data/microcopy';
+import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
