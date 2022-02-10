@@ -44,7 +44,7 @@ const itemWithOnlyOpenAccess = async (): Promise<void> => {
 };
 const itemWithOnlyRestrictedAccess = async (): Promise<void> => {
   context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/zg3pt2bp/items`);
+  await gotoWithoutCache(`${baseUrl}/works/a24nhdcv/items`);
 };
 const itemWithRestrictedAndOpenAccess = async (): Promise<void> => {
   context.addCookies(requiredCookies);
