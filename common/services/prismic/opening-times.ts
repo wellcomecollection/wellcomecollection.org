@@ -95,29 +95,17 @@ export function exceptionalOpeningPeriods(
     });
 }
 
-type OverrideDates = {
-  type: OverrideType | null;
-  dates: Moment[];
-};
-
 export function exceptionalOpeningPeriodsAllDates(
   exceptionalOpeningPeriods: ExceptionalPeriod[]
-): OverrideDates[] {
+): ExceptionalPeriod[] {
   return exceptionalOpeningPeriods.map(period => {
-    const startDate: Moment = london(period.dates[0]?.toDate()).startOf('day');
+    const startDate = period.dates[0];
+    const lastDate = period.dates[period.dates.length - 1];
 
-    const lastDate: Moment = london(
-      period.dates[period.dates.length - 1]?.toDate()
-    ).startOf('day');
-
-    const completeDateArray: Moment[] = [];
-
-    while (startDate.startOf('day').isSameOrBefore(lastDate)) {
-      const current = startDate.format('YYYY-MM-DD');
-      const currentDate: Moment = london(new Date(current));
-      completeDateArray.push(currentDate);
-      startDate.add(1, 'day');
-    }
+    const arrayLength = lastDate.diff(startDate, 'days') + 1;
+    const completeDateArray = [...Array(arrayLength).keys()].map(i => {
+      return startDate.clone().add(i, 'days');
+    });
 
     return {
       type: period.type,
@@ -183,7 +171,7 @@ export function exceptionalFromRegular(
 
 export function backfillExceptionalVenueDays(
   venue: Venue,
-  allVenueExceptionalPeriods?: OverrideDates[]
+  allVenueExceptionalPeriods?: ExceptionalPeriod[]
 ): ExceptionalOpeningHoursDay[][] {
   const groupedExceptionalDays = groupExceptionalVenueDays(
     getExceptionalVenueDays(venue)
