@@ -25,6 +25,7 @@ import GlobalInfoBarContext, {
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
+import { defaultPageTitle } from 'data/microcopy';
 
 export type SiteSection =
   | 'collections'
@@ -101,7 +102,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const fullTitle =
     title !== ''
       ? `${title} | Wellcome Collection`
-      : 'Wellcome Collection | A free museum and library exploring health and human experience';
+      : `Wellcome Collection | ${defaultPageTitle}`;
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
