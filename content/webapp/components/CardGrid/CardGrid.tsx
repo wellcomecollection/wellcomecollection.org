@@ -23,6 +23,7 @@ import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibiti
 import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import { Book } from '../../types/books';
 import { Project } from '../../types/projects';
+import { Guide } from '../../types/guides';
 
 // TODO: This should be MultiContent
 type ContentTypes =
@@ -34,7 +35,8 @@ type ContentTypes =
   | Page
   | Project
   | ArticleSeries
-  | ArticleScheduleItem;
+  | ArticleScheduleItem
+  | Guide;
 
 type Props = {
   items: readonly ContentTypes[];
