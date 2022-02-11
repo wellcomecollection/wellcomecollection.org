@@ -1,7 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-// Before working on this file, please get it to typecheck,
-// I have had to add this here to unblock some work
 import { GetServerSideProps, NextPageContext } from 'next';
 import { FunctionComponent, ReactElement } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -9,15 +5,22 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import {
-  getGuides,
-  getGuideFormats,
-} from '@weco/common/services/prismic/guides';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Format } from '@weco/common/model/format';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { createClient } from '../services/prismic/fetch';
+import {
+  fetchGuideFormats,
+  fetchGuides,
+} from '../services/prismic/fetch/guides';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import {
+  transformGuide,
+  transformGuideFormat,
+} from '../services/prismic/transformers/guides';
+import { getServerData } from '@weco/common/server-data';
 
 const displayTitle = 'Guides';
 
@@ -98,21 +101,22 @@ const GuidePage = ({
 export const getServerSideProps: GetServerSideProps<Props> = async (
   ctx: NextPageContext
 ) => {
-  const serverData = await getServerData(context);
-  const { format, memoizedPrismic } = ctx.query;
-  const guidesPromise = getGuides(
-    ctx.req,
-    {
-      format,
-    },
-    memoizedPrismic
-  );
-  const guideFormatsPromise = getGuideFormats(ctx.req, memoizedPrismic);
+  console.log(`@@AWLC getServerSideProps`);
+  const serverData = await getServerData(ctx);
+  const { format } = ctx.query;
 
-  const [guides, guideFormats] = await Promise.all([
-    guidesPromise,
-    guideFormatsPromise,
+  const client = createClient(ctx);
+
+  const guidesQueryPromise = fetchGuides(client, { format });
+  const guidesFormatQueryPromise = fetchGuideFormats(client);
+
+  const [guidesQuery, guideFormatsQuery] = await Promise.all([
+    guidesQueryPromise,
+    guidesFormatQueryPromise,
   ]);
+
+  const guides = transformQuery(guidesQuery, transformGuide);
+  const guideFormats = transformQuery(guideFormatsQuery, transformGuideFormat);
 
   if (guides) {
     return {

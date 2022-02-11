@@ -15,7 +15,7 @@ import {
 
 const typeEnum = 'guides';
 
-type GuideFormat = PrismicDocument<
+export type GuideFormatPrismicDocument = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -28,7 +28,7 @@ export type GuidePrismicDocument = PrismicDocument<
     format: RelationField<
       'guide-formats',
       'en-gb',
-      InferDataInterface<GuideFormat>
+      InferDataInterface<GuideFormatPrismicDocument>
     >;
     datePublished: TimestampField;
     availableOnline: BooleanField;
