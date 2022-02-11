@@ -141,7 +141,7 @@ export function fetcher<Document extends PrismicDocument>(
       // e.g. at one point we forgot to include the "params" query in the cache key,
       // so every article was showing the same set of related stories.
       //
-      // See https://github.com/wellcomecollection/wellcomecollection.org/issues
+      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
 
