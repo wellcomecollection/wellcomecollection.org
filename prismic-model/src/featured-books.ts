@@ -9,7 +9,7 @@ const featuredBooks: CustomType = {
   status: true,
   json: {
     'Featured books': {
-      books: list('books', link('book', 'document', ['books'], 'book')),
+      books: list('books', { book: link('book', 'document', ['books']) }),
     },
   },
 };
