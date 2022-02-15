@@ -402,6 +402,15 @@ export const workWithLibrarySeriesPartOf: Work = {
     label: 'Books',
     type: 'Format',
   },
+  subjects: [],
+  genres: [],
+  contributors: [],
+  identifiers: [],
+  production: [],
+  languages: [],
+  precededBy: [],
+  succeededBy: [],
+  notes: [],
 };
 
 /*
@@ -705,7 +714,6 @@ export const workWithPartOf: Work = {
 };
 
 export const workWithMixedPartOf: Work = {
-  alternativeTitles: [],
   availabilities: [
     {
       id: 'in-library',
@@ -757,4 +765,14 @@ export const workWithMixedPartOf: Work = {
       ],
     },
   ],
+  alternativeTitles: [],
+  subjects: [],
+  genres: [],
+  contributors: [],
+  identifiers: [],
+  production: [],
+  languages: [],
+  precededBy: [],
+  succeededBy: [],
+  notes: [],
 };
