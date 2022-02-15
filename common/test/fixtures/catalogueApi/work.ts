@@ -387,7 +387,6 @@ export const workWithLibrarySeriesPartOf: Work = {
       id: 'gzgg4hzp',
       title: 'Edinburgh medical and surgical journal',
       type: 'Series',
-      referenceNumber: 'A Library Series',
       alternativeTitles: [],
       referenceNumber: 'Edinburgh medical and surgical journal',
       availableOnline: false,
@@ -411,6 +410,8 @@ export const workWithLibrarySeriesPartOf: Work = {
   precededBy: [],
   succeededBy: [],
   notes: [],
+  parts: [],
+  holdings: [],
 };
 
 /*
@@ -732,17 +733,18 @@ export const workWithMixedPartOf: Work = {
   },
   partOf: [
     {
+      id: 'cafed00d',
       title: 'A Library Series',
       referenceNumber: 'A Library Series',
       type: 'Series',
       totalParts: 0,
       totalDescendentParts: 0,
       alternativeTitles: [],
-      referenceNumber: '',
       availableOnline: false,
       availabilities: [],
     },
     {
+      id: 'cafebeef',
       referenceNumber: 'a/b',
       title: 'An Archive Collection',
       type: 'Collection',
@@ -753,6 +755,7 @@ export const workWithMixedPartOf: Work = {
       availabilities: [],
       partOf: [
         {
+          id: 'f00dcafe',
           referenceNumber: 'a',
           title: 'An Archive Series',
           type: 'Series',
@@ -775,4 +778,7 @@ export const workWithMixedPartOf: Work = {
   precededBy: [],
   succeededBy: [],
   notes: [],
+  parts: [],
+  holdings: [],
+  physicalDescription: '',
 };
