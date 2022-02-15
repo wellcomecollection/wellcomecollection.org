@@ -15,15 +15,17 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import { Book } from '../../types/books';
+import { Guide } from '../../types/guides';
 
 type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
   | PaginatedResults<UiEvent>
   | PaginatedResults<Book>
-  | PaginatedResults<Article>;
+  | PaginatedResults<Article>
+  | PaginatedResults<Guide>;
 
 type Props = {
   title: string;
@@ -32,7 +34,7 @@ type Props = {
   paginatedResults: PaginatedResultsTypes;
   period?: Period;
   showFreeAdmissionMessage: boolean;
-  children?: Node;
+  children?: ReactElement;
 };
 
 const LayoutPaginatedResults: FC<Props> = ({
