@@ -297,15 +297,54 @@ export const getCardLabels = (work: Work): Label[] => {
 };
 
 function makeArchiveAncestorArray(partOfArray, nextPart) {
-  if (!nextPart) return partOfArray;
+  /*
+  Recursively populate a list of ancestors (i.e. things that this object is "part of")
+
+  Objects outside of this strict single-parent hierarchy are ignored.
+
+  The returned list is ordered from closest to furthest (parent, grandparent, great grandparent).
+  */
+  if (!nextPart) {
+    return partOfArray;
+  }
   return makeArchiveAncestorArray(
     [...partOfArray, nextPart],
-    nextPart?.partOf?.[0]
+    hierarchicalParentOf(nextPart)
   );
 }
 
+function hierarchicalParentOf(work) {
+  /*
+  Return the immediate parent of a Work within a strict single parent hierarchy.
+
+  The partOf member of a Work contains a tree of objects to which this Work belongs.
+
+  In strictly hierarchical content (Archive Collection data), each Work will have
+  maximally one partOf value. However, partOf is a list that may contain other
+  parents or containers.
+
+  Only those with an appropriate path-like referenceNumber value are part of the hierarchy.
+
+  partOf relationships may exist without referenceNumber values.
+  These should be excluded from the ancestor hierarchy as they
+  may represent an excessively broad member lists or multi-parent hierarchies
+  such as Library Series.
+  */
+  if (!work || !work.partOf) {
+    return;
+  }
+  for (const candidate of work.partOf) {
+    if (candidate.referenceNumber) {
+      return candidate;
+    }
+  }
+}
+
 export function getArchiveAncestorArray(work: Work): RelatedWork[] {
-  return makeArchiveAncestorArray([], work?.partOf?.[0]).reverse();
+  /*
+  Return all the ancestors of work starting with the most distant.
+  */
+  return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
 }
 
 type DigitalLocationInfo = {

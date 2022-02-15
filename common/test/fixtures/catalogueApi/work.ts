@@ -368,6 +368,40 @@ export const workFixture: Work = {
   type: 'Work',
 };
 
+/*
+partOf objects that represent a Library Series do not have Archive referenceNumbers.
+*/
+
+export const workWithLibrarySeriesPartOf: Work = {
+  alternativeTitles: [],
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+  ],
+  id: 'xwk27yj7',
+  partOf: [
+    {
+      title: 'Edinburgh medical and surgical journal',
+      type: 'Series',
+    },
+  ],
+  physicalDescription: 'pages 23-28',
+  title: 'Notice of an instance of molluscum chronicum / by Henry Nebel.',
+  type: 'Work',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'Format',
+  },
+};
+
+/*
+An Archive Work with a partOf hierarchy.
+partOf entries in Archive Works have hierarchical reference numbers.
+*/
 export const workWithPartOf: Work = {
   holdings: [],
   id: 'pbtyx2xx',
@@ -662,4 +696,42 @@ export const workWithPartOf: Work = {
     },
   ],
   type: 'Work',
+};
+
+export const workWithMixedPartOf: Work = {
+  alternativeTitles: [],
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+  ],
+  referenceNumber: 'a/b/c',
+  id: 'baadf00d',
+  title: 'Something I made up',
+  type: 'Work',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'Format',
+  },
+  partOf: [
+    {
+      title: 'A Library Series',
+      type: 'Series',
+    },
+    {
+      referenceNumber: 'a/b',
+      title: 'An Archive Collection',
+      type: 'Collection',
+      partOf: [
+        {
+          referenceNumber: 'a',
+          title: 'An Archive Series',
+          type: 'Series',
+        },
+      ],
+    },
+  ],
 };
