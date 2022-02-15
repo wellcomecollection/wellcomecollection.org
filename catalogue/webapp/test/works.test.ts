@@ -210,16 +210,22 @@ describe('getArchiveAncestorArray', () => {
         referenceNumber: 'a',
         title: 'An Archive Series',
         type: 'Series',
+        totalParts: 1,
+        totalDescendentParts: 2,
       },
       {
         referenceNumber: 'a/b',
         title: 'An Archive Collection',
         type: 'Collection',
+        totalParts: 1,
+        totalDescendentParts: 1,
         partOf: [
           {
             referenceNumber: 'a',
             title: 'An Archive Series',
             type: 'Series',
+            totalParts: 1,
+            totalDescendentParts: 2,
           },
         ],
       },

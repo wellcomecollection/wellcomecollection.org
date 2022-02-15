@@ -323,9 +323,11 @@ function hierarchicalParentOf(work) {
   maximally one partOf value. However, partOf is a list that may contain other
   parents or containers.
 
-  Only those with an appropriate path-like referenceNumber value are part of the hierarchy.
+  The number of child objects that any given object in the partOf hierarchy has is
+  stored in the totalParts property.
 
-  partOf relationships may exist without referenceNumber values.
+  Any object in the partOf list that has no parts is not part of the hierarchy.
+
   These should be excluded from the ancestor hierarchy as they
   may represent an excessively broad member lists or multi-parent hierarchies
   such as Library Series.
@@ -334,7 +336,7 @@ function hierarchicalParentOf(work) {
     return;
   }
   for (const candidate of work.partOf) {
-    if (candidate.referenceNumber) {
+    if (candidate.totalParts) {
       return candidate;
     }
   }

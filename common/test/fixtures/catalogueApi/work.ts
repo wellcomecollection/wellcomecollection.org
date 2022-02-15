@@ -720,16 +720,22 @@ export const workWithMixedPartOf: Work = {
     {
       title: 'A Library Series',
       type: 'Series',
+      totalParts: 0,
+      totalDescendentParts: 0,
     },
     {
       referenceNumber: 'a/b',
       title: 'An Archive Collection',
       type: 'Collection',
+      totalParts: 1,
+      totalDescendentParts: 1,
       partOf: [
         {
           referenceNumber: 'a',
           title: 'An Archive Series',
           type: 'Series',
+          totalParts: 1,
+          totalDescendentParts: 2,
         },
       ],
     },
