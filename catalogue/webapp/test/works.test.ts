@@ -212,6 +212,9 @@ describe('getArchiveAncestorArray', () => {
         type: 'Series',
         totalParts: 1,
         totalDescendentParts: 2,
+        alternativeTitles: [],
+        availableOnline: false,
+        availabilities: [],
       },
       {
         referenceNumber: 'a/b',
@@ -219,6 +222,9 @@ describe('getArchiveAncestorArray', () => {
         type: 'Collection',
         totalParts: 1,
         totalDescendentParts: 1,
+        alternativeTitles: [],
+        availableOnline: false,
+        availabilities: [],
         partOf: [
           {
             referenceNumber: 'a',
@@ -226,6 +232,9 @@ describe('getArchiveAncestorArray', () => {
             type: 'Series',
             totalParts: 1,
             totalDescendentParts: 2,
+            alternativeTitles: [],
+            availableOnline: false,
+            availabilities: [],
           },
         ],
       },
