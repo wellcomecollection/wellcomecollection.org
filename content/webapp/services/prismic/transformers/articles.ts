@@ -6,9 +6,9 @@ import {
   parseGenericFields,
   parseLabelType,
   parseSingleLevelGroup,
-  parseSeason,
 } from '@weco/common/services/prismic/parsers';
 import { parseContentLink } from '@weco/common/services/prismic/articles';
+import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { parseArticleSeries } from '@weco/common/services/prismic/article-series';
 import { london } from '@weco/common/utils/format-date';
 
