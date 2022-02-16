@@ -38,8 +38,7 @@ export function transformBook(document: BookPrismicDocument): Book {
     extent: transformKeyTextField(data.extent),
     isbn: transformKeyTextField(data.isbn),
     reviews:
-      data.reviews &&
-      data.reviews.map(review => {
+      data.reviews?.map(review => {
         return {
           text: review.text && asHtml(review.text),
           citation: review.citation && asHtml(review.citation),
