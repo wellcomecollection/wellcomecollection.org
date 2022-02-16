@@ -87,8 +87,9 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking = data.thirdPartyBookingName && {
+  const thirdPartyBooking = {
     name: data.thirdPartyBookingName,
+    url: data.thirdPartyBookingUrl,
   };
 
   const series = data.series
