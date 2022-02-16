@@ -51,7 +51,7 @@ function determineDateRange(times) {
   };
 }
 
-function determineDisplayTime(times: EventTime[]): EventTime {
+export function determineDisplayTime(times: EventTime[]): EventTime {
   const upcomingDates = times.filter(t => {
     return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });
