@@ -18,12 +18,12 @@ import {
 } from '@weco/common/services/prismic/parsers';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
 import {
-  parseEventSeries,
   determineDateRange,
   determineDisplayTime,
   getLastEndTime,
   parseEventBookingType,
 } from '@weco/common/services/prismic/events';
+import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
 
 export function transformEvent(
