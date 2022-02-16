@@ -33,7 +33,13 @@ export function parseEventBookingType(eventDoc: PrismicDocument): ?string {
     : null;
 }
 
-export function determineDateRange(times) {
+export function determineDateRange(
+  times: {
+    startDateTime: string,
+    endDateTime: string,
+    isFullyBooked: ?boolean,
+  }[]
+) {
   const startTimes = times
     .map(eventTime => {
       return london(eventTime.startDateTime);
