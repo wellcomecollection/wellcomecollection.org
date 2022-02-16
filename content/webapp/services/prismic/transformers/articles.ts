@@ -7,10 +7,38 @@ import {
   parseLabelType,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
-import { parseContentLink } from '@weco/common/services/prismic/articles';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { parseArticleSeries } from '@weco/common/services/prismic/article-series';
 import { london } from '@weco/common/utils/format-date';
+import {
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
+} from '../types';
+import { LinkField } from '@prismicio/types';
+import { MultiContent, transformMultiContent } from './multi-content';
+import { Weblink } from '@weco/common/model/weblinks';
+
+export function transformContentLink(
+  document?: LinkField
+): MultiContent | Weblink | undefined {
+  if (!document) {
+    return;
+  }
+
+  if (isFilledLinkToWebField(document)) {
+    return document.url
+      ? {
+          type: 'weblinks',
+          id: document.url,
+          url: document.url,
+        }
+      : undefined;
+  }
+
+  if (isFilledLinkToDocumentWithData(document)) {
+    return transformMultiContent(document);
+  }
+}
 
 export function transformArticle(document: ArticlePrismicDocument): Article {
   const { data } = document;
@@ -45,11 +73,11 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     ...article,
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     outroResearchLinkText: asText(data.outroResearchLinkText),
-    outroResearchItem: parseContentLink(data.outroResearchItem),
+    outroResearchItem: transformContentLink(data.outroResearchItem),
     outroReadLinkText: asText(data.outroReadLinkText),
-    outroReadItem: parseContentLink(data.outroReadItem),
+    outroReadItem: transformContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
-    outroVisitItem: parseContentLink(data.outroVisitItem),
+    outroVisitItem: transformContentLink(data.outroVisitItem),
     prismicDocument: document,
   };
 }
