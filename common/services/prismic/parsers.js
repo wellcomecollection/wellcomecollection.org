@@ -639,18 +639,28 @@ export function parseBody(fragment: PrismicFragment[]): BodyType {
           }
 
           if (embed.provider_name === 'YouTube') {
-            const embedUrl = slice.primary.embed.html.match(
-              /src="([-a-zA-Z0-9://.?=_]+)?/
-            )[1];
+            // The embed will be a blob of HTML of the form
+            //
+            //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
+            //
+            // We want to add the query parameter ?rel=0
+            const embedUrl =
+              slice.primary.embed.html.match(/src="([^"]+)"?/)[1];
+
             const embedUrlWithEnhancedPrivacy = embedUrl.replace(
               'www.youtube.com',
               'www.youtube-nocookie.com'
             );
+
+            const newEmbedUrl = embedUrl.includes('?')
+              ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
+              : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+
             return {
               type: 'videoEmbed',
               weight: getWeight(slice.slice_label),
               value: {
-                embedUrl: `${embedUrlWithEnhancedPrivacy}?rel=0`,
+                embedUrl: newEmbedUrl,
                 caption: slice.primary.caption,
               },
             };
