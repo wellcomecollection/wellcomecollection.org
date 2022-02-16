@@ -117,7 +117,6 @@ describe('CardGrid', () => {
         information: [],
       },
       exhibits: [],
-      galleryLevel: undefined,
       featuredImageList: [],
       resources: [],
       relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
