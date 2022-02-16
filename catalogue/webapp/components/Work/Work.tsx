@@ -40,7 +40,8 @@ const Work: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
 
-  const isArchive = work.parts.length > 0 || work.partOf.length > 0;
+  const isArchive =
+    work.parts.length || (work.partOf.length > 0 && work.partOf[0].totalParts);
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),

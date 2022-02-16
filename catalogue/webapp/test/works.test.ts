@@ -207,6 +207,7 @@ describe('getArchiveAncestorArray', () => {
     const archiveAncestorArray = getArchiveAncestorArray(workWithMixedPartOf);
     expect(archiveAncestorArray).toStrictEqual([
       {
+        id: 'f00dcafe',
         referenceNumber: 'a',
         title: 'An Archive Series',
         type: 'Series',
@@ -217,6 +218,7 @@ describe('getArchiveAncestorArray', () => {
         availabilities: [],
       },
       {
+        id: 'cafebeef',
         referenceNumber: 'a/b',
         title: 'An Archive Collection',
         type: 'Collection',
@@ -227,6 +229,7 @@ describe('getArchiveAncestorArray', () => {
         availabilities: [],
         partOf: [
           {
+            id: 'f00dcafe',
             referenceNumber: 'a',
             title: 'An Archive Series',
             type: 'Series',
