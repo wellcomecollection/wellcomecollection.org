@@ -8,17 +8,17 @@ import {
   asText,
   isDocumentLink,
   parseBoolean,
-  parseEventSeries,
   parseFormat,
   parseGenericFields,
   parseLabelTypeList,
   parsePlace,
-  parseSeason,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
+import { parseSeason } from '@weco/common/services/prismic/seasons';
 import {
+  parseEventSeries,
   determineDateRange,
   determineDisplayTime,
   getLastEndTime,
