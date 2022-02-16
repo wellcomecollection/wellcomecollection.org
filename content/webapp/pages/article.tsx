@@ -122,6 +122,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
+        
         const articlesInSeries =
           series &&
           (await fetchArticlesClientSide({
@@ -129,7 +130,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           }));
 
         const articles =
-          articlesInSeries?.results.map(doc => parseArticleDoc(doc)) ?? [];
+          articlesInSeries?.results.map(doc => transformArticle(doc)) ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);
