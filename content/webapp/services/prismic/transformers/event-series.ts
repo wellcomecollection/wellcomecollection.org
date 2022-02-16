@@ -1,16 +1,32 @@
-import { parseEventSeries } from '@weco/common/services/prismic/event-series';
-import { EventSeries as DeprecatedEventSeries } from '@weco/common/model/event-series';
 import { EventSeries } from '../../../types/event-series';
 import { EventSeriesPrismicDocument } from '../types/event-series';
+import {
+  parseGenericFields,
+  parseBackgroundTexture,
+} from '@weco/common/services/prismic/parsers';
+import { link } from './vendored-helpers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformEventSeries(
   document: EventSeriesPrismicDocument
 ): EventSeries {
-  const eventSeries: DeprecatedEventSeries = parseEventSeries(document);
+  const genericFields = parseGenericFields(document);
+  const backgroundTexture =
+    document.data.backgroundTexture &&
+    link(document.data.backgroundTexture) &&
+    document.data.backgroundTexture.data;
+  const labels = [
+    {
+      text: 'Event series',
+    },
+  ];
 
   return {
-    ...eventSeries,
+    ...genericFields,
+    type: 'event-series',
+    backgroundTexture: backgroundTexture
+      ? parseBackgroundTexture(backgroundTexture)
+      : null,
+    labels: labels,
     prismicDocument: document,
   };
 }

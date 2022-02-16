@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '@weco/common/model/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -30,6 +29,7 @@ import { transformContributors } from '../services/prismic/transformers/contribu
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from 'services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { transformArticle } from 'services/prismic/transformers/articles';
 
 type Props = {
   article: Article;
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
 
     if (articleDocument) {
-      const article = parseArticleDoc(articleDocument);
+      const article = transformArticle(articleDocument);
       return {
         props: removeUndefinedProps({
           article,
@@ -122,6 +122,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
+        
         const articlesInSeries =
           series &&
           (await fetchArticlesClientSide({
@@ -129,7 +130,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           }));
 
         const articles =
-          articlesInSeries?.results.map(doc => parseArticleDoc(doc)) ?? [];
+          articlesInSeries?.results.map(doc => transformArticle(doc)) ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);
