@@ -31,7 +31,7 @@ type Props = {
 function getLocationText(isOnline?: boolean, place?: Place): string {
   if (!isOnline) return 'In our building';
 
-  return `Online ${place ? '& In our building' : 'only'}`;
+  return `Online${place ? ' & In our building' : ''}`;
 }
 
 const EventPromo: FC<Props> = ({
