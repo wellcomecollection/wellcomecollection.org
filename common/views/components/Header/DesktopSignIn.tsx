@@ -95,7 +95,17 @@ const DesktopSignIn: FC = () => {
                 [font('hnr', 6)]: true,
               })}
             >
-              <AccountA as="a" href="/account">
+              <AccountA
+                as="a"
+                onClick={() => {
+                  trackEvent({
+                    category: 'library_account',
+                    action: 'click',
+                    label: window.location.pathname,
+                  });
+                }}
+                href="/account"
+              >
                 Library account
               </AccountA>
               <AccountA as="a" href="/account/api/auth/logout" last>

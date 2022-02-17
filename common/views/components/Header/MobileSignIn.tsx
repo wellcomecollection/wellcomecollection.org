@@ -77,7 +77,18 @@ const MobileSignIn: FC = () => {
       )}
       {user && (
         <>
-          <a href="/account">Library account</a>
+          <a
+            href="/account"
+            onClick={() => {
+              trackEvent({
+                category: 'library_account',
+                action: 'click',
+                label: window.location.pathname,
+              });
+            }}
+          >
+            Library account
+          </a>
           <a href="/account/api/auth/logout">Sign out</a>
         </>
       )}
