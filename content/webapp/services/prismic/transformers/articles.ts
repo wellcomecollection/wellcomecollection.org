@@ -17,6 +17,8 @@ import { Weblink } from '@weco/common/model/weblinks';
 import { transformSeries } from './series';
 import { transformSeason } from './seasons';
 import { transformGenericFields } from '.';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 
 export function transformContentLink(
   document?: LinkField
@@ -63,21 +65,22 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   };
 
   const labels = [
-    article.format ? { text: article.format.title || '' } : null,
+    article.format ? { text: article.format.title || '' } : undefined,
     article.series.find(series => series.schedule.length > 0)
       ? { text: 'Serial' }
-      : null,
-  ].filter(Boolean);
+      : undefined,
+  ].filter(isNotUndefined);
 
   return {
     ...article,
+    type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     outroResearchLinkText: asText(data.outroResearchLinkText),
-    outroResearchItem: transformContentLink(data.outroResearchItem),
+    outroResearchItem: transformContentLink(data.outroResearchItem) as (DeprecatedMultiContent | undefined),
     outroReadLinkText: asText(data.outroReadLinkText),
-    outroReadItem: transformContentLink(data.outroReadItem),
+    outroReadItem: transformContentLink(data.outroReadItem) as (DeprecatedMultiContent | undefined),
     outroVisitLinkText: asText(data.outroVisitLinkText),
-    outroVisitItem: transformContentLink(data.outroVisitItem),
+    outroVisitItem: transformContentLink(data.outroVisitItem) as (DeprecatedMultiContent | undefined),
     prismicDocument: document,
   };
 }
