@@ -21,6 +21,7 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
+import { link } from '../transformers/vendored-helpers';
 
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
@@ -225,5 +226,5 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return field.link_type === 'Web' && 'url' in field;
+  return link(field) && field.link_type === 'Web' && 'url' in field;
 }

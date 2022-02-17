@@ -6,7 +6,6 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { Query } from '@prismicio/types';
 import {
   asText,
-  isDocumentLink,
   parseBoolean,
   parseFormat,
   parseGenericFields,
@@ -25,6 +24,7 @@ import {
 } from '@weco/common/services/prismic/events';
 import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
+import { isDocumentLink } from '.';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -77,21 +77,24 @@ export function transformEvent(
     )
     .filter(Boolean);
 
-  const bookingEnquiryTeam: Team | undefined =
-    data.bookingEnquiryTeam && link(data.bookingEnquiryTeam)
-      ? {
-          id: data.bookingEnquiryTeam.id,
-          title: asText(data.bookingEnquiryTeam.data?.title) || '',
-          email: data.bookingEnquiryTeam.data!.email!,
-          phone: data.bookingEnquiryTeam.data!.phone!,
-          url: data.bookingEnquiryTeam.data!.url!,
-        }
-      : undefined;
+  const bookingEnquiryTeam: Team | undefined = isDocumentLink(
+    data.bookingEnquiryTeam
+  )
+    ? {
+        id: data.bookingEnquiryTeam.id,
+        title: asText(data.bookingEnquiryTeam.data?.title) || '',
+        email: data.bookingEnquiryTeam.data!.email!,
+        phone: data.bookingEnquiryTeam.data!.phone!,
+        url: data.bookingEnquiryTeam.data!.url!,
+      }
+    : undefined;
 
-  const thirdPartyBooking = {
-    name: data.thirdPartyBookingName,
-    url: data.thirdPartyBookingUrl,
-  };
+  const thirdPartyBooking = data.thirdPartyBookingName
+    ? {
+        name: data.thirdPartyBookingName,
+        url: data.thirdPartyBookingUrl,
+      }
+    : undefined;
 
   const series = data.series
     .map(series =>

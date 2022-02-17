@@ -9,6 +9,14 @@ import {
   isFilledLinkToDocumentWithData,
   WithArticleFormat,
 } from '../types';
+import type {
+  AnyRegularField,
+  FilledLinkToDocumentField,
+  GroupField,
+  RelationField,
+  SliceZone,
+} from '@prismicio/types';
+import { link } from './vendored-helpers';
 
 type Meta = {
   title: string;
@@ -90,3 +98,18 @@ export function transformRichTextField(field: RichTextField) {
 export function transformRichTextFieldToString(field: RichTextField) {
   return field && field.length > 0 ? prismicH.asText(field) : undefined;
 }
+
+export const isDocumentLink = <
+  TypeEnum = string,
+  LangEnum = string,
+  DataInterface extends Record<
+    string,
+    AnyRegularField | GroupField | SliceZone
+  > = never
+>(
+  field: RelationField<TypeEnum, LangEnum, DataInterface> | undefined
+): field is FilledLinkToDocumentField<TypeEnum, LangEnum, DataInterface> => {
+  return Boolean(
+    field && link(field) && field.isBroken === false && field.data
+  );
+};
