@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import moment from 'moment';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -26,13 +27,13 @@ type Props = {
   fromDate?: moment.Moment;
 };
 
-const EventPromo = ({
+const EventPromo: FC<Props> = ({
   event,
   position = 0,
   dateString,
   timeString,
   fromDate,
-}: Props) => {
+}) => {
   const fullyBooked = isEventFullyBooked(event);
   const isPast = event.isPast;
   return (
