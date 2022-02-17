@@ -71,8 +71,8 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
