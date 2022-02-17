@@ -4,17 +4,17 @@ import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
 import {
   parseFormat,
-  parseGenericFields,
   parseOnThisPage,
   parseSingleLevelGroup,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { transformGenericFields } from '.';
 
 export function transformPage(document: PagePrismicDocument): Page {
   const { data } = document;
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return parseSeason(season);
   });
@@ -41,7 +41,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     parentPages,
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
-    promo: promo && promo.image ? promo : null,
+    promo: promo && promo.image ? promo : undefined,
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     siteSection: siteSection,
     prismicDocument: document,

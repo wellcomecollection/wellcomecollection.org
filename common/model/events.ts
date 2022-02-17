@@ -75,6 +75,11 @@ export type EventSchedule = {
   isNotLinked: boolean;
 }[];
 
+export type ThirdPartyBooking = {
+  name?: string;
+  url: string;
+};
+
 export type Event = GenericContentFields & {
   format?: Format;
   hasEarlyRegistration: boolean;
@@ -90,10 +95,7 @@ export type Event = GenericContentFields & {
   bookingInformation?: HTMLString;
   cost?: string;
   bookingType?: string;
-  thirdPartyBooking?: {
-    name?: string;
-    url: string;
-  };
+  thirdPartyBooking?: ThirdPartyBooking;
   scheduleLength: number;
   schedule?: EventSchedule;
   eventbriteId?: string;
