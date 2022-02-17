@@ -77,15 +77,16 @@ export function transformEvent(
     )
     .filter(Boolean);
 
-  const bookingEnquiryTeam: Team | undefined = link(data.bookingEnquiryTeam)
-    ? {
-        id: data.bookingEnquiryTeam.id,
-        title: asText(data.bookingEnquiryTeam.data?.title) || '',
-        email: data.bookingEnquiryTeam.data!.email!,
-        phone: data.bookingEnquiryTeam.data!.phone!,
-        url: data.bookingEnquiryTeam.data!.url!,
-      }
-    : undefined;
+  const bookingEnquiryTeam: Team | undefined =
+    data.bookingEnquiryTeam && link(data.bookingEnquiryTeam)
+      ? {
+          id: data.bookingEnquiryTeam.id,
+          title: asText(data.bookingEnquiryTeam.data?.title) || '',
+          email: data.bookingEnquiryTeam.data!.email!,
+          phone: data.bookingEnquiryTeam.data!.phone!,
+          url: data.bookingEnquiryTeam.data!.url!,
+        }
+      : undefined;
 
   const thirdPartyBooking = {
     name: data.thirdPartyBookingName,
