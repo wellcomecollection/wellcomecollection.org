@@ -32,6 +32,9 @@ const events: CustomType = {
         isFullyBooked: booleanDeprecated('Fully booked'),
       }),
       body,
+      locations: list('Locations', {
+        location: link('Location', 'document', ['places']),
+      }),
     },
     Access: {
       isRelaxedPerformance: booleanDeprecated('Relaxed'),
