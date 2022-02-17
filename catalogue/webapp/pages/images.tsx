@@ -269,6 +269,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
+        serverData,
         images,
         imagesRouteProps: params,
         pageview: {
