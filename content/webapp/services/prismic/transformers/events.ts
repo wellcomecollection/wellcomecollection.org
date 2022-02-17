@@ -89,10 +89,12 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking = {
-    name: data.thirdPartyBookingName,
-    url: data.thirdPartyBookingUrl,
-  };
+  const thirdPartyBooking = data.thirdPartyBookingName
+    ? {
+        name: data.thirdPartyBookingName,
+        url: data.thirdPartyBookingUrl,
+      }
+    : undefined;
 
   const series = data.series
     .map(series =>
