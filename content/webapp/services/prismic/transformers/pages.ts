@@ -7,9 +7,9 @@ import {
   parseGenericFields,
   parseOnThisPage,
   parseSingleLevelGroup,
-  parseSeason,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
+import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 
 export function transformPage(document: PagePrismicDocument): Page {
