@@ -21,11 +21,10 @@ afterAll(() => {
 });
 
 test('healthcheck', async () => {
-  const resp = request
-    ? await Promise.race([
-        new Promise(resolve => setTimeout(resolve({ status: 408 }), 5000)),
-        request.get('/works/management/healthcheck'),
-      ])
-    : { status: 500 };
-  expect(resp.status).toEqual(200);
+  await request
+    .get('/works/management/healthcheck')
+    .expect(200)
+    .then(response => {
+      expect(response.text).toEqual('ok');
+    });
 });
