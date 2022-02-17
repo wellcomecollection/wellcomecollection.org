@@ -14,6 +14,9 @@ import {
 } from '@weco/common/views/components/Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { location } from '@weco/common/icons';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 type Props = {
   event: UiEvent;
@@ -80,9 +83,20 @@ const EventPromo = ({
           </Space>
 
           {event.isOnline && !event.availableOnline && (
-            <LabelsList
-              labels={[{ text: 'Online', labelColor: 'transparent' }]}
-            />
+            <Space
+              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+              className={classNames({
+                [font('hnr', 5)]: true,
+                'flex flex--v-center': true,
+              })}
+            >
+              <Icon icon={location} matchText />
+              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+                <AlignFont>
+                  Online {event.place ? ' & In our building' : 'only'}
+                </AlignFont>
+              </Space>
+            </Space>
           )}
 
           {event.availableOnline && (
