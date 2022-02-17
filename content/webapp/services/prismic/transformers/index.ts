@@ -9,6 +9,15 @@ import {
   isFilledLinkToDocumentWithData,
   WithArticleFormat,
 } from '../types';
+import {
+  asText,
+  checkAndParseImage,
+  parseBody,
+  parseImagePromo,
+  parseTitle,
+} from '@weco/common/services/prismic/parsers';
+import { GenericContentFields } from '@weco/common/model/generic-content-fields';
+import { ImageType } from '@weco/common/model/image';
 
 type Meta = {
   title: string;
@@ -89,4 +98,55 @@ export function transformRichTextField(field: RichTextField) {
 // we created titles as `RichTextField`s.
 export function transformRichTextFieldToString(field: RichTextField) {
   return field && field.length > 0 ? prismicH.asText(field) : undefined;
+}
+
+type PromoImage = {
+  image?: ImageType;
+  squareImage?: ImageType;
+  widescreenImage?: ImageType;
+  superWidescreenImage?: ImageType;
+};
+
+export function transformGenericFields(doc: Doc): GenericContentFields {
+  const { data } = doc;
+  const promo = data.promo && parseImagePromo(data.promo);
+
+  const promoImage: PromoImage =
+    data.promo && data.promo.length > 0
+      ? data.promo
+          .filter(slice => slice.primary.image)
+          .map(({ primary: { image } }) => {
+            return {
+              image: checkAndParseImage(image),
+              squareImage: checkAndParseImage(image.square),
+              widescreenImage: checkAndParseImage(image['16:9']),
+              superWidescreenImage: checkAndParseImage(image['32:15']),
+            };
+          })
+          .find(_ => _) || {}
+      : {}; // just get the first one;
+
+  const { image, squareImage, widescreenImage, superWidescreenImage } =
+    promoImage;
+  const body = data.body ? parseBody(data.body) : [];
+  const standfirst = body.find(slice => slice.type === 'standfirst');
+  const metadataDescription = asText(data.metadataDescription);
+
+  return {
+    id: doc.id,
+    title: parseTitle(data.title),
+    body: body,
+    standfirst: standfirst && standfirst.value,
+    promo: promo,
+    promoText: promo && promo.caption,
+    promoImage: promo && promo.image,
+    image,
+    squareImage,
+    widescreenImage,
+    superWidescreenImage,
+    metadataDescription,
+    // we pass an empty array here to be overriden by each content type
+    // TODO: find a way to enforce this.
+    labels: [],
+  };
 }

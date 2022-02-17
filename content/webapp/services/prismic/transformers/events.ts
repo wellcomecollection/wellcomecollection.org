@@ -9,7 +9,6 @@ import {
   isDocumentLink,
   parseBoolean,
   parseFormat,
-  parseGenericFields,
   parseLabelTypeList,
   parsePlace,
   parseSingleLevelGroup,
@@ -25,6 +24,7 @@ import {
 } from '@weco/common/services/prismic/events';
 import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
+import { transformGenericFields } from '.';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -34,7 +34,7 @@ export function transformEvent(
   const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const eventSchedule =
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))

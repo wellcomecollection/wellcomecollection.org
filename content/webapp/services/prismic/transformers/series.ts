@@ -3,15 +3,15 @@ import { SeriesPrismicDocument } from '../types/series';
 import {
   asText,
   isStructuredText,
-  parseGenericFields,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
 import { london } from '@weco/common/utils/dates';
+import { transformGenericFields } from '.';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const standfirst = genericFields.standfirst || null;
   const color = data.color;
   const schedule = data.schedule

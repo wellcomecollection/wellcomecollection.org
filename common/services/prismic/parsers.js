@@ -747,25 +747,11 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
       ? data.promo
           .filter(slice => slice.primary.image)
           .map(({ primary: { image } }) => {
-            const originalImage = isImageLink(image) && parseImage(image);
-            const squareImage =
-              image.square &&
-              isImageLink(image.square) &&
-              parseImage(image.square);
-            const widescreenImage =
-              image['16:9'] &&
-              isImageLink(image['16:9']) &&
-              parseImage(image['16:9']);
-            const superWidescreenImage =
-              image['32:15'] &&
-              isImageLink(image['32:15']) &&
-              parseImage(image['32:15']);
-
             return {
-              image: originalImage,
-              squareImage,
-              widescreenImage,
-              superWidescreenImage,
+              image: checkAndParseImage(image),
+              squareImage: checkAndParseImage(image.square),
+              widescreenImage: checkAndParseImage(image['16:9']),
+              superWidescreenImage: checkAndParseImage(image['32:15']),
             };
           })
           .find(_ => _)

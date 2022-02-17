@@ -1,21 +1,23 @@
 import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
-import { transformKeyTextField, transformRichTextFieldToString } from '.';
+import {
+  transformGenericFields,
+  transformKeyTextField,
+  transformRichTextFieldToString,
+} from '.';
 import { isFilledLinkToWebField } from '../types';
 import {
   asHtml,
-  parseGenericFields,
   parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseSeason,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
 
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   // We do this over the general parser as we want the not 16:9 image.
   const cover =
     data.promo &&
@@ -37,13 +39,12 @@ export function transformBook(document: BookPrismicDocument): Book {
     format: transformKeyTextField(data.format),
     extent: transformKeyTextField(data.extent),
     isbn: transformKeyTextField(data.isbn),
-    reviews:
-      data.reviews?.map(review => {
-        return {
-          text: review.text && asHtml(review.text),
-          citation: review.citation && asHtml(review.citation),
-        };
-      }),
+    reviews: data.reviews?.map(review => {
+      return {
+        text: review.text && asHtml(review.text),
+        citation: review.citation && asHtml(review.citation),
+      };
+    }),
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     cover: cover && cover.image,
     seasons,

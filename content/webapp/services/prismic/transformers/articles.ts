@@ -3,7 +3,6 @@ import { ArticlePrismicDocument } from '../types/articles';
 import {
   asText,
   isDocumentLink,
-  parseGenericFields,
   parseLabelType,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
@@ -17,6 +16,7 @@ import { MultiContent, transformMultiContent } from './multi-content';
 import { Weblink } from '@weco/common/model/weblinks';
 import { transformSeries } from './series';
 import { transformSeason } from './seasons';
+import { transformGenericFields } from '.';
 
 export function transformContentLink(
   document?: LinkField
@@ -51,7 +51,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
 
   const article = {
     type: 'articles',
-    ...parseGenericFields(document),
+    ...transformGenericFields(document),
     format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
     datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {

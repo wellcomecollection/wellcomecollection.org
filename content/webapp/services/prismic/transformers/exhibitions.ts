@@ -16,7 +16,6 @@ import {
   isDocumentLink,
   isEmptyHtmlString,
   parseBoolean,
-  parseGenericFields,
   parseImagePromo,
   parsePlace,
   parsePromoToCaptionedImage,
@@ -32,11 +31,12 @@ import {
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
+import { transformGenericFields } from '.';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
 ): Exhibition {
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const data = document.data;
   const promo = data.promo;
   const exhibits = data.exhibits

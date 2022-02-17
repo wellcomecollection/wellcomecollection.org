@@ -3,17 +3,17 @@ import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
 import {
   parseFormat,
-  parseGenericFields,
   parseOnThisPage,
   parseSingleLevelGroup,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformSeason } from './seasons';
+import { transformGenericFields } from '.';
 
 export function transformPage(document: PagePrismicDocument): Page {
   const { data } = document;
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return transformSeason(season);
   });
