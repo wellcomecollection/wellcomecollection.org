@@ -25,7 +25,7 @@ import type {
   ExhibitionFormat,
 } from '../../model/exhibitions';
 
-function parseResourceTypeList(
+export function parseResourceTypeList(
   fragment: PrismicFragment[],
   labelKey: string
 ): Resource[] {
@@ -55,7 +55,7 @@ export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
     : undefined;
 }
 
-function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
+export function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
   return document
     .map(exhibit => {
       if (exhibit.item.type === 'exhibitions' && !exhibit.item.isBroken) {
@@ -139,7 +139,6 @@ export function parseExhibitionDoc(document: PrismicDocument): UiExhibition {
       end,
       statusOverride,
     },
-    galleryLevel: document.data.galleryLevel,
     featuredImageList: promos,
     resources: Array.isArray(data.resources)
       ? parseResourceTypeList(data.resources, 'resource')

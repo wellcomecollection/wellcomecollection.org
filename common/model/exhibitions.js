@@ -38,7 +38,6 @@ export type Exhibition = {|
 export type UiExhibition = {|
   ...Exhibition,
   ...{|
-    galleryLevel: number, // this should be deprecated for place
     featuredImageList: Picture[],
     exhibits: {|
       exhibitType: 'exhibitions',

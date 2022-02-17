@@ -39,6 +39,8 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     end: TimestampField;
     isPermanent: SelectField<'yes'>;
     statusOverride: RichTextField;
+    bslInfo: RichTextField;
+    audioDescriptionInfo: RichTextField;
     place: RelationField<'place'>;
     exhibits: GroupField<{
       item: RelationField<'exhibitions'>;

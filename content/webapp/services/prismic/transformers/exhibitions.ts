@@ -1,5 +1,3 @@
-import { parseExhibitionDoc } from '@weco/common/services/prismic/exhibitions';
-import { Exhibition as DeprecatedExhibition } from '@weco/common/model/exhibitions';
 import {
   Exhibition,
   ExhibitionRelatedContent,
@@ -13,17 +11,123 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
+import {
+  asText,
+  isDocumentLink,
+  isEmptyHtmlString,
+  parseBoolean,
+  parseGenericFields,
+  parseImagePromo,
+  parsePlace,
+  parsePromoToCaptionedImage,
+  parseSingleLevelGroup,
+  parseTimestamp,
+  parseTitle,
+} from '@weco/common/services/prismic/parsers';
+import { link } from './vendored-helpers';
+import { breakpoints } from '@weco/common/utils/breakpoints';
+import {
+  parseExhibitionFormat,
+  parseExhibits,
+  parseResourceTypeList,
+} from '@weco/common/services/prismic/exhibitions';
+import { parseSeason } from '@weco/common/services/prismic/seasons';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformExhibition(
   document: ExhibitionPrismicDocument
 ): Exhibition {
-  const exhibition: DeprecatedExhibition = parseExhibitionDoc(document);
+  const genericFields = parseGenericFields(document);
+  const data = document.data;
+  const promo = data.promo;
+  const exhibits = data.exhibits
+    ? data.exhibits.map(i => link(i.item) && i.item.id)
+    : [];
+  const events = data.events
+    ? data.events.map(i => link(i.item) && i.item.id)
+    : [];
+  const articles = data.articles
+    ? data.articles.map(i => link(i.item) && i.item.id)
+    : [];
+  const relatedIds = [...exhibits, ...events, ...articles].filter(Boolean);
+  const promoThin =
+    promo && parseImagePromo(promo, '32:15', breakpoints.medium);
+  const promoSquare =
+    promo && parseImagePromo(promo, 'square', breakpoints.small);
 
-  return {
-    ...exhibition,
+  const promos = [promoThin, promoSquare]
+    .filter(Boolean)
+    .map(p => p.image)
+    .filter(Boolean);
+
+  const id = document.id;
+  const format = data.format && parseExhibitionFormat(data.format);
+  const url = `/exhibitions/${id}`;
+  const title = parseTitle(data.title);
+  const start = parseTimestamp(data.start);
+  const end = data.end && parseTimestamp(data.end);
+  const statusOverride = asText(data.statusOverride);
+  const bslInfo = isEmptyHtmlString(data.bslInfo) ? undefined : data.bslInfo;
+  const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
+    ? undefined
+    : data.audioDescriptionInfo;
+  const promoImage =
+    promo && promo.length > 0
+      ? parsePromoToCaptionedImage(data.promo)
+      : undefined;
+
+  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
+    return parseSeason(season);
+  });
+
+  const exhibition = {
+    ...genericFields,
+    type: 'exhibitions',
+    shortTitle: data.shortTitle && asText(data.shortTitle),
+    format: format,
+    start: start,
+    end: end,
+    isPermanent: parseBoolean(data.isPermanent),
+    statusOverride: statusOverride,
+    bslInfo: bslInfo,
+    audioDescriptionInfo: audioDescriptionInfo,
+    place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
+    exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
+    promo: promoImage && {
+      id,
+      format,
+      url,
+      title,
+      shortTitle: data.shortTitle && asText(data.shortTitle),
+      image: promoImage && promoImage.image,
+      squareImage: promoSquare && promoSquare.image,
+      start,
+      end,
+      statusOverride,
+    },
+    featuredImageList: promos,
+    resources: Array.isArray(data.resources)
+      ? parseResourceTypeList(data.resources, 'resource')
+      : [],
+    relatedIds,
+    seasons,
     prismicDocument: document,
   };
+
+  const labels = exhibition.isPermanent
+    ? [
+        {
+          text: 'Permanent exhibition',
+        },
+      ]
+    : exhibition.format
+    ? [
+        {
+          text: exhibition.format.title,
+        },
+      ]
+    : [{ text: 'Exhibition' }];
+
+  return { ...exhibition, labels };
 }
 
 export function transformExhibitionsQuery(
