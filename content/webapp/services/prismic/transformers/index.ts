@@ -85,19 +85,38 @@ export function transformFormat(document: PrismicDocument<WithArticleFormat>) {
 }
 
 // This is to avoid introducing nulls into our codebase
-export function transformKeyTextField(field: KeyTextField) {
+export function transformKeyTextField(
+  field: KeyTextField
+): KeyTextField | undefined {
   return field ?? undefined;
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out
-export function transformRichTextField(field: RichTextField) {
+export function transformRichTextField(
+  field: RichTextField
+): RichTextField | undefined {
   return field && field.length > 0 ? field : undefined;
 }
 
 // We have to use this annoyingly often as right at the beginning of the project
 // we created titles as `RichTextField`s.
-export function transformRichTextFieldToString(field: RichTextField) {
+export function transformRichTextFieldToString(
+  field: RichTextField
+): string | undefined {
   return field && field.length > 0 ? prismicH.asText(field) : undefined;
+}
+
+export function asText(maybeContent?: RichTextField): string | undefined {
+  return maybeContent && prismicH.asText(maybeContent).trim();
+}
+
+export function transformTitle(field: RichTextField): string {
+  // We always need a title - blunt validation, but validation none the less
+  return asText(field) || '';
+}
+
+export function transformBoolean(fragment: 'yes' | null): boolean {
+  return fragment === 'yes';
 }
 
 type PromoImage = {
@@ -130,7 +149,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     promoImage;
   const body = data.body ? parseBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
-  const metadataDescription = asText(data.metadataDescription);
+  const metadataDescription = data.metadataDescription || undefined;
 
   return {
     id: doc.id,

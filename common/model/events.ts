@@ -33,6 +33,7 @@ export type UiEventSeries = EventSeries & {
 type InterpretationType = {
   id: string;
   title: string;
+  abbreviation?: string;
   description?: HTMLString;
   primaryDescription?: HTMLString;
 };

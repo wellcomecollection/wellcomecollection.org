@@ -1,11 +1,10 @@
-import { Team } from '@weco/common/model/events';
+import { Audience, Interpretation, Team } from '@weco/common/model/events';
 import { Event } from '../../../types/events';
 import { EventPrismicDocument } from '../types/events';
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Query } from '@prismicio/types';
 import {
-  asText,
   isDocumentLink,
   parseBoolean,
   parseFormat,
@@ -13,7 +12,6 @@ import {
   parsePlace,
   parseSingleLevelGroup,
   parseTimestamp,
-  parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
 import {
@@ -24,7 +22,13 @@ import {
 } from '@weco/common/services/prismic/events';
 import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
-import { transformGenericFields } from '.';
+import {
+  asText,
+  transformBoolean,
+  transformGenericFields,
+  transformTitle,
+} from '.';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -39,25 +43,32 @@ export function transformEvent(
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))
       : [];
-  const interpretations = data.interpretations
+  const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
-      link(interpretation.interpretationType)
+      link(interpretation.interpretationType) &&
+      interpretation.interpretationType.data
         ? {
             interpretationType: {
-              title: parseTitle(interpretation.interpretationType.data?.title),
-              abbreviation: asText(
-                interpretation.interpretationType.data?.abbreviation
+              id: interpretation.interpretationType.id,
+              title: transformTitle(
+                interpretation.interpretationType.data.title
               ),
-              description: interpretation.interpretationType.data?.description,
-              primaryDescription:
-                interpretation.interpretationType.data?.primaryDescription,
+              abbreviation: asText(
+                interpretation.interpretationType.data.abbreviation
+              ),
+              description: interpretation.interpretationType.data
+                .description as HTMLString | undefined,
+              primaryDescription: interpretation.interpretationType.data
+                .primaryDescription as HTMLString | undefined,
             },
-            isPrimary: Boolean(interpretation.isPrimary),
-            extraInformation: interpretation.extraInformation,
+            isPrimary: transformBoolean(interpretation.isPrimary),
+            extraInformation: interpretation.extraInformation as
+              | HTMLString
+              | undefined,
           }
-        : null
+        : undefined
     )
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const matchedId =
     data.eventbriteEvent && data.eventbriteEvent.url
@@ -66,16 +77,17 @@ export function transformEvent(
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
-  const audiences = data.audiences
+  const audiences: Audience[] = data.audiences
     .map(audience =>
-      link(audience.audience)
+      link(audience.audience) && audience.audience.data
         ? {
-            title: asText(audience.audience.data?.title),
-            description: audience.audience.data?.description,
+            id: audience.audience.id,
+            title: transformTitle(audience.audience.data.title),
+            description: audience.audience.data.description as HTMLString,
           }
-        : null
+        : undefined
     )
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const bookingEnquiryTeam: Team | undefined = link(data.bookingEnquiryTeam)
     ? {
@@ -88,8 +100,13 @@ export function transformEvent(
     : undefined;
 
   const thirdPartyBooking = {
-    name: data.thirdPartyBookingName,
-    url: data.thirdPartyBookingUrl,
+    name: data.thirdPartyBookingName || undefined,
+
+    // This should always be defined; this slightly awkward construction
+    // is to satisfy the type system.
+    url: (link(data.thirdPartyBookingUrl)
+      ? data.thirdPartyBookingUrl.url
+      : undefined) as string,
   };
 
   const series = data.series
@@ -138,13 +155,13 @@ export function transformEvent(
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
     bookingEnquiryTeam,
-    thirdPartyBooking: thirdPartyBooking,
+    thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
-        ? data.bookingInformation
-        : null,
+        ? (data.bookingInformation as HTMLString)
+        : undefined,
     bookingType: parseEventBookingType(document),
-    cost: data.cost,
+    cost: data.cost ? data.cost : undefined,
     format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
@@ -156,13 +173,13 @@ export function transformEvent(
     scheduleLength,
     schedule,
     backgroundTexture:
-      link(data.backgroundTexture) &&
-      data.backgroundTexture.data &&
-      data.backgroundTexture.data.image.url,
+      link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
+        ? data.backgroundTexture.data.image.url
+        : undefined,
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
-    ticketSalesStart: data.ticketSalesStart,
+    ticketSalesStart: parseTimestamp(data.ticketSalesStart),
     times: times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
@@ -213,7 +230,7 @@ export function transformEvent(
   ];
   const secondaryLabels = [...eventInterpretations];
 
-  return { ...event, labels, primaryLabels, secondaryLabels };
+  return { ...event, type: 'events', labels, primaryLabels, secondaryLabels };
 }
 
 export const getScheduleIds = (
