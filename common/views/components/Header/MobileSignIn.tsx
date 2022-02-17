@@ -6,6 +6,7 @@ import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { useUser } from '../UserProvider/UserProvider';
 import { user as userIcon } from '../../../icons';
+import { trackEvent } from '../../../utils/ga';
 
 const StyledComponent = styled.div.attrs({
   className: classNames({
@@ -61,7 +62,18 @@ const MobileSignIn: FC = () => {
         <Icon icon={userIcon} matchText={true} />
       </Space>
       {!user && (
-        <a href="/account/api/auth/login">Sign in to your library account</a>
+        <a
+          href="/account/api/auth/login"
+          onClick={() => {
+            trackEvent({
+              category: 'library_login',
+              action: 'click',
+              label: window.location.pathname,
+            });
+          }}
+        >
+          Sign in to your library account
+        </a>
       )}
       {user && (
         <>

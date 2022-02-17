@@ -6,6 +6,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Space from '../styled/Space';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import { user as userIcon } from '../../../icons';
+import { trackEvent } from '../../../utils/ga';
 
 type AccountAProps = {
   last?: true;
@@ -44,6 +45,13 @@ const DesktopSignIn: FC = () => {
                 </span>
               }
               href="/account/api/auth/login"
+              onClick={() => {
+                trackEvent({
+                  category: 'library_login',
+                  action: 'click',
+                  label: window.location.pathname,
+                });
+              }}
             />
           </span>
           <span
