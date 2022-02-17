@@ -17,14 +17,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
-  console.log('hello');
-  const mockExit = jest.spyOn(process, 'exit').mockImplementation((() => {
-    // never
-  }) as () => never);
-
-  server?.close();
-  expect(mockExit).toHaveBeenCalledWith(0);
-  mockExit.mockClear();
+  server.close();
 });
 
 test('healthcheck', async () => {
