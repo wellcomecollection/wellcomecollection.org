@@ -29,7 +29,7 @@ type Props = {
 };
 
 function getLocationText(isOnline?: boolean, place?: Place): string {
-  if (!isOnline) return 'In our building';
+  if (!isOnline && place) return place.title;
 
   return `Online${place ? ' & In our building' : ''}`;
 }
@@ -90,20 +90,22 @@ const EventPromo: FC<Props> = ({
             {event.title}
           </Space>
 
-          <Space
-            v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-            className={classNames({
-              [font('hnr', 5)]: true,
-              'flex flex--v-center': true,
-            })}
-          >
-            <Icon icon={location} matchText />
-            <Space h={{ size: 'xs', properties: ['margin-left'] }}>
-              <AlignFont>
-                {getLocationText(event.isOnline, event.place)}
-              </AlignFont>
+          {(event.isOnline || event.place) && (
+            <Space
+              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+              className={classNames({
+                [font('hnr', 5)]: true,
+                'flex flex--v-center': true,
+              })}
+            >
+              <Icon icon={location} matchText />
+              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+                <AlignFont>
+                  {getLocationText(event.isOnline, event.place)}
+                </AlignFont>
+              </Space>
             </Space>
-          </Space>
+          )}
 
           {event.availableOnline && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
