@@ -21,7 +21,7 @@
 # used again later in the "deploy Cardigan" step.
 #
 - label: ":docker: build cardigan"
-  key: "build_cardigan"
+  key: "build_cardigan_main"
   if: build.branch == "main"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -33,7 +33,7 @@
           - cardigan
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 - label: ":docker: build cardigan"
-  key: "build_cardigan"
+  key: "build_cardigan_pr"
   if: build.branch != "main"
   script: docker-compose build cardigan
 
