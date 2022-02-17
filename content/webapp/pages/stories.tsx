@@ -8,7 +8,6 @@ import { ArticleSeries } from '@weco/common/model/article-series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { staticBooks } from '../data/static-books';
 import {
   prismicPageIds,
   featuredStoriesSeriesId,
@@ -32,6 +31,7 @@ import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
+import { fetchFeaturedBooks } from '../services/prismic/fetch/featured-books';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from '../services/prismic/fetch/pages';
@@ -40,12 +40,15 @@ import {
   booksPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
 import * as prismic from 'prismic-client-beta';
-import { transformArticleSeries } from 'services/prismic/transformers/article-series';
+import { transformArticleSeries } from '../services/prismic/transformers/article-series';
+import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
+import { Book } from '../types/books';
 
 type Props = {
   articles: Article[];
   series: ArticleSeries;
   featuredText?: FeaturedTextType;
+  featuredBooks: Book[];
 };
 
 const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
@@ -93,6 +96,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client);
+    const featuredBooksPromise = fetchFeaturedBooks(client);
 
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
@@ -109,13 +113,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 100,
     });
 
-    const [articlesQuery, featuredSeriesArticles, storiesPage] =
-      await Promise.all([
-        articlesQueryPromise,
-        featuredSeriesArticlesQueryPromise,
-        storiesPagePromise,
-      ]);
+    const [
+      articlesQuery,
+      featuredSeriesArticles,
+      storiesPage,
+      featuredBooksDoc,
+    ] = await Promise.all([
+      articlesQueryPromise,
+      featuredSeriesArticlesQueryPromise,
+      storiesPagePromise,
+      featuredBooksPromise,
+    ]);
     const articles = transformQuery(articlesQuery, transformArticle);
+    const featuredBooks = transformFeaturedBooks(featuredBooksDoc);
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(
@@ -131,6 +141,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           series,
           featuredText,
           serverData,
+          featuredBooks,
         }),
       };
     } else {
@@ -138,7 +149,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
+const StoriesPage: FC<Props> = ({
+  series,
+  articles,
+  featuredText,
+  featuredBooks,
+}) => {
   const firstArticle = articles[0];
 
   return (
@@ -249,7 +265,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid
-            items={staticBooks}
+            items={featuredBooks}
             itemsPerRow={3}
             links={[{ text: 'More books', url: '/books' }]}
           />
