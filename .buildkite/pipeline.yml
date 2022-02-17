@@ -35,7 +35,7 @@
 - label: ":docker: build cardigan"
   key: "build_cardigan_pr"
   if: build.branch != "main"
-  script: docker-compose build cardigan
+  command: docker-compose build cardigan
 
 - label: ":docker: build catalogue"
   key: "build_catalogue"
