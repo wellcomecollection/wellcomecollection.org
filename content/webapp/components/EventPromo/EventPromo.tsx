@@ -18,6 +18,7 @@ import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { Place } from '@weco/common/model/places';
 
 type Props = {
   event: UiEvent;
@@ -26,6 +27,12 @@ type Props = {
   timeString?: string;
   fromDate?: moment.Moment;
 };
+
+function getLocationText(isOnline?: boolean, place?: Place): string {
+  if (!isOnline) return 'In our building';
+
+  return `Online ${place ? '& In our building' : 'only'}`;
+}
 
 const EventPromo: FC<Props> = ({
   event,
@@ -83,22 +90,20 @@ const EventPromo: FC<Props> = ({
             {event.title}
           </Space>
 
-          {event.isOnline && !event.availableOnline && (
-            <Space
-              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-              className={classNames({
-                [font('hnr', 5)]: true,
-                'flex flex--v-center': true,
-              })}
-            >
-              <Icon icon={location} matchText />
-              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
-                <AlignFont>
-                  Online {event.place ? ' & In our building' : 'only'}
-                </AlignFont>
-              </Space>
+          <Space
+            v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+            className={classNames({
+              [font('hnr', 5)]: true,
+              'flex flex--v-center': true,
+            })}
+          >
+            <Icon icon={location} matchText />
+            <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+              <AlignFont>
+                {getLocationText(event.isOnline, event.place)}
+              </AlignFont>
             </Space>
-          )}
+          </Space>
 
           {event.availableOnline && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
