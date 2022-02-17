@@ -7,8 +7,6 @@ import {
   parseLabelType,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
-import { parseArticleSeries } from '@weco/common/services/prismic/article-series';
 import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
@@ -17,6 +15,8 @@ import {
 import { LinkField } from '@prismicio/types';
 import { MultiContent, transformMultiContent } from './multi-content';
 import { Weblink } from '@weco/common/model/weblinks';
+import { transformSeries } from './series';
+import { transformSeason } from './seasons';
 
 export function transformContentLink(
   document?: LinkField
@@ -55,10 +55,10 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format: isDocumentLink(data.format) ? parseLabelType(data.format) : null,
     datePublished: london(datePublished).toDate(),
     series: parseSingleLevelGroup(data.series, 'series').map(series => {
-      return parseArticleSeries(series);
+      return transformSeries(series);
     }),
     seasons: parseSingleLevelGroup(data.seasons, 'season').map(season => {
-      return parseSeason(season);
+      return transformSeason(season);
     }),
   };
 
