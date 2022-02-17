@@ -32,6 +32,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
+import { trackEvent } from '@weco/common/utils/ga';
 
 function arrayofItemsToText(arr) {
   if (arr.length === 1) return arr[0];
@@ -247,6 +248,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
           })
       )
     ) {
+      trackEvent({
+        category: 'request_confirmed',
+        action: 'click',
+        label: `/works/${work.id}`,
+      });
       confirmRequest();
     }
   }
