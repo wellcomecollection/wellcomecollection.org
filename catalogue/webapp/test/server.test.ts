@@ -23,7 +23,7 @@ afterAll(() => {
 test('healthcheck', async () => {
   const resp = request
     ? await Promise.race([
-        new Promise(resolve => setTimeout(resolve({ status: 408 }), 1000)),
+        new Promise(resolve => setTimeout(resolve({ status: 408 }), 5000)),
         request.get('/works/management/healthcheck'),
       ])
     : { status: 500 };

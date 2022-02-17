@@ -218,7 +218,7 @@ describe('getArchiveAncestorArray', () => {
         availabilities: [],
       },
       {
-        id: 'cafebeef - this is wrong and i am hoping it will fail',
+        id: 'cafebeef',
         referenceNumber: 'a/b',
         title: 'An Archive Collection',
         type: 'Collection',
