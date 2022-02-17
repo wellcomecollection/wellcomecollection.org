@@ -10,8 +10,19 @@
           - common
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 
+# Note: we have two variants of the "build cardigan" CI step.
+#
+# In pull requests, we don't need to publish the image to ECR, because
+# there is no later "test cardigan" step that would use the published image.
+# This saves ~1m from the Cardigan build, which is one of the longest
+# in PR builds.
+#
+# In main builds, we do need to publish the image to ECR, because it's
+# used again later in the "deploy Cardigan" step.
+#
 - label: ":docker: build cardigan"
   key: "build_cardigan"
+  if: build.branch == "main"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: "arn:aws:iam::130871440101:role/experience-ci"
@@ -21,6 +32,10 @@
         build:
           - cardigan
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+- label: ":docker: build cardigan"
+  key: "build_cardigan"
+  if: build.branch != "main"
+  script: docker-compose build cardigan
 
 - label: ":docker: build catalogue"
   key: "build_catalogue"
