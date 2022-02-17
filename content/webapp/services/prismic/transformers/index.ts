@@ -86,8 +86,8 @@ export function transformFormat(document: PrismicDocument<WithArticleFormat>) {
 
 // This is to avoid introducing nulls into our codebase
 export function transformKeyTextField(
-  field: KeyTextField
-): KeyTextField | undefined {
+  field: KeyTextField | null
+): string | undefined {
   return field ?? undefined;
 }
 
