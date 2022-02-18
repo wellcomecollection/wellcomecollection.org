@@ -37,10 +37,14 @@ const Newsletter: FC<Props> = ({ result }) => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={'what-we-do'}
-      imageUrl={
-        'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg'
-      }
-      imageAltText={''}
+      image={{
+        contentUrl:
+          'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg',
+        width: 800,
+        height: 662,
+        alt: '',
+        crops: {},
+      }}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}

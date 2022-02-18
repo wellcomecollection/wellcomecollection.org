@@ -1,18 +1,29 @@
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
-import { ExhibitionPrismicDocument } from '../types/exhibitions';
+import {
+  ExhibitionPrismicDocument,
+  ExhibitionRelatedContentPrismicDocument,
+} from '../types/exhibitions';
 import { Query } from '@prismicio/types';
 import { fetchPages } from './pages';
 import * as prismic from 'prismic-client-beta';
 import { PagePrismicDocument } from '../types/pages';
 import {
   exhibitionFields,
-  exhibitionResourcesFields,
+  eventAccessOptionsFields,
+  teamsFields,
+  eventFormatsFields,
   placesFields,
+  interpretationTypesFields,
+  audiencesFields,
   eventSeriesFields,
   organisationsFields,
   peopleFields,
   contributorsFields,
+  eventPoliciesFields,
+  articleSeriesFields,
+  articleFormatsFields,
   articlesFields,
+  exhibitionResourcesFields,
   eventsFields,
   seasonsFields,
 } from '@weco/common/services/prismic/fetch-links';
@@ -112,4 +123,56 @@ export const fetchExhibitExhibition = async (
   return response && response.results.length > 0
     ? response.results[0]
     : undefined;
+};
+
+export const fetchExhibitionRelatedContent = async (
+  { client }: GetServerSidePropsPrismicClient,
+  ids: string[]
+): Promise<Query<ExhibitionRelatedContentPrismicDocument>> => {
+  const fetchLinks = [
+    eventAccessOptionsFields,
+    teamsFields,
+    eventFormatsFields,
+    placesFields,
+    interpretationTypesFields,
+    audiencesFields,
+    organisationsFields,
+    peopleFields,
+    contributorsFields,
+    eventSeriesFields,
+    eventPoliciesFields,
+    contributorsFields,
+    articleSeriesFields,
+    articleFormatsFields,
+    exhibitionFields,
+    articlesFields,
+  ];
+
+  return client.getByIDs<ExhibitionRelatedContentPrismicDocument>(ids, {
+    fetchLinks,
+  });
+};
+
+export const fetchExhibitionRelatedContentClientSide = async (
+  ids: string[]
+): Promise<Query<ExhibitionRelatedContentPrismicDocument> | undefined> => {
+  // If you add more parameters here, you have to update the corresponding cache behaviour
+  // in the CloudFront distribution, or you may get incorrect behaviour.
+  //
+  // e.g. at one point we forgot to include the "params" query in the cache key,
+  // so every article was showing the same set of related stories.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('params', JSON.stringify(ids));
+
+  const url = `/api/exhibitions/related-content?${urlSearchParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (response.ok) {
+    const json: Query<ExhibitionRelatedContentPrismicDocument> =
+      await response.json();
+    return json;
+  }
 };

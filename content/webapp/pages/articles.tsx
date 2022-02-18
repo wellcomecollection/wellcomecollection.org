@@ -4,7 +4,6 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -53,15 +52,7 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
       jsonLd={articles.results.map(articleLd)}
       openGraphType={'website'}
       siteSection={'stories'}
-      imageUrl={
-        firstArticle &&
-        firstArticle.image &&
-        convertImageUri(firstArticle.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstArticle && firstArticle.image && firstArticle.image.alt) ??
-        undefined
-      }
+      image={firstArticle && firstArticle.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

@@ -39,6 +39,7 @@ import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -65,8 +66,14 @@ type Props = {
   page: PageType;
 };
 
-const pageImage =
-  'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
+const pageImage: ImageType = {
+  contentUrl:
+    'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800',
+  width: 800,
+  height: 450,
+  alt: '',
+  crops: {},
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -141,8 +148,7 @@ const Homepage: FC<Props> = props => {
       jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={pageImage}
-      imageAltText={''}
+      image={pageImage}
     >
       <Layout10>
         <SpacingSection>

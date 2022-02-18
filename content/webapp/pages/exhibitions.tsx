@@ -4,7 +4,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { Period } from '@weco/common/model/periods';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -64,14 +63,7 @@ const ExhibitionsPage: FC<Props> = props => {
       jsonLd={exhibitions.results.map(exhibitionLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstExhibition &&
-        firstExhibition.image &&
-        convertImageUri(firstExhibition.image.contentUrl, 800)
-      }
-      imageAltText={
-        firstExhibition && firstExhibition.image && firstExhibition.image.alt
-      }
+      image={firstExhibition && firstExhibition.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

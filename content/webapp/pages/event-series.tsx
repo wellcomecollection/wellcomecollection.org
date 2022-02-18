@@ -7,7 +7,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -153,8 +152,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       jsonLd={events.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
-      imageAltText={(series.image && series.image.alt) ?? undefined}
+      image={series.image}
     >
       <ContentPage
         id={series.id}

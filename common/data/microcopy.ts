@@ -30,6 +30,9 @@ export const pageDescriptions = {
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
 };
 
+export const defaultPageTitle =
+  'A free museum and library exploring health and human experience';
+
 export const homepageHeading =
   'A free museum and library exploring health and human experience';
 

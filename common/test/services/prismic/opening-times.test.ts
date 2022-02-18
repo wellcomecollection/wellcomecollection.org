@@ -1,6 +1,7 @@
 import {
   exceptionalOpeningDates,
   exceptionalOpeningPeriods,
+  exceptionalOpeningPeriodsAllDates,
   getExceptionalVenueDays,
   getVenueById,
 } from '../../../services/prismic/opening-times';
@@ -16,7 +17,6 @@ const venuesWithoutExceptionalDates = venues.map(venue => {
     },
   };
 });
-// const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
 const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
@@ -184,6 +184,26 @@ describe('opening-times', () => {
       ]);
     });
   });
+
+  describe('exceptionalOpeningPeriodsAllDates: adds dates to the dates array of a period, so that they are consecutive from the first to last', () => {
+    it('fills in missing dates', () => {
+      const result = exceptionalOpeningPeriodsAllDates([
+        {
+          type: 'Christmas and New Year',
+          dates: [
+            london('2020-12-25'),
+            london('2020-12-28'),
+            london('2021-01-01'),
+            london('2021-01-03'),
+          ],
+        },
+      ]);
+      expect(result[0].dates.length).toEqual(10);
+      expect(result[0].dates[2].isSame(london('2020-12-27'))).toBe(true);
+      expect(result[0].dates[5].isSame(london('2020-12-30'))).toBe(true);
+    });
+  });
+
   describe('getExceptionalVenueDays', () => {
     it('returns all exceptional override dates for a venue', () => {
       const result = getExceptionalVenueDays(galleriesVenue!);
@@ -240,6 +260,7 @@ describe('opening-times', () => {
       ]);
     });
   });
+
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;

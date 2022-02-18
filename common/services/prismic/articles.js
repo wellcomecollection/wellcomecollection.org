@@ -15,7 +15,7 @@ import type { Article } from '../../model/articles';
 import type { MultiContent } from '../../model/multi-content';
 import type { PrismicDocument } from './types';
 
-function parseContentLink(document: ?PrismicDocument): ?MultiContent {
+export function parseContentLink(document: ?PrismicDocument): ?MultiContent {
   if (!document) {
     return;
   }

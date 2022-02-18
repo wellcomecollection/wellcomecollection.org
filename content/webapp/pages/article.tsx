@@ -2,7 +2,6 @@ import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '@weco/common/model/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import { parseArticleDoc } from '@weco/common/services/prismic/articles';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -12,7 +11,6 @@ import PageHeader, {
   getFeaturedMedia,
   getHeroPicture,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { ArticleFormatIds } from '@weco/common/model/content-format-id';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -30,6 +28,8 @@ import {
 import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from 'services/prismic';
+import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { transformArticle } from 'services/prismic/transformers/articles';
 
 type Props = {
   article: Article;
@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
 
     if (articleDocument) {
-      const article = parseArticleDoc(articleDocument);
+      const article = transformArticle(articleDocument);
       return {
         props: removeUndefinedProps({
           article,
@@ -118,7 +118,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       const series = article.series[0];
       if (series) {
         const seriesField =
-          series.id === 'WleP3iQAACUAYEoN' || series.id === 'X8D9qxIAACIAcKSf'
+          series.id === bodySquabblesSeries
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
@@ -129,7 +129,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           }));
 
         const articles =
-          articlesInSeries?.results.map(doc => parseArticleDoc(doc)) ?? [];
+          articlesInSeries?.results.map(doc => transformArticle(doc)) ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);
@@ -301,8 +301,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       jsonLd={articleLd(article)}
       openGraphType={'article'}
       siteSection={'stories'}
-      imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
-      imageAltText={(article.image && article.image.alt) ?? undefined}
+      image={article.image}
     >
       <ContentPage
         id={article.id}

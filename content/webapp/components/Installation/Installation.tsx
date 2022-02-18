@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
@@ -108,11 +107,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
       jsonLd={exhibitionLd(installation)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        installation.image &&
-        convertImageUri(installation.image.contentUrl, 800)
-      }
-      imageAltText={installation.image ? installation.image.alt : undefined}
+      image={installation.image}
     >
       <ContentPage
         id={installation.id}

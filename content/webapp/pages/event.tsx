@@ -24,7 +24,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
@@ -327,8 +326,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       jsonLd={eventLd(event)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
-      imageAltText={event?.image?.alt}
+      image={event.image}
     >
       <ContentPage
         id={event.id}

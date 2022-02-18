@@ -5,7 +5,6 @@ import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutP
 import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -47,16 +46,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
 
-    const eventsQueryPromise = await fetchEvents(
-      client,
-      {
-        page,
-        period: period as ('current-and-coming-up' | 'past' | undefined),
-        pageSize: 100,
-        isOnline: isOnline === 'true',
-        availableOnline: availableOnline === 'true',
-      }
-    );
+    const eventsQueryPromise = await fetchEvents(client, {
+      page,
+      period: period as 'current-and-coming-up' | 'past' | undefined,
+      pageSize: 100,
+      isOnline: isOnline === 'true',
+      availableOnline: availableOnline === 'true',
+    });
 
     const events = transformQuery(eventsQueryPromise, transformEvent);
 
@@ -95,14 +91,7 @@ const EventsPage: FC<Props> = props => {
       jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstEvent &&
-        firstEvent.image &&
-        convertImageUri(firstEvent.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstEvent && firstEvent.image && firstEvent.image.alt) ?? undefined
-      }
+      image={firstEvent && firstEvent.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
