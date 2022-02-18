@@ -48,7 +48,7 @@ export function transformPromo(doc: Doc) {
   /**
    * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
    * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
-   * we should have robably just had `.image` and `.description`.
+   * we should have probably just had `.image` and `.description`.
    * We could reimport into these fields, but it would have to be the whole Prismic corpus,
    * and we aren't confident enough that it imports correctly.
    *

@@ -14,6 +14,8 @@
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/preset-flow": "^7.12.1",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.6.3",
     "@types/jest": "^27.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/react": "^16.9.35",

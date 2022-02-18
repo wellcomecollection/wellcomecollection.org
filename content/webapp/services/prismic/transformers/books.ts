@@ -37,13 +37,12 @@ export function transformBook(document: BookPrismicDocument): Book {
     format: transformKeyTextField(data.format),
     extent: transformKeyTextField(data.extent),
     isbn: transformKeyTextField(data.isbn),
-    reviews:
-      data.reviews?.map(review => {
-        return {
-          text: review.text && asHtml(review.text),
-          citation: review.citation && asHtml(review.citation),
-        };
-      }),
+    reviews: data.reviews?.map(review => {
+      return {
+        text: review.text && asHtml(review.text),
+        citation: review.citation && asHtml(review.citation),
+      };
+    }),
     datePublished: data.datePublished && parseTimestamp(data.datePublished),
     cover: cover && cover.image,
     seasons,

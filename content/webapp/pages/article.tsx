@@ -122,7 +122,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        
         const articlesInSeries =
           series &&
           (await fetchArticlesClientSide({

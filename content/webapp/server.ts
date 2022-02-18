@@ -18,6 +18,7 @@ const serverPromise = appPromise.then(app => {
   // This allows us to account for the real world shutdown, and test it
   const close = () => {
     server.close();
+    process.exit(0);
   };
 
   server.on('close', () => {
@@ -25,7 +26,6 @@ const serverPromise = appPromise.then(app => {
     for (const timer of timers) {
       clearInterval(timer);
     }
-    process.exit(0);
   });
 
   process.on('SIGTERM', close);
