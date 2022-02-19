@@ -436,7 +436,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
-          date: date ? date.format('YYYY-MM-DD') : undefined,
+          neededBy: date ? date.format('YYYY-MM-DD') : undefined,
           type: 'Item',
         }),
         headers: {
