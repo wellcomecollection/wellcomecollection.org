@@ -33,8 +33,6 @@ const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
         </Space>
       </Layout8>
     </SpacingComponent>
-  ) : (
-    <></>
-  );
+  ) : null;
 };
 export default SeriesNavigation;
