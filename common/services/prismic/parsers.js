@@ -6,7 +6,6 @@ import flattenDeep from 'lodash.flattendeep';
 import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
-import type { Place } from '../../model/places';
 import type { Format } from '../../model/format';
 import type { Link } from '../../model/link';
 import type {
