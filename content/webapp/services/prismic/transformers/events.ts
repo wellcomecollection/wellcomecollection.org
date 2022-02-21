@@ -21,7 +21,6 @@ import {
 } from '@weco/common/services/prismic/parsers';
 import {
   determineDateRange,
-  determineDisplayTime,
   getLastEndTime,
 } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
