@@ -1,8 +1,8 @@
 import * as prismicH from 'prismic-helpers-beta';
 import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
-import { ArticlePrismicDocument, WithSeries } from '../types/articles';
-import linkResolver, { ContentType } from '../link-resolver';
+import { WithSeries } from '../types/articles';
+import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   Image,
@@ -49,12 +49,6 @@ import { transformExhibition } from './exhibitions';
 import { transformArticle } from './articles';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
-import { PagePrismicDocument } from '../types/pages';
-import { GuidePrismicDocument } from '../types/guides';
-import { EventSeriesPrismicDocument } from '../types/event-series';
-import { ExhibitionPrismicDocument } from '../types/exhibitions';
-import { EventPrismicDocument } from '../types/events';
-import { SeasonPrismicDocument } from '../types/seasons';
 
 type Meta = {
   title: string;
@@ -213,14 +207,6 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'contentList':
-          const contents: FilledLinkToDocumentField<
-            ContentType,
-            string,
-            never
-          >[] = slice.items
-            .map(item => item.content)
-            .filter(isFilledLinkToDocumentWithData);
-
           return {
             type: 'contentList',
             weight: getWeight(slice.slice_label),
@@ -229,37 +215,25 @@ export function transformBody(body: Body): BodyType {
               // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
               // but that doesn't exist in our Prismic model.
               // hasFeatured: slice.primary.hasFeatured,
-              items: contents
+              items: slice.items
+                .map(item => item.content)
+                .filter(isFilledLinkToDocumentWithData)
                 .map(content => {
                   switch (content.type) {
                     case 'pages':
-                      return transformPage(
-                        content.data! as PagePrismicDocument
-                      );
+                      return transformPage(content);
                     case 'guides':
-                      return transformGuide(
-                        content.data! as GuidePrismicDocument
-                      );
+                      return transformGuide(content);
                     case 'event-series':
-                      return transformEventSeries(
-                        content.data! as EventSeriesPrismicDocument
-                      );
+                      return transformEventSeries(content);
                     case 'exhibitions':
-                      return transformExhibition(
-                        content.data! as ExhibitionPrismicDocument
-                      );
+                      return transformExhibition(content);
                     case 'articles':
-                      return transformArticle(
-                        content.data! as ArticlePrismicDocument
-                      );
+                      return transformArticle(content);
                     case 'events':
-                      return transformEvent(
-                        content.data! as EventPrismicDocument
-                      );
+                      return transformEvent(content);
                     case 'seasons':
-                      return transformSeason(
-                        content.data! as SeasonPrismicDocument
-                      );
+                      return transformSeason(content);
                   }
                 })
                 .filter(Boolean),
