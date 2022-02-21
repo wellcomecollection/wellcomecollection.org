@@ -1,5 +1,6 @@
 import {
   Audience,
+  EventTime,
   Interpretation,
   Team,
   ThirdPartyBooking,
@@ -22,7 +23,6 @@ import {
   determineDateRange,
   determineDisplayTime,
   getLastEndTime,
-  parseEventBookingType,
 } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { isDocumentLink, transformGenericFields } from '.';
@@ -30,6 +30,27 @@ import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
+import isEmptyObj from '@weco/common/utils/is-empty-object';
+import { london } from '@weco/common/utils/format-date';
+
+function transformEventBookingType(
+  eventDoc: EventPrismicDocument
+): string | undefined {
+  return !isEmptyObj(eventDoc.data.eventbriteEvent)
+    ? 'Ticketed'
+    : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
+    ? 'Enquire to book'
+    : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data?.capacity
+    ? 'First come, first served'
+    : undefined;
+}
+
+function determineDisplayTime(times: EventTime[]): EventTime {
+  const upcomingDates = times.filter(t => {
+    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
+  });
+  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
+}
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -165,7 +186,7 @@ export function transformEvent(
       data.bookingInformation && data.bookingInformation.length > 1
         ? (data.bookingInformation as HTMLString)
         : undefined,
-    bookingType: parseEventBookingType(document),
+    bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
     format: data.format && parseFormat(data.format),
     interpretations,
