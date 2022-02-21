@@ -17,17 +17,6 @@ export type PrismicDocument = {|
   url?: string,
 |};
 
-export type PrismicApiSearchResponse = {|
-  page: number,
-  results_per_page: number,
-  results_size: number,
-  total_results_size: number,
-  total_pages: number,
-  next_page: string,
-  prev_page: string,
-  results: PrismicDocument[],
-|};
-
 export type HTMLSpanTypes =
   | 'heading2'
   | 'paragraph'
