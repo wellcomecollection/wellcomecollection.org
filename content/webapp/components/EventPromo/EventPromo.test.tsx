@@ -32,7 +32,7 @@ describe('EventPromo', () => {
     expect(screen.getByText('Reading Room'));
   });
 
-  it.only('Shows when an event is online', () => {
+  it('Shows when an event is online', () => {
     renderComponent(eventOnline);
     expect(screen.getByText('Online'));
   });
