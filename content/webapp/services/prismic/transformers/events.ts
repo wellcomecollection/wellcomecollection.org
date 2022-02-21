@@ -145,13 +145,17 @@ export function transformEvent(
     };
   });
 
+  const locations = parseSingleLevelGroup(data.locations, 'location').map(
+    location => parsePlace(location)
+  );
+
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
   const event = {
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
-    locations: data.locations.map(({ location }) => parsePlace(location)),
+    locations,
     audiences,
     bookingEnquiryTeam,
     thirdPartyBooking: thirdPartyBooking,
