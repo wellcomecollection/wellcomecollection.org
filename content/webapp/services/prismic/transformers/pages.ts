@@ -1,5 +1,4 @@
 import { FeaturedText } from '@weco/common/model/text';
-import { parsePage } from '@weco/common/services/prismic/pages';
 import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
 import {
@@ -8,20 +7,20 @@ import {
   parseSingleLevelGroup,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformGenericFields } from '.';
+import { transformSeason } from './seasons';
 
 export function transformPage(document: PagePrismicDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
   });
   const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
     (parent, index) => {
       return {
-        ...parsePage(parent),
+        ...transformPage(parent),
         order: data.parents[index].order,
         type: parent.type,
       };
