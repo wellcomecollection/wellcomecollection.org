@@ -1,4 +1,3 @@
-// @flow
 export const Periods = {
   Today: 'today',
   ThisWeekend: 'this-weekend',
@@ -9,4 +8,4 @@ export const Periods = {
   NextSevenDays: 'next-seven-days',
 };
 
-export type Period = $Values<typeof Periods>;
+export type Period = keyof typeof Periods;

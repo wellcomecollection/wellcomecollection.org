@@ -1,3 +1,4 @@
+// TODO: Move these into hardcoded-id.ts
 export const ArticleFormatIds = {
   ImageGallery: 'W5uKaCQAACkA3C0T',
   Essay: 'W7TfJRAAAJ1D0eLK',
