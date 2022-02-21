@@ -257,10 +257,6 @@ export function parsePlace(doc: PrismicFragment): Place {
   };
 }
 
-export function parseNumber(fragment: PrismicFragment): number {
-  return parseInt(fragment, 10);
-}
-
 export function parseBackgroundTexture(
   backgroundTexture: PrismicBackgroundTexture
 ): BackgroundTexture {
