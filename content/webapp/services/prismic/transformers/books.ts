@@ -10,9 +10,9 @@ import {
   asHtml,
   parsePromoToCaptionedImage,
   parseSingleLevelGroup,
-  parseSeason,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
+import { transformSeason } from './seasons';
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
@@ -25,7 +25,7 @@ export function transformBook(document: BookPrismicDocument): Book {
       ? parsePromoToCaptionedImage(data.promo, null)
       : null);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
   });
 
   return {

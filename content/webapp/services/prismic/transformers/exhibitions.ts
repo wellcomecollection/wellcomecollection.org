@@ -33,8 +33,8 @@ import {
   parseExhibits,
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { transformGenericFields } from '.';
+import { transformSeason } from './seasons';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -83,7 +83,7 @@ export function transformExhibition(
       : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
   });
 
   const exhibition = {
