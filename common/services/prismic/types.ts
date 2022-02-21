@@ -34,14 +34,6 @@ export type PrismicApiSearchResponse = {
   results: PrismicDocument[];
 };
 
-export type PrismicQueryOpts = {
-  fetchLinks?: string[];
-  page?: number;
-  orderings?: string;
-  pageSize?: number;
-  graphQuery?: string;
-};
-
 export type HTMLSpanTypes =
   | 'heading2'
   | 'heading3'
