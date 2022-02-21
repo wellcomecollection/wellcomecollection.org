@@ -7,6 +7,7 @@ import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
 import type {
@@ -28,6 +29,7 @@ import {
   parseCaptionedImage,
   parseImage,
   parseImagePromo,
+  parseLabelType,
   parseLink,
   parseMediaObjectList,
   parseRichText,
@@ -36,7 +38,6 @@ import {
   parseTaslFromString,
   parseTeamToContact,
   parseTitle,
-  parseTitledTextItem,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
@@ -49,6 +50,9 @@ import { transformExhibition } from './exhibitions';
 import { transformArticle } from './articles';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
+import { MultiContentPrismicDocument } from '../types/multi-content';
+import { GuidePrismicDocument } from '../types/guides';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 type Meta = {
   title: string;
@@ -153,6 +157,15 @@ type PromoImage = {
   superWidescreenImage?: ImageType;
 };
 
+function transformTitledTextItem(item) {
+  return {
+    title: parseTitle(item.title),
+    text: parseStructuredText(item.text),
+    link: parseLink(item.link),
+    label: isDocumentLink(item.label) ? parseLabelType(item.label) : null,
+  };
+}
+
 export function transformBody(body: Body): BodyType {
   return body
     .map(slice => {
@@ -202,11 +215,20 @@ export function transformBody(body: Body): BodyType {
           return {
             type: 'titledTextList',
             value: {
-              items: slice.items.map(item => parseTitledTextItem(item)),
+              items: slice.items.map(item => transformTitledTextItem(item)),
             },
           };
 
         case 'contentList':
+          type ContentListPrismicDocument =
+            | MultiContentPrismicDocument
+            | GuidePrismicDocument
+            | SeasonPrismicDocument;
+
+          const contents: ContentListPrismicDocument[] = slice.items
+            .map(item => item.content)
+            .filter(isFilledLinkToDocumentWithData);
+
           return {
             type: 'contentList',
             weight: getWeight(slice.slice_label),
@@ -215,9 +237,7 @@ export function transformBody(body: Body): BodyType {
               // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
               // but that doesn't exist in our Prismic model.
               // hasFeatured: slice.primary.hasFeatured,
-              items: slice.items
-                .map(item => item.content)
-                .filter(isFilledLinkToDocumentWithData)
+              items: contents
                 .map(content => {
                   switch (content.type) {
                     case 'pages':
@@ -241,14 +261,16 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'collectionVenue':
-          return {
-            type: 'collectionVenue',
-            weight: getWeight(slice.slice_label),
-            value: {
-              content: parseCollectionVenue(slice.primary.content),
-              showClosingTimes: slice.primary.showClosingTimes,
-            },
-          };
+          return isFilledLinkToDocumentWithData(slice.primary.content)
+            ? {
+                type: 'collectionVenue',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  content: parseCollectionVenue(slice.primary.content),
+                  showClosingTimes: slice.primary.showClosingTimes,
+                },
+              }
+            : undefined;
 
         case 'searchResults':
           return {
@@ -290,11 +312,13 @@ export function transformBody(body: Body): BodyType {
             weight: slice.slice_label,
             value: {
               caption: parseRichText(slice.primary.caption),
-              videoUrl: slice.primary.video && slice.primary.video.url,
+              videoUrl: isFilledLinkToWebField(slice.primary.video)
+                ? slice.primary.video.url
+                : undefined,
               playbackRate: slice.primary.playbackRate || 1,
               tasl: parseTaslFromString(slice.primary.tasl),
               autoPlay:
-                slice.primary.autoPlay === null ? true : slice.primary.autoPlay, // handle old content before these fields existed
+                slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
               loop: slice.primary.loop === null ? true : slice.primary.loop,
               mute: slice.primary.mute === null ? true : slice.primary.mute,
               showControls:
@@ -305,7 +329,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'contact':
-          return slice.primary.content.isBroken === false
+          return isFilledLinkToDocumentWithData(slice.primary.content)
             ? {
                 type: 'contact',
                 value: parseTeamToContact(slice.primary.content),

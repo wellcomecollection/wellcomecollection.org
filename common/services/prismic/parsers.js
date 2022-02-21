@@ -430,7 +430,7 @@ export function parseMediaObjectList(
   });
 }
 
-export function parseTitledTextItem(item) {
+function parseTitledTextItem(item) {
   return {
     title: parseTitle(item.title),
     text: parseStructuredText(item.text),
