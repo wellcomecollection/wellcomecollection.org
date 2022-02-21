@@ -106,7 +106,7 @@ export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
 // These are the props returned on a prismic image object
 const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
 // We don't export this, as we probably always want to check ^ first
-function parseImage(frag: PrismicFragment): ImageType {
+export function parseImage(frag: PrismicFragment): ImageType {
   const tasl = parseTaslFromString(frag.copyright);
   const crops = Object.keys(frag)
     .filter(key => prismicImageProps.indexOf(key) === -1)
@@ -207,7 +207,7 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
-function parseTeamToContact(team: PrismicFragment) {
+export function parseTeamToContact(team: PrismicFragment) {
   const {
     data: { title, subtitle, email, phone },
   } = team;
@@ -293,7 +293,7 @@ export function parseBoolean(fragment: PrismicFragment): boolean {
   return Boolean(fragment);
 }
 
-function parseStructuredText(maybeFragment: ?any): ?HTMLString {
+export function parseStructuredText(maybeFragment: ?any): ?HTMLString {
   return maybeFragment && isStructuredText((maybeFragment: HTMLString))
     ? (maybeFragment: HTMLString)
     : null;
@@ -366,7 +366,7 @@ export function isImageLink(fragment: ?PrismicFragment): boolean {
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
-function getWeight(weight: ?string): Weight {
+export function getWeight(weight: ?string): Weight {
   switch (weight) {
     case 'featured':
       return weight;
@@ -430,7 +430,7 @@ export function parseMediaObjectList(
   });
 }
 
-function parseTitledTextItem(item) {
+export function parseTitledTextItem(item) {
   return {
     title: parseTitle(item.title),
     text: parseStructuredText(item.text),
@@ -796,7 +796,7 @@ export function parseGenericFields(doc: PrismicFragment): GenericContentFields {
   };
 }
 
-function parseTableCsv(tableData: string): string[][] {
+export function parseTableCsv(tableData: string): string[][] {
   return tableData
     .trim()
     .split(/[\r\n]+/)

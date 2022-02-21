@@ -15,7 +15,7 @@ import {
 import { isUndefined } from '@weco/common/utils/array';
 import { Image } from '.';
 
-type TextSlice = Slice<'slice', { text: RichTextField }>;
+type TextSlice = Slice<'text', { text: RichTextField }>;
 
 export type EditorialImageSlice = Slice<
   'editorialImage',
