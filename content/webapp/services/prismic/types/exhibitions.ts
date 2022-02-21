@@ -43,7 +43,11 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     audioDescriptionInfo: RichTextField;
     place: RelationField<'place'>;
     exhibits: GroupField<{
-      item: RelationField<'exhibitions'>;
+      item: RelationField<
+        'exhibitions',
+        'en-gb',
+        InferDataInterface<ExhibitionPrismicDocument>
+      >;
     }>;
     events: GroupField<{
       item: RelationField<'events'>;

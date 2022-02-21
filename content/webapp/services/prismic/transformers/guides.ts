@@ -1,19 +1,36 @@
-import { parsePage } from '@weco/common/services/prismic/pages';
-import { Guide as DeprecatedGuide } from '@weco/common/model/guides';
 import { Format as DeprecatedFormat } from '@weco/common/model/format';
 import { Guide, GuideFormat } from '../../../types/guides';
 import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import { parseFormat } from '@weco/common/services/prismic/parsers';
+import {
+  parseFormat,
+  parseOnThisPage,
+  parseTimestamp,
+} from '@weco/common/services/prismic/parsers';
+import { transformGenericFields } from '.';
+import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformGuide(document: GuidePrismicDocument): Guide {
-  const guide: DeprecatedGuide = parsePage(document);
+  const { data } = document;
+  const genericFields = transformGenericFields(document);
 
+  // TODO (tagging): This is just for now, we will be implementing a proper site tagging
+  // strategy for this later
+  const siteSections = headerLinks.map(link => link.siteSection);
+  const siteSection = document.tags.find(tag => siteSections.includes(tag));
+
+  const promo = genericFields.promo;
   return {
-    ...guide,
+    type: 'guides',
+    format: data.format && parseFormat(data.format),
+    ...genericFields,
+    onThisPage: data.body ? parseOnThisPage(data.body) : [],
+    showOnThisPage: data.showOnThisPage || false,
+    promo: promo && promo.image ? promo : undefined,
+    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    siteSection: siteSection,
     prismicDocument: document,
   };
 }

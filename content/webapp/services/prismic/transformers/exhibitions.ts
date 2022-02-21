@@ -30,11 +30,10 @@ import { link } from './vendored-helpers';
 import { breakpoints } from '@weco/common/utils/breakpoints';
 import {
   parseExhibitionFormat,
-  parseExhibits,
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { transformGenericFields } from '.';
+import { transformSeason } from './seasons';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -42,16 +41,16 @@ export function transformExhibition(
   const genericFields = transformGenericFields(document);
   const data = document.data;
   const promo = data.promo;
-  const exhibits = data.exhibits
+  const exhibitIds = data.exhibits
     ? data.exhibits.map(i => link(i.item) && i.item.id)
     : [];
-  const events = data.events
+  const eventIds = data.events
     ? data.events.map(i => link(i.item) && i.item.id)
     : [];
-  const articles = data.articles
+  const articleIds = data.articles
     ? data.articles.map(i => link(i.item) && i.item.id)
     : [];
-  const relatedIds = [...exhibits, ...events, ...articles].filter(
+  const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
   const promoThin =
@@ -83,7 +82,14 @@ export function transformExhibition(
       : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
+  });
+
+  const exhibits = parseSingleLevelGroup(data.exhibits, 'item').map(item => {
+    return {
+      exhibitType: 'exhibitions',
+      item: transformExhibition(item),
+    };
   });
 
   const exhibition = {
@@ -97,7 +103,7 @@ export function transformExhibition(
     bslInfo,
     audioDescriptionInfo,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
-    exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
+    exhibits,
     promo: promoImage && {
       id,
       format,

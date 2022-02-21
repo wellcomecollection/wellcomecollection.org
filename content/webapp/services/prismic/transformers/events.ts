@@ -19,17 +19,17 @@ import {
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
 import {
   determineDateRange,
   determineDisplayTime,
   getLastEndTime,
   parseEventBookingType,
 } from '@weco/common/services/prismic/events';
-import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
 import { isDocumentLink, transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
+import { transformSeason } from './seasons';
+import { transformEventSeries } from './event-series';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -108,14 +108,12 @@ export function transformEvent(
       }
     : undefined;
 
-  const series = data.series
-    .map(series =>
-      isDocumentLink(series.series) ? parseEventSeries(series.series) : null
-    )
-    .filter(Boolean);
+  const series = parseSingleLevelGroup(data.series, 'series').map(series => {
+    return transformEventSeries(series);
+  });
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
   });
 
   const times =
