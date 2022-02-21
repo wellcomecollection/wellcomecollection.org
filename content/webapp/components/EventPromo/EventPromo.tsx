@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import moment from 'moment';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -14,6 +15,10 @@ import {
 } from '@weco/common/views/components/Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { location } from '@weco/common/icons';
+import AlignFont from '@weco/common/views/components/styled/AlignFont';
+import { Place } from '@weco/common/model/places';
 
 type Props = {
   event: UiEvent;
@@ -23,13 +28,19 @@ type Props = {
   fromDate?: moment.Moment;
 };
 
-const EventPromo = ({
+function getLocationText(isOnline?: boolean, place?: Place): string {
+  if (!isOnline && place) return place.title;
+
+  return `Online${place ? ' & In our building' : ''}`;
+}
+
+const EventPromo: FC<Props> = ({
   event,
   position = 0,
   dateString,
   timeString,
   fromDate,
-}: Props) => {
+}) => {
   const fullyBooked = isEventFullyBooked(event);
   const isPast = event.isPast;
   return (
@@ -79,10 +90,21 @@ const EventPromo = ({
             {event.title}
           </Space>
 
-          {event.isOnline && !event.availableOnline && (
-            <LabelsList
-              labels={[{ text: 'Online', labelColor: 'transparent' }]}
-            />
+          {(event.isOnline || event.place) && (
+            <Space
+              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
+              className={classNames({
+                [font('hnr', 5)]: true,
+                'flex flex--v-center': true,
+              })}
+            >
+              <Icon icon={location} matchText />
+              <Space h={{ size: 'xs', properties: ['margin-left'] }}>
+                <AlignFont>
+                  {getLocationText(event.isOnline, event.place)}
+                </AlignFont>
+              </Space>
+            </Space>
           )}
 
           {event.availableOnline && (
