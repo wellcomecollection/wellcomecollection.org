@@ -24,6 +24,10 @@ const events: CustomType = {
       title,
       format: link('Format', 'document', ['event-formats']),
       place: place,
+      // TODO: deprecate single 'place' above for mulitple 'locations' below
+      locations: list('Locations', {
+        location: link('Location', 'document', ['places']),
+      }),
       isOnline: boolean('Happens Online?', false),
       availableOnline: boolean('Available Online?', false),
       times: list('Times', {
@@ -32,9 +36,6 @@ const events: CustomType = {
         isFullyBooked: booleanDeprecated('Fully booked'),
       }),
       body,
-      locations: list('Locations', {
-        location: link('Location', 'document', ['places']),
-      }),
     },
     Access: {
       isRelaxedPerformance: booleanDeprecated('Relaxed'),
