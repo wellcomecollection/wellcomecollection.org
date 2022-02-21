@@ -34,7 +34,6 @@ import {
   parseMediaObjectList,
   parseRichText,
   parseStructuredText,
-  parseTableCsv,
   parseTaslFromString,
   parseTeamToContact,
   parseTitle,
@@ -53,6 +52,7 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { transformTableSlice } from './body';
 
 type Meta = {
   title: string;
@@ -409,14 +409,7 @@ export function transformBody(body: Body): BodyType {
           break;
 
         case 'table':
-          return {
-            type: 'table',
-            value: {
-              rows: parseTableCsv(slice.primary.tableData),
-              caption: slice.primary.caption,
-              hasRowHeaders: slice.primary.hasRowHeaders,
-            },
-          };
+          return transformTableSlice(slice);
 
         case 'infoBlock':
           return {
