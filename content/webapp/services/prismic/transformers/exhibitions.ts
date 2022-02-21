@@ -7,7 +7,10 @@ import {
   ExhibitionRelatedContentPrismicDocument,
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
+import {
+  HTMLString,
+  PaginatedResults,
+} from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
@@ -16,7 +19,6 @@ import {
   isDocumentLink,
   isEmptyHtmlString,
   parseBoolean,
-  parseGenericFields,
   parseImagePromo,
   parsePlace,
   parsePromoToCaptionedImage,
@@ -32,11 +34,12 @@ import {
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
 import { parseSeason } from '@weco/common/services/prismic/seasons';
+import { transformGenericFields } from '.';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
 ): Exhibition {
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const data = document.data;
   const promo = data.promo;
   const exhibits = data.exhibits
@@ -48,7 +51,9 @@ export function transformExhibition(
   const articles = data.articles
     ? data.articles.map(i => link(i.item) && i.item.id)
     : [];
-  const relatedIds = [...exhibits, ...events, ...articles].filter(Boolean);
+  const relatedIds = [...exhibits, ...events, ...articles].filter(
+    Boolean
+  ) as string[];
   const promoThin =
     promo && parseImagePromo(promo, '32:15', breakpoints.medium);
   const promoSquare =
@@ -66,10 +71,12 @@ export function transformExhibition(
   const start = parseTimestamp(data.start);
   const end = data.end && parseTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
-  const bslInfo = isEmptyHtmlString(data.bslInfo) ? undefined : data.bslInfo;
+  const bslInfo = isEmptyHtmlString(data.bslInfo)
+    ? undefined
+    : (data.bslInfo as HTMLString);
   const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
     ? undefined
-    : data.audioDescriptionInfo;
+    : (data.audioDescriptionInfo as HTMLString);
   const promoImage =
     promo && promo.length > 0
       ? parsePromoToCaptionedImage(data.promo)
@@ -81,15 +88,14 @@ export function transformExhibition(
 
   const exhibition = {
     ...genericFields,
-    type: 'exhibitions',
     shortTitle: data.shortTitle && asText(data.shortTitle),
-    format: format,
-    start: start,
-    end: end,
+    format,
+    start,
+    end,
     isPermanent: parseBoolean(data.isPermanent),
-    statusOverride: statusOverride,
-    bslInfo: bslInfo,
-    audioDescriptionInfo: audioDescriptionInfo,
+    statusOverride,
+    bslInfo,
+    audioDescriptionInfo,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
     exhibits: data.exhibits ? parseExhibits(data.exhibits) : [],
     promo: promoImage && {
@@ -127,7 +133,7 @@ export function transformExhibition(
       ]
     : [{ text: 'Exhibition' }];
 
-  return { ...exhibition, labels };
+  return { ...exhibition, type: 'exhibitions', labels };
 }
 
 export function transformExhibitionsQuery(

@@ -20,4 +20,5 @@ export type MultiContent =
   | ArticleScheduleItem
   | UiExhibition
   | Weblink
-  | ArticleSeries;
+  | ArticleSeries
+  | Weblink;

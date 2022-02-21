@@ -1,4 +1,9 @@
-import { Team } from '@weco/common/model/events';
+import {
+  Audience,
+  Interpretation,
+  Team,
+  ThirdPartyBooking,
+} from '@weco/common/model/events';
 import { Event } from '../../../types/events';
 import { EventPrismicDocument } from '../types/events';
 import { link } from './vendored-helpers';
@@ -8,7 +13,6 @@ import {
   asText,
   parseBoolean,
   parseFormat,
-  parseGenericFields,
   parseLabelTypeList,
   parsePlace,
   parseSingleLevelGroup,
@@ -24,7 +28,8 @@ import {
 } from '@weco/common/services/prismic/events';
 import { parseEventSeries } from '@weco/common/services/prismic/event-series';
 import { isPast } from '@weco/common/utils/dates';
-import { isDocumentLink } from '.';
+import { isDocumentLink, transformGenericFields } from '.';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -34,30 +39,32 @@ export function transformEvent(
   const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   const eventSchedule =
     scheduleQuery && scheduleQuery.results
       ? scheduleQuery.results.map(doc => transformEvent(doc))
       : [];
-  const interpretations = data.interpretations
+  const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
       link(interpretation.interpretationType)
         ? {
             interpretationType: {
+              id: interpretation.interpretationType.id,
               title: parseTitle(interpretation.interpretationType.data?.title),
               abbreviation: asText(
                 interpretation.interpretationType.data?.abbreviation
               ),
-              description: interpretation.interpretationType.data?.description,
-              primaryDescription:
-                interpretation.interpretationType.data?.primaryDescription,
+              description: interpretation.interpretationType.data
+                ?.description as HTMLString,
+              primaryDescription: interpretation.interpretationType.data
+                ?.primaryDescription as HTMLString,
             },
             isPrimary: Boolean(interpretation.isPrimary),
-            extraInformation: interpretation.extraInformation,
+            extraInformation: interpretation.extraInformation as HTMLString,
           }
-        : null
+        : undefined
     )
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const matchedId =
     data.eventbriteEvent && data.eventbriteEvent.url
@@ -66,16 +73,19 @@ export function transformEvent(
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
-  const audiences = data.audiences
+  const audiences: Audience[] = data.audiences
     .map(audience =>
       link(audience.audience)
         ? {
+            id: audience.audience.id,
             title: asText(audience.audience.data?.title),
-            description: audience.audience.data?.description,
+            description: audience.audience.data?.description as
+              | HTMLString
+              | undefined,
           }
-        : null
+        : undefined
     )
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const bookingEnquiryTeam: Team | undefined = isDocumentLink(
     data.bookingEnquiryTeam
@@ -89,10 +99,12 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking = data.thirdPartyBookingName
+  const thirdPartyBooking: ThirdPartyBooking | undefined = isDocumentLink(
+    data.thirdPartyBookingUrl
+  )
     ? {
-        name: data.thirdPartyBookingName,
-        url: data.thirdPartyBookingUrl,
+        name: data.thirdPartyBookingName || undefined,
+        url: data.thirdPartyBookingUrl.url!,
       }
     : undefined;
 
@@ -137,7 +149,6 @@ export function transformEvent(
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
   const event = {
-    type: 'events',
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
     audiences,
@@ -145,10 +156,10 @@ export function transformEvent(
     thirdPartyBooking: thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
-        ? data.bookingInformation
-        : null,
+        ? (data.bookingInformation as HTMLString)
+        : undefined,
     bookingType: parseEventBookingType(document),
-    cost: data.cost,
+    cost: data.cost || undefined,
     format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
@@ -160,13 +171,13 @@ export function transformEvent(
     scheduleLength,
     schedule,
     backgroundTexture:
-      link(data.backgroundTexture) &&
-      data.backgroundTexture.data &&
-      data.backgroundTexture.data.image.url,
+      link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
+        ? data.backgroundTexture.data.image.url
+        : undefined,
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
-    ticketSalesStart: data.ticketSalesStart,
+    ticketSalesStart: parseTimestamp(data.ticketSalesStart),
     times: times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
@@ -217,7 +228,7 @@ export function transformEvent(
   ];
   const secondaryLabels = [...eventInterpretations];
 
-  return { ...event, labels, primaryLabels, secondaryLabels };
+  return { ...event, type: 'events', labels, primaryLabels, secondaryLabels };
 }
 
 export const getScheduleIds = (

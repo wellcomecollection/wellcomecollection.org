@@ -17,6 +17,15 @@ import type {
   SliceZone,
 } from '@prismicio/types';
 import { link } from './vendored-helpers';
+import { GenericContentFields } from '@weco/common/model/generic-content-fields';
+import {
+  asText,
+  checkAndParseImage,
+  parseBody,
+  parseImagePromo,
+  parseTitle,
+} from '@weco/common/services/prismic/parsers';
+import { ImageType } from '@weco/common/model/image';
 
 type Meta = {
   title: string;
@@ -113,3 +122,54 @@ export const isDocumentLink = <
     field && link(field) && field.isBroken === false && field.data
   );
 };
+
+type PromoImage = {
+  image?: ImageType;
+  squareImage?: ImageType;
+  widescreenImage?: ImageType;
+  superWidescreenImage?: ImageType;
+};
+
+export function transformGenericFields(doc: Doc): GenericContentFields {
+  const { data } = doc;
+  const promo = data.promo && parseImagePromo(data.promo);
+
+  const promoImage: PromoImage =
+    data.promo && data.promo.length > 0
+      ? data.promo
+          .filter(slice => slice.primary.image)
+          .map(({ primary: { image } }) => {
+            return {
+              image: checkAndParseImage(image),
+              squareImage: checkAndParseImage(image.square),
+              widescreenImage: checkAndParseImage(image['16:9']),
+              superWidescreenImage: checkAndParseImage(image['32:15']),
+            };
+          })
+          .find(_ => _) || {} // just get the first one;
+      : {};
+
+  const { image, squareImage, widescreenImage, superWidescreenImage } =
+    promoImage;
+  const body = data.body ? parseBody(data.body) : [];
+  const standfirst = body.find(slice => slice.type === 'standfirst');
+  const metadataDescription = asText(data.metadataDescription);
+
+  return {
+    id: doc.id,
+    title: parseTitle(data.title),
+    body: body,
+    standfirst: standfirst && standfirst.value,
+    promo: promo,
+    promoText: promo && promo.caption,
+    promoImage: promo && promo.image,
+    image,
+    squareImage,
+    widescreenImage,
+    superWidescreenImage,
+    metadataDescription,
+    // we pass an empty array here to be overriden by each content type
+    // TODO: find a way to enforce this.
+    labels: [],
+  };
+}

@@ -1,10 +1,13 @@
 import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
-import { transformKeyTextField, transformRichTextFieldToString } from '.';
+import {
+  transformGenericFields,
+  transformKeyTextField,
+  transformRichTextFieldToString,
+} from '.';
 import { isFilledLinkToWebField } from '../types';
 import {
   asHtml,
-  parseGenericFields,
   parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseSeason,
@@ -15,7 +18,7 @@ import {
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
 
-  const genericFields = parseGenericFields(document);
+  const genericFields = transformGenericFields(document);
   // We do this over the general parser as we want the not 16:9 image.
   const cover =
     data.promo &&
