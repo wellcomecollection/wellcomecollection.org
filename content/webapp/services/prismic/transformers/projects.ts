@@ -1,14 +1,14 @@
 import { Project } from '../../../types/projects';
 import { ProjectPrismicDocument } from '../types/projects';
 import { parseSingleLevelGroup } from '@weco/common/services/prismic/parsers';
-import { parseSeason } from '@weco/common/services/prismic/seasons';
 import { transformGenericFields } from '.';
+import { transformSeason } from './seasons';
 
 export function transformProject(document: ProjectPrismicDocument): Project {
   const { data } = document;
   const genericFields = transformGenericFields(document);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return parseSeason(season);
+    return transformSeason(season);
   });
 
   const promo = genericFields.promo;

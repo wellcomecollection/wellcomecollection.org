@@ -14,7 +14,6 @@ import {
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
 
