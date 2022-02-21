@@ -183,7 +183,7 @@ type DeprecatedImageList = Slice<
   }
 >;
 
-type MediaObjectList = Slice<
+export type MediaObjectList = Slice<
   'mediaObjectList',
   Record<string, never>,
   { title: RichTextField; text: RichTextField; image: Image }

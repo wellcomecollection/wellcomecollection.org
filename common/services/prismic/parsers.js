@@ -24,7 +24,7 @@ import { MediaObjectType } from '../../model/media-object';
 import type { HTMLSerializer } from 'prismic-reactjs';
 import type { Element } from 'react';
 
-const placeHolderImage = ({
+export const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
   width: 160,
   height: 900,
@@ -329,24 +329,4 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
         url: `#${dasherize(item.text)}`,
       };
     });
-}
-
-export function parseMediaObjectList(
-  fragment: PrismicFragment[]
-): Array<MediaObjectType> {
-  return fragment.map(mediaObject => {
-    if (mediaObject) {
-      // make sure we have the content we require
-      const title = mediaObject.title.length ? mediaObject?.title : undefined;
-      const text = mediaObject.text.length ? mediaObject?.text : undefined;
-      const image = mediaObject.image?.square?.dimensions
-        ? mediaObject.image
-        : undefined;
-      return {
-        title: title ? parseTitle(title) : null,
-        text: text ? parseStructuredText(text) : null,
-        image: image ? parseImage(image) : null,
-      };
-    }
-  });
 }

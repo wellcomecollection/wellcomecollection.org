@@ -1,7 +1,8 @@
-import { parseMediaObjectList } from '@weco/common/services/prismic/parsers';
+import { placeHolderImage } from '@weco/common/services/prismic/parsers';
 import { transformBody } from '.';
-import { Embed } from '../types/body';
-import { EmbedType } from '@prismicio/types';
+import { Embed, MediaObjectList } from '../types/body';
+import { EmbedType, RichTextNodeType } from '@prismicio/types';
+import { transformMediaObjectListSlice } from './body';
   
 export const sameAs = [
   { link: 'https://twitter.com/mbannisy', title: [] },
@@ -12,26 +13,30 @@ export const sameAs = [
   },
 ];
   
-describe('parseMediaObjectList', () => {
-  const mockDataMissingImageText = [
+describe('transformMediaObjectListSlice', () => {
+  const missingImageTextSlice: MediaObjectList =
     {
-      title: [
-        {
-          type: 'heading1',
-          text: 'Only book for your household or bubble',
-          spans: [],
-        },
-      ],
-      text: [],
-      image: { '32:15': {}, '16:9': {}, square: {} },
-    },
-  ];
+      items: [{
+        title: [
+          {
+            type: RichTextNodeType.oListItem,
+            text: 'Only book for your household or bubble',
+            spans: [],
+          },
+        ],
+        text: [],
+        image: placeHolderImage,
+      }],
+      slice_type: 'mediaObjectList',
+      slice_label: null,
+      primary: {},
+    };
 
   it('returns data structure if missing image and title content', () => {
-    const parseMissingImageText = parseMediaObjectList(
-      mockDataMissingImageText
+    const mediaObjectList = transformMediaObjectListSlice(
+      missingImageTextSlice
     );
-    expect(parseMissingImageText).toEqual([
+    expect(mediaObjectList).toEqual([
       {
         title: 'Only book for your household or bubble',
         text: null,

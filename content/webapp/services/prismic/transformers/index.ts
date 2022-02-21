@@ -30,7 +30,6 @@ import {
   parseImagePromo,
   parseLabelType,
   parseLink,
-  parseMediaObjectList,
   parseRichText,
   parseStructuredText,
   parseTaslFromString,
@@ -51,7 +50,7 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { getWeight, transformTableSlice } from './body';
+import { getWeight, transformMediaObjectListSlice, transformTableSlice } from './body';
 
 type Meta = {
   title: string;
@@ -460,12 +459,7 @@ export function transformBody(body: Body): BodyType {
             },
           };
         case 'mediaObjectList':
-          return {
-            type: 'mediaObjectList',
-            value: {
-              items: parseMediaObjectList(slice.items),
-            },
-          };
+          return transformMediaObjectListSlice(slice);
       }
     })
     .filter(isNotUndefined);
