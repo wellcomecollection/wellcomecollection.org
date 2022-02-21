@@ -1,13 +1,21 @@
-import { parseSeason } from '@weco/common/services/prismic/seasons';
+import { transformGenericFields } from '.';
 import { Season } from '../../../types/seasons';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { parseTimestamp } from '@weco/common/services/prismic/parsers';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformSeason(document: SeasonPrismicDocument): Season {
-  const season = parseSeason(document as any);
-
+  const { data } = document;
+  const genericFields = transformGenericFields(document);
+  const promo = genericFields.promo;
+  const start = parseTimestamp(data.start);
+  const end = data.end && parseTimestamp(data.end);
   return {
-    ...season,
+    type: 'seasons',
+    start,
+    end,
+    ...genericFields,
+    labels: [{ text: 'Season' }],
+    promo: promo && promo.image && promo,
     prismicDocument: document,
   };
 }
