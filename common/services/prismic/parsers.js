@@ -229,16 +229,6 @@ export function parseImagePromo(
   );
 }
 
-export function parsePlace(doc: PrismicFragment): Place {
-  const genericFields = parseGenericFields(doc);
-  return {
-    ...genericFields,
-    level: doc.data.level || 0,
-    capacity: doc.data.capacity,
-    information: doc.data.locationInformation,
-  };
-}
-
 export function parseBackgroundTexture(
   backgroundTexture: PrismicBackgroundTexture
 ): BackgroundTexture {
