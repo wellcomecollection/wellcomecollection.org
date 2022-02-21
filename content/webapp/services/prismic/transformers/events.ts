@@ -151,6 +151,7 @@ export function transformEvent(
   const event = {
     ...genericFields,
     place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
+    locations: data.locations.map(({ location }) => parsePlace(location)),
     audiences,
     bookingEnquiryTeam,
     thirdPartyBooking: thirdPartyBooking,

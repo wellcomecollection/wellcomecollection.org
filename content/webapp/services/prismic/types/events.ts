@@ -114,6 +114,13 @@ export type EventPrismicDocument = PrismicDocument<
       'en-gb',
       InferDataInterface<PlacePrismicDocument>
     >;
+    locations: GroupField<{
+      location: RelationField<
+        'place',
+        'en-gb',
+        InferDataInterface<PlacePrismicDocument>
+      >;
+    }>;
     isOnline: BooleanField;
     availableOnline: BooleanField;
     times: GroupField<{
