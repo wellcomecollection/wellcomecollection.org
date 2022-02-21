@@ -5,6 +5,7 @@ import {
   asText,
   isStructuredText,
   parseSingleLevelGroup,
+  parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { london } from '@weco/common/utils/format-date';
 import { transformSeason } from './seasons';
@@ -23,7 +24,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
             type: 'article-schedule-items',
             id: `${document.id}_${i}`,
             title: asText(item.title),
-            publishDate: london(item.publishDate).toDate(),
+            publishDate: london(parseTimestamp(item.publishDate)).toDate(),
             partNumber: i + 1,
             color,
           };
