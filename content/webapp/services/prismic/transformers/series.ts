@@ -6,7 +6,7 @@ import {
   isStructuredText,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
-import { london } from '@weco/common/utils/dates';
+import { london } from '@weco/common/utils/format-date';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 
