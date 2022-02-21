@@ -14,7 +14,6 @@ import {
   parseBoolean,
   parseFormat,
   parseLabelTypeList,
-  parsePlace,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
@@ -30,6 +29,7 @@ import { isDocumentLink, transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
+import { transformPlace } from './places';
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -144,7 +144,11 @@ export function transformEvent(
   });
 
   const locations = parseSingleLevelGroup(data.locations, 'location').map(
-    location => parsePlace(location)
+    location => transformPlace(location)
+  );
+
+  const place = parseSingleLevelGroup(data, 'place').map(place =>
+    transformPlace(place)
   );
 
   // We want to display the scheduleLength on EventPromos,
@@ -152,7 +156,7 @@ export function transformEvent(
   // We therefore return the scheduleLength property.
   const event = {
     ...genericFields,
-    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
+    place,
     locations,
     audiences,
     bookingEnquiryTeam,

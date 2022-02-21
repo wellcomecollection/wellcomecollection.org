@@ -16,11 +16,9 @@ import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
 import {
   asText,
-  isDocumentLink,
   isEmptyHtmlString,
   parseBoolean,
   parseImagePromo,
-  parsePlace,
   parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseTimestamp,
@@ -34,6 +32,7 @@ import {
 } from '@weco/common/services/prismic/exhibitions';
 import { transformGenericFields } from '.';
 import { transformSeason } from './seasons';
+import { transformPlace } from './places';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -92,6 +91,10 @@ export function transformExhibition(
     };
   });
 
+  const place = parseSingleLevelGroup(data, 'place').map(place =>
+    transformPlace(place)
+  );
+
   const exhibition = {
     ...genericFields,
     shortTitle: data.shortTitle && asText(data.shortTitle),
@@ -102,7 +105,7 @@ export function transformExhibition(
     statusOverride,
     bslInfo,
     audioDescriptionInfo,
-    place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
+    place,
     exhibits,
     promo: promoImage && {
       id,
