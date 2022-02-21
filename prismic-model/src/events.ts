@@ -24,7 +24,7 @@ const events: CustomType = {
       title,
       format: link('Format', 'document', ['event-formats']),
       place: place,
-      // TODO: deprecate single 'place' above for mulitple 'locations' below
+      // TODO: deprecate single 'place' above for multiple 'locations' below
       locations: list('Locations', {
         location: link('Location', 'document', ['places']),
       }),
