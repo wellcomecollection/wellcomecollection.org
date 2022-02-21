@@ -1,4 +1,5 @@
 import { Table } from '../types/body';
+import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 
 export function transformTableCsv(tableData: string): string[][] {
   return tableData
@@ -6,16 +7,12 @@ export function transformTableCsv(tableData: string): string[][] {
     .split(/[\r\n]+/)
     .map(row => row.split('|').map(cell => cell.trim()));
 }
-
-export function transformTableSlice(slice: Table) {
+export function transformTableSlice(slice: Table): TableProps {
   return {
-    type: 'table',
-    value: {
-      rows: slice.primary.tableData
-        ? transformTableCsv(slice.primary.tableData)
-        : [],
-      caption: slice.primary.caption,
-      hasRowHeaders: slice.primary.hasRowHeaders,
-    },
+    rows: slice.primary.tableData
+      ? transformTableCsv(slice.primary.tableData)
+      : [],
+    caption: slice.primary.caption || undefined,
+    hasRowHeaders: slice.primary.hasRowHeaders,
   };
 }

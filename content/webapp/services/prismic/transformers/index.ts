@@ -409,7 +409,10 @@ export function transformBody(body: Body): BodyType {
           break;
 
         case 'table':
-          return transformTableSlice(slice);
+          return {
+            type: 'table',
+            value: transformTableSlice(slice),
+          };
 
         case 'infoBlock':
           return {
