@@ -53,13 +53,13 @@ type Iframe = Slice<
   }
 >;
 
-type Quote = Slice<
-  'quote',
-  {
-    text: RichTextField;
-    citation: RichTextField;
-  }
->;
+type QuotePrimaryFields = {
+  text: RichTextField;
+  citation: RichTextField;
+};
+
+type Quote = Slice<'quote', QuotePrimaryFields>;
+type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
 type Standfirst = Slice<
   'standfirst',
@@ -172,6 +172,17 @@ type SearchResults = Slice<
   { title: RichTextField; query: KeyTextField }
 >;
 
+type DeprecatedImageList = Slice<
+  'imageList',
+  Record<string, never>,
+  {
+    title: RichTextField;
+    subtitle: RichTextField;
+    description: RichTextField;
+    image: Image;
+  }
+>;
+
 type MediaObjectList = Slice<
   'mediaObjectList',
   Record<string, never>,
@@ -185,6 +196,7 @@ export type SliceTypes =
   | GifVideoSlice
   | Iframe
   | Quote
+  | QuoteV2
   | Standfirst
   | Table
   | Embed
@@ -197,7 +209,8 @@ export type SliceTypes =
   | TitledTextList
   | ContentList
   | SearchResults
-  | MediaObjectList;
+  | MediaObjectList
+  | DeprecatedImageList;
 
 export type Body = SliceZone<SliceTypes>;
 

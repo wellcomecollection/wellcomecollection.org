@@ -279,7 +279,10 @@ export function transformBody(body: Body): BodyType {
             value: {
               title: asText(slice.primary.title),
               query: slice.primary.query,
-              pageSize: slice.primary.pageSize || 4,
+              // TODO: The untyped version of this code had `slice.primary.pageSize`, but
+              // there's no such field on the Prismic model.  Should it be on the model?
+              // Does it matter?  Investigate further.
+              pageSize: 4,
             },
           };
 
@@ -340,9 +343,10 @@ export function transformBody(body: Body): BodyType {
           const embed = slice.primary.embed;
 
           if (embed.provider_name === 'Vimeo') {
-            const embedUrl = slice.primary.embed.html.match(
+            const embedUrl = slice.primary.embed.html?.match(
               /src="([-a-zA-Z0-9://.?=_]+)?/
-            )[1];
+            )![1];
+
             return {
               type: 'videoEmbed',
               weight: getWeight(slice.slice_label),
@@ -354,8 +358,8 @@ export function transformBody(body: Body): BodyType {
           }
 
           if (embed.provider_name === 'SoundCloud') {
-            const apiUrl = embed.html.match(/url=([^&]*)&/);
-            const secretToken = embed.html.match(/secret_token=([^"]*)"/);
+            const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
+            const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
             const secretTokenString =
               secretToken && secretToken[1]
                 ? `%3Fsecret_token%3D${secretToken[1]}`
@@ -378,7 +382,7 @@ export function transformBody(body: Body): BodyType {
             //
             // We want to add the query parameter ?rel=0
             const embedUrl =
-              slice.primary.embed.html.match(/src="([^"]+)"?/)[1];
+              slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
 
             const embedUrlWithEnhancedPrivacy = embedUrl.replace(
               'www.youtube.com',
