@@ -232,7 +232,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
 
     const pickUpDateMoment = pickUpDate
       ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
-      : null;
+      : nextAvailableDate || london();
     if (
       !enablePickUpDate ||
       Boolean(
@@ -428,7 +428,7 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest(date: Moment | undefined) {
+  async function confirmRequest(date: Moment) {
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
@@ -436,7 +436,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
-          neededBy: date ? date.format('YYYY-MM-DD') : undefined,
+          neededBy: date.format('YYYY-MM-DD'),
           type: 'Item',
         }),
         headers: {
