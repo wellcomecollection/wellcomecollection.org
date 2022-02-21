@@ -71,14 +71,3 @@ export type PaginatedResults<T> = {
   totalResults: number;
   totalPages: number;
 };
-
-export type PrismicApiError = {
-  statusCode: number;
-};
-
-export type DocumentType =
-  | 'articles'
-  | 'webcomics'
-  | 'events'
-  | 'exhibitions'
-  | 'books';
