@@ -58,7 +58,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
         ? {
             url: `/exhibitions/${partOf.id}`,
             text: partOf.shortTitle || partOf.title,
-            prefix: '@@AWLC Part of',
+            prefix: 'Part of',
           }
         : undefined,
       {
