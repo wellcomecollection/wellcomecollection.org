@@ -7,6 +7,7 @@ import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
 import type {
@@ -17,15 +18,41 @@ import type {
   SliceZone,
 } from '@prismicio/types';
 import { link } from './vendored-helpers';
-import { GenericContentFields } from '@weco/common/model/generic-content-fields';
+import {
+  BodyType,
+  GenericContentFields,
+} from '@weco/common/model/generic-content-fields';
 import {
   asText,
   checkAndParseImage,
-  parseBody,
+  getWeight,
+  parseCaptionedImage,
+  parseImage,
   parseImagePromo,
+  parseLabelType,
+  parseLink,
+  parseMediaObjectList,
+  parseRichText,
+  parseStructuredText,
+  parseTableCsv,
+  parseTaslFromString,
+  parseTeamToContact,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
+import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
+import { Body } from '../types/body';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { transformPage } from './pages';
+import { transformGuide } from './guides';
+import { transformEventSeries } from './event-series';
+import { transformExhibition } from './exhibitions';
+import { transformArticle } from './articles';
+import { transformEvent } from './events';
+import { transformSeason } from './seasons';
+import { MultiContentPrismicDocument } from '../types/multi-content';
+import { GuidePrismicDocument } from '../types/guides';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 type Meta = {
   title: string;
@@ -130,6 +157,328 @@ type PromoImage = {
   superWidescreenImage?: ImageType;
 };
 
+function transformTitledTextItem(item) {
+  return {
+    title: parseTitle(item.title),
+    text: parseStructuredText(item.text),
+    link: parseLink(item.link),
+    label: isDocumentLink(item.label) ? parseLabelType(item.label) : null,
+  };
+}
+
+// TODO: Consider moving this into a dedicated file for body transformers.
+// TODO: Rather than doing transformation inline, have this function consistently
+// call out to other transformer functions (a la contentList).
+// See https://github.com/wellcomecollection/wellcomecollection.org/pull/7679/files#r811138079
+export function transformBody(body: Body): BodyType {
+  return body
+    .map(slice => {
+      switch (slice.slice_type) {
+        case 'standfirst':
+          return {
+            type: 'standfirst',
+            weight: getWeight(slice.slice_label),
+            value: slice.primary.text,
+          };
+
+        case 'text':
+          return {
+            type: 'text',
+            weight: getWeight(slice.slice_label),
+            value: slice.primary.text,
+          };
+
+        case 'map':
+          return {
+            type: 'map',
+            value: {
+              title: asText(slice.primary.title),
+              latitude: slice.primary.geolocation.latitude,
+              longitude: slice.primary.geolocation.longitude,
+            },
+          };
+
+        case 'editorialImage':
+          return {
+            weight: getWeight(slice.slice_label),
+            type: 'picture',
+            value: parseCaptionedImage(slice.primary),
+          };
+
+        case 'editorialImageGallery':
+          return {
+            type: 'imageGallery',
+            weight: getWeight(slice.slice_label),
+            value: {
+              title: asText(slice.primary.title),
+              items: slice.items.map(item => parseCaptionedImage(item)),
+            },
+          };
+
+        case 'titledTextList':
+          return {
+            type: 'titledTextList',
+            value: {
+              items: slice.items.map(item => transformTitledTextItem(item)),
+            },
+          };
+
+        case 'contentList':
+          type ContentListPrismicDocument =
+            | MultiContentPrismicDocument
+            | GuidePrismicDocument
+            | SeasonPrismicDocument;
+
+          const contents: ContentListPrismicDocument[] = slice.items
+            .map(item => item.content)
+            .filter(isFilledLinkToDocumentWithData);
+
+          return {
+            type: 'contentList',
+            weight: getWeight(slice.slice_label),
+            value: {
+              title: asText(slice.primary.title),
+              // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
+              // but that doesn't exist in our Prismic model.
+              // hasFeatured: slice.primary.hasFeatured,
+              items: contents
+                .map(content => {
+                  switch (content.type) {
+                    case 'pages':
+                      return transformPage(content);
+                    case 'guides':
+                      return transformGuide(content);
+                    case 'event-series':
+                      return transformEventSeries(content);
+                    case 'exhibitions':
+                      return transformExhibition(content);
+                    case 'articles':
+                      return transformArticle(content);
+                    case 'events':
+                      return transformEvent(content);
+                    case 'seasons':
+                      return transformSeason(content);
+                  }
+                })
+                .filter(Boolean),
+            },
+          };
+
+        case 'collectionVenue':
+          return isFilledLinkToDocumentWithData(slice.primary.content)
+            ? {
+                type: 'collectionVenue',
+                weight: getWeight(slice.slice_label),
+                value: {
+                  content: parseCollectionVenue(slice.primary.content),
+                  showClosingTimes: slice.primary.showClosingTimes,
+                },
+              }
+            : undefined;
+
+        case 'searchResults':
+          return {
+            type: 'searchResults',
+            weight: getWeight(slice.slice_label),
+            value: {
+              title: asText(slice.primary.title),
+              query: slice.primary.query,
+              // TODO: The untyped version of this code had `slice.primary.pageSize`, but
+              // there's no such field on the Prismic model.  Should it be on the model?
+              // Does it matter?  Investigate further.
+              pageSize: 4,
+            },
+          };
+
+        case 'quote':
+        case 'quoteV2':
+          return {
+            type: 'quote',
+            weight: getWeight(slice.slice_label),
+            value: {
+              text: slice.primary.text,
+              citation: slice.primary.citation,
+              isPullOrReview:
+                slice.slice_label === 'pull' || slice.slice_label === 'review',
+            },
+          };
+
+        case 'iframe':
+          return {
+            type: 'iframe',
+            weight: slice.slice_label,
+            value: {
+              src: slice.primary.iframeSrc,
+              image: parseImage(slice.primary.previewImage),
+            },
+          };
+
+        case 'gifVideo':
+          return {
+            type: 'gifVideo',
+            weight: slice.slice_label,
+            value: {
+              caption: parseRichText(slice.primary.caption),
+              videoUrl: isFilledLinkToWebField(slice.primary.video)
+                ? slice.primary.video.url
+                : undefined,
+              playbackRate: slice.primary.playbackRate || 1,
+              tasl: parseTaslFromString(slice.primary.tasl),
+              autoPlay:
+                slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
+              loop: slice.primary.loop === null ? true : slice.primary.loop,
+              mute: slice.primary.mute === null ? true : slice.primary.mute,
+              showControls:
+                slice.primary.showControls === null
+                  ? false
+                  : slice.primary.showControls,
+            },
+          };
+
+        case 'contact':
+          return isFilledLinkToDocumentWithData(slice.primary.content)
+            ? {
+                type: 'contact',
+                value: parseTeamToContact(slice.primary.content),
+              }
+            : undefined;
+
+        case 'embed':
+          const embed = slice.primary.embed;
+
+          if (embed.provider_name === 'Vimeo') {
+            const embedUrl = slice.primary.embed.html?.match(
+              /src="([-a-zA-Z0-9://.?=_]+)?/
+            )![1];
+
+            return {
+              type: 'videoEmbed',
+              weight: getWeight(slice.slice_label),
+              value: {
+                embedUrl: `${embedUrl}?rel=0`,
+                caption: slice.primary.caption,
+              },
+            };
+          }
+
+          if (embed.provider_name === 'SoundCloud') {
+            const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
+            const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
+            const secretTokenString =
+              secretToken && secretToken[1]
+                ? `%3Fsecret_token%3D${secretToken[1]}`
+                : '';
+
+            return {
+              type: 'soundcloudEmbed',
+              weight: getWeight(slice.slice_label),
+              value: {
+                embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+                caption: slice.primary.caption,
+              },
+            };
+          }
+
+          if (embed.provider_name === 'YouTube') {
+            // The embed will be a blob of HTML of the form
+            //
+            //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
+            //
+            // We want to add the query parameter ?rel=0
+            const embedUrl =
+              slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
+
+            const embedUrlWithEnhancedPrivacy = embedUrl.replace(
+              'www.youtube.com',
+              'www.youtube-nocookie.com'
+            );
+
+            const newEmbedUrl = embedUrl.includes('?')
+              ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
+              : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+
+            return {
+              type: 'videoEmbed',
+              weight: getWeight(slice.slice_label),
+              value: {
+                embedUrl: newEmbedUrl,
+                caption: slice.primary.caption,
+              },
+            };
+          }
+          break;
+
+        case 'table':
+          return {
+            type: 'table',
+            value: {
+              rows: parseTableCsv(slice.primary.tableData),
+              caption: slice.primary.caption,
+              hasRowHeaders: slice.primary.hasRowHeaders,
+            },
+          };
+
+        case 'infoBlock':
+          return {
+            type: 'infoBlock',
+            value: {
+              title: parseTitle(slice.primary.title),
+              text: slice.primary.text,
+              linkText: slice.primary.linkText,
+              link: slice.primary.link,
+            },
+          };
+
+        case 'discussion':
+          return {
+            type: 'discussion',
+            value: {
+              title: parseTitle(slice.primary.title),
+              text: parseStructuredText(slice.primary.text),
+            },
+          };
+
+        case 'tagList':
+          return {
+            type: 'tagList',
+            value: {
+              title: parseTitle(slice.primary.title),
+              tags: slice.items.map(item => ({
+                textParts: [item.linkText],
+                linkAttributes: {
+                  href: { pathname: parseLink(item.link), query: '' },
+                  as: { pathname: parseLink(item.link), query: '' },
+                },
+              })),
+            },
+          };
+
+        // Deprecated
+        case 'imageList':
+          return {
+            type: 'deprecatedImageList',
+            weight: getWeight(slice.slice_label),
+            value: {
+              items: slice.items.map(item => ({
+                title: parseTitle(item.title),
+                subtitle: parseTitle(item.subtitle),
+                image: parseCaptionedImage(item),
+                description: parseStructuredText(item.description),
+              })),
+            },
+          };
+        case 'mediaObjectList':
+          return {
+            type: 'mediaObjectList',
+            value: {
+              items: parseMediaObjectList(slice.items),
+            },
+          };
+      }
+    })
+    .filter(isNotUndefined);
+}
+
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
   const promo = data.promo && parseImagePromo(data.promo);
@@ -151,7 +500,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
 
   const { image, squareImage, widescreenImage, superWidescreenImage } =
     promoImage;
-  const body = data.body ? parseBody(data.body) : [];
+  const body = data.body ? transformBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
   const metadataDescription = asText(data.metadataDescription);
 
