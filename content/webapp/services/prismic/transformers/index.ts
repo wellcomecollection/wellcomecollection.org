@@ -25,7 +25,6 @@ import {
 import {
   asText,
   checkAndParseImage,
-  getWeight,
   parseCaptionedImage,
   parseImage,
   parseImagePromo,
@@ -52,7 +51,7 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { transformTableSlice } from './body';
+import { getWeight, transformTableSlice } from './body';
 
 type Meta = {
   title: string;
