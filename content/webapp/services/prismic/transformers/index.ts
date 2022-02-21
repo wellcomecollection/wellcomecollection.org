@@ -166,6 +166,10 @@ function transformTitledTextItem(item) {
   };
 }
 
+// TODO: Consider moving this into a dedicated file for body transformers.
+// TODO: Rather than doing transformation inline, have this function consistently
+// call out to other transformer functions (a la contentList).
+// See https://github.com/wellcomecollection/wellcomecollection.org/pull/7679/files#r811138079
 export function transformBody(body: Body): BodyType {
   return body
     .map(slice => {
