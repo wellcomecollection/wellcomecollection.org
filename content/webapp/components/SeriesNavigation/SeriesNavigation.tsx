@@ -15,7 +15,7 @@ type Props = {
 
 const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
   const showPosition = !!(series.schedule && series.schedule.length > 0);
-  return (
+  return items.length > 0 ? (
     <SpacingComponent>
       <Layout8>
         <SearchResults
@@ -33,6 +33,8 @@ const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
         </Space>
       </Layout8>
     </SpacingComponent>
+  ) : (
+    <></>
   );
 };
 export default SeriesNavigation;
