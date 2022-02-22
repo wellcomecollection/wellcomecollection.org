@@ -19,8 +19,6 @@ import { licenseTypeArray } from '../../model/license';
 import isEmptyObj from '../../utils/is-empty-object';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
-// $FlowFixMe (tsx)
-import { MediaObjectType } from '../../model/media-object';
 import type { HTMLSerializer } from 'prismic-reactjs';
 import type { Element } from 'react';
 
@@ -186,19 +184,6 @@ export function parseTaslFromString(pipedString: string): Tasl {
       copyrightLink: null,
     };
   }
-}
-
-export function parseTeamToContact(team: PrismicFragment) {
-  const {
-    data: { title, subtitle, email, phone },
-  } = team;
-
-  return {
-    title: asText(title),
-    subtitle: asText(subtitle),
-    email,
-    phone,
-  };
 }
 
 // null is valid to use the default image,

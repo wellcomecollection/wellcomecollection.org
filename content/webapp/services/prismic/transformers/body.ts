@@ -1,8 +1,20 @@
-import { MediaObjectList as MediaObjectListSlice, Table as TableSlice } from '../types/body';
+import {
+  Contact as ContactSlice,
+  MediaObjectList as MediaObjectListSlice,
+  Table as TableSlice,
+} from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
+import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { MediaObjectType } from '@weco/common/model/media-object';
-import { parseImage, parseStructuredText, parseTitle } from '@weco/common/services/prismic/parsers';
+import {
+  parseImage,
+  parseStructuredText,
+  parseTitle,
+  asText,
+} from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { isFilledLinkToDocumentWithData } from '../types';
+import { TeamPrismicDocument } from '../types/teams';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -48,25 +60,55 @@ export function transformTableSlice(
 
 export function transformMediaObjectListSlice(
   slice: MediaObjectListSlice
-): ParsedSlice<'mediaObjectList', { items: Array<MediaObjectType> }> {
+): ParsedSlice<'mediaObjectList', { items: MediaObjectType[] }> {
   return {
     type: 'mediaObjectList',
     value: {
-      items: slice.items.map(mediaObject => {
-        if (mediaObject) {
-          // make sure we have the content we require
-          const title = mediaObject.title.length ? mediaObject?.title : undefined;
-          const text = mediaObject.text.length ? mediaObject?.text : undefined;
-          const image = mediaObject.image?.square?.dimensions
-            ? mediaObject.image
-            : undefined;
-          return {
-            title: title ? parseTitle(title) : null,
-            text: text ? parseStructuredText(text) : null,
-            image: image ? parseImage(image) : null,
-          };
-        }
-      }).filter(isNotUndefined),
+      items: slice.items
+        .map(mediaObject => {
+          if (mediaObject) {
+            // make sure we have the content we require
+            const title = mediaObject.title.length
+              ? mediaObject?.title
+              : undefined;
+            const text = mediaObject.text.length
+              ? mediaObject?.text
+              : undefined;
+            const image = mediaObject.image?.square?.dimensions
+              ? mediaObject.image
+              : undefined;
+            return {
+              title: title ? parseTitle(title) : null,
+              text: text ? parseStructuredText(text) : null,
+              image: image ? parseImage(image) : null,
+            };
+          }
+        })
+        .filter(isNotUndefined),
     },
   };
+}
+
+export function transformTeamToContact(team: TeamPrismicDocument) {
+  const {
+    data: { title, subtitle, email, phone },
+  } = team;
+
+  return {
+    title: asText(title),
+    subtitle: asText(subtitle),
+    email,
+    phone,
+  };
+}
+
+export function transformContactSlice(
+  slice: ContactSlice
+): ParsedSlice<'contact', ContactProps> | undefined {
+  return isFilledLinkToDocumentWithData(slice.primary.content)
+    ? {
+        type: 'contact',
+        value: transformTeamToContact(slice.primary.content),
+      }
+    : undefined;
 }

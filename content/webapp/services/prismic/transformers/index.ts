@@ -33,7 +33,6 @@ import {
   parseRichText,
   parseStructuredText,
   parseTaslFromString,
-  parseTeamToContact,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -50,7 +49,12 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { getWeight, transformMediaObjectListSlice, transformTableSlice } from './body';
+import {
+  getWeight,
+  transformContactSlice,
+  transformMediaObjectListSlice,
+  transformTableSlice,
+} from './body';
 
 type Meta = {
   title: string;
@@ -334,12 +338,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'contact':
-          return isFilledLinkToDocumentWithData(slice.primary.content)
-            ? {
-                type: 'contact',
-                value: parseTeamToContact(slice.primary.content),
-              }
-            : undefined;
+          return transformContactSlice(slice);
 
         case 'embed':
           const embed = slice.primary.embed;

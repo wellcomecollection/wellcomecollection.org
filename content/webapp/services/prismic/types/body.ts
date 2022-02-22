@@ -13,7 +13,8 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image } from '.';
+import { Image, InferDataInterface } from '.';
+import { TeamPrismicDocument } from './teams';
 
 type TextSlice = Slice<'text', { text: RichTextField }>;
 
@@ -101,10 +102,14 @@ type CollectionVenue = Slice<
   }
 >;
 
-type Contact = Slice<
+export type Contact = Slice<
   'contact',
   {
-    content: RelationField<'teams'>;
+    content: RelationField<
+      'teams',
+      'en-us',
+      InferDataInterface<Partial<TeamPrismicDocument>>
+    >;
   }
 >;
 

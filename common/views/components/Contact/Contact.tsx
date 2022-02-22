@@ -10,7 +10,7 @@ const Wrapper = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('turquoise')};
 `;
 
-type Props = {
+export type Props = {
   title: string;
   subtitle: string | null;
   phone: string | null;
