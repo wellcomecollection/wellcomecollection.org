@@ -52,6 +52,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import {
   getWeight,
   transformContactSlice,
+  transformEditorialImageGallerySlice,
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
@@ -208,14 +209,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'editorialImageGallery':
-          return {
-            type: 'imageGallery',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              items: slice.items.map(item => parseCaptionedImage(item)),
-            },
-          };
+          return transformEditorialImageGallerySlice(slice);
 
         case 'titledTextList':
           return {

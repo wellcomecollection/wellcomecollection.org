@@ -23,7 +23,7 @@ export type EditorialImageSlice = Slice<
   { image: Image; caption: RichTextField }
 >;
 
-type EditorialImageGallerySlice = Slice<
+export type EditorialImageGallerySlice = Slice<
   'editorialImageGallery',
   { title: RichTextField },
   { image: Image; caption: RichTextField }

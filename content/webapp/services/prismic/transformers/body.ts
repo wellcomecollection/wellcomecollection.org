@@ -1,10 +1,12 @@
 import {
   Contact as ContactSlice,
+  EditorialImageGallerySlice,
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
   parseImage,
@@ -15,6 +17,7 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
+import { transformCaptionedImage } from './images';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -111,4 +114,17 @@ export function transformContactSlice(
         value: transformTeamToContact(slice.primary.content),
       }
     : undefined;
+}
+
+export function transformEditorialImageGallerySlice(
+  slice: EditorialImageGallerySlice
+): ParsedSlice<'imageGallery', ImageGalleryProps> {
+  return {
+    type: 'imageGallery',
+    value: {
+      title: asText(slice.primary.title),
+      items: slice.items.map(item => transformCaptionedImage(item)),
+      isStandalone: getWeight(slice.slice_label) === 'standalone',
+    },
+  };
 }
