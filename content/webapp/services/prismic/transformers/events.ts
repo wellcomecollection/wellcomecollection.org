@@ -51,8 +51,8 @@ function determineDisplayTime(times: EventTime[]): EventTime {
 
 export function getLastEndTime(
   times: {
-    startDateTime: string;
-    endDateTime: string;
+    startDateTime: string | null;
+    endDateTime: string | null;
     isFullyBooked: boolean | null;
   }[]
 ) {
