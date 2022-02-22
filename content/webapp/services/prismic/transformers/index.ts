@@ -24,8 +24,6 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  checkAndParseImage,
-  parseImage,
   parseImagePromo,
   parseLabelType,
   parseLink,
@@ -57,6 +55,7 @@ import {
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
+import { transformImage } from './images';
 
 type Meta = {
   title: string;
@@ -302,7 +301,7 @@ export function transformBody(body: Body): BodyType {
             weight: slice.slice_label,
             value: {
               src: slice.primary.iframeSrc,
-              image: parseImage(slice.primary.previewImage),
+              image: transformImage(slice.primary.previewImage),
             },
           };
 
@@ -455,10 +454,10 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
           .filter(slice => slice.primary.image)
           .map(({ primary: { image } }) => {
             return {
-              image: checkAndParseImage(image),
-              squareImage: checkAndParseImage(image.square),
-              widescreenImage: checkAndParseImage(image['16:9']),
-              superWidescreenImage: checkAndParseImage(image['32:15']),
+              image: transformImage(image),
+              squareImage: transformImage(image.square),
+              widescreenImage: transformImage(image['16:9']),
+              superWidescreenImage: transformImage(image['32:15']),
             };
           })
           .find(_ => _) || {} // just get the first one;

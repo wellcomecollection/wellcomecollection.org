@@ -12,7 +12,6 @@ import { Props as ImageGalleryProps } from '../../../components/ImageGallery/Ima
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
-  parseImage,
   parseStructuredText,
   parseTitle,
   asText,
@@ -20,7 +19,7 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
-import { transformCaptionedImage } from './images';
+import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -91,7 +90,7 @@ export function transformMediaObjectListSlice(
             return {
               title: title ? parseTitle(title) : null,
               text: text ? parseStructuredText(text) : null,
-              image: image ? parseImage(image) : null,
+              image: transformImage(image),
             };
           }
         })
