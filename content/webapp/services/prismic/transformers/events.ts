@@ -6,15 +6,15 @@ import {
   ThirdPartyBooking,
 } from '@weco/common/model/events';
 import { Event } from '../../../types/events';
-import { EventPrismicDocument } from '../types/events';
+import { EventPrismicDocument, EventPolicy as EventPolicyPrismicDocument } from '../types/events';
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { Query } from '@prismicio/types';
+import { GroupField, Query, RelationField } from '@prismicio/types';
 import {
   asText,
   parseBoolean,
   parseFormat,
-  parseLabelTypeList,
+  parseLabelType,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
@@ -29,6 +29,9 @@ import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { london } from '@weco/common/utils/format-date';
 import moment from 'moment';
+import { LabelField } from '@weco/common/model/label-field';
+import {  } from '@prismicio/types';
+import { InferDataInterface } from '../types';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -59,6 +62,23 @@ export function getLastEndTime(
   return times
     .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
     .map(time => parseTimestamp(time.endDateTime))[0];
+}
+
+export function transformEventPolicyLabels(
+  fragment: GroupField<{
+    policy: RelationField<
+      'event-policy',
+      'en-gb',
+      InferDataInterface<EventPolicyPrismicDocument>
+    >;
+  }>,
+  labelKey: string
+): LabelField[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(Boolean)
+    .filter(label => label.isBroken === false)
+    .map(label => parseLabelType(label));
 }
 
 export function transformEvent(
@@ -202,7 +222,7 @@ export function transformEvent(
     format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
-      ? parseLabelTypeList(data.policies, 'policy')
+      ? transformEventPolicyLabels(data.policies, 'policy')
       : [],
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,

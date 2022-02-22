@@ -109,17 +109,6 @@ export function parseBackgroundTexture(
   };
 }
 
-export function parseLabelTypeList(
-  fragment: PrismicFragment[],
-  labelKey: string
-): LabelField[] {
-  return fragment
-    .map(label => label[labelKey])
-    .filter(Boolean)
-    .filter(label => label.isBroken === false)
-    .map(label => parseLabelType(label));
-}
-
 export function parseLabelType(fragment: PrismicFragment): LabelField {
   return {
     id: fragment.id,
