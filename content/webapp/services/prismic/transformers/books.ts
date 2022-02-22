@@ -21,7 +21,7 @@ export function transformBook(document: BookPrismicDocument): Book {
   // We do this over the general parser as we want the not 16:9 image.
   const cover =
     data.promo &&
-    (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : null);
+    (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : undefined);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return transformSeason(season);
   });
