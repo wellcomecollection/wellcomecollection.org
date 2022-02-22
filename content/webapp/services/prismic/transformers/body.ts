@@ -11,17 +11,20 @@ import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
+  parseRichText,
   parseStructuredText,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { isFilledLinkToDocumentWithData } from '../types';
+import { isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
+import { transformTaslFromString } from '.';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -170,11 +173,6 @@ export function transformDeprecatedImageListSlice(
     },
   };
 }
-
-import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
-import { parseRichText } from '@weco/common/services/prismic/parsers';
-import { transformTaslFromString } from '.';
-import { isFilledLinkToWebField } from '../types';
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
