@@ -27,11 +27,12 @@ import {
   parseExhibitionFormat,
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
-import { isDocumentLink, transformGenericFields } from '.';
+import { transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { isFilledLinkToDocumentWithData } from '../types';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -88,10 +89,8 @@ export function transformExhibition(
     };
   });
 
-  // TODO: Make this type check properly; for some reason it doesn't recognise
-  // this as a PlacePrismicDocument and I'm not sure why.
-  const place = isDocumentLink(data.place)
-    ? transformPlace(data.place as any)
+  const place = isFilledLinkToDocumentWithData(data.place)
+    ? transformPlace(data.place)
     : undefined;
 
   const exhibition = {

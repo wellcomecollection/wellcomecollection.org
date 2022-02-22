@@ -21,7 +21,7 @@ import {
 } from '@weco/common/services/prismic/parsers';
 import { determineDateRange } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
-import { isDocumentLink, transformGenericFields } from '.';
+import { transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -31,16 +31,16 @@ import { london } from '@weco/common/utils/format-date';
 import moment from 'moment';
 import { LabelField } from '@weco/common/model/label-field';
 import {  } from '@prismicio/types';
-import { InferDataInterface } from '../types';
+import { InferDataInterface, isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
 ): string | undefined {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
     ? 'Ticketed'
-    : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
+    : isFilledLinkToDocumentWithData(eventDoc.data.bookingEnquiryTeam)
     ? 'Enquire to book'
-    : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data?.capacity
+    : isFilledLinkToDocumentWithData(eventDoc.data.place) && eventDoc.data.place.data?.capacity
     ? 'First come, first served'
     : undefined;
 }
@@ -86,7 +86,7 @@ export function transformEvent(
   scheduleQuery?: Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
-  const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
+  const scheduleLength = isFilledLinkToDocumentWithData(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
   const genericFields = transformGenericFields(document);
@@ -137,7 +137,7 @@ export function transformEvent(
     )
     .filter(isNotUndefined);
 
-  const bookingEnquiryTeam: Team | undefined = isDocumentLink(
+  const bookingEnquiryTeam: Team | undefined = isFilledLinkToDocumentWithData(
     data.bookingEnquiryTeam
   )
     ? {
@@ -149,7 +149,7 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking: ThirdPartyBooking | undefined = isDocumentLink(
+  const thirdPartyBooking: ThirdPartyBooking | undefined = isFilledLinkToWebField(
     data.thirdPartyBookingUrl
   )
     ? {
@@ -199,7 +199,7 @@ export function transformEvent(
 
   // TODO: Make this type check properly; for some reason it doesn't recognise
   // this as a PlacePrismicDocument and I'm not sure why.
-  const place = isDocumentLink(data.place)
+  const place = isFilledLinkToDocumentWithData(data.place)
     ? transformPlace(data.place as any)
     : undefined;
 

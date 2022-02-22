@@ -136,21 +136,6 @@ export function transformRichTextFieldToString(field: RichTextField) {
   return field && field.length > 0 ? prismicH.asText(field) : undefined;
 }
 
-export const isDocumentLink = <
-  TypeEnum = string,
-  LangEnum = string,
-  DataInterface extends Record<
-    string,
-    AnyRegularField | GroupField | SliceZone
-  > = never
->(
-  field: RelationField<TypeEnum, LangEnum, DataInterface> | undefined
-): field is FilledLinkToDocumentField<TypeEnum, LangEnum, DataInterface> => {
-  return Boolean(
-    field && link(field) && field.isBroken === false && field.data
-  );
-};
-
 type PromoImage = {
   image?: ImageType;
   squareImage?: ImageType;
@@ -163,7 +148,7 @@ function transformTitledTextItem(item) {
     title: parseTitle(item.title),
     text: parseStructuredText(item.text),
     link: parseLink(item.link),
-    label: isDocumentLink(item.label) ? parseLabelType(item.label) : null,
+    label: isFilledLinkToDocumentWithData(item.label) ? parseLabelType(item.label) : null,
   };
 }
 

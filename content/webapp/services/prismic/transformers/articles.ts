@@ -2,7 +2,6 @@ import { Article } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import {
   asText,
-  isDocumentLink,
   parseLabelType,
   parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
@@ -55,7 +54,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   const datePublished =
     data.publishDate || document.first_publication_date || undefined;
 
-  const format = isDocumentLink(data.format)
+  const format = isFilledLinkToDocumentWithData(data.format)
     ? parseLabelType(data.format)
     : null;
 
