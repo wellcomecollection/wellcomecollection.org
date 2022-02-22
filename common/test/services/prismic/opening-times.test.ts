@@ -394,7 +394,7 @@ describe('opening-times', () => {
   });
 
   describe('exceptionalFromRegular', () => {
-    it.only('returns an ExceptionalOpeningHoursDay type for a particular date and venue, generated from the regular hours of that venue.', () => {
+    it('returns an ExceptionalOpeningHoursDay type for a particular date and venue, generated from the regular hours of that venue.', () => {
       const result = exceptionalFromRegular(
         libraryVenue!,
         london('2021-12-21'),
