@@ -1,4 +1,4 @@
-import { MediaObjectList, Table } from '../types/body';
+import { MediaObjectList as MediaObjectListSlice, Table as TableSlice } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import { parseImage, parseStructuredText, parseTitle } from '@weco/common/services/prismic/parsers';
@@ -32,7 +32,7 @@ function transformTableCsv(tableData: string): string[][] {
 }
 
 export function transformTableSlice(
-  slice: Table
+  slice: TableSlice
 ): ParsedSlice<'table', TableProps> {
   return {
     type: 'table',
@@ -47,7 +47,7 @@ export function transformTableSlice(
 }
 
 export function transformMediaObjectListSlice(
-  slice: MediaObjectList
+  slice: MediaObjectListSlice
 ): ParsedSlice<'mediaObjectList', { items: Array<MediaObjectType> }> {
   return {
     type: 'mediaObjectList',
