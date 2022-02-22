@@ -17,7 +17,6 @@ export const data: UiEvent = {
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
-  place: undefined,
   locations: [],
   bookingEnquiryTeam: undefined,
   interpretations: [],

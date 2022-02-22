@@ -6,7 +6,6 @@ import type { Format } from './format';
 import type { BackgroundTexture } from './background-texture';
 import type { ImageType } from './image';
 import type { LabelField } from './label-field';
-import type { Place } from './places';
 import type { Season } from './seasons';
 import type { HTMLString as PrismicHTMLString } from '../services/prismic/types';
 import type { Label } from './labels';
@@ -88,7 +87,6 @@ export type Event = {|
   times: EventTime[],
   series: EventSeries[],
   seasons: Season[],
-  place: ?Place,
   bookingEnquiryTeam: ?Team,
   interpretations: Interpretation[],
   audiences: Audience[],
