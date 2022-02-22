@@ -479,33 +479,33 @@ describe('opening-times', () => {
         ],
       ]);
     });
-  });
 
-  // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
-  it.only("it doesn't return the regular hours if the override type is 'other'", () => {
-    const result = backfillExceptionalVenueDays(libraryVenue!, [
-      {
-        type: 'Bank holiday',
-        dates: [london('2021-10-05')],
-      },
-      {
-        type: 'other',
-        dates: [london('2021-10-08')],
-      },
-    ]);
-
-    expect(result).toEqual([
-      [
+    // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
+    it("it doesn't return the regular hours if the override type is 'other'", () => {
+      const result = backfillExceptionalVenueDays(libraryVenue!, [
         {
-          overrideDate: london('2021-10-05'),
-          overrideType: 'Bank holiday',
-          opens: '10:00',
-          closes: '18:00',
-          isClosed: false,
+          type: 'Bank holiday',
+          dates: [london('2021-10-05')],
         },
-      ],
-      [],
-    ]);
+        {
+          type: 'other',
+          dates: [london('2021-10-08')],
+        },
+      ]);
+
+      expect(result).toEqual([
+        [
+          {
+            overrideDate: london('2021-10-05'),
+            overrideType: 'Bank holiday',
+            opens: '10:00',
+            closes: '18:00',
+            isClosed: false,
+          },
+        ],
+        [],
+      ]);
+    });
   });
 
   describe('getVenueById', () => {
