@@ -6,15 +6,7 @@ import {
   groupExceptionalVenueDays,
   exceptionalFromRegular,
   backfillExceptionalVenueDays,
-  // convertJsonDateStringsToMoment,
-  // getUpcomingExceptionalPeriods,
-  // openingHoursToOpeningHoursSpecification
   getVenueById,
-  // getTodaysVenueHours, // DO THIS
-  // parseCollectionVenue, // MOVE THIS
-  // parseCollectionVenues, // MOVE THIS
-  // createRegularDay, // DO THIS
-  // groupConsecutiveDates, // DO THIS
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { london } from '../../../utils/format-date';
@@ -516,66 +508,10 @@ describe('opening-times', () => {
     ]);
   });
 
-  // describe('convertJsonDateStringsToMoment', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('getUpcomingExceptionalPeriods', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('openingHoursToOpeningHoursSpecification', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
       expect(result.name).toEqual('Galleries and Reading Room');
     });
   });
-
-  // describe('getTodaysVenueHours', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('parseCollectionVenue', () => { // TODO move parsers.test
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('parseCollectionVenues', () => { // TOD move parsers.test
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('createRegularDay', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
-
-  // describe('groupConsecutiveDates', () => {
-  //   it('', () => {
-  //     const result = ;
-  //     expect(result).toEqual();
-  //   });
-  // });
 });
