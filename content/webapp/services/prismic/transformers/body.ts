@@ -1,5 +1,6 @@
 import {
   Contact as ContactSlice,
+  EditorialImageSlice,
   EditorialImageGallerySlice,
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
@@ -18,6 +19,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
+import { CaptionedImage } from '@weco/common/model/captioned-image';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -37,6 +39,10 @@ export function getWeight(weight: string | null): Weight {
 type ParsedSlice<TypeName extends string, Value> = {
   type: TypeName;
   value: Value;
+};
+
+type WeightedSlice = {
+  weight: Weight;
 };
 
 function transformTableCsv(tableData: string): string[][] {
@@ -114,6 +120,16 @@ export function transformContactSlice(
         value: transformTeamToContact(slice.primary.content),
       }
     : undefined;
+}
+
+export function transformEditorialImageSlice(
+  slice: EditorialImageSlice
+): ParsedSlice<'picture', CaptionedImage> & WeightedSlice {
+  return {
+    weight: getWeight(slice.slice_label),
+    type: 'picture',
+    value: transformCaptionedImage(slice.primary),
+  };
 }
 
 export function transformEditorialImageGallerySlice(

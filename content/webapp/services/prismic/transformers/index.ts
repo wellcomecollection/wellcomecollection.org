@@ -53,6 +53,7 @@ import {
   getWeight,
   transformContactSlice,
   transformEditorialImageGallerySlice,
+  transformEditorialImageSlice,
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
@@ -202,11 +203,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'editorialImage':
-          return {
-            weight: getWeight(slice.slice_label),
-            type: 'picture',
-            value: parseCaptionedImage(slice.primary),
-          };
+          return transformEditorialImageSlice(slice);
 
         case 'editorialImageGallery':
           return transformEditorialImageGallerySlice(slice);
