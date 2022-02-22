@@ -255,8 +255,10 @@ export function parseSingleLevelGroup(
   frag: PrismicFragment[],
   singlePropertyName: string
 ) {
+  const group = Array.isArray(frag) ? frag : [frag].filter(Boolean);
+
   return (
-    (frag || [])
+    group
       .filter(fragItem => isDocumentLink(fragItem[singlePropertyName]))
       /*eslint-disable */
       .map<PrismicFragment>(fragItem => fragItem[singlePropertyName])
