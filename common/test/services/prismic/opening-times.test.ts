@@ -5,7 +5,7 @@ import {
   getExceptionalVenueDays,
   groupExceptionalVenueDays,
   exceptionalFromRegular,
-  // backfillExceptionalVenueDays,
+  backfillExceptionalVenueDays,
   // convertJsonDateStringsToMoment,
   // getUpcomingExceptionalPeriods,
   // openingHoursToOpeningHoursSpecification
@@ -411,50 +411,110 @@ describe('opening-times', () => {
     });
   });
 
-  // describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it returns the venues regular opening times for that day.", () => {
-  //   it('returns an exceptional override date type for each of the dates provided', () => {
-  //     const result = backfillExceptionalVenueDays(venue, [
-  //       {
-  //         type: 'Christmas and New Year',
-  //         dates: [
-  //           london('2021-12-31'),
-  //           london('2022-01-01'),
-  //           london('2022-01-02'),
-  //           london('2022-01-03'),
-  //           london('2022-01-04'),
-  //         ],
-  //       },
-  //       {
-  //         type: 'Easter',
-  //         dates: [london('2021-10-05')],
-  //       },
-  //     ]);
-  //     expect(result).toEqual(expectedResult);
-  //   });
-  // });
-  // it("it doesn't return the regular hours if the override type is 'other'", () => {
-  //   const result = backfillExceptionalVenueDays(venue, [
-  //     {
-  //       type: 'Christmas and New Year',
-  //       dates: [
-  //         london('2021-12-31'),
-  //         london('2022-01-01'),
-  //         london('2022-01-02'),
-  //         london('2022-01-03'),
-  //         london('2022-01-04'),
-  //       ],
-  //     },
-  //     {
-  //       type: 'Easter',
-  //       dates: [london('2021-10-05')],
-  //     },
-  //     {
-  //       type: 'other',
-  //       dates: [london('2021-10-08')],
-  //     },
-  //   ]);
-  //   // expect(result).toEqual(expectedResult.push([]));
-  // });
+  describe("backfillExceptionalVenueDays: returns the venue's exceptional opening times for each date, and if there is no exceptional opening time for a specific date, then it uses the venues regular opening times for that day.", () => {
+    it('returns an exceptional override date type for each of the dates provided', () => {
+      const result = backfillExceptionalVenueDays(libraryVenue!, [
+        {
+          type: 'Christmas and New Year',
+          dates: [
+            london('2022-12-28'),
+            london('2022-12-29'),
+            london('2022-12-30'),
+            london('2022-12-31'),
+            london('2023-01-01'),
+            london('2023-01-02'),
+          ],
+        },
+        {
+          type: 'Bank holiday',
+          dates: [london('2021-10-05')],
+        },
+      ]);
+
+      expect(result).toEqual([
+        [
+          {
+            overrideDate: london('2022-12-28'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-12-29'),
+            overrideType: 'Christmas and New Year',
+            opens: '10:00',
+            closes: '20:00',
+            isClosed: false,
+          },
+          {
+            overrideDate: london('2022-12-30'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-12-31'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2023-01-01'),
+            overrideType: 'Christmas and New Year',
+            opens: '20:00',
+            closes: '21:00',
+            isClosed: false,
+          },
+          {
+            overrideDate: london('2023-01-02'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
+        [
+          {
+            overrideDate: london('2021-10-05'),
+            overrideType: 'Bank holiday',
+            opens: '10:00',
+            closes: '18:00',
+            isClosed: false,
+          },
+        ],
+      ]);
+    });
+  });
+
+  // We don't backfill if its type is other - see https://github.com/wellcomecollection/wellcomecollection.org/pull/4437
+  it.only("it doesn't return the regular hours if the override type is 'other'", () => {
+    const result = backfillExceptionalVenueDays(libraryVenue!, [
+      {
+        type: 'Bank holiday',
+        dates: [london('2021-10-05')],
+      },
+      {
+        type: 'other',
+        dates: [london('2021-10-08')],
+      },
+    ]);
+
+    expect(result).toEqual([
+      [
+        {
+          overrideDate: london('2021-10-05'),
+          overrideType: 'Bank holiday',
+          opens: '10:00',
+          closes: '18:00',
+          isClosed: false,
+        },
+      ],
+      [],
+    ]);
+  });
 
   // describe('convertJsonDateStringsToMoment', () => {
   //   it('', () => {
