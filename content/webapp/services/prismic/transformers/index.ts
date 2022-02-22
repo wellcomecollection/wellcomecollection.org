@@ -24,7 +24,6 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  parseImagePromo,
   parseLabelType,
   parseLink,
   parseRichText,
@@ -55,7 +54,7 @@ import {
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
-import { transformImage } from './images';
+import { transformImage, transformImagePromo } from './images';
 
 type Meta = {
   title: string;
@@ -446,7 +445,7 @@ export function transformBody(body: Body): BodyType {
 
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
-  const promo = data.promo && parseImagePromo(data.promo);
+  const promo = data.promo && transformImagePromo(data.promo);
 
   const promoImage: PromoImage =
     data.promo && data.promo.length > 0

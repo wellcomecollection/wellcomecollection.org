@@ -18,13 +18,11 @@ import {
   asText,
   isEmptyHtmlString,
   parseBoolean,
-  parseImagePromo,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { breakpoints } from '@weco/common/utils/breakpoints';
 import {
   parseExhibitionFormat,
   parseResourceTypeList,
@@ -32,7 +30,7 @@ import {
 import { isDocumentLink, transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
-import { transformPromoToCaptionedImage } from './images';
+import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -52,10 +50,8 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
-  const promoThin =
-    promo && parseImagePromo(promo, '32:15', breakpoints.medium);
-  const promoSquare =
-    promo && parseImagePromo(promo, 'square', breakpoints.small);
+  const promoThin = promo && transformImagePromo(promo, '32:15');
+  const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const promos = [promoThin, promoSquare]
     .filter(Boolean)

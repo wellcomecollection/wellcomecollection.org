@@ -8,12 +8,12 @@ import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
 import {
-  parseImage,
+  asText,
   parseTaslFromString,
   isEmptyHtmlString,
-  isImageLink,
 } from '@weco/common/services/prismic/parsers';
 import { HTMLStringBlock } from '@weco/common/services/prismic/types';
+import { ImagePromo } from '@weco/common/model/image-promo';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -46,7 +46,7 @@ export function transformCaptionedImage(
 
   const image = crop ? frag.image[crop] : frag.image;
   return {
-    image: image?.dimensions ? parseImage(image) : placeHolderImage,
+    image: transformImage(image) || placeHolderImage,
     caption: !isEmptyHtmlString(frag.caption)
       ? (frag.caption as HTMLStringBlock[])
       : [],
@@ -64,7 +64,7 @@ export function transformPromoToCaptionedImage(
 
 // when images have crops, event if the image isn't attached, we get e.g.
 // { '32:15': {}, '16:9': {}, square: {} }
-export function isImageLink(
+function isImageLink(
   maybeImage: EmptyImageFieldImage | FilledImageFieldImage
 ): maybeImage is FilledImageFieldImage {
   return Boolean(maybeImage && maybeImage.dimensions);
@@ -104,4 +104,29 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
     tasl: tasl,
     crops: crops,
   };
+}
+
+// null is valid to use the default image,
+// which isn't on a property, but rather at the root
+export function transformImagePromo(
+  zone: PromoSliceZone,
+  cropType: Crop | null = '16:9'
+): ImagePromo | undefined {
+  const promoSlice =
+    zone && zone.find(slice => slice.slice_type === 'editorialImage');
+  const link = promoSlice && promoSlice.primary.link;
+  // We introduced enforcing 16:9 half way through, so we have to do a check for it.
+  const promoImage =
+    promoSlice && cropType
+      ? promoSlice.primary.image[cropType] || promoSlice.primary.image
+      : promoSlice && promoSlice.primary.image;
+
+  return (
+    promoSlice &&
+    ({
+      caption: asText(promoSlice.primary.caption),
+      image: transformImage(promoImage),
+      link,
+    } as ImagePromo)
+  );
 }

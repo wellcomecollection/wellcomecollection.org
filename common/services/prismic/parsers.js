@@ -3,7 +3,6 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 // $FlowFixMe (tsx)
 import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import flattenDeep from 'lodash.flattendeep';
-import type { ImageType } from '../../model/image';
 import type { Tasl } from '../../model/tasl';
 import type { LicenseType } from '../../model/license';
 import type { Format } from '../../model/format';
@@ -12,7 +11,6 @@ import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
 } from '../../model/background-texture';
-import type { ImagePromo } from '../../model/image-promo';
 import type { LabelField } from '../../model/label-field';
 import { licenseTypeArray } from '../../model/license';
 import { dasherize } from '../../utils/grammar';
@@ -59,37 +57,6 @@ export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
 }
 
-export function checkAndParseImage(frag: ?PrismicFragment): ?ImageType {
-  return frag && (isImageLink(frag) ? parseImage(frag) : null);
-}
-
-// These are the props returned on a prismic image object
-const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
-// We don't export this, as we probably always want to check ^ first
-export function parseImage(frag: PrismicFragment): ImageType {
-  const tasl = parseTaslFromString(frag.copyright);
-  const crops = Object.keys(frag)
-    .filter(key => prismicImageProps.indexOf(key) === -1)
-    .filter(key => isImageLink(frag[key]))
-    .map(key => ({
-      key,
-      image: parseImage(frag[key]),
-    }))
-    .reduce((acc, { key, image }) => {
-      acc[key] = image;
-      return acc;
-    }, {});
-
-  return {
-    contentUrl: frag.url,
-    width: frag.dimensions.width,
-    height: frag.dimensions.height,
-    alt: frag.alt,
-    tasl: tasl,
-    crops: crops,
-  };
-}
-
 export function parseTaslFromString(pipedString: string): Tasl {
   // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
   // e.g. Self|Rob Bidder|||CC-BY-NC
@@ -131,33 +98,6 @@ export function parseTaslFromString(pipedString: string): Tasl {
       copyrightLink: null,
     };
   }
-}
-
-// null is valid to use the default image,
-// which isn't on a property, but rather at the root
-type CropType = null | '16:9' | '32:15' | 'square';
-export function parseImagePromo(
-  frag: ?(PrismicFragment[]),
-  cropType: CropType = '16:9',
-  minWidth: ?string = null
-): ?ImagePromo {
-  const promoSlice =
-    frag && frag.find(slice => slice.slice_type === 'editorialImage');
-  const link = promoSlice && promoSlice.primary.link;
-  // We introduced enforcing 16:9 half way through, so we have to do a check for it.
-  const promoImage =
-    promoSlice && cropType
-      ? promoSlice.primary.image[cropType] || promoSlice.primary.image
-      : promoSlice && promoSlice.primary.image;
-
-  return (
-    promoSlice &&
-    ({
-      caption: asText(promoSlice.primary.caption),
-      image: checkAndParseImage(promoImage),
-      link,
-    }: ImagePromo)
-  );
 }
 
 export function parseBackgroundTexture(
@@ -242,12 +182,6 @@ export function isStructuredText(structuredTextObject: HTMLString): boolean {
 // empty link object, which is why we use this
 export function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false && fragment.data);
-}
-
-// when images have crops, event if the image isn't attached, we get e.g.
-// { '32:15': {}, '16:9': {}, square: {} }
-export function isImageLink(fragment: ?PrismicFragment): boolean {
-  return Boolean(fragment && fragment.dimensions);
 }
 
 export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
