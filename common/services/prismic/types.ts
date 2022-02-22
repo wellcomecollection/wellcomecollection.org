@@ -34,14 +34,6 @@ export type PrismicApiSearchResponse = {
   results: PrismicDocument[];
 };
 
-export type PrismicQueryOpts = {
-  fetchLinks?: string[];
-  page?: number;
-  orderings?: string;
-  pageSize?: number;
-  graphQuery?: string;
-};
-
 export type HTMLSpanTypes =
   | 'heading2'
   | 'heading3'
@@ -79,14 +71,3 @@ export type PaginatedResults<T> = {
   totalResults: number;
   totalPages: number;
 };
-
-export type PrismicApiError = {
-  statusCode: number;
-};
-
-export type DocumentType =
-  | 'articles'
-  | 'webcomics'
-  | 'events'
-  | 'exhibitions'
-  | 'books';

@@ -23,7 +23,7 @@ import isEmptyObj from '../../utils/is-empty-object';
 import { london } from '../../utils/format-date';
 import { isPast } from '../../utils/dates';
 
-export function parseEventBookingType(eventDoc: PrismicDocument): ?string {
+function parseEventBookingType(eventDoc: PrismicDocument): ?string {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
     ? 'Ticketed'
     : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
@@ -57,7 +57,7 @@ export function determineDateRange(
   };
 }
 
-export function determineDisplayTime(times: EventTime[]): EventTime {
+function determineDisplayTime(times: EventTime[]): EventTime {
   const upcomingDates = times.filter(t => {
     return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });

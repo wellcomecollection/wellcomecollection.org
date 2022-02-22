@@ -158,7 +158,7 @@ const TableTd = styled(Space).attrs({
   height: 53px; // Make rows the same height with/without ButtonInline
 `;
 
-type Props = {
+export type Props = {
   rows: (string | ReactElement)[][];
   hasRowHeaders?: boolean;
   caption?: string;

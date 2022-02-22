@@ -68,7 +68,7 @@ type Standfirst = Slice<
   }
 >;
 
-type Table = Slice<
+export type Table = Slice<
   'table',
   {
     caption: KeyTextField;
