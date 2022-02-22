@@ -4,10 +4,12 @@ import {
   EditorialImageGallerySlice,
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
+  DeprecatedImageList as DeprecatedImageListSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
+import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
   parseImage,
@@ -141,6 +143,30 @@ export function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
+    },
+  };
+}
+
+export function transformDeprecatedImageListSlice(
+  slice: DeprecatedImageListSlice
+): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> &
+  WeightedSlice {
+  return {
+    type: 'deprecatedImageList',
+    weight: getWeight(slice.slice_label),
+    value: {
+      items: slice.items.map(item => ({
+        title: parseTitle(item.title),
+        subtitle: parseTitle(item.subtitle),
+        // TODO: It's questionable whether we should be assigning a 'caption'
+        // here or using a different transform function, but as this slice is
+        // deprecated I don't really care.  Hopefully we'll just delete this
+        // whole function soon.
+        //
+        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
+        image: transformCaptionedImage({ ...item, caption: [] }),
+        description: parseStructuredText(item.description),
+      })),
     },
   };
 }

@@ -177,7 +177,7 @@ type SearchResults = Slice<
   { title: RichTextField; query: KeyTextField }
 >;
 
-type DeprecatedImageList = Slice<
+export type DeprecatedImageList = Slice<
   'imageList',
   Record<string, never>,
   {

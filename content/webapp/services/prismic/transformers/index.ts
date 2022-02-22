@@ -25,7 +25,6 @@ import {
 import {
   asText,
   checkAndParseImage,
-  parseCaptionedImage,
   parseImage,
   parseImagePromo,
   parseLabelType,
@@ -52,6 +51,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import {
   getWeight,
   transformContactSlice,
+  transformDeprecatedImageListSlice,
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformMediaObjectListSlice,
@@ -436,18 +436,8 @@ export function transformBody(body: Body): BodyType {
 
         // Deprecated
         case 'imageList':
-          return {
-            type: 'deprecatedImageList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              items: slice.items.map(item => ({
-                title: parseTitle(item.title),
-                subtitle: parseTitle(item.subtitle),
-                image: parseCaptionedImage(item),
-                description: parseStructuredText(item.description),
-              })),
-            },
-          };
+          return transformDeprecatedImageListSlice(slice);
+
         case 'mediaObjectList':
           return transformMediaObjectListSlice(slice);
       }
