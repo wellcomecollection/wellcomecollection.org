@@ -6,9 +6,9 @@ import EventPromo from './EventPromo';
 import * as Context from '@weco/common/server-data/Context';
 import { UiEvent } from '@weco/common/model/events';
 import {
-  eventWithPlace,
+  eventWithOneLocation,
   eventOnline,
-  eventWithPlaceOnline,
+  eventWithOneLocationOnline,
 } from '../../__mocks__/events';
 jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
   enablePickUpDate: true,
@@ -28,7 +28,7 @@ const renderComponent = (event: UiEvent) => {
 
 describe('EventPromo', () => {
   it('Shows a specific location when it is the only location for an event', () => {
-    renderComponent(eventWithPlace);
+    renderComponent(eventWithOneLocation);
     expect(screen.getByText('Reading Room'));
   });
 
@@ -38,7 +38,7 @@ describe('EventPromo', () => {
   });
 
   it('Shows when an event is a physical/online hybrid', () => {
-    renderComponent(eventWithPlaceOnline);
+    renderComponent(eventWithOneLocationOnline);
     expect(screen.getByText('Online & In our building'));
   });
 });
