@@ -90,7 +90,7 @@ export function transformMediaObjectListSlice(
             return {
               title: title ? parseTitle(title) : null,
               text: text ? parseStructuredText(text) : null,
-              image: transformImage(image),
+              image: transformImage(image) || null,
             };
           }
         })
