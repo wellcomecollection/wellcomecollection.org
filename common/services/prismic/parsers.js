@@ -12,11 +12,9 @@ import type {
   BackgroundTexture,
   PrismicBackgroundTexture,
 } from '../../model/background-texture';
-import type { CaptionedImage } from '../../model/captioned-image';
 import type { ImagePromo } from '../../model/image-promo';
 import type { LabelField } from '../../model/label-field';
 import { licenseTypeArray } from '../../model/license';
-import isEmptyObj from '../../utils/is-empty-object';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import type { HTMLSerializer } from 'prismic-reactjs';
@@ -107,40 +105,6 @@ export function parseImage(frag: PrismicFragment): ImageType {
     tasl: tasl,
     crops: crops,
   };
-}
-
-type Crop = '16:9' | '32:15' | 'square';
-export function parseCaptionedImage(
-  frag: PrismicFragment,
-  crop?: ?Crop
-): CaptionedImage {
-  if (isEmptyObj(frag.image)) {
-    return {
-      image: placeHolderImage,
-      caption: [
-        {
-          type: 'paragraph',
-          text: '',
-          spans: [],
-        },
-      ],
-    };
-  }
-
-  const image = crop ? frag.image[crop] : frag.image;
-  return {
-    image: image.dimensions ? parseImage(image) : placeHolderImage,
-    caption: !isEmptyHtmlString(frag.caption) ? frag.caption : [],
-  };
-}
-
-export function parsePromoToCaptionedImage(
-  frag: PrismicFragment,
-  crop: ?Crop = '16:9'
-): CaptionedImage {
-  // We could do more complicated checking here, but this is what we always use.
-  const promo = frag[0];
-  return parseCaptionedImage(promo.primary, crop);
 }
 
 export function parseTaslFromString(pipedString: string): Tasl {

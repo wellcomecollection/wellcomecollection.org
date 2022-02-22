@@ -8,11 +8,11 @@ import {
 import { isFilledLinkToWebField } from '../types';
 import {
   asHtml,
-  parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
+import { transformPromoToCaptionedImage } from './images';
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
@@ -21,9 +21,7 @@ export function transformBook(document: BookPrismicDocument): Book {
   // We do this over the general parser as we want the not 16:9 image.
   const cover =
     data.promo &&
-    (data.promo.length > 0
-      ? parsePromoToCaptionedImage(data.promo, null)
-      : null);
+    (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : null);
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
     return transformSeason(season);
   });

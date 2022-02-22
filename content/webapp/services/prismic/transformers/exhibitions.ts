@@ -19,7 +19,6 @@ import {
   isEmptyHtmlString,
   parseBoolean,
   parseImagePromo,
-  parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
@@ -33,6 +32,7 @@ import {
 import { isDocumentLink, transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
+import { transformPromoToCaptionedImage } from './images';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -77,7 +77,7 @@ export function transformExhibition(
     : (data.audioDescriptionInfo as HTMLString);
   const promoImage =
     promo && promo.length > 0
-      ? parsePromoToCaptionedImage(data.promo)
+      ? transformPromoToCaptionedImage(data.promo)
       : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {

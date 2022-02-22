@@ -1,4 +1,4 @@
-import { Image } from '../types';
+import { Image, PromoSliceZone } from '../types';
 import { RichTextField } from '@prismicio/types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
@@ -45,4 +45,13 @@ export function transformCaptionedImage(
       ? (frag.caption as HTMLStringBlock[])
       : [],
   };
+}
+
+export function transformPromoToCaptionedImage(
+  frag: PromoSliceZone,
+  crop: Crop | undefined = '16:9'
+): CaptionedImage {
+  // We could do more complicated checking here, but this is what we always use.
+  const promo = frag[0];
+  return transformCaptionedImage(promo.primary, crop);
 }
