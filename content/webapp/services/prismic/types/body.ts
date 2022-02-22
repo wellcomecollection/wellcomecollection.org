@@ -77,7 +77,7 @@ export type Table = Slice<
   }
 >;
 
-type Embed = Slice<
+export type Embed = Slice<
   'embed',
   {
     embed: EmbedField;
