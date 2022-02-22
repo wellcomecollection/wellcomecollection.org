@@ -9,11 +9,11 @@ import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
 import {
   asText,
-  parseTaslFromString,
   isEmptyHtmlString,
 } from '@weco/common/services/prismic/parsers';
 import { HTMLStringBlock } from '@weco/common/services/prismic/types';
 import { ImagePromo } from '@weco/common/model/image-promo';
+import { transformTaslFromString } from '.';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -83,7 +83,7 @@ const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
 
 // We don't export this, as we probably always want to check ^ first
 function transformFilledImage(image: FilledImageFieldImage): ImageType {
-  const tasl = parseTaslFromString(image.copyright);
+  const tasl = transformTaslFromString(image.copyright);
   const crops = Object.keys(image)
     .filter(key => prismicImageProps.indexOf(key) === -1)
     .filter(key => isImageLink(image[key]))

@@ -3,8 +3,6 @@ import { RichText, Date as PrismicDate } from 'prismic-dom';
 // $FlowFixMe (tsx)
 import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import flattenDeep from 'lodash.flattendeep';
-import type { Tasl } from '../../model/tasl';
-import type { LicenseType } from '../../model/license';
 import type { Format } from '../../model/format';
 import type { Link } from '../../model/link';
 import type {
@@ -12,7 +10,6 @@ import type {
   PrismicBackgroundTexture,
 } from '../../model/background-texture';
 import type { LabelField } from '../../model/label-field';
-import { licenseTypeArray } from '../../model/license';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
 import type { HTMLSerializer } from 'prismic-reactjs';
@@ -55,49 +52,6 @@ export function parseTitle(title: HTMLString): string {
 
 export function parseTimestamp(frag: PrismicFragment): Date {
   return PrismicDate(frag);
-}
-
-export function parseTaslFromString(pipedString: string): Tasl {
-  // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
-  // e.g. Self|Rob Bidder|||CC-BY-NC
-  try {
-    const list = pipedString.split('|');
-    const v = list
-      .concat(Array(7 - list.length))
-      .map(v => (!v.trim() ? null : v.trim()));
-
-    const [
-      title,
-      author,
-      sourceName,
-      sourceLink,
-      maybeLicense,
-      copyrightHolder,
-      copyrightLink,
-    ] = v;
-    const license: ?LicenseType = licenseTypeArray.find(
-      l => l === maybeLicense
-    );
-    return {
-      title,
-      author,
-      sourceName,
-      sourceLink,
-      license,
-      copyrightHolder,
-      copyrightLink,
-    };
-  } catch (e) {
-    return {
-      title: pipedString,
-      author: null,
-      sourceName: null,
-      sourceLink: null,
-      license: null,
-      copyrightHolder: null,
-      copyrightLink: null,
-    };
-  }
 }
 
 export function parseBackgroundTexture(

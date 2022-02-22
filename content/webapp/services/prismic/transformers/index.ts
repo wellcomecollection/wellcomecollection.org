@@ -7,7 +7,6 @@ import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
-  isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
 import type {
@@ -26,9 +25,7 @@ import {
   asText,
   parseLabelType,
   parseLink,
-  parseRichText,
   parseStructuredText,
-  parseTaslFromString,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -51,10 +48,12 @@ import {
   transformDeprecatedImageListSlice,
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
+  transformGifVideoSlice,
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
+import { Tasl } from '@weco/common/model/tasl';
 
 type Meta = {
   title: string;
@@ -305,26 +304,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'gifVideo':
-          return {
-            type: 'gifVideo',
-            weight: slice.slice_label,
-            value: {
-              caption: parseRichText(slice.primary.caption),
-              videoUrl: isFilledLinkToWebField(slice.primary.video)
-                ? slice.primary.video.url
-                : undefined,
-              playbackRate: slice.primary.playbackRate || 1,
-              tasl: parseTaslFromString(slice.primary.tasl),
-              autoPlay:
-                slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
-              loop: slice.primary.loop === null ? true : slice.primary.loop,
-              mute: slice.primary.mute === null ? true : slice.primary.mute,
-              showControls:
-                slice.primary.showControls === null
-                  ? false
-                  : slice.primary.showControls,
-            },
-          };
+          return transformGifVideoSlice(slice);
 
         case 'contact':
           return transformContactSlice(slice);
@@ -485,4 +465,47 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     // TODO: find a way to enforce this.
     labels: [],
   };
+}
+
+import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+
+export function transformTaslFromString(pipedString: string | null): Tasl {
+  if (pipedString === null) {
+    return { title: '' };
+  }
+
+  // We expect a string of title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink
+  // e.g. Self|Rob Bidder|||CC-BY-NC
+  try {
+    const list = (pipedString || '').split('|');
+    const v = list
+      .concat(Array(7 - list.length))
+      .map(v => (!v.trim() ? undefined : v.trim()));
+
+    const [
+      title,
+      author,
+      sourceName,
+      sourceLink,
+      maybeLicense,
+      copyrightHolder,
+      copyrightLink,
+    ] = v;
+    const license: LicenseType | undefined = licenseTypeArray.find(
+      l => l === maybeLicense
+    );
+    return {
+      title,
+      author,
+      sourceName,
+      sourceLink,
+      license,
+      copyrightHolder,
+      copyrightLink,
+    };
+  } catch (e) {
+    return {
+      title: pipedString,
+    };
+  }
 }

@@ -45,7 +45,7 @@ const Text = styled.span.attrs({
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
-type Props = {
+export type Props = {
   playbackRate: number;
   videoUrl: string;
   caption?: HTMLString;
