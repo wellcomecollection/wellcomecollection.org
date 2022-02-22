@@ -31,6 +31,7 @@ import { isDocumentLink, transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -54,9 +55,9 @@ export function transformExhibition(
   const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const promos = [promoThin, promoSquare]
-    .filter(Boolean)
+    .filter(isNotUndefined)
     .map(p => p.image)
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
