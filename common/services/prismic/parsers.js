@@ -20,23 +20,6 @@ import linkResolver from './link-resolver';
 import type { HTMLSerializer } from 'prismic-reactjs';
 import type { Element } from 'react';
 
-export const placeHolderImage = ({
-  contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
-  width: 160,
-  height: 900,
-  alt: 'Placeholder image',
-  tasl: {
-    sourceName: 'Unknown',
-    title: null,
-    author: null,
-    sourceLink: null,
-    license: null,
-    copyrightHolder: null,
-    copyrightLink: null,
-  },
-  crops: {},
-}: ImageType);
-
 export function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
   return maybeContent ? asHtml(maybeContent) === null : false;
 }
