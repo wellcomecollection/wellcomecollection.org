@@ -30,7 +30,6 @@ import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { london } from '@weco/common/utils/format-date';
 import moment from 'moment';
 import { LabelField } from '@weco/common/model/label-field';
-import {  } from '@prismicio/types';
 import { InferDataInterface, isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
 
 function transformEventBookingType(
