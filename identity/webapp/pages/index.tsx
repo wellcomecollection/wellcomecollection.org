@@ -54,6 +54,7 @@ import {
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
 import { useToggles } from '@weco/common/server-data/Context';
+import { sierraStatusCodeToLabel } from '../src/frontend/MicroCopy';
 
 type DetailProps = {
   label: string;
@@ -320,7 +321,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                     )}
                                   </>,
                                   <ItemStatus key={`${result.item.id}-status`}>
-                                    {result.status.label}
+                                    {sierraStatusCodeToLabel[
+                                      result.status.id
+                                    ] ?? result.status.label}
                                   </ItemStatus>,
                                   enablePickUpDate ? (
                                     <HTMLDate date={new Date()} /> // TODO need to pass in the actual date once it's available on resuilt
