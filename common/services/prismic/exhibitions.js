@@ -1,15 +1,8 @@
-import {
-  isDocumentLink,
-  asText,
-  asHtml,
-} from './parsers';
+import { isDocumentLink, asText, asHtml } from './parsers';
 // $FlowFixMe
 import type { Resource } from '../../model/resource';
 import type { PrismicFragment } from './types';
-import type {
-  UiExhibit,
-  ExhibitionFormat,
-} from '../../model/exhibitions';
+import type { ExhibitionFormat } from '../../model/exhibitions';
 
 export function parseResourceTypeList(
   fragment: PrismicFragment[],
@@ -39,17 +32,4 @@ export function parseExhibitionFormat(frag: Object): ?ExhibitionFormat {
         description: frag.data && asHtml(frag.data.description),
       }
     : undefined;
-}
-
-export function parseExhibits(document: PrismicFragment[]): UiExhibit[] {
-  return document
-    .map(exhibit => {
-      if (exhibit.item.type === 'exhibitions' && !exhibit.item.isBroken) {
-        return {
-          exhibitType: 'exhibitions',
-          item: parseExhibitionDoc(exhibit.item),
-        };
-      }
-    })
-    .filter(Boolean);
 }
