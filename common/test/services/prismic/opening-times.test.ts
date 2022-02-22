@@ -7,10 +7,13 @@ import {
   exceptionalFromRegular,
   backfillExceptionalVenueDays,
   getVenueById,
+  getTodaysVenueHours,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
-import { london } from '../../../utils/format-date';
 import { OverrideType } from '../../../model/opening-hours';
+import * as dateUtils from '../../../utils/format-date';
+import moment from 'moment';
+const { london } = dateUtils;
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
   return {
@@ -514,4 +517,41 @@ describe('opening-times', () => {
       expect(result.name).toEqual('Galleries and Reading Room');
     });
   });
+
+  describe("getTodaysVenueHours: returns the venue's opening times for the current day", () => {
+    it('returns the regular opening hours, if there are no exceptional opening times for the day.', () => {
+      const spyOnLondon = jest.spyOn(dateUtils, 'london');
+      // set Day as Wednesday, so we have something consistent to test against
+      spyOnLondon.mockImplementation(() => {
+        return moment.tz('2022-01-19', 'Europe/London');
+      });
+
+      const result = getTodaysVenueHours(libraryVenue!);
+
+      expect(result).toEqual({
+        dayOfWeek: 'Wednesday',
+        opens: '10:00',
+        closes: '18:00',
+        isClosed: false,
+      });
+    });
+
+    it('returns the exceptional times if there are some for the day.', () => {
+      const spyOnLondon = jest.spyOn(dateUtils, 'london');
+      // set Day to a date we have exceptional opening times for
+      spyOnLondon.mockImplementation(() => {
+        return moment.tz('2023-01-01', 'Europe/London');
+      });
+
+      const result = getTodaysVenueHours(libraryVenue!);
+      expect(result).toEqual({
+        overrideDate: london('2023-01-01'),
+        overrideType: 'Christmas and New Year',
+        opens: '20:00',
+        closes: '21:00',
+        isClosed: false,
+      });
+    });
+  });
+
 });
