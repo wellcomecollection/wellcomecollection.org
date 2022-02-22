@@ -78,7 +78,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             >
               {event.title}
             </Space>
-            {event.place && (
+            {event.locations[0] && (
               <Space
                 v={{ size: 's', properties: ['margin-bottom'] }}
                 as="p"
@@ -86,7 +86,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   [font('hnr', 5)]: true,
                 })}
               >
-                {event.place.title}
+                {event.locations[0].title}
               </Space>
             )}
 

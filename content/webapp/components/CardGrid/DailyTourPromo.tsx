@@ -18,6 +18,7 @@ export const data: UiEvent = {
   times: [],
   series: [],
   place: undefined,
+  locations: [],
   bookingEnquiryTeam: undefined,
   interpretations: [],
   audiences: [],

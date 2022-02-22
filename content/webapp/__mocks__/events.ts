@@ -11,7 +11,7 @@ const image = {
   crops: {},
 };
 
-const place = {
+const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
@@ -33,6 +33,7 @@ const baseEvent: UiEvent = {
   times: [],
   series: [],
   place: undefined,
+  locations: [],
   bookingEnquiryTeam: undefined,
   interpretations: [],
   audiences: [],
@@ -78,10 +79,13 @@ const baseEvent: UiEvent = {
   prismicDocument: undefined,
 };
 
-export const eventWithPlace: UiEvent = { ...baseEvent, place };
-export const eventOnline: UiEvent = { ...baseEvent, isOnline: true };
-export const eventWithPlaceOnline: UiEvent = {
+export const eventWithOneLocation: UiEvent = {
   ...baseEvent,
-  place,
+  locations: [location],
+};
+export const eventOnline: UiEvent = { ...baseEvent, isOnline: true };
+export const eventWithOneLocationOnline: UiEvent = {
+  ...baseEvent,
+  locations: [location],
   isOnline: true,
 };

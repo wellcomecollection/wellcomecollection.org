@@ -88,6 +88,7 @@ export type Event = GenericContentFields & {
   series: EventSeries[];
   seasons: Season[];
   place?: Place;
+  locations: Place[];
   bookingEnquiryTeam?: Team;
   interpretations: Interpretation[];
   audiences: Audience[];
