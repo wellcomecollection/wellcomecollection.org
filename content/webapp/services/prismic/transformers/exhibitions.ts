@@ -30,7 +30,7 @@ import {
   parseExhibitionFormat,
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
-import { transformGenericFields } from '.';
+import { isDocumentLink, transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 
@@ -91,9 +91,11 @@ export function transformExhibition(
     };
   });
 
-  const place = parseSingleLevelGroup(data, 'place').map(place =>
-    transformPlace(place)
-  );
+  // TODO: Make this type check properly; for some reason it doesn't recognise
+  // this as a PlacePrismicDocument and I'm not sure why.
+  const place = isDocumentLink(data.place)
+    ? transformPlace(data.place as any)
+    : undefined;
 
   const exhibition = {
     ...genericFields,
