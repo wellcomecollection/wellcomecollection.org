@@ -64,8 +64,7 @@ export function transformExhibition(
   const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const promos = [promoThin, promoSquare]
-    .filter(isNotUndefined)
-    .map(p => p.image)
+    .map(p => p?.image)
     .filter(isNotUndefined);
 
   const id = document.id;
