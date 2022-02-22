@@ -24,10 +24,6 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  checkAndParseImage,
-  parseCaptionedImage,
-  parseImage,
-  parseImagePromo,
   parseLabelType,
   parseLink,
   parseRichText,
@@ -52,10 +48,13 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import {
   getWeight,
   transformContactSlice,
+  transformDeprecatedImageListSlice,
   transformEditorialImageGallerySlice,
+  transformEditorialImageSlice,
   transformMediaObjectListSlice,
   transformTableSlice,
 } from './body';
+import { transformImage, transformImagePromo } from './images';
 
 type Meta = {
   title: string;
@@ -202,11 +201,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'editorialImage':
-          return {
-            weight: getWeight(slice.slice_label),
-            type: 'picture',
-            value: parseCaptionedImage(slice.primary),
-          };
+          return transformEditorialImageSlice(slice);
 
         case 'editorialImageGallery':
           return transformEditorialImageGallerySlice(slice);
@@ -305,7 +300,7 @@ export function transformBody(body: Body): BodyType {
             weight: slice.slice_label,
             value: {
               src: slice.primary.iframeSrc,
-              image: parseImage(slice.primary.previewImage),
+              image: transformImage(slice.primary.previewImage),
             },
           };
 
@@ -439,18 +434,8 @@ export function transformBody(body: Body): BodyType {
 
         // Deprecated
         case 'imageList':
-          return {
-            type: 'deprecatedImageList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              items: slice.items.map(item => ({
-                title: parseTitle(item.title),
-                subtitle: parseTitle(item.subtitle),
-                image: parseCaptionedImage(item),
-                description: parseStructuredText(item.description),
-              })),
-            },
-          };
+          return transformDeprecatedImageListSlice(slice);
+
         case 'mediaObjectList':
           return transformMediaObjectListSlice(slice);
       }
@@ -460,7 +445,7 @@ export function transformBody(body: Body): BodyType {
 
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
-  const promo = data.promo && parseImagePromo(data.promo);
+  const promo = data.promo && transformImagePromo(data.promo);
 
   const promoImage: PromoImage =
     data.promo && data.promo.length > 0
@@ -468,10 +453,10 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
           .filter(slice => slice.primary.image)
           .map(({ primary: { image } }) => {
             return {
-              image: checkAndParseImage(image),
-              squareImage: checkAndParseImage(image.square),
-              widescreenImage: checkAndParseImage(image['16:9']),
-              superWidescreenImage: checkAndParseImage(image['32:15']),
+              image: transformImage(image),
+              squareImage: transformImage(image.square),
+              widescreenImage: transformImage(image['16:9']),
+              superWidescreenImage: transformImage(image['32:15']),
             };
           })
           .find(_ => _) || {} // just get the first one;

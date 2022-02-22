@@ -1,15 +1,17 @@
 import {
   Contact as ContactSlice,
+  EditorialImageSlice,
   EditorialImageGallerySlice,
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
+  DeprecatedImageList as DeprecatedImageListSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
+import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
-  parseImage,
   parseStructuredText,
   parseTitle,
   asText,
@@ -17,7 +19,8 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
-import { transformCaptionedImage } from './images';
+import { transformCaptionedImage, transformImage } from './images';
+import { CaptionedImage } from '@weco/common/model/captioned-image';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -37,6 +40,10 @@ export function getWeight(weight: string | null): Weight {
 type ParsedSlice<TypeName extends string, Value> = {
   type: TypeName;
   value: Value;
+};
+
+type WeightedSlice = {
+  weight: Weight;
 };
 
 function transformTableCsv(tableData: string): string[][] {
@@ -83,7 +90,7 @@ export function transformMediaObjectListSlice(
             return {
               title: title ? parseTitle(title) : null,
               text: text ? parseStructuredText(text) : null,
-              image: image ? parseImage(image) : null,
+              image: transformImage(image) || null,
             };
           }
         })
@@ -116,6 +123,16 @@ export function transformContactSlice(
     : undefined;
 }
 
+export function transformEditorialImageSlice(
+  slice: EditorialImageSlice
+): ParsedSlice<'picture', CaptionedImage> & WeightedSlice {
+  return {
+    weight: getWeight(slice.slice_label),
+    type: 'picture',
+    value: transformCaptionedImage(slice.primary),
+  };
+}
+
 export function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
 ): ParsedSlice<'imageGallery', ImageGalleryProps> {
@@ -125,6 +142,30 @@ export function transformEditorialImageGallerySlice(
       title: asText(slice.primary.title),
       items: slice.items.map(item => transformCaptionedImage(item)),
       isStandalone: getWeight(slice.slice_label) === 'standalone',
+    },
+  };
+}
+
+export function transformDeprecatedImageListSlice(
+  slice: DeprecatedImageListSlice
+): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> &
+  WeightedSlice {
+  return {
+    type: 'deprecatedImageList',
+    weight: getWeight(slice.slice_label),
+    value: {
+      items: slice.items.map(item => ({
+        title: parseTitle(item.title),
+        subtitle: parseTitle(item.subtitle),
+        // TODO: It's questionable whether we should be assigning a 'caption'
+        // here or using a different transform function, but as this slice is
+        // deprecated I don't really care.  Hopefully we'll just delete this
+        // whole function soon.
+        //
+        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
+        image: transformCaptionedImage({ ...item, caption: [] }),
+        description: parseStructuredText(item.description),
+      })),
     },
   };
 }

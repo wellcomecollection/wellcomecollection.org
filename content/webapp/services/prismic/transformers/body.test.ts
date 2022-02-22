@@ -1,9 +1,9 @@
-import { placeHolderImage } from '@weco/common/services/prismic/parsers';
 import { transformBody } from '.';
 import { Embed, MediaObjectList } from '../types/body';
 import { EmbedType, RichTextNodeType } from '@prismicio/types';
 import { transformMediaObjectListSlice } from './body';
-  
+import { placeHolderImage } from './images';
+
 export const sameAs = [
   { link: 'https://twitter.com/mbannisy', title: [] },
   { link: 'http://things.com', title: [] },
@@ -12,11 +12,11 @@ export const sameAs = [
     title: [{ type: 'heading1', text: 'This is it!', spans: [] }],
   },
 ];
-  
+
 describe('transformMediaObjectListSlice', () => {
-  const missingImageTextSlice: MediaObjectList =
-    {
-      items: [{
+  const missingImageTextSlice: MediaObjectList = {
+    items: [
+      {
         title: [
           {
             type: RichTextNodeType.oListItem,
@@ -26,11 +26,12 @@ describe('transformMediaObjectListSlice', () => {
         ],
         text: [],
         image: placeHolderImage,
-      }],
-      slice_type: 'mediaObjectList',
-      slice_label: null,
-      primary: {},
-    };
+      },
+    ],
+    slice_type: 'mediaObjectList',
+    slice_label: null,
+    primary: {},
+  };
 
   it('returns data structure if missing image and title content', () => {
     const mediaObjectList = transformMediaObjectListSlice(
@@ -133,4 +134,3 @@ describe('transformBody', () => {
     ]);
   });
 });
-  
