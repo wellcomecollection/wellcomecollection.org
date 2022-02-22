@@ -1,5 +1,5 @@
 import { groupEventsBy } from '../../../services/prismic/events';
-import { getLastEndTime } from '@weco/common/services/prismic/events';
+import { getLastEndTime } from './events';
 import { parseTimestamp } from '@weco/common/services/prismic/parsers';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 

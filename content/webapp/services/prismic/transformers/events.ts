@@ -19,10 +19,7 @@ import {
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
-import {
-  determineDateRange,
-  getLastEndTime,
-} from '@weco/common/services/prismic/events';
+import { determineDateRange } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { isDocumentLink, transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
@@ -31,6 +28,7 @@ import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { london } from '@weco/common/utils/format-date';
+import moment from 'moment';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -49,6 +47,18 @@ function determineDisplayTime(times: EventTime[]): EventTime {
     return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
   });
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
+}
+
+export function getLastEndTime(
+  times: {
+    startDateTime: string;
+    endDateTime: string;
+    isFullyBooked: boolean | null;
+  }[]
+) {
+  return times
+    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
+    .map(time => parseTimestamp(time.endDateTime))[0];
 }
 
 export function transformEvent(
