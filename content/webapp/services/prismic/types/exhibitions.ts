@@ -19,7 +19,7 @@ import { EventPrismicDocument } from './events';
 
 const typeEnum = 'exhibitions';
 
-type ExhibitionFormat = PrismicDocument<
+export type ExhibitionFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
