@@ -480,10 +480,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           title="Need to know"
           items={
             [
-              event.place && {
+              event.locations[0] && {
                 id: undefined,
                 title: 'Location',
-                description: event.place.information,
+                description: event.locations[0].information,
               },
               event.bookingInformation && {
                 id: undefined,
