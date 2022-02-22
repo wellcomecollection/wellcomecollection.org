@@ -342,11 +342,7 @@ const Body: FunctionComponent<Props> = ({
                   </LayoutWidth>
                 )}
                 {slice.type === 'imageGallery' && (
-                  <ImageGallery
-                    isStandalone={slice.weight === 'standalone'}
-                    {...slice.value}
-                    id={imageGalleryIdCount++}
-                  />
+                  <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
                 )}
                 {slice.type === 'quote' && (
                   <LayoutWidth width={minWidth}>

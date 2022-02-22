@@ -1,12 +1,3 @@
-// @flow
-import type { EventTime } from '../../model/events';
-import type { PrismicDocument } from './types';
-import moment from 'moment';
-import {
-  isDocumentLink,
-  parseTimestamp,
-} from './parsers';
-import isEmptyObj from '../../utils/is-empty-object';
 // $FlowFixMe
 import { london } from '../../utils/format-date';
 
@@ -32,18 +23,4 @@ export function determineDateRange(
     lastDate: endTimes[endTimes.length - 1],
     repeats: times.length,
   };
-}
-
-export function getLastEndTime(
-  times: {
-    startDateTime: string,
-    endDateTime: string,
-    isFullyBooked: ?boolean,
-  }[]
-) {
-  return times
-    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
-    .map(time => {
-      return parseTimestamp(time.endDateTime);
-    })[0];
 }

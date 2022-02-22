@@ -13,7 +13,8 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image } from '.';
+import { Image, InferDataInterface } from '.';
+import { TeamPrismicDocument } from './teams';
 
 type TextSlice = Slice<'text', { text: RichTextField }>;
 
@@ -22,7 +23,7 @@ export type EditorialImageSlice = Slice<
   { image: Image; caption: RichTextField }
 >;
 
-type EditorialImageGallerySlice = Slice<
+export type EditorialImageGallerySlice = Slice<
   'editorialImageGallery',
   { title: RichTextField },
   { image: Image; caption: RichTextField }
@@ -101,10 +102,14 @@ type CollectionVenue = Slice<
   }
 >;
 
-type Contact = Slice<
+export type Contact = Slice<
   'contact',
   {
-    content: RelationField<'teams'>;
+    content: RelationField<
+      'teams',
+      'en-us',
+      InferDataInterface<Partial<TeamPrismicDocument>>
+    >;
   }
 >;
 
@@ -183,7 +188,7 @@ type DeprecatedImageList = Slice<
   }
 >;
 
-type MediaObjectList = Slice<
+export type MediaObjectList = Slice<
   'mediaObjectList',
   Record<string, never>,
   { title: RichTextField; text: RichTextField; image: Image }

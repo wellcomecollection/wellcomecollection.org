@@ -30,11 +30,9 @@ import {
   parseImagePromo,
   parseLabelType,
   parseLink,
-  parseMediaObjectList,
   parseRichText,
   parseStructuredText,
   parseTaslFromString,
-  parseTeamToContact,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -51,7 +49,13 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { getWeight, transformTableSlice } from './body';
+import {
+  getWeight,
+  transformContactSlice,
+  transformEditorialImageGallerySlice,
+  transformMediaObjectListSlice,
+  transformTableSlice,
+} from './body';
 
 type Meta = {
   title: string;
@@ -205,14 +209,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'editorialImageGallery':
-          return {
-            type: 'imageGallery',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              items: slice.items.map(item => parseCaptionedImage(item)),
-            },
-          };
+          return transformEditorialImageGallerySlice(slice);
 
         case 'titledTextList':
           return {
@@ -335,12 +332,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'contact':
-          return isFilledLinkToDocumentWithData(slice.primary.content)
-            ? {
-                type: 'contact',
-                value: parseTeamToContact(slice.primary.content),
-              }
-            : undefined;
+          return transformContactSlice(slice);
 
         case 'embed':
           const embed = slice.primary.embed;
@@ -460,12 +452,7 @@ export function transformBody(body: Body): BodyType {
             },
           };
         case 'mediaObjectList':
-          return {
-            type: 'mediaObjectList',
-            value: {
-              items: parseMediaObjectList(slice.items),
-            },
-          };
+          return transformMediaObjectListSlice(slice);
       }
     })
     .filter(isNotUndefined);

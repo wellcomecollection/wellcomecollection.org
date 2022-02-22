@@ -19,12 +19,10 @@ import { licenseTypeArray } from '../../model/license';
 import isEmptyObj from '../../utils/is-empty-object';
 import { dasherize } from '../../utils/grammar';
 import linkResolver from './link-resolver';
-// $FlowFixMe (tsx)
-import { MediaObjectType } from '../../model/media-object';
 import type { HTMLSerializer } from 'prismic-reactjs';
 import type { Element } from 'react';
 
-const placeHolderImage = ({
+export const placeHolderImage = ({
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
   width: 160,
   height: 900,
@@ -188,19 +186,6 @@ export function parseTaslFromString(pipedString: string): Tasl {
   }
 }
 
-export function parseTeamToContact(team: PrismicFragment) {
-  const {
-    data: { title, subtitle, email, phone },
-  } = team;
-
-  return {
-    title: asText(title),
-    subtitle: asText(subtitle),
-    email,
-    phone,
-  };
-}
-
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 type CropType = null | '16:9' | '32:15' | 'square';
@@ -329,24 +314,4 @@ export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
         url: `#${dasherize(item.text)}`,
       };
     });
-}
-
-export function parseMediaObjectList(
-  fragment: PrismicFragment[]
-): Array<MediaObjectType> {
-  return fragment.map(mediaObject => {
-    if (mediaObject) {
-      // make sure we have the content we require
-      const title = mediaObject.title.length ? mediaObject?.title : undefined;
-      const text = mediaObject.text.length ? mediaObject?.text : undefined;
-      const image = mediaObject.image?.square?.dimensions
-        ? mediaObject.image
-        : undefined;
-      return {
-        title: title ? parseTitle(title) : null,
-        text: text ? parseStructuredText(text) : null,
-        image: image ? parseImage(image) : null,
-      };
-    }
-  });
 }
