@@ -57,16 +57,18 @@ export type Audience = {
   description?: HTMLString;
 };
 
+export type DateRange = {
+  firstDate: Date;
+  lastDate: Date;
+  repeats: number;
+};
+
 // TODO instead of having displayStart and displayEnd on model, create helper functions that return the new data structure
 export type UiEvent = Event & {
   type: 'events';
   displayStart: Date;
   displayEnd: Date;
-  dateRange: {
-    firstDate: Date;
-    lastDate: Date;
-    repeats: number;
-  };
+  dateRange: DateRange;
   backgroundTexture?: string;
 };
 

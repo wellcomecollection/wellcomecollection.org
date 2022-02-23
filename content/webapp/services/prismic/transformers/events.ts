@@ -1,5 +1,6 @@
 import {
   Audience,
+  DateRange,
   EventTime,
   Interpretation,
   Team,
@@ -18,7 +19,6 @@ import {
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
-import { determineDateRange } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
@@ -41,6 +41,26 @@ function transformEventBookingType(
     : isFilledLinkToDocumentWithData(eventDoc.data.place) && eventDoc.data.place.data?.capacity
     ? 'First come, first served'
     : undefined;
+}
+
+function determineDateRange(times: EventTime[]): DateRange {
+  const firstDate =
+    times
+      .map(({ range: { startDateTime }}) => london(startDateTime))
+      .reduce ((a, b) => a.isBefore(b, 'day') ? a : b)
+      .toDate();
+  
+  const lastDate =
+    times
+      .map(({ range: { endDateTime }}) => london(endDateTime))
+      .reduce ((a, b) => a.isAfter(b, 'day') ? a : b)
+      .toDate();
+
+  return {
+    firstDate,
+    lastDate,
+    repeats: times.length,
+  };
 }
 
 function determineDisplayTime(times: EventTime[]): EventTime {
@@ -164,19 +184,21 @@ export function transformEvent(
     return transformSeason(season);
   });
 
-  const times =
-    (data.times &&
-      data.times
+  const times: EventTime[] =
+    (data.times || [])
+      .map(({ startDateTime, endDateTime, isFullyBooked }) =>
         // Annoyingly prismic puts blanks in here
-        .filter(frag => frag.startDateTime && frag.endDateTime)
-        .map(frag => ({
-          range: {
-            startDateTime: parseTimestamp(frag.startDateTime),
-            endDateTime: parseTimestamp(frag.endDateTime),
-          },
-          isFullyBooked: frag.isFullyBooked,
-        }))) ||
-    [];
+        startDateTime && endDateTime
+          ? {
+            range: {
+              startDateTime: parseTimestamp(startDateTime) as Date,
+              endDateTime: parseTimestamp(endDateTime) as Date,
+            },
+            isFullyBooked,
+          }
+          : undefined
+      )
+      .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
   const lastEndTime = data.times && getLastEndTime(data.times);
@@ -187,7 +209,7 @@ export function transformEvent(
     const scheduleItem = data.schedule[i];
     return {
       event,
-      isNotLinked: scheduleItem.isNotLinked,
+      isNotLinked: scheduleItem.isNotLinked === 'yes',
     };
   });
 
@@ -238,9 +260,9 @@ export function transformEvent(
     times: times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
-    dateRange: determineDateRange(data.times),
+    dateRange: determineDateRange(times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance,
+    isRelaxedPerformance: isRelaxedPerformance === 'yes',
     isOnline,
     availableOnline,
     prismicDocument: document,
