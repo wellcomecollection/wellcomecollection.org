@@ -16,7 +16,6 @@ import {
 import {
   asText,
   parseLink,
-  parseStructuredText,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -50,6 +49,7 @@ import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
 
 import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 type Meta = {
   title: string;
@@ -124,6 +124,19 @@ export function transformKeyTextField(field: KeyTextField) {
 // Prismic often returns empty RichText fields as `[]`, this filters them out
 export function transformRichTextField(field: RichTextField) {
   return field && field.length > 0 ? field : undefined;
+}
+
+// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
+// inserted text, then removed it, so we need to do this check.
+export function isStructuredText(field: RichTextField): boolean {
+  const text = asText(field);
+  return Boolean(field) && (text || '').trim() !== '';
+}
+
+export function transformStructuredText(
+  field: RichTextField | undefined
+): HTMLString | undefined {
+  return field && isStructuredText(field) ? (field as HTMLString) : undefined;
 }
 
 // We have to use this annoyingly often as right at the beginning of the project
@@ -363,7 +376,7 @@ export function transformBody(body: Body): BodyType {
             type: 'discussion',
             value: {
               title: parseTitle(slice.primary.title),
-              text: parseStructuredText(slice.primary.text),
+              text: transformStructuredText(slice.primary.text),
             },
           };
 

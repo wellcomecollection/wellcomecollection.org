@@ -71,12 +71,6 @@ export function parseLabelType(fragment: PrismicFragment): LabelField {
   };
 }
 
-export function parseStructuredText(maybeFragment: ?any): ?HTMLString {
-  return maybeFragment && isStructuredText((maybeFragment: HTMLString))
-    ? (maybeFragment: HTMLString)
-    : null;
-}
-
 export function parseSingleLevelGroup(
   frag: PrismicFragment[],
   singlePropertyName: string
@@ -108,13 +102,6 @@ export function parseLink(link?: PrismicLink): ?string {
       return linkResolver(link);
     }
   }
-}
-
-// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
-// inserted text, then removed it, so we need to do this check.
-export function isStructuredText(structuredTextObject: HTMLString): boolean {
-  const text = asText(structuredTextObject);
-  return Boolean(structuredTextObject) && (text || '').trim() !== '';
 }
 
 // If a link is non-existant, it can either be returned as `null`, or as an

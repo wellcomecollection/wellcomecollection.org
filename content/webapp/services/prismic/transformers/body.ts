@@ -19,7 +19,6 @@ import {
   parseLabelType,
   parseLink,
   parseRichText,
-  parseStructuredText,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
@@ -31,7 +30,7 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformTaslFromString } from '.';
+import { transformStructuredText, transformTaslFromString } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -101,7 +100,7 @@ export function transformMediaObjectListSlice(
               : undefined;
             return {
               title: title ? parseTitle(title) : null,
-              text: text ? parseStructuredText(text) : null,
+              text: text ? transformStructuredText(text) || null : null,
               image: transformImage(image) || null,
             };
           }
@@ -176,7 +175,7 @@ export function transformDeprecatedImageListSlice(
         //
         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
         image: transformCaptionedImage({ ...item, caption: [] }),
-        description: parseStructuredText(item.description),
+        description: transformStructuredText(item.description) || [],
       })),
     },
   };
@@ -224,7 +223,7 @@ function transformTitledTextItem({
 }) {
   return {
     title: parseTitle(title),
-    text: parseStructuredText(text),
+    text: transformStructuredText(text),
     link: parseLink(link),
     label: isFilledLinkToDocumentWithData(label) ? parseLabelType(label) : null,
   };

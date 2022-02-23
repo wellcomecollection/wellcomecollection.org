@@ -1,9 +1,8 @@
 import { Series } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
-import { transformGenericFields } from '.';
+import { isStructuredText, transformGenericFields } from '.';
 import {
   asText,
-  isStructuredText,
   parseSingleLevelGroup,
   parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
