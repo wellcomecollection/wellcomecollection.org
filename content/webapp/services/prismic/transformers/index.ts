@@ -42,9 +42,11 @@ import { transformExhibition } from './exhibitions';
 import { transformArticle } from './articles';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
+import { transformCard } from './card';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { CardPrismicDocument } from '../types/card';
 import {
   getWeight,
   transformContactSlice,
@@ -218,7 +220,8 @@ export function transformBody(body: Body): BodyType {
           type ContentListPrismicDocument =
             | MultiContentPrismicDocument
             | GuidePrismicDocument
-            | SeasonPrismicDocument;
+            | SeasonPrismicDocument
+            | CardPrismicDocument;
 
           const contents: ContentListPrismicDocument[] = slice.items
             .map(item => item.content)
@@ -249,6 +252,8 @@ export function transformBody(body: Body): BodyType {
                       return transformEvent(content);
                     case 'seasons':
                       return transformSeason(content);
+                    case 'card':
+                      return transformCard(content);
                   }
                 })
                 .filter(Boolean),

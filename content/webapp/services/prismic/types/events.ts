@@ -32,13 +32,14 @@ import {
 
 const typeEnum = 'events';
 
-type EventFormat = PrismicDocument<
+export type EventFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
   'event-formats'
 >;
+
 const eventFormatFetchLink: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
