@@ -113,7 +113,7 @@ export type Contact = Slice<
   }
 >;
 
-type Discussion = Slice<
+export type Discussion = Slice<
   'discussion',
   {
     title: RichTextField;

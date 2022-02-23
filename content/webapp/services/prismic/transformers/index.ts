@@ -38,6 +38,7 @@ import {
   getWeight,
   transformContactSlice,
   transformDeprecatedImageListSlice,
+  transformDiscussionSlice,
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
@@ -372,13 +373,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'discussion':
-          return {
-            type: 'discussion',
-            value: {
-              title: parseTitle(slice.primary.title),
-              text: transformStructuredText(slice.primary.text),
-            },
-          };
+          return transformDiscussionSlice(slice);
 
         case 'tagList':
           return {

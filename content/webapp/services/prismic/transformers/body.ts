@@ -7,6 +7,7 @@ import {
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
+  Discussion as DiscussionSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
@@ -14,6 +15,7 @@ import { Props as ImageGalleryProps } from '../../../components/ImageGallery/Ima
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
   parseLabelType,
@@ -236,6 +238,18 @@ export function transformTitledTextListSlice(
     type: 'titledTextList',
     value: {
       items: slice.items.map(item => transformTitledTextItem(item)),
+    },
+  };
+}
+
+export function transformDiscussionSlice(
+  slice: DiscussionSlice
+): ParsedSlice<'discussion', DiscussionProps> {
+  return {
+    type: 'discussion',
+    value: {
+      title: parseTitle(slice.primary.title),
+      text: transformStructuredText(slice.primary.text) || [],
     },
   };
 }
