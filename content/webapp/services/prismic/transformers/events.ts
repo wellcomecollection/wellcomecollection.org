@@ -1,5 +1,6 @@
 import {
   Audience,
+  EventTime,
   Interpretation,
   Team,
   ThirdPartyBooking,
@@ -14,22 +15,51 @@ import {
   parseBoolean,
   parseFormat,
   parseLabelTypeList,
-  parsePlace,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
-import {
-  determineDateRange,
-  determineDisplayTime,
-  getLastEndTime,
-  parseEventBookingType,
-} from '@weco/common/services/prismic/events';
+import { determineDateRange } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
 import { isDocumentLink, transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
+import { transformPlace } from './places';
+import isEmptyObj from '@weco/common/utils/is-empty-object';
+import { london } from '@weco/common/utils/format-date';
+import moment from 'moment';
+
+function transformEventBookingType(
+  eventDoc: EventPrismicDocument
+): string | undefined {
+  return !isEmptyObj(eventDoc.data.eventbriteEvent)
+    ? 'Ticketed'
+    : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
+    ? 'Enquire to book'
+    : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data?.capacity
+    ? 'First come, first served'
+    : undefined;
+}
+
+function determineDisplayTime(times: EventTime[]): EventTime {
+  const upcomingDates = times.filter(t => {
+    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
+  });
+  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
+}
+
+export function getLastEndTime(
+  times: {
+    startDateTime: string | null;
+    endDateTime: string | null;
+    isFullyBooked: boolean | null;
+  }[]
+) {
+  return times
+    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
+    .map(time => parseTimestamp(time.endDateTime))[0];
+}
 
 export function transformEvent(
   document: EventPrismicDocument,
@@ -144,15 +174,21 @@ export function transformEvent(
   });
 
   const locations = parseSingleLevelGroup(data.locations, 'location').map(
-    location => parsePlace(location)
+    location => transformPlace(location)
   );
+
+  // TODO: Make this type check properly; for some reason it doesn't recognise
+  // this as a PlacePrismicDocument and I'm not sure why.
+  const place = isDocumentLink(data.place)
+    ? transformPlace(data.place as any)
+    : undefined;
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
   const event = {
     ...genericFields,
-    place: isDocumentLink(data.place) ? parsePlace(data.place) : null,
+    place,
     locations,
     audiences,
     bookingEnquiryTeam,
@@ -161,7 +197,7 @@ export function transformEvent(
       data.bookingInformation && data.bookingInformation.length > 1
         ? (data.bookingInformation as HTMLString)
         : undefined,
-    bookingType: parseEventBookingType(document),
+    bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
     format: data.format && parseFormat(data.format),
     interpretations,

@@ -13,7 +13,8 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image } from '.';
+import { Image, InferDataInterface } from '.';
+import { TeamPrismicDocument } from './teams';
 
 type TextSlice = Slice<'text', { text: RichTextField }>;
 
@@ -22,7 +23,7 @@ export type EditorialImageSlice = Slice<
   { image: Image; caption: RichTextField }
 >;
 
-type EditorialImageGallerySlice = Slice<
+export type EditorialImageGallerySlice = Slice<
   'editorialImageGallery',
   { title: RichTextField },
   { image: Image; caption: RichTextField }
@@ -68,7 +69,7 @@ type Standfirst = Slice<
   }
 >;
 
-type Table = Slice<
+export type Table = Slice<
   'table',
   {
     caption: KeyTextField;
@@ -77,7 +78,7 @@ type Table = Slice<
   }
 >;
 
-type Embed = Slice<
+export type Embed = Slice<
   'embed',
   {
     embed: EmbedField;
@@ -101,10 +102,14 @@ type CollectionVenue = Slice<
   }
 >;
 
-type Contact = Slice<
+export type Contact = Slice<
   'contact',
   {
-    content: RelationField<'teams'>;
+    content: RelationField<
+      'teams',
+      'en-us',
+      InferDataInterface<Partial<TeamPrismicDocument>>
+    >;
   }
 >;
 
@@ -172,7 +177,7 @@ type SearchResults = Slice<
   { title: RichTextField; query: KeyTextField }
 >;
 
-type DeprecatedImageList = Slice<
+export type DeprecatedImageList = Slice<
   'imageList',
   Record<string, never>,
   {
@@ -183,7 +188,7 @@ type DeprecatedImageList = Slice<
   }
 >;
 
-type MediaObjectList = Slice<
+export type MediaObjectList = Slice<
   'mediaObjectList',
   Record<string, never>,
   { title: RichTextField; text: RichTextField; image: Image }

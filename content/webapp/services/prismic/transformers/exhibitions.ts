@@ -16,24 +16,22 @@ import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
 import {
   asText,
-  isDocumentLink,
   isEmptyHtmlString,
   parseBoolean,
-  parseImagePromo,
-  parsePlace,
-  parsePromoToCaptionedImage,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { breakpoints } from '@weco/common/utils/breakpoints';
 import {
   parseExhibitionFormat,
   parseResourceTypeList,
 } from '@weco/common/services/prismic/exhibitions';
-import { transformGenericFields } from '.';
+import { isDocumentLink, transformGenericFields } from '.';
 import { transformSeason } from './seasons';
+import { transformPlace } from './places';
+import { transformImagePromo, transformPromoToCaptionedImage } from './images';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -53,15 +51,13 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
-  const promoThin =
-    promo && parseImagePromo(promo, '32:15', breakpoints.medium);
-  const promoSquare =
-    promo && parseImagePromo(promo, 'square', breakpoints.small);
+  const promoThin = promo && transformImagePromo(promo, '32:15');
+  const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const promos = [promoThin, promoSquare]
-    .filter(Boolean)
+    .filter(isNotUndefined)
     .map(p => p.image)
-    .filter(Boolean);
+    .filter(isNotUndefined);
 
   const id = document.id;
   const format = data.format && parseExhibitionFormat(data.format);
@@ -78,7 +74,7 @@ export function transformExhibition(
     : (data.audioDescriptionInfo as HTMLString);
   const promoImage =
     promo && promo.length > 0
-      ? parsePromoToCaptionedImage(data.promo)
+      ? transformPromoToCaptionedImage(data.promo)
       : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
@@ -92,6 +88,12 @@ export function transformExhibition(
     };
   });
 
+  // TODO: Make this type check properly; for some reason it doesn't recognise
+  // this as a PlacePrismicDocument and I'm not sure why.
+  const place = isDocumentLink(data.place)
+    ? transformPlace(data.place as any)
+    : undefined;
+
   const exhibition = {
     ...genericFields,
     shortTitle: data.shortTitle && asText(data.shortTitle),
@@ -102,7 +104,7 @@ export function transformExhibition(
     statusOverride,
     bslInfo,
     audioDescriptionInfo,
-    place: isDocumentLink(data.place) ? parsePlace(data.place) : undefined,
+    place,
     exhibits,
     promo: promoImage && {
       id,

@@ -17,25 +17,6 @@ export type PrismicDocument = {|
   url?: string,
 |};
 
-export type PrismicApiSearchResponse = {|
-  page: number,
-  results_per_page: number,
-  results_size: number,
-  total_results_size: number,
-  total_pages: number,
-  next_page: string,
-  prev_page: string,
-  results: PrismicDocument[],
-|};
-
-export type PrismicQueryOpts = {|
-  fetchLinks?: string[],
-  page?: number,
-  orderings?: string,
-  pageSize?: number,
-  graphQuery?: string,
-|};
-
 export type HTMLSpanTypes =
   | 'heading2'
   | 'paragraph'
@@ -72,15 +53,3 @@ export type PaginatedResults<T> = {|
   totalResults: number,
   totalPages: number,
 |};
-
-export type PrismicApiError = {|
-  statusCode: number,
-|};
-
-export type DocumentType =
-  | 'articles'
-  | 'webcomics'
-  | 'events'
-  | 'exhibitions'
-  | 'books'
-  | 'pages';

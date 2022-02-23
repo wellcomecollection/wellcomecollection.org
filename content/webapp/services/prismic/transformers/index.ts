@@ -24,19 +24,11 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  checkAndParseImage,
-  getWeight,
-  parseCaptionedImage,
-  parseImage,
-  parseImagePromo,
   parseLabelType,
   parseLink,
-  parseMediaObjectList,
   parseRichText,
   parseStructuredText,
-  parseTableCsv,
   parseTaslFromString,
-  parseTeamToContact,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -53,6 +45,16 @@ import { transformSeason } from './seasons';
 import { MultiContentPrismicDocument } from '../types/multi-content';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
+import {
+  getWeight,
+  transformContactSlice,
+  transformDeprecatedImageListSlice,
+  transformEditorialImageGallerySlice,
+  transformEditorialImageSlice,
+  transformMediaObjectListSlice,
+  transformTableSlice,
+} from './body';
+import { transformImage, transformImagePromo } from './images';
 
 type Meta = {
   title: string;
@@ -199,21 +201,10 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'editorialImage':
-          return {
-            weight: getWeight(slice.slice_label),
-            type: 'picture',
-            value: parseCaptionedImage(slice.primary),
-          };
+          return transformEditorialImageSlice(slice);
 
         case 'editorialImageGallery':
-          return {
-            type: 'imageGallery',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              items: slice.items.map(item => parseCaptionedImage(item)),
-            },
-          };
+          return transformEditorialImageGallerySlice(slice);
 
         case 'titledTextList':
           return {
@@ -309,7 +300,7 @@ export function transformBody(body: Body): BodyType {
             weight: slice.slice_label,
             value: {
               src: slice.primary.iframeSrc,
-              image: parseImage(slice.primary.previewImage),
+              image: transformImage(slice.primary.previewImage),
             },
           };
 
@@ -336,12 +327,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'contact':
-          return isFilledLinkToDocumentWithData(slice.primary.content)
-            ? {
-                type: 'contact',
-                value: parseTeamToContact(slice.primary.content),
-              }
-            : undefined;
+          return transformContactSlice(slice);
 
         case 'embed':
           const embed = slice.primary.embed;
@@ -409,14 +395,7 @@ export function transformBody(body: Body): BodyType {
           break;
 
         case 'table':
-          return {
-            type: 'table',
-            value: {
-              rows: parseTableCsv(slice.primary.tableData),
-              caption: slice.primary.caption,
-              hasRowHeaders: slice.primary.hasRowHeaders,
-            },
-          };
+          return transformTableSlice(slice);
 
         case 'infoBlock':
           return {
@@ -455,25 +434,10 @@ export function transformBody(body: Body): BodyType {
 
         // Deprecated
         case 'imageList':
-          return {
-            type: 'deprecatedImageList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              items: slice.items.map(item => ({
-                title: parseTitle(item.title),
-                subtitle: parseTitle(item.subtitle),
-                image: parseCaptionedImage(item),
-                description: parseStructuredText(item.description),
-              })),
-            },
-          };
+          return transformDeprecatedImageListSlice(slice);
+
         case 'mediaObjectList':
-          return {
-            type: 'mediaObjectList',
-            value: {
-              items: parseMediaObjectList(slice.items),
-            },
-          };
+          return transformMediaObjectListSlice(slice);
       }
     })
     .filter(isNotUndefined);
@@ -481,7 +445,7 @@ export function transformBody(body: Body): BodyType {
 
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
-  const promo = data.promo && parseImagePromo(data.promo);
+  const promo = data.promo && transformImagePromo(data.promo);
 
   const promoImage: PromoImage =
     data.promo && data.promo.length > 0
@@ -489,10 +453,10 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
           .filter(slice => slice.primary.image)
           .map(({ primary: { image } }) => {
             return {
-              image: checkAndParseImage(image),
-              squareImage: checkAndParseImage(image.square),
-              widescreenImage: checkAndParseImage(image['16:9']),
-              superWidescreenImage: checkAndParseImage(image['32:15']),
+              image: transformImage(image),
+              squareImage: transformImage(image.square),
+              widescreenImage: transformImage(image['16:9']),
+              superWidescreenImage: transformImage(image['32:15']),
             };
           })
           .find(_ => _) || {} // just get the first one;
