@@ -5,6 +5,7 @@ import {
 import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
+  ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
 import {
@@ -15,23 +16,30 @@ import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
 import {
+  asHtml,
   asText,
   isEmptyHtmlString,
-  parseBoolean,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import {
-  parseExhibitionFormat,
-  parseResourceTypeList,
-} from '@weco/common/services/prismic/exhibitions';
-import { isDocumentLink, transformGenericFields } from '.';
+import { parseResourceTypeList } from '@weco/common/services/prismic/exhibitions';
+import { transformGenericFields } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { isFilledLinkToDocumentWithData } from '../types';
+import { ExhibitionFormat } from '@weco/common/model/exhibitions';
+
+function transformExhibitionFormat(format: ExhibitionFormatPrismicDocument): ExhibitionFormat {
+  return {
+    id: format.id,
+    title: (format.data && asText(format.data.title)) || '',
+    description: format.data && asHtml(format.data.description),
+  };
+}
 
 export function transformExhibition(
   document: ExhibitionPrismicDocument
@@ -55,12 +63,16 @@ export function transformExhibition(
   const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const promos = [promoThin, promoSquare]
-    .filter(isNotUndefined)
-    .map(p => p.image)
+    .map(p => p?.image)
     .filter(isNotUndefined);
 
   const id = document.id;
-  const format = data.format && parseExhibitionFormat(data.format);
+
+  // TODO: Work out how to get this to type check without the 'as any'.
+  const format = isFilledLinkToDocumentWithData(data.format)
+    ? transformExhibitionFormat(data.format as any)
+    : undefined;
+
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
   const start = parseTimestamp(data.start);
@@ -88,10 +100,8 @@ export function transformExhibition(
     };
   });
 
-  // TODO: Make this type check properly; for some reason it doesn't recognise
-  // this as a PlacePrismicDocument and I'm not sure why.
-  const place = isDocumentLink(data.place)
-    ? transformPlace(data.place as any)
+  const place = isFilledLinkToDocumentWithData(data.place)
+    ? transformPlace(data.place)
     : undefined;
 
   const exhibition = {
@@ -100,7 +110,7 @@ export function transformExhibition(
     format,
     start,
     end,
-    isPermanent: parseBoolean(data.isPermanent),
+    isPermanent: data.isPermanent === 'yes',
     statusOverride,
     bslInfo,
     audioDescriptionInfo,

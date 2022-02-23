@@ -73,7 +73,7 @@ const audienceFetchLinks: FetchLinks<Audience> = [
   'audiences.description',
 ];
 
-type EventPolicy = PrismicDocument<
+export type EventPolicy = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;

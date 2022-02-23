@@ -1,27 +1,26 @@
 import {
   Audience,
+  DateRange,
   EventTime,
   Interpretation,
   Team,
   ThirdPartyBooking,
 } from '@weco/common/model/events';
 import { Event } from '../../../types/events';
-import { EventPrismicDocument } from '../types/events';
+import { EventPrismicDocument, EventPolicy as EventPolicyPrismicDocument } from '../types/events';
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { Query } from '@prismicio/types';
+import { GroupField, Query, RelationField } from '@prismicio/types';
 import {
   asText,
-  parseBoolean,
   parseFormat,
-  parseLabelTypeList,
+  parseLabelType,
   parseSingleLevelGroup,
   parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
-import { determineDateRange } from '@weco/common/services/prismic/events';
 import { isPast } from '@weco/common/utils/dates';
-import { isDocumentLink, transformGenericFields } from '.';
+import { transformGenericFields } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -29,17 +28,39 @@ import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { london } from '@weco/common/utils/format-date';
 import moment from 'moment';
+import { LabelField } from '@weco/common/model/label-field';
+import { InferDataInterface, isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
 ): string | undefined {
   return !isEmptyObj(eventDoc.data.eventbriteEvent)
     ? 'Ticketed'
-    : isDocumentLink(eventDoc.data.bookingEnquiryTeam)
+    : isFilledLinkToDocumentWithData(eventDoc.data.bookingEnquiryTeam)
     ? 'Enquire to book'
-    : isDocumentLink(eventDoc.data.place) && eventDoc.data.place.data?.capacity
+    : isFilledLinkToDocumentWithData(eventDoc.data.place) && eventDoc.data.place.data?.capacity
     ? 'First come, first served'
     : undefined;
+}
+
+function determineDateRange(times: EventTime[]): DateRange {
+  const firstDate =
+    times
+      .map(({ range: { startDateTime }}) => london(startDateTime))
+      .reduce((a, b) => a.isBefore(b, 'day') ? a : b)
+      .toDate();
+  
+  const lastDate =
+    times
+      .map(({ range: { endDateTime }}) => london(endDateTime))
+      .reduce((a, b) => a.isAfter(b, 'day') ? a : b)
+      .toDate();
+
+  return {
+    firstDate,
+    lastDate,
+    repeats: times.length,
+  };
 }
 
 function determineDisplayTime(times: EventTime[]): EventTime {
@@ -49,16 +70,27 @@ function determineDisplayTime(times: EventTime[]): EventTime {
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
-export function getLastEndTime(
-  times: {
-    startDateTime: string | null;
-    endDateTime: string | null;
-    isFullyBooked: boolean | null;
-  }[]
-) {
+export function getLastEndTime(times: EventTime[]) {
   return times
-    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
-    .map(time => parseTimestamp(time.endDateTime))[0];
+    .map(({ range: { endDateTime }}) => london(endDateTime))
+    .reduce((a, b) => a.isAfter(b, 'day') ? a : b);
+}
+
+export function transformEventPolicyLabels(
+  fragment: GroupField<{
+    policy: RelationField<
+      'event-policy',
+      'en-gb',
+      InferDataInterface<EventPolicyPrismicDocument>
+    >;
+  }>,
+  labelKey: string
+): LabelField[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(Boolean)
+    .filter(label => label.isBroken === false)
+    .map(label => parseLabelType(label));
 }
 
 export function transformEvent(
@@ -66,7 +98,7 @@ export function transformEvent(
   scheduleQuery?: Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
-  const scheduleLength = isDocumentLink(data.schedule.map(s => s.event)[0])
+  const scheduleLength = isFilledLinkToDocumentWithData(data.schedule.map(s => s.event)[0])
     ? data.schedule.length
     : 0;
   const genericFields = transformGenericFields(document);
@@ -117,7 +149,7 @@ export function transformEvent(
     )
     .filter(isNotUndefined);
 
-  const bookingEnquiryTeam: Team | undefined = isDocumentLink(
+  const bookingEnquiryTeam: Team | undefined = isFilledLinkToDocumentWithData(
     data.bookingEnquiryTeam
   )
     ? {
@@ -129,7 +161,7 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking: ThirdPartyBooking | undefined = isDocumentLink(
+  const thirdPartyBooking: ThirdPartyBooking | undefined = isFilledLinkToWebField(
     data.thirdPartyBookingUrl
   )
     ? {
@@ -146,30 +178,32 @@ export function transformEvent(
     return transformSeason(season);
   });
 
-  const times =
-    (data.times &&
-      data.times
+  const times: EventTime[] =
+    (data.times || [])
+      .map(({ startDateTime, endDateTime, isFullyBooked }) =>
         // Annoyingly prismic puts blanks in here
-        .filter(frag => frag.startDateTime && frag.endDateTime)
-        .map(frag => ({
-          range: {
-            startDateTime: parseTimestamp(frag.startDateTime),
-            endDateTime: parseTimestamp(frag.endDateTime),
-          },
-          isFullyBooked: parseBoolean(frag.isFullyBooked),
-        }))) ||
-    [];
+        startDateTime && endDateTime
+          ? {
+            range: {
+              startDateTime: parseTimestamp(startDateTime),
+              endDateTime: parseTimestamp(endDateTime),
+            },
+            isFullyBooked,
+          }
+          : undefined
+      )
+      .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = data.times && getLastEndTime(data.times);
-  const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
-  const isOnline = parseBoolean(data.isOnline);
-  const availableOnline = parseBoolean(data.availableOnline);
+  const lastEndTime = getLastEndTime(times);
+  const isRelaxedPerformance = data.isRelaxedPerformance;
+  const isOnline = data.isOnline;
+  const availableOnline = data.availableOnline;
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
       event,
-      isNotLinked: parseBoolean(scheduleItem.isNotLinked),
+      isNotLinked: scheduleItem.isNotLinked === 'yes',
     };
   });
 
@@ -179,7 +213,7 @@ export function transformEvent(
 
   // TODO: Make this type check properly; for some reason it doesn't recognise
   // this as a PlacePrismicDocument and I'm not sure why.
-  const place = isDocumentLink(data.place)
+  const place = isFilledLinkToDocumentWithData(data.place)
     ? transformPlace(data.place as any)
     : undefined;
 
@@ -192,7 +226,7 @@ export function transformEvent(
     locations,
     audiences,
     bookingEnquiryTeam,
-    thirdPartyBooking: thirdPartyBooking,
+    thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
         ? (data.bookingInformation as HTMLString)
@@ -202,7 +236,7 @@ export function transformEvent(
     format: data.format && parseFormat(data.format),
     interpretations,
     policies: Array.isArray(data.policies)
-      ? parseLabelTypeList(data.policies, 'policy')
+      ? transformEventPolicyLabels(data.policies, 'policy')
       : [],
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
@@ -220,9 +254,9 @@ export function transformEvent(
     times: times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
-    dateRange: determineDateRange(data.times),
+    dateRange: determineDateRange(times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance,
+    isRelaxedPerformance: isRelaxedPerformance === 'yes',
     isOnline,
     availableOnline,
     prismicDocument: document,

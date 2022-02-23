@@ -5,22 +5,26 @@ import {
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
+  GifVideoSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
+  parseRichText,
   parseStructuredText,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { isFilledLinkToDocumentWithData } from '../types';
+import { isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
+import { transformTaslFromString } from '.';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -168,4 +172,34 @@ export function transformDeprecatedImageListSlice(
       })),
     },
   };
+}
+
+export function transformGifVideoSlice(
+  slice: GifVideoSlice
+): ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice | undefined {
+  const playbackRate =
+    slice.primary.playbackRate
+      ? parseFloat(slice.primary.playbackRate)
+      : 1;
+
+  return isFilledLinkToWebField(slice.primary.video)
+    ? {
+      type: 'gifVideo',
+      weight: getWeight(slice.slice_label),
+      value: {
+        caption: parseRichText(slice.primary.caption),
+        videoUrl: slice.primary.video.url,
+        playbackRate,
+        tasl: transformTaslFromString(slice.primary.tasl),
+        autoPlay:
+          slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
+        loop: slice.primary.loop === null ? true : slice.primary.loop,
+        mute: slice.primary.mute === null ? true : slice.primary.mute,
+        showControls:
+          slice.primary.showControls === null
+            ? false
+            : slice.primary.showControls,
+      },
+    }
+    : undefined;
 }

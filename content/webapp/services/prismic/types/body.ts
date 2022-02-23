@@ -29,7 +29,7 @@ export type EditorialImageGallerySlice = Slice<
   { image: Image; caption: RichTextField }
 >;
 
-type GifVideoSlice = Slice<
+export type GifVideoSlice = Slice<
   'gifVideo',
   {
     caption: RichTextField;
