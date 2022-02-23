@@ -29,7 +29,6 @@ const libraryVenue = getVenueById(venues, 'WsuS_R8AACS1Nwlx');
 const galleriesVenue = getVenueById(venues, 'Wsttgx8AAJeSNmJ4');
 
 describe('opening-times', () => {
-  // TODO uses the first type it encounters as the the type for that date. Maybe rewrite function so 'other' gets replaced with a more specific type
   describe('exceptionalOpeningDates: returns unique dates on which exceptional opening hours occur, taken from all venues.', () => {
     it('returns an empty array if no venues have dates with exceptional opening hours', () => {
       const result = exceptionalOpeningDates(venuesWithoutExceptionalDates);
@@ -553,5 +552,4 @@ describe('opening-times', () => {
       });
     });
   });
-
 });
