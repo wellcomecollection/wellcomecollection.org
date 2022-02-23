@@ -99,7 +99,10 @@ export type IIIFMediaElementV3 = {
 
 export type AudioV3 = {
   title?: string;
-  sounds: IIIFMediaElementV3[];
+  sounds: {
+    sound: IIIFMediaElementV3;
+    title?: string;
+  }[];
   thumbnail?: IIIFImageV3;
   transcript?: IIIFTextV3;
 };

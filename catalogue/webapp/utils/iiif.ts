@@ -332,18 +332,23 @@ export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
 export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const title = canvases.find(c => c?.label?.en)?.[0];
-  const annotationPages = canvases.map(c => {
-    return c.items.find(i => i.type === 'AnnotationPage');
-  });
-  const annotations = annotationPages
-    .map(ap => {
-      return ap?.items.find(i => i.type === 'Annotation');
-    })
-    .filter(isNotUndefined);
   const audioTypes = ['Audio', 'Sound'];
-  const sounds = annotations
-    .filter(a => audioTypes.includes(a.body.type))
-    .map(a => a.body as IIIFMediaElementV3);
+  const sounds = canvases
+    .map(c => {
+      const title = c?.label?.en?.[0];
+      const annotationPage = c.items.find(i => i.type === 'AnnotationPage');
+      const annotation = annotationPage?.items.find(
+        i => i.type === 'Annotation'
+      );
+      const sound =
+        audioTypes.includes(annotation?.body.type || '') && annotation?.body;
+      return { sound, title };
+    })
+    .filter(s => Boolean(s.sound) && isNotUndefined(s.sound)) as {
+    title?: string;
+    sound: IIIFMediaElementV3;
+  }[];
+
   const placeholderCanvasItems = manifest.placeholderCanvas.items.find(
     i => i.type === 'AnnotationPage'
   );
