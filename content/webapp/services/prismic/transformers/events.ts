@@ -47,13 +47,13 @@ function determineDateRange(times: EventTime[]): DateRange {
   const firstDate =
     times
       .map(({ range: { startDateTime }}) => london(startDateTime))
-      .reduce ((a, b) => a.isBefore(b, 'day') ? a : b)
+      .reduce((a, b) => a.isBefore(b, 'day') ? a : b)
       .toDate();
   
   const lastDate =
     times
       .map(({ range: { endDateTime }}) => london(endDateTime))
-      .reduce ((a, b) => a.isAfter(b, 'day') ? a : b)
+      .reduce((a, b) => a.isAfter(b, 'day') ? a : b)
       .toDate();
 
   return {
@@ -70,16 +70,10 @@ function determineDisplayTime(times: EventTime[]): EventTime {
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
-export function getLastEndTime(
-  times: {
-    startDateTime: string | null;
-    endDateTime: string | null;
-    isFullyBooked: boolean | null;
-  }[]
-) {
+export function getLastEndTime(times: EventTime[]) {
   return times
-    .sort((x, y) => moment(y.endDateTime).unix() - moment(x.endDateTime).unix())
-    .map(time => parseTimestamp(time.endDateTime))[0];
+    .map(({ range: { endDateTime }}) => london(endDateTime))
+    .reduce((a, b) => a.isAfter(b, 'day') ? a : b);
 }
 
 export function transformEventPolicyLabels(
@@ -201,7 +195,7 @@ export function transformEvent(
       .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
-  const lastEndTime = data.times && getLastEndTime(data.times);
+  const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance;
   const isOnline = data.isOnline;
   const availableOnline = data.availableOnline;
