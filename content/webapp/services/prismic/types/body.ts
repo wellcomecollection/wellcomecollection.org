@@ -113,7 +113,7 @@ export type Contact = Slice<
   }
 >;
 
-type Discussion = Slice<
+export type Discussion = Slice<
   'discussion',
   {
     title: RichTextField;
@@ -142,7 +142,7 @@ type InfoBlock = Slice<
   }
 >;
 
-type TitledTextList = Slice<
+export type TitledTextList = Slice<
   'titledTextList',
   Record<string, never>,
   {

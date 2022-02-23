@@ -5,26 +5,35 @@ import {
   MediaObjectList as MediaObjectListSlice,
   Table as TableSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
+  TitledTextList as TitledTextListSlice,
   GifVideoSlice,
+  Discussion as DiscussionSlice,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
+import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
+  parseLabelType,
+  parseLink,
   parseRichText,
-  parseStructuredText,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
+import {
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
+} from '../types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformTaslFromString } from '.';
+import { transformStructuredText, transformTaslFromString } from '.';
+import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -93,7 +102,7 @@ export function transformMediaObjectListSlice(
               : undefined;
             return {
               title: title ? parseTitle(title) : null,
-              text: text ? parseStructuredText(text) : null,
+              text: text ? transformStructuredText(text) || null : null,
               image: transformImage(image) || null,
             };
           }
@@ -168,7 +177,7 @@ export function transformDeprecatedImageListSlice(
         //
         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
         image: transformCaptionedImage({ ...item, caption: [] }),
-        description: parseStructuredText(item.description),
+        description: transformStructuredText(item.description) || [],
       })),
     },
   };
@@ -176,30 +185,71 @@ export function transformDeprecatedImageListSlice(
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
-): ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice | undefined {
-  const playbackRate =
-    slice.primary.playbackRate
-      ? parseFloat(slice.primary.playbackRate)
-      : 1;
+): (ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice) | undefined {
+  const playbackRate = slice.primary.playbackRate
+    ? parseFloat(slice.primary.playbackRate)
+    : 1;
 
   return isFilledLinkToWebField(slice.primary.video)
     ? {
-      type: 'gifVideo',
-      weight: getWeight(slice.slice_label),
-      value: {
-        caption: parseRichText(slice.primary.caption),
-        videoUrl: slice.primary.video.url,
-        playbackRate,
-        tasl: transformTaslFromString(slice.primary.tasl),
-        autoPlay:
-          slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
-        loop: slice.primary.loop === null ? true : slice.primary.loop,
-        mute: slice.primary.mute === null ? true : slice.primary.mute,
-        showControls:
-          slice.primary.showControls === null
-            ? false
-            : slice.primary.showControls,
-      },
-    }
+        type: 'gifVideo',
+        weight: getWeight(slice.slice_label),
+        value: {
+          caption: parseRichText(slice.primary.caption),
+          videoUrl: slice.primary.video.url,
+          playbackRate,
+          tasl: transformTaslFromString(slice.primary.tasl),
+          autoPlay:
+            slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
+          loop: slice.primary.loop === null ? true : slice.primary.loop,
+          mute: slice.primary.mute === null ? true : slice.primary.mute,
+          showControls:
+            slice.primary.showControls === null
+              ? false
+              : slice.primary.showControls,
+        },
+      }
     : undefined;
+}
+
+function transformTitledTextItem({
+  title,
+  text,
+  link,
+  label,
+}: {
+  title: RichTextField;
+  text: RichTextField;
+  link: LinkField;
+  label: RelationField<'labels'>;
+}) {
+  return {
+    title: parseTitle(title),
+    text: transformStructuredText(text),
+    link: parseLink(link),
+    label: isFilledLinkToDocumentWithData(label) ? parseLabelType(label) : null,
+  };
+}
+
+export function transformTitledTextListSlice(
+  slice: TitledTextListSlice
+): ParsedSlice<'titledTextList', TitledTextListProps> {
+  return {
+    type: 'titledTextList',
+    value: {
+      items: slice.items.map(item => transformTitledTextItem(item)),
+    },
+  };
+}
+
+export function transformDiscussionSlice(
+  slice: DiscussionSlice
+): ParsedSlice<'discussion', DiscussionProps> {
+  return {
+    type: 'discussion',
+    value: {
+      title: parseTitle(slice.primary.title),
+      text: transformStructuredText(slice.primary.text) || [],
+    },
+  };
 }

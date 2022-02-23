@@ -15,9 +15,7 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  parseLabelType,
   parseLink,
-  parseStructuredText,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -40,14 +38,19 @@ import {
   getWeight,
   transformContactSlice,
   transformDeprecatedImageListSlice,
+  transformDiscussionSlice,
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
   transformMediaObjectListSlice,
   transformTableSlice,
+  transformTitledTextListSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
+
+import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 type Meta = {
   title: string;
@@ -124,6 +127,19 @@ export function transformRichTextField(field: RichTextField) {
   return field && field.length > 0 ? field : undefined;
 }
 
+// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
+// inserted text, then removed it, so we need to do this check.
+export function isStructuredText(field: RichTextField): boolean {
+  const text = asText(field);
+  return Boolean(field) && (text || '').trim() !== '';
+}
+
+export function transformStructuredText(
+  field: RichTextField | undefined
+): HTMLString | undefined {
+  return field && isStructuredText(field) ? (field as HTMLString) : undefined;
+}
+
 // We have to use this annoyingly often as right at the beginning of the project
 // we created titles as `RichTextField`s.
 export function transformRichTextFieldToString(field: RichTextField) {
@@ -136,15 +152,6 @@ type PromoImage = {
   widescreenImage?: ImageType;
   superWidescreenImage?: ImageType;
 };
-
-function transformTitledTextItem(item) {
-  return {
-    title: parseTitle(item.title),
-    text: parseStructuredText(item.text),
-    link: parseLink(item.link),
-    label: isFilledLinkToDocumentWithData(item.label) ? parseLabelType(item.label) : null,
-  };
-}
 
 // TODO: Consider moving this into a dedicated file for body transformers.
 // TODO: Rather than doing transformation inline, have this function consistently
@@ -185,12 +192,7 @@ export function transformBody(body: Body): BodyType {
           return transformEditorialImageGallerySlice(slice);
 
         case 'titledTextList':
-          return {
-            type: 'titledTextList',
-            value: {
-              items: slice.items.map(item => transformTitledTextItem(item)),
-            },
-          };
+          return transformTitledTextListSlice(slice);
 
         case 'contentList':
           type ContentListPrismicDocument =
@@ -371,13 +373,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'discussion':
-          return {
-            type: 'discussion',
-            value: {
-              title: parseTitle(slice.primary.title),
-              text: parseStructuredText(slice.primary.text),
-            },
-          };
+          return transformDiscussionSlice(slice);
 
         case 'tagList':
           return {
@@ -448,8 +444,6 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     labels: [],
   };
 }
-
-import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {

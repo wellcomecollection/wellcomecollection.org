@@ -13,7 +13,7 @@ const ButtonContainer = styled.div`
   transform: translateX(-50%) translateY(-50%);
 `;
 
-type Props = {
+export type Props = {
   title: string | null;
   text: HTMLString;
 };

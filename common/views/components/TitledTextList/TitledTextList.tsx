@@ -23,7 +23,7 @@ const TextContainer = styled.div`
   }
 `;
 
-type Props = {
+export type Props = {
   items: {
     title?: string;
     link?: string;
