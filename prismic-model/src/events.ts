@@ -1,7 +1,6 @@
 import title from './parts/title';
 import promo from './parts/promo';
 import timestamp from './parts/timestamp';
-import place from './parts/place';
 import link from './parts/link';
 import list from './parts/list';
 import structuredText from './parts/structured-text';
@@ -23,8 +22,6 @@ const events: CustomType = {
     Event: {
       title,
       format: link('Format', 'document', ['event-formats']),
-      place: place,
-      // TODO: deprecate single 'place' above for multiple 'locations' below
       locations: list('Locations', {
         location: link('Location', 'document', ['places']),
       }),
