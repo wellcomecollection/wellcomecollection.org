@@ -18,6 +18,5 @@ export function transformCard(document: CardPrismicDocument): Card {
     description: asText(description),
     image: image ? checkAndParseImage(image) : null,
     link: parseLink(link),
-    order: undefined,
   };
 }
