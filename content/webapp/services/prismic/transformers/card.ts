@@ -3,9 +3,9 @@ import {
   parseTitle,
   parseFormat,
   asText,
-  checkAndParseImage,
   parseLink,
 } from '@weco/common/services/prismic/parsers';
+import { transformImage } from './images';
 import { Card } from '@weco/common/model/card';
 
 export function transformCard(document: CardPrismicDocument): Card {
@@ -16,7 +16,7 @@ export function transformCard(document: CardPrismicDocument): Card {
     title: parseTitle(title),
     format: parseFormat(format),
     description: asText(description),
-    image: image ? checkAndParseImage(image) : null,
+    image: transformImage(image),
     link: parseLink(link),
   };
 }
