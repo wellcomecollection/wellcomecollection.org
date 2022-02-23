@@ -33,7 +33,9 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { ExhibitionFormat } from '@weco/common/model/exhibitions';
 
-function transformExhibitionFormat(format: ExhibitionFormatPrismicDocument): ExhibitionFormat {
+function transformExhibitionFormat(
+  format: ExhibitionFormatPrismicDocument
+): ExhibitionFormat {
   return {
     id: format.id,
     title: (format.data && asText(format.data.title)) || '',
@@ -84,9 +86,11 @@ export function transformExhibition(
   const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
     ? undefined
     : (data.audioDescriptionInfo as HTMLString);
+
+  const promoCrop = '16:9';
   const promoImage =
     promo && promo.length > 0
-      ? transformPromoToCaptionedImage(data.promo)
+      ? transformPromoToCaptionedImage(data.promo, promoCrop)
       : undefined;
 
   const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {

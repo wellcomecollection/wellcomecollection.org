@@ -29,7 +29,7 @@ export const placeHolderImage: ImageType = {
 type Crop = '16:9' | '32:15' | 'square';
 export function transformCaptionedImage(
   frag: { image: Image; caption: RichTextField },
-  crop?: Crop | undefined
+  crop?: Crop
 ): CaptionedImage {
   if (isEmptyObj(frag.image)) {
     return {
@@ -55,7 +55,7 @@ export function transformCaptionedImage(
 
 export function transformPromoToCaptionedImage(
   frag: PromoSliceZone,
-  crop: Crop | undefined = '16:9'
+  crop?: Crop
 ): CaptionedImage {
   // We could do more complicated checking here, but this is what we always use.
   const promo = frag[0];
