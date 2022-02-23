@@ -226,7 +226,7 @@ export function transformEvent(
     locations,
     audiences,
     bookingEnquiryTeam,
-    thirdPartyBooking: thirdPartyBooking,
+    thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
         ? (data.bookingInformation as HTMLString)
