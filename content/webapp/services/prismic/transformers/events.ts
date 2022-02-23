@@ -185,8 +185,8 @@ export function transformEvent(
         startDateTime && endDateTime
           ? {
             range: {
-              startDateTime: parseTimestamp(startDateTime) as Date,
-              endDateTime: parseTimestamp(endDateTime) as Date,
+              startDateTime: parseTimestamp(startDateTime),
+              endDateTime: parseTimestamp(endDateTime),
             },
             isFullyBooked,
           }
