@@ -9,14 +9,6 @@ import {
   isFilledLinkToDocumentWithData,
   WithArticleFormat,
 } from '../types';
-import type {
-  AnyRegularField,
-  FilledLinkToDocumentField,
-  GroupField,
-  RelationField,
-  SliceZone,
-} from '@prismicio/types';
-import { link } from './vendored-helpers';
 import {
   BodyType,
   GenericContentFields,
