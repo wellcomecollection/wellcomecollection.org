@@ -22,6 +22,7 @@ import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
 import { link } from '../transformers/vendored-helpers';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
@@ -218,9 +219,14 @@ export const contributorFetchLinks: ContributorFetchLink = [
 
 // Guards
 export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
-  field: RelationField<T, L, D>
+  field: RelationField<T, L, D> | undefined
 ): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
-  return 'id' in field && field.isBroken === false && 'data' in field;
+  return (
+    isNotUndefined(field) &&
+    'id' in field &&
+    field.isBroken === false &&
+    'data' in field
+  );
 }
 
 export function isFilledLinkToWebField(
