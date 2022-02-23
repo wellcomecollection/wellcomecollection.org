@@ -12,7 +12,6 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import {
   asText,
-  parseBoolean,
   parseFormat,
   parseLabelType,
   parseSingleLevelGroup,
@@ -175,20 +174,20 @@ export function transformEvent(
             startDateTime: parseTimestamp(frag.startDateTime),
             endDateTime: parseTimestamp(frag.endDateTime),
           },
-          isFullyBooked: parseBoolean(frag.isFullyBooked),
+          isFullyBooked: frag.isFullyBooked,
         }))) ||
     [];
 
   const displayTime = determineDisplayTime(times);
   const lastEndTime = data.times && getLastEndTime(data.times);
-  const isRelaxedPerformance = parseBoolean(data.isRelaxedPerformance);
-  const isOnline = parseBoolean(data.isOnline);
-  const availableOnline = parseBoolean(data.availableOnline);
+  const isRelaxedPerformance = data.isRelaxedPerformance;
+  const isOnline = data.isOnline;
+  const availableOnline = data.availableOnline;
   const schedule = eventSchedule.map((event, i) => {
     const scheduleItem = data.schedule[i];
     return {
       event,
-      isNotLinked: parseBoolean(scheduleItem.isNotLinked),
+      isNotLinked: scheduleItem.isNotLinked,
     };
   });
 

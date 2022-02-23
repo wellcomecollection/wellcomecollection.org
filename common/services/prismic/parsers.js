@@ -71,10 +71,6 @@ export function parseLabelType(fragment: PrismicFragment): LabelField {
   };
 }
 
-export function parseBoolean(fragment: PrismicFragment): boolean {
-  return Boolean(fragment);
-}
-
 export function parseStructuredText(maybeFragment: ?any): ?HTMLString {
   return maybeFragment && isStructuredText((maybeFragment: HTMLString))
     ? (maybeFragment: HTMLString)
