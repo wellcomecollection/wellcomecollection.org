@@ -142,7 +142,7 @@ type InfoBlock = Slice<
   }
 >;
 
-type TitledTextList = Slice<
+export type TitledTextList = Slice<
   'titledTextList',
   Record<string, never>,
   {

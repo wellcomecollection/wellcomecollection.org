@@ -15,7 +15,6 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  parseLabelType,
   parseLink,
   parseStructuredText,
   parseTitle,
@@ -45,9 +44,12 @@ import {
   transformGifVideoSlice,
   transformMediaObjectListSlice,
   transformTableSlice,
+  transformTitledTextListSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
+
+import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
 
 type Meta = {
   title: string;
@@ -137,15 +139,6 @@ type PromoImage = {
   superWidescreenImage?: ImageType;
 };
 
-function transformTitledTextItem(item) {
-  return {
-    title: parseTitle(item.title),
-    text: parseStructuredText(item.text),
-    link: parseLink(item.link),
-    label: isFilledLinkToDocumentWithData(item.label) ? parseLabelType(item.label) : null,
-  };
-}
-
 // TODO: Consider moving this into a dedicated file for body transformers.
 // TODO: Rather than doing transformation inline, have this function consistently
 // call out to other transformer functions (a la contentList).
@@ -185,12 +178,7 @@ export function transformBody(body: Body): BodyType {
           return transformEditorialImageGallerySlice(slice);
 
         case 'titledTextList':
-          return {
-            type: 'titledTextList',
-            value: {
-              items: slice.items.map(item => transformTitledTextItem(item)),
-            },
-          };
+          return transformTitledTextListSlice(slice);
 
         case 'contentList':
           type ContentListPrismicDocument =
@@ -448,8 +436,6 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     labels: [],
   };
 }
-
-import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {
