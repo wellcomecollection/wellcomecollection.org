@@ -359,7 +359,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 items={audio.sounds}
                 thumbnail={audio.thumbnail}
                 transcript={audio.transcript}
-                audioTitle={audio.title}
                 workTitle={work.title}
               />
             )}

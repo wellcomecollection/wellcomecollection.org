@@ -8,7 +8,7 @@ import DownloadLink from '../DownloadLink/DownloadLink';
 type Props = {
   items: {
     sound: IIIFMediaElementV3;
-    title: string;
+    title?: string;
   }[];
   thumbnail?: IIIFImageV3;
   transcript?: IIIFTextV3;
