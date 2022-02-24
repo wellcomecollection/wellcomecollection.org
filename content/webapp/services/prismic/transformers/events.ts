@@ -44,10 +44,10 @@ function transformEventBookingType(
     ? 'Ticketed'
     : isFilledLinkToDocumentWithData(eventDoc.data.bookingEnquiryTeam)
     ? 'Enquire to book'
-    : // : isFilledLinkToDocumentWithData(eventDoc.data.place) &&
-      //   eventDoc.data.place.data?.capacity
-      // ? 'First come, first served'
-      undefined;
+    : eventDoc.data.locations && isFilledLinkToDocumentWithData(eventDoc.data.locations[0].location) &&
+      eventDoc.data.locations[0].location.data.capacity
+    ? 'First come, first served'
+    : undefined;
 }
 
 function determineDateRange(times: EventTime[]): DateRange {
@@ -215,12 +215,6 @@ export function transformEvent(
   const locations = parseSingleLevelGroup(data.locations, 'location').map(
     location => transformPlace(location)
   );
-
-  // TODO: Make this type check properly; for some reason it doesn't recognise
-  // this as a PlacePrismicDocument and I'm not sure why.
-  // const place = isFilledLinkToDocumentWithData(data.place)
-  //   ? transformPlace(data.place as any)
-  //   : undefined;
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
