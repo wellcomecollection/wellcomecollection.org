@@ -62,3 +62,16 @@ resource "aws_ecr_lifecycle_policy" "identity_webapp" {
   repository = aws_ecr_repository.identity_webapp.name
   policy     = local.ecr_policy_only_keep_the_last_100_images
 }
+
+resource "aws_ecr_repository" "playwright" {
+  name = "weco/playwright"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "aws_ecr_lifecycle_policy" "playwright" {
+  repository = aws_ecr_repository.playwright.name
+  policy     = local.ecr_policy_only_keep_the_last_100_images
+}
