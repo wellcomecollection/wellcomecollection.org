@@ -27,7 +27,7 @@ import {
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
-  isFilledLinkToWebField,
+  isFilledLinkToMediaField,
 } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
@@ -190,7 +190,7 @@ export function transformGifVideoSlice(
     ? parseFloat(slice.primary.playbackRate)
     : 1;
 
-  return isFilledLinkToWebField(slice.primary.video)
+  return isFilledLinkToMediaField(slice.primary.video)
     ? {
         type: 'gifVideo',
         weight: getWeight(slice.slice_label),
