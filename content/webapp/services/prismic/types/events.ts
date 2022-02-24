@@ -110,11 +110,6 @@ export type EventPrismicDocument = PrismicDocument<
       'en-gb',
       InferDataInterface<EventFormat>
     >;
-    place: RelationField<
-      'place',
-      'en-gb',
-      InferDataInterface<PlacePrismicDocument>
-    >;
     locations: GroupField<{
       location: RelationField<
         'place',
