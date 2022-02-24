@@ -39,9 +39,6 @@ export const graphQuery = `{
     format {
       ...formatFields
     }
-    place {
-      ...placeFields
-    }
     series {
       series {
         ...seriesFields

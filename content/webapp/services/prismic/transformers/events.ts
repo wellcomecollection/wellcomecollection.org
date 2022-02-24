@@ -7,7 +7,10 @@ import {
   ThirdPartyBooking,
 } from '@weco/common/model/events';
 import { Event } from '../../../types/events';
-import { EventPrismicDocument, EventPolicy as EventPolicyPrismicDocument } from '../types/events';
+import {
+  EventPrismicDocument,
+  EventPolicy as EventPolicyPrismicDocument,
+} from '../types/events';
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
@@ -27,9 +30,12 @@ import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { london } from '@weco/common/utils/format-date';
-import moment from 'moment';
 import { LabelField } from '@weco/common/model/label-field';
-import { InferDataInterface, isFilledLinkToDocumentWithData, isFilledLinkToWebField } from '../types';
+import {
+  InferDataInterface,
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToWebField,
+} from '../types';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -38,23 +44,22 @@ function transformEventBookingType(
     ? 'Ticketed'
     : isFilledLinkToDocumentWithData(eventDoc.data.bookingEnquiryTeam)
     ? 'Enquire to book'
-    : isFilledLinkToDocumentWithData(eventDoc.data.place) && eventDoc.data.place.data?.capacity
-    ? 'First come, first served'
-    : undefined;
+    : // : isFilledLinkToDocumentWithData(eventDoc.data.place) &&
+      //   eventDoc.data.place.data?.capacity
+      // ? 'First come, first served'
+      undefined;
 }
 
 function determineDateRange(times: EventTime[]): DateRange {
-  const firstDate =
-    times
-      .map(({ range: { startDateTime }}) => london(startDateTime))
-      .reduce((a, b) => a.isBefore(b, 'day') ? a : b)
-      .toDate();
-  
-  const lastDate =
-    times
-      .map(({ range: { endDateTime }}) => london(endDateTime))
-      .reduce((a, b) => a.isAfter(b, 'day') ? a : b)
-      .toDate();
+  const firstDate = times
+    .map(({ range: { startDateTime } }) => london(startDateTime))
+    .reduce((a, b) => (a.isBefore(b, 'day') ? a : b))
+    .toDate();
+
+  const lastDate = times
+    .map(({ range: { endDateTime } }) => london(endDateTime))
+    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+    .toDate();
 
   return {
     firstDate,
@@ -72,8 +77,8 @@ function determineDisplayTime(times: EventTime[]): EventTime {
 
 export function getLastEndTime(times: EventTime[]) {
   return times
-    .map(({ range: { endDateTime }}) => london(endDateTime))
-    .reduce((a, b) => a.isAfter(b, 'day') ? a : b);
+    .map(({ range: { endDateTime } }) => london(endDateTime))
+    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b));
 }
 
 export function transformEventPolicyLabels(
@@ -98,7 +103,9 @@ export function transformEvent(
   scheduleQuery?: Query<EventPrismicDocument>
 ): Event {
   const data = document.data;
-  const scheduleLength = isFilledLinkToDocumentWithData(data.schedule.map(s => s.event)[0])
+  const scheduleLength = isFilledLinkToDocumentWithData(
+    data.schedule.map(s => s.event)[0]
+  )
     ? data.schedule.length
     : 0;
   const genericFields = transformGenericFields(document);
@@ -161,14 +168,13 @@ export function transformEvent(
       }
     : undefined;
 
-  const thirdPartyBooking: ThirdPartyBooking | undefined = isFilledLinkToWebField(
-    data.thirdPartyBookingUrl
-  )
-    ? {
-        name: data.thirdPartyBookingName || undefined,
-        url: data.thirdPartyBookingUrl.url!,
-      }
-    : undefined;
+  const thirdPartyBooking: ThirdPartyBooking | undefined =
+    isFilledLinkToWebField(data.thirdPartyBookingUrl)
+      ? {
+          name: data.thirdPartyBookingName || undefined,
+          url: data.thirdPartyBookingUrl.url!,
+        }
+      : undefined;
 
   const series = parseSingleLevelGroup(data.series, 'series').map(series => {
     return transformEventSeries(series);
@@ -178,21 +184,20 @@ export function transformEvent(
     return transformSeason(season);
   });
 
-  const times: EventTime[] =
-    (data.times || [])
-      .map(({ startDateTime, endDateTime, isFullyBooked }) =>
-        // Annoyingly prismic puts blanks in here
-        startDateTime && endDateTime
-          ? {
+  const times: EventTime[] = (data.times || [])
+    .map(({ startDateTime, endDateTime, isFullyBooked }) =>
+      // Annoyingly prismic puts blanks in here
+      startDateTime && endDateTime
+        ? {
             range: {
               startDateTime: parseTimestamp(startDateTime),
               endDateTime: parseTimestamp(endDateTime),
             },
             isFullyBooked,
           }
-          : undefined
-      )
-      .filter(isNotUndefined);
+        : undefined
+    )
+    .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
   const lastEndTime = getLastEndTime(times);
@@ -213,16 +218,16 @@ export function transformEvent(
 
   // TODO: Make this type check properly; for some reason it doesn't recognise
   // this as a PlacePrismicDocument and I'm not sure why.
-  const place = isFilledLinkToDocumentWithData(data.place)
-    ? transformPlace(data.place as any)
-    : undefined;
+  // const place = isFilledLinkToDocumentWithData(data.place)
+  //   ? transformPlace(data.place as any)
+  //   : undefined;
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
   const event = {
     ...genericFields,
-    place,
+    // place,
     locations,
     audiences,
     bookingEnquiryTeam,
