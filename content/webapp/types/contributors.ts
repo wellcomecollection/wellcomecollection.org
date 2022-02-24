@@ -1,4 +1,4 @@
-import { RichTextField } from '@prismicio/types';
+import { HTMLString } from '@weco/common/services/prismic/types';
 import { Image } from '../services/prismic/types';
 
 type SameAs = {
@@ -10,7 +10,7 @@ type Person = {
   type: 'people';
   id: string;
   name?: string;
-  description?: RichTextField;
+  description?: HTMLString;
   image?: Image;
   sameAs: SameAs;
   pronouns?: string;
@@ -20,7 +20,7 @@ type Organisation = {
   type: 'organisations';
   id: string;
   name?: string;
-  description?: RichTextField;
+  description?: HTMLString;
   image?: Image;
   sameAs: SameAs;
 };
@@ -34,5 +34,5 @@ type ContributorRole = {
 export type Contributor = {
   contributor: Person | Organisation;
   role?: ContributorRole;
-  description?: RichTextField;
+  description?: HTMLString;
 };
