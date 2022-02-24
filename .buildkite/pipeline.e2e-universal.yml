@@ -1,22 +1,23 @@
 steps:
+  - label: "build e2e test image"
+    command: ./playwright/get_playwright_image.sh
+
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
-    plugins:
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-          command: ["yarn", "test"]
+    command:
+      docker run --rm \
+        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+        --env USE_STAGE_APIS=$USE_STAGE_APIS \
+        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
+        yarn test
     retry:
       automatic: true
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
-    plugins:
-      - docker-compose#v3.5.0:
-          run: e2e
-          env:
-            - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
-            - USE_STAGE_APIS=$USE_STAGE_APIS
-          command: ["yarn", "test:mobile"]
+    command:
+      docker run --rm \
+        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+        --env USE_STAGE_APIS=$USE_STAGE_APIS \
+        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
+        yarn test:mobile
     retry:
       automatic: true

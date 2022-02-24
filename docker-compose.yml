@@ -39,10 +39,6 @@ services:
   updown:
     build:
       context: ./updown
-  e2e:
-    build:
-      context: .
-      dockerfile: playwright/Dockerfile
   prismic_model:
     build:
       context: ./prismic-model

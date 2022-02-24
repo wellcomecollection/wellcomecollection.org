@@ -1,234 +1,115 @@
-- label: ":docker: build common"
-  key: "build_common"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - common
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+  - label: "build e2e test image"
+    command: ./playwright/get_playwright_image.sh
 
-# Note: we have two variants of the "build cardigan" CI step.
+  - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    command:
+      docker run --rm \
+        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+        --env USE_STAGE_APIS=$USE_STAGE_APIS \
+        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
+        yarn test
+    retry:
+      automatic: true
+
+  - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    command:
+      docker run --rm \
+        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+        --env USE_STAGE_APIS=$USE_STAGE_APIS \
+        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
+        yarn test:mobile
+    retry:
+      automatic: true
 #
-# In pull requests, we don't need to publish the image to ECR, because
-# there is no later "test cardigan" step that would use the published image.
-# This saves ~1m from the Cardigan build, which is one of the longest
-# in PR builds.
 #
-# In main builds, we do need to publish the image to ECR, because it's
-# used again later in the "deploy Cardigan" step.
+# - label: ":docker: build common"
+#   key: "build_common"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - common
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
 #
-- label: ":docker: build cardigan"
-  key: "build_cardigan_main"
-  if: build.branch == "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - cardigan
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-- label: ":docker: build cardigan"
-  key: "build_cardigan_pr"
-  if: build.branch != "main"
-  command: docker-compose build cardigan
-
-- label: ":docker: build catalogue"
-  key: "build_catalogue"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - catalogue
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-
-- label: ":docker: build content"
-  key: "build_content"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - content
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-
-- label: ":docker: build edge_lambdas"
-  key: "build_edge_lambdas"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - edge_lambdas
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-
-- label: ":docker: build identity"
-  key: "build_identity"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        build:
-          - identity
-        image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
-
-- label: "diff prismic model"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: prismic_model
-        env:
-          - CI
-        command: ["yarn", "diffCustomTypes"]
-
-- label: "test common"
-  depends_on: "build_common"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: common
-        command: ["yarn", "test"]
-
-- label: "test catalogue"
-  depends_on: "build_catalogue"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: ["yarn", "test"]
-
-- label: "test content"
-  depends_on: "build_content"
-  # Some content tests fail because the mocks do not match reality.
-  # However,work is in train to get reality closer to the mocks.
-  # For this reason, it is inappropriate to fix either right now.
-  # Instead, allow a failure in this step to be reported, but not
-  # block the build.
-  # Remove this *as soon* as the step starts passing again.
-  soft_fail: true
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: ["yarn", "test"]
-
-- label: "test identity"
-  depends_on: "build_identity"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: identity
-        command: ["yarn", "test"]
-
-- label: "test edge_lambdas"
-  depends_on: "build_edge_lambdas"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: ["yarn", "test"]
-
-- wait
-
-- label: "deploy catalogue (ecr image)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        push:
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
-          - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
-
-- label: "deploy catalogue (bundle analysis)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: catalogue
-        command: [ "yarn", "deployBundleAnalysis" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy content (ecr image)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        push:
-          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
-          - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
-
-- label: "deploy content (bundle analysis)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: content
-        command: [ "yarn", "deployBundleAnalysis" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy identity (ecr image)"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        push:
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
-          - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
-
-# - label: "deploy identity (bundle analysis)"
+# # Note: we have two variants of the "build cardigan" CI step.
+# #
+# # In pull requests, we don't need to publish the image to ECR, because
+# # there is no later "test cardigan" step that would use the published image.
+# # This saves ~1m from the Cardigan build, which is one of the longest
+# # in PR builds.
+# #
+# # In main builds, we do need to publish the image to ECR, because it's
+# # used again later in the "deploy Cardigan" step.
+# #
+# - label: ":docker: build cardigan"
+#   key: "build_cardigan_main"
+#   if: build.branch == "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - cardigan
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+# - label: ":docker: build cardigan"
+#   key: "build_cardigan_pr"
+#   if: build.branch != "main"
+#   command: docker-compose build cardigan
+#
+# - label: ":docker: build catalogue"
+#   key: "build_catalogue"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - catalogue
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+#
+# - label: ":docker: build content"
+#   key: "build_content"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - content
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+#
+# - label: ":docker: build edge_lambdas"
+#   key: "build_edge_lambdas"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - edge_lambdas
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+#
+# - label: ":docker: build identity"
+#   key: "build_identity"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         build:
+#           - identity
+#         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
+#
+# - label: "diff prismic model"
 #   branches: "main"
 #   plugins:
 #     - wellcomecollection/aws-assume-role#v0.2.2:
@@ -236,119 +117,262 @@
 #     - ecr#v2.1.1:
 #         login: true
 #     - docker-compose#v3.5.0:
+#         run: prismic_model
+#         env:
+#           - CI
+#         command: ["yarn", "diffCustomTypes"]
+#
+# - label: "test common"
+#   depends_on: "build_common"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: common
+#         command: ["yarn", "test"]
+#
+# - label: "test catalogue"
+#   depends_on: "build_catalogue"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: catalogue
+#         command: ["yarn", "test"]
+#
+# - label: "test content"
+#   depends_on: "build_content"
+#   # Some content tests fail because the mocks do not match reality.
+#   # However,work is in train to get reality closer to the mocks.
+#   # For this reason, it is inappropriate to fix either right now.
+#   # Instead, allow a failure in this step to be reported, but not
+#   # block the build.
+#   # Remove this *as soon* as the step starts passing again.
+#   soft_fail: true
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: content
+#         command: ["yarn", "test"]
+#
+# - label: "test identity"
+#   depends_on: "build_identity"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
 #         run: identity
+#         command: ["yarn", "test"]
+#
+# - label: "test edge_lambdas"
+#   depends_on: "build_edge_lambdas"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: edge_lambdas
+#         command: ["yarn", "test"]
+#
+# - wait
+#
+# - label: "deploy catalogue (ecr image)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         push:
+#           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:ref.${BUILDKITE_COMMIT}
+#           - catalogue:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/catalogue_webapp:latest
+#
+# - label: "deploy catalogue (bundle analysis)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: catalogue
 #         command: [ "yarn", "deployBundleAnalysis" ]
 #         env:
 #           - AWS_ACCESS_KEY_ID
 #           - AWS_SECRET_ACCESS_KEY
 #           - AWS_SESSION_TOKEN
-
-- label: "deploy dash"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: dash
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy cardigan"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: cardigan
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy toggles"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: toggles
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-          - CI
-
-- label: "deploy pa11y"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: pa11y
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy edge_lambdas"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: edge_lambdas
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy updown"
-  branches: "main"
-  skip: "To avoid overriding manual work that is occuring"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: updown
-        command: [ "yarn", "checks" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-
-- label: "deploy assets"
-  branches: "main"
-  commands: ./assets/deploy_assets.sh
-  agents:
-    queue: nano
-
-- wait
-
-- label: "Trigger stage deployment"
-  branches: "main"
-  plugins:
-    - wellcomecollection/github-deployments#v0.2.4:
-        assume_role: "arn:aws:iam::130871440101:role/experience-ci"
-        environment: stage
-        ref: "${BUILDKITE_COMMIT}"
-  agents:
-    queue: nano
+#
+# - label: "deploy content (ecr image)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         push:
+#           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:ref.${BUILDKITE_COMMIT}
+#           - content:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/content_webapp:latest
+#
+# - label: "deploy content (bundle analysis)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: content
+#         command: [ "yarn", "deployBundleAnalysis" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy identity (ecr image)"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         push:
+#           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:ref.${BUILDKITE_COMMIT}
+#           - identity:130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/identity_webapp:latest
+#
+# # - label: "deploy identity (bundle analysis)"
+# #   branches: "main"
+# #   plugins:
+# #     - wellcomecollection/aws-assume-role#v0.2.2:
+# #         role: "arn:aws:iam::130871440101:role/experience-ci"
+# #     - ecr#v2.1.1:
+# #         login: true
+# #     - docker-compose#v3.5.0:
+# #         run: identity
+# #         command: [ "yarn", "deployBundleAnalysis" ]
+# #         env:
+# #           - AWS_ACCESS_KEY_ID
+# #           - AWS_SECRET_ACCESS_KEY
+# #           - AWS_SESSION_TOKEN
+#
+# - label: "deploy dash"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: dash
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy cardigan"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: cardigan
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy toggles"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: toggles
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#           - CI
+#
+# - label: "deploy pa11y"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: pa11y
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy edge_lambdas"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: edge_lambdas
+#         command: [ "yarn", "deploy" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy updown"
+#   branches: "main"
+#   skip: "To avoid overriding manual work that is occuring"
+#   plugins:
+#     - wellcomecollection/aws-assume-role#v0.2.2:
+#         role: "arn:aws:iam::130871440101:role/experience-ci"
+#     - ecr#v2.1.1:
+#         login: true
+#     - docker-compose#v3.5.0:
+#         run: updown
+#         command: [ "yarn", "checks" ]
+#         env:
+#           - AWS_ACCESS_KEY_ID
+#           - AWS_SECRET_ACCESS_KEY
+#           - AWS_SESSION_TOKEN
+#
+# - label: "deploy assets"
+#   branches: "main"
+#   commands: ./assets/deploy_assets.sh
+#   agents:
+#     queue: nano
+#
+# - wait
+#
+# - label: "Trigger stage deployment"
+#   branches: "main"
+#   plugins:
+#     - wellcomecollection/github-deployments#v0.2.4:
+#         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+#         environment: stage
+#         ref: "${BUILDKITE_COMMIT}"
+#   agents:
+#     queue: nano
