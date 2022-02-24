@@ -54,7 +54,7 @@ import {
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
 import { useToggles } from '@weco/common/server-data/Context';
-import { sierraStatusCodeToLabel } from '../src/frontend/MicroCopy';
+import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 
 type DetailProps = {
   label: string;
