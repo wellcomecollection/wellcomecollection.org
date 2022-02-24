@@ -20,12 +20,11 @@ import {
   asText,
   isEmptyHtmlString,
   parseSingleLevelGroup,
-  parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
 import { parseResourceTypeList } from '@weco/common/services/prismic/exhibitions';
-import { transformGenericFields } from '.';
+import { transformGenericFields, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
@@ -77,8 +76,8 @@ export function transformExhibition(
 
   const url = `/exhibitions/${id}`;
   const title = parseTitle(data.title);
-  const start = parseTimestamp(data.start);
-  const end = data.end && parseTimestamp(data.end);
+  const start = transformTimestamp(data.start)!;
+  const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
   const bslInfo = isEmptyHtmlString(data.bslInfo)
     ? undefined

@@ -9,7 +9,7 @@ import { Season } from './seasons';
 import { HTMLString } from '../services/prismic/types';
 import { Label } from './labels';
 
-type DateTimeRange = {
+export type DateTimeRange = {
   startDateTime: Date;
   endDateTime: Date;
 };
