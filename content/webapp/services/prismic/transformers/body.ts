@@ -189,7 +189,6 @@ export function transformGifVideoSlice(
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
-
   return isFilledLinkToMediaField(slice.primary.video)
     ? {
         type: 'gifVideo',
@@ -200,7 +199,7 @@ export function transformGifVideoSlice(
           playbackRate,
           tasl: transformTaslFromString(slice.primary.tasl),
           autoPlay:
-            slice.primary.autoplay === null ? true : slice.primary.autoplay, // handle old content before these fields existed
+            slice.primary.autoPlay === null ? true : slice.primary.autoPlay, // handle old content before these fields existed
           loop: slice.primary.loop === null ? true : slice.primary.loop,
           mute: slice.primary.mute === null ? true : slice.primary.mute,
           showControls:
