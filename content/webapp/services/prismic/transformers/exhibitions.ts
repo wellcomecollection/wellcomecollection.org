@@ -13,13 +13,12 @@ import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
 import {
-  asHtml,
   asText,
   parseSingleLevelGroup,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { transformGenericFields, transformRichTextField, transformTimestamp } from '.';
+import { asHtml, transformGenericFields, transformRichTextField, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
