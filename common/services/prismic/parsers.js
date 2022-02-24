@@ -1,7 +1,7 @@
 // @flow
 import { RichText } from 'prismic-dom';
 // $FlowFixMe (tsx)
-import { PrismicLink, HTMLString, PrismicFragment } from './types';
+import { HTMLString, PrismicFragment } from './types';
 import flattenDeep from 'lodash.flattendeep';
 import type { Format } from '../../model/format';
 import type { Link } from '../../model/link';
@@ -74,16 +74,6 @@ export function parseFormat(frag: Object): ?Format {
         description: asHtml(frag.data.description),
       }
     : null;
-}
-
-export function parseLink(link?: PrismicLink): ?string {
-  if (link) {
-    if (link.link_type === 'Web' || link.link_type === 'Media') {
-      return link.url;
-    } else if (link.link_type === 'Document' && isDocumentLink(link)) {
-      return linkResolver(link);
-    }
-  }
 }
 
 // If a link is non-existant, it can either be returned as `null`, or as an

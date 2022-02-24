@@ -1,10 +1,5 @@
 import * as prismicH from 'prismic-helpers-beta';
-import {
-  PrismicDocument,
-  KeyTextField,
-  RichTextField,
-  TimestampField,
-} from '@prismicio/types';
+import { PrismicDocument, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
@@ -12,6 +7,8 @@ import {
   CommonPrismicFields,
   Image,
   isFilledLinkToDocumentWithData,
+  isFilledLinkToMediaField,
+  isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
 import {
@@ -20,7 +17,6 @@ import {
 } from '@weco/common/model/generic-content-fields';
 import {
   asText,
-  parseLink,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
@@ -155,6 +151,16 @@ export function transformStructuredText(
 // we created titles as `RichTextField`s.
 export function transformRichTextFieldToString(field: RichTextField) {
   return field && field.length > 0 ? prismicH.asText(field) : undefined;
+}
+
+export function transformLink(link?: LinkField<string, string, any>): string | undefined {
+  if (link) {
+    if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
+      return link.url;
+    } else if (isFilledLinkToDocumentWithData(link)) {
+      return linkResolver({ id: link.id, type: link.type });
+    }
+  }
 }
 
 type PromoImage = {
@@ -379,7 +385,7 @@ export function transformBody(body: Body): BodyType {
               title: parseTitle(slice.primary.title),
               text: slice.primary.text,
               linkText: slice.primary.linkText,
-              link: slice.primary.link,
+              link: transformLink(slice.primary.link),
             },
           };
 
@@ -394,8 +400,8 @@ export function transformBody(body: Body): BodyType {
               tags: slice.items.map(item => ({
                 textParts: [item.linkText],
                 linkAttributes: {
-                  href: { pathname: parseLink(item.link), query: '' },
-                  as: { pathname: parseLink(item.link), query: '' },
+                  href: { pathname: transformLink(item.link), query: '' },
+                  as: { pathname: transformLink(item.link), query: '' },
                 },
               })),
             },
