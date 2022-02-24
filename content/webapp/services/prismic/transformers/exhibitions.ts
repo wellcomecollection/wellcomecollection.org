@@ -8,10 +8,7 @@ import {
   ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
-import {
-  HTMLString,
-  PaginatedResults,
-} from '@weco/common/services/prismic/types';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
@@ -78,8 +75,8 @@ export function transformExhibition(
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
-  const bslInfo = transformRichTextField(data.bslInfo) as (HTMLString | undefined);
-  const audioDescriptionInfo = transformRichTextField(data.audioDescriptionInfo) as (HTMLString | undefined);
+  const bslInfo = transformRichTextField(data.bslInfo);
+  const audioDescriptionInfo = transformRichTextField(data.audioDescriptionInfo);
 
   const promoCrop = '16:9';
   const promoImage =

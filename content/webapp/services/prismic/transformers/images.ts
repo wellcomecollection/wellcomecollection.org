@@ -8,7 +8,6 @@ import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
 import { asText } from '@weco/common/services/prismic/parsers';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { ImagePromo } from '@weco/common/model/image-promo';
 import { transformRichTextField, transformTaslFromString } from '.';
 
@@ -44,7 +43,7 @@ export function transformCaptionedImage(
   const image = crop ? frag.image[crop] : frag.image;
   return {
     image: transformImage(image) || placeHolderImage,
-    caption: transformRichTextField(frag.caption) as HTMLString || [],
+    caption: transformRichTextField(frag.caption) || [],
   };
 }
 
