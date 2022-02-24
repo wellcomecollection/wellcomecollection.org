@@ -1,7 +1,17 @@
   - label: "build e2e test image"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
     command: ./playwright/get_playwright_image.sh
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
     command:
       docker run --rm \
         --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
@@ -12,6 +22,11 @@
       automatic: true
 
   - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
     command:
       docker run --rm \
         --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
