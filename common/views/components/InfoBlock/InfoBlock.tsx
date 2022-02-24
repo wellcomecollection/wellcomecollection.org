@@ -16,7 +16,7 @@ type Props = {
   title: string;
   text: HTMLString;
   linkText: string | null;
-  link: string | undefined;
+  link?: string;
 };
 
 const InfoBlock: FunctionComponent<Props> = ({
