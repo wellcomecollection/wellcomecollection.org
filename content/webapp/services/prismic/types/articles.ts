@@ -40,8 +40,8 @@ export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
   'events.schedule',
   'events.interpretations',
   'events.series',
+  'events.times',
   'events.locations',
-  'events.place',
 ];
 
 export type ArticlePrismicDocument = PrismicDocument<
