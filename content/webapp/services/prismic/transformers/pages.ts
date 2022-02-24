@@ -5,10 +5,9 @@ import {
   parseFormat,
   parseOnThisPage,
   parseSingleLevelGroup,
-  parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { transformGenericFields } from '.';
+import { transformGenericFields, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 
 export function transformPage(document: PagePrismicDocument): Page {
@@ -41,7 +40,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     siteSection: siteSection,
     prismicDocument: document,
   };

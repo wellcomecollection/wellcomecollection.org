@@ -1,6 +1,7 @@
 import {
   Audience,
   DateRange,
+  DateTimeRange,
   EventTime,
   Interpretation,
   Team,
@@ -19,11 +20,10 @@ import {
   parseFormat,
   parseLabelType,
   parseSingleLevelGroup,
-  parseTimestamp,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { isPast } from '@weco/common/utils/dates';
-import { transformGenericFields } from '.';
+import { transformGenericFields, transformTimestamp } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -187,18 +187,19 @@ export function transformEvent(
   });
 
   const times: EventTime[] = (data.times || [])
-    .map(({ startDateTime, endDateTime, isFullyBooked }) =>
-      // Annoyingly prismic puts blanks in here
-      startDateTime && endDateTime
+    .map(({ startDateTime, endDateTime, isFullyBooked }) => {
+      const range = {
+        startDateTime: transformTimestamp(startDateTime),
+        endDateTime: transformTimestamp(endDateTime),
+      };
+
+      return isNotUndefined(range.startDateTime) && isNotUndefined(range.endDateTime)
         ? {
-            range: {
-              startDateTime: parseTimestamp(startDateTime),
-              endDateTime: parseTimestamp(endDateTime),
-            },
-            isFullyBooked,
-          }
-        : undefined
-    )
+          range: range as DateTimeRange,
+          isFullyBooked
+        }
+        : undefined;
+    })
     .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
@@ -251,8 +252,8 @@ export function transformEvent(
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
-    ticketSalesStart: parseTimestamp(data.ticketSalesStart),
-    times: times,
+    ticketSalesStart: transformTimestamp(data.ticketSalesStart),
+    times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
     dateRange: determineDateRange(times),

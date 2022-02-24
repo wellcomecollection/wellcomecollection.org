@@ -1,5 +1,5 @@
 // @flow
-import { RichText, Date as PrismicDate } from 'prismic-dom';
+import { RichText } from 'prismic-dom';
 // $FlowFixMe (tsx)
 import { PrismicLink, HTMLString, PrismicFragment } from './types';
 import flattenDeep from 'lodash.flattendeep';
@@ -48,10 +48,6 @@ export function parseRichText(maybeContent: ?HTMLString) {
 export function parseTitle(title: HTMLString): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
-}
-
-export function parseTimestamp(frag: PrismicFragment): Date {
-  return PrismicDate(frag);
 }
 
 export function parseBackgroundTexture(

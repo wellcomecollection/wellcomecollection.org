@@ -4,12 +4,12 @@ import {
   transformGenericFields,
   transformKeyTextField,
   transformRichTextFieldToString,
+  transformTimestamp,
 } from '.';
 import { isFilledLinkToWebField } from '../types';
 import {
   asHtml,
   parseSingleLevelGroup,
-  parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
@@ -43,7 +43,7 @@ export function transformBook(document: BookPrismicDocument): Book {
         citation: review.citation && asHtml(review.citation),
       };
     }),
-    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     cover: cover && cover.image,
     seasons,
     prismicDocument: document,

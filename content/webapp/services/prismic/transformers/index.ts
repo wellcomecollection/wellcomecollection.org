@@ -1,5 +1,5 @@
 import * as prismicH from 'prismic-helpers-beta';
-import { PrismicDocument, KeyTextField, RichTextField } from '@prismicio/types';
+import { PrismicDocument, KeyTextField, RichTextField, TimestampField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
@@ -120,6 +120,10 @@ export function transformFormat(document: PrismicDocument<WithArticleFormat>) {
 // This is to avoid introducing nulls into our codebase
 export function transformKeyTextField(field: KeyTextField) {
   return field ?? undefined;
+}
+
+export function transformTimestamp(field: TimestampField): Date | undefined {
+  return prismicH.asDate(field) || undefined;
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out

@@ -7,9 +7,8 @@ import {
 import {
   parseFormat,
   parseOnThisPage,
-  parseTimestamp,
 } from '@weco/common/services/prismic/parsers';
-import { transformGenericFields } from '.';
+import { transformGenericFields, transformTimestamp } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
@@ -29,7 +28,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
     onThisPage: data.body ? parseOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     siteSection: siteSection,
     prismicDocument: document,
   };
