@@ -6,6 +6,8 @@
           login: true
     command: ./playwright/get_playwright_image.sh
 
+  - wait
+
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
