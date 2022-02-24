@@ -1,42 +1,42 @@
-  - label: "build e2e test image"
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-    command: ./playwright/get_playwright_image.sh
+- label: "build e2e test image"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+  command: ./playwright/get_playwright_image.sh
 
-  - wait
+- wait
 
-  - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-    command:
-      docker run --rm \
-        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
-        --env USE_STAGE_APIS=$USE_STAGE_APIS \
-        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
-        yarn test
-    retry:
-      automatic: true
+- label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+  command:
+    docker run --rm \
+      --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+      --env USE_STAGE_APIS=$USE_STAGE_APIS \
+      130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest \
+      yarn test
+  retry:
+    automatic: true
 
-  - label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
-    plugins:
-      - wellcomecollection/aws-assume-role#v0.2.2:
-          role: "arn:aws:iam::130871440101:role/experience-ci"
-      - ecr#v2.1.1:
-          login: true
-    command:
-      docker run --rm \
-        --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
-        --env USE_STAGE_APIS=$USE_STAGE_APIS \
-        130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright \
-        yarn test:mobile
-    retry:
-      automatic: true
+- label: "e2e test:mobile [$DEPLOYMENT_ENVIRONMENT]"
+  plugins:
+    - wellcomecollection/aws-assume-role#v0.2.2:
+        role: "arn:aws:iam::130871440101:role/experience-ci"
+    - ecr#v2.1.1:
+        login: true
+  command:
+    docker run --rm \
+      --env PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL \
+      --env USE_STAGE_APIS=$USE_STAGE_APIS \
+      130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest \
+      yarn test:mobile
+  retry:
+    automatic: true
 #
 #
 # - label: ":docker: build common"
