@@ -1,5 +1,10 @@
 import * as prismicH from 'prismic-helpers-beta';
-import { PrismicDocument, KeyTextField, RichTextField, TimestampField } from '@prismicio/types';
+import {
+  PrismicDocument,
+  KeyTextField,
+  RichTextField,
+  TimestampField,
+} from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
@@ -127,8 +132,10 @@ export function transformTimestamp(field: TimestampField): Date | undefined {
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out
-export function transformRichTextField(field: RichTextField): HTMLString | undefined {
-  return field && field.length > 0 ? field as HTMLString : undefined;
+export function transformRichTextField(
+  field: RichTextField
+): HTMLString | undefined {
+  return field && field.length > 0 ? (field as HTMLString) : undefined;
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
@@ -309,7 +316,7 @@ export function transformBody(body: Body): BodyType {
               type: 'videoEmbed',
               weight: getWeight(slice.slice_label),
               value: {
-                embedUrl: `${embedUrl}?rel=0`,
+                embedUrl: `${embedUrl}?rel=0&dnt=1`,
                 caption: slice.primary.caption,
               },
             };
