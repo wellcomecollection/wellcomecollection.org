@@ -39,6 +39,8 @@ services:
   updown:
     build:
       context: ./updown
+  e2e:
+    image: "130871440101.dkr.ecr.eu-west-1.amazonaws.com/weco/playwright:latest"
   prismic_model:
     build:
       context: ./prismic-model
