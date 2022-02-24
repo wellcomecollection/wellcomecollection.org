@@ -44,7 +44,9 @@ function transformEventBookingType(
     ? 'Ticketed'
     : isFilledLinkToDocumentWithData(eventDoc.data.bookingEnquiryTeam)
     ? 'Enquire to book'
-    : eventDoc.data.locations && isFilledLinkToDocumentWithData(eventDoc.data.locations[0].location) &&
+    : eventDoc.data.locations &&
+      isNotUndefined(eventDoc.data.locations[0]) &&
+      isFilledLinkToDocumentWithData(eventDoc.data.locations[0].location) &&
       eventDoc.data.locations[0].location.data.capacity
     ? 'First come, first served'
     : undefined;
