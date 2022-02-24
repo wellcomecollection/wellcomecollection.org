@@ -234,3 +234,9 @@ export function isFilledLinkToWebField(
 ): field is FilledLinkToWebField {
   return link(field) && field.link_type === 'Web' && 'url' in field;
 }
+
+export function isFilledLinkToMediaField(
+  field: LinkField
+): field is FilledLinkToWebField {
+  return link(field) && field.link_type === 'Media' && 'url' in field;
+}
