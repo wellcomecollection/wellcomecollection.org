@@ -15,10 +15,6 @@ import linkResolver from './link-resolver';
 import type { HTMLSerializer } from 'prismic-reactjs';
 import type { Element } from 'react';
 
-export function isEmptyHtmlString(maybeContent: ?HTMLString): boolean {
-  return maybeContent ? asHtml(maybeContent) === null : false;
-}
-
 export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
 }
@@ -35,16 +31,6 @@ export function asHtml(
     : RichText.asHtml(maybeContent, linkResolver, htmlSerializer).trim();
 }
 
-function isMissingOrEmpty(maybeContent: any) {
-  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
-  // Check that `asText` wouldn't return an empty string.
-  return !maybeContent || asText(maybeContent) === '';
-}
-
-export function parseRichText(maybeContent: ?HTMLString) {
-  return isMissingOrEmpty(maybeContent) ? null : maybeContent;
-}
-
 export function parseTitle(title: HTMLString): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
@@ -53,7 +39,7 @@ export function parseTitle(title: HTMLString): string {
 export function parseBackgroundTexture(
   backgroundTexture: PrismicBackgroundTexture
 ): BackgroundTexture {
-  return {
+return {
     image: backgroundTexture.image.url,
     name: backgroundTexture.name,
   };

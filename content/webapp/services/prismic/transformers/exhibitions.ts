@@ -18,13 +18,12 @@ import { transformMultiContent } from './multi-content';
 import {
   asHtml,
   asText,
-  isEmptyHtmlString,
   parseSingleLevelGroup,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
 import { parseResourceTypeList } from '@weco/common/services/prismic/exhibitions';
-import { transformGenericFields, transformTimestamp } from '.';
+import { transformGenericFields, transformRichTextField, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
@@ -79,12 +78,8 @@ export function transformExhibition(
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
-  const bslInfo = isEmptyHtmlString(data.bslInfo)
-    ? undefined
-    : (data.bslInfo as HTMLString);
-  const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
-    ? undefined
-    : (data.audioDescriptionInfo as HTMLString);
+  const bslInfo = transformRichTextField(data.bslInfo) as (HTMLString | undefined);
+  const audioDescriptionInfo = transformRichTextField(data.audioDescriptionInfo) as (HTMLString | undefined);
 
   const promoCrop = '16:9';
   const promoImage =

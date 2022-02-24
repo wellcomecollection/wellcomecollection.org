@@ -20,7 +20,6 @@ import { MediaObjectType } from '@weco/common/model/media-object';
 import {
   parseLabelType,
   parseLink,
-  parseRichText,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
@@ -32,8 +31,9 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformStructuredText, transformTaslFromString } from '.';
+import { transformRichTextField, transformStructuredText, transformTaslFromString } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -194,7 +194,7 @@ export function transformGifVideoSlice(
         type: 'gifVideo',
         weight: getWeight(slice.slice_label),
         value: {
-          caption: parseRichText(slice.primary.caption),
+          caption: transformRichTextField(slice.primary.caption) as HTMLString,
           videoUrl: slice.primary.video.url,
           playbackRate,
           tasl: transformTaslFromString(slice.primary.tasl),
