@@ -382,7 +382,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           eatShopPromos: [cafePromo],
           cafePromo,
           dailyTourPromo,
-          featuredText,
+          featuredText: featuredText!,
           serverData,
         }),
       };

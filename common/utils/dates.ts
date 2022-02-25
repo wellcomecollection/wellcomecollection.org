@@ -1,4 +1,4 @@
-import { london } from './format-date';
+import { DateTypes, london } from './format-date';
 import { DateRange } from '../model/date-range';
 import { Moment } from 'moment';
 
@@ -7,7 +7,7 @@ export function getEarliestFutureDateRange(
   fromDate: Moment | undefined = london()
 ): DateRange | undefined {
   return dateRanges
-    .sort((a, b) => a.start - b.start)
+    .sort((a, b) => a.start.getMilliseconds() - b.start.getMilliseconds())
     .find(
       range =>
         london(range.end).isSameOrAfter(fromDate, 'day') &&
@@ -15,15 +15,15 @@ export function getEarliestFutureDateRange(
     );
 }
 
-export function isPast(date: Date): Boolean {
+export function isPast(date: DateTypes): boolean {
   return london(date).isBefore(london(), 'day');
 }
 
-export function isFuture(date: Date): Boolean {
+export function isFuture(date: DateTypes): boolean {
   return london(date).isAfter(london(), 'day');
 }
 
-export function getNextWeekendDateRange(date: Date): DateRange {
+export function getNextWeekendDateRange(date: DateTypes): DateRange {
   const today = london(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
 

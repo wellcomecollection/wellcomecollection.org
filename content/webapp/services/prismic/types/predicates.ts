@@ -2,20 +2,7 @@ import moment from 'moment';
 import { predicate } from 'prismic-client-beta';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 import { london } from '@weco/common/utils/format-date';
-
-const periods = [
-  'coming-up',
-  'current-and-coming-up',
-  'past',
-  'today',
-  'this-weekend',
-  'this-week',
-  'next-seven-days',
-] as const;
-type Period = typeof periods[number];
-export function isPeriod(val: any): val is Period {
-  return val && periods.includes(val);
-}
+import { Period } from '@weco/common/model/periods';
 
 type Props = { period?: Period; startField: string; endField: string };
 export const getPeriodPredicates = ({

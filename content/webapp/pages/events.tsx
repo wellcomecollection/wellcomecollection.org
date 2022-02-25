@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           events,
           title,
-          period,
+          period: period as Period,
           displayTitle: title,
           serverData,
         }),

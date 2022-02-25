@@ -3,12 +3,14 @@ import 'moment-timezone';
 
 type DateObj = { M?: number; Y?: number };
 
-export function london(d?: Date | string | Moment | DateObj): Moment {
+export type DateTypes = Date | string | Moment | DateObj;
+
+export function london(d?: DateTypes): Moment {
   return moment.tz(d, 'Europe/London');
 }
 
 export function londonFromFormat(
-  d: Date | string | Moment | DateObj,
+  d: DateTypes,
   format: string
 ): Moment {
   return moment(d, format).tz('Europe/London');

@@ -64,6 +64,6 @@ export const getPageFeaturedText = (page: Page): FeaturedText | undefined => {
     slice => slice.weight === 'featured'
   );
   if (filteredFeaturedText.length) {
-    return filteredFeaturedText[0];
+    return filteredFeaturedText[0] as FeaturedText;
   }
 };

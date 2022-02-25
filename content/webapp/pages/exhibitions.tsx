@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const { period } = context.query;
-    const exhibitionsQuery = await fetchExhibitions(client, { page, period });
+    const exhibitionsQuery = await fetchExhibitions(client, { page, period: period as Period });
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (exhibitions && exhibitions.results.length > 0) {
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           exhibitions,
           displayTitle: title,
-          period,
+          period: period as Period,
           serverData,
         }),
       };
