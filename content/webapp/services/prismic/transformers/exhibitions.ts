@@ -40,8 +40,7 @@ function transformResourceTypeList(
 ): Resource[] {
   return fragment
     .map(label => label[labelKey])
-    .filter(Boolean)
-    .filter(label => label.isBroken === false)
+    .filter(label => label && label.isBroken === false)
     .map(label => transformResourceType(label.data));
 }
 
