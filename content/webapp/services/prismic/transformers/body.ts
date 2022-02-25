@@ -27,6 +27,7 @@ import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
+import { Weight } from '@weco/common/model/generic-content-fields';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
