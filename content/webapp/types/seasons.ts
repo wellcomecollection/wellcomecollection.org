@@ -5,6 +5,7 @@ import { SeasonPrismicDocument } from '../services/prismic/types/seasons';
 export type Season = Override<
   SeasonDeprecated,
   {
+    datePublished?: Date;
     prismicDocument: SeasonPrismicDocument;
   }
 >;
