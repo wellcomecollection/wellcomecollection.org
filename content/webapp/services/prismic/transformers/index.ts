@@ -16,10 +16,7 @@ import {
   BodyType,
   GenericContentFields,
 } from '@weco/common/model/generic-content-fields';
-import {
-  asText,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
+import { asText } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
@@ -122,7 +119,7 @@ export function transformFormat(document: { data: WithArticleFormat | WithCardFo
   if (isFilledLinkToDocumentWithData(format) && format.data) {
     return {
       id: format.id,
-      title: parseTitle(format.data.title),
+      title: asTitle(format.data.title),
       description: asHtml(format.data.description),
     };
   }
@@ -147,6 +144,11 @@ export function asHtml(field?: RichTextField): string | undefined {
   // Check that `asText` wouldn't return an empty string.
   const isEmpty = !field || (asText(field) || '').trim() === '';
   return isEmpty ? undefined : prismicH.asHTML(field).trim();
+}
+
+export function asTitle(title: RichTextField): string {
+  // We always need a title - blunt validation, but validation none the less
+  return asText(title) || '';
 }
 
 // Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
@@ -416,7 +418,7 @@ export function transformBody(body: Body): BodyType {
           return {
             type: 'infoBlock',
             value: {
-              title: parseTitle(slice.primary.title),
+              title: asTitle(slice.primary.title),
               text: slice.primary.text,
               linkText: slice.primary.linkText,
               link: transformLink(slice.primary.link),
@@ -430,7 +432,7 @@ export function transformBody(body: Body): BodyType {
           return {
             type: 'tagList',
             value: {
-              title: parseTitle(slice.primary.title),
+              title: asTitle(slice.primary.title),
               tags: slice.items.map(item => ({
                 textParts: [item.linkText],
                 linkAttributes: {
@@ -479,7 +481,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
 
   return {
     id: doc.id,
-    title: parseTitle(data.title),
+    title: asTitle(data.title),
     body: body,
     standfirst: standfirst && standfirst.value,
     promo: promo,

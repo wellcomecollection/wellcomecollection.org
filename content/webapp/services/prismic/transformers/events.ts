@@ -15,12 +15,9 @@ import {
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
-import {
-  asText,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
+import { asText } from '@weco/common/services/prismic/parsers';
 import { isPast } from '@weco/common/utils/dates';
-import { transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
+import { asTitle, transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -121,7 +118,7 @@ export function transformEvent(
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
-              title: parseTitle(interpretation.interpretationType.data?.title),
+              title: asTitle(interpretation.interpretationType.data?.title),
               abbreviation: asText(
                 interpretation.interpretationType.data?.abbreviation
               ),

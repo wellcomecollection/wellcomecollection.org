@@ -17,10 +17,7 @@ import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
-import {
-  parseTitle,
-  asText,
-} from '@weco/common/services/prismic/parsers';
+import { asText } from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
@@ -29,7 +26,7 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformLink, asRichText, transformStructuredText, transformTaslFromString, transformLabelType } from '.';
+import { transformLink, asRichText, transformStructuredText, transformTaslFromString, transformLabelType, asTitle } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -98,7 +95,7 @@ export function transformMediaObjectListSlice(
               ? mediaObject.image
               : undefined;
             return {
-              title: title ? parseTitle(title) : null,
+              title: title ? asTitle(title) : null,
               text: text ? transformStructuredText(text) || null : null,
               image: transformImage(image) || null,
             };
@@ -165,8 +162,8 @@ export function transformDeprecatedImageListSlice(
     weight: getWeight(slice.slice_label),
     value: {
       items: slice.items.map(item => ({
-        title: parseTitle(item.title),
-        subtitle: parseTitle(item.subtitle),
+        title: asTitle(item.title),
+        subtitle: asTitle(item.subtitle),
         // TODO: It's questionable whether we should be assigning a 'caption'
         // here or using a different transform function, but as this slice is
         // deprecated I don't really care.  Hopefully we'll just delete this
@@ -220,10 +217,10 @@ function transformTitledTextItem({
   label: RelationField<'labels'>;
 }) {
   return {
-    title: parseTitle(title),
+    title: asTitle(title),
     text: transformStructuredText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : null,
+    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : undefined,
   };
 }
 
@@ -244,7 +241,7 @@ export function transformDiscussionSlice(
   return {
     type: 'discussion',
     value: {
-      title: parseTitle(slice.primary.title),
+      title: asTitle(slice.primary.title),
       text: transformStructuredText(slice.primary.text) || [],
     },
   };

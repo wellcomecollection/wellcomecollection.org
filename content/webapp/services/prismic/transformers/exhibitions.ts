@@ -12,12 +12,9 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import {
-  asText,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
+import { asText } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { asHtml, asRichText, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import { asHtml, asRichText, asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
@@ -95,7 +92,7 @@ export function transformExhibition(
     : undefined;
 
   const url = `/exhibitions/${id}`;
-  const title = parseTitle(data.title);
+  const title = asTitle(data.title);
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);

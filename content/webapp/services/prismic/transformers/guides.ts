@@ -4,8 +4,7 @@ import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import { parseTitle } from '@weco/common/services/prismic/parsers';
-import { asHtml, transformFormat, transformGenericFields, transformTimestamp } from '.';
+import { asHtml, asTitle, transformFormat, transformGenericFields, transformTimestamp } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
 
@@ -37,7 +36,7 @@ export function transformGuideFormat(
 ): GuideFormat {
   const format: DeprecatedFormat = {
     id: document.id,
-    title: parseTitle(document.data.title),
+    title: asTitle(document.data.title),
     description: asHtml(document.data.description),
   };
 
