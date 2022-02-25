@@ -7,7 +7,7 @@ import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined } from '@weco/common/utils/array';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import { Article } from '../../types/articles';
-import linkResolver from 'services/prismic/link-resolver';
+import linkResolver from '../../services/prismic/link-resolver';
 
 type Props = {
   article: Article;
