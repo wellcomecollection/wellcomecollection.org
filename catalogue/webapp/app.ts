@@ -10,7 +10,6 @@ import {
   withCachedValues,
   route,
   handleAllRoute,
-  timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
@@ -57,4 +56,3 @@ const appPromise = nextApp.prepare().then(async () => {
 });
 
 export default appPromise;
-export const timers = middlewareTimers as NodeJS.Timer[];
