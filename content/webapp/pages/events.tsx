@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
 import { convertJsonToDates } from './event';
@@ -21,10 +20,11 @@ import { getPage } from '../utils/query-params';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { Event } from '../types/events';
 
 type Props = {
   displayTitle: string;
-  events: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
   period?: Period;
 };
 
@@ -79,9 +79,9 @@ const EventsPage: FC<Props> = props => {
     ...events,
     results:
       period !== 'past'
-        ? orderEventsByNextAvailableDate(convertedEvents)
+        ? orderEventsByNextAvailableDate(convertedEvents) as Event[]
         : convertedEvents,
-  } as PaginatedResults<UiEvent>;
+  };
   const firstEvent = events.results[0];
   return (
     <PageLayout

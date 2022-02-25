@@ -4,7 +4,7 @@ import {
   UiImageProps,
   UiImage,
 } from '@weco/common/views/components/Images/Images';
-import { Exhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '../../types/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import {
   Article,

@@ -1,5 +1,5 @@
+import { ImageType } from '@weco/common/model/image';
 import { HTMLString } from '@weco/common/services/prismic/types';
-import { Image } from '../services/prismic/types';
 
 type SameAs = {
   link: string;
@@ -11,7 +11,7 @@ type Person = {
   id: string;
   name?: string;
   description?: HTMLString;
-  image?: Image;
+  image: ImageType;
   sameAs: SameAs;
   pronouns?: string;
 };
@@ -21,7 +21,7 @@ type Organisation = {
   id: string;
   name?: string;
   description?: HTMLString;
-  image?: Image;
+  image: ImageType;
   sameAs: SameAs;
 };
 

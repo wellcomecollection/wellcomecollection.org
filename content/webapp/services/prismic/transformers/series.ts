@@ -6,6 +6,7 @@ import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { transformContributors } from './contributors';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
@@ -34,6 +35,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
   );
+  const contributors = transformContributors(document);
 
   return {
     ...genericFields,
@@ -44,6 +46,6 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     color,
     items: [],
     seasons,
-    prismicDocument: document,
+    contributors,
   };
 }

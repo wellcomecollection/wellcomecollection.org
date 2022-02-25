@@ -11,6 +11,7 @@ import { isFilledLinkToWebField } from '../types';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
@@ -23,6 +24,7 @@ export function transformBook(document: BookPrismicDocument): Book {
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
   );
+  const contributors = transformContributors(document);
 
   return {
     type: 'books',
@@ -44,6 +46,6 @@ export function transformBook(document: BookPrismicDocument): Book {
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     cover: cover && cover.image,
     seasons,
-    prismicDocument: document,
+    contributors,
   };
 }

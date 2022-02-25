@@ -11,8 +11,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
+import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import {
@@ -47,7 +46,7 @@ type ExhibitionItem = LabelField & {
 };
 
 function getUpcomingExhibitionObject(
-  exhibition: UiExhibition
+  exhibition: ExhibitionType
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
@@ -106,7 +105,7 @@ function getTodaysHoursObject(): ExhibitionItem {
   };
 }
 
-function getPlaceObject(exhibition: UiExhibition): ExhibitionItem | undefined {
+function getPlaceObject(exhibition: ExhibitionType): ExhibitionItem | undefined {
   return (
     exhibition.place && {
       id: undefined,
@@ -129,7 +128,7 @@ const resourceIcons: { [key: string]: IconSvg } = {
   family: family,
 };
 
-function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
       id: undefined,
@@ -140,7 +139,7 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
-function getBslAdItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
     .filter(Boolean)
     .map(item => {
@@ -183,7 +182,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
   ];
 }
 
-export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
+export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
@@ -196,8 +195,8 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
 }
 
 type Props = {
-  exhibition: UiExhibition;
-  pages: Page[];
+  exhibition: ExhibitionType;
+  pages: PageType[];
 };
 
 const Exhibition: FC<Props> = ({ exhibition, pages }) => {
@@ -306,12 +305,11 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
-        document={exhibition.prismicDocument}
-        // We hide contributors as we show then further up the page
+        // We hide contributors as we show them further up the page
         hideContributors={true}
       >
-        {exhibition.prismicDocument.data.contributors.length > 0 && (
-          <Contributors document={exhibition.prismicDocument} />
+        {exhibition.contributors.length > 0 && (
+          <Contributors contributors={exhibition.contributors} />
         )}
 
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's

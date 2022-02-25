@@ -60,7 +60,6 @@ export const data: UiEvent = {
   seasons: [],
   isOnline: false,
   availableOnline: false,
-  prismicDocument: undefined,
 };
 
 const DailyTourPromo = () => (

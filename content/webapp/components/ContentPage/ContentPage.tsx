@@ -31,6 +31,7 @@ import Contributors from '../Contributors/Contributors';
 import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { Contributor } from 'types/contributors';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -51,7 +52,8 @@ type Props = {
     visitItem?: MultiContent;
   };
   seasons?: Season[];
-  document: PrismicDocument<WithContributors>;
+  contributors?: Contributor[];
+  contributorTitle?: string;
   hideContributors?: true;
 };
 
@@ -92,7 +94,8 @@ const ContentPage = ({
   RelatedContent = [],
   outroProps,
   seasons = [],
-  document,
+  contributors,
+  contributorTitle,
   hideContributors,
 }: Props): ReactElement => {
   // We don't want to add a spacing unit if there's nothing to render
@@ -148,11 +151,11 @@ const ContentPage = ({
           )}
 
           {!hideContributors &&
-            document.data.contributors &&
-            document.data.contributors.length > 0 && (
+            contributors &&
+            contributors.length > 0 && (
               <SpacingSection>
                 <Layout8>
-                  <Contributors document={document} />
+                  <Contributors contributors={contributors} titleOverride={contributorTitle} />
                 </Layout8>
               </SpacingSection>
             )}

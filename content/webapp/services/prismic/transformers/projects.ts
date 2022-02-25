@@ -17,6 +17,5 @@ export function transformProject(document: ProjectPrismicDocument): Project {
     ...genericFields,
     seasons,
     promo: promo && promo.image ? promo : undefined,
-    prismicDocument: document,
   };
 }

@@ -12,5 +12,4 @@ export type ArticleSeries = GenericContentFields & {
   items: readonly ItemType[];
   color?: ColorSelection;
   seasons: Season[];
-  prismicDocument: any;
 };

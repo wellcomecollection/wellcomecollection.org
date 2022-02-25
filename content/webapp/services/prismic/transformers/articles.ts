@@ -18,6 +18,7 @@ import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '@weco/common/model/format';
 import { ArticleFormatId } from '@weco/common/model/content-format-id';
+import { transformContributors } from './contributors';
 
 function transformContentLink(
   document?: LinkField
@@ -66,12 +67,15 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     series.find(s => s.schedule.length > 0) ? { text: 'Serial' } : undefined,
   ].filter(isNotUndefined);
 
+  const contributors = transformContributors(document);
+
   return {
     ...genericFields,
     type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
     series,
+    contributors,
     datePublished: london(datePublished).toDate(),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(
       season => transformSeason(season as SeasonPrismicDocument)
@@ -82,6 +86,5 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     outroReadItem: transformContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: transformContentLink(data.outroVisitItem),
-    prismicDocument: document,
   };
 }

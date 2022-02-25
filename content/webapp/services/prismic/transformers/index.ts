@@ -56,31 +56,7 @@ import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
-type Meta = {
-  title: string;
-  type: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
-  url: string;
-  description?: string;
-  promoText?: string;
-  image?: Image;
-};
-
 type Doc = PrismicDocument<CommonPrismicFields>;
-
-export function transformMeta(doc: Doc): Meta {
-  const promo = transformPromo(doc);
-
-  return {
-    title: asTitle(doc.data.title),
-    type: 'website',
-    // We use `||` over `??` as we want empty strigs to revert to undefined
-    description: doc.data.metadataDescription || undefined,
-    promoText:
-      asText(promo?.caption ?? []) || undefined,
-    image: promo?.image,
-    url: linkResolver(doc) || '',
-  };
-}
 
 export function transformPromo(doc: Doc) {
   /**
