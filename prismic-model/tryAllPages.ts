@@ -1,3 +1,13 @@
+/** This script checks every page against a locally running content app.
+  *
+  * This is useful when you're doing a major refactor, and you want to check you
+  * haven't broken a page.
+  * 
+  * Note: the validation this provides is limited.  It will tell you that you haven't
+  * introduced a 500 error, but it won't tell you if you've broken a component in
+  * a non-catastrophic way.
+  */
+
 import { error } from './console';
 import { downloadPrismicSnapshot } from './downloadSnapshot';
 import fs from 'fs';
@@ -8,6 +18,7 @@ type PrismicDocument = {
   type: string;
 };
 
+/** Returns a list of all the Prismic documents in a given snapshot directory. */
 function getPrismicDocuments(snapshotDir: string): PrismicDocument[] {
   const documents: PrismicDocument[] = [];
 
@@ -21,62 +32,58 @@ function getPrismicDocuments(snapshotDir: string): PrismicDocument[] {
   return documents;
 }
 
+// Prismic content types that have documents, but are only visible when they're linked
+// from other types -- they aren't individually addressable.
 const nonVisibleTypes = new Set([
-  'people',
-  'organisations',
-  'featured-books',
-  'editorial-contributor-roles',
-  'places',
-  'card',
-  'teams',
-  'event-formats',
-  'audiences',
   'article-formats',
-  'project-formats',
-  'event-policies',
-  'interpretation-types',
-  'exhibition-formats',
-  'labels',
+  'audiences',
   'background-textures',
-  'popup-dialog',
-  'guide-formats',
-  'page-formats',
+  'card',
   'collection-venue',
+  'editorial-contributor-roles',
+  'event-formats',
+  'event-policies',
+  'exhibition-formats',
+  'featured-books',
   'global-alert',
+  'guide-formats',
+  'interpretation-types',
+  'labels',
+  'organisations',
+  'page-formats',
+  'people',
+  'places',
+  'popup-dialog',
+  'project-formats',
+  'teams',
 ]);
 
-async function checkDocument({ id, type }: PrismicDocument) {
-  if (nonVisibleTypes.has(type)) {
-    return;
-  }
-
-  let url: string;
-
+function createUrl({ id, type }: PrismicDocument): string {
   switch (type) {
     case 'webcomics':
-      url = `http://localhost:3000/articles/${id}`;
-      break;
+      return `http://localhost:3000/articles/${id}`;
 
     case 'webcomic-series':
-      url = `http://localhost:3000/series/${id}`;
-      break;
+      return `http://localhost:3000/series/${id}`;
 
     default:
-      url = `http://localhost:3000/${type}/${id}`;
-      break;
-  }
-
-  const resp = await fetch(url);
-  if (resp.status !== 200) {
-    error(`${resp.status} ${url}`);
+      return `http://localhost:3000/${type}/${id}`;
   }
 }
 
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
-  for (const doc of getPrismicDocuments(snapshotDir)) {
-    await checkDocument(doc);
+  const documents = getPrismicDocuments(snapshotDir)
+    .filter(({ type }) => !nonVisibleTypes.has(type));
+
+  for (const doc of documents) {
+    const url = createUrl(doc);
+
+    const resp = await fetch(url);
+    if (resp.status !== 200) {
+      error(`${resp.status} ${url}`);
+    }
   }
 }
 
