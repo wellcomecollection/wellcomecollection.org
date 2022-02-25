@@ -24,8 +24,5 @@ export default function ContentApp(props: WecoAppProps) {
 ContentApp.getInitialProps = async (appContext: AppContext) => {
   const initialProps = await NextApp.getInitialProps(appContext);
 
-  // TODO don't store things like this on `ctx.query`
-  delete appContext.ctx.query.memoizedPrismic; // We need to remove memoizedPrismic value here otherwise we hit circular object issues with JSON.stringify
-
   return { ...initialProps };
 };
