@@ -16,7 +16,6 @@ import ContentPage from '../ContentPage/ContentPage';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
-import { transformExhibition } from '../../services/prismic/transformers/exhibitions';
 
 type Props = {
   installation: InstallationType;
@@ -25,9 +24,8 @@ type Props = {
 const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
-    fetchExhibitExhibition(installation.id).then(result => {
-      if (isNotUndefined(result)) {
-        const exhibition = transformExhibition(result);
+    fetchExhibitExhibition(installation.id).then(exhibition => {
+      if (isNotUndefined(exhibition)) {
         setPartOf(exhibition);
       }
     });
