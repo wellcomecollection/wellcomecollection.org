@@ -112,7 +112,7 @@ export function transformSeries(document: PrismicDocument<WithSeries>) {
     .filter(isFilledLinkToDocumentWithData);
 }
 
-export function transformFormat(document: { data: WithArticleFormat | WithCardFormat | WithEventFormat | WithGuideFormat | WithPageFormat }) {
+export function transformFormat(document: { data: WithArticleFormat | WithCardFormat | WithEventFormat | WithGuideFormat | WithPageFormat }): Format | undefined {
   const { format } = document.data;
 
   if (isFilledLinkToDocumentWithData(format) && format.data) {
