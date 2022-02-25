@@ -41,6 +41,5 @@ export function transformEventSeries(
     backgroundTexture,
     labels,
     contributors,
-    prismicDocument: document,
   };
 }

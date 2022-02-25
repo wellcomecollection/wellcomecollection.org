@@ -47,6 +47,5 @@ export function transformBook(document: BookPrismicDocument): Book {
     cover: cover && cover.image,
     seasons,
     contributors,
-    prismicDocument: document,
   };
 }

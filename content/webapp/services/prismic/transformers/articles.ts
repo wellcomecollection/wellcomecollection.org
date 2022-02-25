@@ -86,6 +86,5 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     outroReadItem: transformContentLink(data.outroReadItem),
     outroVisitLinkText: asText(data.outroVisitLinkText),
     outroVisitItem: transformContentLink(data.outroVisitItem),
-    prismicDocument: document,
   };
 }

@@ -20,5 +20,4 @@ export type Book = GenericContentFields & {
   datePublished?: Date;
   cover?: ImageType;
   seasons: Season[];
-  prismicDocument: any;
 };

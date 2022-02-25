@@ -26,7 +26,6 @@ export type Exhibition = GenericContentFields & {
   resources: Resource[];
   relatedIds: string[];
   seasons: Season[];
-  prismicDocument: any;
 };
 
 // TODO: I'm pretty sure we don't use this featuredImageList anywhere,

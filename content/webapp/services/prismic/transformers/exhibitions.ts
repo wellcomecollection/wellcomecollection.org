@@ -153,7 +153,6 @@ export function transformExhibition(
       : [],
     relatedIds,
     seasons,
-    prismicDocument: document,
   };
 
   const labels = exhibition.isPermanent

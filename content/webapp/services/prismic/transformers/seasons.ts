@@ -14,6 +14,5 @@ export function transformSeason(document: SeasonPrismicDocument): Season {
     ...genericFields,
     labels: [{ text: 'Season' }],
     promo: promo && promo.image && promo,
-    prismicDocument: document,
   };
 }

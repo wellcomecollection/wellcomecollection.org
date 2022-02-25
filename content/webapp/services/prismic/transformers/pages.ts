@@ -60,7 +60,6 @@ export function transformPage(document: PagePrismicDocument): Page {
     promo: promo && promo.image ? promo : undefined,
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     siteSection: siteSection,
-    prismicDocument: document,
   };
 }
 

@@ -266,7 +266,6 @@ export function transformEvent(
     isRelaxedPerformance: isRelaxedPerformance === 'yes',
     isOnline,
     availableOnline,
-    prismicDocument: document,
   };
 
   const eventFormat = event.format

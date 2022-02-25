@@ -1,4 +1,3 @@
-import { Format as DeprecatedFormat } from '@weco/common/model/format';
 import { Guide, GuideFormat } from '../../../types/guides';
 import {
   GuidePrismicDocument,
@@ -27,21 +26,15 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
     promo: promo && promo.image ? promo : undefined,
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     siteSection: siteSection,
-    prismicDocument: document,
   };
 }
 
 export function transformGuideFormat(
   document: GuideFormatPrismicDocument
 ): GuideFormat {
-  const format: DeprecatedFormat = {
+  return {
     id: document.id,
     title: asTitle(document.data.title),
     description: asHtml(document.data.description),
-  };
-
-  return {
-    ...format,
-    prismicDocument: document,
   };
 }

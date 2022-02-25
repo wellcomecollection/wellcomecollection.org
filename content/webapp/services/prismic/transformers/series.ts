@@ -47,6 +47,5 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     items: [],
     seasons,
     contributors,
-    prismicDocument: document,
   };
 }
