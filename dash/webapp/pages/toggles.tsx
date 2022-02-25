@@ -1,4 +1,3 @@
-// @flow
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import getCookies from 'next-cookies';
@@ -51,22 +50,22 @@ function setCookie(name, value) {
   }; Path=/; Domain=wellcomecollection.org; ${expiration}`;
 }
 
-type Toggle = {|
-  id: string,
-  title: string,
-  defaultValue: boolean,
-  description: string,
-|};
+type Toggle = {
+  id: string;
+  title: string;
+  defaultValue: boolean;
+  description: string;
+};
 
 type ToggleStates = { [id: string]: boolean };
 
-type AbTest = {|
-  id: string,
-  title: string,
-  range: [number, number],
-  defaultValue: boolean,
-  description: string,
-|};
+type AbTest = {
+  id: string;
+  title: string;
+  range: [number, number];
+  defaultValue: boolean;
+  description: string;
+};
 
 const IndexPage = () => {
   const [toggleStates, setToggleStates] = useState<ToggleStates>({});

@@ -1,6 +1,5 @@
-// @flow
 import Link from 'next/link';
-type Props = {| title: string |};
+type Props = { title: string };
 const Header = ({ title }: Props) => {
   return (
     <div

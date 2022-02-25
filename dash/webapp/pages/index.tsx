@@ -1,4 +1,3 @@
-// @flow
 import Header from '../components/Header';
 const fontFamily = 'Gadget, sans-serif';
 
