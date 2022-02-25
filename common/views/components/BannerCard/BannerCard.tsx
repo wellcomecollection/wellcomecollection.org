@@ -3,13 +3,13 @@ import LabelsList from '../LabelsList/LabelsList';
 import { trackEvent } from '../../../utils/ga';
 import { FunctionComponent } from 'react';
 import { Season } from '../../../model/seasons';
-import linkResolver from '../../../../common/services/prismic/link-resolver';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
 import DateRange from '../DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
+import { linkResolver } from '../../../services/prismic/link-resolver';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';

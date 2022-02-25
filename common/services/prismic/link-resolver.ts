@@ -1,13 +1,11 @@
-// @flow
-// We use comments types here as we use this in non-babeled places
-/*::
-type Doc = {|
-  id: string,
-  type: string
-|}
-*/
+type Doc = {
+  id: string;
+  type: string;
+};
 
-function linkResolver(doc /* :Doc */) /* :string */ {
+// TODO: we have an implementation of this in the content app to.
+// Do we need both?
+export function linkResolver(doc: Doc): string {
   switch (doc.type) {
     case 'articles':
       return `/articles/${doc.id}`;
@@ -37,5 +35,3 @@ function linkResolver(doc /* :Doc */) /* :string */ {
       return '/';
   }
 }
-
-module.exports = linkResolver;

@@ -1,13 +1,11 @@
-// @flow
-// $FlowFixMe
 import { london } from './format-date';
-import type { DateRange } from '../model/date-range';
-import type Moment from 'moment';
+import { DateRange } from '../model/date-range';
+import { Moment } from 'moment';
 
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
-  fromDate: ?Moment = london()
-): ?DateRange {
+  fromDate: Moment | undefined = london()
+): DateRange | undefined {
   return dateRanges
     .sort((a, b) => a.start - b.start)
     .find(
@@ -17,11 +15,11 @@ export function getEarliestFutureDateRange(
     );
 }
 
-export function isPast(date: Date): boolean {
+export function isPast(date: Date): Boolean {
   return london(date).isBefore(london(), 'day');
 }
 
-export function isFuture(date: Date): boolean {
+export function isFuture(date: Date): Boolean {
   return london(date).isAfter(london(), 'day');
 }
 

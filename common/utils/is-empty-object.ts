@@ -1,4 +1,4 @@
-const isEmptyObject = (obj: ?Object): boolean => {
+const isEmptyObject = (obj?: Object): Boolean => {
   return Object.keys(obj || {}).length === 0;
 };
 

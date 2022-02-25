@@ -1,4 +1,3 @@
-// @flow
 export function capitalize(word: string): string {
   const [firstLetter] = word;
   const restOfWord = word.slice(1);
