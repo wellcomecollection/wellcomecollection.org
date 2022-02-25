@@ -2,10 +2,7 @@
 import { RichText } from 'prismic-dom';
 // $FlowFixMe (tsx)
 import { HTMLString, PrismicFragment } from './types';
-import flattenDeep from 'lodash.flattendeep';
-import type { Link } from '../../model/link';
 import type { LabelField } from '../../model/label-field';
-import { dasherize } from '../../utils/grammar';
 
 export function asText(maybeContent: ?HTMLString): ?string {
   return maybeContent && RichText.asText(maybeContent).trim();
@@ -41,17 +38,4 @@ export function parseSingleLevelGroup(
 // empty link object, which is why we use this
 function isDocumentLink(fragment: ?PrismicFragment): boolean {
   return Boolean(fragment && fragment.isBroken === false && fragment.data);
-}
-
-export function parseOnThisPage(fragment: PrismicFragment[]): Link[] {
-  return flattenDeep(
-    fragment.map(slice => slice.primary.title || slice.primary.text || [])
-  )
-    .filter(text => text.type === 'heading2')
-    .map(item => {
-      return {
-        text: item.text,
-        url: `#${dasherize(item.text)}`,
-      };
-    });
 }

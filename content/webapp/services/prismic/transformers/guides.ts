@@ -4,12 +4,10 @@ import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import {
-  parseTitle,
-  parseOnThisPage,
-} from '@weco/common/services/prismic/parsers';
+import { parseTitle } from '@weco/common/services/prismic/parsers';
 import { asHtml, transformFormat, transformGenericFields, transformTimestamp } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { transformOnThisPage } from './pages';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
   const { data } = document;
@@ -25,7 +23,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
     type: 'guides',
     format: transformFormat(document),
     ...genericFields,
-    onThisPage: data.body ? parseOnThisPage(data.body) : [],
+    onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,

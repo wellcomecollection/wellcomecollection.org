@@ -1,13 +1,27 @@
 import { FeaturedText } from '@weco/common/model/text';
 import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
-import {
-  parseOnThisPage,
-  parseSingleLevelGroup,
-} from '@weco/common/services/prismic/parsers';
+import { parseSingleLevelGroup } from '@weco/common/services/prismic/parsers';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformFormat, transformGenericFields, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
+import { dasherize } from '@weco/common/utils/grammar';
+import flattenDeep from 'lodash.flattendeep';
+import { Link } from '@weco/common/model/link';
+import { Body } from '../types/body';
+
+export function transformOnThisPage(body: Body): Link[] {
+  return flattenDeep(
+    body.map(slice => slice.primary['title'] || slice.primary['text'] || [])
+  )
+    .filter(text => text.type === 'heading2')
+    .map(item => {
+      return {
+        text: item.text,
+        url: `#${dasherize(item.text)}`,
+      };
+    });
+}
 
 export function transformPage(document: PagePrismicDocument): Page {
   const { data } = document;
@@ -36,7 +50,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     ...genericFields,
     seasons,
     parentPages,
-    onThisPage: data.body ? parseOnThisPage(data.body) : [],
+    onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
