@@ -58,31 +58,32 @@ const nonVisibleTypes = new Set([
   'teams',
 ]);
 
-function createUrl({ id, type }: PrismicDocument): string {
+function createUrl(prefix: string, { id, type }: PrismicDocument): string {
   switch (type) {
     case 'webcomics':
-      return `http://localhost:3000/articles/${id}`;
+      return `${prefix}/articles/${id}`;
 
     case 'webcomic-series':
-      return `http://localhost:3000/series/${id}`;
+      return `${prefix}/series/${id}`;
 
     default:
-      return `http://localhost:3000/${type}/${id}`;
+      return `${prefix}/${type}/${id}`;
   }
 }
 
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
-  const documents = getPrismicDocuments(snapshotDir)
-    .filter(({ type }) => !nonVisibleTypes.has(type));
+  const prefix = 'http://localhost:3000';
 
-  for (const doc of documents) {
-    const url = createUrl(doc);
+  const urls = getPrismicDocuments(snapshotDir)
+    .filter(({ type }) => !nonVisibleTypes.has(type))
+    .map(doc => createUrl(prefix, doc));
 
-    const resp = await fetch(url);
+  for (const u of urls) {
+    const resp = await fetch(u);
     if (resp.status !== 200) {
-      error(`${resp.status} ${url}`);
+      error(`${resp.status} ${u}`);
     }
   }
 }
