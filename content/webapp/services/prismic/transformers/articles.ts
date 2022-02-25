@@ -1,10 +1,5 @@
 import { Article } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import {
-  asText,
-  parseLabelType,
-  parseSingleLevelGroup,
-} from '@weco/common/services/prismic/parsers';
 import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
@@ -12,13 +7,17 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { transformGenericFields } from '.';
+import { asText, transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
 import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
 import { Series } from 'types/series';
 import { transformSeason } from './seasons';
 import { transformSeries } from './series';
+import { SeriesPrismicDocument } from '../types/series';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { Format } from '@weco/common/model/format';
+import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 function transformContentLink(
   document?: LinkField
@@ -55,13 +54,11 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     data.publishDate || document.first_publication_date || undefined;
 
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? parseLabelType(data.format)
-    : null;
+    ? transformLabelType(data.format) as Format<ArticleFormatId>
+    : undefined;
 
-  const series: Series[] = parseSingleLevelGroup(data.series, 'series').map(
-    series => {
-      return transformSeries(series);
-    }
+  const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
+    series => transformSeries(series as SeriesPrismicDocument)
   );
 
   const labels: Label[] = [
@@ -76,9 +73,9 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     datePublished: london(datePublished).toDate(),
-    seasons: parseSingleLevelGroup(data.seasons, 'season').map(season => {
-      return transformSeason(season);
-    }),
+    seasons: transformSingleLevelGroup(data.seasons, 'season').map(
+      season => transformSeason(season as SeasonPrismicDocument)
+    ),
     outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: transformContentLink(data.outroResearchItem),
     outroReadLinkText: asText(data.outroReadLinkText),

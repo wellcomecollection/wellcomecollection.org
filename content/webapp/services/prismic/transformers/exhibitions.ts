@@ -12,20 +12,16 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import {
-  asText,
-  parseSingleLevelGroup,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { asHtml, asRichText, transformGenericFields, transformTimestamp } from '.';
+import { asHtml, asRichText, asText, asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
-import { ExhibitionFormat } from '@weco/common/model/exhibitions';
+import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
 import { Resource } from '@weco/common/model/resource';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -95,7 +91,7 @@ export function transformExhibition(
     : undefined;
 
   const url = `/exhibitions/${id}`;
-  const title = parseTitle(data.title);
+  const title = asTitle(data.title);
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
@@ -108,14 +104,14 @@ export function transformExhibition(
       ? transformPromoToCaptionedImage(data.promo, promoCrop)
       : undefined;
 
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
 
-  const exhibits = parseSingleLevelGroup(data.exhibits, 'item').map(item => {
+  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item').map(exhibit => {
     return {
       exhibitType: 'exhibitions',
-      item: transformExhibition(item),
+      item: transformExhibition(exhibit as ExhibitionPrismicDocument),
     };
   });
 

@@ -14,9 +14,9 @@ import type {
 } from '../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
-import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
+import * as prismicH from 'prismic-helpers-beta';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -331,7 +331,7 @@ export function parseCollectionVenue(
     },
     image: data.image,
     url: 'url' in data.link ? data.link.url : undefined,
-    linkText: asText(data?.linkText),
+    linkText: prismicH.asText(data?.linkText),
   };
 }
 

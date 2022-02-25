@@ -44,7 +44,6 @@
     "koa-compose": "^4.1.0",
     "lazysizes": "^5.2.1",
     "lodash.debounce": "^4.0.8",
-    "lodash.flattendeep": "^4.4.0",
     "lodash.groupby": "^4.6.0",
     "lodash.merge": "^4.6.2",
     "moment": "^2.20.1",

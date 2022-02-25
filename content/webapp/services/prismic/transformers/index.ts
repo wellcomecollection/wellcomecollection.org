@@ -1,11 +1,12 @@
 import * as prismicH from 'prismic-helpers-beta';
-import { PrismicDocument, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
+import { PrismicDocument, FilledLinkToDocumentField, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   Image,
+  InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
@@ -14,15 +15,12 @@ import {
 import {
   BodyType,
   GenericContentFields,
+  Weight,
 } from '@weco/common/model/generic-content-fields';
-import {
-  asText,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString, isUndefined } from '@weco/common/utils/array';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -54,6 +52,9 @@ import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
 import { Format } from '@weco/common/model/format';
+import { LabelField } from '@weco/common/model/label-field';
+import { ArticleFormat } from '../types/article-format';
+import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 type Meta = {
   title: string;
@@ -70,12 +71,12 @@ export function transformMeta(doc: Doc): Meta {
   const promo = transformPromo(doc);
 
   return {
-    title: transformRichTextFieldToString(doc.data.title) ?? '',
+    title: asTitle(doc.data.title),
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
     promoText:
-      transformRichTextFieldToString(promo?.caption ?? []) || undefined,
+      asText(promo?.caption ?? []) || undefined,
     image: promo?.image,
     url: linkResolver(doc) || '',
   };
@@ -118,15 +119,10 @@ export function transformFormat(document: { data: WithArticleFormat | WithCardFo
   if (isFilledLinkToDocumentWithData(format) && format.data) {
     return {
       id: format.id,
-      title: parseTitle(format.data.title),
+      title: asTitle(format.data.title),
       description: asHtml(format.data.description),
     };
   }
-}
-
-// This is to avoid introducing nulls into our codebase
-export function transformKeyTextField(field: KeyTextField) {
-  return field ?? undefined;
 }
 
 export function transformTimestamp(field: TimestampField): Date | undefined {
@@ -134,34 +130,44 @@ export function transformTimestamp(field: TimestampField): Date | undefined {
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out
+
+/** Here we have wrappers for `KeyTextField` and `RichTextField`.
+  *
+  * We prefer these to the versions provided by the prismic-helpers library because
+  * they add extra validation steps, e.g. removing stray whitespace or null values. 
+  */
+export function asText(field: KeyTextField | RichTextField): string | undefined {
+  if (isString(field)) {
+    // KeyTextField
+    return field.trim().length > 0 ? field.trim() : undefined;
+  } else {
+    // RichTextField
+    const output = field && field.length > 0 ? prismicH.asText(field).trim() : undefined;
+    return output && output.length > 0 ? output : undefined;
+  }
+}
+
+// Prismic adds `[ { type: 'paragraph', text: '', spans: [] } ]` when you
+// insert text, then remove it, so we check for that and remove it.
+function nonEmpty(field?: RichTextField): field is RichTextField {
+  return isNotUndefined(field) && (asText(field) || '').trim() !== '';
+}
+
 export function asRichText(field: RichTextField): HTMLString | undefined {
-  return field && field.length > 0 ? (field as HTMLString) : undefined;
+  return nonEmpty(field)
+    ? field as HTMLString
+    : undefined;
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
-  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
-  // Check that `asText` wouldn't return an empty string.
-  const isEmpty = !field || (asText(field) || '').trim() === '';
-  return isEmpty ? undefined : prismicH.asHTML(field).trim();
+  return nonEmpty(field)
+    ? prismicH.asHTML(field).trim()
+    : undefined;
 }
 
-// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
-// inserted text, then removed it, so we need to do this check.
-export function isStructuredText(field: RichTextField): boolean {
-  const text = asText(field);
-  return Boolean(field) && (text || '').trim() !== '';
-}
-
-export function transformStructuredText(
-  field: RichTextField | undefined
-): HTMLString | undefined {
-  return field && isStructuredText(field) ? (field as HTMLString) : undefined;
-}
-
-// We have to use this annoyingly often as right at the beginning of the project
-// we created titles as `RichTextField`s.
-export function transformRichTextFieldToString(field: RichTextField) {
-  return field && field.length > 0 ? prismicH.asText(field) : undefined;
+export function asTitle(title: RichTextField): string {
+  // We always need a title - blunt validation, but validation none the less
+  return asText(title) || '';
 }
 
 export function transformLink(link?: LinkField<string, string, any>): string | undefined {
@@ -172,6 +178,25 @@ export function transformLink(link?: LinkField<string, string, any>): string | u
       return linkResolver({ id: link.id, type: link.type });
     }
   }
+}
+
+export function transformSingleLevelGroup(
+  frag: Record<string, any>[],
+  singlePropertyName: string
+) {
+  return (
+    (frag || [])
+      .filter(fragItem => isFilledLinkToDocumentWithData(fragItem[singlePropertyName]))
+      .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
+  );
+}
+
+export function transformLabelType(format: FilledLinkToDocumentField<'article-formats', 'en-gb', InferDataInterface<ArticleFormat>> & { data: InferDataInterface<ArticleFormat> }): LabelField {
+  return {
+    id: format.id as ArticleFormatId,
+    title: asText(format.data.title),
+    description: format.data.description ? format.data.description as HTMLString : [],
+  };
 }
 
 type PromoImage = {
@@ -308,7 +333,7 @@ export function transformBody(body: Body): BodyType {
         case 'iframe':
           return {
             type: 'iframe',
-            weight: slice.slice_label,
+            weight: slice.slice_label! as Weight,
             value: {
               src: slice.primary.iframeSrc,
               image: transformImage(slice.primary.previewImage),
@@ -393,7 +418,7 @@ export function transformBody(body: Body): BodyType {
           return {
             type: 'infoBlock',
             value: {
-              title: parseTitle(slice.primary.title),
+              title: asTitle(slice.primary.title),
               text: slice.primary.text,
               linkText: slice.primary.linkText,
               link: transformLink(slice.primary.link),
@@ -407,7 +432,7 @@ export function transformBody(body: Body): BodyType {
           return {
             type: 'tagList',
             value: {
-              title: parseTitle(slice.primary.title),
+              title: asTitle(slice.primary.title),
               tags: slice.items.map(item => ({
                 textParts: [item.linkText],
                 linkAttributes: {
@@ -456,7 +481,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
 
   return {
     id: doc.id,
-    title: parseTitle(data.title),
+    title: asTitle(data.title),
     body: body,
     standfirst: standfirst && standfirst.value,
     promo: promo,
