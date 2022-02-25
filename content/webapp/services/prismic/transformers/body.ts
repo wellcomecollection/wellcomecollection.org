@@ -25,7 +25,7 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformLink, asRichText, transformStructuredText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
+import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -95,7 +95,7 @@ export function transformMediaObjectListSlice(
               : undefined;
             return {
               title: title ? asTitle(title) : null,
-              text: text ? transformStructuredText(text) || null : null,
+              text: text ? asRichText(text) || null : null,
               image: transformImage(image) || null,
             };
           }
@@ -105,14 +105,14 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(team: TeamPrismicDocument) {
+export function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
 
   return {
-    title: asText(title),
-    subtitle: asText(subtitle),
+    title: asTitle(title),
+    subtitle: asText(subtitle) || null,
     email,
     phone,
   };
@@ -170,7 +170,7 @@ export function transformDeprecatedImageListSlice(
         //
         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
         image: transformCaptionedImage({ ...item, caption: [] }),
-        description: transformStructuredText(item.description) || [],
+        description: asRichText(item.description) || [],
       })),
     },
   };
@@ -217,7 +217,7 @@ function transformTitledTextItem({
 }) {
   return {
     title: asTitle(title),
-    text: transformStructuredText(text),
+    text: asRichText(text),
     link: transformLink(link),
     label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : undefined,
   };
@@ -241,7 +241,7 @@ export function transformDiscussionSlice(
     type: 'discussion',
     value: {
       title: asTitle(slice.primary.title),
-      text: transformStructuredText(slice.primary.text) || [],
+      text: asRichText(slice.primary.text) || [],
     },
   };
 }

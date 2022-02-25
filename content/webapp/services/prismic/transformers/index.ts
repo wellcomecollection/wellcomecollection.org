@@ -146,33 +146,27 @@ export function asText(field: KeyTextField | RichTextField): string | undefined 
   }
 }
 
+// Prismic adds `[ { type: 'paragraph', text: '', spans: [] } ]` when you
+// insert text, then remove it, so we check for that and remove it.
+function nonEmpty(field?: RichTextField): field is RichTextField {
+  return !field || (asText(field) || '').trim() === '';
+}
+
 export function asRichText(field: RichTextField): HTMLString | undefined {
-  return field && field.length > 0 ? (field as HTMLString) : undefined;
+  return nonEmpty(field)
+    ? field as HTMLString
+    : undefined;
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
-  // Prismic can send us empty html elements which can lead to unwanted UI in templates.
-  // Check that `asText` wouldn't return an empty string.
-  const isEmpty = !field || (asText(field) || '').trim() === '';
-  return isEmpty ? undefined : prismicH.asHTML(field).trim();
+  return nonEmpty(field)
+    ? prismicH.asHTML(field).trim()
+    : undefined;
 }
 
 export function asTitle(title: RichTextField): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
-}
-
-// Prismic return `[ { type: 'paragraph', text: '', spans: [] } ]` when you have
-// inserted text, then removed it, so we need to do this check.
-export function isStructuredText(field: RichTextField): boolean {
-  const text = asText(field);
-  return Boolean(field) && (text || '').trim() !== '';
-}
-
-export function transformStructuredText(
-  field: RichTextField | undefined
-): HTMLString | undefined {
-  return field && isStructuredText(field) ? (field as HTMLString) : undefined;
 }
 
 export function transformLink(link?: LinkField<string, string, any>): string | undefined {
