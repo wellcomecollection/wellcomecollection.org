@@ -195,7 +195,7 @@ export function transformLabelType(format: FilledLinkToDocumentField<'article-fo
   return {
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
-    description: format.data.description as HTMLString,
+    description: format.data.description ? format.data.description as HTMLString : [],
   };
 }
 

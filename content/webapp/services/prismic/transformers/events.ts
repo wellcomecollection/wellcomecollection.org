@@ -93,6 +93,7 @@ export function transformEventPolicyLabels(
     .map(label => label[labelKey])
     .filter(Boolean)
     .filter(label => label.isBroken === false)
+    .filter(label => isFilledLinkToDocumentWithData(label))
     .map(label => transformLabelType(label));
 }
 
