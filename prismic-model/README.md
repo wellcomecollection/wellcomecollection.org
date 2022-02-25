@@ -37,3 +37,21 @@ $ ts-node sliceAnalysis --type embed
 ```
 
 See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)
+
+## Analysing our Prismic content in bulk
+
+We have a tool that will download a complete snapshot of our Prismic metadata for you.
+This is useful if you want to do bulk analysis of our Prismic data.
+
+```console
+$ yarn downloadSnapshot
+...
+Downloaded Prismic snapshot to snapshot.master.Yhe_-xMAADOEgW3d
+```
+
+One especially common case is checking that we haven't broken any Prismic content after a refactor.
+If you have a locally running content app (`yarn content` in the repo root), you can check that none of our Prismic content is broken:
+
+```console
+$ yarn tryAllContentPages
+```
