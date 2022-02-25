@@ -19,7 +19,6 @@ import {
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { parseResourceTypeList } from '@weco/common/services/prismic/exhibitions';
 import { transformGenericFields, transformRichTextField, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
@@ -27,6 +26,32 @@ import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { ExhibitionFormat } from '@weco/common/model/exhibitions';
+import { Resource } from '@weco/common/model/resource';
+
+// TODO: Use better types than Record<string, any>.
+//
+// This was lifted directly from a JavaScript implementation when we converted the
+// codebase to TypeScript (previously it was `Object`), but I can't find any exhibition
+// pages where we actually define/use any resources (or at least not any picked up by
+// the previous implementation), so I couldn't test it.
+function transformResourceTypeList(
+  fragment: Record<string, any>[],
+  labelKey: string
+): Resource[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(label => label && label.isBroken === false)
+    .map(label => transformResourceType(label.data));
+}
+
+function transformResourceType(fragment: Record<string, any>): Resource {
+  return {
+    id: fragment.id,
+    title: asText(fragment.title),
+    description: fragment.description,
+    icon: fragment.icon,
+  };
+}
 
 function transformExhibitionFormat(
   format: ExhibitionFormatPrismicDocument
@@ -125,7 +150,7 @@ export function transformExhibition(
     },
     featuredImageList: promos,
     resources: Array.isArray(data.resources)
-      ? parseResourceTypeList(data.resources, 'resource')
+      ? transformResourceTypeList(data.resources, 'resource')
       : [],
     relatedIds,
     seasons,
