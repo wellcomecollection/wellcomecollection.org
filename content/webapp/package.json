@@ -17,7 +17,6 @@
     "@types/styled-components": "^5.1.15",
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
-    "autoprefixer": "^9.5.0",
     "cookies": "^0.7.1",
     "dotenv": "^8.2.0",
     "elastic-apm-node": "^3.21.1",
