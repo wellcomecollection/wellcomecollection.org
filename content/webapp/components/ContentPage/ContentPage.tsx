@@ -26,7 +26,7 @@ import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
-import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
+import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
