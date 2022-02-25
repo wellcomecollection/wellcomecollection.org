@@ -3,14 +3,12 @@ import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
   transformKeyTextField,
+  asRichText,
   transformRichTextFieldToString,
   transformTimestamp,
 } from '.';
 import { isFilledLinkToWebField } from '../types';
-import {
-  asHtml,
-  parseSingleLevelGroup,
-} from '@weco/common/services/prismic/parsers';
+import { parseSingleLevelGroup } from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
 
@@ -39,8 +37,8 @@ export function transformBook(document: BookPrismicDocument): Book {
     isbn: transformKeyTextField(data.isbn),
     reviews: data.reviews?.map(review => {
       return {
-        text: review.text && asHtml(review.text),
-        citation: review.citation && asHtml(review.citation),
+        text: review.text && asRichText(review.text) || [],
+        citation: review.citation && asRichText(review.citation) || [],
       };
     }),
     datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
