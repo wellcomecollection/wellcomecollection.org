@@ -154,7 +154,7 @@ export const fetchExhibitionRelatedContent = async (
   });
 };
 
-export const fetchExhibitionRelatedContentClientSide =  = async (
+export const fetchExhibitionRelatedContentClientSide = async (
   ids: string[]
 ): Promise<ExhibitionRelatedContent | undefined> => {
   // If you add more parameters here, you have to update the corresponding cache behaviour
