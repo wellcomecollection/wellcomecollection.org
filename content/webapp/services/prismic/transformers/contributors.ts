@@ -1,18 +1,19 @@
 import {
+  FilledLinkToDocumentField,
   PrismicDocument,
-  KeyTextField,
   FilledImageFieldImage,
 } from '@prismicio/types';
 import * as prismicH from 'prismic-helpers-beta';
-import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
+import { isFilledLinkToDocumentWithData, isFilledLinkToPersonField, WithContributors, InferDataInterface, isFilledLinkToOrganisationField, DataInterface } from '../types';
 import { Contributor } from '../../../types/contributors';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isNotUndefined } from '@weco/common/utils/array';
 import {
   asRichText,
   asText,
 } from '.';
 import { transformImage } from './images';
 import { ImageType } from '@weco/common/model/image';
+import { Organisation, Person } from '../types/contributors';
 
 const defaultContributorImage: ImageType = {
   width: 64,
@@ -22,11 +23,20 @@ const defaultContributorImage: ImageType = {
   crops: {},
 };
 
-type Agent = WithContributors['contributors'][number]['contributor'];
+function transformCommonFields(agent:
+  | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>> & { data: Person }
+  | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }) {
+  return {
+    id: agent.id,
+    description: transformRichTextField(agent.data.description),
+    image: agent.data.image || defaultContributorImage,
+  };
+}
 
 export function transformContributorAgent(
-  agent: Agent
+  agent: WithContributors['contributors'][number]['contributor']
 ): Contributor['contributor'] | undefined {
+<<<<<<< HEAD
   if (isFilledLinkToDocumentWithData(agent)) {
     const commonFields = {
       id: agent.id,
@@ -63,6 +73,37 @@ export function transformContributorAgent(
         pronouns: asText(agent.data.pronouns as KeyTextField),
       };
     }
+=======
+  if (isFilledLinkToPersonField(agent)) {
+    return {
+      ...transformCommonFields(agent),
+      type: agent.type,
+      name: transformKeyTextField(agent.data.name),
+      pronouns: transformKeyTextField(agent.data.pronouns),
+      sameAs: (agent.data.sameAs ?? [])
+      .map(sameAs => {
+        const link = transformKeyTextField(sameAs.link);
+        const title = transformRichTextFieldToString(sameAs.title);
+        return title && link ? { title, link } : undefined;
+      })
+      .filter(isNotUndefined)
+    };
+  } else if (isFilledLinkToOrganisationField(agent)) {
+    return {
+      ...transformCommonFields(agent),
+      type: agent.type,
+      name: transformRichTextFieldToString(agent.data.name),
+      sameAs: (agent.data.sameAs ?? [])
+      .map(sameAs => {
+        const link = transformKeyTextField(sameAs.link);
+        const title = transformKeyTextField(sameAs.title);
+        return title && link ? { title, link } : undefined;
+      })
+      .filter(isNotUndefined)
+    };
+  } else {
+    return undefined;
+>>>>>>> Split the types for transforming contributors
   }
 }
 
