@@ -1,12 +1,13 @@
-import { Query } from '@prismicio/types';
-import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { ArticlePrismicDocument } from '../../../services/prismic/types/articles';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchArticles } from '../../../services/prismic/fetch/articles';
+import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformArticle } from 'services/prismic/transformers/articles';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Article } from 'types/articles';
 
-type Data = Query<ArticlePrismicDocument>;
+type Data = PaginatedResults<Article>;
 type NotFound = { notFound: true };
 
 export default async (
@@ -16,10 +17,11 @@ export default async (
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
   const client = createClient({ req });
-  const response = await fetchArticles(client, parsedParams);
+  const query = await fetchArticles(client, parsedParams);
 
-  if (response) {
-    return res.status(200).json(response);
+  if (query) {
+    const articles = transformQuery(query, transformArticle);
+    return res.status(200).json(articles);
   }
 
   return res.status(404).json({ notFound: true });

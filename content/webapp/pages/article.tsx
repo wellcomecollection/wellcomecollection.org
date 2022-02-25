@@ -29,6 +29,7 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from 'services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from 'services/prismic/transformers/articles';
+import * as prismic from 'prismic-client-beta';
 
 type Props = {
   article: Article;
@@ -121,14 +122,13 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        const articlesInSeries =
-          series &&
-          (await fetchArticlesClientSide({
-            predicates: [`[at(${seriesField}, "${series.id}")]`],
-          }));
+        const predicates = [prismic.predicate.at(seriesField, series.id)];
 
-        const articles =
-          articlesInSeries?.results.map(doc => transformArticle(doc)) ?? [];
+        const articlesInSeries = series
+          ? await fetchArticlesClientSide({ predicates })
+          : undefined;
+
+        const articles = articlesInSeries?.results ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);

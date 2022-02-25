@@ -52,7 +52,6 @@ const pagesFetcher = fetcher<PagePrismicDocument>(
 
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
-export const fetchPagesClientSide = pagesFetcher.getByTypeClientSide;
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
