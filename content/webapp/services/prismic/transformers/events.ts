@@ -18,11 +18,10 @@ import { GroupField, Query, RelationField } from '@prismicio/types';
 import {
   asText,
   parseLabelType,
-  parseSingleLevelGroup,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { isPast } from '@weco/common/utils/dates';
-import { transformFormat, transformGenericFields, transformTimestamp } from '.';
+import { transformFormat, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -35,6 +34,10 @@ import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '../types';
+import { SeriesPrismicDocument } from '../types/series';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { EventSeriesPrismicDocument } from '../types/event-series';
+import { PlacePrismicDocument } from '../types/places';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -177,13 +180,13 @@ export function transformEvent(
         }
       : undefined;
 
-  const series = parseSingleLevelGroup(data.series, 'series').map(series => {
-    return transformEventSeries(series);
-  });
+  const series = transformSingleLevelGroup(data.series, 'series').map(
+    series => transformEventSeries(series as EventSeriesPrismicDocument)
+  );
 
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
 
   const times: EventTime[] = (data.times || [])
     .map(({ startDateTime, endDateTime, isFullyBooked }) => {
@@ -214,8 +217,8 @@ export function transformEvent(
     };
   });
 
-  const locations = parseSingleLevelGroup(data.locations, 'location').map(
-    location => transformPlace(location)
+  const locations = transformSingleLevelGroup(data.locations, 'location').map(
+    location => transformPlace(location as PlacePrismicDocument)
   );
 
   // We want to display the scheduleLength on EventPromos,

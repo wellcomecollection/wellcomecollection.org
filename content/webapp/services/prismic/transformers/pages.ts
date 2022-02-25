@@ -1,14 +1,14 @@
 import { FeaturedText } from '@weco/common/model/text';
 import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
-import { parseSingleLevelGroup } from '@weco/common/services/prismic/parsers';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { transformFormat, transformGenericFields, transformTimestamp } from '.';
+import { transformFormat, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
 import flattenDeep from 'lodash.flattendeep';
 import { Link } from '@weco/common/model/link';
 import { Body } from '../types/body';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
@@ -26,13 +26,13 @@ export function transformOnThisPage(body: Body): Link[] {
 export function transformPage(document: PagePrismicDocument): Page {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
-  const parentPages = parseSingleLevelGroup(data.parents, 'parent').map(
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
+  const parentPages = transformSingleLevelGroup(data.parents, 'parent').map(
     (parent, index) => {
       return {
-        ...transformPage(parent),
+        ...transformPage(parent as PagePrismicDocument),
         order: data.parents[index].order,
         type: parent.type,
       };

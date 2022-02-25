@@ -3,7 +3,6 @@ import { ArticlePrismicDocument } from '../types/articles';
 import {
   asText,
   parseLabelType,
-  parseSingleLevelGroup,
 } from '@weco/common/services/prismic/parsers';
 import { london } from '@weco/common/utils/format-date';
 import {
@@ -12,13 +11,15 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { transformGenericFields } from '.';
+import { transformGenericFields, transformSingleLevelGroup } from '.';
 import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
 import { Series } from 'types/series';
 import { transformSeason } from './seasons';
 import { transformSeries } from './series';
+import { SeriesPrismicDocument } from '../types/series';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 function transformContentLink(
   document?: LinkField
@@ -58,10 +59,8 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     ? parseLabelType(data.format)
     : null;
 
-  const series: Series[] = parseSingleLevelGroup(data.series, 'series').map(
-    series => {
-      return transformSeries(series);
-    }
+  const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
+    series => transformSeries(series as SeriesPrismicDocument)
   );
 
   const labels: Label[] = [
@@ -76,9 +75,9 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     datePublished: london(datePublished).toDate(),
-    seasons: parseSingleLevelGroup(data.seasons, 'season').map(season => {
-      return transformSeason(season);
-    }),
+    seasons: transformSingleLevelGroup(data.seasons, 'season').map(
+      season => transformSeason(season as SeasonPrismicDocument)
+    ),
     outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: transformContentLink(data.outroResearchItem),
     outroReadLinkText: asText(data.outroReadLinkText),

@@ -6,11 +6,12 @@ import {
   asRichText,
   transformRichTextFieldToString,
   transformTimestamp,
+  transformSingleLevelGroup,
 } from '.';
 import { isFilledLinkToWebField } from '../types';
-import { parseSingleLevelGroup } from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
+import { SeasonPrismicDocument } from '../types/seasons';
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
@@ -20,9 +21,9 @@ export function transformBook(document: BookPrismicDocument): Book {
   const cover =
     data.promo &&
     (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : undefined);
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
 
   return {
     type: 'books',

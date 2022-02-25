@@ -174,6 +174,17 @@ export function transformLink(link?: LinkField<string, string, any>): string | u
   }
 }
 
+export function transformSingleLevelGroup(
+  frag: Record<string, any>[],
+  singlePropertyName: string
+) {
+  return (
+    (frag || [])
+      .filter(fragItem => isFilledLinkToDocumentWithData(fragItem[singlePropertyName]))
+      .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
+  );
+}
+
 type PromoImage = {
   image?: ImageType;
   squareImage?: ImageType;
