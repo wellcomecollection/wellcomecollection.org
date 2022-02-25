@@ -1,7 +1,6 @@
 import { FunctionComponent, Fragment } from 'react';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
-import { Weight } from '@weco/common/services/prismic/parsers';
 import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -20,6 +19,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
+import { Weight } from '../../services/prismic/transformers/body';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
