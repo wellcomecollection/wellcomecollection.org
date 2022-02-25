@@ -28,8 +28,6 @@ import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
-export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
-
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
     case 'featured':

@@ -3,7 +3,8 @@ import { Picture } from './picture';
 import { ImageType } from './image';
 import { Label } from './labels';
 import { HTMLString } from '../services/prismic/types';
-import { Weight } from '../services/prismic/parsers';
+
+export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
 type BodySlice = {
   type: string;
