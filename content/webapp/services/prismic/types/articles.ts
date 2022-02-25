@@ -17,6 +17,7 @@ import {
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
+  WithContributors,
 } from '.';
 import { EventPrismicDocument } from './events';
 
@@ -54,6 +55,7 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroVisitItem: LinkField;
     outroVisitLinkText: RichTextField;
   } & WithSeries &
+    WithContributors &
     WithSeasons &
     WithArticleFormat &
     WithExhibitionParents &

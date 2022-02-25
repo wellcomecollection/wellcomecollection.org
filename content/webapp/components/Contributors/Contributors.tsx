@@ -1,15 +1,13 @@
 import { Fragment, FunctionComponent } from 'react';
-import { PrismicDocument } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
-import { WithContributors } from '../../services/prismic/types';
-import { transformContributors } from '../../services/prismic/transformers/contributors';
-import { asText } from '../../services/prismic/transformers';
+import { Contributor as ContributorType } from '../../types/contributors';
 
 type Props = {
   titlePrefix?: string;
-  document: PrismicDocument<WithContributors>;
+  contributors: ContributorType[];
+  titleOverride?: string;
 };
 
 export function dedupeAndPluraliseRoles(roles: string[]): string[] {
@@ -52,7 +50,8 @@ export function getContributorsTitle(
 
 const Contributors: FunctionComponent<Props> = ({
   titlePrefix = 'About the',
-  document,
+  contributors,
+  titleOverride,
 }: Props) => {
   // The transformContributors() method will remove contributors that don't
   // have any visible fields.
@@ -60,14 +59,9 @@ const Contributors: FunctionComponent<Props> = ({
   // This means we may be in a situation where `document.contributors` is
   // non-empty but `contributors` is empty, in which case we don't want to
   // render anything at all.
-  const contributors = transformContributors(document);
   if (contributors.length === 0) {
     return null;
   }
-
-  const titleOverride = asText(
-    document.data.contributorsTitle
-  );
 
   const roles = dedupeAndPluraliseRoles(
     contributors

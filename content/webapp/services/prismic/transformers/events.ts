@@ -32,6 +32,7 @@ import {
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
+import { transformContributors } from './contributors';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -220,6 +221,8 @@ export function transformEvent(
     location => transformPlace(location as PlacePrismicDocument)
   );
 
+  const contributors = transformContributors(document);
+
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
@@ -244,6 +247,7 @@ export function transformEvent(
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
     seasons,
+    contributors,
     scheduleLength,
     schedule,
     backgroundTexture:

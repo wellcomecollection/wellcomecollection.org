@@ -22,6 +22,7 @@ import { isFilledLinkToDocumentWithData } from '../types';
 import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
 import { Resource } from '@weco/common/model/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -119,6 +120,8 @@ export function transformExhibition(
     ? transformPlace(data.place)
     : undefined;
 
+  const contributors = transformContributors(document);
+
   const exhibition = {
     ...genericFields,
     shortTitle: data.shortTitle && asText(data.shortTitle),
@@ -131,6 +134,7 @@ export function transformExhibition(
     audioDescriptionInfo,
     place,
     exhibits,
+    contributors,
     promo: promoImage && {
       id,
       format,

@@ -9,6 +9,7 @@ import flattenDeep from 'lodash.flattendeep';
 import { Link } from '@weco/common/model/link';
 import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
@@ -44,11 +45,15 @@ export function transformPage(document: PagePrismicDocument): Page {
   const siteSection = document.tags.find(tag => siteSections.includes(tag));
 
   const promo = genericFields.promo;
+
+  const contributors = transformContributors(document);
+
   return {
     type: 'pages',
     format: transformFormat(document),
     ...genericFields,
     seasons,
+    contributors,
     parentPages,
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,

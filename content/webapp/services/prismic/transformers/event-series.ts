@@ -5,6 +5,7 @@ import { BackgroundTexture } from '@weco/common/model/background-texture';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { ImageField, KeyTextField } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { transformContributors } from './contributors';
 
 function transformBackgroundTexture({ image, name }: {
   image: ImageField,
@@ -31,12 +32,15 @@ export function transformEventSeries(
       text: 'Event series',
     },
   ];
+  
+  const contributors = transformContributors(document);
 
   return {
     ...genericFields,
     type: 'event-series',
     backgroundTexture,
     labels,
+    contributors,
     prismicDocument: document,
   };
 }

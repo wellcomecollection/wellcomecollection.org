@@ -1,8 +1,7 @@
 import { Query } from '@prismicio/types';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Series } from '../../../types/series';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Article } from '../../../types/articles';
-import { Series } from '../../../types/series';
 import { ArticlePrismicDocument } from '../types/articles';
 import { transformArticle } from './articles';
 import { transformQuery } from './paginated-results';
@@ -45,7 +44,7 @@ export const transformArticleSeries = (
 
   if (isNotUndefined(series)) {
     const seriesWithItems: Series = {
-      ...(series as ArticleSeries),
+      ...series,
       // Add some colour
       items:
         schedule.length > 0
@@ -55,7 +54,7 @@ export const transformArticleSeries = (
                 ? {
                     ...item,
                     color: series && series.color,
-                  }
+                  } as Article
                 : item;
             })
           : articles,

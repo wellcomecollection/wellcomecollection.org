@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -25,7 +25,6 @@ import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
-import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from 'services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
@@ -197,7 +196,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
     metadataDescription: article.metadataDescription,
   };
 
-  const contributors = transformContributors(article.prismicDocument);
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -214,8 +212,8 @@ const ArticlePage: FC<Props> = ({ article }) => {
               [font('hnr', 6)]: true,
             })}
           >
-            {contributors.length > 0 &&
-              contributors.map(({ contributor, role }, i, arr) => (
+            {article.contributors.length > 0 &&
+              article.contributors.map(({ contributor, role }, i, arr) => (
                 <Fragment key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
@@ -244,7 +242,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
                 </Fragment>
               ))}
 
-            {contributors.length > 0 && ' '}
+            {article.contributors.length > 0 && ' '}
 
             <span
               className={classNames({
@@ -316,7 +314,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           />
         }
         RelatedContent={Siblings}
-        document={article.prismicDocument}
+        contributors={article.contributors}
         outroProps={
           articleHasOutro(article)
             ? {
