@@ -74,9 +74,11 @@ function determineDisplayTime(times: EventTime[]): EventTime {
 }
 
 export function getLastEndTime(times: EventTime[]) {
-  return times
-    .map(({ range: { endDateTime } }) => london(endDateTime))
-    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b));
+  return times.length > 0
+    ? times
+        .map(({ range: { endDateTime } }) => london(endDateTime))
+        .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+    : undefined;
 }
 
 export function transformEventPolicyLabels(
