@@ -337,7 +337,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.prismicDocument.data.contributors.length > 0 && (
+        {event.contributors.length > 0 && (
           <Contributors
             contributors={event.contributors}
             titlePrefix="About your"
