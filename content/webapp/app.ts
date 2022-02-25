@@ -15,12 +15,12 @@ import {
   handleAllRoute,
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
-import linkResolver from './services/prismic/link-resolver';
 import {
   homepageId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
 import { Periods } from '@weco/common/model/periods';
+import linkResolver from './services/prismic/link-resolver';
 
 const periodPaths = Object.values(Periods).join('|');
 
