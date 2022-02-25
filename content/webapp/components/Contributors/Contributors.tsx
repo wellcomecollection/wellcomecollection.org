@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
 import { WithContributors } from '../../services/prismic/types';
 import { transformContributors } from '../../services/prismic/transformers/contributors';
-import { transformRichTextFieldToString } from '../../services/prismic/transformers';
+import { asText } from '../../services/prismic/transformers';
 
 type Props = {
   titlePrefix?: string;
@@ -65,7 +65,7 @@ const Contributors: FunctionComponent<Props> = ({
     return null;
   }
 
-  const titleOverride = transformRichTextFieldToString(
+  const titleOverride = asText(
     document.data.contributorsTitle
   );
 

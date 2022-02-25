@@ -2,9 +2,9 @@ import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
-  transformKeyTextField,
+  asText,
   asRichText,
-  transformRichTextFieldToString,
+  asText,
   transformTimestamp,
   transformSingleLevelGroup,
 } from '.';
@@ -28,14 +28,14 @@ export function transformBook(document: BookPrismicDocument): Book {
   return {
     type: 'books',
     ...genericFields,
-    subtitle: transformRichTextFieldToString(data.subtitle),
+    subtitle: asText(data.subtitle),
     orderLink: isFilledLinkToWebField(data.orderLink)
       ? data.orderLink.url
       : undefined,
-    price: transformKeyTextField(data.price),
-    format: transformKeyTextField(data.format),
-    extent: transformKeyTextField(data.extent),
-    isbn: transformKeyTextField(data.isbn),
+    price: asText(data.price),
+    format: asText(data.format),
+    extent: asText(data.extent),
+    isbn: asText(data.isbn),
     reviews: data.reviews?.map(review => {
       return {
         text: review.text && asRichText(review.text) || [],

@@ -7,9 +7,8 @@ import {
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
-import { asText } from '@weco/common/services/prismic/parsers';
 import { ImagePromo } from '@weco/common/model/image-promo';
-import { asRichText, transformTaslFromString } from '.';
+import { asRichText, asText, transformTaslFromString } from '.';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',

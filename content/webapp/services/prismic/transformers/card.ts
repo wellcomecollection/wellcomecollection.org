@@ -1,8 +1,7 @@
 import { CardPrismicDocument } from '../types/card';
-import { asText } from '@weco/common/services/prismic/parsers';
 import { transformImage } from './images';
 import { Card } from '@weco/common/model/card';
-import { asTitle, transformFormat, transformLink } from '.';
+import { asText, asTitle, transformFormat, transformLink } from '.';
 
 export function transformCard(document: CardPrismicDocument): Card {
   const { title, description, image, link } = document.data;

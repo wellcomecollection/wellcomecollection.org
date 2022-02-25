@@ -1,7 +1,6 @@
 import { Series } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
-import { isStructuredText, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
-import { asText } from '@weco/common/services/prismic/parsers';
+import { asText, isStructuredText, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { london } from '@weco/common/utils/format-date';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';

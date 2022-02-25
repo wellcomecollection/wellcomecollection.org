@@ -16,11 +16,10 @@ import {
   BodyType,
   GenericContentFields,
 } from '@weco/common/model/generic-content-fields';
-import { asText } from '@weco/common/services/prismic/parsers';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
-import { isNotUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -71,12 +70,12 @@ export function transformMeta(doc: Doc): Meta {
   const promo = transformPromo(doc);
 
   return {
-    title: transformRichTextFieldToString(doc.data.title) ?? '',
+    title: asTitle(doc.data.title),
     type: 'website',
     // We use `||` over `??` as we want empty strigs to revert to undefined
     description: doc.data.metadataDescription || undefined,
     promoText:
-      transformRichTextFieldToString(promo?.caption ?? []) || undefined,
+      asText(promo?.caption ?? []) || undefined,
     image: promo?.image,
     url: linkResolver(doc) || '',
   };
@@ -125,16 +124,28 @@ export function transformFormat(document: { data: WithArticleFormat | WithCardFo
   }
 }
 
-// This is to avoid introducing nulls into our codebase
-export function transformKeyTextField(field: KeyTextField): string | undefined {
-  return field ?? undefined;
-}
-
 export function transformTimestamp(field: TimestampField): Date | undefined {
   return prismicH.asDate(field) || undefined;
 }
 
 // Prismic often returns empty RichText fields as `[]`, this filters them out
+
+/** Here we have wrappers for `KeyTextField` and `RichTextField`.
+  *
+  * We prefer these to the versions provided by the prismic-helpers library because
+  * they add extra validation steps, e.g. removing stray whitespace or null values. 
+  */
+export function asText(field: KeyTextField | RichTextField): string | undefined {
+  if (isString(field)) {
+    // KeyTextField
+    return field.trim().length > 0 ? field.trim() : undefined;
+  } else {
+    // RichTextField
+    const output = field && field.length > 0 ? prismicH.asText(field).trim() : undefined;
+    return output && output.length > 0 ? output : undefined;
+  }
+}
+
 export function asRichText(field: RichTextField): HTMLString | undefined {
   return field && field.length > 0 ? (field as HTMLString) : undefined;
 }
@@ -162,12 +173,6 @@ export function transformStructuredText(
   field: RichTextField | undefined
 ): HTMLString | undefined {
   return field && isStructuredText(field) ? (field as HTMLString) : undefined;
-}
-
-// We have to use this annoyingly often as right at the beginning of the project
-// we created titles as `RichTextField`s.
-export function transformRichTextFieldToString(field: RichTextField) {
-  return field && field.length > 0 ? prismicH.asText(field) : undefined;
 }
 
 export function transformLink(link?: LinkField<string, string, any>): string | undefined {

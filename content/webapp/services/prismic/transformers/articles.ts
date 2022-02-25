@@ -1,6 +1,5 @@
 import { Article } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import { asText } from '@weco/common/services/prismic/parsers';
 import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
@@ -8,7 +7,7 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
+import { asText, transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
 import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';

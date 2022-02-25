@@ -1,6 +1,6 @@
 import { EventSeries } from '../../../types/event-series';
 import { EventSeriesPrismicDocument } from '../types/event-series';
-import { transformGenericFields, transformKeyTextField } from '.';
+import { transformGenericFields, asText } from '.';
 import { BackgroundTexture } from '@weco/common/model/background-texture';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { ImageField, KeyTextField } from '@prismicio/types';
@@ -10,7 +10,7 @@ function transformBackgroundTexture({ image, name }: {
   image: ImageField,
   name: KeyTextField
 }): BackgroundTexture | undefined {
-  const backgroundName = transformKeyTextField(name);
+  const backgroundName = asText(name);
 
   return image.url && isNotUndefined(backgroundName)
     ? { image: image.url, name: backgroundName }
