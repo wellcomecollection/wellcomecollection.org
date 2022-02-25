@@ -1,9 +1,6 @@
 import { Article } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import {
-  asText,
-  parseLabelType,
-} from '@weco/common/services/prismic/parsers';
+import { asText } from '@weco/common/services/prismic/parsers';
 import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
@@ -11,7 +8,7 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { transformGenericFields, transformSingleLevelGroup } from '.';
+import { transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
 import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
@@ -56,7 +53,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     data.publishDate || document.first_publication_date || undefined;
 
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? parseLabelType(data.format)
+    ? transformLabelType(data.format)
     : null;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(

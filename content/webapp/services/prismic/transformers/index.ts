@@ -1,11 +1,12 @@
 import * as prismicH from 'prismic-helpers-beta';
-import { PrismicDocument, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
+import { PrismicDocument, FilledLinkToDocumentField, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   Image,
+  InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
@@ -54,6 +55,9 @@ import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
 import { Format } from '@weco/common/model/format';
+import { LabelField } from '@weco/common/model/label-field';
+import { ArticleFormat } from '../types/article-format';
+import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 type Meta = {
   title: string;
@@ -183,6 +187,14 @@ export function transformSingleLevelGroup(
       .filter(fragItem => isFilledLinkToDocumentWithData(fragItem[singlePropertyName]))
       .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
   );
+}
+
+export function transformLabelType(format: FilledLinkToDocumentField<'article-formats', 'en-gb', InferDataInterface<ArticleFormat>> & { data: InferDataInterface<ArticleFormat> }): LabelField {
+  return {
+    id: format.id as ArticleFormatId,
+    title: asText(format.data.title),
+    description: format.data.description as HTMLString,
+  };
 }
 
 type PromoImage = {

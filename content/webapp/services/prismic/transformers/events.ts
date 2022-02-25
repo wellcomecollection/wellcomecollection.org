@@ -17,11 +17,10 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import {
   asText,
-  parseLabelType,
   parseTitle,
 } from '@weco/common/services/prismic/parsers';
 import { isPast } from '@weco/common/utils/dates';
-import { transformFormat, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import { transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -34,7 +33,6 @@ import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '../types';
-import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
@@ -99,7 +97,7 @@ export function transformEventPolicyLabels(
     .map(label => label[labelKey])
     .filter(Boolean)
     .filter(label => label.isBroken === false)
-    .map(label => parseLabelType(label));
+    .map(label => transformLabelType(label));
 }
 
 export function transformEvent(

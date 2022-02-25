@@ -42,8 +42,6 @@ export type HTMLStringBlock = {|
 
 export type HTMLString = HTMLStringBlock[];
 
-export type PrismicFragment = Object;
-
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API
 export type PaginatedResults<T> = {|

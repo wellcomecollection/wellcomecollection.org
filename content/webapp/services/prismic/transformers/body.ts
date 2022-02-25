@@ -18,7 +18,6 @@ import { Props as TitledTextListProps } from '@weco/common/views/components/Titl
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import {
-  parseLabelType,
   parseTitle,
   asText,
 } from '@weco/common/services/prismic/parsers';
@@ -30,7 +29,7 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformLink, asRichText, transformStructuredText, transformTaslFromString } from '.';
+import { transformLink, asRichText, transformStructuredText, transformTaslFromString, transformLabelType } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
@@ -224,7 +223,7 @@ function transformTitledTextItem({
     title: parseTitle(title),
     text: transformStructuredText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label) ? parseLabelType(label) : null,
+    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : null,
   };
 }
 
