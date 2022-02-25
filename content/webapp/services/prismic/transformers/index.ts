@@ -150,7 +150,7 @@ export function asText(field: KeyTextField | RichTextField): string | undefined 
 // Prismic adds `[ { type: 'paragraph', text: '', spans: [] } ]` when you
 // insert text, then remove it, so we check for that and remove it.
 function nonEmpty(field?: RichTextField): field is RichTextField {
-  return !field || (asText(field) || '').trim() === '';
+  return isNotUndefined(field) && (asText(field) || '').trim() !== '';
 }
 
 export function asRichText(field: RichTextField): HTMLString | undefined {
