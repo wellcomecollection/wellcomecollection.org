@@ -62,8 +62,6 @@ test('x-toggled header gets added, and sends the cookie to the client', () => {
   );
 });
 
-// This is to make sure we haven't got type errors in our tests because we don't
-// have flow here
 test('It runs all the current a/b tests without fail', () => {
   const event = copy(testEventRequest);
   const request = event.Records[0].cf.request;

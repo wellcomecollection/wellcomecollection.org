@@ -11,7 +11,6 @@
     "deployBundleAnalysis": "aws s3 sync .dist s3://dash.wellcomecollection.org/bundles --only-show-errors --acl public-read"
   },
   "dependencies": {
-    "@babel/preset-flow": "^7.12.1",
     "@prismicio/client": "^5.1.0",
     "@types/jest": "^27.0.2",
     "@types/koa-router": "^7.4.4",

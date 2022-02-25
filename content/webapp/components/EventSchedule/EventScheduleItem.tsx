@@ -138,11 +138,8 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                     [font('hnb', 5)]: true,
                   })}
                 >
-                  {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {event.ticketSalesStart &&
-                      formatTime(event.ticketSalesStart)}
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}{formatTime(event.ticketSalesStart)}
                   </span>
                 </Space>
               </Fragment>

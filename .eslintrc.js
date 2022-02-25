@@ -33,20 +33,12 @@ const sharedRules = {
 
 module.exports = {
   parser: 'babel-eslint',
-  plugins: [...sharedPlugins, 'flowtype'],
+  plugins: sharedPlugins,
   env: {
     'jest/globals': true,
   },
-  extends: [
-    ...sharedExtends,
-    'prettier/flowtype',
-    'plugin:flowtype/recommended',
-  ],
-  rules: {
-    ...sharedRules,
-    'flowtype/no-types-missing-file-annotation': 'off',
-    'flowtype/space-after-type-colon': [2, 'always', { allowLineBreak: true }],
-  },
+  extends: sharedExtends,
+  rules: sharedRules,
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
