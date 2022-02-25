@@ -16,6 +16,8 @@ import { transformSeason } from './seasons';
 import { transformSeries } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
+import { Format } from '@weco/common/model/format';
+import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 function transformContentLink(
   document?: LinkField
@@ -52,8 +54,8 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     data.publishDate || document.first_publication_date || undefined;
 
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? transformLabelType(data.format)
-    : null;
+    ? transformLabelType(data.format) as Format<ArticleFormatId>
+    : undefined;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)

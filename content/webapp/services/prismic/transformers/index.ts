@@ -15,11 +15,12 @@ import {
 import {
   BodyType,
   GenericContentFields,
+  Weight,
 } from '@weco/common/model/generic-content-fields';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import { isNotUndefined, isString, isUndefined } from '@weco/common/utils/array';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -332,7 +333,7 @@ export function transformBody(body: Body): BodyType {
         case 'iframe':
           return {
             type: 'iframe',
-            weight: slice.slice_label,
+            weight: slice.slice_label! as Weight,
             value: {
               src: slice.primary.iframeSrc,
               image: transformImage(slice.primary.previewImage),

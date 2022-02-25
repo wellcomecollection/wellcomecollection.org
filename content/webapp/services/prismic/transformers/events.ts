@@ -118,9 +118,9 @@ export function transformEvent(
             interpretationType: {
               id: interpretation.interpretationType.id,
               title: asTitle(interpretation.interpretationType.data?.title || []),
-              abbreviation: asText(
-                interpretation.interpretationType.data?.abbreviation
-              ),
+              abbreviation: interpretation.interpretationType.data?.abbreviation
+                ? asText(interpretation.interpretationType.data?.abbreviation)
+                : undefined,
               description: interpretation.interpretationType.data
                 ?.description as HTMLString,
               primaryDescription: interpretation.interpretationType.data
@@ -145,7 +145,9 @@ export function transformEvent(
       link(audience.audience)
         ? {
             id: audience.audience.id,
-            title: asText(audience.audience.data?.title),
+            title: audience.audience.data?.title
+              ? asTitle(audience.audience.data?.title)
+              : '',
             description: audience.audience.data?.description as
               | HTMLString
               | undefined,

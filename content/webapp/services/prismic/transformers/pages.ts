@@ -33,7 +33,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     (parent, index) => {
       return {
         ...transformPage(parent as PagePrismicDocument),
-        order: data.parents[index].order,
+        order: data.parents[index].order!,
         type: parent.type,
       };
     }

@@ -2,7 +2,6 @@ import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
-  asText,
   asRichText,
   asText,
   transformTimestamp,

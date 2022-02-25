@@ -8,7 +8,6 @@ import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
-  asText,
   asRichText,
   asText,
 } from '.';
