@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from '@prismicio/client';
+import * as prismic from 'prismic-client-beta';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -52,7 +52,6 @@ import {
   fetchEventScheduleItems,
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   getScheduleIds,
   transformEvent,
@@ -183,16 +182,12 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
-        Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
+        prismic.predicate.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
-    if (scheduledInQuery) {
-      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
-
-      if (scheduledIn.results.length > 0) {
-        setScheduledIn(scheduledIn.results[0]);
-      }
+    if (isNotUndefined(scheduledInQuery) && scheduledInQuery.results.length > 0) {
+      setScheduledIn(scheduledInQuery.results[0]);
     }
   };
   useEffect(() => {

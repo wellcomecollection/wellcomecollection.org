@@ -1,12 +1,13 @@
-import { Query } from '@prismicio/types';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
-import { parseQuery } from 'services/prismic/transformers/multi-content';
-import { fetchMultiContent } from 'services/prismic/fetch/multi-content';
-import { MultiContentPrismicDocument } from 'services/prismic/types/multi-content';
+import { MultiContent, parseQuery } from '../../../services/prismic/transformers/multi-content';
+import { fetchMultiContent } from '../../../services/prismic/fetch/multi-content';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
+import { transformMultiContent } from '../../../services/prismic/transformers/multi-content';
 
-type Data = Query<MultiContentPrismicDocument>;
+type Data = PaginatedResults<MultiContent>;
 type NotFound = { notFound: true };
 
 export default async (
@@ -18,10 +19,11 @@ export default async (
 
   if (isNotUndefined(parsedQuery)) {
     const client = createClient({ req });
-    const response = await fetchMultiContent(client, parsedQuery);
+    const query = await fetchMultiContent(client, parsedQuery);
 
-    if (response) {
-      return res.status(200).json(response);
+    if (query) {
+      const multiContent = transformQuery(query, transformMultiContent);
+      return res.status(200).json(multiContent);
     }
   }
 

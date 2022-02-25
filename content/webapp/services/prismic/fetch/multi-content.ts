@@ -1,4 +1,4 @@
-import { GetServerSidePropsPrismicClient, delistPredicate } from '.';
+import { GetServerSidePropsPrismicClient, delistPredicate, clientSideFetcher } from '.';
 import { Query } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
@@ -21,6 +21,8 @@ import {
   teamsFields,
   articlesFields,
 } from '@weco/common/services/prismic/fetch-links';
+import { MultiContent } from '../transformers/multi-content';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -83,7 +85,7 @@ export const fetchMultiContent = async (
 
 export const fetchMultiContentClientSide = async (
   stringQuery: string
-): Promise<Query<MultiContentPrismicDocument> | undefined> => {
+): Promise<PaginatedResults<MultiContent> | undefined> => {
   // If you add more parameters here, you have to update the corresponding cache behaviour
   // in the CloudFront distribution, or you may get incorrect behaviour.
   //
@@ -100,7 +102,7 @@ export const fetchMultiContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    const json: Query<MultiContentPrismicDocument> = await response.json();
+    const json: PaginatedResults<MultiContent> = await response.json();
     return json;
   }
 };
