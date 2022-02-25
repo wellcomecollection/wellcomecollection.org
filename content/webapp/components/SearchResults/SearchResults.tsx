@@ -108,7 +108,7 @@ const SearchResults: FunctionComponent<Props> = ({
         )}
         {item.type === 'articles' && (
           <ArticleCard
-            article={item.prismicDocument}
+            article={item}
             showPosition={showPosition}
             xOfY={{ x: index + 1, y: items.length }}
           />

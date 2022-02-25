@@ -1,14 +1,15 @@
 import Image from 'next/image';
-import { FilledImageFieldImage } from '@prismicio/types';
 import { classNames } from '@weco/common/utils/classnames';
 import {
   Breakpoint,
   sizes as breakpointSizes,
 } from '@weco/common/views/themes/config';
+import { Picture } from '@weco/common/model/picture';
+import { ImageType } from '@weco/common/model/image';
 
 type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 type Props = {
-  image: FilledImageFieldImage;
+  image: Picture | ImageType;
   sizes?: BreakpointSizes;
   width?: number;
   height?: number;
@@ -62,15 +63,15 @@ const PrismicImage = ({ image, sizes, width, height }: Props) => {
 
   return (
     <Image
-      width={width ?? image.dimensions.width}
-      height={height ?? image.dimensions.height}
+      width={width ?? image.width}
+      height={height ?? image.height}
       layout="responsive"
       className={classNames({
         'image bg-charcoal font-white': true,
       })}
       sizes={sizesString}
-      src={image.url}
-      alt={image.alt || ''}
+      src={image.contentUrl}
+      alt={image.alt}
       loader={prismicLoader}
     />
   );

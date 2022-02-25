@@ -1,5 +1,4 @@
 import { PrismicDocument } from '@prismicio/types';
-import { Exhibition } from '@weco/common/model/exhibitions';
 import { Event } from '@weco/common/model/events';
 import {
   Organization,
@@ -16,15 +15,15 @@ import { Page } from '@weco/common/model/pages';
 import { Season } from '@weco/common/model/seasons';
 import { CommonPrismicFields, WithContributors } from '../types';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
+import { Exhibition } from '../../../types/exhibitions';
 
 export function exhibitionLd(exhibition: Exhibition) {
-  const meta = transformMeta(exhibition.prismicDocument);
-  const contributors = transformContributors(exhibition.prismicDocument);
+  const promoImage = exhibition.promo?.image;
   return objToJsonLd(
     {
       name: exhibition.title,
       description: exhibition.promoText,
-      image: meta.image ? getImageUrlAtSize(meta.image, { w: 600 }) : undefined,
+      image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
       location: {
         '@type': 'Place',
         name: 'Wellcome Collection',
@@ -34,7 +33,7 @@ export function exhibitionLd(exhibition: Exhibition) {
       endDate: exhibition.end,
       url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
       isAccessibleForFree: true,
-      performers: contributors.map(({ contributor }) => {
+      performers: exhibition.contributors.map(({ contributor }) => {
         const type = contributor.type === 'people' ? 'Person' : 'Organization';
         return objToJsonLd(
           {

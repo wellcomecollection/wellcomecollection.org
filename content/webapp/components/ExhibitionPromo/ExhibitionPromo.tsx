@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import * as prismicH from 'prismic-helpers-beta';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -8,51 +7,30 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
-import { transformMeta } from '../../services/prismic/transformers';
-import {
-  InferDataInterface,
-  isFilledLinkToDocumentWithData,
-} from '../../services/prismic/types';
+import { Exhibition } from '../../types/exhibitions';
+import linkResolver from '../../services/prismic/link-resolver';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
-  exhibition: ExhibitionPrismicDocument;
+  exhibition: Exhibition;
   position?: number;
 };
 
-function transformLabels(
-  format: InferDataInterface<ExhibitionPrismicDocument>['format']
-) {
-  if (isFilledLinkToDocumentWithData(format)) {
-    const title = prismicH.asText(format.data.title);
-    return [{ text: title }];
-  }
-
-  return [{ text: 'Exhibition' }];
-}
-
 const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
-  const meta = transformMeta(exhibition);
-  const { format } = exhibition.data;
+  const { start, end, statusOverride, isPermanent } = exhibition;
+  const url = linkResolver(exhibition);
+  const image = exhibition.promo?.image;
 
-  const start = exhibition.data.start
-    ? new Date(exhibition.data.start)
-    : undefined;
-
-  const end = exhibition.data.end ? new Date(exhibition.data.end) : undefined;
-
-  const statusOverride = exhibition.data.statusOverride
-    ? prismicH.asText(exhibition.data.statusOverride)
-    : undefined;
-
-  const isPermanent = exhibition.data.isPermanent === 'yes';
+  const labels = exhibition.format?.title
+    ? [{ text: exhibition.format.title }]
+    : [{ text: 'Exhibition' }];
 
   return (
     <CardOuter
       data-component="ExhibitionPromo"
       data-component-state={JSON.stringify({ position: position })}
       id={exhibition.id}
-      href={meta.url}
+      href={url}
       onClick={() => {
         trackEvent({
           category: 'ExhibitionPromo',
@@ -62,20 +40,21 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
       }}
     >
       <div className="relative">
-        {meta.image?.['16:9'] && (
-          <PrismicImage
-            image={meta.image['16:9']}
-            sizes={{
-              xlarge: 1 / 3,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
-            }}
-          />
-        )}
+        {isNotUndefined(image)
+          ? <PrismicImage
+              image={image}
+              sizes={{
+                xlarge: 1 / 3,
+                large: 1 / 3,
+                medium: 1 / 2,
+                small: 1,
+              }}
+            />
+          : undefined
+        }
 
         <div style={{ position: 'absolute', bottom: 0 }}>
-          <LabelsList labels={transformLabels(format)} />
+          <LabelsList labels={labels} />
         </div>
       </div>
 
@@ -91,7 +70,7 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
               [font('wb', 3)]: true,
             })}
           >
-            {meta.title}
+            {exhibition.title}
           </Space>
 
           {!statusOverride && !isPermanent && start && end && (
@@ -108,7 +87,7 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
           )}
 
           <StatusIndicator
-            start={start ?? new Date()}
+            start={start}
             end={end ?? new Date()}
             statusOverride={statusOverride}
           />

@@ -1,4 +1,4 @@
-import type { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';

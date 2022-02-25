@@ -21,7 +21,7 @@ export function dedupeAndPluraliseRoles(roles: string[]): string[] {
       return acc;
     }, {});
 
-  // We've been guarenteed that we'll only get speaker, guide, and facilitator,
+  // We've been guaranteed that we'll only get speaker, guide, and facilitator,
   // so the pluralisation works here.
   const pluralised: string[] = Object.keys(dedupedWithCount).map(role => {
     const count = dedupedWithCount[role];

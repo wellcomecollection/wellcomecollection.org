@@ -11,15 +11,15 @@ import {
   asRichText,
   asText,
 } from '.';
+import { transformImage } from './images';
+import { ImageType } from '@weco/common/model/image';
 
-const defaultContributorImage: FilledImageFieldImage = {
-  dimensions: {
-    width: 64,
-    height: 64,
-  },
-  url: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
+const defaultContributorImage: ImageType = {
+  width: 64,
+  height: 64,
+  contentUrl: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
   alt: '',
-  copyright: null,
+  crops: {},
 };
 
 type Agent = WithContributors['contributors'][number]['contributor'];
@@ -31,7 +31,7 @@ export function transformContributorAgent(
     const commonFields = {
       id: agent.id,
       description: asRichText(agent.data.description),
-      image: agent.data.image || defaultContributorImage,
+      image: transformImage(agent.data.image) || defaultContributorImage,
       sameAs: (agent.data.sameAs ?? [])
         .map(sameAs => {
           const link = asText(sameAs.link);

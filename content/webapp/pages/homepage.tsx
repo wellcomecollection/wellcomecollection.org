@@ -5,7 +5,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import { Page as PageType } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,8 +16,8 @@ import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { GetServerSideProps } from 'next';
@@ -61,7 +61,7 @@ const CreamBox = styled(Space).attrs({
 
 type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
   articles: PaginatedResults<Article>;
   page: PageType;
 };
@@ -126,6 +126,9 @@ const Homepage: FC<Props> = props => {
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
     filterEventsForNext7Days(events)
   );
+
+  // Convert dates back to Date types because it's serialised through
+  // `getInitialProps`
   const exhibitions = props.exhibitions.results.map(exhibition => {
     return {
       ...exhibition,
@@ -133,6 +136,7 @@ const Homepage: FC<Props> = props => {
       end: exhibition.end && new Date(exhibition.end),
     };
   });
+
   const articles = props.articles;
   const page = props.page;
   const standFirst = page.body.find(slice => slice.type === 'standfirst');
@@ -184,7 +188,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents}
+              events={nextSevenDaysEvents as Event[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>
