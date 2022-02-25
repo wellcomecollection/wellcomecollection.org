@@ -95,20 +95,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { query, req, res } = context;
     const { success, message, supportSignUp } = query;
+    const didSucceed = success === 'true';
 
-    if (success === 'true') {
-      const authSession = await auth0.getSession(req, res);
-      if (authSession) {
-        // This (persistently) mutates the session.
-        // That isn't ideal, but it seems to be the only reliable way to update
-        // this data from the server side. It isn't really a security issue,
-        // as it does not (and cannot) mutate anything that we trust (ie tokens).
-        // It is really just here so that we show the correct UI.
-        //
-        // Previously we tried redirecting the user to the login screen, as a way
-        // to do silent auth and refresh their profile, but this didn't work because
-        // the Auth0 session is separate from our application session.
-        authSession.user.email_verified = true;
+    if (didSucceed) {
+      // The email validation state is held within the ID token, which will be
+      // refreshed by fetching a new access token.
+      try {
+        await auth0.getAccessToken(req, res, { refresh: true });
+      } catch (e) {
+        // It doesn't matter if this fails; it means the user doesn't currently have a session
       }
     }
 
@@ -117,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         serverData,
-        success: success === 'true',
+        success: didSucceed,
         message: message || null,
         isNewSignUp: supportSignUp === 'true',
       }),
