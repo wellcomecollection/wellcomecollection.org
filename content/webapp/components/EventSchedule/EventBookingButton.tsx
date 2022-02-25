@@ -65,7 +65,7 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
 )<EventBookingButtonProps>``;
 
 const EventBookingButton = ({ event }: Props) => {
-  const team = event.bookingEnquiryTeam; // Not sure why, but this solves flow null check problem below
+  const team = event.bookingEnquiryTeam;
 
   return (
     <Fragment>

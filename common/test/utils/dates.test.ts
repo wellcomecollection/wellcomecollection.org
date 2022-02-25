@@ -1,4 +1,3 @@
-// @flow
 // import { london } from '../../utils/format-date';
 // import { getEarliestFutureDateRange } from '../../utils/dates';
 

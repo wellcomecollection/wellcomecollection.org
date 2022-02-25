@@ -426,13 +426,8 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                   />
                 )}
 
-                {/* FIXME: work out why Flow requires the check for bookingEnquiryTeam here even though we've already checked above */}
                 <NextLink
-                  href={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${
                     event.bookingEnquiryTeam
                       ? event.bookingEnquiryTeam.email

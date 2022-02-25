@@ -15,22 +15,13 @@ import {
   handleAllRoute,
   timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
-import linkResolver from './services/prismic/link-resolver';
 import {
   homepageId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
+import { Periods } from '@weco/common/model/periods';
+import linkResolver from './services/prismic/link-resolver';
 
-// FIXME: Find a way to import this.
-// We can't because it's not a standard es6 module (import and flowtype)
-const Periods = {
-  Today: 'today',
-  ThisWeekend: 'this-weekend',
-  CurrentAndComingUp: 'current-and-coming-up',
-  Past: 'past',
-  ComingUp: 'coming-up',
-  ThisWeek: 'this-week',
-};
 const periodPaths = Object.values(Periods).join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
