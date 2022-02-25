@@ -153,3 +153,27 @@ export const fetchExhibitionRelatedContent = async (
     fetchLinks,
   });
 };
+
+export const fetchExhibitionRelatedContentClientSide =  = async (
+  ids: string[]
+): Promise<ExhibitionRelatedContent | undefined> => {
+  // If you add more parameters here, you have to update the corresponding cache behaviour
+  // in the CloudFront distribution, or you may get incorrect behaviour.
+  //
+  // e.g. at one point we forgot to include the "params" query in the cache key,
+  // so every article was showing the same set of related stories.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('params', ids.join(','));
+
+  // If we have multiple content types, use the first one as the ID.
+  const url = `/api/exhibitions-related-content?${urlSearchParams.toString()}`;
+
+  const response = await fetch(url);
+
+  if (response.ok) {
+    const json: ExhibitionRelatedContent = await response.json();
+    return json;
+  }
+};

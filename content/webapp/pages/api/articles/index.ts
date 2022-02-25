@@ -5,7 +5,7 @@ import { fetchArticles } from '../../../services/prismic/fetch/articles';
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
 import { transformArticle } from 'services/prismic/transformers/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Article } from 'types/articles';
+import { Article } from '../../../types/articles';
 
 type Data = PaginatedResults<Article>;
 type NotFound = { notFound: true };
