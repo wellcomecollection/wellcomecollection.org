@@ -24,7 +24,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   xOfY,
 }: Props) => {
   const url = linkResolver(article);
-  const image = article.promo?.image;
+  const image = article.squareImage;
 
   const seriesWithSchedule = article.series.find(
     series => (series.schedule ?? []).length > 0
