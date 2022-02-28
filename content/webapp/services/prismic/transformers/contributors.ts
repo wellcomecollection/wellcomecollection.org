@@ -6,11 +6,13 @@ import { isFilledLinkToDocumentWithData, WithContributors, InferDataInterface, i
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
+  asHtml,
   asRichText,
   asText,
 } from '.';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';
+import { transformImage } from './images';
 
 const defaultContributorImage: ImageType = {
   width: 64,
@@ -26,7 +28,7 @@ function transformCommonFields(agent:
   return {
     id: agent.id,
     description: asRichText(agent.data.description),
-    image: agent.data.image || defaultContributorImage,
+    image: transformImage(agent.data.image) || defaultContributorImage,
   };
 }
 
@@ -42,7 +44,7 @@ export function transformContributorAgent(
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
         const link = asText(sameAs.link);
-        const title = asRichText(sameAs.title);
+        const title = asHtml(sameAs.title);
         return title && link ? { title, link } : undefined;
       })
       .filter(isNotUndefined)
@@ -51,7 +53,7 @@ export function transformContributorAgent(
     return {
       ...transformCommonFields(agent),
       type: agent.type,
-      name: asRichText(agent.data.name),
+      name: asHtml(agent.data.name),
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
         const link = asText(sameAs.link);
