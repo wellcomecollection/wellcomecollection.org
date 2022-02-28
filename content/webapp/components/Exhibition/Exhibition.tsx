@@ -34,8 +34,7 @@ import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
-import { fetchExhibitionRelatedContentClientSide } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionRelatedContent } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
 import { Exhibition as ExhibitionType } from '../../types/exhibitions';
 import { Book } from '../../types/books';
 import { Article } from '../../types/articles';
@@ -209,10 +208,8 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
-    fetchExhibitionRelatedContentClientSide(ids).then(result => {
-      if (isNotUndefined(result)) {
-        const relatedContent = transformExhibitionRelatedContent(result);
-
+    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
+      if (isNotUndefined(relatedContent)) {
         setExhibitionOfs(relatedContent.exhibitionOfs);
         setExhibitionAbouts(relatedContent.exhibitionAbouts);
       }

@@ -1,4 +1,4 @@
-import { fetcher, GetServerSidePropsPrismicClient } from '.';
+import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import {
   ExhibitionPrismicDocument,
   ExhibitionRelatedContentPrismicDocument,
@@ -29,6 +29,7 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { Period } from '@weco/common/model/periods';
 import { getPeriodPredicates } from '../types/predicates';
+import { Exhibition, ExhibitionRelatedContent } from 'types/exhibitions';
 
 const fetchLinks = peopleFields.concat(
   exhibitionFields,
@@ -108,12 +109,12 @@ export const fetchExhibitions = (
   });
 };
 
-export const fetchExhibitionsClientSide =
-  exhibitionsFetcher.getByTypeClientSide;
+const fetchExhibitionsClientSide =
+  clientSideFetcher<Exhibition>('exhibitions').getByTypeClientSide;
 
 export const fetchExhibitExhibition = async (
   exhibitId: string
-): Promise<ExhibitionPrismicDocument | undefined> => {
+): Promise<Exhibition | undefined> => {
   const predicates = [
     prismic.predicate.at('my.exhibitions.exhibits.item', exhibitId),
   ];
@@ -155,24 +156,24 @@ export const fetchExhibitionRelatedContent = async (
 
 export const fetchExhibitionRelatedContentClientSide = async (
   ids: string[]
-): Promise<Query<ExhibitionRelatedContentPrismicDocument> | undefined> => {
+): Promise<ExhibitionRelatedContent | undefined> => {
   // If you add more parameters here, you have to update the corresponding cache behaviour
   // in the CloudFront distribution, or you may get incorrect behaviour.
   //
   // e.g. at one point we forgot to include the "params" query in the cache key,
   // so every article was showing the same set of related stories.
   //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
   const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', JSON.stringify(ids));
+  urlSearchParams.set('params', ids.join(','));
 
-  const url = `/api/exhibitions/related-content?${urlSearchParams.toString()}`;
+  // If we have multiple content types, use the first one as the ID.
+  const url = `/api/exhibitions-related-content?${urlSearchParams.toString()}`;
 
   const response = await fetch(url);
 
   if (response.ok) {
-    const json: Query<ExhibitionRelatedContentPrismicDocument> =
-      await response.json();
+    const json: ExhibitionRelatedContent = await response.json();
     return json;
   }
 };

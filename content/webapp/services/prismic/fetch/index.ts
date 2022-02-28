@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '../link-resolver';
 import { isString } from '@weco/common/utils/array';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 const endpoint = prismic.getEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
@@ -124,7 +125,11 @@ export function fetcher<Document extends PrismicDocument>(
 
       return response;
     },
+  };
+}
 
+export function clientSideFetcher<TransformedDocument>(endpoint: string) {
+  return {
     /** Get all the documents of a given type.
      *
      * This makes a request to the /api endpoint for the given document type.
@@ -134,7 +139,7 @@ export function fetcher<Document extends PrismicDocument>(
      */
     getByTypeClientSide: async (
       params?: GetByTypeParams
-    ): Promise<Query<Document> | undefined> => {
+    ): Promise<PaginatedResults<TransformedDocument> | undefined> => {
       // If you add more parameters here, you have to update the corresponding cache behaviour
       // in the CloudFront distribution, or you may get incorrect behaviour.
       //
@@ -145,17 +150,15 @@ export function fetcher<Document extends PrismicDocument>(
       const urlSearchParams = new URLSearchParams();
       urlSearchParams.set('params', JSON.stringify(params));
 
-      // If we have multiple content types, use the first one as the ID.
-      const url = isString(contentType)
-        ? `/api/${contentType}?${urlSearchParams.toString()}`
-        : `/api/${contentType[0]}?${urlSearchParams.toString()}`;
+      const url = `/api/${endpoint}?${urlSearchParams.toString()}`;
 
       const response = await fetch(url);
 
       if (response.ok) {
-        const json: Query<Document> = await response.json();
+        const json: PaginatedResults<TransformedDocument> = await response.json();
         return json;
       }
     },
   };
 }
+

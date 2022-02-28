@@ -52,7 +52,6 @@ import {
   fetchEventScheduleItems,
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   getScheduleIds,
   transformEvent,
@@ -187,12 +186,8 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       ],
     });
 
-    if (scheduledInQuery) {
-      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
-
-      if (scheduledIn.results.length > 0) {
-        setScheduledIn(scheduledIn.results[0]);
-      }
+    if (isNotUndefined(scheduledInQuery) && scheduledInQuery.results.length > 0) {
+      setScheduledIn(scheduledInQuery.results[0]);
     }
   };
   useEffect(() => {

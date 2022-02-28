@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
-import { fetchExhibitions } from '../../../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Exhibition } from 'types/exhibitions';
+import { fetchExhibitionRelatedContent } from '../../../services/prismic/fetch/exhibitions';
+import { transformExhibitionRelatedContent } from 'services/prismic/transformers/exhibitions';
+import { ExhibitionRelatedContent } from 'types/exhibitions';
 
-type Data = PaginatedResults<Exhibition>;
+type Data = ExhibitionRelatedContent;
 type NotFound = { notFound: true };
 
 export default async (
@@ -16,10 +15,10 @@ export default async (
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
   const client = createClient({ req });
-  const query = await fetchExhibitions(client, parsedParams);
+  const query = await fetchExhibitionRelatedContent(client, parsedParams);
 
   if (query) {
-    const exhibitions = transformExhibitionsQuery(query);
+    const exhibitions = transformExhibitionRelatedContent(query);
     return res.status(200).json(exhibitions);
   }
 

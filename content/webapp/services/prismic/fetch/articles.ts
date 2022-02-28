@@ -1,7 +1,8 @@
 import { Query } from '@prismicio/types';
-import { GetServerSidePropsPrismicClient, GetByTypeParams, fetcher } from '.';
+import { GetServerSidePropsPrismicClient, GetByTypeParams, fetcher, clientSideFetcher } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 import { ContentType } from '../link-resolver';
+import { Article } from 'types/articles';
 
 const contentTypes = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;
@@ -331,4 +332,5 @@ export const fetchArticles = (
     graphQuery,
   });
 };
-export const fetchArticlesClientSide = articlesFetcher.getByTypeClientSide;
+
+export const fetchArticlesClientSide = clientSideFetcher<Article>('articles').getByTypeClientSide;

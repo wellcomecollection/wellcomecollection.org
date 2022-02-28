@@ -7,4 +7,3 @@ const seasonsFetcher = fetcher<SeasonPrismicDocument>('seasons', fetchLinks);
 
 export const fetchSeason = seasonsFetcher.getById;
 export const fetchSeasons = seasonsFetcher.getByType;
-export const fetchSeasonsClientSide = seasonsFetcher.getByTypeClientSide;
