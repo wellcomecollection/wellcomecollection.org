@@ -2,27 +2,36 @@ import { groupEventsBy } from '../../../services/prismic/events';
 import { getLastEndTime } from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 import { transformTimestamp } from '.';
+import { EventTime } from '@weco/common/model/events';
 
-const eventTimes = [
+const eventTimes: EventTime[] = [
   {
-    startDateTime: '2020-02-16T11:00:00+0000',
-    endDateTime: '2020-02-16T17:00:00+0000',
-    isFullyBooked: null,
+    range: {
+      startDateTime: new Date('2020-02-16T11:00:00+0000'),
+      endDateTime: new Date('2020-02-16T17:00:00+0000'),
+    },
+    isFullyBooked: false,
   },
   {
-    startDateTime: '2020-02-18T11:00:00+0000',
-    endDateTime: '2020-02-18T17:00:00+0000',
-    isFullyBooked: null,
+    range: {
+      startDateTime: new Date('2020-02-18T11:00:00+0000'),
+      endDateTime: new Date('2020-02-18T17:00:00+0000'),
+    },
+    isFullyBooked: false,
   },
   {
-    startDateTime: '2020-02-18T13:00:00+0000',
-    endDateTime: '2020-02-18T19:00:00+0000',
-    isFullyBooked: null,
+    range: {
+      startDateTime: new Date('2020-02-18T13:00:00+0000'),
+      endDateTime: new Date('2020-02-18T19:00:00+0000'),
+    },
+    isFullyBooked: false,
   },
   {
-    startDateTime: '2020-02-15T11:00:00+0000',
-    endDateTime: '2020-02-15T17:00:00+0000',
-    isFullyBooked: null,
+    range: {
+      startDateTime: new Date('2020-02-15T11:00:00+0000'),
+      endDateTime: new Date('2020-02-15T17:00:00+0000'),
+    },
+    isFullyBooked: false,
   },
 ];
 
