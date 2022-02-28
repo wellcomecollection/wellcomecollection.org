@@ -21,7 +21,6 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Space from '@weco/common/views/components/styled/Space';
@@ -105,16 +104,6 @@ const CurrentRequestCount = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'margin-left'] },
 })`
   border-left: 5px solid ${props => props.theme.color('yellow')};
-`;
-
-const BeforeYourVisit = styled(Space).attrs({
-  as: 'p',
-  h: { size: 'm', properties: ['padding-left'] },
-  className: classNames({
-    [font('hnr', 5)]: true,
-  }),
-})`
-  border-left: 8px solid ${props => props.theme.color('yellow')};
 `;
 
 const CTAs = styled(Space).attrs({
@@ -350,32 +339,8 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
       It will be available to pick up from the library (Rare Materials Room,
       level 3) for one week.
     </p>
-    <BeforeYourVisit>
-      <span
-        className={classNames({
-          [font('hnb', 5)]: true,
-        })}
-      >
-        Before your visit:
-      </span>{' '}
-      you will need to book a ‘Rare Materials Room – all day entry ticket’ by
-      10am the day before you wish to visit.
-    </BeforeYourVisit>
     <CTAs>
-      <Space
-        h={{ size: 'l', properties: ['margin-right'] }}
-        v={{ size: 's', properties: ['margin-bottom'] }}
-        className={'inline-block'}
-      >
-        <ButtonSolidLink
-          text={`Book a ticket`}
-          link={'/covid-book-your-ticket'}
-        />
-      </Space>
-      <ButtonOutlinedLink
-        text={`View your library account`}
-        link={'/account'}
-      />
+      <ButtonSolidLink text={`View your library account`} link={'/account'} />
     </CTAs>
   </>
 );
