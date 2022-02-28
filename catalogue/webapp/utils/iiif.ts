@@ -1,6 +1,5 @@
 import {
   IIIFManifest,
-  IIIFManifestV3,
   IIIFRendering,
   IIIFMetadata,
   IIIFCanvas,
@@ -12,10 +11,13 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
-  IIIFTextV3,
-  IIIFImageV3,
-  IIIFMediaElementV3,
 } from '../model/iiif';
+import {
+  ContentResource,
+  IIIFExternalWebResource,
+  Manifest,
+  Service as ServiceV3,
+} from '@iiif/presentation-3';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -90,7 +92,7 @@ export function getAuthService(
 }
 
 export function getMediaClickthroughServiceV3(
-  services: (AuthService | IIIFTextV3)[]
+  services: ServiceV3[]
 ): AuthService | undefined {
   return (services as AuthService[]).find(
     s => s?.['@id'] === 'https://iiif.wellcomecollection.org/auth/clickthrough'
@@ -120,7 +122,7 @@ export function getMediaClickthroughService(
 
 export function getTokenServiceV3(
   authServiceId: string,
-  services?: (AuthService | IIIFTextV3)[]
+  services?: ServiceV3[]
 ): AuthServiceService | undefined {
   const service = (services as AuthService[])?.find(
     s => s?.['@id'] === authServiceId
@@ -329,35 +331,37 @@ export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
   return audioSequences;
 }
 
-export function getAudioV3(manifest: IIIFManifestV3): AudioV3 {
+export function getAudioV3(manifest: Manifest): AudioV3 {
   const canvases = manifest.items.filter(item => item.type === 'Canvas');
   const title = canvases.find(c => c?.label?.en)?.[0];
   const audioTypes = ['Audio', 'Sound'];
   const sounds = canvases
     .map(c => {
       const title = c?.label?.en?.[0];
-      const annotationPage = c.items.find(i => i.type === 'AnnotationPage');
-      const annotation = annotationPage?.items.find(
+      const annotationPage = c?.items?.find(i => i.type === 'AnnotationPage');
+      const annotation = annotationPage?.items?.find(
         i => i.type === 'Annotation'
       );
       const sound =
-        audioTypes.includes(annotation?.body.type || '') && annotation?.body;
+        audioTypes.includes(
+          (annotation?.body as ContentResource)?.type || ''
+        ) && annotation?.body;
       return { sound, title };
     })
     .filter(s => Boolean(s.sound) && isNotUndefined(s.sound)) as {
     title?: string;
-    sound: IIIFMediaElementV3;
+    sound: IIIFExternalWebResource;
   }[];
 
-  const placeholderCanvasItems = manifest.placeholderCanvas.items.find(
+  const placeholderCanvasItems = manifest.placeholderCanvas?.items?.find(
     i => i.type === 'AnnotationPage'
   );
-  const placeholderCanvasAnnotation = placeholderCanvasItems?.items.find(
+  const placeholderCanvasAnnotation = placeholderCanvasItems?.items?.find(
     i => i.type === 'Annotation'
   );
-  const thumbnail = placeholderCanvasAnnotation?.body as IIIFImageV3;
+  const thumbnail = placeholderCanvasAnnotation?.body as ContentResource;
   const transcript = manifest?.rendering?.find(
-    i => i.format === 'application/pdf'
+    i => i?.['format'] === 'application/pdf'
   );
 
   return { title, sounds, thumbnail, transcript };
@@ -420,7 +424,7 @@ export function getThumbnailService(
 
 export async function getIIIFManifest(
   url: string
-): Promise<IIIFManifest | IIIFManifestV3> {
+): Promise<IIIFManifest | Manifest> {
   const manifest = await fetchJson(url);
   return manifest;
 }

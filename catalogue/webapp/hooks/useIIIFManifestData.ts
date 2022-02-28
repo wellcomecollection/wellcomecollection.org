@@ -14,10 +14,10 @@ import { Work } from '@weco/common/model/catalogue';
 import {
   AudioV3,
   IIIFManifest,
-  IIIFManifestV3,
   IIIFMediaElement,
   IIIFRendering,
 } from '../model/iiif';
+import { Manifest } from '@iiif/presentation-3';
 import { getDigitalLocationOfType } from '../utils/works';
 
 type IIIFManifestData = {
@@ -29,12 +29,12 @@ type IIIFManifestData = {
   iiifPresentationDownloadOptions?: IIIFRendering[];
   iiifDownloadEnabled?: boolean;
   firstChildManifestLocation?: string;
-  manifestV3: IIIFManifestV3;
+  manifestV3: Manifest;
 };
 
 function parseManifest(
   manifest: IIIFManifest,
-  manifestV3: IIIFManifestV3
+  manifestV3: Manifest
 ): IIIFManifestData {
   const imageCount = getCanvases(manifest).length;
   const childManifestsCount = manifest.manifests
@@ -91,7 +91,7 @@ export async function fetchIIIFPresentationManifest(
     if (iiifManifest && iiifManifestV3) {
       return parseManifest(
         iiifManifest as IIIFManifest,
-        iiifManifestV3 as IIIFManifestV3
+        iiifManifestV3 as Manifest
       );
     }
   } catch (e) {}
@@ -106,7 +106,7 @@ const blankLabel = { '': [] };
 const blankManifestV3 = {
   '@context': '',
   id: '',
-  type: '',
+  type: 'Manifest' as const,
   label: blankLabel,
   summary: blankLabel,
   homepage: [],

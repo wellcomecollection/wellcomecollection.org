@@ -2,10 +2,10 @@ import Router from 'next/router';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useEffect, useState, ReactElement, FunctionComponent } from 'react';
 import useInterval from '@weco/common/hooks/useInterval';
-import { IIIFMediaElementV3 } from '../../model/iiif';
+import { IIIFExternalWebResource } from '@iiif/presentation-3';
 
 type Props = {
-  audio: IIIFMediaElementV3;
+  audio: IIIFExternalWebResource;
 };
 const AudioPlayer: FunctionComponent<Props> = ({
   audio,

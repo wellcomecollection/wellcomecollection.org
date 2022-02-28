@@ -2,30 +2,31 @@ import { FC } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '../AudioPlayer/AudioPlayer';
-import { IIIFImageV3, IIIFMediaElementV3, IIIFTextV3 } from '../../model/iiif';
 import DownloadLink from '../DownloadLink/DownloadLink';
+import { IIIFExternalWebResource, ContentResource } from '@iiif/presentation-3';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
   items: {
-    sound: IIIFMediaElementV3;
+    sound: IIIFExternalWebResource;
     title?: string;
   }[];
-  thumbnail?: IIIFImageV3;
-  transcript?: IIIFTextV3;
+  thumbnail?: ContentResource;
+  transcript?: ContentResource;
   audioTitle?: string;
   workTitle: string;
 };
 
 const AudioList: FC<Props> = ({
   items,
-  // thumbnail,
+  // thumbnail, TODO: add thumbnail once placeholders have been removed from manifests
   transcript,
   workTitle,
 }) => {
   return (
     <div>
       {/* TODO: add thumbnail once placeholders have been removed from manifests */}
-      {/* {thumbnail && (
+      {/* {isNotUndefined(thumbnail) && isNotUndefined(thumbnail.id) && (
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <img src={thumbnail.id} alt="" />
         </Space>
@@ -61,7 +62,7 @@ const AudioList: FC<Props> = ({
           </Space>
         ))}
       </ol>
-      {transcript && (
+      {isNotUndefined(transcript) && isNotUndefined(transcript.id) && (
         <Space v={{ size: 's', properties: ['margin-top'] }}>
           <DownloadLink
             href={transcript.id}

@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import {
-  IIIFCanvas,
-  IIIFManifest,
-  IIIFManifestV3,
-  AuthService,
-  AudioV3,
-} from '../model/iiif';
+import { IIIFCanvas, IIIFManifest, AuthService, AudioV3 } from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
+import { Manifest } from '@iiif/presentation-3';
 import {
   getDownloadOptionsFromManifest,
   getVideo,
@@ -237,7 +232,6 @@ const ItemPage: NextPage<Props> = ({
               items={audio.sounds}
               thumbnail={audio.thumbnail}
               transcript={audio.transcript}
-              audioTitle={audio.title}
               workTitle={work.title}
             />
           </Layout12>
@@ -433,7 +427,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const [manifestOrCollection, manifestV3] = await Promise.all([
       manifestOrCollectionPromise as Promise<IIIFManifest>,
-      manifestV3Promise as Promise<IIIFManifestV3>,
+      manifestV3Promise as Promise<Manifest>,
     ]).catch(() => []);
 
     if (!manifestOrCollection) {
