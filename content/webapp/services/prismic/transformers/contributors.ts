@@ -44,7 +44,7 @@ export function transformContributorAgent(
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
         const link = asText(sameAs.link);
-        const title = asHtml(sameAs.title);
+        const title = asText(sameAs.title);
         return title && link ? { title, link } : undefined;
       })
       .filter(isNotUndefined)
