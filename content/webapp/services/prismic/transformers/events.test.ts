@@ -98,5 +98,5 @@ it('groups events by daterange', () => {
 it('returns the last end time from the lastest date', () => {
   const lastEndTime = getLastEndTime(eventTimes);
   const expectedEndTime = transformTimestamp('2020-02-18T19:00:00+0000');
-  expect(lastEndTime).toStrictEqual(expectedEndTime);
+  expect(lastEndTime?.toDate()).toStrictEqual(expectedEndTime);
 });
