@@ -39,11 +39,11 @@ describe('transformMediaObjectListSlice', () => {
     expect(mediaObjectList).toEqual({
       type: 'mediaObjectList',
       value: {
-        items: {
+        items: [{
           title: 'Only book for your household or bubble',
           text: null,
           image: null,
-        }
+        }]
       }
     });
   });
