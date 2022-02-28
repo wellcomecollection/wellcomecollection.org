@@ -1,17 +1,14 @@
 import {
   FilledLinkToDocumentField,
   PrismicDocument,
-  FilledImageFieldImage,
 } from '@prismicio/types';
-import * as prismicH from 'prismic-helpers-beta';
-import { isFilledLinkToDocumentWithData, isFilledLinkToPersonField, WithContributors, InferDataInterface, isFilledLinkToOrganisationField, DataInterface } from '../types';
+import { isFilledLinkToDocumentWithData, WithContributors, InferDataInterface, isFilledLinkToOrganisationField, isFilledLinkToPersonField } from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   asRichText,
   asText,
 } from '.';
-import { transformImage } from './images';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';
 
@@ -28,7 +25,7 @@ function transformCommonFields(agent:
   | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }) {
   return {
     id: agent.id,
-    description: transformRichTextField(agent.data.description),
+    description: asRichText(agent.data.description),
     image: agent.data.image || defaultContributorImage,
   };
 }
@@ -36,54 +33,16 @@ function transformCommonFields(agent:
 export function transformContributorAgent(
   agent: WithContributors['contributors'][number]['contributor']
 ): Contributor['contributor'] | undefined {
-<<<<<<< HEAD
-  if (isFilledLinkToDocumentWithData(agent)) {
-    const commonFields = {
-      id: agent.id,
-      description: asRichText(agent.data.description),
-      image: transformImage(agent.data.image) || defaultContributorImage,
-      sameAs: (agent.data.sameAs ?? [])
-        .map(sameAs => {
-          const link = asText(sameAs.link);
-          const title = prismicH.asText(sameAs.title);
-          return title && link ? { title, link } : undefined;
-        })
-        .filter(isNotUndefined),
-    };
-
-    // The .name field can be either RichText or Text.
-    const name = isString(agent.data.name)
-      ? asText(agent.data.name)
-      : Array.isArray(agent.data.name)
-      ? asText(agent.data.name)
-      : undefined;
-
-    if (agent.type === 'organisations') {
-      return {
-        type: agent.type,
-        name,
-        ...commonFields,
-      };
-    } else if (agent.type === 'people') {
-      return {
-        type: agent.type,
-        name,
-        ...commonFields,
-        // I'm not sure why I have to coerce this type here as it is that type?
-        pronouns: asText(agent.data.pronouns as KeyTextField),
-      };
-    }
-=======
   if (isFilledLinkToPersonField(agent)) {
     return {
       ...transformCommonFields(agent),
       type: agent.type,
-      name: transformKeyTextField(agent.data.name),
-      pronouns: transformKeyTextField(agent.data.pronouns),
+      name: asText(agent.data.name),
+      pronouns: asText(agent.data.pronouns),
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
-        const link = transformKeyTextField(sameAs.link);
-        const title = transformRichTextFieldToString(sameAs.title);
+        const link = asText(sameAs.link);
+        const title = asRichText(sameAs.title);
         return title && link ? { title, link } : undefined;
       })
       .filter(isNotUndefined)
@@ -92,18 +51,17 @@ export function transformContributorAgent(
     return {
       ...transformCommonFields(agent),
       type: agent.type,
-      name: transformRichTextFieldToString(agent.data.name),
+      name: asRichText(agent.data.name),
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
-        const link = transformKeyTextField(sameAs.link);
-        const title = transformKeyTextField(sameAs.title);
+        const link = asText(sameAs.link);
+        const title = asText(sameAs.title);
         return title && link ? { title, link } : undefined;
       })
       .filter(isNotUndefined)
     };
   } else {
     return undefined;
->>>>>>> Split the types for transforming contributors
   }
 }
 
