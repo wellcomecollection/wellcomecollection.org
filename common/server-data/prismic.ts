@@ -1,6 +1,4 @@
-import Prismic from '@prismicio/client';
 import { Query } from '@prismicio/types';
-import ResolvedApi from '@prismicio/client/types/ResolvedApi';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,
@@ -10,6 +8,8 @@ import {
   emptyGlobalAlert,
 } from '../services/prismic/documents';
 import { Handler } from './';
+import * as prismic from 'prismic-client-beta';
+import fetch from 'node-fetch';
 
 export const defaultValue = {
   globalAlert: emptyGlobalAlert(),
@@ -29,34 +29,35 @@ export const handler: Handler<PrismicData> = {
   fetch: fetchPrismicValues,
 };
 
-const fetchers: Record<Key, (api: ResolvedApi) => unknown> = {
-  globalAlert: async api => {
-    const document = await api.getSingle('global-alert');
+const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
+  globalAlert: async client => {
+    const document = await client.getSingle('global-alert');
     return document;
   },
 
-  popupDialog: async api => {
-    const document = await api.getSingle('popup-dialog');
+  popupDialog: async client => {
+    const document = await client.getSingle('popup-dialog');
     return document;
   },
 
-  collectionVenues: async api => {
-    return api.query([
-      Prismic.Predicates.any('document.type', ['collection-venue']),
-    ]);
+  collectionVenues: async client => {
+    return client.get({
+      predicates: [
+        prismic.predicate.any('document.type', ['collection-venue']),
+      ]
+    });
   },
 };
 
 async function fetchPrismicValues(): Promise<PrismicData> {
   // We should probably make this generic somewhere.
   // The only place we have it is JS not TS, so leaving it ungenerified for now
-  const api = await Prismic.getApi(
-    'https://wellcomecollection.cdn.prismic.io/api/v2'
-  );
+  const endpoint = prismic.getEndpoint('wellcomecollection');
+  const client = prismic.createClient(endpoint, { fetch });
 
   const keys = Object.keys(fetchers);
   const values = await Promise.allSettled(
-    Object.values(fetchers).map(fetcher => fetcher(api))
+    Object.values(fetchers).map(fetcher => fetcher(client))
   );
 
   const zipped = keys.reduce((acc, key, i) => {

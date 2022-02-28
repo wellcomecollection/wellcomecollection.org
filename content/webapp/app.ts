@@ -13,7 +13,6 @@ import {
   withCachedValues,
   route,
   handleAllRoute,
-  timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
 import {
   homepageId,
@@ -174,4 +173,3 @@ const appPromise = nextApp
   });
 
 export default appPromise;
-export const timers = middlewareTimers as NodeJS.Timer[];

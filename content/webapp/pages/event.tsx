@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from '@prismicio/client';
+import * as prismic from 'prismic-client-beta';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -183,7 +183,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
-        Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
+        prismic.predicate.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
