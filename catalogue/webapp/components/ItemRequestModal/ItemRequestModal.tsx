@@ -147,7 +147,7 @@ type RequestDialogProps = {
   isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: (string) => void;
+  confirmRequest: (date: Moment) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
