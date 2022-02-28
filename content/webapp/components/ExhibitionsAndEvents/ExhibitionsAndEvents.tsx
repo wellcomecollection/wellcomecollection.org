@@ -1,13 +1,14 @@
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+
+import { Exhibition } from '../../types/exhibitions';
+import { Event } from '../../types/events';
 import { Link } from '@weco/common/model/link';
 import CardGrid from '../CardGrid/CardGrid';
 import { FunctionComponent } from 'react';
 
 type Props = {
   exhibitions: Exhibition[];
-  events: UiEvent[];
-  extras?: (Exhibition | UiEvent)[];
+  events: Event[];
+  extras?: (Exhibition | Event)[];
   links?: Link[];
 };
 
@@ -25,7 +26,7 @@ const ExhibitionsAndEvents: FunctionComponent<Props> = ({
     exhibition => !exhibition.isPermanent
   );
 
-  const items: (Exhibition | UiEvent)[] = [
+  const items = [
     ...otherExhibitions,
     ...events,
     ...permanentExhibitions,

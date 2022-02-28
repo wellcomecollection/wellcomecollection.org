@@ -14,9 +14,9 @@ import type {
 } from '../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
-import { asText } from '../../services/prismic/parsers';
 import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
+import * as prismicH from 'prismic-helpers-beta';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -331,7 +331,7 @@ export function parseCollectionVenue(
     },
     image: data.image,
     url: 'url' in data.link ? data.link.url : undefined,
-    linkText: asText(data?.linkText),
+    linkText: prismicH.asText(data?.linkText),
   };
 }
 
@@ -355,14 +355,13 @@ export function parseCollectionVenues(
 export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
-  const todaysDate = london().startOf('day');
+  const todaysDate = london();
   const todayString = todaysDate.format('dddd');
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
-    venue.openingHours.exceptional.find(i => {
-      const dayOfWeek = london(i.overrideDate).startOf('day');
-      return todaysDate.isSame(dayOfWeek);
-    });
+    venue.openingHours.exceptional.find(i =>
+      todaysDate.startOf('day').isSame(i.overrideDate.startOf('day'))
+    );
   const regularOpeningHours =
     venue.openingHours.regular &&
     venue.openingHours.regular.find(i => i.dayOfWeek === todayString);

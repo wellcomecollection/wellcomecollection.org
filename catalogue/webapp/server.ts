@@ -1,4 +1,4 @@
-import appPromise, { timers } from './app';
+import appPromise from './app';
 import { clear as clearServerDataTimers } from '@weco/common/server-data';
 
 const port = process.env.PORT ?? 3000;
@@ -23,9 +23,6 @@ const serverPromise = appPromise.then(app => {
 
   server.on('close', () => {
     clearServerDataTimers();
-    for (const timer of timers) {
-      clearInterval(timer);
-    }
   });
 
   process.on('SIGTERM', close);

@@ -4,9 +4,9 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { classNames, font } from '@weco/common/utils/classnames';
 import type { Period } from '@weco/common/model/periods';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import type { UiEvent } from '@weco/common/model/events';
-import type { Article } from '@weco/common/model/articles';
+import { Exhibition } from '../../types/exhibitions';
+import { Event } from '../../types/events';
+import { Article } from '../../types/articles';
 import type {
   PaginatedResults,
   HTMLString,
@@ -22,7 +22,7 @@ import { Guide } from '../../types/guides';
 
 type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
-  | PaginatedResults<UiEvent>
+  | PaginatedResults<Event>
   | PaginatedResults<Book>
   | PaginatedResults<Article>
   | PaginatedResults<Guide>;

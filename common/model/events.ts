@@ -9,7 +9,7 @@ import { Season } from './seasons';
 import { HTMLString } from '../services/prismic/types';
 import { Label } from './labels';
 
-type DateTimeRange = {
+export type DateTimeRange = {
   startDateTime: Date;
   endDateTime: Date;
 };
@@ -108,7 +108,6 @@ export type Event = GenericContentFields & {
   availableOnline: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  prismicDocument: any;
 };
 
 export type EventPromo = {

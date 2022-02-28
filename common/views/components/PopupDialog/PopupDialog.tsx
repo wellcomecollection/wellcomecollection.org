@@ -16,7 +16,6 @@ import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { parseLink } from '@weco/common/services/prismic/parsers';
 import { chat, clear } from '@weco/common/icons';
 import { HTMLString } from '../../../services/prismic/types';
 
@@ -345,7 +344,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           </div>
         </Space>
         <PopupDialogCTA
-          href={parseLink(link)}
+          href={link || undefined}
           ref={ctaRef}
           tabIndex={isActive ? 0 : -1}
           onKeyDown={handleTrapEndKeyDown}

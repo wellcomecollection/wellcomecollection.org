@@ -4,7 +4,7 @@ import {
   UiImageProps,
   UiImage,
 } from '@weco/common/views/components/Images/Images';
-import { Exhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '../../types/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
 import {
   Article,
@@ -22,7 +22,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '../../services/prismic/link-resolver';
 
 type PartialFeaturedCard = {
   id: string;

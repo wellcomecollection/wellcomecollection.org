@@ -7,13 +7,8 @@ import {
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
-import {
-  asText,
-  isEmptyHtmlString,
-} from '@weco/common/services/prismic/parsers';
-import { HTMLStringBlock } from '@weco/common/services/prismic/types';
 import { ImagePromo } from '@weco/common/model/image-promo';
-import { transformTaslFromString } from '.';
+import { asRichText, asText, transformTaslFromString } from '.';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -47,9 +42,7 @@ export function transformCaptionedImage(
   const image = crop ? frag.image[crop] : frag.image;
   return {
     image: transformImage(image) || placeHolderImage,
-    caption: !isEmptyHtmlString(frag.caption)
-      ? (frag.caption as HTMLStringBlock[])
-      : [],
+    caption: asRichText(frag.caption) || [],
   };
 }
 

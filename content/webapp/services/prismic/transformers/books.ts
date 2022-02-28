@@ -2,17 +2,16 @@ import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
-  transformKeyTextField,
-  transformRichTextFieldToString,
+  asRichText,
+  asText,
+  transformTimestamp,
+  transformSingleLevelGroup,
 } from '.';
 import { isFilledLinkToWebField } from '../types';
-import {
-  asHtml,
-  parseSingleLevelGroup,
-  parseTimestamp,
-} from '@weco/common/services/prismic/parsers';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
@@ -22,30 +21,31 @@ export function transformBook(document: BookPrismicDocument): Book {
   const cover =
     data.promo &&
     (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : undefined);
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
+  const contributors = transformContributors(document);
 
   return {
     type: 'books',
     ...genericFields,
-    subtitle: transformRichTextFieldToString(data.subtitle),
+    subtitle: asText(data.subtitle),
     orderLink: isFilledLinkToWebField(data.orderLink)
       ? data.orderLink.url
       : undefined,
-    price: transformKeyTextField(data.price),
-    format: transformKeyTextField(data.format),
-    extent: transformKeyTextField(data.extent),
-    isbn: transformKeyTextField(data.isbn),
+    price: asText(data.price),
+    format: asText(data.format),
+    extent: asText(data.extent),
+    isbn: asText(data.isbn),
     reviews: data.reviews?.map(review => {
       return {
-        text: review.text && asHtml(review.text),
-        citation: review.citation && asHtml(review.citation),
+        text: review.text && asRichText(review.text) || [],
+        citation: review.citation && asRichText(review.citation) || [],
       };
     }),
-    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     cover: cover && cover.image,
     seasons,
-    prismicDocument: document,
+    contributors,
   };
 }

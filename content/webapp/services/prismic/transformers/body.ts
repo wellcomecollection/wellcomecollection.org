@@ -17,13 +17,6 @@ import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
-import {
-  parseLabelType,
-  parseLink,
-  parseRichText,
-  parseTitle,
-  asText,
-} from '@weco/common/services/prismic/parsers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
@@ -32,10 +25,9 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformStructuredText, transformTaslFromString } from '.';
+import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-
-export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
+import { Weight } from '@weco/common/model/generic-content-fields';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -101,8 +93,8 @@ export function transformMediaObjectListSlice(
               ? mediaObject.image
               : undefined;
             return {
-              title: title ? parseTitle(title) : null,
-              text: text ? transformStructuredText(text) || null : null,
+              title: title ? asTitle(title) : null,
+              text: text ? asRichText(text) || null : null,
               image: transformImage(image) || null,
             };
           }
@@ -112,14 +104,14 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(team: TeamPrismicDocument) {
+export function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
 
   return {
-    title: asText(title),
-    subtitle: asText(subtitle),
+    title: asTitle(title),
+    subtitle: asText(subtitle) || null,
     email,
     phone,
   };
@@ -168,8 +160,8 @@ export function transformDeprecatedImageListSlice(
     weight: getWeight(slice.slice_label),
     value: {
       items: slice.items.map(item => ({
-        title: parseTitle(item.title),
-        subtitle: parseTitle(item.subtitle),
+        title: asTitle(item.title),
+        subtitle: asTitle(item.subtitle),
         // TODO: It's questionable whether we should be assigning a 'caption'
         // here or using a different transform function, but as this slice is
         // deprecated I don't really care.  Hopefully we'll just delete this
@@ -177,7 +169,7 @@ export function transformDeprecatedImageListSlice(
         //
         // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7680
         image: transformCaptionedImage({ ...item, caption: [] }),
-        description: transformStructuredText(item.description) || [],
+        description: asRichText(item.description) || [],
       })),
     },
   };
@@ -194,7 +186,7 @@ export function transformGifVideoSlice(
         type: 'gifVideo',
         weight: getWeight(slice.slice_label),
         value: {
-          caption: parseRichText(slice.primary.caption),
+          caption: asRichText(slice.primary.caption),
           videoUrl: slice.primary.video.url,
           playbackRate,
           tasl: transformTaslFromString(slice.primary.tasl),
@@ -223,10 +215,10 @@ function transformTitledTextItem({
   label: RelationField<'labels'>;
 }) {
   return {
-    title: parseTitle(title),
-    text: transformStructuredText(text),
-    link: parseLink(link),
-    label: isFilledLinkToDocumentWithData(label) ? parseLabelType(label) : null,
+    title: asTitle(title),
+    text: asRichText(text),
+    link: transformLink(link),
+    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : undefined,
   };
 }
 
@@ -247,8 +239,8 @@ export function transformDiscussionSlice(
   return {
     type: 'discussion',
     value: {
-      title: parseTitle(slice.primary.title),
-      text: transformStructuredText(slice.primary.text) || [],
+      title: asTitle(slice.primary.title),
+      text: asRichText(slice.primary.text) || [],
     },
   };
 }

@@ -75,7 +75,6 @@ const baseEvent: UiEvent = {
   seasons: [],
   isOnline: false,
   availableOnline: false,
-  prismicDocument: undefined,
 };
 
 export const eventWithOneLocation: UiEvent = {

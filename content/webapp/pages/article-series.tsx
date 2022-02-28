@@ -6,8 +6,8 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import type { ArticleSeries } from '@weco/common/model/article-series';
-import type { Article } from '@weco/common/model/articles';
+import { Series } from '../types/series';
+import { Article } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -25,7 +25,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 
 type Props = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 } & WithGaDimensions;
 
@@ -160,7 +160,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        document={series.prismicDocument}
+        contributors={series.contributors}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

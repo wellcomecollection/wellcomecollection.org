@@ -17,12 +17,6 @@ export type PrismicDocument = {
   url?: string;
 };
 
-export type PrismicLink = {
-  link_type: 'Web' | 'Document' | 'Media';
-  url?: string;
-  id?: string;
-};
-
 export type HTMLSpanTypes =
   | 'heading2'
   | 'heading3'
@@ -48,8 +42,6 @@ export type HTMLStringBlock = {
 };
 
 export type HTMLString = HTMLStringBlock[];
-
-export type PrismicFragment = Record<string, unknown>;
 
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API

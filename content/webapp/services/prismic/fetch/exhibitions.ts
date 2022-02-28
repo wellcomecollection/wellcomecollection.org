@@ -130,22 +130,22 @@ export const fetchExhibitionRelatedContent = async (
   ids: string[]
 ): Promise<Query<ExhibitionRelatedContentPrismicDocument>> => {
   const fetchLinks = [
-    eventAccessOptionsFields,
-    teamsFields,
-    eventFormatsFields,
-    placesFields,
-    interpretationTypesFields,
-    audiencesFields,
-    organisationsFields,
-    peopleFields,
-    contributorsFields,
-    eventSeriesFields,
-    eventPoliciesFields,
-    contributorsFields,
-    articleSeriesFields,
-    articleFormatsFields,
-    exhibitionFields,
-    articlesFields,
+    ...eventAccessOptionsFields,
+    ...teamsFields,
+    ...eventFormatsFields,
+    ...placesFields,
+    ...interpretationTypesFields,
+    ...audiencesFields,
+    ...organisationsFields,
+    ...peopleFields,
+    ...contributorsFields,
+    ...eventSeriesFields,
+    ...eventPoliciesFields,
+    ...contributorsFields,
+    ...articleSeriesFields,
+    ...articleFormatsFields,
+    ...exhibitionFields,
+    ...articlesFields,
   ];
 
   return client.getByIDs<ExhibitionRelatedContentPrismicDocument>(ids, {

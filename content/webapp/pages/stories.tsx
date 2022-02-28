@@ -3,7 +3,7 @@ import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -84,7 +84,7 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
           </Space>
         </Space>
       </Layout12>
-      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
+      <CardGrid items={series.items as Article[]} hidePromoText={true} itemsPerRow={3} />
     </div>
   );
 };
@@ -234,12 +234,7 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo
-                        article={
-                          article.prismicDocument as ArticlePrismicDocument
-                        }
-                        position={i}
-                      />
+                      <StoryPromo article={article} position={i}/>
                     </div>
                   );
                 })}

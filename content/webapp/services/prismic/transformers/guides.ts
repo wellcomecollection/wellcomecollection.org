@@ -1,16 +1,11 @@
-import { Format as DeprecatedFormat } from '@weco/common/model/format';
 import { Guide, GuideFormat } from '../../../types/guides';
 import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import {
-  parseFormat,
-  parseOnThisPage,
-  parseTimestamp,
-} from '@weco/common/services/prismic/parsers';
-import { transformGenericFields } from '.';
+import { asHtml, asTitle, transformFormat, transformGenericFields, transformTimestamp } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
+import { transformOnThisPage } from './pages';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
   const { data } = document;
@@ -24,24 +19,22 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
   const promo = genericFields.promo;
   return {
     type: 'guides',
-    format: data.format && parseFormat(data.format),
+    format: transformFormat(document),
     ...genericFields,
-    onThisPage: data.body ? parseOnThisPage(data.body) : [],
+    onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished && parseTimestamp(data.datePublished),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
     siteSection: siteSection,
-    prismicDocument: document,
   };
 }
 
 export function transformGuideFormat(
   document: GuideFormatPrismicDocument
 ): GuideFormat {
-  const format: DeprecatedFormat = parseFormat(document);
-
   return {
-    ...format,
-    prismicDocument: document,
+    id: document.id,
+    title: asTitle(document.data.title),
+    description: asHtml(document.data.description),
   };
 }

@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next';
-import { EventSeries } from '@weco/common/model/event-series';
+import { EventSeries } from '../types/event-series';
 import { UiEvent } from '@weco/common/model/events';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -158,7 +158,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        document={series.prismicDocument}
+        contributors={series.contributors}
       >
         {upcomingEvents.length > 0 && (
           <SearchResults items={upcomingEvents} title={`What's next`} />

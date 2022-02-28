@@ -1,3 +1,4 @@
+import { Picture } from '@weco/common/model/picture';
 import { Image } from '.';
 
 const sizes = [160, 180, 282, 320, 420, 600, 880, 960, 1024, 1338];
@@ -8,7 +9,7 @@ type Params = {
 };
 
 export function getImageUrlAtSize(
-  image: Image,
+  image: Image | Picture,
   params: Params
 ): string | undefined {
   // There are a few pieces of content that don't have 16:9 crops due to them being published

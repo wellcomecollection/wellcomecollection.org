@@ -28,7 +28,7 @@ export const pageWithoutBody: PagePrismicDocument = {
 
 describe('pages', () => {
   describe('parsePage', () => {
-    describe('parseOnThisPage', () => {
+    describe('transformOnThisPage', () => {
       it(`Object onThisPage should return [] if body does not exist`, () => {
         const page = transformPage(pageWithoutBody);
         expect(Array.isArray(page.onThisPage)).toBeTruthy();

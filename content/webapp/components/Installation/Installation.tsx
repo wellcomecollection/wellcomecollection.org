@@ -6,7 +6,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition as InstallationType } from '../../types/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
@@ -19,11 +19,11 @@ import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions
 import { transformExhibition } from '../../services/prismic/transformers/exhibitions';
 
 type Props = {
-  installation: UiExhibition;
+  installation: InstallationType;
 };
 
 const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
-  const [partOf, setPartOf] = useState<Exhibition>();
+  const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(result => {
       if (isNotUndefined(result)) {
@@ -114,7 +114,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
         Header={Header}
         Body={<Body body={installation.body} pageId={installation.id} />}
         seasons={installation.seasons}
-        document={installation.prismicDocument}
+        contributors={installation.contributors}
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>

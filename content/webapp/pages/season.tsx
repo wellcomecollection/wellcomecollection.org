@@ -109,7 +109,6 @@ const SeasonPage = ({
         id={season.id}
         Header={Header}
         Body={<Body body={season.body} pageId={season.id} />}
-        document={season.prismicDocument}
         hideContributors={true}
       />
 

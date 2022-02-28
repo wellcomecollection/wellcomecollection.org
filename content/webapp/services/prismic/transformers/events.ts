@@ -1,6 +1,7 @@
 import {
   Audience,
   DateRange,
+  DateTimeRange,
   EventTime,
   Interpretation,
   Team,
@@ -14,16 +15,8 @@ import {
 import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
-import {
-  asText,
-  parseFormat,
-  parseLabelType,
-  parseSingleLevelGroup,
-  parseTimestamp,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
 import { isPast } from '@weco/common/utils/dates';
-import { transformGenericFields } from '.';
+import { asText, asTitle, transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -36,6 +29,10 @@ import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '../types';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { EventSeriesPrismicDocument } from '../types/event-series';
+import { PlacePrismicDocument } from '../types/places';
+import { transformContributors } from './contributors';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -78,9 +75,11 @@ function determineDisplayTime(times: EventTime[]): EventTime {
 }
 
 export function getLastEndTime(times: EventTime[]) {
-  return times
-    .map(({ range: { endDateTime } }) => london(endDateTime))
-    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b));
+  return times.length > 0
+    ? times
+        .map(({ range: { endDateTime } }) => london(endDateTime))
+        .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+    : undefined;
 }
 
 export function transformEventPolicyLabels(
@@ -97,7 +96,8 @@ export function transformEventPolicyLabels(
     .map(label => label[labelKey])
     .filter(Boolean)
     .filter(label => label.isBroken === false)
-    .map(label => parseLabelType(label));
+    .filter(label => isFilledLinkToDocumentWithData(label))
+    .map(label => transformLabelType(label));
 }
 
 export function transformEvent(
@@ -121,10 +121,10 @@ export function transformEvent(
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
-              title: parseTitle(interpretation.interpretationType.data?.title),
-              abbreviation: asText(
-                interpretation.interpretationType.data?.abbreviation
-              ),
+              title: asTitle(interpretation.interpretationType.data?.title || []),
+              abbreviation: interpretation.interpretationType.data?.abbreviation
+                ? asText(interpretation.interpretationType.data?.abbreviation)
+                : undefined,
               description: interpretation.interpretationType.data
                 ?.description as HTMLString,
               primaryDescription: interpretation.interpretationType.data
@@ -149,7 +149,9 @@ export function transformEvent(
       link(audience.audience)
         ? {
             id: audience.audience.id,
-            title: asText(audience.audience.data?.title),
+            title: audience.audience.data?.title
+              ? asTitle(audience.audience.data?.title)
+              : '',
             description: audience.audience.data?.description as
               | HTMLString
               | undefined,
@@ -178,27 +180,28 @@ export function transformEvent(
         }
       : undefined;
 
-  const series = parseSingleLevelGroup(data.series, 'series').map(series => {
-    return transformEventSeries(series);
-  });
+  const series = transformSingleLevelGroup(data.series, 'series').map(
+    series => transformEventSeries(series as EventSeriesPrismicDocument)
+  );
 
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
 
   const times: EventTime[] = (data.times || [])
-    .map(({ startDateTime, endDateTime, isFullyBooked }) =>
-      // Annoyingly prismic puts blanks in here
-      startDateTime && endDateTime
+    .map(({ startDateTime, endDateTime, isFullyBooked }) => {
+      const range = {
+        startDateTime: transformTimestamp(startDateTime),
+        endDateTime: transformTimestamp(endDateTime),
+      };
+
+      return isNotUndefined(range.startDateTime) && isNotUndefined(range.endDateTime)
         ? {
-            range: {
-              startDateTime: parseTimestamp(startDateTime),
-              endDateTime: parseTimestamp(endDateTime),
-            },
-            isFullyBooked,
-          }
-        : undefined
-    )
+          range: range as DateTimeRange,
+          isFullyBooked
+        }
+        : undefined;
+    })
     .filter(isNotUndefined);
 
   const displayTime = determineDisplayTime(times);
@@ -214,9 +217,11 @@ export function transformEvent(
     };
   });
 
-  const locations = parseSingleLevelGroup(data.locations, 'location').map(
-    location => transformPlace(location)
+  const locations = transformSingleLevelGroup(data.locations, 'location').map(
+    location => transformPlace(location as PlacePrismicDocument)
   );
+
+  const contributors = transformContributors(document);
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
@@ -234,7 +239,7 @@ export function transformEvent(
         : undefined,
     bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
-    format: data.format && parseFormat(data.format),
+    format: transformFormat(document),
     interpretations,
     policies: Array.isArray(data.policies)
       ? transformEventPolicyLabels(data.policies, 'policy')
@@ -242,6 +247,7 @@ export function transformEvent(
     hasEarlyRegistration: Boolean(data.hasEarlyRegistration),
     series,
     seasons,
+    contributors,
     scheduleLength,
     schedule,
     backgroundTexture:
@@ -251,8 +257,8 @@ export function transformEvent(
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
-    ticketSalesStart: parseTimestamp(data.ticketSalesStart),
-    times: times,
+    ticketSalesStart: transformTimestamp(data.ticketSalesStart),
+    times,
     displayStart: (displayTime && displayTime.range.startDateTime) || null,
     displayEnd: (displayTime && displayTime.range.endDateTime) || null,
     dateRange: determineDateRange(times),
@@ -260,7 +266,6 @@ export function transformEvent(
     isRelaxedPerformance: isRelaxedPerformance === 'yes',
     isOnline,
     availableOnline,
-    prismicDocument: document,
   };
 
   const eventFormat = event.format

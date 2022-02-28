@@ -8,30 +8,46 @@ import {
   ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
-import {
-  HTMLString,
-  PaginatedResults,
-} from '@weco/common/services/prismic/types';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import {
-  asHtml,
-  asText,
-  isEmptyHtmlString,
-  parseSingleLevelGroup,
-  parseTimestamp,
-  parseTitle,
-} from '@weco/common/services/prismic/parsers';
 import { link } from './vendored-helpers';
-import { parseResourceTypeList } from '@weco/common/services/prismic/exhibitions';
-import { transformGenericFields } from '.';
+import { asHtml, asRichText, asText, asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
-import { ExhibitionFormat } from '@weco/common/model/exhibitions';
+import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
+import { Resource } from '@weco/common/model/resource';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
+
+// TODO: Use better types than Record<string, any>.
+//
+// This was lifted directly from a JavaScript implementation when we converted the
+// codebase to TypeScript (previously it was `Object`), but I can't find any exhibition
+// pages where we actually define/use any resources (or at least not any picked up by
+// the previous implementation), so I couldn't test it.
+function transformResourceTypeList(
+  fragment: Record<string, any>[],
+  labelKey: string
+): Resource[] {
+  return fragment
+    .map(label => label[labelKey])
+    .filter(label => label && label.isBroken === false)
+    .map(label => transformResourceType(label.data));
+}
+
+function transformResourceType(fragment: Record<string, any>): Resource {
+  return {
+    id: fragment.id,
+    title: asText(fragment.title),
+    description: fragment.description,
+    icon: fragment.icon,
+  };
+}
 
 function transformExhibitionFormat(
   format: ExhibitionFormatPrismicDocument
@@ -76,16 +92,12 @@ export function transformExhibition(
     : undefined;
 
   const url = `/exhibitions/${id}`;
-  const title = parseTitle(data.title);
-  const start = parseTimestamp(data.start);
-  const end = data.end && parseTimestamp(data.end);
+  const title = asTitle(data.title);
+  const start = transformTimestamp(data.start)!;
+  const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
-  const bslInfo = isEmptyHtmlString(data.bslInfo)
-    ? undefined
-    : (data.bslInfo as HTMLString);
-  const audioDescriptionInfo = isEmptyHtmlString(data.audioDescriptionInfo)
-    ? undefined
-    : (data.audioDescriptionInfo as HTMLString);
+  const bslInfo = asRichText(data.bslInfo);
+  const audioDescriptionInfo = asRichText(data.audioDescriptionInfo);
 
   const promoCrop = '16:9';
   const promoImage =
@@ -93,20 +105,22 @@ export function transformExhibition(
       ? transformPromoToCaptionedImage(data.promo, promoCrop)
       : undefined;
 
-  const seasons = parseSingleLevelGroup(data.seasons, 'season').map(season => {
-    return transformSeason(season);
-  });
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
 
-  const exhibits = parseSingleLevelGroup(data.exhibits, 'item').map(item => {
+  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item').map(exhibit => {
     return {
       exhibitType: 'exhibitions',
-      item: transformExhibition(item),
+      item: transformExhibition(exhibit as ExhibitionPrismicDocument),
     };
   });
 
   const place = isFilledLinkToDocumentWithData(data.place)
     ? transformPlace(data.place)
     : undefined;
+
+  const contributors = transformContributors(document);
 
   const exhibition = {
     ...genericFields,
@@ -120,6 +134,7 @@ export function transformExhibition(
     audioDescriptionInfo,
     place,
     exhibits,
+    contributors,
     promo: promoImage && {
       id,
       format,
@@ -134,11 +149,10 @@ export function transformExhibition(
     },
     featuredImageList: promos,
     resources: Array.isArray(data.resources)
-      ? parseResourceTypeList(data.resources, 'resource')
+      ? transformResourceTypeList(data.resources, 'resource')
       : [],
     relatedIds,
     seasons,
-    prismicDocument: document,
   };
 
   const labels = exhibition.isPermanent

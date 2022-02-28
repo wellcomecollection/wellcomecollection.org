@@ -10,13 +10,13 @@ import { transformEventSeries } from './event-series';
 import { transformEvent } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
-import { Page } from 'types/pages';
-import { EventSeries } from 'types/event-series';
-import { Book } from 'types/books';
-import { Event } from 'types/events';
-import { Article } from 'types/articles';
-import { Exhibition } from 'types/exhibitions';
-import { Series } from 'types/series';
+import { Page } from '../../../types/pages';
+import { EventSeries } from '../../../types/event-series';
+import { Book } from '../../../types/books';
+import { Event } from '../../../types/events';
+import { Article } from '../../../types/articles';
+import { Exhibition } from '../../../types/exhibitions';
+import { Series } from '../../../types/series';
 
 // TODO:
 // * free text search

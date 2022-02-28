@@ -1,6 +1,4 @@
-// @flow
 import { FC } from 'react';
-// $FlowFixMe (ts)
 import { grid, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';

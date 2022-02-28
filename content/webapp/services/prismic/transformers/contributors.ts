@@ -8,19 +8,18 @@ import { isFilledLinkToDocumentWithData, WithContributors } from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
-  transformKeyTextField,
-  transformRichTextField,
-  transformRichTextFieldToString,
+  asRichText,
+  asText,
 } from '.';
+import { transformImage } from './images';
+import { ImageType } from '@weco/common/model/image';
 
-const defaultContributorImage: FilledImageFieldImage = {
-  dimensions: {
-    width: 64,
-    height: 64,
-  },
-  url: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
+const defaultContributorImage: ImageType = {
+  width: 64,
+  height: 64,
+  contentUrl: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
   alt: '',
-  copyright: null,
+  crops: {},
 };
 
 type Agent = WithContributors['contributors'][number]['contributor'];
@@ -31,11 +30,11 @@ export function transformContributorAgent(
   if (isFilledLinkToDocumentWithData(agent)) {
     const commonFields = {
       id: agent.id,
-      description: transformRichTextField(agent.data.description),
-      image: agent.data.image || defaultContributorImage,
+      description: asRichText(agent.data.description),
+      image: transformImage(agent.data.image) || defaultContributorImage,
       sameAs: (agent.data.sameAs ?? [])
         .map(sameAs => {
-          const link = transformKeyTextField(sameAs.link);
+          const link = asText(sameAs.link);
           const title = prismicH.asText(sameAs.title);
           return title && link ? { title, link } : undefined;
         })
@@ -44,9 +43,9 @@ export function transformContributorAgent(
 
     // The .name field can be either RichText or Text.
     const name = isString(agent.data.name)
-      ? transformKeyTextField(agent.data.name)
+      ? asText(agent.data.name)
       : Array.isArray(agent.data.name)
-      ? transformRichTextFieldToString(agent.data.name)
+      ? asText(agent.data.name)
       : undefined;
 
     if (agent.type === 'organisations') {
@@ -61,7 +60,7 @@ export function transformContributorAgent(
         name,
         ...commonFields,
         // I'm not sure why I have to coerce this type here as it is that type?
-        pronouns: transformKeyTextField(agent.data.pronouns as KeyTextField),
+        pronouns: asText(agent.data.pronouns as KeyTextField),
       };
     }
   }
@@ -82,12 +81,12 @@ export function transformContributors(
       const role = roleDocument
         ? {
             id: roleDocument.id,
-            title: transformRichTextFieldToString(roleDocument.data.title),
-            describedBy: transformKeyTextField(roleDocument.data.describedBy),
+            title: asText(roleDocument.data.title),
+            describedBy: asText(roleDocument.data.describedBy),
           }
         : undefined;
 
-      const description = transformRichTextField(contributor.description);
+      const description = asRichText(contributor.description);
 
       return agent
         ? {

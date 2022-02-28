@@ -3,7 +3,7 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { ArticleSeries } from '@weco/common/model/article-series';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../../types/articles';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
