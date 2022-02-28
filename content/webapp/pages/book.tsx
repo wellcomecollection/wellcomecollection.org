@@ -4,7 +4,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '../components/BookImage/BookImage';
@@ -149,14 +148,13 @@ const BookPage: FunctionComponent<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'book'}
       siteSection={null}
-      imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
-      imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
+      image={book.image}
     >
       <ContentPage
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        document={book.prismicDocument!}
+        contributors={book.contributors}
         seasons={book.seasons}
       >
         <Fragment>

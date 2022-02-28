@@ -1,9 +1,9 @@
 import { Component, Fragment } from 'react';
 import SearchResults from './SearchResults';
 import { grid } from '@weco/common/utils/classnames';
-import { search } from '@weco/common/services/prismic/search';
-import { MultiContent } from '@weco/common/model/multi-content';
 import Space from '@weco/common/views/components/styled/Space';
+import { fetchMultiContentClientSide } from '../../services/prismic/fetch/multi-content';
+import { MultiContent } from '../../services/prismic/transformers/multi-content';
 
 type Props = {
   title?: string;
@@ -18,8 +18,11 @@ class AsyncSearchResults extends Component<Props, State> {
   };
 
   async componentDidMount() {
-    const searchResponse = await search(null, this.props.query);
-    this.setState({ items: searchResponse.results });
+    const multiContentQuery = await fetchMultiContentClientSide(
+      this.props.query
+    );
+
+    this.setState({ items: multiContentQuery?.results || [] });
   }
   render() {
     return (

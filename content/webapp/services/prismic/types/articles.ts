@@ -17,6 +17,7 @@ import {
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
+  WithContributors,
 } from '.';
 import { EventPrismicDocument } from './events';
 
@@ -41,7 +42,7 @@ export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
   'events.interpretations',
   'events.series',
   'events.times',
-  'events.place',
+  'events.locations',
 ];
 
 export type ArticlePrismicDocument = PrismicDocument<
@@ -54,6 +55,7 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroVisitItem: LinkField;
     outroVisitLinkText: RichTextField;
   } & WithSeries &
+    WithContributors &
     WithSeasons &
     WithArticleFormat &
     WithExhibitionParents &

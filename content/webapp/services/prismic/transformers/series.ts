@@ -1,14 +1,51 @@
-import { parseArticleSeries } from '@weco/common/services/prismic/article-series';
-import { ArticleSeries as DeprecatedArticleSeries } from '@weco/common/model/article-series';
 import { Series } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
+import { asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import { london } from '@weco/common/utils/format-date';
+import { transformSeason } from './seasons';
+import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { transformContributors } from './contributors';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformSeries(document: SeriesPrismicDocument): Series {
-  const series: DeprecatedArticleSeries = parseArticleSeries(document);
+  const { data } = document;
+  const genericFields = transformGenericFields(document);
+  const standfirst = genericFields.standfirst || undefined;
+  const color = data.color || undefined;
+  const schedule: ArticleScheduleItem[] = data.schedule
+    ? data.schedule
+        .map((item, i) => {
+          const title = asTitle(item.title);
+
+          return title.length > 0
+            ? {
+              type: 'article-schedule-items',
+              id: `${document.id}_${i}`,
+              title,
+              publishDate: london(transformTimestamp(item.publishDate)).toDate(),
+              partNumber: i + 1,
+              color,
+            }
+            : undefined;
+        })
+        .filter(item => isNotUndefined(item)) as ArticleScheduleItem[]
+    : [];
+  const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
+  const contributors = transformContributors(document);
 
   return {
-    ...series,
-    prismicDocument: document,
+    ...genericFields,
+    type: 'series',
+    labels,
+    schedule,
+    standfirst,
+    color,
+    items: [],
+    seasons,
+    contributors,
   };
 }

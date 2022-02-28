@@ -1,5 +1,5 @@
 import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
-import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
+import BannerCard from '@weco/content/components/BannerCard/BannerCard';
 import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';

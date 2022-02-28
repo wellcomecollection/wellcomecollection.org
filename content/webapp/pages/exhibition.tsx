@@ -1,6 +1,6 @@
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
+import { Page as PageType } from '../types/pages';
 import Exhibition from '../components/Exhibition/Exhibition';
+import { Exhibition as ExhibitionType} from '../types/exhibitions';
 import Installation from '../components/Installation/Installation';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { FC } from 'react';
@@ -15,8 +15,8 @@ import { transformExhibition } from 'services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
-  exhibition: UiExhibition;
-  pages: Page[];
+  exhibition: ExhibitionType;
+  pages: PageType[];
 } & WithGaDimensions;
 
 const ExhibitionPage: FC<Props> = ({ exhibition, pages }) => {

@@ -20,8 +20,7 @@ const ProgressPage: NextPage = () => (
     openGraphType={'website'}
     jsonLd={webpageLd({ url: '/works/progress' })}
     siteSection={'collections'}
-    imageUrl={undefined}
-    imageAltText={undefined}
+    image={undefined}
   >
     <Space v={{ size: 'l', properties: ['padding-top'] }}>
       <div className="container">

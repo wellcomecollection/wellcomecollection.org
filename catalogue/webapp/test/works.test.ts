@@ -11,6 +11,8 @@ import { getTabbableIds } from '../components/ArchiveTree/ArchiveTree';
 import {
   workFixture,
   workWithPartOf,
+  workWithLibrarySeriesPartOf,
+  workWithMixedPartOf,
 } from '@weco/common/test/fixtures/catalogueApi/work';
 import { uiTree, idArray } from '../__mocks__/uiTree';
 
@@ -62,6 +64,13 @@ describe('getItemIdentifiersWith', () => {
 });
 
 describe('getArchiveAncestorArray', () => {
+  it('Does not get the ancestors of a non-archive work', () => {
+    const archiveAncestorArray = getArchiveAncestorArray(
+      workWithLibrarySeriesPartOf
+    );
+    expect(archiveAncestorArray).toStrictEqual([]);
+  });
+
   it('gets the ancestors of an archive work', () => {
     const archiveAncestorArray = getArchiveAncestorArray(workWithPartOf);
     expect(archiveAncestorArray).toStrictEqual([
@@ -190,6 +199,47 @@ describe('getArchiveAncestorArray', () => {
         totalDescendentParts: 9,
         totalParts: 9,
         type: 'Series',
+      },
+    ]);
+  });
+
+  it('Does not return non-archive parents', () => {
+    const archiveAncestorArray = getArchiveAncestorArray(workWithMixedPartOf);
+    expect(archiveAncestorArray).toStrictEqual([
+      {
+        id: 'f00dcafe',
+        referenceNumber: 'a',
+        title: 'An Archive Series',
+        type: 'Series',
+        totalParts: 1,
+        totalDescendentParts: 2,
+        alternativeTitles: [],
+        availableOnline: false,
+        availabilities: [],
+      },
+      {
+        id: 'cafebeef',
+        referenceNumber: 'a/b',
+        title: 'An Archive Collection',
+        type: 'Collection',
+        totalParts: 1,
+        totalDescendentParts: 1,
+        alternativeTitles: [],
+        availableOnline: false,
+        availabilities: [],
+        partOf: [
+          {
+            id: 'f00dcafe',
+            referenceNumber: 'a',
+            title: 'An Archive Series',
+            type: 'Series',
+            totalParts: 1,
+            totalDescendentParts: 2,
+            alternativeTitles: [],
+            availableOnline: false,
+            availabilities: [],
+          },
+        ],
       },
     ]);
   });

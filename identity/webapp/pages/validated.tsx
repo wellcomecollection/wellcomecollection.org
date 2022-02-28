@@ -93,26 +93,17 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { query, req, res, resolvedUrl } = context;
+    const { query, req, res } = context;
     const { success, message, supportSignUp } = query;
+    const didSucceed = success === 'true';
 
-    if (success) {
-      const session = await auth0.getSession(req, res);
-      // If the user currently has a session (ie they're logged in), we need to
-      // refresh their profile to get the updated email_verified flag.
-      //
-      // The simplest way to do this from the server side is to redirect them to
-      // login, which won't require any interaction because they already have a
-      // session (but will refresh their user info), and then ping them back here.
-      if (session?.user && !session.user.email_verified) {
-        return {
-          redirect: {
-            // We need to prefix the returnTo URL with /account because the
-            // auth0 redirect does _not_ respect the application baseUrl.
-            destination: `/api/auth/login?returnTo=/account${resolvedUrl}`,
-            permanent: false,
-          },
-        };
+    if (didSucceed) {
+      // The email validation state is held within the ID token, which will be
+      // refreshed by fetching a new access token.
+      try {
+        await auth0.getAccessToken(req, res, { refresh: true });
+      } catch (e) {
+        // It doesn't matter if this fails; it means the user doesn't currently have a session
       }
     }
 
@@ -121,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     return {
       props: removeUndefinedProps({
         serverData,
-        success: success === 'true',
+        success: didSucceed,
         message: message || null,
         isNewSignUp: supportSignUp === 'true',
       }),

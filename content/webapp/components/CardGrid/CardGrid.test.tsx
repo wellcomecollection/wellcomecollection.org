@@ -1,6 +1,6 @@
 import CardGrid from './CardGrid';
-import { mountWithTheme } from '../../../test/fixtures/enzyme-helpers';
-import MoreLink from '../MoreLink/MoreLink';
+import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { MoreLink } from '@weco/common/views/components/MoreLink/MoreLink';
 
 describe('CardGrid', () => {
   // This could be moved into fixture directory if used in more places
@@ -117,7 +117,6 @@ describe('CardGrid', () => {
         information: [],
       },
       exhibits: [],
-      galleryLevel: undefined,
       featuredImageList: [],
       resources: [],
       relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],

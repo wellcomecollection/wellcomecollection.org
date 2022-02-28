@@ -1,25 +1,51 @@
-import { parseBook } from '@weco/common/services/prismic/books';
-import { Book as DeprecatedBook } from '@weco/common/model/books';
 import { Book } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
-import { transformKeyTextField, transformRichTextFieldToString } from '.';
+import {
+  transformGenericFields,
+  asRichText,
+  asText,
+  transformTimestamp,
+  transformSingleLevelGroup,
+} from '.';
 import { isFilledLinkToWebField } from '../types';
+import { transformSeason } from './seasons';
+import { transformPromoToCaptionedImage } from './images';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { transformContributors } from './contributors';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
-  const book: DeprecatedBook = parseBook(document);
+
+  const genericFields = transformGenericFields(document);
+  // We do this over the general parser as we want the not 16:9 image.
+  const cover =
+    data.promo &&
+    (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : undefined);
+  const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
+    season => transformSeason(season as SeasonPrismicDocument)
+  );
+  const contributors = transformContributors(document);
 
   return {
-    ...book,
-    subtitle: transformRichTextFieldToString(data.subtitle),
+    type: 'books',
+    ...genericFields,
+    subtitle: asText(data.subtitle),
     orderLink: isFilledLinkToWebField(data.orderLink)
       ? data.orderLink.url
       : undefined,
-    price: transformKeyTextField(data.price),
-    format: transformKeyTextField(data.format),
-    extent: transformKeyTextField(data.extent),
-    isbn: transformKeyTextField(data.isbn),
-    prismicDocument: document,
+    price: asText(data.price),
+    format: asText(data.format),
+    extent: asText(data.extent),
+    isbn: asText(data.isbn),
+    reviews: data.reviews?.map(review => {
+      return {
+        text: review.text && asRichText(review.text) || [],
+        citation: review.citation && asRichText(review.citation) || [],
+      };
+    }),
+    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
+    cover: cover && cover.image,
+    seasons,
+    contributors,
   };
 }

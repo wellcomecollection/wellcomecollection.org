@@ -1285,7 +1285,6 @@ const beingHuman: UiExhibition = {
   relatedIds: ['XYt51BAAACIAYa4e', 'XYofFREAACQAp-Vl'],
   exhibits: [],
   seasons: [],
-  prismicDocument: null,
 };
 
 export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (

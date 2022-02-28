@@ -22,3 +22,36 @@ you will have to remember to deploy all affected types.
 
 [custom-types]: https://prismic.io/docs/core-concepts/custom-types
 [custom-types-api]: https://prismic.io/docs/technologies/custom-types-api
+
+## Find where slices are used
+
+The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image).
+
+We have a tool that shows you examples of where a slice is used.
+This is useful if you want to know if a slice can be safely deleted from the model, or to find an example for testing.
+
+For example:
+
+```console
+$ ts-node sliceAnalysis --type embed
+```
+
+See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)
+
+## Analysing our Prismic content in bulk
+
+We have a tool that will download a complete snapshot of our Prismic metadata for you.
+This is useful if you want to do bulk analysis of our Prismic data.
+
+```console
+$ yarn downloadSnapshot
+...
+Downloaded Prismic snapshot to snapshot.master.Yhe_-xMAADOEgW3d
+```
+
+One especially common case is checking that we haven't broken any Prismic content after a refactor.
+If you have a locally running content app (`yarn content` in the repo root), you can check that none of our Prismic content is broken:
+
+```console
+$ yarn tryAllContentPages
+```

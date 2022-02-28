@@ -7,8 +7,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { Page as PageType } from '@weco/common/model/pages';
+import { Page as PageType } from '../types/pages';
 import { SiblingsGroup } from '@weco/common/model/siblings-group';
 import {
   headerBackgroundLs,
@@ -264,8 +263,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       jsonLd={contentLd(page)}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
-      imageUrl={page.image && convertImageUri(page.image.contentUrl, 800)}
-      imageAltText={(page.image && page.image.alt) ?? undefined}
+      image={page.image}
     >
       <ContentPage
         id={page.id}
@@ -286,7 +284,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
-        document={page.prismicDocument}
+        contributors={page.contributors}
         seasons={page.seasons}
       />
     </PageLayout>

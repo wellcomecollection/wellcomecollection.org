@@ -4,9 +4,9 @@ import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { Link } from '@weco/common/model/link';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
-import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
+import { Exhibition } from '../../types/exhibitions';
 import { UiEvent } from '@weco/common/model/events';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../../types/articles';
 import { Page } from '@weco/common/model/pages';
 import { ArticleSeries } from '@weco/common/model/article-series';
 import BookPromo from '../BookPromo/BookPromo';
@@ -19,22 +19,21 @@ import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
-import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
-import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
 import { Book } from '../../types/books';
 import { Project } from '../../types/projects';
+import { Guide } from '../../types/guides';
 
 // TODO: This should be MultiContent
 type ContentTypes =
   | UiEvent
-  | UiExhibition
   | Exhibition
   | Book
   | Article
   | Page
   | Project
   | ArticleSeries
-  | ArticleScheduleItem;
+  | ArticleScheduleItem
+  | Guide;
 
 type Props = {
   items: readonly ContentTypes[];
@@ -75,19 +74,14 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.id === 'tours' && <DailyTourPromo />}
 
               {item.type === 'exhibitions' && (
-                // We can't import `ExhibitionPrismicDocument` into `UiExhibition` because
-                // they are in content / common apps respectively, we have to type coerce here
-                <ExhibitionPromo
-                  exhibition={item.prismicDocument as ExhibitionPrismicDocument}
-                  position={i}
-                />
+                <ExhibitionPromo exhibition={item} position={i}/>
               )}
               {item.id !== 'tours' && item.type === 'events' && (
                 <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
                 <StoryPromo
-                  article={item.prismicDocument as ArticlePrismicDocument}
+                  article={item}
                   position={i}
                   hidePromoText={hidePromoText}
                 />

@@ -4,7 +4,6 @@ import { Season } from '@weco/common/model/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -104,14 +103,12 @@ const SeasonPage = ({
       jsonLd={contentLd(season)}
       siteSection={'whats-on'}
       openGraphType={'website'}
-      imageUrl={season.image && convertImageUri(season.image.contentUrl, 800)}
-      imageAltText={season?.image?.alt}
+      image={season.image}
     >
       <ContentPage
         id={season.id}
         Header={Header}
         Body={<Body body={season.body} pageId={season.id} />}
-        document={season.prismicDocument}
         hideContributors={true}
       />
 

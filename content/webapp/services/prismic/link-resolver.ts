@@ -11,6 +11,7 @@ const contentTypes = [
   'seasons',
   'series',
   'webcomics',
+  'guide-formats',
 ] as const;
 export type ContentType = typeof contentTypes[number];
 
@@ -25,7 +26,7 @@ function isContentType(type: any): type is ContentType {
 function linkResolver(doc: {
   id: string;
   type: string;
-}): `/${ContentType}/${string}` | undefined {
+}): string {
   const { id, type } = doc;
 
   if (type === 'webcomics') return `/articles/${id}`;
@@ -35,7 +36,7 @@ function linkResolver(doc: {
     return `/${type}/${id}`;
   }
 
-  return undefined;
+  return '/';
 }
 
 export default linkResolver;

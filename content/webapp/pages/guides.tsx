@@ -1,29 +1,32 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-// Before working on this file, please get it to typecheck,
-// I have had to add this here to unblock some work
-import { GetServerSideProps, NextPageContext } from 'next';
-import { FunctionComponent, ReactElement } from 'react';
+import { GetServerSideProps } from 'next';
+import { FunctionComponent } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import {
-  getGuides,
-  getGuideFormats,
-} from '@weco/common/services/prismic/guides';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { Page } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Format } from '@weco/common/model/format';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { createClient } from '../services/prismic/fetch';
+import {
+  fetchGuideFormats,
+  fetchGuides,
+} from '../services/prismic/fetch/guides';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import {
+  transformGuide,
+  transformGuideFormat,
+} from '../services/prismic/transformers/guides';
+import { getServerData } from '@weco/common/server-data';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { Guide, GuideFormat } from '../types/guides';
 
 const displayTitle = 'Guides';
 
 type FiltersProps = {
   currentId: string | string[] | null;
-  guideFormats: Format[];
+  guideFormats: GuideFormat[];
 };
 
 const Filters: FunctionComponent<FiltersProps> = ({
@@ -46,7 +49,7 @@ const Filters: FunctionComponent<FiltersProps> = ({
     <Layout12>
       <SegmentedControl
         id={'guidesFilter'}
-        activeId={currentId || 'all'}
+        activeId={(currentId as string) || 'all'}
         items={items}
       />
     </Layout12>
@@ -54,16 +57,16 @@ const Filters: FunctionComponent<FiltersProps> = ({
 };
 
 type Props = {
-  guides: PaginatedResults<Page>;
-  guideFormats: Format[];
+  guides: PaginatedResults<Guide>;
+  guideFormats: GuideFormat[];
   formatId: string | string[] | null;
 };
 
-const GuidePage = ({
+const GuidePage: FunctionComponent<Props> = ({
   guides,
   guideFormats,
   formatId,
-}: Props): ReactElement<Props> => {
+}: Props) => {
   return (
     <PageLayout
       title={'Guides'}
@@ -72,8 +75,7 @@ const GuidePage = ({
       jsonLd={{ '@type': 'Webpage' }}
       openGraphType={'website'}
       siteSection={'what-we-do'}
-      imageUrl={undefined}
-      imageAltText={undefined}
+      image={undefined}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -96,37 +98,39 @@ const GuidePage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  ctx: NextPageContext
-) => {
-  const serverData = await getServerData(context);
-  const { format, memoizedPrismic } = ctx.query;
-  const guidesPromise = getGuides(
-    ctx.req,
-    {
-      format,
-    },
-    memoizedPrismic
-  );
-  const guideFormatsPromise = getGuideFormats(ctx.req, memoizedPrismic);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+    const { format } = context.query;
 
-  const [guides, guideFormats] = await Promise.all([
-    guidesPromise,
-    guideFormatsPromise,
-  ]);
+    const client = createClient(context);
 
-  if (guides) {
-    return {
-      props: removeUndefinedProps({
-        guides,
-        guideFormats,
-        formatId: format || null,
-        serverData,
-      }),
-    };
-  } else {
-    return { notFound: true };
-  }
-};
+    const guidesQueryPromise = fetchGuides(client, { format });
+    const guidesFormatQueryPromise = fetchGuideFormats(client);
+
+    const [guidesQuery, guideFormatsQuery] = await Promise.all([
+      guidesQueryPromise,
+      guidesFormatQueryPromise,
+    ]);
+
+    const guides = transformQuery(guidesQuery, transformGuide);
+    const guideFormats = transformQuery(
+      guideFormatsQuery,
+      transformGuideFormat
+    );
+
+    if (guides) {
+      return {
+        props: removeUndefinedProps({
+          guides,
+          guideFormats: guideFormats.results,
+          formatId: format || null,
+          serverData,
+        }),
+      };
+    } else {
+      return { notFound: true };
+    }
+  };
 
 export default GuidePage;

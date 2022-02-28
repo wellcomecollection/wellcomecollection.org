@@ -5,7 +5,7 @@ import { Article } from './articles';
 import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
 import { ArticleSeries } from './article-series';
-import linkResolver from '../services/prismic/link-resolver';
+import { linkResolver } from '../services/prismic/link-resolver';
 
 export type Card = {
   type: 'card';

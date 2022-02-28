@@ -5,7 +5,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import { Page as PageType } from '@weco/common/model/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,8 +16,8 @@ import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
 import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { GetServerSideProps } from 'next';
@@ -39,6 +39,7 @@ import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -60,13 +61,19 @@ const CreamBox = styled(Space).attrs({
 
 type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
   articles: PaginatedResults<Article>;
   page: PageType;
 };
 
-const pageImage =
-  'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
+const pageImage: ImageType = {
+  contentUrl:
+    'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800',
+  width: 800,
+  height: 450,
+  alt: '',
+  crops: {},
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -119,6 +126,9 @@ const Homepage: FC<Props> = props => {
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
     filterEventsForNext7Days(events)
   );
+
+  // Convert dates back to Date types because it's serialised through
+  // `getInitialProps`
   const exhibitions = props.exhibitions.results.map(exhibition => {
     return {
       ...exhibition,
@@ -126,6 +136,7 @@ const Homepage: FC<Props> = props => {
       end: exhibition.end && new Date(exhibition.end),
     };
   });
+
   const articles = props.articles;
   const page = props.page;
   const standFirst = page.body.find(slice => slice.type === 'standfirst');
@@ -141,8 +152,7 @@ const Homepage: FC<Props> = props => {
       jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={pageImage}
-      imageAltText={''}
+      image={pageImage}
     >
       <Layout10>
         <SpacingSection>
@@ -178,7 +188,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents}
+              events={nextSevenDaysEvents as Event[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>

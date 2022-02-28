@@ -5,7 +5,7 @@ import {
   PrismicDocument,
 } from '@prismicio/types';
 import { Body } from './body';
-import { FetchLinks } from '.';
+import { CommonPrismicFields, FetchLinks } from '.';
 
 export type PlacePrismicDocument = PrismicDocument<
   {
@@ -15,7 +15,7 @@ export type PlacePrismicDocument = PrismicDocument<
     capacity: NumberField;
     locationInformation: RichTextField;
     body: Body;
-  },
+  } & CommonPrismicFields,
   'places'
 >;
 export const placesFetchLink: FetchLinks<PlacePrismicDocument> = [

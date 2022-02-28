@@ -4,7 +4,7 @@ import { CaptionedImage as CaptionedImageType } from '../../../model/captioned-i
 import { HTMLString } from '../../../services/prismic/types';
 import { FunctionComponent } from 'react';
 
-type Props = {
+export type Props = {
   items: {
     title: string;
     subtitle: string;

@@ -68,8 +68,7 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
-      imageUrl={'imageContentUrl'}
-      imageAltText={''}
+      image={undefined}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}

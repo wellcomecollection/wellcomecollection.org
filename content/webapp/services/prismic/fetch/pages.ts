@@ -23,7 +23,7 @@ import {
 import { Page } from '@weco/common/model/pages';
 import { SiblingsGroup } from '@weco/common/model/siblings-group';
 
-const fetchLinks = pagesFields.concat(
+export const fetchLinks = pagesFields.concat(
   articleSeriesFields,
   eventSeriesFields,
   collectionVenuesFields,
@@ -52,7 +52,6 @@ const pagesFetcher = fetcher<PagePrismicDocument>(
 
 export const fetchPage = pagesFetcher.getById;
 export const fetchPages = pagesFetcher.getByType;
-export const fetchPagesClientSide = pagesFetcher.getByTypeClientSide;
 
 export const fetchChildren = async (
   client: GetServerSidePropsPrismicClient,
@@ -61,8 +60,8 @@ export const fetchChildren = async (
   const predicates = [prismic.predicate.at('my.pages.parents.parent', page.id)];
 
   try {
-    const pages = await fetchPages(client, { predicates })
-    return pages.results
+    const pages = await fetchPages(client, { predicates });
+    return pages.results;
   } catch (e) {
     console.warn(`Error trying to fetch children on page ${page.id}: ${e}`);
     return [];
@@ -73,8 +72,9 @@ export const fetchSiblings = async (
   client: GetServerSidePropsPrismicClient,
   page: Page
 ): Promise<SiblingsGroup<PagePrismicDocument>[]> => {
-  const relatedPagePromises =
-    page.parentPages?.map(parentPage => fetchChildren(client, parentPage));
+  const relatedPagePromises = page.parentPages?.map(parentPage =>
+    fetchChildren(client, parentPage)
+  );
   const relatedPages = await Promise.all(relatedPagePromises ?? []);
 
   return relatedPages.map((results, i) => {

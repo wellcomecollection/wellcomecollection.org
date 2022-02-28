@@ -12,6 +12,8 @@ import {
   FilledLinkToWebField,
   NumberField,
   LinkField,
+  LinkType,
+  EmptyLinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
 import { ExhibitionFormat } from './exhibition-format';
@@ -21,6 +23,8 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
+import { link } from '../transformers/vendored-helpers';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
@@ -93,7 +97,7 @@ export type Image = ThumbnailedImageField<{
 }>;
 
 type Promo = { caption: RichTextField; image: Image; link: KeyTextField };
-type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
+export type PromoSliceZone = SliceZone<Slice<'editorialImage', Promo>>;
 
 export type CommonPrismicFields = {
   title: RichTextField;
@@ -179,6 +183,11 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
   'exhibitions.shortTitle',
 ];
 
+type Contributor =
+  | EmptyLinkField<LinkType.Document>
+  | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>>
+  | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>>;
+
 export type WithContributors = {
   contributorsTitle: RichTextField;
   contributors: GroupField<{
@@ -187,11 +196,7 @@ export type WithContributors = {
       'en-gb',
       InferDataInterface<EditorialContributorRole>
     >;
-    contributor: RelationField<
-      'people' | 'organisations',
-      'en-gb',
-      InferDataInterface<Person | Organisation>
-    >;
+    contributor: Contributor;
     description: RichTextField;
   }>;
 };
@@ -217,13 +222,36 @@ export const contributorFetchLinks: ContributorFetchLink = [
 
 // Guards
 export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
-  field: RelationField<T, L, D>
+  field: RelationField<T, L, D> | undefined
 ): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
-  return 'id' in field && field.isBroken === false && 'data' in field;
+  return (
+    isNotUndefined(field) &&
+    'id' in field &&
+    field.isBroken === false &&
+    'data' in field
+  );
 }
 
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return field.link_type === 'Web' && 'url' in field;
+  return link(field) && field.link_type === 'Web' && 'url' in field;
+}
+
+export function isFilledLinkToMediaField(
+  field: LinkField
+): field is FilledLinkToWebField {
+  return link(field) && field.link_type === 'Media' && 'url' in field;
+}
+
+export function isFilledLinkToPersonField(
+  field: Contributor
+): field is FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>> & { data: Person } {
+  return isFilledLinkToDocumentWithData(field) && field.type === 'people';
+}
+
+export function isFilledLinkToOrganisationField(
+  field: Contributor
+): field is FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }  {
+  return isFilledLinkToDocumentWithData(field) && field.type === 'organisations';
 }

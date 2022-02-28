@@ -17,7 +17,7 @@ export const data: UiEvent = {
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
-  place: undefined,
+  locations: [],
   bookingEnquiryTeam: undefined,
   interpretations: [],
   audiences: [],
@@ -60,7 +60,6 @@ export const data: UiEvent = {
   seasons: [],
   isOnline: false,
   availableOnline: false,
-  prismicDocument: undefined,
 };
 
 const DailyTourPromo = () => (

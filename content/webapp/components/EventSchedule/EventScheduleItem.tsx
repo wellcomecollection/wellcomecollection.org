@@ -78,7 +78,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             >
               {event.title}
             </Space>
-            {event.place && (
+            {event.locations[0] && (
               <Space
                 v={{ size: 's', properties: ['margin-bottom'] }}
                 as="p"
@@ -86,7 +86,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   [font('hnr', 5)]: true,
                 })}
               >
-                {event.place.title}
+                {event.locations[0].title}
               </Space>
             )}
 
@@ -138,11 +138,8 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                     [font('hnb', 5)]: true,
                   })}
                 >
-                  {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {event.ticketSalesStart &&
-                      formatTime(event.ticketSalesStart)}
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}{formatTime(event.ticketSalesStart)}
                   </span>
                 </Space>
               </Fragment>

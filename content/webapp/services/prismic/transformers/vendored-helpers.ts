@@ -17,6 +17,7 @@ import type {
   LinkField,
   SliceZone,
 } from '@prismicio/types';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 /**
  * Determines if a Link field is filled.
@@ -25,7 +26,7 @@ import type {
  *
  * @returns `true` if `field` is filled, `false` otherwise.
  *
- * From https://github.com/prismicio/prismic-helpers/blob/b7c404126ff8cce47b2afd408a2ff901a9ebb1fd/src/isFilled.ts#L103-L121
+ * Based on https://github.com/prismicio/prismic-helpers/blob/b7c404126ff8cce47b2afd408a2ff901a9ebb1fd/src/isFilled.ts#L103-L121
  */
 export const link = <
   TypeEnum = string,
@@ -35,7 +36,7 @@ export const link = <
     AnyRegularField | GroupField | SliceZone
   > = never
 >(
-  field: LinkField<TypeEnum, LangEnum, DataInterface>
+  field: LinkField<TypeEnum, LangEnum, DataInterface> | undefined
 ): field is LinkField<TypeEnum, LangEnum, DataInterface, 'filled'> => {
-  return 'id' in field || 'url' in field;
+  return isNotUndefined(field) ? 'id' in field || 'url' in field : false;
 };

@@ -2,10 +2,8 @@ import { FC } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { UiEvent } from '@weco/common/model/events';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { convertJsonToDates } from './event';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -22,10 +20,11 @@ import { getPage } from '../utils/query-params';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { Event } from '../types/events';
 
 type Props = {
   displayTitle: string;
-  events: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
   period?: Period;
 };
 
@@ -47,16 +46,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
 
-    const eventsQueryPromise = await fetchEvents(
-      client,
-      {
-        page,
-        period: period as ('current-and-coming-up' | 'past' | undefined),
-        pageSize: 100,
-        isOnline: isOnline === 'true',
-        availableOnline: availableOnline === 'true',
-      }
-    );
+    const eventsQueryPromise = await fetchEvents(client, {
+      page,
+      period: period as 'current-and-coming-up' | 'past' | undefined,
+      pageSize: 100,
+      isOnline: isOnline === 'true',
+      availableOnline: availableOnline === 'true',
+    });
 
     const events = transformQuery(eventsQueryPromise, transformEvent);
 
@@ -66,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           events,
           title,
-          period,
+          period: period as Period,
           displayTitle: title,
           serverData,
         }),
@@ -83,9 +79,9 @@ const EventsPage: FC<Props> = props => {
     ...events,
     results:
       period !== 'past'
-        ? orderEventsByNextAvailableDate(convertedEvents)
+        ? orderEventsByNextAvailableDate(convertedEvents) as Event[]
         : convertedEvents,
-  } as PaginatedResults<UiEvent>;
+  };
   const firstEvent = events.results[0];
   return (
     <PageLayout
@@ -95,14 +91,7 @@ const EventsPage: FC<Props> = props => {
       jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstEvent &&
-        firstEvent.image &&
-        convertImageUri(firstEvent.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstEvent && firstEvent.image && firstEvent.image.alt) ?? undefined
-      }
+      image={firstEvent && firstEvent.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

@@ -1,8 +1,6 @@
 import { FunctionComponent } from 'react';
-import * as prismicH from 'prismic-helpers-beta';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { isNotUndefined } from '@weco/common/utils/array';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
@@ -11,16 +9,13 @@ import {
   CardBody,
   CardPostBody,
 } from '@weco/common/views/components/Card/Card';
-import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
-import {
-  transformFormat,
-  transformMeta,
-  transformSeries,
-} from '../../services/prismic/transformers';
 import PrismicImage from '../PrismicImage/PrismicImage';
+import { Article } from '../../types/articles';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
-  article: ArticlePrismicDocument;
+  article: Article;
   position: number;
   hidePromoText?: boolean;
   hasTransparentBackground?: boolean;
@@ -33,23 +28,22 @@ const StoryPromo: FunctionComponent<Props> = ({
   hidePromoText = false,
   hasTransparentBackground = false,
 }: Props) => {
-  const meta = transformMeta(article);
-  const series = transformSeries(article);
-  const format = transformFormat(article);
+  const image = article.promo?.image;
+  const url = linkResolver(article);
 
   // This is a bit of nastiness as we can't access the articles within a series i.e.
   // `thisArticle.series.schedule.articles.map(article => article.id === thisArticle.id)`
   // So this only works on series that have a schedule, and a schedule where the titles
   // match exactly with the schedule items. This wouldn't work with any series.
-  const seriesWithSchedule = series.find(series =>
-    (series.data.schedule ?? []).find(schedule => schedule.publishDate)
+  const seriesWithSchedule = article.series.find(series =>
+    (series.schedule ?? []).find(schedule => schedule.publishDate)
   );
 
-  const seriesColor = seriesWithSchedule?.data.color ?? undefined;
+  const seriesColor = seriesWithSchedule?.color ?? undefined;
 
-  const indexInSeriesSchedule = seriesWithSchedule?.data.schedule
-    ?.map(scheduleItem => prismicH.asText(scheduleItem.title))
-    .indexOf(meta.title);
+  const indexInSeriesSchedule = (seriesWithSchedule?.schedule
+    ?.map(scheduleItem => scheduleItem.title) || [])
+    .indexOf(article.title);
 
   const positionInSeriesSchedule =
     isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
@@ -59,7 +53,7 @@ const StoryPromo: FunctionComponent<Props> = ({
   const isSerial = Boolean(seriesWithSchedule);
 
   const labels = [
-    format?.data.title ? prismicH.asText(format.data.title) : undefined,
+    article.format?.title,
     isSerial ? 'Serial' : undefined,
   ]
     .filter(isNotUndefined)
@@ -74,15 +68,15 @@ const StoryPromo: FunctionComponent<Props> = ({
           label: `${article.id} | position: ${position}`,
         });
       }}
-      href={meta.url}
+      href={url}
       className={classNames({
         'bg-cream': !hasTransparentBackground,
       })}
     >
       <div className="relative">
-        {meta.image?.['16:9'] && (
+        {isNotUndefined(image) &&
           <PrismicImage
-            image={meta.image['16:9']}
+            image={image}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
@@ -90,7 +84,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               small: 1,
             }}
           />
-        )}
+        }
 
         {labels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
@@ -118,26 +112,26 @@ const StoryPromo: FunctionComponent<Props> = ({
             ${font('wb', 3)}
           `}
           >
-            {meta.title}
+            {article.title}
           </Space>
-          {!hidePromoText && meta.promoText && (
+          {!hidePromoText && isNotUndefined(article.promo?.caption) && (
             <p
               className={classNames({
                 'inline-block no-margin': true,
                 [font('hnr', 5)]: true,
               })}
             >
-              {meta.promoText}
+              {article.promo?.caption}
             </p>
           )}
         </div>
       </CardBody>
-      {series.length > 0 && (
+      {article.series.length > 0 && (
         <CardPostBody>
-          {series.map(series => (
+          {article.series.map(series => (
             <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
               <span className={font('hnr', 6)}>Part of</span>{' '}
-              {prismicH.asText(series.data.title)}
+              {series.title}
             </p>
           ))}
         </CardPostBody>

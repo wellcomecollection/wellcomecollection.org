@@ -13,22 +13,23 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image } from '.';
+import { Image, InferDataInterface } from '.';
+import { TeamPrismicDocument } from './teams';
 
-type TextSlice = Slice<'slice', { text: RichTextField }>;
+type TextSlice = Slice<'text', { text: RichTextField }>;
 
 export type EditorialImageSlice = Slice<
   'editorialImage',
   { image: Image; caption: RichTextField }
 >;
 
-type EditorialImageGallerySlice = Slice<
+export type EditorialImageGallerySlice = Slice<
   'editorialImageGallery',
   { title: RichTextField },
   { image: Image; caption: RichTextField }
 >;
 
-type GifVideoSlice = Slice<
+export type GifVideoSlice = Slice<
   'gifVideo',
   {
     caption: RichTextField;
@@ -37,7 +38,7 @@ type GifVideoSlice = Slice<
     playbackRate: SelectField<
       '0.1' | '0.25' | '0.5' | '0.75' | '1' | '1.25' | '1.5' | '1.75' | '2'
     >;
-    autoplay: BooleanField;
+    autoPlay: BooleanField;
     loop: BooleanField;
     mute: BooleanField;
     showControls: BooleanField;
@@ -53,13 +54,13 @@ type Iframe = Slice<
   }
 >;
 
-type Quote = Slice<
-  'quote',
-  {
-    text: RichTextField;
-    citation: RichTextField;
-  }
->;
+type QuotePrimaryFields = {
+  text: RichTextField;
+  citation: RichTextField;
+};
+
+type Quote = Slice<'quote', QuotePrimaryFields>;
+type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
 type Standfirst = Slice<
   'standfirst',
@@ -68,7 +69,7 @@ type Standfirst = Slice<
   }
 >;
 
-type Table = Slice<
+export type Table = Slice<
   'table',
   {
     caption: KeyTextField;
@@ -77,7 +78,7 @@ type Table = Slice<
   }
 >;
 
-type Embed = Slice<
+export type Embed = Slice<
   'embed',
   {
     embed: EmbedField;
@@ -101,14 +102,18 @@ type CollectionVenue = Slice<
   }
 >;
 
-type Contact = Slice<
+export type Contact = Slice<
   'contact',
   {
-    content: RelationField<'teams'>;
+    content: RelationField<
+      'teams',
+      'en-us',
+      InferDataInterface<Partial<TeamPrismicDocument>>
+    >;
   }
 >;
 
-type Discussion = Slice<
+export type Discussion = Slice<
   'discussion',
   {
     title: RichTextField;
@@ -137,7 +142,7 @@ type InfoBlock = Slice<
   }
 >;
 
-type TitledTextList = Slice<
+export type TitledTextList = Slice<
   'titledTextList',
   Record<string, never>,
   {
@@ -172,7 +177,18 @@ type SearchResults = Slice<
   { title: RichTextField; query: KeyTextField }
 >;
 
-type MediaObjectList = Slice<
+export type DeprecatedImageList = Slice<
+  'imageList',
+  Record<string, never>,
+  {
+    title: RichTextField;
+    subtitle: RichTextField;
+    description: RichTextField;
+    image: Image;
+  }
+>;
+
+export type MediaObjectList = Slice<
   'mediaObjectList',
   Record<string, never>,
   { title: RichTextField; text: RichTextField; image: Image }
@@ -185,6 +201,7 @@ export type SliceTypes =
   | GifVideoSlice
   | Iframe
   | Quote
+  | QuoteV2
   | Standfirst
   | Table
   | Embed
@@ -197,7 +214,8 @@ export type SliceTypes =
   | TitledTextList
   | ContentList
   | SearchResults
-  | MediaObjectList;
+  | MediaObjectList
+  | DeprecatedImageList;
 
 export type Body = SliceZone<SliceTypes>;
 

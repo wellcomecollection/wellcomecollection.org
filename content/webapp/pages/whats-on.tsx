@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
 import { Period } from '@weco/common/model/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
@@ -36,7 +36,6 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {
@@ -71,8 +70,8 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -94,8 +93,8 @@ const segmentedControlItems = [
 
 export type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<UiEvent>;
-  availableOnlineEvents: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
+  availableOnlineEvents: PaginatedResults<Event>;
   period: string;
   dateRange: any[];
   tryTheseTooPromos: any[];
@@ -383,7 +382,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           eatShopPromos: [cafePromo],
           cafePromo,
           dailyTourPromo,
-          featuredText,
+          featuredText: featuredText!,
           serverData,
         }),
       };
@@ -401,6 +400,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const availableOnlineEvents =
     props.availableOnlineEvents.results.map(convertJsonToDates);
 
+  // Convert dates back to Date types because it's serialised through
+  // `getInitialProps`
   const exhibitions = props.exhibitions.results.map(exhibition => {
     return {
       ...exhibition,
@@ -421,6 +422,12 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
+  const eventsToShow = period === 'today'
+    ? filterEventsForToday(events)
+    : period === 'this-weekend'
+    ? filterEventsForWeekend(events)
+    : events;
+
   return (
     <PageLayout
       title={pageTitle}
@@ -434,17 +441,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       }
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstExhibition &&
-        firstExhibition.image &&
-        convertImageUri(firstExhibition.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstExhibition &&
-          firstExhibition.image &&
-          firstExhibition.image.alt) ??
-        undefined
-      }
+      image={firstExhibition && firstExhibition.image}
     >
       <>
         <Header
@@ -560,13 +557,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={
-                  period === 'today'
-                    ? filterEventsForToday(events)
-                    : period === 'this-weekend'
-                    ? filterEventsForWeekend(events)
-                    : events
-                }
+                events={eventsToShow as Event[]}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },

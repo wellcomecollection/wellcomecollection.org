@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from '@prismicio/client';
+import * as prismic from 'prismic-client-beta';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -24,8 +24,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
+import { isEventFullyBooked } from '@weco/common/model/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -53,13 +52,13 @@ import {
   fetchEventScheduleItems,
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   getScheduleIds,
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { Event } from 'types/events';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -78,7 +77,7 @@ const DateWrapper = styled.div.attrs({
 `;
 
 type Props = {
-  jsonEvent: UiEvent;
+  jsonEvent: Event;
 } & WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
@@ -103,7 +102,7 @@ function EventStatus({ text, color }: EventStatusProps) {
   );
 }
 
-function DateList(event: UiEvent) {
+function DateList(event: Event) {
   return (
     event.times && (
       <>
@@ -140,7 +139,7 @@ function showTicketSalesStart(dateTime: Date | undefined) {
 
 // Convert dates back to Date types because it's serialised through
 // `getInitialProps`
-export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
+export function convertJsonToDates(jsonEvent: Event): Event {
   const dateRange = {
     ...jsonEvent.dateRange,
     firstDate: new Date(jsonEvent.dateRange.firstDate),
@@ -179,20 +178,16 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
 };
 
 const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
-  const [scheduledIn, setScheduledIn] = useState<UiEvent>();
+  const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
-        Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
+        prismic.predicate.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
-    if (scheduledInQuery) {
-      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
-
-      if (scheduledIn.results.length > 0) {
-        setScheduledIn(scheduledIn.results[0]);
-      }
+    if (isNotUndefined(scheduledInQuery) && scheduledInQuery.results.length > 0) {
+      setScheduledIn(scheduledInQuery.results[0]);
     }
   };
   useEffect(() => {
@@ -327,21 +322,19 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       jsonLd={eventLd(event)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={event.image && convertImageUri(event.image.contentUrl, 800)}
-      imageAltText={event?.image?.alt}
+      image={event.image}
     >
       <ContentPage
         id={event.id}
         Header={Header}
         Body={<Body body={body} pageId={event.id} />}
         seasons={event.seasons}
-        document={event.prismicDocument}
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.prismicDocument.data.contributors.length > 0 && (
+        {event.contributors.length > 0 && (
           <Contributors
-            document={event.prismicDocument}
+            contributors={event.contributors}
             titlePrefix="About your"
           />
         )}
@@ -428,13 +421,8 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                   />
                 )}
 
-                {/* FIXME: work out why Flow requires the check for bookingEnquiryTeam here even though we've already checked above */}
                 <NextLink
-                  href={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${
                     event.bookingEnquiryTeam
                       ? event.bookingEnquiryTeam.email
@@ -482,10 +470,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           title="Need to know"
           items={
             [
-              event.place && {
+              event.locations[0] && {
                 id: undefined,
                 title: 'Location',
-                description: event.place.information,
+                description: event.locations[0].information,
               },
               event.bookingInformation && {
                 id: undefined,

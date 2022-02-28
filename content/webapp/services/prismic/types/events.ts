@@ -32,13 +32,14 @@ import {
 
 const typeEnum = 'events';
 
-type EventFormat = PrismicDocument<
+export type EventFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
   'event-formats'
 >;
+
 const eventFormatFetchLink: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
@@ -72,7 +73,7 @@ const audienceFetchLinks: FetchLinks<Audience> = [
   'audiences.description',
 ];
 
-type EventPolicy = PrismicDocument<
+export type EventPolicy = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -102,18 +103,23 @@ const teamFetchLinks: FetchLinks<Team> = [
   'teams.url',
 ];
 
+export type WithEventFormat = {
+  format: RelationField<
+    'event-formats',
+    'en-gb',
+    InferDataInterface<EventFormat>
+  >;
+};
+
 export type EventPrismicDocument = PrismicDocument<
   {
-    format: RelationField<
-      'event-formats',
-      'en-gb',
-      InferDataInterface<EventFormat>
-    >;
-    place: RelationField<
-      'place',
-      'en-gb',
-      InferDataInterface<PlacePrismicDocument>
-    >;
+    locations: GroupField<{
+      location: RelationField<
+        'place',
+        'en-gb',
+        InferDataInterface<PlacePrismicDocument>
+      >;
+    }>;
     isOnline: BooleanField;
     availableOnline: BooleanField;
     times: GroupField<{
@@ -173,6 +179,7 @@ export type EventPrismicDocument = PrismicDocument<
   } & WithContributors &
     WithEventSeries &
     WithExhibitionParents &
+    WithEventFormat &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

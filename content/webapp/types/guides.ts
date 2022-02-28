@@ -1,10 +1,6 @@
 import { Guide as DeprecatedGuide } from '@weco/common/model/guides';
-import { Override } from '@weco/common/utils/utility-types';
-import { GuidePrismicDocument } from '../services/prismic/types/guides';
+import { Format as DeprecatedFormat } from '@weco/common/model/format';
 
-export type Guide = Override<
-  DeprecatedGuide,
-  {
-    prismicDocument: GuidePrismicDocument;
-  }
->;
+export type GuideFormat = DeprecatedFormat;
+
+export type Guide = DeprecatedGuide;

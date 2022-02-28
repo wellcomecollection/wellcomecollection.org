@@ -9,7 +9,7 @@ import { Season } from './seasons';
 import { HTMLString } from '../services/prismic/types';
 import { Label } from './labels';
 
-type DateTimeRange = {
+export type DateTimeRange = {
   startDateTime: Date;
   endDateTime: Date;
 };
@@ -57,16 +57,18 @@ export type Audience = {
   description?: HTMLString;
 };
 
+export type DateRange = {
+  firstDate: Date;
+  lastDate: Date;
+  repeats: number;
+};
+
 // TODO instead of having displayStart and displayEnd on model, create helper functions that return the new data structure
 export type UiEvent = Event & {
   type: 'events';
   displayStart: Date;
   displayEnd: Date;
-  dateRange: {
-    firstDate: Date;
-    lastDate: Date;
-    repeats: number;
-  };
+  dateRange: DateRange;
   backgroundTexture?: string;
 };
 
@@ -75,6 +77,11 @@ export type EventSchedule = {
   isNotLinked: boolean;
 }[];
 
+export type ThirdPartyBooking = {
+  name?: string;
+  url: string;
+};
+
 export type Event = GenericContentFields & {
   format?: Format;
   hasEarlyRegistration: boolean;
@@ -82,7 +89,7 @@ export type Event = GenericContentFields & {
   times: EventTime[];
   series: EventSeries[];
   seasons: Season[];
-  place?: Place;
+  locations: Place[];
   bookingEnquiryTeam?: Team;
   interpretations: Interpretation[];
   audiences: Audience[];
@@ -90,10 +97,7 @@ export type Event = GenericContentFields & {
   bookingInformation?: HTMLString;
   cost?: string;
   bookingType?: string;
-  thirdPartyBooking?: {
-    name?: string;
-    url: string;
-  };
+  thirdPartyBooking?: ThirdPartyBooking;
   scheduleLength: number;
   schedule?: EventSchedule;
   eventbriteId?: string;
@@ -104,7 +108,6 @@ export type Event = GenericContentFields & {
   availableOnline: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-  prismicDocument: any;
 };
 
 export type EventPromo = {

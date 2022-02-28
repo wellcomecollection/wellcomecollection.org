@@ -13,10 +13,13 @@ import {
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { ArticlePrismicDocument } from './articles';
+import { BookPrismicDocument } from './books';
+import { EventPrismicDocument } from './events';
 
 const typeEnum = 'exhibitions';
 
-type ExhibitionFormat = PrismicDocument<
+export type ExhibitionFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -36,9 +39,15 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     end: TimestampField;
     isPermanent: SelectField<'yes'>;
     statusOverride: RichTextField;
+    bslInfo: RichTextField;
+    audioDescriptionInfo: RichTextField;
     place: RelationField<'place'>;
     exhibits: GroupField<{
-      item: RelationField<'exhibitions'>;
+      item: RelationField<
+        'exhibitions',
+        'en-gb',
+        InferDataInterface<ExhibitionPrismicDocument>
+      >;
     }>;
     events: GroupField<{
       item: RelationField<'events'>;
@@ -55,3 +64,9 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export type ExhibitionRelatedContentPrismicDocument =
+  | ExhibitionPrismicDocument
+  | EventPrismicDocument
+  | ArticlePrismicDocument
+  | BookPrismicDocument;

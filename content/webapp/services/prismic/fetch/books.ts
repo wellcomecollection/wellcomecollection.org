@@ -20,5 +20,3 @@ export const fetchBooks = (
     ],
   });
 };
-
-export const fetchBooksClientSide = booksFetcher.getByTypeClientSide;

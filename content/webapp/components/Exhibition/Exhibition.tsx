@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, FC } from 'react';
-import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
@@ -12,9 +11,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
+import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import {
@@ -37,13 +34,18 @@ import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
+import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
+import { Exhibition as ExhibitionType } from '../../types/exhibitions';
+import { Book } from '../../types/books';
+import { Article } from '../../types/articles';
+import { Event as EventType } from '../../types/events';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
 };
 
 function getUpcomingExhibitionObject(
-  exhibition: UiExhibition
+  exhibition: ExhibitionType
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
@@ -102,7 +104,7 @@ function getTodaysHoursObject(): ExhibitionItem {
   };
 }
 
-function getPlaceObject(exhibition: UiExhibition): ExhibitionItem | undefined {
+function getPlaceObject(exhibition: ExhibitionType): ExhibitionItem | undefined {
   return (
     exhibition.place && {
       id: undefined,
@@ -125,7 +127,7 @@ const resourceIcons: { [key: string]: IconSvg } = {
   family: family,
 };
 
-function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
       id: undefined,
@@ -136,7 +138,7 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
-function getBslAdItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
     .filter(Boolean)
     .map(item => {
@@ -179,7 +181,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
   ];
 }
 
-export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
+export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
@@ -192,22 +194,26 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
 }
 
 type Props = {
-  exhibition: UiExhibition;
-  pages: Page[];
+  exhibition: ExhibitionType;
+  pages: PageType[];
 };
 
 const Exhibition: FC<Props> = ({ exhibition, pages }) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
+  type ExhibitionOf = (ExhibitionType | EventType)[];
+  type ExhibitionAbout = (Book | Article)[];
+
+  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout>([]);
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
-    getExhibitionRelatedContent(null, ids).then(
-      ({ exhibitionOfs, exhibitionAbouts }) => {
-        setExhibitionOfs(exhibitionOfs);
-        setExhibitionAbouts(exhibitionAbouts);
+
+    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
+      if (isNotUndefined(relatedContent)) {
+        setExhibitionOfs(relatedContent.exhibitionOfs);
+        setExhibitionAbouts(relatedContent.exhibitionAbouts);
       }
-    );
+    });
   }, []);
 
   const breadcrumbs = {
@@ -289,22 +295,18 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
       jsonLd={exhibitionLd(exhibition)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
-      }
-      imageAltText={exhibition.image ? exhibition.image.alt : undefined}
+      image={exhibition.image}
     >
       <ContentPage
         id={exhibition.id}
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
-        document={exhibition.prismicDocument}
-        // We hide contributors as we show then further up the page
+        // We hide contributors as we show them further up the page
         hideContributors={true}
       >
-        {exhibition.prismicDocument.data.contributors.length > 0 && (
-          <Contributors document={exhibition.prismicDocument} />
+        {exhibition.contributors.length > 0 && (
+          <Contributors contributors={exhibition.contributors} />
         )}
 
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's
