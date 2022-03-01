@@ -13,8 +13,18 @@ export default async (
   res: NextApiResponse<Data | NotFound>
 ): Promise<void> => {
   const { params } = req.query;
-  const parsedParams = isString(params) ? JSON.parse(params) : undefined;
+  const parsedParams: string[] = isString(params)
+    ? JSON.parse(params)
+    : undefined;
   const client = createClient({ req });
+
+  if (parsedParams.length === 0) {
+    return res.status(200).json({
+      exhibitionOfs: [],
+      exhibitionAbouts: [],
+    });
+  }
+
   const query = await fetchExhibitionRelatedContent(client, parsedParams);
 
   if (query) {

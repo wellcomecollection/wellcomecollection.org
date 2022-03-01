@@ -165,7 +165,7 @@ export const fetchExhibitionRelatedContentClientSide = async (
   //
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues
   const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', ids.join(','));
+  urlSearchParams.set('params', JSON.stringify(ids));
 
   // If we have multiple content types, use the first one as the ID.
   const url = `/api/exhibitions-related-content?${urlSearchParams.toString()}`;
