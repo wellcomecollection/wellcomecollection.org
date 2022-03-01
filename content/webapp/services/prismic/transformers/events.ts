@@ -16,7 +16,15 @@ import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
-import { asText, asTitle, transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
+import {
+  asText,
+  asTitle,
+  transformFormat,
+  transformGenericFields,
+  transformLabelType,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -121,7 +129,9 @@ export function transformEvent(
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
-              title: asTitle(interpretation.interpretationType.data?.title || []),
+              title: asTitle(
+                interpretation.interpretationType.data?.title || []
+              ),
               abbreviation: interpretation.interpretationType.data?.abbreviation
                 ? asText(interpretation.interpretationType.data?.abbreviation)
                 : undefined,
@@ -180,8 +190,8 @@ export function transformEvent(
         }
       : undefined;
 
-  const series = transformSingleLevelGroup(data.series, 'series').map(
-    series => transformEventSeries(series as EventSeriesPrismicDocument)
+  const series = transformSingleLevelGroup(data.series, 'series').map(series =>
+    transformEventSeries(series as EventSeriesPrismicDocument)
   );
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
@@ -195,11 +205,12 @@ export function transformEvent(
         endDateTime: transformTimestamp(endDateTime),
       };
 
-      return isNotUndefined(range.startDateTime) && isNotUndefined(range.endDateTime)
+      return isNotUndefined(range.startDateTime) &&
+        isNotUndefined(range.endDateTime)
         ? {
-          range: range as DateTimeRange,
-          isFullyBooked
-        }
+            range: range as DateTimeRange,
+            isFullyBooked,
+          }
         : undefined;
     })
     .filter(isNotUndefined);

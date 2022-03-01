@@ -139,7 +139,8 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   })}
                 >
                   <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}{formatTime(event.ticketSalesStart)}
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                    {formatTime(event.ticketSalesStart)}
                   </span>
                 </Space>
               </Fragment>

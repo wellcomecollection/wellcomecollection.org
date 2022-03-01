@@ -27,7 +27,6 @@ import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
@@ -84,7 +83,11 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
           </Space>
         </Space>
       </Layout12>
-      <CardGrid items={series.items as Article[]} hidePromoText={true} itemsPerRow={3} />
+      <CardGrid
+        items={series.items as Article[]}
+        hidePromoText={true}
+        itemsPerRow={3}
+      />
     </div>
   );
 };
@@ -234,7 +237,7 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo article={article} position={i}/>
+                      <StoryPromo article={article} position={i} />
                     </div>
                   );
                 })}

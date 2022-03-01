@@ -1,16 +1,16 @@
 import { isString, isUndefined } from '@weco/common/utils/array';
-import { ParsedUrlQuery } from 'querystring'
+import { ParsedUrlQuery } from 'querystring';
 
 /** Extracts the page from the query parameter.
-  * 
-  * We prefer this to extracting the 'page' directly from the query parameter
-  * because query parameters are of type `string | string[] | undefined`, whereas
-  * downstream APIs tend to want a `number` for page values.
-  * 
-  * If this function returns an Error, it should be returned to the user as a
-  * 400 Bad Request with the supplied message.
-  * 
-  */
+ *
+ * We prefer this to extracting the 'page' directly from the query parameter
+ * because query parameters are of type `string | string[] | undefined`, whereas
+ * downstream APIs tend to want a `number` for page values.
+ *
+ * If this function returns an Error, it should be returned to the user as a
+ * 400 Bad Request with the supplied message.
+ *
+ */
 export function getPage(q: ParsedUrlQuery): number | Error {
   const { page } = q;
 
@@ -24,8 +24,8 @@ export function getPage(q: ParsedUrlQuery): number | Error {
   if (!isString(page)) {
     return {
       name: 'Bad Request',
-      message: 'Only supply a single "page" in the query parameter'
-    }
+      message: 'Only supply a single "page" in the query parameter',
+    };
   }
 
   // If the user supplies something that isn't an int, we can't do anything sensible.
@@ -33,10 +33,10 @@ export function getPage(q: ParsedUrlQuery): number | Error {
   if (isNaN(parsedPage)) {
     return {
       name: 'Bad Request',
-      
+
       // The use of JSON.stringify() here is to wrap the value in quotes, so it's
       // clear what's part of the error message and what's the user-supplied value.
-      message: `${JSON.stringify(page)} is not a number`
+      message: `${JSON.stringify(page)} is not a number`,
     };
   }
 

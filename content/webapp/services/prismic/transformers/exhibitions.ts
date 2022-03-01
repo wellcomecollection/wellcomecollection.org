@@ -13,7 +13,15 @@ import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
 import { link } from './vendored-helpers';
-import { asHtml, asRichText, asText, asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import {
+  asHtml,
+  asRichText,
+  asText,
+  asTitle,
+  transformGenericFields,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
@@ -109,7 +117,10 @@ export function transformExhibition(
     season => transformSeason(season as SeasonPrismicDocument)
   );
 
-  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item').map(exhibit => {
+  const exhibits: Exhibit[] = transformSingleLevelGroup(
+    data.exhibits,
+    'item'
+  ).map(exhibit => {
     return {
       exhibitType: 'exhibitions',
       item: transformExhibition(exhibit as ExhibitionPrismicDocument),

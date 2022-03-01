@@ -40,18 +40,17 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
       }}
     >
       <div className="relative">
-        {isNotUndefined(image)
-          ? <PrismicImage
-              image={image}
-              sizes={{
-                xlarge: 1 / 3,
-                large: 1 / 3,
-                medium: 1 / 2,
-                small: 1,
-              }}
-            />
-          : undefined
-        }
+        {isNotUndefined(image) ? (
+          <PrismicImage
+            image={image}
+            sizes={{
+              xlarge: 1 / 3,
+              large: 1 / 3,
+              medium: 1 / 2,
+              small: 1,
+            }}
+          />
+        ) : undefined}
 
         <div style={{ position: 'absolute', bottom: 0 }}>
           <LabelsList labels={labels} />

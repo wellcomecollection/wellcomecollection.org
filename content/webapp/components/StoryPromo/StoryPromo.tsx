@@ -41,9 +41,9 @@ const StoryPromo: FunctionComponent<Props> = ({
 
   const seriesColor = seriesWithSchedule?.color ?? undefined;
 
-  const indexInSeriesSchedule = (seriesWithSchedule?.schedule
-    ?.map(scheduleItem => scheduleItem.title) || [])
-    .indexOf(article.title);
+  const indexInSeriesSchedule = (
+    seriesWithSchedule?.schedule?.map(scheduleItem => scheduleItem.title) || []
+  ).indexOf(article.title);
 
   const positionInSeriesSchedule =
     isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
@@ -52,10 +52,7 @@ const StoryPromo: FunctionComponent<Props> = ({
 
   const isSerial = Boolean(seriesWithSchedule);
 
-  const labels = [
-    article.format?.title,
-    isSerial ? 'Serial' : undefined,
-  ]
+  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
     .map(text => ({ text }));
 
@@ -74,7 +71,7 @@ const StoryPromo: FunctionComponent<Props> = ({
       })}
     >
       <div className="relative">
-        {isNotUndefined(image) &&
+        {isNotUndefined(image) && (
           <PrismicImage
             image={image}
             sizes={{
@@ -84,7 +81,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               small: 1,
             }}
           />
-        }
+        )}
 
         {labels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
@@ -130,8 +127,7 @@ const StoryPromo: FunctionComponent<Props> = ({
         <CardPostBody>
           {article.series.map(series => (
             <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span>{' '}
-              {series.title}
+              <span className={font('hnr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>

@@ -25,7 +25,14 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
+import {
+  transformLink,
+  asRichText,
+  transformTaslFromString,
+  transformLabelType,
+  asTitle,
+  asText,
+} from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '@weco/common/model/generic-content-fields';
 
@@ -104,7 +111,9 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
+export function transformTeamToContact(
+  team: TeamPrismicDocument
+): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
@@ -218,7 +227,9 @@ function transformTitledTextItem({
     title: asTitle(title),
     text: asRichText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : undefined,
+    label: isFilledLinkToDocumentWithData(label)
+      ? transformLabelType(label)
+      : undefined,
   };
 }
 

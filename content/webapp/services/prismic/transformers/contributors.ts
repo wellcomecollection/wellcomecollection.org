@@ -1,15 +1,14 @@
+import { FilledLinkToDocumentField, PrismicDocument } from '@prismicio/types';
 import {
-  FilledLinkToDocumentField,
-  PrismicDocument,
-} from '@prismicio/types';
-import { isFilledLinkToDocumentWithData, WithContributors, InferDataInterface, isFilledLinkToOrganisationField, isFilledLinkToPersonField } from '../types';
+  isFilledLinkToDocumentWithData,
+  WithContributors,
+  InferDataInterface,
+  isFilledLinkToOrganisationField,
+  isFilledLinkToPersonField,
+} from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
-import {
-  asHtml,
-  asRichText,
-  asText,
-} from '.';
+import { asHtml, asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';
 import { transformImage } from './images';
@@ -17,14 +16,25 @@ import { transformImage } from './images';
 const defaultContributorImage: ImageType = {
   width: 64,
   height: 64,
-  contentUrl: 'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
+  contentUrl:
+    'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
   alt: '',
   crops: {},
 };
 
-function transformCommonFields(agent:
-  | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>> & { data: Person }
-  | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }) {
+function transformCommonFields(
+  agent:
+    | (FilledLinkToDocumentField<
+        'people',
+        'en-gb',
+        InferDataInterface<Person>
+      > & { data: Person })
+    | (FilledLinkToDocumentField<
+        'organisations',
+        'en-gb',
+        InferDataInterface<Organisation>
+      > & { data: Organisation })
+) {
   return {
     id: agent.id,
     description: asRichText(agent.data.description),
@@ -42,12 +52,12 @@ export function transformContributorAgent(
       name: asText(agent.data.name),
       pronouns: asText(agent.data.pronouns),
       sameAs: (agent.data.sameAs ?? [])
-      .map(sameAs => {
-        const link = asText(sameAs.link);
-        const title = asText(sameAs.title);
-        return title && link ? { title, link } : undefined;
-      })
-      .filter(isNotUndefined)
+        .map(sameAs => {
+          const link = asText(sameAs.link);
+          const title = asText(sameAs.title);
+          return title && link ? { title, link } : undefined;
+        })
+        .filter(isNotUndefined),
     };
   } else if (isFilledLinkToOrganisationField(agent)) {
     return {
@@ -55,12 +65,12 @@ export function transformContributorAgent(
       type: agent.type,
       name: asHtml(agent.data.name),
       sameAs: (agent.data.sameAs ?? [])
-      .map(sameAs => {
-        const link = asText(sameAs.link);
-        const title = asText(sameAs.title);
-        return title && link ? { title, link } : undefined;
-      })
-      .filter(isNotUndefined)
+        .map(sameAs => {
+          const link = asText(sameAs.link);
+          const title = asText(sameAs.title);
+          return title && link ? { title, link } : undefined;
+        })
+        .filter(isNotUndefined),
     };
   } else {
     return undefined;

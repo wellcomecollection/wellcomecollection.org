@@ -422,11 +422,12 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
-  const eventsToShow = period === 'today'
-    ? filterEventsForToday(events)
-    : period === 'this-weekend'
-    ? filterEventsForWeekend(events)
-    : events;
+  const eventsToShow =
+    period === 'today'
+      ? filterEventsForToday(events)
+      : period === 'this-weekend'
+      ? filterEventsForWeekend(events)
+      : events;
 
   return (
     <PageLayout

@@ -6,7 +6,6 @@ import {
   ReactNode,
   ReactElement,
 } from 'react';
-import { PrismicDocument } from '@prismicio/types';
 import {
   prismicPageIds,
   sectionLevelPages,
@@ -28,7 +27,6 @@ import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
-import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Contributor } from 'types/contributors';
@@ -150,15 +148,16 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {!hideContributors &&
-            contributors &&
-            contributors.length > 0 && (
-              <SpacingSection>
-                <Layout8>
-                  <Contributors contributors={contributors} titleOverride={contributorTitle} />
-                </Layout8>
-              </SpacingSection>
-            )}
+          {!hideContributors && contributors && contributors.length > 0 && (
+            <SpacingSection>
+              <Layout8>
+                <Contributors
+                  contributors={contributors}
+                  titleOverride={contributorTitle}
+                />
+              </Layout8>
+            </SpacingSection>
+          )}
 
           {RelatedContent.length > 0 && (
             <SpacingSection>

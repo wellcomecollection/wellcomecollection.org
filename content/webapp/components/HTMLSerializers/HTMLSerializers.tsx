@@ -6,38 +6,6 @@ import { Fragment, ReactElement } from 'react';
 
 const { Elements } = PrismicDOM.RichText;
 
-export const dropCapSerializer: HTMLSerializer<ReactElement> = (
-  type,
-  element,
-  content,
-  children,
-  key
-) => {
-  if (type === Elements.paragraph && key === '0' && children[0] !== undefined) {
-    const firstChild = children[0];
-    const firstCharacters =
-      firstChild.props &&
-      firstChild.props.children &&
-      firstChild.props.children[0];
-
-    if (typeof firstCharacters !== 'string') {
-      return <p key={key}>{children}</p>;
-    }
-
-    const firstLetter = firstCharacters.charAt(0);
-    const cappedFirstLetter = (
-      <span key={key} className="drop-cap">
-        {firstLetter}
-      </span>
-    );
-    const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
-    const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
-
-    return <p key={key}>{childrenWithDropCap}</p>;
-  }
-  return defaultSerializer(type, element, content, children, key);
-};
-
 export const defaultSerializer: HTMLSerializer<ReactElement> = (
   type,
   element,
@@ -88,12 +56,7 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
           : undefined;
       const linkRel = linkTarget ? 'noopener' : undefined;
       const wrapperClassList = [element.label || '', 'block-img'];
-      const img = (
-        <img
-          src={element.url}
-          alt={element.alt || ''}
-        />
-      );
+      const img = <img src={element.url} alt={element.alt || ''} />;
 
       return (
         <p key={key} className={wrapperClassList.join(' ')}>
@@ -236,4 +199,36 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
     default:
       return null;
   }
+};
+
+export const dropCapSerializer: HTMLSerializer<ReactElement> = (
+  type,
+  element,
+  content,
+  children,
+  key
+) => {
+  if (type === Elements.paragraph && key === '0' && children[0] !== undefined) {
+    const firstChild = children[0];
+    const firstCharacters =
+      firstChild.props &&
+      firstChild.props.children &&
+      firstChild.props.children[0];
+
+    if (typeof firstCharacters !== 'string') {
+      return <p key={key}>{children}</p>;
+    }
+
+    const firstLetter = firstCharacters.charAt(0);
+    const cappedFirstLetter = (
+      <span key={key} className="drop-cap">
+        {firstLetter}
+      </span>
+    );
+    const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
+    const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
+
+    return <p key={key}>{childrenWithDropCap}</p>;
+  }
+  return defaultSerializer(type, element, content, children, key);
 };

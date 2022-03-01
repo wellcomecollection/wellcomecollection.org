@@ -1,11 +1,17 @@
 import * as prismicH from 'prismic-helpers-beta';
-import { PrismicDocument, FilledLinkToDocumentField, KeyTextField, LinkField, RichTextField, TimestampField } from '@prismicio/types';
+import {
+  PrismicDocument,
+  FilledLinkToDocumentField,
+  KeyTextField,
+  LinkField,
+  RichTextField,
+  TimestampField,
+} from '@prismicio/types';
 import { Label } from '@weco/common/model/labels';
 import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
-  Image,
   InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
@@ -20,7 +26,7 @@ import {
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
-import { isNotUndefined, isString, isUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -89,7 +95,14 @@ export function transformSeries(document: PrismicDocument<WithSeries>) {
     .filter(isFilledLinkToDocumentWithData);
 }
 
-export function transformFormat(document: { data: WithArticleFormat | WithCardFormat | WithEventFormat | WithGuideFormat | WithPageFormat }): Format | undefined {
+export function transformFormat(document: {
+  data:
+    | WithArticleFormat
+    | WithCardFormat
+    | WithEventFormat
+    | WithGuideFormat
+    | WithPageFormat;
+}): Format | undefined {
   const { format } = document.data;
 
   if (isFilledLinkToDocumentWithData(format) && format.data) {
@@ -108,17 +121,20 @@ export function transformTimestamp(field: TimestampField): Date | undefined {
 // Prismic often returns empty RichText fields as `[]`, this filters them out
 
 /** Here we have wrappers for `KeyTextField` and `RichTextField`.
-  *
-  * We prefer these to the versions provided by the prismic-helpers library because
-  * they add extra validation steps, e.g. removing stray whitespace or null values. 
-  */
-export function asText(field: KeyTextField | RichTextField): string | undefined {
+ *
+ * We prefer these to the versions provided by the prismic-helpers library because
+ * they add extra validation steps, e.g. removing stray whitespace or null values.
+ */
+export function asText(
+  field: KeyTextField | RichTextField
+): string | undefined {
   if (isString(field)) {
     // KeyTextField
     return field.trim().length > 0 ? field.trim() : undefined;
   } else {
     // RichTextField
-    const output = field && field.length > 0 ? prismicH.asText(field).trim() : undefined;
+    const output =
+      field && field.length > 0 ? prismicH.asText(field).trim() : undefined;
     return output && output.length > 0 ? output : undefined;
   }
 }
@@ -130,15 +146,11 @@ function nonEmpty(field?: RichTextField): field is RichTextField {
 }
 
 export function asRichText(field: RichTextField): HTMLString | undefined {
-  return nonEmpty(field)
-    ? field as HTMLString
-    : undefined;
+  return nonEmpty(field) ? (field as HTMLString) : undefined;
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
-  return nonEmpty(field)
-    ? prismicH.asHTML(field).trim()
-    : undefined;
+  return nonEmpty(field) ? prismicH.asHTML(field).trim() : undefined;
 }
 
 export function asTitle(title: RichTextField): string {
@@ -146,7 +158,9 @@ export function asTitle(title: RichTextField): string {
   return asText(title) || '';
 }
 
-export function transformLink(link?: LinkField<string, string, any>): string | undefined {
+export function transformLink(
+  link?: LinkField<string, string, any>
+): string | undefined {
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
       return link.url;
@@ -160,18 +174,26 @@ export function transformSingleLevelGroup(
   frag: Record<string, any>[],
   singlePropertyName: string
 ) {
-  return (
-    (frag || [])
-      .filter(fragItem => isFilledLinkToDocumentWithData(fragItem[singlePropertyName]))
-      .map<Record<string, any>>(fragItem => fragItem[singlePropertyName])
-  );
+  return (frag || [])
+    .filter(fragItem =>
+      isFilledLinkToDocumentWithData(fragItem[singlePropertyName])
+    )
+    .map<Record<string, any>>(fragItem => fragItem[singlePropertyName]);
 }
 
-export function transformLabelType(format: FilledLinkToDocumentField<'article-formats', 'en-gb', InferDataInterface<ArticleFormat>> & { data: InferDataInterface<ArticleFormat> }): LabelField {
+export function transformLabelType(
+  format: FilledLinkToDocumentField<
+    'article-formats',
+    'en-gb',
+    InferDataInterface<ArticleFormat>
+  > & { data: InferDataInterface<ArticleFormat> }
+): LabelField {
   return {
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
-    description: format.data.description ? format.data.description as HTMLString : [],
+    description: format.data.description
+      ? (format.data.description as HTMLString)
+      : [],
   };
 }
 

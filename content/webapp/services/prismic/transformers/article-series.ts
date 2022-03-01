@@ -51,10 +51,10 @@ export const transformArticleSeries = (
           ? schedule.map(item => {
               return item.type === 'article-schedule-items' ||
                 item.type === 'articles'
-                ? {
+                ? ({
                     ...item,
                     color: series && series.color,
-                  } as Article
+                  } as Article)
                 : item;
             })
           : articles,

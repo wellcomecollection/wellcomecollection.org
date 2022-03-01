@@ -23,7 +23,7 @@ type Label = {
 const typeEnum = 'card';
 
 export type WithCardFormat = {
-  format: 
+  format:
     | RelationField<
         'article-formats',
         'en-gb',

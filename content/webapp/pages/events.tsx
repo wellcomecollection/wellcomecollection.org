@@ -79,7 +79,7 @@ const EventsPage: FC<Props> = props => {
     ...events,
     results:
       period !== 'past'
-        ? orderEventsByNextAvailableDate(convertedEvents) as Event[]
+        ? (orderEventsByNextAvailableDate(convertedEvents) as Event[])
         : convertedEvents,
   };
   const firstEvent = events.results[0];

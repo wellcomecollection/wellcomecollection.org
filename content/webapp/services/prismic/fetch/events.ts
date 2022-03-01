@@ -160,4 +160,5 @@ export const fetchEvents = (
   });
 };
 
-export const fetchEventsClientSide = clientSideFetcher<Event>('events').getByTypeClientSide;
+export const fetchEventsClientSide =
+  clientSideFetcher<Event>('events').getByTypeClientSide;

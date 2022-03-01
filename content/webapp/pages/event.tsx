@@ -186,7 +186,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       ],
     });
 
-    if (isNotUndefined(scheduledInQuery) && scheduledInQuery.results.length > 0) {
+    if (
+      isNotUndefined(scheduledInQuery) &&
+      scheduledInQuery.results.length > 0
+    ) {
       setScheduledIn(scheduledInQuery.results[0]);
     }
   };
