@@ -23,6 +23,11 @@ you will have to remember to deploy all affected types.
 [custom-types]: https://prismic.io/docs/core-concepts/custom-types
 [custom-types-api]: https://prismic.io/docs/technologies/custom-types-api
 
+**To see any model changes** reflected in the Prismic API response, you **must publish a piece of content**. You should do this whenever you change the model and check the prismic API response for the change to verify everything is working as expected.
+
+**Rolling back:**
+If a model change has caused the site to error. The quickest fix is to revert the model change and publish a piece of content in Prismic, so the model change is reflected in the Prismic response.
+
 ## Find where slices are used
 
 The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image).
