@@ -1,4 +1,4 @@
-import Contributors, { dedupeAndPluraliseRoles } from './Contributors';
+import Contributors, { dedupeAndPluraliseRoles, Props as ContributorProps } from './Contributors';
 import { shallowWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
 import { PrismicDocument } from '@prismicio/types';
 import { WithContributors } from '../../services/prismic/types';
@@ -38,21 +38,11 @@ test('multi contributor, single roles, flattened', async () => {
 describe('Contributors', () => {
   it('returns nothing if there are no visible contributors', () => {
     // e.g. https://wellcomecollection.org/collections
-    const document: PrismicDocument<WithContributors> = {
-      id: 'YBfeAhMAACEAqBTx',
-      data: {
-        contributors: [
-          {
-            role: { link_type: 'Document' },
-            contributor: { link_type: 'Document' },
-            description: [],
-          },
-        ],
-        contributorsTitle: [],
-      },
+    const props: ContributorProps = {
+      contributors: [],
     };
 
-    const component = shallowWithTheme(<Contributors document={document} />);
+    const component = shallowWithTheme(<Contributors {...props} />);
 
     expect(component.html()).toBe('');
   });

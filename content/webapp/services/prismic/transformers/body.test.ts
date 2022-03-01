@@ -1,8 +1,7 @@
 import { transformBody } from '.';
-import { Embed, MediaObjectList } from '../types/body';
+import { Embed, MediaObjectList as MediaObjectListSlice } from '../types/body';
 import { EmbedType, RichTextNodeType } from '@prismicio/types';
 import { transformMediaObjectListSlice } from './body';
-import { placeHolderImage } from './images';
 
 export const sameAs = [
   { link: 'https://twitter.com/mbannisy', title: [] },
@@ -14,7 +13,7 @@ export const sameAs = [
 ];
 
 describe('transformMediaObjectListSlice', () => {
-  const missingImageTextSlice: MediaObjectList = {
+  const missingImageTextSlice: MediaObjectListSlice = {
     items: [
       {
         title: [
@@ -25,7 +24,7 @@ describe('transformMediaObjectListSlice', () => {
           },
         ],
         text: [],
-        image: placeHolderImage,
+        image: null,
       },
     ],
     slice_type: 'mediaObjectList',
@@ -37,13 +36,16 @@ describe('transformMediaObjectListSlice', () => {
     const mediaObjectList = transformMediaObjectListSlice(
       missingImageTextSlice
     );
-    expect(mediaObjectList).toEqual([
-      {
-        title: 'Only book for your household or bubble',
-        text: null,
-        image: null,
-      },
-    ]);
+    expect(mediaObjectList).toEqual({
+      type: 'mediaObjectList',
+      value: {
+        items: [{
+          title: 'Only book for your household or bubble',
+          text: null,
+          image: null,
+        }]
+      }
+    });
   });
 });
 
@@ -87,7 +89,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RTlA8X0EJ7w?rel=0&list=PL1C12C48F8E360BC2',
-          caption: [],
+          caption: null,
         },
       },
     ]);
@@ -128,7 +130,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RwUS2ev53b8?rel=0&feature=oembed',
-          caption: [],
+          caption: null,
         },
       },
     ]);
