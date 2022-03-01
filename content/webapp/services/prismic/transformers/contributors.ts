@@ -53,7 +53,7 @@ export function transformContributorAgent(
     return {
       ...transformCommonFields(agent),
       type: agent.type,
-      name: asHtml(agent.data.name),
+      name: asText(agent.data.name),
       sameAs: (agent.data.sameAs ?? [])
       .map(sameAs => {
         const link = asText(sameAs.link);
