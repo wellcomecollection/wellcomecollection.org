@@ -11,7 +11,7 @@ import { asText, transformGenericFields, transformLabelType, transformSingleLeve
 import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
-import { Series } from 'types/series';
+import { Series } from '../../../types/series';
 import { transformSeason } from './seasons';
 import { transformSeries } from './series';
 import { SeriesPrismicDocument } from '../types/series';

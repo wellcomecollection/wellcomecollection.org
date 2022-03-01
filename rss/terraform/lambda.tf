@@ -5,10 +5,14 @@ data "aws_s3_object" "lambda_package" {
 
 resource "aws_lambda_function" "stories_rss" {
   function_name = "stories_rss_updater"
-  role          = aws_iam_role.stories_rss.arn
-  runtime       = "nodejs12.x"
-  handler       = "index.run"
-  publish       = true
+  description   = "Updates the copy of the RSS feed stored in S3"
+
+  role    = aws_iam_role.stories_rss.arn
+  runtime = "nodejs14.x"
+  handler = "index.run"
+  publish = true
+
+  timeout = 60
 
   s3_bucket         = data.aws_s3_object.lambda_package.bucket
   s3_key            = data.aws_s3_object.lambda_package.key

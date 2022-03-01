@@ -1,3 +1,4 @@
+import * as prismic from 'prismic-client-beta';
 // const micro = require('micro');
 // const Rss = require('rss');
 // const Prismic = require('prismic-javascript');
@@ -47,8 +48,23 @@
 //   }
 // }`;
 
+import { GetServerSidePropsPrismicClient } from '@weco/content/services/prismic/fetch';
+import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
+import { transformQuery } from '@weco/content/services/prismic/transformers/paginated-results';
+import { transformArticle } from '@weco/content/services/prismic/transformers/articles';
+
 export const run = async (event, context) => {
+  const endpoint = prismic.getEndpoint('wellcomecollection');
+  const client: GetServerSidePropsPrismicClient = {
+    client: prismic.createClient(endpoint, { fetch }),
+    type: 'GetServerSidePropsPrismicClient',
+  };
+
+  const articlesQuery = await fetchArticles(client, { pageSize: 100 });
+  const articles = transformQuery(articlesQuery, transformArticle);
+
   console.log("Hello world!");
+  console.log(JSON.stringify(articles))
 }
 
 // const stories = async (req, res) => {
