@@ -1,7 +1,6 @@
 import { isDatePast } from '../utils/format-date';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
-import { BackgroundTexture } from './background-texture';
 import { ImageType } from './image';
 import { LabelField } from './label-field';
 import { Place } from './places';
@@ -23,10 +22,6 @@ export type EventSeries = {
   id: string;
   title: string;
   description?: string;
-};
-
-export type UiEventSeries = EventSeries & {
-  backgroundTexture?: BackgroundTexture;
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
