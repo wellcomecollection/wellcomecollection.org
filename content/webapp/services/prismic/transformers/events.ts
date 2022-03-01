@@ -16,7 +16,15 @@ import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
-import { asText, asTitle, transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
+import {
+  asText,
+  asTitle,
+  transformFormat,
+  transformGenericFields,
+  transformLabelType,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -33,6 +41,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
+import { Moment } from 'moment';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -74,7 +83,7 @@ function determineDisplayTime(times: EventTime[]): EventTime {
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
-export function getLastEndTime(times: EventTime[]) {
+export function getLastEndTime(times: EventTime[]): Moment | undefined {
   return times.length > 0
     ? times
         .map(({ range: { endDateTime } }) => london(endDateTime))
@@ -121,7 +130,9 @@ export function transformEvent(
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
-              title: asTitle(interpretation.interpretationType.data?.title || []),
+              title: asTitle(
+                interpretation.interpretationType.data?.title || []
+              ),
               abbreviation: interpretation.interpretationType.data?.abbreviation
                 ? asText(interpretation.interpretationType.data?.abbreviation)
                 : undefined,
@@ -180,8 +191,8 @@ export function transformEvent(
         }
       : undefined;
 
-  const series = transformSingleLevelGroup(data.series, 'series').map(
-    series => transformEventSeries(series as EventSeriesPrismicDocument)
+  const series = transformSingleLevelGroup(data.series, 'series').map(series =>
+    transformEventSeries(series as EventSeriesPrismicDocument)
   );
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
@@ -195,11 +206,12 @@ export function transformEvent(
         endDateTime: transformTimestamp(endDateTime),
       };
 
-      return isNotUndefined(range.startDateTime) && isNotUndefined(range.endDateTime)
+      return isNotUndefined(range.startDateTime) &&
+        isNotUndefined(range.endDateTime)
         ? {
-          range: range as DateTimeRange,
-          isFullyBooked
-        }
+            range: range as DateTimeRange,
+            isFullyBooked,
+          }
         : undefined;
     })
     .filter(isNotUndefined);
