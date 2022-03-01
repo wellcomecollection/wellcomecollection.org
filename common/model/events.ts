@@ -63,7 +63,6 @@ export type UiEvent = Event & {
   displayStart: Date;
   displayEnd: Date;
   dateRange: DateRange;
-  backgroundTexture?: string;
 };
 
 export type EventSchedule = {
