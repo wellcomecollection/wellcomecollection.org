@@ -44,7 +44,7 @@ const fetchers: Record<Key, (client: prismic.Client) => unknown> = {
     return client.get({
       predicates: [
         prismic.predicate.any('document.type', ['collection-venue']),
-      ]
+      ],
     });
   },
 };

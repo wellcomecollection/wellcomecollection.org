@@ -96,9 +96,9 @@ const Tabs: FunctionComponent<Props> = ({
   }, [activeId]);
 
   function focusTabAtIndex(index: number): void {
-    (tabListRef?.current?.querySelector(
-      `#${tabs[index].id}`
-    ) as HTMLDivElement)?.focus();
+    (
+      tabListRef?.current?.querySelector(`#${tabs[index].id}`) as HTMLDivElement
+    )?.focus();
   }
 
   // A11y expectation for Keyboard interaction: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-19

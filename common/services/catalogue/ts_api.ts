@@ -76,9 +76,8 @@ export function worksRouteToApiUrl(
     languages: worksProps.languages,
     'genres.label': worksProps['genres.label'].map(quoteVal),
     'subjects.label': worksProps['subjects.label'].map(quoteVal),
-    'contributors.agent.label': worksProps['contributors.agent.label'].map(
-      quoteVal
-    ),
+    'contributors.agent.label':
+      worksProps['contributors.agent.label'].map(quoteVal),
     ...overrides,
   };
 }
@@ -92,12 +91,10 @@ export function imagesRouteToApiUrl(
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
     'locations.license': imagesRouteProps['locations.license'],
-    'source.genres.label': imagesRouteProps['source.genres.label'].map(
-      quoteVal
-    ),
-    'source.contributors.agent.label': imagesRouteProps[
-      'source.contributors.agent.label'
-    ].map(quoteVal),
+    'source.genres.label':
+      imagesRouteProps['source.genres.label'].map(quoteVal),
+    'source.contributors.agent.label':
+      imagesRouteProps['source.contributors.agent.label'].map(quoteVal),
     ...overrides,
   };
 }
