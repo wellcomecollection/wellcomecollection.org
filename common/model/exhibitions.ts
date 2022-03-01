@@ -28,12 +28,6 @@ export type Exhibition = GenericContentFields & {
   seasons: Season[];
 };
 
-// TODO: I'm pretty sure we don't use this featuredImageList anywhere,
-// and we could collapse this into Exhibition.
-export type UiExhibition = Exhibition & {
-  featuredImageList: Picture[];
-};
-
 export type Exhibit = {
   exhibitType: 'exhibitions';
   item: Exhibition;
@@ -41,5 +35,5 @@ export type Exhibit = {
 
 export type UiExhibit = {
   exhibitType: 'exhibitions';
-  item: UiExhibition;
+  item: Exhibition;
 };

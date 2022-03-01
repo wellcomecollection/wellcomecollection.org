@@ -45,12 +45,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       return {
         props: removeUndefinedProps({
-          // TODO: This is a temporary shim until we can get rid of the UiExhibition
-          // type.  Ideally we'd pass the exhibitionDoc directly here.
-          exhibition: {
-            ...exhibitionDoc,
-            featuredImageList: [],
-          },
+          exhibition: exhibitionDoc,
           pages: relatedPages?.results || [],
           serverData,
           gaDimensions: {
