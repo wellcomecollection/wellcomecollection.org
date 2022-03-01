@@ -1,7 +1,6 @@
 import { isDatePast } from '../utils/format-date';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
-import { ImageType } from './image';
 import { LabelField } from './label-field';
 import { Place } from './places';
 import { Season } from './seasons';
@@ -103,29 +102,6 @@ export type Event = GenericContentFields & {
   availableOnline: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
-};
-
-export type EventPromo = {
-  type?: string;
-  id: string;
-  title?: string;
-  url: string;
-  start?: Date;
-  end?: Date;
-  isMultiDate: boolean;
-  isFullyBooked: boolean;
-  hasNotFullyBookedTimes: boolean;
-  description?: string;
-  format?: Format;
-  bookingType?: string;
-  image?: ImageType;
-  interpretations: Interpretation[];
-  eventbriteId?: string;
-  audience?: Audience;
-  series: EventSeries[];
-  schedule: Event[];
-  dateString?: string;
-  timeString?: string;
 };
 
 export function isEventFullyBooked(event: UiEvent): boolean {
