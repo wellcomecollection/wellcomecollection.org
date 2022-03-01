@@ -2,6 +2,14 @@
   "name": "@weco/rss",
   "version": "1.0.0",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc && yarn bundle",
+    "bundle": "cp package.json dist && cd dist && yarn install --production && zip -r stories_rss.zip . && cd ..",
+    "uploadToS3": "yarn build && node deploy"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.836.0"
+  },
   "dependencies": {
     "micro": "^9.3.3",
     "node-dev": "^3.1.3",

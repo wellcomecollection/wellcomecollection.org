@@ -50,6 +50,7 @@
     "catalogue/webapp",
     "content/webapp",
     "identity/webapp",
+    "rss/webapp",
     "toggles/webapp"
   ],
   "lint-staged": {
