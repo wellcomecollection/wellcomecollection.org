@@ -124,7 +124,7 @@ const appPromise = nextApp
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
-      ctx.cookies.set('io.prismic.preview');
+      ctx.cookies.set(prismic.cookie.preview);
 
       const endpoint = prismic.getEndpoint('wellcomecollection');
       const client = prismic.createClient(endpoint, { fetch });
@@ -137,11 +137,10 @@ const appPromise = nextApp
         return (linkResolver(doc) as string) || '/';
       };
 
-      const url = await client
-        .resolvePreviewURL({
-          linkResolver: retypedLinkResolver,
-          defaultURL: '/',
-        });
+      const url = await client.resolvePreviewURL({
+        linkResolver: retypedLinkResolver,
+        defaultURL: '/',
+      });
 
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,
