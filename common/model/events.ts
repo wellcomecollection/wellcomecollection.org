@@ -103,7 +103,7 @@ export type Event = GenericContentFields & {
   secondaryLabels: Label[];
 };
 
-export function isEventFullyBooked(event: UiEvent): boolean {
+export function isEventFullyBooked(event: Event): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {
