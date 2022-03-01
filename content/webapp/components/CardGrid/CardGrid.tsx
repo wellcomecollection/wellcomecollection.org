@@ -24,7 +24,7 @@ import { Project } from '../../types/projects';
 import { Guide } from '../../types/guides';
 
 // TODO: This should be MultiContent
-type ContentTypes =
+export type ContentTypes =
   | UiEvent
   | Exhibition
   | Book

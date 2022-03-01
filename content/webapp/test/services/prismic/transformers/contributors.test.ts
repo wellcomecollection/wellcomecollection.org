@@ -42,6 +42,9 @@ describe('transformContributors', () => {
           spans: [],
         },
       ],
+      data: {
+        contributors: [],
+      },
     };
 
     const contributor = transformContributors(document);

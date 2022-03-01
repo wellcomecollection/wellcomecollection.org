@@ -17,7 +17,7 @@ describe('webcomic edge case', () => {
 test.each([
   { doc: { type: 'articles', id: '1' }, path: '/articles/1' },
   { doc: { type: 'pages', id: '1' }, path: '/pages/1' },
-  { doc: { type: 'not a thing', id: '1' }, path: undefined },
+  { doc: { type: 'not a thing', id: '1' }, path: '/' },
 ])('$doc resolves to $path', ({ doc, path }) => {
   expect(linkResolver(doc)).toBe(path);
 });

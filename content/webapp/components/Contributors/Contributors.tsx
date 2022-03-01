@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
 import { Contributor as ContributorType } from '../../types/contributors';
 
-type Props = {
+export type Props = {
   titlePrefix?: string;
   contributors: ContributorType[];
   titleOverride?: string;
