@@ -1,4 +1,3 @@
-import { Picture } from './picture';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
@@ -29,11 +28,6 @@ export type Exhibition = GenericContentFields & {
 };
 
 export type Exhibit = {
-  exhibitType: 'exhibitions';
-  item: Exhibition;
-};
-
-export type UiExhibit = {
   exhibitType: 'exhibitions';
   item: Exhibition;
 };
