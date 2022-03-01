@@ -1,7 +1,8 @@
-import Contributors, { dedupeAndPluraliseRoles, Props as ContributorProps } from './Contributors';
+import Contributors, {
+  dedupeAndPluraliseRoles,
+  Props as ContributorProps,
+} from './Contributors';
 import { shallowWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
-import { PrismicDocument } from '@prismicio/types';
-import { WithContributors } from '../../services/prismic/types';
 
 const facilitator = 'Facilitator';
 const guide = 'Guide';
@@ -20,11 +21,7 @@ test('multi contributor, multi role', async () => {
 });
 
 test('multi contributor, multi role, roles matching', async () => {
-  const title = dedupeAndPluraliseRoles(
-    [facilitator, guide, guide, speaker],
-    'About the',
-    false
-  );
+  const title = dedupeAndPluraliseRoles([facilitator, guide, guide, speaker]);
 
   expect(title).toEqual(['Facilitator', 'Guides', 'Speaker']);
 });
