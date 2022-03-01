@@ -1,5 +1,7 @@
 {
   "name": "@weco/rss",
+  "version": "1.0.0",
+  "license": "MIT",
   "dependencies": {
     "micro": "^9.3.3",
     "node-dev": "^3.1.3",
