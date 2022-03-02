@@ -554,7 +554,7 @@ describe('opening-times', () => {
     });
   });
   describe('groupConsecutiveExceptionalDays', () => {
-    it.only('puts consecutive exceptional dates into groups', () => {
+    it('puts consecutive exceptional dates into groups', () => {
       const result = groupConsecutiveExceptionalDays([
         {
           overrideDate: london('2022-01-01'),
