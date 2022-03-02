@@ -117,7 +117,6 @@ export const fetchMultiContentClientSide = async (
       }
     })
 
-    console.log(json);
     return json;
   }
 };
