@@ -8,6 +8,7 @@ import {
   backfillExceptionalVenueDays,
   getVenueById,
   getTodaysVenueHours,
+  groupConsecutiveExceptionalDays,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { OverrideType } from '../../../model/opening-hours';
@@ -550,6 +551,103 @@ describe('opening-times', () => {
         closes: '21:00',
         isClosed: false,
       });
+    });
+  });
+  describe('groupConsecutiveExceptionalDays', () => {
+    it.only('puts consecutive exceptional dates into groups', () => {
+      const result = groupConsecutiveExceptionalDays([
+        {
+          overrideDate: london('2022-01-01'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '12:00',
+          closes: '14:00',
+          isClosed: false,
+        },
+        {
+          overrideDate: london('2021-12-31'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2022-02-05'),
+          overrideType: 'Bank holiday' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-12-30'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-12-29'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2022-02-04'),
+          overrideType: 'Bank holiday' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+      ]);
+
+      expect(result).toEqual([
+        [
+          {
+            overrideDate: london('2021-12-29'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-12-30'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-12-31'),
+            overrideType: 'Christmas and New Year',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-01-01'),
+            overrideType: 'Christmas and New Year',
+            opens: '12:00',
+            closes: '14:00',
+            isClosed: false,
+          },
+        ],
+        [
+          {
+            overrideDate: london('2022-02-04'),
+            overrideType: 'Bank holiday',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-02-05'),
+            overrideType: 'Bank holiday',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
+      ]);
     });
   });
 });

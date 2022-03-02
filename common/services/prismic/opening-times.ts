@@ -202,7 +202,7 @@ export function backfillExceptionalVenueDays(
   });
 }
 
-export function groupConsecutiveDays(
+export function groupConsecutiveExceptionalDays(
   dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
   return dates
