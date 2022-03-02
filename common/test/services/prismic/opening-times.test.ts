@@ -6,6 +6,7 @@ import {
   groupExceptionalVenueDays,
   exceptionalFromRegular,
   backfillExceptionalVenueDays,
+  getUpcomingExceptionalPeriods,
   getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
@@ -511,6 +512,107 @@ describe('opening-times', () => {
     });
   });
 
+  describe.only('getUpcomingExceptionalPeriods', () => {
+    const exceptionalPeriods = [
+      [
+        {
+          overrideDate: london('2021-12-29'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-12-30'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2021-12-31'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2022-01-01'),
+          overrideType: 'Christmas and New Year' as OverrideType,
+          opens: '12:00',
+          closes: '14:00',
+          isClosed: false,
+        },
+      ],
+      [
+        {
+          overrideDate: london('2022-02-04'),
+          overrideType: 'Bank holiday' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+        {
+          overrideDate: london('2022-02-05'),
+          overrideType: 'Bank holiday' as OverrideType,
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        },
+      ],
+    ];
+
+    it('returns an empty array if no exceptional periods have dayys that occur in the next 28 days', () => {
+      const spyOnLondon = jest.spyOn(dateUtils, 'london');
+      // set specific date, so we have something consistent to test against
+      spyOnLondon.mockImplementation(() => {
+        return moment.tz('2021-11-30', 'Europe/London');
+      });
+      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      expect(result).toEqual([]);
+    });
+
+    it('returns an exceptional periods that has days that occur in the next 28 days', () => {
+      const spyOnLondon = jest.spyOn(dateUtils, 'london');
+      // set specific date, so we have something consistent to test against
+      spyOnLondon.mockImplementation(() => {
+        return moment.tz('2021-12-10', 'Europe/London');
+      });
+      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      expect(result).toEqual([
+        [
+          {
+            overrideDate: london('2021-12-29'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-12-30'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2021-12-31'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+          {
+            overrideDate: london('2022-01-01'),
+            overrideType: 'Christmas and New Year' as OverrideType,
+            opens: '12:00',
+            closes: '14:00',
+            isClosed: false,
+          },
+        ],
+      ]);
+    });
+  });
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
