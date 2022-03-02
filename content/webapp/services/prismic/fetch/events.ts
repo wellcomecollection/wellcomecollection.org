@@ -160,4 +160,13 @@ export const fetchEvents = (
   });
 };
 
+// TODO: I suspect any page that uses this fetcher to get a non-empty
+// list of results will throw a client-side error, because these events
+// will have strings as dates instead of the JavaScript Date type.
+//
+// See a similar comment on the client-side fetcher in multi-content.ts.
+//
+// AFAICT, there aren't any events that call this fetcher right now and
+// return a non-empty list of results, so it's hard to test this -- but
+// be aware that bug is potentially lurking out there.
 export const fetchEventsClientSide = clientSideFetcher<Event>('events').getByTypeClientSide;
