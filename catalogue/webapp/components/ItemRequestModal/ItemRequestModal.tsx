@@ -26,7 +26,11 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { PhysicalItem, Work } from '@weco/common/model/catalogue';
+import {
+  PhysicalItem,
+  Work,
+  CatalogueApiError,
+} from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
@@ -382,16 +386,18 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;
+  errorMessage: string | undefined;
 };
 
-const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive }) => (
+const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
   <>
     <Header>
       <span className={`h2`}>Request failed</span>
     </Header>
     <p className="no-margin">
       {/* TODO: get error code and construct appropriate message from response - see #6916 */}
-      There was a problem requesting this item. Please try again.
+      {errorMessage ||
+        'There was a problem requesting this item. Please try again.'}
     </p>
     <CTAs>
       <ButtonOutlined text={`Close`} clickHandler={() => setIsActive(false)} />
@@ -411,6 +417,7 @@ const ItemRequestModal: FC<Props> = ({
   ...modalProps
 }) => {
   const [requestingState, setRequestingState] = useState<RequestingState>();
+  const [requestingErrorMessage, setRequestingError] = useState<string>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
     if (requestingState === 'requesting') return; // we don't want the modal to close during an api call
@@ -442,9 +449,11 @@ const ItemRequestModal: FC<Props> = ({
           'Content-Type': 'application/json',
         },
       });
+      const responseJson = await response.json();
       if (!response.ok) {
         setRequestingState('error');
-        // TODO: something to Sentry?
+        const error: CatalogueApiError = responseJson;
+        throw error;
       } else {
         setRequestingState('confirmed');
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
@@ -454,16 +463,27 @@ const ItemRequestModal: FC<Props> = ({
       }
     } catch (error) {
       setRequestingState('error');
+      setRequestingError(error.description);
       // TODO: error to Sentry?
     }
   }
 
-  function renderModalContent(requestingState: RequestingState) {
+  function renderModalContent(
+    requestingState: RequestingState,
+    requestingErrorMessage?:
+      | string
+      | 'There was a problem requesting this item. Please try again.'
+  ) {
     switch (requestingState) {
       case 'requesting':
         return <LL />;
       case 'error':
-        return <ErrorDialog setIsActive={innerSetIsActive} />;
+        return (
+          <ErrorDialog
+            setIsActive={innerSetIsActive}
+            errorMessage={requestingErrorMessage}
+          />
+        );
       case 'confirmed':
         return <ConfirmedDialog currentHoldNumber={currentHoldNumber} />;
       default:
@@ -488,7 +508,11 @@ const ItemRequestModal: FC<Props> = ({
       setIsActive={innerSetIsActive}
       openButtonRef={openButtonRef}
     >
-      {<div aria-live="assertive">{renderModalContent(requestingState)}</div>}
+      {
+        <div aria-live="assertive">
+          {renderModalContent(requestingState, requestingErrorMessage)}
+        </div>
+      }
     </Modal>
   );
 };
