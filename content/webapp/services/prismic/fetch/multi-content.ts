@@ -23,7 +23,7 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { MultiContent } from '../transformers/multi-content';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { convertJsonToDates } from 'pages/event';
+import { convertJsonToDates } from '../../../pages/event';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
