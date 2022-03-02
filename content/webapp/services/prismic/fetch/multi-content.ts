@@ -93,7 +93,7 @@ export const fetchMultiContentClientSide = async (
   // e.g. at one point we forgot to include the "params" query in the cache key,
   // so every article was showing the same set of related stories.
   //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
   const urlSearchParams = new URLSearchParams();
   urlSearchParams.set('params', stringQuery);
 
@@ -105,18 +105,20 @@ export const fetchMultiContentClientSide = async (
   if (response.ok) {
     let json: PaginatedResults<MultiContent> = await response.json();
 
-    // Because get the events as JSON through the API, their dates will be strings
-    // instead of JavaScript Date values.  Convert them to Date values so they don't
-    // explode when we try to use them in components.
-    json.results = json.results.map(doc => {
-      switch(doc.type) {
-        case 'events':
-          return convertJsonToDates(doc);
-        default:
-          return doc;
-      }
-    })
+    return {
+      ...json,
 
-    return json;
+      // Because get the events as JSON through the API, their dates will be strings
+      // instead of JavaScript Date values.  Convert them to Date values so they don't
+      // explode when we try to use them in components.
+      results: json.results.map(doc => {
+        switch(doc.type) {
+          case 'events':
+            return convertJsonToDates(doc);
+          default:
+            return doc;
+        }
+      }),
+    };
   }
 };
