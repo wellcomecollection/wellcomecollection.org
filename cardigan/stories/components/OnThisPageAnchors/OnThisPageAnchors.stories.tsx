@@ -1,4 +1,4 @@
-import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import OnThisPageAnchors from '@weco/content/components/OnThisPageAnchors/OnThisPageAnchors';
 
 const Template = args => <OnThisPageAnchors {...args} />;
 export const basic = Template.bind({});

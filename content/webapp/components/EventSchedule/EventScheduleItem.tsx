@@ -12,7 +12,7 @@ import {
 import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { isEventPast } from 'services/prismic/events';
+import { isEventPast } from '../../services/prismic/events';
 
 type Props = {
   event: Event;
