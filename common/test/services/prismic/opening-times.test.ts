@@ -512,7 +512,7 @@ describe('opening-times', () => {
     });
   });
 
-  describe.only('getUpcomingExceptionalPeriods', () => {
+  describe('getUpcomingExceptionalPeriods', () => {
     const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
       [
         {
