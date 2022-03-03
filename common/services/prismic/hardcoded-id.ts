@@ -52,7 +52,7 @@ export const prismicPageIds = {
   schools: 'Wuw2MSIAACtd3StS',
   userPanel: 'YH17kRAAACoAyWTB',
   venueHire: 'Wuw2MSIAACtd3SsC',
-  youth: 'Wuw2MSIAACtd3Ste',
+  youth: 'Wuw2MSIAACtd3Ssg',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {
