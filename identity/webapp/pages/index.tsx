@@ -326,7 +326,13 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                     ] ?? result.status.label}
                                   </ItemStatus>,
                                   enablePickUpDate ? (
-                                    <HTMLDate date={new Date()} /> // TODO need to pass in the actual date once it's available on resuilt
+                                    result.pickupDate ? (
+                                      <HTMLDate
+                                        date={new Date(result.pickupDate)}
+                                      />
+                                    ) : (
+                                      <p>n/a</p>
+                                    )
                                   ) : null,
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}
