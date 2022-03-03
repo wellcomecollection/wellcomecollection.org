@@ -36,6 +36,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
+import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 
 function arrayofItemsToText(arr) {
   if (arr.length === 1) return arr[0];
@@ -394,11 +395,7 @@ const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
     <Header>
       <span className={`h2`}>Request failed</span>
     </Header>
-    <p className="no-margin">
-      {/* TODO: get error code and construct appropriate message from response - see #6916 */}
-      {errorMessage ||
-        'There was a problem requesting this item. Please try again.'}
-    </p>
+    <p className="no-margin">{errorMessage || defaultRequestErrorMessage}</p>
     <CTAs>
       <ButtonOutlined text={`Close`} clickHandler={() => setIsActive(false)} />
     </CTAs>
@@ -449,9 +446,9 @@ const ItemRequestModal: FC<Props> = ({
           'Content-Type': 'application/json',
         },
       });
-      const responseJson = await response.json();
       if (!response.ok) {
         setRequestingState('error');
+        const responseJson = await response.json();
         const error: CatalogueApiError = responseJson;
         throw error;
       } else {
@@ -470,9 +467,7 @@ const ItemRequestModal: FC<Props> = ({
 
   function renderModalContent(
     requestingState: RequestingState,
-    requestingErrorMessage?:
-      | string
-      | 'There was a problem requesting this item. Please try again.'
+    requestingErrorMessage?: string
   ) {
     switch (requestingState) {
       case 'requesting':
