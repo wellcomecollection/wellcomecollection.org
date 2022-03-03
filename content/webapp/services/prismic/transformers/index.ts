@@ -41,13 +41,16 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformMapSlice,
   transformMediaObjectListSlice,
+  transformStandfirstSlice,
   transformTableSlice,
+  transformTextSlice,
   transformTitledTextListSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
-import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+import { licenseTypeArray } from '@weco/common/model/license';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
@@ -57,22 +60,6 @@ import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
-
-export function transformPromo(doc: Doc) {
-  /**
-   * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
-   * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
-   * we should have probably just had `.image` and `.description`.
-   * We could reimport into these fields, but it would have to be the whole Prismic corpus,
-   * and we aren't confident enough that it imports correctly.
-   *
-   * This method flattens out the `SliceZone` into just a Promo
-   */
-
-  // We have to explicitly set undefined here as we don't have the
-  // `noUncheckedIndexedAccess` tsconfig compiler option set
-  return doc.data?.promo?.[0]?.primary ?? undefined;
-}
 
 export function transformLabels(doc: Doc): Label[] {
   const typeLabels = {
@@ -191,28 +178,13 @@ export function transformBody(body: Body): BodyType {
     .map(slice => {
       switch (slice.slice_type) {
         case 'standfirst':
-          return {
-            type: 'standfirst',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformStandfirstSlice(slice);
 
         case 'text':
-          return {
-            type: 'text',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformTextSlice(slice);
 
         case 'map':
-          return {
-            type: 'map',
-            value: {
-              title: asText(slice.primary.title),
-              latitude: slice.primary.geolocation.latitude,
-              longitude: slice.primary.geolocation.longitude,
-            },
-          };
+          return transformMapSlice(slice);
 
         case 'editorialImage':
           return transformEditorialImageSlice(slice);
@@ -496,9 +468,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
       copyrightHolder,
       copyrightLink,
     ] = v;
-    const license: LicenseType | undefined = licenseTypeArray.find(
-      l => l === maybeLicense
-    );
+    const license = licenseTypeArray.find(l => l === maybeLicense);
     return {
       title,
       author,

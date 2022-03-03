@@ -2,8 +2,11 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
+  Standfirst as StandfirstSlice,
   Table as TableSlice,
+  TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
@@ -15,6 +18,7 @@ import { Props as ImageGalleryProps } from '../../../components/ImageGallery/Ima
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -44,12 +48,40 @@ export function getWeight(weight: string | null): Weight {
 
 type ParsedSlice<TypeName extends string, Value> = {
   type: TypeName;
+  weight?: Weight;
   value: Value;
 };
 
-type WeightedSlice = {
-  weight: Weight;
-};
+export function transformStandfirstSlice(
+  slice: StandfirstSlice
+): ParsedSlice<'standfirst', RichTextField> {
+  return {
+    type: 'standfirst',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
+
+export function transformTextSlice(
+  slice: TextSlice
+): ParsedSlice<'text', RichTextField> {
+  return {
+    type: 'text',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
+
+export function transformMapSlice(slice: MapSlice): ParsedSlice<'map', MapProps> {
+  return {
+    type: 'map',
+    value: {
+      title: asText(slice.primary.title) || '',
+      latitude: slice.primary.geolocation.latitude,
+      longitude: slice.primary.geolocation.longitude,
+    },
+  };
+}
 
 function transformTableCsv(tableData: string): string[][] {
   return tableData
@@ -130,7 +162,7 @@ export function transformContactSlice(
 
 export function transformEditorialImageSlice(
   slice: EditorialImageSlice
-): ParsedSlice<'picture', CaptionedImage> & WeightedSlice {
+): ParsedSlice<'picture', CaptionedImage> {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -153,8 +185,7 @@ export function transformEditorialImageGallerySlice(
 
 export function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
-): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> &
-  WeightedSlice {
+): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
   return {
     type: 'deprecatedImageList',
     weight: getWeight(slice.slice_label),
@@ -177,7 +208,7 @@ export function transformDeprecatedImageListSlice(
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
-): (ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice) | undefined {
+): (ParsedSlice<'gifVideo', GifVideoProps>) | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;

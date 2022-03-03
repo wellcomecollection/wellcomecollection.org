@@ -16,7 +16,7 @@ import { isUndefined } from '@weco/common/utils/array';
 import { Image, InferDataInterface } from '.';
 import { TeamPrismicDocument } from './teams';
 
-type TextSlice = Slice<'text', { text: RichTextField }>;
+export type TextSlice = Slice<'text', { text: RichTextField }>;
 
 export type EditorialImageSlice = Slice<
   'editorialImage',
@@ -62,7 +62,7 @@ type QuotePrimaryFields = {
 type Quote = Slice<'quote', QuotePrimaryFields>;
 type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
-type Standfirst = Slice<
+export type Standfirst = Slice<
   'standfirst',
   {
     text: RichTextField;
@@ -86,7 +86,7 @@ export type Embed = Slice<
   }
 >;
 
-type Map = Slice<
+export type Map = Slice<
   'map',
   {
     title: KeyTextField;
