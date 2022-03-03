@@ -50,7 +50,7 @@ import {
 } from './body';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
-import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+import { licenseTypeArray } from '@weco/common/model/license';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
@@ -468,9 +468,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
       copyrightHolder,
       copyrightLink,
     ] = v;
-    const license: LicenseType | undefined = licenseTypeArray.find(
-      l => l === maybeLicense
-    );
+    const license = licenseTypeArray.find(l => l === maybeLicense);
     return {
       title,
       author,
