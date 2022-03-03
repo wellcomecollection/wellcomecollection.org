@@ -48,16 +48,13 @@ export function getWeight(weight: string | null): Weight {
 
 type ParsedSlice<TypeName extends string, Value> = {
   type: TypeName;
+  weight?: Weight;
   value: Value;
-};
-
-type WeightedSlice = {
-  weight: Weight;
 };
 
 export function transformStandfirstSlice(
   slice: StandfirstSlice
-): ParsedSlice<'standfirst', RichTextField> & WeightedSlice {
+): ParsedSlice<'standfirst', RichTextField> {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
@@ -67,7 +64,7 @@ export function transformStandfirstSlice(
 
 export function transformTextSlice(
   slice: TextSlice
-): ParsedSlice<'text', RichTextField> & WeightedSlice {
+): ParsedSlice<'text', RichTextField> {
   return {
     type: 'text',
     weight: getWeight(slice.slice_label),
@@ -165,7 +162,7 @@ export function transformContactSlice(
 
 export function transformEditorialImageSlice(
   slice: EditorialImageSlice
-): ParsedSlice<'picture', CaptionedImage> & WeightedSlice {
+): ParsedSlice<'picture', CaptionedImage> {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -188,8 +185,7 @@ export function transformEditorialImageGallerySlice(
 
 export function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
-): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> &
-  WeightedSlice {
+): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
   return {
     type: 'deprecatedImageList',
     weight: getWeight(slice.slice_label),
@@ -212,7 +208,7 @@ export function transformDeprecatedImageListSlice(
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
-): (ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice) | undefined {
+): (ParsedSlice<'gifVideo', GifVideoProps>) | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
