@@ -42,7 +42,9 @@ import {
   transformEditorialImageSlice,
   transformGifVideoSlice,
   transformMediaObjectListSlice,
+  transformStandfirstSlice,
   transformTableSlice,
+  transformTextSlice,
   transformTitledTextListSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
@@ -175,18 +177,10 @@ export function transformBody(body: Body): BodyType {
     .map(slice => {
       switch (slice.slice_type) {
         case 'standfirst':
-          return {
-            type: 'standfirst',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformStandfirstSlice(slice);
 
         case 'text':
-          return {
-            type: 'text',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformTextSlice(slice);
 
         case 'map':
           return {

@@ -62,7 +62,7 @@ type QuotePrimaryFields = {
 type Quote = Slice<'quote', QuotePrimaryFields>;
 type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
-type Standfirst = Slice<
+export type Standfirst = Slice<
   'standfirst',
   {
     text: RichTextField;

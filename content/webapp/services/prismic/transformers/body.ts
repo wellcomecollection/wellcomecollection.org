@@ -3,7 +3,9 @@ import {
   EditorialImageSlice,
   EditorialImageGallerySlice,
   MediaObjectList as MediaObjectListSlice,
+  Standfirst as StandfirstSlice,
   Table as TableSlice,
+  TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
@@ -50,6 +52,26 @@ type ParsedSlice<TypeName extends string, Value> = {
 type WeightedSlice = {
   weight: Weight;
 };
+
+export function transformStandfirstSlice(
+  slice: StandfirstSlice
+): ParsedSlice<'standfirst', RichTextField> & WeightedSlice {
+  return {
+    type: 'standfirst',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
+
+export function transformTextSlice(
+  slice: TextSlice
+): ParsedSlice<'text', RichTextField> & WeightedSlice {
+  return {
+    type: 'text',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
 
 function transformTableCsv(tableData: string): string[][] {
   return tableData
