@@ -50,7 +50,6 @@ import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedTex
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -68,10 +67,10 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformEvent } from '../services/prismic/transformers/events';
+import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import { fixExhibitionDatesInJson, transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -395,20 +394,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
-  const events = props.events.results.map(convertJsonToDates);
-
+  const events = props.events.results.map(fixEventDatesInJson);
   const availableOnlineEvents =
-    props.availableOnlineEvents.results.map(convertJsonToDates);
-
-  // Convert dates back to Date types because it's serialised through
-  // `getInitialProps`
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+    props.availableOnlineEvents.results.map(fixEventDatesInJson);
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const firstExhibition = exhibitions[0];
 

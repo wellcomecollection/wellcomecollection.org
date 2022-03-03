@@ -1,4 +1,4 @@
-import { GetServerSidePropsPrismicClient, delistPredicate, clientSideFetcher } from '.';
+import { GetServerSidePropsPrismicClient, delistPredicate } from '.';
 import { Query } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
@@ -23,6 +23,7 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { MultiContent } from '../transformers/multi-content';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { fixEventDatesInJson } from '../transformers/events';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -92,7 +93,7 @@ export const fetchMultiContentClientSide = async (
   // e.g. at one point we forgot to include the "params" query in the cache key,
   // so every article was showing the same set of related stories.
   //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
   const urlSearchParams = new URLSearchParams();
   urlSearchParams.set('params', stringQuery);
 
@@ -102,7 +103,22 @@ export const fetchMultiContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    const json: PaginatedResults<MultiContent> = await response.json();
-    return json;
+    let json: PaginatedResults<MultiContent> = await response.json();
+
+    return {
+      ...json,
+
+      // Because get the events as JSON through the API, their dates will be strings
+      // instead of JavaScript Date values.  Convert them to Date values so they don't
+      // explode when we try to use them in components.
+      results: json.results.map(doc => {
+        switch(doc.type) {
+          case 'events':
+            return fixEventDatesInJson(doc);
+          default:
+            return doc;
+        }
+      }),
+    };
   }
 };

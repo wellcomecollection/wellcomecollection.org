@@ -245,6 +245,10 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };
+
+  // TODO: Do we need to re-cast to Date here?  We've sometimes seen issues
+  // caused by JSON serialisation, but that should be handled elsewhere by
+  // the fixExhibitionDatesInJson helper.
   const DateInfo = exhibition.end ? (
     <DateRange
       start={new Date(exhibition.start)}

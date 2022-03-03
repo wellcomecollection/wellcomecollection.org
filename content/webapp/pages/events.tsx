@@ -4,7 +4,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import type { Period } from '@weco/common/model/periods';
-import { convertJsonToDates } from './event';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -17,7 +16,7 @@ import { eventLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
-import { transformEvent } from '../services/prismic/transformers/events';
+import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { Event } from '../types/events';
@@ -74,12 +73,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const EventsPage: FC<Props> = props => {
   const { events, displayTitle, period } = props;
-  const convertedEvents = events.results.map(convertJsonToDates);
+  const convertedEvents = events.results.map(fixEventDatesInJson);
   const convertedPaginatedResults = {
     ...events,
     results:
       period !== 'past'
-        ? orderEventsByNextAvailableDate(convertedEvents) as Event[]
+        ? orderEventsByNextAvailableDate(convertedEvents)
         : convertedEvents,
   };
   const firstEvent = events.results[0];

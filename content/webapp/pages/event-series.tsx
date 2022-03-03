@@ -7,7 +7,6 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader, {
   getFeaturedMedia,
 } from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertJsonToDates } from './event';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -24,7 +23,7 @@ import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformEventSeries } from '../services/prismic/transformers/event-series';
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformEvent } from 'services/prismic/transformers/events';
+import { fixEventDatesInJson, transformEvent } from 'services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;
@@ -75,7 +74,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
   // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
   // This could probably be done at the time of use, instead of globally...
-  const events = jsonEvents.map(convertJsonToDates);
+  const events = jsonEvents.map(fixEventDatesInJson);
 
   const breadcrumbs = {
     items: [

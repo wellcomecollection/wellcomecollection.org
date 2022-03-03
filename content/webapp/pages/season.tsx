@@ -8,7 +8,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
-import { convertJsonToDates } from './event';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
@@ -26,8 +25,8 @@ import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { transformBook } from '../services/prismic/transformers/books';
-import { transformEvent } from '../services/prismic/transformers/events';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
+import { fixExhibitionDatesInJson, transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
@@ -76,14 +75,8 @@ const SeasonPage = ({
       end={season.end}
     />
   );
-  const parsedEvents = events.map(convertJsonToDates);
-  const parsedExhibitions = exhibitions.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+  const parsedEvents = events.map(fixEventDatesInJson);
+  const parsedExhibitions = exhibitions.map(fixExhibitionDatesInJson);
 
   const allItems = [
     ...parsedExhibitions,

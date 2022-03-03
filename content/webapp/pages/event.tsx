@@ -53,6 +53,7 @@ import {
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
 import {
+  fixEventDatesInJson,
   getScheduleIds,
   transformEvent,
 } from '../services/prismic/transformers/events';
@@ -137,39 +138,6 @@ function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isTimePast(dateTime);
 }
 
-// Convert dates back to Date types because it's serialised through
-// `getInitialProps`
-export function convertJsonToDates(jsonEvent: Event): Event {
-  const dateRange = {
-    ...jsonEvent.dateRange,
-    firstDate: new Date(jsonEvent.dateRange.firstDate),
-    lastDate: new Date(jsonEvent.dateRange.lastDate),
-  };
-  const times = jsonEvent.times.map(time => {
-    return {
-      ...time,
-      range: {
-        startDateTime: new Date(time.range.startDateTime),
-        endDateTime: new Date(time.range.endDateTime),
-      },
-    };
-  });
-
-  const schedule =
-    jsonEvent.schedule &&
-    jsonEvent.schedule.map(item => ({
-      ...item,
-      event: convertJsonToDates(item.event),
-    }));
-
-  return {
-    ...jsonEvent,
-    times,
-    schedule,
-    dateRange,
-  };
-}
-
 const eventInterpretationIcons: Record<string, IconSvg> = {
   britishSignLanguage: britishSignLanguage,
   speechToText: speechToText,
@@ -194,7 +162,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
     getScheduledIn();
   }, []);
 
-  const event = convertJsonToDates(jsonEvent);
+  const event = fixEventDatesInJson(jsonEvent);
 
   const genericFields = {
     id: event.id,

@@ -317,3 +317,38 @@ export const getScheduleIds = (
     .map(linkField => (link(linkField.event) ? linkField.event.id : undefined))
     .filter(isNotUndefined);
 };
+
+// When events are serialised as JSON then re-parsed, the times will be
+// strings instead of JavaScript Date types.
+//
+// Convert them back to the right types.
+export function fixEventDatesInJson(jsonEvent: Event): Event {
+  const dateRange = {
+    ...jsonEvent.dateRange,
+    firstDate: new Date(jsonEvent.dateRange.firstDate),
+    lastDate: new Date(jsonEvent.dateRange.lastDate),
+  };
+  const times = jsonEvent.times.map(time => {
+    return {
+      ...time,
+      range: {
+        startDateTime: new Date(time.range.startDateTime),
+        endDateTime: new Date(time.range.endDateTime),
+      },
+    };
+  });
+
+  const schedule =
+    jsonEvent.schedule &&
+    jsonEvent.schedule.map(item => ({
+      ...item,
+      event: fixEventDatesInJson(item.event),
+    }));
+
+  return {
+    ...jsonEvent,
+    times,
+    schedule,
+    dateRange,
+  };
+}
