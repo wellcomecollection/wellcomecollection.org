@@ -58,22 +58,6 @@ import { ArticleFormatId } from '@weco/common/model/content-format-id';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
-export function transformPromo(doc: Doc) {
-  /**
-   * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
-   * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
-   * we should have probably just had `.image` and `.description`.
-   * We could reimport into these fields, but it would have to be the whole Prismic corpus,
-   * and we aren't confident enough that it imports correctly.
-   *
-   * This method flattens out the `SliceZone` into just a Promo
-   */
-
-  // We have to explicitly set undefined here as we don't have the
-  // `noUncheckedIndexedAccess` tsconfig compiler option set
-  return doc.data?.promo?.[0]?.primary ?? undefined;
-}
-
 export function transformLabels(doc: Doc): Label[] {
   const typeLabels = {
     seasons: [{ text: 'Season' }],
