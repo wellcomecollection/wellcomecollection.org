@@ -5,7 +5,6 @@ import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
-  Image,
   InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
@@ -16,11 +15,11 @@ import {
   BodyType,
   GenericContentFields,
   Weight,
-} from '@weco/common/model/generic-content-fields';
+} from '../../../types/generic-content-fields';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
-import { isNotUndefined, isString, isUndefined } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { transformPage } from './pages';
 import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
@@ -54,10 +53,10 @@ import { licenseTypeArray } from '@weco/common/model/license';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
-import { Format } from '@weco/common/model/format';
+import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
-import { ArticleFormatId } from '@weco/common/model/content-format-id';
+import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 

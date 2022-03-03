@@ -1,6 +1,6 @@
 import { Page as PageType } from '../types/pages';
 import Exhibition from '../components/Exhibition/Exhibition';
-import { Exhibition as ExhibitionType} from '../types/exhibitions';
+import { Exhibition as ExhibitionType } from '../types/exhibitions';
 import Installation from '../components/Installation/Installation';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { FC } from 'react';

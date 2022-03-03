@@ -17,7 +17,7 @@ import {
   homepageId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import { Periods } from '@weco/common/model/periods';
+import { Periods } from './types/periods';
 import linkResolver from './services/prismic/link-resolver';
 import * as prismic from 'prismic-client-beta';
 

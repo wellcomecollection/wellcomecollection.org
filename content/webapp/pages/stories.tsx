@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { Article } from '../types/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Series } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,7 +18,7 @@ import {
   getPageFeaturedText,
   transformPage,
 } from '../services/prismic/transformers/pages';
-import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
+import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -27,7 +27,6 @@ import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
@@ -46,12 +45,12 @@ import { Book } from '../types/books';
 
 type Props = {
   articles: Article[];
-  series: ArticleSeries;
+  series: Series;
   featuredText?: FeaturedTextType;
   featuredBooks: Book[];
 };
 
-const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
+const SerialisedSeries = ({ series }: { series: Series }) => {
   return (
     <div>
       <Layout12>

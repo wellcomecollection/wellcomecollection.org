@@ -6,7 +6,7 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Article } from '../types/articles';
-import { Page as PageType } from '@weco/common/model/pages';
+import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -18,7 +18,7 @@ import {
 } from '../services/prismic/events';
 import { Exhibition } from '../types/exhibitions';
 import { Event } from '../types/events';
-import { convertItemToCardProps } from '@weco/common/model/card';
+import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';

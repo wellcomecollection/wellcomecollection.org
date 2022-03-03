@@ -2,7 +2,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent } from 'react';
-import { Season } from '@weco/common/model/seasons';
+import { Season } from '../../types/seasons';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';

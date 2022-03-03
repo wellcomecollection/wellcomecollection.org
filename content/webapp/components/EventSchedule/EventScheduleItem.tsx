@@ -8,14 +8,14 @@ import {
   formatTime,
   formatDayDate,
   isTimePast,
-  isDatePast,
 } from '@weco/common/utils/format-date';
-import type { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
+import { isEventPast } from 'services/prismic/events';
 
 type Props = {
-  event: UiEvent;
+  event: Event;
   isNotLinked: boolean;
 };
 
@@ -145,7 +145,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
               </Fragment>
             )}
 
-            {!isDatePast(event.dateRange.lastDate) &&
+            {!isEventPast(event) &&
               event.eventbriteId &&
               !waitForTicketSales && (
                 <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
@@ -153,7 +153,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                 </Space>
               )}
 
-            {!isDatePast(event.dateRange.lastDate) &&
+            {!isEventPast(event) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>

@@ -7,7 +7,7 @@ import {
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
-import { ImagePromo } from '@weco/common/model/image-promo';
+import { ImagePromo } from '../../../types/image-promo';
 import { asRichText, asText, transformTaslFromString } from '.';
 
 export const placeHolderImage: ImageType = {

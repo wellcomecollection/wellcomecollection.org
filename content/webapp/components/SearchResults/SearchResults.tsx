@@ -1,15 +1,15 @@
 import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { MultiContent } from '../../services/prismic/transformers/multi-content';
+import { MultiContent } from '../../types/multi-content';
 import { grid } from '@weco/common/utils/classnames';
 import { formatDate } from '@weco/common/utils/format-date';
 import Image from '@weco/common/views/components/Image/Image';
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
-import EventCard from '@weco/common/views/components/EventCard/EventCard';
-import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/ImagePlaceholder';
+import CompactCard from '../CompactCard/CompactCard';
+import EventCard from '../EventCard/EventCard';
+import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { ArticleScheduleItem } from '../../types/article-schedule-items';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};

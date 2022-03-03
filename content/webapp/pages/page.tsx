@@ -5,7 +5,7 @@ import PageLayout, {
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
-import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import VideoEmbed from '../components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { Page as PageType } from '../types/pages';
 import { SiblingsGroup } from '../types/siblings-group';
@@ -20,7 +20,7 @@ import {
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/common/model/content-format-id';
+import { PageFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ordersInParents,
           serverData,
           gaDimensions: {
-            partOf: page.seasons.map<string>(season => season.id),
+            partOf: page.seasons.map(season => season.id),
           },
         }),
       };

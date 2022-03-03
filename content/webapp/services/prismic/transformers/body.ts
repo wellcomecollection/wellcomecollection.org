@@ -15,12 +15,12 @@ import {
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
-import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
 import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
-import { MediaObjectType } from '@weco/common/model/media-object';
+import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
@@ -31,7 +31,7 @@ import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-import { Weight } from '@weco/common/model/generic-content-fields';
+import { Weight } from '../../../types/generic-content-fields';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {

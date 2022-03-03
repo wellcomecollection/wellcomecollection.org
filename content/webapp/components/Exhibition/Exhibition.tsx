@@ -2,14 +2,12 @@ import { Fragment, useState, useEffect, FC } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
@@ -284,7 +282,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
           />
         </Fragment>
       }
-      FeaturedMedia={maybeFeaturedMedia}
+      FeaturedMedia={maybeFeaturedMedia as any}
       HeroPicture={maybeHeroPicture}
       isFree={true}
       isContentTypeInfoBeforeMedia={true}

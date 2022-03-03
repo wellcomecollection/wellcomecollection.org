@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { Season } from '@weco/common/model/seasons';
+import { Season } from '../types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';

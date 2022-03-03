@@ -20,7 +20,7 @@ import {
   pagesFormatsFields,
   guidesFields,
 } from '@weco/common/services/prismic/fetch-links';
-import { Page } from '@weco/common/model/pages';
+import { Page } from '../../../types/pages';
 import { SiblingsGroup } from '../../../types/siblings-group';
 
 export const fetchLinks = pagesFields.concat(

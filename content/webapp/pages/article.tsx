@@ -1,17 +1,15 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '../types/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Series } from '../types/series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { ArticleFormatIds } from '@weco/common/model/content-format-id';
+import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
+import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -71,12 +69,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 type ArticleSeriesList = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 }[];
 
-export function getNextUp(
-  series: ArticleSeries,
+function getNextUp(
+  series: Series,
   articles: Article[],
   article: Article,
   currentPosition?: number

@@ -3,12 +3,11 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../../utils/page-header';
 import { Exhibition as InstallationType } from '../../types/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
@@ -72,7 +71,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
       breadcrumbs={breadcrumbs}
       labels={{ labels: installation.labels }}
       title={installation.title}
-      FeaturedMedia={FeaturedMedia}
+      FeaturedMedia={FeaturedMedia as any}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       ContentTypeInfo={
         <>

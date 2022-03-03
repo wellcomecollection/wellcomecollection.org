@@ -5,11 +5,7 @@ import {
 import { isFilledLinkToDocumentWithData, WithContributors, InferDataInterface, isFilledLinkToOrganisationField, isFilledLinkToPersonField } from '../types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
-import {
-  asHtml,
-  asRichText,
-  asText,
-} from '.';
+import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';
 import { transformImage } from './images';

@@ -1,4 +1,6 @@
 import {
+  Exhibit,
+  ExhibitionFormat,
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
@@ -18,8 +20,7 @@ import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { isFilledLinkToDocumentWithData } from '../types';
-import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
-import { Resource } from '@weco/common/model/resource';
+import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 

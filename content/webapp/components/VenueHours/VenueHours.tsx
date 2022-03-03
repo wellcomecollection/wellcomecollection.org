@@ -19,7 +19,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
-import { Weight } from '@weco/common/model/generic-content-fields';
+import { Weight } from '../../types/generic-content-fields';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
