@@ -562,7 +562,7 @@ describe('opening-times', () => {
       ],
     ];
 
-    it('returns an empty array if no exceptional periods have dayys that occur in the next 28 days', () => {
+    it('returns an empty array if no exceptional periods have days that occur in the next 28 days', () => {
       const spyOnLondon = jest.spyOn(dateUtils, 'london');
       // set specific date, so we have something consistent to test against
       spyOnLondon.mockImplementation(() => {
