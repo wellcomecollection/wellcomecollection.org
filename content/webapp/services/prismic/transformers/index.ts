@@ -5,7 +5,6 @@ import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
-  Image,
   InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
@@ -15,7 +14,6 @@ import {
 import {
   BodyType,
   GenericContentFields,
-  Weight,
 } from '@weco/common/model/generic-content-fields';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
