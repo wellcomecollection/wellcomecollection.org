@@ -73,3 +73,6 @@ export const sierraStatusCodeToLabel = {
   i: 'Available to view',
   t: 'In transit',
 };
+
+export const defaultRequestErrorMessage =
+  'There was a problem requesting this item. Please try again.';
