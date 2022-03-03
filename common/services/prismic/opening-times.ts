@@ -202,7 +202,7 @@ export function backfillExceptionalVenueDays(
   });
 }
 
-export function groupConsecutiveDays(
+export function groupConsecutiveExceptionalDays(
   dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
   return dates
@@ -213,10 +213,8 @@ export function groupConsecutiveDays(
       (acc, date) => {
         const group = acc[acc.length - 1];
         if (
-          date.overrideDate &&
           date.overrideDate.diff(
-            (group[group.length - 1] && group[group.length - 1].overrideDate) ||
-              date.overrideDate,
+            group[group.length - 1]?.overrideDate,
             'days'
           ) > 1
         ) {
