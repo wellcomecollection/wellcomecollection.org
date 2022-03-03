@@ -13,6 +13,7 @@ type Props = {
   pickUpDate: string | null;
   setPickUpDate: (date: string) => void;
 };
+
 const RequestingDayPicker: FC<Props> = ({
   startDate,
   endDate,
