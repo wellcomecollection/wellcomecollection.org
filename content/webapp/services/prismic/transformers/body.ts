@@ -2,6 +2,7 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Iframe as IframeSlice,
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
@@ -15,6 +16,7 @@ import {
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
@@ -289,6 +291,19 @@ export function transformInfoBlockSlice(
       text: slice.primary.text as HTMLString,
       linkText: slice.primary.linkText,
       link: transformLink(slice.primary.link),
+    },
+  };
+}
+
+export function transformIframeSlice(
+  slice: IframeSlice
+): ParsedSlice<'iframe', IframeProps> {
+  return {
+    type: 'iframe',
+    weight: getWeight(slice.slice_label),
+    value: {
+      src: slice.primary.iframeSrc!,
+      image: transformImage(slice.primary.previewImage)!,
     },
   };
 }

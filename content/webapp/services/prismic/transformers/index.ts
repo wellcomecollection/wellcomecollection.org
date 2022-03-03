@@ -41,6 +41,7 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformIframeSlice,
   transformInfoBlockSlice,
   transformMapSlice,
   transformMediaObjectListSlice,
@@ -280,14 +281,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'iframe':
-          return {
-            type: 'iframe',
-            weight: slice.slice_label! as Weight,
-            value: {
-              src: slice.primary.iframeSrc,
-              image: transformImage(slice.primary.previewImage),
-            },
-          };
+          return transformIframeSlice(slice);
 
         case 'gifVideo':
           return transformGifVideoSlice(slice);

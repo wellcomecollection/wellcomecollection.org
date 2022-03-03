@@ -45,7 +45,7 @@ export type GifVideoSlice = Slice<
   }
 >;
 
-type Iframe = Slice<
+export type Iframe = Slice<
   'iframe',
   {
     iframeSrc: KeyTextField;
