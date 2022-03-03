@@ -325,13 +325,15 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                       result.status.id
                                     ] ?? result.status.label}
                                   </ItemStatus>,
-                                  enablePickUpDate && result.pickupDate ? (
-                                    <HTMLDate
-                                      date={new Date(result.pickupDate)}
-                                    />
-                                  ) : (
-                                    <p>n/a</p>
-                                  ),
+                                  enablePickUpDate ? (
+                                    result.pickupDate ? (
+                                      <HTMLDate
+                                        date={new Date(result.pickupDate)}
+                                      />
+                                    ) : (
+                                      <p>n/a</p>
+                                    )
+                                  ) : null,
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}
                                   </ItemPickup>,
