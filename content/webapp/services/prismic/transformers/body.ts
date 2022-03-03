@@ -6,12 +6,9 @@ import {
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
-<<<<<<< HEAD
-  Standfirst as StandfirstSlice,
-=======
   Quote as QuoteSlice,
   QuoteV2 as QuoteV2Slice,
->>>>>>> Add a helper function for transforming quote slices
+  Standfirst as StandfirstSlice,
   Table as TableSlice,
   TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
