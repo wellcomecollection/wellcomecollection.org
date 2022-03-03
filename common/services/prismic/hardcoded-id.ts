@@ -34,7 +34,6 @@ export const collectionVenueId = {
 
 export const prismicPageIds = {
   covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
-  covidBookYourTicket: 'X5aomxIAAB8Aq6n5',
   whatWeDo: 'WwLGFCAAAPMiB_Ps',
   visitUs: 'X8ZTSBIAACQAiDzY',
   collections: 'YBfeAhMAACEAqBTx',
@@ -48,12 +47,13 @@ export const prismicPageIds = {
   bookingAndAttendingOurEvents: 'Wuw19yIAAK1Z3Sng',
   contactUs: 'YVMbEBAAAPaMBrz7',
   dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
+  gettingHere: 'WwabUiAAAHQXGNHB',
   openingTimes: 'WwQHTSAAANBfDYXU',
   press: 'WuxrKCIAAP9h3hmw',
   schools: 'Wuw2MSIAACtd3StS',
   userPanel: 'YH17kRAAACoAyWTB',
   venueHire: 'Wuw2MSIAACtd3SsC',
-  youth: 'Wuw2MSIAACtd3Ste',
+  youth: 'Wuw2MSIAACtd3Ssg',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {

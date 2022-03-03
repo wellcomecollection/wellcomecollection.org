@@ -10,6 +10,7 @@ import Layout8 from '../Layout8/Layout8';
 import Space from '../styled/Space';
 import { errorMessages } from '../../../data/microcopy';
 import { isNotUndefined } from '../../../utils/array';
+import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
 type Props = {
   statusCode?: number;
@@ -97,7 +98,7 @@ const ErrorPage: FunctionComponent<Props> = ({
                   </Space>
                   <Space as="li">
                     <MoreLink
-                      url="/pages/Wuw2MSIAACtd3Ssg"
+                      url={`/pages/${prismicPageIds.youth}`}
                       name="Our youth programme"
                     />
                   </Space>

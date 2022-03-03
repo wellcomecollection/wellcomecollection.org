@@ -148,7 +148,6 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
 
   const hiddenBreadcrumbPages = [
     prismicPageIds.covidWelcomeBack,
-    prismicPageIds.covidBookYourTicket,
   ];
 
   const sectionLevelPage = sectionLevelPages.includes(page.id);

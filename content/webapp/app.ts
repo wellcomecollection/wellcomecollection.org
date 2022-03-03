@@ -107,18 +107,12 @@ const appPromise = nextApp
     pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
     pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
     pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
-    pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
-    pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/covid-book-your-ticket',
-      'X5aomxIAAB8Aq6n5'
-    );
-    pageVanityUrl(router, nextApp, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
-    pageVanityUrl(router, nextApp, '/about-us', 'Wuw2MSIAACtd3Stq');
-    pageVanityUrl(router, nextApp, '/get-involved', 'YDaZmxMAACIAT9u8');
-    pageVanityUrl(router, nextApp, '/user-panel', 'YH17kRAAACoAyWTB');
+    pageVanityUrl(router, nextApp, '/schools', prismicPageIds.schools);
+    pageVanityUrl(router, nextApp, '/covid-welcome-back', prismicPageIds.covidWelcomeBack);
+    pageVanityUrl(router, nextApp, '/visit-us', prismicPageIds.visitUs, '/page');
+    pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
+    pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
+    pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 
