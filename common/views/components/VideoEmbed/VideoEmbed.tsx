@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import { HTMLString } from '@weco/common/services/prismic/types';
-import { IframeContainer } from '../Iframe/Iframe';
+import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
 
 type Props = {
   embedUrl: string;

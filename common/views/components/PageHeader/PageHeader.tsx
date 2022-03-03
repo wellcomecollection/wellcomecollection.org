@@ -1,6 +1,8 @@
 import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
+import { UiImage } from '../Images/Images';
+import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import { Picture } from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
 import HighlightedHeading from './HighlightedHeading';
@@ -49,6 +51,11 @@ const HeroPictureContainer = styled.div`
   `}
 `;
 
+export type FeaturedMedia =
+  | ReactElement<typeof UiImage>
+  | typeof VideoEmbed
+  | typeof Picture;
+
 type BackgroundType = ReactElement<typeof HeaderBackground>;
 
 function addFreeLabel(labelListProps) {
@@ -67,8 +74,7 @@ type Props = {
   title: string;
   ContentTypeInfo?: ReactNode;
   Background?: BackgroundType;
-  // TODO: We used to provide a more specific type here
-  FeaturedMedia?: any;
+  FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isFree?: boolean;
   heroImageBgColor?: 'white' | 'cream';

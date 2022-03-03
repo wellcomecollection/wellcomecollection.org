@@ -1,14 +1,10 @@
 import { breakpoints } from '@weco/common/utils/breakpoints';
 import { UiImage } from '@weco/common/views/components/Images/Images';
+import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
 import Picture from '@weco/common/views/components/Picture/Picture';
-import VideoEmbed from '../components/VideoEmbed/VideoEmbed';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { ReactElement } from 'react';
 import { GenericContentFields } from '../types/generic-content-fields';
-
-export type FeaturedMedia =
-  | ReactElement<typeof UiImage>
-  | typeof VideoEmbed
-  | typeof Picture;
 
 export function getFeaturedMedia(
   fields: GenericContentFields,

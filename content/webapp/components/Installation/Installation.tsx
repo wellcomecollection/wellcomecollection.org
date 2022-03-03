@@ -71,7 +71,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
       breadcrumbs={breadcrumbs}
       labels={{ labels: installation.labels }}
       title={installation.title}
-      FeaturedMedia={FeaturedMedia as any}
+      FeaturedMedia={FeaturedMedia}
       Background={<HeaderBackground hasWobblyEdge={true} />}
       ContentTypeInfo={
         <>

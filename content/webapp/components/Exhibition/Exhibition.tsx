@@ -282,7 +282,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
           />
         </Fragment>
       }
-      FeaturedMedia={maybeFeaturedMedia as any}
+      FeaturedMedia={maybeFeaturedMedia}
       HeroPicture={maybeHeroPicture}
       isFree={true}
       isContentTypeInfoBeforeMedia={true}
