@@ -23,7 +23,7 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { MultiContent } from '../transformers/multi-content';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { convertJsonToDates } from '../../../pages/event';
+import { fixEventDatesInJson } from '../transformers/events';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -114,7 +114,7 @@ export const fetchMultiContentClientSide = async (
       results: json.results.map(doc => {
         switch(doc.type) {
           case 'events':
-            return convertJsonToDates(doc);
+            return fixEventDatesInJson(doc);
           default:
             return doc;
         }
