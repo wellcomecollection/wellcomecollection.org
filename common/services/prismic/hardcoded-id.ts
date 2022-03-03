@@ -34,7 +34,6 @@ export const collectionVenueId = {
 
 export const prismicPageIds = {
   covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
-  covidBookYourTicket: 'X5aomxIAAB8Aq6n5',
   whatWeDo: 'WwLGFCAAAPMiB_Ps',
   visitUs: 'X8ZTSBIAACQAiDzY',
   collections: 'YBfeAhMAACEAqBTx',

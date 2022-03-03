@@ -109,12 +109,6 @@ const appPromise = nextApp
     pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
     pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
     pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/covid-book-your-ticket',
-      'X5aomxIAAB8Aq6n5'
-    );
     pageVanityUrl(router, nextApp, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
     pageVanityUrl(router, nextApp, '/about-us', 'Wuw2MSIAACtd3Stq');
     pageVanityUrl(router, nextApp, '/get-involved', 'YDaZmxMAACIAT9u8');
