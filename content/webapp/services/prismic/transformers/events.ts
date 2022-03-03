@@ -342,7 +342,7 @@ export function fixEventDatesInJson(jsonEvent: Event): Event {
     jsonEvent.schedule &&
     jsonEvent.schedule.map(item => ({
       ...item,
-      event: convertJsonToDates(item.event),
+      event: fixEventDatesInJson(item.event),
     }));
 
   return {
