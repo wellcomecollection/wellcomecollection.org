@@ -18,7 +18,6 @@ import {
 } from '../services/prismic/events';
 import { Exhibition } from '../types/exhibitions';
 import { Event } from '../types/events';
-import { convertJsonToDates } from './event';
 import { convertItemToCardProps } from '@weco/common/model/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -35,10 +34,10 @@ import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
-import { transformEvent } from '../services/prismic/transformers/events';
+import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { fixExhibitionDatesInJson, transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({
@@ -122,20 +121,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Homepage: FC<Props> = props => {
-  const events = props.events.results.map(convertJsonToDates);
+  const events = props.events.results.map(fixEventDatesInJson);
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
     filterEventsForNext7Days(events)
   );
 
-  // Convert dates back to Date types because it's serialised through
-  // `getInitialProps`
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const articles = props.articles;
   const page = props.page;
