@@ -132,7 +132,7 @@ type TagList = Slice<
   }
 >;
 
-type InfoBlock = Slice<
+export type InfoBlock = Slice<
   'infoBlock',
   {
     title: RichTextField;

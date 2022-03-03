@@ -2,6 +2,7 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  InfoBlock as InfoBlockSlice,
   Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
   Standfirst as StandfirstSlice,
@@ -14,6 +15,7 @@ import {
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
@@ -32,6 +34,7 @@ import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '@weco/common/model/generic-content-fields';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -272,6 +275,20 @@ export function transformDiscussionSlice(
     value: {
       title: asTitle(slice.primary.title),
       text: asRichText(slice.primary.text) || [],
+    },
+  };
+}
+
+export function transformInfoBlockSlice(
+  slice: InfoBlockSlice
+): ParsedSlice<'infoBlock', InfoBlockProps> {
+  return {
+    type: 'infoBlock',
+    value: {
+      title: asTitle(slice.primary.title),
+      text: slice.primary.text as HTMLString,
+      linkText: slice.primary.linkText,
+      link: transformLink(slice.primary.link),
     },
   };
 }

@@ -41,6 +41,7 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformInfoBlockSlice,
   transformMapSlice,
   transformMediaObjectListSlice,
   transformStandfirstSlice,
@@ -363,15 +364,7 @@ export function transformBody(body: Body): BodyType {
           return transformTableSlice(slice);
 
         case 'infoBlock':
-          return {
-            type: 'infoBlock',
-            value: {
-              title: asTitle(slice.primary.title),
-              text: slice.primary.text,
-              linkText: slice.primary.linkText,
-              link: transformLink(slice.primary.link),
-            },
-          };
+          return transformInfoBlockSlice(slice);
 
         case 'discussion':
           return transformDiscussionSlice(slice);
