@@ -59,8 +59,8 @@ type QuotePrimaryFields = {
   citation: RichTextField;
 };
 
-type Quote = Slice<'quote', QuotePrimaryFields>;
-type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
+export type Quote = Slice<'quote', QuotePrimaryFields>;
+export type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
 export type Standfirst = Slice<
   'standfirst',

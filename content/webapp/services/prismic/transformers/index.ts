@@ -45,6 +45,7 @@ import {
   transformInfoBlockSlice,
   transformMapSlice,
   transformMediaObjectListSlice,
+  transformQuoteSlice,
   transformStandfirstSlice,
   transformTableSlice,
   transformTextSlice,
@@ -269,16 +270,7 @@ export function transformBody(body: Body): BodyType {
 
         case 'quote':
         case 'quoteV2':
-          return {
-            type: 'quote',
-            weight: getWeight(slice.slice_label),
-            value: {
-              text: slice.primary.text,
-              citation: slice.primary.citation,
-              isPullOrReview:
-                slice.slice_label === 'pull' || slice.slice_label === 'review',
-            },
-          };
+          return transformQuoteSlice(slice);
 
         case 'iframe':
           return transformIframeSlice(slice);

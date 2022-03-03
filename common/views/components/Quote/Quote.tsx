@@ -3,7 +3,7 @@ import { font, classNames } from '../../../utils/classnames';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 
-type Props = {
+export type Props = {
   text: HTMLString;
   citation?: HTMLString;
   isPullOrReview: boolean;

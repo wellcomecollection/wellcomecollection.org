@@ -6,7 +6,12 @@ import {
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
+<<<<<<< HEAD
   Standfirst as StandfirstSlice,
+=======
+  Quote as QuoteSlice,
+  QuoteV2 as QuoteV2Slice,
+>>>>>>> Add a helper function for transforming quote slices
   Table as TableSlice,
   TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
@@ -18,6 +23,7 @@ import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
+import { Props as QuoteProps } from '@weco/common/views/components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
@@ -304,6 +310,21 @@ export function transformIframeSlice(
     value: {
       src: slice.primary.iframeSrc!,
       image: transformImage(slice.primary.previewImage)!,
+    },
+  };
+}
+
+export function transformQuoteSlice(
+  slice: QuoteSlice | QuoteV2Slice
+): ParsedSlice<'quote', QuoteProps> {
+  return {
+    type: 'quote',
+    weight: getWeight(slice.slice_label),
+    value: {
+      text: slice.primary.text as HTMLString,
+      citation: slice.primary.citation as HTMLString,
+      isPullOrReview:
+        slice.slice_label === 'pull' || slice.slice_label === 'review',
     },
   };
 }
