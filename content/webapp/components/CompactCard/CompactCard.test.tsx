@@ -1,8 +1,8 @@
 import CompactCard from './CompactCard';
-import { mountWithTheme } from '../../../test/fixtures/enzyme-helpers';
-import { mockData } from '../../../test/fixtures/components/compact-card';
-import Image from '../Image/Image';
-import * as ga from '../../../utils/ga';
+import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { mockData } from '@weco/common/test/fixtures/components/compact-card';
+import Image from '@weco/common/views/components/Image/Image';
+import * as ga from '@weco/common/utils/ga';
 
 const extraClass = 'my_extra_extra_class';
 
