@@ -17,7 +17,6 @@ import { asHtml, asRichText, asText, asTitle, transformGenericFields, transformS
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
 import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
 import { Resource } from '@weco/common/model/resource';
@@ -77,12 +76,8 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
-  const promoThin = promo && transformImagePromo(promo, '32:15');
-  const promoSquare = promo && transformImagePromo(promo, 'square');
 
-  const promos = [promoThin, promoSquare]
-    .map(p => p?.image)
-    .filter(isNotUndefined);
+  const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const id = document.id;
 
@@ -147,7 +142,6 @@ export function transformExhibition(
       end,
       statusOverride,
     },
-    featuredImageList: promos,
     resources: Array.isArray(data.resources)
       ? transformResourceTypeList(data.resources, 'resource')
       : [],

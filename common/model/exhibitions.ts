@@ -1,4 +1,3 @@
-import { Picture } from './picture';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
@@ -28,18 +27,7 @@ export type Exhibition = GenericContentFields & {
   seasons: Season[];
 };
 
-// TODO: I'm pretty sure we don't use this featuredImageList anywhere,
-// and we could collapse this into Exhibition.
-export type UiExhibition = Exhibition & {
-  featuredImageList: Picture[];
-};
-
 export type Exhibit = {
   exhibitType: 'exhibitions';
   item: Exhibition;
-};
-
-export type UiExhibit = {
-  exhibitType: 'exhibitions';
-  item: UiExhibition;
 };

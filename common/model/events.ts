@@ -1,8 +1,6 @@
 import { isDatePast } from '../utils/format-date';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
-import { BackgroundTexture } from './background-texture';
-import { ImageType } from './image';
 import { LabelField } from './label-field';
 import { Place } from './places';
 import { Season } from './seasons';
@@ -23,10 +21,6 @@ export type EventSeries = {
   id: string;
   title: string;
   description?: string;
-};
-
-export type UiEventSeries = EventSeries & {
-  backgroundTexture?: BackgroundTexture;
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
@@ -69,7 +63,6 @@ export type UiEvent = Event & {
   displayStart: Date;
   displayEnd: Date;
   dateRange: DateRange;
-  backgroundTexture?: string;
 };
 
 export type EventSchedule = {
@@ -110,30 +103,7 @@ export type Event = GenericContentFields & {
   secondaryLabels: Label[];
 };
 
-export type EventPromo = {
-  type?: string;
-  id: string;
-  title?: string;
-  url: string;
-  start?: Date;
-  end?: Date;
-  isMultiDate: boolean;
-  isFullyBooked: boolean;
-  hasNotFullyBookedTimes: boolean;
-  description?: string;
-  format?: Format;
-  bookingType?: string;
-  image?: ImageType;
-  interpretations: Interpretation[];
-  eventbriteId?: string;
-  audience?: Audience;
-  series: EventSeries[];
-  schedule: Event[];
-  dateString?: string;
-  timeString?: string;
-};
-
-export function isEventFullyBooked(event: UiEvent): boolean {
+export function isEventFullyBooked(event: Event): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {

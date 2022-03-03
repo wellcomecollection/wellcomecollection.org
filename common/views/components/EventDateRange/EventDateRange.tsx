@@ -1,9 +1,10 @@
 import { getEarliestFutureDateRange } from '../../../utils/dates';
 import DateRange from '../DateRange/DateRange';
-import { UiEvent } from '../../../model/events';
+import { Event } from '../../../model/events';
 import { Moment } from 'moment';
+
 type Props = {
-  event: UiEvent;
+  event: Event;
   splitTime?: boolean;
   fromDate?: Moment;
 };

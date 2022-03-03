@@ -8,7 +8,7 @@ import { Book } from './books';
 import { UiEvent } from './events';
 import { Article } from './articles';
 import { ArticleScheduleItem } from './article-schedule-items';
-import { UiExhibition } from './exhibitions';
+import { Exhibition } from './exhibitions';
 import { Weblink } from './weblinks';
 
 export type MultiContent =
@@ -18,7 +18,7 @@ export type MultiContent =
   | UiEvent
   | Article
   | ArticleScheduleItem
-  | UiExhibition
+  | Exhibition
   | Weblink
   | ArticleSeries
   | Weblink;
