@@ -8,6 +8,8 @@ import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Layout8 from '../Layout8/Layout8';
 import Space from '../styled/Space';
+import { errorMessages } from '../../../data/microcopy';
+import { isNotUndefined } from '../../../utils/array';
 
 type Props = {
   statusCode?: number;
@@ -18,6 +20,13 @@ const ErrorPage: FunctionComponent<Props> = ({
   statusCode = 500,
   title,
 }: Props) => {
+  const errorMessage =
+    isNotUndefined(title)
+      ? title
+      : statusCode in errorMessages
+      ? errorMessages[statusCode]
+      : errorMessages[500];
+
   return (
     <PageLayout
       title={`${statusCode}`}
@@ -32,10 +41,7 @@ const ErrorPage: FunctionComponent<Props> = ({
         <PageHeader
           breadcrumbs={{ items: [] }}
           labels={undefined}
-          title={
-            title ||
-            'This isn’t the page you’re looking for, but how about these?'
-          }
+          title={errorMessage}
           ContentTypeInfo={undefined}
           Background={undefined}
           backgroundTexture={headerBackgroundLs}

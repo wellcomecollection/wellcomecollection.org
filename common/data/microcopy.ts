@@ -48,6 +48,11 @@ export const a11y = {
     'Large-print guides, transcripts and magnifiers are available in the gallery',
 };
 
+export const errorMessages = {
+  404: 'This isn’t the page you’re looking for, but how about these?',
+  500: 'This isn’t the page you’re looking for, but how about these?',
+}
+
 // Messages used in a user's list of item requests
 // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7660
 //
