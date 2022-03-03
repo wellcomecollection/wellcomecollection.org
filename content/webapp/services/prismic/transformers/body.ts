@@ -2,6 +2,7 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
   Standfirst as StandfirstSlice,
   Table as TableSlice,
@@ -17,6 +18,7 @@ import { Props as ImageGalleryProps } from '../../../components/ImageGallery/Ima
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
 import { MediaObjectType } from '@weco/common/model/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -70,6 +72,17 @@ export function transformTextSlice(
     type: 'text',
     weight: getWeight(slice.slice_label),
     value: slice.primary.text,
+  };
+}
+
+export function transformMapSlice(slice: MapSlice): ParsedSlice<'map', MapProps> {
+  return {
+    type: 'map',
+    value: {
+      title: asText(slice.primary.title) || '',
+      latitude: slice.primary.geolocation.latitude,
+      longitude: slice.primary.geolocation.longitude,
+    },
   };
 }
 

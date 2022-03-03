@@ -41,6 +41,7 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformMapSlice,
   transformMediaObjectListSlice,
   transformStandfirstSlice,
   transformTableSlice,
@@ -183,14 +184,7 @@ export function transformBody(body: Body): BodyType {
           return transformTextSlice(slice);
 
         case 'map':
-          return {
-            type: 'map',
-            value: {
-              title: asText(slice.primary.title),
-              latitude: slice.primary.geolocation.latitude,
-              longitude: slice.primary.geolocation.longitude,
-            },
-          };
+          return transformMapSlice(slice);
 
         case 'editorialImage':
           return transformEditorialImageSlice(slice);
