@@ -26,7 +26,7 @@ import { Props as DeprecatedImageListProps } from '../../../components/Deprecate
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as DiscussionProps } from ../../../components/Discussion/Discussion';
+import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
 import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
