@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
+import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';

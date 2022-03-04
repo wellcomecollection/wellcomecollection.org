@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
-import DateRange from '../DateRange/DateRange';
-import HTMLDate from '../HTMLDate/HTMLDate';
-import StatusIndicator from '../StatusIndicator/StatusIndicator';
-import Space from '../styled/Space';
+import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
+import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   start: Date;
