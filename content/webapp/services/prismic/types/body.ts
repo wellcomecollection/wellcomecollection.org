@@ -45,7 +45,7 @@ export type GifVideoSlice = Slice<
   }
 >;
 
-type Iframe = Slice<
+export type Iframe = Slice<
   'iframe',
   {
     iframeSrc: KeyTextField;
@@ -59,8 +59,8 @@ type QuotePrimaryFields = {
   citation: RichTextField;
 };
 
-type Quote = Slice<'quote', QuotePrimaryFields>;
-type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
+export type Quote = Slice<'quote', QuotePrimaryFields>;
+export type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
 export type Standfirst = Slice<
   'standfirst',
@@ -132,7 +132,7 @@ type TagList = Slice<
   }
 >;
 
-type InfoBlock = Slice<
+export type InfoBlock = Slice<
   'infoBlock',
   {
     title: RichTextField;
