@@ -208,15 +208,15 @@ export const dropCapSerializer: HTMLSerializer<ReactElement> = (
   children,
   key
 ) => {
-  // Note: the type checker will whinge about 'key === 0', because it
-  // thinks 'key' is a string.
+  // Note: `key.toString() === '0'` might look strange, because isn't `key`
+  // already a string?
   //
   // For some reason, we're getting passed `key` as a number here, so we
   // need this or drop caps don't work correctly.
   //
   // TODO: Work out why this isn't being caught by the type checker elsewhere,
   // and fix it properly.
-  if (type === Elements.paragraph && (key === '0' || key === 0) && children[0] !== undefined) {
+  if (type === Elements.paragraph && (key === '0' || key.toString() === '0') && children[0] !== undefined) {
     const firstChild = children[0];
     const firstCharacters =
       firstChild.props &&
