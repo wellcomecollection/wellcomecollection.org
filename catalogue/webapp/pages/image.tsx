@@ -7,7 +7,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';

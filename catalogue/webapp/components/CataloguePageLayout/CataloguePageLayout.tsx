@@ -1,9 +1,9 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { RichTextNodeType } from '@prismicio/types';
-import PageLayout, { Props as PageLayoutProps } from '../PageLayout/PageLayout';
-import InfoBanner from '../InfoBanner/InfoBanner';
-import { emptyGlobalAlert } from '../../../services/prismic/documents';
-import { wellcomeImagesRedirectBanner } from 'data/microcopy';
+import PageLayout, { Props as PageLayoutProps } from '@weco/common/views/components/PageLayout/PageLayout';
+import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
+import { emptyGlobalAlert } from '@weco/common/services/prismic/documents';
+import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
 
 type Props = {
   hideTopContent?: boolean;

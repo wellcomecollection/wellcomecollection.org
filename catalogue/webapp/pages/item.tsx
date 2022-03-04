@@ -24,7 +24,7 @@ import {
   restrictedAuthServiceUrl,
 } from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
