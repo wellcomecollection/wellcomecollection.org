@@ -59,7 +59,8 @@ You can change a toggle's `defaultValue` via:
 yarn setDefaultValueFor --{toggle_id}=true
 ```
 
-[martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
-[toggles-dashboard]: https://dash.wellcomecollection.org/toggles/
-[toggles]: https://toggles.wellcomecollection.org/toggles.json
+## Useful links
+- ["Feature Toggles (aka Feature Flags)" - by Martin Fowler](https://martinfowler.com/articles/feature-toggles.html)
+- [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
+- [Toggles](https://toggles.wellcomecollection.org/toggles.json)
 
