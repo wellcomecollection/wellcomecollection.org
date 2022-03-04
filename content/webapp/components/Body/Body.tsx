@@ -16,7 +16,7 @@ import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Quote from '@weco/common/views/components/Quote/Quote';
+import Quote from '../Quote/Quote';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';

@@ -1,7 +1,7 @@
-import { HTMLString } from '../../../services/prismic/types';
-import { font, classNames } from '../../../utils/classnames';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import Space from '../styled/Space';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import { font, classNames } from '@weco/common/utils/classnames';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import Space from '@weco/common/views/components/styled/Space';
 
 export type Props = {
   text: HTMLString;

@@ -1,4 +1,4 @@
-import Quote from '@weco/common/views/components/Quote/Quote';
+import Quote from '@weco/content/components/Quote/Quote';
 import { quote } from '../../content';
 
 const Template = args => <Quote {...args} />;
