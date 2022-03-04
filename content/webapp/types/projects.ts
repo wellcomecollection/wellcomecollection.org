@@ -1,3 +1,7 @@
-import { Project as DeprecatedProject } from '@weco/common/model/projects';
+import { GenericContentFields } from './generic-content-fields';
+import { Season } from './seasons';
 
-export type Project = DeprecatedProject;
+export type Project = GenericContentFields & {
+  type: 'projects';
+  seasons: Season[];
+};

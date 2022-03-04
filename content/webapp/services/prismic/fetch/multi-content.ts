@@ -21,9 +21,9 @@ import {
   teamsFields,
   articlesFields,
 } from '@weco/common/services/prismic/fetch-links';
-import { MultiContent } from '../transformers/multi-content';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { fixEventDatesInJson } from '../transformers/events';
+import { MultiContent } from '../../../types/multi-content';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,

@@ -5,7 +5,7 @@ import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import { Exhibition } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';

@@ -2,13 +2,9 @@ import { FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  CardOuter,
-  CardBody,
-  CardPostBody,
-} from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import { Article } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';

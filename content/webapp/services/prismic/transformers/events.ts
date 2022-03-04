@@ -3,11 +3,11 @@ import {
   DateRange,
   DateTimeRange,
   EventTime,
+  Event,
   Interpretation,
   Team,
   ThirdPartyBooking,
-} from '@weco/common/model/events';
-import { Event } from '../../../types/events';
+} from '../../../types/events';
 import {
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
@@ -323,11 +323,6 @@ export const getScheduleIds = (
 //
 // Convert them back to the right types.
 export function fixEventDatesInJson(jsonEvent: Event): Event {
-  const dateRange = {
-    ...jsonEvent.dateRange,
-    firstDate: new Date(jsonEvent.dateRange.firstDate),
-    lastDate: new Date(jsonEvent.dateRange.lastDate),
-  };
   const times = jsonEvent.times.map(time => {
     return {
       ...time,
@@ -349,6 +344,5 @@ export function fixEventDatesInJson(jsonEvent: Event): Event {
     ...jsonEvent,
     times,
     schedule,
-    dateRange,
   };
 }

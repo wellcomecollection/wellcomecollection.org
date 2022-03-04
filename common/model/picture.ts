@@ -1,4 +1,4 @@
-import { Tasl } from './tasl';
+import { Tasl } from '@weco/common/model/tasl';
 
 export type Picture = {
   contentUrl: string;

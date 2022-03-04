@@ -1,4 +1,4 @@
-import { Event } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';

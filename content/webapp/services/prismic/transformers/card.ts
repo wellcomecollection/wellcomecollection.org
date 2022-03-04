@@ -1,6 +1,6 @@
 import { CardPrismicDocument } from '../types/card';
 import { transformImage } from './images';
-import { Card } from '@weco/common/model/card';
+import { Card } from '../../../types/card';
 import { asText, asTitle, transformFormat, transformLink } from '.';
 
 export function transformCard(document: CardPrismicDocument): Card {

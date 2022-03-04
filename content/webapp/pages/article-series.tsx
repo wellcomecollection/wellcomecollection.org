@@ -3,9 +3,8 @@ import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
 import { Series } from '../types/series';
 import { Article } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
@@ -82,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             articles,
             serverData,
             gaDimensions: {
-              partOf: series.seasons.map<string>(season => season.id),
+              partOf: series.seasons.map(season => season.id),
             },
           }),
         };

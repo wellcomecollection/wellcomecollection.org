@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { Exhibition } from '../types/exhibitions';
 import { Event } from '../types/events';
-import { Period } from '@weco/common/model/periods';
+import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
@@ -48,7 +48,7 @@ import {
 } from '@weco/common/services/prismic/hardcoded-id';
 import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
+import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';

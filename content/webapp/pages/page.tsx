@@ -20,7 +20,7 @@ import {
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/common/model/content-format-id';
+import { PageFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ordersInParents,
           serverData,
           gaDimensions: {
-            partOf: page.seasons.map<string>(season => season.id),
+            partOf: page.seasons.map(season => season.id),
           },
         }),
       };

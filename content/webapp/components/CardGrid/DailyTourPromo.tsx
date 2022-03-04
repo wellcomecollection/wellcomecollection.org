@@ -1,4 +1,4 @@
-import { Event } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import EventPromo from '../EventPromo/EventPromo';
 
@@ -52,6 +52,8 @@ export const data: Event = {
   seasons: [],
   isOnline: false,
   availableOnline: false,
+  contributors: [],
+  type: 'events',
 };
 
 const DailyTourPromo = () => (

@@ -1,12 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../types/events';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -27,7 +26,7 @@ import { fixEventDatesInJson, transformEvent } from 'services/prismic/transforme
 
 type Props = {
   series: EventSeries;
-  events: UiEvent[];
+  events: Event[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -131,16 +130,20 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       return inTheFuture;
     })
     .sort(
-      (a, b) =>
-        a.dateRange.firstDate.getTime() - b.dateRange.firstDate.getTime()
-    );
+      (a, b) => {
+        const aStartTime = Math.min(...a.times.map(aTime => aTime.range.startDateTime.getTime()));
+        const bStartTime = Math.min(...b.times.map(bTime => bTime.range.startDateTime.getTime()));
+        return aStartTime - bStartTime;
+      });
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
   const pastEvents = events
     .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
     .sort(
-      (a, b) =>
-        b.dateRange.firstDate.getTime() - a.dateRange.firstDate.getTime()
-    )
+      (a, b) => {
+        const aStartTime = Math.min(...a.times.map(aTime => aTime.range.startDateTime.getTime()));
+        const bStartTime = Math.min(...b.times.map(bTime => bTime.range.startDateTime.getTime()));
+        return aStartTime - bStartTime;
+      })
     .slice(0, 3);
 
   return (

@@ -1,8 +1,8 @@
-import type { MultiContent } from '@weco/common/model/multi-content';
+import { MultiContent } from '../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import linkResolver from '../../services/prismic/link-resolver';
