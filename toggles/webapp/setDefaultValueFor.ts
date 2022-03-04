@@ -49,7 +49,7 @@ async function run() {
   const command = new CreateInvalidationCommand({
     DistributionId: 'E34PPJX23D6HKG',
     InvalidationBatch: {
-      Paths: { Items: [`/${key}.json`], Quantity: 1 },
+      Paths: { Items: [`/${key}`], Quantity: 1 },
       CallerReference: `TogglesInvalidationCallerReference${Date.now()}`,
     },
   });
