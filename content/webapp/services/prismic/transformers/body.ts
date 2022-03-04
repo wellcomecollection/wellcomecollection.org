@@ -20,13 +20,13 @@ import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
-import { Props as QuoteProps } from '@weco/common/views/components/Quote/Quote';
+import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
-import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
 import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
+import { Props as DiscussionProps } from ../../../components/Discussion/Discussion';
 import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
