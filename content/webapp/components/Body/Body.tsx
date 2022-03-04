@@ -18,7 +18,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import Space from '@weco/common/views/components/styled/Space';
 import Quote from '@weco/common/views/components/Quote/Quote';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';

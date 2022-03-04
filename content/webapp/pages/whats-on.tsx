@@ -46,7 +46,7 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
