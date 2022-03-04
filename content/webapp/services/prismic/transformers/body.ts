@@ -2,8 +2,12 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Iframe as IframeSlice,
+  InfoBlock as InfoBlockSlice,
   Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
+  Quote as QuoteSlice,
+  QuoteV2 as QuoteV2Slice,
   Standfirst as StandfirstSlice,
   Table as TableSlice,
   TextSlice,
@@ -14,6 +18,9 @@ import {
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
+import { Props as QuoteProps } from '@weco/common/views/components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
@@ -32,6 +39,7 @@ import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '@weco/common/model/generic-content-fields';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -272,6 +280,48 @@ export function transformDiscussionSlice(
     value: {
       title: asTitle(slice.primary.title),
       text: asRichText(slice.primary.text) || [],
+    },
+  };
+}
+
+export function transformInfoBlockSlice(
+  slice: InfoBlockSlice
+): ParsedSlice<'infoBlock', InfoBlockProps> {
+  return {
+    type: 'infoBlock',
+    value: {
+      title: asTitle(slice.primary.title),
+      text: slice.primary.text as HTMLString,
+      linkText: slice.primary.linkText,
+      link: transformLink(slice.primary.link),
+    },
+  };
+}
+
+export function transformIframeSlice(
+  slice: IframeSlice
+): ParsedSlice<'iframe', IframeProps> {
+  return {
+    type: 'iframe',
+    weight: getWeight(slice.slice_label),
+    value: {
+      src: slice.primary.iframeSrc!,
+      image: transformImage(slice.primary.previewImage)!,
+    },
+  };
+}
+
+export function transformQuoteSlice(
+  slice: QuoteSlice | QuoteV2Slice
+): ParsedSlice<'quote', QuoteProps> {
+  return {
+    type: 'quote',
+    weight: getWeight(slice.slice_label),
+    value: {
+      text: slice.primary.text as HTMLString,
+      citation: slice.primary.citation as HTMLString,
+      isPullOrReview:
+        slice.slice_label === 'pull' || slice.slice_label === 'review',
     },
   };
 }

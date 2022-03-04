@@ -77,7 +77,7 @@ export const IframeContainer = styled.div`
   }
 `;
 
-type Props = {
+export type Props = {
   image: ImageType;
   src: string;
 };

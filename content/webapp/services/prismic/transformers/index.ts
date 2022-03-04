@@ -5,7 +5,6 @@ import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
-  Image,
   InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
@@ -15,7 +14,6 @@ import {
 import {
   BodyType,
   GenericContentFields,
-  Weight,
 } from '@weco/common/model/generic-content-fields';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
@@ -41,8 +39,11 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformIframeSlice,
+  transformInfoBlockSlice,
   transformMapSlice,
   transformMediaObjectListSlice,
+  transformQuoteSlice,
   transformStandfirstSlice,
   transformTableSlice,
   transformTextSlice,
@@ -267,26 +268,10 @@ export function transformBody(body: Body): BodyType {
 
         case 'quote':
         case 'quoteV2':
-          return {
-            type: 'quote',
-            weight: getWeight(slice.slice_label),
-            value: {
-              text: slice.primary.text,
-              citation: slice.primary.citation,
-              isPullOrReview:
-                slice.slice_label === 'pull' || slice.slice_label === 'review',
-            },
-          };
+          return transformQuoteSlice(slice);
 
         case 'iframe':
-          return {
-            type: 'iframe',
-            weight: slice.slice_label! as Weight,
-            value: {
-              src: slice.primary.iframeSrc,
-              image: transformImage(slice.primary.previewImage),
-            },
-          };
+          return transformIframeSlice(slice);
 
         case 'gifVideo':
           return transformGifVideoSlice(slice);
@@ -363,15 +348,7 @@ export function transformBody(body: Body): BodyType {
           return transformTableSlice(slice);
 
         case 'infoBlock':
-          return {
-            type: 'infoBlock',
-            value: {
-              title: asTitle(slice.primary.title),
-              text: slice.primary.text,
-              linkText: slice.primary.linkText,
-              link: transformLink(slice.primary.link),
-            },
-          };
+          return transformInfoBlockSlice(slice);
 
         case 'discussion':
           return transformDiscussionSlice(slice);

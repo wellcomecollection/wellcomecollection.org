@@ -12,7 +12,7 @@ const Wrapper = styled(Space).attrs({
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
 
-type Props = {
+export type Props = {
   title: string;
   text: HTMLString;
   linkText: string | null;
