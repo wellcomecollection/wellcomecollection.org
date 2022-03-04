@@ -6,7 +6,9 @@ import { setDefaultValueFor } from '../setDefaultValueFor';
 export const isCi = process.env.CI === 'true';
 
 async function run() {
-  const credentials = isCi ? undefined : await getCreds('experience', 'admin');
+  const credentials = isCi
+    ? undefined
+    : await getCreds('experience', 'developer');
 
   const s3Client = new S3Client({
     region,
