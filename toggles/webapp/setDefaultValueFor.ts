@@ -1,19 +1,14 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { key, region } from './config';
+import { key } from './config';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
-import {
-  CloudFrontClient,
-  CreateInvalidationCommand,
-} from '@aws-sdk/client-cloudfront';
+import { CreateInvalidationCommand } from '@aws-sdk/client-cloudfront';
 import { S3Client } from '@aws-sdk/client-s3';
-import { getCreds } from '@weco/ts-aws/sts';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-async function run() {
-  const s3Client = new S3Client({ region });
-  const remoteToggles = await getTogglesObject(s3Client);
+export async function setDefaultValueFor(client: S3Client) {
+  const remoteToggles = await getTogglesObject(client);
 
   const toggles = remoteToggles.toggles.map(toggle => {
     const arg = argv[toggle.id];
@@ -33,7 +28,7 @@ async function run() {
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
-    s3Client,
+    client,
     togglesAndTests
   );
 
@@ -44,8 +39,6 @@ async function run() {
   }
 
   // create an invalidation on the object
-  const credentials = await getCreds('experience', 'admin');
-  const client = new CloudFrontClient({ region, credentials });
   const command = new CreateInvalidationCommand({
     DistributionId: 'E34PPJX23D6HKG',
     InvalidationBatch: {
@@ -56,5 +49,3 @@ async function run() {
   const response = await client.send(command);
   console.info(response);
 }
-
-run();
