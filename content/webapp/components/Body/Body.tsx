@@ -35,7 +35,7 @@ import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
-import Discussion from '@weco/common/views/components/Discussion/Discussion';
+import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
