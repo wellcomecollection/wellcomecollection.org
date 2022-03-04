@@ -33,7 +33,7 @@ import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import Table from '@weco/common/views/components/Table/Table';
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
-import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';

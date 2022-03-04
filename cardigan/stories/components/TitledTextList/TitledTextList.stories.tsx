@@ -1,4 +1,4 @@
-import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
 
 const items = [
   {
