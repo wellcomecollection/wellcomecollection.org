@@ -32,7 +32,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
     if (isActive) {
       setTextToShow(text);
     } else {
-      setTextToShow(firstPartOfText);
+      setTextToShow(firstPartOfText as [prismicT.RTNode, ...prismicT.RTNode[]]);
     }
   }, [isActive]);
 
