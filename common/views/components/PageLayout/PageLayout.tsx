@@ -11,11 +11,10 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd } from '../../../utils/json-ld';
+import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
 import {
   getVenueById,
-  openingHoursToOpeningHoursSpecification,
   parseCollectionVenues,
 } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
@@ -115,11 +114,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(galleriesOpeningHours),
+    ...openingHoursLd(galleriesOpeningHours),
   };
   const wellcomeLibraryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(libraryOpeningHours),
+    ...openingHoursLd(libraryOpeningHours),
   };
 
   const polyfillFeatures = [

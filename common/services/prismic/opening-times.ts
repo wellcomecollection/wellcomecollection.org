@@ -7,14 +7,11 @@ import type {
   ExceptionalPeriod,
   OverrideDate,
   Venue,
-  OpeningHours,
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
-  SpecialOpeningHours,
 } from '../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
-import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
 import * as prismicH from 'prismic-helpers-beta';
 
@@ -364,40 +361,4 @@ export function getTodaysVenueHours(
     venue.openingHours.regular &&
     venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
   return exceptionalOpeningHours || regularOpeningHours;
-}
-
-export function openingHoursToOpeningHoursSpecification(
-  openingHours: OpeningHours | undefined
-): {
-  openingHoursSpecification: OpeningHoursDay[];
-  specialOpeningHoursSpecification: SpecialOpeningHours[];
-} {
-  return {
-    openingHoursSpecification: openingHours?.regular
-      ? openingHours.regular.map(openingHoursDay => {
-          const specObject = objToJsonLd(
-            {
-              dayOfWeek: openingHoursDay.dayOfWeek,
-              opens: openingHoursDay.opens,
-              closes: openingHoursDay.closes,
-            },
-            'OpeningHoursSpecification',
-            false
-          );
-          delete specObject.note;
-          return specObject;
-        })
-      : [],
-    specialOpeningHoursSpecification: openingHours?.exceptional
-      ? openingHours.exceptional.map(openingHoursDate => {
-          const specObject = {
-            opens: openingHoursDate.opens,
-            closes: openingHoursDate.closes,
-            validFrom: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
-            validThrough: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
-          };
-          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-        })
-      : [],
-  };
 }
