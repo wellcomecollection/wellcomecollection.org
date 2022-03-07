@@ -7,7 +7,12 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { asText, transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
+import {
+  asText,
+  transformGenericFields,
+  transformLabelType,
+  transformSingleLevelGroup,
+} from '.';
 import { MultiContent } from '../../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
@@ -51,7 +56,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     data.publishDate || document.first_publication_date || undefined;
 
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? transformLabelType(data.format) as Format<ArticleFormatId>
+    ? (transformLabelType(data.format) as Format<ArticleFormatId>)
     : undefined;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
@@ -73,8 +78,8 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     series,
     contributors,
     datePublished: london(datePublished).toDate(),
-    seasons: transformSingleLevelGroup(data.seasons, 'season').map(
-      season => transformSeason(season as SeasonPrismicDocument)
+    seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
+      transformSeason(season as SeasonPrismicDocument)
     ),
     outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: transformContentLink(data.outroResearchItem),

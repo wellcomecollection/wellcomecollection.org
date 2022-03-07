@@ -1,6 +1,10 @@
 import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
-import { london, formatDayDate, isDatePast } from '@weco/common/utils/format-date';
+import {
+  london,
+  formatDayDate,
+  isDatePast,
+} from '@weco/common/utils/format-date';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 import { Event, EventTime } from '../../types/events';
 
@@ -25,7 +29,11 @@ function getNextDateInFuture(event: Event): EventTime | undefined {
   }
 }
 
-function filterEventsByTimeRange(events: Event[], start: Moment, end: Moment): Event[] {
+function filterEventsByTimeRange(
+  events: Event[],
+  start: Moment,
+  end: Moment
+): Event[] {
   return events.filter(event => {
     return event.times.find(time => {
       const eventStart = london(time.range.startDateTime);
@@ -163,16 +171,20 @@ export function groupEventsBy(
 type RangeProps = {
   start: Moment;
   end: Moment;
-}
+};
 
 type Range = {
   label: string;
   start: Moment;
   end: Moment;
 };
-  
+
 // TODO: maybe use a Map?
-function getRanges({ start, end }: RangeProps, groupBy: GroupDatesBy, acc: Range[] = []): Range[] {
+function getRanges(
+  { start, end }: RangeProps,
+  groupBy: GroupDatesBy,
+  acc: Range[] = []
+): Range[] {
   if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
     const newStart = start.clone().add(1, groupBy);
     const newAcc: Range[] = acc.concat([
@@ -189,6 +201,8 @@ function getRanges({ start, end }: RangeProps, groupBy: GroupDatesBy, acc: Range
 }
 
 export function isEventPast({ times }: Event): boolean {
-  const hasFutureEvents = times.some(({ range }) => !isDatePast(range.endDateTime));
+  const hasFutureEvents = times.some(
+    ({ range }) => !isDatePast(range.endDateTime)
+  );
   return !hasFutureEvents;
 }

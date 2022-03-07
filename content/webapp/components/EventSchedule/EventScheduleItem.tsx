@@ -139,19 +139,18 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   })}
                 >
                   <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}{formatTime(event.ticketSalesStart)}
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                    {formatTime(event.ticketSalesStart)}
                   </span>
                 </Space>
               </Fragment>
             )}
 
-            {!isEventPast(event) &&
-              event.eventbriteId &&
-              !waitForTicketSales && (
-                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                  <EventbriteButton event={event} />
-                </Space>
-              )}
+            {!isEventPast(event) && event.eventbriteId && !waitForTicketSales && (
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <EventbriteButton event={event} />
+              </Space>
+            )}
 
             {!isEventPast(event) &&
               event.bookingEnquiryTeam &&

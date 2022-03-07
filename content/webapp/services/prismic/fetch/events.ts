@@ -169,4 +169,5 @@ export const fetchEvents = (
 // AFAICT, there aren't any events that call this fetcher right now and
 // return a non-empty list of results, so it's hard to test this -- but
 // be aware that bug is potentially lurking out there.
-export const fetchEventsClientSide = clientSideFetcher<Event>('events').getByTypeClientSide;
+export const fetchEventsClientSide =
+  clientSideFetcher<Event>('events').getByTypeClientSide;

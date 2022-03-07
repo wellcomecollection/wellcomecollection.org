@@ -148,15 +148,16 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {!hideContributors &&
-            contributors &&
-            contributors.length > 0 && (
-              <SpacingSection>
-                <Layout8>
-                  <Contributors contributors={contributors} titleOverride={contributorTitle} />
-                </Layout8>
-              </SpacingSection>
-            )}
+          {!hideContributors && contributors && contributors.length > 0 && (
+            <SpacingSection>
+              <Layout8>
+                <Contributors
+                  contributors={contributors}
+                  titleOverride={contributorTitle}
+                />
+              </Layout8>
+            </SpacingSection>
+          )}
 
           {RelatedContent.length > 0 && (
             <SpacingSection>

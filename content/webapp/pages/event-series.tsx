@@ -22,7 +22,10 @@ import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformEventSeries } from '../services/prismic/transformers/event-series';
 import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { fixEventDatesInJson, transformEvent } from 'services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from 'services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;
@@ -129,21 +132,27 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         : false;
       return inTheFuture;
     })
-    .sort(
-      (a, b) => {
-        const aStartTime = Math.min(...a.times.map(aTime => aTime.range.startDateTime.getTime()));
-        const bStartTime = Math.min(...b.times.map(bTime => bTime.range.startDateTime.getTime()));
-        return aStartTime - bStartTime;
-      });
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+      );
+      return aStartTime - bStartTime;
+    });
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
   const pastEvents = events
     .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
-    .sort(
-      (a, b) => {
-        const aStartTime = Math.min(...a.times.map(aTime => aTime.range.startDateTime.getTime()));
-        const bStartTime = Math.min(...b.times.map(bTime => bTime.range.startDateTime.getTime()));
-        return aStartTime - bStartTime;
-      })
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+      );
+      return aStartTime - bStartTime;
+    })
     .slice(0, 3);
 
   return (

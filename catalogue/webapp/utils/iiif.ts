@@ -20,7 +20,7 @@ const isFilledMediaElement = (
   element: IIIFMediaElement | EmptyIIIFMediaElement
 ): element is IIIFMediaElement => {
   return '@id' in element;
-}
+};
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -295,8 +295,7 @@ export function getVideo(
     videoSequence &&
     videoSequence.elements
       .filter(isFilledMediaElement)
-      .find(element => element['@type'] === 'dctypes:MovingImage'
-    )
+      .find(element => element['@type'] === 'dctypes:MovingImage')
   );
 }
 

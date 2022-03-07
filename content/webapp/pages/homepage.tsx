@@ -34,10 +34,16 @@ import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
-import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { fixExhibitionDatesInJson, transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from 'services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({

@@ -32,8 +32,8 @@ const ArticleCard: FunctionComponent<Props> = ({
 
   const indexInSeriesSchedule = article.promo?.caption
     ? seriesWithSchedule?.schedule
-      ?.map(scheduleItem => scheduleItem.title)
-      .indexOf(article.promo?.caption)
+        ?.map(scheduleItem => scheduleItem.title)
+        .indexOf(article.promo?.caption)
     : undefined;
 
   const seriesColor = seriesWithSchedule?.color ?? undefined;
@@ -46,14 +46,11 @@ const ArticleCard: FunctionComponent<Props> = ({
   const isSerial = Boolean(seriesWithSchedule);
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
-  const labels = [
-    article.format?.title,
-    isSerial ? 'Serial' : undefined,
-  ]
+  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
     .map(text => ({ text }));
 
-  const publicationDate =article.datePublished;
+  const publicationDate = article.datePublished;
 
   return (
     <CompactCard

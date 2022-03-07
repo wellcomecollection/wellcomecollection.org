@@ -12,7 +12,9 @@ import { Label } from '@weco/common/model/labels';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import ImageType from '@weco/common/views/components/Image/Image';
 import { ColorSelection } from '../../types/color-selections';
-import MediaObjectBase, { HasImageProps } from '../MediaObjectBase/MediaObjectBase';
+import MediaObjectBase, {
+  HasImageProps,
+} from '../MediaObjectBase/MediaObjectBase';
 
 type Props = {
   url?: string;

@@ -23,10 +23,7 @@ function isContentType(type: any): type is ContentType {
  * we use null as that's what prismic expects
  * {@link https://prismic.io/docs/technologies/link-resolver-javascript}
  */
-function linkResolver(doc: {
-  id: string;
-  type: string;
-}): string {
+function linkResolver(doc: { id: string; type: string }): string {
   const { id, type } = doc;
 
   if (type === 'webcomics') return `/articles/${id}`;

@@ -103,7 +103,7 @@ export const fetchMultiContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    let json: PaginatedResults<MultiContent> = await response.json();
+    const json: PaginatedResults<MultiContent> = await response.json();
 
     return {
       ...json,
@@ -112,7 +112,7 @@ export const fetchMultiContentClientSide = async (
       // instead of JavaScript Date values.  Convert them to Date values so they don't
       // explode when we try to use them in components.
       results: json.results.map(doc => {
-        switch(doc.type) {
+        switch (doc.type) {
           case 'events':
             return fixEventDatesInJson(doc);
           default:

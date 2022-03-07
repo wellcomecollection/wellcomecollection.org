@@ -11,7 +11,7 @@ type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 type Props = {
   image: Picture | ImageType;
   sizes?: BreakpointSizes;
-  
+
   // The maximum width at which the image will be displayed
   maxWidth?: number;
 };
@@ -40,26 +40,26 @@ export function convertBreakpointSizesToSizes(
  * make it run in places like Cardigan and allows us to work with things
  * like prismic using `rect` for crops
  */
- function createPrismicLoader(maxWidth: number) {
+function createPrismicLoader(maxWidth: number) {
   return ({ src, width, quality }: ImageLoaderProps) => {
     // e.g. src: https://images.prismic.io/wellcomecollection/5cf4b151-8fa1-47d1-9546-3115debc3b04_Viscera+web+image.jpg?auto=compress,format&rect=0,0,3838,2159&w=3200&h=1800
     const url = new URL(src);
     const searchParams = new URLSearchParams();
 
     // This is working around a poor interaction between the Next Image component
-     // and Prismic.
-     //
-     // In particular, this loader will be called for a range of sizes, even if they're
-     // wider than the original image.  I think the component assumes that any image
-     // resizing service would return the original image in that case, but Prismic will
-     // upscale the image instead.
-     //
-     // e.g. if the original image is 100×100 and you pass ?w=200, Prismic will merrily
-     // return an upscaled image that's larger than you need.
-     //
-     // This clamps the width to a configured maximum, e.g. if you know the image will
-     // only be used in a specific context.  It won't ask Prismic for a larger image.
-     if (width < maxWidth) {
+    // and Prismic.
+    //
+    // In particular, this loader will be called for a range of sizes, even if they're
+    // wider than the original image.  I think the component assumes that any image
+    // resizing service would return the original image in that case, but Prismic will
+    // upscale the image instead.
+    //
+    // e.g. if the original image is 100×100 and you pass ?w=200, Prismic will merrily
+    // return an upscaled image that's larger than you need.
+    //
+    // This clamps the width to a configured maximum, e.g. if you know the image will
+    // only be used in a specific context.  It won't ask Prismic for a larger image.
+    if (width < maxWidth) {
       searchParams.set(`w`, width.toString());
     } else {
       searchParams.set(`w`, maxWidth.toString());
@@ -70,7 +70,7 @@ export function convertBreakpointSizesToSizes(
     searchParams.set(`q`, (quality || 75).toString());
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
-  }
+  };
 }
 
 /**

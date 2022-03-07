@@ -146,9 +146,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     ) : undefined
   ) : undefined;
 
-  const hiddenBreadcrumbPages = [
-    prismicPageIds.covidWelcomeBack,
-  ];
+  const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];
 
   const sectionLevelPage = sectionLevelPages.includes(page.id);
 

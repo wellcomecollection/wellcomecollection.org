@@ -29,7 +29,10 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
-import { Exhibition, ExhibitionRelatedContent } from '../../../types/exhibitions';
+import {
+  Exhibition,
+  ExhibitionRelatedContent,
+} from '../../../types/exhibitions';
 
 const fetchLinks = peopleFields.concat(
   exhibitionFields,

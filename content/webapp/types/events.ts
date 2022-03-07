@@ -69,7 +69,7 @@ export type ThirdPartyBooking = {
 };
 
 export type Event = GenericContentFields & {
-  type: 'events',
+  type: 'events';
   format?: Format;
   hasEarlyRegistration: boolean;
   ticketSalesStart?: Date;

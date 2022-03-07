@@ -89,7 +89,7 @@ export type IIIFMediaElement = {
 export type EmptyIIIFMediaElement = {
   label: string;
   thumbnail: string;
-}
+};
 
 type IIIFMediaSequence = {
   '@id': string;

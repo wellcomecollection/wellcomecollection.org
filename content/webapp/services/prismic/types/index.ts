@@ -186,7 +186,11 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
 type Contributor =
   | EmptyLinkField<LinkType.Document>
   | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>>
-  | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>>;
+  | FilledLinkToDocumentField<
+      'organisations',
+      'en-gb',
+      InferDataInterface<Organisation>
+    >;
 
 export type WithContributors = {
   contributorsTitle: RichTextField;
@@ -246,12 +250,22 @@ export function isFilledLinkToMediaField(
 
 export function isFilledLinkToPersonField(
   field: Contributor
-): field is FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>> & { data: Person } {
+): field is FilledLinkToDocumentField<
+  'people',
+  'en-gb',
+  InferDataInterface<Person>
+> & { data: Person } {
   return isFilledLinkToDocumentWithData(field) && field.type === 'people';
 }
 
 export function isFilledLinkToOrganisationField(
   field: Contributor
-): field is FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }  {
-  return isFilledLinkToDocumentWithData(field) && field.type === 'organisations';
+): field is FilledLinkToDocumentField<
+  'organisations',
+  'en-gb',
+  InferDataInterface<Organisation>
+> & { data: Organisation } {
+  return (
+    isFilledLinkToDocumentWithData(field) && field.type === 'organisations'
+  );
 }

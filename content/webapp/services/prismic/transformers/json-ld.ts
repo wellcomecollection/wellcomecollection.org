@@ -99,7 +99,6 @@ export function eventLd(event: Event): JsonLdObj[] {
 }
 
 export function articleLd(article: Article) {
-
   // We've left the role off of a lot of articles
   const author: Contributor = article.contributors.find(
     ({ role }) => role && role.title === 'Author'
@@ -161,8 +160,7 @@ function orgLd(org: Organization) {
 }
 
 export function contentLd(content: Page | Season) {
-  const contributors =
-    content.type === 'seasons' ? [] : content.contributors;
+  const contributors = content.type === 'seasons' ? [] : content.contributors;
 
   const author: Contributor = contributors.find(
     ({ role }) => role && role.title === 'Author'
@@ -171,7 +169,7 @@ export function contentLd(content: Page | Season) {
   const promoImage = content.promo?.image;
 
   const url = linkResolver(content);
-  
+
   return objToJsonLd(
     {
       headline: content.title,

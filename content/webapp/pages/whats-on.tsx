@@ -67,10 +67,16 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { fixEventDatesInJson, transformEvent } from '../services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { fixExhibitionDatesInJson, transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -411,11 +417,12 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 
-  const eventsToShow = period === 'today'
-    ? filterEventsForToday(events)
-    : period === 'this-weekend'
-    ? filterEventsForWeekend(events)
-    : events;
+  const eventsToShow =
+    period === 'today'
+      ? filterEventsForToday(events)
+      : period === 'this-weekend'
+      ? filterEventsForWeekend(events)
+      : events;
 
   return (
     <PageLayout

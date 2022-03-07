@@ -18,7 +18,9 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import ImageType from '@weco/common/views/components/Image/Image';
 import { ColorSelection } from '../../types/color-selections';
-import Space, { VerticalSpaceProperty } from '@weco/common/views/components/styled/Space';
+import Space, {
+  VerticalSpaceProperty,
+} from '@weco/common/views/components/styled/Space';
 import { Label } from '@weco/common/model/labels';
 import styled from 'styled-components';
 

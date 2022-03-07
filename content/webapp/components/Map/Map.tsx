@@ -17,7 +17,11 @@ const MapContainer = styled.div`
   `}
 `;
 
-const Map: FunctionComponent<Props> = ({ title, latitude, longitude }: Props) => {
+const Map: FunctionComponent<Props> = ({
+  title,
+  latitude,
+  longitude,
+}: Props) => {
   const mapContainer = useRef(null);
 
   useEffect(() => {

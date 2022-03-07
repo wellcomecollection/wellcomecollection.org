@@ -21,12 +21,11 @@ const ErrorPage: FunctionComponent<Props> = ({
   statusCode = 500,
   title,
 }: Props) => {
-  const errorMessage =
-    isNotUndefined(title)
-      ? title
-      : statusCode in errorMessages
-      ? errorMessages[statusCode]
-      : errorMessages[500];
+  const errorMessage = isNotUndefined(title)
+    ? title
+    : statusCode in errorMessages
+    ? errorMessages[statusCode]
+    : errorMessages[500];
 
   return (
     <PageLayout

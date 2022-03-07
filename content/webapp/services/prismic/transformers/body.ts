@@ -36,7 +36,14 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage, transformImage } from './images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
-import { transformLink, asRichText, transformTaslFromString, transformLabelType, asTitle, asText } from '.';
+import {
+  transformLink,
+  asRichText,
+  transformTaslFromString,
+  transformLabelType,
+  asTitle,
+  asText,
+} from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
 import { HTMLString } from '@weco/common/services/prismic/types';
@@ -80,7 +87,9 @@ export function transformTextSlice(
   };
 }
 
-export function transformMapSlice(slice: MapSlice): ParsedSlice<'map', MapProps> {
+export function transformMapSlice(
+  slice: MapSlice
+): ParsedSlice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -144,7 +153,9 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
+export function transformTeamToContact(
+  team: TeamPrismicDocument
+): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
@@ -216,7 +227,7 @@ export function transformDeprecatedImageListSlice(
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
-): (ParsedSlice<'gifVideo', GifVideoProps>) | undefined {
+): ParsedSlice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -257,7 +268,9 @@ function transformTitledTextItem({
     title: asTitle(title),
     text: asRichText(text),
     link: transformLink(link),
-    label: isFilledLinkToDocumentWithData(label) ? transformLabelType(label) : undefined,
+    label: isFilledLinkToDocumentWithData(label)
+      ? transformLabelType(label)
+      : undefined,
   };
 }
 

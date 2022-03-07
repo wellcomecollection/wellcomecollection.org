@@ -1,5 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
-import MediaObject, { Props as MediaObjectProps } from '../MediaObject/MediaObject';
+import MediaObject, {
+  Props as MediaObjectProps,
+} from '../MediaObject/MediaObject';
 
 type Props = {
   items: MediaObjectProps[];

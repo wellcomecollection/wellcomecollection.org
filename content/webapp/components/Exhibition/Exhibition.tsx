@@ -102,7 +102,9 @@ function getTodaysHoursObject(): ExhibitionItem {
   };
 }
 
-function getPlaceObject(exhibition: ExhibitionType): ExhibitionItem | undefined {
+function getPlaceObject(
+  exhibition: ExhibitionType
+): ExhibitionItem | undefined {
   return (
     exhibition.place && {
       id: undefined,

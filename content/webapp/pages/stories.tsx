@@ -83,7 +83,11 @@ const SerialisedSeries = ({ series }: { series: Series }) => {
           </Space>
         </Space>
       </Layout12>
-      <CardGrid items={series.items as Article[]} hidePromoText={true} itemsPerRow={3} />
+      <CardGrid
+        items={series.items as Article[]}
+        hidePromoText={true}
+        itemsPerRow={3}
+      />
     </div>
   );
 };
@@ -233,7 +237,7 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo article={article} position={i}/>
+                      <StoryPromo article={article} position={i} />
                     </div>
                   );
                 })}

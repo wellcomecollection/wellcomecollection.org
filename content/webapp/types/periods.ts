@@ -8,4 +8,4 @@ export const Periods = {
   NextSevenDays: 'next-seven-days',
 };
 
-export type Period = (typeof Periods)[keyof typeof Periods];
+export type Period = typeof Periods[keyof typeof Periods];

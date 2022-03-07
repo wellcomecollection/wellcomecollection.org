@@ -33,7 +33,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const { period } = context.query;
-    const exhibitionsQuery = await fetchExhibitions(client, { page, period: period as Period });
+    const exhibitionsQuery = await fetchExhibitions(client, {
+      page,
+      period: period as Period,
+    });
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (exhibitions && exhibitions.results.length > 0) {
