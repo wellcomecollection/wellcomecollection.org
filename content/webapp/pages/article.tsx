@@ -24,9 +24,9 @@ import {
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from 'services/prismic';
+import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
-import { transformArticle } from 'services/prismic/transformers/articles';
+import { transformArticle } from '../services/prismic/transformers/articles';
 import * as prismic from 'prismic-client-beta';
 
 type Props = {

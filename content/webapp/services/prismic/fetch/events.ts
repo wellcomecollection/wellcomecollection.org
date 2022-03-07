@@ -3,7 +3,7 @@ import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
 import * as prismic from 'prismic-client-beta';
-import { Event } from 'types/events';
+import { Event } from '../../../types/events';
 
 const fetchLinks = eventsFetchLinks;
 

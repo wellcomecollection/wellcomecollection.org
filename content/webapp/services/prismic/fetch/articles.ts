@@ -7,7 +7,7 @@ import {
 } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 import { ContentType } from '../link-resolver';
-import { Article } from 'types/articles';
+import { Article } from '../../../types/articles';
 
 const contentTypes = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;
