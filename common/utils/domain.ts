@@ -1,5 +1,5 @@
 function getDomain(url: string): string {
-  return url.replace('http://', '').replace('https://', '').split('/')[0];
+  return new URL(url).hostname;
 }
 
 export function isExternal(url: string): boolean {
