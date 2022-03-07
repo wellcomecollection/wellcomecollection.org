@@ -37,7 +37,7 @@ const Input: FC<Props> = (
       {label}
     </Space>
 
-    <StyledInput as="input" type="number" ref={ref} {...inputProps} />
+    <StyledInput as="input" type="number" ref={ref as any} {...inputProps} />
   </label>
 );
 
