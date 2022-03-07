@@ -1,4 +1,5 @@
-import { Guide, GuideFormat } from '../../../types/guides';
+import { Guide } from '../../../types/guides';
+import { Format } from '../../../types/format';
 import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
@@ -39,7 +40,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
 
 export function transformGuideFormat(
   document: GuideFormatPrismicDocument
-): GuideFormat {
+): Format {
   return {
     id: document.id,
     title: asTitle(document.data.title),

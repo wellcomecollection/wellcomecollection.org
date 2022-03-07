@@ -9,7 +9,7 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import EventbriteButton from '../components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../components/InfoBox/InfoBox';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
@@ -19,12 +19,11 @@ import {
   isDatePast,
   formatTime,
 } from '@weco/common/utils/format-date';
-import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
+import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { isEventFullyBooked } from '@weco/common/model/events';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
+import { isEventFullyBooked } from '../types/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -53,6 +52,7 @@ import {
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
 import {
+  fixEventDatesInJson,
   getScheduleIds,
   transformEvent,
 } from '../services/prismic/transformers/events';
@@ -137,39 +137,6 @@ function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isTimePast(dateTime);
 }
 
-// Convert dates back to Date types because it's serialised through
-// `getInitialProps`
-export function convertJsonToDates(jsonEvent: Event): Event {
-  const dateRange = {
-    ...jsonEvent.dateRange,
-    firstDate: new Date(jsonEvent.dateRange.firstDate),
-    lastDate: new Date(jsonEvent.dateRange.lastDate),
-  };
-  const times = jsonEvent.times.map(time => {
-    return {
-      ...time,
-      range: {
-        startDateTime: new Date(time.range.startDateTime),
-        endDateTime: new Date(time.range.endDateTime),
-      },
-    };
-  });
-
-  const schedule =
-    jsonEvent.schedule &&
-    jsonEvent.schedule.map(item => ({
-      ...item,
-      event: convertJsonToDates(item.event),
-    }));
-
-  return {
-    ...jsonEvent,
-    times,
-    schedule,
-    dateRange,
-  };
-}
-
 const eventInterpretationIcons: Record<string, IconSvg> = {
   britishSignLanguage: britishSignLanguage,
   speechToText: speechToText,
@@ -197,7 +164,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
     getScheduledIn();
   }, []);
 
-  const event = convertJsonToDates(jsonEvent);
+  const event = fixEventDatesInJson(jsonEvent);
 
   const genericFields = {
     id: event.id,

@@ -1,10 +1,22 @@
-import { Page as DeprecatedPage } from '@weco/common/model/pages';
-import { Override } from '@weco/common/utils/utility-types';
+import { GenericContentFields } from './generic-content-fields';
+import { Link } from './link';
+import { Season } from './seasons';
+import { Format } from './format';
 import { Contributor } from './contributors';
 
-export type Page = Override<
-  DeprecatedPage,
-  {
-    contributors: Contributor[];
-  }
->;
+export type ParentPage = Page & {
+  order: number;
+  type: 'pages' | 'exhibitions';
+};
+
+export type Page = GenericContentFields & {
+  type: 'pages';
+  format: Format | undefined;
+  seasons: Season[];
+  parentPages: ParentPage[];
+  onThisPage: Link[];
+  datePublished?: Date;
+  siteSection?: string;
+  showOnThisPage: boolean;
+  contributors: Contributor[];
+};

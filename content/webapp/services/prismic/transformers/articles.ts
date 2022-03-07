@@ -13,7 +13,7 @@ import {
   transformLabelType,
   transformSingleLevelGroup,
 } from '.';
-import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
+import { MultiContent } from '../../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
 import { Series } from 'types/series';
@@ -21,13 +21,11 @@ import { transformSeason } from './seasons';
 import { transformSeries } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { Format } from '@weco/common/model/format';
-import { ArticleFormatId } from '@weco/common/model/content-format-id';
+import { Format } from '../../../types/format';
+import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import { transformContributors } from './contributors';
 
-function transformContentLink(
-  document?: LinkField
-): DeprecatedMultiContent | undefined {
+function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
     return;
   }
@@ -43,9 +41,7 @@ function transformContentLink(
   }
 
   if (isFilledLinkToDocumentWithData(document)) {
-    return transformMultiContent(document) as
-      | DeprecatedMultiContent
-      | undefined;
+    return transformMultiContent(document);
   }
 }
 

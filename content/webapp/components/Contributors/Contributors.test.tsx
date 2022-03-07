@@ -21,11 +21,7 @@ test('multi contributor, multi role', async () => {
 });
 
 test('multi contributor, multi role, roles matching', async () => {
-  const title = dedupeAndPluraliseRoles(
-    [facilitator, guide, guide, speaker],
-    'About the',
-    false
-  );
+  const title = dedupeAndPluraliseRoles([facilitator, guide, guide, speaker]);
 
   expect(title).toEqual(['Facilitator', 'Guides', 'Speaker']);
 });

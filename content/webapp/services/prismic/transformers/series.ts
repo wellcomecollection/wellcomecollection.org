@@ -8,7 +8,7 @@ import {
 } from '.';
 import { london } from '@weco/common/utils/format-date';
 import { transformSeason } from './seasons';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { ArticleScheduleItem } from '../../../types/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformContributors } from './contributors';

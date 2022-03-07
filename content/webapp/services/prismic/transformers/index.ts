@@ -21,8 +21,7 @@ import {
 import {
   BodyType,
   GenericContentFields,
-  Weight,
-} from '@weco/common/model/generic-content-fields';
+} from '../../../types/generic-content-fields';
 import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
@@ -47,38 +46,28 @@ import {
   transformEditorialImageGallerySlice,
   transformEditorialImageSlice,
   transformGifVideoSlice,
+  transformIframeSlice,
+  transformInfoBlockSlice,
+  transformMapSlice,
   transformMediaObjectListSlice,
+  transformQuoteSlice,
+  transformStandfirstSlice,
   transformTableSlice,
+  transformTextSlice,
   transformTitledTextListSlice,
 } from './body';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
-import { LicenseType, licenseTypeArray } from '@weco/common/model/license';
+import { licenseTypeArray } from '@weco/common/model/license';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
-import { Format } from '@weco/common/model/format';
+import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
-import { ArticleFormatId } from '@weco/common/model/content-format-id';
+import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
-
-export function transformPromo(doc: Doc) {
-  /**
-   * this is a little bit annoying as we modelled this at a stage where Prismic was suggesting
-   * "use slices for all the things!". Unfortunately it definitely wasn't made for this, and
-   * we should have probably just had `.image` and `.description`.
-   * We could reimport into these fields, but it would have to be the whole Prismic corpus,
-   * and we aren't confident enough that it imports correctly.
-   *
-   * This method flattens out the `SliceZone` into just a Promo
-   */
-
-  // We have to explicitly set undefined here as we don't have the
-  // `noUncheckedIndexedAccess` tsconfig compiler option set
-  return doc.data?.promo?.[0]?.primary ?? undefined;
-}
 
 export function transformLabels(doc: Doc): Label[] {
   const typeLabels = {
@@ -213,28 +202,13 @@ export function transformBody(body: Body): BodyType {
     .map(slice => {
       switch (slice.slice_type) {
         case 'standfirst':
-          return {
-            type: 'standfirst',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformStandfirstSlice(slice);
 
         case 'text':
-          return {
-            type: 'text',
-            weight: getWeight(slice.slice_label),
-            value: slice.primary.text,
-          };
+          return transformTextSlice(slice);
 
         case 'map':
-          return {
-            type: 'map',
-            value: {
-              title: asText(slice.primary.title),
-              latitude: slice.primary.geolocation.latitude,
-              longitude: slice.primary.geolocation.longitude,
-            },
-          };
+          return transformMapSlice(slice);
 
         case 'editorialImage':
           return transformEditorialImageSlice(slice);
@@ -317,26 +291,10 @@ export function transformBody(body: Body): BodyType {
 
         case 'quote':
         case 'quoteV2':
-          return {
-            type: 'quote',
-            weight: getWeight(slice.slice_label),
-            value: {
-              text: slice.primary.text,
-              citation: slice.primary.citation,
-              isPullOrReview:
-                slice.slice_label === 'pull' || slice.slice_label === 'review',
-            },
-          };
+          return transformQuoteSlice(slice);
 
         case 'iframe':
-          return {
-            type: 'iframe',
-            weight: slice.slice_label! as Weight,
-            value: {
-              src: slice.primary.iframeSrc,
-              image: transformImage(slice.primary.previewImage),
-            },
-          };
+          return transformIframeSlice(slice);
 
         case 'gifVideo':
           return transformGifVideoSlice(slice);
@@ -413,15 +371,7 @@ export function transformBody(body: Body): BodyType {
           return transformTableSlice(slice);
 
         case 'infoBlock':
-          return {
-            type: 'infoBlock',
-            value: {
-              title: asTitle(slice.primary.title),
-              text: slice.primary.text,
-              linkText: slice.primary.linkText,
-              link: transformLink(slice.primary.link),
-            },
-          };
+          return transformInfoBlockSlice(slice);
 
         case 'discussion':
           return transformDiscussionSlice(slice);
@@ -518,9 +468,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
       copyrightHolder,
       copyrightLink,
     ] = v;
-    const license: LicenseType | undefined = licenseTypeArray.find(
-      l => l === maybeLicense
-    );
+    const license = licenseTypeArray.find(l => l === maybeLicense);
     return {
       title,
       author,

@@ -2,14 +2,12 @@ import { Fragment, useState, useEffect, FC } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
@@ -247,6 +245,10 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };
+
+  // TODO: Do we need to re-cast to Date here?  We've sometimes seen issues
+  // caused by JSON serialisation, but that should be handled elsewhere by
+  // the fixExhibitionDatesInJson helper.
   const DateInfo = exhibition.end ? (
     <DateRange
       start={new Date(exhibition.start)}

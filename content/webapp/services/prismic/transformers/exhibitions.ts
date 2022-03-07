@@ -1,4 +1,6 @@
 import {
+  Exhibit,
+  ExhibitionFormat,
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
@@ -25,10 +27,8 @@ import {
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
-import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
-import { Resource } from '@weco/common/model/resource';
+import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 
@@ -85,12 +85,8 @@ export function transformExhibition(
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
-  const promoThin = promo && transformImagePromo(promo, '32:15');
-  const promoSquare = promo && transformImagePromo(promo, 'square');
 
-  const promos = [promoThin, promoSquare]
-    .map(p => p?.image)
-    .filter(isNotUndefined);
+  const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const id = document.id;
 
@@ -158,7 +154,6 @@ export function transformExhibition(
       end,
       statusOverride,
     },
-    featuredImageList: promos,
     resources: Array.isArray(data.resources)
       ? transformResourceTypeList(data.resources, 'resource')
       : [],
@@ -250,3 +245,15 @@ export const transformExhibitionRelatedContent = (
     ),
   } as ExhibitionRelatedContent;
 };
+
+// When exhibitions are serialised as JSON then re-parsed, the times will be
+// strings instead of JavaScript Date types.
+//
+// Convert them back to the right types.
+export function fixExhibitionDatesInJson(exhibition: Exhibition): Exhibition {
+  return {
+    ...exhibition,
+    start: exhibition.start && new Date(exhibition.start),
+    end: exhibition.end && new Date(exhibition.end),
+  };
+}

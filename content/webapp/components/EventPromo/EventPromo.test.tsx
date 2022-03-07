@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import EventPromo from './EventPromo';
 import * as Context from '@weco/common/server-data/Context';
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '@weco/common/model/events';
 import {
   eventWithOneLocation,
   eventOnline,
@@ -18,7 +18,7 @@ jest
   .spyOn(Context, 'usePrismicData')
   .mockImplementation(() => prismicData as any);
 
-const renderComponent = (event: UiEvent) => {
+const renderComponent = (event: Event) => {
   return render(
     <ThemeProvider theme={theme}>
       <EventPromo event={event} />

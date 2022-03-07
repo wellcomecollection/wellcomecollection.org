@@ -2,8 +2,15 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Iframe as IframeSlice,
+  InfoBlock as InfoBlockSlice,
+  Map as MapSlice,
   MediaObjectList as MediaObjectListSlice,
+  Quote as QuoteSlice,
+  QuoteV2 as QuoteV2Slice,
+  Standfirst as StandfirstSlice,
   Table as TableSlice,
+  TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
@@ -11,12 +18,16 @@ import {
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
+import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
+import { Props as QuoteProps } from '@weco/common/views/components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
-import { Props as DeprecatedImageListProps } from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '@weco/common/views/components/TitledTextList/TitledTextList';
+import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '@weco/common/views/components/Discussion/Discussion';
-import { MediaObjectType } from '@weco/common/model/media-object';
+import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
@@ -34,7 +45,8 @@ import {
   asText,
 } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-import { Weight } from '@weco/common/model/generic-content-fields';
+import { Weight } from '../../../types/generic-content-fields';
+import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -51,12 +63,42 @@ export function getWeight(weight: string | null): Weight {
 
 type ParsedSlice<TypeName extends string, Value> = {
   type: TypeName;
+  weight?: Weight;
   value: Value;
 };
 
-type WeightedSlice = {
-  weight: Weight;
-};
+export function transformStandfirstSlice(
+  slice: StandfirstSlice
+): ParsedSlice<'standfirst', RichTextField> {
+  return {
+    type: 'standfirst',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
+
+export function transformTextSlice(
+  slice: TextSlice
+): ParsedSlice<'text', RichTextField> {
+  return {
+    type: 'text',
+    weight: getWeight(slice.slice_label),
+    value: slice.primary.text,
+  };
+}
+
+export function transformMapSlice(
+  slice: MapSlice
+): ParsedSlice<'map', MapProps> {
+  return {
+    type: 'map',
+    value: {
+      title: asText(slice.primary.title) || '',
+      latitude: slice.primary.geolocation.latitude,
+      longitude: slice.primary.geolocation.longitude,
+    },
+  };
+}
 
 function transformTableCsv(tableData: string): string[][] {
   return tableData
@@ -139,7 +181,7 @@ export function transformContactSlice(
 
 export function transformEditorialImageSlice(
   slice: EditorialImageSlice
-): ParsedSlice<'picture', CaptionedImage> & WeightedSlice {
+): ParsedSlice<'picture', CaptionedImage> {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -162,8 +204,7 @@ export function transformEditorialImageGallerySlice(
 
 export function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
-): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> &
-  WeightedSlice {
+): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
   return {
     type: 'deprecatedImageList',
     weight: getWeight(slice.slice_label),
@@ -186,7 +227,7 @@ export function transformDeprecatedImageListSlice(
 
 export function transformGifVideoSlice(
   slice: GifVideoSlice
-): (ParsedSlice<'gifVideo', GifVideoProps> & WeightedSlice) | undefined {
+): ParsedSlice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -252,6 +293,48 @@ export function transformDiscussionSlice(
     value: {
       title: asTitle(slice.primary.title),
       text: asRichText(slice.primary.text) || [],
+    },
+  };
+}
+
+export function transformInfoBlockSlice(
+  slice: InfoBlockSlice
+): ParsedSlice<'infoBlock', InfoBlockProps> {
+  return {
+    type: 'infoBlock',
+    value: {
+      title: asTitle(slice.primary.title),
+      text: slice.primary.text as HTMLString,
+      linkText: slice.primary.linkText,
+      link: transformLink(slice.primary.link),
+    },
+  };
+}
+
+export function transformIframeSlice(
+  slice: IframeSlice
+): ParsedSlice<'iframe', IframeProps> {
+  return {
+    type: 'iframe',
+    weight: getWeight(slice.slice_label),
+    value: {
+      src: slice.primary.iframeSrc!,
+      image: transformImage(slice.primary.previewImage)!,
+    },
+  };
+}
+
+export function transformQuoteSlice(
+  slice: QuoteSlice | QuoteV2Slice
+): ParsedSlice<'quote', QuoteProps> {
+  return {
+    type: 'quote',
+    weight: getWeight(slice.slice_label),
+    value: {
+      text: slice.primary.text as HTMLString,
+      citation: slice.primary.citation as HTMLString,
+      isPullOrReview:
+        slice.slice_label === 'pull' || slice.slice_label === 'review',
     },
   };
 }

@@ -1,7 +1,8 @@
 import { FunctionComponent, useEffect, useRef } from 'react';
 import GoogleMapsLoader from 'google-maps';
 import styled from 'styled-components';
-type Props = {
+
+export type Props = {
   title: string;
   latitude: number;
   longitude: number;

@@ -1,4 +1,4 @@
-import { Tasl } from './tasl';
+import { Tasl } from '@weco/common/model/tasl';
 
 export type Picture = {
   contentUrl: string;
@@ -8,7 +8,3 @@ export type Picture = {
   tasl?: Tasl;
   minWidth?: string; // This must have a CSS unit attached
 };
-
-export function createPicture(data: Picture): Picture {
-  return data;
-}

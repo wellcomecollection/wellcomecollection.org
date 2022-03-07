@@ -3,11 +3,11 @@ import {
   DateRange,
   DateTimeRange,
   EventTime,
+  Event,
   Interpretation,
   Team,
   ThirdPartyBooking,
-} from '@weco/common/model/events';
-import { Event } from '../../../types/events';
+} from '../../../types/events';
 import {
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
@@ -41,6 +41,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
+import { Moment } from 'moment';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -82,7 +83,7 @@ function determineDisplayTime(times: EventTime[]): EventTime {
   return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
-export function getLastEndTime(times: EventTime[]) {
+export function getLastEndTime(times: EventTime[]): Moment | undefined {
   return times.length > 0
     ? times
         .map(({ range: { endDateTime } }) => london(endDateTime))
@@ -328,3 +329,32 @@ export const getScheduleIds = (
     .map(linkField => (link(linkField.event) ? linkField.event.id : undefined))
     .filter(isNotUndefined);
 };
+
+// When events are serialised as JSON then re-parsed, the times will be
+// strings instead of JavaScript Date types.
+//
+// Convert them back to the right types.
+export function fixEventDatesInJson(jsonEvent: Event): Event {
+  const times = jsonEvent.times.map(time => {
+    return {
+      ...time,
+      range: {
+        startDateTime: new Date(time.range.startDateTime),
+        endDateTime: new Date(time.range.endDateTime),
+      },
+    };
+  });
+
+  const schedule =
+    jsonEvent.schedule &&
+    jsonEvent.schedule.map(item => ({
+      ...item,
+      event: fixEventDatesInJson(item.event),
+    }));
+
+  return {
+    ...jsonEvent,
+    times,
+    schedule,
+  };
+}

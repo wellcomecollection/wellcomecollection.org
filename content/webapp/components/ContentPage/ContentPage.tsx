@@ -11,9 +11,9 @@ import {
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
 import { classNames } from '@weco/common/utils/classnames';
-import { Season } from '@weco/common/model/seasons';
+import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
-import { MultiContent } from '@weco/common/model/multi-content';
+import { MultiContent } from '../../types/multi-content';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageHeader, {
@@ -21,7 +21,7 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import CompactCard from '../CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';

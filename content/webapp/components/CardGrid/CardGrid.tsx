@@ -1,42 +1,22 @@
 import { FunctionComponent } from 'react';
 import moment from 'moment';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import { Link } from '@weco/common/model/link';
-import { convertItemToCardProps } from '@weco/common/model/card';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
-import { Exhibition } from '../../types/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
-import { Article } from '../../types/articles';
-import { Page } from '@weco/common/model/pages';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Link } from '../../types/link';
+import { convertItemToCardProps } from '../../types/card';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import Card from '@weco/common/views/components/Card/Card';
+import Card from '../Card/Card';
 import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
-import { Book } from '../../types/books';
-import { Project } from '../../types/projects';
-import { Guide } from '../../types/guides';
-
-// TODO: This should be MultiContent
-export type ContentTypes =
-  | UiEvent
-  | Exhibition
-  | Book
-  | Article
-  | Page
-  | Project
-  | ArticleSeries
-  | ArticleScheduleItem
-  | Guide;
+import { MultiContent } from '../../types/multi-content';
 
 type Props = {
-  items: readonly ContentTypes[];
+  items: readonly MultiContent[];
   hidePromoText?: boolean;
   itemsPerRow: number;
   itemsHaveTransparentBackground?: boolean;

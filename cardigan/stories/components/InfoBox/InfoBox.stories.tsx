@@ -1,4 +1,4 @@
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '@weco/content/components/InfoBox/InfoBox';
 import {
   a11Y,
   a11YVisual,

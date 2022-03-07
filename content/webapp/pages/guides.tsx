@@ -20,13 +20,14 @@ import {
 } from '../services/prismic/transformers/guides';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
-import { Guide, GuideFormat } from '../types/guides';
+import { Guide } from '../types/guides';
+import { Format } from '../types/format';
 
 const displayTitle = 'Guides';
 
 type FiltersProps = {
   currentId: string | string[] | null;
-  guideFormats: GuideFormat[];
+  guideFormats: Format[];
 };
 
 const Filters: FunctionComponent<FiltersProps> = ({
@@ -58,7 +59,7 @@ const Filters: FunctionComponent<FiltersProps> = ({
 
 type Props = {
   guides: PaginatedResults<Guide>;
-  guideFormats: GuideFormat[];
+  guideFormats: Format[];
   formatId: string | string[] | null;
 };
 

@@ -2,7 +2,7 @@ import moment from 'moment';
 import { predicate } from 'prismic-client-beta';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 import { london } from '@weco/common/utils/format-date';
-import { Period } from '@weco/common/model/periods';
+import { Period } from '../../../types/periods';
 
 type Props = { period?: Period; startField: string; endField: string };
 export const getPeriodPredicates = ({

@@ -5,17 +5,17 @@ import {
   UiImage,
 } from '@weco/common/views/components/Images/Images';
 import { Exhibition } from '../../types/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import {
   Article,
   getPositionInSeries,
   getArticleColor,
-} from '@weco/common/model/articles';
-import { Season } from '@weco/common/model/seasons';
-import { Card } from '@weco/common/model/card';
+} from '../../types/articles';
+import { Season } from '../../types/seasons';
+import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
-import { Link } from '@weco/common/model/link';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import { Link } from '../../types/link';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -54,7 +54,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | Exhibition | Season
+  item: Article | Event | Exhibition | Season
 ) {
   return {
     id: item.id,

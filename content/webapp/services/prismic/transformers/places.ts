@@ -1,4 +1,4 @@
-import { Place } from '@weco/common/model/places';
+import { Place } from '../../../types/places';
 import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformGenericFields } from '.';
 import { PlacePrismicDocument } from '../types/places';

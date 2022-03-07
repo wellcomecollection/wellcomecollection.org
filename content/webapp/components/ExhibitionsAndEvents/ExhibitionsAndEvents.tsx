@@ -1,6 +1,6 @@
 import { Exhibition } from '../../types/exhibitions';
 import { Event } from '../../types/events';
-import { Link } from '@weco/common/model/link';
+import { Link } from '../../types/link';
 import CardGrid from '../CardGrid/CardGrid';
 import { FunctionComponent } from 'react';
 

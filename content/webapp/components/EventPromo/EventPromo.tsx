@@ -5,23 +5,19 @@ import { trackEvent } from '@weco/common/utils/ga';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
-import { UiEvent, isEventFullyBooked } from '@weco/common/model/events';
+import EventDateRange from '../EventDateRange/EventDateRange';
+import { Event, isEventFullyBooked } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  CardOuter,
-  CardBody,
-  CardPostBody,
-} from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
-import { Place } from '@weco/common/model/places';
+import { Place } from '../../types/places';
 
 type Props = {
-  event: UiEvent;
+  event: Event;
   position?: number;
   dateString?: string;
   timeString?: string;
