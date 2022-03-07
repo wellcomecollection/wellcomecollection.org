@@ -11,7 +11,6 @@ import {
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
 } from '../types/events';
-import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
@@ -39,6 +38,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -98,7 +98,7 @@ export function transformEvent(
       : [];
   const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
-      link(interpretation.interpretationType)
+      prismicH.isFilled.link(interpretation.interpretationType)
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
@@ -129,7 +129,7 @@ export function transformEvent(
 
   const audiences: Audience[] = data.audiences
     .map(audience =>
-      link(audience.audience)
+      prismicH.isFilled.link(audience.audience)
         ? {
             id: audience.audience.id,
             title: audience.audience.data?.title
@@ -257,6 +257,13 @@ export function transformEvent(
     contributors,
     scheduleLength,
     schedule,
+<<<<<<< HEAD
+=======
+    backgroundTexture:
+      prismicH.isFilled.link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
+        ? data.backgroundTexture.data.image.url
+        : undefined,
+>>>>>>> Replace the vendored helpers with the upstream versions
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
@@ -276,7 +283,7 @@ export const getScheduleIds = (
   eventDocument: EventPrismicDocument
 ): string[] => {
   return eventDocument.data.schedule
-    .map(linkField => (link(linkField.event) ? linkField.event.id : undefined))
+    .map(linkField => (prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined))
     .filter(isNotUndefined);
 };
 

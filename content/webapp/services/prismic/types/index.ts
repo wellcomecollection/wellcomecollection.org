@@ -22,8 +22,8 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
-import { link } from '../transformers/vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
+import * as prismicH from '@prismicio/helpers';
 
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
@@ -241,13 +241,13 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return link(field) && field.link_type === 'Web' && 'url' in field;
+  return prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field;
 }
 
 export function isFilledLinkToMediaField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return link(field) && field.link_type === 'Media' && 'url' in field;
+  return prismicH.isFilled.link(field) && field.link_type === 'Media' && 'url' in field;
 }
 
 export function isFilledLinkToPersonField(
