@@ -9,6 +9,7 @@ import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { ImageType } from '@weco/common/model/image';
 import { ImagePromo } from '../../../types/image-promo';
 import { asRichText, asText, transformTaslFromString } from '.';
+import * as prismicT from '@prismicio/types';
 
 export const placeHolderImage: ImageType = {
   contentUrl: 'https://via.placeholder.com/1600x900?text=%20',
@@ -49,10 +50,14 @@ export function transformCaptionedImage(
 export function transformPromoToCaptionedImage(
   frag: PromoSliceZone,
   crop?: Crop
-): CaptionedImage {
+): CaptionedImage | undefined {
   // We could do more complicated checking here, but this is what we always use.
-  const promo = frag[0];
-  return transformCaptionedImage(promo.primary, crop);
+  if (frag.length > 0) {
+    const promo = frag[0]!;
+    return transformCaptionedImage(promo.primary, crop);
+  } else {
+    return undefined;
+  }
 }
 
 // when images have crops, event if the image isn't attached, we get e.g.
@@ -106,7 +111,7 @@ export function transformImagePromo(
   cropType: Crop | null = '16:9'
 ): ImagePromo | undefined {
   const promoSlice =
-    zone && zone.find(slice => slice.slice_type === 'editorialImage');
+    zone && zone.find((slice: prismicT.Slice) => slice.slice_type === 'editorialImage');
   const link = promoSlice && promoSlice.primary.link;
   // We introduced enforcing 16:9 half way through, so we have to do a check for it.
   const promoImage =

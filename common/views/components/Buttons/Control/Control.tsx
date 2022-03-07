@@ -221,6 +221,4 @@ const Control = forwardRef(
   }
 );
 
-Control.displayName = 'Control';
-
 export default Control;

@@ -209,6 +209,4 @@ const ButtonSolid = forwardRef(
   }
 );
 
-ButtonSolid.displayName = 'ButtonSolid';
-
 export default ButtonSolid;

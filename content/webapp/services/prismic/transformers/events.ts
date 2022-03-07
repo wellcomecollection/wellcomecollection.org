@@ -121,8 +121,8 @@ export function transformEvent(
     .filter(isNotUndefined);
 
   const matchedId =
-    data.eventbriteEvent && data.eventbriteEvent.url
-      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url)
+    data.eventbriteEvent && data.eventbriteEvent.embed_url
+      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.embed_url)
       : null;
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
@@ -259,7 +259,7 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+      data.times && data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,

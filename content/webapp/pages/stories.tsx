@@ -38,7 +38,7 @@ import {
   pageDescriptions,
   booksPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
 import { Book } from '../types/books';

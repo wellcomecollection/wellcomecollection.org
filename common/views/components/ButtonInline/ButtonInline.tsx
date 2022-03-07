@@ -93,6 +93,4 @@ const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
   }
 );
 
-ButtonInline.displayName = 'ButtonInline';
-
 export default ButtonInline;

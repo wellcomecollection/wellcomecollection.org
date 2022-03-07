@@ -12,7 +12,6 @@ import {
   FilledLinkToWebField,
   NumberField,
   LinkField,
-  LinkType,
   EmptyLinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
@@ -39,10 +38,7 @@ export type InferDataInterface<T> = T extends PrismicDocument<
   ? DataInterface
   : never;
 
-export type InferCustomType<T> = T extends PrismicDocument<
-  unknown,
-  infer CustomType
->
+export type InferCustomType<T> = T extends PrismicDocument<any, infer CustomType>
   ? CustomType
   : never;
 
@@ -173,7 +169,13 @@ export type WithExhibitionParents = {
     order: NumberField;
     parent: RelationField<
       'exhibitions',
-      InferDataInterface<ExhibitionPrismicDocument>
+      // We know this is an ExhibitionPrismicDocument, but the type checker gets
+      // unhappy about the circular reference:
+      //
+      //    'event' is referenced directly or indirectly in its own type annotation.
+      //
+      // TODO: Find a better way to do this which doesn't upset the type checker.
+      InferDataInterface<any>
     >;
   }>;
 };
@@ -184,7 +186,7 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
 ];
 
 type Contributor =
-  | EmptyLinkField<LinkType.Document>
+  | EmptyLinkField<'Document'>
   | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>>
   | FilledLinkToDocumentField<
       'organisations',

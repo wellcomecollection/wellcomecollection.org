@@ -2,7 +2,7 @@ import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { Event } from '../../../types/events';
 
 const fetchLinks = eventsFetchLinks;

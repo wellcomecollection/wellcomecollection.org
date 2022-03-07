@@ -30,7 +30,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
               document={emptyGlobalAlert({
                 text: [
                   {
-                    type: 'paragraph' as RichTextNodeType.paragraph,
+                    type: RichTextNodeType.paragraph,
                     text: wellcomeImagesRedirectBanner,
                     spans: [],
                   },

@@ -40,6 +40,4 @@ const NumberInput = forwardRef(
   )
 );
 
-NumberInput.displayName = 'NumberInput';
-
 export default NumberInput;
