@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitionRelatedContent } from '../../../services/prismic/fetch/exhibitions';
-import { transformExhibitionRelatedContent } from 'services/prismic/transformers/exhibitions';
-import { ExhibitionRelatedContent } from 'types/exhibitions';
+import { transformExhibitionRelatedContent } from '../../../services/prismic/transformers/exhibitions';
+import { ExhibitionRelatedContent } from '../../../types/exhibitions';
 
 type Data = ExhibitionRelatedContent;
 type NotFound = { notFound: true };

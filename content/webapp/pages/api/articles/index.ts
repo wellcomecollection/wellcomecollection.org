@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchArticles } from '../../../services/prismic/fetch/articles';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformArticle } from 'services/prismic/transformers/articles';
+import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../../../services/prismic/transformers/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Article } from '../../../types/articles';
 

@@ -23,7 +23,7 @@ import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
-import { isEventFullyBooked } from '../types/events';
+import { isEventFullyBooked, Event } from '../types/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -58,7 +58,6 @@ import {
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import { Event } from 'types/events';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
