@@ -1,4 +1,10 @@
-import { AriaAttributes, forwardRef, ReactNode, SyntheticEvent } from 'react';
+import {
+  AriaAttributes,
+  forwardRef,
+  ReactNode,
+  SyntheticEvent,
+  FC,
+} from 'react';
 import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
 import styled from 'styled-components';
@@ -40,57 +46,57 @@ type ButtonInlineProps = ButtonInlineBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLButtonElement>) => void;
 };
 
-const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(
-  (
-    {
-      icon,
-      text,
-      type,
-      isTextHidden,
-      isOnDark,
-      trackingEvent,
-      clickHandler,
-      ariaControls,
-      ariaExpanded,
-      ariaLive,
-      disabled,
-    }: ButtonInlineProps,
-    ref
-  ) => {
-    function handleClick(event) {
-      clickHandler && clickHandler(event);
-      trackingEvent && trackEvent(trackingEvent);
-    }
-    return (
-      <InlineButton
-        type={type}
-        isOnDark={isOnDark}
-        aria-controls={ariaControls}
-        aria-expanded={ariaExpanded}
-        aria-live={ariaLive}
-        onClick={handleClick}
-        disabled={disabled}
-        ref={ref}
-      >
-        <BaseButtonInner isInline={true}>
-          <>
-            <AlignFont
-              className={classNames({
-                'visually-hidden': !!isTextHidden,
-              })}
-            >
-              {text}
-            </AlignFont>
-            {icon && (
-              <ButtonIconWrapper iconAfter={true}>
-                <Icon icon={icon} />
-              </ButtonIconWrapper>
-            )}
-          </>
-        </BaseButtonInner>
-      </InlineButton>
-    );
+const Button: FC<ButtonInlineProps> = (
+  {
+    icon,
+    text,
+    type,
+    isTextHidden,
+    isOnDark,
+    trackingEvent,
+    clickHandler,
+    ariaControls,
+    ariaExpanded,
+    ariaLive,
+    disabled,
+  }: ButtonInlineProps,
+  ref
+) => {
+  function handleClick(event) {
+    clickHandler && clickHandler(event);
+    trackingEvent && trackEvent(trackingEvent);
   }
-);
+  return (
+    <InlineButton
+      type={type}
+      isOnDark={isOnDark}
+      aria-controls={ariaControls}
+      aria-expanded={ariaExpanded}
+      aria-live={ariaLive}
+      onClick={handleClick}
+      disabled={disabled}
+      ref={ref}
+    >
+      <BaseButtonInner isInline={true}>
+        <>
+          <AlignFont
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
+            {text}
+          </AlignFont>
+          {icon && (
+            <ButtonIconWrapper iconAfter={true}>
+              <Icon icon={icon} />
+            </ButtonIconWrapper>
+          )}
+        </>
+      </BaseButtonInner>
+    </InlineButton>
+  );
+};
+
+const ButtonInline = forwardRef<HTMLButtonElement, ButtonInlineProps>(Button);
 
 export default ButtonInline;

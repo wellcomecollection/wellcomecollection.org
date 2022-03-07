@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, FC } from 'react';
 import NextLink from 'next/link';
 import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
@@ -156,69 +156,69 @@ const InnerControl = ({ text, icon }: InnerControlProps) => (
 
 type Props = ButtonProps | AnchorProps;
 
-const Control = forwardRef(
-  (
-    {
-      tabIndex,
-      link,
-      scroll,
-      replace,
-      prefetch,
-      id,
-      colorScheme,
-      extraClasses,
-      icon,
-      text,
-      disabled,
-      clickHandler,
-      trackingEvent,
-      ariaControls,
-      ariaExpanded,
-    }: Props,
-    ref: any
-  ) => {
-    const attrs = {
-      ariaControls,
-      ariaExpanded,
-      tabIndex,
-      id,
-      colorScheme,
-      disabled,
-      extraClasses,
-      onClick: handleClick,
-    };
+const BaseControl: FC<Props> = (
+  {
+    tabIndex,
+    link,
+    scroll,
+    replace,
+    prefetch,
+    id,
+    colorScheme,
+    extraClasses,
+    icon,
+    text,
+    disabled,
+    clickHandler,
+    trackingEvent,
+    ariaControls,
+    ariaExpanded,
+  }: Props,
+  ref: any
+) => {
+  const attrs = {
+    ariaControls,
+    ariaExpanded,
+    tabIndex,
+    id,
+    colorScheme,
+    disabled,
+    extraClasses,
+    onClick: handleClick,
+  };
 
-    function handleClick(event) {
-      if (trackingEvent) {
-        trackEvent(trackingEvent);
-      }
-
-      if (clickHandler) {
-        clickHandler(event);
-      }
+  function handleClick(event) {
+    if (trackingEvent) {
+      trackEvent(trackingEvent);
     }
 
-    return (
-      <>
-        {link ? (
-          <NextLink
-            {...link}
-            scroll={scroll}
-            replace={replace}
-            prefetch={prefetch}
-          >
-            <Wrapper as="a" ref={ref} {...attrs}>
-              <InnerControl text={text} icon={icon} />
-            </Wrapper>
-          </NextLink>
-        ) : (
-          <Wrapper ref={ref} {...attrs}>
+    if (clickHandler) {
+      clickHandler(event);
+    }
+  }
+
+  return (
+    <>
+      {link ? (
+        <NextLink
+          {...link}
+          scroll={scroll}
+          replace={replace}
+          prefetch={prefetch}
+        >
+          <Wrapper as="a" ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />
           </Wrapper>
-        )}
-      </>
-    );
-  }
-);
+        </NextLink>
+      ) : (
+        <Wrapper ref={ref} {...attrs}>
+          <InnerControl text={text} icon={icon} />
+        </Wrapper>
+      )}
+    </>
+  );
+};
+
+const Control = forwardRef(BaseControl);
 
 export default Control;
