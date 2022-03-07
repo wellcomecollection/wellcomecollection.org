@@ -60,6 +60,7 @@ const codecMap = {
   'contributors.agent.label': quotedCsvCodec,
   sort: maybeStringCodec,
   sortOrder: maybeStringCodec,
+  partOf: maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
 };
