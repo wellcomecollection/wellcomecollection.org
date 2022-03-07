@@ -21,11 +21,11 @@ import * as prismic from 'prismic-client-beta';
 import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformEventSeries } from '../services/prismic/transformers/event-series';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   fixEventDatesInJson,
   transformEvent,
-} from 'services/prismic/transformers/events';
+} from '../services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;

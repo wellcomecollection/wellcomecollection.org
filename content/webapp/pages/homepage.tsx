@@ -39,11 +39,11 @@ import {
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import {
   fixExhibitionDatesInJson,
   transformExhibitionsQuery,
-} from 'services/prismic/transformers/exhibitions';
+} from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({
