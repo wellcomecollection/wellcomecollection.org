@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
@@ -28,7 +28,7 @@ const GridWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 `;
 
-const EventScheduleItem = ({ event, isNotLinked }: Props) => {
+const EventScheduleItem: FC<Props> = ({ event, isNotLinked }: Props) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
   return (
