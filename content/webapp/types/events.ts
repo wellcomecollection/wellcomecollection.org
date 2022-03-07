@@ -6,7 +6,7 @@ import { LabelField } from '@weco/common/model/label-field';
 import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -28,14 +28,14 @@ type EventSeries = {
 type InterpretationType = {
   id: string;
   title: string;
-  description?: HTMLString;
-  primaryDescription?: HTMLString;
+  description?: prismicT.RichTextField;
+  primaryDescription?: prismicT.RichTextField;
 };
 
 export type Interpretation = {
   interpretationType: InterpretationType;
   isPrimary: boolean;
-  extraInformation?: HTMLString;
+  extraInformation?: prismicT.RichTextField;
 };
 
 export type Team = {

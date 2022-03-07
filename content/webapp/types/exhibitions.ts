@@ -6,7 +6,7 @@ import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
 import { Resource } from './resource';
 import { Season } from './seasons';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 
 // e.g. 'Permanent'
 export type ExhibitionFormat = {
@@ -23,8 +23,8 @@ export type Exhibition = GenericContentFields & {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  bslInfo?: HTMLString;
-  audioDescriptionInfo?: HTMLString;
+  bslInfo?: prismicT.RichTextField;
+  audioDescriptionInfo?: prismicT.RichTextField;
   place?: Place;
   exhibits: Exhibit[];
   resources: Resource[];
