@@ -216,7 +216,7 @@ export const dropCapSerializer: HTMLSerializer<ReactElement> = (
   //
   // TODO: Work out why this isn't being caught by the type checker elsewhere,
   // and fix it properly.
-  if (type === Elements.paragraph && (key === '0' || key.toString() === '0') && children[0] !== undefined) {
+  if (type === Elements.paragraph && (key.toString() === '0') && children[0] !== undefined) {
     const firstChild = children[0];
     const firstCharacters =
       firstChild.props &&
