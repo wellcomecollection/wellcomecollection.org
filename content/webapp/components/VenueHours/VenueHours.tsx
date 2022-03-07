@@ -12,7 +12,6 @@ import {
   getUpcomingExceptionalPeriods,
   exceptionalOpeningDates,
   exceptionalOpeningPeriods,
-  convertJsonDateStringsToMoment,
   exceptionalOpeningPeriodsAllDates,
   parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
@@ -87,10 +86,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     groupedExceptionalDates
   );
   const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(
-        convertJsonDateStringsToMoment(venue),
-        exceptionalPeriodsAllDates
-      )
+    ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
     : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
