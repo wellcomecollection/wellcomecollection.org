@@ -458,15 +458,19 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                 event.interpretations.map(
                   ({ interpretationType, isPrimary, extraInformation }) => {
                     const iconName = camelize(interpretationType.title);
+
+                    const description = [
+                      isPrimary
+                        ? interpretationType.primaryDescription
+                        : interpretationType.description,
+                      extraInformation
+                    ].filter(isNotUndefined);
+
                     return {
                       id: undefined,
                       icon: eventInterpretationIcons[iconName],
                       title: interpretationType.title,
-                      description: (
-                        (isPrimary
-                          ? interpretationType.primaryDescription
-                          : interpretationType.description) || []
-                      ).concat(extraInformation || []),
+                      description,
                     };
                   }
                 )
