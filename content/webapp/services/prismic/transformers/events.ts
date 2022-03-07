@@ -228,15 +228,15 @@ export function transformEvent(
     ...audiencesLabels,
     ...interpretationsLabels,
     ...relaxedPerformanceLabel,
-  ].map(text => { return { text }; });
+  ].map(text => ({ text }));
 
   const primaryLabels = [
     ...formatLabel,
     ...audiencesLabels,
     ...relaxedPerformanceLabel,
-  ].map(text => { return { text }; });
+  ].map(text => ({ text }));
   
-  const secondaryLabels = [...interpretationsLabels].map(text => { return { text }; });
+  const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
