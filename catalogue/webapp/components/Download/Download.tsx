@@ -25,7 +25,7 @@ export const DownloadOptions = styled.div.attrs(() => ({
   }
 `;
 
-export function getFormatString(format: string): DownloadFormat | undefined {
+function getFormatString(format: string): DownloadFormat | undefined {
   switch (format) {
     case 'application/pdf':
       return 'PDF';
