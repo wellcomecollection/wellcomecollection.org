@@ -17,7 +17,7 @@ export type PrismicDocument = {
   url?: string;
 };
 
-export type HTMLSpanTypes =
+type HTMLSpanTypes =
   | 'heading2'
   | 'heading3'
   | 'paragraph'
@@ -28,14 +28,14 @@ export type HTMLSpanTypes =
   | 'list-item'
   | 'embed';
 
-export type HTMLSpan = {
+type HTMLSpan = {
   type: HTMLSpanTypes;
   start: number;
   end: number;
   data?: Record<string, unknown>;
 };
 
-export type HTMLStringBlock = {
+type HTMLStringBlock = {
   type: HTMLSpanTypes;
   text: string;
   spans: HTMLSpan[];
