@@ -218,7 +218,7 @@ export const dropCapSerializer: HTMLSerializer<ReactElement> = (
   // and fix it properly.
   if (
     type === Elements.paragraph &&
-    (key.toString() === '0') &&
+    key.toString() === '0' &&
     children[0] !== undefined
   ) {
     const firstChild = children[0];
