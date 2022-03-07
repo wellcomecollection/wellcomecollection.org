@@ -1,6 +1,6 @@
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '../../../services/prismic/types';
-import { font, classNames } from '../../../utils/classnames';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import { font, classNames } from '@weco/common/utils/classnames';
 import { HTMLSerializer } from 'prismic-reactjs';
 import { ReactElement } from 'react';
 

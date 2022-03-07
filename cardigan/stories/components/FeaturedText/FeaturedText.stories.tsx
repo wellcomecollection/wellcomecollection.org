@@ -1,4 +1,4 @@
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '@weco/content/components/FeaturedText/FeaturedText';
 
 const Template = args => <FeaturedText {...args} />;
 export const basic = Template.bind({});

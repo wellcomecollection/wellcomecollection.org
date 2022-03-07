@@ -1,4 +1,4 @@
-import Discussion from '@weco/common/views/components/Discussion/Discussion';
+import Discussion from '@weco/content/components/Discussion/Discussion';
 
 const Template = args => <Discussion {...args} />;
 export const basic = Template.bind({});

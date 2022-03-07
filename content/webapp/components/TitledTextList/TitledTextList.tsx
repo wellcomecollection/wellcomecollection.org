@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
-import { HTMLString } from '../../../services/prismic/types';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import LabelsList from '../LabelsList/LabelsList';
-import Space from '../styled/Space';
-import { classNames, font } from '../../../../common/utils/classnames';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import Space from '@weco/common/views/components/styled/Space';
+import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
-import { LabelField } from '../../../model/label-field';
+import { LabelField } from '@weco/common/model/label-field';
 
 const HeadingLink = styled.a.attrs({
   className: classNames({

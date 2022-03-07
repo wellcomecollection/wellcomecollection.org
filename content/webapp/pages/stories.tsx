@@ -12,7 +12,7 @@ import {
   prismicPageIds,
   featuredStoriesSeriesId,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
   getPageFeaturedText,

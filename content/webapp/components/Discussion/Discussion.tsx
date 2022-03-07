@@ -1,8 +1,8 @@
 import { FunctionComponent, useState, useEffect, useContext } from 'react';
-import { HTMLString } from '../../../services/prismic/types';
-import { AppContext } from '../AppContext/AppContext';
-import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import { HTMLString } from '@weco/common/services/prismic/types';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
 
