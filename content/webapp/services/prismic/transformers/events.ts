@@ -58,24 +58,6 @@ function transformEventBookingType(
     : undefined;
 }
 
-function determineDateRange(times: EventTime[]): DateRange {
-  const firstDate = times
-    .map(({ range: { startDateTime } }) => london(startDateTime))
-    .reduce((a, b) => (a.isBefore(b, 'day') ? a : b))
-    .toDate();
-
-  const lastDate = times
-    .map(({ range: { endDateTime } }) => london(endDateTime))
-    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
-    .toDate();
-
-  return {
-    firstDate,
-    lastDate,
-    repeats: times.length,
-  };
-}
-
 function determineDisplayTime(times: EventTime[]): EventTime {
   const upcomingDates = times.filter(t => {
     return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
@@ -218,7 +200,7 @@ export function transformEvent(
 
   const displayTime = determineDisplayTime(times);
   const lastEndTime = getLastEndTime(times);
-  const isRelaxedPerformance = data.isRelaxedPerformance;
+  const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
   const isOnline = data.isOnline;
   const availableOnline = data.availableOnline;
   const schedule = eventSchedule.map((event, i) => {
@@ -234,11 +216,33 @@ export function transformEvent(
   );
 
   const contributors = transformContributors(document);
+  const format = transformFormat(document);
+
+  const formatLabel = format ? format.title : 'Event';
+  const audiencesLabels = audiences.map(a => a.title);
+  const interpretationsLabels = interpretations.map(i => i.interpretationType.title);
+  const relaxedPerformanceLabel = isRelaxedPerformance ? ['Relaxed'] : [];
+
+  const labels = [
+    formatLabel,
+    ...audiencesLabels,
+    ...interpretationsLabels,
+    ...relaxedPerformanceLabel,
+  ].map(text => { return { text }; });
+
+  const primaryLabels = [
+    ...formatLabel,
+    ...audiencesLabels,
+    ...relaxedPerformanceLabel,
+  ].map(text => { return { text }; });
+  
+  const secondaryLabels = [...interpretationsLabels].map(text => { return { text }; });
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
-  const event = {
+  return {
+    type: 'events',
     ...genericFields,
     // place,
     locations,
@@ -251,7 +255,7 @@ export function transformEvent(
         : undefined,
     bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
-    format: transformFormat(document),
+    format,
     interpretations,
     policies: Array.isArray(data.policies)
       ? transformEventPolicyLabels(data.policies, 'policy')
@@ -262,64 +266,19 @@ export function transformEvent(
     contributors,
     scheduleLength,
     schedule,
-    backgroundTexture:
-      link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
-        ? data.backgroundTexture.data.image.url
-        : undefined,
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
-    displayStart: (displayTime && displayTime.range.startDateTime) || null,
-    displayEnd: (displayTime && displayTime.range.endDateTime) || null,
-    dateRange: determineDateRange(times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance: isRelaxedPerformance === 'yes',
+    isRelaxedPerformance,
     isOnline,
     availableOnline,
+    labels,
+    primaryLabels,
+    secondaryLabels,
   };
-
-  const eventFormat = event.format
-    ? [
-        {
-          text: event.format.title,
-        },
-      ]
-    : [{ text: 'Event' }];
-  const eventAudiences = event.audiences
-    ? event.audiences.map(a => ({
-        text: a.title,
-      }))
-    : [];
-  const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => ({
-        text: i.interpretationType.title,
-      }))
-    : [];
-  const relaxedPerformanceLabel = event.isRelaxedPerformance
-    ? [
-        {
-          text: 'Relaxed',
-        },
-      ]
-    : [];
-
-  const labels = [
-    ...eventFormat,
-    ...eventAudiences,
-    ...eventInterpretations,
-    ...relaxedPerformanceLabel,
-  ];
-
-  const primaryLabels = [
-    ...eventFormat,
-    ...eventAudiences,
-    ...relaxedPerformanceLabel,
-  ];
-  const secondaryLabels = [...eventInterpretations];
-
-  return { ...event, type: 'events', labels, primaryLabels, secondaryLabels };
 }
 
 export const getScheduleIds = (
