@@ -15,12 +15,14 @@ export function getEarliestFutureDateRange(
     );
 }
 
-export function isPast(date: DateTypes): boolean {
-  return london(date).isBefore(london(), 'day');
+export function isPast(date: Date): boolean {
+  const now = new Date();
+  return date.getMilliseconds() < now.getMilliseconds();
 }
 
-export function isFuture(date: DateTypes): boolean {
-  return london(date).isAfter(london(), 'day');
+export function isFuture(date: Date): boolean {
+  const now = new Date();
+  return date.getMilliseconds() > now.getMilliseconds();
 }
 
 export function getNextWeekendDateRange(date: DateTypes): DateRange {
