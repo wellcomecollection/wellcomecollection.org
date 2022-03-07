@@ -37,9 +37,9 @@ const StoryPromo: FunctionComponent<Props> = ({
 
   const seriesColor = seriesWithSchedule?.color ?? undefined;
 
-  const indexInSeriesSchedule = (
-    seriesWithSchedule?.schedule?.map(scheduleItem => scheduleItem.title) || []
-  ).indexOf(article.title);
+  const seriesTitles =
+    seriesWithSchedule?.schedule?.map(scheduleItem => scheduleItem.title) || [];
+  const indexInSeriesSchedule = seriesTitles.indexOf(article.title);
 
   const positionInSeriesSchedule =
     isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
