@@ -22,7 +22,7 @@ import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
-import { isEventFullyBooked, Event } from '../types/events';
+import { Event, Interpretation, isEventFullyBooked } from '../types/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -59,6 +59,8 @@ import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isPast } from '@weco/common/utils/dates';
+
+import * as prismicT from '@prismicio/types';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -136,6 +138,23 @@ function DateList(event: Event) {
 function showTicketSalesStart(dateTime: Date | undefined) {
   return dateTime && !isPast(dateTime);
 }
+
+const getDescription = ({
+  interpretationType,
+  extraInformation,
+  isPrimary,
+}: Interpretation): prismicT.RichTextField => {
+  const baseDescription: prismicT.RichTextField | undefined = isPrimary
+    ? interpretationType.primaryDescription
+    : interpretationType.description;
+
+  const extraDescription: prismicT.RichTextField | undefined =
+    extraInformation || [];
+
+  return [...(baseDescription || []), ...extraDescription].filter(
+    isNotUndefined
+  ) as [prismicT.RTNode, ...prismicT.RTNode[]];
+};
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
   britishSignLanguage: britishSignLanguage,
@@ -455,25 +474,20 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               // @ts-ignore
               .concat(event.policies)
               .concat(
-                event.interpretations.map(
-                  ({ interpretationType, isPrimary, extraInformation }) => {
-                    const iconName = camelize(interpretationType.title);
+                event.interpretations.map(interpretation => {
+                  const iconName = camelize(
+                    interpretation.interpretationType.title
+                  );
 
-                    const description = [
-                      isPrimary
-                        ? interpretationType.primaryDescription
-                        : interpretationType.description,
-                      extraInformation
-                    ].filter(isNotUndefined);
+                  const description = getDescription(interpretation);
 
-                    return {
-                      id: undefined,
-                      icon: eventInterpretationIcons[iconName],
-                      title: interpretationType.title,
-                      description,
-                    };
-                  }
-                )
+                  return {
+                    id: undefined,
+                    icon: eventInterpretationIcons[iconName],
+                    title: interpretation.interpretationType.title,
+                    description,
+                  };
+                })
               )
               .filter(Boolean) as LabelField[]
           }

@@ -25,7 +25,7 @@ type EventSeries = {
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
-type InterpretationType = {
+export type InterpretationType = {
   id: string;
   title: string;
   description?: prismicT.RichTextField;
@@ -49,7 +49,7 @@ export type Team = {
 export type Audience = {
   id: string;
   title: string;
-  description?: HTMLString;
+  description?: prismicT.RichTextField;
 };
 
 export type DateRange = {
@@ -81,7 +81,7 @@ export type Event = GenericContentFields & {
   interpretations: Interpretation[];
   audiences: Audience[];
   policies: LabelField[];
-  bookingInformation?: HTMLString;
+  bookingInformation?: prismicT.RichTextField;
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
