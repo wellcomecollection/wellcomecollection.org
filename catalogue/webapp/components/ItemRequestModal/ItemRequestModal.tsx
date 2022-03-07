@@ -7,6 +7,7 @@ import {
 } from '@weco/common/model/opening-hours';
 import { london, londonFromFormat } from '@weco/common/utils/format-date';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import {
   determineNextAvailableDate,
   convertOpeningHoursDayToDayNumber,
@@ -15,10 +16,7 @@ import {
   isRequestableDate,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
-import {
-  parseCollectionVenues,
-  getVenueById,
-} from '@weco/common/services/prismic/opening-times';
+import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -158,7 +156,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(

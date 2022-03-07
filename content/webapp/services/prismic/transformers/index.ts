@@ -22,7 +22,7 @@ import {
   BodyType,
   GenericContentFields,
 } from '../../../types/generic-content-fields';
-import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
@@ -269,7 +269,7 @@ export function transformBody(body: Body): BodyType {
                 type: 'collectionVenue',
                 weight: getWeight(slice.slice_label),
                 value: {
-                  content: parseCollectionVenue(slice.primary.content),
+                  content: transformCollectionVenue(slice.primary.content),
                   showClosingTimes: slice.primary.showClosingTimes,
                 },
               }

@@ -19,8 +19,8 @@ import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
   getVenueById,
-  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import {
   cafePromo,
   // shopPromo,
@@ -413,7 +413,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     : `What’s on`;
 
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
 

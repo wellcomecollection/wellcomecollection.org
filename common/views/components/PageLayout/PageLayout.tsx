@@ -13,10 +13,8 @@ import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
-import {
-  getVenueById,
-  parseCollectionVenues,
-} from '../../../services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import { getVenueById } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
@@ -105,7 +103,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const galleries =
     venues && getVenueById(venues, collectionVenueId.galleries.id);
   const library =

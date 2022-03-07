@@ -13,8 +13,8 @@ import {
   exceptionalOpeningDates,
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
-  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
@@ -78,7 +78,7 @@ type Props = {
 
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const allExceptionalDates = exceptionalOpeningDates(venues);
   const groupedExceptionalDates =
     exceptionalOpeningPeriods(allExceptionalDates);
