@@ -8,10 +8,10 @@ import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '../services/prismic/fetch';
-import { fetchExhibition } from 'services/prismic/fetch/exhibitions';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformPage } from 'services/prismic/transformers/pages';
-import { transformExhibition } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibition } from '../services/prismic/fetch/exhibitions';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformPage } from '../services/prismic/transformers/pages';
+import { transformExhibition } from '../services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {

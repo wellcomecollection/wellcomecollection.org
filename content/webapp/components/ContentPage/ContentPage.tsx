@@ -29,7 +29,7 @@ import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import Outro from '../Outro/Outro';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { Contributor } from 'types/contributors';
+import { Contributor } from '../../types/contributors';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
