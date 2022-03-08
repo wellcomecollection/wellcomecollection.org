@@ -2,7 +2,7 @@ import { groupEventsBy } from '../../../services/prismic/events';
 import { getLastEndTime } from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 import { transformTimestamp } from '.';
-import { EventTime } from '@weco/common/model/events';
+import { EventTime } from '../../../types/events';
 
 const eventTimes: EventTime[] = [
   {
@@ -98,5 +98,5 @@ it('groups events by daterange', () => {
 it('returns the last end time from the lastest date', () => {
   const lastEndTime = getLastEndTime(eventTimes);
   const expectedEndTime = transformTimestamp('2020-02-18T19:00:00+0000');
-  expect(lastEndTime?.toDate()).toStrictEqual(expectedEndTime);
+  expect(lastEndTime).toStrictEqual(expectedEndTime);
 });
