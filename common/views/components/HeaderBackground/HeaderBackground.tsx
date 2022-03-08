@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { landingHeaderBackgroundLs } from 'utils/backgrounds';
+import { landingHeaderBackgroundLs } from '../../utils/backgrounds';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
 type Props = {
