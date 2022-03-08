@@ -21,7 +21,7 @@ const toggles = {
       title: 'Enables login and requesting functionality',
       description:
         'Puts login links in the headers and enables requesting functionality on works pages ',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'enablePickUpDate',
