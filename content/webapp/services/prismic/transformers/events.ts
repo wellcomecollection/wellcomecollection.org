@@ -29,7 +29,6 @@ import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
-import { london } from '@weco/common/utils/format-date';
 import { LabelField } from '@weco/common/model/label-field';
 import {
   InferDataInterface,
@@ -40,7 +39,6 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
-import { Moment } from 'moment';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -57,11 +55,11 @@ function transformEventBookingType(
     : undefined;
 }
 
-export function getLastEndTime(times: EventTime[]): Moment | undefined {
+export function getLastEndTime(times: EventTime[]): Date | undefined {
   return times.length > 0
     ? times
-        .map(({ range: { endDateTime } }) => london(endDateTime))
-        .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+        .map(({ range: { endDateTime } }) => endDateTime)
+        .reduce((a, b) => (a.getMilliseconds() > b.getMilliseconds() ? a : b))
     : undefined;
 }
 
