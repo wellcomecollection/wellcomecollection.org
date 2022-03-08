@@ -13,7 +13,8 @@ import {
   looksLikeCanonicalId,
   rootUris,
   notFound,
-} from './common';
+  catalogueFetch,
+} from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -82,7 +83,7 @@ export async function getWorks({
   const url = `${rootUris[apiOptions.env]}/v2/works?${searchParams}`;
 
   try {
-    const res = await fetch(url);
+    const res = await catalogueFetch(url);
     const json = await res.json();
 
     return json;
@@ -110,7 +111,7 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env]}/v2/works/${id}?${searchParams}`;
 
-  const res = await fetch(url, { redirect: 'manual' });
+  const res = await catalogueFetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we

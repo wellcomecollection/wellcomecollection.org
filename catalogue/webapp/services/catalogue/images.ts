@@ -10,7 +10,8 @@ import {
   catalogueApiError,
   notFound,
   looksLikeCanonicalId,
-} from './common';
+  catalogueFetch,
+} from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -54,7 +55,7 @@ export async function getImages({
   }/v2/images?${searchParams.toString()}`;
 
   try {
-    const res = await fetch(url);
+    const res = await catalogueFetch(url);
     const json = await res.json();
 
     return json;
@@ -84,7 +85,7 @@ export async function getImage({
     rootUris[apiOptions.env]
   }/v2/images/${id}?${searchParams.toString()}`;
 
-  const res = await fetch(url);
+  const res = await catalogueFetch(url);
 
   if (res.status === 404) {
     return notFound();
