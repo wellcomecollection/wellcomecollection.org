@@ -15,7 +15,6 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import {
   formatDayDate,
-  isTimePast,
   isDatePast,
   formatTime,
 } from '@weco/common/utils/format-date';
@@ -59,6 +58,7 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { isPast } from '@weco/common/utils/dates';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -134,7 +134,7 @@ function DateList(event: Event) {
 }
 
 function showTicketSalesStart(dateTime: Date | undefined) {
-  return dateTime && !isTimePast(dateTime);
+  return dateTime && !isPast(dateTime);
 }
 
 const eventInterpretationIcons: Record<string, IconSvg> = {

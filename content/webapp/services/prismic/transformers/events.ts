@@ -1,6 +1,5 @@
 import {
   Audience,
-  DateRange,
   DateTimeRange,
   EventTime,
   Event,
@@ -30,7 +29,6 @@ import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
-import { london } from '@weco/common/utils/format-date';
 import { LabelField } from '@weco/common/model/label-field';
 import {
   InferDataInterface,
@@ -41,7 +39,6 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
-import { Moment } from 'moment';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -58,18 +55,11 @@ function transformEventBookingType(
     : undefined;
 }
 
-function determineDisplayTime(times: EventTime[]): EventTime {
-  const upcomingDates = times.filter(t => {
-    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
-  });
-  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
-}
-
-export function getLastEndTime(times: EventTime[]): Moment | undefined {
+export function getLastEndTime(times: EventTime[]): Date | undefined {
   return times.length > 0
     ? times
-        .map(({ range: { endDateTime } }) => london(endDateTime))
-        .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+        .map(({ range: { endDateTime } }) => endDateTime)
+        .reduce((a, b) => (a.valueOf() > b.valueOf() ? a : b))
     : undefined;
 }
 
@@ -198,7 +188,6 @@ export function transformEvent(
     })
     .filter(isNotUndefined);
 
-  const displayTime = determineDisplayTime(times);
   const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
   const isOnline = data.isOnline;
@@ -220,7 +209,9 @@ export function transformEvent(
 
   const formatLabel = format ? format.title : 'Event';
   const audiencesLabels = audiences.map(a => a.title);
-  const interpretationsLabels = interpretations.map(i => i.interpretationType.title);
+  const interpretationsLabels = interpretations.map(
+    i => i.interpretationType.title
+  );
   const relaxedPerformanceLabel = isRelaxedPerformance ? ['Relaxed'] : [];
 
   const labels = [
@@ -235,7 +226,7 @@ export function transformEvent(
     ...audiencesLabels,
     ...relaxedPerformanceLabel,
   ].map(text => ({ text }));
-  
+
   const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
   // We want to display the scheduleLength on EventPromos,
