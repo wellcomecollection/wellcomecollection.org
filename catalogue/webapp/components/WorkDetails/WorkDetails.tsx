@@ -664,6 +664,22 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             list={work.languages.map(lang => lang.label)}
           />
         )}
+        {work.partOf.length > 0 && (
+          <WorkDetailsTags
+            title="Series"
+            tags={work.partOf.map(partOf => ({
+              textParts: [partOf.title],
+              linkAttributes: worksLink(
+                {
+                  partOf: partOf.title,
+                  sort: 'production.dates',
+                  sortOrder: 'desc',
+                },
+                'work_details/partOf'
+              ),
+            }))}
+          />
+        )}
       </WorkDetailsSection>
       {work.subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects">
