@@ -25,7 +25,7 @@ const GridWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 `;
 
-const EventScheduleItem: FC<Props> = ({ event, isNotLinked }: Props) => {
+const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isPast(event.ticketSalesStart);
   return (
