@@ -220,7 +220,9 @@ export function transformEvent(
 
   const formatLabel = format ? format.title : 'Event';
   const audiencesLabels = audiences.map(a => a.title);
-  const interpretationsLabels = interpretations.map(i => i.interpretationType.title);
+  const interpretationsLabels = interpretations.map(
+    i => i.interpretationType.title
+  );
   const relaxedPerformanceLabel = isRelaxedPerformance ? ['Relaxed'] : [];
 
   const labels = [
