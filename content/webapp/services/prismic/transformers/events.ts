@@ -1,6 +1,5 @@
 import {
   Audience,
-  DateRange,
   DateTimeRange,
   EventTime,
   Event,
@@ -56,13 +55,6 @@ function transformEventBookingType(
       eventDoc.data.locations[0].location.data.capacity
     ? 'First come, first served'
     : undefined;
-}
-
-function determineDisplayTime(times: EventTime[]): EventTime {
-  const upcomingDates = times.filter(t => {
-    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
-  });
-  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
 }
 
 export function getLastEndTime(times: EventTime[]): Moment | undefined {
@@ -198,7 +190,6 @@ export function transformEvent(
     })
     .filter(isNotUndefined);
 
-  const displayTime = determineDisplayTime(times);
   const lastEndTime = getLastEndTime(times);
   const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
   const isOnline = data.isOnline;
@@ -237,7 +228,7 @@ export function transformEvent(
     ...audiencesLabels,
     ...relaxedPerformanceLabel,
   ].map(text => ({ text }));
-  
+
   const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
   // We want to display the scheduleLength on EventPromos,
