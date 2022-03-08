@@ -1,18 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/common/views/components/Message/Message';
-import {
-  formatTime,
-  formatDayDate,
-  isTimePast,
-} from '@weco/common/utils/format-date';
+import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
 import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';
+import { isPast } from '@weco/common/utils/dates';
 
 type Props = {
   event: Event;
@@ -28,9 +25,9 @@ const GridWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 `;
 
-const EventScheduleItem = ({ event, isNotLinked }: Props) => {
+const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
-    event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
+    event.ticketSalesStart && !isPast(event.ticketSalesStart);
   return (
     <GridWrapper>
       <div className="grid">

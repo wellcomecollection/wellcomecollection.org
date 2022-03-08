@@ -91,7 +91,6 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         openGraphType={'website'}
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
-        image={undefined}
         excludeRoleMain={true}
       >
         <Space
