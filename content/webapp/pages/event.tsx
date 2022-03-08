@@ -57,6 +57,7 @@ import {
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isPast } from '@weco/common/utils/dates';
 
 const TimeWrapper = styled(Space).attrs({
@@ -252,7 +253,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       Background={
         <HeaderBackground
           hasWobblyEdge={true}
-          backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`}
+          backgroundTexture={headerBackgroundLs}
         />
       }
       ContentTypeInfo={
