@@ -59,7 +59,7 @@ export function getLastEndTime(times: EventTime[]): Date | undefined {
   return times.length > 0
     ? times
         .map(({ range: { endDateTime } }) => endDateTime)
-        .reduce((a, b) => (a.getMilliseconds() > b.getMilliseconds() ? a : b))
+        .reduce((a, b) => (a.valueOf() > b.valueOf() ? a : b))
     : undefined;
 }
 

@@ -7,7 +7,7 @@ export function getEarliestFutureDateRange(
   fromDate: Moment | undefined = london()
 ): DateRange | undefined {
   return dateRanges
-    .sort((a, b) => a.start.getMilliseconds() - b.start.getMilliseconds())
+    .sort((a, b) => a.start.valueOf() - b.start.valueOf())
     .find(
       range =>
         london(range.end).isSameOrAfter(fromDate, 'day') &&
@@ -17,12 +17,12 @@ export function getEarliestFutureDateRange(
 
 export function isPast(date: Date): boolean {
   const now = new Date();
-  return date.getMilliseconds() < now.getMilliseconds();
+  return date.valueOf() < now.valueOf();
 }
 
 export function isFuture(date: Date): boolean {
   const now = new Date();
-  return date.getMilliseconds() > now.getMilliseconds();
+  return date.valueOf() > now.valueOf();
 }
 
 export function getNextWeekendDateRange(date: DateTypes): DateRange {
