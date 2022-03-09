@@ -80,7 +80,6 @@ const PhysicalItems: FunctionComponent<Props> = ({
           `/account/api/users/me/item-requests`,
           {
             signal,
-            credentials: 'same-origin',
           }
         );
         const holds = await holdsResponse.json();
@@ -99,6 +98,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
       const updateItemsStatus = async () => {
         const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
           signal,
+          credentials: 'same-origin',
         });
         const items = await itemsResponse.json();
 
