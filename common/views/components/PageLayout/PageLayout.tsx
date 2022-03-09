@@ -153,7 +153,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const imageUrl =
     socialPreviewCardImage &&
     convertImageUri(socialPreviewCardImage.contentUrl, 800);
-  const imageAltText = socialPreviewCardImage?.alt;
+  const imageAltText = socialPreviewCardImage?.alt || '';
 
   return (
     <>
