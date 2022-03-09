@@ -3,7 +3,7 @@ import { london } from '../../../utils/format-date';
 import type { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import { CollectionVenuePrismicDocument } from '../documents';
 import { isNotUndefined } from '../../../utils/array';
-import * as prismicH from 'prismic-helpers-beta';
+import * as prismicH from '@prismicio/helpers';
 
 function createRegularDay(
   day: Day,
