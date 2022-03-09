@@ -33,7 +33,7 @@ const VisuallySimilarImagesApi = async (
 
   const response = await getImage({
     id,
-    toggles: toggles,
+    toggles,
     include: ['visuallySimilar'],
   });
 
