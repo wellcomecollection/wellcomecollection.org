@@ -257,13 +257,6 @@ export function transformEvent(
     contributors,
     scheduleLength,
     schedule,
-<<<<<<< HEAD
-=======
-    backgroundTexture:
-      prismicH.isFilled.link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
-        ? data.backgroundTexture.data.image.url
-        : undefined,
->>>>>>> Replace the vendored helpers with the upstream versions
     eventbriteId,
     isCompletelySoldOut:
       data.times && data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
