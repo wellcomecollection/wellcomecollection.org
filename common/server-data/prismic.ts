@@ -8,7 +8,7 @@ import {
   emptyGlobalAlert,
 } from '../services/prismic/documents';
 import { Handler } from './';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 
 export const defaultValue = {

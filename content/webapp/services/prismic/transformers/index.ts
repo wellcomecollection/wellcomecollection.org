@@ -1,4 +1,4 @@
-import * as prismicH from 'prismic-helpers-beta';
+import * as prismicH from '@prismicio/helpers';
 import {
   PrismicDocument,
   FilledLinkToDocumentField,
@@ -66,6 +66,7 @@ import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import * as prismicT from '@prismicio/types';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -409,7 +410,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const promoImage: PromoImage =
     data.promo && data.promo.length > 0
       ? data.promo
-          .filter(slice => slice.primary.image)
+          .filter((slice: prismicT.Slice) => slice.primary.image)
           .map(({ primary: { image } }) => {
             return {
               image: transformImage(image),

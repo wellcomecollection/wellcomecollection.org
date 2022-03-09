@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { predicate } from 'prismic-client-beta';
+import { predicate } from '@prismicio/client';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 import { london } from '@weco/common/utils/format-date';
 import { Period } from '../../../types/periods';

@@ -11,7 +11,6 @@ import {
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
 } from '../types/events';
-import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
@@ -39,6 +38,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -98,7 +98,7 @@ export function transformEvent(
       : [];
   const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
-      link(interpretation.interpretationType)
+      prismicH.isFilled.link(interpretation.interpretationType)
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
@@ -121,15 +121,15 @@ export function transformEvent(
     .filter(isNotUndefined);
 
   const matchedId =
-    data.eventbriteEvent && data.eventbriteEvent.url
-      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url)
+    data.eventbriteEvent && data.eventbriteEvent.embed_url
+      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.embed_url)
       : null;
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
   const audiences: Audience[] = data.audiences
     .map(audience =>
-      link(audience.audience)
+      prismicH.isFilled.link(audience.audience)
         ? {
             id: audience.audience.id,
             title: audience.audience.data?.title
@@ -259,7 +259,7 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+      data.times && data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,
@@ -276,7 +276,7 @@ export const getScheduleIds = (
   eventDocument: EventPrismicDocument
 ): string[] => {
   return eventDocument.data.schedule
-    .map(linkField => (link(linkField.event) ? linkField.event.id : undefined))
+    .map(linkField => (prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined))
     .filter(isNotUndefined);
 };
 

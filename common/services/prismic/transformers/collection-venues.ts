@@ -1,9 +1,12 @@
 import { Query } from '@prismicio/types';
 import { london } from '../../../utils/format-date';
-import type { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
-import { CollectionVenuePrismicDocument } from '../documents';
+import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
+import {
+  CollectionVenuePrismicDocument,
+  ModifiedDayOpeningTime,
+} from '../documents';
 import { isNotUndefined } from '../../../utils/array';
-import * as prismicH from 'prismic-helpers-beta';
+import * as prismicH from '@prismicio/helpers';
 
 function createRegularDay(
   day: Day,
@@ -32,7 +35,7 @@ export function transformCollectionVenue(
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes
     ? data.modifiedDayOpeningTimes
-        .filter(modified => modified.overrideDate)
+        .filter((modified: ModifiedDayOpeningTime) => modified.overrideDate)
         .map(modified => {
           const start = modified.startDateTime;
           const end = modified.endDateTime;
@@ -82,9 +85,7 @@ export function transformCollectionVenue(
 export function transformCollectionVenues(
   doc: Query<CollectionVenuePrismicDocument>
 ): Venue[] {
-  const venues = doc.results.map(venue => {
-    return transformCollectionVenue(venue);
-  });
+  const venues = doc.results.map(venue => transformCollectionVenue(venue));
 
   return venues.sort((a, b) => {
     return Number(a.order) - Number(b.order);

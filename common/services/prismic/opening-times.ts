@@ -1,6 +1,6 @@
 import { london } from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
-import type {
+import {
   OverrideType,
   ExceptionalPeriod,
   OverrideDate,

@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
