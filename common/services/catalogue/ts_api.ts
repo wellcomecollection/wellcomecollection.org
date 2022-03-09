@@ -68,7 +68,7 @@ export function worksRouteToApiUrl(
     availabilities: worksProps.availabilities,
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
-    partOf: worksProps['partOf'],
+    partOf: worksProps.partOf,
     'production.dates.from': worksProps['production.dates.from']
       ? toIsoDateString(worksProps['production.dates.from'])
       : undefined,

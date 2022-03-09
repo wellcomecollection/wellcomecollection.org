@@ -664,7 +664,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             list={work.languages.map(lang => lang.label)}
           />
         )}
-        {work.partOf.length > 0 && (
+        {work.partOf.filter(p => !p['id']).length > 0 && (
+          // A partOf object with an id will be represented in
+          // the archive hierarchy.
+          // partOfs with no id are Series Links.
           <WorkDetailsTags
             title="Series"
             tags={work.partOf.map(partOf => ({

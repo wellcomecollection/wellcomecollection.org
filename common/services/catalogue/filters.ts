@@ -24,6 +24,10 @@ export type CheckboxFilter = {
   label: string;
   showEmptyBuckets?: boolean;
   options: FilterOption[];
+  // Most filters are to be included in the More Filters Modal,
+  // so this only needs to be set to true in the rare case we
+  // wish to exclude it.
+  excludeFromMoreFilters: boolean;
 };
 
 export type ColorFilter = {
@@ -188,6 +192,36 @@ const languagesFilter = ({
   ),
 });
 
+/*
+partOf is not a "real" filter, based on aggregations
+in the same way that the other filters in this file are.
+
+It exists here to support its inclusion in the ResetActiveFilters
+section when a Series tag-style link takes the user to a search
+page.
+
+Because of this, it only requires the one filter option, generated
+directly from the selected partOf value, rather than fetching
+an aggregation of all partOfs via the API.
+*/
+const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
+  type: 'checkbox',
+  id: 'partOf',
+  label: 'Series',
+  excludeFromMoreFilters: true,
+  options: filterOptionsWithNonAggregates(
+    [
+      {
+        id: props.partOf,
+        value: props.partOf,
+        label: props.partOf,
+        selected: !!props.partOf,
+      },
+    ],
+    [props.partOf]
+  ),
+});
+
 const availabilitiesFilter = ({
   works,
   props,
@@ -310,6 +344,7 @@ const worksFilters: (props: WorksFilterProps) => Filter[] = props =>
     genresFilter,
     contributorsAgentFilter,
     languagesFilter,
+    partOfFilter,
   ].map(f => f(props));
 
 export { worksFilters, imagesFilters };

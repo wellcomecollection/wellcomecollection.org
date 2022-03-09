@@ -113,7 +113,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
             <CheckboxRadio
               id={`desktop-${id}`}
               type={`checkbox`}
-              text={`${label} (${count})`}
+              text={label + (count === undefined ? '' : ` (${count})`)}
               value={value}
               name={f.id}
               checked={selected}
@@ -133,22 +133,24 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
 }: MoreFiltersProps) => {
   return (
     <>
-      {filters.map(f => (
-        <FilterSection key={f.id}>
-          <h3 className="h3">{f.label}</h3>
-          <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-            <div
-              className={classNames({
-                'no-margin no-padding plain-list': true,
-              })}
-            >
-              {f.type === 'checkbox' && (
-                <CheckboxFilter f={f} changeHandler={changeHandler} />
-              )}
-            </div>
-          </Space>
-        </FilterSection>
-      ))}
+      {filters
+        .filter(f => !f.excludeFromMoreFilters)
+        .map(f => (
+          <FilterSection key={f.id}>
+            <h3 className="h3">{f.label}</h3>
+            <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
+              <div
+                className={classNames({
+                  'no-margin no-padding plain-list': true,
+                })}
+              >
+                {f.type === 'checkbox' && (
+                  <CheckboxFilter f={f} changeHandler={changeHandler} />
+                )}
+              </div>
+            </Space>
+          </FilterSection>
+        ))}
     </>
   );
 };
