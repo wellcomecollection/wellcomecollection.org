@@ -36,6 +36,7 @@ export type ColorFilter = {
   id: keyof ImagesProps;
   label: string;
   color: string | undefined;
+  excludeFromMoreFilters?: boolean;
 };
 
 export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
