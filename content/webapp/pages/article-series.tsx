@@ -19,7 +19,7 @@ import { looksLikePrismicId } from '../services/prismic';
 import { createClient } from '../services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchArticles } from '../services/prismic/fetch/articles';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 

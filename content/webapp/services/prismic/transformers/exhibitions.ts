@@ -14,7 +14,6 @@ import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import { link } from './vendored-helpers';
 import {
   asHtml,
   asRichText,
@@ -31,6 +30,7 @@ import { isFilledLinkToDocumentWithData } from '../types';
 import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -74,13 +74,13 @@ export function transformExhibition(
   const data = document.data;
   const promo = data.promo;
   const exhibitIds = data.exhibits
-    ? data.exhibits.map(i => link(i.item) && i.item.id)
+    ? data.exhibits.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const eventIds = data.events
-    ? data.events.map(i => link(i.item) && i.item.id)
+    ? data.events.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const articleIds = data.articles
-    ? data.articles.map(i => link(i.item) && i.item.id)
+    ? data.articles.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean

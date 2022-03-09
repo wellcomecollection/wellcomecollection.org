@@ -1,4 +1,4 @@
-import * as prismicH from 'prismic-helpers-beta';
+import * as prismicH from '@prismicio/helpers';
 import {
   PrismicDocument,
   FilledLinkToDocumentField,
@@ -22,7 +22,7 @@ import {
   BodyType,
   GenericContentFields,
 } from '../../../types/generic-content-fields';
-import { parseCollectionVenue } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
@@ -59,13 +59,13 @@ import {
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
 import { licenseTypeArray } from '@weco/common/model/license';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
 import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import * as prismicT from '@prismicio/types';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -134,8 +134,8 @@ function nonEmpty(field?: RichTextField): field is RichTextField {
   return isNotUndefined(field) && (asText(field) || '').trim() !== '';
 }
 
-export function asRichText(field: RichTextField): HTMLString | undefined {
-  return nonEmpty(field) ? (field as HTMLString) : undefined;
+export function asRichText(field: RichTextField): RichTextField | undefined {
+  return nonEmpty(field) ? field : undefined;
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
@@ -181,7 +181,7 @@ export function transformLabelType(
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
     description: format.data.description
-      ? (format.data.description as HTMLString)
+      ? format.data.description
       : [],
   };
 }
@@ -269,7 +269,7 @@ export function transformBody(body: Body): BodyType {
                 type: 'collectionVenue',
                 weight: getWeight(slice.slice_label),
                 value: {
-                  content: parseCollectionVenue(slice.primary.content),
+                  content: transformCollectionVenue(slice.primary.content),
                   showClosingTimes: slice.primary.showClosingTimes,
                 },
               }
@@ -409,7 +409,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const promoImage: PromoImage =
     data.promo && data.promo.length > 0
       ? data.promo
-          .filter(slice => slice.primary.image)
+          .filter((slice: prismicT.Slice) => slice.primary.image)
           .map(({ primary: { image } }) => {
             return {
               image: transformImage(image),

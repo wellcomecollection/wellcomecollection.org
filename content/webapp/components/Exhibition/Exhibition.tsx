@@ -37,6 +37,7 @@ import { Exhibition as ExhibitionType } from '../../types/exhibitions';
 import { Book } from '../../types/books';
 import { Article } from '../../types/articles';
 import { Event as EventType } from '../../types/events';
+import * as prismicT from '@prismicio/types';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -79,6 +80,16 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
+  const link = {
+    type: 'hyperlink',
+    start: todaysHoursText.length - 13,
+    end: todaysHoursText.length,
+    data: {
+      link_type: 'Web',
+      url: '/opening-times',
+    },
+  } as prismicT.RTLinkNode;
+
   return {
     id: undefined,
     title: undefined,
@@ -86,16 +97,7 @@ function getTodaysHoursObject(): ExhibitionItem {
       {
         type: 'paragraph',
         text: todaysHoursText,
-        spans: [
-          {
-            type: 'hyperlink',
-            start: todaysHoursText.length - 13,
-            end: todaysHoursText.length,
-            data: {
-              url: '/opening-times',
-            },
-          },
-        ],
+        spans: [link as any],
       },
     ],
     icon: clock,

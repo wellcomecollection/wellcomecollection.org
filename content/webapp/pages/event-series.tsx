@@ -17,7 +17,7 @@ import { eventLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { createClient } from '../services/prismic/fetch';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformEventSeries } from '../services/prismic/transformers/event-series';

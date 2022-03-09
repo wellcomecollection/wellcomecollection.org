@@ -21,6 +21,19 @@ type DayField = GroupField<{
   endDateTime: TimestampField;
 }>;
 
+export type ModifiedDayOpeningTime = {
+  overrideDate: TimestampField;
+  type: SelectField<
+    | 'Bank holiday'
+    | 'Easter'
+    | 'Christmas and New Year'
+    | 'Late Spectacular'
+    | 'other'
+  >;
+  startDateTime: TimestampField;
+  endDateTime: TimestampField;
+};
+
 export type CollectionVenuePrismicDocument = PrismicDocument<{
   title: KeyTextField;
   order: NumberField;
@@ -34,18 +47,7 @@ export type CollectionVenuePrismicDocument = PrismicDocument<{
   friday: DayField;
   saturday: DayField;
   sunday: DayField;
-  modifiedDayOpeningTimes: GroupField<{
-    overrideDate: TimestampField;
-    type: SelectField<
-      | 'Bank holiday'
-      | 'Easter'
-      | 'Christmas and New Year'
-      | 'Late Spectacular'
-      | 'other'
-    >;
-    startDateTime: TimestampField;
-    endDateTime: TimestampField;
-  }>;
+  modifiedDayOpeningTimes: GroupField<ModifiedDayOpeningTime>;
 }>;
 
 export type GlobalAlertPrismicDocument = PrismicDocument<{

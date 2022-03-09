@@ -17,32 +17,6 @@ export type PrismicDocument = {
   url?: string;
 };
 
-export type HTMLSpanTypes =
-  | 'heading2'
-  | 'heading3'
-  | 'paragraph'
-  | 'strong'
-  | 'em'
-  | 'hyperlink'
-  | 'strike'
-  | 'list-item'
-  | 'embed';
-
-export type HTMLSpan = {
-  type: HTMLSpanTypes;
-  start: number;
-  end: number;
-  data?: Record<string, unknown>;
-};
-
-export type HTMLStringBlock = {
-  type: HTMLSpanTypes;
-  text: string;
-  spans: HTMLSpan[];
-};
-
-export type HTMLString = HTMLStringBlock[];
-
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API
 export type PaginatedResults<T> = {

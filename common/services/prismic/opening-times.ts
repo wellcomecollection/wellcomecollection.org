@@ -1,22 +1,15 @@
-import { Query } from '@prismicio/types';
 import { london } from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
-import type {
-  Day,
+import {
   OverrideType,
   ExceptionalPeriod,
   OverrideDate,
   Venue,
-  OpeningHours,
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
-  SpecialOpeningHours,
 } from '../../model/opening-hours';
-import { CollectionVenuePrismicDocument } from '../../services/prismic/documents';
 import { Moment } from 'moment';
-import { objToJsonLd } from '../../utils/json-ld';
 import { isNotUndefined } from '../../utils/array';
-import * as prismicH from 'prismic-helpers-beta';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -243,111 +236,9 @@ export function getUpcomingExceptionalPeriods(
   return nextUpcomingPeriods;
 }
 
-export function createRegularDay(
-  day: Day,
-  venue: CollectionVenuePrismicDocument
-): OpeningHoursDay {
-  const { data } = venue;
-  const lowercaseDay = day.toLowerCase();
-  const start = data && data[lowercaseDay][0].startDateTime;
-  const end = data && data[lowercaseDay][0].endDateTime;
-  const isClosed = !start;
-  // If there is no start time from prismic, then we set both opens and closes to 00:00.
-  // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-  // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-  // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-  return {
-    dayOfWeek: day,
-    opens: start ? london(start).format('HH:mm') : '00:00',
-    closes: start && end ? london(end).format('HH:mm') : '00:00',
-    isClosed,
-  };
-}
-
-export function convertJsonDateStringsToMoment(jsonVenue: Venue): Venue {
-  const exceptionalMoment =
-    jsonVenue.openingHours.exceptional &&
-    jsonVenue.openingHours.exceptional.map(e => ({
-      ...e,
-      overrideDate: london(e.overrideDate),
-    }));
-  return {
-    ...jsonVenue,
-    openingHours: {
-      regular: jsonVenue.openingHours.regular,
-      exceptional: exceptionalMoment,
-    },
-  };
-}
-
-export function parseCollectionVenue(
-  venue: CollectionVenuePrismicDocument
-): Venue {
-  const data = venue.data;
-  const exceptionalOpeningHours = data.modifiedDayOpeningTimes
-    ? data.modifiedDayOpeningTimes
-        .filter(modified => modified.overrideDate)
-        .map(modified => {
-          const start = modified.startDateTime;
-          const end = modified.endDateTime;
-          const isClosed = !start;
-          const overrideDate = modified.overrideDate
-            ? london(modified.overrideDate)
-            : undefined;
-          const overrideType = modified.type ?? 'other';
-          if (overrideDate) {
-            return {
-              overrideDate,
-              overrideType,
-              // If there is no start time from prismic, then we set both opens and closes to 00:00.
-              // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-              // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-              // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-              opens: start ? london(start).format('HH:mm') : '00:00',
-              closes: start && end ? london(end).format('HH:mm') : '00:00',
-              isClosed,
-            };
-          }
-        })
-    : [];
-
-  return {
-    id: venue.id as string,
-    order: data.order ?? undefined,
-    name: data.title ?? '',
-    openingHours: {
-      regular: [
-        createRegularDay('Monday', venue),
-        createRegularDay('Tuesday', venue),
-        createRegularDay('Wednesday', venue),
-        createRegularDay('Thursday', venue),
-        createRegularDay('Friday', venue),
-        createRegularDay('Saturday', venue),
-        createRegularDay('Sunday', venue),
-      ],
-      exceptional: exceptionalOpeningHours.filter(isNotUndefined),
-    },
-    image: data.image,
-    url: 'url' in data.link ? data.link.url : undefined,
-    linkText: prismicH.asText(data?.linkText),
-  };
-}
-
 export function getVenueById(venues: Venue[], id: string): Venue | undefined {
   const venue = venues.find(venue => venue.id === id);
   return venue;
-}
-
-export function parseCollectionVenues(
-  doc: Query<CollectionVenuePrismicDocument>
-): Venue[] {
-  const venues = doc.results.map(venue => {
-    return parseCollectionVenue(venue);
-  });
-
-  return venues.sort((a, b) => {
-    return Number(a.order) - Number(b.order);
-  });
 }
 
 export function getTodaysVenueHours(
@@ -364,40 +255,4 @@ export function getTodaysVenueHours(
     venue.openingHours.regular &&
     venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
   return exceptionalOpeningHours || regularOpeningHours;
-}
-
-export function openingHoursToOpeningHoursSpecification(
-  openingHours: OpeningHours | undefined
-): {
-  openingHoursSpecification: OpeningHoursDay[];
-  specialOpeningHoursSpecification: SpecialOpeningHours[];
-} {
-  return {
-    openingHoursSpecification: openingHours?.regular
-      ? openingHours.regular.map(openingHoursDay => {
-          const specObject = objToJsonLd(
-            {
-              dayOfWeek: openingHoursDay.dayOfWeek,
-              opens: openingHoursDay.opens,
-              closes: openingHoursDay.closes,
-            },
-            'OpeningHoursSpecification',
-            false
-          );
-          delete specObject.note;
-          return specObject;
-        })
-      : [],
-    specialOpeningHoursSpecification: openingHours?.exceptional
-      ? openingHours.exceptional.map(openingHoursDate => {
-          const specObject = {
-            opens: openingHoursDate.opens,
-            closes: openingHoursDate.closes,
-            validFrom: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
-            validThrough: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
-          };
-          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
-        })
-      : [],
-  };
 }

@@ -111,6 +111,12 @@ export type WithEventFormat = {
   >;
 };
 
+export type EventTime = {
+  startDateTime: TimestampField;
+  endDateTime: TimestampField;
+  isFullyBooked: BooleanField;
+};
+
 export type EventPrismicDocument = PrismicDocument<
   {
     locations: GroupField<{
@@ -122,11 +128,7 @@ export type EventPrismicDocument = PrismicDocument<
     }>;
     isOnline: BooleanField;
     availableOnline: BooleanField;
-    times: GroupField<{
-      startDateTime: TimestampField;
-      endDateTime: TimestampField;
-      isFullyBooked: BooleanField;
-    }>;
+    times: GroupField<EventTime>;
     isRelaxedPerformance: SelectField<'yes'>;
     interpretations: GroupField<{
       interpretationType: RelationField<
@@ -167,7 +169,13 @@ export type EventPrismicDocument = PrismicDocument<
       event: RelationField<
         'events',
         'en-gb',
-        InferDataInterface<EventPrismicDocument>
+        // We know this is an EventPrismicDocument, but the type checker gets
+        // unhappy about the circular reference:
+        //
+        //    'event' is referenced directly or indirectly in its own type annotation.
+        //
+        // TODO: Find a better way to do this which doesn't upset the type checker.
+        InferDataInterface<any>
       >;
       isNotLinked: SelectField<'yes'>;
     }>;

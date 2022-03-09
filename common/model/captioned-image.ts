@@ -1,7 +1,7 @@
 import { ImageType } from './image';
-import { HTMLString } from '../services/prismic/types';
+import * as prismicT from '@prismicio/types';
 
 export type CaptionedImage = {
-  caption: HTMLString;
+  caption: prismicT.RichTextField;
   image: ImageType;
 };

@@ -1,4 +1,4 @@
-import { HTMLString } from '../../../services/prismic/types';
+import * as prismicT from '@prismicio/types';
 import { font, classNames } from '../../../utils/classnames';
 import { FunctionComponent, ReactNode } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
@@ -13,7 +13,7 @@ const CaptionWrapper = styled(Space).attrs({
 `;
 
 type Props = {
-  caption: HTMLString;
+  caption: prismicT.RichTextField;
   preCaptionNode?: ReactNode;
   width?: number;
 };

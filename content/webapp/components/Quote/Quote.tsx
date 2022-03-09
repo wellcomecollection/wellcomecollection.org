@@ -1,11 +1,11 @@
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { font, classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
+import * as prismicT from '@prismicio/types';
 
 export type Props = {
-  text: HTMLString;
-  citation?: HTMLString;
+  text: prismicT.RichTextField;
+  citation?: prismicT.RichTextField;
   isPullOrReview: boolean;
 };
 

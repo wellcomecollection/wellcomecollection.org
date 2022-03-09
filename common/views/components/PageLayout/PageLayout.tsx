@@ -3,7 +3,6 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import Header from '../Header/Header';
 import HeaderPrototype from '../Header/HeaderPrototype';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -11,13 +10,10 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd } from '../../../utils/json-ld';
+import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
-import {
-  getVenueById,
-  openingHoursToOpeningHoursSpecification,
-  parseCollectionVenues,
-} from '../../../services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import { getVenueById } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
@@ -97,7 +93,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     u => url.pathname && url.pathname.match(u)
   );
   useHotjar(shouldLoadHotjar);
-  const { apiToolbar, enableRequesting } = useToggles();
+  const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -106,7 +102,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const galleries =
     venues && getVenueById(venues, collectionVenueId.galleries.id);
   const library =
@@ -115,11 +111,11 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(galleriesOpeningHours),
+    ...openingHoursLd(galleriesOpeningHours),
   };
   const wellcomeLibraryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(libraryOpeningHours),
+    ...openingHoursLd(libraryOpeningHours),
   };
 
   const polyfillFeatures = [
@@ -284,11 +280,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {enableRequesting ? (
-          <HeaderPrototype siteSection={siteSection} />
-        ) : (
-          <Header siteSection={siteSection} />
-        )}
+
+        <HeaderPrototype siteSection={siteSection} />
+
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (

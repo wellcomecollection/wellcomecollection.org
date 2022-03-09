@@ -5,7 +5,7 @@ import {
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
 import { fetchPages } from './pages';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
   exhibitionFields,
