@@ -80,6 +80,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
           `/account/api/users/me/item-requests`,
           {
             signal,
+            credentials: 'same-origin',
           }
         );
         const holds = await holdsResponse.json();

@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { CatalogueApiError } from '@weco/common/model/catalogue';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { getImage } from 'services/catalogue/images';
+import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 
 export function isCatalogueApiError(response: any): response is CatalogueApiError {
   return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
@@ -14,15 +15,21 @@ const VisuallySimilarImagesApi = async (
   const { imageId } = req.query;
   const id = Array.isArray(imageId) ? imageId[0] : imageId;
 
-  // The only toggle we care about is stagingApi.  We get the cookies from
-  // the user's session by passing { credentials: 'same-origin' } in the fetch
-  // request, then we construct this toggle block directly.
-  //
-  // It's a bit of a hack and we could do this better, but it works well enough
-  // and doesn't introduce too much complexity.
-  const toggles = {
-    'stagingApi': req.cookies['toggle_stagingApi'] === 'true',
+  // As the only toggle we care about here for now is the stagingApi
+  // this is a mega hack to get this working so we can remove toggles from the query
+  // TODO : get toggles working here
+  const togglesResp = {
+    toggles: [
+      {
+        id: 'stagingApi',
+        title: 'Staging API',
+        defaultValue: false,
+        description: 'Use the staging catalogue API',
+      },
+    ],
+    tests: [],
   };
+  const toggles = getTogglesFromContext(togglesResp, { req });
 
   const response = await getImage({
     id,
