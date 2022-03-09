@@ -103,6 +103,7 @@ export async function getWork({
   }
 
   const apiOptions = globalApiOptions(toggles);
+  console.log(`@@AWLC apiOptionsm for ${id}: ${JSON.stringify(apiOptions)}`);
 
   const params = {
     include: workIncludes,
@@ -177,4 +178,14 @@ export async function getCanvasOcr(
       return missingAltTextMessage;
     }
   }
+}
+
+
+export async function getWorkClientSide(id: string): Promise<WorkResponse> {
+  const response = await fetch(`/api/works/${id}`, {
+    credentials: 'same-origin'
+  });
+
+  const work: WorkResponse = await response.json();
+  return work;
 }
