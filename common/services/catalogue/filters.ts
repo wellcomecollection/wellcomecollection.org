@@ -16,6 +16,7 @@ export type DateRangeFilter = {
     id: keyof WorksProps;
     value: string | undefined;
   };
+  excludeFromMoreFilters?: boolean;
 };
 
 export type CheckboxFilter = {
