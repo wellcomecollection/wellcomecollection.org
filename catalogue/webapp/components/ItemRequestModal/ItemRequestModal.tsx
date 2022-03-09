@@ -317,6 +317,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
           <ButtonSolid disabled={isLoading} text={`Confirm request`} />
         </Space>
         <ButtonOutlined
+          type="button"
           text={`Cancel`}
           clickHandler={() => setIsActive(false)}
         />
