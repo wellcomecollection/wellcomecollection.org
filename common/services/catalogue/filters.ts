@@ -27,7 +27,7 @@ export type CheckboxFilter = {
   // Most filters are to be included in the More Filters Modal,
   // so this only needs to be set to true in the rare case we
   // wish to exclude it.
-  excludeFromMoreFilters: boolean;
+  excludeFromMoreFilters?: boolean;
 };
 
 export type ColorFilter = {
@@ -42,7 +42,7 @@ export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 type FilterOption = {
   id: string;
   value: string;
-  count: number;
+  count?: number;
   label: string;
   selected: boolean;
 };
