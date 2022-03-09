@@ -85,9 +85,7 @@ export function transformCollectionVenue(
 export function transformCollectionVenues(
   doc: Query<CollectionVenuePrismicDocument>
 ): Venue[] {
-  const venues = doc.results.map(venue => {
-    return transformCollectionVenue(venue);
-  });
+  const venues = doc.results.map(venue => transformCollectionVenue(venue));
 
   return venues.sort((a, b) => {
     return Number(a.order) - Number(b.order);
