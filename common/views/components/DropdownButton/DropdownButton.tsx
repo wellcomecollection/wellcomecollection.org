@@ -168,6 +168,7 @@ const DropdownButton: FC<Props> = ({
           iconLeft={iconLeft}
           type="button"
           text={label}
+          aria-label={id}
         />
       )}
       {isEnhanced && (

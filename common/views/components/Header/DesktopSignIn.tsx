@@ -57,6 +57,7 @@ const DesktopSignIn: FC = () => {
               iconLeft={userIcon}
               id="signedin-dropdown"
               buttonType="borderless"
+              aria-label="sign in"
             >
               <a href="/account/api/auth/login">
                 Sign in to your library account
@@ -81,6 +82,7 @@ const DesktopSignIn: FC = () => {
             iconLeft={userIcon}
             id="signedin-dropdown"
             buttonType="borderless"
+            aria-label="sign out"
           >
             <span
               className={classNames({
