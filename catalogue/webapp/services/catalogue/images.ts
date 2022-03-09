@@ -97,3 +97,22 @@ export async function getImage({
     return catalogueApiError();
   }
 }
+
+export async function getVisuallySimilarImagesClientSide({
+  id, toggles
+}: { id: string, toggles: Toggles }): Promise<Image | undefined> {
+  // Using the 'params' parameter here is a bit of a hack; it means we
+  // know the CloudFront distribution will include this parameter in
+  // the cache key.
+  const urlSearchParams = new URLSearchParams();
+  urlSearchParams.set('params', JSON.stringify(toggles));
+
+  const response = await fetch(`/api/visuallySimilarImages/${id}?${urlSearchParams.toString()}`, {
+    credentials: 'same-origin'
+  });
+
+  if (response.ok) {
+    const image: Image = await response.json();
+    return image;
+  }
+}
