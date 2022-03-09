@@ -7,10 +7,7 @@ import { Period } from '../../types/periods';
 import { Exhibition } from '../../types/exhibitions';
 import { Event } from '../../types/events';
 import { Article } from '../../types/articles';
-import type {
-  PaginatedResults,
-  HTMLString,
-} from '@weco/common/services/prismic/types';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -19,6 +16,7 @@ import { FC, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import { Book } from '../../types/books';
 import { Guide } from '../../types/guides';
+import * as prismicT from '@prismicio/types';
 
 type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
@@ -29,7 +27,7 @@ type PaginatedResultsTypes =
 
 type Props = {
   title: string;
-  description?: HTMLString;
+  description?: prismicT.RichTextField;
   paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
   period?: Period;

@@ -1,10 +1,10 @@
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { JSXFunctionSerializer } from '@prismicio/react';
+import * as prismicT from '@prismicio/types';
 
 type Props = {
-  html: HTMLString;
+  html: prismicT.RichTextField;
   htmlSerializer?: JSXFunctionSerializer;
 };
 

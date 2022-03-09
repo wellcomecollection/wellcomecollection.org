@@ -59,7 +59,6 @@ import {
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
 import { licenseTypeArray } from '@weco/common/model/license';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { WithPageFormat } from '../types/pages';
 import { WithEventFormat } from '../types/events';
 import { Format } from '../../../types/format';
@@ -135,8 +134,8 @@ function nonEmpty(field?: RichTextField): field is RichTextField {
   return isNotUndefined(field) && (asText(field) || '').trim() !== '';
 }
 
-export function asRichText(field: RichTextField): HTMLString | undefined {
-  return nonEmpty(field) ? (field as HTMLString) : undefined;
+export function asRichText(field: RichTextField): RichTextField | undefined {
+  return nonEmpty(field) ? field : undefined;
 }
 
 export function asHtml(field?: RichTextField): string | undefined {
@@ -182,7 +181,7 @@ export function transformLabelType(
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
     description: format.data.description
-      ? (format.data.description as HTMLString)
+      ? format.data.description
       : [],
   };
 }

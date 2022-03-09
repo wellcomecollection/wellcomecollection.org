@@ -1,15 +1,15 @@
 import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { FunctionComponent } from 'react';
+import * as prismicT from '@prismicio/types';
 
 export type Props = {
   items: {
     title: string;
     subtitle: string;
     image: CaptionedImageType;
-    description: HTMLString;
+    description: prismicT.RichTextField;
   }[];
 };
 const DeprecatedImageList: FunctionComponent<Props> = ({ items }: Props) => {

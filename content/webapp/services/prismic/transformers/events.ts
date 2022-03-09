@@ -23,7 +23,6 @@ import {
   transformSingleLevelGroup,
   transformTimestamp,
 } from '.';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
@@ -108,13 +107,11 @@ export function transformEvent(
               abbreviation: interpretation.interpretationType.data?.abbreviation
                 ? asText(interpretation.interpretationType.data?.abbreviation)
                 : undefined,
-              description: interpretation.interpretationType.data
-                ?.description as HTMLString,
-              primaryDescription: interpretation.interpretationType.data
-                ?.primaryDescription as HTMLString,
+              description: interpretation.interpretationType.data?.description,
+              primaryDescription: interpretation.interpretationType.data?.primaryDescription,
             },
             isPrimary: Boolean(interpretation.isPrimary),
-            extraInformation: interpretation.extraInformation as HTMLString,
+            extraInformation: interpretation.extraInformation,
           }
         : undefined
     )
@@ -135,9 +132,7 @@ export function transformEvent(
             title: audience.audience.data?.title
               ? asTitle(audience.audience.data?.title)
               : '',
-            description: audience.audience.data?.description as
-              | HTMLString
-              | undefined,
+            description: audience.audience.data?.description,
           }
         : undefined
     )
@@ -242,7 +237,7 @@ export function transformEvent(
     thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
-        ? (data.bookingInformation as HTMLString)
+        ? data.bookingInformation
         : undefined,
     bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
