@@ -5,18 +5,16 @@ import {
   UserInfo,
 } from '../../../model/user';
 import { useAbortSignalEffect } from '../../../hooks/useAbortSignalEffect';
-import { useToggles } from '../../../server-data/Context';
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
+
 type Props = {
-  enabled: boolean;
   user: UserInfo | undefined;
   state: State;
   reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
 const defaultUserContext: Props = {
-  enabled: false,
   user: undefined,
   state: 'initial',
   reload: async () => void 0,
@@ -29,7 +27,7 @@ export function useUser(): Props {
   return contextState;
 }
 
-const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
+const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<UserInfo>();
   const [state, setState] = useState<State>('initial');
 
@@ -84,33 +82,15 @@ const UserProvider: FC<{ enabled: boolean }> = ({ children, enabled }) => {
 
   return (
     <UserContext.Provider
-      value={
-        enabled
-          ? {
-              enabled,
-              user,
-              state,
-              reload: (abortSignal?: AbortSignal) =>
-                fetchUser(abortSignal, true),
-            }
-          : defaultUserContext
-      }
+      value={{
+        user,
+        state,
+        reload: (abortSignal?: AbortSignal) => fetchUser(abortSignal, true),
+      }}
     >
       {children}
     </UserContext.Provider>
   );
 };
 
-const ToggledUserProvider: FC<{ forceEnable?: boolean }> = ({
-  children,
-  forceEnable,
-}) => {
-  const toggles = useToggles();
-  return (
-    <UserProvider enabled={Boolean(toggles.enableRequesting || forceEnable)}>
-      {children}
-    </UserProvider>
-  );
-};
-
-export default ToggledUserProvider;
+export default UserProvider;

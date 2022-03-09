@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
@@ -15,7 +14,6 @@ import {
   getLocationLabel,
   getLocationShelfmark,
   getFirstPhysicalLocation,
-  getEncoreLink,
   getFirstAccessCondition,
 } from '../../utils/works';
 import ItemRequestModal from '../ItemRequestModal/ItemRequestModal';
@@ -24,7 +22,6 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import { useToggles } from '@weco/common/server-data/Context';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -79,9 +76,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   userHeldItems,
   isLast,
 }) => {
-  const { state: userState, enabled: userEnabled } = useUser();
+  const { state: userState } = useUser();
   const isArchive = useContext(IsArchiveContext);
-  const { enableRequesting } = useToggles();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [requestModalIsActive, setRequestModalIsActive] = useState(false);
@@ -109,9 +105,6 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   const isOpenShelves = physicalLocation?.locationType.id === 'open-shelves';
 
-  const isRequestableOnline = accessCondition?.method?.id === 'online-request';
-  const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
-
   const accessMethod = accessCondition?.method?.label || '';
   const accessStatus = (() => {
     if (requestWasCompleted) {
@@ -128,11 +121,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showAccessMethod = !isOpenShelves;
   const isRequestable = itemIsRequestable(item) && !requestWasCompleted;
 
-  const showButton = enableRequesting
-    ? isRequestable && userState === 'signedin'
-    : !!requestItemUrl;
-  const userNotLoaded =
-    userEnabled && (userState === 'loading' || userState === 'initial');
+  const showButton = isRequestable && userState === 'signedin';
+
+  const userNotLoaded = userState === 'loading' || userState === 'initial';
 
   const title = item.title || '';
   const itemNote = item.note || '';
@@ -140,17 +131,13 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const shelfmark = locationShelfmark || '';
 
   function createRows() {
-    const requestButton = enableRequesting ? (
+    const requestButton = (
       <ButtonOutlined
         disabled={userState !== 'signedin'}
         ref={requestButtonRef}
         text={'Request item'}
         clickHandler={() => setRequestModalIsActive(true)}
       />
-    ) : (
-      requestItemUrl && (
-        <ButtonOutlinedLink text={'Request item'} link={requestItemUrl} />
-      )
     );
 
     const headingRow = [
@@ -167,8 +154,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
       </>,
     ];
 
-    const isLoading =
-      accessDataIsStale || (enableRequesting && isRequestable && userNotLoaded);
+    const isLoading = accessDataIsStale || (isRequestable && userNotLoaded);
     if (showAccessStatus) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
@@ -204,17 +190,15 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   return (
     <>
-      {enableRequesting && (
-        <ItemRequestModal
-          isActive={requestModalIsActive}
-          setIsActive={setRequestModalIsActive}
-          item={item}
-          work={work}
-          initialHoldNumber={userHeldItems?.size}
-          onSuccess={() => setRequestWasCompleted(true)}
-          openButtonRef={requestButtonRef}
-        />
-      )}
+      <ItemRequestModal
+        isActive={requestModalIsActive}
+        setIsActive={setRequestModalIsActive}
+        item={item}
+        work={work}
+        initialHoldNumber={userHeldItems?.size}
+        onSuccess={() => setRequestWasCompleted(true)}
+        openButtonRef={requestButtonRef}
+      />
       <Wrapper underline={!isLast}>
         {(title || itemNote) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
