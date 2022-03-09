@@ -108,7 +108,8 @@ export function transformEvent(
                 ? asText(interpretation.interpretationType.data?.abbreviation)
                 : undefined,
               description: interpretation.interpretationType.data?.description,
-              primaryDescription: interpretation.interpretationType.data?.primaryDescription,
+              primaryDescription:
+                interpretation.interpretationType.data?.primaryDescription,
             },
             isPrimary: Boolean(interpretation.isPrimary),
             extraInformation: interpretation.extraInformation,
@@ -217,7 +218,7 @@ export function transformEvent(
   ].map(text => ({ text }));
 
   const primaryLabels = [
-    ...formatLabel,
+    formatLabel,
     ...audiencesLabels,
     ...relaxedPerformanceLabel,
   ].map(text => ({ text }));
@@ -254,7 +255,8 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times && data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
+      data.times &&
+      data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,
@@ -271,7 +273,9 @@ export const getScheduleIds = (
   eventDocument: EventPrismicDocument
 ): string[] => {
   return eventDocument.data.schedule
-    .map(linkField => (prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined))
+    .map(linkField =>
+      prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined
+    )
     .filter(isNotUndefined);
 };
 
