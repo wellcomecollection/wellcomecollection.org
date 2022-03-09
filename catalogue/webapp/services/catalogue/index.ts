@@ -1,7 +1,5 @@
 import { CatalogueApiError } from '@weco/common/model/catalogue';
 import { Toggles } from '@weco/toggles';
-import { Agent } from 'https';
-import fetch, { Response } from 'node-fetch';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -34,7 +32,7 @@ export const catalogueApiError = (): CatalogueApiError => ({
 });
 
 // Because we know we'll be making repeated requests to the catalogue API,
-// this custom agent will keep the socket open between individual requests,
+// this header should keep the socket open between individual requests,
 // rather than reconnecting each time.
 //
 // I'm hoping this will reduce the trickle of errors like:
@@ -42,20 +40,11 @@ export const catalogueApiError = (): CatalogueApiError => ({
 //      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
 //      failed, reason: read ECONNRESET
 //
-// See https://nodejs.org/api/http.html#http_new_agent_options
-//
-const catalogueApiAgent = new Agent({ keepAlive: true });
-
 export const catalogueFetch = (
   url: string,
   options?: Record<string, string>
 ): Promise<Response> => {
-  const fetchOptions = {
-    ...options,
-    agent: catalogueApiAgent,
-  };
-
-  return fetch(url, fetchOptions);
+  return fetch(url, { ...options, headers: { 'connection': 'keep-alive' }});
 };
 
 // Returns true if a string is plausibly a canonical ID, false otherwise.
