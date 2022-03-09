@@ -209,18 +209,20 @@ const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
   id: 'partOf',
   label: 'Series',
   excludeFromMoreFilters: true,
-  options: filterOptionsWithNonAggregates(
-    [
-      {
-        id: props.partOf,
-        value: props.partOf,
-        label: props.partOf,
-        count: 0,
-        selected: !!props.partOf,
-      },
-    ],
-    [props.partOf]
-  ),
+  options: props.partOf
+    ? filterOptionsWithNonAggregates(
+        [
+          {
+            id: props.partOf,
+            value: props.partOf,
+            label: props.partOf,
+            count: 0,
+            selected: !!props.partOf,
+          },
+        ],
+        [props.partOf]
+      )
+    : [],
 });
 
 const availabilitiesFilter = ({

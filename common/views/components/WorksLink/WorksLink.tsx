@@ -25,6 +25,7 @@ const worksPropsSources = [
   'work_details/contributors',
   'work_details/genres',
   'work_details/subjects',
+  'work_details/partOf',
 ] as const;
 
 type WorksPropsSource =
@@ -44,6 +45,7 @@ const emptyWorksProps: WorksProps = {
   'contributors.agent.label': [],
   sort: undefined,
   sortOrder: undefined,
+  partOf: undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
 };
