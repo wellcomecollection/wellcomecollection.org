@@ -42,7 +42,7 @@ export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 type FilterOption = {
   id: string;
   value: string;
-  count?: number;
+  count: number;
   label: string;
   selected: boolean;
 };
@@ -215,6 +215,7 @@ const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
         id: props.partOf,
         value: props.partOf,
         label: props.partOf,
+        count: 0,
         selected: !!props.partOf,
       },
     ],
