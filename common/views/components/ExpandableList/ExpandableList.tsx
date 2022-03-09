@@ -31,10 +31,8 @@ const ExpandableList: FunctionComponent<Props> = ({
 }: Props) => {
   const firstListItems = listItems.slice(0, initialItems);
   const remainingListItems = listItems.slice(initialItems);
-  const [
-    isShowingRemainingListItems,
-    setIsShowingRemainingListItems,
-  ] = useState(false);
+  const [isShowingRemainingListItems, setIsShowingRemainingListItems] =
+    useState(false);
   const firstOfRemainingListItemRef = useRef<HTMLAnchorElement>(null);
   const showHideItemsRef = useRef<HTMLButtonElement>(null);
   const firstRender = useRef(true);
@@ -58,19 +56,21 @@ const ExpandableList: FunctionComponent<Props> = ({
           'plain-list no-margin no-padding': true,
         })}
       >
-        {firstListItems.map((
-          item,
-          index // TODO way of getting better key?
-        ) => (
-          <li
-            className={classNames({
-              [font('hnr', 5)]: true,
-            })}
-            key={index}
-          >
-            {item}
-          </li>
-        ))}
+        {firstListItems.map(
+          (
+            item,
+            index // TODO way of getting better key?
+          ) => (
+            <li
+              className={classNames({
+                [font('hnr', 5)]: true,
+              })}
+              key={index}
+            >
+              {item}
+            </li>
+          )
+        )}
         {isShowingRemainingListItems && (
           <>
             {remainingListItems.map((item, index) => (

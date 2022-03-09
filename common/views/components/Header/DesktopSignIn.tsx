@@ -47,8 +47,8 @@ const DesktopSignIn: FC = () => {
               href="/account/api/auth/login"
               onClick={() => {
                 trackEvent({
-                  category: 'library_login',
-                  action: 'click',
+                  category: 'library_account',
+                  action: 'login',
                   label: window.location.pathname,
                 });
               }}
@@ -100,7 +100,7 @@ const DesktopSignIn: FC = () => {
                 onClick={() => {
                   trackEvent({
                     category: 'library_account',
-                    action: 'click',
+                    action: 'view',
                     label: window.location.pathname,
                   });
                 }}

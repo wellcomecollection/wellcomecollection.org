@@ -6,15 +6,14 @@ import {
   ReactNode,
   ReactElement,
 } from 'react';
-import { PrismicDocument } from '@prismicio/types';
 import {
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
 import { classNames } from '@weco/common/utils/classnames';
-import { Season } from '@weco/common/model/seasons';
+import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
-import { MultiContent } from '@weco/common/model/multi-content';
+import { MultiContent } from '../../types/multi-content';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import PageHeader, {
@@ -22,15 +21,15 @@ import PageHeader, {
 } from '@weco/common/views/components/PageHeader/PageHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import CompactCard from '../CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
 import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
-import BannerCard from '@weco/common/views/components/BannerCard/BannerCard';
+import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
-import { WithContributors } from '../../services/prismic/types';
 import Outro from '../Outro/Outro';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { Contributor } from '../../types/contributors';
 
 export const PageBackgroundContext = createContext<'cream' | 'white'>('white');
 
@@ -51,7 +50,8 @@ type Props = {
     visitItem?: MultiContent;
   };
   seasons?: Season[];
-  document: PrismicDocument<WithContributors>;
+  contributors?: Contributor[];
+  contributorTitle?: string;
   hideContributors?: true;
 };
 
@@ -92,7 +92,8 @@ const ContentPage = ({
   RelatedContent = [],
   outroProps,
   seasons = [],
-  document,
+  contributors,
+  contributorTitle,
   hideContributors,
 }: Props): ReactElement => {
   // We don't want to add a spacing unit if there's nothing to render
@@ -147,15 +148,16 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {!hideContributors &&
-            document.data.contributors &&
-            document.data.contributors.length > 0 && (
-              <SpacingSection>
-                <Layout8>
-                  <Contributors document={document} />
-                </Layout8>
-              </SpacingSection>
-            )}
+          {!hideContributors && contributors && contributors.length > 0 && (
+            <SpacingSection>
+              <Layout8>
+                <Contributors
+                  contributors={contributors}
+                  titleOverride={contributorTitle}
+                />
+              </Layout8>
+            </SpacingSection>
+          )}
 
           {RelatedContent.length > 0 && (
             <SpacingSection>

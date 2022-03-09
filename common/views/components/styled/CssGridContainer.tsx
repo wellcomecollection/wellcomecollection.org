@@ -98,9 +98,12 @@ const CssGridContainer = styled.div`
       .map(entry => {
         const value = entry[1];
         const { respond, padding } = value;
-        const columns = `[full-start] minmax(${padding}px, 1fr) [main-start] minmax(0, ${themeValues
-          .sizes.xlarge -
-          padding * 2}px) [main-end] minmax(${padding}px, 1fr) [full-end]`;
+        const columns = [
+          `[full-start] minmax(${padding}px, 1fr)`,
+          `[main-start] minmax(0, ${themeValues.sizes.xlarge - padding * 2}px)`,
+          `[main-end] minmax(${padding}px, 1fr)`,
+          `[full-end]`,
+        ].join(' ');
 
         return respondTo(respond[0], `grid-template-columns: ${columns}`);
       })

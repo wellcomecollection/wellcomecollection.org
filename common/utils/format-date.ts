@@ -3,14 +3,13 @@ import 'moment-timezone';
 
 type DateObj = { M?: number; Y?: number };
 
-export function london(d?: Date | string | Moment | DateObj): Moment {
+export type DateTypes = Date | string | Moment | DateObj;
+
+export function london(d?: DateTypes): Moment {
   return moment.tz(d, 'Europe/London');
 }
 
-export function londonFromFormat(
-  d: Date | string | Moment | DateObj,
-  format: string
-): Moment {
+export function londonFromFormat(d: DateTypes, format: string): Moment {
   return moment(d, format).tz('Europe/London');
 }
 
@@ -32,13 +31,6 @@ export function formatDateRange(date: Date): string {
 
 export function formatTime(date: Date): string {
   return london(date).format('HH:mm');
-}
-
-export function isTimePast(date: Date): boolean {
-  const momentNow = london();
-  const momentEnd = london(date);
-
-  return momentEnd.isBefore(momentNow);
 }
 
 export function isDatePast(date: Date): boolean {

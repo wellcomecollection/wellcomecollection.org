@@ -23,6 +23,7 @@ type RequestItem = {
   workId: string;
   workTitle?: string;
   pickupLocation: PickupLocation;
+  pickupDate?: string;
   status: RequestStatus;
   type: 'Request';
 };

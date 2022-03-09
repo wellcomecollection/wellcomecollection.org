@@ -5,6 +5,7 @@ import {
   TimestampField,
   PrismicDocument,
   KeyTextField,
+  RelationField,
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
@@ -13,7 +14,18 @@ import {
   WithSeasons,
   contributorFetchLinks,
   commonPrismicFieldsFetchLinks,
+  InferDataInterface,
 } from '.';
+
+export type FeaturedBooksPrismicDocument = PrismicDocument<{
+  books: GroupField<{
+    book: RelationField<
+      'book',
+      'en-us',
+      InferDataInterface<Partial<BookPrismicDocument>>
+    >;
+  }>;
+}>;
 
 export type BookPrismicDocument = PrismicDocument<
   {

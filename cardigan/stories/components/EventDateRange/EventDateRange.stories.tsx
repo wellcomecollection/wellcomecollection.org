@@ -1,4 +1,4 @@
-import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
+import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
 
 const now = new Date();
 const firstDate = new Date();

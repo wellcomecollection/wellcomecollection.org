@@ -1,21 +1,18 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButton from '../EventbriteButton/EventbriteButton';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/common/views/components/Message/Message';
-import {
-  formatTime,
-  formatDayDate,
-  isTimePast,
-  isDatePast,
-} from '@weco/common/utils/format-date';
-import type { UiEvent } from '@weco/common/model/events';
+import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
+import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
+import { isEventPast } from '../../services/prismic/events';
+import { isPast } from '@weco/common/utils/dates';
 
 type Props = {
-  event: UiEvent;
+  event: Event;
   isNotLinked: boolean;
 };
 
@@ -28,9 +25,9 @@ const GridWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 `;
 
-const EventScheduleItem = ({ event, isNotLinked }: Props) => {
+const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
-    event.ticketSalesStart && !isTimePast(event.ticketSalesStart);
+    event.ticketSalesStart && !isPast(event.ticketSalesStart);
   return (
     <GridWrapper>
       <div className="grid">
@@ -78,7 +75,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
             >
               {event.title}
             </Space>
-            {event.place && (
+            {event.locations[0] && (
               <Space
                 v={{ size: 's', properties: ['margin-bottom'] }}
                 as="p"
@@ -86,7 +83,7 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                   [font('hnr', 5)]: true,
                 })}
               >
-                {event.place.title}
+                {event.locations[0].title}
               </Space>
             )}
 
@@ -138,25 +135,21 @@ const EventScheduleItem = ({ event, isNotLinked }: Props) => {
                     [font('hnb', 5)]: true,
                   })}
                 >
-                  {/* TODO: work out why the second method below will fail Flow without a null check */}
                   <span>
                     Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {event.ticketSalesStart &&
-                      formatTime(event.ticketSalesStart)}
+                    {formatTime(event.ticketSalesStart)}
                   </span>
                 </Space>
               </Fragment>
             )}
 
-            {!isDatePast(event.dateRange.lastDate) &&
-              event.eventbriteId &&
-              !waitForTicketSales && (
-                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                  <EventbriteButton event={event} />
-                </Space>
-              )}
+            {!isEventPast(event) && event.eventbriteId && !waitForTicketSales && (
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <EventbriteButton event={event} />
+              </Space>
+            )}
 
-            {!isDatePast(event.dateRange.lastDate) &&
+            {!isEventPast(event) &&
               event.bookingEnquiryTeam &&
               !waitForTicketSales && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>

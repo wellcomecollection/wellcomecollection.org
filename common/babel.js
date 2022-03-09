@@ -1,5 +1,5 @@
-module.exports = function(api) {
-  const presets = ['@babel/preset-flow', 'next/babel'];
+module.exports = function (api) {
+  const presets = ['next/babel'];
   const plugins = [
     [
       'babel-plugin-styled-components',

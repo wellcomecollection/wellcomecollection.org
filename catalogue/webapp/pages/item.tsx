@@ -24,7 +24,7 @@ import {
   restrictedAuthServiceUrl,
 } from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -50,6 +50,7 @@ import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { unavailableImageMessage } from '@weco/common/data/microcopy';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -217,7 +218,6 @@ const ItemPage: NextPage<Props> = ({
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
-      image={undefined}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -262,7 +262,7 @@ const ItemPage: NextPage<Props> = ({
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
-                <BetaMessage message="We are working to make this item available online." />
+                <BetaMessage message={unavailableImageMessage} />
               </div>
             </Space>
           </Layout12>

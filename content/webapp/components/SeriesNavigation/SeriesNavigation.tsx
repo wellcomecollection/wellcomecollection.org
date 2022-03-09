@@ -2,20 +2,20 @@ import { FunctionComponent } from 'react';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import { ArticleSeries } from '@weco/common/model/article-series';
-import { Article } from '@weco/common/model/articles';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { Series } from '../../types/series';
+import { Article } from '../../types/articles';
+import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
 
 type Props = {
-  series: ArticleSeries;
+  series: Series;
   items: readonly (Article | ArticleScheduleItem)[];
 };
 
 const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
   const showPosition = !!(series.schedule && series.schedule.length > 0);
-  return (
+  return items.length > 0 ? (
     <SpacingComponent>
       <Layout8>
         <SearchResults
@@ -33,6 +33,6 @@ const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
         </Space>
       </Layout8>
     </SpacingComponent>
-  );
+  ) : null;
 };
 export default SeriesNavigation;

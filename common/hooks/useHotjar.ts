@@ -14,10 +14,10 @@ declare global {
 async function renderScript() {
   return new Promise<boolean>(resolve => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (function(h: any, o, t, j, a, r) {
+    (function (h: any, o, t, j, a, r) {
       h.hj =
         h.hj ||
-        function() {
+        function () {
           // eslint-disable-next-line prefer-rest-params
           (h.hj.q = h.hj.q || []).push(arguments);
         };

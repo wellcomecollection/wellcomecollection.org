@@ -13,37 +13,3 @@ jobs:
           pattern: "**/webapp/{.next/static/chunks,lib/frontend/build}/**/*.js"
           strip-hash: "\\b[-\\.](\\w{20})\\.js$"
           minimum-change-threshold: 512 # Only report changes for > 0.5kb
-
-  lighthouse_reports:
-    name: Lighthouse reports
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build apps
-        run: |
-          yarn install --production --frozen-lockfile
-          yarn workspace @weco/catalogue run build
-          yarn workspace @weco/content run build
-
-          cd .github/actions/lighthouse_table
-          yarn install --production --frozen-lockfile
-      - name: Run Lighthouse
-        id: lhci
-        uses: treosh/lighthouse-ci-action@v8
-        with:
-          urls: |
-            http://localhost:3000/works/kxvgmysq
-            http://localhost:3001/
-          configPath: "./lighthouse/lighthouserc.local-servers.js"
-      - name: Create summary table
-        id: table
-        uses: ./.github/actions/lighthouse_table
-        with:
-          lhci_manifest: ${{ steps.lhci.outputs.manifest }}
-      - name: PR comment with results
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: |
-            ### Lighthouse scores
-
-            ${{ steps.table.outputs.table }}

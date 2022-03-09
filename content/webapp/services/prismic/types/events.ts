@@ -32,13 +32,14 @@ import {
 
 const typeEnum = 'events';
 
-type EventFormat = PrismicDocument<
+export type EventFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
   },
   'event-formats'
 >;
+
 const eventFormatFetchLink: FetchLinks<EventFormat> = [
   'event-formats.title',
   'event-formats.description',
@@ -72,7 +73,7 @@ const audienceFetchLinks: FetchLinks<Audience> = [
   'audiences.description',
 ];
 
-type EventPolicy = PrismicDocument<
+export type EventPolicy = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -102,25 +103,32 @@ const teamFetchLinks: FetchLinks<Team> = [
   'teams.url',
 ];
 
+export type WithEventFormat = {
+  format: RelationField<
+    'event-formats',
+    'en-gb',
+    InferDataInterface<EventFormat>
+  >;
+};
+
+export type EventTime = {
+  startDateTime: TimestampField;
+  endDateTime: TimestampField;
+  isFullyBooked: BooleanField;
+};
+
 export type EventPrismicDocument = PrismicDocument<
   {
-    format: RelationField<
-      'event-formats',
-      'en-gb',
-      InferDataInterface<EventFormat>
-    >;
-    place: RelationField<
-      'place',
-      'en-gb',
-      InferDataInterface<PlacePrismicDocument>
-    >;
+    locations: GroupField<{
+      location: RelationField<
+        'place',
+        'en-gb',
+        InferDataInterface<PlacePrismicDocument>
+      >;
+    }>;
     isOnline: BooleanField;
     availableOnline: BooleanField;
-    times: GroupField<{
-      startDateTime: TimestampField;
-      endDateTime: TimestampField;
-      isFullyBooked: BooleanField;
-    }>;
+    times: GroupField<EventTime>;
     isRelaxedPerformance: SelectField<'yes'>;
     interpretations: GroupField<{
       interpretationType: RelationField<
@@ -161,7 +169,13 @@ export type EventPrismicDocument = PrismicDocument<
       event: RelationField<
         'events',
         'en-gb',
-        InferDataInterface<EventPrismicDocument>
+        // We know this is an EventPrismicDocument, but the type checker gets
+        // unhappy about the circular reference:
+        //
+        //    'event' is referenced directly or indirectly in its own type annotation.
+        //
+        // TODO: Find a better way to do this which doesn't upset the type checker.
+        InferDataInterface<any>
       >;
       isNotLinked: SelectField<'yes'>;
     }>;
@@ -173,6 +187,7 @@ export type EventPrismicDocument = PrismicDocument<
   } & WithContributors &
     WithEventSeries &
     WithExhibitionParents &
+    WithEventFormat &
     WithSeasons &
     CommonPrismicFields,
   typeof typeEnum

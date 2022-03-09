@@ -3,23 +3,22 @@ import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { Article } from '@weco/common/model/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Article } from '../types/articles';
+import { Series } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
-import { staticBooks } from '../data/static-books';
 import {
   prismicPageIds,
   featuredStoriesSeriesId,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
   getPageFeaturedText,
   transformPage,
 } from '../services/prismic/transformers/pages';
-import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
+import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -28,10 +27,10 @@ import { getServerData } from '@weco/common/server-data';
 import StoryPromo from '../components/StoryPromo/StoryPromo';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
-import { ArticlePrismicDocument } from '../services/prismic/types/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
+import { fetchFeaturedBooks } from '../services/prismic/fetch/featured-books';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { fetchPage } from '../services/prismic/fetch/pages';
@@ -39,16 +38,19 @@ import {
   pageDescriptions,
   booksPromoOnStoriesPage,
 } from '@weco/common/data/microcopy';
-import * as prismic from 'prismic-client-beta';
-import { transformArticleSeries } from 'services/prismic/transformers/article-series';
+import * as prismic from '@prismicio/client';
+import { transformArticleSeries } from '../services/prismic/transformers/article-series';
+import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
+import { Book } from '../types/books';
 
 type Props = {
   articles: Article[];
-  series: ArticleSeries;
+  series: Series;
   featuredText?: FeaturedTextType;
+  featuredBooks: Book[];
 };
 
-const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
+const SerialisedSeries = ({ series }: { series: Series }) => {
   return (
     <div>
       <Layout12>
@@ -81,7 +83,11 @@ const SerialisedSeries = ({ series }: { series: ArticleSeries }) => {
           </Space>
         </Space>
       </Layout12>
-      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
+      <CardGrid
+        items={series.items as Article[]}
+        hidePromoText={true}
+        itemsPerRow={3}
+      />
     </div>
   );
 };
@@ -93,6 +99,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const articlesQueryPromise = fetchArticles(client);
+    const featuredBooksPromise = fetchFeaturedBooks(client);
 
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
@@ -109,13 +116,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 100,
     });
 
-    const [articlesQuery, featuredSeriesArticles, storiesPage] =
-      await Promise.all([
-        articlesQueryPromise,
-        featuredSeriesArticlesQueryPromise,
-        storiesPagePromise,
-      ]);
+    const [
+      articlesQuery,
+      featuredSeriesArticles,
+      storiesPage,
+      featuredBooksDoc,
+    ] = await Promise.all([
+      articlesQueryPromise,
+      featuredSeriesArticlesQueryPromise,
+      storiesPagePromise,
+      featuredBooksPromise,
+    ]);
     const articles = transformQuery(articlesQuery, transformArticle);
+    const featuredBooks = transformFeaturedBooks(featuredBooksDoc);
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(
@@ -131,6 +144,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           series,
           featuredText,
           serverData,
+          featuredBooks,
         }),
       };
     } else {
@@ -138,7 +152,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
+const StoriesPage: FC<Props> = ({
+  series,
+  articles,
+  featuredText,
+  featuredBooks,
+}) => {
   const firstArticle = articles[0];
 
   return (
@@ -218,12 +237,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo
-                        article={
-                          article.prismicDocument as ArticlePrismicDocument
-                        }
-                        position={i}
-                      />
+                      <StoryPromo article={article} position={i} />
                     </div>
                   );
                 })}
@@ -249,7 +263,7 @@ const StoriesPage: FC<Props> = ({ series, articles, featuredText }) => {
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid
-            items={staticBooks}
+            items={featuredBooks}
             itemsPerRow={3}
             links={[{ text: 'More books', url: '/books' }]}
           />

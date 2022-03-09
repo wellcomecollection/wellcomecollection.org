@@ -1,10 +1,8 @@
-import { Season as SeasonDeprecated } from '@weco/common/model/seasons';
-import { Override } from '@weco/common/utils/utility-types';
-import { SeasonPrismicDocument } from '../services/prismic/types/seasons';
+import { GenericContentFields } from './generic-content-fields';
 
-export type Season = Override<
-  SeasonDeprecated,
-  {
-    prismicDocument: SeasonPrismicDocument;
-  }
->;
+export type Season = GenericContentFields & {
+  type: 'seasons';
+  start: Date | undefined;
+  end: Date | undefined;
+  datePublished?: Date;
+};

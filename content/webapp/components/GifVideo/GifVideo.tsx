@@ -5,10 +5,10 @@ import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import Caption from '@weco/common/views/components/Caption/Caption';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { Tasl as TaslType } from '@weco/common/model/tasl';
 import styled from 'styled-components';
 import { isNotUndefined } from '@weco/common/utils/array';
+import * as prismicT from '@prismicio/types';
 
 const Video = styled.video`
   max-height: 80vh;
@@ -45,10 +45,10 @@ const Text = styled.span.attrs({
     content: '${props => (props.isPlaying ? 'pause' : 'play')}';
   }
 `;
-type Props = {
+export type Props = {
   playbackRate: number;
   videoUrl: string;
-  caption?: HTMLString;
+  caption?: prismicT.RichTextField;
   tasl?: TaslType;
   autoPlay: boolean;
   loop: boolean;

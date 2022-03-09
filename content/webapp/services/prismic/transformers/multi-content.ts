@@ -10,13 +10,7 @@ import { transformEventSeries } from './event-series';
 import { transformEvent } from './events';
 import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
-import { Page } from 'types/pages';
-import { EventSeries } from 'types/event-series';
-import { Book } from 'types/books';
-import { Event } from 'types/events';
-import { Article } from 'types/articles';
-import { Exhibition } from 'types/exhibitions';
-import { Series } from 'types/series';
+import { MultiContent } from '../../../types/multi-content';
 
 // TODO:
 // * free text search
@@ -61,16 +55,6 @@ export function parseQuery(query: string): StructuredSearchQuery {
     'article-series': arrayedStructuredQuery['article-series'] || [],
   };
 }
-
-// TODO: Merge this with the MultiContent in the common lib.
-export type MultiContent =
-  | Page
-  | EventSeries
-  | Book
-  | Event
-  | Article
-  | Exhibition
-  | Series;
 
 export const transformMultiContent = (
   document: MultiContentPrismicDocument

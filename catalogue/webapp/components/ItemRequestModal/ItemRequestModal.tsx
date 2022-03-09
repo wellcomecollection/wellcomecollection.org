@@ -7,6 +7,7 @@ import {
 } from '@weco/common/model/opening-hours';
 import { london, londonFromFormat } from '@weco/common/utils/format-date';
 import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import {
   determineNextAvailableDate,
   convertOpeningHoursDayToDayNumber,
@@ -15,24 +16,25 @@ import {
   isRequestableDate,
 } from '@weco/catalogue/utils/dates';
 import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
-import {
-  parseCollectionVenues,
-  getVenueById,
-} from '@weco/common/services/prismic/opening-times';
+import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
-import { PhysicalItem, Work } from '@weco/common/model/catalogue';
+import {
+  PhysicalItem,
+  Work,
+  CatalogueApiError,
+} from '@weco/common/model/catalogue';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
 import { trackEvent } from '@weco/common/utils/ga';
+import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 
 function arrayofItemsToText(arr) {
   if (arr.length === 1) return arr[0];
@@ -108,16 +110,6 @@ const CurrentRequestCount = styled(Space).attrs({
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;
 
-const BeforeYourVisit = styled(Space).attrs({
-  as: 'p',
-  h: { size: 'm', properties: ['padding-left'] },
-  className: classNames({
-    [font('hnr', 5)]: true,
-  }),
-})`
-  border-left: 8px solid ${props => props.theme.color('yellow')};
-`;
-
 const CTAs = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })``;
@@ -148,7 +140,7 @@ type RequestDialogProps = {
   isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: () => void;
+  confirmRequest: (date: Moment) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
@@ -165,7 +157,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   // We get the regular and exceptional days on which the library is closed from Prismic data,
   // so we can make these unavailable in the calendar.
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
   const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
@@ -233,7 +225,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
 
     const pickUpDateMoment = pickUpDate
       ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
-      : null;
+      : nextAvailableDate || london();
     if (
       !enablePickUpDate ||
       Boolean(
@@ -253,7 +245,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         action: 'click',
         label: `/works/${work.id}`,
       });
-      confirmRequest();
+      confirmRequest(pickUpDateMoment);
     }
   }
 
@@ -331,6 +323,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
           <ButtonSolid disabled={isLoading} text={`Confirm request`} />
         </Space>
         <ButtonOutlined
+          type="button"
           text={`Cancel`}
           clickHandler={() => setIsActive(false)}
         />
@@ -356,49 +349,23 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => (
       It will be available to pick up from the library (Rare Materials Room,
       level 3) for one week.
     </p>
-    <BeforeYourVisit>
-      <span
-        className={classNames({
-          [font('hnb', 5)]: true,
-        })}
-      >
-        Before your visit:
-      </span>{' '}
-      you will need to book a ‘Rare Materials Room – all day entry ticket’ by
-      10am the day before you wish to visit.
-    </BeforeYourVisit>
     <CTAs>
-      <Space
-        h={{ size: 'l', properties: ['margin-right'] }}
-        v={{ size: 's', properties: ['margin-bottom'] }}
-        className={'inline-block'}
-      >
-        <ButtonSolidLink
-          text={`Book a ticket`}
-          link={'/covid-book-your-ticket'}
-        />
-      </Space>
-      <ButtonOutlinedLink
-        text={`View your library account`}
-        link={'/account'}
-      />
+      <ButtonSolidLink text={`View your library account`} link={'/account'} />
     </CTAs>
   </>
 );
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;
+  errorMessage: string | undefined;
 };
 
-const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive }) => (
+const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
   <>
     <Header>
       <span className={`h2`}>Request failed</span>
     </Header>
-    <p className="no-margin">
-      {/* TODO: get error code and construct appropriate message from response - see #6916 */}
-      There was a problem requesting this item. Please try again.
-    </p>
+    <p className="no-margin">{errorMessage || defaultRequestErrorMessage}</p>
     <CTAs>
       <ButtonOutlined text={`Close`} clickHandler={() => setIsActive(false)} />
     </CTAs>
@@ -417,6 +384,7 @@ const ItemRequestModal: FC<Props> = ({
   ...modalProps
 }) => {
   const [requestingState, setRequestingState] = useState<RequestingState>();
+  const [requestingErrorMessage, setRequestingError] = useState<string>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
     if (requestingState === 'requesting') return; // we don't want the modal to close during an api call
@@ -434,7 +402,7 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest() {
+  async function confirmRequest(date: Moment) {
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
@@ -442,6 +410,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
+          neededBy: date.format('YYYY-MM-DD'),
           type: 'Item',
         }),
         headers: {
@@ -450,7 +419,9 @@ const ItemRequestModal: FC<Props> = ({
       });
       if (!response.ok) {
         setRequestingState('error');
-        // TODO: something to Sentry?
+        const responseJson = await response.json();
+        const error: CatalogueApiError = responseJson;
+        throw error;
       } else {
         setRequestingState('confirmed');
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
@@ -460,16 +431,25 @@ const ItemRequestModal: FC<Props> = ({
       }
     } catch (error) {
       setRequestingState('error');
+      setRequestingError(error.description);
       // TODO: error to Sentry?
     }
   }
 
-  function renderModalContent(requestingState: RequestingState) {
+  function renderModalContent(
+    requestingState: RequestingState,
+    requestingErrorMessage?: string
+  ) {
     switch (requestingState) {
       case 'requesting':
         return <LL />;
       case 'error':
-        return <ErrorDialog setIsActive={innerSetIsActive} />;
+        return (
+          <ErrorDialog
+            setIsActive={innerSetIsActive}
+            errorMessage={requestingErrorMessage}
+          />
+        );
       case 'confirmed':
         return <ConfirmedDialog currentHoldNumber={currentHoldNumber} />;
       default:
@@ -494,7 +474,11 @@ const ItemRequestModal: FC<Props> = ({
       setIsActive={innerSetIsActive}
       openButtonRef={openButtonRef}
     >
-      {<div aria-live="assertive">{renderModalContent(requestingState)}</div>}
+      {
+        <div aria-live="assertive">
+          {renderModalContent(requestingState, requestingErrorMessage)}
+        </div>
+      }
     </Modal>
   );
 };

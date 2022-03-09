@@ -3,11 +3,10 @@ import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import type { ArticleSeries } from '@weco/common/model/article-series';
-import type { Article } from '@weco/common/model/articles';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
+import { Series } from '../types/series';
+import { Article } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -17,15 +16,15 @@ import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '../services/prismic';
-import { createClient } from 'services/prismic/fetch';
+import { createClient } from '../services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
-import { fetchArticles } from 'services/prismic/fetch/articles';
-import * as prismic from 'prismic-client-beta';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import * as prismic from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 
 type Props = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 } & WithGaDimensions;
 
@@ -82,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             articles,
             serverData,
             gaDimensions: {
-              partOf: series.seasons.map<string>(season => season.id),
+              partOf: series.seasons.map(season => season.id),
             },
           }),
         };
@@ -160,7 +159,7 @@ const ArticleSeriesPage: FC<Props> = props => {
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        document={series.prismicDocument}
+        contributors={series.contributors}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

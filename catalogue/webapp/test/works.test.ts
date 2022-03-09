@@ -2,7 +2,6 @@ import {
   getProductionDates,
   getItemsWith,
   getItemIdentifiersWith,
-  getWorkIdentifiersWith,
   getArchiveAncestorArray,
   getDigitalLocationOfType,
   getAccessConditionForDigitalLocation,
@@ -33,17 +32,6 @@ describe('getItemsWith', () => {
 
     expect(items.length).toBe(1);
     expect(items[0].id).toBe('ys3ern6x');
-  });
-});
-
-describe('getWorkIdentifiersWith', () => {
-  it('gets the work identifiers indicated by the parameters', () => {
-    const identifiers = getWorkIdentifiersWith(workFixture, {
-      identifierId: 'sierra-system-number',
-    });
-
-    expect(identifiers.length).toBe(1);
-    expect(identifiers[0]).toBe('b16656180');
   });
 });
 
@@ -207,6 +195,7 @@ describe('getArchiveAncestorArray', () => {
     const archiveAncestorArray = getArchiveAncestorArray(workWithMixedPartOf);
     expect(archiveAncestorArray).toStrictEqual([
       {
+        id: 'f00dcafe',
         referenceNumber: 'a',
         title: 'An Archive Series',
         type: 'Series',
@@ -217,6 +206,7 @@ describe('getArchiveAncestorArray', () => {
         availabilities: [],
       },
       {
+        id: 'cafebeef',
         referenceNumber: 'a/b',
         title: 'An Archive Collection',
         type: 'Collection',
@@ -227,6 +217,7 @@ describe('getArchiveAncestorArray', () => {
         availabilities: [],
         partOf: [
           {
+            id: 'f00dcafe',
             referenceNumber: 'a',
             title: 'An Archive Series',
             type: 'Series',

@@ -32,9 +32,9 @@ const SignInLink: FC = () => {
         href={loginURL}
         className={font('hnr', 5)}
         onClick={() => {
-          trackEvent({
-            category: 'library_login',
-            action: 'click',
+          tackEvent({
+            category: 'library_account',
+            action: 'login',
             label: window.location.pathname,
           });
         }}

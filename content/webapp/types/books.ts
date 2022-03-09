@@ -1,16 +1,25 @@
-import { Book as DeprecatedBook } from '@weco/common/model/books';
-import { Override } from '@weco/common/utils/utility-types';
-import { BookPrismicDocument } from '../services/prismic/types/books';
+import { GenericContentFields } from './generic-content-fields';
+import { ImageType } from '@weco/common/model/image';
+import * as prismicT from '@prismicio/types';
+import { Contributor } from './contributors';
+import { Season } from './seasons';
 
-export type Book = Override<
-  DeprecatedBook,
-  {
-    subtitle?: string;
-    orderLink?: string;
-    price?: string;
-    format?: string;
-    extent?: string;
-    isbn?: string;
-    prismicDocument?: BookPrismicDocument;
-  }
->;
+type Review = {
+  text: prismicT.RichTextField;
+  citation: prismicT.RichTextField;
+};
+
+export type Book = GenericContentFields & {
+  type: 'books';
+  subtitle?: string;
+  orderLink?: string;
+  price?: string;
+  format?: string;
+  extent?: string;
+  isbn?: string;
+  reviews?: Review[];
+  datePublished?: Date;
+  cover?: ImageType;
+  seasons: Season[];
+  contributors: Contributor[];
+};

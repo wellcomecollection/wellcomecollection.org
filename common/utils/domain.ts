@@ -1,8 +1,5 @@
-export function getDomain(url: string): string {
-  return url
-    .replace('http://', '')
-    .replace('https://', '')
-    .split('/')[0];
+function getDomain(url: string): string {
+  return new URL(url).hostname;
 }
 
 export function isExternal(url: string): boolean {

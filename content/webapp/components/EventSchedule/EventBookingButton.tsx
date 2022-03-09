@@ -1,4 +1,4 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import { Fragment } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Message from '@weco/common/views/components/Message/Message';
@@ -8,10 +8,10 @@ import styled from 'styled-components';
 import { ticketAvailable, email } from '@weco/common/icons';
 
 type Props = {
-  event: UiEvent;
+  event: Event;
 };
 
-function getButtonMarkup(event: UiEvent) {
+function getButtonMarkup(event: Event) {
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
@@ -32,7 +32,7 @@ function getButtonMarkup(event: UiEvent) {
   }
 }
 
-function getBookingEnquiryMarkup(event) {
+function getBookingEnquiryMarkup(event: Event) {
   if (!event.bookingEnquiryTeam) return;
 
   if (event.isCompletelySoldOut) {
@@ -65,7 +65,7 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
 )<EventBookingButtonProps>``;
 
 const EventBookingButton = ({ event }: Props) => {
-  const team = event.bookingEnquiryTeam; // Not sure why, but this solves flow null check problem below
+  const team = event.bookingEnquiryTeam;
 
   return (
     <Fragment>

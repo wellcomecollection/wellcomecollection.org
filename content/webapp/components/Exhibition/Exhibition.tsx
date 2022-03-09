@@ -2,17 +2,14 @@ import { Fragment, useState, useEffect, FC } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
+import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import {
@@ -35,19 +32,19 @@ import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
-import { fetchExhibitionRelatedContentClientSide } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionRelatedContent } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
 import { Exhibition as ExhibitionType } from '../../types/exhibitions';
 import { Book } from '../../types/books';
 import { Article } from '../../types/articles';
 import { Event as EventType } from '../../types/events';
+import * as prismicT from '@prismicio/types';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
 };
 
 function getUpcomingExhibitionObject(
-  exhibition: UiExhibition
+  exhibition: ExhibitionType
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
@@ -83,6 +80,16 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
+  const link = {
+    type: 'hyperlink',
+    start: todaysHoursText.length - 13,
+    end: todaysHoursText.length,
+    data: {
+      link_type: 'Web',
+      url: '/opening-times',
+    },
+  } as prismicT.RTLinkNode;
+
   return {
     id: undefined,
     title: undefined,
@@ -90,23 +97,16 @@ function getTodaysHoursObject(): ExhibitionItem {
       {
         type: 'paragraph',
         text: todaysHoursText,
-        spans: [
-          {
-            type: 'hyperlink',
-            start: todaysHoursText.length - 13,
-            end: todaysHoursText.length,
-            data: {
-              url: '/opening-times',
-            },
-          },
-        ],
+        spans: [link as any],
       },
     ],
     icon: clock,
   };
 }
 
-function getPlaceObject(exhibition: UiExhibition): ExhibitionItem | undefined {
+function getPlaceObject(
+  exhibition: ExhibitionType
+): ExhibitionItem | undefined {
   return (
     exhibition.place && {
       id: undefined,
@@ -129,7 +129,7 @@ const resourceIcons: { [key: string]: IconSvg } = {
   family: family,
 };
 
-function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
       id: undefined,
@@ -140,7 +140,7 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
-function getBslAdItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
     .filter(Boolean)
     .map(item => {
@@ -183,7 +183,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
   ];
 }
 
-export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
+export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
@@ -196,8 +196,8 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
 }
 
 type Props = {
-  exhibition: UiExhibition;
-  pages: Page[];
+  exhibition: ExhibitionType;
+  pages: PageType[];
 };
 
 const Exhibition: FC<Props> = ({ exhibition, pages }) => {
@@ -210,10 +210,8 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
   useEffect(() => {
     const ids = exhibition.relatedIds;
 
-    fetchExhibitionRelatedContentClientSide(ids).then(result => {
-      if (isNotUndefined(result)) {
-        const relatedContent = transformExhibitionRelatedContent(result);
-
+    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
+      if (isNotUndefined(relatedContent)) {
         setExhibitionOfs(relatedContent.exhibitionOfs);
         setExhibitionAbouts(relatedContent.exhibitionAbouts);
       }
@@ -249,6 +247,10 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };
+
+  // TODO: Do we need to re-cast to Date here?  We've sometimes seen issues
+  // caused by JSON serialisation, but that should be handled elsewhere by
+  // the fixExhibitionDatesInJson helper.
   const DateInfo = exhibition.end ? (
     <DateRange
       start={new Date(exhibition.start)}
@@ -306,12 +308,11 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
-        document={exhibition.prismicDocument}
-        // We hide contributors as we show then further up the page
+        // We hide contributors as we show them further up the page
         hideContributors={true}
       >
-        {exhibition.prismicDocument.data.contributors.length > 0 && (
-          <Contributors document={exhibition.prismicDocument} />
+        {exhibition.contributors.length > 0 && (
+          <Contributors contributors={exhibition.contributors} />
         )}
 
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's

@@ -1,15 +1,16 @@
 import { Fragment } from 'react';
-import type { EventSchedule as EventScheduleType } from '@weco/common/model/events';
+import type { EventSchedule as EventScheduleType } from '../../types/events';
 import EventScheduleItem from './EventScheduleItem';
 import { groupEventsBy } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
+import { Event } from '../../types/events';
 
 type Props = {
   schedule: EventScheduleType;
 };
 
 const EventSchedule = ({ schedule }: Props) => {
-  const events = schedule.map(({ event }) => event);
+  const events = schedule.map(({ event }) => event as Event);
   const groupedEvents = groupEventsBy(events, 'day');
   const isNotLinkedIds = schedule
     .map(({ event, isNotLinked }) => {

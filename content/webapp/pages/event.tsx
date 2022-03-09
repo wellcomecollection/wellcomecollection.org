@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
-import Prismic from '@prismicio/client';
+import * as prismic from '@prismicio/client';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -9,22 +9,20 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import EventbriteButton from '../components/EventbriteButton/EventbriteButton';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../components/InfoBox/InfoBox';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
 import {
   formatDayDate,
-  isTimePast,
   isDatePast,
   formatTime,
 } from '@weco/common/utils/format-date';
-import EventDateRange from '@weco/common/views/components/EventDateRange/EventDateRange';
+import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { isEventFullyBooked, UiEvent } from '@weco/common/model/events';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
+import { Event, Interpretation, isEventFullyBooked } from '../types/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -52,13 +50,17 @@ import {
   fetchEventScheduleItems,
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
-import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
+  fixEventDatesInJson,
   getScheduleIds,
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { isPast } from '@weco/common/utils/dates';
+
+import * as prismicT from '@prismicio/types';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -77,7 +79,7 @@ const DateWrapper = styled.div.attrs({
 `;
 
 type Props = {
-  jsonEvent: UiEvent;
+  jsonEvent: Event;
 } & WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
@@ -102,7 +104,7 @@ function EventStatus({ text, color }: EventStatusProps) {
   );
 }
 
-function DateList(event: UiEvent) {
+function DateList(event: Event) {
   return (
     event.times && (
       <>
@@ -134,41 +136,25 @@ function DateList(event: UiEvent) {
 }
 
 function showTicketSalesStart(dateTime: Date | undefined) {
-  return dateTime && !isTimePast(dateTime);
+  return dateTime && !isPast(dateTime);
 }
 
-// Convert dates back to Date types because it's serialised through
-// `getInitialProps`
-export function convertJsonToDates(jsonEvent: UiEvent): UiEvent {
-  const dateRange = {
-    ...jsonEvent.dateRange,
-    firstDate: new Date(jsonEvent.dateRange.firstDate),
-    lastDate: new Date(jsonEvent.dateRange.lastDate),
-  };
-  const times = jsonEvent.times.map(time => {
-    return {
-      ...time,
-      range: {
-        startDateTime: new Date(time.range.startDateTime),
-        endDateTime: new Date(time.range.endDateTime),
-      },
-    };
-  });
+const getDescription = ({
+  interpretationType,
+  extraInformation,
+  isPrimary,
+}: Interpretation): prismicT.RichTextField => {
+  const baseDescription: prismicT.RichTextField | undefined = isPrimary
+    ? interpretationType.primaryDescription
+    : interpretationType.description;
 
-  const schedule =
-    jsonEvent.schedule &&
-    jsonEvent.schedule.map(item => ({
-      ...item,
-      event: convertJsonToDates(item.event),
-    }));
+  const extraDescription: prismicT.RichTextField | undefined =
+    extraInformation || [];
 
-  return {
-    ...jsonEvent,
-    times,
-    schedule,
-    dateRange,
-  };
-}
+  return [...(baseDescription || []), ...extraDescription].filter(
+    isNotUndefined
+  ) as [prismicT.RTNode, ...prismicT.RTNode[]];
+};
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
   britishSignLanguage: britishSignLanguage,
@@ -178,27 +164,26 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
 };
 
 const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
-  const [scheduledIn, setScheduledIn] = useState<UiEvent>();
+  const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
       predicates: [
-        Prismic.Predicates.at('my.events.schedule.event', jsonEvent.id),
+        prismic.predicate.at('my.events.schedule.event', jsonEvent.id),
       ],
     });
 
-    if (scheduledInQuery) {
-      const scheduledIn = transformQuery(scheduledInQuery, transformEvent);
-
-      if (scheduledIn.results.length > 0) {
-        setScheduledIn(scheduledIn.results[0]);
-      }
+    if (
+      isNotUndefined(scheduledInQuery) &&
+      scheduledInQuery.results.length > 0
+    ) {
+      setScheduledIn(scheduledInQuery.results[0]);
     }
   };
   useEffect(() => {
     getScheduledIn();
   }, []);
 
-  const event = convertJsonToDates(jsonEvent);
+  const event = fixEventDatesInJson(jsonEvent);
 
   const genericFields = {
     id: event.id,
@@ -287,7 +272,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       Background={
         <HeaderBackground
           hasWobblyEdge={true}
-          backgroundTexture={`https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F43a35689-4923-4451-85d9-1ab866b1826d_event_header_background.svg`}
+          backgroundTexture={headerBackgroundLs}
         />
       }
       ContentTypeInfo={
@@ -333,13 +318,12 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         Header={Header}
         Body={<Body body={body} pageId={event.id} />}
         seasons={event.seasons}
-        document={event.prismicDocument}
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.prismicDocument.data.contributors.length > 0 && (
+        {event.contributors.length > 0 && (
           <Contributors
-            document={event.prismicDocument}
+            contributors={event.contributors}
             titlePrefix="About your"
           />
         )}
@@ -426,13 +410,8 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                   />
                 )}
 
-                {/* FIXME: work out why Flow requires the check for bookingEnquiryTeam here even though we've already checked above */}
                 <NextLink
-                  href={`mailto:${
-                    event.bookingEnquiryTeam
-                      ? event.bookingEnquiryTeam.email
-                      : ''
-                  }?subject=${event.title}`}
+                  href={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                   as={`mailto:${
                     event.bookingEnquiryTeam
                       ? event.bookingEnquiryTeam.email
@@ -480,10 +459,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           title="Need to know"
           items={
             [
-              event.place && {
+              event.locations[0] && {
                 id: undefined,
                 title: 'Location',
-                description: event.place.information,
+                description: event.locations[0].information,
               },
               event.bookingInformation && {
                 id: undefined,
@@ -495,21 +474,20 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               // @ts-ignore
               .concat(event.policies)
               .concat(
-                event.interpretations.map(
-                  ({ interpretationType, isPrimary, extraInformation }) => {
-                    const iconName = camelize(interpretationType.title);
-                    return {
-                      id: undefined,
-                      icon: eventInterpretationIcons[iconName],
-                      title: interpretationType.title,
-                      description: (
-                        (isPrimary
-                          ? interpretationType.primaryDescription
-                          : interpretationType.description) || []
-                      ).concat(extraInformation || []),
-                    };
-                  }
-                )
+                event.interpretations.map(interpretation => {
+                  const iconName = camelize(
+                    interpretation.interpretationType.title
+                  );
+
+                  const description = getDescription(interpretation);
+
+                  return {
+                    id: undefined,
+                    icon: eventInterpretationIcons[iconName],
+                    title: interpretation.interpretationType.title,
+                    description,
+                  };
+                })
               )
               .filter(Boolean) as LabelField[]
           }

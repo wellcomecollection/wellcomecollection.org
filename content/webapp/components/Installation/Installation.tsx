@@ -1,14 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import DateAndStatusIndicator from '@weco/common/views/components/DateAndStatusIndicator/DateAndStatusIndicator';
+import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../../utils/page-header';
+import { Exhibition as InstallationType } from '../../types/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
@@ -16,18 +15,16 @@ import ContentPage from '../ContentPage/ContentPage';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
-import { transformExhibition } from '../../services/prismic/transformers/exhibitions';
 
 type Props = {
-  installation: UiExhibition;
+  installation: InstallationType;
 };
 
 const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
-  const [partOf, setPartOf] = useState<Exhibition>();
+  const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
-    fetchExhibitExhibition(installation.id).then(result => {
-      if (isNotUndefined(result)) {
-        const exhibition = transformExhibition(result);
+    fetchExhibitExhibition(installation.id).then(exhibition => {
+      if (isNotUndefined(exhibition)) {
         setPartOf(exhibition);
       }
     });
@@ -58,7 +55,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
         ? {
             url: `/exhibitions/${partOf.id}`,
             text: partOf.shortTitle || partOf.title,
-            prefix: '@@AWLC Part of',
+            prefix: 'Part of',
           }
         : undefined,
       {
@@ -114,7 +111,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
         Header={Header}
         Body={<Body body={installation.body} pageId={installation.id} />}
         seasons={installation.seasons}
-        document={installation.prismicDocument}
+        contributors={installation.contributors}
       >
         {installation.end && !isPast(installation.end) && (
           <InfoBox title="Visit us" items={getInfoItems(installation)}>

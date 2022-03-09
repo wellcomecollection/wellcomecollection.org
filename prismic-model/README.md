@@ -23,6 +23,12 @@ you will have to remember to deploy all affected types.
 [custom-types]: https://prismic.io/docs/core-concepts/custom-types
 [custom-types-api]: https://prismic.io/docs/technologies/custom-types-api
 
+**To see any model changes in the API:**
+Reading between the lines in the [Prismic docs](https://prismic.io/docs/core-concepts/content-modeling-with-json#recover-lost-data) and an old [Prismic support thread](https://community.prismic.io/t/deleted-field-in-custom-type-still-shows-up-in-api-response/3459/6), coupled with the timing of content being published and seeing changes in the API. It looks like the **model updates are only reflected in the API response once a piece of content has been published**. You should do this whenever you change the model and check the prismic API response for the change to verify everything is working as expected.
+
+**Rolling back:**
+If a model change has caused the site to error. The quickest fix is to revert the model change and publish a piece of content in Prismic, so the model change is reflected in the Prismic response.
+
 ## Find where slices are used
 
 The body of a Prismic document is made of "slices" (e.g. quote, paragraph, image).
@@ -37,3 +43,21 @@ $ ts-node sliceAnalysis --type embed
 ```
 
 See the file comment on [sliceAnalysis.ts](./sliceAnalysis.ts)
+
+## Analysing our Prismic content in bulk
+
+We have a tool that will download a complete snapshot of our Prismic metadata for you.
+This is useful if you want to do bulk analysis of our Prismic data.
+
+```console
+$ yarn downloadSnapshot
+...
+Downloaded Prismic snapshot to snapshot.master.Yhe_-xMAADOEgW3d
+```
+
+One especially common case is checking that we haven't broken any Prismic content after a refactor.
+If you have a locally running content app (`yarn content` in the repo root), you can check that none of our Prismic content is broken:
+
+```console
+$ yarn tryAllContentPages
+```

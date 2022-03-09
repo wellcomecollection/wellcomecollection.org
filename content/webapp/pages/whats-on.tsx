@@ -1,9 +1,9 @@
 import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
-import { Period } from '@weco/common/model/periods';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
+import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
@@ -19,8 +19,8 @@ import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
   getVenueById,
-  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import {
   cafePromo,
   // shopPromo,
@@ -46,11 +46,10 @@ import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
-import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
+import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -68,10 +67,16 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformEvent } from '../services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -93,8 +98,8 @@ const segmentedControlItems = [
 
 export type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<UiEvent>;
-  availableOnlineEvents: PaginatedResults<UiEvent>;
+  events: PaginatedResults<Event>;
+  availableOnlineEvents: PaginatedResults<Event>;
   period: string;
   dateRange: any[];
   tryTheseTooPromos: any[];
@@ -382,7 +387,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           eatShopPromos: [cafePromo],
           cafePromo,
           dailyTourPromo,
-          featuredText,
+          featuredText: featuredText!,
           serverData,
         }),
       };
@@ -395,18 +400,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
-  const events = props.events.results.map(convertJsonToDates);
-
+  const events = props.events.results.map(fixEventDatesInJson);
   const availableOnlineEvents =
-    props.availableOnlineEvents.results.map(convertJsonToDates);
-
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+    props.availableOnlineEvents.results.map(fixEventDatesInJson);
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const firstExhibition = exhibitions[0];
 
@@ -416,9 +413,16 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     : `What’s on`;
 
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const galleries = getVenueById(venues, collectionVenueId.galleries.id);
   const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
+
+  const eventsToShow =
+    period === 'today'
+      ? filterEventsForToday(events)
+      : period === 'this-weekend'
+      ? filterEventsForWeekend(events)
+      : events;
 
   return (
     <PageLayout
@@ -549,13 +553,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={
-                  period === 'today'
-                    ? filterEventsForToday(events)
-                    : period === 'this-weekend'
-                    ? filterEventsForWeekend(events)
-                    : events
-                }
+                events={eventsToShow as Event[]}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },

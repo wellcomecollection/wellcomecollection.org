@@ -1,16 +1,15 @@
-import { HTMLString } from '../../../services/prismic/types';
-import { HTMLSerializer, RichText, RichTextBlock } from 'prismic-reactjs';
-import { ReactElement } from 'react';
-import linkResolver from '../../../services/prismic/link-resolver';
+import { linkResolver } from '../../../services/prismic/link-resolver';
+import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
+import * as prismicT from '@prismicio/types';
 
 type Props = {
-  html: HTMLString;
-  htmlSerializer?: HTMLSerializer<ReactElement>;
+  html: prismicT.RichTextField;
+  htmlSerializer?: JSXFunctionSerializer;
 };
 
 const PrismicHtmlBlock = ({ html, htmlSerializer }: Props) => (
-  <RichText
-    render={html as RichTextBlock[]}
+  <PrismicRichText
+    field={html}
     htmlSerializer={htmlSerializer}
     linkResolver={linkResolver}
   />

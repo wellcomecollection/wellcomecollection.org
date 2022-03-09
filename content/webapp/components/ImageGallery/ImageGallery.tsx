@@ -231,14 +231,13 @@ const ButtonContainer = styled.div<{ isHidden: boolean }>`
   z-index: 2;
 `;
 
-type Props = {
-  id: string;
+export type Props = {
   title?: string;
   items: CaptionedImageProps[];
   isStandalone: boolean;
 };
 
-const ImageGallery: FunctionComponent<Props> = ({
+const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
   id,
   title,
   items,

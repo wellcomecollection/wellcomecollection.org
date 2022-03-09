@@ -1,11 +1,13 @@
-import { Query } from '@prismicio/types';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
-import { EventPrismicDocument } from '../../../services/prismic/types/events';
 import { fetchEvents } from '../../../services/prismic/fetch/events';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Event } from '../../../types/events';
+import { transformEvent } from '../../../services/prismic/transformers/events';
+import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
 
-type Data = Query<EventPrismicDocument>;
+type Data = PaginatedResults<Event>;
 type NotFound = { notFound: true };
 
 export default async (
@@ -15,10 +17,11 @@ export default async (
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
   const client = createClient({ req });
-  const response = await fetchEvents(client, parsedParams);
+  const query = await fetchEvents(client, parsedParams);
 
-  if (response) {
-    return res.status(200).json(response);
+  if (query) {
+    const events = transformQuery(query, transformEvent);
+    return res.status(200).json(events);
   }
 
   return res.status(404).json({ notFound: true });

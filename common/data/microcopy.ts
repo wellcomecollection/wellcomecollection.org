@@ -47,3 +47,38 @@ export const a11y = {
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
 };
+
+export const errorMessages = {
+  404: 'This isn’t the page you’re looking for, but how about these?',
+  500: 'This isn’t the page you’re looking for, but how about these?',
+};
+
+export const wellcomeImagesRedirectBanner =
+  'Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we’re working to improve data quality, search relevance and tools to help you use these images more easily.';
+
+export const unavailableImageMessage =
+  'We are working to make this image available online.';
+
+// Messages used in a user's list of item requests
+// See https://github.com/wellcomecollection/wellcomecollection.org/issues/7660
+//
+//      When you place a request for an item, the item is shown in your account alongside a status.
+//
+//      current copy (sierra status)                            -- New copy
+//      on hold (0).                                            -- Request processing
+//      bib hold ready for pickup (b).                          -- Available to view
+//      volume hold ready for pickup (j).                       -- Available to view
+//      item ready for pickup (i)                               -- Available to view
+//      bib, item or volume in transit to pickup location. (t)  -- In transit
+//
+export const sierraStatusCodeToLabel = {
+  // statusCode (status.id): new label,
+  '0': 'Request processing',
+  b: 'Available to view',
+  j: 'Available to view',
+  i: 'Available to view',
+  t: 'In transit',
+};
+
+export const defaultRequestErrorMessage =
+  'There was a problem requesting this item. Please contact Library Enquiries (library@wellcomecollection.org).';

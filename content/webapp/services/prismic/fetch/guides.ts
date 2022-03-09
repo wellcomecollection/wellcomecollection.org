@@ -1,11 +1,10 @@
 import { Query } from '@prismicio/types';
-import { PrismicQueryOpts } from '@weco/common/services/prismic/types';
-import { fetcher, GetServerSidePropsPrismicClient } from '.';
+import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
 import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { fetchLinks as pagesFetchLinks } from './pages';
 
 const fetchLinks = [];
@@ -16,7 +15,7 @@ const guideFormatsFetcher = fetcher<GuideFormatPrismicDocument>(
   []
 );
 
-type GuidesQueryProps = PrismicQueryOpts & {
+type GuidesQueryProps = GetByTypeParams & {
   format?: string | string[];
 };
 

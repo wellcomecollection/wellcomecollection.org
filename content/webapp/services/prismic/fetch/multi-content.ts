@@ -5,7 +5,7 @@ import {
   MultiContentPrismicDocument,
   StructuredSearchQuery,
 } from '../types/multi-content';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import {
   pagesFields,
   interpretationTypesFields,
@@ -21,6 +21,9 @@ import {
   teamsFields,
   articlesFields,
 } from '@weco/common/services/prismic/fetch-links';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { fixEventDatesInJson } from '../transformers/events';
+import { MultiContent } from '../../../types/multi-content';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -83,14 +86,14 @@ export const fetchMultiContent = async (
 
 export const fetchMultiContentClientSide = async (
   stringQuery: string
-): Promise<Query<MultiContentPrismicDocument> | undefined> => {
+): Promise<PaginatedResults<MultiContent> | undefined> => {
   // If you add more parameters here, you have to update the corresponding cache behaviour
   // in the CloudFront distribution, or you may get incorrect behaviour.
   //
   // e.g. at one point we forgot to include the "params" query in the cache key,
   // so every article was showing the same set of related stories.
   //
-  // See https://github.com/wellcomecollection/wellcomecollection.org/issues
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
   const urlSearchParams = new URLSearchParams();
   urlSearchParams.set('params', stringQuery);
 
@@ -100,7 +103,22 @@ export const fetchMultiContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    const json: Query<MultiContentPrismicDocument> = await response.json();
-    return json;
+    const json: PaginatedResults<MultiContent> = await response.json();
+
+    return {
+      ...json,
+
+      // Because get the events as JSON through the API, their dates will be strings
+      // instead of JavaScript Date values.  Convert them to Date values so they don't
+      // explode when we try to use them in components.
+      results: json.results.map(doc => {
+        switch (doc.type) {
+          case 'events':
+            return fixEventDatesInJson(doc);
+          default:
+            return doc;
+        }
+      }),
+    };
   }
 };

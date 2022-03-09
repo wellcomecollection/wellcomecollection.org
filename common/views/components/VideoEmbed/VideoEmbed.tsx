@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
-import Caption from '../Caption/Caption';
-import { HTMLString } from '../../../services/prismic/types';
-import { IframeContainer } from '../Iframe/Iframe';
+import Caption from '@weco/common/views/components/Caption/Caption';
+import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
+import * as prismicT from '@prismicio/types';
 
 type Props = {
   embedUrl: string;
-  caption?: HTMLString;
+  caption?: prismicT.RichTextField;
 };
 
 const VideoEmbed: FunctionComponent<Props> = ({ embedUrl, caption }: Props) => (

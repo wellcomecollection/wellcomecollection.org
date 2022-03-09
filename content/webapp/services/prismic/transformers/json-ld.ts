@@ -1,30 +1,26 @@
-import { PrismicDocument } from '@prismicio/types';
-import { Exhibition } from '@weco/common/model/exhibitions';
-import { Event } from '@weco/common/model/events';
+import { Event } from '../../../types/events';
 import {
   Organization,
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
 } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
-import { transformMeta } from '.';
-import { transformContributors } from './contributors';
-import { Article } from '@weco/common/model/articles';
+import { Article } from '../../../types/articles';
 import { Contributor } from '../../../types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { Page } from '@weco/common/model/pages';
-import { Season } from '@weco/common/model/seasons';
-import { CommonPrismicFields, WithContributors } from '../types';
+import { Page } from '../../../types/pages';
+import { Season } from '../../../types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
+import { Exhibition } from '../../../types/exhibitions';
+import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
 export function exhibitionLd(exhibition: Exhibition) {
-  const meta = transformMeta(exhibition.prismicDocument);
-  const contributors = transformContributors(exhibition.prismicDocument);
+  const promoImage = exhibition.promo?.image;
   return objToJsonLd(
     {
       name: exhibition.title,
       description: exhibition.promoText,
-      image: meta.image ? getImageUrlAtSize(meta.image, { w: 600 }) : undefined,
+      image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
       location: {
         '@type': 'Place',
         name: 'Wellcome Collection',
@@ -34,7 +30,7 @@ export function exhibitionLd(exhibition: Exhibition) {
       endDate: exhibition.end,
       url: `https://wellcomecollection.org/exhibitions/${exhibition.id}`,
       isAccessibleForFree: true,
-      performers: contributors.map(({ contributor }) => {
+      performers: exhibition.contributors.map(({ contributor }) => {
         const type = contributor.type === 'people' ? 'Person' : 'Organization';
         return objToJsonLd(
           {
@@ -53,8 +49,7 @@ export function exhibitionLd(exhibition: Exhibition) {
 }
 
 export function eventLd(event: Event): JsonLdObj[] {
-  const meta = transformMeta(event.prismicDocument);
-  const contributors = transformContributors(event.prismicDocument);
+  const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {
       // I don't like it, but mutation seems the easiest way here >.<
@@ -79,11 +74,11 @@ export function eventLd(event: Event): JsonLdObj[] {
           startDate: event.times.map(time => time.range.startDateTime),
           endDate: event.times.map(time => time.range.endDateTime),
           description: event.promoText,
-          image: meta.image
-            ? getImageUrlAtSize(meta.image, { w: 600 })
+          image: promoImage
+            ? getImageUrlAtSize(promoImage, { w: 600 })
             : undefined,
           isAccessibleForFree: !event.cost,
-          performers: contributors.map(({ contributor }) => {
+          performers: event.contributors.map(({ contributor }) => {
             const type =
               contributor.type === 'people' ? 'Person' : 'Organization';
             return objToJsonLd(
@@ -104,16 +99,14 @@ export function eventLd(event: Event): JsonLdObj[] {
 }
 
 export function articleLd(article: Article) {
-  const contributors = transformContributors(article.prismicDocument);
-
   // We've left the role off of a lot of articles
-  const author: Contributor = contributors.find(
+  const author: Contributor = article.contributors.find(
     ({ role }) => role && role.title === 'Author'
   )?.[0];
 
   return objToJsonLd(
     {
-      contributor: contributors.map(({ contributor }) => {
+      contributor: article.contributors.map(({ contributor }) => {
         const type = contributor.type === 'people' ? 'Person' : 'Organization';
         return objToJsonLd(
           {
@@ -167,22 +160,19 @@ function orgLd(org: Organization) {
 }
 
 export function contentLd(content: Page | Season) {
-  const {
-    prismicDocument,
-  }: {
-    prismicDocument: PrismicDocument<CommonPrismicFields & WithContributors>;
-  } = content;
-  const meta = transformMeta(prismicDocument);
-  const contributors =
-    content.type === 'seasons' ? [] : transformContributors(prismicDocument);
+  const contributors = content.type === 'seasons' ? [] : content.contributors;
 
   const author: Contributor = contributors.find(
     ({ role }) => role && role.title === 'Author'
   )?.[0];
 
+  const promoImage = content.promo?.image;
+
+  const url = linkResolver(content);
+
   return objToJsonLd(
     {
-      headline: meta.title,
+      headline: content.title,
       author:
         author && author.contributor
           ? objToJsonLd(
@@ -196,11 +186,11 @@ export function contentLd(content: Page | Season) {
               false
             )
           : undefined,
-      image: meta.image ? getImageUrlAtSize(meta.image, { w: 600 }) : undefined,
-      datePublished: prismicDocument.first_publication_date,
-      dateModified: prismicDocument.first_publication_date,
+      image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
+      datePublished: content.datePublished,
+      dateModified: content.datePublished,
       publisher: orgLd(wellcomeCollectionGallery),
-      mainEntityOfPage: `https://wellcomecollection.org${meta.url}`,
+      mainEntityOfPage: `https://wellcomecollection.org${url}`,
     },
     'Article'
   );

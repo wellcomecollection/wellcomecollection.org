@@ -4,7 +4,7 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { ImageType } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody } from '../Card/Card';
 import { IconSvg } from '@weco/common/icons';
 
 type Props = {
