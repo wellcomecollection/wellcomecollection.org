@@ -7,8 +7,6 @@ import {
   RichTextField,
   TimestampField,
 } from '@prismicio/types';
-import { Label } from '@weco/common/model/labels';
-import { WithSeries } from '../types/articles';
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
@@ -68,21 +66,6 @@ import { ArticleFormatId } from '@weco/common/services/prismic/content-format-id
 import * as prismicT from '@prismicio/types';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
-
-export function transformLabels(doc: Doc): Label[] {
-  const typeLabels = {
-    seasons: [{ text: 'Season' }],
-  };
-
-  const labels = typeLabels[doc.type];
-  return labels ?? [];
-}
-
-export function transformSeries(document: PrismicDocument<WithSeries>) {
-  return document.data.series
-    .map(({ series }) => series)
-    .filter(isFilledLinkToDocumentWithData);
-}
 
 export function transformFormat(document: {
   data:
@@ -180,9 +163,7 @@ export function transformLabelType(
   return {
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
-    description: format.data.description
-      ? format.data.description
-      : [],
+    description: format.data.description ? format.data.description : [],
   };
 }
 
