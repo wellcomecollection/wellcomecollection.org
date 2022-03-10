@@ -432,7 +432,6 @@ const ItemRequestModal: FC<Props> = ({
     } catch (error) {
       setRequestingState('error');
       setRequestingError(error.description);
-      // TODO: error to Sentry?
     }
   }
 

@@ -359,7 +359,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     }
   }, []);
 
-  // sentry pageview
   // We use this method as suggested to optimise the client/server bundles
   // https://github.com/vercel/next.js/issues/5354#issuecomment-520305040
   const isServer = typeof window === 'undefined';

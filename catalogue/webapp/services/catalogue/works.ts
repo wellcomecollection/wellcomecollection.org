@@ -7,7 +7,6 @@ import {
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../model/iiif';
 import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
-import Raven from 'raven-js';
 import {
   catalogueApiError,
   globalApiOptions,
@@ -170,12 +169,6 @@ export async function getCanvasOcr(
         .join(' ');
       return textString.length > 0 ? textString : missingAltTextMessage;
     } catch (e) {
-      Raven.captureException(new Error(`IIIF text service error: ${e}`), {
-        tags: {
-          service: 'dlcs',
-        },
-      });
-
       return missingAltTextMessage;
     }
   }
