@@ -11,10 +11,9 @@ import { Props as TitledTextListProps } from '../components/TitledTextList/Title
 import { Props as MapProps } from '../components/Map/Map';
 import { Props as DiscussionProps } from '../components/Discussion/Discussion';
 import { Props as SearchResultsProps } from '../components/SearchResults/AsyncSearchResults';
-import { Props as ContentListProps } from '../components/SearchResults/SearchResults';
 import { Props as TagsGroupProps } from '../components/TagsGroup/TagsGroup';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { MediaObjectType } from './media-object';
+import { Props as MediaObjectListProps } from '../components/MediaObjectList/MediaObjectList';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Venue } from '@weco/common/model/opening-hours';
 import { Page } from './pages';
@@ -25,6 +24,7 @@ import { Exhibition } from './exhibitions';
 import { Card } from './card';
 import { Season } from './seasons';
 import { Guide } from './guides';
+import { Event } from './events';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -57,7 +57,10 @@ export type infoBlock = BodySlice<'infoBlock', InfoBlockProps>;
 export type titledTextList = BodySlice<'titledTextList', TitledTextListProps>;
 export type contentList = BodySlice<
   'contentList',
-  ContentListProps & {
+  // This is the props for SearchResults, but we override the items type
+  {
+    title?: string;
+    summary?: string;
     items: (
       | Page
       | EventSeries
@@ -69,12 +72,13 @@ export type contentList = BodySlice<
       | Season
       | Guide
     )[];
+    showPosition?: boolean;
   }
 >;
 export type searchResults = BodySlice<'searchResults', SearchResultsProps>;
 export type mediaObjectList = BodySlice<
   'mediaObjectList',
-  { items: MediaObjectType[] }
+  MediaObjectListProps
 >;
 export type deprecatedImageList = BodySlice<
   'deprecatedImageList',

@@ -53,6 +53,7 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import * as BodySlices from '../../types/body';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -197,7 +198,7 @@ const Body: FunctionComponent<Props> = ({
                         {firstItem.description}
                       </p>
                     )}
-                    {firstItem.promo && (
+                    {!isCardType && firstItem.promo && (
                       <p className="font-hnr font-size-5">
                         {firstItem.promo.caption}
                       </p>
@@ -371,7 +372,10 @@ const Body: FunctionComponent<Props> = ({
                       <AsyncSearchResults
                         title={slice.value.title}
                         query={slice.value.items
-                          .map(({ id }) => `id:${id}`)
+                          .map(item =>
+                            'id' in item ? `id:${item.id}` : undefined
+                          )
+                          .filter(isNotUndefined)
                           .join(' ')}
                       />
                     )}

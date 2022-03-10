@@ -126,21 +126,11 @@ function transformMediaObjectListSlice(
     value: {
       items: slice.items
         .map(mediaObject => {
-          if (mediaObject) {
-            // make sure we have the content we require
-            const title = mediaObject.title.length
-              ? mediaObject?.title
-              : undefined;
-            const text = mediaObject.text.length
-              ? mediaObject?.text
-              : undefined;
-            const image = mediaObject.image?.square?.dimensions
-              ? mediaObject.image
-              : undefined;
+          if (mediaObject && mediaObject.image?.square) {
             return {
-              title: title ? asTitle(title) : null,
-              text: text ? asRichText(text) || null : null,
-              image: transformImage(image) || null,
+              title: asTitle(mediaObject.title),
+              text: asRichText(mediaObject.text),
+              image: transformImage(mediaObject.image.square)!,
             };
           }
         })
