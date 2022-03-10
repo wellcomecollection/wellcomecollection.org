@@ -463,10 +463,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'discussion' && (
                   <WobblyEdgedContainer>
-                    <Discussion
-                      title={slice.value.title}
-                      text={slice.value.text}
-                    />
+                    <Discussion {...slice.value} />
                   </WobblyEdgedContainer>
                 )}
                 {slice.type === 'tagList' && (
