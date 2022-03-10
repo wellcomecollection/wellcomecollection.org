@@ -1,10 +1,7 @@
 import { FunctionComponent } from 'react';
-import { font } from '../../../utils/classnames';
-import Space from '../styled/Space';
-import Tags, { TagType } from '../Tags/Tags';
-
-type Props = {
-  title: string | undefined;
+import { font } from '@weco/common/utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import Tags, { TagType } from '@weco/common/views/components/Tags/Tags';
   tags: TagType[];
 };
 

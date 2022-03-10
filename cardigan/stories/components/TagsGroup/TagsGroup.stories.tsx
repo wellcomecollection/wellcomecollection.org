@@ -1,4 +1,4 @@
-import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
+import TagsGroup from '@weco/content/components/TagsGroup/TagsGroup';
 
 const Template = args => <TagsGroup {...args} />;
 export const basic = Template.bind({});

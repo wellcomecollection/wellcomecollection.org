@@ -34,7 +34,7 @@ import Table from '@weco/common/views/components/Table/Table';
 import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
 import TitledTextList from '../TitledTextList/TitledTextList';
-import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
+import TagsGroup from '../TagsGroup/TagsGroup';
 import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
