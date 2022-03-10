@@ -1,10 +1,9 @@
-import { EventSeries as DeprecatedEventSeries } from '@weco/common/model/event-series';
-import { Override } from '@weco/common/utils/utility-types';
-import { EventSeriesPrismicDocument } from '../services/prismic/types/event-series';
+import { BackgroundTexture } from '@weco/common/model/background-texture';
+import { GenericContentFields } from './generic-content-fields';
+import { Contributor } from './contributors';
 
-export type EventSeries = Override<
-  DeprecatedEventSeries,
-  {
-    prismicDocument: EventSeriesPrismicDocument;
-  }
->;
+export type EventSeries = GenericContentFields & {
+  type: 'event-series';
+  backgroundTexture?: BackgroundTexture;
+  contributors: Contributor[];
+};

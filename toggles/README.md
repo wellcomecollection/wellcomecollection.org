@@ -19,25 +19,25 @@ we are happy for it to be released to the public. These should expire over time.
 * if anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`
 * once you're happy, remove the toggle from the code
 
-## Feature toggle
+## Feature toggle
 
 Used to make certain permanent features available to people, but are generally turned off
 for the public.
 
 e.g. An API toolbar adding more context to works for internal users.
 
-## A/B tests
+## A/B tests
 
 This is to serve different content to different cohorts of people randomly based on a toggle.
 
 The implementation for A/B testing is contained within the [cache directory of this repo](../cache).
 You can read more about it there.
 
-We replicate the tests in [the lambda@dege](../cache/edge_lambdas/src/toggler.ts) here to allow
+We replicate the tests in [the Lambda@Edge](../cache/edge_lambdas/src/toggler.ts) here to allow
 people to explicitly set which cohort they would like to be in.
 
 
-## Deployment
+## Deployment
 
 The toggles are compiled from [TypeScript](./webapp/toggles.ts) to JSON, stored in an [S3 bucket](./terraform/main.tf)
 and served [via HTTP][toggles].
@@ -46,16 +46,21 @@ Deployment happens in the [webapp directory](./webapp)
 
 To deploy your toggles:
 
-  yarn deploy
+```
+yarn deploy
+```
 
 This will add, remove or update all toggle properties, but leave their `defaultValues` untouched. This
 is to ensure if you have turned off a toggle in an emergency, when a deploy happens, it is not overridden.
 
 You can change a toggle's `defaultValue` via:
-  
-  yarn setDefaultValueFor --{toggle_id}=true`
 
-[martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
-[toggles-dashboard]: https://dash.wellcomecollection.org/toggles/
-[toggles]: https://toggles.wellcomecollection.org/toggles.json
+```
+yarn setDefaultValueFor --{toggle_id}=true
+```
+
+## Useful links
+- ["Feature Toggles (aka Feature Flags)" - by Martin Fowler](https://martinfowler.com/articles/feature-toggles.html)
+- [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
+- [Toggles](https://toggles.wellcomecollection.org/toggles.json)
 

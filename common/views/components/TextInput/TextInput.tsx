@@ -1,6 +1,5 @@
-import { forwardRef, useContext } from 'react';
+import { forwardRef, useContext, useState, RefObject, FC } from 'react';
 import styled from 'styled-components';
-// $FlowFixMe (tsx)
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
 import { classNames } from '../../../utils/classnames';
@@ -133,6 +132,7 @@ export const TextInputErrorMessage = styled.span.attrs({
     'font-hnb': true,
   }),
 })`
+  display: block;
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
@@ -143,7 +143,7 @@ type Props = {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  id?: string;
+  id: string;
   name?: string;
   type?: string;
   pattern?: string;
@@ -157,98 +157,106 @@ type Props = {
   autoFocus?: boolean;
   big?: boolean;
   ariaLabel?: string;
+  ariaDescribedBy?: string;
 };
 
-const TextInput = forwardRef(
-  (
-    {
-      label,
-      type,
-      value,
-      setValue,
-      id,
-      name,
-      pattern,
-      required,
-      errorMessage,
-      isValid,
-      setIsValid,
-      showValidity,
-      setShowValidity,
-      autoFocus,
-      big,
-      ariaLabel,
-    }: Props,
-    ref: any
-  ) => {
-    const { isEnhanced } = useContext(AppContext);
+const Input: FC<Props> = (
+  {
+    label,
+    type,
+    value,
+    setValue,
+    id,
+    name,
+    pattern,
+    required,
+    placeholder,
+    errorMessage,
+    isValid,
+    setIsValid,
+    showValidity,
+    setShowValidity,
+    autoFocus,
+    big,
+    ariaLabel,
+    ariaDescribedBy,
+  }: Props,
+  ref: RefObject<HTMLInputElement>
+) => {
+  const { isEnhanced } = useContext(AppContext);
+  const [displayedPlaceholder, setDisplayedPlaceholder] = useState('');
 
-    function onChange(event) {
-      const isValueValid = event.currentTarget.validity.valid;
+  function onChange(event) {
+    const isValueValid = event.currentTarget.validity.valid;
 
-      setValue(event.currentTarget.value);
+    setValue(event.currentTarget.value);
 
-      if (isValid && setShowValidity) {
-        setShowValidity(false);
-      }
-
-      setIsValid && setIsValid(isValueValid);
-
-      if (isValueValid && setShowValidity) {
-        setShowValidity(false);
-      }
+    if (isValid && setShowValidity) {
+      setShowValidity(false);
     }
 
-    function onBlur(event) {
-      setIsValid && setIsValid(event.currentTarget.validity.valid);
-      setShowValidity && setShowValidity(!!value && true);
-    }
+    setIsValid && setIsValid(isValueValid);
 
-    return (
-      <div>
-        <TextInputWrap
-          value={value}
-          hasErrorBorder={!!(!isValid && showValidity)}
-          big={!!big}
-        >
-          <TextInputLabel
-            isEnhanced={isEnhanced}
-            hasValue={!!value}
-            htmlFor={id}
-          >
-            {label}
-          </TextInputLabel>
-          <TextInputInput
-            ref={ref}
-            id={id}
-            name={name}
-            required={required}
-            value={value}
-            pattern={pattern}
-            onChange={onChange}
-            onBlur={onBlur}
-            hasErrorBorder={!!(!isValid && showValidity)}
-            type={type}
-            autoFocus={autoFocus}
-            aria-label={ariaLabel}
-            big={!!big}
-          />
-          {isValid && showValidity && (
-            <TextInputCheckmark>
-              <Icon icon={check} color={'green'} />
-            </TextInputCheckmark>
-          )}
-        </TextInputWrap>
-        <div role="status">
-          {errorMessage && !isValid && showValidity && (
-            <TextInputErrorMessage>{errorMessage}</TextInputErrorMessage>
-          )}
-        </div>
-      </div>
-    );
+    if (isValueValid && setShowValidity) {
+      setShowValidity(false);
+    }
   }
-);
 
-TextInput.displayName = 'TextInput';
+  function onBlur(event) {
+    setIsValid && setIsValid(event.currentTarget.validity.valid);
+    setShowValidity && setShowValidity(!!value && true);
+    setDisplayedPlaceholder('');
+  }
+
+  return (
+    <div>
+      <TextInputWrap
+        value={value}
+        hasErrorBorder={!!(!isValid && showValidity)}
+        big={!!big}
+      >
+        <TextInputLabel isEnhanced={isEnhanced} hasValue={!!value} htmlFor={id}>
+          {label}
+        </TextInputLabel>
+        <TextInputInput
+          ref={ref}
+          id={id}
+          name={name}
+          required={required}
+          value={value}
+          pattern={pattern}
+          onChange={onChange}
+          onBlur={onBlur}
+          hasErrorBorder={!!(!isValid && showValidity)}
+          type={type}
+          placeholder={displayedPlaceholder}
+          onFocus={() => {
+            if (placeholder) {
+              setDisplayedPlaceholder(placeholder);
+            }
+          }}
+          autoFocus={autoFocus}
+          aria-label={ariaLabel}
+          aria-describedby={ariaDescribedBy}
+          aria-invalid={!!(!isValid && showValidity)}
+          aria-errormessage={errorMessage && `${id}-errormessage`}
+          big={!!big}
+        />
+        {isValid && showValidity && (
+          <TextInputCheckmark>
+            <Icon icon={check} color={'green'} />
+          </TextInputCheckmark>
+        )}
+      </TextInputWrap>
+      {errorMessage && !isValid && showValidity && (
+        <TextInputErrorMessage id={`${id}-errormessage`} role="alert">
+          {errorMessage}
+        </TextInputErrorMessage>
+      )}
+    </div>
+  );
+};
+
+const TextInput = forwardRef(Input);
 
 export default TextInput;

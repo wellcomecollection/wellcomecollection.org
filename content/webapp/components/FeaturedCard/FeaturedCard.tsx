@@ -4,25 +4,25 @@ import {
   UiImageProps,
   UiImage,
 } from '@weco/common/views/components/Images/Images';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { Exhibition } from '../../types/exhibitions';
+import { Event } from '../../types/events';
 import {
   Article,
   getPositionInSeries,
   getArticleColor,
-} from '@weco/common/model/articles';
-import { Season } from '@weco/common/model/seasons';
-import { Card } from '@weco/common/model/card';
+} from '../../types/articles';
+import { Season } from '../../types/seasons';
+import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
-import { Link } from '@weco/common/model/link';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import { Link } from '../../types/link';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
-import linkResolver from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '../../services/prismic/link-resolver';
 
 type PartialFeaturedCard = {
   id: string;
@@ -54,7 +54,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | UiExhibition | Season
+  item: Article | Event | Exhibition | Season
 ) {
   return {
     id: item.id,
@@ -127,13 +127,13 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
   };
 
 type FeaturedCardExhibitionProps = {
-  exhibition: UiExhibition;
+  exhibition: Exhibition;
   background: string;
   color: string;
 };
 
 type FeaturedCardExhibitionBodyProps = {
-  exhibition: UiExhibition;
+  exhibition: Exhibition;
 };
 
 const FeaturedCardExhibitionBody = ({

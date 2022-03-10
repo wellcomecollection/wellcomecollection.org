@@ -1,4 +1,4 @@
-export const licenseTypeArray = [
+export const licenseTypeArray: LicenseType[] = [
   'CC-0',
   'CC-BY',
   'CC-BY-NC',

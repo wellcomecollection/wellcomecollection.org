@@ -1,29 +1,24 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getArticles } from '@weco/common/services/prismic/articles';
-import { getPage } from '@weco/common/services/prismic/pages';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '@weco/common/model/articles';
-import { Page as PageType } from '@weco/common/model/pages';
+import { Article } from '../types/articles';
+import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
-  getEvents,
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
-} from '@weco/common/services/prismic/events';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
-import { convertJsonToDates } from './event';
-import { convertItemToCardProps } from '@weco/common/model/card';
+} from '../services/prismic/events';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
+import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -31,6 +26,25 @@ import { getServerData } from '@weco/common/server-data';
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
+import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { transformPage } from '../services/prismic/transformers/pages';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
+import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
+import { ImageType } from '@weco/common/model/image';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -51,49 +65,51 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
-  events: PaginatedResults<UiEvent>;
+  exhibitions: PaginatedResults<Exhibition>;
+  events: PaginatedResults<Event>;
   articles: PaginatedResults<Article>;
   page: PageType;
 };
 
-const pageDescription =
-  'Visit our free museum and library in central London connecting science, medicine, life and art. Explore our exhibitions, live events, gallery tours, restaurant, cafe, bookshop, and cafe. Fully accessible. Open late on Thursday evenings.';
-
-const pageImage =
-  'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800';
+const pageImage: ImageType = {
+  contentUrl:
+    'https://images.prismic.io/wellcomecollection/fc1e68b0528abbab8429d95afb5cfa4c74d40d52_tf_180516_2060224.jpg?auto=compress,format&w=800',
+  width: 800,
+  height: 450,
+  alt: '',
+  crops: {},
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const articlesPromise = getArticles(
-      context.req,
-      { pageSize: 4 },
-      memoizedPrismic
-    );
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period: 'next-seven-days',
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-      },
-      memoizedPrismic
-    );
-    const pagePromise = await getPage(context.req, id, memoizedPrismic);
-    const [exhibitions, events, articles, page] = await Promise.all([
-      exhibitionsPromise,
-      eventsPromise,
-      articlesPromise,
-      pagePromise,
-    ]);
+
+    const client = createClient(context);
+
+    const articlesQueryPromise = fetchArticles(client, { pageSize: 4 });
+    const eventsQueryPromise = fetchEvents(client, {
+      period: 'current-and-coming-up',
+    });
+    const pagePromise = fetchPage(client, homepageId);
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      period: 'next-seven-days',
+      order: 'asc',
+    });
+
+    const [exhibitionsQuery, eventsQuery, articlesQuery, pageDocument] =
+      await Promise.all([
+        exhibitionsQueryPromise,
+        eventsQueryPromise,
+        articlesQueryPromise,
+        pagePromise,
+      ]);
+
+    // The homepage should always exist in Prismic.
+    const page = transformPage(pageDocument!);
+
+    const articles = transformQuery(articlesQuery, transformArticle);
+    const events = transformQuery(eventsQuery, transformEvent);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (events && exhibitions && articles && page) {
       return {
@@ -111,17 +127,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Homepage: FC<Props> = props => {
-  const events = props.events.results.map(convertJsonToDates);
+  const events = props.events.results.map(fixEventDatesInJson);
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
     filterEventsForNext7Days(events)
   );
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
+
   const articles = props.articles;
   const page = props.page;
   const standFirst = page.body.find(slice => slice.type === 'standfirst');
@@ -132,19 +144,16 @@ const Homepage: FC<Props> = props => {
   return (
     <PageLayout
       title={''}
-      description={pageDescription}
+      description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
       jsonLd={[...articles.results.map(articleLd)]}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={pageImage}
-      imageAltText={''}
+      image={pageImage}
     >
       <Layout10>
         <SpacingSection>
-          <PageHeading>
-            A free museum and library exploring health and human experience
-          </PageHeading>
+          <PageHeading>{homepageHeading}</PageHeading>
           {standFirst && (
             <CreamBox>
               <PageHeaderStandfirst html={standFirst.value} />
@@ -168,7 +177,7 @@ const Homepage: FC<Props> = props => {
         </SpacingSection>
       )}
 
-      {nextSevenDaysEvents.concat(exhibitions).length > 2 && (
+      {nextSevenDaysEvents.length + exhibitions.length > 2 && (
         <SpacingSection>
           <SpacingComponent>
             <SectionHeader title="This week" />
@@ -176,7 +185,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents}
+              events={nextSevenDaysEvents as Event[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>

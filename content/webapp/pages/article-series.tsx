@@ -1,15 +1,12 @@
 import { GetServerSideProps } from 'next';
 import { FC } from 'react';
-import { getArticleSeries } from '@weco/common/services/prismic/article-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import type { ArticleSeries } from '@weco/common/model/article-series';
-import type { Article } from '@weco/common/model/articles';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
+import { Series } from '../types/series';
+import { Article } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -18,41 +15,80 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
+import { looksLikePrismicId } from '../services/prismic';
+import { createClient } from '../services/prismic/fetch';
+import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import * as prismic from '@prismicio/client';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 
 type Props = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 } & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const seriesAndArticles = await getArticleSeries(
-      context.req,
-      {
-        id,
-        pageSize: 100,
-        fetchLinks: seasonsFields,
-      },
-      memoizedPrismic
-    );
+    const { id } = context.query;
 
-    if (seriesAndArticles) {
-      const { series, articles } = seriesAndArticles;
-      return {
-        props: removeUndefinedProps({
-          series,
-          articles,
-          serverData,
-          gaDimensions: {
-            partOf: series.seasons.map<string>(season => season.id),
-          },
-        }),
-      };
-    } else {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
+
+    const client = createClient(context);
+
+    // GOTCHA: This is for a series where we have the `webcomics` type.
+    // This will have to remain like this until we figure out how to migrate them.
+    // We create new webcomics as an article with comic format, and add
+    // an article-series to them.
+    const seriesField =
+      id === bodySquabblesSeries
+        ? 'my.webcomics.series.series'
+        : 'my.articles.series.series';
+
+    const articlesQuery = await fetchArticles(client, {
+      predicates: [prismic.predicate.at(seriesField, id as string)],
+      page: 1,
+      pageSize: 100,
+      fetchLinks: seasonsFields,
+    });
+
+    // TODO: Currently we don't support pagination on article series, which means
+    // anything beyond the first page of results won't be shown.  We should update
+    // the design/rendering of this page to fix that.
+    //
+    // We have at least one series with >100 entries (https://wellcomecollection.org/series/WleP3iQAACUAYEoN);
+    // this warning will tell us if there are more.
+    //
+    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7633
+    if (articlesQuery.total_results_size > articlesQuery.results_size) {
+      console.warn(
+        `Series ${id} has ${articlesQuery.total_results_size} entries, than fit on a single page; some articles have been omitted`
+      );
+    }
+
+    if (articlesQuery.results_size > 0) {
+      const result = transformArticleSeries(id as string, articlesQuery);
+
+      if (isNotUndefined(result)) {
+        const { articles, series } = result;
+
+        return {
+          props: removeUndefinedProps({
+            series,
+            articles,
+            serverData,
+            gaDimensions: {
+              partOf: series.seasons.map(season => season.id),
+            },
+          }),
+        };
+      }
+    }
+
+    return { notFound: true };
   };
 
 const ArticleSeriesPage: FC<Props> = props => {
@@ -117,14 +153,13 @@ const ArticleSeriesPage: FC<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}
       openGraphType={'website'}
-      imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
-      imageAltText={(series.image && series.image.alt) ?? undefined}
+      image={series.image}
     >
       <ContentPage
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        document={series.prismicDocument}
+        contributors={series.contributors}
         seasons={series.seasons}
       >
         {articles.length > 0 && (

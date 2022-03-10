@@ -1,29 +1,37 @@
-import type { Article } from '@weco/common/model/articles';
+import { Article } from '../types/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import { getArticles } from '@weco/common/services/prismic/articles';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { createClient } from '../services/prismic/fetch';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformArticle } from '../services/prismic/transformers/articles';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
-import { AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { getPage } from '../utils/query-params';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   articles: PaginatedResults<Article>;
 };
 
-const pageDescription =
-  'Our words and pictures explore the connections between science, medicine, life and art. Dive into one no matter where in the world you are.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const page = getPage(context.query);
+
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
+    }
+
+    const client = createClient(context);
+    const articlesQuery = await fetchArticles(client, { page });
+    const articles = transformQuery(articlesQuery, transformArticle);
     const serverData = await getServerData(context);
-    const { page = 1, memoizedPrismic } = context.query;
-    const articles = await getArticles(context.req, { page }, memoizedPrismic);
 
     return {
       props: removeUndefinedProps({
@@ -39,20 +47,12 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
   return (
     <PageLayout
       title={'Articles'}
-      description={pageDescription}
+      description={pageDescriptions.articles}
       url={{ pathname: `/articles` }}
       jsonLd={articles.results.map(articleLd)}
       openGraphType={'website'}
       siteSection={'stories'}
-      imageUrl={
-        firstArticle &&
-        firstArticle.image &&
-        convertImageUri(firstArticle.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstArticle && firstArticle.image && firstArticle.image.alt) ??
-        undefined
-      }
+      image={firstArticle && firstArticle.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -61,7 +61,7 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
           description={[
             {
               type: 'paragraph',
-              text: pageDescription,
+              text: pageDescriptions.articles,
               spans: [],
             },
           ]}

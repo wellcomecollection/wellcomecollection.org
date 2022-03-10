@@ -8,15 +8,7 @@ beforeAll(async () => {
   const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
     domain
   );
-  await context.addCookies([
-    {
-      name: 'toggle_enableRequesting',
-      value: 'true',
-      domain: domain,
-      path: '/',
-    },
-    ...defaultToggleAndTestCookies,
-  ]);
+  await context.addCookies(defaultToggleAndTestCookies);
 });
 
 describe.skip('Scenario 1: researcher is logged out', () => {
@@ -64,10 +56,8 @@ describe.skip('Scenario 5: researcher initiates item request', () => {
   });
 
   test('Account indicates number of remaining requests', async () => {
-    const remainingRequests = await page.$(
-      ':has-text("7/15 requests remaining")'
-    );
-    expect(remainingRequests).toBeTruthy();
+    const itemsRequested = await page.$(':has-text("8/15 items requested")');
+    expect(itemsRequested).toBeTruthy();
   });
 
   test('Researcher can cancel request', async () => {
@@ -87,7 +77,6 @@ describe.skip('Scenario 6: researcher confirms item request', () => {
   test('Researcher can confirm request', async () => {
     await page.click('button:has-text("Confirm request")');
     await page.waitForSelector(':has-text("Request confirmed")');
-    await page.waitForSelector(':has-text("6/15 requests remaining")');
-    await page.waitForSelector('a:has-text("Book a ticket")');
+    await page.waitForSelector(':has-text("9/15 items requested")');
   });
 });

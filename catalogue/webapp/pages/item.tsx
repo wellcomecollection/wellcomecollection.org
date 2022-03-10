@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
-import { IIIFCanvas, IIIFManifest } from '../model/iiif';
+import {
+  IIIFCanvas,
+  IIIFManifest,
+  AuthService,
+  IIIFMediaElement,
+} from '../model/iiif';
 import { getDigitalLocationOfType } from '../utils/works';
 import { fetchJson } from '@weco/common/utils/http';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
@@ -15,9 +20,11 @@ import {
   getAuthService,
   getTokenService,
   getIIIFManifest,
+  getIsAnyImageOpen,
+  restrictedAuthServiceUrl,
 } from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -41,7 +48,9 @@ import {
 } from '@weco/common/views/components/ItemLink/ItemLink';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
-
+import AudioList from '../components/AudioList/AudioList';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { unavailableImageMessage } from '@weco/common/data/microcopy';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -64,10 +73,6 @@ function reloadAuthIframe(document, id: string) {
   if (authMessageIframe) authMessageIframe.src = authMessageIframe.src;
 }
 
-type Audio = {
-  '@id': string;
-};
-
 type Video = {
   '@id': string;
   format: string;
@@ -84,7 +89,7 @@ type Props = {
   canvases: IIIFCanvas[];
   currentCanvas?: IIIFCanvas;
   video?: Video;
-  audio?: Audio;
+  audioItems?: IIIFMediaElement[];
   iiifImageLocation?: DigitalLocation;
 } & WithPageview;
 
@@ -99,7 +104,7 @@ const ItemPage: NextPage<Props> = ({
   canvases,
   currentCanvas,
   video,
-  audio,
+  audioItems,
   iiifImageLocation,
 }) => {
   const workId = work.id;
@@ -128,6 +133,20 @@ const ItemPage: NextPage<Props> = ({
 
   const authService = getAuthService(manifest);
   const tokenService = authService && getTokenService(authService);
+  const isAnyImageOpen = manifest && getIsAnyImageOpen(manifest);
+  const isTotallyRestricted =
+    authService?.['@id'] === restrictedAuthServiceUrl && !isAnyImageOpen;
+
+  function getNeedsModal(authService: AuthService | undefined) {
+    switch (authService?.['@id']) {
+      case undefined:
+        return false;
+      case restrictedAuthServiceUrl:
+        return !isAnyImageOpen;
+      default:
+        return true;
+    }
+  }
 
   const sharedPaginatorProps = {
     totalResults: canvases ? canvases.length : 1,
@@ -169,8 +188,8 @@ const ItemPage: NextPage<Props> = ({
         `${serviceOrigin.protocol}//${serviceOrigin.hostname}` === event.origin
       ) {
         if (data.hasOwnProperty('accessToken')) {
-          setShowModal(false);
-          setShowViewer(true);
+          setShowModal(isTotallyRestricted);
+          setShowViewer(!isTotallyRestricted);
         } else {
           setShowModal(true);
           setShowViewer(false);
@@ -178,7 +197,7 @@ const ItemPage: NextPage<Props> = ({
       }
     }
 
-    if (authService) {
+    if (getNeedsModal(authService)) {
       window.addEventListener('message', receiveMessage);
 
       return () => window.removeEventListener('message', receiveMessage);
@@ -199,8 +218,6 @@ const ItemPage: NextPage<Props> = ({
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
-      imageUrl={'imageContentUrl'}
-      imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -211,23 +228,12 @@ const ItemPage: NextPage<Props> = ({
           src={`${tokenService['@id']}?messageId=1&origin=${origin}`}
         />
       )}
-      {audio && (
-        <Layout12>
-          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-            <audio
-              controls
-              style={{
-                maxWidth: '100%',
-                display: 'block',
-                margin: '98px auto 0',
-              }}
-              src={audio['@id']}
-              controlsList={!showDownloadOptions ? 'nodownload' : undefined}
-            >
-              {`Sorry, your browser doesn't support embedded audio.`}
-            </audio>
-          </Space>
-        </Layout12>
+      {isNotUndefined(audioItems) && audioItems?.length > 0 && (
+        <Space v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}>
+          <Layout12>
+            <AudioList items={audioItems} />
+          </Layout12>
+        </Space>
       )}
       {video && (
         <Layout12>
@@ -248,7 +254,7 @@ const ItemPage: NextPage<Props> = ({
           </Space>
         </Layout12>
       )}
-      {!audio &&
+      {!(isNotUndefined(audioItems) && audioItems.length > 0) &&
         !video &&
         !pdfRendering &&
         !mainImageService &&
@@ -256,7 +262,7 @@ const ItemPage: NextPage<Props> = ({
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
-                <BetaMessage message="We are working to make this item available online." />
+                <BetaMessage message={unavailableImageMessage} />
               </div>
             </Space>
           </Layout12>
@@ -291,7 +297,7 @@ const ItemPage: NextPage<Props> = ({
               }}
             />
           )}
-          {authService?.['@id'] && origin && (
+          {isAnyImageOpen && origin && (
             <Space
               className={'flex flex-inline'}
               h={{ size: 'm', properties: ['margin-right'] }}
@@ -429,7 +435,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : manifestOrCollection;
 
       const video = getVideo(manifest);
-      const audio = getAudio(manifest);
+      const audioItems = getAudio(manifest);
 
       const canvases =
         manifest.sequences && manifest.sequences[0].canvases
@@ -453,7 +459,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           canvases,
           currentCanvas,
           video,
-          audio,
+          audioItems,
           iiifImageLocation,
           pageview,
           serverData,

@@ -1,10 +1,12 @@
-import { Guide as DeprecatedGuide } from '@weco/common/model/guides';
-import { Override } from '@weco/common/utils/utility-types';
-import { GuidePrismicDocument } from '../services/prismic/types/guides';
+import { GenericContentFields } from './generic-content-fields';
+import { Link } from './link';
+import { Format } from './format';
 
-export type Guide = Override<
-  DeprecatedGuide,
-  {
-    prismicDocument: GuidePrismicDocument;
-  }
->;
+export type Guide = GenericContentFields & {
+  type: 'guides';
+  format?: Format;
+  onThisPage: Link[];
+  datePublished?: Date;
+  siteSection?: string;
+  showOnThisPage: boolean;
+};

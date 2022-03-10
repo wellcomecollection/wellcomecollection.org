@@ -1,24 +1,19 @@
 import { GetServerSideProps } from 'next';
-import { Fragment, FC, useState, useEffect } from 'react';
-import { Article } from '@weco/common/model/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
-import { parseArticleDoc } from '@weco/common/services/prismic/articles';
+import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
+import { Article } from '../types/articles';
+import { Series } from '../types/series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { ArticleFormatIds } from '@weco/common/model/content-format-id';
+import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
+import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import SeriesNavigation from '../components/SeriesNavigation/SeriesNavigation';
 import Body from '../components/Body/Body';
@@ -28,8 +23,11 @@ import {
   fetchArticle,
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
-import { transformContributors } from '../services/prismic/transformers/contributors';
 import { articleLd } from '../services/prismic/transformers/json-ld';
+import { looksLikePrismicId } from '../services/prismic';
+import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { transformArticle } from '../services/prismic/transformers/articles';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   article: Article;
@@ -44,16 +42,16 @@ function articleHasOutro(article: Article) {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id);
+    const articleDocument = await fetchArticle(client, id as string);
     const serverData = await getServerData(context);
 
     if (articleDocument) {
-      const article = parseArticleDoc(articleDocument);
+      const article = transformArticle(articleDocument);
       return {
         props: removeUndefinedProps({
           article,
@@ -71,9 +69,44 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 type ArticleSeriesList = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 }[];
+
+function getNextUp(
+  series: Series,
+  articles: Article[],
+  article: Article,
+  currentPosition?: number
+): ReactElement | null {
+  if (series.schedule.length > 0 && currentPosition) {
+    const firstArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === 1
+    );
+    const firstArticleTitle = firstArticleFromSchedule?.title;
+    const firstArticle = articles.find(i => i.title === firstArticleTitle);
+
+    const nextArticleFromSchedule = series.schedule.find(
+      i => i.partNumber === currentPosition + 1
+    );
+    const nextArticleTitle = nextArticleFromSchedule?.title;
+    const nextArticle = articles.find(i => i.title === nextArticleTitle);
+
+    const nextUp =
+      currentPosition === series.schedule.length && series.schedule.length > 1
+        ? firstArticle
+        : nextArticle || null;
+
+    return nextUp ? (
+      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+    ) : null;
+  } else {
+    const dedupedArticles = articles
+      .filter(a => a.id !== article.id)
+      .slice(0, 2);
+    return <SeriesNavigation series={series} items={dedupedArticles} />;
+  }
+}
 
 const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
@@ -83,18 +116,17 @@ const ArticlePage: FC<Props> = ({ article }) => {
       const series = article.series[0];
       if (series) {
         const seriesField =
-          series.id === 'WleP3iQAACUAYEoN' || series.id === 'X8D9qxIAACIAcKSf'
+          series.id === bodySquabblesSeries
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        const articlesInSeries =
-          series &&
-          (await fetchArticlesClientSide({
-            predicates: [`[at(${seriesField}, "${series.id}")]`],
-          }));
+        const predicates = [prismic.predicate.at(seriesField, series.id)];
 
-        const articles =
-          articlesInSeries?.results.map(doc => parseArticleDoc(doc)) ?? [];
+        const articlesInSeries = series
+          ? await fetchArticlesClientSide({ predicates })
+          : undefined;
+
+        const articles = articlesInSeries?.results ?? [];
 
         if (series) {
           setListOfSeries([{ series, articles }]);
@@ -162,7 +194,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
     metadataDescription: article.metadataDescription,
   };
 
-  const contributors = transformContributors(article.prismicDocument);
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -179,8 +210,8 @@ const ArticlePage: FC<Props> = ({ article }) => {
               [font('hnr', 6)]: true,
             })}
           >
-            {contributors.length > 0 &&
-              contributors.map(({ contributor, role }, i, arr) => (
+            {article.contributors.length > 0 &&
+              article.contributors.map(({ contributor, role }, i, arr) => (
                 <Fragment key={contributor.id}>
                   {role && role.describedBy && (
                     <span>
@@ -209,7 +240,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
                 </Fragment>
               ))}
 
-            {contributors.length > 0 && ' '}
+            {article.contributors.length > 0 && ' '}
 
             <span
               className={classNames({
@@ -252,34 +283,11 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  const Siblings =
-    listOfSeries &&
-    listOfSeries
-      .map(({ series, articles }) => {
-        if (series.schedule.length > 0 && positionInSerial) {
-          const nextUp =
-            positionInSerial === series.schedule.length
-              ? series.items[0]
-              : series.items[positionInSerial]
-              ? series.items[positionInSerial]
-              : null;
-
-          return nextUp ? (
-            <SeriesNavigation
-              key={series.id}
-              series={series}
-              items={[nextUp]}
-            />
-          ) : null;
-        } else {
-          // Overkill? Should this happen on the API?
-          const dedupedArticles = articles
-            .filter(a => a.id !== article.id)
-            .slice(0, 2);
-          return <SeriesNavigation series={series} items={dedupedArticles} />;
-        }
-      })
-      .filter(Boolean);
+  const Siblings = listOfSeries
+    ?.map(({ series, articles }) => {
+      return getNextUp(series, articles, article, positionInSerial);
+    })
+    .filter(Boolean);
 
   return (
     <PageLayout
@@ -289,8 +297,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       jsonLd={articleLd(article)}
       openGraphType={'article'}
       siteSection={'stories'}
-      imageUrl={article.image && convertImageUri(article.image.contentUrl, 800)}
-      imageAltText={(article.image && article.image.alt) ?? undefined}
+      image={article.image}
     >
       <ContentPage
         id={article.id}
@@ -305,7 +312,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           />
         }
         RelatedContent={Siblings}
-        document={article.prismicDocument}
+        contributors={article.contributors}
         outroProps={
           articleHasOutro(article)
             ? {

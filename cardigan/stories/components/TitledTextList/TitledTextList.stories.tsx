@@ -1,4 +1,4 @@
-import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import TitledTextList from '@weco/content/components/TitledTextList/TitledTextList';
 
 const items = [
   {
@@ -6,8 +6,7 @@ const items = [
     text: [
       {
         type: 'paragraph',
-        text:
-          'The newspapers and news pamphlets, gathered by the Reverend Charles Burney (1757-1817) include more than 1,000 pamphlets, proclamations, newsbooks and newspapers from the period. Hosted by the British Library.',
+        text: 'The newspapers and news pamphlets, gathered by the Reverend Charles Burney (1757-1817) include more than 1,000 pamphlets, proclamations, newsbooks and newspapers from the period. Hosted by the British Library.',
         spans: [],
       },
     ],
@@ -22,8 +21,7 @@ const items = [
     text: [
       {
         type: 'paragraph',
-        text:
-          'A selectio of 19th-century national and local British newspapers held by the British Library. All newsparpers are full text and fully searchable, with full runs of the publication where possible.',
+        text: 'A selectio of 19th-century national and local British newspapers held by the British Library. All newsparpers are full text and fully searchable, with full runs of the publication where possible.',
         spans: [],
       },
     ],

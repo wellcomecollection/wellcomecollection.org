@@ -26,7 +26,7 @@ import WorkDetailsText from '../WorkDetailsText/WorkDetailsText';
 import WorkDetailsList from '../WorkDetailsList/WorkDetailsList';
 import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from './ExplanatoryText';
@@ -40,14 +40,16 @@ import IIIFClickthrough from '../IIIFClickthrough/IIIFClickthrough';
 import OnlineResources from './OnlineResources';
 import ExpandableList from '@weco/common/views/components/ExpandableList/ExpandableList';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import SignInBar from '../SignInBar/SignInBar';
+import LibraryMembersBar from '../LibraryMembersBar/LibraryMembersBar';
 import { eye } from '@weco/common/icons';
 import {
   abortErrorHandler,
   useAbortSignalEffect,
 } from '@weco/common/hooks/useAbortSignalEffect';
-import { itemIsRequestable } from '../../utils/requesting';
-import { useToggles } from '@weco/common/server-data/Context';
+import {
+  itemIsRequestable,
+  itemIsTemporarilyUnavailable,
+} from '../../utils/requesting';
 
 type Props = {
   work: Work;
@@ -61,7 +63,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audio,
+  audioItems,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -70,13 +72,12 @@ function getItemLinkState({
   if (accessCondition === 'closed') {
     return 'useNoLink';
   }
-  if (itemUrl && !audio && !video) {
+  if (itemUrl && !(audioItems.length > 0) && !video) {
     return 'useItemLink';
   }
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { enableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -118,16 +119,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audio,
+    audioItems,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
   } = useIIIFManifestData(work);
 
+  // We display a content advisory warning at the work level, so it is sufficient
+  // to check if any individual piece of audio content requires an advisory notice
+  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+
   const authService =
     (video && getMediaClickthroughService(video)) ||
-    (audio && getMediaClickthroughService(audio));
+    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
 
   const tokenService = authService && getTokenService(authService);
 
@@ -209,7 +214,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audio,
+    audioItems,
     video,
   });
 
@@ -218,9 +223,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {enableRequesting && physicalItems.some(itemIsRequestable) && (
+        {physicalItems.some(
+          item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
+        ) && (
           <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-            <SignInBar />
+            <LibraryMembersBar />
           </Space>
         )}
         {locationOfWork && (
@@ -333,11 +340,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audio && (
-              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <AudioPlayer audio={audio} />
-              </Space>
-            )}
+            {audioItems.length > 0 && <AudioList items={audioItems} />}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"
@@ -462,7 +465,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     >
                       Contains:{' '}
                       {childManifestsCount > 0
-                        ? `${childManifestsCount} volumes`
+                        ? `${childManifestsCount} ${
+                            childManifestsCount === 1 ? 'volume' : 'volumes'
+                          }`
                         : imageCount > 0
                         ? `${imageCount} ${
                             imageCount === 1 ? 'image' : 'images'

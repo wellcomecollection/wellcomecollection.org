@@ -4,7 +4,6 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { font, grid, classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import BookImage from '../components/BookImage/BookImage';
@@ -12,13 +11,13 @@ import styled from 'styled-components';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { fetchBook } from '../services/prismic/fetch/books';
 import { createClient } from '../services/prismic/fetch';
 import { transformBook } from '../services/prismic/transformers/books';
 import { Book } from '../types/books';
+import { looksLikePrismicId } from '../services/prismic';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -71,11 +70,11 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const { id } = context.query;
-    if (!isString(id)) {
+    if (!looksLikePrismicId(id)) {
       return { notFound: true };
     }
     const client = createClient(context);
-    const bookDocument = await fetchBook(client, id);
+    const bookDocument = await fetchBook(client, id as string);
 
     if (bookDocument) {
       const serverData = await getServerData(context);
@@ -149,14 +148,13 @@ const BookPage: FunctionComponent<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'book'}
       siteSection={null}
-      imageUrl={book.image && convertImageUri(book.image.contentUrl, 800)}
-      imageAltText={book.image && book.image.alt ? book.image.alt : undefined}
+      image={book.image}
     >
       <ContentPage
         id={book.id}
         Header={Header}
         Body={<Body body={book.body} pageId={book.id} />}
-        document={book.prismicDocument!}
+        contributors={book.contributors}
         seasons={book.seasons}
       >
         <Fragment>

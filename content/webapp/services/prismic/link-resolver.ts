@@ -10,6 +10,8 @@ const contentTypes = [
   'projects',
   'seasons',
   'series',
+  'webcomics',
+  'guide-formats',
 ] as const;
 export type ContentType = typeof contentTypes[number];
 
@@ -21,10 +23,7 @@ function isContentType(type: any): type is ContentType {
  * we use null as that's what prismic expects
  * {@link https://prismic.io/docs/technologies/link-resolver-javascript}
  */
-function linkResolver(doc: {
-  id: string;
-  type: string;
-}): `/${ContentType}/${string}` | undefined {
+function linkResolver(doc: { id: string; type: string }): string {
   const { id, type } = doc;
 
   if (type === 'webcomics') return `/articles/${id}`;
@@ -34,7 +33,7 @@ function linkResolver(doc: {
     return `/${type}/${id}`;
   }
 
-  return undefined;
+  return '/';
 }
 
 export default linkResolver;

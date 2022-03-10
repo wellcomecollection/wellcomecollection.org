@@ -1,10 +1,15 @@
-import { ArticleSeries as SeriesDeprecated } from '@weco/common/model/article-series';
-import { Override } from '@weco/common/utils/utility-types';
-import { SeriesPrismicDocument } from '../services/prismic/types/series';
+import { ColorSelection } from './color-selections';
+import { GenericContentFields } from './generic-content-fields';
+import { ArticleScheduleItem } from './article-schedule-items';
+import { Article } from './articles';
+import { Contributor } from './contributors';
+import { Season } from './seasons';
 
-export type Series = Override<
-  SeriesDeprecated,
-  {
-    prismicDocument: SeriesPrismicDocument;
-  }
->;
+export type Series = GenericContentFields & {
+  type: 'series';
+  schedule: ArticleScheduleItem[];
+  color?: ColorSelection;
+  seasons: Season[];
+  items: Article[];
+  contributors: Contributor[];
+};

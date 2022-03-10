@@ -1,10 +1,44 @@
-import { Exhibition as DeprecatedExhibition } from '@weco/common/model/exhibitions';
-import { Override } from '@weco/common/utils/utility-types';
-import { ExhibitionPrismicDocument } from '../services/prismic/types/exhibitions';
+import { Article } from './articles';
+import { Book } from './books';
+import { Contributor } from './contributors';
+import { Event } from './events';
+import { Place } from './places';
+import { GenericContentFields } from './generic-content-fields';
+import { Resource } from './resource';
+import { Season } from './seasons';
+import * as prismicT from '@prismicio/types';
 
-export type Exhibition = Override<
-  DeprecatedExhibition,
-  {
-    prismicDocument: ExhibitionPrismicDocument;
-  }
->;
+// e.g. 'Permanent'
+export type ExhibitionFormat = {
+  id: string;
+  title: string;
+  description?: string;
+};
+
+export type Exhibition = GenericContentFields & {
+  shortTitle?: string;
+  type: 'exhibitions';
+  format?: ExhibitionFormat;
+  start: Date;
+  end?: Date;
+  isPermanent: boolean;
+  statusOverride?: string;
+  bslInfo?: prismicT.RichTextField;
+  audioDescriptionInfo?: prismicT.RichTextField;
+  place?: Place;
+  exhibits: Exhibit[];
+  resources: Resource[];
+  relatedIds: string[];
+  seasons: Season[];
+  contributors: Contributor[];
+};
+
+export type Exhibit = {
+  exhibitType: 'exhibitions';
+  item: Exhibition;
+};
+
+export type ExhibitionRelatedContent = {
+  exhibitionOfs: (Exhibition | Event)[];
+  exhibitionAbouts: (Book | Article)[];
+};

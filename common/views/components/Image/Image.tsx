@@ -9,7 +9,7 @@ import { FunctionComponent } from 'react';
 export type Props = {
   contentUrl: string;
   width?: number;
-  alt: string;
+  alt: string | null;
   tasl?: Tasl;
   height?: number;
   caption?: string;

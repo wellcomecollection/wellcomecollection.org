@@ -368,6 +368,56 @@ export const workFixture: Work = {
   type: 'Work',
 };
 
+/*
+partOf objects that represent a Library Series do not have Archive referenceNumbers.
+*/
+
+export const workWithLibrarySeriesPartOf: Work = {
+  alternativeTitles: [],
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+  ],
+  id: 'xwk27yj7',
+  partOf: [
+    {
+      id: 'gzgg4hzp',
+      title: 'Edinburgh medical and surgical journal',
+      type: 'Series',
+      alternativeTitles: [],
+      referenceNumber: 'Edinburgh medical and surgical journal',
+      availableOnline: false,
+      availabilities: [],
+    },
+  ],
+  physicalDescription: 'pages 23-28',
+  title: 'Notice of an instance of molluscum chronicum / by Henry Nebel.',
+  type: 'Work',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'Format',
+  },
+  subjects: [],
+  genres: [],
+  contributors: [],
+  identifiers: [],
+  production: [],
+  languages: [],
+  precededBy: [],
+  succeededBy: [],
+  notes: [],
+  parts: [],
+  holdings: [],
+};
+
+/*
+An Archive Work with a partOf hierarchy.
+partOf entries in Archive Works have hierarchical reference numbers.
+*/
 export const workWithPartOf: Work = {
   holdings: [],
   id: 'pbtyx2xx',
@@ -662,4 +712,73 @@ export const workWithPartOf: Work = {
     },
   ],
   type: 'Work',
+};
+
+export const workWithMixedPartOf: Work = {
+  availabilities: [
+    {
+      id: 'in-library',
+      label: 'In the library',
+      type: 'Availability',
+    },
+  ],
+  referenceNumber: 'a/b/c',
+  id: 'baadf00d',
+  title: 'Something I made up',
+  type: 'Work',
+  workType: {
+    id: 'a',
+    label: 'Books',
+    type: 'Format',
+  },
+  partOf: [
+    {
+      id: 'cafed00d',
+      title: 'A Library Series',
+      referenceNumber: 'A Library Series',
+      type: 'Series',
+      totalParts: 0,
+      totalDescendentParts: 0,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+    },
+    {
+      id: 'cafebeef',
+      referenceNumber: 'a/b',
+      title: 'An Archive Collection',
+      type: 'Collection',
+      totalParts: 1,
+      totalDescendentParts: 1,
+      alternativeTitles: [],
+      availableOnline: false,
+      availabilities: [],
+      partOf: [
+        {
+          id: 'f00dcafe',
+          referenceNumber: 'a',
+          title: 'An Archive Series',
+          type: 'Series',
+          totalParts: 1,
+          totalDescendentParts: 2,
+          alternativeTitles: [],
+          availableOnline: false,
+          availabilities: [],
+        },
+      ],
+    },
+  ],
+  alternativeTitles: [],
+  subjects: [],
+  genres: [],
+  contributors: [],
+  identifiers: [],
+  production: [],
+  languages: [],
+  precededBy: [],
+  succeededBy: [],
+  notes: [],
+  parts: [],
+  holdings: [],
+  physicalDescription: '',
 };

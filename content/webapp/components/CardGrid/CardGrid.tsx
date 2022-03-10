@@ -1,41 +1,22 @@
 import { FunctionComponent } from 'react';
 import moment from 'moment';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import { Link } from '@weco/common/model/link';
-import { convertItemToCardProps } from '@weco/common/model/card';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
-import { Exhibition, UiExhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
-import { Article } from '@weco/common/model/articles';
-import { Page } from '@weco/common/model/pages';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Link } from '../../types/link';
+import { convertItemToCardProps } from '../../types/card';
 import BookPromo from '../BookPromo/BookPromo';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
-import Card from '@weco/common/views/components/Card/Card';
+import Card from '../Card/Card';
 import EventPromo from '../EventPromo/EventPromo';
 import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
-import { ExhibitionPrismicDocument } from '../../services/prismic/types/exhibitions';
-import { ArticlePrismicDocument } from '../../services/prismic/types/articles';
-import { Book } from '../../types/books';
-
-// TODO: This should be MultiContent
-type ContentTypes =
-  | UiEvent
-  | UiExhibition
-  | Exhibition
-  | Book
-  | Article
-  | Page
-  | ArticleSeries
-  | ArticleScheduleItem;
+import { MultiContent } from '../../types/multi-content';
 
 type Props = {
-  items: readonly ContentTypes[];
+  items: readonly MultiContent[];
   hidePromoText?: boolean;
   itemsPerRow: number;
   itemsHaveTransparentBackground?: boolean;
@@ -73,19 +54,14 @@ const CardGrid: FunctionComponent<Props> = ({
               {item.id === 'tours' && <DailyTourPromo />}
 
               {item.type === 'exhibitions' && (
-                // We can't import `ExhibitionPrismicDocument` into `UiExhibition` because
-                // they are in content / common apps respectively, we have to type coerce here
-                <ExhibitionPromo
-                  exhibition={item.prismicDocument as ExhibitionPrismicDocument}
-                  position={i}
-                />
+                <ExhibitionPromo exhibition={item} position={i} />
               )}
               {item.id !== 'tours' && item.type === 'events' && (
                 <EventPromo event={item} position={i} fromDate={fromDate} />
               )}
               {item.type === 'articles' && (
                 <StoryPromo
-                  article={item.prismicDocument as ArticlePrismicDocument}
+                  article={item}
                   position={i}
                   hidePromoText={hidePromoText}
                 />

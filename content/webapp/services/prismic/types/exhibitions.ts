@@ -13,10 +13,13 @@ import {
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { ArticlePrismicDocument } from './articles';
+import { BookPrismicDocument } from './books';
+import { EventPrismicDocument } from './events';
 
 const typeEnum = 'exhibitions';
 
-type ExhibitionFormat = PrismicDocument<
+export type ExhibitionFormat = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -36,9 +39,21 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     end: TimestampField;
     isPermanent: SelectField<'yes'>;
     statusOverride: RichTextField;
+    bslInfo: RichTextField;
+    audioDescriptionInfo: RichTextField;
     place: RelationField<'place'>;
     exhibits: GroupField<{
-      item: RelationField<'exhibitions'>;
+      item: RelationField<
+        'exhibitions',
+        'en-gb',
+        // We know this is an ExhibitionPrismicDocument, but the type checker gets
+        // unhappy about the circular reference:
+        //
+        //    'event' is referenced directly or indirectly in its own type annotation.
+        //
+        // TODO: Find a better way to do this which doesn't upset the type checker.
+        InferDataInterface<any>
+      >;
     }>;
     events: GroupField<{
       item: RelationField<'events'>;
@@ -55,3 +70,9 @@ export type ExhibitionPrismicDocument = PrismicDocument<
     CommonPrismicFields,
   typeof typeEnum
 >;
+
+export type ExhibitionRelatedContentPrismicDocument =
+  | ExhibitionPrismicDocument
+  | EventPrismicDocument
+  | ArticlePrismicDocument
+  | BookPrismicDocument;

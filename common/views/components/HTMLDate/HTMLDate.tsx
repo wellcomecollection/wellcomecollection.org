@@ -1,10 +1,11 @@
+import { FunctionComponent } from 'react';
 import { formatDate } from '../../../utils/format-date';
 
 type Props = {
   date: Date;
 };
 
-const HTMLDate = ({ date }: Props) => (
+const HTMLDate: FunctionComponent<Props> = ({ date }) => (
   <time dateTime={date.toISOString()}>{formatDate(date)}</time>
 );
 

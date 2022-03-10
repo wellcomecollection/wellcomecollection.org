@@ -7,7 +7,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,6 +16,8 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
+import { isString } from '@weco/common/utils/array';
+import { unavailableImageMessage } from '@weco/common/data/microcopy';
 
 type Props = {
   image: Image;
@@ -28,6 +30,8 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
 
   const sharedPaginatorProps = {
     totalResults: 1,
+    currentPage: 1,
+    pageSize: 1,
     link: imageLink(
       {
         workId: sourceWork.id,
@@ -38,15 +42,11 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
   };
 
   const mainPaginatorProps = {
-    currentPage: 1,
-    pageSize: 1,
     linkKey: 'canvas',
     ...sharedPaginatorProps,
   };
 
   const thumbsPaginatorProps = {
-    currentPage: 1,
-    pageSize: 1,
     linkKey: 'page',
     ...sharedPaginatorProps,
   };
@@ -67,8 +67,6 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
-      imageUrl={'imageContentUrl'}
-      imageAltText={''}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -93,7 +91,7 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <div style={{ marginTop: '98px' }}>
-              <BetaMessage message="We are working to make this image available online." />
+              <BetaMessage message={unavailableImageMessage} />
             </div>
           </Space>
         </Layout12>
@@ -107,7 +105,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id, workId } = context.query;
 
-    if (typeof id !== 'string') {
+    if (!isString(id)) {
       return { notFound: true };
     }
 

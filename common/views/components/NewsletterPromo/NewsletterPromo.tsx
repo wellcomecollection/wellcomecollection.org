@@ -290,7 +290,7 @@ const NewsletterPromo = () => {
                 </a>
                 , to deliver our newsletters. For information about how we
                 handle your data, please read our{' '}
-                <a href="https://wellcome.ac.uk/about-us/governance/privacy-and-terms">
+                <a href="https://wellcome.org/who-we-are/privacy-and-terms">
                   privacy notice
                 </a>
                 . You can unsubscribe at any time using links in the emails you

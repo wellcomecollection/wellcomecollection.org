@@ -13,5 +13,3 @@ const eventSeriesFetcher = fetcher<EventSeriesPrismicDocument>(
 
 export const fetchEventSeriesById = eventSeriesFetcher.getById;
 export const fetchEventSeries = eventSeriesFetcher.getByType;
-export const fetchEventSeriesClientSide =
-  eventSeriesFetcher.getByTypeClientSide;

@@ -30,13 +30,13 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <PrismicImage image={contributor.image} />
+                <PrismicImage image={contributor.image} maxWidth={72} />
               </div>
             </div>
           )}
           {contributor.image && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <PrismicImage image={contributor.image} />
+              <PrismicImage image={contributor.image} maxWidth={72} />
             </div>
           )}
         </Space>

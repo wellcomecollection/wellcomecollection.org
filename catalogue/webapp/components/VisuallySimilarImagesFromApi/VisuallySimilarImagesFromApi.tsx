@@ -3,7 +3,10 @@ import Image from '@weco/common/views/components/Image/Image';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getImage } from '../../services/catalogue/images';
+import {
+  getImage,
+  getVisuallySimilarImagesClientSide,
+} from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 
@@ -36,15 +39,13 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getImage({
-        id: originalId,
-        toggles,
-        include: ['visuallySimilar'],
-      });
-      if (fullImage.type === 'Image') {
+      const fullImage = await getVisuallySimilarImagesClientSide(originalId);
+
+      if (fullImage && fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);
       }
     };
+
     fetchVisuallySimilarImages();
   }, [originalId]);
   return similarImages.length === 0 ? null : (

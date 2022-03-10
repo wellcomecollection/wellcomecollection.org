@@ -40,6 +40,7 @@ import { font } from '@weco/common/utils/classnames';
 import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
+import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
@@ -52,6 +53,8 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
+import { useToggles } from '@weco/common/server-data/Context';
+import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 
 type DetailProps = {
   label: string;
@@ -154,6 +157,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const { enablePickUpDate } = useToggles();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -284,34 +288,57 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             />
                           </ProgressBar>
                           <StackingTable
+                            maxWidth={enablePickUpDate ? 1180 : 980}
                             rows={[
-                              ['Title', 'Status', 'Pickup location'],
-                              ...requestedItems.results.map(result => [
-                                <>
-                                  <ItemTitle
-                                    as="a"
-                                    href={`/works/${result.workId}`}
-                                  >
-                                    {result.workTitle || 'Unknown title'}
-                                  </ItemTitle>
-                                  {result.item.title && (
-                                    <Space
-                                      v={{
-                                        size: 's',
-                                        properties: ['margin-top'],
-                                      }}
+                              [
+                                'Title',
+                                'Status',
+                                enablePickUpDate
+                                  ? 'Pickup date requested'
+                                  : null,
+                                'Pickup location',
+                              ].filter(Boolean),
+                              ...requestedItems.results.map(result =>
+                                [
+                                  <>
+                                    <ItemTitle
+                                      as="a"
+                                      href={`/works/${result.workId}`}
                                     >
-                                      <ItemTitle>{result.item.title}</ItemTitle>
-                                    </Space>
-                                  )}
-                                </>,
-                                <ItemStatus key={`${result.item.id}-status`}>
-                                  {result.status.label}
-                                </ItemStatus>,
-                                <ItemPickup key={`${result.item.id}-pickup`}>
-                                  {result.pickupLocation.label}
-                                </ItemPickup>,
-                              ]),
+                                      {result.workTitle || 'Unknown title'}
+                                    </ItemTitle>
+                                    {result.item.title && (
+                                      <Space
+                                        v={{
+                                          size: 's',
+                                          properties: ['margin-top'],
+                                        }}
+                                      >
+                                        <ItemTitle>
+                                          {result.item.title}
+                                        </ItemTitle>
+                                      </Space>
+                                    )}
+                                  </>,
+                                  <ItemStatus key={`${result.item.id}-status`}>
+                                    {sierraStatusCodeToLabel[
+                                      result.status.id
+                                    ] ?? result.status.label}
+                                  </ItemStatus>,
+                                  enablePickUpDate ? (
+                                    result.pickupDate ? (
+                                      <HTMLDate
+                                        date={new Date(result.pickupDate)}
+                                      />
+                                    ) : (
+                                      <p>n/a</p>
+                                    )
+                                  ) : null,
+                                  <ItemPickup key={`${result.item.id}-pickup`}>
+                                    {result.pickupLocation.label}
+                                  </ItemPickup>,
+                                ].filter(Boolean)
+                              ),
                             ]}
                           />
                           <Space

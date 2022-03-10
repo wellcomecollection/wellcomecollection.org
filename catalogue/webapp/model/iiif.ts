@@ -84,10 +84,17 @@ export type IIIFMediaElement = {
   service?: AuthService | AuthService[];
 };
 
+// This occurs on some born-digital presentation manifests,
+// e.g. https://iiif.wellcomecollection.org/presentation/v2/b29696586
+export type EmptyIIIFMediaElement = {
+  label: string;
+  thumbnail: string;
+};
+
 type IIIFMediaSequence = {
   '@id': string;
   '@type': string;
-  elements: IIIFMediaElement[];
+  elements: (IIIFMediaElement | EmptyIIIFMediaElement)[];
 };
 
 export type IIIFSequence = {
@@ -122,6 +129,7 @@ export type Service = {
   profile: string;
   disableUI?: string[];
   authService?: AuthService;
+  accessHint?: string;
 };
 
 export type IIIFManifest = {

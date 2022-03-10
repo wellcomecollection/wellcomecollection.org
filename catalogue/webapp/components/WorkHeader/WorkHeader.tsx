@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { Work } from '@weco/common/model/work';
+import { Work } from '@weco/common/model/catalogue';
 import { font, classNames, grid } from '@weco/common/utils/classnames';
 import {
   getProductionDates,
@@ -119,7 +119,8 @@ const WorkHeader: FunctionComponent<Props> = ({
                   'no-margin': true,
                 })}
               >
-                <Number color="yellow" number={childManifestsCount} /> volumes
+                <Number color="yellow" number={childManifestsCount} />
+                {childManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online
               </p>
             </Space>

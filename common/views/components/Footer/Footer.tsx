@@ -6,12 +6,10 @@ import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
 import FooterSocial from './FooterSocial';
 import Icon from '../Icon/Icon';
-import { OverrideType } from '../../../model/opening-hours';
-import { Moment } from 'moment';
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import FooterOpeningTimes from '@weco/common/views/components/FooterOpeningTimes/FooterOpeningTimes';
-import { OpeningTimes } from '../../../services/prismic/opening-times';
+import OpeningTimes from '../OpeningTimes/OpeningTimes';
+import { Venue } from '../../../model/opening-hours';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -164,21 +162,10 @@ const TopBorderBox = styled.div`
 `;
 type Props = {
   hide: boolean;
-  openingTimes: OpeningTimes;
-  // TODO: This is never used in the Footer component.  Should we put it
-  // back in the component, or can it be safely removed from Props and
-  // all the callers of this component?
-  upcomingExceptionalOpeningPeriods?: {
-    dates: Moment[];
-    type: OverrideType;
-  }[];
-  extraClasses?: string;
+  venues: Venue[];
 };
 
-const Footer: FunctionComponent<Props> = ({
-  openingTimes,
-  hide = false,
-}: Props) => {
+const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
   const footer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (hide && footer && footer.current) {
@@ -269,13 +256,7 @@ const Footer: FunctionComponent<Props> = ({
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
-                  {openingTimes && openingTimes?.collectionOpeningTimes && (
-                    <FooterOpeningTimes
-                      collectionOpeningTimes={
-                        openingTimes.collectionOpeningTimes
-                      }
-                    />
-                  )}
+                  {venues && <OpeningTimes venues={venues} />}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
                     <a href="/opening-times">Opening times</a>
                   </Space>
@@ -336,7 +317,7 @@ const Footer: FunctionComponent<Props> = ({
             <HygieneList>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/jobs"
+                  href="https://wellcome.org/jobs"
                   className="footer__hygiene-link"
                 >
                   Jobs
@@ -344,7 +325,7 @@ const Footer: FunctionComponent<Props> = ({
               </HygieneItem>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/about-us/terms-use"
+                  href="https://wellcome.org/who-we-are/privacy-and-terms"
                   className="footer__hygiene-link"
                 >
                   Privacy
@@ -352,7 +333,7 @@ const Footer: FunctionComponent<Props> = ({
               </HygieneItem>
               <HygieneItem>
                 <a
-                  href="https://wellcome.ac.uk/about-us/terms-use"
+                  href="https://wellcome.org/who-we-are/privacy-and-terms"
                   className="footer__hygiene-link"
                 >
                   Cookies

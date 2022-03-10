@@ -10,9 +10,17 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
+  EmptyIIIFMediaElement,
 } from '../model/iiif';
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
+import { isNotUndefined } from '@weco/common/utils/array';
+
+const isFilledMediaElement = (
+  element: IIIFMediaElement | EmptyIIIFMediaElement
+): element is IIIFMediaElement => {
+  return '@id' in element;
+};
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -26,6 +34,18 @@ export function getServiceId(canvas?: IIIFCanvas): string | undefined {
       return serviceSrc['@id'];
     }
   }
+}
+
+// We don't know at the top-level of a manifest whether any of the canvases contain images that are open access.
+// The top-level holds information about whether the item contains _any_ images with an authService.
+// Individual images hold information about their own authService (if it has one).
+// So we check if any canvas _doesn't_ have an authService, and treat the whole item as open access if that's the case.
+// This allows us to determine whether or not to show the viewer at all.
+export function getIsAnyImageOpen(manifest: IIIFManifest): boolean {
+  const { sequences } = manifest;
+  const canvases = sequences?.map(sequence => sequence.canvases).flat() || [];
+
+  return canvases.some(canvas => !isImageRestricted(canvas));
 }
 
 export function getAuthService(
@@ -46,9 +66,25 @@ export function getAuthService(
           service?.['@id'] !==
           'https://iiif.wellcomecollection.org/auth/restrictedlogin'
       );
+
+      // We're only interested in the services about access
+      const servicesOfInterest = iiifManifest.service.filter(
+        s => s.accessHint !== undefined
+      );
+
+      const isAvailableOnline =
+        servicesOfInterest.some(service => !service.authService) &&
+        !nonRestrictedService;
+      // If any of the manifest accessHint services don't include an `authService` then we can show the viewer without a modal.
+      // e.g. if the manifest is a mixture of open and restricted images, then
+      // DLCS will hide the images that are restricted -- and we can let the
+      // user click straight through to the images that are open.
+      //
       // If there is a mixture of restricted images and non restricted images, we show the auth service of the non restricted ones, 'e.g. open with advisory', as these can still be viewd.
       // Individual images that are restricted won't be displayed anyway.
-      return nonRestrictedService || restrictedService;
+      return isAvailableOnline
+        ? undefined
+        : nonRestrictedService || restrictedService;
     } else {
       return iiifManifest.service.authService;
     }
@@ -87,22 +123,29 @@ export function getTokenService(
   );
 }
 
-export function getImageAuthService(canvas: IIIFCanvas): AuthService | null {
+export const restrictedAuthServiceUrl =
+  'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+
+export function getImageAuthService(
+  canvas: IIIFCanvas
+): AuthService | string | null {
   const serviceArray = canvas?.images?.[0]?.resource?.service?.[0]?.service;
   const authService =
     serviceArray &&
     serviceArray.find(
       service =>
-        service['@context'] === 'http://iiif.io/api/auth/0/context.json'
+        service['@context'] === 'http://iiif.io/api/auth/0/context.json' ||
+        service === restrictedAuthServiceUrl
     );
   return authService || null;
 }
 
 export function isImageRestricted(canvas: IIIFCanvas): boolean {
   const imageAuthService = getImageAuthService(canvas);
+
   return Boolean(
-    imageAuthService?.['@id'] ===
-      'https://iiif.wellcomecollection.org/auth/restrictedlogin'
+    imageAuthService?.['@id'] === restrictedAuthServiceUrl ||
+      imageAuthService === restrictedAuthServiceUrl
   );
 }
 
@@ -162,6 +205,7 @@ export function getDownloadOptionsFromManifest(
     ? iiifManifest.mediaSequences.reduce((acc: IIIFRendering[], sequence) => {
         return acc.concat(
           sequence.elements
+            .filter(isFilledMediaElement)
             .map(element => {
               return {
                 '@id': element['@id'],
@@ -249,25 +293,22 @@ export function getVideo(
     );
   return (
     videoSequence &&
-    videoSequence.elements.find(
-      element => element['@type'] === 'dctypes:MovingImage'
-    )
+    videoSequence.elements
+      .filter(isFilledMediaElement)
+      .find(element => element['@type'] === 'dctypes:MovingImage')
   );
 }
 
-export function getAudio(
-  iiifManifest: IIIFManifest
-): IIIFMediaElement | undefined {
-  const videoSequence =
-    iiifManifest &&
-    iiifManifest.mediaSequences &&
-    iiifManifest.mediaSequences.find(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-    );
-  return (
-    videoSequence &&
-    videoSequence.elements.find(element => element['@type'] === 'dctypes:Sound')
-  );
+export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
+  const audioSequences = (iiifManifest.mediaSequences || [])
+    .flatMap(sequence =>
+      sequence.elements
+        .filter(isFilledMediaElement)
+        .find(element => element['@type'] === 'dctypes:Sound')
+    )
+    .filter(isNotUndefined);
+
+  return audioSequences;
 }
 
 export function getAnnotationFromMediaElement(

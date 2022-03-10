@@ -9,7 +9,9 @@ import {
   globalApiOptions,
   catalogueApiError,
   notFound,
-} from './common';
+  looksLikeCanonicalId,
+  catalogueFetch,
+} from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 
@@ -53,7 +55,7 @@ export async function getImages({
   }/v2/images?${searchParams.toString()}`;
 
   try {
-    const res = await fetch(url);
+    const res = await catalogueFetch(url);
     const json = await res.json();
 
     return json;
@@ -67,6 +69,10 @@ export async function getImage({
   toggles,
   include = [],
 }: GetImageProps): Promise<Image | CatalogueApiError> {
+  if (!looksLikeCanonicalId(id)) {
+    return notFound();
+  }
+
   const apiOptions = globalApiOptions(toggles);
 
   const params = {
@@ -79,15 +85,30 @@ export async function getImage({
     rootUris[apiOptions.env]
   }/v2/images/${id}?${searchParams.toString()}`;
 
-  try {
-    const res = await fetch(url);
-    const json = await res.json();
-    if (res.status === 404) {
-      return notFound();
-    }
+  const res = await catalogueFetch(url);
 
-    return json;
+  if (res.status === 404) {
+    return notFound();
+  }
+
+  try {
+    return await res.json();
   } catch (e) {
     return catalogueApiError();
+  }
+}
+
+export async function getVisuallySimilarImagesClientSide(
+  id: string
+): Promise<Image | undefined> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
+  const response = await fetch(`/api/visuallySimilarImages/${id}`, {
+    credentials: 'same-origin',
+  });
+
+  if (response.ok) {
+    const image: Image = await response.json();
+    return image;
   }
 }

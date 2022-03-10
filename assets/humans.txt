@@ -23,12 +23,10 @@ Digital Production (digitisation):
 
 Digital Editorial Content:
  Danny Birchall
- Kirsten Riley
  Lalita Kaplish
  Alice White
  Kate Wilkinson
  Helen Babbs
- Anjuli Sharma
  Kate Quarry
  James Machin
  Richard Sheehan
@@ -43,21 +41,21 @@ Photography:
  Thomas Cox
  Kathleen Arundell
 
-Digital Experience:
+Digital Platform:
  Carla Bowskill
  Tacey Laurie
- Gareth Ormerod
  Gareth Estchild
  David McCormick
  Dominique Marshall
  Alice Richmond
-
-Digital Preservation and Data:
+ Jamie Parkinson
  Jonathan Tweed
  Natalie Pollecutt
  Alex Chan
  Harrison Pim
- Jamie Parkinson
+ Gareth Ormerod
+ Paul Butcher
+ Mel Rogan
 
 Access:
  Selene Burn
@@ -66,6 +64,8 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Kirsten Riley
+ Anjuli Sharma
  James Gorrie
  Alice Fuzier-Cayla
  Robert Kenny

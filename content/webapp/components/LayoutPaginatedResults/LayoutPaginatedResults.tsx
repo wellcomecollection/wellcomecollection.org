@@ -3,36 +3,36 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { classNames, font } from '@weco/common/utils/classnames';
-import type { Period } from '@weco/common/model/periods';
-import type { UiExhibition } from '@weco/common/model/exhibitions';
-import type { UiEvent } from '@weco/common/model/events';
-import type { Article } from '@weco/common/model/articles';
-import type {
-  PaginatedResults,
-  HTMLString,
-} from '@weco/common/services/prismic/types';
+import { Period } from '../../types/periods';
+import { Exhibition } from '../../types/exhibitions';
+import { Event } from '../../types/events';
+import { Article } from '../../types/articles';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
 import { Book } from '../../types/books';
+import { Guide } from '../../types/guides';
+import * as prismicT from '@prismicio/types';
 
 type PaginatedResultsTypes =
-  | PaginatedResults<UiExhibition>
-  | PaginatedResults<UiEvent>
+  | PaginatedResults<Exhibition>
+  | PaginatedResults<Event>
   | PaginatedResults<Book>
-  | PaginatedResults<Article>;
+  | PaginatedResults<Article>
+  | PaginatedResults<Guide>;
 
 type Props = {
   title: string;
-  description?: HTMLString;
+  description?: prismicT.RichTextField;
   paginationRoot: string;
   paginatedResults: PaginatedResultsTypes;
   period?: Period;
   showFreeAdmissionMessage: boolean;
-  children?: Node;
+  children?: ReactElement;
 };
 
 const LayoutPaginatedResults: FC<Props> = ({

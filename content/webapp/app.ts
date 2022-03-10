@@ -4,40 +4,45 @@ require('@weco/common/services/apm/initApm')('content-server');
 import Koa from 'koa';
 import Router from 'koa-router';
 import next from 'next';
-import Prismic from '@prismicio/client';
-import apmErrorMiddleware from '@weco/common/services/apm/errorMiddleware';
+import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 import bodyParser from 'koa-bodyparser';
 import handleNewsletterSignup from './routeHandlers/handleNewsletterSignup';
 import {
-  middleware,
+  withCachedValues,
   route,
   handleAllRoute,
-  timers as middlewareTimers,
 } from '@weco/common/koa-middleware/withCachedValues';
+import {
+  homepageId,
+  prismicPageIds,
+} from '@weco/common/services/prismic/hardcoded-id';
+import { Periods } from './types/periods';
 import linkResolver from './services/prismic/link-resolver';
+import * as prismic from '@prismicio/client';
 
-// FIXME: Find a way to import this.
-// We can't because it's not a standard es6 module (import and flowtype)
-const Periods = {
-  Today: 'today',
-  ThisWeekend: 'this-weekend',
-  CurrentAndComingUp: 'current-and-coming-up',
-  Past: 'past',
-  ComingUp: 'coming-up',
-  ThisWeek: 'this-week',
-};
-const periodPaths = Object.keys(Periods)
-  .map(key => Periods[key])
-  .join('|');
+const periodPaths = Object.values(Periods).join('|');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 
-function pageVanityUrl(router, app, url, pageId, template = '/page') {
+function pageVanityUrl(
+  router: Router,
+  app,
+  url: string,
+  pageId: string,
+  template = '/page'
+) {
   route(url, template, router, app, { id: pageId });
 }
+
+// A Prismic ID is an alphanumeric string, plus underscore and hyphen
+//
+// We filter out any requests for pages that obviously aren't Prismic IDs; we know
+// they're not going to work, and they may be attempts to inject malicious data into
+// our Prismic queries.
+const prismicId = '[a-zA-Z0-9-_]+';
 
 const appPromise = nextApp
   .prepare()
@@ -48,10 +53,10 @@ const appPromise = nextApp
     const router = new Router();
 
     koaApp.use(apmErrorMiddleware);
-    koaApp.use(middleware);
+    koaApp.use(withCachedValues);
     koaApp.use(bodyParser());
 
-    pageVanityUrl(router, nextApp, '/', 'XphUbREAACMAgRNP', '/homepage');
+    pageVanityUrl(router, nextApp, '/', homepageId, '/homepage');
     route('/whats-on', '/whats-on', router, nextApp);
     route(`/whats-on/:period(${periodPaths})`, '/whats-on', router, nextApp);
 
@@ -66,63 +71,69 @@ const appPromise = nextApp
 
     route('/events', '/events', router, nextApp);
     route(`/events/:period(${periodPaths})`, '/events', router, nextApp);
-    route('/events/:id', '/event', router, nextApp);
-    route('/event-series/:id', '/event-series', router, nextApp);
+    route(`/events/:id(${prismicId})`, '/event', router, nextApp);
+    route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
     route('/stories', '/stories', router, nextApp);
     route('/articles', '/articles', router, nextApp);
-    route('/articles/:id', '/article', router, nextApp);
-    route('/series/:id', '/article-series', router, nextApp);
-    route('/projects/:id', '/page', router, nextApp);
+    route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
+    route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
+    route(`/projects/:id(${prismicId})`, '/page', router, nextApp);
 
     route('/books', '/books', router, nextApp);
-    route('/books/:id', '/book', router, nextApp);
+    route(`/books/:id(${prismicId})`, '/book', router, nextApp);
 
-    route('/places/:id', '/place', router, nextApp);
-    route('/pages/:id', '/page', router, nextApp);
-    route('/seasons/:id', '/season', router, nextApp);
+    route(`/places/:id(${prismicId})`, '/place', router, nextApp);
+    route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
+    route(`/seasons/:id(${prismicId})`, '/season', router, nextApp);
 
     route('/newsletter', '/newsletter', router, nextApp);
 
     route('/collections', '/page', router, nextApp, {
-      id: 'YBfeAhMAACEAqBTx',
+      id: prismicPageIds.collections,
     });
 
     route('/guides', '/guides', router, nextApp);
-    route('/guides/:id', '/page', router, nextApp);
+    route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    pageVanityUrl(router, nextApp, '/opening-times', 'WwQHTSAAANBfDYXU');
-    pageVanityUrl(router, nextApp, '/what-we-do', 'WwLGFCAAAPMiB_Ps');
-    pageVanityUrl(router, nextApp, '/press', 'WuxrKCIAAP9h3hmw');
-    pageVanityUrl(router, nextApp, '/venue-hire', 'Wuw2MSIAACtd3SsC');
-    pageVanityUrl(router, nextApp, '/access', 'Wvm2uiAAAIYQ4FHP');
-    pageVanityUrl(router, nextApp, '/youth', 'Wuw2MSIAACtd3Ste');
-    pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
-    pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
     pageVanityUrl(
       router,
       nextApp,
-      '/covid-book-your-ticket',
-      'X5aomxIAAB8Aq6n5'
+      '/opening-times',
+      prismicPageIds.openingTimes
     );
-    pageVanityUrl(router, nextApp, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
-    pageVanityUrl(router, nextApp, '/about-us', 'Wuw2MSIAACtd3Stq');
-    pageVanityUrl(router, nextApp, '/get-involved', 'YDaZmxMAACIAT9u8');
-    pageVanityUrl(router, nextApp, '/user-panel', 'YH17kRAAACoAyWTB');
+    pageVanityUrl(router, nextApp, '/what-we-do', prismicPageIds.whatWeDo);
+    pageVanityUrl(router, nextApp, '/press', prismicPageIds.press);
+    pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
+    pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
+    pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
+    pageVanityUrl(router, nextApp, '/schools', prismicPageIds.schools);
+    pageVanityUrl(
+      router,
+      nextApp,
+      '/covid-welcome-back',
+      prismicPageIds.covidWelcomeBack
+    );
+    pageVanityUrl(
+      router,
+      nextApp,
+      '/visit-us',
+      prismicPageIds.visitUs,
+      '/page'
+    );
+    pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
+    pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
+    pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
-      ctx.cookies.set(Prismic.previewCookie);
+      ctx.cookies.set(prismic.cookie.preview);
 
-      const { token, documentId } = ctx.request.query;
-      const api = await Prismic.getApi(
-        'https://wellcomecollection.cdn.prismic.io/api/v2',
-        {
-          req: ctx.request,
-        }
-      );
+      const endpoint = prismic.getEndpoint('wellcomecollection');
+      const client = prismic.createClient(endpoint, { fetch });
+      client.enableAutoPreviewsFromReq(ctx.request);
 
       /**
        * This is because the type in api.resolve are not true
@@ -131,9 +142,10 @@ const appPromise = nextApp
         return (linkResolver(doc) as string) || '/';
       };
 
-      const url = await api
-        .getPreviewResolver(token!.toString(), documentId!.toString())
-        .resolve(retypedLinkResolver, '/');
+      const url = await client.resolvePreviewURL({
+        linkResolver: retypedLinkResolver,
+        defaultURL: '/',
+      });
 
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,
@@ -146,7 +158,6 @@ const appPromise = nextApp
       ctx.status = 200;
       ctx.body = 'ok';
     });
-
     router.get('*', handleAllRoute(handle));
 
     koaApp.use(async (ctx, next) => {
@@ -164,4 +175,3 @@ const appPromise = nextApp
   });
 
 export default appPromise;
-export const timers = middlewareTimers as NodeJS.Timer[];

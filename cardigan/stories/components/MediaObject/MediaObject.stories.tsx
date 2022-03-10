@@ -1,4 +1,4 @@
-import { MediaObject } from '@weco/common/views/components/MediaObject/MediaObject';
+import { MediaObject } from '@weco/content/components/MediaObject/MediaObject';
 import { mockData } from '@weco/common/test/fixtures/components/media-object';
 import { mockImage } from '@weco/common/test/fixtures/components/compact-card';
 

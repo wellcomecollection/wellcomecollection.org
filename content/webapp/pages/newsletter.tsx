@@ -8,6 +8,8 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
+import { newsletterDescription } from '@weco/common/data/microcopy';
+import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {
   result?: string;
@@ -30,16 +32,20 @@ const Newsletter: FC<Props> = ({ result }) => {
   return (
     <PageLayout
       title={'Sign up to our newsletter'}
-      description={'Sign up for news and information from Wellcome Collection'}
+      description={newsletterDescription}
       hideNewsletterPromo={true}
       url={{ pathname: `/newsletter` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={'what-we-do'}
-      imageUrl={
-        'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg'
-      }
-      imageAltText={''}
+      image={{
+        contentUrl:
+          'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg',
+        width: 800,
+        height: 662,
+        alt: '',
+        crops: {},
+      }}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
@@ -47,9 +53,7 @@ const Newsletter: FC<Props> = ({ result }) => {
         title={'Newsletters'}
         ContentTypeInfo={undefined}
         Background={undefined}
-        backgroundTexture={
-          'https://wellcomecollection.cdn.prismic.io/wellcomecollection%2F9154df28-e179-47c0-8d41-db0b74969153_wc+brand+backgrounds+2_pattern+2+colour+1.svg'
-        }
+        backgroundTexture={landingHeaderBackgroundLs}
         FeaturedMedia={undefined}
         HeroPicture={undefined}
         highlightHeading={true}

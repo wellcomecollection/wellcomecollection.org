@@ -15,7 +15,7 @@ import {
 
 const typeEnum = 'guides';
 
-type GuideFormat = PrismicDocument<
+export type GuideFormatPrismicDocument = PrismicDocument<
   {
     title: RichTextField;
     description: RichTextField;
@@ -23,19 +23,23 @@ type GuideFormat = PrismicDocument<
   'guide-formats'
 >;
 
+export type WithGuideFormat = {
+  format: RelationField<
+    'guide-formats',
+    'en-gb',
+    InferDataInterface<GuideFormatPrismicDocument>
+  >;
+};
+
 export type GuidePrismicDocument = PrismicDocument<
   {
-    format: RelationField<
-      'guide-formats',
-      'en-gb',
-      InferDataInterface<GuideFormat>
-    >;
     datePublished: TimestampField;
     availableOnline: BooleanField;
     showOnThisPage: BooleanField;
   } & WithContributors &
     WithExhibitionParents &
     WithSeasons &
+    WithGuideFormat &
     CommonPrismicFields,
   typeof typeEnum
 >;

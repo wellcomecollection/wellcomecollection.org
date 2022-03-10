@@ -17,6 +17,7 @@ import {
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
+  WithContributors,
 } from '.';
 import { EventPrismicDocument } from './events';
 
@@ -29,9 +30,10 @@ export type WithSeries = {
     >;
   }>;
 };
-export const seriesFetchLink: FetchLinks<SeriesPrismicDocument> = [
+export const seriesFetchLinks: FetchLinks<SeriesPrismicDocument> = [
   'series.title',
   'series.promo',
+  'series.schedule',
 ];
 
 export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
@@ -40,7 +42,7 @@ export const eventsFetchLinks: FetchLinks<EventPrismicDocument> = [
   'events.interpretations',
   'events.series',
   'events.times',
-  'events.place',
+  'events.locations',
 ];
 
 export type ArticlePrismicDocument = PrismicDocument<
@@ -53,6 +55,7 @@ export type ArticlePrismicDocument = PrismicDocument<
     outroVisitItem: LinkField;
     outroVisitLinkText: RichTextField;
   } & WithSeries &
+    WithContributors &
     WithSeasons &
     WithArticleFormat &
     WithExhibitionParents &
@@ -64,6 +67,6 @@ export const articlesFetchLinks = [
   ...commonPrismicFieldsFetchLinks,
   ...articleFormatsFetchLinks,
   ...contributorFetchLinks,
-  ...seriesFetchLink,
+  ...seriesFetchLinks,
   ...eventsFetchLinks,
 ];

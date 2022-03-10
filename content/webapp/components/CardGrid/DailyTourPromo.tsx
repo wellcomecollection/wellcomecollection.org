@@ -1,4 +1,5 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
+import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
@@ -10,13 +11,12 @@ const image = {
   crops: {},
 };
 
-export const data: UiEvent = {
-  type: 'events',
+export const data: Event = {
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
   series: [],
-  place: undefined,
+  locations: [],
   bookingEnquiryTeam: undefined,
   interpretations: [],
   audiences: [],
@@ -34,11 +34,6 @@ export const data: UiEvent = {
     description: undefined,
   },
   body: [],
-  dateRange: {
-    firstDate: new Date(),
-    lastDate: new Date(),
-    repeats: 0,
-  },
   image: image,
   hasEarlyRegistration: false,
   labels: [
@@ -50,16 +45,15 @@ export const data: UiEvent = {
   secondaryLabels: [],
   promo: {
     image: image,
-    link: '/pages/Wuw19yIAAK1Z3Sma',
+    link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
   promoImage: { ...image },
-  displayEnd: new Date(),
-  displayStart: new Date(),
   scheduleLength: 0,
   seasons: [],
   isOnline: false,
   availableOnline: false,
-  prismicDocument: undefined,
+  contributors: [],
+  type: 'events',
 };
 
 const DailyTourPromo = () => (

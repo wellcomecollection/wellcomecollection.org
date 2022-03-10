@@ -1,20 +1,15 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { getExhibitionRelatedContent } from '@weco/common/services/prismic/exhibitions';
+import { Fragment, useState, useEffect, FC } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
-import InfoBox from '@weco/common/views/components/InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { Page } from '@weco/common/model/pages';
+import { Page as PageType } from '../../types/pages';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
 import {
@@ -27,6 +22,8 @@ import {
   information,
   family,
   IconSvg,
+  britishSignLanguage,
+  audioDescribed,
 } from '@weco/common/icons';
 import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
@@ -34,13 +31,20 @@ import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { a11y } from '@weco/common/data/microcopy';
+import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
+import { Exhibition as ExhibitionType } from '../../types/exhibitions';
+import { Book } from '../../types/books';
+import { Article } from '../../types/articles';
+import { Event as EventType } from '../../types/events';
+import * as prismicT from '@prismicio/types';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
 };
 
 function getUpcomingExhibitionObject(
-  exhibition: UiExhibition
+  exhibition: ExhibitionType
 ): ExhibitionItem | undefined {
   return isFuture(exhibition.start)
     ? {
@@ -76,6 +80,16 @@ function getadmissionObject(): ExhibitionItem {
 function getTodaysHoursObject(): ExhibitionItem {
   const todaysHoursText = 'Galleries open Tuesday–Sunday, Opening times';
 
+  const link = {
+    type: 'hyperlink',
+    start: todaysHoursText.length - 13,
+    end: todaysHoursText.length,
+    data: {
+      link_type: 'Web',
+      url: '/opening-times',
+    },
+  } as prismicT.RTLinkNode;
+
   return {
     id: undefined,
     title: undefined,
@@ -83,23 +97,16 @@ function getTodaysHoursObject(): ExhibitionItem {
       {
         type: 'paragraph',
         text: todaysHoursText,
-        spans: [
-          {
-            type: 'hyperlink',
-            start: todaysHoursText.length - 13,
-            end: todaysHoursText.length,
-            data: {
-              url: '/opening-times',
-            },
-          },
-        ],
+        spans: [link as any],
       },
     ],
     icon: clock,
   };
 }
 
-function getPlaceObject(exhibition: UiExhibition): ExhibitionItem | undefined {
+function getPlaceObject(
+  exhibition: ExhibitionType
+): ExhibitionItem | undefined {
   return (
     exhibition.place && {
       id: undefined,
@@ -122,7 +129,7 @@ const resourceIcons: { [key: string]: IconSvg } = {
   family: family,
 };
 
-function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
+function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return exhibition.resources.map(resource => {
     return {
       id: undefined,
@@ -133,6 +140,20 @@ function getResourcesItems(exhibition: UiExhibition): ExhibitionItem[] {
   });
 }
 
+function getBslAdItems(exhibition: ExhibitionType): ExhibitionItem[] {
+  return [exhibition.bslInfo, exhibition.audioDescriptionInfo]
+    .filter(Boolean)
+    .map(item => {
+      return {
+        id: undefined,
+        title: undefined,
+        description: item,
+        icon:
+          item === exhibition.bslInfo ? britishSignLanguage : audioDescribed,
+      };
+    });
+}
+
 function getAccessibilityItems(): ExhibitionItem[] {
   return [
     {
@@ -141,7 +162,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Step-free access is available to all floors of the building',
+          text: a11y.stepFreeAccess,
           spans: [],
         },
       ],
@@ -153,7 +174,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
       description: [
         {
           type: 'paragraph',
-          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
+          text: a11y.largePrintGuides,
           spans: [],
         },
       ],
@@ -162,7 +183,7 @@ function getAccessibilityItems(): ExhibitionItem[] {
   ];
 }
 
-export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
+export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
   return [
     getUpcomingExhibitionObject(exhibition),
     getadmissionObject(),
@@ -170,26 +191,31 @@ export function getInfoItems(exhibition: UiExhibition): ExhibitionItem[] {
     getPlaceObject(exhibition),
     ...getResourcesItems(exhibition),
     ...getAccessibilityItems(),
+    ...getBslAdItems(exhibition),
   ].filter(isNotUndefined);
 }
 
 type Props = {
-  exhibition: UiExhibition;
-  pages: Page[];
+  exhibition: ExhibitionType;
+  pages: PageType[];
 };
 
-const Exhibition = ({ exhibition, pages }: Props) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState([]);
+const Exhibition: FC<Props> = ({ exhibition, pages }) => {
+  type ExhibitionOf = (ExhibitionType | EventType)[];
+  type ExhibitionAbout = (Book | Article)[];
+
+  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout>([]);
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
-    getExhibitionRelatedContent(null, ids).then(
-      ({ exhibitionOfs, exhibitionAbouts }) => {
-        setExhibitionOfs(exhibitionOfs);
-        setExhibitionAbouts(exhibitionAbouts);
+
+    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
+      if (isNotUndefined(relatedContent)) {
+        setExhibitionOfs(relatedContent.exhibitionOfs);
+        setExhibitionAbouts(relatedContent.exhibitionAbouts);
       }
-    );
+    });
   }, []);
 
   const breadcrumbs = {
@@ -221,6 +247,10 @@ const Exhibition = ({ exhibition, pages }: Props) => {
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };
+
+  // TODO: Do we need to re-cast to Date here?  We've sometimes seen issues
+  // caused by JSON serialisation, but that should be handled elsewhere by
+  // the fixExhibitionDatesInJson helper.
   const DateInfo = exhibition.end ? (
     <DateRange
       start={new Date(exhibition.start)}
@@ -271,22 +301,18 @@ const Exhibition = ({ exhibition, pages }: Props) => {
       jsonLd={exhibitionLd(exhibition)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        exhibition.image && convertImageUri(exhibition.image.contentUrl, 800)
-      }
-      imageAltText={exhibition.image ? exhibition.image.alt : undefined}
+      image={exhibition.image}
     >
       <ContentPage
         id={exhibition.id}
         Header={Header}
         Body={<Body body={exhibition.body} pageId={exhibition.id} />}
         seasons={exhibition.seasons}
-        document={exhibition.prismicDocument}
-        // We hide contributors as we show then further up the page
+        // We hide contributors as we show them further up the page
         hideContributors={true}
       >
-        {exhibition.prismicDocument.data.contributors.length > 0 && (
-          <Contributors document={exhibition.prismicDocument} />
+        {exhibition.contributors.length > 0 && (
+          <Contributors contributors={exhibition.contributors} />
         )}
 
         {/* TODO: This probably isn't going to be the final resting place for related `pages`, but it's

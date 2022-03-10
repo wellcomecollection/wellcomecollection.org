@@ -1,15 +1,11 @@
 import { GetServerSideProps } from 'next';
-import { EventSeries } from '@weco/common/model/event-series';
-import { UiEvent } from '@weco/common/model/events';
+import { EventSeries } from '../types/event-series';
+import { Event } from '../types/events';
 import { FC } from 'react';
-import { getEventSeries } from '@weco/common/services/prismic/event-series';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import { convertJsonToDates } from './event';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -18,27 +14,53 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
+import { looksLikePrismicId } from '../services/prismic';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { createClient } from '../services/prismic/fetch';
+import * as prismic from '@prismicio/client';
+import { fetchEventSeriesById } from '../services/prismic/fetch/event-series';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { transformEventSeries } from '../services/prismic/transformers/event-series';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;
-  events: UiEvent[];
+  events: Event[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, memoizedPrismic } = context.query;
-    const seriesAndEvents = await getEventSeries(
-      context.req,
-      {
-        id,
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const { id } = context.query;
 
-    if (seriesAndEvents) {
-      const { series, events } = seriesAndEvents;
+    if (!looksLikePrismicId(id)) {
+      return { notFound: true };
+    }
+
+    const client = createClient(context);
+
+    const eventsQueryPromise = fetchEvents(client, {
+      predicates: [
+        prismic.predicate.at('my.events.series.series', id as string),
+      ],
+      pageSize: 100,
+    });
+
+    const seriesPromise = fetchEventSeriesById(client, id as string);
+
+    const [eventsQuery, seriesDocument] = await Promise.all([
+      eventsQueryPromise,
+      seriesPromise,
+    ]);
+
+    if (isNotUndefined(seriesDocument)) {
+      const series = transformEventSeries(seriesDocument);
+      const events = transformQuery(eventsQuery, transformEvent).results;
+
       return {
         props: removeUndefinedProps({
           series,
@@ -54,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
   // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
   // This could probably be done at the time of use, instead of globally...
-  const events = jsonEvents.map(convertJsonToDates);
+  const events = jsonEvents.map(fixEventDatesInJson);
 
   const breadcrumbs = {
     items: [
@@ -110,17 +132,27 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         : false;
       return inTheFuture;
     })
-    .sort(
-      (a, b) =>
-        a.dateRange.firstDate.getTime() - b.dateRange.firstDate.getTime()
-    );
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+      );
+      return aStartTime - bStartTime;
+    });
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
   const pastEvents = events
     .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
-    .sort(
-      (a, b) =>
-        b.dateRange.firstDate.getTime() - a.dateRange.firstDate.getTime()
-    )
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+      );
+      return aStartTime - bStartTime;
+    })
     .slice(0, 3);
 
   return (
@@ -131,14 +163,13 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       jsonLd={events.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={series.image && convertImageUri(series.image.contentUrl, 800)}
-      imageAltText={(series.image && series.image.alt) ?? undefined}
+      image={series.image}
     >
       <ContentPage
         id={series.id}
         Header={Header}
         Body={<Body body={series.body} pageId={series.id} />}
-        document={series.prismicDocument}
+        contributors={series.contributors}
       >
         {upcomingEvents.length > 0 && (
           <SearchResults items={upcomingEvents} title={`What's next`} />

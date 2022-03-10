@@ -1,6 +1,14 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
+export const homepageId = 'XphUbREAACMAgRNP';
+
+// The ID of the series that's featured on the /stories page.
+//
+// Ideally, this should be configurable in Prismic or by the content team,
+// to take devs out of the loop.
+export const featuredStoriesSeriesId = 'YXKNnxEAACEARPrl';
+
 export const collectionVenueId = {
   galleries: {
     id: 'Wsttgx8AAJeSNmJ4',
@@ -26,7 +34,6 @@ export const collectionVenueId = {
 
 export const prismicPageIds = {
   covidWelcomeBack: 'X5amzBIAAB0Aq6Gm',
-  covidBookYourTicket: 'X5aomxIAAB8Aq6n5',
   whatWeDo: 'WwLGFCAAAPMiB_Ps',
   visitUs: 'X8ZTSBIAACQAiDzY',
   collections: 'YBfeAhMAACEAqBTx',
@@ -36,7 +43,17 @@ export const prismicPageIds = {
   aboutUs: 'Wuw2MSIAACtd3Stq',
   copyrightClearance: 'YGSEhxAAACgAXL4E',
   register: 'X_2eexEAACQAZLBi',
+  access: 'Wvm2uiAAAIYQ4FHP',
+  bookingAndAttendingOurEvents: 'Wuw19yIAAK1Z3Sng',
   contactUs: 'YVMbEBAAAPaMBrz7',
+  dailyGuidedTours: 'Wuw19yIAAK1Z3Sma',
+  gettingHere: 'WwabUiAAAHQXGNHB',
+  openingTimes: 'WwQHTSAAANBfDYXU',
+  press: 'WuxrKCIAAP9h3hmw',
+  schools: 'Wuw2MSIAACtd3StS',
+  userPanel: 'YH17kRAAACoAyWTB',
+  venueHire: 'Wuw2MSIAACtd3SsC',
+  youth: 'Wuw2MSIAACtd3Ssg',
 };
 
 export const getNameFromCollectionVenue = (id: string) => {
@@ -53,3 +70,6 @@ export const sectionLevelPages = [
   prismicPageIds.collections,
   prismicPageIds.getInvolved,
 ];
+
+// The only series that uses the `webcomics` type.
+export const bodySquabblesSeries = 'WleP3iQAACUAYEoN';

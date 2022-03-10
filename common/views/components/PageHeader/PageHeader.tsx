@@ -11,14 +11,12 @@ import Layout from '../Layout/Layout';
 import { gridSize12 } from '../Layout12/Layout12';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import WobblyBottom from '../WobblyBottom/WobblyBottom';
-import { breakpoints } from '../../../utils/breakpoints';
 import {
   FunctionComponent,
   ReactNode,
   ReactElement,
   ComponentProps,
 } from 'react';
-import { GenericContentFields } from '../../../model/generic-content-fields';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
@@ -59,54 +57,6 @@ export type FeaturedMedia =
   | typeof Picture;
 
 type BackgroundType = ReactElement<typeof HeaderBackground>;
-
-export function getFeaturedMedia(
-  fields: GenericContentFields,
-  isPicture?: boolean
-): FeaturedMedia | undefined {
-  const image = fields.promo && fields.promo.image;
-  const { squareImage, widescreenImage } = fields;
-  const { body } = fields;
-
-  const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
-
-  const featuredMedia = hasFeaturedVideo ? (
-    <VideoEmbed {...body[0].value} />
-  ) : isPicture && widescreenImage && squareImage ? (
-    <Picture
-      images={[
-        { ...widescreenImage, minWidth: breakpoints.medium },
-        squareImage,
-      ]}
-      isFull={true}
-    />
-  ) : widescreenImage ? (
-    <UiImage {...widescreenImage} sizesQueries="" />
-  ) : image ? (
-    <UiImage {...image} crops={{}} sizesQueries="" />
-  ) : undefined;
-
-  return featuredMedia;
-}
-
-export function getHeroPicture(
-  fields: GenericContentFields
-): ReactElement<typeof Picture> | undefined {
-  const { squareImage, widescreenImage } = fields;
-
-  return (
-    squareImage &&
-    widescreenImage && (
-      <Picture
-        images={[
-          { ...widescreenImage, minWidth: breakpoints.medium },
-          squareImage,
-        ]}
-        isFull={true}
-      />
-    )
-  );
-}
 
 function addFreeLabel(labelListProps) {
   const freeLabel = {

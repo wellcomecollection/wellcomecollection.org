@@ -1,6 +1,5 @@
 import { baseUrl, useStageApis } from './helpers/urls';
 import { Response } from 'playwright';
-
 export function gotoWithoutCache(url: string): Promise<null | Response> {
   return page.goto(`${url}?cachebust=${Date.now()}`);
 }
@@ -37,6 +36,27 @@ const itemWithAltText = async (params: {
       params.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
     }`
   );
+};
+
+const itemWithOnlyOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/w8t2vh3w/items`);
+};
+const itemWithOnlyRestrictedAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/a24nhdcv/items`);
+};
+const itemWithRestrictedAndOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/p9gepwjs/items`);
+};
+const itemWithRestrictedAndNonRestrictedAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/jsmqcwvt/items`);
+};
+const itemWithNonRestrictedAndOpenAccess = async (): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/fa7pymra/items`);
 };
 
 const itemWithSearchAndStructures = async (): Promise<void> => {
@@ -79,6 +99,24 @@ const article = async (id: string): Promise<void> => {
   await gotoWithoutCache(`${baseUrl}/articles/${id}`);
 };
 
+const articleWithMockSiblings = async (
+  id: string,
+  response: Record<string, any>
+): Promise<void> => {
+  await context.route('**/api/**', route =>
+    route.fulfill({
+      status: 200,
+      body: JSON.stringify(response),
+    })
+  );
+  await gotoWithoutCache(`${baseUrl}/articles/${id}`);
+};
+
+export const event = async (id: string): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/events/${id}`);
+};
+
 export const isMobile = Boolean(deviceName);
 
 export {
@@ -91,5 +129,11 @@ export {
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
+  itemWithOnlyOpenAccess,
+  itemWithOnlyRestrictedAccess,
+  itemWithRestrictedAndOpenAccess,
+  itemWithRestrictedAndNonRestrictedAccess,
+  itemWithNonRestrictedAndOpenAccess,
   article,
+  articleWithMockSiblings,
 };

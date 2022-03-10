@@ -3,7 +3,6 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import Header from '../Header/Header';
 import HeaderPrototype from '../Header/HeaderPrototype';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -11,13 +10,10 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd } from '../../../utils/json-ld';
+import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
-import {
-  getParseCollectionVenueById,
-  openingHoursToOpeningHoursSpecification,
-  parseCollectionVenues,
-} from '../../../services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import { getVenueById } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
@@ -25,6 +21,9 @@ import GlobalInfoBarContext, {
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
+import { defaultPageTitle } from '@weco/common/data/microcopy';
+import { ImageType } from '@weco/common/model/image';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export type SiteSection =
   | 'collections'
@@ -41,8 +40,7 @@ export type Props = {
   jsonLd: JsonLdObj | JsonLdObj[];
   openGraphType: 'website' | 'article' | 'book' | 'profile' | 'video' | 'music';
   siteSection: SiteSection | null;
-  imageUrl: string | undefined;
-  imageAltText: string | undefined;
+  image?: ImageType;
   rssUrl?: string;
   children: ReactNode;
   hideNewsletterPromo?: boolean;
@@ -57,8 +55,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   jsonLd,
   openGraphType,
   siteSection,
-  imageUrl,
-  imageAltText,
+  image,
   rssUrl,
   children,
   hideNewsletterPromo = false,
@@ -96,47 +93,68 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     u => url.pathname && url.pathname.match(u)
   );
   useHotjar(shouldLoadHotjar);
-  const { apiToolbar, enableRequesting } = useToggles();
+  const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
       ? `${title} | Wellcome Collection`
-      : 'Wellcome Collection | A free museum and library exploring health and human experience';
+      : `Wellcome Collection | ${defaultPageTitle}`;
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
   const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const openingTimes = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const galleries =
-    openingTimes &&
-    getParseCollectionVenueById(openingTimes, collectionVenueId.galleries.id);
+    venues && getVenueById(venues, collectionVenueId.galleries.id);
   const library =
-    openingTimes &&
-    getParseCollectionVenueById(openingTimes, collectionVenueId.libraries.id);
+    venues && getVenueById(venues, collectionVenueId.libraries.id);
   const galleriesOpeningHours = galleries && galleries.openingHours;
   const libraryOpeningHours = library && library.openingHours;
   const wellcomeCollectionGalleryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(galleriesOpeningHours),
+    ...openingHoursLd(galleriesOpeningHours),
   };
   const wellcomeLibraryWithHours = {
     ...wellcomeCollectionGallery,
-    ...openingHoursToOpeningHoursSpecification(libraryOpeningHours),
+    ...openingHoursLd(libraryOpeningHours),
   };
 
   const polyfillFeatures = [
     'default',
     'AbortController',
     'Array.prototype.find',
-    'Array.prototype.includes',
+    'Array.prototype.flat',
+    'Array.prototype.flatMap',
     'Array.prototype.includes',
     'Object.entries',
     'Object.fromEntries',
+    'Object.values',
     'WeakMap',
     'URL',
     'URLSearchParams',
   ];
 
   const globalInfoBar = useContext(GlobalInfoBarContext);
+
+  // For Twitter cards in particular, we prefer a crop as close to 2:1 as
+  // possible.  This avoids an automated crop by Twitter, which may be less
+  // appropriate or preferable than the one we've selected.
+  //
+  // The closest we have in our selection of crops is 32:15, so we use that.
+  // If no such crop is available, fall back to the full-sized image.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7641
+  // for an example of how this can go wrong.
+  //
+  // See https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+  // for more information on Twitter cards.
+  const socialPreviewCardImage =
+    image && image.crops['32:15'] ? image.crops['32:15'] : image;
+
+  const imageUrl =
+    socialPreviewCardImage &&
+    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+  const imageAltText = socialPreviewCardImage?.alt || '';
+
   return (
     <>
       <Head>
@@ -262,11 +280,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {enableRequesting ? (
-          <HeaderPrototype siteSection={siteSection} />
-        ) : (
-          <Header siteSection={siteSection} />
-        )}
+
+        <HeaderPrototype siteSection={siteSection} />
+
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
@@ -296,13 +312,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
             <NewsletterPromo />
           </Space>
         )}
-        <Footer
-          hide={hideFooter}
-          openingTimes={openingTimes}
-          upcomingExceptionalOpeningPeriods={
-            openingTimes && openingTimes.upcomingExceptionalOpeningPeriods
-          }
-        />
+        <Footer hide={hideFooter} venues={venues} />
       </div>
     </>
   );

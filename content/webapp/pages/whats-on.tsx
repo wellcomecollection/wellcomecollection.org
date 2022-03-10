@@ -1,25 +1,29 @@
-import { Fragment } from 'react';
+import { FunctionComponent } from 'react';
+import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { UiExhibition } from '@weco/common/model/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
-import { Period } from '@weco/common/model/periods';
+import { Exhibition } from '../types/exhibitions';
+import { Event } from '../types/events';
+import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
-import { getExhibitions } from '@weco/common/services/prismic/exhibitions';
 import {
-  getPage,
   getPageFeaturedText,
-} from '@weco/common/services/prismic/pages';
+  transformPage,
+} from '../services/prismic/transformers/pages';
 import {
-  getEvents,
   filterEventsForToday,
   filterEventsForWeekend,
-} from '@weco/common/services/prismic/events';
+} from '../services/prismic/events';
 import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
-import { getTodaysGalleriesHours } from '@weco/common/utils/get-todays-galleries-hours';
+import {
+  getTodaysVenueHours,
+  getVenueById,
+} from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import {
   cafePromo,
+  // shopPromo,
   readingRoomPromo,
   dailyTourPromo,
 } from '../data/facility-promos';
@@ -32,23 +36,20 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import FacilityPromo from '../components/FacilityPromo/FacilityPromo';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import {
-  getParseCollectionVenueById,
-  OpeningTimes,
-  parseCollectionVenues,
-} from '@weco/common/services/prismic/opening-times';
+  ExceptionalOpeningHoursDay,
+  OpeningHoursDay,
+} from '@weco/common/model/opening-hours';
 import {
   collectionVenueId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
-import { defaultSerializer } from '@weco/common/services/prismic/html-serializers';
-import { FeaturedText as FeaturedTextType } from '@weco/common/model/text';
+import FeaturedText from '../components/FeaturedText/FeaturedText';
+import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
+import { FeaturedText as FeaturedTextType } from '../types/text';
 import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
-import { convertJsonToDates } from './event';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -62,6 +63,20 @@ import {
 import ExhibitionsAndEvents from '../components/ExhibitionsAndEvents/ExhibitionsAndEvents';
 import CardGrid from '../components/CardGrid/CardGrid';
 import { FeaturedCardExhibition } from '../components/FeaturedCard/FeaturedCard';
+import { fetchPage } from '../services/prismic/fetch/pages';
+import { createClient } from '../services/prismic/fetch';
+import { fetchEvents } from '../services/prismic/fetch/events';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+} from '../services/prismic/transformers/events';
+import { pageDescriptions } from '@weco/common/data/microcopy';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 
 const segmentedControlItems = [
   {
@@ -82,9 +97,9 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<UiExhibition>;
-  events: PaginatedResults<UiEvent>;
-  availableOnlineEvents: PaginatedResults<UiEvent>;
+  exhibitions: PaginatedResults<Exhibition>;
+  events: PaginatedResults<Event>;
+  availableOnlineEvents: PaginatedResults<Event>;
   period: string;
   dateRange: any[];
   tryTheseTooPromos: any[];
@@ -92,38 +107,7 @@ export type Props = {
   featuredText: FeaturedTextType;
 };
 
-function getListHeader(openingTimes: OpeningTimes) {
-  const galleriesOpeningTimes = getParseCollectionVenueById(
-    openingTimes,
-    collectionVenueId.galleries.id
-  );
-
-  return {
-    todayOpeningHours: getTodaysGalleriesHours(
-      galleriesOpeningTimes.openingHours.id
-    ),
-    name: "What's on",
-    items: [
-      {
-        id: 'everything',
-        title: 'Everything',
-        url: `/whats-on`,
-      },
-      {
-        id: 'today',
-        title: 'Today',
-        url: `/whats-on/today`,
-      },
-      {
-        id: 'the-weekend',
-        title: 'This weekend',
-        url: `/whats-on/the-weekend`,
-      },
-    ],
-  };
-}
-
-export function getMomentsForPeriod(period: Period) {
+export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
   const todaysDate = london();
   const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
 
@@ -158,89 +142,79 @@ function getWeekendToDate(today) {
   }
 }
 
+// const ClosedMessage = () => (
+//   <>
+//     <Space
+//       v={{
+//         size: 'm',
+//         properties: ['margin-bottom'],
+//       }}
+//       as="p"
+//       className={classNames({
+//         [font('wb', 2)]: true,
+//       })}
+//     >
+//       Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
+//       and <a href={shopPromo.url}>shop</a> are open for your visit.
+//     </Space>
+//     <Space
+//       v={{
+//         size: 'l',
+//         properties: ['margin-top', 'margin-bottom'],
+//       }}
+//     ></Space>
+//   </>
+// );
+
 type DateRangeProps = {
-  dateRange: any;
+  dateRange: (Date | Moment)[];
   period: string;
-  cafePromo: any;
-  openingTimes: OpeningTimes;
 };
+
 const DateRange = ({ dateRange, period }: DateRangeProps) => {
   const fromDate = dateRange[0];
   const toDate = dateRange[1];
-  // TODO: reinstate after lockdown
-  // const collectionOpeningTimes =
-  // openingTimes && openingTimes.collectionOpeningTimes;
-  // const listHeader = getListHeader(collectionOpeningTimes);
-
   return (
-    <Fragment>
-      <Space
-        v={{
-          size: 's',
-          properties: ['margin-bottom'],
-        }}
-        as="p"
-        className={classNames({
-          [font('hnr', 5)]: true,
-        })}
-      >
-        {period === 'today' && (
+    <Space
+      v={{
+        size: 's',
+        properties: ['margin-bottom'],
+      }}
+      as="p"
+      className={classNames({
+        [font('hnr', 5)]: true,
+      })}
+    >
+      {period === 'today' && (
+        <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
+      )}
+      {period === 'this-weekend' && (
+        <>
+          <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
+          &ndash;
+          <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
+        </>
+      )}
+      {period === 'current-and-coming-up' && (
+        <>
+          From{' '}
           <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-        )}
-        {period === 'this-weekend' && (
-          <Fragment>
-            <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
-            &ndash;
-            <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
-          </Fragment>
-        )}
-        {period === 'current-and-coming-up' && (
-          <Fragment>
-            From{' '}
-            <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
-          </Fragment>
-        )}
-      </Space>
-      {/* TODO: reinstate after lockdown */}
-      {/* {!(listHeader.todayOpeningHours && listHeader.todayOpeningHours.opens) &&
-        period === 'today' && (
-          <Fragment>
-            <Space
-              v={{
-                size: 'm',
-                properties: ['margin-bottom'],
-              }}
-              as="p"
-              className={classNames({
-                [font('wb', 2)]: true,
-              })}
-            >
-              Our exhibitions are closed today, but our{' '}
-              <a href={cafePromo.url}>café</a> and{' '}
-              <a href={shopPromo.url}>shop</a> are open for your visit.
-            </Space>
-            <Space
-              v={{
-                size: 'l',
-                properties: ['margin-top', 'margin-bottom'],
-              }}
-            >
-            </Space>
-          </Fragment>
-        )} */}
-    </Fragment>
+        </>
+      )}
+    </Space>
   );
 };
 
 type HeaderProps = {
   activeId: string;
-  openingTimes: OpeningTimes;
+  todaysOpeningHours: ExceptionalOpeningHoursDay | OpeningHoursDay | undefined;
   featuredText?: FeaturedTextType;
 };
-const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
-  const listHeader = getListHeader(openingTimes);
-  const todayOpeningHours = listHeader.todayOpeningHours;
-
+const Header = ({
+  activeId,
+  todaysOpeningHours,
+  featuredText,
+}: HeaderProps) => {
   return (
     <Space
       v={{
@@ -256,10 +230,10 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
             <div className="flex flex--v-center flex--h-space-between flex--wrap">
               <SectionPageHeader sectionLevelPage={true}>
-                What{`'`}s on
+                What’s on
               </SectionPageHeader>
               <div className="flex flex--v-center flex--wrap">
-                {todayOpeningHours && (
+                {todaysOpeningHours && (
                   <div className="flex flex--v-center">
                     <Space
                       as="span"
@@ -269,11 +243,11 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                       })}
                     >
                       Galleries
-                      {todayOpeningHours.opens ? ' open ' : ' closed '}
+                      {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
                       today
                     </Space>
-                    {todayOpeningHours.opens && (
-                      <Fragment>
+                    {!todaysOpeningHours.isClosed && (
+                      <>
                         <Space
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
@@ -287,13 +261,13 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
                             [font('hnr', 5)]: true,
                           })}
                         >
-                          <Fragment>
-                            <time>{todayOpeningHours.opens}</time>
+                          <>
+                            <time>{todaysOpeningHours.opens}</time>
                             {'—'}
-                            <time>{todayOpeningHours.closes}</time>
-                          </Fragment>
+                            <time>{todaysOpeningHours.closes}</time>
+                          </>
                         </Space>
-                      </Fragment>
+                      </>
                     )}
                   </div>
                 )}
@@ -345,65 +319,61 @@ const Header = ({ activeId, openingTimes, featuredText }: HeaderProps) => {
   );
 };
 
-const pageDescription =
-  'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+
+    const client = createClient(context);
 
     const period = context.query.period
       ? context.query.period.toString()
       : 'current-and-coming-up';
 
-    const { memoizedPrismic } = context.query;
+    // call prismic for specific content for section page such as featured text
 
-    // call prisimic for specific content for section page such as featured text
-    const whatsOnPagePromise = getPage(
-      context.req,
-      prismicPageIds.whatsOn,
-      memoizedPrismic
-    );
+    // TODO: If we're only looking up this page to get the featured text slice,
+    // would it be faster to skip all the fetchLinks?  Is that possible?
+    const whatsOnPagePromise = fetchPage(client, prismicPageIds.whatsOn);
 
-    const exhibitionsPromise = getExhibitions(
-      context.req,
-      {
-        period,
-        order: 'asc',
-      },
-      memoizedPrismic
-    );
+    const exhibitionsQueryPromise = fetchExhibitions(client, {
+      period,
+      order: 'asc',
+    });
 
-    const eventsPromise = getEvents(
-      context.req,
-      {
-        period: 'current-and-coming-up',
-        pageSize: 100,
-      },
-      memoizedPrismic
-    );
+    const eventsQueryPromise = fetchEvents(client, {
+      period: 'current-and-coming-up',
+      pageSize: 100,
+    });
 
-    const availableOnlineEventsPromise = getEvents(
-      context.req,
-      {
-        period: 'past',
-        pageSize: 6,
-        availableOnline: true,
-      },
-      memoizedPrismic
-    );
+    const availableOnlineEventsQueryPromise = fetchEvents(client, {
+      period: 'past',
+      pageSize: 6,
+      availableOnline: true,
+    });
 
-    const [exhibitions, events, availableOnlineEvents, whatsOnPage] =
-      await Promise.all([
-        exhibitionsPromise,
-        eventsPromise,
-        availableOnlineEventsPromise,
-        whatsOnPagePromise,
-      ]);
+    const [
+      exhibitionsQuery,
+      eventsQuery,
+      availableOnlineEventsQuery,
+      whatsOnPage,
+    ] = await Promise.all([
+      exhibitionsQueryPromise,
+      eventsQueryPromise,
+      availableOnlineEventsQueryPromise,
+      whatsOnPagePromise,
+    ]);
 
     const dateRange = getMomentsForPeriod(period);
 
-    const featuredText = whatsOnPage && getPageFeaturedText(whatsOnPage);
+    const featuredText =
+      whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
+
+    const events = transformQuery(eventsQuery, transformEvent);
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    const availableOnlineEvents = transformQuery(
+      availableOnlineEventsQuery,
+      transformEvent
+    );
 
     if (period && events && exhibitions) {
       return {
@@ -417,7 +387,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           eatShopPromos: [cafePromo],
           cafePromo,
           dailyTourPromo,
-          featuredText,
+          featuredText: featuredText!,
           serverData,
         }),
       };
@@ -426,37 +396,38 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const WhatsOnPage = (props: Props) => {
+const WhatsOnPage: FunctionComponent<Props> = props => {
   const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
     props;
 
-  const events = props.events.results.map(convertJsonToDates);
-
+  const events = props.events.results.map(fixEventDatesInJson);
   const availableOnlineEvents =
-    props.availableOnlineEvents.results.map(convertJsonToDates);
-
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+    props.availableOnlineEvents.results.map(fixEventDatesInJson);
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const firstExhibition = exhibitions[0];
 
   const extraTitleText = segmentedControlItems.find(item => item.id === period);
   const pageTitle = extraTitleText
-    ? `What's on${` - ${extraTitleText.text}`}`
-    : `What's on`;
+    ? `What’s on${` - ${extraTitleText.text}`}`
+    : `What’s on`;
 
-  const prismicData = usePrismicData();
-  const openingTimes = parseCollectionVenues(prismicData.collectionVenues);
+  const { collectionVenues } = usePrismicData();
+  const venues = transformCollectionVenues(collectionVenues);
+  const galleries = getVenueById(venues, collectionVenueId.galleries.id);
+  const todaysOpeningHours = galleries && getTodaysVenueHours(galleries);
+
+  const eventsToShow =
+    period === 'today'
+      ? filterEventsForToday(events)
+      : period === 'this-weekend'
+      ? filterEventsForWeekend(events)
+      : events;
 
   return (
     <PageLayout
       title={pageTitle}
-      description={pageDescription}
+      description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={
         [
@@ -466,35 +437,24 @@ const WhatsOnPage = (props: Props) => {
       }
       openGraphType={'website'}
       siteSection={'whats-on'}
-      imageUrl={
-        firstExhibition &&
-        firstExhibition.image &&
-        convertImageUri(firstExhibition.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstExhibition &&
-          firstExhibition.image &&
-          firstExhibition.image.alt) ??
-        undefined
-      }
+      image={firstExhibition && firstExhibition.image}
     >
-      <Fragment>
+      <>
         <Header
           activeId={period}
-          openingTimes={openingTimes}
+          todaysOpeningHours={todaysOpeningHours}
           featuredText={featuredText}
         />
         <Layout12>
-          <DateRange
-            dateRange={dateRange}
-            period={period}
-            cafePromo={eatShopPromos[0]}
-            openingTimes={openingTimes}
-          />
+          <DateRange dateRange={dateRange} period={period} />
+          {/* TODO put back when building, shop and cafe are open normally */}
+          {/* {period === 'today' && todaysOpeningHours?.isClosed && (
+            <ClosedMessage />
+          )} */}
         </Layout12>
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
           {period === 'current-and-coming-up' && (
-            <Fragment>
+            <>
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
                   <Layout12>
@@ -574,7 +534,7 @@ const WhatsOnPage = (props: Props) => {
                   </SpacingComponent>
                 </SpacingSection>
               </Space>
-            </Fragment>
+            </>
           )}
           {period !== 'current-and-coming-up' && (
             <SpacingSection>
@@ -593,13 +553,7 @@ const WhatsOnPage = (props: Props) => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={
-                  period === 'today'
-                    ? filterEventsForToday(events)
-                    : period === 'this-weekend'
-                    ? filterEventsForWeekend(events)
-                    : events
-                }
+                events={eventsToShow as Event[]}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },
@@ -655,7 +609,7 @@ const WhatsOnPage = (props: Props) => {
             </CssGridContainer>
           </SpacingComponent>
         </SpacingSection>
-      </Fragment>
+      </>
     </PageLayout>
   );
 };

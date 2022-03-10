@@ -6,6 +6,7 @@ import DropdownButton from '../DropdownButton/DropdownButton';
 import Space from '../styled/Space';
 import { BorderlessLink } from '../BorderlessClickable/BorderlessClickable';
 import { user as userIcon } from '../../../icons';
+import { trackEvent } from '../../../utils/ga';
 
 type AccountAProps = {
   last?: true;
@@ -43,7 +44,14 @@ const DesktopSignIn: FC = () => {
                   Library sign in
                 </span>
               }
-              href="/account"
+              href="/account/api/auth/login"
+              onClick={() => {
+                trackEvent({
+                  category: 'library_account',
+                  action: 'login',
+                  label: window.location.pathname,
+                });
+              }}
             />
           </span>
           <span
@@ -58,7 +66,9 @@ const DesktopSignIn: FC = () => {
               id="signedin-dropdown"
               buttonType="borderless"
             >
-              <a href="/account">Sign in to your library account</a>
+              <a href="/account/api/auth/login">
+                Sign in to your library account
+              </a>
             </DropdownButton>
           </span>
         </>
@@ -85,7 +95,17 @@ const DesktopSignIn: FC = () => {
                 [font('hnr', 6)]: true,
               })}
             >
-              <AccountA as="a" href="/account">
+              <AccountA
+                as="a"
+                onClick={() => {
+                  trackEvent({
+                    category: 'library_account',
+                    action: 'view',
+                    label: window.location.pathname,
+                  });
+                }}
+                href="/account"
+              >
                 Library account
               </AccountA>
               <AccountA as="a" href="/account/api/auth/logout" last>

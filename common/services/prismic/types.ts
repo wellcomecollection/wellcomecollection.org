@@ -17,59 +17,6 @@ export type PrismicDocument = {
   url?: string;
 };
 
-export type PrismicLink = {
-  link_type: 'Web' | 'Document' | 'Media';
-  url?: string;
-  id?: string;
-};
-
-export type PrismicApiSearchResponse = {
-  page: number;
-  results_per_page: number;
-  results_size: number;
-  total_results_size: number;
-  total_pages: number;
-  next_page: string;
-  prev_page: string;
-  results: PrismicDocument[];
-};
-
-export type PrismicQueryOpts = {
-  fetchLinks?: string[];
-  page?: number;
-  orderings?: string;
-  pageSize?: number;
-  graphQuery?: string;
-};
-
-export type HTMLSpanTypes =
-  | 'heading2'
-  | 'heading3'
-  | 'paragraph'
-  | 'strong'
-  | 'em'
-  | 'hyperlink'
-  | 'strike'
-  | 'list-item'
-  | 'embed';
-
-export type HTMLSpan = {
-  type: HTMLSpanTypes;
-  start: number;
-  end: number;
-  data?: Record<string, unknown>;
-};
-
-export type HTMLStringBlock = {
-  type: HTMLSpanTypes;
-  text: string;
-  spans: HTMLSpan[];
-};
-
-export type HTMLString = HTMLStringBlock[];
-
-export type PrismicFragment = Record<string, unknown>;
-
 // This is the type we want to convert prismic
 // to as it mirrors the catalogue API
 export type PaginatedResults<T> = {
@@ -79,14 +26,3 @@ export type PaginatedResults<T> = {
   totalResults: number;
   totalPages: number;
 };
-
-export type PrismicApiError = {
-  statusCode: number;
-};
-
-export type DocumentType =
-  | 'articles'
-  | 'webcomics'
-  | 'events'
-  | 'exhibitions'
-  | 'books';

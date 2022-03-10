@@ -1,9 +1,9 @@
 import { Component, Fragment, createRef } from 'react';
-import { trackEvent } from '../../../utils/ga';
-import { UiImage } from '../Images/Images';
-import Control from '../Buttons/Control/Control';
-import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { ImageType } from '../../../model/image';
+import { trackEvent } from '@weco/common/utils/ga';
+import { UiImage } from '@weco/common/views/components/Images/Images';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { ImageType } from '@weco/common/model/image';
 import styled from 'styled-components';
 import { cross } from '@weco/common/icons';
 
@@ -77,7 +77,7 @@ export const IframeContainer = styled.div`
   }
 `;
 
-type Props = {
+export type Props = {
   image: ImageType;
   src: string;
 };

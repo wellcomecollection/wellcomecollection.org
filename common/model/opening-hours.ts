@@ -1,6 +1,15 @@
 import { Moment } from 'moment';
 
-export type Day = string; // 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+export type Day =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday';
+
+export type DayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 export type OverrideType =
   | 'Bank holiday'
@@ -10,31 +19,33 @@ export type OverrideType =
   | 'other';
 
 export type OverrideDate = {
-  overrideDate?: Moment;
-  overrideType?: OverrideType;
+  overrideDate: Moment;
+  overrideType: OverrideType;
 };
 
 export type ExceptionalPeriod = {
-  type: OverrideType | null;
-  dates: OverrideDate[];
+  type: OverrideType;
+  dates: Moment[];
 };
 
 export type OpeningHoursDay = {
   dayOfWeek: Day;
-  opens?: string;
-  closes?: string;
+  opens: string;
+  closes: string;
+  isClosed: boolean;
 };
 
 export type ExceptionalOpeningHoursDay = {
-  overrideDate?: Moment;
-  overrideType?: OverrideType;
-  opens?: string;
-  closes?: string;
+  overrideDate: Moment;
+  overrideType: OverrideType;
+  opens: string;
+  closes: string;
+  isClosed: boolean;
 };
 
 export type OpeningHours = {
   regular: OpeningHoursDay[];
-  exceptional: ExceptionalOpeningHoursDay[] | null;
+  exceptional: ExceptionalOpeningHoursDay[];
 };
 
 export type Venue = {
@@ -44,14 +55,7 @@ export type Venue = {
   openingHours: OpeningHours;
   url?: string;
   linkText?: string;
-  image?: unknown;
-};
-
-export type PlacesOpeningHours = Venue[];
-
-export type CollectionOpeningTimes = {
-  placesOpeningHours: PlacesOpeningHours;
-  upcomingExceptionalOpeningPeriods?: { dates: Moment[]; type: OverrideType }[];
+  image?: any; // TODO
 };
 
 // http://schema.org/specialOpeningHoursSpecification

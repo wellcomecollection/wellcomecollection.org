@@ -1,44 +1,37 @@
 import type { GetServerSideProps } from 'next';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformBook } from '../services/prismic/transformers/books';
 import { fetchBooks } from '../services/prismic/fetch/books';
 import { Book } from '../types/books';
+import { getPage } from '../utils/query-params';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   books: PaginatedResults<Book>;
 };
 
-const pageDescription =
-  'We publish thought-provoking books exploring health and human experiences.';
-
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
-    const { page = '1' } = context.query;
-    if (!isString(page)) {
-      return { notFound: true };
-    }
-    const parsedPage = parseInt(page, 10);
-    if (isNaN(parsedPage)) {
-      return appError(context, 400, `${page} is not a number`);
+    const page = getPage(context.query);
+    if (typeof page !== 'number') {
+      return appError(context, 400, page.message);
     }
 
     const client = createClient(context);
-    const articlesQuery = await fetchBooks(client, {
-      page: parsedPage,
+    const booksQuery = await fetchBooks(client, {
+      page,
       pageSize: 21,
     });
-    const books = transformQuery(articlesQuery, transformBook);
+    const books = transformQuery(booksQuery, transformBook);
 
     const serverData = await getServerData(context);
     if (books) {
@@ -59,19 +52,12 @@ const BooksPage: FunctionComponent<Props> = props => {
   return (
     <PageLayout
       title={'Books'}
-      description={pageDescription}
+      description={pageDescriptions.books}
       url={{ pathname: `/books` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={
-        firstBook &&
-        firstBook.image &&
-        convertImageUri(firstBook.image.contentUrl, 800)
-      }
-      imageAltText={
-        (firstBook && firstBook.image && firstBook.image.alt) ?? undefined
-      }
+      image={firstBook && firstBook.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -80,7 +66,7 @@ const BooksPage: FunctionComponent<Props> = props => {
           description={[
             {
               type: 'paragraph',
-              text: pageDescription,
+              text: pageDescriptions.books,
               spans: [],
             },
           ]}

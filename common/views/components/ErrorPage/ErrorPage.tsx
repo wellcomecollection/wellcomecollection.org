@@ -8,6 +8,9 @@ import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Layout8 from '../Layout8/Layout8';
 import Space from '../styled/Space';
+import { errorMessages } from '../../../data/microcopy';
+import { isNotUndefined } from '../../../utils/array';
+import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
 type Props = {
   statusCode?: number;
@@ -18,6 +21,12 @@ const ErrorPage: FunctionComponent<Props> = ({
   statusCode = 500,
   title,
 }: Props) => {
+  const errorMessage = isNotUndefined(title)
+    ? title
+    : statusCode in errorMessages
+    ? errorMessages[statusCode]
+    : errorMessages[500];
+
   return (
     <PageLayout
       title={`${statusCode}`}
@@ -26,17 +35,13 @@ const ErrorPage: FunctionComponent<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={null}
-      imageUrl={undefined}
-      imageAltText={undefined}
+      image={undefined}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
           breadcrumbs={{ items: [] }}
           labels={undefined}
-          title={
-            title ||
-            'This isn’t the page you’re looking for, but how about these?'
-          }
+          title={errorMessage}
           ContentTypeInfo={undefined}
           Background={undefined}
           backgroundTexture={headerBackgroundLs}
@@ -92,7 +97,7 @@ const ErrorPage: FunctionComponent<Props> = ({
                   </Space>
                   <Space as="li">
                     <MoreLink
-                      url="/pages/Wuw2MSIAACtd3Ssg"
+                      url={`/pages/${prismicPageIds.youth}`}
                       name="Our youth programme"
                     />
                   </Space>
