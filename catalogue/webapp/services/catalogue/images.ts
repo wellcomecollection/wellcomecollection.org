@@ -98,9 +98,13 @@ export async function getImage({
   }
 }
 
-export async function getVisuallySimilarImagesClientSide(id: string): Promise<Image | undefined> {
+export async function getVisuallySimilarImagesClientSide(
+  id: string
+): Promise<Image | undefined> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
   const response = await fetch(`/api/visuallySimilarImages/${id}`, {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
   });
 
   if (response.ok) {

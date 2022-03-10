@@ -2,6 +2,7 @@ import {
   CatalogueApiError,
   CatalogueApiRedirect,
   CatalogueResultsList,
+  ItemsList,
   Work,
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../model/iiif';
@@ -17,6 +18,7 @@ import {
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type GetWorkProps = {
   id: string;
@@ -180,12 +182,28 @@ export async function getCanvasOcr(
   }
 }
 
-
-export async function getWorkClientSide(id: string): Promise<WorkResponse> {
-  const response = await fetch(`/api/works/${id}`, {
-    credentials: 'same-origin'
+export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
+  const response = await fetch(`/api/works/${workId}`, {
+    credentials: 'same-origin',
   });
 
   const work: WorkResponse = await response.json();
   return work;
+}
+
+export async function getWorkItemsClientSide(
+  workId: string,
+  signal: AbortSignal | null
+): Promise<ItemsList | CatalogueApiError> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
+  const response = await fetch(`/api/works/items/${workId}`, {
+    signal,
+    credentials: 'same-origin',
+  });
+
+  const items = await response.json();
+  return items;
 }

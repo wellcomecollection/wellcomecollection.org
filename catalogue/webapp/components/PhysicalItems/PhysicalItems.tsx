@@ -13,6 +13,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
+import { getWorkItemsClientSide } from 'services/catalogue/works';
 
 type Props = {
   work: Work;
@@ -96,11 +97,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   useAbortSignalEffect(
     signal => {
       const updateItemsStatus = async () => {
-        const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
-          signal,
-          credentials: 'same-origin',
-        });
-        const items = await itemsResponse.json();
+        const items = await getWorkItemsClientSide(work.id, signal);
 
         if (!isCatalogueApiError(items)) {
           setPhysicalItems(getItemsWithPhysicalLocation(items.results));
