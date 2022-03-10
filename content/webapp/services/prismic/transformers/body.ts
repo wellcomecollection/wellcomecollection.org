@@ -1,4 +1,5 @@
 import {
+  Body,
   CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
   ContentList as ContentListSlice,
@@ -20,6 +21,7 @@ import {
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
+  SliceTypes,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
@@ -54,7 +56,7 @@ import {
   asText,
 } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-import { Weight } from '../../../types/generic-content-fields';
+import { BodyType, Weight } from '../../../types/generic-content-fields';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { Venue } from '@weco/common/model/opening-hours';
 import { MultiContentPrismicDocument } from '../types/multi-content';
@@ -66,12 +68,11 @@ import { transformGuide } from './guides';
 import { transformEventSeries } from './event-series';
 import { transformExhibition } from './exhibitions';
 import { transformArticle } from './articles';
-import { transform } from 'typescript';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
 import { transformCard } from './card';
 
-export function getWeight(weight: string | null): Weight {
+function getWeight(weight: string | null): Weight {
   switch (weight) {
     case 'featured':
       return weight;
@@ -90,7 +91,7 @@ type ParsedSlice<TypeName extends string, Value> = {
   value: Value;
 };
 
-export function transformStandfirstSlice(
+function transformStandfirstSlice(
   slice: StandfirstSlice
 ): ParsedSlice<'standfirst', RichTextField> {
   return {
@@ -100,7 +101,7 @@ export function transformStandfirstSlice(
   };
 }
 
-export function transformTextSlice(
+function transformTextSlice(
   slice: TextSlice
 ): ParsedSlice<'text', RichTextField> {
   return {
@@ -110,9 +111,7 @@ export function transformTextSlice(
   };
 }
 
-export function transformMapSlice(
-  slice: MapSlice
-): ParsedSlice<'map', MapProps> {
+function transformMapSlice(slice: MapSlice): ParsedSlice<'map', MapProps> {
   return {
     type: 'map',
     value: {
@@ -130,7 +129,7 @@ function transformTableCsv(tableData: string): string[][] {
     .map(row => row.split('|').map(cell => cell.trim()));
 }
 
-export function transformTableSlice(
+function transformTableSlice(
   slice: TableSlice
 ): ParsedSlice<'table', TableProps> {
   return {
@@ -145,7 +144,7 @@ export function transformTableSlice(
   };
 }
 
-export function transformMediaObjectListSlice(
+function transformMediaObjectListSlice(
   slice: MediaObjectListSlice
 ): ParsedSlice<'mediaObjectList', { items: MediaObjectType[] }> {
   return {
@@ -189,7 +188,7 @@ function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   };
 }
 
-export function transformContactSlice(
+function transformContactSlice(
   slice: ContactSlice
 ): ParsedSlice<'contact', ContactProps> | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
@@ -200,7 +199,7 @@ export function transformContactSlice(
     : undefined;
 }
 
-export function transformEditorialImageSlice(
+function transformEditorialImageSlice(
   slice: EditorialImageSlice
 ): ParsedSlice<'picture', CaptionedImage> {
   return {
@@ -210,7 +209,7 @@ export function transformEditorialImageSlice(
   };
 }
 
-export function transformEditorialImageGallerySlice(
+function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
 ): ParsedSlice<'imageGallery', ImageGalleryProps> {
   return {
@@ -223,7 +222,7 @@ export function transformEditorialImageGallerySlice(
   };
 }
 
-export function transformDeprecatedImageListSlice(
+function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
 ): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
   return {
@@ -246,7 +245,7 @@ export function transformDeprecatedImageListSlice(
   };
 }
 
-export function transformGifVideoSlice(
+function transformGifVideoSlice(
   slice: GifVideoSlice
 ): ParsedSlice<'gifVideo', GifVideoProps> | undefined {
   const playbackRate = slice.primary.playbackRate
@@ -295,7 +294,7 @@ function transformTitledTextItem({
   };
 }
 
-export function transformTitledTextListSlice(
+function transformTitledTextListSlice(
   slice: TitledTextListSlice
 ): ParsedSlice<'titledTextList', TitledTextListProps> {
   return {
@@ -306,7 +305,7 @@ export function transformTitledTextListSlice(
   };
 }
 
-export function transformDiscussionSlice(
+function transformDiscussionSlice(
   slice: DiscussionSlice
 ): ParsedSlice<'discussion', DiscussionProps> {
   return {
@@ -318,7 +317,7 @@ export function transformDiscussionSlice(
   };
 }
 
-export function transformInfoBlockSlice(
+function transformInfoBlockSlice(
   slice: InfoBlockSlice
 ): ParsedSlice<'infoBlock', InfoBlockProps> {
   return {
@@ -332,7 +331,7 @@ export function transformInfoBlockSlice(
   };
 }
 
-export function transformIframeSlice(
+function transformIframeSlice(
   slice: IframeSlice
 ): ParsedSlice<'iframe', IframeProps> {
   return {
@@ -345,7 +344,7 @@ export function transformIframeSlice(
   };
 }
 
-export function transformQuoteSlice(
+function transformQuoteSlice(
   slice: QuoteSlice | QuoteV2Slice
 ): ParsedSlice<'quote', QuoteProps> {
   return {
@@ -360,7 +359,7 @@ export function transformQuoteSlice(
   };
 }
 
-export function transformTagListSlice(
+function transformTagListSlice(
   slice: TagListSlice
 ): ParsedSlice<'tagList', TagsGroupProps> {
   return {
@@ -378,7 +377,7 @@ export function transformTagListSlice(
   };
 }
 
-export function transformSearchResultsSlice(
+function transformSearchResultsSlice(
   slice: SearchResultsSlice
 ): ParsedSlice<'searchResults', SearchResultsProps> {
   return {
@@ -391,7 +390,7 @@ export function transformSearchResultsSlice(
   };
 }
 
-export function transformEmbedSlice(
+function transformEmbedSlice(
   slice: EmbedSlice
 ): ParsedSlice<'videoEmbed' | 'soundcloudEmbed', EmbedProps> | undefined {
   const embed = slice.primary.embed;
@@ -457,7 +456,7 @@ export function transformEmbedSlice(
   }
 }
 
-export function transformCollectionVenueSlice(
+function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
 ):
   | ParsedSlice<
@@ -477,7 +476,7 @@ export function transformCollectionVenueSlice(
     : undefined;
 }
 
-export function transformContentListSlice(
+function transformContentListSlice(
   slice: ContentListSlice
 ): ParsedSlice<'contentList', ContentListProps> {
   type ContentListPrismicDocument =
@@ -522,4 +521,74 @@ export function transformContentListSlice(
         .filter(isNotUndefined),
     },
   };
+}
+
+export function transformBody(body: Body): BodyType {
+  return body
+    .map((slice: SliceTypes) => {
+      switch (slice.slice_type) {
+        case 'standfirst':
+          return transformStandfirstSlice(slice);
+
+        case 'text':
+          return transformTextSlice(slice);
+
+        case 'map':
+          return transformMapSlice(slice);
+
+        case 'editorialImage':
+          return transformEditorialImageSlice(slice);
+
+        case 'editorialImageGallery':
+          return transformEditorialImageGallerySlice(slice);
+
+        case 'titledTextList':
+          return transformTitledTextListSlice(slice);
+
+        case 'contentList':
+          return transformContentListSlice(slice);
+
+        case 'collectionVenue':
+          return transformCollectionVenueSlice(slice);
+
+        case 'searchResults':
+          return transformSearchResultsSlice(slice);
+
+        case 'quote':
+        case 'quoteV2':
+          return transformQuoteSlice(slice);
+
+        case 'iframe':
+          return transformIframeSlice(slice);
+
+        case 'gifVideo':
+          return transformGifVideoSlice(slice);
+
+        case 'contact':
+          return transformContactSlice(slice);
+
+        case 'embed':
+          return transformEmbedSlice(slice);
+
+        case 'table':
+          return transformTableSlice(slice);
+
+        case 'infoBlock':
+          return transformInfoBlockSlice(slice);
+
+        case 'discussion':
+          return transformDiscussionSlice(slice);
+
+        case 'tagList':
+          return transformTagListSlice(slice);
+
+        // Deprecated
+        case 'imageList':
+          return transformDeprecatedImageListSlice(slice);
+
+        case 'mediaObjectList':
+          return transformMediaObjectListSlice(slice);
+      }
+    })
+    .filter(isNotUndefined);
 }

@@ -16,49 +16,11 @@ import {
   isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
-import {
-  BodyType,
-  GenericContentFields,
-} from '../../../types/generic-content-fields';
-import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
+import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
-import { transformPage } from './pages';
-import { transformGuide } from './guides';
-import { transformEventSeries } from './event-series';
-import { transformExhibition } from './exhibitions';
-import { transformArticle } from './articles';
-import { transformEvent } from './events';
-import { transformSeason } from './seasons';
-import { transformCard } from './card';
-import { MultiContentPrismicDocument } from '../types/multi-content';
-import { GuidePrismicDocument, WithGuideFormat } from '../types/guides';
-import { SeasonPrismicDocument } from '../types/seasons';
-import { CardPrismicDocument, WithCardFormat } from '../types/card';
-import {
-  getWeight,
-  transformCollectionVenueSlice,
-  transformContactSlice,
-  transformContentListSlice,
-  transformDeprecatedImageListSlice,
-  transformDiscussionSlice,
-  transformEditorialImageGallerySlice,
-  transformEditorialImageSlice,
-  transformEmbedSlice,
-  transformGifVideoSlice,
-  transformIframeSlice,
-  transformInfoBlockSlice,
-  transformMapSlice,
-  transformMediaObjectListSlice,
-  transformQuoteSlice,
-  transformSearchResultsSlice,
-  transformStandfirstSlice,
-  transformTableSlice,
-  transformTagListSlice,
-  transformTextSlice,
-  transformTitledTextListSlice,
-} from './body';
+import { WithGuideFormat } from '../types/guides';
+import { WithCardFormat } from '../types/card';
 import { transformImage, transformImagePromo } from './images';
 import { Tasl } from '@weco/common/model/tasl';
 import { licenseTypeArray } from '@weco/common/model/license';
@@ -69,6 +31,7 @@ import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import * as prismicT from '@prismicio/types';
+import { transformBody } from './body';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -178,76 +141,6 @@ type PromoImage = {
   widescreenImage?: ImageType;
   superWidescreenImage?: ImageType;
 };
-
-export function transformBody(body: Body): BodyType {
-  return body
-    .map(slice => {
-      switch (slice.slice_type) {
-        case 'standfirst':
-          return transformStandfirstSlice(slice);
-
-        case 'text':
-          return transformTextSlice(slice);
-
-        case 'map':
-          return transformMapSlice(slice);
-
-        case 'editorialImage':
-          return transformEditorialImageSlice(slice);
-
-        case 'editorialImageGallery':
-          return transformEditorialImageGallerySlice(slice);
-
-        case 'titledTextList':
-          return transformTitledTextListSlice(slice);
-
-        case 'contentList':
-          return transformContentListSlice(slice);
-
-        case 'collectionVenue':
-          return transformCollectionVenueSlice(slice);
-
-        case 'searchResults':
-          return transformSearchResultsSlice(slice);
-
-        case 'quote':
-        case 'quoteV2':
-          return transformQuoteSlice(slice);
-
-        case 'iframe':
-          return transformIframeSlice(slice);
-
-        case 'gifVideo':
-          return transformGifVideoSlice(slice);
-
-        case 'contact':
-          return transformContactSlice(slice);
-
-        case 'embed':
-          return transformEmbedSlice(slice);
-
-        case 'table':
-          return transformTableSlice(slice);
-
-        case 'infoBlock':
-          return transformInfoBlockSlice(slice);
-
-        case 'discussion':
-          return transformDiscussionSlice(slice);
-
-        case 'tagList':
-          return transformTagListSlice(slice);
-
-        // Deprecated
-        case 'imageList':
-          return transformDeprecatedImageListSlice(slice);
-
-        case 'mediaObjectList':
-          return transformMediaObjectListSlice(slice);
-      }
-    })
-    .filter(isNotUndefined);
-}
 
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
