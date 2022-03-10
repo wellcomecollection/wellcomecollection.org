@@ -2,6 +2,7 @@ import {
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Embed as EmbedSlice,
   Iframe as IframeSlice,
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
@@ -29,6 +30,7 @@ import { Props as TitledTextListProps } from '../../../components/TitledTextList
 import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
 import { Props as TagsGroupProps } from '../../../components/TagsGroup/TagsGroup';
+import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import {
@@ -354,4 +356,70 @@ export function transformTagListSlice(
       })),
     },
   };
+}
+
+export function transformEmbedSlice(
+  slice: EmbedSlice
+): ParsedSlice<'videoEmbed' | 'soundcloudEmbed', EmbedProps> | undefined {
+  const embed = slice.primary.embed;
+
+  if (embed.provider_name === 'Vimeo') {
+    const embedUrl = slice.primary.embed.html?.match(
+      /src="([-a-zA-Z0-9://.?=_]+)?/
+    )![1];
+
+    return {
+      type: 'videoEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: `${embedUrl}?rel=0&dnt=1`,
+        caption: slice.primary.caption,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'SoundCloud' && embed.html) {
+    const apiUrl = embed.html.match(/url=([^&]*)&/)!;
+    const secretToken = embed.html.match(/secret_token=([^"]*)"/);
+    const secretTokenString =
+      secretToken && secretToken[1]
+        ? `%3Fsecret_token%3D${secretToken[1]}`
+        : '';
+
+    return {
+      type: 'soundcloudEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+        caption: slice.primary.caption,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'YouTube' && embed.html) {
+    // The≤, embed will be a blob of HTML of the form
+    //
+    //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
+    //
+    // We want to add the query parameter ?rel=0
+    const embedUrl = embed.html.match(/src="([^"]+)"?/)![1];
+
+    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
+      'www.youtube.com',
+      'www.youtube-nocookie.com'
+    );
+
+    const newEmbedUrl = embedUrl.includes('?')
+      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
+      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+
+    return {
+      type: 'videoEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: newEmbedUrl,
+        caption: slice.primary.caption,
+      },
+    };
+  }
 }

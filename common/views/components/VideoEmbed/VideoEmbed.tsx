@@ -3,7 +3,7 @@ import Caption from '@weco/common/views/components/Caption/Caption';
 import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
 import * as prismicT from '@prismicio/types';
 
-type Props = {
+export type Props = {
   embedUrl: string;
   caption?: prismicT.RichTextField;
 };
