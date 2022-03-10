@@ -52,6 +52,7 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import * as BodySlices from '../../types/body';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -141,7 +142,7 @@ const Body: FunctionComponent<Props> = ({
     isLanding = false,
   }: {
     index: number;
-    sections: BodyType;
+    sections: BodySlices.contentList[];
     isLanding: boolean;
   }): ReactElement<Props> | null => {
     if (index === 0) {
@@ -163,17 +164,15 @@ const Body: FunctionComponent<Props> = ({
               const isFirst = index === 0;
               const isLast = index === sections.length - 1;
               const sectionTheme = sectionThemes[index % sectionThemes.length];
-              const hasFeatured =
-                'items' in section.value && section.value.items.length === 1;
-              const firstItem =
-                'items' in section.value && section.value.items?.[0];
+              const hasFeatured = section.value.items.length === 1;
+              const firstItem = section.value.items?.[0];
               const isCardType = firstItem?.type === 'card';
 
               const firstItemProps =
                 firstItem &&
                 (isCardType
                   ? convertCardToFeaturedCardProps(firstItem)
-                  : convertItemToFeaturedCardProps(firstItem));
+                  : convertItemToFeaturedCardProps(firstItem as any));
 
               const cardItems = hasFeatured
                 ? section.value.items.slice(1)

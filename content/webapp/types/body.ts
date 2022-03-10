@@ -17,6 +17,14 @@ import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/Vi
 import { MediaObjectType } from './media-object';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Venue } from '@weco/common/model/opening-hours';
+import { Page } from './pages';
+import { EventSeries } from './event-series';
+import { Book } from './books';
+import { Article } from './articles';
+import { Exhibition } from './exhibitions';
+import { Card } from './card';
+import { Season } from './seasons';
+import { Guide } from './guides';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -47,7 +55,22 @@ export type discussion = BodySlice<'discussion', DiscussionProps>;
 export type tagList = BodySlice<'tagList', TagsGroupProps>;
 export type infoBlock = BodySlice<'infoBlock', InfoBlockProps>;
 export type titledTextList = BodySlice<'titledTextList', TitledTextListProps>;
-export type contentList = BodySlice<'contentList', ContentListProps>;
+export type contentList = BodySlice<
+  'contentList',
+  ContentListProps & {
+    items: (
+      | Page
+      | EventSeries
+      | Book
+      | Event
+      | Article
+      | Exhibition
+      | Card
+      | Season
+      | Guide
+    )[];
+  }
+>;
 export type searchResults = BodySlice<'searchResults', SearchResultsProps>;
 export type mediaObjectList = BodySlice<
   'mediaObjectList',
