@@ -88,6 +88,12 @@ type Props = {
   sectionLevelPage?: boolean;
 };
 
+const isContentList = (
+  slice: BodySlices.BodySliceType
+): slice is BodySlices.contentList => {
+  return slice.type === 'contentList';
+};
+
 const Body: FunctionComponent<Props> = ({
   body,
   onThisPage,
@@ -109,7 +115,7 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
-  const sections = body.filter(slice => slice.type === 'contentList');
+  const sections: BodySlices.contentList[] = body.filter(isContentList);
   const sectionThemes = [
     {
       rowBackground: 'white',
