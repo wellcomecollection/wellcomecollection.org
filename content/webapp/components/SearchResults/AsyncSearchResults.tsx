@@ -5,7 +5,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { fetchMultiContentClientSide } from '../../services/prismic/fetch/multi-content';
 import { MultiContent } from '../../types/multi-content';
 
-type Props = {
+export type Props = {
   title?: string;
   query: string;
 };

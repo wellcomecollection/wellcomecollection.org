@@ -50,6 +50,7 @@ import {
   transformMapSlice,
   transformMediaObjectListSlice,
   transformQuoteSlice,
+  transformSearchResultsSlice,
   transformStandfirstSlice,
   transformTableSlice,
   transformTagListSlice,
@@ -259,18 +260,7 @@ export function transformBody(body: Body): BodyType {
             : undefined;
 
         case 'searchResults':
-          return {
-            type: 'searchResults',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              query: slice.primary.query,
-              // TODO: The untyped version of this code had `slice.primary.pageSize`, but
-              // there's no such field on the Prismic model.  Should it be on the model?
-              // Does it matter?  Investigate further.
-              pageSize: 4,
-            },
-          };
+          return transformSearchResultsSlice(slice);
 
         case 'quote':
         case 'quoteV2':
