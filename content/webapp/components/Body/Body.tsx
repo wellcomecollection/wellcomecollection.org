@@ -41,7 +41,7 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
-import { BodyType } from '../../types/generic-content-fields';
+import { BodyType } from '../../types/body';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
@@ -164,9 +164,9 @@ const Body: FunctionComponent<Props> = ({
               const isLast = index === sections.length - 1;
               const sectionTheme = sectionThemes[index % sectionThemes.length];
               const hasFeatured =
-                Boolean(section.value.hasFeatured) ||
-                section.value.items.length === 1;
-              const firstItem = section.value.items?.[0];
+                'items' in section.value && section.value.items.length === 1;
+              const firstItem =
+                'items' in section.value && section.value.items?.[0];
               const isCardType = firstItem?.type === 'card';
 
               const firstItemProps =
@@ -272,7 +272,7 @@ const Body: FunctionComponent<Props> = ({
         />
       )}
 
-      {filteredBody.map((slice: BodyType, i) => (
+      {filteredBody.map((slice, i) => (
         <Fragment key={i}>
           {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
@@ -342,7 +342,10 @@ const Body: FunctionComponent<Props> = ({
                   </LayoutWidth>
                 )}
                 {slice.type === 'imageGallery' && (
-                  <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
+                  <ImageGallery
+                    {...slice.value}
+                    id={(imageGalleryIdCount++).toString()}
+                  />
                 )}
                 {slice.type === 'quote' && (
                   <LayoutWidth width={minWidth}>

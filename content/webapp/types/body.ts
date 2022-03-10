@@ -58,7 +58,7 @@ export type deprecatedImageList = BodySlice<
   DeprecatedImageListProps
 >;
 
-export type BodyType =
+export type BodyType = (
   | text
   | picture
   | imageGallery
@@ -79,4 +79,5 @@ export type BodyType =
   | contentList
   | searchResults
   | mediaObjectList
-  | deprecatedImageList;
+  | deprecatedImageList
+)[];

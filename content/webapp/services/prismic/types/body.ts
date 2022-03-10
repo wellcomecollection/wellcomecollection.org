@@ -12,7 +12,6 @@ import {
   EmbedField,
   RelationField,
 } from '@prismicio/types';
-import { CollectionVenuePrismicDocument } from '@weco/common/services/prismic/documents';
 import { isUndefined } from '@weco/common/utils/array';
 import { Image, InferDataInterface } from '.';
 import { TeamPrismicDocument } from './teams';
