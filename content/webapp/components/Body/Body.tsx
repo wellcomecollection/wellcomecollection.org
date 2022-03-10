@@ -272,7 +272,7 @@ const Body: FunctionComponent<Props> = ({
         />
       )}
 
-      {filteredBody.map((slice, i) => (
+      {filteredBody.map((slice: BodyType, i) => (
         <Fragment key={i}>
           {/* If the first slice is featured text we display it any static content, i.e. <AdditionalContent /> */}
           {i === 0 && slice.type === 'text' && slice.weight === 'featured' && (
@@ -358,10 +358,7 @@ const Body: FunctionComponent<Props> = ({
                   <LayoutWidth width={minWidth}>
                     {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
                     {pageId === prismicPageIds.whatWeDo ? (
-                      <SearchResults
-                        title={slice.value.title}
-                        items={slice.value.items}
-                      />
+                      <SearchResults {...slice.value} />
                     ) : (
                       <AsyncSearchResults
                         title={slice.value.title}

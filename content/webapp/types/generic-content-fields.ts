@@ -3,17 +3,7 @@ import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import * as prismicT from '@prismicio/types';
-
-export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
-
-type BodySlice = {
-  type: string;
-  weight?: Weight;
-  // TODO: Sync up types with the body slices and the components they return
-  value: any;
-};
-
-export type BodyType = BodySlice[];
+import { BodyType } from './body';
 
 export type GenericContentFields = {
   id: string;
