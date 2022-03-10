@@ -1,3 +1,18 @@
+/**
+ * This module fetches data from remote sources that:
+ *
+ *    - we need on every request/page
+ *    - doesn't change very often
+ *
+ * e.g. default toggle values, or our opening hours.
+ *
+ * Because this data changes infrequently, it's helpful to cache it on
+ * the server, than fetch it on every single request.  We do this by fetching
+ * this data on a fixed interval, and saving it to a JSON file on the local disk.
+ * When we need this data to serve a request, we read it from the JSON cache
+ * rather than going back to the remote source.
+ */
+
 import path from 'path';
 import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
@@ -44,20 +59,27 @@ async function read(key: Key, defaultValue: DefaulVal<Key>) {
 
 const timers = new Map<Key, NodeJS.Timer>();
 async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
-  const data = await fetch();
-  const fileName = path.join(pathName, `${key}.json`);
-  await fs.mkdir(pathName, { recursive: true });
+  try {
+    const data = await fetch();
+    const fileName = path.join(pathName, `${key}.json`);
+    await fs.mkdir(pathName, { recursive: true });
 
-  // Write the JSON to a temp file, then rename it.  On most filesystems,
-  // the rename is an atomic operation.
-  //
-  // This means that whenever you try to read ${key}.json, you'll always get
-  // a valid JSON.  If we wrote directly to the file, you might get an
-  // empty file or invalid JSON if you tried to read while we were writing.
-  const tmpFileName = path.join(pathName, `${key}.json.tmp`);
-  await fs.writeFile(tmpFileName, JSON.stringify(data));
-  await fs.rename(tmpFileName, fileName);
+    // Write the JSON to a temp file, then rename it.  On most filesystems,
+    // the rename is an atomic operation.
+    //
+    // This means that whenever you try to read ${key}.json, you'll always get
+    // a valid JSON.  If we wrote directly to the file, you might get an
+    // empty file or invalid JSON if you tried to read while we were writing.
+    const tmpFileName = path.join(pathName, `${key}.json.tmp`);
+    await fs.writeFile(tmpFileName, JSON.stringify(data));
+    await fs.rename(tmpFileName, fileName);
+  } catch (e) {
+    console.error('Could not update server data', e);
+  }
 
+  // We have to make sure this timer is set even if fetching the data fails
+  // on a particular attempt, otherwise a single failure means a running app
+  // will never fetch new server data again.
   const timer = setTimeout(() => {
     clearTimeout(timer);
     write(key, fetch);
