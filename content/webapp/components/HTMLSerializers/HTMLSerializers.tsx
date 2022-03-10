@@ -80,18 +80,20 @@ export const defaultSerializer: JSXFunctionSerializer = (
         </div>
       );
     case RichTextNodeType.hyperlink:
-      const target = 'target' in element.data ? element.data.target || undefined : undefined;
+      const target =
+        'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
       const linkUrl = prismicH.asLink(element.data, linkResolver)!;
-      const isDocument = 'kind' in element.data
-        ? element.data.kind === 'document'
-        : false;
-      const nameWithoutSpaces = 'name' in element.data && element.data.name
-        ? dasherize(element.data.name)
-        : '';
-      const documentSize = isDocument && 'size' in element.data
-        ? Math.round(parseInt(element.data.size) / 1000)
-        : '';
+      const isDocument =
+        'kind' in element.data ? element.data.kind === 'document' : false;
+      const nameWithoutSpaces =
+        'name' in element.data && element.data.name
+          ? dasherize(element.data.name)
+          : '';
+      const documentSize =
+        isDocument && 'size' in element.data
+          ? Math.round(parseInt(element.data.size) / 1000)
+          : '';
 
       const isInPage = linkUrl.match(/^https:\/\/(#.*)/i);
       const hashLink = isInPage && isInPage[1];

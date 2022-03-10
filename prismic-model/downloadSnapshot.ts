@@ -9,9 +9,9 @@ import fetch from 'node-fetch';
 import { error, success } from './console';
 
 /** Gets the Prismic API ref for a given id (e.g. 'master')
-  *
-  * See https://prismic.io/docs/technologies/introduction-to-the-content-query-api#prismic-api-ref 
-  */
+ *
+ * See https://prismic.io/docs/technologies/introduction-to-the-content-query-api#prismic-api-ref
+ */
 async function getPrismicApiRefById(id: string): Promise<string> {
   const resp = await fetch('https://wellcomecollection.cdn.prismic.io/api');
 
@@ -30,16 +30,13 @@ type ApiResponse = {
 };
 
 /** Generates the paginated API responses for a given reference. */
-async function* getApiResponses(
-  ref: string
-): AsyncGenerator<ApiResponse> {
-  
+async function* getApiResponses(ref: string): AsyncGenerator<ApiResponse> {
   // Get as many results as we can per page, to reduce the number of requests.
   // pageSize = 100 is the max allowed at time of writing.
   //
   // See https://prismic.io/docs/technologies/pagination-for-results-rest-api#the-pagesize-parameter
   const pageSize = 100;
-  
+
   let url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
 
   while (url !== null) {
@@ -54,10 +51,12 @@ async function* getApiResponses(
 }
 
 /** Downloads the snapshots for a given ref to a local directory.
-  * 
-  * Returns the path to the snapshot directory.
-  */
-export async function downloadPrismicSnapshot(refId: string = 'master'): Promise<string> {
+ *
+ * Returns the path to the snapshot directory.
+ */
+export async function downloadPrismicSnapshot(
+  refId = 'master'
+): Promise<string> {
   const ref = await getPrismicApiRefById(refId);
   const snapshotDir = `snapshot.${refId}.${ref}`;
 

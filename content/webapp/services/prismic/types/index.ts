@@ -38,7 +38,10 @@ export type InferDataInterface<T> = T extends PrismicDocument<
   ? DataInterface
   : never;
 
-export type InferCustomType<T> = T extends PrismicDocument<any, infer CustomType>
+export type InferCustomType<T> = T extends PrismicDocument<
+  any,
+  infer CustomType
+>
   ? CustomType
   : never;
 
@@ -241,13 +244,19 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field;
+  return (
+    prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
+  );
 }
 
 export function isFilledLinkToMediaField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return prismicH.isFilled.link(field) && field.link_type === 'Media' && 'url' in field;
+  return (
+    prismicH.isFilled.link(field) &&
+    field.link_type === 'Media' &&
+    'url' in field
+  );
 }
 
 export function isFilledLinkToPersonField(

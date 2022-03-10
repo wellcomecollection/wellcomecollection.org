@@ -111,7 +111,8 @@ export function transformImagePromo(
   cropType: Crop | null = '16:9'
 ): ImagePromo | undefined {
   const promoSlice =
-    zone && zone.find((slice: prismicT.Slice) => slice.slice_type === 'editorialImage');
+    zone &&
+    zone.find((slice: prismicT.Slice) => slice.slice_type === 'editorialImage');
   const link = promoSlice && promoSlice.primary.link;
   // We introduced enforcing 16:9 half way through, so we have to do a check for it.
   const promoImage =

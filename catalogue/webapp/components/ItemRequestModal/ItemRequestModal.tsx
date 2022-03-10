@@ -33,6 +33,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
+import { trackEvent } from '@weco/common/utils/ga';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 
 function arrayofItemsToText(arr) {
@@ -239,6 +240,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
           })
       )
     ) {
+      trackEvent({
+        category: 'requesting',
+        action: 'confirm_request',
+        label: `/works/${work.id}`,
+      });
       confirmRequest(pickUpDateMoment);
     }
   }

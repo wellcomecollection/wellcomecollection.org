@@ -6,8 +6,7 @@ basic.args = {
   html: [
     {
       type: 'paragraph',
-      text:
-        'Walk inside an innovative mobile clinic, and follow its development from the early prototypes to the first complete version.',
+      text: 'Walk inside an innovative mobile clinic, and follow its development from the early prototypes to the first complete version.',
       spans: [],
     },
   ],

@@ -22,6 +22,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -136,7 +137,14 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         disabled={userState !== 'signedin'}
         ref={requestButtonRef}
         text={'Request item'}
-        clickHandler={() => setRequestModalIsActive(true)}
+        clickHandler={() => {
+          trackEvent({
+            category: 'requesting',
+            action: 'initiate_request',
+            label: `/works/${work.id}`,
+          });
+          setRequestModalIsActive(true);
+        }}
       />
     );
 
