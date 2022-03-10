@@ -51,6 +51,7 @@ import {
   transformQuoteSlice,
   transformStandfirstSlice,
   transformTableSlice,
+  transformTagListSlice,
   transformTextSlice,
   transformTitledTextListSlice,
 } from './body';
@@ -358,19 +359,7 @@ export function transformBody(body: Body): BodyType {
           return transformDiscussionSlice(slice);
 
         case 'tagList':
-          return {
-            type: 'tagList',
-            value: {
-              title: asTitle(slice.primary.title),
-              tags: slice.items.map(item => ({
-                textParts: [item.linkText],
-                linkAttributes: {
-                  href: { pathname: transformLink(item.link), query: '' },
-                  as: { pathname: transformLink(item.link), query: '' },
-                },
-              })),
-            },
-          };
+          return transformTagListSlice(slice);
 
         // Deprecated
         case 'imageList':
