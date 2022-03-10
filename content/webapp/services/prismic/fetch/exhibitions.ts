@@ -157,6 +157,9 @@ export const fetchExhibitionRelatedContent = async (
   });
 };
 
+// Note: this is used to fetch the "Related to this exhibition" at the
+// bottom of an article page; you can test it by checking that the discussion
+// loads on http://localhost:3000/exhibitions/X2s3IBMAAHbq_CtG
 export const fetchExhibitionRelatedContentClientSide = async (
   ids: string[]
 ): Promise<ExhibitionRelatedContent | undefined> => {

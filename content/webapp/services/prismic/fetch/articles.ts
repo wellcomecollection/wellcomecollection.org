@@ -338,5 +338,8 @@ export const fetchArticles = (
   });
 };
 
+// Note: this is used to fetch the "Read more from this series" at the
+// bottom of an article page; you can test it by checking that articles
+// load on e.g. http://localhost:3000/articles/Yhz_4BAAACQAtzA4
 export const fetchArticlesClientSide =
   clientSideFetcher<Article>('articles').getByTypeClientSide;

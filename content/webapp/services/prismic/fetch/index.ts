@@ -1,6 +1,5 @@
 import { Query, PrismicDocument } from '@prismicio/types';
 import * as prismic from '@prismicio/client';
-import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '../link-resolver';
 import { isString } from '@weco/common/utils/array';
