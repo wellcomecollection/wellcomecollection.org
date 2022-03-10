@@ -154,7 +154,7 @@ export type TitledTextList = Slice<
   }
 >;
 
-type ContentList = Slice<
+export type ContentList = Slice<
   'contentList',
   { title: RichTextField },
   {

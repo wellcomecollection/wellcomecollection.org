@@ -9,16 +9,15 @@ import EventCard from '../EventCard/EventCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
-import { ArticleScheduleItem } from '../../types/article-schedule-items';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
-type Props = {
+export type Props = {
   title?: string;
   summary?: string;
-  items: readonly (MultiContent | ArticleScheduleItem)[];
+  items: MultiContent[];
   showPosition?: boolean;
 };
 

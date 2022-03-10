@@ -1,6 +1,7 @@
 import {
   CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
+  ContentList as ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
   Embed as EmbedSlice,
@@ -19,7 +20,6 @@ import {
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
-  CollectionVenue,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
@@ -33,6 +33,7 @@ import { Props as TitledTextListProps } from '../../../components/TitledTextList
 import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
 import { Props as SearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
+import { Props as ContentListProps } from '../../../components/SearchResults/SearchResults';
 import { Props as TagsGroupProps } from '../../../components/TagsGroup/TagsGroup';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { MediaObjectType } from '../../../types/media-object';
@@ -56,6 +57,19 @@ import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { Venue } from '@weco/common/model/opening-hours';
+import { MultiContentPrismicDocument } from '../types/multi-content';
+import { GuidePrismicDocument } from '../types/guides';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { CardPrismicDocument } from '../types/card';
+import { transformPage } from './pages';
+import { transformGuide } from './guides';
+import { transformEventSeries } from './event-series';
+import { transformExhibition } from './exhibitions';
+import { transformArticle } from './articles';
+import { transform } from 'typescript';
+import { transformEvent } from './events';
+import { transformSeason } from './seasons';
+import { transformCard } from './card';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -461,4 +475,51 @@ export function transformCollectionVenueSlice(
         },
       }
     : undefined;
+}
+
+export function transformContentListSlice(
+  slice: ContentListSlice
+): ParsedSlice<'contentList', ContentListProps> {
+  type ContentListPrismicDocument =
+    | MultiContentPrismicDocument
+    | GuidePrismicDocument
+    | SeasonPrismicDocument
+    | CardPrismicDocument;
+
+  const contents: ContentListPrismicDocument[] = slice.items
+    .map(item => item.content)
+    .filter(isFilledLinkToDocumentWithData);
+
+  return {
+    type: 'contentList',
+    weight: getWeight(slice.slice_label),
+    value: {
+      title: asText(slice.primary.title),
+      // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
+      // but that doesn't exist in our Prismic model.
+      // hasFeatured: slice.primary.hasFeatured,
+      items: contents
+        .map(content => {
+          switch (content.type) {
+            case 'pages':
+              return transformPage(content);
+            case 'guides':
+              return transformGuide(content);
+            case 'event-series':
+              return transformEventSeries(content);
+            case 'exhibitions':
+              return transformExhibition(content);
+            case 'articles':
+              return transformArticle(content);
+            case 'events':
+              return transformEvent(content);
+            case 'seasons':
+              return transformSeason(content);
+            case 'card':
+              return transformCard(content);
+          }
+        })
+        .filter(isNotUndefined),
+    },
+  };
 }
