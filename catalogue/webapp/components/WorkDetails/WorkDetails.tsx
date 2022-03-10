@@ -661,22 +661,25 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         )}
         {work.partOf.filter(p => !p['id']).length > 0 && (
+          // Only show partOfs with no id here.
           // A partOf object with an id will be represented in
           // the archive hierarchy.
           // partOfs with no id are Series Links.
           <WorkDetailsTags
             title="Series"
-            tags={work.partOf.map(partOf => ({
-              textParts: [partOf.title],
-              linkAttributes: worksLink(
-                {
-                  partOf: partOf.title,
-                  sort: 'production.dates',
-                  sortOrder: 'desc',
-                },
-                'work_details/partOf'
-              ),
-            }))}
+            tags={work.partOf
+              .filter(p => !p['id'])
+              .map(partOf => ({
+                textParts: [partOf.title],
+                linkAttributes: worksLink(
+                  {
+                    partOf: partOf.title,
+                    sort: 'production.dates',
+                    sortOrder: 'desc',
+                  },
+                  'work_details/partOf'
+                ),
+              }))}
           />
         )}
       </WorkDetailsSection>
