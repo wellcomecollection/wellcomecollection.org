@@ -2,6 +2,7 @@ import {
   CatalogueApiError,
   CatalogueApiRedirect,
   CatalogueResultsList,
+  ItemsList,
   Work,
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../model/iiif';
@@ -13,9 +14,11 @@ import {
   looksLikeCanonicalId,
   rootUris,
   notFound,
-} from './common';
+  catalogueFetch,
+} from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type GetWorkProps = {
   id: string;
@@ -82,7 +85,7 @@ export async function getWorks({
   const url = `${rootUris[apiOptions.env]}/v2/works?${searchParams}`;
 
   try {
-    const res = await fetch(url);
+    const res = await catalogueFetch(url);
     const json = await res.json();
 
     return json;
@@ -110,7 +113,7 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env]}/v2/works/${id}?${searchParams}`;
 
-  const res = await fetch(url, { redirect: 'manual' });
+  const res = await catalogueFetch(url, { redirect: 'manual' });
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
@@ -176,4 +179,30 @@ export async function getCanvasOcr(
       return missingAltTextMessage;
     }
   }
+}
+
+export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
+  const response = await fetch(`/api/works/${workId}`, {
+    credentials: 'same-origin',
+  });
+
+  const work: WorkResponse = await response.json();
+  return work;
+}
+
+export async function getWorkItemsClientSide(
+  workId: string,
+  signal: AbortSignal | null
+): Promise<ItemsList | CatalogueApiError> {
+  // passing credentials: 'same-origin' ensures we pass the cookies to
+  // the API; in particular the toggle cookies
+  const response = await fetch(`/api/works/items/${workId}`, {
+    signal,
+    credentials: 'same-origin',
+  });
+
+  const items = await response.json();
+  return items;
 }

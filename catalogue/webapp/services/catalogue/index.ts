@@ -31,6 +31,22 @@ export const catalogueApiError = (): CatalogueApiError => ({
   type: 'Error',
 });
 
+// Because we know we'll be making repeated requests to the catalogue API,
+// this header should keep the socket open between individual requests,
+// rather than reconnecting each time.
+//
+// I'm hoping this will reduce the trickle of errors like:
+//
+//      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
+//      failed, reason: read ECONNRESET
+//
+export const catalogueFetch = (
+  url: string,
+  options?: Record<string, string>
+): Promise<Response> => {
+  return fetch(url, { ...options, headers: { 'connection': 'keep-alive' }});
+};
+
 // Returns true if a string is plausibly a canonical ID, false otherwise.
 //
 // There's no way for the front-end to know what strings are valid canonical IDs
