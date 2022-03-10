@@ -474,10 +474,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'tagList' && (
                   <LayoutWidth width={minWidth}>
-                    <TagsGroup
-                      title={slice.value.title}
-                      tags={slice.value.tags}
-                    />
+                    <TagsGroup {...slice.value} />
                   </LayoutWidth>
                 )}
                 {/* deprecated */}
