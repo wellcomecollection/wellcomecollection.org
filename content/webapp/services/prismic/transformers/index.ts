@@ -38,6 +38,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { CardPrismicDocument, WithCardFormat } from '../types/card';
 import {
   getWeight,
+  transformCollectionVenueSlice,
   transformContactSlice,
   transformDeprecatedImageListSlice,
   transformDiscussionSlice,
@@ -248,16 +249,7 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'collectionVenue':
-          return isFilledLinkToDocumentWithData(slice.primary.content)
-            ? {
-                type: 'collectionVenue',
-                weight: getWeight(slice.slice_label),
-                value: {
-                  content: transformCollectionVenue(slice.primary.content),
-                  showClosingTimes: slice.primary.showClosingTimes,
-                },
-              }
-            : undefined;
+          return transformCollectionVenueSlice(slice);
 
         case 'searchResults':
           return transformSearchResultsSlice(slice);

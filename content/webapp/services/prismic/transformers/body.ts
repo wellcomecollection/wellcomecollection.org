@@ -1,4 +1,5 @@
 import {
+  CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
@@ -18,6 +19,7 @@ import {
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
+  CollectionVenue,
 } from '../types/body';
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
@@ -52,6 +54,8 @@ import {
 } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
+import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
+import { Venue } from '@weco/common/model/opening-hours';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -412,7 +416,7 @@ export function transformEmbedSlice(
   }
 
   if (embed.provider_name === 'YouTube' && embed.html) {
-    // The≤, embed will be a blob of HTML of the form
+    // The, embed will be a blob of HTML of the form
     //
     //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
     //
@@ -437,4 +441,24 @@ export function transformEmbedSlice(
       },
     };
   }
+}
+
+export function transformCollectionVenueSlice(
+  slice: CollectionVenueSlice
+):
+  | ParsedSlice<
+      'collectionVenue',
+      { content: Venue; showClosingTimes: boolean }
+    >
+  | undefined {
+  return isFilledLinkToDocumentWithData(slice.primary.content)
+    ? {
+        type: 'collectionVenue',
+        weight: getWeight(slice.slice_label),
+        value: {
+          content: transformCollectionVenue(slice.primary.content),
+          showClosingTimes: slice.primary.showClosingTimes === 'yes',
+        },
+      }
+    : undefined;
 }

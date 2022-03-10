@@ -12,6 +12,7 @@ import {
   EmbedField,
   RelationField,
 } from '@prismicio/types';
+import { CollectionVenuePrismicDocument } from '@weco/common/services/prismic/documents';
 import { isUndefined } from '@weco/common/utils/array';
 import { Image, InferDataInterface } from '.';
 import { TeamPrismicDocument } from './teams';
@@ -94,7 +95,7 @@ export type Map = Slice<
   }
 >;
 
-type CollectionVenue = Slice<
+export type CollectionVenue = Slice<
   'collectionVenue',
   {
     content: RelationField<'collection-venue'>;
