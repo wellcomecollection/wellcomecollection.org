@@ -105,7 +105,6 @@ export async function getWork({
   }
 
   const apiOptions = globalApiOptions(toggles);
-  console.log(`@@AWLC apiOptionsm for ${id}: ${JSON.stringify(apiOptions)}`);
 
   const params = {
     include: workIncludes,
