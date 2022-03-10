@@ -241,8 +241,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
       )
     ) {
       trackEvent({
-        category: 'request_confirmed',
-        action: 'click',
+        category: 'requesting',
+        action: 'confirm_request',
         label: `/works/${work.id}`,
       });
       confirmRequest(pickUpDateMoment);

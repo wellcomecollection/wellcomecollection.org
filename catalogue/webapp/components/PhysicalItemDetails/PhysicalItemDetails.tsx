@@ -139,8 +139,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         text={'Request item'}
         clickHandler={() => {
           trackEvent({
-            category: 'online_request',
-            action: 'click',
+            category: 'requesting',
+            action: 'initiate_request',
             label: `/works/${work.id}`,
           });
           setRequestModalIsActive(true);
