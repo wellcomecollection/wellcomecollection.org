@@ -152,9 +152,7 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(
-  team: TeamPrismicDocument
-): ContactProps {
+function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
