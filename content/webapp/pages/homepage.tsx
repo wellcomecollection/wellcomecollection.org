@@ -17,7 +17,7 @@ import {
   filterEventsForNext7Days,
 } from '../services/prismic/events';
 import { Exhibition } from '../types/exhibitions';
-import { Event } from '../types/events';
+import { EventBasic } from '../types/events';
 import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -37,6 +37,7 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
@@ -66,7 +67,7 @@ const CreamBox = styled(Space).attrs({
 
 type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<Event>;
+  events: PaginatedResults<EventBasic>;
   articles: PaginatedResults<Article>;
   page: PageType;
 };
@@ -108,7 +109,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const page = transformPage(pageDocument!);
 
     const articles = transformQuery(articlesQuery, transformArticle);
-    const events = transformQuery(eventsQuery, transformEvent);
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (events && exhibitions && articles && page) {
@@ -185,7 +188,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents as Event[]}
+              events={nextSevenDaysEvents as EventBasic[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>

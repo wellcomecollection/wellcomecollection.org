@@ -122,7 +122,7 @@ export type Event = GenericContentFields & {
   contributors: Contributor[];
 };
 
-export function isEventFullyBooked(event: Event): boolean {
+export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {
