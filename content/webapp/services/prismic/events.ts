@@ -36,16 +36,13 @@ function filterEventsByTimeRange(
 ): Event[] {
   return events.filter(event => {
     return event.times.find(time => {
-      const filterStart = start.valueOf();
-      const filterEnd = end.valueOf();
-
-      const eventStart = time.range.startDateTime.valueOf();
-      const eventEnd = time.range.endDateTime.valueOf();
+      const eventStart = time.range.startDateTime;
+      const eventEnd = time.range.endDateTime;
 
       return (
-        (filterStart <= eventStart && eventStart <= filterEnd) ||
-        (filterStart <= eventEnd && eventEnd <= filterEnd) ||
-        (eventStart <= filterStart && filterEnd <= eventEnd)
+        (start <= eventStart && eventStart <= end) ||
+        (start <= eventEnd && eventEnd <= end) ||
+        (eventStart <= start && end <= eventEnd)
       );
     });
   });
