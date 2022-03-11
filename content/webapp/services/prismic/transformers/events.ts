@@ -3,6 +3,7 @@ import {
   DateTimeRange,
   EventTime,
   Event,
+  EventBasic,
   Interpretation,
   Team,
   ThirdPartyBooking,
@@ -231,7 +232,6 @@ export function transformEvent(
   return {
     type: 'events',
     ...genericFields,
-    // place,
     locations,
     audiences,
     bookingEnquiryTeam,
@@ -267,6 +267,49 @@ export function transformEvent(
     primaryLabels,
     secondaryLabels,
   };
+}
+
+export function transformEventToEventBasic(event: Event): EventBasic {
+  // returns what is required to render EventPromos and event JSON-LD
+  return (({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    promoImage,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    promoText,
+    cost,
+    contributors,
+  }) => ({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    promoImage,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    promoText,
+    cost,
+    contributors,
+  }))(event);
 }
 
 export const getScheduleIds = (
