@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (workResponse.type === 'Redirect') {
       return {
         redirect: {
-          destination: workResponse.redirectToId,
+          destination: `/works/${workResponse.redirectToId}`,
           permanent: workResponse.status === 301,
         },
       };
