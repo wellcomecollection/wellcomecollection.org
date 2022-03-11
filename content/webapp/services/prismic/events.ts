@@ -80,11 +80,7 @@ export function filterEventsForToday(events: Event[]): Event[] {
 
 export function filterEventsForWeekend(events: Event[]): Event[] {
   const { start, end } = getNextWeekendDateRange(new Date());
-  return filterEventsByTimeRange(
-    events,
-    london(start).toDate(),
-    london(end).toDate()
-  );
+  return filterEventsByTimeRange(events, start, end);
 }
 
 export function orderEventsByNextAvailableDate(events: Event[]): Event[] {
