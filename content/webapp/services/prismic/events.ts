@@ -31,17 +31,21 @@ function getNextDateInFuture(event: Event): EventTime | undefined {
 
 function filterEventsByTimeRange(
   events: Event[],
-  start: Moment,
-  end: Moment
+  start: Date,
+  end: Date
 ): Event[] {
   return events.filter(event => {
     return event.times.find(time => {
-      const eventStart = london(time.range.startDateTime);
-      const eventEnd = london(time.range.endDateTime);
+      const filterStart = start.valueOf();
+      const filterEnd = end.valueOf();
+
+      const eventStart = time.range.startDateTime.valueOf();
+      const eventEnd = time.range.endDateTime.valueOf();
+
       return (
-        eventStart.isBetween(start, end) ||
-        eventEnd.isBetween(start, end) ||
-        (eventStart.isSameOrBefore(start) && eventEnd.isSameOrAfter(end))
+        (filterStart <= eventStart && eventStart <= filterEnd) ||
+        (filterStart <= eventEnd && eventEnd <= filterEnd) ||
+        (eventStart <= filterStart && filterEnd <= eventEnd)
       );
     });
   });
@@ -50,18 +54,30 @@ function filterEventsByTimeRange(
 export function filterEventsForNext7Days(events: Event[]): Event[] {
   const startOfToday = london().startOf('day');
   const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
-  return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
+  return filterEventsByTimeRange(
+    events,
+    startOfToday.toDate(),
+    endOfNext7Days.toDate()
+  );
 }
 
 export function filterEventsForToday(events: Event[]): Event[] {
   const startOfToday = london().startOf('day');
   const endOfToday = london().endOf('day');
-  return filterEventsByTimeRange(events, startOfToday, endOfToday);
+  return filterEventsByTimeRange(
+    events,
+    startOfToday.toDate(),
+    endOfToday.toDate()
+  );
 }
 
 export function filterEventsForWeekend(events: Event[]): Event[] {
   const { start, end } = getNextWeekendDateRange(new Date());
-  return filterEventsByTimeRange(events, london(start), london(end));
+  return filterEventsByTimeRange(
+    events,
+    london(start).toDate(),
+    london(end).toDate()
+  );
 }
 
 export function orderEventsByNextAvailableDate(events: Event[]): Event[] {
