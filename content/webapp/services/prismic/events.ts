@@ -59,13 +59,13 @@ export function filterEventsForNext7Days(events: Event[]): Event[] {
 }
 
 export function filterEventsForToday(events: Event[]): Event[] {
-  const startOfToday = london().startOf('day');
-  const endOfToday = london().endOf('day');
-  return filterEventsByTimeRange(
-    events,
-    startOfToday.toDate(),
-    endOfToday.toDate()
-  );
+  const startOfToday = new Date();
+  startOfToday.setUTCHours(0, 0, 0, 0);
+
+  const endOfToday = new Date();
+  endOfToday.setUTCHours(23, 59, 59, 999);
+
+  return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
 
 export function filterEventsForWeekend(events: Event[]): Event[] {
