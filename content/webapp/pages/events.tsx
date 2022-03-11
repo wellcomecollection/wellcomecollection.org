@@ -19,14 +19,15 @@ import { getPage } from '../utils/query-params';
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { Event } from '../types/events';
+import { EventBasic } from '../types/events';
 
 type Props = {
   displayTitle: string;
-  events: PaginatedResults<Event>;
+  events: PaginatedResults<EventBasic>;
   period?: Period;
 };
 
@@ -56,7 +57,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       availableOnline: availableOnline === 'true',
     });
 
-    const events = transformQuery(eventsQueryPromise, transformEvent);
+    const events = transformQuery(eventsQueryPromise, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
@@ -93,7 +96,7 @@ const EventsPage: FC<Props> = props => {
       jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      image={firstEvent && firstEvent.image}
+      image={firstEvent?.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
