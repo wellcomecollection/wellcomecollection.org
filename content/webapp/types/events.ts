@@ -6,6 +6,9 @@ import { LabelField } from '@weco/common/model/label-field';
 import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
+import { ImagePromo } from './image-promo';
+import { Picture } from '@weco/common/model/picture';
+import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 
 export type DateTimeRange = {
@@ -66,6 +69,27 @@ export type EventSchedule = {
 export type ThirdPartyBooking = {
   name?: string;
   url: string;
+};
+
+export type EventBasic = {
+  type: 'events';
+  id: string;
+  title: string;
+  promo?: ImagePromo | undefined;
+  times: EventTime[];
+  isPast: boolean;
+  promoImage?: Picture;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
+  image?: ImageType;
+  isOnline: boolean;
+  locations: Place[];
+  availableOnline: boolean;
+  scheduleLength: number;
+  series: EventSeries[];
+  promoText?: string;
+  cost?: string;
+  contributors: Contributor[];
 };
 
 export type Event = GenericContentFields & {
