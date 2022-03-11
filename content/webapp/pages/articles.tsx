@@ -1,9 +1,12 @@
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -17,7 +20,7 @@ import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
-  articles: PaginatedResults<Article>;
+  articles: PaginatedResults<ArticleBasic>;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -30,7 +33,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const articlesQuery = await fetchArticles(client, { page });
-    const articles = transformQuery(articlesQuery, transformArticle);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
     const serverData = await getServerData(context);
 
     return {
@@ -52,7 +57,7 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
       jsonLd={articles.results.map(articleLd)}
       openGraphType={'website'}
       siteSection={'stories'}
-      image={firstArticle && firstArticle.image}
+      image={firstArticle.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
