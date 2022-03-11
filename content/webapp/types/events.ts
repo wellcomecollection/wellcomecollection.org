@@ -72,6 +72,7 @@ export type ThirdPartyBooking = {
 };
 
 export type EventBasic = {
+  // this is a mix of props from GenericContentFields and Event
   type: 'events';
   id: string;
   title: string;
