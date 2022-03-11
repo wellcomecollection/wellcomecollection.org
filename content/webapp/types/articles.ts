@@ -6,6 +6,23 @@ import { MultiContent } from './multi-content';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 import { Series } from './series';
+import { ImagePromo } from './image-promo';
+import { ImageType } from '@weco/common/model/image';
+import { Picture } from '@weco/common/model/picture';
+
+export type ArticleBasic = {
+  // this is a mix of props from GenericContentFields and Article
+  type: 'articles';
+  id: string;
+  promo?: ImagePromo | undefined;
+  series: Series[];
+  title: string;
+  format?: Format<ArticleFormatId>;
+  image?: ImageType;
+  contributors: Contributor[];
+  datePublished: Date;
+  promoImage?: Picture;
+};
 
 export type Article = GenericContentFields & {
   type: 'articles';
