@@ -9,18 +9,16 @@ import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 import { Event, EventTime } from '../../types/events';
 
 function getNextDateInFuture(event: Event): EventTime | undefined {
-  const now = london();
+  const now = new Date();
   const futureTimes = event.times.filter(time => {
-    const end = london(time.range.endDateTime);
-    return end.isSameOrAfter(now, 'day');
+    return time.range.endDateTime.getDate() >= now.getDate();
   });
 
   if (futureTimes.length === 0) {
     return undefined;
   } else {
     return futureTimes.reduce((closestStartingDate, time) => {
-      const start = london(time.range.startDateTime);
-      if (start.isBefore(closestStartingDate.range.startDateTime)) {
+      if (time.range.startDateTime <= closestStartingDate.range.startDateTime) {
         return time;
       } else {
         return closestStartingDate;
@@ -48,22 +46,34 @@ function filterEventsByTimeRange(
   });
 }
 
+function startOfDay(d: Date): Date {
+  const res = new Date(d);
+  res.setUTCHours(0, 0, 0, 0);
+  return res;
+}
+
+function endOfDay(d: Date): Date {
+  const res = new Date(d);
+  res.setUTCHours(23, 59, 59, 999);
+  return res;
+}
+
+function addDays(d: Date, days: number): Date {
+  const res = new Date(d);
+  res.setDate(res.getDate() + days);
+  return res;
+}
+
 export function filterEventsForNext7Days(events: Event[]): Event[] {
-  const startOfToday = london().startOf('day');
-  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
-  return filterEventsByTimeRange(
-    events,
-    startOfToday.toDate(),
-    endOfNext7Days.toDate()
-  );
+  const startOfToday = startOfDay(new Date());
+  const endOfNext7Days = endOfDay(addDays(new Date(), 7));
+
+  return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
 export function filterEventsForToday(events: Event[]): Event[] {
-  const startOfToday = new Date();
-  startOfToday.setUTCHours(0, 0, 0, 0);
-
-  const endOfToday = new Date();
-  endOfToday.setUTCHours(23, 59, 59, 999);
+  const startOfToday = startOfDay(new Date());
+  const endOfToday = endOfDay(new Date());
 
   return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
