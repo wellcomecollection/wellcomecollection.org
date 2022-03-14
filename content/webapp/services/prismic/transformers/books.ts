@@ -1,4 +1,4 @@
-import { Book } from '../../../types/books';
+import { Book, BookBasic } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
@@ -12,6 +12,18 @@ import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+
+export function transformBookToBookBasic(book: Book): BookBasic {
+  // returns what is required to render BookPromos and book JSON-LD
+  return (({ type, id, title, subtitle, promoText, cover }) => ({
+    type,
+    id,
+    title,
+    subtitle,
+    promoText,
+    cover,
+  }))(book);
+}
 
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
