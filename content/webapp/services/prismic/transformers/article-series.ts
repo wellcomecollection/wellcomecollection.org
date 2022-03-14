@@ -1,14 +1,14 @@
 import { Query } from '@prismicio/types';
 import { Series } from '../../../types/series';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { Article } from '../../../types/articles';
+import { ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import { transformArticle } from './articles';
+import { transformArticle, transformArticleToArticleBasic } from './articles';
 import { transformQuery } from './paginated-results';
 
 type ArticleSeriesWithArticles = {
   series: Series;
-  articles: Article[];
+  articles: ArticleBasic[];
 };
 
 export const transformArticleSeries = (
@@ -18,7 +18,9 @@ export const transformArticleSeries = (
   // TODO: This function is quite confusing.  Refactor it and add
   // more helpful comments.
 
-  const articles = transformQuery(articleQuery, transformArticle).results;
+  const articles = transformQuery(articleQuery, transformArticle).results.map(
+    transformArticleToArticleBasic
+  );
 
   if (articles.length === 0) {
     return undefined;
@@ -54,7 +56,7 @@ export const transformArticleSeries = (
                 ? ({
                     ...item,
                     color: series && series.color,
-                  } as Article)
+                  } as ArticleBasic)
                 : item;
             })
           : articles,
