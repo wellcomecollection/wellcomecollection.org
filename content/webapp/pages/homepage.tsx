@@ -5,7 +5,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
@@ -29,7 +29,10 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
@@ -68,7 +71,7 @@ const CreamBox = styled(Space).attrs({
 type Props = {
   exhibitions: PaginatedResults<Exhibition>;
   events: PaginatedResults<EventBasic>;
-  articles: PaginatedResults<Article>;
+  articles: PaginatedResults<ArticleBasic>;
   page: PageType;
 };
 
@@ -108,7 +111,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // The homepage should always exist in Prismic.
     const page = transformPage(pageDocument!);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
     );
