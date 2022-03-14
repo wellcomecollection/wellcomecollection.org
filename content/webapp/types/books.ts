@@ -9,6 +9,17 @@ type Review = {
   citation: prismicT.RichTextField;
 };
 
+export type BookBasic = {
+  // this is a mix of props from GenericContentFields and Book
+  // and is only what is required to render BookPromos and json-ld
+  type: 'books';
+  id: string;
+  title: string;
+  subtitle?: string;
+  promoText?: string;
+  cover?: ImageType;
+};
+
 export type Book = GenericContentFields & {
   type: 'books';
   subtitle?: string;
