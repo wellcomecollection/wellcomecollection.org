@@ -27,6 +27,7 @@ export type ArticleBasic = {
   labels: Label[];
   promoText?: string;
   squareImage?: ImageType;
+  color?: ColorSelection;
 };
 
 export type Article = GenericContentFields & {
