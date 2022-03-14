@@ -6,9 +6,9 @@ import {
   isDatePast,
 } from '@weco/common/utils/format-date';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
-import { Event, EventTime } from '../../types/events';
+import { Event, EventBasic, EventTime } from '../../types/events';
 
-function getNextDateInFuture(event: Event): EventTime | undefined {
+function getNextDateInFuture(event: EventBasic): EventTime | undefined {
   const now = london();
   const futureTimes = event.times.filter(time => {
     const end = london(time.range.endDateTime);
@@ -30,10 +30,10 @@ function getNextDateInFuture(event: Event): EventTime | undefined {
 }
 
 function filterEventsByTimeRange(
-  events: Event[],
+  events: EventBasic[],
   start: Moment,
   end: Moment
-): Event[] {
+): EventBasic[] {
   return events.filter(event => {
     return event.times.find(time => {
       const eventStart = london(time.range.startDateTime);
@@ -47,24 +47,26 @@ function filterEventsByTimeRange(
   });
 }
 
-export function filterEventsForNext7Days(events: Event[]): Event[] {
+export function filterEventsForNext7Days(events: EventBasic[]): EventBasic[] {
   const startOfToday = london().startOf('day');
   const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
-export function filterEventsForToday(events: Event[]): Event[] {
+export function filterEventsForToday(events: EventBasic[]): EventBasic[] {
   const startOfToday = london().startOf('day');
   const endOfToday = london().endOf('day');
   return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
 
-export function filterEventsForWeekend(events: Event[]): Event[] {
+export function filterEventsForWeekend(events: EventBasic[]): EventBasic[] {
   const { start, end } = getNextWeekendDateRange(new Date());
   return filterEventsByTimeRange(events, london(start), london(end));
 }
 
-export function orderEventsByNextAvailableDate(events: Event[]): Event[] {
+export function orderEventsByNextAvailableDate(
+  events: EventBasic[]
+): EventBasic[] {
   const reorderedEvents = sortBy(
     [...events].filter(getNextDateInFuture),
     getNextDateInFuture

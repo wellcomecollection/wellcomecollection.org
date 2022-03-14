@@ -5,14 +5,14 @@ import { london } from '@weco/common/utils/format-date';
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
 
 type Props = {
-  events: Event[];
+  events: EventBasic[];
   links?: Link[];
 };
 
