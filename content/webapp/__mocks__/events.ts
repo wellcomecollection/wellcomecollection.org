@@ -1,4 +1,4 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../types/events';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import * as prismicT from '@prismicio/types';
 
@@ -26,7 +26,7 @@ const location = {
   ] as prismicT.RichTextField,
 };
 
-const baseEvent: UiEvent = {
+const baseEvent: Event = {
   type: 'events',
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
@@ -50,11 +50,6 @@ const baseEvent: UiEvent = {
     description: undefined,
   },
   body: [],
-  dateRange: {
-    firstDate: new Date(),
-    lastDate: new Date(),
-    repeats: 0,
-  },
   image: image,
   hasEarlyRegistration: false,
   labels: [
@@ -69,20 +64,19 @@ const baseEvent: UiEvent = {
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
   promoImage: { ...image },
-  displayEnd: new Date(),
-  displayStart: new Date(),
   scheduleLength: 0,
   seasons: [],
   isOnline: false,
   availableOnline: false,
+  contributors: [],
 };
 
-export const eventWithOneLocation: UiEvent = {
+export const eventWithOneLocation: Event = {
   ...baseEvent,
   locations: [location],
 };
-export const eventOnline: UiEvent = { ...baseEvent, isOnline: true };
-export const eventWithOneLocationOnline: UiEvent = {
+export const eventOnline: Event = { ...baseEvent, isOnline: true };
+export const eventWithOneLocationOnline: Event = {
   ...baseEvent,
   locations: [location],
   isOnline: true,
