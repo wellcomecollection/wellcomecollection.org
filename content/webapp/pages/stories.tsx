@@ -138,11 +138,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
       transformBookToBookBasic
     );
-    console.log('one', transformFeaturedBooks(featuredBooksDoc));
-    console.log(
-      'two',
-      transformFeaturedBooks(featuredBooksDoc).map(transformBookToBookBasic)
-    );
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(
