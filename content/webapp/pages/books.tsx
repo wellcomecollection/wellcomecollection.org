@@ -9,14 +9,17 @@ import { FunctionComponent } from 'react';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformBook } from '../services/prismic/transformers/books';
+import {
+  transformBook,
+  transformBookToBookBasic,
+} from '../services/prismic/transformers/books';
 import { fetchBooks } from '../services/prismic/fetch/books';
-import { Book } from '../types/books';
+import { BookBasic } from '../types/books';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
-  books: PaginatedResults<Book>;
+  books: PaginatedResults<BookBasic>;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -31,7 +34,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       page,
       pageSize: 21,
     });
-    const books = transformQuery(booksQuery, transformBook);
+
+    const books = transformQuery(booksQuery, book =>
+      transformBookToBookBasic(transformBook(book))
+    );
 
     const serverData = await getServerData(context);
     if (books) {
@@ -57,7 +63,7 @@ const BooksPage: FunctionComponent<Props> = props => {
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'website'}
       siteSection={null}
-      image={firstBook && firstBook.image}
+      image={firstBook && firstBook.cover}
     >
       <SpacingSection>
         <LayoutPaginatedResults

@@ -44,13 +44,14 @@ import {
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
-import { Book } from '../types/books';
+import { transformBookToBookBasic } from '../services/prismic/transformers/books';
+import { BookBasic } from '../types/books';
 
 type Props = {
   articles: ArticleBasic[];
   series: Series;
   featuredText?: FeaturedTextType;
-  featuredBooks: Book[];
+  featuredBooks: BookBasic[];
 };
 
 const SerialisedSeries = ({ series }: { series: Series }) => {
@@ -133,7 +134,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articles = transformQuery(articlesQuery, article =>
       transformArticleToArticleBasic(transformArticle(article))
     );
-    const featuredBooks = transformFeaturedBooks(featuredBooksDoc);
+
+    const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
+      transformBookToBookBasic
+    );
+    console.log('one', transformFeaturedBooks(featuredBooksDoc));
+    console.log(
+      'two',
+      transformFeaturedBooks(featuredBooksDoc).map(transformBookToBookBasic)
+    );
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(
