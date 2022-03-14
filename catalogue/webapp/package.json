@@ -23,6 +23,7 @@
     "@types/supertest": "^2.0.11",
     "@weco/common": "1.0.0",
     "@weco/toggles": "1.0.0",
+    "agentkeepalive": "^4.2.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
     "jest": "^27.3.1",
