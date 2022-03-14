@@ -16,7 +16,7 @@ import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { Exhibition } from '../types/exhibitions';
+import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
@@ -69,7 +69,7 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
   events: PaginatedResults<EventBasic>;
   articles: PaginatedResults<ArticleBasic>;
   page: PageType;

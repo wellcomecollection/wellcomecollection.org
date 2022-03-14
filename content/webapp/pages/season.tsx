@@ -40,7 +40,7 @@ import { transformSeason } from '../services/prismic/transformers/seasons';
 import { Article } from '../types/articles';
 import { Book } from '../types/books';
 import { Event } from '../types/events';
-import { Exhibition } from '../types/exhibitions';
+import { ExhibitionBasic } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
@@ -51,7 +51,7 @@ type Props = {
   articles: Article[];
   books: Book[];
   events: Event[];
-  exhibitions: Exhibition[];
+  exhibitions: ExhibitionBasic[];
   pages: Page[];
   projects: Project[];
   series: Series[];
