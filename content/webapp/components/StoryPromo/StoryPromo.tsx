@@ -6,12 +6,12 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
-  article: Article;
+  article: ArticleBasic;
   position: number;
   hidePromoText?: boolean;
   hasTransparentBackground?: boolean;

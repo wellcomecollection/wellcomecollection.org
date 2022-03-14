@@ -5,9 +5,8 @@ import {
   UiImage,
 } from '@weco/common/views/components/Images/Images';
 import { Exhibition } from '../../types/exhibitions';
-import { Event } from '../../types/events';
 import {
-  Article,
+  ArticleBasic,
   getPositionInSeries,
   getArticleColor,
 } from '../../types/articles';
@@ -54,7 +53,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | Event | Exhibition | Season
+  item: ArticleBasic | Exhibition | Season
 ) {
   return {
     id: item.id,
@@ -78,13 +77,13 @@ export function convertItemToFeaturedCardProps(
 }
 
 type FeaturedCardArticleProps = {
-  article: Article;
+  article: ArticleBasic;
   background: string;
   color: string;
 };
 
 type FeaturedCardArticleBodyProps = {
-  article: Article;
+  article: ArticleBasic;
 };
 
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards

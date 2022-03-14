@@ -9,9 +9,11 @@ import { Series } from './series';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { Picture } from '@weco/common/model/picture';
+import { Label } from '@weco/common/model/labels';
 
 export type ArticleBasic = {
   // this is a mix of props from GenericContentFields and Article
+  // and is only what is required to render ArticlePromos and json-ld
   type: 'articles';
   id: string;
   promo?: ImagePromo | undefined;
@@ -22,6 +24,9 @@ export type ArticleBasic = {
   contributors: Contributor[];
   datePublished: Date;
   promoImage?: Picture;
+  labels: Label[];
+  promoText?: string;
+  squareImage?: ImageType;
 };
 
 export type Article = GenericContentFields & {
@@ -40,7 +45,7 @@ export type Article = GenericContentFields & {
   contributors: Contributor[];
 };
 
-export function getPositionInSeries(article: Article): number | undefined {
+export function getPositionInSeries(article: ArticleBasic): number | undefined {
   const serialisedSeries = article.series.find(
     series => series.schedule.length > 0
   );
@@ -51,6 +56,6 @@ export function getPositionInSeries(article: Article): number | undefined {
   }
 }
 
-export function getArticleColor(article: Article): ColorSelection {
+export function getArticleColor(article: ArticleBasic): ColorSelection {
   return article.series.map(series => series.color).find(Boolean) || 'purple';
 }

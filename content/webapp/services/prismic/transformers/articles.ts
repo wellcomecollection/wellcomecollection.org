@@ -58,6 +58,9 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     contributors,
     datePublished,
     promoImage,
+    labels,
+    promoText,
+    squareImage,
   }) => ({
     type,
     id,
@@ -69,6 +72,9 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     contributors,
     datePublished,
     promoImage,
+    labels,
+    promoText,
+    squareImage,
   }))(article);
 }
 

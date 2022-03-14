@@ -1,5 +1,5 @@
 import { EventSeries } from './event-series';
-import { Article } from './articles';
+import { ArticleBasic } from './articles';
 import { Book } from './books';
 import { EventBasic } from './events';
 import { Exhibition } from './exhibitions';
@@ -14,7 +14,7 @@ export type MultiContent =
   | EventSeries
   | Book
   | EventBasic
-  | Article
+  | ArticleBasic
   | Exhibition
   | Series
   | Guide
