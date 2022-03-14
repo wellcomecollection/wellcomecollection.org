@@ -15,13 +15,15 @@ import { transformContributors } from './contributors';
 
 export function transformBookToBookBasic(book: Book): BookBasic {
   // returns what is required to render BookPromos and book JSON-LD
-  return (({ type, id, title, subtitle, promoText, cover }) => ({
+  return (({ type, id, title, subtitle, promoText, cover, promo, labels }) => ({
     type,
     id,
     title,
     subtitle,
     promoText,
     cover,
+    promo,
+    labels,
   }))(book);
 }
 

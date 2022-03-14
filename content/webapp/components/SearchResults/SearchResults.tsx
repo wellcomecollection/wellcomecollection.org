@@ -97,10 +97,10 @@ const SearchResults: FunctionComponent<Props> = ({
             description={item.promo && item.promo.caption}
             urlOverride={item.promo && item.promo.link}
             Image={
-              item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              item.cover &&
+              item.cover.crops &&
+              item.cover.crops.square && (
+                <Image {...item.cover.crops.square} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}

@@ -3,6 +3,8 @@ import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
+import { ImagePromo } from './image-promo';
+import { Label } from '@weco/common/model/labels';
 
 type Review = {
   text: prismicT.RichTextField;
@@ -18,6 +20,8 @@ export type BookBasic = {
   subtitle?: string;
   promoText?: string;
   cover?: ImageType;
+  promo?: ImagePromo | undefined;
+  labels: Label[];
 };
 
 export type Book = GenericContentFields & {

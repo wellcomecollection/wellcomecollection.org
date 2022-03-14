@@ -1,7 +1,7 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import UiImage from '@weco/common/views/components/Image/Image';
-import { Book } from '../../types/books';
+import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -38,7 +38,7 @@ const LinkOrSpanSpace = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
 }))<LinkOrSpanSpaceAttrs>``;
 
 type Props = {
-  book: Book;
+  book: BookBasic;
 };
 
 const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
