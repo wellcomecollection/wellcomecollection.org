@@ -36,7 +36,7 @@ export const catalogueApiError = (): CatalogueApiError => ({
 // By default, the next.js polyfill for node-fetch enables keep-alive by default.
 // https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
 //
-// This is great, but it leads us to occasionally see errors like this one:
+// This is great, but it leads us occasionally to see errors like this one:
 //
 //      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
 //      failed, reason: read ECONNRESET
