@@ -4,7 +4,7 @@ import {
   UiImageProps,
   UiImage,
 } from '@weco/common/views/components/Images/Images';
-import { Exhibition } from '../../types/exhibitions';
+import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
   getPositionInSeries,
@@ -53,7 +53,7 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: ArticleBasic | Exhibition | Season
+  item: ArticleBasic | ExhibitionBasic | Season
 ) {
   return {
     id: item.id,
@@ -126,13 +126,13 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
   };
 
 type FeaturedCardExhibitionProps = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
   background: string;
   color: string;
 };
 
 type FeaturedCardExhibitionBodyProps = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
 };
 
 const FeaturedCardExhibitionBody = ({
