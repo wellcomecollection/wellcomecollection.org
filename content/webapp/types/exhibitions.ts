@@ -9,6 +9,7 @@ import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { Label } from '@weco/common/model/labels';
 import { ImageType } from '@weco/common/model/image';
+import { Picture } from '@weco/common/model/picture';
 import * as prismicT from '@prismicio/types';
 
 // e.g. 'Permanent'
@@ -34,6 +35,7 @@ export type ExhibitionBasic = {
   labels: Label[];
   image?: ImageType;
   promoText?: string;
+  promoImage?: Picture;
 };
 
 export type Exhibition = GenericContentFields & {

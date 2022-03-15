@@ -194,6 +194,7 @@ export function transformExhibitionToExhibitionBasic(
     statusOverride,
     contributors,
     labels,
+    promoImage,
   }) => ({
     type,
     id,
@@ -206,6 +207,7 @@ export function transformExhibitionToExhibitionBasic(
     statusOverride,
     contributors,
     labels,
+    promoImage,
   }))(exhibition);
 }
 
