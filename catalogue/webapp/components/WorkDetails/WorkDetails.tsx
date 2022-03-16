@@ -605,8 +605,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 linkAttributes: worksLink(
                   {
                     partOf: partOf.title,
-                    sort: 'production.dates',
-                    sortOrder: 'desc',
                   },
                   'work_details/partOf'
                 ),
