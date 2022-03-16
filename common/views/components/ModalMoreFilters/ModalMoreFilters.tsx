@@ -134,6 +134,15 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
   return (
     <>
       {filters
+        .filter(f => f.excludeFromMoreFilters)
+        .map(f => (
+          <div key={f.id} style={{ display: 'none' }}>
+            {f.type === 'checkbox' && (
+              <CheckboxFilter f={f} changeHandler={changeHandler} />
+            )}
+          </div>
+        ))}
+      {filters
         .filter(f => !f.excludeFromMoreFilters)
         .map(f => (
           <FilterSection key={f.id}>
