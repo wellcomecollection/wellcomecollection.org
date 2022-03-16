@@ -591,7 +591,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             text={[work.physicalDescription]}
           />
         )}
-        {work.partOf.some(p => !['id']) && (
+        {work.partOf.filter(p => !p['id']).length > 0 && (
           // Only show partOfs with no id here.
           // A partOf object with an id will be represented in
           // the archive hierarchy.
