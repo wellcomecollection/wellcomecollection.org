@@ -5,7 +5,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Period } from '../../types/periods';
 import { Exhibition } from '../../types/exhibitions';
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import { Article } from '../../types/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -20,7 +20,7 @@ import * as prismicT from '@prismicio/types';
 
 type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
-  | PaginatedResults<Event>
+  | PaginatedResults<EventBasic>
   | PaginatedResults<Book>
   | PaginatedResults<Article>
   | PaginatedResults<Guide>;

@@ -3,6 +3,7 @@ import {
   DateTimeRange,
   EventTime,
   Event,
+  EventBasic,
   Interpretation,
   Team,
   ThirdPartyBooking,
@@ -231,7 +232,6 @@ export function transformEvent(
   return {
     type: 'events',
     ...genericFields,
-    // place,
     locations,
     audiences,
     bookingEnquiryTeam,
@@ -269,6 +269,49 @@ export function transformEvent(
   };
 }
 
+export function transformEventToEventBasic(event: Event): EventBasic {
+  // returns what is required to render EventPromos and event JSON-LD
+  return (({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    promoImage,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    promoText,
+    cost,
+    contributors,
+  }) => ({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    promoImage,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    promoText,
+    cost,
+    contributors,
+  }))(event);
+}
+
 export const getScheduleIds = (
   eventDocument: EventPrismicDocument
 ): string[] => {
@@ -279,11 +322,19 @@ export const getScheduleIds = (
     .filter(isNotUndefined);
 };
 
+function isEvent(event: Event | EventBasic): event is Event {
+  return (event as Event).audiences !== undefined;
+}
+
 // When events are serialised as JSON then re-parsed, the times will be
 // strings instead of JavaScript Date types.
 //
 // Convert them back to the right types.
-export function fixEventDatesInJson(jsonEvent: Event): Event {
+export function fixEventDatesInJson(eventJson: Event): Event;
+export function fixEventDatesInJson(eventJson: EventBasic): EventBasic;
+export function fixEventDatesInJson(
+  jsonEvent: Event | EventBasic
+): Event | EventBasic {
   const times = jsonEvent.times.map(time => {
     return {
       ...time,
@@ -294,16 +345,21 @@ export function fixEventDatesInJson(jsonEvent: Event): Event {
     };
   });
 
-  const schedule =
-    jsonEvent.schedule &&
-    jsonEvent.schedule.map(item => ({
+  if (isEvent(jsonEvent)) {
+    const schedule = jsonEvent.schedule?.map(item => ({
       ...item,
       event: fixEventDatesInJson(item.event),
     }));
 
-  return {
-    ...jsonEvent,
-    times,
-    schedule,
-  };
+    return {
+      ...jsonEvent,
+      times,
+      schedule,
+    };
+  } else {
+    return {
+      ...jsonEvent,
+      times,
+    };
+  }
 }
