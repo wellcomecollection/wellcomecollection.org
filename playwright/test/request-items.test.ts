@@ -8,15 +8,7 @@ beforeAll(async () => {
   const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
     domain
   );
-  await context.addCookies([
-    {
-      name: 'toggle_enableRequesting',
-      value: 'true',
-      domain: domain,
-      path: '/',
-    },
-    ...defaultToggleAndTestCookies,
-  ]);
+  await context.addCookies(defaultToggleAndTestCookies);
 });
 
 describe.skip('Scenario 1: researcher is logged out', () => {

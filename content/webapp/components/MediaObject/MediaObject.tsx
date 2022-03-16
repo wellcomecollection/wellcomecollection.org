@@ -5,13 +5,13 @@ import MediaObjectBase, {
 } from '../MediaObjectBase/MediaObjectBase';
 import { ImageType } from '@weco/common/model/image';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import styled from 'styled-components';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
+import * as prismicT from '@prismicio/types';
 
 export type Props = {
   title: string;
-  text?: HTMLString;
+  text?: prismicT.RichTextField;
   image: ImageType;
   sizesQueries?: string;
 };

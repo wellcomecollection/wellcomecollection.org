@@ -2,7 +2,7 @@ import { ImagePromo } from './image-promo';
 import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 
 export type Weight = 'default' | 'featured' | 'standalone' | 'supporting';
 
@@ -20,7 +20,7 @@ export type GenericContentFields = {
   title: string;
   promo?: ImagePromo;
   body: BodyType;
-  standfirst?: HTMLString;
+  standfirst?: prismicT.RichTextField;
   promoText?: string;
   promoImage?: Picture;
   image?: ImageType;

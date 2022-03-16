@@ -27,7 +27,7 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   article: Article;

@@ -71,19 +71,6 @@ export function getDownloadOptionsFromImageUrl(
   }
 }
 
-export function getEncoreLink(work: Work): string | undefined {
-  const sierraWorkIds = getWorkIdentifiersWith(work, {
-    identifierId: 'sierra-system-number',
-  });
-  const sierraId = sierraWorkIds[0];
-  return sierraId
-    ? `http://encore.wellcomelibrary.org/iii/encore/record/C__R${sierraId.substr(
-        0,
-        sierraId.length - 1
-      )}`
-    : undefined;
-}
-
 export function sierraIdFromPresentationManifestUrl(
   iiifPresentationLocation: string
 ): string {
@@ -220,21 +207,6 @@ export function getItemsWith(
       ?.filter(item => itemIdentifierWithId(item, identifierId))
       .filter(item => itemLocationWithType(item, locationType)) ?? []
   );
-}
-
-type WorkProps = {
-  identifierId: string;
-};
-
-export function getWorkIdentifiersWith(
-  work: Work,
-  { identifierId }: WorkProps
-): string[] {
-  return work.identifiers.reduce((acc: string[], identifier) => {
-    return identifier.identifierType.id === identifierId
-      ? acc.concat(identifier.value)
-      : acc;
-  }, []);
 }
 
 export function getItemIdentifiersWith(

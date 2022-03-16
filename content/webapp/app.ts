@@ -19,7 +19,7 @@ import {
 } from '@weco/common/services/prismic/hardcoded-id';
 import { Periods } from './types/periods';
 import linkResolver from './services/prismic/link-resolver';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 
 const periodPaths = Object.values(Periods).join('|');
 

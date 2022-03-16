@@ -13,7 +13,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import { useToggles } from '@weco/common/server-data/Context';
+import { getWorkItemsClientSide } from 'services/catalogue/works';
 
 type Props = {
   work: Work;
@@ -22,19 +22,14 @@ type Props = {
 
 type ItemsState = 'stale' | 'up-to-date';
 
-const getItemsState = (
-  items: PhysicalItem[],
-  enableRequesting: boolean
-): ItemsState =>
-  items.some(itemIsTemporarilyUnavailable) ||
-  (enableRequesting && items.some(itemIsRequestable))
+const getItemsState = (items: PhysicalItem[]): ItemsState =>
+  items.some(itemIsTemporarilyUnavailable) || items.some(itemIsRequestable)
     ? 'stale'
     : 'up-to-date';
 
 const useItemsState = (
   items: PhysicalItem[]
 ): [ItemsState, (s: ItemsState) => void] => {
-  const { enableRequesting } = useToggles();
   /* https://github.com/wellcomecollection/wellcomecollection.org/issues/7120#issuecomment-938035546
    *
    * What if we don’t call the items API? There are two possible error cases:
@@ -56,11 +51,11 @@ const useItemsState = (
    * In all other cases the items API would be a no-op.
    */
   const [itemsState, setItemsState] = useState<ItemsState>(
-    getItemsState(items, enableRequesting)
+    getItemsState(items)
   );
 
   useEffect(() => {
-    setItemsState(getItemsState(items, enableRequesting));
+    setItemsState(getItemsState(items));
   }, [items]);
 
   return [itemsState, setItemsState];
@@ -102,10 +97,7 @@ const PhysicalItems: FunctionComponent<Props> = ({
   useAbortSignalEffect(
     signal => {
       const updateItemsStatus = async () => {
-        const itemsResponse = await fetch(`/api/works/items/${work.id}`, {
-          signal,
-        });
-        const items = await itemsResponse.json();
+        const items = await getWorkItemsClientSide(work.id, signal);
 
         if (!isCatalogueApiError(items)) {
           setPhysicalItems(getItemsWithPhysicalLocation(items.results));

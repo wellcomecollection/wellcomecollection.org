@@ -45,6 +45,7 @@ export type CatalogueWorksApiProps = {
   availabilities?: string[];
   sort?: string;
   sortOrder?: string;
+  partOf?: string;
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'genres.label'?: string[];
@@ -67,6 +68,7 @@ export function worksRouteToApiUrl(
     availabilities: worksProps.availabilities,
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
+    partOf: worksProps.partOf,
     'production.dates.from': worksProps['production.dates.from']
       ? toIsoDateString(worksProps['production.dates.from'])
       : undefined,

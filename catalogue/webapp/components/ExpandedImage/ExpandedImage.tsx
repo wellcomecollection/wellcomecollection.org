@@ -14,7 +14,7 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import Image from '@weco/common/views/components/Image/Image';
 import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
-import { getWork } from '../../services/catalogue/works';
+import { getWorkClientSide } from '../../services/catalogue/works';
 import {
   useEffect,
   useState,
@@ -226,7 +226,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const fetchDetailedWork = async () => {
-      const res = await getWork({ id: workId, toggles });
+      const res = await getWorkClientSide(workId);
       if (res.type === 'Work') {
         setDetailedWork(res);
       }

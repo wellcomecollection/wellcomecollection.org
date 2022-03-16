@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { LabelField } from '@weco/common/model/label-field';
+import * as prismicT from '@prismicio/types';
 
 const HeadingLink = styled.a.attrs({
   className: classNames({
@@ -27,7 +27,7 @@ export type Props = {
   items: {
     title?: string;
     link?: string;
-    text?: HTMLString;
+    text?: prismicT.RichTextField;
     label?: LabelField;
   }[];
 };

@@ -4,7 +4,7 @@ import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { fetchLinks as pagesFetchLinks } from './pages';
 
 const fetchLinks = [];

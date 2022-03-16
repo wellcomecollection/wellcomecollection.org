@@ -46,7 +46,13 @@ export type ExhibitionPrismicDocument = PrismicDocument<
       item: RelationField<
         'exhibitions',
         'en-gb',
-        InferDataInterface<ExhibitionPrismicDocument>
+        // We know this is an ExhibitionPrismicDocument, but the type checker gets
+        // unhappy about the circular reference:
+        //
+        //    'event' is referenced directly or indirectly in its own type annotation.
+        //
+        // TODO: Find a better way to do this which doesn't upset the type checker.
+        InferDataInterface<any>
       >;
     }>;
     events: GroupField<{

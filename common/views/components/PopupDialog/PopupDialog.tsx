@@ -17,7 +17,6 @@ import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
-import { HTMLString } from '../../../services/prismic/types';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
@@ -340,7 +339,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               [font('hnr', 5, { medium: 2, large: 2 })]: true,
             })}
           >
-            <PrismicHtmlBlock html={text as HTMLString} />
+            <PrismicHtmlBlock html={text} />
           </div>
         </Space>
         <PopupDialogCTA

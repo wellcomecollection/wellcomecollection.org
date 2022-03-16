@@ -1,12 +1,12 @@
 /** This script checks every page against a locally running content app.
-  *
-  * This is useful when you're doing a major refactor, and you want to check you
-  * haven't broken a page.
-  * 
-  * Note: the validation this provides is limited.  It will tell you that you haven't
-  * introduced a 500 error, but it won't tell you if you've broken a component in
-  * a non-catastrophic way.
-  */
+ *
+ * This is useful when you're doing a major refactor, and you want to check you
+ * haven't broken a page.
+ *
+ * Note: the validation this provides is limited.  It will tell you that you haven't
+ * introduced a 500 error, but it won't tell you if you've broken a component in
+ * a non-catastrophic way.
+ */
 
 import { error } from './console';
 import { downloadPrismicSnapshot } from './downloadSnapshot';

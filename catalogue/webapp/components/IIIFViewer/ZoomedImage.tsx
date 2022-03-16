@@ -8,7 +8,6 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
-import Raven from 'raven-js';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Space from '@weco/common/views/components/styled/Space';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -79,11 +78,6 @@ const ZoomedImage: FunctionComponent = () => {
         setViewer(osdViewer);
       })
       .catch(error => {
-        Raven.captureException(new Error(`OpenSeadragon error: ${error}`), {
-          tags: {
-            service: 'dlcs',
-          },
-        });
         setScriptError(true);
       });
   }

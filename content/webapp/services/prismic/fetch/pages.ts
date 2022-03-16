@@ -1,4 +1,4 @@
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument } from '../types/pages';
 import {

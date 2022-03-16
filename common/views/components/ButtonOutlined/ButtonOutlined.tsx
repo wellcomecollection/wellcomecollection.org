@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, SyntheticEvent } from 'react';
+import { forwardRef, ReactNode, SyntheticEvent, FC } from 'react';
 import { classNames } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
@@ -77,68 +77,68 @@ type ButtonOutlinedProps = ButtonOutlinedBaseProps & {
 const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children;
 
-const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
-  (
-    {
-      icon,
-      text,
-      type,
-      isTextHidden,
-      trackingEvent,
-      isOnDark,
-      isDangerous,
-      clickHandler,
-      ariaControls,
-      ariaExpanded,
-      ariaLive,
-      disabled,
-    }: ButtonOutlinedProps,
-    ref
-  ) => {
-    function handleClick(event) {
-      clickHandler && clickHandler(event);
-      trackingEvent && trackEvent(trackingEvent);
-    }
-    return (
-      <OutlinedButton
-        type={type}
-        isOnDark={isOnDark}
-        isDangerous={isDangerous}
-        aria-controls={ariaControls}
-        aria-expanded={ariaExpanded}
-        aria-live={ariaLive}
-        onClick={handleClick}
-        disabled={disabled}
-        ref={ref}
-      >
-        <BaseButtonInner>
-          <>
-            <AlignFont
-              className={classNames({
-                'visually-hidden': !!isTextHidden,
-              })}
-            >
-              {text}
-            </AlignFont>
-            {icon && (
-              <ConditionalWrapper
-                condition={!isTextHidden}
-                wrapper={children => (
-                  <ButtonIconWrapper iconAfter={true}>
-                    {children}
-                  </ButtonIconWrapper>
-                )}
-              >
-                <Icon icon={icon} />
-              </ConditionalWrapper>
-            )}
-          </>
-        </BaseButtonInner>
-      </OutlinedButton>
-    );
+const Button: FC<ButtonOutlinedProps> = (
+  {
+    icon,
+    text,
+    type,
+    isTextHidden,
+    trackingEvent,
+    isOnDark,
+    isDangerous,
+    clickHandler,
+    ariaControls,
+    ariaExpanded,
+    ariaLive,
+    disabled,
+  }: ButtonOutlinedProps,
+  ref
+) => {
+  function handleClick(event) {
+    clickHandler && clickHandler(event);
+    trackingEvent && trackEvent(trackingEvent);
   }
-);
+  return (
+    <OutlinedButton
+      type={type}
+      isOnDark={isOnDark}
+      isDangerous={isDangerous}
+      aria-controls={ariaControls}
+      aria-expanded={ariaExpanded}
+      aria-live={ariaLive}
+      onClick={handleClick}
+      disabled={disabled}
+      ref={ref}
+    >
+      <BaseButtonInner>
+        <>
+          <AlignFont
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
+            {text}
+          </AlignFont>
+          {icon && (
+            <ConditionalWrapper
+              condition={!isTextHidden}
+              wrapper={children => (
+                <ButtonIconWrapper iconAfter={true}>
+                  {children}
+                </ButtonIconWrapper>
+              )}
+            >
+              <Icon icon={icon} />
+            </ConditionalWrapper>
+          )}
+        </>
+      </BaseButtonInner>
+    </OutlinedButton>
+  );
+};
 
-ButtonOutlined.displayName = 'ButtonOutlined';
+const ButtonOutlined = forwardRef<HTMLButtonElement, ButtonOutlinedProps>(
+  Button
+);
 
 export default ButtonOutlined;

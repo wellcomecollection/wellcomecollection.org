@@ -33,6 +33,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import { allowedRequests } from '@weco/common/values/requests';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
+import { trackEvent } from '@weco/common/utils/ga';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
 
 function arrayofItemsToText(arr) {
@@ -239,6 +240,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
           })
       )
     ) {
+      trackEvent({
+        category: 'requesting',
+        action: 'confirm_request',
+        label: `/works/${work.id}`,
+      });
       confirmRequest(pickUpDateMoment);
     }
   }
@@ -317,6 +323,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
           <ButtonSolid disabled={isLoading} text={`Confirm request`} />
         </Space>
         <ButtonOutlined
+          type="button"
           text={`Cancel`}
           clickHandler={() => setIsActive(false)}
         />
@@ -425,7 +432,6 @@ const ItemRequestModal: FC<Props> = ({
     } catch (error) {
       setRequestingState('error');
       setRequestingError(error.description);
-      // TODO: error to Sentry?
     }
   }
 

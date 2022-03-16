@@ -1,12 +1,12 @@
 import { GenericContentFields } from './generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 
 type Review = {
-  text: HTMLString;
-  citation: HTMLString;
+  text: prismicT.RichTextField;
+  citation: prismicT.RichTextField;
 };
 
 export type Book = GenericContentFields & {

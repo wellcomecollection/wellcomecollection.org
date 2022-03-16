@@ -12,9 +12,7 @@ import {
 import { Query } from '@prismicio/types';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
-import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import { link } from './vendored-helpers';
 import {
   asHtml,
   asRichText,
@@ -31,6 +29,7 @@ import { isFilledLinkToDocumentWithData } from '../types';
 import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -74,13 +73,13 @@ export function transformExhibition(
   const data = document.data;
   const promo = data.promo;
   const exhibitIds = data.exhibits
-    ? data.exhibits.map(i => link(i.item) && i.item.id)
+    ? data.exhibits.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const eventIds = data.events
-    ? data.events.map(i => link(i.item) && i.item.id)
+    ? data.events.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const articleIds = data.articles
-    ? data.articles.map(i => link(i.item) && i.item.id)
+    ? data.articles.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
@@ -195,14 +194,16 @@ function putPermanentAfterCurrentExhibitions(
   // We order the list this way as, from a user's perspective, seeing the
   // temporary exhibitions is more urgent, so they're at the front of the list,
   // but there's no good way to express that ordering through Prismic's ordering
+  const now = new Date();
+
   const groupedResults = exhibitions.reduce(
     (acc, result) => {
       // Wishing there was `groupBy`.
       if (result.isPermanent) {
         acc.permanent.push(result);
-      } else if (london(result.start).isAfter(london())) {
+      } else if (result.start.valueOf() >= now.valueOf()) {
         acc.comingUp.push(result);
-      } else if (result.end && london(result.end).isBefore(london())) {
+      } else if (result.end && result.end.valueOf() < now.valueOf()) {
         acc.past.push(result);
       } else {
         acc.current.push(result);
