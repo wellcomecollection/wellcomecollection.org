@@ -1,5 +1,4 @@
 import { Place } from '../../../types/places';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { transformGenericFields } from '.';
 import { PlacePrismicDocument } from '../types/places';
 
@@ -10,7 +9,7 @@ export function transformPlace(doc: PlacePrismicDocument): Place {
     level: doc.data.level || 0,
     capacity: doc.data.capacity || undefined,
     information: doc.data.locationInformation
-      ? (doc.data.locationInformation as HTMLString)
+      ? doc.data.locationInformation
       : undefined,
   };
 }

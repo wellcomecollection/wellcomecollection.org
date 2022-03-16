@@ -1,13 +1,13 @@
 import { Exhibition } from '../../types/exhibitions';
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import { Link } from '../../types/link';
 import CardGrid from '../CardGrid/CardGrid';
 import { FunctionComponent } from 'react';
 
 type Props = {
   exhibitions: Exhibition[];
-  events: Event[];
-  extras?: (Exhibition | Event)[];
+  events: EventBasic[];
+  extras?: (Exhibition | EventBasic)[];
   links?: Link[];
 };
 

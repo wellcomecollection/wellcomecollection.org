@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent, ForwardedRef } from 'react';
+import { forwardRef, SyntheticEvent, ForwardedRef, FC } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
@@ -154,61 +154,59 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 `;
 
 // TODO move styles here - styled component
-const ButtonSolid = forwardRef(
-  (
-    {
-      icon,
-      text,
-      type,
-      isTextHidden,
-      trackingEvent,
-      clickHandler,
-      ariaControls,
-      ariaExpanded,
-      ariaLive,
-      disabled,
-      isBig,
-      isDangerous,
-    }: ButtonSolidProps,
-    ref: ForwardedRef<HTMLButtonElement>
-  ) => {
-    function handleClick(event) {
-      clickHandler && clickHandler(event);
-      trackingEvent && trackEvent(trackingEvent);
-    }
-    return (
-      <SolidButton
-        type={type}
-        aria-controls={ariaControls}
-        aria-expanded={ariaExpanded}
-        aria-live={ariaLive}
-        onClick={handleClick}
-        disabled={disabled}
-        isBig={isBig}
-        isDangerous={isDangerous}
-        ref={ref}
-      >
-        <BaseButtonInner>
-          <>
-            {icon && (
-              <ButtonIconWrapper>
-                <Icon icon={icon} />
-              </ButtonIconWrapper>
-            )}
-            <AlignFont
-              className={classNames({
-                'visually-hidden': !!isTextHidden,
-              })}
-            >
-              {text}
-            </AlignFont>
-          </>
-        </BaseButtonInner>
-      </SolidButton>
-    );
+const Button: FC<ButtonSolidProps> = (
+  {
+    icon,
+    text,
+    type,
+    isTextHidden,
+    trackingEvent,
+    clickHandler,
+    ariaControls,
+    ariaExpanded,
+    ariaLive,
+    disabled,
+    isBig,
+    isDangerous,
+  }: ButtonSolidProps,
+  ref: ForwardedRef<HTMLButtonElement>
+) => {
+  function handleClick(event) {
+    clickHandler && clickHandler(event);
+    trackingEvent && trackEvent(trackingEvent);
   }
-);
+  return (
+    <SolidButton
+      type={type}
+      aria-controls={ariaControls}
+      aria-expanded={ariaExpanded}
+      aria-live={ariaLive}
+      onClick={handleClick}
+      disabled={disabled}
+      isBig={isBig}
+      isDangerous={isDangerous}
+      ref={ref}
+    >
+      <BaseButtonInner>
+        <>
+          {icon && (
+            <ButtonIconWrapper>
+              <Icon icon={icon} />
+            </ButtonIconWrapper>
+          )}
+          <AlignFont
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
+            {text}
+          </AlignFont>
+        </>
+      </BaseButtonInner>
+    </SolidButton>
+  );
+};
 
-ButtonSolid.displayName = 'ButtonSolid';
+const ButtonSolid = forwardRef(Button);
 
 export default ButtonSolid;

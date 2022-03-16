@@ -46,7 +46,6 @@ import {
 } from '.';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
-import { HTMLString } from '@weco/common/services/prismic/types';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -304,7 +303,7 @@ export function transformInfoBlockSlice(
     type: 'infoBlock',
     value: {
       title: asTitle(slice.primary.title),
-      text: slice.primary.text as HTMLString,
+      text: slice.primary.text,
       linkText: slice.primary.linkText,
       link: transformLink(slice.primary.link),
     },
@@ -331,8 +330,8 @@ export function transformQuoteSlice(
     type: 'quote',
     weight: getWeight(slice.slice_label),
     value: {
-      text: slice.primary.text as HTMLString,
-      citation: slice.primary.citation as HTMLString,
+      text: slice.primary.text,
+      citation: slice.primary.citation,
       isPullOrReview:
         slice.slice_label === 'pull' || slice.slice_label === 'review',
     },

@@ -1,6 +1,8 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { RichTextNodeType } from '@prismicio/types';
-import PageLayout, { Props as PageLayoutProps } from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  Props as PageLayoutProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
 import { emptyGlobalAlert } from '@weco/common/services/prismic/documents';
 import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
@@ -30,7 +32,7 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
               document={emptyGlobalAlert({
                 text: [
                   {
-                    type: 'paragraph' as RichTextNodeType.paragraph,
+                    type: RichTextNodeType.paragraph,
                     text: wellcomeImagesRedirectBanner,
                     spans: [],
                   },

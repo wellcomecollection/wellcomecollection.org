@@ -6,7 +6,10 @@ import { LabelField } from '@weco/common/model/label-field';
 import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import { ImagePromo } from './image-promo';
+import { Picture } from '@weco/common/model/picture';
+import { ImageType } from '@weco/common/model/image';
+import * as prismicT from '@prismicio/types';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -25,17 +28,17 @@ type EventSeries = {
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
-type InterpretationType = {
+export type InterpretationType = {
   id: string;
   title: string;
-  description?: HTMLString;
-  primaryDescription?: HTMLString;
+  description?: prismicT.RichTextField;
+  primaryDescription?: prismicT.RichTextField;
 };
 
 export type Interpretation = {
   interpretationType: InterpretationType;
   isPrimary: boolean;
-  extraInformation?: HTMLString;
+  extraInformation?: prismicT.RichTextField;
 };
 
 export type Team = {
@@ -49,7 +52,7 @@ export type Team = {
 export type Audience = {
   id: string;
   title: string;
-  description?: HTMLString;
+  description?: prismicT.RichTextField;
 };
 
 export type DateRange = {
@@ -68,6 +71,28 @@ export type ThirdPartyBooking = {
   url: string;
 };
 
+export type EventBasic = {
+  // this is a mix of props from GenericContentFields and Event
+  type: 'events';
+  id: string;
+  title: string;
+  promo?: ImagePromo | undefined;
+  times: EventTime[];
+  isPast: boolean;
+  promoImage?: Picture;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
+  image?: ImageType;
+  isOnline: boolean;
+  locations: Place[];
+  availableOnline: boolean;
+  scheduleLength: number;
+  series: EventSeries[];
+  promoText?: string;
+  cost?: string;
+  contributors: Contributor[];
+};
+
 export type Event = GenericContentFields & {
   type: 'events';
   format?: Format;
@@ -81,7 +106,7 @@ export type Event = GenericContentFields & {
   interpretations: Interpretation[];
   audiences: Audience[];
   policies: LabelField[];
-  bookingInformation?: HTMLString;
+  bookingInformation?: prismicT.RichTextField;
   cost?: string;
   bookingType?: string;
   thirdPartyBooking?: ThirdPartyBooking;
@@ -98,7 +123,7 @@ export type Event = GenericContentFields & {
   contributors: Contributor[];
 };
 
-export function isEventFullyBooked(event: Event): boolean {
+export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {

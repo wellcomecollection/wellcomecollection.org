@@ -1,12 +1,11 @@
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { font, classNames } from '@weco/common/utils/classnames';
-import { HTMLSerializer } from 'prismic-reactjs';
-import { ReactElement } from 'react';
+import { JSXFunctionSerializer } from '@prismicio/react';
+import * as prismicT from '@prismicio/types';
 
 type Props = {
-  html: HTMLString;
-  htmlSerializer?: HTMLSerializer<ReactElement>;
+  html: prismicT.RichTextField;
+  htmlSerializer?: JSXFunctionSerializer;
 };
 
 const FeaturedText = ({ html, htmlSerializer }: Props) => (

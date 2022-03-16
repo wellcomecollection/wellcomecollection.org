@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import { classNames } from '@weco/common/utils/classnames';
 import {
@@ -78,7 +79,7 @@ function createPrismicLoader(maxWidth: number) {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage = ({ image, sizes, maxWidth }: Props) => {
+const PrismicImage: FC<Props> = ({ image, sizes, maxWidth }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
@@ -99,7 +100,7 @@ const PrismicImage = ({ image, sizes, maxWidth }: Props) => {
       })}
       sizes={sizesString}
       src={image.contentUrl}
-      alt={image.alt}
+      alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth)}
     />
   );

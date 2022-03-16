@@ -3,7 +3,6 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import Header from '../Header/Header';
 import HeaderPrototype from '../Header/HeaderPrototype';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
@@ -94,7 +93,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     u => url.pathname && url.pathname.match(u)
   );
   useHotjar(shouldLoadHotjar);
-  const { apiToolbar, enableRequesting } = useToggles();
+  const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -154,7 +153,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   const imageUrl =
     socialPreviewCardImage &&
     convertImageUri(socialPreviewCardImage.contentUrl, 800);
-  const imageAltText = socialPreviewCardImage?.alt;
+  const imageAltText = socialPreviewCardImage?.alt || '';
 
   return (
     <>
@@ -281,11 +280,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
         </a>
-        {enableRequesting ? (
-          <HeaderPrototype siteSection={siteSection} />
-        ) : (
-          <Header siteSection={siteSection} />
-        )}
+
+        <HeaderPrototype siteSection={siteSection} />
+
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (

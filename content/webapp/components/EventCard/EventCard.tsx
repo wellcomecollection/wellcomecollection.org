@@ -1,4 +1,4 @@
-import { Event } from '../../types/events';
+import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
@@ -6,7 +6,7 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import { classNames, font } from '@weco/common/utils/classnames';
 
 type Props = {
-  event: Event;
+  event: EventBasic;
   xOfY: { x: number; y: number };
 };
 

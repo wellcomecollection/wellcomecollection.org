@@ -4,7 +4,7 @@ export type ImageType = {
   contentUrl: string;
   width: number;
   height: number;
-  alt: string;
+  alt: string | null;
   tasl?: Tasl;
   crops: {
     [key: string]: ImageType;

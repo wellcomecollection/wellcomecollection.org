@@ -1,10 +1,10 @@
 import { FunctionComponent, useState, useEffect, useContext } from 'react';
-import { HTMLString } from '@weco/common/services/prismic/types';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
+import * as prismicT from '@prismicio/types';
 
 const ButtonContainer = styled.div`
   position: absolute;
@@ -15,7 +15,7 @@ const ButtonContainer = styled.div`
 
 export type Props = {
   title: string | null;
-  text: HTMLString;
+  text: prismicT.RichTextField;
 };
 
 const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
@@ -32,7 +32,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
     if (isActive) {
       setTextToShow(text);
     } else {
-      setTextToShow(firstPartOfText);
+      setTextToShow(firstPartOfText as [prismicT.RTNode, ...prismicT.RTNode[]]);
     }
   }, [isActive]);
 

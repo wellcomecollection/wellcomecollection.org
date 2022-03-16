@@ -7,6 +7,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -27,7 +28,17 @@ const SignInLink: FC = () => {
   return (
     <AlignFont>
       <span className={font('hnb', 5)}>Library members:</span>{' '}
-      <a href={loginURL} className={font('hnr', 5)}>
+      <a
+        href={loginURL}
+        className={font('hnr', 5)}
+        onClick={() => {
+          trackEvent({
+            category: 'library_account',
+            action: 'login',
+            label: window.location.pathname,
+          });
+        }}
+      >
         sign in to your library account to request items
       </a>
     </AlignFont>

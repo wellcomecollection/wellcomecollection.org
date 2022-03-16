@@ -5,7 +5,7 @@ import {
   rootUris,
   globalApiOptions,
   GlobalApiOptions,
-} from '../../../../services/catalogue/common';
+} from '../../../../services/catalogue';
 import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { Toggles } from '@weco/toggles';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';

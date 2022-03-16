@@ -4,7 +4,6 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { HTMLString } from '@weco/common/services/prismic/types';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -88,7 +87,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                 'spaced-text': true,
               })}
             >
-              <PrismicHtmlBlock html={descriptionToRender as HTMLString} />
+              <PrismicHtmlBlock html={descriptionToRender} />
             </Space>
           )}
         </div>

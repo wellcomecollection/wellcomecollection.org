@@ -1,4 +1,3 @@
-import Raven from 'raven-js';
 import { classNames } from '@weco/common/utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
@@ -43,7 +42,7 @@ const IIIFResponsiveImage = (
     tabIndex,
     filterId,
   }: Props,
-ref // eslint-disable-line
+  ref // eslint-disable-line
 ) => {
   return (
     <Image
@@ -69,11 +68,6 @@ ref // eslint-disable-line
       }}
       onError={() => {
         errorHandler && errorHandler();
-        Raven.captureException(new Error('IIIF image loading error'), {
-          tags: {
-            service: 'dlcs',
-          },
-        });
       }}
       src={isLazy ? undefined : src}
       data-src={isLazy ? src : undefined}

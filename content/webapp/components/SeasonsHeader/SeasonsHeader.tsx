@@ -8,7 +8,7 @@ import { FunctionComponent, ComponentProps, ReactElement } from 'react';
 import Space from '@weco/common/views/components/styled/Space';
 import PageHeaderStandfirst from '../PageHeaderStandfirst/PageHeaderStandfirst';
 import styled from 'styled-components';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
@@ -23,7 +23,7 @@ type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
   FeaturedMedia?: ReactElement<typeof UiImage>;
-  standfirst?: HTMLString;
+  standfirst?: prismicT.RichTextField;
   start?: Date;
   end?: Date;
 };
