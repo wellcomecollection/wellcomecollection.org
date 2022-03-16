@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { Exhibition } from '../types/exhibitions';
-import { Event } from '../types/events';
+import { EventBasic } from '../types/events';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
@@ -70,6 +70,7 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
@@ -98,8 +99,8 @@ const segmentedControlItems = [
 
 export type Props = {
   exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<Event>;
-  availableOnlineEvents: PaginatedResults<Event>;
+  events: PaginatedResults<EventBasic>;
+  availableOnlineEvents: PaginatedResults<EventBasic>;
   period: string;
   dateRange: any[];
   tryTheseTooPromos: any[];
@@ -368,11 +369,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredText =
       whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
 
-    const events = transformQuery(eventsQuery, transformEvent);
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
     const availableOnlineEvents = transformQuery(
       availableOnlineEventsQuery,
-      transformEvent
+      event => transformEventToEventBasic(transformEvent(event))
     );
 
     if (period && events && exhibitions) {
@@ -553,7 +556,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={eventsToShow as Event[]}
+                events={eventsToShow as EventBasic[]}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },

@@ -6,7 +6,7 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import { Event, isEventFullyBooked } from '../../types/events';
+import { EventBasic, isEventFullyBooked } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -17,7 +17,7 @@ import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { Place } from '../../types/places';
 
 type Props = {
-  event: Event;
+  event: EventBasic;
   position?: number;
   dateString?: string;
   timeString?: string;
