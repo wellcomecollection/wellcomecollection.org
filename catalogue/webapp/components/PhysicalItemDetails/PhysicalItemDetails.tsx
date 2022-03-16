@@ -25,6 +25,7 @@ import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { useToggles } from '@weco/common/server-data/Context';
+import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -113,6 +114,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const requestItemUrl = isRequestableOnline ? getEncoreLink(work) : undefined;
 
   const accessMethod = accessCondition?.method?.label || '';
+
   const accessStatus = (() => {
     if (requestWasCompleted) {
       return 'Temporarily unavailable';
@@ -182,7 +184,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     if (showAccessMethod) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
-          {accessMethod}
+          {sierraAccessMethodtoNewLabel[accessMethod] ?? accessMethod}
         </Placeholder>
       );
     } else {
