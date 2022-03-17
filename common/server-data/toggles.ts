@@ -12,7 +12,7 @@ async function fetchToggles(): Promise<TogglesResp> {
   return data;
 }
 
-const togglesHandler: Handler<TogglesResp> = {
+const togglesHandler: Handler<TogglesResp, TogglesResp> = {
   defaultValue,
   fetch: fetchToggles,
 };
