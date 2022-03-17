@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { ImageType } from './image';
 
 export type Day =
   | 'Monday'
@@ -55,7 +56,7 @@ export type Venue = {
   openingHours: OpeningHours;
   url?: string;
   linkText?: string;
-  image?: any; // TODO
+  image?: ImageType;
 };
 
 // http://schema.org/specialOpeningHoursSpecification
