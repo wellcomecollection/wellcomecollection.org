@@ -17,6 +17,7 @@ import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '@weco/common/icons';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
@@ -159,7 +160,7 @@ const PopupDialogCTA = styled(Space).attrs({
 `;
 
 type Props = {
-  document: PopupDialogPrismicDocument;
+  document: { data: InferDataInterface<PopupDialogPrismicDocument> };
 };
 
 const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {

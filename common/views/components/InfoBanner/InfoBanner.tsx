@@ -7,10 +7,11 @@ import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
 import { cross, information } from '@weco/common/icons';
 import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 type Props = {
   cookieName?: string;
-  document: GlobalAlertPrismicDocument;
+  document: { data: InferDataInterface<GlobalAlertPrismicDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
 
