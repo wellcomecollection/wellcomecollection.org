@@ -1,13 +1,14 @@
 import { createContext, useContext } from 'react';
-import { defaultServerData, ServerData } from './types';
-import { PrismicData } from './prismic';
+import { defaultServerData, SimplifiedServerData } from './types';
+import { SimplifiedPrismicData } from './prismic';
 import { Toggles } from '@weco/toggles';
 
 /**
  * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)
  * and make available via `Context`
  */
-export const ServerDataContext = createContext<ServerData>(defaultServerData);
+export const ServerDataContext =
+  createContext<SimplifiedServerData>(defaultServerData);
 
 /**
  * These are convenience methods to access properties off ServerData
@@ -22,7 +23,7 @@ export const useToggles = (): Toggles => {
   return data.toggles;
 };
 
-export const usePrismicData = (): PrismicData => {
+export const usePrismicData = (): SimplifiedPrismicData => {
   const data = useContext(ServerDataContext);
   return data.prismic;
 };
