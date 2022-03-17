@@ -2,6 +2,7 @@ import {
   Exhibit,
   ExhibitionFormat,
   Exhibition,
+  ExhibitionBasic,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
 import {
@@ -177,10 +178,45 @@ export function transformExhibition(
   return { ...exhibition, type: 'exhibitions', labels };
 }
 
+export function transformExhibitionToExhibitionBasic(
+  exhibition: Exhibition
+): ExhibitionBasic {
+  // returns what is required to render ExhibitionPromos and exhibition JSON-LD
+  return (({
+    type,
+    id,
+    title,
+    promo,
+    format,
+    start,
+    end,
+    isPermanent,
+    statusOverride,
+    contributors,
+    labels,
+    promoImage,
+  }) => ({
+    type,
+    id,
+    title,
+    promo,
+    format,
+    start,
+    end,
+    isPermanent,
+    statusOverride,
+    contributors,
+    labels,
+    promoImage,
+  }))(exhibition);
+}
+
 export function transformExhibitionsQuery(
   query: Query<ExhibitionPrismicDocument>
-): PaginatedResults<Exhibition> {
-  const paginatedResult = transformQuery(query, transformExhibition);
+): PaginatedResults<ExhibitionBasic> {
+  const paginatedResult = transformQuery(query, exhibition =>
+    transformExhibitionToExhibitionBasic(transformExhibition(exhibition))
+  );
 
   return {
     ...paginatedResult,
@@ -189,8 +225,8 @@ export function transformExhibitionsQuery(
 }
 
 function putPermanentAfterCurrentExhibitions(
-  exhibitions: Exhibition[]
-): Exhibition[] {
+  exhibitions: ExhibitionBasic[]
+): ExhibitionBasic[] {
   // We order the list this way as, from a user's perspective, seeing the
   // temporary exhibitions is more urgent, so they're at the front of the list,
   // but there's no good way to express that ordering through Prismic's ordering
@@ -212,10 +248,10 @@ function putPermanentAfterCurrentExhibitions(
       return acc;
     },
     {
-      current: [] as Exhibition[],
-      permanent: [] as Exhibition[],
-      comingUp: [] as Exhibition[],
-      past: [] as Exhibition[],
+      current: [] as ExhibitionBasic[],
+      permanent: [] as ExhibitionBasic[],
+      comingUp: [] as ExhibitionBasic[],
+      past: [] as ExhibitionBasic[],
     }
   );
 

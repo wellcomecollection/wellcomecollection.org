@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Moment } from 'moment';
 import NextLink from 'next/link';
-import { Exhibition } from '../types/exhibitions';
+import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -98,7 +98,7 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
   events: PaginatedResults<EventBasic>;
   availableOnlineEvents: PaginatedResults<EventBasic>;
   period: string;

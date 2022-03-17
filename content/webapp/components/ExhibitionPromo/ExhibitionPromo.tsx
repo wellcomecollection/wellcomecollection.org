@@ -7,12 +7,12 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Exhibition } from '../../types/exhibitions';
+import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
   position?: number;
 };
 
