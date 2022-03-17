@@ -1,4 +1,4 @@
-import { Article } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { london } from '@weco/common/utils/format-date';
 import {
@@ -43,6 +43,41 @@ function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (isFilledLinkToDocumentWithData(document)) {
     return transformMultiContent(document);
   }
+}
+
+export function transformArticleToArticleBasic(article: Article): ArticleBasic {
+  // returns what is required to render StoryPromos and story JSON-LD
+  return (({
+    type,
+    id,
+    promo,
+    series,
+    title,
+    format,
+    image,
+    contributors,
+    datePublished,
+    promoImage,
+    labels,
+    promoText,
+    squareImage,
+    color,
+  }) => ({
+    type,
+    id,
+    promo,
+    series,
+    title,
+    format,
+    image,
+    contributors,
+    datePublished,
+    promoImage,
+    labels,
+    promoText,
+    squareImage,
+    color,
+  }))(article);
 }
 
 export function transformArticle(document: ArticlePrismicDocument): Article {

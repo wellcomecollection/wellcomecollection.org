@@ -1,7 +1,7 @@
 import { ColorSelection } from './color-selections';
 import { GenericContentFields } from './generic-content-fields';
 import { ArticleScheduleItem } from './article-schedule-items';
-import { Article } from './articles';
+import { ArticleBasic } from './articles';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 
@@ -10,6 +10,6 @@ export type Series = GenericContentFields & {
   schedule: ArticleScheduleItem[];
   color?: ColorSelection;
   seasons: Season[];
-  items: Article[];
+  items: ArticleBasic[];
   contributors: Contributor[];
 };

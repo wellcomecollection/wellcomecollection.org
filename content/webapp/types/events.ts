@@ -73,6 +73,7 @@ export type ThirdPartyBooking = {
 
 export type EventBasic = {
   // this is a mix of props from GenericContentFields and Event
+  // and is only what is required to render EventPromos and json-ld
   type: 'events';
   id: string;
   title: string;

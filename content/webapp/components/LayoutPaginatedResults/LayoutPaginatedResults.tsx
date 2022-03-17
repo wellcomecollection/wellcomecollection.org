@@ -6,7 +6,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import { Period } from '../../types/periods';
 import { Exhibition } from '../../types/exhibitions';
 import { EventBasic } from '../../types/events';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -22,7 +22,7 @@ type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
   | PaginatedResults<EventBasic>
   | PaginatedResults<Book>
-  | PaginatedResults<Article>
+  | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>;
 
 type Props = {

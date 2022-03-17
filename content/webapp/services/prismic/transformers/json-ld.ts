@@ -1,11 +1,11 @@
-import { Event } from '../../../types/events';
+import { Event, EventBasic } from '../../../types/events';
 import {
   Organization,
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
 } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
-import { Article } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { Contributor } from '../../../types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Page } from '../../../types/pages';
@@ -48,7 +48,8 @@ export function exhibitionLd(exhibition: Exhibition) {
   );
 }
 
-export function eventLd(event: Event): JsonLdObj[] {
+export function eventLd(event: Event | EventBasic): JsonLdObj[] {
+  // TODO EventBasic
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {
@@ -98,7 +99,7 @@ export function eventLd(event: Event): JsonLdObj[] {
     });
 }
 
-export function articleLd(article: Article) {
+export function articleLd(article: Article | ArticleBasic) {
   // We've left the role off of a lot of articles
   const author: Contributor = article.contributors.find(
     ({ role }) => role && role.title === 'Author'
