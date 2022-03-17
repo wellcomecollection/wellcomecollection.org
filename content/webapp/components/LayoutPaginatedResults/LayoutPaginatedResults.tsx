@@ -14,14 +14,14 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { FC, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
-import { Book } from '../../types/books';
+import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 
 type PaginatedResultsTypes =
   | PaginatedResults<Exhibition>
   | PaginatedResults<EventBasic>
-  | PaginatedResults<Book>
+  | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>;
 
