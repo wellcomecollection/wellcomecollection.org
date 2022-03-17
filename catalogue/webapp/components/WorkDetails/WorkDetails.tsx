@@ -166,7 +166,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
-
+  const seriesPartOfs = work.partOf.filter(p => !p['id']);
   const sierraIdFromManifestUrl =
     iiifPresentationLocation &&
     sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
@@ -591,24 +591,22 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             text={[work.physicalDescription]}
           />
         )}
-        {work.partOf.some(p => !['id']) && (
+        {seriesPartOfs.length > 0 && (
           // Only show partOfs with no id here.
           // A partOf object with an id will be represented in
           // the archive hierarchy.
           // partOfs with no id are Series Links.
           <WorkDetailsTags
             title="Series"
-            tags={work.partOf
-              .filter(p => !p['id'])
-              .map(partOf => ({
-                textParts: [partOf.title],
-                linkAttributes: worksLink(
-                  {
-                    partOf: partOf.title,
-                  },
-                  'work_details/partOf'
-                ),
-              }))}
+            tags={seriesPartOfs.map(partOf => ({
+              textParts: [partOf.title],
+              linkAttributes: worksLink(
+                {
+                  partOf: partOf.title,
+                },
+                'work_details/partOf'
+              ),
+            }))}
           />
         )}
         {work.contributors.length > 0 && (
