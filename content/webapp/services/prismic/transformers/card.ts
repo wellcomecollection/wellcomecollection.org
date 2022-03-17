@@ -1,5 +1,5 @@
 import { CardPrismicDocument } from '../types/card';
-import { transformImage } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { Card } from '../../../types/card';
 import { asText, asTitle, transformFormat, transformLink } from '.';
 
