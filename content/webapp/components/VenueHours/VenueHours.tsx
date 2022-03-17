@@ -103,9 +103,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue?.image?.url && (
+            {venue?.image?.contentUrl && (
               <UiImage
-                contentUrl={venue.image.url}
+                contentUrl={venue.image.contentUrl}
                 width={1600}
                 height={900}
                 crops={{}}
