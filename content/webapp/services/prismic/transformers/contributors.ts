@@ -11,7 +11,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
 import { Organisation, Person } from '../types/contributors';
-import { transformImage } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 const defaultContributorImage: ImageType = {
   width: 64,
