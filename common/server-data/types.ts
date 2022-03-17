@@ -2,6 +2,7 @@ import { Toggles } from '@weco/toggles';
 import {
   defaultValue as prismicDefaultValue,
   PrismicData,
+  SimplifiedPrismicData,
 } from '../server-data/prismic';
 
 /**
@@ -14,7 +15,12 @@ export type ServerData = {
   prismic: PrismicData;
 };
 
-export const defaultServerData: ServerData = {
+export type SimplifiedServerData = {
+  toggles: Toggles;
+  prismic: SimplifiedPrismicData;
+};
+
+export const defaultServerData: SimplifiedServerData = {
   toggles: {},
   prismic: prismicDefaultValue,
 };
