@@ -7,6 +7,7 @@ import {
 } from '../documents';
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
+import { transformImage } from './images';
 
 function createRegularDay(
   day: Day,
@@ -76,7 +77,7 @@ export function transformCollectionVenue(
       ],
       exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
-    image: data.image,
+    image: transformImage(data.image),
     url: 'url' in data.link ? data.link.url : undefined,
     linkText: prismicH.asText(data?.linkText),
   };
