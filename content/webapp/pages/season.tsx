@@ -23,11 +23,18 @@ import { fetchSeries } from '../services/prismic/fetch/series';
 import { fetchSeason } from '../services/prismic/fetch/seasons';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
-import { transformBook } from '../services/prismic/transformers/books';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
+import {
+  transformBook,
+  transformBookToBookBasic,
+} from '../services/prismic/transformers/books';
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import {
   fixExhibitionDatesInJson,
@@ -37,9 +44,9 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
 import { transformSeason } from '../services/prismic/transformers/seasons';
-import { Article } from '../types/articles';
-import { Book } from '../types/books';
-import { Event } from '../types/events';
+import { ArticleBasic } from '../types/articles';
+import { BookBasic } from '../types/books';
+import { EventBasic } from '../types/events';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
@@ -48,9 +55,9 @@ import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
   season: Season;
-  articles: Article[];
-  books: Book[];
-  events: Event[];
+  articles: ArticleBasic[];
+  books: BookBasic[];
+  events: EventBasic[];
   exhibitions: ExhibitionBasic[];
   pages: Page[];
   projects: Project[];
@@ -176,10 +183,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       seasonDocPromise,
     ]);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const books = transformQuery(booksQuery, transformBook);
-    const events = transformQuery(eventsQuery, transformEvent);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+    const books = transformQuery(booksQuery, book =>
+      transformBookToBookBasic(transformBook(book))
+    );
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+
     const pages = transformQuery(pagesQuery, transformPage);
     const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);
