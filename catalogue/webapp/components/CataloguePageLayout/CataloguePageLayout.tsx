@@ -4,7 +4,6 @@ import PageLayout, {
   Props as PageLayoutProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import InfoBanner from '@weco/common/views/components/InfoBanner/InfoBanner';
-import { emptyGlobalAlert } from '@weco/common/services/prismic/documents';
 import { wellcomeImagesRedirectBanner } from '@weco/common/data/microcopy';
 
 type Props = {
@@ -29,15 +28,19 @@ const CataloguePageLayout: FunctionComponent<Props> = ({
         <>
           {isRedirectBannerVisible && (
             <InfoBanner
-              document={emptyGlobalAlert({
-                text: [
-                  {
-                    type: RichTextNodeType.paragraph,
-                    text: wellcomeImagesRedirectBanner,
-                    spans: [],
-                  },
-                ],
-              })}
+              document={{
+                data: {
+                  isShown: null,
+                  routeRegex: null,
+                  text: [
+                    {
+                      type: RichTextNodeType.paragraph,
+                      text: wellcomeImagesRedirectBanner,
+                      spans: [],
+                    },
+                  ],
+                },
+              }}
               cookieName="WC_wellcomeImagesRedirect"
             />
           )}
