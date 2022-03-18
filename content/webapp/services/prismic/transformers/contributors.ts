@@ -2,10 +2,10 @@ import { FilledLinkToDocumentField, PrismicDocument } from '@prismicio/types';
 import {
   isFilledLinkToDocumentWithData,
   WithContributors,
-  InferDataInterface,
   isFilledLinkToOrganisationField,
   isFilledLinkToPersonField,
 } from '../types';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { Contributor } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { asRichText, asText } from '.';

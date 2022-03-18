@@ -13,12 +13,12 @@ import {
   CommonPrismicFields,
   commonPrismicFieldsFetchLinks,
   FetchLinks,
-  InferDataInterface,
   WithArticleFormat,
   WithExhibitionParents,
   WithSeasons,
   WithContributors,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { EventPrismicDocument } from './events';
 
 export type WithSeries = {

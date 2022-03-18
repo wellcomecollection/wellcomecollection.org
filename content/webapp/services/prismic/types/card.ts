@@ -8,11 +8,11 @@ import {
 import {
   Image,
   CommonPrismicFields,
-  InferDataInterface,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { EventFormat } from './events';
 import { ArticleFormat } from './article-format';
 

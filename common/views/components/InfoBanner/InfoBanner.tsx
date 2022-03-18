@@ -5,9 +5,9 @@ import Icon from '../Icon/Icon';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import usePrevious from '../../../hooks/usePrevious';
-import { cross, information } from '@weco/common/icons';
+import { cross, information } from '../../../icons';
 import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
+import { InferDataInterface } from '../../../services/prismic/types';
 
 type Props = {
   cookieName?: string;

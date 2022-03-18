@@ -14,8 +14,8 @@ import {
   WithSeasons,
   contributorFetchLinks,
   commonPrismicFieldsFetchLinks,
-  InferDataInterface,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 export type FeaturedBooksPrismicDocument = PrismicDocument<{
   books: GroupField<{

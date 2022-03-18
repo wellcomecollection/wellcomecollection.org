@@ -16,8 +16,8 @@ import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
 import { PopupDialogPrismicDocument } from '../../../services/prismic/documents';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
-import { chat, clear } from '@weco/common/icons';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
+import { chat, clear } from '../../../icons';
+import { InferDataInterface } from '../../../services/prismic/types';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
