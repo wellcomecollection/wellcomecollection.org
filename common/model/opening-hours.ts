@@ -49,13 +49,10 @@ export type OpeningHours = {
   exceptional: ExceptionalOpeningHoursDay[];
 };
 
-export type VenueBasic = {
+export type Venue = {
   id: string;
   openingHours: OpeningHours;
   order?: number;
-};
-
-export type Venue = VenueBasic & {
   name: string;
   url?: string;
   linkText?: string;

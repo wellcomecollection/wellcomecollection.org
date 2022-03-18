@@ -9,17 +9,14 @@ import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { InferDataInterface } from '../services/prismic/types';
 
-type CollectionVenueLite = Omit<
-  InferDataInterface<CollectionVenuePrismicDocument>,
-  'image' | 'link' | 'linkText'
->;
+export type CollectionVenuePrismicDocumentLite = {
+  id: string;
+} & {
+  data: InferDataInterface<CollectionVenuePrismicDocument>;
+};
 
 export type ResultsLite = {
-  results: ({
-    id: string;
-  } & {
-    data: CollectionVenueLite;
-  })[];
+  results: CollectionVenuePrismicDocumentLite[];
 };
 
 export const defaultValue = {
