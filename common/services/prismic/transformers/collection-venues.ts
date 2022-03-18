@@ -93,3 +93,17 @@ export function transformCollectionVenues(doc: ResultsLite): Venue[] {
     return Number(a.order) - Number(b.order);
   });
 }
+
+// venue is passed down as JSON, so need to convert the date strings back to Moment objects
+export function convertTimeStringsBackToMoments(venue: Venue): Venue {
+  return {
+    ...venue,
+    openingHours: {
+      regular: venue.openingHours.regular,
+      exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
+        ...exceptionalOpening,
+        overrideDate: london(exceptionalOpening.overrideDate),
+      })),
+    },
+  };
+}
