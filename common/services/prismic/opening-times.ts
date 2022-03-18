@@ -202,23 +202,19 @@ export function groupConsecutiveExceptionalDays(
     .sort((a, b) => {
       return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
     })
-    .reduce(
-      (acc, date) => {
-        const group = acc[acc.length - 1];
-        if (
-          date.overrideDate.diff(
-            group[group.length - 1]?.overrideDate,
-            'days'
-          ) > 1
-        ) {
-          acc.push([date]);
-        } else {
-          group.push(date);
-        }
-        return acc;
-      },
-      [[]] as ExceptionalOpeningHoursDay[][]
-    );
+    .reduce((acc, date) => {
+      const group = acc[acc.length - 1];
+      if (
+        !group ||
+        date.overrideDate.diff(group[group.length - 1]?.overrideDate, 'days') >
+          1
+      ) {
+        acc.push([date]);
+      } else {
+        group.push(date);
+      }
+      return acc;
+    }, [] as ExceptionalOpeningHoursDay[][]);
 }
 
 export function getUpcomingExceptionalPeriods(
