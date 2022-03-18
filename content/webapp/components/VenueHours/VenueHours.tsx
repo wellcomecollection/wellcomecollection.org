@@ -1,9 +1,5 @@
 import { FunctionComponent, Fragment } from 'react';
-import {
-  formatDay,
-  formatDayMonth,
-  london,
-} from '@weco/common/utils/format-date';
+import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -18,7 +14,10 @@ import {
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
-import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import {
+  transformCollectionVenues,
+  convertTimeStringsBackToMoments,
+} from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
@@ -79,20 +78,6 @@ type Props = {
   venue: Venue;
   weight: Weight;
 };
-
-// venue is passed down as JSON, so need to convert the date strings back to Moment objects
-function convertTimeStringsBackToMoments(venue) {
-  return {
-    ...venue,
-    openingHours: {
-      regular: venue.openingHours.regular,
-      exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
-        ...exceptionalOpening,
-        overrideDate: london(exceptionalOpening.overrideDate),
-      })),
-    },
-  };
-}
 
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
