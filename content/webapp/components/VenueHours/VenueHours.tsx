@@ -1,5 +1,9 @@
 import { FunctionComponent, Fragment } from 'react';
-import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
+import {
+  formatDay,
+  formatDayMonth,
+  london,
+} from '@weco/common/utils/format-date';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
@@ -76,6 +80,20 @@ type Props = {
   weight: Weight;
 };
 
+// venue is passed down as JSON, so need to convert the date strings back to Moment objects
+function convertTimeStringsBackToMoments(venue) {
+  return {
+    ...venue,
+    openingHours: {
+      regular: venue.openingHours.regular,
+      exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
+        ...exceptionalOpening,
+        overrideDate: london(exceptionalOpening.overrideDate),
+      })),
+    },
+  };
+}
+
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
   const venues = transformCollectionVenues(collectionVenues);
@@ -86,7 +104,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     groupedExceptionalDates
   );
   const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
+    ? backfillExceptionalVenueDays(
+        convertTimeStringsBackToMoments(venue),
+        exceptionalPeriodsAllDates
+      )
     : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
