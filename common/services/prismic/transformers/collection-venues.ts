@@ -80,9 +80,9 @@ export function transformCollectionVenue(
       ],
       exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
-    image: transformImage(data.image),
-    url: data.link && 'url' in data.link ? data.link.url : undefined,
-    linkText: data.linkText && prismicH.asText(data.linkText),
+    image: 'image' in data ? transformImage(data.image) : undefined,
+    url: 'link' in data && 'url' in data.link ? data.link.url : undefined,
+    linkText: 'linkText' in data ? prismicH.asText(data.linkText) : undefined,
   };
 }
 

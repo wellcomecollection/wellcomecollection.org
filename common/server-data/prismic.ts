@@ -12,7 +12,10 @@ import { InferDataInterface } from '../services/prismic/types';
 export type CollectionVenuePrismicDocumentLite = {
   id: string;
 } & {
-  data: InferDataInterface<CollectionVenuePrismicDocument>;
+  data: Omit<
+    InferDataInterface<CollectionVenuePrismicDocument>,
+    'link' | 'linkText' | 'image'
+  >;
 };
 
 export type ResultsLite = {
