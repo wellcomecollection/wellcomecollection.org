@@ -1,6 +1,8 @@
-import { format } from 'date-fns';
+import { format, isSameDay, sub } from 'date-fns';
 import moment, { Moment } from 'moment';
 import 'moment-timezone';
+import { isDayPast } from './dates';
+import { DateRange } from '../model/date-range';
 
 type DateObj = { M?: number; Y?: number };
 
@@ -44,22 +46,22 @@ export function formatDate(date: Date): string {
   return `${formatDayMonth(date)} ${formatYear(date)}`;
 }
 
-export function formatDateRangeWithMessage({
-  start,
-  end,
-}: {
-  start: Date;
-  end: Date;
-}): { text: string; color: string } {
-  const now = london();
-  const s = london(start);
-  const e = london(end);
+export function formatDateRangeWithMessage({ start, end }: DateRange): {
+  text: string;
+  color: string;
+} {
+  const now = new Date();
+  const sevenDaysBeforeEnd = sub(end, { days: 7 });
 
-  if (s.isAfter(now, 'day')) {
+  if (!isSameDay(start, now) && start > now) {
     return { text: 'Coming soon', color: 'marble' };
-  } else if (e.isBefore(now, 'day')) {
+  } else if (isDayPast(end)) {
     return { text: 'Past', color: 'marble' };
-  } else if (now.isBetween(e.clone().subtract(1, 'w'), e, 'day')) {
+  } else if (
+    sevenDaysBeforeEnd <= now ||
+    isSameDay(sevenDaysBeforeEnd, now) ||
+    isSameDay(end, now)
+  ) {
     return { text: 'Final week', color: 'orange' };
   } else {
     return { text: 'Now on', color: 'green' };
