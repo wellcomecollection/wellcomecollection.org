@@ -30,7 +30,7 @@ it('formats a timestamp', () => {
   expect(result1).toEqual('18:21');
 
   const result2 = formatTime(new Date(2009, 3, 27, 9, 41, 1));
-  expect(result2).toEqual('09:41');
+  expect(result2).toEqual('10:41');
 });
 
 it('formats a year', () => {
