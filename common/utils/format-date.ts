@@ -25,7 +25,7 @@ export function formatDate(date: Date | Moment): string {
   return london(date).format('D MMMM YYYY');
 }
 
-export function formatTime(date: Date): string {
+export function formatTime(date: DateTypes): string {
   return london(date).format('HH:mm');
 }
 

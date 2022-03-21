@@ -1,5 +1,5 @@
 import { Query } from '@prismicio/types';
-import { london } from '../../../utils/format-date';
+import { formatTime, london } from '../../../utils/format-date';
 import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
@@ -24,8 +24,8 @@ function createRegularDay(
   // "To show a business is closed all day, set both opens and closes properties to '00:00'""
   return {
     dayOfWeek: day,
-    opens: start ? london(start).format('HH:mm') : '00:00',
-    closes: start && end ? london(end).format('HH:mm') : '00:00',
+    opens: start ? formatTime(start) : '00:00',
+    closes: start && end ? formatTime(end) : '00:00',
     isClosed,
   };
 }
@@ -53,8 +53,8 @@ export function transformCollectionVenue(
               // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
               // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
               // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-              opens: start ? london(start).format('HH:mm') : '00:00',
-              closes: start && end ? london(end).format('HH:mm') : '00:00',
+              opens: start ? formatTime(start) : '00:00',
+              closes: start && end ? formatTime(end) : '00:00',
               isClosed,
             };
           }
