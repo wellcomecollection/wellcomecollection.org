@@ -2,7 +2,12 @@ import { Component } from 'react';
 import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
 import { london } from '@weco/common/utils/format-date';
-import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
+import {
+  getEarliestFutureDateRange,
+  isFuture,
+  isSameDay,
+  isSameMonth,
+} from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -88,27 +93,22 @@ class EventsByMonth extends Component<Props, State> {
           // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
           // Do we have any such long-running events?  If so, this is probably okay.
           const hasDateInMonthRemaining = event.times.find(time => {
-            const end = london(time.range.endDateTime);
-            const start = london(time.range.startDateTime);
             const monthAndYear = london(month);
 
-            const endsInMonth = end.isSame(
-              london({
-                M: monthAndYear.month(),
-                Y: monthAndYear.year(),
-              }),
-              'month'
+            const endsInMonth = isSameMonth(
+              time.range.endDateTime,
+              monthAndYear.toDate()
             );
 
-            const startsInMonth = start.isSame(
-              london({
-                M: monthAndYear.month(),
-                Y: monthAndYear.year(),
-              }),
-              'month'
+            const startsInMonth = isSameMonth(
+              time.range.startDateTime,
+              monthAndYear.toDate()
             );
 
-            const isNotClosedYet = end.isSameOrAfter(london(), 'day');
+            const today = new Date();
+            const isNotClosedYet =
+              isSameDay(time.range.endDateTime, today) ||
+              isFuture(time.range.endDateTime);
 
             return (endsInMonth || startsInMonth) && isNotClosedYet;
           });
