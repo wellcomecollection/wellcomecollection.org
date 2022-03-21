@@ -1,5 +1,4 @@
 import { Contributor } from './contributors';
-import { isDatePast } from '@weco/common/utils/format-date';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
 import { LabelField } from '@weco/common/model/label-field';
@@ -10,6 +9,7 @@ import { ImagePromo } from './image-promo';
 import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
+import { isDayPast } from '@weco/common/utils/dates';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -128,7 +128,7 @@ export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {
-      return isDatePast(range.endDateTime) || isFullyBooked;
+      return isDayPast(range.endDateTime) || isFullyBooked;
     })
   );
 }

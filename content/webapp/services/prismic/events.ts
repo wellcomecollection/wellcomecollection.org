@@ -1,11 +1,7 @@
 import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
-import {
-  london,
-  formatDayDate,
-  isDatePast,
-} from '@weco/common/utils/format-date';
-import { getNextWeekendDateRange } from '@weco/common/utils/dates';
+import { london, formatDayDate } from '@weco/common/utils/format-date';
+import { getNextWeekendDateRange, isDayPast } from '@weco/common/utils/dates';
 import { Event, EventBasic, EventTime } from '../../types/events';
 
 function getNextDateInFuture(event: EventBasic): EventTime | undefined {
@@ -223,7 +219,7 @@ function getRanges(
 
 export function isEventPast({ times }: Event): boolean {
   const hasFutureEvents = times.some(
-    ({ range }) => !isDatePast(range.endDateTime)
+    ({ range }) => !isDayPast(range.endDateTime)
   );
   return !hasFutureEvents;
 }
