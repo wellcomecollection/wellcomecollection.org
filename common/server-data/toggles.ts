@@ -1,6 +1,7 @@
 import cookies from 'next-cookies';
 import { Toggles, TogglesResp } from '@weco/toggles';
 import { Handler } from './';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const defaultValue = { toggles: [], tests: [] };
 
@@ -34,7 +35,9 @@ export function getTogglesFromContext(
       [toggle.id]:
         allCookies[`toggle_${toggle.id}`] === 'true'
           ? true
-          : toggle.defaultValue,
+          : isNotUndefined(toggle.defaultValue)
+          ? toggle.defaultValue
+          : false,
     }),
     {} as Toggles
   );
