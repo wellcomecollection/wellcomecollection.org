@@ -10,7 +10,9 @@ resource "aws_cloudfront_cache_policy" "toggle_cookies_only" {
     // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects
     // This needs to be here as, despite what the AWS docs say, adding Accept-Encoding
     // to the headers whitelist in a request policy fails with the grammatically questionable error:
-    // The parameter Headers contains Accept-Encoding that is not allowed.
+    //
+    //   The parameter Headers contains Accept-Encoding that is not allowed.
+    //
     enable_accept_encoding_gzip = true
 
     cookies_config {
@@ -43,7 +45,9 @@ resource "aws_cloudfront_cache_policy" "static_content" {
     // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects
     // This needs to be here as, despite what the AWS docs say, adding Accept-Encoding
     // to the headers whitelist in a request policy fails with the grammatically questionable error:
-    // The parameter Headers contains Accept-Encoding that is not allowed.
+    //
+    //   The parameter Headers contains Accept-Encoding that is not allowed.
+    //
     enable_accept_encoding_gzip = true
 
     cookies_config {
@@ -72,7 +76,9 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
     // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects
     // This needs to be here as, despite what the AWS docs say, adding Accept-Encoding
     // to the headers whitelist in a request policy fails with the grammatically questionable error:
-    // The parameter Headers contains Accept-Encoding that is not allowed.
+    //
+    //   The parameter Headers contains Accept-Encoding that is not allowed.
+    //
     enable_accept_encoding_gzip = true
 
     cookies_config {
@@ -124,7 +130,9 @@ resource "aws_cloudfront_cache_policy" "short_lived_toggles_only" {
     // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects
     // This needs to be here as, despite what the AWS docs say, adding Accept-Encoding
     // to the headers whitelist in a request policy fails with the grammatically questionable error:
-    // The parameter Headers contains Accept-Encoding that is not allowed.
+    //
+    //   The parameter Headers contains Accept-Encoding that is not allowed.
+    //
     enable_accept_encoding_gzip = true
 
     cookies_config {
