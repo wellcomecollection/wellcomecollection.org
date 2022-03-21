@@ -14,10 +14,10 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
-import { Exhibition } from '../types/exhibitions';
+import { ExhibitionBasic } from '../types/exhibitions';
 
 type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
   displayTitle: string;
 };

@@ -34,16 +34,17 @@ import {
   isFilledLinkToMediaField,
 } from '../types';
 import { TeamPrismicDocument } from '../types/teams';
-import { transformCaptionedImage, transformImage } from './images';
+import { transformCaptionedImage } from './images';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import {
   transformLink,
   asRichText,
-  transformTaslFromString,
   transformLabelType,
   asTitle,
   asText,
 } from '.';
+import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
 

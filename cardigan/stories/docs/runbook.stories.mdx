@@ -7,15 +7,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 We use a combination of methods to let us monitor the health of our system.
 
 ## Alerting
-All errors are sent to out #dotorg-explosions channel in Wellcome's Slack
-account.
-
-* [Sentry (client)](https://sentry.io/wellcome/wellcomecollection-website-client/)
-  used to monitor the client JS.
-* [Sentry (server)](https://sentry.io/wellcome/wellcomecollection-website-server/)
-  used to monitor any errors occuring on the server JS.
-* [CloudWatch 500 errors](https://github.com/wellcomecollection/wellcomecollection.org/blob/d215a7ccc392d7da8405e799513e247c20131c21/infra/terraform/templates/alb.tf#L76-L91)
-  500 errors from the `wellcomecollection` ALB
+tbd
 
 ## Health and performance
 The health and performance of our system is monitored by a number of dashboards.
@@ -47,8 +39,6 @@ Once rolled back, we can start diagnosing the problem.
 the last docker build we considered healthy.
 
 ## Diagnosing the problem
-If the alert was from sentry, it is easy to extract where the error happend. Get
-the URL, and start diagnosing locally.
 
 If the error was from CloudWatch, we store the logs locally in S3,
 go into Athena, and run the `ALB Logging - create` saved query, followed by

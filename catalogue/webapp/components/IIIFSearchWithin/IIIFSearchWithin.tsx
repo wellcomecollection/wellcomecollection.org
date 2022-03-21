@@ -14,7 +14,6 @@ import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import Space from '@weco/common/views/components/styled/Space';
 import LL from '@weco/common/views/components/styled/LL';
-import Raven from 'raven-js';
 import ClearSearch from '@weco/common/views/components/ClearSearch/ClearSearch';
 import { search } from '@weco/common/icons';
 
@@ -119,9 +118,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
         ).json();
         setIsLoading(false);
         setSearchResults(results);
-      } catch (error) {
-        Raven.captureException(new Error(`IIIF search error: ${error}`));
-      }
+      } catch (error) {}
     }
   }
   return (

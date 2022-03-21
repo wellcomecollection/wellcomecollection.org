@@ -4,9 +4,9 @@ import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Period } from '../../types/periods';
-import { Exhibition } from '../../types/exhibitions';
-import { Event } from '../../types/events';
-import { Article } from '../../types/articles';
+import { ExhibitionBasic } from '../../types/exhibitions';
+import { EventBasic } from '../../types/events';
+import { ArticleBasic } from '../../types/articles';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,15 +14,15 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { FC, ReactElement } from 'react';
 import CardGrid from '../CardGrid/CardGrid';
-import { Book } from '../../types/books';
+import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
 
 type PaginatedResultsTypes =
-  | PaginatedResults<Exhibition>
-  | PaginatedResults<Event>
-  | PaginatedResults<Book>
-  | PaginatedResults<Article>
+  | PaginatedResults<ExhibitionBasic>
+  | PaginatedResults<EventBasic>
+  | PaginatedResults<BookBasic>
+  | PaginatedResults<ArticleBasic>
   | PaginatedResults<Guide>;
 
 type Props = {

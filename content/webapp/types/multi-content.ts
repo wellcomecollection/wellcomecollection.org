@@ -1,8 +1,8 @@
 import { EventSeries } from './event-series';
-import { Article } from './articles';
-import { Book } from './books';
-import { Event } from './events';
-import { Exhibition } from './exhibitions';
+import { ArticleBasic } from './articles';
+import { BookBasic } from './books';
+import { EventBasic } from './events';
+import { ExhibitionBasic } from './exhibitions';
 import { Page } from './pages';
 import { Series } from './series';
 import { Guide } from './guides';
@@ -12,10 +12,10 @@ import { Project } from './projects';
 export type MultiContent =
   | Page
   | EventSeries
-  | Book
-  | Event
-  | Article
-  | Exhibition
+  | BookBasic
+  | EventBasic
+  | ArticleBasic
+  | ExhibitionBasic
   | Series
   | Guide
   | Weblink

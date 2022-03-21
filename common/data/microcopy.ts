@@ -82,3 +82,13 @@ export const sierraStatusCodeToLabel = {
 
 export const defaultRequestErrorMessage =
   'There was a problem requesting this item. Please contact Library Enquiries (library@wellcomecollection.org).';
+
+// on an item page, under 'Where to find it', we wanted to make the Access Method label more readable
+// right now the only change is for 'Not requestable', but we can also now change how the other
+// options appear
+export const sierraAccessMethodtoNewLabel = {
+  // accessCondition label : new label,
+  'Not requestable': "Can't be requested",
+  'Manual request': 'Manual request',
+  'Online request': 'Online request',
+};

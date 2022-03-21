@@ -7,6 +7,7 @@ import {
 } from '../documents';
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
+import { transformImage } from './images';
 
 function createRegularDay(
   day: Day,
@@ -76,7 +77,7 @@ export function transformCollectionVenue(
       ],
       exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
-    image: data.image,
+    image: transformImage(data.image),
     url: 'url' in data.link ? data.link.url : undefined,
     linkText: prismicH.asText(data?.linkText),
   };
@@ -90,4 +91,18 @@ export function transformCollectionVenues(
   return venues.sort((a, b) => {
     return Number(a.order) - Number(b.order);
   });
+}
+
+// venue is passed down as JSON, so need to convert the date strings back to Moment objects
+export function fixVenueDatesInJson(venue: Venue): Venue {
+  return {
+    ...venue,
+    openingHours: {
+      ...venue.openingHours,
+      exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
+        ...exceptionalOpening,
+        overrideDate: london(exceptionalOpening.overrideDate),
+      })),
+    },
+  };
 }

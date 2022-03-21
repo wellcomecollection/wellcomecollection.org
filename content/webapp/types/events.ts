@@ -6,6 +6,9 @@ import { LabelField } from '@weco/common/model/label-field';
 import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
+import { ImagePromo } from './image-promo';
+import { Picture } from '@weco/common/model/picture';
+import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 
 export type DateTimeRange = {
@@ -68,6 +71,29 @@ export type ThirdPartyBooking = {
   url: string;
 };
 
+export type EventBasic = {
+  // this is a mix of props from GenericContentFields and Event
+  // and is only what is required to render EventPromos and json-ld
+  type: 'events';
+  id: string;
+  title: string;
+  promo?: ImagePromo | undefined;
+  times: EventTime[];
+  isPast: boolean;
+  promoImage?: Picture;
+  primaryLabels: Label[];
+  secondaryLabels: Label[];
+  image?: ImageType;
+  isOnline: boolean;
+  locations: Place[];
+  availableOnline: boolean;
+  scheduleLength: number;
+  series: EventSeries[];
+  promoText?: string;
+  cost?: string;
+  contributors: Contributor[];
+};
+
 export type Event = GenericContentFields & {
   type: 'events';
   format?: Format;
@@ -98,7 +124,7 @@ export type Event = GenericContentFields & {
   contributors: Contributor[];
 };
 
-export function isEventFullyBooked(event: Event): boolean {
+export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times.every(({ isFullyBooked, range }) => {

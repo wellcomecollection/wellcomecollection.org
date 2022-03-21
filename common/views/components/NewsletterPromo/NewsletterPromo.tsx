@@ -3,7 +3,6 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import Raven from 'raven-js';
 import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
@@ -153,25 +152,6 @@ const NewsletterPromo = () => {
       default:
         setIsSubmitError(true);
         emailValidation.setIsValid(false);
-
-        if (status) {
-          Raven.captureException(
-            new Error(`Newsletter signup error: ${status}`)
-          );
-        } else {
-          try {
-            const { contact, ...anonymousData } = json;
-            const errorData = JSON.stringify(anonymousData);
-
-            Raven.captureException(
-              new Error(`Newsletter signup error: ${errorData}`)
-            );
-          } catch (error) {
-            Raven.captureException(
-              new Error(`Newsletter signup error: ${error}`)
-            );
-          }
-        }
     }
 
     setIsSubmitting(false);

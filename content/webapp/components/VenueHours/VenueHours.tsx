@@ -14,7 +14,10 @@ import {
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
-import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
+import {
+  transformCollectionVenues,
+  fixVenueDatesInJson,
+} from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
@@ -86,7 +89,10 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     groupedExceptionalDates
   );
   const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
+    ? backfillExceptionalVenueDays(
+        fixVenueDatesInJson(venue),
+        exceptionalPeriodsAllDates
+      )
     : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
@@ -103,9 +109,9 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue?.image?.url && (
+            {venue?.image?.contentUrl && (
               <UiImage
-                contentUrl={venue.image.url}
+                contentUrl={venue.image.contentUrl}
                 width={1600}
                 height={900}
                 crops={{}}

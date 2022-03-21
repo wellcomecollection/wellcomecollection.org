@@ -22,6 +22,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const Wrapper = styled(Space).attrs({
@@ -176,7 +177,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
     if (showAccessMethod) {
       dataRow.push(
         <Placeholder isLoading={isLoading} nRows={2} maxWidth="75%">
-          {accessMethod}
+          {sierraAccessMethodtoNewLabel[accessMethod] ?? accessMethod}
         </Placeholder>
       );
     } else {

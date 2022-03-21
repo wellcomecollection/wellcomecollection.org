@@ -3,7 +3,7 @@ import { classNames, grid } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import { Series } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -32,7 +32,10 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { fetchFeaturedBooks } from '../services/prismic/fetch/featured-books';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import {
   pageDescriptions,
@@ -41,13 +44,14 @@ import {
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
-import { Book } from '../types/books';
+import { transformBookToBookBasic } from '../services/prismic/transformers/books';
+import { BookBasic } from '../types/books';
 
 type Props = {
-  articles: Article[];
+  articles: ArticleBasic[];
   series: Series;
   featuredText?: FeaturedTextType;
-  featuredBooks: Book[];
+  featuredBooks: BookBasic[];
 };
 
 const SerialisedSeries = ({ series }: { series: Series }) => {
@@ -84,7 +88,7 @@ const SerialisedSeries = ({ series }: { series: Series }) => {
         </Space>
       </Layout12>
       <CardGrid
-        items={series.items as Article[]}
+        items={series.items as ArticleBasic[]}
         hidePromoText={true}
         itemsPerRow={3}
       />
@@ -127,8 +131,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       storiesPagePromise,
       featuredBooksPromise,
     ]);
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const featuredBooks = transformFeaturedBooks(featuredBooksDoc);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+
+    const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
+      transformBookToBookBasic
+    );
 
     // The featured series and stories page should always exist
     const series = transformArticleSeries(

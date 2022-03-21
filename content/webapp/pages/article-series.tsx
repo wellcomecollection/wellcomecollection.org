@@ -6,7 +6,7 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground/Hea
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
 import { Series } from '../types/series';
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -25,7 +25,7 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 
 type Props = {
   series: Series;
-  articles: Article[];
+  articles: ArticleBasic[];
 } & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =

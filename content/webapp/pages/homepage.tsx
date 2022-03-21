@@ -5,7 +5,7 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,8 +16,8 @@ import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { Exhibition } from '../types/exhibitions';
-import { Event } from '../types/events';
+import { ExhibitionBasic } from '../types/exhibitions';
+import { EventBasic } from '../types/events';
 import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -29,7 +29,10 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
@@ -37,6 +40,7 @@ import { fetchEvents } from '../services/prismic/fetch/events';
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
@@ -65,9 +69,9 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<Event>;
-  articles: PaginatedResults<Article>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
+  events: PaginatedResults<EventBasic>;
+  articles: PaginatedResults<ArticleBasic>;
   page: PageType;
 };
 
@@ -107,8 +111,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // The homepage should always exist in Prismic.
     const page = transformPage(pageDocument!);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const events = transformQuery(eventsQuery, transformEvent);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (events && exhibitions && articles && page) {
@@ -185,7 +193,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents as Event[]}
+              events={nextSevenDaysEvents as EventBasic[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>

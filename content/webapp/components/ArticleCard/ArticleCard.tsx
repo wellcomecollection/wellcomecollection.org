@@ -6,11 +6,11 @@ import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined } from '@weco/common/utils/array';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import linkResolver from '../../services/prismic/link-resolver';
 
 type Props = {
-  article: Article;
+  article: ArticleBasic;
   showPosition: boolean;
   xOfY: {
     x: number;
