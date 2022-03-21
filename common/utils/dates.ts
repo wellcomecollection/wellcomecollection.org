@@ -8,7 +8,7 @@ export function getEarliestFutureDateRange(
   const now = new Date();
 
   return dateRanges
-    .sort((a, b) => a.start.valueOf() - b.start.valueOf())
+    .sort((a, b) => (a.start > b.start ? 1 : -1))
     .find(
       range =>
         (isSameDay(range.end, fromDate) || range.end > fromDate) &&
