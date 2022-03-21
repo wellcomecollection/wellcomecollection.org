@@ -58,7 +58,13 @@ class EventsByMonth extends Component<Props, State> {
       November: 10,
       December: 11,
     };
-    const eventsInMonths = events
+
+    // Returns a list of events and the months they fall in.
+    // The months are formatted as YYYY-MM labels like "2001-02".
+    const eventsWithMonths: {
+      event: EventBasic;
+      months: string[];
+    }[] = events
       .filter(event => event.times.length > 0)
       .map(event => {
         const firstRange = event.times[0];
@@ -71,44 +77,45 @@ class EventsByMonth extends Component<Props, State> {
 
         const months = getMonthsInDateRange({ start, end });
         return { event, months };
-      })
-      .reduce((acc, { event, months }) => {
-        months.forEach(month => {
-          // Only add if it has a time in the month that is the same or after today
-          const hasDateInMonthRemaining = event.times.find(time => {
-            const end = london(time.range.endDateTime);
-            const start = london(time.range.startDateTime);
-            const monthAndYear = london(month);
+      });
 
-            const endsInMonth = end.isSame(
-              london({
-                M: monthAndYear.month(),
-                Y: monthAndYear.year(),
-              }),
-              'month'
-            );
+    const eventsInMonths = eventsWithMonths.reduce((acc, { event, months }) => {
+      months.forEach(month => {
+        // Only add if it has a time in the month that is the same or after today
+        const hasDateInMonthRemaining = event.times.find(time => {
+          const end = london(time.range.endDateTime);
+          const start = london(time.range.startDateTime);
+          const monthAndYear = london(month);
 
-            const startsInMonth = start.isSame(
-              london({
-                M: monthAndYear.month(),
-                Y: monthAndYear.year(),
-              }),
-              'month'
-            );
+          const endsInMonth = end.isSame(
+            london({
+              M: monthAndYear.month(),
+              Y: monthAndYear.year(),
+            }),
+            'month'
+          );
 
-            const isNotClosedYet = end.isSameOrAfter(london(), 'day');
+          const startsInMonth = start.isSame(
+            london({
+              M: monthAndYear.month(),
+              Y: monthAndYear.year(),
+            }),
+            'month'
+          );
 
-            return (endsInMonth || startsInMonth) && isNotClosedYet;
-          });
-          if (hasDateInMonthRemaining) {
-            if (!acc[month]) {
-              acc[month] = [];
-            }
-            acc[month].push(event);
-          }
+          const isNotClosedYet = end.isSameOrAfter(london(), 'day');
+
+          return (endsInMonth || startsInMonth) && isNotClosedYet;
         });
-        return acc;
-      }, {});
+        if (hasDateInMonthRemaining) {
+          if (!acc[month]) {
+            acc[month] = [];
+          }
+          acc[month].push(event);
+        }
+      });
+      return acc;
+    }, {});
 
     // Order months correctly
     const orderedMonths = {};
