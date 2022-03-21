@@ -154,23 +154,7 @@ const EventSeriesPage: FC<Props> = ({
     ],
   };
 
-  const genericFields = {
-    id: series.id,
-    title: series.title,
-    promo: series.promo,
-    body: series.body,
-    standfirst: series.standfirst,
-    promoImage: series.promoImage,
-    promoText: series.promoText,
-    image: series.image,
-    squareImage: series.squareImage,
-    widescreenImage: series.widescreenImage,
-    superWidescreenImage: series.superWidescreenImage,
-    labels: series.labels,
-    metadataDescription: series.metadataDescription,
-  };
-
-  const FeaturedMedia = getFeaturedMedia(genericFields);
+  const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}

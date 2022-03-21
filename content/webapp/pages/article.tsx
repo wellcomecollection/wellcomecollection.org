@@ -178,22 +178,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  const genericFields = {
-    id: article.id,
-    title: article.title,
-    promo: article.promo,
-    body: article.body,
-    standfirst: article.standfirst,
-    promoImage: article.promoImage,
-    promoText: article.promoText,
-    image: article.image,
-    squareImage: article.squareImage,
-    widescreenImage: article.widescreenImage,
-    superWidescreenImage: article.superWidescreenImage,
-    labels: article.labels,
-    metadataDescription: article.metadataDescription,
-  };
-
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -257,9 +241,9 @@ const ArticlePage: FC<Props> = ({ article }) => {
   );
 
   // This is for content that we don't have the crops for in Prismic
-  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeHeroPicture = getHeroPicture(article);
   const maybeFeaturedMedia = !maybeHeroPicture
-    ? getFeaturedMedia(genericFields)
+    ? getFeaturedMedia(article)
     : undefined;
   const isImageGallery =
     article.format &&
