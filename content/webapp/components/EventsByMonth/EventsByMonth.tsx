@@ -141,9 +141,11 @@ class EventsByMonth extends Component<Props, State> {
     // Order months correctly.  This returns the headings for each month,
     // now in chronological order.
     const monthHeadings = Object.keys(eventsInMonths)
-      .sort((a, b) => {
-        return london(a).toDate().getTime() - london(b).toDate().getTime();
-      })
+      .sort((a, b) =>
+        // Because these are YYYY-MM strings (e.g. '2001-02'), we can use
+        // lexicographic ordering for the correct results here.
+        a >= b ? 1 : -1
+      )
       .map(month => ({
         id: month,
         url: `#${month}`,
