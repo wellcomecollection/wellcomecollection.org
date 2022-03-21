@@ -27,7 +27,7 @@ it('formats a date', () => {
 
 it('formats a timestamp', () => {
   const result1 = formatTime(new Date(2009, 3, 27, 17, 21, 1));
-  expect(result1).toEqual('17:21');
+  expect(result1).toEqual('18:21');
 
   const result2 = formatTime(new Date(2009, 3, 27, 9, 41, 1));
   expect(result2).toEqual('09:41');
