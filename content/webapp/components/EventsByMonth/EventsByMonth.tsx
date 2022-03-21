@@ -163,7 +163,7 @@ class EventsByMonth extends Component<Props, State> {
               >
                 <SegmentedControl
                   id="monthControls"
-                  activeId={monthHeadings[0] && monthHeadings[0].id}
+                  activeId={monthHeadings[0]?.id}
                   items={monthHeadings}
                   extraClasses={'segmented-control__list--inline'}
                   onActiveIdChange={id => {
