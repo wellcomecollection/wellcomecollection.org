@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import { london } from '@weco/common/utils/format-date';
 import {
   getEarliestFutureDateRange,
   isFuture,
@@ -31,7 +30,13 @@ type YearMonth = {
 
 // Creates a label in the form YYYY-MM, e.g. "2001-02"
 function createLabel(ym: YearMonth): string {
-  return startOf(ym).toDateString().replace(/-01^/, '');
+  return startOf(ym).toISOString().slice(0, 7);
+}
+
+function parseLabel(label: string): YearMonth {
+  const year = parseInt(label.slice(0, 4), 10);
+  const month = parseInt(label.slice(5, 7), 10);
+  return { year, month };
 }
 
 function startOf({ year, month }: YearMonth): Date {
@@ -70,18 +75,18 @@ class EventsByMonth extends Component<Props, State> {
     const { events, links } = this.props;
     const { activeId } = this.state;
     const monthsIndex = {
-      January: 0,
-      February: 1,
-      March: 2,
-      April: 3,
-      May: 4,
-      June: 5,
-      July: 6,
-      August: 7,
-      September: 8,
-      October: 9,
-      November: 10,
-      December: 11,
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
     };
 
     // Returns a list of events and the months they fall in.
@@ -150,24 +155,27 @@ class EventsByMonth extends Component<Props, State> {
         // lexicographic ordering for the correct results here.
         a >= b ? 1 : -1
       )
-      .map(month => ({
-        id: month,
-        url: `#${month}`,
-        text: london(month).format('MMMM'),
-      }));
+      .map(label => {
+        const yearMonth = parseLabel(label);
+
+        return {
+          id: label,
+          url: `#${label}`,
+          text: monthsIndex[yearMonth.month],
+        };
+      });
 
     // Need to order the events for each month based on their earliest future date range
-    Object.keys(eventsInMonths).map(month => {
-      eventsInMonths[month] = sortBy(eventsInMonths[month], [
+    Object.keys(eventsInMonths).map(label => {
+      eventsInMonths[label] = sortBy(eventsInMonths[label], [
         m => {
           const times = m.times.map(time => ({
             start: time.range.startDateTime,
             end: time.range.endDateTime,
           }));
-          const earliestRange = getEarliestFutureDateRange(
-            times,
-            london({ M: monthsIndex[london(month).format('MMMM')] })
-          );
+          const fromDate = startOf(parseLabel(label));
+
+          const earliestRange = getEarliestFutureDateRange(times, fromDate);
           return earliestRange && earliestRange.start;
         },
       ]);
@@ -228,7 +236,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id]}
               itemsPerRow={3}
               links={links}
-              fromDate={london(month.id)}
+              fromDate={startOf(parseLabel(month.id))}
             />
           </div>
         ))}

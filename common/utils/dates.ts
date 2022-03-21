@@ -1,17 +1,18 @@
 import { DateTypes, london } from './format-date';
 import { DateRange } from '../model/date-range';
-import { Moment } from 'moment';
 
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
-  fromDate: Moment | undefined = london()
+  fromDate: Date | undefined = new Date()
 ): DateRange | undefined {
+  const now = new Date();
+
   return dateRanges
     .sort((a, b) => a.start.valueOf() - b.start.valueOf())
     .find(
       range =>
-        london(range.end).isSameOrAfter(fromDate, 'day') &&
-        london(range.end).isSameOrAfter(london(), 'day')
+        (isSameDay(range.end, fromDate) || range.end > fromDate) &&
+        (isSameDay(range.end, now) || range.end > now)
     );
 }
 
