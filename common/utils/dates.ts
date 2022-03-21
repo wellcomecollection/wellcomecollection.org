@@ -10,9 +10,9 @@ export function getEarliestFutureDateRange(
   return dateRanges
     .sort((a, b) => (a.start > b.start ? 1 : -1))
     .find(
-      range =>
-        (isSameDay(range.end, fromDate) || range.end > fromDate) &&
-        (isSameDay(range.end, now) || range.end > now)
+      ({ end }) =>
+        (isSameDay(end, fromDate) || end > fromDate) &&
+        (isSameDay(end, now) || end > now)
     );
 }
 
