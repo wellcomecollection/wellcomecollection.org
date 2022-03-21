@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
-import { Event } from '../types/events';
+import { Event, EventBasic } from '../types/events';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -25,11 +25,12 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 
 type Props = {
   series: EventSeries;
-  events: Event[];
+  events: EventBasic[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -59,7 +60,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const events = transformQuery(eventsQuery, transformEvent).results;
+      const events = transformQuery(eventsQuery, doc =>
+        transformEventToEventBasic(transformEvent(doc))
+      ).results;
 
       return {
         props: removeUndefinedProps({
@@ -142,6 +145,8 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       return aStartTime - bStartTime;
     });
   const upcomingEventsIds = upcomingEvents.map(event => event.id);
+
+  // We want to show the three most recent past events
   const pastEvents = events
     .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
     .sort((a, b) => {
@@ -151,7 +156,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
       const bStartTime = Math.min(
         ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
       );
-      return aStartTime - bStartTime;
+      return bStartTime - aStartTime;
     })
     .slice(0, 3);
 
