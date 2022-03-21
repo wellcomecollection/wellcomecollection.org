@@ -24,14 +24,24 @@ export function formatDayDate(date: Date): string {
   return `${formatDay(date)} ${formatDate(date)}`;
 }
 
-// Returns the date as a spelled out string, e.g. '27 April 2009'
-export function formatDate(date: Date): string {
-  return format(date, 'd MMMM yyyy');
-}
-
 // Returns the time, e.g. '17:21'
 export function formatTime(date: Date): string {
   return format(date, 'HH:mm');
+}
+
+// Returns the year, e.g. '2022'
+export function formatYear(date: Date): string {
+  return format(date, 'yyyy');
+}
+
+// Returns the day and the month, e.g. '14 March'
+export function formatDayMonth(date: Date): string {
+  return format(date, 'd MMMM');
+}
+
+// Returns the date as a spelled out string, e.g. '27 April 2009'
+export function formatDate(date: Date): string {
+  return `${formatDayMonth(date)} ${formatYear(date)}`;
 }
 
 export function formatDateRangeWithMessage({
@@ -54,12 +64,4 @@ export function formatDateRangeWithMessage({
   } else {
     return { text: 'Now on', color: 'green' };
   }
-}
-
-export function formatYear(date: Date): string {
-  return london(date).format('YYYY');
-}
-
-export function formatDayMonth(date: Date): string {
-  return london(date).format('D MMMM');
 }

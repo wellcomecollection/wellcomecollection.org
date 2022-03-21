@@ -2,7 +2,9 @@ import {
   formatDate,
   formatDay,
   formatDayDate,
+  formatDayMonth,
   formatTime,
+  formatYear,
 } from './format-date';
 
 it('formats a day', () => {
@@ -29,4 +31,18 @@ it('formats a timestamp', () => {
 
   const result2 = formatTime(new Date(2009, 3, 27, 9, 41, 1));
   expect(result2).toEqual('09:41');
+});
+
+it('formats a year', () => {
+  const result = formatYear(new Date(2009, 3, 27, 1, 1, 1));
+
+  expect(result).toEqual('2009');
+});
+
+it('formats a day and a month', () => {
+  const result1 = formatDayMonth(new Date(2009, 3, 27, 1, 1, 1));
+  expect(result1).toEqual('27 April');
+
+  const result2 = formatDayMonth(new Date(2021, 4, 6, 1, 1, 1));
+  expect(result2).toEqual('6 May');
 });
