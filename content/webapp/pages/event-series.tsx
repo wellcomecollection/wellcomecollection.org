@@ -134,10 +134,10 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
     })
     .sort((a, b) => {
       const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
       );
       const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
       );
       return aStartTime - bStartTime;
     });
@@ -146,10 +146,10 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
     .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
     .sort((a, b) => {
       const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
+        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
       );
       const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
+        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
       );
       return aStartTime - bStartTime;
     })
