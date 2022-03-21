@@ -58,44 +58,59 @@ class EventsByMonth extends Component<Props, State> {
       November: 10,
       December: 11,
     };
-    const eventsInMonths = events
+
+    // Returns a list of events and the months they fall in.
+    // The months are formatted as YYYY-MM labels like "2001-02".
+    const eventsWithMonths: {
+      event: EventBasic;
+      months: string[];
+    }[] = events
       .filter(event => event.times.length > 0)
       .map(event => {
         const firstRange = event.times[0];
         const lastRange = event.times[event.times.length - 1];
 
-        const start =
-          firstRange.range && london(firstRange.range.startDateTime);
-
-        const end = lastRange.range && london(lastRange.range.endDateTime);
+        const start = london(firstRange.range.startDateTime);
+        const end = london(lastRange.range.endDateTime);
 
         const months = getMonthsInDateRange({ start, end });
         return { event, months };
-      })
-      .reduce((acc, { event, months }) => {
+      });
+
+    // Key: a YYYY-MM month label like "2001-02"
+    // Value: a list of events that fall somewhere in this month
+    const eventsInMonths: Record<string, EventBasic[]> =
+      eventsWithMonths.reduce((acc, { event, months }) => {
         months.forEach(month => {
           // Only add if it has a time in the month that is the same or after today
+          //
+          // NOTE: this means a very long-running event wouldn't appear in the events
+          // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
+          // Do we have any such long-running events?  If so, this is probably okay.
           const hasDateInMonthRemaining = event.times.find(time => {
             const end = london(time.range.endDateTime);
             const start = london(time.range.startDateTime);
             const monthAndYear = london(month);
-            return (
-              (end.isSame(
-                london({
-                  M: monthAndYear.month(),
-                  Y: monthAndYear.year(),
-                }),
-                'month'
-              ) ||
-                start.isSame(
-                  london({
-                    M: monthAndYear.month(),
-                    Y: monthAndYear.year(),
-                  }),
-                  'month'
-                )) &&
-              end.isSameOrAfter(london(), 'day')
+
+            const endsInMonth = end.isSame(
+              london({
+                M: monthAndYear.month(),
+                Y: monthAndYear.year(),
+              }),
+              'month'
             );
+
+            const startsInMonth = start.isSame(
+              london({
+                M: monthAndYear.month(),
+                Y: monthAndYear.year(),
+              }),
+              'month'
+            );
+
+            const isNotClosedYet = end.isSameOrAfter(london(), 'day');
+
+            return (endsInMonth || startsInMonth) && isNotClosedYet;
           });
           if (hasDateInMonthRemaining) {
             if (!acc[month]) {
@@ -105,21 +120,19 @@ class EventsByMonth extends Component<Props, State> {
           }
         });
         return acc;
-      }, {});
+      }, {} as Record<string, EventBasic[]>);
 
-    // Order months correctly
-    const orderedMonths = {};
-    Object.keys(eventsInMonths)
+    // Order months correctly.  This returns the headings for each month,
+    // now in chronological order.
+    const monthHeadings = Object.keys(eventsInMonths)
       .sort((a, b) => {
         return london(a).toDate().getTime() - london(b).toDate().getTime();
       })
-      .map(key => (orderedMonths[key] = eventsInMonths[key]));
-
-    const months = Object.keys(orderedMonths).map(month => ({
-      id: month,
-      url: `#${month}`,
-      text: london(month).format('MMMM'),
-    }));
+      .map(month => ({
+        id: month,
+        url: `#${month}`,
+        text: london(month).format('MMMM'),
+      }));
 
     // Need to order the events for each month based on their earliest future date range
     Object.keys(eventsInMonths).map(month => {
@@ -150,8 +163,8 @@ class EventsByMonth extends Component<Props, State> {
               >
                 <SegmentedControl
                   id="monthControls"
-                  activeId={months[0] && months[0].id}
-                  items={months}
+                  activeId={monthHeadings[0]?.id}
+                  items={monthHeadings}
                   extraClasses={'segmented-control__list--inline'}
                   onActiveIdChange={id => {
                     this.setState({ activeId: id });
@@ -162,7 +175,7 @@ class EventsByMonth extends Component<Props, State> {
           </CssGridContainer>
         </Space>
 
-        {months.map(month => (
+        {monthHeadings.map(month => (
           <div
             key={month.id}
             className={classNames({
