@@ -118,20 +118,15 @@ class EventsByMonth extends Component<Props, State> {
           // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
           // Do we have any such long-running events?  If so, this is probably okay.
           const hasDateInMonthRemaining = event.times.find(time => {
-            const endsInMonth = isSameMonth(
-              time.range.endDateTime,
-              startOf(month)
-            );
+            const start = time.range.startDateTime;
+            const end = time.range.endDateTime;
 
-            const startsInMonth = isSameMonth(
-              time.range.startDateTime,
-              startOf(month)
-            );
+            const endsInMonth = isSameMonth(end, startOf(month));
+
+            const startsInMonth = isSameMonth(start, startOf(month));
 
             const today = new Date();
-            const isNotClosedYet =
-              isSameDay(time.range.endDateTime, today) ||
-              isFuture(time.range.endDateTime);
+            const isNotClosedYet = isSameDay(end, today) || isFuture(end);
 
             return (endsInMonth || startsInMonth) && isNotClosedYet;
           });
