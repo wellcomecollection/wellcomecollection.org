@@ -98,7 +98,7 @@ export function convertTimeStringsBackToMoments(venue: Venue): Venue {
   return {
     ...venue,
     openingHours: {
-      regular: venue.openingHours.regular,
+      ...venue.openingHours,
       exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
         ...exceptionalOpening,
         overrideDate: london(exceptionalOpening.overrideDate),
