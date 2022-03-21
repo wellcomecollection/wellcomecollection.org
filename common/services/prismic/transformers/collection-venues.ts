@@ -94,7 +94,7 @@ export function transformCollectionVenues(
 }
 
 // venue is passed down as JSON, so need to convert the date strings back to Moment objects
-export function convertTimeStringsBackToMoments(venue: Venue): Venue {
+export function fixVenueDatesInJson(venue: Venue): Venue {
   return {
     ...venue,
     openingHours: {
