@@ -24,6 +24,7 @@ const createConfig =
     return withMDX(
       withTM({
         ...defaultConfig,
+        compress: false, // We handle this in the nginx sidecar
         images: options.images || {},
         assetPrefix:
           isProd && prodSubdomain

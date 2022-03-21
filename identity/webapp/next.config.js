@@ -31,6 +31,7 @@ const config = function () {
   });
 
   return withTM({
+    compress: false, // We handle this in the nginx sidecar
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
