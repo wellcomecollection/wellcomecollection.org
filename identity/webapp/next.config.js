@@ -31,7 +31,9 @@ const config = function () {
   });
 
   return withTM({
-    compress: false, // We handle this in the nginx sidecar
+    // We handle compression in the nginx sidecar
+    // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
+    compress: false,
     assetPrefix:
       isProd && prodSubdomain
         ? `https://${prodSubdomain}.wellcomecollection.org${basePath}`
