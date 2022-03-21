@@ -23,7 +23,7 @@ const DateRange: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isSameDay && (
+      {isSameDay ? (
         <>
           <HTMLDayDate date={start} />
           {splitTime ? '' : ', '}
@@ -31,8 +31,7 @@ const DateRange: FunctionComponent<Props> = ({
             <TimeRange start={start} end={end} />
           </span>
         </>
-      )}
-      {!isSameDay && (
+      ) : (
         <>
           <HTMLDate date={start} />—<HTMLDate date={end} />
         </>
