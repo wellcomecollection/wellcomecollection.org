@@ -199,10 +199,9 @@ const EventSeriesPage: FC<Props> = ({
         Body={<Body body={series.body} pageId={series.id} />}
         contributors={series.contributors}
       >
-        {upcomingEvents.length > 0 && (
+        {upcomingEvents.length > 0 ? (
           <SearchResults items={upcomingEvents} title={`What's next`} />
-        )}
-        {upcomingEvents.length === 0 && (
+        ) : (
           <h2 className="h2">
             No events scheduled at the moment, check back soon…
           </h2>
