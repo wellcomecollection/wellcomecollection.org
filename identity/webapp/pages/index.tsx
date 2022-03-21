@@ -45,7 +45,7 @@ import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { useRouter } from 'next/router';
 import {
@@ -135,7 +135,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
   user?: Claims;
 };
 

@@ -11,7 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
@@ -41,7 +41,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
   errorDescription: string | string[];
 };
 
