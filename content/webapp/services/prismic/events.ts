@@ -206,7 +206,7 @@ function getRanges(
     const newStart = start.clone().add(1, groupBy);
     const newAcc: Range[] = acc.concat([
       {
-        label: formatDayDate(start),
+        label: formatDayDate(start.toDate()),
         start: start.clone().startOf(groupBy),
         end: start.clone().endOf(groupBy),
       },
