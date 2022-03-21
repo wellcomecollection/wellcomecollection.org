@@ -79,23 +79,26 @@ class EventsByMonth extends Component<Props, State> {
             const end = london(time.range.endDateTime);
             const start = london(time.range.startDateTime);
             const monthAndYear = london(month);
-            return (
-              (end.isSame(
-                london({
-                  M: monthAndYear.month(),
-                  Y: monthAndYear.year(),
-                }),
-                'month'
-              ) ||
-                start.isSame(
-                  london({
-                    M: monthAndYear.month(),
-                    Y: monthAndYear.year(),
-                  }),
-                  'month'
-                )) &&
-              end.isSameOrAfter(london(), 'day')
+
+            const endsInMonth = end.isSame(
+              london({
+                M: monthAndYear.month(),
+                Y: monthAndYear.year(),
+              }),
+              'month'
             );
+
+            const startsInMonth = start.isSame(
+              london({
+                M: monthAndYear.month(),
+                Y: monthAndYear.year(),
+              }),
+              'month'
+            );
+
+            const isNotClosedYet = end.isSameOrAfter(london(), 'day');
+
+            return (endsInMonth || startsInMonth) && isNotClosedYet;
           });
           if (hasDateInMonthRemaining) {
             if (!acc[month]) {
