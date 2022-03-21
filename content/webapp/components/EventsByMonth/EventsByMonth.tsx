@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import { Moment } from 'moment';
 import { london } from '@weco/common/utils/format-date';
 import {
   getEarliestFutureDateRange,
@@ -25,16 +24,33 @@ type State = {
   activeId?: string;
 };
 
+type YearMonth = {
+  year: number;
+  month: number;
+};
+
+// Creates a label in the form YYYY-MM, e.g. "2001-02"
+function createLabel(ym: YearMonth): string {
+  return startOf(ym).toDateString().replace(/-01^/, '');
+}
+
+function startOf({ year, month }: YearMonth): Date {
+  return new Date(year, month, 1);
+}
+
 // recursive - TODO: make tail recursive?
-type StartEnd = { start: Moment; end: Moment };
+type StartEnd = { start: Date; end: Date };
 
 function getMonthsInDateRange(
   { start, end }: StartEnd,
-  acc: string[] = []
-): string[] {
-  if (start.isSameOrBefore(end, 'month')) {
-    const newAcc = acc.concat([start.format('YYYY-MM')]);
-    const newStart = start.add(1, 'month');
+  acc: YearMonth[] = []
+): YearMonth[] {
+  if (isSameMonth(start, end) || start <= end) {
+    const newAcc = acc.concat({
+      year: start.getFullYear(),
+      month: start.getMonth(),
+    });
+    const newStart = new Date(start.getFullYear(), start.getMonth() + 1, 1);
     return getMonthsInDateRange({ start: newStart, end }, newAcc);
   } else {
     return acc;
@@ -68,15 +84,15 @@ class EventsByMonth extends Component<Props, State> {
     // The months are formatted as YYYY-MM labels like "2001-02".
     const eventsWithMonths: {
       event: EventBasic;
-      months: string[];
+      months: YearMonth[];
     }[] = events
       .filter(event => event.times.length > 0)
       .map(event => {
         const firstRange = event.times[0];
         const lastRange = event.times[event.times.length - 1];
 
-        const start = london(firstRange.range.startDateTime);
-        const end = london(lastRange.range.endDateTime);
+        const start = firstRange.range.startDateTime;
+        const end = lastRange.range.endDateTime;
 
         const months = getMonthsInDateRange({ start, end });
         return { event, months };
@@ -93,16 +109,14 @@ class EventsByMonth extends Component<Props, State> {
           // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
           // Do we have any such long-running events?  If so, this is probably okay.
           const hasDateInMonthRemaining = event.times.find(time => {
-            const monthAndYear = london(month);
-
             const endsInMonth = isSameMonth(
               time.range.endDateTime,
-              monthAndYear.toDate()
+              startOf(month)
             );
 
             const startsInMonth = isSameMonth(
               time.range.startDateTime,
-              monthAndYear.toDate()
+              startOf(month)
             );
 
             const today = new Date();
@@ -113,10 +127,12 @@ class EventsByMonth extends Component<Props, State> {
             return (endsInMonth || startsInMonth) && isNotClosedYet;
           });
           if (hasDateInMonthRemaining) {
-            if (!acc[month]) {
-              acc[month] = [];
+            const label = createLabel(month);
+
+            if (!acc[label]) {
+              acc[label] = [];
             }
-            acc[month].push(event);
+            acc[label].push(event);
           }
         });
         return acc;
