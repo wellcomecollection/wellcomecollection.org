@@ -45,7 +45,7 @@ const toggles = {
     {
       id: 'gaSecureCookies',
       title: 'GA Secure Cookies',
-      range: [0, 10],
+      range: [0, 10], // We picked 10% arbitrarily: enough to get data, not too much that we'd lose too much if something breaks
       when: () => true,
     },
   ] as ABTest[],
