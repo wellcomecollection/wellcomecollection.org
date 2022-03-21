@@ -17,12 +17,12 @@ export function getEarliestFutureDateRange(
 
 export function isPast(date: Date): boolean {
   const now = new Date();
-  return date.valueOf() < now.valueOf();
+  return date < now;
 }
 
 export function isFuture(date: Date): boolean {
   const now = new Date();
-  return date.valueOf() > now.valueOf();
+  return date > now;
 }
 
 export function isSameMonth(date1: Date, date2: Date): boolean {
