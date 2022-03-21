@@ -196,12 +196,13 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
+  const gaSecureCookies = serverData.toggles.gaSecureCookies;
   // GA v4
   useEffect(() => {
     window.gtag &&
       window.gtag('config', 'G-206J7SLYFC', {
         page_path: `${window.location.pathname}${window.location.search}`,
-        cookie_flags: 'SameSite=None;secure',
+        cookie_flags: gaSecureCookies ? 'SameSite=None;secure' : undefined,
       });
   }, []);
 
@@ -215,7 +216,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         trackingId: 'UA-55614-6',
         titleCase: false,
         gaOptions: {
-          cookieFlags: 'SameSite=None;secure',
+          cookieFlags: gaSecureCookies ? 'SameSite=None;secure' : undefined,
         },
       },
     ]);
