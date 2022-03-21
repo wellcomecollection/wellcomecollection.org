@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import moment, { Moment } from 'moment';
 import 'moment-timezone';
 
@@ -13,20 +14,24 @@ export function londonFromFormat(d: DateTypes, format: string): Moment {
   return moment(d, format).tz('Europe/London');
 }
 
-export function formatDay(date: Date | Moment): string {
-  return london(date).format('dddd');
+// Returns the name of a day, e.g. 'Monday'
+export function formatDay(date: Date): string {
+  return format(date, 'EEEE');
 }
 
-export function formatDayDate(date: Date | Moment): string {
-  return london(date).format('dddd D MMMM YYYY');
+// Returns the date with a day, e.g. 'Monday 21 March 2022'
+export function formatDayDate(date: Date): string {
+  return `${formatDay(date)} ${formatDate(date)}`;
 }
 
-export function formatDate(date: Date | Moment): string {
-  return london(date).format('D MMMM YYYY');
+// Returns the date as a spelled out string, e.g. '27 April 2009'
+export function formatDate(date: Date): string {
+  return format(date, 'd MMMM yyyy');
 }
 
+// Returns the time, e.g. '17:21'
 export function formatTime(date: Date): string {
-  return london(date).format('HH:mm');
+  return format(date, 'HH:mm');
 }
 
 export function formatDateRangeWithMessage({
