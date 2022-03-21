@@ -46,11 +46,15 @@ function getMonthsInDateRange(
   acc: YearMonth[] = []
 ): YearMonth[] {
   if (isSameMonth(start, end) || start <= end) {
-    const newAcc = acc.concat({
+    const yearMonth = {
       year: start.getFullYear(),
       month: start.getMonth(),
+    };
+    const newAcc = acc.concat(yearMonth);
+    const newStart = startOf({
+      ...yearMonth,
+      month: yearMonth.month + 1,
     });
-    const newStart = new Date(start.getFullYear(), start.getMonth() + 1, 1);
     return getMonthsInDateRange({ start: newStart, end }, newAcc);
   } else {
     return acc;
