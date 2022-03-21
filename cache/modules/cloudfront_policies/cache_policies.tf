@@ -7,6 +7,8 @@ resource "aws_cloudfront_cache_policy" "toggle_cookies_only" {
   max_ttl     = local.one_day
 
   parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
     cookies_config {
       cookie_behavior = "whitelist"
 
@@ -34,6 +36,8 @@ resource "aws_cloudfront_cache_policy" "static_content" {
   max_ttl     = local.one_year
 
   parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
     cookies_config {
       cookie_behavior = "none"
     }
@@ -57,6 +61,8 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
   max_ttl     = local.one_day
 
   parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
     cookies_config {
       cookie_behavior = "whitelist"
 
@@ -103,6 +109,8 @@ resource "aws_cloudfront_cache_policy" "short_lived_toggles_only" {
   max_ttl     = local.one_minute
 
   parameters_in_cache_key_and_forwarded_to_origin {
+    enable_accept_encoding_gzip = true
+
     cookies_config {
       cookie_behavior = "whitelist"
 
