@@ -80,6 +80,10 @@ class EventsByMonth extends Component<Props, State> {
     const eventsInMonths = eventsWithMonths.reduce((acc, { event, months }) => {
       months.forEach(month => {
         // Only add if it has a time in the month that is the same or after today
+        //
+        // NOTE: this means a very long-running event wouldn't appear in the events
+        // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
+        // Do we have any such long-running events?  If so, this is probably okay.
         const hasDateInMonthRemaining = event.times.find(time => {
           const end = london(time.range.endDateTime);
           const start = london(time.range.startDateTime);
