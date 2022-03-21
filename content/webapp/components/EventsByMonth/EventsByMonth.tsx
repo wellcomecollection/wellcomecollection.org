@@ -70,10 +70,8 @@ class EventsByMonth extends Component<Props, State> {
         const firstRange = event.times[0];
         const lastRange = event.times[event.times.length - 1];
 
-        const start =
-          firstRange.range && london(firstRange.range.startDateTime);
-
-        const end = lastRange.range && london(lastRange.range.endDateTime);
+        const start = london(firstRange.range.startDateTime);
+        const end = london(lastRange.range.endDateTime);
 
         const months = getMonthsInDateRange({ start, end });
         return { event, months };
