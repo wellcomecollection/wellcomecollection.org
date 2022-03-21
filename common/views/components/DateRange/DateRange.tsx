@@ -21,21 +21,17 @@ const DateRange: FunctionComponent<Props> = ({
 }: Props) => {
   const isSameDay = london(start).isSame(end, 'day');
 
-  return (
+  return isSameDay ? (
     <>
-      {isSameDay ? (
-        <>
-          <HTMLDayDate date={start} />
-          {splitTime ? '' : ', '}
-          <span className={splitTime ? 'block' : undefined}>
-            <TimeRange start={start} end={end} />
-          </span>
-        </>
-      ) : (
-        <>
-          <HTMLDate date={start} />—<HTMLDate date={end} />
-        </>
-      )}
+      <HTMLDayDate date={start} />
+      {splitTime ? '' : ', '}
+      <span className={splitTime ? 'block' : undefined}>
+        <TimeRange start={start} end={end} />
+      </span>
+    </>
+  ) : (
+    <>
+      <HTMLDate date={start} />—<HTMLDate date={end} />
     </>
   );
 };
