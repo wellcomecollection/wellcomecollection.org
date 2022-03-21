@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import {
-  getEarliestFutureDateRange,
-  isFuture,
-  isSameDay,
-  isSameMonth,
-} from '@weco/common/utils/dates';
+import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -13,6 +8,7 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
+import { isSameDay, isSameMonth, isFuture, format } from 'date-fns';
 
 type Props = {
   events: EventBasic[];
@@ -30,7 +26,7 @@ type YearMonth = {
 
 // Creates a label in the form YYYY-MM, e.g. "2001-02"
 function createLabel(ym: YearMonth): string {
-  return startOf(ym).toISOString().slice(0, 7);
+  return format(startOf(ym), 'yyyy-MM');
 }
 
 function parseLabel(label: string): YearMonth {

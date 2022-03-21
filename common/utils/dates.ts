@@ -1,5 +1,6 @@
 import { DateTypes, london } from './format-date';
 import { DateRange } from '../model/date-range';
+import { isSameDay } from 'date-fns';
 
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
@@ -14,27 +15,6 @@ export function getEarliestFutureDateRange(
         (isSameDay(end, fromDate) || end > fromDate) &&
         (isSameDay(end, now) || end > now)
     );
-}
-
-export function isPast(date: Date): boolean {
-  const now = new Date();
-  return date < now;
-}
-
-export function isFuture(date: Date): boolean {
-  const now = new Date();
-  return date > now;
-}
-
-export function isSameMonth(date1: Date, date2: Date): boolean {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth()
-  );
-}
-
-export function isSameDay(date1: Date, date2: Date): boolean {
-  return isSameMonth(date1, date2) && date1.getDate() === date2.getDate();
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.

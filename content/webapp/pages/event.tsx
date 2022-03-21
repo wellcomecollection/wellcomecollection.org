@@ -54,7 +54,8 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { isDayPast, isPast } from '@weco/common/utils/dates';
+import { isDayPast } from '@weco/common/utils/dates';
+import { isPast } from 'date-fns';
 
 import * as prismicT from '@prismicio/types';
 

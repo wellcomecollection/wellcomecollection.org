@@ -9,7 +9,7 @@ import { Event } from '../../types/events';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { isEventPast } from '../../services/prismic/events';
-import { isPast } from '@weco/common/utils/dates';
+import { isPast } from 'date-fns';
 
 type Props = {
   event: Event;

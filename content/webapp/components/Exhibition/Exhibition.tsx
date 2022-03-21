@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, FC } from 'react';
-import { isPast, isFuture } from '@weco/common/utils/dates';
+import { isPast, isFuture } from 'date-fns';
 import { formatDate } from '@weco/common/utils/format-date';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';

@@ -14,7 +14,7 @@ import {
 } from '../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
-import { isPast } from '@weco/common/utils/dates';
+import { isPast } from 'date-fns';
 import {
   asText,
   asTitle,

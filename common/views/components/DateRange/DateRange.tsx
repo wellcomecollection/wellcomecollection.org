@@ -3,7 +3,7 @@ import HTMLDate from '../HTMLDate/HTMLDate';
 import HTMLDayDate from '../HTMLDayDate/HTMLDayDate';
 import HTMLTime from '../HTMLTime/HTMLTime';
 import { DateRange as DateRangeProps } from '../../../model/date-range';
-import { isSameDay } from '../../../utils/dates';
+import { isSameDay } from 'date-fns';
 
 const TimeRange = ({ start, end }: DateRangeProps) => (
   <>

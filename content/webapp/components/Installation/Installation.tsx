@@ -9,7 +9,7 @@ import { Exhibition as InstallationType } from '../../types/exhibitions';
 import { getInfoItems } from '../Exhibition/Exhibition';
 import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
-import { isPast } from '@weco/common/utils/dates';
+import { isPast } from 'date-fns';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
 import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
