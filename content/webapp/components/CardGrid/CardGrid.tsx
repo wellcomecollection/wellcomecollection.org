@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import moment from 'moment';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import { convertItemToCardProps } from '../../types/card';
@@ -21,7 +20,7 @@ type Props = {
   itemsPerRow: number;
   itemsHaveTransparentBackground?: boolean;
   links?: Link[];
-  fromDate?: moment.Moment;
+  fromDate?: Date;
 };
 
 const CardGrid: FunctionComponent<Props> = ({

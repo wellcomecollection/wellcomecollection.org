@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import moment from 'moment';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { UiImage } from '@weco/common/views/components/Images/Images';
@@ -21,7 +20,7 @@ type Props = {
   position?: number;
   dateString?: string;
   timeString?: string;
-  fromDate?: moment.Moment;
+  fromDate?: Date;
 };
 
 function getLocationText(isOnline?: boolean, place?: Place): string {
