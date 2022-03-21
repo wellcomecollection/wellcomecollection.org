@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
-import { Event, EventBasic } from '../types/events';
+import { EventBasic } from '../types/events';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -31,7 +31,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   series: EventSeries;
-  jsonLd: JsonLdObj;
+  jsonLd: JsonLdObj[];
   pastEvents: EventBasic[];
   upcomingEvents: EventBasic[];
 };
