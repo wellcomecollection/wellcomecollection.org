@@ -185,22 +185,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
 
   const event = fixEventDatesInJson(jsonEvent);
 
-  const genericFields = {
-    id: event.id,
-    title: event.title,
-    promo: event.promo,
-    body: event.body,
-    standfirst: event.standfirst,
-    promoImage: event.promoImage,
-    promoText: event.promoText,
-    image: event.image,
-    squareImage: event.squareImage,
-    widescreenImage: event.widescreenImage,
-    labels: event.labels,
-    metadataDescription: event.metadataDescription,
-  };
-
-  const maybeFeaturedMedia = getFeaturedMedia(genericFields);
+  const maybeFeaturedMedia = getFeaturedMedia(event);
   const hasFeaturedVideo =
     event.body.length > 0 && event.body[0].type === 'videoEmbed';
   const body = hasFeaturedVideo
