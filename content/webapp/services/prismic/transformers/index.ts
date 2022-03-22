@@ -166,13 +166,6 @@ export function transformLabelType(
   };
 }
 
-type PromoImage = {
-  image?: ImageType;
-  squareImage?: ImageType;
-  widescreenImage?: ImageType;
-  superWidescreenImage?: ImageType;
-};
-
 // TODO: Consider moving this into a dedicated file for body transformers.
 // TODO: Rather than doing transformation inline, have this function consistently
 // call out to other transformer functions (a la contentList).
@@ -386,23 +379,14 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
   const promo = data.promo && transformImagePromo(data.promo);
 
-  const promoImage: PromoImage =
+  const image: ImageType | undefined =
     data.promo && data.promo.length > 0
       ? data.promo
           .filter((slice: prismicT.Slice) => slice.primary.image)
-          .map(({ primary: { image } }) => {
-            return {
-              image: transformImage(image),
-              squareImage: transformImage(image.square),
-              widescreenImage: transformImage(image['16:9']),
-              superWidescreenImage: transformImage(image['32:15']),
-            };
-          })
-          .find(_ => _) || {} // just get the first one;
-      : {};
+          .map(({ primary: { image } }) => transformImage(image))
+          .find(_ => _) || undefined // just get the first one;
+      : undefined;
 
-  const { image, squareImage, widescreenImage, superWidescreenImage } =
-    promoImage;
   const body = data.body ? transformBody(data.body) : [];
   const standfirst = body.find(slice => slice.type === 'standfirst');
   const metadataDescription = asText(data.metadataDescription);
@@ -412,13 +396,10 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     title: asTitle(data.title),
     body: body,
     standfirst: standfirst && standfirst.value,
-    promo: promo,
+    promo,
     promoText: promo && promo.caption,
     promoImage: promo && promo.image,
     image,
-    squareImage,
-    widescreenImage,
-    superWidescreenImage,
     metadataDescription,
     // we pass an empty array here to be overriden by each content type
     // TODO: find a way to enforce this.

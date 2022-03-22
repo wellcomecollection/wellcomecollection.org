@@ -74,13 +74,15 @@ const SeasonPage = ({
   projects,
   books,
 }: Props): ReactElement<Props> => {
+  const superWidescreenImage = season.image?.crops['32:15'];
+
   const Header = (
     <SeasonsHeader
       labels={{ labels: season.labels }}
       title={season.title}
       FeaturedMedia={
-        season.superWidescreenImage ? (
-          <UiImage {...season.superWidescreenImage} sizesQueries="" />
+        superWidescreenImage ? (
+          <UiImage {...superWidescreenImage} sizesQueries="" />
         ) : undefined
       }
       standfirst={season?.standfirst}

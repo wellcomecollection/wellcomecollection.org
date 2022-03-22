@@ -30,21 +30,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
     });
   }, []);
 
-  const FeaturedMedia = getFeaturedMedia({
-    id: installation.id,
-    title: installation.title,
-    promo: installation.promo,
-    body: installation.body,
-    standfirst: installation.standfirst,
-    promoImage: installation.promoImage,
-    promoText: installation.promoText,
-    image: installation.image,
-    squareImage: installation.squareImage,
-    widescreenImage: installation.widescreenImage,
-    superWidescreenImage: installation.superWidescreenImage,
-    labels: installation.labels,
-    metadataDescription: installation.metadataDescription,
-  });
+  const FeaturedMedia = getFeaturedMedia(installation);
 
   const breadcrumbs = {
     items: [
