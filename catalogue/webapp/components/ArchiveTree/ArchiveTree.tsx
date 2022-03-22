@@ -449,7 +449,7 @@ async function expandTree({
   archiveTree: UiTree;
 }) {
   const children = await getChildren(item.work.id);
-  
+
   setArchiveTree(
     updateChildren({
       tree: archiveTree,

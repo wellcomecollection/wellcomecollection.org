@@ -4,7 +4,9 @@ import hasOwnProperty from '@weco/common/utils/has-own-property';
 import { getTogglesFromContext } from '@weco/common/server-data/toggles';
 import { getWork } from 'services/catalogue/works';
 
-export function isCatalogueApiError(response: any): response is CatalogueApiError {
+export function isCatalogueApiError(
+  response: any
+): response is CatalogueApiError {
   return Boolean(hasOwnProperty(response, 'type') && response.type === 'Error');
 }
 

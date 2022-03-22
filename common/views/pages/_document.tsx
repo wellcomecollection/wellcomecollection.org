@@ -70,8 +70,7 @@ class WecoDoc extends Document {
               __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', 'G-206J7SLYFC');`,
+                  gtag('js', new Date());`,
             }}
           />
 

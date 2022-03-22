@@ -7,7 +7,9 @@ import {
 async function getWhereToFindItAndEncoreLink() {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
   const encoreLink = await page.$('a:has-text("Request item")');
-  const unavailableBanner = await page.$('span:has-text("Requesting is currently unavailable, while our building is closed.")');
+  const unavailableBanner = await page.$(
+    'span:has-text("Requesting is currently unavailable, while our building is closed.")'
+  );
 
   return {
     whereToFindIt,
@@ -24,9 +26,10 @@ async function getAvailableOnline() {
 describe(`Scenario 1: a user wants to see relevant information about where a work's items are located`, () => {
   test(`works that have a physical item location display a 'Where to find it' section with a link`, async () => {
     await workWithPhysicalLocationOnly();
-    const { whereToFindIt, encoreLink, unavailableBanner } = await getWhereToFindItAndEncoreLink();
+    const { whereToFindIt, encoreLink, unavailableBanner } =
+      await getWhereToFindItAndEncoreLink();
     expect(whereToFindIt).toBeTruthy();
-    
+
     // TODO: Remove the check for the unavailableBanner when the building is reopened.
     expect(encoreLink || unavailableBanner).toBeTruthy();
   });

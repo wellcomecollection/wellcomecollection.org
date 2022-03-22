@@ -196,11 +196,16 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
+  // We're making sure that secure cookies is what we want, and that our implementation
+  // works as expected. https://github.com/wellcomecollection/wellcomecollection.org/pull/7514
+  const gaSecureCookies = serverData.toggles.gaSecureCookies;
+  const cookieFlags = gaSecureCookies ? 'SameSite=None;secure' : undefined;
   // GA v4
   useEffect(() => {
     window.gtag &&
       window.gtag('config', 'G-206J7SLYFC', {
         page_path: `${window.location.pathname}${window.location.search}`,
+        cookie_flags: cookieFlags,
       });
   }, []);
 
@@ -213,6 +218,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
       {
         trackingId: 'UA-55614-6',
         titleCase: false,
+        gaOptions: {
+          cookieFlags: cookieFlags,
+        },
       },
     ]);
 

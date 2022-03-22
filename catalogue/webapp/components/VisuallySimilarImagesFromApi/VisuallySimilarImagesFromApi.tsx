@@ -3,7 +3,10 @@ import Image from '@weco/common/views/components/Image/Image';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getImage, getVisuallySimilarImagesClientSide } from '../../services/catalogue/images';
+import {
+  getImage,
+  getVisuallySimilarImagesClientSide,
+} from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 
