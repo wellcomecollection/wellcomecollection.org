@@ -2,14 +2,13 @@ import { Tasl } from '../../../model/tasl';
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
-import { ImageType } from '../../../model/image';
 import { isNotUndefined } from '../../../utils/array';
 import { FunctionComponent } from 'react';
 
 export type Props = {
   contentUrl: string;
   width?: number;
-  alt: string | null;
+  alt?: string;
   tasl?: Tasl;
   height?: number;
   caption?: string;
@@ -20,9 +19,6 @@ export type Props = {
   clickHandler?: () => void;
   zoomable?: boolean;
   extraClasses?: string;
-  crops?: {
-    [key: string]: ImageType;
-  };
   style?: Record<string, string>;
   srcsetRequired?: boolean;
 };

@@ -427,6 +427,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       ? filterEventsForWeekend(events)
       : events;
 
+  console.log(
+    `@@AWLC events = ${events.length}; eventsToShow = ${eventsToShow.length}`
+  );
+
   return (
     <PageLayout
       title={pageTitle}

@@ -1,14 +1,14 @@
 import { Event } from '../../types/events';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import EventPromo from '../EventPromo/EventPromo';
+import { ImageType } from '@weco/common/model/image';
 
-const image = {
+const image: ImageType = {
   contentUrl:
     'https://images.prismic.io/wellcomecollection/7657f9e9-0733-444d-b1b2-6ae0bafa0ff9_c7c94c39161dcfe15d9abd8b40256ea2b40f52b9_c0139861.jpg?auto=compress,format',
   width: 2996,
   height: 2000,
   alt: '',
-  crops: {},
 };
 
 export const data: Event = {
@@ -47,7 +47,7 @@ export const data: Event = {
     image: image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  promoImage: { ...image },
+  promoImage: image,
   scheduleLength: 0,
   seasons: [],
   isOnline: false,

@@ -22,7 +22,7 @@ import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
-import { ImageType } from '@weco/common/model/image';
+import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 
 export type SiteSection =
@@ -148,7 +148,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   // See https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
   // for more information on Twitter cards.
   const socialPreviewCardImage =
-    image && image.crops['32:15'] ? image.crops['32:15'] : image;
+    image && getCrop(image, '32:15') ? getCrop(image, '32:15') : image;
 
   const imageUrl =
     socialPreviewCardImage &&

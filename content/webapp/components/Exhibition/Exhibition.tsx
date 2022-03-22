@@ -241,9 +241,6 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
     promoImage: exhibition.promoImage,
     promoText: exhibition.promoText,
     image: exhibition.image,
-    squareImage: exhibition.squareImage,
-    widescreenImage: exhibition.widescreenImage,
-    superWidescreenImage: exhibition.superWidescreenImage,
     labels: exhibition.labels,
     metadataDescription: exhibition.metadataDescription,
   };

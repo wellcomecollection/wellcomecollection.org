@@ -39,19 +39,8 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
 
   const alt = image.alt!;
 
-  const basicCrops = Object.keys(crops)
+  const simpleCrops = Object.keys(crops)
     .filter(key => {
-      // console.log(`@@AWLC alt=${crops[key].alt === alt}`);
-      console.log('---');
-      console.log(
-        `@@AWLC tasl=${
-          JSON.stringify(crops[key].tasl) === JSON.stringify(tasl)
-        }`
-      );
-      console.log(crops[key].tasl);
-      console.log(tasl);
-      console.log('---');
-
       return (
         crops[key].alt === alt &&
         JSON.stringify(crops[key].tasl) === JSON.stringify(tasl)
@@ -66,8 +55,8 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
       return acc;
     }, {});
 
-  const fullCrops = Object.keys(crops)
-    .filter(key => isUndefined(basicCrops[key]))
+  const richCrops = Object.keys(crops)
+    .filter(key => isUndefined(simpleCrops[key]))
     .reduce((acc, key) => {
       acc[key] = crops[key];
       return acc;
@@ -77,9 +66,9 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
     contentUrl: image.url,
     width: image.dimensions.width,
     height: image.dimensions.height,
-    alt: alt!,
+    alt,
     tasl,
-    basicCrops,
-    fullCrops,
+    simpleCrops,
+    richCrops,
   };
 }

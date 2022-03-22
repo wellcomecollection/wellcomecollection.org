@@ -10,6 +10,7 @@ import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonO
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '../../services/prismic/link-resolver';
+import { getCrop } from '@weco/common/model/image';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -93,8 +94,8 @@ const BannerCard: FunctionComponent<Props> = ({
         crops: {
           '16:9': {
             contentUrl:
-              item.image && item.image.crops && item.image.crops['16:9']
-                ? item.image.crops['16:9'].contentUrl
+              item.image && getCrop(item.image, '16:9')
+                ? getCrop(item.image, '16:9')?.contentUrl
                 : '',
             alt: '',
             width: 1600,

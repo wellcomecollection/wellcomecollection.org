@@ -4,6 +4,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { classNames, font } from '@weco/common/utils/classnames';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   event: EventBasic;
@@ -13,9 +14,8 @@ type Props = {
 const EventCard = ({ event, xOfY }: Props) => {
   const DateRangeComponent = <EventDateRange event={event} />;
 
-  const ImageComponent = event.image &&
-    event.image.crops &&
-    event.image.crops.square && <Image {...event.image.crops.square} />;
+  const squareImage = event.image && getCrop(event.image, 'square');
+  const ImageComponent = squareImage && <Image {...squareImage} />;
 
   const firstTime = event.times[0];
   const lastTime = event.times[event.times.length - 1];
