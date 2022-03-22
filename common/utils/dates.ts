@@ -37,6 +37,15 @@ export function isSameDay(date1: Date, date2: Date): boolean {
   return isSameMonth(date1, date2) && date1.getDate() === date2.getDate();
 }
 
+// Returns true if 'date' falls on a past day; false otherwise.
+//
+// Note: this means it will return true if `date` falls on an earlier time
+// today, e.g. isDayPast(09:00) called at 12:00 on the same day will be true.
+export function isDayPast(date: Date): boolean {
+  const now = new Date();
+  return isSameDay(date, now) || date < now;
+}
+
 export function getNextWeekendDateRange(date: DateTypes): DateRange {
   const today = london(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6

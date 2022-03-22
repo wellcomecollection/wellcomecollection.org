@@ -13,11 +13,7 @@ import InfoBox from '../components/InfoBox/InfoBox';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { camelize } from '@weco/common/utils/grammar';
-import {
-  formatDayDate,
-  isDatePast,
-  formatTime,
-} from '@weco/common/utils/format-date';
+import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -58,7 +54,7 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { isPast } from '@weco/common/utils/dates';
+import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
 
@@ -113,7 +109,7 @@ function DateList(event: Event) {
             <TimeWrapper key={index}>
               <div
                 className={`${
-                  isDatePast(eventTime.range.endDateTime) ? 'font-pewter' : ''
+                  isDayPast(eventTime.range.endDateTime) ? 'font-pewter' : ''
                 } flex-1`}
               >
                 <DateRange
@@ -122,7 +118,7 @@ function DateList(event: Event) {
                 />
               </div>
 
-              {isDatePast(eventTime.range.endDateTime) ? (
+              {isDayPast(eventTime.range.endDateTime) ? (
                 <>{EventStatus({ text: 'Past', color: 'marble' })}</>
               ) : eventTime.isFullyBooked ? (
                 EventStatus({ text: 'Full', color: 'red' })
