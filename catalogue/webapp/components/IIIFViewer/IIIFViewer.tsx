@@ -385,12 +385,15 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       canvases.length > 0 || currentCanvas
         ? { canvas: `${activeIndex + 1}` }
         : {};
+    const manifest = mainPaginatorProps.link.href.query?.manifest;
+    const manifestParams = manifest ? { manifest } : {};
 
     const url = {
       ...mainPaginatorProps.link.href,
       query: {
         ...mainPaginatorProps.link.href.query,
         ...canvasParams,
+        ...manifestParams,
         source: 'viewer/paginator',
       },
     };
@@ -399,6 +402,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
       query: {
         ...mainPaginatorProps.link.as.query,
         ...canvasParams,
+        ...manifestParams,
       },
     };
     Router.replace(url, as);
