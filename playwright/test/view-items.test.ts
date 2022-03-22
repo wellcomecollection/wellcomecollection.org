@@ -31,7 +31,7 @@ import {
   referenceNumber,
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
@@ -41,9 +41,7 @@ async function searchWithin(query: string) {
 }
 
 beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
-    domain
-  );
+  const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
     ...defaultToggleAndTestCookies,

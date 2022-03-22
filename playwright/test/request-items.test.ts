@@ -1,14 +1,12 @@
 import { workWithPhysicalLocationOnly } from './contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
 beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
-    domain
-  );
-  await context.addCookies(defaultToggleAndTestCookies);
+  const defaultToggleCookies = await makeDefaultToggleCookies(domain);
+  await context.addCookies(defaultToggleCookies);
 });
 
 describe.skip('Scenario 1: researcher is logged out', () => {

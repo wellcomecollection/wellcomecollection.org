@@ -1,17 +1,15 @@
 import { article, articleWithMockSiblings } from './contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 import { oneScheduleItem } from './mocks/one-schedule-item';
 
 const domain = new URL(baseUrl).host;
 
 beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
-    domain
-  );
+  const defaultToggleCookies = await makeDefaultToggleCookies(domain);
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    ...defaultToggleAndTestCookies,
+    ...defaultToggleCookies,
   ]);
 });
 
