@@ -3,7 +3,7 @@ import Image from '@weco/common/views/components/Image/Image';
 import MediaObjectBase, {
   HasImageProps,
 } from '../MediaObjectBase/MediaObjectBase';
-import { ImageType } from '@weco/common/model/image';
+import { getCrop, ImageType } from '@weco/common/model/image';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
@@ -57,8 +57,9 @@ export const MediaObject: FunctionComponent<Props> = ({
   image,
   sizesQueries,
 }: Props): ReactElement<Props> => {
-  const ImageComponent = image?.crops?.square && (
-    <Image {...image.crops.square} sizesQueries={sizesQueries} />
+  const squareCrop = image && getCrop(image, 'square');
+  const ImageComponent = squareCrop && (
+    <Image {...squareCrop} sizesQueries={sizesQueries} />
   );
 
   const description = text && <PrismicHtmlBlock html={text} />;

@@ -10,6 +10,7 @@ import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import { ArticleScheduleItem } from '../../types/article-schedule-items';
+import { getCrop } from '@weco/common/model/image';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
@@ -58,9 +59,8 @@ const SearchResults: FunctionComponent<Props> = ({
             urlOverride={item.promo && item.promo.link}
             Image={
               item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -78,9 +78,8 @@ const SearchResults: FunctionComponent<Props> = ({
             urlOverride={item.promo && item.promo.link}
             Image={
               item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -98,9 +97,8 @@ const SearchResults: FunctionComponent<Props> = ({
             urlOverride={item.promo && item.promo.link}
             Image={
               item.cover &&
-              item.cover.crops &&
-              item.cover.crops.square && (
-                <Image {...item.cover.crops.square} alt="" />
+              getCrop(item.cover, 'square') && (
+                <Image {...getCrop(item.cover, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -144,9 +142,8 @@ const SearchResults: FunctionComponent<Props> = ({
             description={item.promoText}
             Image={
               item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
