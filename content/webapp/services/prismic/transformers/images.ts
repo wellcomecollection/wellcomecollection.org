@@ -2,7 +2,7 @@ import { Image, PromoSliceZone } from '../types';
 import { RichTextField } from '@prismicio/types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
-import { ImageType } from '@weco/common/model/image';
+import { Crop, ImageType } from '@weco/common/model/image';
 import { ImagePromo } from '../../../types/image-promo';
 import { asRichText, asText } from '.';
 import * as prismicT from '@prismicio/types';
@@ -19,7 +19,6 @@ export const placeHolderImage: ImageType = {
   crops: {},
 };
 
-type Crop = '16:9' | '32:15' | 'square';
 export function transformCaptionedImage(
   frag: { image: Image; caption: RichTextField },
   crop?: Crop

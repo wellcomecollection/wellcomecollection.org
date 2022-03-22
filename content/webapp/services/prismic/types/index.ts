@@ -60,8 +60,6 @@ type Dimension = {
   height: number;
 };
 
-export type Crop = '32:15' | '16:9' | 'square';
-
 // Currently the Prismic types only allow you to specify 1 image
 type ThumbnailedImageField<Thumbnails extends Record<string, Dimension>> =
   FilledImageFieldImage & {
