@@ -69,7 +69,12 @@ const StoryPromo: FunctionComponent<Props> = ({
       <div className="relative">
         {isNotUndefined(image) && (
           <PrismicImage
-            image={image}
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            image={...image, alt: ''}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
