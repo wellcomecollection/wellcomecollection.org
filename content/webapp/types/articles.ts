@@ -21,7 +21,6 @@ export type ArticleBasic = {
   title: string;
   format?: Format<ArticleFormatId>;
   image?: ImageType;
-  contributors: Contributor[];
   datePublished: Date;
   promoImage?: Picture;
   labels: Label[];

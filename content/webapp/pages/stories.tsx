@@ -46,12 +46,14 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
 import { transformBookToBookBasic } from '../services/prismic/transformers/books';
 import { BookBasic } from '../types/books';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   articles: ArticleBasic[];
   series: Series;
   featuredText?: FeaturedTextType;
   featuredBooks: BookBasic[];
+  jsonLd: JsonLdObj[];
 };
 
 const SerialisedSeries = ({ series }: { series: Series }) => {
@@ -131,9 +133,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       storiesPagePromise,
       featuredBooksPromise,
     ]);
-    const articles = transformQuery(articlesQuery, article =>
-      transformArticleToArticleBasic(transformArticle(article))
-    );
+
+    const articles = transformQuery(articlesQuery, transformArticle);
+    const jsonLd = articles.results.map(articleLd);
+    const basicArticles = articles.results.map(transformArticleToArticleBasic);
 
     const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
       transformBookToBookBasic
@@ -149,11 +152,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (articles && articles.results) {
       return {
         props: removeUndefinedProps({
-          articles: articles.results,
+          articles: basicArticles,
           series,
           featuredText,
           serverData,
           featuredBooks,
+          jsonLd,
         }),
       };
     } else {
@@ -166,6 +170,7 @@ const StoriesPage: FC<Props> = ({
   articles,
   featuredText,
   featuredBooks,
+  jsonLd,
 }) => {
   const firstArticle = articles[0];
 
@@ -174,7 +179,7 @@ const StoriesPage: FC<Props> = ({
       title={'Stories'}
       description={pageDescriptions.stories}
       url={{ pathname: `/stories` }}
-      jsonLd={articles.map(articleLd)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'stories'}
       image={firstArticle && firstArticle.image}
