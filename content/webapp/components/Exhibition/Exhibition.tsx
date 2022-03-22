@@ -232,22 +232,6 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
     ],
   };
 
-  const genericFields = {
-    id: exhibition.id,
-    title: exhibition.title,
-    promo: exhibition.promo,
-    body: exhibition.body,
-    standfirst: exhibition.standfirst,
-    promoImage: exhibition.promoImage,
-    promoText: exhibition.promoText,
-    image: exhibition.image,
-    squareImage: exhibition.squareImage,
-    widescreenImage: exhibition.widescreenImage,
-    superWidescreenImage: exhibition.superWidescreenImage,
-    labels: exhibition.labels,
-    metadataDescription: exhibition.metadataDescription,
-  };
-
   // TODO: Do we need to re-cast to Date here?  We've sometimes seen issues
   // caused by JSON serialisation, but that should be handled elsewhere by
   // the fixExhibitionDatesInJson helper.
@@ -261,9 +245,9 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
   );
 
   // This is for content that we don't have the crops for in Prismic
-  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeHeroPicture = getHeroPicture(exhibition);
   const maybeFeaturedMedia = !maybeHeroPicture
-    ? getFeaturedMedia(genericFields)
+    ? getFeaturedMedia(exhibition)
     : undefined;
 
   const Header = (

@@ -32,7 +32,7 @@ export default async function diffContentTypes(credentials?): Promise<void> {
         const delta = diffJson(remoteCustomType, localCustomType);
 
         if (!isEmpty(delta)) {
-          console.log(`Diff on ${remoteCustomType.id}:`)
+          console.log(`Diff on ${remoteCustomType.id}:`);
           printDelta(delta);
           return { id: remoteCustomType.id, delta };
         }

@@ -1,8 +1,9 @@
-import { london } from '../../../utils/format-date';
+import { Query } from '@prismicio/types';
 import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,
 } from '../../../server-data/prismic';
+import { formatTime, london } from '../../../utils/format-date';
 import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
@@ -27,8 +28,8 @@ function createRegularDay(
   // "To show a business is closed all day, set both opens and closes properties to '00:00'""
   return {
     dayOfWeek: day,
-    opens: start ? london(start).format('HH:mm') : '00:00',
-    closes: start && end ? london(end).format('HH:mm') : '00:00',
+    opens: start ? formatTime(start) : '00:00',
+    closes: start && end ? formatTime(end) : '00:00',
     isClosed,
   };
 }
@@ -56,8 +57,8 @@ export function transformCollectionVenue(
               // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
               // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
               // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-              opens: start ? london(start).format('HH:mm') : '00:00',
-              closes: start && end ? london(end).format('HH:mm') : '00:00',
+              opens: start ? formatTime(start) : '00:00',
+              closes: start && end ? formatTime(end) : '00:00',
               isClosed,
             };
           }
@@ -95,11 +96,11 @@ export function transformCollectionVenues(doc: ResultsLite): Venue[] {
 }
 
 // venue is passed down as JSON, so need to convert the date strings back to Moment objects
-export function convertTimeStringsBackToMoments(venue: Venue): Venue {
+export function fixVenueDatesInJson(venue: Venue): Venue {
   return {
     ...venue,
     openingHours: {
-      regular: venue.openingHours.regular,
+      ...venue.openingHours,
       exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
         ...exceptionalOpening,
         overrideDate: london(exceptionalOpening.overrideDate),

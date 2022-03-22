@@ -60,6 +60,11 @@ const SearchResults: FunctionComponent<Props> = ({
               item.image &&
               item.image.crops &&
               item.image.crops.square && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
                 <Image {...item.image.crops.square} alt="" />
               )
             }
@@ -80,6 +85,11 @@ const SearchResults: FunctionComponent<Props> = ({
               item.image &&
               item.image.crops &&
               item.image.crops.square && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
                 <Image {...item.image.crops.square} alt="" />
               )
             }
@@ -100,6 +110,11 @@ const SearchResults: FunctionComponent<Props> = ({
               item.cover &&
               item.cover.crops &&
               item.cover.crops.square && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
                 <Image {...item.cover.crops.square} alt="" />
               )
             }
@@ -146,6 +161,11 @@ const SearchResults: FunctionComponent<Props> = ({
               item.image &&
               item.image.crops &&
               item.image.crops.square && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
                 <Image {...item.image.crops.square} alt="" />
               )
             }

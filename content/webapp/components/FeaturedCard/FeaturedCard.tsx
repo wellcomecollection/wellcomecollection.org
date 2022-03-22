@@ -58,6 +58,11 @@ export function convertItemToFeaturedCardProps(
   return {
     id: item.id,
     image: item.promoImage && {
+      // We intentionally omit the alt text on promos, so screen reader
+      // users don't have to listen to the alt text before hearing the
+      // title of the item in the list.
+      //
+      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
       alt: '',
       contentUrl: item.promoImage.contentUrl,
       width: item.promoImage.width,

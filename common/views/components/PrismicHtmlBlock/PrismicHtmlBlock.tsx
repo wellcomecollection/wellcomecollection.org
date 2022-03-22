@@ -10,7 +10,7 @@ type Props = {
 const PrismicHtmlBlock = ({ html, htmlSerializer }: Props) => (
   <PrismicRichText
     field={html}
-    htmlSerializer={htmlSerializer}
+    components={htmlSerializer}
     linkResolver={linkResolver}
   />
 );

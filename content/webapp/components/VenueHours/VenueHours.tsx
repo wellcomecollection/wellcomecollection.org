@@ -16,7 +16,7 @@ import {
 } from '@weco/common/services/prismic/opening-times';
 import {
   transformCollectionVenues,
-  convertTimeStringsBackToMoments,
+  fixVenueDatesInJson,
 } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
@@ -90,7 +90,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   );
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(
-        convertTimeStringsBackToMoments(venue),
+        fixVenueDatesInJson(venue),
         exceptionalPeriodsAllDates
       )
     : [];

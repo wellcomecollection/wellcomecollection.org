@@ -1,12 +1,11 @@
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { Event, EventBasic } from '../../types/events';
-import { Moment } from 'moment';
 
 type Props = {
   event: Event | EventBasic;
   splitTime?: boolean;
-  fromDate?: Moment;
+  fromDate?: Date;
 };
 
 const EventDateRange = ({ event, splitTime, fromDate }: Props) => {

@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
-import { Event } from '../types/events';
+import { EventBasic } from '../types/events';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -25,12 +25,57 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import {
   fixEventDatesInJson,
   transformEvent,
+  transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   series: EventSeries;
-  events: Event[];
+  jsonLd: JsonLdObj[];
+  pastEvents: EventBasic[];
+  upcomingEvents: EventBasic[];
 };
+
+function getUpcomingEvents(events: EventBasic[]): EventBasic[] {
+  return events
+    .filter(event => {
+      const lastStartTime =
+        event.times.length > 0
+          ? event.times[event.times.length - 1].range.startDateTime
+          : null;
+      const inTheFuture = lastStartTime
+        ? new Date(lastStartTime) > new Date()
+        : false;
+      return inTheFuture;
+    })
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
+      );
+      return aStartTime - bStartTime;
+    });
+}
+
+function getPastEvents(
+  events: EventBasic[],
+  upcomingEventsIds: Set<string>
+): EventBasic[] {
+  return events
+    .filter(event => !upcomingEventsIds.has(event.id))
+    .sort((a, b) => {
+      const aStartTime = Math.min(
+        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
+      );
+      const bStartTime = Math.min(
+        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
+      );
+      return bStartTime - aStartTime;
+    })
+    .slice(0, 3);
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -59,12 +104,23 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const events = transformQuery(eventsQuery, transformEvent).results;
+      const events = transformQuery(eventsQuery, doc =>
+        transformEventToEventBasic(transformEvent(doc))
+      ).results;
+
+      const upcomingEvents = getUpcomingEvents(events);
+      const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
+
+      const pastEvents = getPastEvents(events, upcomingEventsIds);
+
+      const jsonLd = events.flatMap(eventLd);
 
       return {
         props: removeUndefinedProps({
           series,
-          events,
+          upcomingEvents,
+          pastEvents,
+          jsonLd,
           serverData,
         }),
       };
@@ -73,10 +129,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
+const EventSeriesPage: FC<Props> = ({
+  series,
+  jsonLd,
+  pastEvents: pastJsonEvents,
+  upcomingEvents: upcomingJsonEvents,
+}) => {
   // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
   // This could probably be done at the time of use, instead of globally...
-  const events = jsonEvents.map(fixEventDatesInJson);
+  const pastEvents = pastJsonEvents.map(fixEventDatesInJson);
+  const upcomingEvents = upcomingJsonEvents.map(fixEventDatesInJson);
 
   const breadcrumbs = {
     items: [
@@ -92,23 +154,7 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
     ],
   };
 
-  const genericFields = {
-    id: series.id,
-    title: series.title,
-    promo: series.promo,
-    body: series.body,
-    standfirst: series.standfirst,
-    promoImage: series.promoImage,
-    promoText: series.promoText,
-    image: series.image,
-    squareImage: series.squareImage,
-    widescreenImage: series.widescreenImage,
-    superWidescreenImage: series.superWidescreenImage,
-    labels: series.labels,
-    metadataDescription: series.metadataDescription,
-  };
-
-  const FeaturedMedia = getFeaturedMedia(genericFields);
+  const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
@@ -121,46 +167,12 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
     />
   );
 
-  const upcomingEvents = events
-    .filter(event => {
-      const lastStartTime =
-        event.times.length > 0
-          ? event.times[event.times.length - 1].range.startDateTime
-          : null;
-      const inTheFuture = lastStartTime
-        ? new Date(lastStartTime) > new Date()
-        : false;
-      return inTheFuture;
-    })
-    .sort((a, b) => {
-      const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
-      );
-      const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
-      );
-      return aStartTime - bStartTime;
-    });
-  const upcomingEventsIds = upcomingEvents.map(event => event.id);
-  const pastEvents = events
-    .filter(event => upcomingEventsIds.indexOf(event.id) === -1)
-    .sort((a, b) => {
-      const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.getTime())
-      );
-      const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.getTime())
-      );
-      return aStartTime - bStartTime;
-    })
-    .slice(0, 3);
-
   return (
     <PageLayout
       title={series.title}
       description={series.metadataDescription || series.promoText || ''}
       url={{ pathname: `/event-series/${series.id}` }}
-      jsonLd={events.flatMap(eventLd)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={series.image}
@@ -171,10 +183,9 @@ const EventSeriesPage: FC<Props> = ({ series, events: jsonEvents }) => {
         Body={<Body body={series.body} pageId={series.id} />}
         contributors={series.contributors}
       >
-        {upcomingEvents.length > 0 && (
+        {upcomingEvents.length > 0 ? (
           <SearchResults items={upcomingEvents} title={`What's next`} />
-        )}
-        {upcomingEvents.length === 0 && (
+        ) : (
           <h2 className="h2">
             No events scheduled at the moment, check back soon…
           </h2>

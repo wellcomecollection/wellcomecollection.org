@@ -6,7 +6,7 @@ import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
 import { secrets } from './config';
-import { diffJson, printDelta, isEmpty } from './differ'
+import { diffJson, printDelta, isEmpty } from './differ';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -20,18 +20,17 @@ async function run() {
   const credentials = await getCreds('experience', 'developer');
   await setEnvsFromSecrets(secrets, credentials);
 
-  const resp = await fetch(
-    `https://customtypes.prismic.io/customtypes/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
-        repository: 'wellcomecollection',
-      },
-    }
-  );
+  const resp = await fetch(`https://customtypes.prismic.io/customtypes/${id}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.PRISMIC_BEARER_TOKEN}`,
+      repository: 'wellcomecollection',
+    },
+  });
 
   if (resp.status === 404) {
-    error(`Prismic does not know about a custom type '${id}'. Do you have the right name?`);
+    error(
+      `Prismic does not know about a custom type '${id}'. Do you have the right name?`
+    );
     process.exit(1);
   }
 
