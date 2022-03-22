@@ -15,15 +15,15 @@ export type CookieType = {
 
 const togglePrefix = 'toggle_';
 
-export async function makeDefaultToggleAndTestCookies(
+export async function makeDefaultToggleCookies(
   domain: string
 ): Promise<CookieType[]> {
   const { data } = await axios.get(
     'https://toggles.wellcomecollection.org/toggles.json'
   );
-  const { toggles, tests } = data;
+  const { toggles } = data;
 
-  return [...toggles, ...tests].map(t => {
+  return [...toggles].map(t => {
     return {
       name: `${togglePrefix}${t.id}`,
       value: t.defaultValue.toString(),
