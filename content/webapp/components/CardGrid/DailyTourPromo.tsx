@@ -47,7 +47,7 @@ export const data: Event = {
     image: image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  promoImage: { ...image },
+  promoImage: image,
   scheduleLength: 0,
   seasons: [],
   isOnline: false,
