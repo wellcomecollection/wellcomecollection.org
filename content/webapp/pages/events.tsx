@@ -26,7 +26,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '../types/events';
 
 type Props = {
-  displayTitle: string;
+  title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;
 };
@@ -68,7 +68,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events,
           title,
           period: period as Period,
-          displayTitle: title,
           serverData,
         }),
       };
@@ -78,7 +77,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventsPage: FC<Props> = props => {
-  const { events, displayTitle, period } = props;
+  const { events, title, period } = props;
   const convertedEvents = events.results.map(fixEventDatesInJson);
   const convertedPaginatedResults = {
     ...events,
@@ -90,7 +89,7 @@ const EventsPage: FC<Props> = props => {
   const firstEvent = events.results[0];
   return (
     <PageLayout
-      title={displayTitle}
+      title={title}
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
       jsonLd={events.results.flatMap(eventLd)}
@@ -101,7 +100,7 @@ const EventsPage: FC<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={true}
-          title={displayTitle}
+          title={title}
           description={[
             {
               type: 'paragraph',
