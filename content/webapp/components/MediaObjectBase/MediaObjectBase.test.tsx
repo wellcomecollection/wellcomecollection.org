@@ -59,7 +59,7 @@ describe('MediaObjectBase', () => {
   const componentWithImage = mountWithTheme(
     <MediaObjectBase
       title={mockData.title}
-      Image={<Image {...mockData.image.crops!.square} />}
+      Image={<Image {...mockData.image} />}
       description={mockData.text}
       primaryLabels={[]}
       secondaryLabels={[]}
@@ -137,7 +137,7 @@ describe('MediaObjectBase', () => {
         const component = shallowWithTheme(
           <MediaObjectBase
             title={mockData.title}
-            Image={<Image {...mockData.image.crops!.square} />}
+            Image={<Image {...mockData.image} />}
             ExtraInfo={null}
             primaryLabels={[]}
             secondaryLabels={[]}
