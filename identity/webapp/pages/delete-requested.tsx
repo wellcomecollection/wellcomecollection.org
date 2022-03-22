@@ -10,7 +10,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 
 const DeleteRequestedPage: NextPage = () => {
   return (
@@ -40,7 +40,7 @@ const DeleteRequestedPage: NextPage = () => {
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =

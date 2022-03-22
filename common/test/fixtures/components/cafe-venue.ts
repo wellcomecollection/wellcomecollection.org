@@ -1,4 +1,4 @@
-import { Day } from '../../../model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 
 export const cafeVenue = {
   id: 'WsuZKh8AAOG_NyUo',
@@ -7,43 +7,43 @@ export const cafeVenue = {
   openingHours: {
     regular: [
       {
-        dayOfWeek: 'Monday' as Day,
+        dayOfWeek: 'Monday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        dayOfWeek: 'Tuesday' as Day,
+        dayOfWeek: 'Tuesday',
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Wednesday' as Day,
+        dayOfWeek: 'Wednesday',
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday' as Day,
+        dayOfWeek: 'Thursday',
         opens: '08:30',
         closes: '21:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Friday' as Day,
+        dayOfWeek: 'Friday',
         opens: '08:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Saturday' as Day,
+        dayOfWeek: 'Saturday',
         opens: '09:30',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Sunday' as Day,
+        dayOfWeek: 'Sunday',
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
@@ -52,45 +52,62 @@ export const cafeVenue = {
     exceptional: [],
   },
   image: {
-    dimensions: {
-      width: 2931,
-      height: 1649,
-    },
+    contentUrl:
+      'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format',
+    width: 2931,
+    height: 1649,
     alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
-    copyright:
-      'Wellcome Café | Steven Pocock | Wellcome Collection | | CC-BY-NC | |',
-    url: 'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format',
-    '32:15': {
-      dimensions: {
+    tasl: {
+      title: 'Wellcome Café',
+      author: 'Steven Pocock',
+      sourceName: 'Wellcome Collection',
+      license: 'CC-BY-NC',
+    },
+    crops: {
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=0,137,2931,1374&w=3200&h=1500',
         width: 3200,
         height: 1500,
+        alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
+        tasl: {
+          title: 'Wellcome Café',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          license: 'CC-BY-NC',
+        },
+        crops: {},
       },
-      alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
-      copyright:
-        'Wellcome Café | Steven Pocock | Wellcome Collection | | CC-BY-NC | |',
-      url: 'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=0,137,2931,1374&w=3200&h=1500',
-    },
-    '16:9': {
-      dimensions: {
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=0,0,2931,1649&w=3200&h=1800',
         width: 3200,
         height: 1800,
+        alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
+        tasl: {
+          title: 'Wellcome Café',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          license: 'CC-BY-NC',
+        },
+        crops: {},
       },
-      alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
-      copyright:
-        'Wellcome Café | Steven Pocock | Wellcome Collection | | CC-BY-NC | |',
-      url: 'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=0,0,2931,1649&w=3200&h=1800',
-    },
-    square: {
-      dimensions: {
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=358,0,1649,1649&w=3200&h=3200',
         width: 3200,
         height: 3200,
+        alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
+        tasl: {
+          title: 'Wellcome Café',
+          author: 'Steven Pocock',
+          sourceName: 'Wellcome Collection',
+          license: 'CC-BY-NC',
+        },
+        crops: {},
       },
-      alt: 'Photograph of a café interior. A woman is sat at a high table working on an open laptop. To her right is a disposable coffee cup and to her left is a small pot plant. In the background another woman is sat on a long bench seat at a table. She is also working on an open laptop',
-      copyright:
-        'Wellcome Café | Steven Pocock | Wellcome Collection | | CC-BY-NC | |',
-      url: 'https://images.prismic.io/wellcomecollection/3062e92b-693f-4dd0-9435-f63d6bc370e7_SDP_20201005_0365-176-Edit.jpg?auto=compress,format&rect=358,0,1649,1649&w=3200&h=3200',
     },
   },
   url: 'https://wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe',
   linkText: 'Take a break in our café',
-};
+} as Venue;

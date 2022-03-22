@@ -1,5 +1,5 @@
 import { london } from '../../../utils/format-date';
-import { OverrideType, Day } from '../../../model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 
 export const restaurantVenue = {
   id: 'WsuYER8AAOG_NyBA',
@@ -8,43 +8,43 @@ export const restaurantVenue = {
   openingHours: {
     regular: [
       {
-        dayOfWeek: 'Monday' as Day,
+        dayOfWeek: 'Monday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        dayOfWeek: 'Tuesday' as Day,
+        dayOfWeek: 'Tuesday',
         opens: '11:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Wednesday' as Day,
+        dayOfWeek: 'Wednesday',
         opens: '11:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday' as Day,
+        dayOfWeek: 'Thursday',
         opens: '11:00',
         closes: '21:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Friday' as Day,
+        dayOfWeek: 'Friday',
         opens: '11:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Saturday' as Day,
+        dayOfWeek: 'Saturday',
         opens: '11:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Sunday' as Day,
+        dayOfWeek: 'Sunday',
         opens: '11:00',
         closes: '18:00',
         isClosed: false,
@@ -53,17 +53,12 @@ export const restaurantVenue = {
     exceptional: [
       {
         overrideDate: london('2022-04-10'),
-        overrideType: 'other' as OverrideType,
+        overrideType: 'other',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
     ],
   },
-  image: {
-    '32:15': {},
-    '16:9': {},
-    square: {},
-  },
   linkText: 'Explore the menus',
-};
+} as Venue;

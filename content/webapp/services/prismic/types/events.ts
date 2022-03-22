@@ -22,13 +22,13 @@ import {
   eventSeriesFetchLink,
   exhibitionsFetchLinks,
   FetchLinks,
-  InferDataInterface,
   seasonsFetchLinks,
   WithContributors,
   WithEventSeries,
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 const typeEnum = 'events';
 

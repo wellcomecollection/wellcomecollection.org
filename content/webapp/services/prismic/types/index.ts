@@ -24,19 +24,7 @@ import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
 import { isNotUndefined } from '@weco/common/utils/array';
 import * as prismicH from '@prismicio/helpers';
-
-/**
- * This allows us to get the DataInterface from PrismicDocuments when we
- * Need them for `RelationField`s e.g.
- * type Doc = PrismicDocument<{ title: RichTextField }>
- * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
- * RelationField<'formats', 'en-gb', DataInterface>
- */
-export type InferDataInterface<T> = T extends PrismicDocument<
-  infer DataInterface
->
-  ? DataInterface
-  : never;
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 export type InferCustomType<T> = T extends PrismicDocument<
   any,

@@ -1,4 +1,4 @@
-import { Day } from '../../../model/opening-hours';
+import { Venue } from '../../../model/opening-hours';
 
 export const shopVenue = {
   id: 'WsuaIB8AAH-yNylo',
@@ -7,43 +7,43 @@ export const shopVenue = {
   openingHours: {
     regular: [
       {
-        dayOfWeek: 'Monday' as Day,
+        dayOfWeek: 'Monday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        dayOfWeek: 'Tuesday' as Day,
+        dayOfWeek: 'Tuesday',
         opens: '09:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Wednesday' as Day,
+        dayOfWeek: 'Wednesday',
         opens: '09:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Thursday' as Day,
+        dayOfWeek: 'Thursday',
         opens: '09:00',
         closes: '21:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Friday' as Day,
+        dayOfWeek: 'Friday',
         opens: '09:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Saturday' as Day,
+        dayOfWeek: 'Saturday',
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
       },
       {
-        dayOfWeek: 'Sunday' as Day,
+        dayOfWeek: 'Sunday',
         opens: '10:00',
         closes: '18:00',
         isClosed: false,
@@ -51,11 +51,6 @@ export const shopVenue = {
     ],
     exceptional: [],
   },
-  image: {
-    '32:15': {},
-    '16:9': {},
-    square: {},
-  },
   url: 'https://wellcomecollection.org/pages/WwgaIh8AAB8AGhC_',
   linkText: 'Books and gifts',
-};
+} as Venue;

@@ -1,4 +1,8 @@
 import { Query } from '@prismicio/types';
+import {
+  ResultsLite,
+  CollectionVenuePrismicDocumentLite,
+} from '../../../server-data/prismic';
 import { formatTime, london } from '../../../utils/format-date';
 import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
@@ -11,7 +15,7 @@ import { transformImage } from './images';
 
 function createRegularDay(
   day: Day,
-  venue: CollectionVenuePrismicDocument
+  venue: CollectionVenuePrismicDocument | CollectionVenuePrismicDocumentLite
 ): OpeningHoursDay {
   const { data } = venue;
   const lowercaseDay = day.toLowerCase();
@@ -31,7 +35,7 @@ function createRegularDay(
 }
 
 export function transformCollectionVenue(
-  venue: CollectionVenuePrismicDocument
+  venue: CollectionVenuePrismicDocument | CollectionVenuePrismicDocumentLite
 ): Venue {
   const data = venue.data;
   const exceptionalOpeningHours = data.modifiedDayOpeningTimes
@@ -77,15 +81,13 @@ export function transformCollectionVenue(
       ],
       exceptional: exceptionalOpeningHours.filter(isNotUndefined),
     },
-    image: transformImage(data.image),
-    url: 'url' in data.link ? data.link.url : undefined,
-    linkText: prismicH.asText(data?.linkText),
+    image: 'image' in data ? transformImage(data.image) : undefined,
+    url: 'link' in data && 'url' in data.link ? data.link.url : undefined,
+    linkText: 'linkText' in data ? prismicH.asText(data.linkText) : undefined,
   };
 }
 
-export function transformCollectionVenues(
-  doc: Query<CollectionVenuePrismicDocument>
-): Venue[] {
+export function transformCollectionVenues(doc: ResultsLite): Venue[] {
   const venues = doc.results.map(venue => transformCollectionVenue(venue));
 
   return venues.sort((a, b) => {

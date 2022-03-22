@@ -10,12 +10,12 @@ import {
 import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
-  InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import {
   BodyType,
   GenericContentFields,

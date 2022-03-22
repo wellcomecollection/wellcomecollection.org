@@ -16,13 +16,14 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 import { GetServerSidePropsContext } from 'next';
-import { ServerData } from './types';
 import togglesHandler, { getTogglesFromContext } from './toggles';
 import prismicHandler from './prismic';
+import { simplifyServerData } from '../services/prismic/transformers/server-data';
+import { SimplifiedServerData } from './types';
 
-export type Handler<Data> = {
-  defaultValue: Data;
-  fetch: () => Promise<Data>;
+export type Handler<DefaultData, FetchedData> = {
+  defaultValue: DefaultData;
+  fetch: () => Promise<FetchedData>;
 };
 
 /**
@@ -106,7 +107,7 @@ export function clear() {
  */
 export const getServerData = async (
   context: GetServerSidePropsContext
-): Promise<ServerData> => {
+): Promise<SimplifiedServerData> => {
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
   const { toggle } = context.query;
@@ -126,5 +127,6 @@ export const getServerData = async (
   }
 
   const serverData = { toggles, prismic };
-  return serverData;
+
+  return simplifyServerData(serverData);
 };

@@ -51,9 +51,9 @@ export type OpeningHours = {
 
 export type Venue = {
   id: string;
-  name: string;
-  order?: number;
   openingHours: OpeningHours;
+  order?: number;
+  name: string;
   url?: string;
   linkText?: string;
   image?: ImageType;

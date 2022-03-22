@@ -1,21 +1,49 @@
-import { Query } from '@prismicio/types';
+import { Query, RichTextField } from '@prismicio/types';
 import {
   CollectionVenuePrismicDocument,
   PopupDialogPrismicDocument,
-  emptyPopupDialog,
-  emptyPrismicQuery,
   GlobalAlertPrismicDocument,
-  emptyGlobalAlert,
 } from '../services/prismic/documents';
 import { Handler } from './';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
+import { InferDataInterface } from '../services/prismic/types';
+
+export type CollectionVenuePrismicDocumentLite = {
+  id: string;
+} & {
+  data: Omit<
+    InferDataInterface<CollectionVenuePrismicDocument>,
+    'link' | 'linkText' | 'image'
+  >;
+};
+
+export type ResultsLite = {
+  results: CollectionVenuePrismicDocumentLite[];
+};
 
 export const defaultValue = {
-  globalAlert: emptyGlobalAlert(),
-  popupDialog: emptyPopupDialog(),
-  collectionVenues: emptyPrismicQuery<CollectionVenuePrismicDocument>(),
-} as const;
+  globalAlert: {
+    data: {
+      isShown: null,
+      routeRegex: null,
+      text: [] as RichTextField,
+    },
+  },
+  popupDialog: {
+    data: {
+      isShown: false,
+      link: null,
+      linkText: null,
+      openButtonText: null,
+      text: [] as RichTextField,
+      title: null,
+    },
+  },
+  collectionVenues: {
+    results: [],
+  },
+};
 
 type Key = keyof typeof defaultValue;
 export type PrismicData = {
@@ -24,7 +52,13 @@ export type PrismicData = {
   collectionVenues: Query<CollectionVenuePrismicDocument>;
 };
 
-export const handler: Handler<PrismicData> = {
+export type SimplifiedPrismicData = {
+  globalAlert: { data: InferDataInterface<GlobalAlertPrismicDocument> };
+  popupDialog: { data: InferDataInterface<PopupDialogPrismicDocument> };
+  collectionVenues: ResultsLite;
+};
+
+export const handler: Handler<SimplifiedPrismicData, PrismicData> = {
   defaultValue,
   fetch: fetchPrismicValues,
 };

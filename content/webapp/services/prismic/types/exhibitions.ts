@@ -8,11 +8,11 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
-  InferDataInterface,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { ArticlePrismicDocument } from './articles';
 import { BookPrismicDocument } from './books';
 import { EventPrismicDocument } from './events';
