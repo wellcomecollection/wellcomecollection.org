@@ -84,7 +84,7 @@ const SerialisedSeries = ({ series }: { series: Series }) => {
                 'no-margin': true,
               })}
             >
-              {series.promoText}
+              {series.promo?.caption}
             </p>
           </Space>
         </Space>

@@ -287,7 +287,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
   return (
     <PageLayout
       title={event.title}
-      description={event.metadataDescription || event.promoText || ''}
+      description={event.metadataDescription || event.promo?.caption || ''}
       url={{ pathname: `/events/${event.id}` }}
       jsonLd={eventLd(event)}
       openGraphType={'website'}

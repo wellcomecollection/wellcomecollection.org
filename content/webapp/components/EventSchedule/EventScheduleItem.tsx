@@ -87,11 +87,11 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               </Space>
             )}
 
-            {event.promoText && (
+            {event.promo?.caption && (
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={font('hnr', 5)}
-                dangerouslySetInnerHTML={{ __html: event.promoText }}
+                dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
             )}
 

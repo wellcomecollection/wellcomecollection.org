@@ -42,7 +42,7 @@ type Props = {
 };
 
 const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
-  const { id, title, subtitle, promoText, cover } = book;
+  const { id, title, subtitle, promo, cover } = book;
   return (
     <LinkOrSpanSpace
       v={{
@@ -125,7 +125,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
             </Space>
           )}
 
-          {promoText && (
+          {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
@@ -133,7 +133,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
                   'no-margin': true,
                 })}
               >
-                {promoText}
+                {promo?.caption}
               </p>
             </Space>
           )}

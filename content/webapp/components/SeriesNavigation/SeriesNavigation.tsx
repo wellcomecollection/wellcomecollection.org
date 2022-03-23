@@ -21,7 +21,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
         <SearchResults
           key={series.id}
           title={`Read more from ${series.title}`}
-          summary={series.promoText ?? undefined}
+          summary={series.promo?.caption}
           items={items}
           showPosition={showPosition}
         />

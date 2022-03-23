@@ -151,7 +151,7 @@ const SearchResults: FunctionComponent<Props> = ({
             color={undefined}
             primaryLabels={item.labels}
             secondaryLabels={[]}
-            description={item.promoText}
+            description={item.promo?.caption}
             Image={
               getCrop(item.image, 'square') && (
                 // We intentionally omit the alt text on promos, so screen reader

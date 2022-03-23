@@ -8,7 +8,6 @@ import { Season } from './seasons';
 import { Series } from './series';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
-import { Picture } from '@weco/common/model/picture';
 import { Label } from '@weco/common/model/labels';
 
 export type ArticleBasic = {
@@ -22,9 +21,7 @@ export type ArticleBasic = {
   format?: Format<ArticleFormatId>;
   image?: ImageType;
   datePublished: Date;
-  promoImage?: Picture;
   labels: Label[];
-  promoText?: string;
   color?: ColorSelection;
 };
 

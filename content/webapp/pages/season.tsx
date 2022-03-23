@@ -107,7 +107,7 @@ const SeasonPage = ({
   return (
     <PageLayout
       title={season.title}
-      description={season.metadataDescription || season.promoText || ''}
+      description={season.metadataDescription || season.promo?.caption || ''}
       url={{ pathname: `/seasons/${season.id}` }}
       jsonLd={contentLd(season)}
       siteSection={'whats-on'}

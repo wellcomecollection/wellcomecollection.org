@@ -5,7 +5,7 @@ import {
   wellcomeCollectionGallery,
 } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
-import { Article, ArticleBasic } from '../../../types/articles';
+import { Article } from '../../../types/articles';
 import { Contributor } from '../../../types/contributors';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { Page } from '../../../types/pages';
@@ -19,7 +19,7 @@ export function exhibitionLd(exhibition: Exhibition) {
   return objToJsonLd(
     {
       name: exhibition.title,
-      description: exhibition.promoText,
+      description: exhibition.promo?.caption,
       image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
       location: {
         '@type': 'Place',
@@ -74,7 +74,7 @@ export function eventLd(event: Event | EventBasic): JsonLdObj[] {
           },
           startDate: event.times.map(time => time.range.startDateTime),
           endDate: event.times.map(time => time.range.endDateTime),
-          description: event.promoText,
+          description: event.promo?.caption,
           image: promoImage
             ? getImageUrlAtSize(promoImage, { w: 600 })
             : undefined,
@@ -136,7 +136,7 @@ export function articleLd(article: Article): JsonLdObj {
               false
             )
           : undefined,
-      image: article.promoImage && article.promoImage.contentUrl,
+      image: article.promo?.image?.contentUrl,
       // TODO: isPartOf
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/articles/${article.id}`,
