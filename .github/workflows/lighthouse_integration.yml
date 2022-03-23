@@ -24,3 +24,5 @@ jobs:
           serverToken: ${{ secrets.LHCI_BUILD_TOKEN }}
         env:
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: "main"
+      - name: Get link to results
+        run: echo https://lighthouse.wellcomecollection.org/app/projects/wellcomecollection.org/dashboard
