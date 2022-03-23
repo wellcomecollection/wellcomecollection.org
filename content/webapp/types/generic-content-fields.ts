@@ -24,9 +24,6 @@ export type GenericContentFields = {
   promoText?: string;
   promoImage?: Picture;
   image?: ImageType;
-  squareImage?: ImageType;
-  widescreenImage?: ImageType;
-  superWidescreenImage?: ImageType;
   metadataDescription?: string;
   labels: Label[];
 };

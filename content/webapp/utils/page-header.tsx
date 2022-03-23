@@ -11,7 +11,8 @@ export function getFeaturedMedia(
   isPicture?: boolean
 ): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
-  const { squareImage, widescreenImage } = fields;
+  const squareImage = fields.image?.crops['square'];
+  const widescreenImage = fields.image?.crops['16:9'];
   const { body } = fields;
 
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
@@ -38,7 +39,8 @@ export function getFeaturedMedia(
 export function getHeroPicture(
   fields: GenericContentFields
 ): ReactElement<typeof Picture> | undefined {
-  const { squareImage, widescreenImage } = fields;
+  const squareImage = fields.image?.crops['square'];
+  const widescreenImage = fields.image?.crops['16:9'];
 
   return (
     squareImage &&

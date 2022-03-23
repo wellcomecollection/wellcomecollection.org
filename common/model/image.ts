@@ -1,5 +1,7 @@
 import { Tasl } from './tasl';
 
+export type Crop = '32:15' | '16:9' | 'square';
+
 export type ImageType = {
   contentUrl: string;
   width: number;
@@ -7,7 +9,7 @@ export type ImageType = {
   alt: string | null;
   tasl?: Tasl;
   crops: {
-    [key: string]: ImageType;
+    [key in Crop]?: ImageType;
   };
 };
 

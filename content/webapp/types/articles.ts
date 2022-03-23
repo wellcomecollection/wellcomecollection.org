@@ -25,7 +25,6 @@ export type ArticleBasic = {
   promoImage?: Picture;
   labels: Label[];
   promoText?: string;
-  squareImage?: ImageType;
   color?: ColorSelection;
 };
 

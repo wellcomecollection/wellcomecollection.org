@@ -59,7 +59,6 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     promoImage,
     labels,
     promoText,
-    squareImage,
     color,
   }) => ({
     type,
@@ -73,7 +72,6 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     promoImage,
     labels,
     promoText,
-    squareImage,
     color,
   }))(article);
 }
