@@ -310,10 +310,23 @@ const Body: FunctionComponent<Props> = ({
                     <div className="body-text spaced-text">
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
-                          <PrismicHtmlBlock
-                            html={slice.value}
-                            htmlSerializer={dropCapSerializer}
-                          />
+                          <>
+                            {/*
+                              The featured text slice can contain multiple paragraphs,
+                              e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
+
+                              The drop cap serializer will see them as two separate paragraphs,
+                              so we have to split out the first paragraph here.
+                            */}
+                            <PrismicHtmlBlock
+                              html={[slice.value[0]]}
+                              htmlSerializer={dropCapSerializer}
+                            />
+                            <PrismicHtmlBlock
+                              html={slice.value.slice(1)}
+                              htmlSerializer={defaultSerializer}
+                            />
+                          </>
                         ) : (
                           <PrismicHtmlBlock
                             html={slice.value}
