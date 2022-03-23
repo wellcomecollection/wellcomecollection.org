@@ -44,7 +44,6 @@ const Newsletter: FC<Props> = ({ result }) => {
         width: 800,
         height: 662,
         alt: '',
-        crops: {},
       }}
     >
       <PageHeader

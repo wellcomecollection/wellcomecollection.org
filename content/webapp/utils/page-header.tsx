@@ -1,3 +1,4 @@
+import { getCrop } from '@weco/common/model/image';
 import { breakpoints } from '@weco/common/utils/breakpoints';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
@@ -11,8 +12,8 @@ export function getFeaturedMedia(
   isPicture?: boolean
 ): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
-  const squareImage = fields.image?.crops['square'];
-  const widescreenImage = fields.image?.crops['16:9'];
+  const squareImage = getCrop(fields.image, 'square');
+  const widescreenImage = getCrop(fields.image, '16:9');
   const { body } = fields;
 
   const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
@@ -30,7 +31,7 @@ export function getFeaturedMedia(
   ) : widescreenImage ? (
     <UiImage {...widescreenImage} sizesQueries="" />
   ) : image ? (
-    <UiImage {...image} crops={{}} sizesQueries="" />
+    <UiImage {...image} sizesQueries="" />
   ) : undefined;
 
   return featuredMedia;
@@ -39,8 +40,8 @@ export function getFeaturedMedia(
 export function getHeroPicture(
   fields: GenericContentFields
 ): ReactElement<typeof Picture> | undefined {
-  const squareImage = fields.image?.crops['square'];
-  const widescreenImage = fields.image?.crops['16:9'];
+  const squareImage = getCrop(fields.image, 'square');
+  const widescreenImage = getCrop(fields.image, '16:9');
 
   return (
     squareImage &&

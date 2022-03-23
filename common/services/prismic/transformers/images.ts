@@ -1,5 +1,6 @@
 import { EmptyImageFieldImage, FilledImageFieldImage } from '@prismicio/types';
-import { ImageType } from '@weco/common/model/image';
+import { ImageType } from '../../../model/image';
+import { isUndefined } from '../../../utils/array';
 import { transformTaslFromString } from '.';
 
 // when images have crops, event if the image isn't attached, we get e.g.
@@ -36,12 +37,38 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
       return acc;
     }, {});
 
+  const alt = image.alt!;
+
+  const simpleCrops = Object.keys(crops)
+    .filter(key => {
+      return (
+        crops[key].alt === alt &&
+        JSON.stringify(crops[key].tasl) === JSON.stringify(tasl)
+      );
+    })
+    .reduce((acc, key) => {
+      acc[key] = {
+        contentUrl: crops[key].contentUrl,
+        width: crops[key].width,
+        height: crops[key].height,
+      };
+      return acc;
+    }, {});
+
+  const richCrops = Object.keys(crops)
+    .filter(key => isUndefined(simpleCrops[key]))
+    .reduce((acc, key) => {
+      acc[key] = crops[key];
+      return acc;
+    }, {});
+
   return {
     contentUrl: image.url,
     width: image.dimensions.width,
     height: image.dimensions.height,
-    alt: image.alt!,
-    tasl: tasl,
-    crops: crops,
+    alt,
+    tasl,
+    simpleCrops,
+    richCrops,
   };
 }

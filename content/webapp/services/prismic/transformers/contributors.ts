@@ -19,7 +19,6 @@ const defaultContributorImage: ImageType = {
   contentUrl:
     'https://images.prismic.io/wellcomecollection%2F021d6105-3308-4210-8f65-d207e04c2cb2_contributor_default%402x.png?auto=compress,format',
   alt: '',
-  crops: {},
 };
 
 function transformCommonFields(

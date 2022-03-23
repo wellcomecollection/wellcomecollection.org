@@ -83,7 +83,6 @@ const pageImage: ImageType = {
   width: 800,
   height: 450,
   alt: '',
-  crops: {},
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =

@@ -10,6 +10,7 @@ import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonO
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '../../services/prismic/link-resolver';
+import { getCrop } from '@weco/common/model/image';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -86,16 +87,18 @@ const BannerCard: FunctionComponent<Props> = ({
     image: item.promo &&
       item.promo.image && {
         contentUrl: item.promo.image.contentUrl,
+        // We intentionally omit the alt text on promos, so screen reader
+        // users don't have to listen to the alt text before hearing the
+        // title of the item in the list.
+        //
+        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
         alt: '',
         width: 1600,
         height: 900,
         tasl: item.promo.image.tasl,
         crops: {
           '16:9': {
-            contentUrl:
-              item.image && item.image.crops && item.image.crops['16:9']
-                ? item.image.crops['16:9'].contentUrl
-                : '',
+            contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
             alt: '',
             width: 1600,
             height: 900,

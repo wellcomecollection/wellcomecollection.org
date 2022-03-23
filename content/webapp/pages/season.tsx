@@ -52,6 +52,7 @@ import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
 import { looksLikePrismicId } from '../services/prismic';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   season: Season;
@@ -74,7 +75,7 @@ const SeasonPage = ({
   projects,
   books,
 }: Props): ReactElement<Props> => {
-  const superWidescreenImage = season.image?.crops['32:15'];
+  const superWidescreenImage = getCrop(season.image, '32:15');
 
   const Header = (
     <SeasonsHeader
