@@ -1,3 +1,6 @@
+import { Article } from '@weco/content/types/articles';
+import { Card } from '@weco/content/types/card';
+import { Event } from '@weco/content/types/events';
 import faker from 'faker';
 export function randomNumber(min, max): number {
   return Math.floor(Math.random() * max) + min;
@@ -46,11 +49,10 @@ export const interpretations = [
 
 export const url = faker.internet.url();
 
-export const bannerCardItem = {
+export const bannerCardItem: Card = {
   title: 'What does it mean to be human, now?',
   start: '2021-01-05T00:00:00.000Z',
   end: '2021-01-26T00:00:00.000Z',
-  type: 'seasons',
   promo: {
     caption:
       'Our new season explores the intertwined connections between the individual, societal and global health.',
@@ -107,93 +109,26 @@ export const bannerCardItem = {
       copyrightHolder: undefined,
       copyrightLink: undefined,
     },
-    crops: {
+    simpleCrops: {
       '32:15': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
         width: 3200,
         height: 1500,
-        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-        tasl: {
-          title: "Alzheimer's disease",
-          author: 'Florence Winterflood',
-          sourceName: 'Wellcome Collection',
-          sourceLink: 'CC-BY-NC',
-          license: undefined,
-          copyrightHolder: undefined,
-          copyrightLink: undefined,
-        },
-        crops: {},
       },
       '16:9': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-        tasl: {
-          title: "Alzheimer's disease",
-          author: 'Florence Winterflood',
-          sourceName: 'Wellcome Collection',
-          sourceLink: 'CC-BY-NC',
-          license: undefined,
-          copyrightHolder: undefined,
-          copyrightLink: undefined,
-        },
-        crops: {},
       },
       square: {
         contentUrl:
           'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
         width: 3200,
         height: 3200,
-        alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-        tasl: {
-          title: "Alzheimer's disease",
-          author: 'Florence Winterflood',
-          sourceName: 'Wellcome Collection',
-          sourceLink: 'CC-BY-NC',
-          license: undefined,
-          copyrightHolder: undefined,
-          copyrightLink: undefined,
-        },
-        crops: {},
       },
     },
-  },
-  squareImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
-    width: 3200,
-    height: 3200,
-    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-    tasl: {
-      title: "Alzheimer's disease",
-      author: 'Florence Winterflood',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'CC-BY-NC',
-      license: undefined,
-      copyrightHolder: undefined,
-      copyrightLink: undefined,
-    },
-    crops: {},
-  },
-  widescreenImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-    width: 3200,
-    height: 1800,
-    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-    tasl: {
-      title: "Alzheimer's disease",
-      author: 'Florence Winterflood',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'CC-BY-NC',
-      license: undefined,
-      copyrightHolder: undefined,
-      copyrightLink: undefined,
-    },
-    crops: {},
   },
 };
 
@@ -401,7 +336,7 @@ export const videoEmbed = {
   embedUrl: 'https://www.youtube.com/embed/VYOjWnS4cMY',
 };
 
-export const event = {
+export const event: Event = {
   title: 'Event title',
   contributorsTitle: '',
   contributors: [],
@@ -424,7 +359,6 @@ export const event = {
         copyrightHolder: null,
         copyrightLink: null,
       },
-      crops: {},
     },
     link: null,
   },
@@ -445,7 +379,6 @@ export const event = {
       copyrightHolder: null,
       copyrightLink: null,
     },
-    crops: {},
   },
   image: {
     contentUrl:
@@ -462,57 +395,24 @@ export const event = {
       copyrightHolder: null,
       copyrightLink: null,
     },
-    crops: {
+    simpleCrops: {
       square: {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/318dba668b46078bd957578fa5fc3b2f9b86c5a0_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 3200,
-        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-        tasl: {
-          title: 'Exploring Research event',
-          author: 'Steven Pocock',
-          sourceName: 'Wellcome Collection',
-          sourceLink: null,
-          license: 'CC-BY-NC',
-          copyrightHolder: null,
-          copyrightLink: null,
-        },
-        crops: {},
       },
       '32:15': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/7b01a0b1273b96cfeb8a5c37e812bd83fe96f537_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 1500,
-        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-        tasl: {
-          title: 'Exploring Research event',
-          author: 'Steven Pocock',
-          sourceName: 'Wellcome Collection',
-          sourceLink: null,
-          license: 'CC-BY-NC',
-          copyrightHolder: null,
-          copyrightLink: null,
-        },
-        crops: {},
       },
       '16:9': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
-        alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-        tasl: {
-          title: 'Exploring Research event',
-          author: 'Steven Pocock',
-          sourceName: 'Wellcome Collection',
-          sourceLink: null,
-          license: 'CC-BY-NC',
-          copyrightHolder: null,
-          copyrightLink: null,
-        },
-        crops: {},
       },
     },
   },
@@ -680,7 +580,7 @@ export function organisation() {
   };
 }
 
-export const article = {
+export const article: Article = {
   type: 'articles',
   id: 'YLoCLhAAACEAfyuO',
   title: 'A dark cloud',
@@ -705,7 +605,6 @@ export const article = {
           tasl: {
             title: 'Weewaaz',
           },
-          crops: {},
         },
         description: [
           {
@@ -741,39 +640,24 @@ export const article = {
               tasl: {
                 title: 'Weewaaz',
               },
-              crops: {
+              simpleCrops: {
                 '32:15': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1594,6000,2813&w=3200&h=1500',
                   width: 3200,
                   height: 1500,
-                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
-                  tasl: {
-                    title: 'Weewaaz',
-                  },
-                  crops: {},
                 },
                 '16:9': {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,1313,6000,3375&w=3200&h=1800',
                   width: 3200,
                   height: 1800,
-                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
-                  tasl: {
-                    title: 'Weewaaz',
-                  },
-                  crops: {},
                 },
                 square: {
                   contentUrl:
                     'https://images.prismic.io/wellcomecollection/3628f5ec-3218-4757-a76d-a7b58dd89b6c_darkcloud.png?auto=compress,format&rect=0,0,6000,6000&w=3200&h=3200',
                   width: 3200,
                   height: 3200,
-                  alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.The accompanying text reads ‘There’s a dark cloud following me’. ',
-                  tasl: {
-                    title: 'Weewaaz',
-                  },
-                  crops: {},
                 },
               },
             },
@@ -794,21 +678,8 @@ export const article = {
       tasl: {
         title: 'Weewaaz',
       },
-      crops: {},
     },
     link: null,
-  },
-  promoText: 'Do you have any dark clouds following you?',
-  promoImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-    width: 3200,
-    height: 1800,
-    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-    tasl: {
-      title: 'Weewaaz',
-    },
-    crops: {},
   },
   image: {
     contentUrl:
@@ -819,63 +690,26 @@ export const article = {
     tasl: {
       title: 'Weewaaz',
     },
-    crops: {
+    simpleCrops: {
       '32:15': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
         width: 3200,
         height: 1500,
-        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-        tasl: {
-          title: 'Weewaaz',
-        },
-        crops: {},
       },
       '16:9': {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
         width: 3200,
         height: 1800,
-        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-        tasl: {
-          title: 'Weewaaz',
-        },
-        crops: {},
       },
       square: {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
         width: 3200,
         height: 3200,
-        alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-        tasl: {
-          title: 'Weewaaz',
-        },
-        crops: {},
       },
     },
-  },
-  squareImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
-    width: 3200,
-    height: 3200,
-    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-    tasl: {
-      title: 'Weewaaz',
-    },
-    crops: {},
-  },
-  widescreenImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/0b1e482a-fc92-4345-afd2-01bce69424fc_darkcloud_promo.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-    width: 3200,
-    height: 1800,
-    alt: 'A cartoon figure has a dark cloud wrapped around them. Both have a solemn look on their face.',
-    tasl: {
-      title: 'Weewaaz',
-    },
-    crops: {},
   },
   metadataDescription: '',
   labels: [
@@ -887,7 +721,7 @@ export const article = {
     id: 'W7d_ghAAALWY3Ujc',
     title: 'Comic',
   },
-  datePublished: '2021-06-04T11:15:49.000Z',
+  datePublished: new Date(2021, 5, 3, 10, 15, 49),
   series: [
     {
       id: 'YJ5KTBAAACEA_Yrk',
@@ -912,7 +746,6 @@ export const article = {
               tasl: {
                 title: 'Weewaaz',
               },
-              crops: {},
             },
             description: [
               {
@@ -944,7 +777,6 @@ export const article = {
           tasl: {
             title: 'Weewaaz',
           },
-          crops: {},
         },
         link: null,
       },
@@ -958,7 +790,6 @@ export const article = {
         tasl: {
           title: 'Weewaaz',
         },
-        crops: {},
       },
       image: {
         contentUrl:
@@ -969,63 +800,26 @@ export const article = {
         tasl: {
           title: 'Weewaaz',
         },
-        crops: {
+        simpleCrops: {
           '32:15': {
             contentUrl:
               'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,75,1600,750&w=3200&h=1500',
             width: 3200,
             height: 1500,
-            alt: 'Person holding a large red love heart, smiling.',
-            tasl: {
-              title: 'Weewaaz',
-            },
-            crops: {},
           },
           '16:9': {
             contentUrl:
               'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
             width: 3200,
             height: 1800,
-            alt: 'Person holding a large red love heart, smiling.',
-            tasl: {
-              title: 'Weewaaz',
-            },
-            crops: {},
           },
           square: {
             contentUrl:
               'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
             width: 3200,
             height: 3200,
-            alt: 'Person holding a large red love heart, smiling.',
-            tasl: {
-              title: 'Weewaaz',
-            },
-            crops: {},
           },
         },
-      },
-      squareImage: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=350,0,900,900&w=3200&h=3200',
-        width: 3200,
-        height: 3200,
-        alt: 'Person holding a large red love heart, smiling.',
-        tasl: {
-          title: 'Weewaaz',
-        },
-        crops: {},
-      },
-      widescreenImage: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-        width: 3200,
-        height: 1800,
-        alt: 'Person holding a large red love heart, smiling.',
-        tasl: {
-          title: 'Weewaaz',
-        },
-        crops: {},
       },
       labels: [
         {

@@ -38,6 +38,7 @@ import {
 } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   page: PageType;
@@ -138,7 +139,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   const featuredMedia = hasFeaturedMedia ? (
     page.body[0].type === 'picture' ? (
       <UiImage
-        {...(page.body[0].value.image.crops['16:9'] ||
+        {...(getCrop(page.body[0].value.image, '16:9') ||
           page.body[0].value.image)}
       />
     ) : page.body[0].type === 'videoEmbed' ? (
