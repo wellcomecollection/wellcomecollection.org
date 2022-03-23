@@ -323,7 +323,7 @@ const Body: FunctionComponent<Props> = ({
                               htmlSerializer={dropCapSerializer}
                             />
                             <PrismicHtmlBlock
-                              html={slice.value.slice(1, slice.value.length)}
+                              html={slice.value.slice(1)}
                               htmlSerializer={defaultSerializer}
                             />
                           </>
