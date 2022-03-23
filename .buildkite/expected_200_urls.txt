@@ -1,3 +1,9 @@
+# Some pages we can't let break!
+/
+/articles
+/stories
+/whats-on
+
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638456535135800
 /articles/W9m2QxcAAF8AFvE5
 
