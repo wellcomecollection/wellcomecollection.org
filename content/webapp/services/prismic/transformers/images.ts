@@ -16,7 +16,6 @@ export const placeHolderImage: ImageType = {
   tasl: {
     sourceName: 'Unknown',
   },
-  crops: {},
 };
 
 export function transformCaptionedImage(

@@ -73,7 +73,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
                 // We intentionally omit the alt text on promos, so screen reader
                 // users don't have to listen to the alt text before hearing the
                 // title of the item in the list.
-                //             
+                //
                 // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
                 alt=""
                 sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"

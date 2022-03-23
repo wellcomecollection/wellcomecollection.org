@@ -55,7 +55,6 @@ const EventPromo: FC<Props> = ({
         {event.promoImage && (
           <UiImage
             {...event.promoImage}
-            crops={{}}
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
             // title of the item in the list.

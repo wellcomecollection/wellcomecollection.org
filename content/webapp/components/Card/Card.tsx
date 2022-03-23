@@ -7,6 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   item: CardType;
@@ -75,6 +76,8 @@ export const CardBody = styled(Space).attrs(() => ({
 `;
 
 const Card: FunctionComponent<Props> = ({ item }: Props) => {
+  const image = getCrop(item.image, '16:9');
+
   return (
     <CardOuter
       href={item.link}
@@ -87,9 +90,9 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
       }}
     >
       <div className="relative">
-        {item.image && item.image.crops && item.image.crops['16:9'] && (
+        {image && (
           <UiImage
-            {...item.image.crops['16:9']}
+            {...image}
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
             // title of the item in the list.

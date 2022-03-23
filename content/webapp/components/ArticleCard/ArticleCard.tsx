@@ -8,6 +8,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import linkResolver from '../../services/prismic/link-resolver';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   article: ArticleBasic;
@@ -24,7 +25,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   xOfY,
 }: Props) => {
   const url = linkResolver(article);
-  const image = article.image?.crops['square'];
+  const image = getCrop(article.image, 'square');
 
   const seriesWithSchedule = article.series.find(
     series => (series.schedule ?? []).length > 0

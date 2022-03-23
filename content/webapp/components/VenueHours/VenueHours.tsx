@@ -114,7 +114,6 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                 contentUrl={venue.image.contentUrl}
                 width={1600}
                 height={900}
-                crops={{}}
                 alt={venue.image?.alt}
                 sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
                 extraClasses=""
