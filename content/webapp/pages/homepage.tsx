@@ -49,6 +49,7 @@ import {
   transformExhibitionsQuery,
 } from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -71,8 +72,9 @@ const CreamBox = styled(Space).attrs({
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   events: PaginatedResults<EventBasic>;
-  articles: PaginatedResults<ArticleBasic>;
+  articles: ArticleBasic[];
   page: PageType;
+  jsonLd: JsonLdObj[];
 };
 
 const pageImage: ImageType = {
@@ -111,9 +113,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // The homepage should always exist in Prismic.
     const page = transformPage(pageDocument!);
 
-    const articles = transformQuery(articlesQuery, article =>
-      transformArticleToArticleBasic(transformArticle(article))
-    );
+    const articles = transformQuery(articlesQuery, transformArticle);
+    const jsonLd = articles.results.map(articleLd);
+    const basicArticles = articles.results.map(transformArticleToArticleBasic);
+
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
     );
@@ -122,11 +125,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
-          articles,
+          articles: basicArticles,
           page,
           exhibitions,
           events,
           serverData,
+          jsonLd,
         }),
       };
     } else {
@@ -154,7 +158,7 @@ const Homepage: FC<Props> = props => {
       title={''}
       description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
-      jsonLd={[...articles.results.map(articleLd)]}
+      jsonLd={props.jsonLd}
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
@@ -225,7 +229,7 @@ const Homepage: FC<Props> = props => {
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid
-            items={articles.results}
+            items={articles}
             itemsPerRow={4}
             itemsHaveTransparentBackground={true}
             links={[{ text: 'All stories', url: '/stories' }]}

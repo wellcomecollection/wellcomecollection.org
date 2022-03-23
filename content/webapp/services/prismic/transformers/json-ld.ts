@@ -99,7 +99,7 @@ export function eventLd(event: Event | EventBasic): JsonLdObj[] {
     });
 }
 
-export function articleLd(article: Article | ArticleBasic) {
+export function articleLd(article: Article): JsonLdObj {
   // We've left the role off of a lot of articles
   const author: Contributor = article.contributors.find(
     ({ role }) => role && role.title === 'Author'
