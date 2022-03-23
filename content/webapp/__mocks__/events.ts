@@ -75,6 +75,10 @@ export const eventWithOneLocation: Event = {
   ...baseEvent,
   locations: [location],
 };
+export const eventWithMultipleLocations: Event = {
+  ...baseEvent,
+  locations: [location, location],
+};
 export const eventOnline: Event = { ...baseEvent, isOnline: true };
 export const eventWithOneLocationOnline: Event = {
   ...baseEvent,

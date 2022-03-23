@@ -9,6 +9,7 @@ import {
   eventWithOneLocation,
   eventOnline,
   eventWithOneLocationOnline,
+  eventWithMultipleLocations,
 } from '../../__mocks__/events';
 jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
   enablePickUpDate: true,
@@ -30,6 +31,11 @@ describe('EventPromo', () => {
   it('Shows a specific location when it is the only location for an event', () => {
     renderComponent(eventWithOneLocation);
     expect(screen.getByText('Reading Room'));
+  });
+
+  it('Shows a generic location when there are multiple physical locations', () => {
+    renderComponent(eventWithMultipleLocations);
+    expect(screen.getByText('In our building'));
   });
 
   it('Shows when an event is online', () => {

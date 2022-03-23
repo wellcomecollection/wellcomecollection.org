@@ -14,6 +14,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { Place } from '../../types/places';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { inOurBuilding } from '@weco/common/data/microcopy';
 
 type Props = {
   event: EventBasic;
@@ -23,10 +25,18 @@ type Props = {
   fromDate?: Date;
 };
 
-function getLocationText(isOnline?: boolean, place?: Place): string {
-  if (!isOnline && place) return place.title;
+function getLocationText(isOnline?: boolean, place?: Place[]): string {
+  if (!isOnline && isNotUndefined(place) && place.length === 1) {
+    return place[0].title;
+  }
 
-  return `Online${place ? ' & In our building' : ''}`;
+  if (!isOnline && isNotUndefined(place) && place.length > 1) {
+    return inOurBuilding;
+  }
+
+  return `Online${
+    isNotUndefined(place) && place.length > 0 ? ` | ${inOurBuilding}` : ''
+  }`;
 }
 
 const EventPromo: FC<Props> = ({
@@ -89,7 +99,7 @@ const EventPromo: FC<Props> = ({
             {event.title}
           </Space>
 
-          {(event.isOnline || event.locations[0]) && (
+          {(event.isOnline || event.locations.length > 0) && (
             <Space
               v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
               className={classNames({
@@ -100,7 +110,7 @@ const EventPromo: FC<Props> = ({
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>
                 <AlignFont>
-                  {getLocationText(event.isOnline, event.locations[0])}
+                  {getLocationText(event.isOnline, event.locations)}
                 </AlignFont>
               </Space>
             </Space>
