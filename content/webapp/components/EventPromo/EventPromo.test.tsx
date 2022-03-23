@@ -39,6 +39,6 @@ describe('EventPromo', () => {
 
   it('Shows when an event is a physical/online hybrid', () => {
     renderComponent(eventWithOneLocationOnline);
-    expect(screen.getByText('Online & In our building'));
+    expect(screen.getByText('Online | In our building'));
   });
 });

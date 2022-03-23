@@ -22,6 +22,7 @@ export async function makeDefaultToggleCookies(
     'https://toggles.wellcomecollection.org/toggles.json'
   );
   const { toggles } = data;
+  console.log(toggles);
 
   return toggles.map(t => {
     return {
