@@ -1,16 +1,14 @@
 import { gotoWithoutCache } from './contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
 beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
-    domain
-  );
+  const defaultToggleCookies = await makeDefaultToggleCookies(domain);
   await context.addCookies([
     { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    ...defaultToggleAndTestCookies,
+    ...defaultToggleCookies,
   ]);
 });
 
