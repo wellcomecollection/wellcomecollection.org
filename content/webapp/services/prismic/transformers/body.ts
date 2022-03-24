@@ -1,4 +1,5 @@
 import {
+  CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
@@ -51,6 +52,8 @@ import {
 import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
+import { Venue } from '@weco/common/model/opening-hours';
+import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -372,4 +375,24 @@ export function transformSearchResultsSlice(
       query: slice.primary.query || '',
     },
   };
+}
+
+export function transformCollectionVenueSlice(
+  slice: CollectionVenueSlice
+):
+  | ParsedSlice<
+      'collectionVenue',
+      { content: Venue; showClosingTimes: boolean }
+    >
+  | undefined {
+  return isFilledLinkToDocumentWithData(slice.primary.content)
+    ? {
+        type: 'collectionVenue',
+        weight: getWeight(slice.slice_label),
+        value: {
+          content: transformCollectionVenue(slice.primary.content),
+          showClosingTimes: slice.primary.showClosingTimes === 'yes',
+        },
+      }
+    : undefined;
 }

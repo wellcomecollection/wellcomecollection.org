@@ -95,7 +95,7 @@ export type Map = Slice<
   }
 >;
 
-type CollectionVenue = Slice<
+export type CollectionVenue = Slice<
   'collectionVenue',
   {
     content: RelationField<'collection-venue'>;
