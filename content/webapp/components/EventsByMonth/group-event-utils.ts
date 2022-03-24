@@ -1,6 +1,11 @@
 // Utilities for grouping events
 
 import { isSameMonth } from '@weco/common/utils/dates';
+import { EventTime } from '../../types/events';
+
+type HasTimes = {
+  times: EventTime[];
+};
 
 export type YearMonth = {
   year: number;
@@ -43,4 +48,25 @@ export function getMonthsInDateRange(
   } else {
     return acc;
   }
+}
+
+// For each event, find the months that it spans.
+export function findMonthsThatEventSpans<T extends HasTimes>(
+  events: T[]
+): {
+  event: T;
+  months: YearMonth[];
+}[] {
+  return events
+    .filter(event => event.times.length > 0)
+    .map(event => {
+      const firstRange = event.times[0];
+      const lastRange = event.times[event.times.length - 1];
+
+      const start = firstRange.range.startDateTime;
+      const end = lastRange.range.endDateTime;
+
+      const months = getMonthsInDateRange({ start, end });
+      return { event, months };
+    });
 }

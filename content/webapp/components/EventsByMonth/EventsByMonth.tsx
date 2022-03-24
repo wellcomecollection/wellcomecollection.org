@@ -15,10 +15,9 @@ import CssGridContainer from '@weco/common/views/components/styled/CssGridContai
 import CardGrid from '../CardGrid/CardGrid';
 import {
   createLabel,
-  getMonthsInDateRange,
+  findMonthsThatEventSpans,
   parseLabel,
   startOf,
-  YearMonth,
 } from './group-event-utils';
 
 type Props = {
@@ -53,34 +52,12 @@ class EventsByMonth extends Component<Props, State> {
       12: 'December',
     };
 
-    // Returns a list of events and the months they fall in.
-    // The months are formatted as YYYY-MM labels like "2001-02".
-    const eventsWithMonths: {
-      event: EventBasic;
-      months: YearMonth[];
-    }[] = events
-      .filter(event => event.times.length > 0)
-      .map(event => {
-        const firstRange = event.times[0];
-        const lastRange = event.times[event.times.length - 1];
-
-        const start = firstRange.range.startDateTime;
-        const end = lastRange.range.endDateTime;
-
-        const months = getMonthsInDateRange({ start, end });
-        return { event, months };
-      });
-
-    eventsWithMonths.forEach(({ event, months }) => {
-      console.log(`@@AWLC event=${event.id}`);
-      console.log(`@@AWLC months=${JSON.stringify(months)}`);
-      console.log('');
-    });
+    const eventsWithTheirMonths = findMonthsThatEventSpans(events);
 
     // Key: a YYYY-MM month label like "2001-02"
     // Value: a list of events that fall somewhere in this month
     const eventsInMonths: Record<string, EventBasic[]> =
-      eventsWithMonths.reduce((acc, { event, months }) => {
+      eventsWithTheirMonths.reduce((acc, { event, months }) => {
         months.forEach(month => {
           // Only add if it has a time in the month that is the same or after today
           //
