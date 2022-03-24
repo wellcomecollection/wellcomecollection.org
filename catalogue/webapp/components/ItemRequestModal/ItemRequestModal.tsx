@@ -245,7 +245,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         action: 'confirm_request',
         label: `/works/${work.id}`,
       });
-      confirmRequest(pickUpDateMoment);
+      confirmRequest(pickUpDateMoment.add(14, 'days'));
     }
   }
 
