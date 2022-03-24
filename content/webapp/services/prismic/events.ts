@@ -6,9 +6,9 @@ import {
   isDayPast,
   isFuture,
 } from '@weco/common/utils/dates';
-import { Event, EventBasic, EventTime } from '../../types/events';
+import { Event, EventBasic } from '../../types/events';
 
-function getNextDateInFuture(event: EventBasic): EventTime | undefined {
+function getNextDateInFuture(event: EventBasic): Date | undefined {
   const futureTimes = event.times.filter(time =>
     isFuture(time.range.startDateTime)
   );
@@ -20,7 +20,7 @@ function getNextDateInFuture(event: EventBasic): EventTime | undefined {
       time.range.startDateTime <= closestStartingDate.range.startDateTime
         ? time
         : closestStartingDate
-    );
+    ).range.startDateTime;
   }
 }
 
