@@ -1139,6 +1139,26 @@ const beingHuman: Exhibition = {
       sourceName: 'Wellcome Collection',
       license: 'CC-BY-NC',
     },
+    simpleCrops: {
+      '32:15': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3eb4b341-6471-4610-9f12-c97f5c7be0bc_SDP_20201005_0278-81.jpg?auto=compress,format&rect=0,10,2955,1385&w=3200&h=1500',
+        width: 3200,
+        height: 1500,
+      },
+      '16:9': {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3eb4b341-6471-4610-9f12-c97f5c7be0bc_SDP_20201005_0278-81.jpg?auto=compress,format&rect=0,0,2955,1662&w=3200&h=1800',
+        width: 3200,
+        height: 1800,
+      },
+      square: {
+        contentUrl:
+          'https://images.prismic.io/wellcomecollection/3eb4b341-6471-4610-9f12-c97f5c7be0bc_SDP_20201005_0278-81.jpg?auto=compress,format&rect=1185,0,1662,1662&w=3200&h=3200',
+        width: 3200,
+        height: 3200,
+      },
+    },
   },
   metadataDescription: '',
   labels: [{ text: 'Permanent exhibition' }],
