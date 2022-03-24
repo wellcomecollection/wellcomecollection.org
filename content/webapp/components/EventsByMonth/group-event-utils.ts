@@ -1,20 +1,25 @@
 // Utilities for grouping events
 
-import { isSameMonth } from '@weco/common/utils/dates';
+import { isFuture, isSameDay, isSameMonth } from '@weco/common/utils/dates';
 import { EventTime } from '../../types/events';
 
 type HasTimes = {
   times: EventTime[];
 };
 
+// Note: here months are 0-indexed, to match the months used by the built-in
+// JavaScript date type.
 export type YearMonth = {
   year: number;
   month: number;
 };
 
 // Creates a label in the form YYYY-MM, e.g. "2001-02"
-export function createLabel(ym: YearMonth): string {
-  return startOf(ym).toISOString().slice(0, 7);
+//
+// Note: here months are 1-indexed, because this value is displayed in the UI and
+// used to construct fragment URLs.
+export function createLabel({ year, month }: YearMonth): string {
+  return `${year}-${(month + 1).toString().padStart(2, '0')}`;
 }
 
 export function parseLabel(label: string): YearMonth {
@@ -69,4 +74,43 @@ export function findMonthsThatEventSpans<T extends HasTimes>(
       const months = getMonthsInDateRange({ start, end });
       return { event, months };
     });
+}
+
+// Key: a YYYY-MM month label like "2001-02"
+// Value: a list of events that fall somewhere in this month
+export function groupEventsByMonth<T extends HasTimes>(
+  events: T[]
+): Record<string, T[]> {
+  console.log(JSON.stringify(findMonthsThatEventSpans(events)));
+  return findMonthsThatEventSpans(events).reduce((acc, { event, months }) => {
+    months.forEach(month => {
+      // Only add if it has a time in the month that is the same or after today
+      //
+      // NOTE: this means a very long-running event wouldn't appear in the events
+      // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
+      // Do we have any such long-running events?  If so, this is probably okay.
+      const hasDateInMonthRemaining = event.times.find(time => {
+        const start = time.range.startDateTime;
+        const end = time.range.endDateTime;
+
+        const endsInMonth = isSameMonth(end, startOf(month));
+
+        const startsInMonth = isSameMonth(start, startOf(month));
+
+        const today = new Date();
+        const isNotClosedYet = isSameDay(end, today) || isFuture(end);
+
+        return (endsInMonth || startsInMonth) && isNotClosedYet;
+      });
+      if (hasDateInMonthRemaining) {
+        const label = createLabel(month);
+
+        if (!acc[label]) {
+          acc[label] = [];
+        }
+        acc[label].push(event);
+      }
+    });
+    return acc;
+  }, {} as Record<string, T[]>);
 }

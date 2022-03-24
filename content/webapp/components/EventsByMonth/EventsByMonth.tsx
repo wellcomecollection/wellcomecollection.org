@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import {
-  getEarliestFutureDateRange,
-  isFuture,
-  isSameDay,
-  isSameMonth,
-} from '@weco/common/utils/dates';
+import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -13,12 +8,7 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
-import {
-  createLabel,
-  findMonthsThatEventSpans,
-  parseLabel,
-  startOf,
-} from './group-event-utils';
+import { groupEventsByMonth, parseLabel, startOf } from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -52,46 +42,7 @@ class EventsByMonth extends Component<Props, State> {
       12: 'December',
     };
 
-    const eventsWithTheirMonths = findMonthsThatEventSpans(events);
-
-    // Key: a YYYY-MM month label like "2001-02"
-    // Value: a list of events that fall somewhere in this month
-    const eventsInMonths: Record<string, EventBasic[]> =
-      eventsWithTheirMonths.reduce((acc, { event, months }) => {
-        months.forEach(month => {
-          // Only add if it has a time in the month that is the same or after today
-          //
-          // NOTE: this means a very long-running event wouldn't appear in the events
-          // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
-          // Do we have any such long-running events?  If so, this is probably okay.
-          const hasDateInMonthRemaining = event.times.find(time => {
-            const start = time.range.startDateTime;
-            const end = time.range.endDateTime;
-
-            const endsInMonth = isSameMonth(end, startOf(month));
-
-            const startsInMonth = isSameMonth(start, startOf(month));
-
-            const today = new Date();
-            const isNotClosedYet = isSameDay(end, today) || isFuture(end);
-
-            return (endsInMonth || startsInMonth) && isNotClosedYet;
-          });
-          if (hasDateInMonthRemaining) {
-            const label = createLabel(month);
-
-            if (!acc[label]) {
-              acc[label] = [];
-            }
-            acc[label].push(event);
-
-            console.log(`@@AWLC label = ${label}`);
-            console.log(`@@AWLC events = ${acc[label].map(event => event.id)}`);
-          }
-        });
-        return acc;
-      }, {} as Record<string, EventBasic[]>);
-    console.log('');
+    const eventsInMonths = groupEventsByMonth(events);
 
     // Order months correctly.  This returns the headings for each month,
     // now in chronological order.
@@ -115,8 +66,6 @@ class EventsByMonth extends Component<Props, State> {
     Object.keys(eventsInMonths).map(label => {
       eventsInMonths[label] = sortBy(eventsInMonths[label], [
         m => {
-          console.log(`@@AWLC m = ${JSON.stringify(m.id)}`);
-          console.log(`@@AWLC m.times = ${JSON.stringify(m.times)}`);
           const times = m.times.map(time => ({
             start: time.range.startDateTime,
             end: time.range.endDateTime,
@@ -124,7 +73,6 @@ class EventsByMonth extends Component<Props, State> {
           const fromDate = startOf(parseLabel(label));
 
           const earliestRange = getEarliestFutureDateRange(times, fromDate);
-          console.log(`@@AWLC key = ${earliestRange && earliestRange.start}`);
           return earliestRange && earliestRange.start;
         },
       ]);

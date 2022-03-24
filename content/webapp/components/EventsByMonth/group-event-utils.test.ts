@@ -1,7 +1,19 @@
 import {
+  createLabel,
   findMonthsThatEventSpans,
   getMonthsInDateRange,
+  groupEventsByMonth,
 } from './group-event-utils';
+
+describe('createLabel', () => {
+  it('zero-pads the month value', () => {
+    expect(createLabel({ year: 2001, month: 1 })).toEqual('2001-02');
+  });
+
+  it('gets the right label', () => {
+    expect(createLabel({ year: 2001, month: 11 })).toEqual('2001-12');
+  });
+});
 
 describe('getMonthsInDateRange', () => {
   it('finds a single month', () => {
@@ -66,5 +78,42 @@ describe('findMonthsThatEventSpans', () => {
         ],
       },
     ]);
+  });
+});
+
+describe('groupEventsByMonth', () => {
+  it('puts each event in the right month', () => {
+    const event1 = {
+      id: '1',
+      times: [
+        {
+          range: {
+            startDateTime: new Date(2101, 1, 1),
+            endDateTime: new Date(2101, 1, 5),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const event2 = {
+      id: '2',
+      times: [
+        {
+          range: {
+            startDateTime: new Date(2101, 1, 1),
+            endDateTime: new Date(2101, 3, 6),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const result = groupEventsByMonth([event1, event2]);
+
+    expect(result).toEqual({
+      '2101-02': [event1, event2],
+      '2101-04': [event2],
+    });
   });
 });
