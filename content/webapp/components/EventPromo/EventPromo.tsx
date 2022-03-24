@@ -14,6 +14,8 @@ import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
 import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { Place } from '../../types/places';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { inOurBuilding } from '@weco/common/data/microcopy';
 
 type Props = {
   event: EventBasic;
@@ -23,10 +25,28 @@ type Props = {
   fromDate?: Date;
 };
 
-function getLocationText(isOnline?: boolean, place?: Place): string {
-  if (!isOnline && place) return place.title;
+export function getLocationText(isOnline?: boolean, place?: Place[]): string {
+  // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/7818
+  // * If an event is only in venue, in a single location, we display the specific location (e.g. 'Reading Room')
+  // * If an event is only in venue, in multiple locations, we display 'In our building'
+  // * If an event is only online, we display 'Online'
+  // * If an event is online and in venue, we display 'Online | In our building'
+  // * If an event has a single Prismic location, 'Throughout the building', we display 'In our building'
+  //   This is how the editorial team used to do multi-location events before we added proper support
+  //   for multiple locations.
+  if (!isOnline && isNotUndefined(place) && place.length === 1) {
+    return place[0].title === 'Throughout the building'
+      ? inOurBuilding
+      : place[0].title;
+  }
 
-  return `Online${place ? ' & In our building' : ''}`;
+  if (!isOnline && isNotUndefined(place) && place.length > 1) {
+    return inOurBuilding;
+  }
+
+  return `Online${
+    isNotUndefined(place) && place.length > 0 ? ` | ${inOurBuilding}` : ''
+  }`;
 }
 
 const EventPromo: FC<Props> = ({
@@ -89,7 +109,7 @@ const EventPromo: FC<Props> = ({
             {event.title}
           </Space>
 
-          {(event.isOnline || event.locations[0]) && (
+          {(event.isOnline || event.locations.length > 0) && (
             <Space
               v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
               className={classNames({
@@ -100,7 +120,7 @@ const EventPromo: FC<Props> = ({
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>
                 <AlignFont>
-                  {getLocationText(event.isOnline, event.locations[0])}
+                  {getLocationText(event.isOnline, event.locations)}
                 </AlignFont>
               </Space>
             </Space>
