@@ -46,10 +46,6 @@ const SearchResults: FunctionComponent<Props> = ({
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
     )}
 
-    {items.map((item, index) => (
-      <Result key={item.id}>
-        {item.type === 'pages' && (
-          <CompactCard
             url={`/pages/${item.id}`}
             title={item.title || ''}
             partNumber={undefined}
@@ -139,13 +135,6 @@ const SearchResults: FunctionComponent<Props> = ({
             description={`Available ${formatDate(item.publishDate)}`}
             Image={<ImagePlaceholder color={item.color} />}
             xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-        {item.type === 'events' && (
-          <EventCard event={item} xOfY={{ x: index + 1, y: items.length }} />
-        )}
-        {item.type === 'exhibitions' && (
-          <CompactCard
             url={`/exhibitions/${item.id}`}
             title={item.title}
             partNumber={undefined}
@@ -164,10 +153,31 @@ const SearchResults: FunctionComponent<Props> = ({
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-      </Result>
-    ))}
+    {items
+      .filter(
+        (item, _) => item.type === 'pages' || item.type === 'event-series'
+      )
+      .map(
+        (item, index) =>
+          item.type !== 'card' && (
+            <Result key={item.id}>
+              {item.type === 'pages' && (
+                <CompactCard
+                />
+              )}
+              {item.type === 'events' && (
+                <EventCard
+                  event={item}
+                  xOfY={{ x: index + 1, y: items.length }}
+                />
+              )}
+              {item.type === 'exhibitions' && (
+                <CompactCard
+                />
+              )}
+            </Result>
+          )
+      )}
   </Fragment>
 );
 
