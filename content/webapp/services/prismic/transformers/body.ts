@@ -1,4 +1,5 @@
 import {
+  CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
@@ -8,8 +9,10 @@ import {
   MediaObjectList as MediaObjectListSlice,
   Quote as QuoteSlice,
   QuoteV2 as QuoteV2Slice,
+  SearchResults as SearchResultsSlice,
   Standfirst as StandfirstSlice,
   Table as TableSlice,
+  TagList as TagListSlice,
   TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
@@ -20,11 +23,13 @@ import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
+import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
+import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
 import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
 import { MediaObjectType } from '../../../types/media-object';
@@ -47,6 +52,8 @@ import {
 import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
+import { Venue } from '@weco/common/model/opening-hours';
+import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -337,4 +344,55 @@ export function transformQuoteSlice(
         slice.slice_label === 'pull' || slice.slice_label === 'review',
     },
   };
+}
+
+export function transformTagListSlice(
+  slice: TagListSlice
+): ParsedSlice<'tagList', TagsGroupProps> {
+  return {
+    type: 'tagList',
+    value: {
+      title: asTitle(slice.primary.title),
+      tags: slice.items.map(item => ({
+        textParts: item.linkText ? [item.linkText] : [],
+        linkAttributes: {
+          href: { pathname: transformLink(item.link) },
+          as: { pathname: transformLink(item.link) },
+        },
+      })),
+    },
+  };
+}
+
+export function transformSearchResultsSlice(
+  slice: SearchResultsSlice
+): ParsedSlice<'searchResults', AsyncSearchResultsProps> {
+  return {
+    type: 'searchResults',
+    weight: getWeight(slice.slice_label),
+    value: {
+      title: asText(slice.primary.title),
+      query: slice.primary.query || '',
+    },
+  };
+}
+
+export function transformCollectionVenueSlice(
+  slice: CollectionVenueSlice
+):
+  | ParsedSlice<
+      'collectionVenue',
+      { content: Venue; showClosingTimes: boolean }
+    >
+  | undefined {
+  return isFilledLinkToDocumentWithData(slice.primary.content)
+    ? {
+        type: 'collectionVenue',
+        weight: getWeight(slice.slice_label),
+        value: {
+          content: transformCollectionVenue(slice.primary.content),
+          showClosingTimes: slice.primary.showClosingTimes === 'yes',
+        },
+      }
+    : undefined;
 }

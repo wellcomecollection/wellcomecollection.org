@@ -95,7 +95,7 @@ export type Map = Slice<
   }
 >;
 
-type CollectionVenue = Slice<
+export type CollectionVenue = Slice<
   'collectionVenue',
   {
     content: RelationField<'collection-venue'>;
@@ -122,7 +122,7 @@ export type Discussion = Slice<
   }
 >;
 
-type TagList = Slice<
+export type TagList = Slice<
   'tagList',
   {
     title: RichTextField;
@@ -173,7 +173,7 @@ type ContentList = Slice<
   }
 >;
 
-type SearchResults = Slice<
+export type SearchResults = Slice<
   'searchResults',
   { title: RichTextField; query: KeyTextField }
 >;

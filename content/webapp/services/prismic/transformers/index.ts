@@ -20,7 +20,6 @@ import {
   BodyType,
   GenericContentFields,
 } from '../../../types/generic-content-fields';
-import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
@@ -38,6 +37,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { CardPrismicDocument, WithCardFormat } from '../types/card';
 import {
   getWeight,
+  transformCollectionVenueSlice,
   transformContactSlice,
   transformDeprecatedImageListSlice,
   transformDiscussionSlice,
@@ -49,8 +49,10 @@ import {
   transformMapSlice,
   transformMediaObjectListSlice,
   transformQuoteSlice,
+  transformSearchResultsSlice,
   transformStandfirstSlice,
   transformTableSlice,
+  transformTagListSlice,
   transformTextSlice,
   transformTitledTextListSlice,
 } from './body';
@@ -237,30 +239,10 @@ export function transformBody(body: Body): BodyType {
           };
 
         case 'collectionVenue':
-          return isFilledLinkToDocumentWithData(slice.primary.content)
-            ? {
-                type: 'collectionVenue',
-                weight: getWeight(slice.slice_label),
-                value: {
-                  content: transformCollectionVenue(slice.primary.content),
-                  showClosingTimes: slice.primary.showClosingTimes,
-                },
-              }
-            : undefined;
+          return transformCollectionVenueSlice(slice);
 
         case 'searchResults':
-          return {
-            type: 'searchResults',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              query: slice.primary.query,
-              // TODO: The untyped version of this code had `slice.primary.pageSize`, but
-              // there's no such field on the Prismic model.  Should it be on the model?
-              // Does it matter?  Investigate further.
-              pageSize: 4,
-            },
-          };
+          return transformSearchResultsSlice(slice);
 
         case 'quote':
         case 'quoteV2':
@@ -350,19 +332,7 @@ export function transformBody(body: Body): BodyType {
           return transformDiscussionSlice(slice);
 
         case 'tagList':
-          return {
-            type: 'tagList',
-            value: {
-              title: asTitle(slice.primary.title),
-              tags: slice.items.map(item => ({
-                textParts: [item.linkText],
-                linkAttributes: {
-                  href: { pathname: transformLink(item.link), query: '' },
-                  as: { pathname: transformLink(item.link), query: '' },
-                },
-              })),
-            },
-          };
+          return transformTagListSlice(slice);
 
         // Deprecated
         case 'imageList':

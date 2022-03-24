@@ -3,7 +3,7 @@ import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Tags, { TagType } from '../Tags/Tags';
 
-type Props = {
+export type Props = {
   title: string | undefined;
   tags: TagType[];
 };
