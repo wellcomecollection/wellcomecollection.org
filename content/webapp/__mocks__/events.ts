@@ -11,7 +11,7 @@ const image = {
   crops: {},
 };
 
-const location = {
+export const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
