@@ -83,7 +83,7 @@ export type Embed = Slice<
   'embed',
   {
     embed: EmbedField;
-    caption: KeyTextField;
+    caption: RichTextField;
   }
 >;
 
