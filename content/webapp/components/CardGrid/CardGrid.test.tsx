@@ -17,20 +17,6 @@ describe('CardGrid', () => {
       promo: {
         image: placeHolderImage,
       },
-      promoText:
-        'Our new permanent gallery explores trust, identity and health in a changing world.',
-      promoImage: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/b40da45c5b49cc5dd946dffeddbf8ce114ac0003_ep_000832_058.jpg?auto=compress,format',
-        width: 3200,
-        height: 1800,
-        alt:
-          'Photograph of an exhibition gallery space, with a blue stained wood ' +
-          'wall in the background, in front of which a young man looks at a ' +
-          'life-size artwork of a figure resembling an astronaut. In the ' +
-          'foreground a young woman sits on a wooden bench holding an audio ' +
-          'speaker to her ear.',
-      },
       image: {
         contentUrl:
           'https://images.prismic.io/wellcomecollection/0cfe014fb55e817bb3014c0c06cabf3a2fd5a74a_ep_000832_058.jpg?auto=compress,format',

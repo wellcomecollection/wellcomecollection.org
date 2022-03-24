@@ -84,7 +84,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
     <PageLayout
       title={installation.title}
       description={
-        installation.metadataDescription || installation.promoText || ''
+        installation.metadataDescription || installation.promo?.caption || ''
       }
       url={{ pathname: `/installations/${installation.id}` }}
       jsonLd={exhibitionLd(installation)}

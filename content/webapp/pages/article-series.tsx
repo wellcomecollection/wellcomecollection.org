@@ -132,7 +132,7 @@ const ArticleSeriesPage: FC<Props> = props => {
   return (
     <PageLayout
       title={series.title}
-      description={series.metadataDescription || series.promoText || ''}
+      description={series.metadataDescription || series.promo?.caption || ''}
       url={{ pathname: `/series/${series.id}` }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}

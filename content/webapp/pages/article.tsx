@@ -276,7 +276,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   return (
     <PageLayout
       title={article.title}
-      description={article.metadataDescription || article.promoText || ''}
+      description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
       jsonLd={articleLd(article)}
       openGraphType={'article'}

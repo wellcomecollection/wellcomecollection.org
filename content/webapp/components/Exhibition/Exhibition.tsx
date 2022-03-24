@@ -280,7 +280,9 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
   return (
     <PageLayout
       title={exhibition.title}
-      description={exhibition.metadataDescription || exhibition.promoText || ''}
+      description={
+        exhibition.metadataDescription || exhibition.promo?.caption || ''
+      }
       url={{ pathname: `/exhibitions/${exhibition.id}` }}
       jsonLd={exhibitionLd(exhibition)}
       openGraphType={'website'}

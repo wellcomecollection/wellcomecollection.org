@@ -6,7 +6,6 @@ import { Place } from './places';
 import { Season } from './seasons';
 import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
-import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
 import { isDayPast } from '@weco/common/utils/dates';
@@ -80,7 +79,6 @@ export type EventBasic = {
   promo?: ImagePromo | undefined;
   times: EventTime[];
   isPast: boolean;
-  promoImage?: Picture;
   primaryLabels: Label[];
   secondaryLabels: Label[];
   image?: ImageType;
@@ -89,7 +87,6 @@ export type EventBasic = {
   availableOnline: boolean;
   scheduleLength: number;
   series: EventSeries[];
-  promoText?: string;
   cost?: string;
   contributors: Contributor[];
 };

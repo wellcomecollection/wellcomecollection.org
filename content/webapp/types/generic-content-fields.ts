@@ -1,5 +1,4 @@
 import { ImagePromo } from './image-promo';
-import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
 import * as prismicT from '@prismicio/types';
@@ -21,8 +20,6 @@ export type GenericContentFields = {
   promo?: ImagePromo;
   body: BodyType;
   standfirst?: prismicT.RichTextField;
-  promoText?: string;
-  promoImage?: Picture;
   image?: ImageType;
   metadataDescription?: string;
   labels: Label[];

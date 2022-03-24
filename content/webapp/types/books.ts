@@ -18,7 +18,6 @@ export type BookBasic = {
   id: string;
   title: string;
   subtitle?: string;
-  promoText?: string;
   cover?: ImageType;
   promo?: ImagePromo | undefined;
   labels: Label[];
