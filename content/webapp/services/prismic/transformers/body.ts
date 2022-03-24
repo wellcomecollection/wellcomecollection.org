@@ -10,6 +10,7 @@ import {
   QuoteV2 as QuoteV2Slice,
   Standfirst as StandfirstSlice,
   Table as TableSlice,
+  TagList as TagListSlice,
   TextSlice,
   DeprecatedImageList as DeprecatedImageListSlice,
   TitledTextList as TitledTextListSlice,
@@ -25,6 +26,7 @@ import { Props as ImageGalleryProps } from '../../../components/ImageGallery/Ima
 import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
 import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
 import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
+import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
 import { Props as MapProps } from '../../../components/Map/Map';
 import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
 import { MediaObjectType } from '../../../types/media-object';
@@ -335,6 +337,24 @@ export function transformQuoteSlice(
       citation: slice.primary.citation,
       isPullOrReview:
         slice.slice_label === 'pull' || slice.slice_label === 'review',
+    },
+  };
+}
+
+export function transformTagListSlice(
+  slice: TagListSlice
+): ParsedSlice<'tagList', TagsGroupProps> {
+  return {
+    type: 'tagList',
+    value: {
+      title: asTitle(slice.primary.title),
+      tags: slice.items.map(item => ({
+        textParts: item.linkText ? [item.linkText] : [],
+        linkAttributes: {
+          href: { pathname: transformLink(item.link) },
+          as: { pathname: transformLink(item.link) },
+        },
+      })),
     },
   };
 }

@@ -122,7 +122,7 @@ export type Discussion = Slice<
   }
 >;
 
-type TagList = Slice<
+export type TagList = Slice<
   'tagList',
   {
     title: RichTextField;
