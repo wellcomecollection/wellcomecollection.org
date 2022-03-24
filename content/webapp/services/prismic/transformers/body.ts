@@ -8,6 +8,7 @@ import {
   MediaObjectList as MediaObjectListSlice,
   Quote as QuoteSlice,
   QuoteV2 as QuoteV2Slice,
+  SearchResults as SearchResultsSlice,
   Standfirst as StandfirstSlice,
   Table as TableSlice,
   TagList as TagListSlice,
@@ -21,6 +22,7 @@ import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
+import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
@@ -355,6 +357,19 @@ export function transformTagListSlice(
           as: { pathname: transformLink(item.link) },
         },
       })),
+    },
+  };
+}
+
+export function transformSearchResultsSlice(
+  slice: SearchResultsSlice
+): ParsedSlice<'searchResults', AsyncSearchResultsProps> {
+  return {
+    type: 'searchResults',
+    weight: getWeight(slice.slice_label),
+    value: {
+      title: asText(slice.primary.title),
+      query: slice.primary.query || '',
     },
   };
 }

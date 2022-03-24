@@ -173,7 +173,7 @@ type ContentList = Slice<
   }
 >;
 
-type SearchResults = Slice<
+export type SearchResults = Slice<
   'searchResults',
   { title: RichTextField; query: KeyTextField }
 >;
