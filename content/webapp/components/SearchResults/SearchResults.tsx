@@ -46,138 +46,134 @@ const SearchResults: FunctionComponent<Props> = ({
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>{summary}</Space>
     )}
 
-            url={`/pages/${item.id}`}
-            title={item.title || ''}
-            partNumber={undefined}
-            color={undefined}
-            primaryLabels={[]}
-            secondaryLabels={[]}
-            description={item.promo && item.promo.caption}
-            urlOverride={item.promo && item.promo.link}
-            Image={
-              getCrop(item.image, 'square') && (
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                <Image {...getCrop(item.image, 'square')!} alt="" />
-              )
-            }
-            xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-        {item.type === 'event-series' && (
-          <CompactCard
-            url={`/event-series/${item.id}`}
-            title={item.title || ''}
-            partNumber={undefined}
-            color={undefined}
-            primaryLabels={item.labels}
-            secondaryLabels={[]}
-            description={item.promo && item.promo.caption}
-            urlOverride={item.promo && item.promo.link}
-            Image={
-              getCrop(item.image, 'square') && (
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                <Image {...getCrop(item.image, 'square')!} alt="" />
-              )
-            }
-            xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-        {item.type === 'books' && (
-          <CompactCard
-            url={`/books/${item.id}`}
-            title={item.title || ''}
-            primaryLabels={item.labels}
-            secondaryLabels={[]}
-            partNumber={undefined}
-            color={undefined}
-            description={item.promo && item.promo.caption}
-            urlOverride={item.promo && item.promo.link}
-            Image={
-              getCrop(item.cover, 'square') && (
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                <Image {...getCrop(item.cover, 'square')!} alt="" />
-              )
-            }
-            xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-        {item.type === 'articles' && (
-          <ArticleCard
-            article={item}
-            showPosition={showPosition}
-            xOfY={{ x: index + 1, y: items.length }}
-          />
-        )}
-        {item.type === 'article-schedule-items' && (
-          <CompactCard
-            title={item.title || ''}
-            partNumber={item.partNumber}
-            color={item.color}
-            primaryLabels={
-              /* We don't show a label on items that haven't been published yet, because
-               * we don't know whether they're a story, comic, etc.
-               * See https://github.com/wellcomecollection/wellcomecollection.org/pull/7568 */
-              []
-            }
-            secondaryLabels={[]}
-            description={`Available ${formatDate(item.publishDate)}`}
-            Image={<ImagePlaceholder color={item.color} />}
-            xOfY={{ x: index + 1, y: items.length }}
-            url={`/exhibitions/${item.id}`}
-            title={item.title}
-            partNumber={undefined}
-            color={undefined}
-            primaryLabels={item.labels}
-            secondaryLabels={[]}
-            description={item.promo?.caption}
-            Image={
-              getCrop(item.image, 'square') && (
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                <Image {...getCrop(item.image, 'square')!} alt="" />
-              )
-            }
-            xOfY={{ x: index + 1, y: items.length }}
-    {items
-      .filter(
-        (item, _) => item.type === 'pages' || item.type === 'event-series'
-      )
-      .map(
-        (item, index) =>
-          item.type !== 'card' && (
-            <Result key={item.id}>
-              {item.type === 'pages' && (
-                <CompactCard
-                />
-              )}
-              {item.type === 'events' && (
-                <EventCard
-                  event={item}
-                  xOfY={{ x: index + 1, y: items.length }}
-                />
-              )}
-              {item.type === 'exhibitions' && (
-                <CompactCard
-                />
-              )}
-            </Result>
-          )
-      )}
+    {items.map(
+      (item, index) =>
+        item.type !== 'card' && (
+          <Result key={item.id}>
+            {item.type === 'pages' && (
+              <CompactCard
+                url={`/pages/${item.id}`}
+                title={item.title || ''}
+                partNumber={undefined}
+                color={undefined}
+                primaryLabels={[]}
+                secondaryLabels={[]}
+                description={item.promo && item.promo.caption}
+                urlOverride={item.promo && item.promo.link}
+                Image={
+                  getCrop(item.image, 'square') && (
+                    // We intentionally omit the alt text on promos, so screen reader
+                    // users don't have to listen to the alt text before hearing the
+                    // title of the item in the list.
+                    //
+                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                  )
+                }
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'event-series' && (
+              <CompactCard
+                url={`/event-series/${item.id}`}
+                title={item.title || ''}
+                partNumber={undefined}
+                color={undefined}
+                primaryLabels={item.labels}
+                secondaryLabels={[]}
+                description={item.promo && item.promo.caption}
+                urlOverride={item.promo && item.promo.link}
+                Image={
+                  getCrop(item.image, 'square') && (
+                    // We intentionally omit the alt text on promos, so screen reader
+                    // users don't have to listen to the alt text before hearing the
+                    // title of the item in the list.
+                    //
+                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                  )
+                }
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'books' && (
+              <CompactCard
+                url={`/books/${item.id}`}
+                title={item.title || ''}
+                primaryLabels={item.labels}
+                secondaryLabels={[]}
+                partNumber={undefined}
+                color={undefined}
+                description={item.promo && item.promo.caption}
+                urlOverride={item.promo && item.promo.link}
+                Image={
+                  getCrop(item.cover, 'square') && (
+                    // We intentionally omit the alt text on promos, so screen reader
+                    // users don't have to listen to the alt text before hearing the
+                    // title of the item in the list.
+                    //
+                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                    <Image {...getCrop(item.cover, 'square')!} alt="" />
+                  )
+                }
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'articles' && (
+              <ArticleCard
+                article={item}
+                showPosition={showPosition}
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'article-schedule-items' && (
+              <CompactCard
+                title={item.title || ''}
+                partNumber={item.partNumber}
+                color={item.color}
+                primaryLabels={
+                  /* We don't show a label on items that haven't been published yet, because
+                   * we don't know whether they're a story, comic, etc.
+                   * See https://github.com/wellcomecollection/wellcomecollection.org/pull/7568 */
+                  []
+                }
+                secondaryLabels={[]}
+                description={`Available ${formatDate(item.publishDate)}`}
+                Image={<ImagePlaceholder color={item.color} />}
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'events' && (
+              <EventCard
+                event={item}
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+            {item.type === 'exhibitions' && (
+              <CompactCard
+                url={`/exhibitions/${item.id}`}
+                title={item.title}
+                partNumber={undefined}
+                color={undefined}
+                primaryLabels={item.labels}
+                secondaryLabels={[]}
+                description={item.promo?.caption}
+                Image={
+                  getCrop(item.image, 'square') && (
+                    // We intentionally omit the alt text on promos, so screen reader
+                    // users don't have to listen to the alt text before hearing the
+                    // title of the item in the list.
+                    //
+                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                  )
+                }
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
+          </Result>
+        )
+    )}
   </Fragment>
 );
 
