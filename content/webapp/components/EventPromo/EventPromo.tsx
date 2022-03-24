@@ -52,9 +52,9 @@ const EventPromo: FC<Props> = ({
       }}
     >
       <div className="relative">
-        {event.promoImage && (
+        {event.promo?.image && (
           <UiImage
-            {...event.promoImage}
+            {...event.promo?.image}
             // We intentionally omit the alt text on promos, so screen reader
             // users don't have to listen to the alt text before hearing the
             // title of the item in the list.

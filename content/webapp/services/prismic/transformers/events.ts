@@ -278,7 +278,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     times,
     image,
     isPast,
-    promoImage,
     primaryLabels,
     title,
     isOnline,
@@ -287,7 +286,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     scheduleLength,
     series,
     secondaryLabels,
-    promoText,
     cost,
     contributors,
   }) => ({
@@ -297,7 +295,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     times,
     image,
     isPast,
-    promoImage,
     primaryLabels,
     title,
     isOnline,
@@ -306,7 +303,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     scheduleLength,
     series,
     secondaryLabels,
-    promoText,
     cost,
     contributors,
   }))(event);

@@ -57,19 +57,19 @@ export function convertItemToFeaturedCardProps(
 ) {
   return {
     id: item.id,
-    image: item.promoImage && {
+    image: item.promo?.image && {
       // We intentionally omit the alt text on promos, so screen reader
       // users don't have to listen to the alt text before hearing the
       // title of the item in the list.
       //
       // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
       alt: '',
-      contentUrl: item.promoImage.contentUrl,
-      width: item.promoImage.width,
-      height: item.promoImage.height || 9,
+      contentUrl: item.promo?.image.contentUrl,
+      width: item.promo?.image.width,
+      height: item.promo?.image.height || 9,
       sizesQueries:
         '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-      tasl: item.promoImage.tasl,
+      tasl: item.promo?.image.tasl,
       showTasl: false,
       crops: {},
     },
@@ -108,13 +108,13 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         >
           {article.title}
         </h2>
-        {article.promoText && (
+        {article.promo?.caption && (
           <p
             className={classNames({
               [font('hnr', 5)]: true,
             })}
           >
-            {article.promoText}
+            {article.promo?.caption}
           </p>
         )}
         {article.series.length > 0 && (

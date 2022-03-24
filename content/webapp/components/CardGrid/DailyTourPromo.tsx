@@ -34,7 +34,7 @@ export const data: Event = {
     description: undefined,
   },
   body: [],
-  image: image,
+  image,
   hasEarlyRegistration: false,
   labels: [
     {
@@ -44,10 +44,9 @@ export const data: Event = {
   primaryLabels: [],
   secondaryLabels: [],
   promo: {
-    image: image,
+    image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  promoImage: image,
   scheduleLength: 0,
   seasons: [],
   isOnline: false,

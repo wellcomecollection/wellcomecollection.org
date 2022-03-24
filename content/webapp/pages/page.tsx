@@ -256,7 +256,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   return (
     <PageLayout
       title={page.title}
-      description={page.metadataDescription || page.promoText || ''}
+      description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname: `/pages/${page.id}` }}
       jsonLd={contentLd(page)}
       openGraphType={'website'}

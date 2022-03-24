@@ -397,8 +397,6 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
     body: body,
     standfirst: standfirst && standfirst.value,
     promo,
-    promoText: promo && promo.caption,
-    promoImage: promo && promo.image,
     image,
     metadataDescription,
     // we pass an empty array here to be overriden by each content type

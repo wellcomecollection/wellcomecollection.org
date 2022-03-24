@@ -170,7 +170,7 @@ const EventSeriesPage: FC<Props> = ({
   return (
     <PageLayout
       title={series.title}
-      description={series.metadataDescription || series.promoText || ''}
+      description={series.metadataDescription || series.promo?.caption || ''}
       url={{ pathname: `/event-series/${series.id}` }}
       jsonLd={jsonLd}
       openGraphType={'website'}

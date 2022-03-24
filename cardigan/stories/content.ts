@@ -75,25 +75,6 @@ export const bannerCardItem: Card = {
     },
     link: null,
   },
-  promoText:
-    'Our new season explores the intertwined connections between the individual, societal and global health.',
-  promoImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-    width: 3200,
-    height: 1800,
-    alt: 'An artwork featuring a large painted human hand, surrounded by fragments of maps.',
-    tasl: {
-      title: "Alzheimer's disease",
-      author: 'Florence Winterflood',
-      sourceName: 'Wellcome Collection',
-      sourceLink: 'CC-BY-NC',
-      license: undefined,
-      copyrightHolder: undefined,
-      copyrightLink: undefined,
-    },
-    crops: {},
-  },
   image: {
     contentUrl:
       'https://images.prismic.io/wellcomecollection%2F92a873e4-b774-4c46-b9b3-75fda00a0ace_b0011048_artistic+interpretation+of+alzheimers_florence+winterflood.jpg?auto=compress,format',
@@ -361,24 +342,6 @@ export const event: Event = {
       },
     },
     link: null,
-  },
-  promoText:
-    'Come and hear Dr Emma Spary discuss her research on the often- overlooked role of priests in the history of pharmacy.',
-  promoImage: {
-    contentUrl:
-      'https://images.prismic.io/wellcomecollection/1689f6e5ead8d3a228d802256213e0998b15b7a2_sdp_20181009_0007.jpg?auto=compress,format',
-    width: 3200,
-    height: 1800,
-    alt: 'Photograph showing a woman giving a talk in the Viewing Room at Wellcome Collection. She is stood at the front of the room looking at a wall mounted television screen. In the foreground are the backs of the heads of the audience.',
-    tasl: {
-      title: 'Exploring Research event',
-      author: 'Steven Pocock',
-      sourceName: 'Wellcome Collection',
-      sourceLink: null,
-      license: 'CC-BY-NC',
-      copyrightHolder: null,
-      copyrightLink: null,
-    },
   },
   image: {
     contentUrl:
@@ -779,17 +742,6 @@ export const article: Article = {
           },
         },
         link: null,
-      },
-      promoText: '',
-      promoImage: {
-        contentUrl:
-          'https://images.prismic.io/wellcomecollection/2e78d491-8a35-45fd-8e57-497f50e6273d_promo_main.png?auto=compress,format&rect=0,0,1600,900&w=3200&h=1800',
-        width: 3200,
-        height: 1800,
-        alt: 'Person holding a large red love heart, smiling.',
-        tasl: {
-          title: 'Weewaaz',
-        },
       },
       image: {
         contentUrl:
