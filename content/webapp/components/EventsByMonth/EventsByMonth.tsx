@@ -13,6 +13,13 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
+import {
+  createLabel,
+  getMonthsInDateRange,
+  parseLabel,
+  startOf,
+  YearMonth,
+} from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -22,49 +29,6 @@ type Props = {
 type State = {
   activeId?: string;
 };
-
-type YearMonth = {
-  year: number;
-  month: number;
-};
-
-// Creates a label in the form YYYY-MM, e.g. "2001-02"
-function createLabel(ym: YearMonth): string {
-  return startOf(ym).toISOString().slice(0, 7);
-}
-
-function parseLabel(label: string): YearMonth {
-  const year = parseInt(label.slice(0, 4), 10);
-  const month = parseInt(label.slice(5, 7), 10);
-  return { year, month };
-}
-
-function startOf({ year, month }: YearMonth): Date {
-  return new Date(year, month, 1);
-}
-
-// recursive - TODO: make tail recursive?
-type StartEnd = { start: Date; end: Date };
-
-function getMonthsInDateRange(
-  { start, end }: StartEnd,
-  acc: YearMonth[] = []
-): YearMonth[] {
-  if (isSameMonth(start, end) || start <= end) {
-    const yearMonth = {
-      year: start.getFullYear(),
-      month: start.getMonth(),
-    };
-    const newAcc = acc.concat(yearMonth);
-    const newStart = startOf({
-      ...yearMonth,
-      month: yearMonth.month + 1,
-    });
-    return getMonthsInDateRange({ start: newStart, end }, newAcc);
-  } else {
-    return acc;
-  }
-}
 
 class EventsByMonth extends Component<Props, State> {
   state = {
@@ -107,6 +71,12 @@ class EventsByMonth extends Component<Props, State> {
         return { event, months };
       });
 
+    eventsWithMonths.forEach(({ event, months }) => {
+      console.log(`@@AWLC event=${event.id}`);
+      console.log(`@@AWLC months=${JSON.stringify(months)}`);
+      console.log('');
+    });
+
     // Key: a YYYY-MM month label like "2001-02"
     // Value: a list of events that fall somewhere in this month
     const eventsInMonths: Record<string, EventBasic[]> =
@@ -137,10 +107,14 @@ class EventsByMonth extends Component<Props, State> {
               acc[label] = [];
             }
             acc[label].push(event);
+
+            console.log(`@@AWLC label = ${label}`);
+            console.log(`@@AWLC events = ${acc[label].map(event => event.id)}`);
           }
         });
         return acc;
       }, {} as Record<string, EventBasic[]>);
+    console.log('');
 
     // Order months correctly.  This returns the headings for each month,
     // now in chronological order.
@@ -164,6 +138,8 @@ class EventsByMonth extends Component<Props, State> {
     Object.keys(eventsInMonths).map(label => {
       eventsInMonths[label] = sortBy(eventsInMonths[label], [
         m => {
+          console.log(`@@AWLC m = ${JSON.stringify(m.id)}`);
+          console.log(`@@AWLC m.times = ${JSON.stringify(m.times)}`);
           const times = m.times.map(time => ({
             start: time.range.startDateTime,
             end: time.range.endDateTime,
@@ -171,6 +147,7 @@ class EventsByMonth extends Component<Props, State> {
           const fromDate = startOf(parseLabel(label));
 
           const earliestRange = getEarliestFutureDateRange(times, fromDate);
+          console.log(`@@AWLC key = ${earliestRange && earliestRange.start}`);
           return earliestRange && earliestRange.start;
         },
       ]);
