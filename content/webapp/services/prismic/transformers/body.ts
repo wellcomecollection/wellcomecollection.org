@@ -1,6 +1,7 @@
 import {
   CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
+  ContentList as ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
   Embed as EmbedSlice,
@@ -25,6 +26,7 @@ import { Props as ContactProps } from '@weco/common/views/components/Contact/Con
 import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
 import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
+import { Props as SearchResultsProps } from '../../../components/SearchResults/SearchResults';
 import { Props as QuoteProps } from '../../../components/Quote/Quote';
 import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
 import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
@@ -56,6 +58,23 @@ import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { Weight } from '../../../types/generic-content-fields';
 import { Venue } from '@weco/common/model/opening-hours';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
+import { GuidePrismicDocument } from '../types/guides';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { CardPrismicDocument } from '../types/card';
+import { PagePrismicDocument } from '../types/pages';
+import { EventSeriesPrismicDocument } from '../types/event-series';
+import { BookPrismicDocument } from '../types/books';
+import { EventPrismicDocument } from '../types/events';
+import { ArticlePrismicDocument } from '../types/articles';
+import { ExhibitionPrismicDocument } from '../types/exhibitions';
+import { transformPage } from './pages';
+import { transformGuide } from './guides';
+import { transformEventSeries } from './event-series';
+import { transformExhibition } from './exhibitions';
+import { transformArticle } from './articles';
+import { transformEvent } from './events';
+import { transformSeason } from './seasons';
+import { transformCard } from './card';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -463,4 +482,56 @@ export function transformEmbedSlice(
       },
     };
   }
+}
+
+export function transformContentListSlice(
+  slice: ContentListSlice
+): ParsedSlice<'contentList', SearchResultsProps> {
+  type ContentListPrismicDocument =
+    | PagePrismicDocument
+    | EventSeriesPrismicDocument
+    | BookPrismicDocument
+    | EventPrismicDocument
+    | ArticlePrismicDocument
+    | ExhibitionPrismicDocument
+    | CardPrismicDocument
+    | SeasonPrismicDocument
+    | GuidePrismicDocument;
+
+  const contents: ContentListPrismicDocument[] = slice.items
+    .map(item => item.content)
+    .filter(isFilledLinkToDocumentWithData);
+
+  return {
+    type: 'contentList',
+    weight: getWeight(slice.slice_label),
+    value: {
+      title: asText(slice.primary.title),
+      // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
+      // but that doesn't exist in our Prismic model.
+      // hasFeatured: slice.primary.hasFeatured,
+      items: contents
+        .map(content => {
+          switch (content.type) {
+            case 'pages':
+              return transformPage(content);
+            case 'guides':
+              return transformGuide(content);
+            case 'event-series':
+              return transformEventSeries(content);
+            case 'exhibitions':
+              return transformExhibition(content);
+            case 'articles':
+              return transformArticle(content);
+            case 'events':
+              return transformEvent(content);
+            case 'seasons':
+              return transformSeason(content);
+            case 'card':
+              return transformCard(content);
+          }
+        })
+        .filter(isNotUndefined),
+    },
+  };
 }

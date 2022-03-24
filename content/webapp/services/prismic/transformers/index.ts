@@ -23,22 +23,12 @@ import {
 import { ImageType } from '@weco/common/model/image';
 import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
-import { transformPage } from './pages';
-import { transformGuide } from './guides';
-import { transformEventSeries } from './event-series';
-import { transformExhibition } from './exhibitions';
-import { transformArticle } from './articles';
-import { transformEvent } from './events';
-import { transformSeason } from './seasons';
-import { transformCard } from './card';
-import { MultiContentPrismicDocument } from '../types/multi-content';
-import { GuidePrismicDocument, WithGuideFormat } from '../types/guides';
-import { SeasonPrismicDocument } from '../types/seasons';
-import { CardPrismicDocument, WithCardFormat } from '../types/card';
+import { WithGuideFormat } from '../types/guides';
+import { WithCardFormat } from '../types/card';
 import {
-  getWeight,
   transformCollectionVenueSlice,
   transformContactSlice,
+  transformContentListSlice,
   transformDeprecatedImageListSlice,
   transformDiscussionSlice,
   transformEditorialImageGallerySlice,
@@ -196,48 +186,7 @@ export function transformBody(body: Body): BodyType {
           return transformTitledTextListSlice(slice);
 
         case 'contentList':
-          type ContentListPrismicDocument =
-            | MultiContentPrismicDocument
-            | GuidePrismicDocument
-            | SeasonPrismicDocument
-            | CardPrismicDocument;
-
-          const contents: ContentListPrismicDocument[] = slice.items
-            .map(item => item.content)
-            .filter(isFilledLinkToDocumentWithData);
-
-          return {
-            type: 'contentList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
-              // but that doesn't exist in our Prismic model.
-              // hasFeatured: slice.primary.hasFeatured,
-              items: contents
-                .map(content => {
-                  switch (content.type) {
-                    case 'pages':
-                      return transformPage(content);
-                    case 'guides':
-                      return transformGuide(content);
-                    case 'event-series':
-                      return transformEventSeries(content);
-                    case 'exhibitions':
-                      return transformExhibition(content);
-                    case 'articles':
-                      return transformArticle(content);
-                    case 'events':
-                      return transformEvent(content);
-                    case 'seasons':
-                      return transformSeason(content);
-                    case 'card':
-                      return transformCard(content);
-                  }
-                })
-                .filter(Boolean),
-            },
-          };
+          return transformContentListSlice(slice);
 
         case 'collectionVenue':
           return transformCollectionVenueSlice(slice);

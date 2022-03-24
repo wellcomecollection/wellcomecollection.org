@@ -11,15 +11,16 @@ import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
 import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import { getCrop } from '@weco/common/model/image';
+import { Card } from '../../types/card';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
-type Props = {
+export type Props = {
   title?: string;
   summary?: string;
-  items: readonly (MultiContent | ArticleScheduleItem)[];
+  items: readonly (MultiContent | ArticleScheduleItem | Card)[];
   showPosition?: boolean;
 };
 
