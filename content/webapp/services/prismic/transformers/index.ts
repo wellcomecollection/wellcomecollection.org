@@ -16,37 +16,11 @@ import {
   WithArticleFormat,
 } from '../types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import {
-  BodyType,
-  GenericContentFields,
-} from '../../../types/generic-content-fields';
+import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { WithGuideFormat } from '../types/guides';
 import { WithCardFormat } from '../types/card';
-import {
-  transformCollectionVenueSlice,
-  transformContactSlice,
-  transformContentListSlice,
-  transformDeprecatedImageListSlice,
-  transformDiscussionSlice,
-  transformEditorialImageGallerySlice,
-  transformEditorialImageSlice,
-  transformEmbedSlice,
-  transformGifVideoSlice,
-  transformIframeSlice,
-  transformInfoBlockSlice,
-  transformMapSlice,
-  transformMediaObjectListSlice,
-  transformQuoteSlice,
-  transformSearchResultsSlice,
-  transformStandfirstSlice,
-  transformTableSlice,
-  transformTagListSlice,
-  transformTextSlice,
-  transformTitledTextListSlice,
-} from './body';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformImagePromo } from './images';
 import { WithPageFormat } from '../types/pages';
@@ -56,6 +30,7 @@ import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import * as prismicT from '@prismicio/types';
+import { transformBody } from './body';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -157,80 +132,6 @@ export function transformLabelType(
     title: asText(format.data.title),
     description: format.data.description ? format.data.description : [],
   };
-}
-
-// TODO: Consider moving this into a dedicated file for body transformers.
-// TODO: Rather than doing transformation inline, have this function consistently
-// call out to other transformer functions (a la contentList).
-// See https://github.com/wellcomecollection/wellcomecollection.org/pull/7679/files#r811138079
-export function transformBody(body: Body): BodyType {
-  return body
-    .map(slice => {
-      switch (slice.slice_type) {
-        case 'standfirst':
-          return transformStandfirstSlice(slice);
-
-        case 'text':
-          return transformTextSlice(slice);
-
-        case 'map':
-          return transformMapSlice(slice);
-
-        case 'editorialImage':
-          return transformEditorialImageSlice(slice);
-
-        case 'editorialImageGallery':
-          return transformEditorialImageGallerySlice(slice);
-
-        case 'titledTextList':
-          return transformTitledTextListSlice(slice);
-
-        case 'contentList':
-          return transformContentListSlice(slice);
-
-        case 'collectionVenue':
-          return transformCollectionVenueSlice(slice);
-
-        case 'searchResults':
-          return transformSearchResultsSlice(slice);
-
-        case 'quote':
-        case 'quoteV2':
-          return transformQuoteSlice(slice);
-
-        case 'iframe':
-          return transformIframeSlice(slice);
-
-        case 'gifVideo':
-          return transformGifVideoSlice(slice);
-
-        case 'contact':
-          return transformContactSlice(slice);
-
-        case 'embed':
-          return transformEmbedSlice(slice);
-
-        case 'table':
-          return transformTableSlice(slice);
-
-        case 'infoBlock':
-          return transformInfoBlockSlice(slice);
-
-        case 'discussion':
-          return transformDiscussionSlice(slice);
-
-        case 'tagList':
-          return transformTagListSlice(slice);
-
-        // Deprecated
-        case 'imageList':
-          return transformDeprecatedImageListSlice(slice);
-
-        case 'mediaObjectList':
-          return transformMediaObjectListSlice(slice);
-      }
-    })
-    .filter(isNotUndefined);
 }
 
 export function transformGenericFields(doc: Doc): GenericContentFields {
