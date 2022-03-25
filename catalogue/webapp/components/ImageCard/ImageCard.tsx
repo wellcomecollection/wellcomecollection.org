@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useContext, FC } from 'react';
+import { FC, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 
 import { trackEvent } from '@weco/common/utils/ga';
