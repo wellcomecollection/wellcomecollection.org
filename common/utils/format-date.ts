@@ -30,6 +30,14 @@ export function formatTime(date: DateTypes): string {
   return london(date).format('HH:mm');
 }
 
+export function formatYear(date: Date): string {
+  return london(date).format('YYYY');
+}
+
+export function formatDayMonth(date: Date): string {
+  return london(date).format('D MMMM');
+}
+
 export function formatDateRangeWithMessage({
   start,
   end,
@@ -54,12 +62,4 @@ export function formatDateRangeWithMessage({
   } else {
     return { text: 'Now on', color: 'green' };
   }
-}
-
-export function formatYear(date: Date): string {
-  return london(date).format('YYYY');
-}
-
-export function formatDayMonth(date: Date): string {
-  return london(date).format('D MMMM');
 }
