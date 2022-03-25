@@ -87,10 +87,6 @@ export function transformFormat(document: {
   }
 }
 
-export function transformTimestamp(field: TimestampField): Date | undefined {
-  return prismicH.asDate(field) || undefined;
-}
-
 // Prismic often returns empty RichText fields as `[]`, this filters them out
 
 /** Here we have wrappers for `KeyTextField` and `RichTextField`.

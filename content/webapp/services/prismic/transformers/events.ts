@@ -22,7 +22,6 @@ import {
   transformGenericFields,
   transformLabelType,
   transformSingleLevelGroup,
-  transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
@@ -39,6 +38,7 @@ import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
 import * as prismicH from '@prismicio/helpers';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument

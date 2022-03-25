@@ -12,6 +12,7 @@ import {
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
 import { transformImage } from './images';
+import { transformTimestamp } from '.';
 
 function createRegularDay(
   day: Day,
@@ -50,15 +51,21 @@ export function transformCollectionVenue(
             : undefined;
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
+            const openTime = transformTimestamp(start);
+            const closesTime = transformTimestamp(end);
+
+            // If there is no start time from prismic, then we set both opens and closes to 00:00.
+            // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
+            // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
+            // "To show a business is closed all day, set both opens and closes properties to '00:00'""
+            const opens = openTime ? formatTime(openTime) : '00:00';
+            const closes = closesTime ? formatTime(closesTime) : '00:00';
+
             return {
               overrideDate,
               overrideType,
-              // If there is no start time from prismic, then we set both opens and closes to 00:00.
-              // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
-              // See https://developers.google.com/search/docs/advanced/structured-data/local-business#business-hours (All-day hours tab)
-              // "To show a business is closed all day, set both opens and closes properties to '00:00'""
-              opens: start ? formatTime(start) : '00:00',
-              closes: start && end ? formatTime(end) : '00:00',
+              opens,
+              closes,
               isClosed,
             };
           }

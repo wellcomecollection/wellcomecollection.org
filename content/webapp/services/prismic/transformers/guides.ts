@@ -4,15 +4,10 @@ import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import {
-  asHtml,
-  asTitle,
-  transformFormat,
-  transformGenericFields,
-  transformTimestamp,
-} from '.';
+import { asHtml, asTitle, transformFormat, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
   const { data } = document;
@@ -31,9 +26,7 @@ export function transformGuide(document: GuidePrismicDocument): Guide {
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished
-      ? transformTimestamp(data.datePublished)
-      : undefined,
+    datePublished: transformTimestamp(data.datePublished),
     siteSection: siteSection,
   };
 }

@@ -1,16 +1,12 @@
 import { Series } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
-import {
-  asTitle,
-  transformGenericFields,
-  transformSingleLevelGroup,
-  transformTimestamp,
-} from '.';
+import { asTitle, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformContributors } from './contributors';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformSeries(document: SeriesPrismicDocument): Series {
   const { data } = document;
@@ -33,7 +29,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
               }
             : undefined;
         })
-        .filter(item => isNotUndefined(item)) as ArticleScheduleItem[])
+        .filter(isNotUndefined) as ArticleScheduleItem[])
     : [];
   const labels = [{ text: schedule.length > 0 ? 'Serial' : 'Series' }];
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(

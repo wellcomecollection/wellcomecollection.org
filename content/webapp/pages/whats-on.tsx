@@ -168,7 +168,7 @@ function getWeekendToDate(today) {
 // );
 
 type DateRangeProps = {
-  dateRange: (Date | Moment)[];
+  dateRange: Date[];
   period: string;
 };
 

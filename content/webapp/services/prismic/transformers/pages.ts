@@ -6,7 +6,6 @@ import {
   transformFormat,
   transformGenericFields,
   transformSingleLevelGroup,
-  transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
@@ -15,6 +14,7 @@ import { Link } from '../../../types/link';
 import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
@@ -63,10 +63,8 @@ export function transformPage(document: PagePrismicDocument): Page {
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished
-      ? transformTimestamp(data.datePublished)
-      : undefined,
-    siteSection: siteSection,
+    datePublished: transformTimestamp(data.datePublished),
+    siteSection,
   };
 }
 

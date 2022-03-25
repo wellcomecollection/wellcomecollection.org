@@ -1,5 +1,7 @@
 import { Tasl } from '../../../model/tasl';
 import { licenseTypeArray } from '../../../model/license';
+import * as prismicH from '@prismicio/helpers';
+import * as prismicT from '@prismicio/types';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {
@@ -38,4 +40,10 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
       title: pipedString,
     };
   }
+}
+
+export function transformTimestamp(
+  field: prismicT.TimestampField | null
+): Date | undefined {
+  return prismicH.asDate(field) || undefined;
 }

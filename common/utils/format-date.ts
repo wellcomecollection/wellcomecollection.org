@@ -14,29 +14,45 @@ export function londonFromFormat(d: DateTypes, format: string): Moment {
   return moment(d, format).tz('Europe/London');
 }
 
-export function formatDay(date: Date | Moment): string {
-  return london(date).format('dddd');
+function createFormatter(options: Intl.DateTimeFormatOptions) {
+  const formatter = new Intl.DateTimeFormat('en-GB', options);
+  const f = (date: Date) => formatter.format(date).replace(', ', ' ');
+  return f;
 }
 
-export function formatDayDate(date: Date | Moment): string {
-  return london(date).format('dddd D MMMM YYYY');
-}
+// e.g. "Tuesday"
+export const formatDay = createFormatter({ weekday: 'long' });
 
-export function formatDate(date: Date | Moment): string {
-  return london(date).format('D MMMM YYYY');
-}
+// e.g. "Friday 25 March 2022"
+export const formatDayDate = createFormatter({
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 
-export function formatTime(date: DateTypes): string {
-  return london(date).format('HH:mm');
-}
+// e.g. "Saturday 28 August 2021"
+export const formatDate = createFormatter({
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 
-export function formatYear(date: Date): string {
-  return london(date).format('YYYY');
-}
+// e.g. "14:02"
+export const formatTime = createFormatter({
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: false,
+});
 
-export function formatDayMonth(date: Date): string {
-  return london(date).format('D MMMM');
-}
+// e.g. "2019"
+export const formatYear = createFormatter({ year: 'numeric' });
+
+// e.g. "8 July"
+export const formatDayMonth = createFormatter({
+  month: 'long',
+  day: 'numeric',
+});
 
 export function formatDateRangeWithMessage({
   start,

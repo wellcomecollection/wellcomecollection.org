@@ -21,7 +21,6 @@ import {
   asTitle,
   transformGenericFields,
   transformSingleLevelGroup,
-  transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
@@ -31,6 +30,7 @@ import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 import * as prismicH from '@prismicio/helpers';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -98,7 +98,7 @@ export function transformExhibition(
   const url = `/exhibitions/${id}`;
   const title = asTitle(data.title);
   const start = transformTimestamp(data.start)!;
-  const end = data.end ? transformTimestamp(data.end) : undefined;
+  const end = transformTimestamp(data.end);
   const statusOverride = asText(data.statusOverride);
   const bslInfo = asRichText(data.bslInfo);
   const audioDescriptionInfo = asRichText(data.audioDescriptionInfo);
