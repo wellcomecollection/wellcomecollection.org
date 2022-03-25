@@ -63,6 +63,8 @@ describe('formatDateRangeWithMessage', () => {
       const result = formatDateRangeWithMessage({
         start: new Date(1999, 1, 1),
         end: new Date(1999, 2, 1),
+      });
+
       expect(result).toEqual({ text: 'Past', color: 'marble' });
     });
 
@@ -140,6 +142,15 @@ describe('formatDateRangeWithMessage', () => {
 
       expect(result).toEqual({ text: 'Now on', color: 'green' });
     });
+  });
+
+  it('says "Now on" for an event that opened today', () => {
+    const result = formatDateRangeWithMessage({
+      start: new Date(),
+      end: new Date(2101, 2, 1),
+    });
+
+    expect(result).toEqual({ text: 'Now on', color: 'green' });
   });
 
   it('says "Now on" for a currently running event', () => {
