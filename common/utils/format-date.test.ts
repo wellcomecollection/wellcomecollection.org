@@ -58,13 +58,38 @@ describe('formatDateRangeWithMessage', () => {
     expect(result).toEqual({ text: 'Coming soon', color: 'marble' });
   });
 
-  it('formats a range that’s already finished', () => {
-    const result = formatDateRangeWithMessage({
-      start: new Date(1999, 1, 1),
-      end: new Date(1999, 2, 1),
+  describe('formats an event that is past', () => {
+    it('says "Past" if the last day was years ago', () => {
+      const result = formatDateRangeWithMessage({
+        start: new Date(1999, 1, 1),
+        end: new Date(1999, 2, 1),
+      expect(result).toEqual({ text: 'Past', color: 'marble' });
     });
 
-    expect(result).toEqual({ text: 'Past', color: 'marble' });
+    it('says "Past" if the last day was yesterday', () => {
+      const end = new Date();
+      end.setDate(end.getDate() - 1);
+      const yesterday = new Date(end);
+
+      const result = formatDateRangeWithMessage({
+        start: new Date(1999, 1, 1),
+        end: yesterday,
+      });
+
+      expect(result).toEqual({ text: 'Past', color: 'marble' });
+    });
+
+    it('does not say "Past" if the last day is today', () => {
+      const today = new Date();
+      today.setHours(1);
+
+      const result = formatDateRangeWithMessage({
+        start: new Date(1999, 1, 1),
+        end: today,
+      });
+
+      expect(result).not.toEqual({ text: 'Past', color: 'marble' });
+    });
   });
 
   describe('formats an event in its final week', () => {
