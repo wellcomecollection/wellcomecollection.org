@@ -25,7 +25,6 @@ import {
   cafePromo,
   // shopPromo,
   readingRoomPromo,
-  dailyTourPromo,
 } from '../data/facility-promos';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
@@ -78,6 +77,7 @@ import {
   fixExhibitionDatesInJson,
   transformExhibitionsQuery,
 } from '../services/prismic/transformers/exhibitions';
+import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
 
 const segmentedControlItems = [
   {
@@ -103,8 +103,8 @@ export type Props = {
   availableOnlineEvents: PaginatedResults<EventBasic>;
   period: string;
   dateRange: any[];
-  tryTheseTooPromos: any[];
-  eatShopPromos: any[];
+  tryTheseTooPromos: FacilityPromoType[];
+  eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
 };
 
@@ -389,7 +389,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           tryTheseTooPromos: [readingRoomPromo],
           eatShopPromos: [cafePromo],
           cafePromo,
-          dailyTourPromo,
           featuredText: featuredText!,
           serverData,
         }),
@@ -595,15 +594,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                           xl: 4,
                         })}
                       >
-                        <FacilityPromo
-                          id={promo.id}
-                          title={promo.title}
-                          url={promo.url}
-                          description={promo.description}
-                          imageProps={promo.image}
-                          metaText={promo.metaText}
-                          metaIcon={promo.metaIcon}
-                        />
+                        <FacilityPromo {...promo} />
                       </div>
                     ))}
                   </div>

@@ -2,6 +2,7 @@ import { font } from '../../../utils/classnames';
 import { formatDateRangeWithMessage } from '../../../utils/format-date';
 import Space from '../styled/Space';
 import Dot from '../Dot/Dot';
+import { FC } from 'react';
 
 type Props = {
   start: Date;
@@ -9,7 +10,7 @@ type Props = {
   statusOverride?: string;
 };
 
-const StatusIndicator = ({ start, end, statusOverride }: Props) => {
+const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
   const { color, text } = statusOverride
     ? { color: 'marble', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
