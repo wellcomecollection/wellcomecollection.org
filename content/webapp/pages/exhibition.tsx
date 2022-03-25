@@ -11,7 +11,10 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchExhibition } from '../services/prismic/fetch/exhibitions';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformPage } from '../services/prismic/transformers/pages';
-import { transformExhibition } from '../services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibition,
+} from '../services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
@@ -19,7 +22,9 @@ type Props = {
   pages: PageType[];
 } & WithGaDimensions;
 
-const ExhibitionPage: FC<Props> = ({ exhibition, pages }) => {
+const ExhibitionPage: FC<Props> = ({ exhibition: jsonExhibition, pages }) => {
+  const exhibition = fixExhibitionDatesInJson(jsonExhibition);
+
   if (exhibition.format && exhibition.format.title === 'Installation') {
     return <Installation installation={exhibition} />;
   } else {
