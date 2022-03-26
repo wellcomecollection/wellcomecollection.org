@@ -81,7 +81,6 @@ export function findMonthsThatEventSpans<T extends HasTimes>(
 export function groupEventsByMonth<T extends HasTimes>(
   events: T[]
 ): Record<string, T[]> {
-  console.log(JSON.stringify(findMonthsThatEventSpans(events)));
   return findMonthsThatEventSpans(events).reduce((acc, { event, months }) => {
     months.forEach(month => {
       // Only add if it has a time in the month that is the same or after today
