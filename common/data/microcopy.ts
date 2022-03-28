@@ -92,3 +92,8 @@ export const sierraAccessMethodtoNewLabel = {
   'Manual request': 'Manual request',
   'Online request': 'Online request',
 };
+
+export const auth0ErrorDescriptionMap: { [key: string]: string } = {
+  'user is blocked':
+    'Your account can no longer be accessed. Please email <a href="mailto:library@wellcomecollection.org">library@wellcomecollection.org</a> for assistance.',
+};
