@@ -11,7 +11,7 @@ const image = {
   crops: {},
 };
 
-const location = {
+export const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
@@ -73,6 +73,10 @@ const baseEvent: Event = {
 export const eventWithOneLocation: Event = {
   ...baseEvent,
   locations: [location],
+};
+export const eventWithMultipleLocations: Event = {
+  ...baseEvent,
+  locations: [location, location],
 };
 export const eventOnline: Event = { ...baseEvent, isOnline: true };
 export const eventWithOneLocationOnline: Event = {

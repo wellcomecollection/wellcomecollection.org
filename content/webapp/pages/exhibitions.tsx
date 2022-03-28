@@ -12,7 +12,10 @@ import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
 import { ExhibitionBasic } from '../types/exhibitions';
 
@@ -55,7 +58,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions, period, displayTitle } = props;
+  const { exhibitions: jsonExhibitions, period, displayTitle } = props;
+  const exhibitions = {
+    ...jsonExhibitions,
+    results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
+  };
   const firstExhibition = exhibitions[0];
 
   return (
