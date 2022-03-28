@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import {
-  getEarliestFutureDateRange,
-  isFuture,
-  isSameDay,
-  isSameMonth,
-} from '@weco/common/utils/dates';
+import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -13,6 +8,7 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
+import { groupEventsByMonth, parseLabel, startOf } from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -22,49 +18,6 @@ type Props = {
 type State = {
   activeId?: string;
 };
-
-type YearMonth = {
-  year: number;
-  month: number;
-};
-
-// Creates a label in the form YYYY-MM, e.g. "2001-02"
-function createLabel(ym: YearMonth): string {
-  return startOf(ym).toISOString().slice(0, 7);
-}
-
-function parseLabel(label: string): YearMonth {
-  const year = parseInt(label.slice(0, 4), 10);
-  const month = parseInt(label.slice(5, 7), 10);
-  return { year, month };
-}
-
-function startOf({ year, month }: YearMonth): Date {
-  return new Date(year, month, 1);
-}
-
-// recursive - TODO: make tail recursive?
-type StartEnd = { start: Date; end: Date };
-
-function getMonthsInDateRange(
-  { start, end }: StartEnd,
-  acc: YearMonth[] = []
-): YearMonth[] {
-  if (isSameMonth(start, end) || start <= end) {
-    const yearMonth = {
-      year: start.getFullYear(),
-      month: start.getMonth(),
-    };
-    const newAcc = acc.concat(yearMonth);
-    const newStart = startOf({
-      ...yearMonth,
-      month: yearMonth.month + 1,
-    });
-    return getMonthsInDateRange({ start: newStart, end }, newAcc);
-  } else {
-    return acc;
-  }
-}
 
 class EventsByMonth extends Component<Props, State> {
   state = {
@@ -89,58 +42,7 @@ class EventsByMonth extends Component<Props, State> {
       12: 'December',
     };
 
-    // Returns a list of events and the months they fall in.
-    // The months are formatted as YYYY-MM labels like "2001-02".
-    const eventsWithMonths: {
-      event: EventBasic;
-      months: YearMonth[];
-    }[] = events
-      .filter(event => event.times.length > 0)
-      .map(event => {
-        const firstRange = event.times[0];
-        const lastRange = event.times[event.times.length - 1];
-
-        const start = firstRange.range.startDateTime;
-        const end = lastRange.range.endDateTime;
-
-        const months = getMonthsInDateRange({ start, end });
-        return { event, months };
-      });
-
-    // Key: a YYYY-MM month label like "2001-02"
-    // Value: a list of events that fall somewhere in this month
-    const eventsInMonths: Record<string, EventBasic[]> =
-      eventsWithMonths.reduce((acc, { event, months }) => {
-        months.forEach(month => {
-          // Only add if it has a time in the month that is the same or after today
-          //
-          // NOTE: this means a very long-running event wouldn't appear in the events
-          // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
-          // Do we have any such long-running events?  If so, this is probably okay.
-          const hasDateInMonthRemaining = event.times.find(time => {
-            const start = time.range.startDateTime;
-            const end = time.range.endDateTime;
-
-            const endsInMonth = isSameMonth(end, startOf(month));
-
-            const startsInMonth = isSameMonth(start, startOf(month));
-
-            const today = new Date();
-            const isNotClosedYet = isSameDay(end, today) || isFuture(end);
-
-            return (endsInMonth || startsInMonth) && isNotClosedYet;
-          });
-          if (hasDateInMonthRemaining) {
-            const label = createLabel(month);
-
-            if (!acc[label]) {
-              acc[label] = [];
-            }
-            acc[label].push(event);
-          }
-        });
-        return acc;
-      }, {} as Record<string, EventBasic[]>);
+    const eventsInMonths = groupEventsByMonth(events);
 
     // Order months correctly.  This returns the headings for each month,
     // now in chronological order.

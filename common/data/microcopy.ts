@@ -93,7 +93,10 @@ export const sierraAccessMethodtoNewLabel = {
   'Online request': 'Online request',
 };
 
-export const auth0ErrorDescriptionMap: { [key: string]: string } = {
+export const auth0ErrorDescriptionMap: Record<string, string> = {
   'user is blocked':
     'Your account can no longer be accessed. Please email <a href="mailto:library@wellcomecollection.org">library@wellcomecollection.org</a> for assistance.',
 };
+
+export const inOurBuilding = 'In our building';
+

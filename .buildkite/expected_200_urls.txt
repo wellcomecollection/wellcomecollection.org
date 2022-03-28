@@ -1,6 +1,7 @@
 # Some pages we can't let break!
 /
 /articles
+/exhibitions
 /stories
 /whats-on
 
