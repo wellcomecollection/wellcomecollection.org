@@ -1,13 +1,12 @@
 import auth0 from '../../../src/utility/auth0';
-import queryString from 'queryString';
 
 export default auth0.handleAuth({
   callback: async (req, res) => {
     const { error } = req.query;
 
     if (error) {
-      const query = queryString.stringify(req.query);
-      res.redirect(`/account/error?${query}`);
+      const query = new URLSearchParams(req.url);
+      res.redirect(`/account/error?${query.toString()}`);
     }
 
     return auth0.handleCallback(req, res);
