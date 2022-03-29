@@ -1,22 +1,16 @@
-import { FC, useState, useEffect, MutableRefObject, FormEvent } from 'react';
+import {
+  FC,
+  useState,
+  useEffect,
+  MutableRefObject,
+  FormEvent,
+  ReactNode,
+} from 'react';
 import { Moment } from 'moment';
-import {
-  OpeningHoursDay,
-  ExceptionalOpeningHoursDay,
-  DayNumber,
-} from '@weco/common/model/opening-hours';
+import { DayNumber } from '@weco/common/model/opening-hours';
 import { london, londonFromFormat } from '@weco/common/utils/format-date';
-import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
-import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import {
-  determineNextAvailableDate,
-  convertOpeningHoursDayToDayNumber,
-  extendEndDate,
-  findClosedDays,
-  isRequestableDate,
-} from '@weco/catalogue/utils/dates';
-import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
-import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { isRequestableDate } from '@weco/catalogue/utils/dates';
+import { useToggles } from '@weco/common/server-data/Context';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -35,6 +29,7 @@ import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import { convertDayNumberToDay } from '../../utils/dates';
 import { trackEvent } from '@weco/common/utils/ga';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
+import { useAvailableDates } from './useAvailableDates';
 
 function arrayofItemsToText(arr) {
   if (arr.length === 1) return arr[0];
@@ -43,16 +38,18 @@ function arrayofItemsToText(arr) {
   return initialItems.join(', ') + ' and ' + lastItem;
 }
 
-function regularClosedDaysToText(regularClosedDays: DayNumber[]): string {
-  const days = regularClosedDays.map(day => `${convertDayNumberToDay(day)}s`);
-  return arrayofItemsToText(days);
+function daysListToText(days: DayNumber[]): ReactNode {
+  if (days.length === 0) {
+    return null;
+  }
+  return arrayofItemsToText(days.map(day => `${convertDayNumberToDay(day)}s`));
 }
 
-function exceptionalClosedDatesToText(
-  exceptionalClosedDates: Moment[]
-): string {
-  const dates = exceptionalClosedDates.map(date => date.format('dddd DD MMMM'));
-  return arrayofItemsToText(dates);
+function datesListToText(dates: Moment[]): ReactNode {
+  if (dates.length === 0) {
+    return null;
+  }
+  return arrayofItemsToText(dates.map(date => date.format('dddd DD MMMM')));
 }
 
 const PickUpDate = styled(Space).attrs({
@@ -99,10 +96,7 @@ const Header = styled(Space).attrs({
   align-items: center;
 `;
 
-const Request = styled.form<{ isLoading: boolean }>`
-  opacity: ${props => (props.isLoading ? 0.2 : 1)};
-  transition: opacity ${props => props.theme.transitionProperties};
-`;
+const Request = styled.form``;
 
 const CurrentRequestCount = styled(Space).attrs({
   h: { size: 's', properties: ['padding-left', 'margin-left'] },
@@ -137,16 +131,14 @@ type Props = {
 };
 
 type RequestDialogProps = {
-  isLoading: boolean;
   work: Work;
   item: PhysicalItem;
-  confirmRequest: (date: Moment) => void;
+  confirmRequest: (date?: Moment) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
 
 const RequestDialog: FC<RequestDialogProps> = ({
-  isLoading,
   work,
   item,
   confirmRequest,
@@ -154,78 +146,43 @@ const RequestDialog: FC<RequestDialogProps> = ({
   currentHoldNumber,
 }) => {
   const { enablePickUpDate } = useToggles();
-  // We get the regular and exceptional days on which the library is closed from Prismic data,
-  // so we can make these unavailable in the calendar.
-  const { collectionVenues } = usePrismicData();
-  const venues = transformCollectionVenues(collectionVenues);
-  const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
-  const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
-  const regularClosedDays = findClosedDays(regularLibraryOpeningTimes).map(
-    day => convertOpeningHoursDayToDayNumber(day as OpeningHoursDay)
-  );
-  const exceptionalLibraryOpeningTimes =
-    libraryVenue?.openingHours.exceptional || [];
-  const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
-    .map(day => {
-      const exceptionalDay = day as ExceptionalOpeningHoursDay;
-      return exceptionalDay.overrideDate as Moment;
-    })
-    .filter(Boolean);
-  const nextAvailableDate = determineNextAvailableDate(
-    london(new Date()),
-    regularClosedDays
+  const availableDates = useAvailableDates();
+  const [pickUpDate, setPickUpDate] = useState<string | undefined>();
+
+  const regularClosedDaysText = daysListToText(availableDates.closedDays);
+  const exceptionalClosedDatesText = datesListToText(
+    availableDates.exceptionalClosedDates.filter(
+      date =>
+        date.isBetween(
+          availableDates.nextAvailable,
+          availableDates.lastAvailable,
+          'day',
+          '[]'
+        ) // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+    )
   );
 
-  // There should be a minimum of a 2 week window in which to select a date
-  const lastAvailableDate = nextAvailableDate?.clone().add(13, 'days') || null;
-  // If the library is closed on any days during the selection window
-  // we extend the lastAvailableDate to take these into account
-  const extendedLastAvailableDate = extendEndDate({
-    startDate: nextAvailableDate,
-    endDate: lastAvailableDate,
-    exceptionalClosedDates,
-    regularClosedDays,
-  });
-  const [pickUpDate, setPickUpDate] = useState<string | null>(null);
-
-  const regularClosedDaysText =
-    regularClosedDays.length > 0
-      ? regularClosedDaysToText(regularClosedDays)
-      : null;
-
-  const exceptionalClosedDatesText =
-    exceptionalClosedDates.length > 0
-      ? exceptionalClosedDatesToText(
-          exceptionalClosedDates.filter(
-            date =>
-              date.isBetween(
-                nextAvailableDate,
-                extendedLastAvailableDate,
-                'day',
-                '[]'
-              ) // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
-          )
-        )
-      : null;
-
-  const availableDatesText = `You can choose a date between ${nextAvailableDate?.format(
-    'dddd DD MMMM'
-  )} and ${extendedLastAvailableDate?.format('dddd DD MMMM')}.${
-    regularClosedDaysText
-      ? ` Please bear in mind the library is closed on ${regularClosedDaysText}`
-      : ''
-  }${
-    exceptionalClosedDatesText
-      ? ` and will also be closed on ${exceptionalClosedDatesText}.`
-      : '.'
-  }`;
+  let availableDatesText = '';
+  if (availableDates.nextAvailable && availableDates.lastAvailable) {
+    availableDatesText += `You can choose a date between ${availableDates.nextAvailable.format(
+      'dddd DD MMMM'
+    )} and ${availableDates.lastAvailable.format('dddd DD MMMM')}.`;
+  }
+  if (regularClosedDaysText) {
+    availableDatesText += ` Please bear in mind the library is closed on ${regularClosedDaysText}`;
+    if (exceptionalClosedDatesText) {
+      availableDatesText += ` and will also be closed on ${exceptionalClosedDatesText}.`;
+    } else {
+      availableDatesText += '.';
+    }
+  }
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const pickUpDateMoment = pickUpDate
       ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
-      : nextAvailableDate || london();
+      : availableDates.nextAvailable || london();
     if (
       !enablePickUpDate ||
       Boolean(
@@ -233,10 +190,10 @@ const RequestDialog: FC<RequestDialogProps> = ({
           pickUpDateMoment.isValid() &&
           isRequestableDate({
             date: pickUpDateMoment,
-            startDate: nextAvailableDate,
-            endDate: extendedLastAvailableDate,
-            excludedDates: exceptionalClosedDates,
-            excludedDays: regularClosedDays,
+            startDate: availableDates.nextAvailable,
+            endDate: availableDates.lastAvailable,
+            excludedDates: availableDates.exceptionalClosedDates,
+            excludedDays: availableDates.closedDays,
           })
       )
     ) {
@@ -245,12 +202,12 @@ const RequestDialog: FC<RequestDialogProps> = ({
         action: 'confirm_request',
         label: `/works/${work.id}`,
       });
-      confirmRequest(pickUpDateMoment.add(14, 'days'));
+      confirmRequest(enablePickUpDate ? pickUpDateMoment : undefined);
     }
   }
 
   return (
-    <Request isLoading={isLoading} onSubmit={handleConfirmRequest}>
+    <Request onSubmit={handleConfirmRequest}>
       <Header>
         <span className={`h2`}>Request item</span>
         <CurrentRequests
@@ -302,10 +259,10 @@ const RequestDialog: FC<RequestDialogProps> = ({
             </PickUpDateDescription>
             <PickUpDateInputWrapper>
               <RequestingDayPicker
-                startDate={nextAvailableDate}
-                endDate={extendedLastAvailableDate}
-                exceptionalClosedDates={exceptionalClosedDates}
-                regularClosedDays={regularClosedDays}
+                startDate={availableDates.nextAvailable}
+                endDate={availableDates.lastAvailable}
+                exceptionalClosedDates={availableDates.exceptionalClosedDates}
+                regularClosedDays={availableDates.closedDays}
                 pickUpDate={pickUpDate}
                 setPickUpDate={setPickUpDate}
               />
@@ -320,7 +277,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
           v={{ size: 's', properties: ['margin-bottom'] }}
           className={'inline-block'}
         >
-          <ButtonSolid disabled={isLoading} text={`Confirm request`} />
+          <ButtonSolid text={`Confirm request`} />
         </Space>
         <ButtonOutlined
           type="button"
@@ -372,7 +329,7 @@ const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
   </>
 );
 
-type RequestingState = undefined | 'requesting' | 'confirmed' | 'error';
+type RequestingState = 'initial' | 'requesting' | 'confirmed' | 'error';
 
 const ItemRequestModal: FC<Props> = ({
   item,
@@ -402,7 +359,7 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest(date: Moment) {
+  async function confirmRequest(date?: Moment) {
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
@@ -410,7 +367,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
-          neededBy: date.format('YYYY-MM-DD'),
+          neededBy: date?.format('YYYY-MM-DD'),
           type: 'Item',
         }),
         headers: {
@@ -418,10 +375,9 @@ const ItemRequestModal: FC<Props> = ({
         },
       });
       if (!response.ok) {
+        const responseJson = (await response.json()) as CatalogueApiError;
         setRequestingState('error');
-        const responseJson = await response.json();
-        const error: CatalogueApiError = responseJson;
-        throw error;
+        setRequestingError(responseJson.description);
       } else {
         setRequestingState('confirmed');
         // If we get the users current holds, immediately following a successful request, the api response isn't updated quickly enough to include the new request
@@ -431,14 +387,10 @@ const ItemRequestModal: FC<Props> = ({
       }
     } catch (error) {
       setRequestingState('error');
-      setRequestingError(error.description);
     }
   }
 
-  function renderModalContent(
-    requestingState: RequestingState,
-    requestingErrorMessage?: string
-  ) {
+  function renderModalContent() {
     switch (requestingState) {
       case 'requesting':
         return <LL />;
@@ -451,10 +403,9 @@ const ItemRequestModal: FC<Props> = ({
         );
       case 'confirmed':
         return <ConfirmedDialog currentHoldNumber={currentHoldNumber} />;
-      default:
+      case 'initial':
         return (
           <RequestDialog
-            isLoading={requestingState === 'requesting'}
             work={work}
             item={item}
             confirmRequest={confirmRequest}
@@ -473,11 +424,7 @@ const ItemRequestModal: FC<Props> = ({
       setIsActive={innerSetIsActive}
       openButtonRef={openButtonRef}
     >
-      {
-        <div aria-live="assertive">
-          {renderModalContent(requestingState, requestingErrorMessage)}
-        </div>
-      }
+      <div aria-live="assertive">{renderModalContent()}</div>
     </Modal>
   );
 };

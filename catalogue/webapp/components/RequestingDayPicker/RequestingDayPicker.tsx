@@ -6,11 +6,11 @@ import { isRequestableDate } from '@weco/catalogue/utils/dates';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 
 type Props = {
-  startDate: Moment | null;
-  endDate: Moment | null;
+  startDate?: Moment;
+  endDate?: Moment;
   exceptionalClosedDates: Moment[];
   regularClosedDays: DayNumber[];
-  pickUpDate: string | null;
+  pickUpDate?: string;
   setPickUpDate: (date: string) => void;
 };
 
