@@ -14,17 +14,19 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
-import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   installation: InstallationType;
+  jsonLd: JsonLdObj;
 } & WithVenueProps;
 
 const Installation: FunctionComponent<Props> = ({
   installation,
   venueProps,
+  jsonLd,
 }: Props) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
@@ -92,7 +94,7 @@ const Installation: FunctionComponent<Props> = ({
         installation.metadataDescription || installation.promo?.caption || ''
       }
       url={{ pathname: `/installations/${installation.id}` }}
-      jsonLd={exhibitionLd(installation)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={installation.image}
