@@ -27,11 +27,13 @@ import {
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '../types/events';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;
+  jsonLd: JsonLdObj[];
 } & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -73,6 +75,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           title,
           period: period as Period,
           serverData,
+          jsonLd: events.results.flatMap(eventLd),
           venueProps,
         }),
       };
@@ -97,7 +100,7 @@ const EventsPage: FC<Props> = props => {
       title={title}
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
-      jsonLd={events.results.flatMap(eventLd)}
+      jsonLd={props.jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstEvent?.image}

@@ -41,12 +41,14 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   page: PageType;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
+  jsonLd: JsonLdObj;
 } & WithGaDimensions &
   WithVenueProps;
 
@@ -106,6 +108,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
+          jsonLd: contentLd(page),
           venueProps,
         }),
       };
@@ -120,6 +123,7 @@ const Page: FC<Props> = ({
   children,
   ordersInParents,
   venueProps,
+  jsonLd,
 }) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
@@ -270,7 +274,7 @@ const Page: FC<Props> = ({
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname: `/pages/${page.id}` }}
-      jsonLd={contentLd(page)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}

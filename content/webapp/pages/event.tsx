@@ -60,6 +60,7 @@ import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -79,6 +80,7 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: Event;
+  jsonLd: JsonLdObj[];
 } & WithGaDimensions &
   WithVenueProps;
 
@@ -163,7 +165,11 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ jsonEvent, venueProps }: Props) => {
+const EventPage: NextPage<Props> = ({
+  jsonEvent,
+  venueProps,
+  jsonLd,
+}: Props) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
@@ -293,8 +299,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, venueProps }: Props) => {
       title={event.title}
       description={event.metadataDescription || event.promo?.caption || ''}
       url={{ pathname: `/events/${event.id}` }}
-      // TODO: This should be rendered server-side
-      jsonLd={eventLd(event)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={event.image}
@@ -539,6 +544,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
           .map(season => season.id)
           .concat(event.series.map(series => series.id)),
       },
+      jsonLd: eventLd(event),
       venueProps,
     }),
   };
