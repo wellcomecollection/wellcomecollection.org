@@ -21,8 +21,8 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1">An error occurred</SectionHeading>
               <CustomError errorDescription={errorDescription}>
+                <SectionHeading as="h1">An error occurred</SectionHeading>
                 <OutlinedButton>
                   <a
                     href="mailto:library@wellcomecollection.org"
