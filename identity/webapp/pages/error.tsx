@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-
+import CustomError from '../src/frontend/components/CustomError';
 import {
   Container,
   Wrapper,
@@ -13,12 +13,8 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { auth0ErrorDescriptionMap } from '@weco/common/data/microcopy';
 
-const ErrorPage: NextPage<Props> = ({
-  errorDescription,
-  hasCustomErrorDescription,
-}) => {
+const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
     <PageWrapper title={`Error`}>
       <Layout10>
@@ -26,14 +22,7 @@ const ErrorPage: NextPage<Props> = ({
           <Container>
             <Wrapper>
               <SectionHeading as="h1">An error occurred</SectionHeading>
-
-              {hasCustomErrorDescription ? (
-                <p dangerouslySetInnerHTML={{ __html: errorDescription }} />
-              ) : (
-                <p>{errorDescription}</p>
-              )}
-
-              {!hasCustomErrorDescription && (
+              <CustomError errorDescription={errorDescription}>
                 <OutlinedButton>
                   <a
                     href="mailto:library@wellcomecollection.org"
@@ -43,7 +32,7 @@ const ErrorPage: NextPage<Props> = ({
                     Contact us
                   </a>
                 </OutlinedButton>
-              )}
+              </CustomError>
             </Wrapper>
           </Container>
         </Space>
@@ -55,23 +44,20 @@ const ErrorPage: NextPage<Props> = ({
 type Props = {
   serverData: SimplifiedServerData;
   errorDescription: string;
-  hasCustomErrorDescription: boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const { query } = context;
-    const error = Array.isArray(query.error_description)
+    const errorDescription = Array.isArray(query.error_description)
       ? query.error_description[0]
       : query.error_description;
-    const serverData = await getServerData(context);
-    const errorDescription = auth0ErrorDescriptionMap[error] || error;
 
     return {
       props: removeUndefinedProps({
         serverData,
         errorDescription,
-        hasCustomErrorDescription: Boolean(auth0ErrorDescriptionMap[error]),
       }),
     };
   };
