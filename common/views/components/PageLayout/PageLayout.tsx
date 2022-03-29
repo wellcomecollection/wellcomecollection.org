@@ -10,11 +10,6 @@ import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
 import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
-import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
-import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
-import { getVenueById } from '../../../services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '../../../model/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
@@ -24,6 +19,7 @@ import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { Venue } from '../../../model/opening-hours';
 
 export type SiteSection =
   | 'collections'
@@ -46,6 +42,9 @@ export type Props = {
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
+  venues: Venue[];
+  museumJsonLd: JsonLdObj;
+  libraryJsonLd: JsonLdObj;
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -61,6 +60,9 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideNewsletterPromo = false,
   hideFooter = false,
   excludeRoleMain = false,
+  museumJsonLd,
+  libraryJsonLd,
+  venues,
 }) => {
   const hotjarUrls = [
     'YLCu9hEAACYAUiJx',
@@ -101,22 +103,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       : `Wellcome Collection | ${defaultPageTitle}`;
 
   const absoluteUrl = `https://wellcomecollection.org${urlString}`;
-  const { popupDialog, collectionVenues, globalAlert } = usePrismicData();
-  const venues = transformCollectionVenues(collectionVenues);
-  const galleries =
-    venues && getVenueById(venues, collectionVenueId.galleries.id);
-  const library =
-    venues && getVenueById(venues, collectionVenueId.libraries.id);
-  const galleriesOpeningHours = galleries && galleries.openingHours;
-  const libraryOpeningHours = library && library.openingHours;
-  const wellcomeCollectionGalleryWithHours = {
-    ...wellcomeCollectionGallery,
-    ...openingHoursLd(galleriesOpeningHours),
-  };
-  const wellcomeLibraryWithHours = {
-    ...wellcomeCollectionGallery,
-    ...openingHoursLd(libraryOpeningHours),
-  };
+  const { popupDialog, globalAlert } = usePrismicData();
 
   const polyfillFeatures = [
     'default',
@@ -260,15 +247,13 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              museumLd(wellcomeCollectionGalleryWithHours)
-            ),
+            __html: JSON.stringify(museumJsonLd),
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+            __html: JSON.stringify(libraryJsonLd),
           }}
         />
       </Head>
