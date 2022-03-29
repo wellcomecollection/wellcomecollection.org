@@ -21,7 +21,7 @@ import {
 import ViewerSidebar from './ViewerSidebar';
 import MainViewer, { scrollViewer } from './MainViewer';
 import ViewerTopBar from './ViewerTopBar';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import { getCatalogueLicenseInfo } from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
 } from '../ItemViewerContext/ItemViewerContext';
@@ -345,7 +345,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const licenseInfo =
     digitalLocation &&
     digitalLocation.license &&
-    getAugmentedLicenseInfo(digitalLocation.license);
+    getCatalogueLicenseInfo(digitalLocation.license);
 
   const iiifImageLocationCredit = iiifImageLocation && iiifImageLocation.credit;
   const showDownloadOptions = manifest

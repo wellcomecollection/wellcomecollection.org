@@ -9,7 +9,7 @@ import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import { getCatalogueLicenseInfo } from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '../License/License';
@@ -34,7 +34,6 @@ import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import { cross, eye } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   image: ImageType;
@@ -187,7 +186,6 @@ const ExpandedImage: FunctionComponent<Props> = ({
   resultPosition,
 }: Props) => {
   const { isKeyboard } = useContext(AppContext);
-  const toggles = useToggles();
   const [detailedWork, setDetailedWork] = useState<Work | undefined>();
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined
@@ -288,7 +286,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const iiifImageLocation = image.locations[0];
   const license =
     iiifImageLocation?.license &&
-    getAugmentedLicenseInfo(iiifImageLocation.license);
+    getCatalogueLicenseInfo(iiifImageLocation.license);
 
   const expandedImageLink =
     image && !canvasDeeplink

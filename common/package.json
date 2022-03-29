@@ -45,7 +45,6 @@
     "lazysizes": "^5.2.1",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
-    "lodash.merge": "^4.6.2",
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "next": "^11.1.2",
