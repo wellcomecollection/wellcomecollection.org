@@ -1,4 +1,4 @@
-import { ReactElement, FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { SectionHeading } from './Layout.style';
 type Props = PropsWithChildren<{
   errorDescription: string;
@@ -20,7 +20,13 @@ const CustomError: FC<Props> = ({ errorDescription, children }) => {
         </>
       );
     default:
-      return children as ReactElement;
+      return (
+        <>
+          <SectionHeading as="h1">An error occurred</SectionHeading>
+          <p>{errorDescription}</p>
+          {children}
+        </>
+      );
   }
 };
 

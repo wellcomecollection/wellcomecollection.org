@@ -2,11 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import CustomError from '../src/frontend/components/CustomError';
-import {
-  Container,
-  Wrapper,
-  SectionHeading,
-} from '../src/frontend/components/Layout.style';
+import { Container, Wrapper } from '../src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
@@ -22,7 +18,6 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
           <Container>
             <Wrapper>
               <CustomError errorDescription={errorDescription}>
-                <SectionHeading as="h1">An error occurred</SectionHeading>
                 <OutlinedButton>
                   <a
                     href="mailto:library@wellcomecollection.org"
