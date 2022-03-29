@@ -31,9 +31,11 @@ import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import * as prismic from '@prismicio/client';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   article: Article;
+  jsonLd: JsonLdObj;
 } & WithGaDimensions &
   WithVenueProps;
 
@@ -56,6 +58,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (articleDocument) {
       const article = transformArticle(articleDocument);
+      const jsonLd = articleLd(article);
       const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
@@ -67,6 +70,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               .concat(article.series.map(series => series.id)),
           },
           venueProps,
+          jsonLd,
         }),
       };
     } else {
@@ -114,7 +118,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article, venueProps }) => {
+const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -284,7 +288,8 @@ const ArticlePage: FC<Props> = ({ article, venueProps }) => {
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
-      jsonLd={articleLd(article)}
+      // TODO: This should be rendered server-side
+      jsonLd={jsonLd}
       openGraphType={'article'}
       siteSection={'stories'}
       image={article.image}
