@@ -22,7 +22,7 @@ import { ExhibitionBasic } from '../types/exhibitions';
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
-  displayTitle: string;
+  title: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           exhibitions,
-          displayTitle: title,
+          title,
           period: period as Period,
           serverData,
         }),
@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions: jsonExhibitions, period, displayTitle } = props;
+  const { exhibitions: jsonExhibitions, period, title } = props;
   const exhibitions = {
     ...jsonExhibitions,
     results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
@@ -67,7 +67,7 @@ const ExhibitionsPage: FC<Props> = props => {
 
   return (
     <PageLayout
-      title={displayTitle}
+      title={title}
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
       jsonLd={exhibitions.results.map(exhibitionLd)}
@@ -78,7 +78,7 @@ const ExhibitionsPage: FC<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={true}
-          title={displayTitle}
+          title={title}
           description={[
             {
               type: 'paragraph',
