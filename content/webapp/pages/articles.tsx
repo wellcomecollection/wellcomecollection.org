@@ -7,7 +7,10 @@ import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { FC } from 'react';
@@ -23,7 +26,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 type Props = {
   articles: PaginatedResults<ArticleBasic>;
   jsonLd: JsonLdObj[];
-};
+} & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -44,17 +47,19 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
 
     const serverData = await getServerData(context);
+    const venueProps = getServerSideVenueProps(serverData);
 
     return {
       props: removeUndefinedProps({
         articles: basicArticles,
         jsonLd,
         serverData,
+        venueProps,
       }),
     };
   };
 
-const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
+const ArticlesPage: FC<Props> = ({ articles, jsonLd, venueProps }: Props) => {
   const firstArticle = articles.results[0];
 
   return (
@@ -66,6 +71,7 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
       openGraphType={'website'}
       siteSection={'stories'}
       image={firstArticle.image}
+      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults

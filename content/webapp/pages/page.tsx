@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import PageLayout, {
+  getServerSideVenueProps,
   SiteSection,
+  WithVenueProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -45,7 +47,8 @@ type Props = {
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
 type OrderInParent = {
   id: string;
@@ -91,6 +94,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
+      const venueProps = getServerSideVenueProps(serverData);
+
       return {
         props: removeUndefinedProps({
           page,
@@ -101,6 +106,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
+          venueProps,
         }),
       };
     } else {
@@ -108,7 +114,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  venueProps,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -262,6 +274,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
+      {...venueProps}
     >
       <ContentPage
         id={page.id}

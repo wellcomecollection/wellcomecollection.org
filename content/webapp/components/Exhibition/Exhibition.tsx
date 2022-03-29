@@ -1,7 +1,9 @@
 import { Fragment, useState, useEffect, FC } from 'react';
 import { isPast, isFuture } from '@weco/common/utils/dates';
 import { formatDate } from '@weco/common/utils/format-date';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
@@ -198,9 +200,9 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
 type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
-};
+} & WithVenueProps;
 
-const Exhibition: FC<Props> = ({ exhibition, pages }) => {
+const Exhibition: FC<Props> = ({ exhibition, pages, venueProps }) => {
   type ExhibitionOf = (ExhibitionType | EventType)[];
   type ExhibitionAbout = (Book | Article)[];
 
@@ -288,6 +290,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={exhibition.image}
+      {...venueProps}
     >
       <ContentPage
         id={exhibition.id}

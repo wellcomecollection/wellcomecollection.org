@@ -1,7 +1,10 @@
 import NextLink from 'next/link';
 import { useEffect, useState } from 'react';
 import * as prismic from '@prismicio/client';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -76,7 +79,8 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: Event;
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
 // TODO: Probably use the StatusIndicator?
 type EventStatusProps = {
@@ -159,7 +163,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
+const EventPage: NextPage<Props> = ({ jsonEvent, venueProps }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
@@ -289,10 +293,12 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       title={event.title}
       description={event.metadataDescription || event.promo?.caption || ''}
       url={{ pathname: `/events/${event.id}` }}
+      // TODO: This should be rendered server-side
       jsonLd={eventLd(event)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={event.image}
+      {...venueProps}
     >
       <ContentPage
         id={event.id}
@@ -519,6 +525,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
 
   const event = transformEvent(eventDocument, scheduleQuery);
 
+  const venueProps = getServerSideVenueProps(serverData);
+
   // This is a bit of nonsense as the event type has loads `undefined` values
   // which we could pick out explicitly, or do this.
   // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
@@ -531,6 +539,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
           .map(season => season.id)
           .concat(event.series.map(series => series.id)),
       },
+      venueProps,
     }),
   };
 };

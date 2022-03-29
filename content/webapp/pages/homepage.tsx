@@ -4,7 +4,10 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '../types/articles';
 import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -75,7 +78,7 @@ type Props = {
   articles: ArticleBasic[];
   page: PageType;
   jsonLd: JsonLdObj[];
-};
+} & WithVenueProps;
 
 const pageImage: ImageType = {
   contentUrl:
@@ -121,6 +124,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
+    const venueProps = getServerSideVenueProps(serverData);
+
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
@@ -130,6 +135,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events,
           serverData,
           jsonLd,
+          venueProps,
         }),
       };
     } else {
@@ -161,6 +167,7 @@ const Homepage: FC<Props> = props => {
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
+      {...props.venueProps}
     >
       <Layout10>
         <SpacingSection>

@@ -20,6 +20,12 @@ import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import { Venue } from '../../../model/opening-hours';
+import { SimplifiedServerData } from '../../../server-data/types';
+import { transformCollectionVenues } from '../../../services/prismic/transformers/collection-venues';
+import { getVenueById } from '../../../services/prismic/opening-times';
+import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
+import { wellcomeCollectionGallery } from '../../../model/organization';
+import { libraryLd, museumLd, openingHoursLd } from '../../../utils/json-ld';
 
 export type SiteSection =
   | 'collections'
@@ -29,7 +35,43 @@ export type SiteSection =
   | 'whats-on'
   | 'identity';
 
-export type Props = {
+type VenueProps = {
+  venues: Venue[];
+  museumJsonLd: JsonLdObj;
+  libraryJsonLd: JsonLdObj;
+};
+
+export type WithVenueProps = {
+  venueProps: VenueProps;
+};
+
+export const getServerSideVenueProps = ({
+  prismic,
+}: SimplifiedServerData): VenueProps => {
+  const venues = transformCollectionVenues(prismic.collectionVenues);
+  const galleries =
+    venues && getVenueById(venues, collectionVenueId.galleries.id);
+  const library =
+    venues && getVenueById(venues, collectionVenueId.libraries.id);
+  const galleriesOpeningHours = galleries && galleries.openingHours;
+  const libraryOpeningHours = library && library.openingHours;
+  const wellcomeCollectionGalleryWithHours = {
+    ...wellcomeCollectionGallery,
+    ...openingHoursLd(galleriesOpeningHours),
+  };
+  const wellcomeLibraryWithHours = {
+    ...wellcomeCollectionGallery,
+    ...openingHoursLd(libraryOpeningHours),
+  };
+
+  return {
+    venues,
+    museumJsonLd: museumLd(wellcomeCollectionGalleryWithHours),
+    libraryJsonLd: libraryLd(wellcomeLibraryWithHours),
+  };
+};
+
+export type Props = VenueProps & {
   title: string;
   description: string;
   url: Url;
@@ -42,9 +84,6 @@ export type Props = {
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
-  venues: Venue[];
-  museumJsonLd: JsonLdObj;
-  libraryJsonLd: JsonLdObj;
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({

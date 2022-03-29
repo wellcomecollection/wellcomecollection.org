@@ -4,7 +4,10 @@ import { Article } from '../types/articles';
 import { Series } from '../types/series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -31,7 +34,8 @@ import * as prismic from '@prismicio/client';
 
 type Props = {
   article: Article;
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
 function articleHasOutro(article: Article) {
   return Boolean(
@@ -52,6 +56,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (articleDocument) {
       const article = transformArticle(articleDocument);
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           article,
@@ -61,6 +66,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               .map(season => season.id)
               .concat(article.series.map(series => series.id)),
           },
+          venueProps,
         }),
       };
     } else {
@@ -108,7 +114,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article }) => {
+const ArticlePage: FC<Props> = ({ article, venueProps }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -282,6 +288,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       openGraphType={'article'}
       siteSection={'stories'}
       image={article.image}
+      {...venueProps}
     >
       <ContentPage
         id={article.id}

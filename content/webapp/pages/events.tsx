@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '../types/periods';
@@ -29,7 +32,7 @@ type Props = {
   title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;
-};
+} & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -63,12 +66,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           events,
           title,
           period: period as Period,
           serverData,
+          venueProps,
         }),
       };
     } else {
@@ -77,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventsPage: FC<Props> = props => {
-  const { events, title, period } = props;
+  const { events, title, period, venueProps } = props;
   const convertedEvents = events.results.map(fixEventDatesInJson);
   const convertedPaginatedResults = {
     ...events,
@@ -96,6 +101,7 @@ const EventsPage: FC<Props> = props => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstEvent?.image}
+      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults

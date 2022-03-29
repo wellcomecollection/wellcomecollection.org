@@ -1,6 +1,9 @@
 import { GetServerSideProps } from 'next';
 import { FunctionComponent } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -61,12 +64,13 @@ type Props = {
   guides: PaginatedResults<Guide>;
   guideFormats: Format[];
   formatId: string | string[] | null;
-};
+} & WithVenueProps;
 
 const GuidePage: FunctionComponent<Props> = ({
   guides,
   guideFormats,
   formatId,
+  venueProps,
 }: Props) => {
   return (
     <PageLayout
@@ -77,6 +81,7 @@ const GuidePage: FunctionComponent<Props> = ({
       openGraphType={'website'}
       siteSection={'what-we-do'}
       image={undefined}
+      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults
@@ -121,12 +126,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
 
     if (guides) {
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           guides,
           guideFormats: guideFormats.results,
           formatId: format || null,
           serverData,
+          venueProps,
         }),
       };
     } else {

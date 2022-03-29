@@ -26,7 +26,10 @@ import {
   // shopPromo,
   readingRoomPromo,
 } from '../data/facility-promos';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import EventsByMonth from '../components/EventsByMonth/EventsByMonth';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -106,7 +109,7 @@ export type Props = {
   tryTheseTooPromos: FacilityPromoType[];
   eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
-};
+} & WithVenueProps;
 
 export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
   const todaysDate = london();
@@ -379,6 +382,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
 
     if (period && events && exhibitions) {
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           period,
@@ -391,6 +395,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           cafePromo,
           featuredText: featuredText!,
           serverData,
+          venueProps,
         }),
       };
     } else {
@@ -399,8 +404,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
-  const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
-    props;
+  const {
+    period,
+    dateRange,
+    tryTheseTooPromos,
+    eatShopPromos,
+    featuredText,
+    venueProps,
+  } = props;
 
   const events = props.events.results.map(fixEventDatesInJson);
   const availableOnlineEvents =
@@ -440,6 +451,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstExhibition && firstExhibition.image}
+      {...venueProps}
     >
       <>
         <Header

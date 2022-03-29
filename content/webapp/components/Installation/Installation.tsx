@@ -1,5 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -18,9 +20,12 @@ import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions
 
 type Props = {
   installation: InstallationType;
-};
+} & WithVenueProps;
 
-const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
+const Installation: FunctionComponent<Props> = ({
+  installation,
+  venueProps,
+}: Props) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
@@ -91,6 +96,7 @@ const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={installation.image}
+      {...venueProps}
     >
       <ContentPage
         id={installation.id}

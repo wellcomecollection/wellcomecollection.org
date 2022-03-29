@@ -1,6 +1,9 @@
 import type { GetServerSideProps } from 'next';
 import { FC } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -23,7 +26,7 @@ type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
   title: string;
-};
+} & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -44,12 +47,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           exhibitions,
           title,
           period: period as Period,
           serverData,
+          venueProps,
         }),
       };
     } else {
@@ -58,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions: jsonExhibitions, period, title } = props;
+  const { exhibitions: jsonExhibitions, period, title, venueProps } = props;
   const exhibitions = {
     ...jsonExhibitions,
     results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
@@ -74,6 +79,7 @@ const ExhibitionsPage: FC<Props> = props => {
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstExhibition && firstExhibition.image}
+      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults

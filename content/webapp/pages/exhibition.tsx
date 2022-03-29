@@ -16,19 +16,34 @@ import {
   transformExhibition,
 } from '../services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '../services/prismic';
+import {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 
 type Props = {
   exhibition: ExhibitionType;
   pages: PageType[];
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
-const ExhibitionPage: FC<Props> = ({ exhibition: jsonExhibition, pages }) => {
+const ExhibitionPage: FC<Props> = ({
+  exhibition: jsonExhibition,
+  pages,
+  venueProps,
+}) => {
   const exhibition = fixExhibitionDatesInJson(jsonExhibition);
 
   if (exhibition.format && exhibition.format.title === 'Installation') {
-    return <Installation installation={exhibition} />;
+    return <Installation installation={exhibition} venueProps={venueProps} />;
   } else {
-    return <Exhibition exhibition={exhibition} pages={pages} />;
+    return (
+      <Exhibition
+        exhibition={exhibition}
+        pages={pages}
+        venueProps={venueProps}
+      />
+    );
   }
 };
 
@@ -48,6 +63,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const exhibitionDoc = transformExhibition(exhibition);
       const relatedPages = transformQuery(pages, transformPage);
 
+      const venueProps = getServerSideVenueProps(serverData);
+
       return {
         props: removeUndefinedProps({
           exhibition: exhibitionDoc,
@@ -56,6 +73,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           gaDimensions: {
             partOf: exhibitionDoc.seasons.map(season => season.id),
           },
+          venueProps,
         }),
       };
     } else {
