@@ -10,7 +10,15 @@ import Layout8 from '../Layout8/Layout8';
 import Space from '../styled/Space';
 import { errorMessages } from '../../../data/microcopy';
 import { isNotUndefined } from '../../../utils/array';
-import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+import {
+  collectionVenueId,
+  prismicPageIds,
+} from '../../../services/prismic/hardcoded-id';
+import { transformCollectionVenues } from '../../../services/prismic/transformers/collection-venues';
+import { usePrismicData } from '../../../server-data/Context';
+import { getVenueById } from '../../../services/prismic/opening-times';
+import { libraryLd, museumLd, openingHoursLd } from '../../../utils/json-ld';
+import { wellcomeCollectionGallery } from '../../../model/organization';
 
 type Props = {
   statusCode?: number;
@@ -27,6 +35,23 @@ const ErrorPage: FunctionComponent<Props> = ({
     ? errorMessages[statusCode]
     : errorMessages[500];
 
+  const { collectionVenues } = usePrismicData();
+  const venues = transformCollectionVenues(collectionVenues);
+  const galleries =
+    venues && getVenueById(venues, collectionVenueId.galleries.id);
+  const library =
+    venues && getVenueById(venues, collectionVenueId.libraries.id);
+  const galleriesOpeningHours = galleries && galleries.openingHours;
+  const libraryOpeningHours = library && library.openingHours;
+  const wellcomeCollectionGalleryWithHours = {
+    ...wellcomeCollectionGallery,
+    ...openingHoursLd(galleriesOpeningHours),
+  };
+  const wellcomeLibraryWithHours = {
+    ...wellcomeCollectionGallery,
+    ...openingHoursLd(libraryOpeningHours),
+  };
+
   return (
     <PageLayout
       title={`${statusCode}`}
@@ -36,6 +61,9 @@ const ErrorPage: FunctionComponent<Props> = ({
       openGraphType={'website'}
       siteSection={null}
       image={undefined}
+      museumJsonLd={museumLd(wellcomeCollectionGalleryWithHours)}
+      libraryJsonLd={libraryLd(wellcomeLibraryWithHours)}
+      venues={venues}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
