@@ -147,7 +147,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         action: 'confirm_request',
         label: `/works/${work.id}`,
       });
-      confirmRequest(pickUpDateMoment);
+      confirmRequest(enablePickUpDate ? pickUpDateMoment : undefined);
     }
   }
 
