@@ -32,7 +32,8 @@ const ItemRequestModal: FC<Props> = ({
   openButtonRef,
   ...modalProps
 }) => {
-  const [requestingState, setRequestingState] = useState<RequestingState>();
+  const [requestingState, setRequestingState] =
+    useState<RequestingState>('initial');
   const [requestingErrorMessage, setRequestingError] = useState<string>();
   const [currentHoldNumber, setCurrentHoldNumber] = useState(initialHoldNumber);
   function innerSetIsActive(value: boolean) {
@@ -42,7 +43,7 @@ const ItemRequestModal: FC<Props> = ({
     } else {
       setIsActive(false);
       if (requestingState !== 'confirmed') {
-        setRequestingState(undefined);
+        setRequestingState('initial');
       }
     }
   }
