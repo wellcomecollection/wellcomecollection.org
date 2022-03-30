@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Space from '@weco/common/lib/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import { FC } from 'react';
 
 export const CTAs = styled(Space).attrs({
