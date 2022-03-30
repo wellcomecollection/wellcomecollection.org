@@ -1,22 +1,12 @@
 import { workWithPhysicalLocationOnly } from './contexts';
 import { baseUrl } from './helpers/urls';
-import { makeDefaultToggleAndTestCookies } from './helpers/utils';
+import { makeDefaultToggleCookies } from './helpers/utils';
 
 const domain = new URL(baseUrl).host;
 
 beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleAndTestCookies(
-    domain
-  );
-  await context.addCookies([
-    {
-      name: 'toggle_enableRequesting',
-      value: 'true',
-      domain: domain,
-      path: '/',
-    },
-    ...defaultToggleAndTestCookies,
-  ]);
+  const defaultToggleCookies = await makeDefaultToggleCookies(domain);
+  await context.addCookies(defaultToggleCookies);
 });
 
 describe.skip('Scenario 1: researcher is logged out', () => {
@@ -64,9 +54,7 @@ describe.skip('Scenario 5: researcher initiates item request', () => {
   });
 
   test('Account indicates number of remaining requests', async () => {
-    const itemsRequested = await page.$(
-      ':has-text("8/15 items requested")'
-    );
+    const itemsRequested = await page.$(':has-text("8/15 items requested")');
     expect(itemsRequested).toBeTruthy();
   });
 
@@ -88,6 +76,5 @@ describe.skip('Scenario 6: researcher confirms item request', () => {
     await page.click('button:has-text("Confirm request")');
     await page.waitForSelector(':has-text("Request confirmed")');
     await page.waitForSelector(':has-text("9/15 items requested")');
-    await page.waitForSelector('a:has-text("Book a ticket")');
   });
 });

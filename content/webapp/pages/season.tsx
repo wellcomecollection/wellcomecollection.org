@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
-import { Season } from '@weco/common/model/seasons';
+import { Season } from '../types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
 import { UiImage } from '@weco/common/views/components/Images/Images';
@@ -8,7 +8,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
-import { convertJsonToDates } from './event';
 import { getServerData } from '@weco/common/server-data';
 import CardGrid from '../components/CardGrid/CardGrid';
 import Body from '../components/Body/Body';
@@ -24,29 +23,43 @@ import { fetchSeries } from '../services/prismic/fetch/series';
 import { fetchSeason } from '../services/prismic/fetch/seasons';
 import { createClient } from '../services/prismic/fetch';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
-import { transformBook } from '../services/prismic/transformers/books';
-import { transformEvent } from '../services/prismic/transformers/events';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
+import {
+  transformBook,
+  transformBookToBookBasic,
+} from '../services/prismic/transformers/books';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+  transformEventToEventBasic,
+} from '../services/prismic/transformers/events';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { transformProject } from '../services/prismic/transformers/projects';
 import { transformSeries } from '../services/prismic/transformers/series';
 import { transformSeason } from '../services/prismic/transformers/seasons';
-import { Article } from '../types/articles';
-import { Book } from '../types/books';
-import { Event } from '../types/events';
-import { Exhibition } from '../types/exhibitions';
+import { ArticleBasic } from '../types/articles';
+import { BookBasic } from '../types/books';
+import { EventBasic } from '../types/events';
+import { ExhibitionBasic } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
 import { looksLikePrismicId } from '../services/prismic';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   season: Season;
-  articles: Article[];
-  books: Book[];
-  events: Event[];
-  exhibitions: Exhibition[];
+  articles: ArticleBasic[];
+  books: BookBasic[];
+  events: EventBasic[];
+  exhibitions: ExhibitionBasic[];
   pages: Page[];
   projects: Project[];
   series: Series[];
@@ -62,13 +75,15 @@ const SeasonPage = ({
   projects,
   books,
 }: Props): ReactElement<Props> => {
+  const superWidescreenImage = getCrop(season.image, '32:15');
+
   const Header = (
     <SeasonsHeader
       labels={{ labels: season.labels }}
       title={season.title}
       FeaturedMedia={
-        season.superWidescreenImage ? (
-          <UiImage {...season.superWidescreenImage} sizesQueries="" />
+        superWidescreenImage ? (
+          <UiImage {...superWidescreenImage} sizesQueries="" />
         ) : undefined
       }
       standfirst={season?.standfirst}
@@ -76,14 +91,8 @@ const SeasonPage = ({
       end={season.end}
     />
   );
-  const parsedEvents = events.map(convertJsonToDates);
-  const parsedExhibitions = exhibitions.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+  const parsedEvents = events.map(fixEventDatesInJson);
+  const parsedExhibitions = exhibitions.map(fixExhibitionDatesInJson);
 
   const allItems = [
     ...parsedExhibitions,
@@ -98,7 +107,7 @@ const SeasonPage = ({
   return (
     <PageLayout
       title={season.title}
-      description={season.metadataDescription || season.promoText || ''}
+      description={season.metadataDescription || season.promo?.caption || ''}
       url={{ pathname: `/seasons/${season.id}` }}
       jsonLd={contentLd(season)}
       siteSection={'whats-on'}
@@ -177,10 +186,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       seasonDocPromise,
     ]);
 
-    const articles = transformQuery(articlesQuery, transformArticle);
-    const books = transformQuery(booksQuery, transformBook);
-    const events = transformQuery(eventsQuery, transformEvent);
+    const articles = transformQuery(articlesQuery, article =>
+      transformArticleToArticleBasic(transformArticle(article))
+    );
+    const books = transformQuery(booksQuery, book =>
+      transformBookToBookBasic(transformBook(book))
+    );
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+
     const pages = transformQuery(pagesQuery, transformPage);
     const projects = transformQuery(projectsQuery, transformProject);
     const series = transformQuery(seriesQuery, transformSeries);

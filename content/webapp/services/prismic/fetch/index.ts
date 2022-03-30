@@ -1,5 +1,5 @@
 import { Query, PrismicDocument } from '@prismicio/types';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '../link-resolver';
@@ -155,10 +155,10 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
       const response = await fetch(url);
 
       if (response.ok) {
-        const json: PaginatedResults<TransformedDocument> = await response.json();
+        const json: PaginatedResults<TransformedDocument> =
+          await response.json();
         return json;
       }
     },
   };
 }
-

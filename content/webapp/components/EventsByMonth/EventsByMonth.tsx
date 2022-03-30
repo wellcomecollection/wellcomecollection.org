@@ -1,40 +1,23 @@
 import { Component } from 'react';
 import sortBy from 'lodash.sortby';
-import { Moment } from 'moment';
-import { london } from '@weco/common/utils/format-date';
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
-import { UiEvent } from '@weco/common/model/events';
-import { Link } from '@weco/common/model/link';
+import { EventBasic } from '../../types/events';
+import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
+import { groupEventsByMonth, parseLabel, startOf } from './group-event-utils';
 
 type Props = {
-  events: UiEvent[];
+  events: EventBasic[];
   links?: Link[];
 };
 
 type State = {
   activeId?: string;
 };
-
-// recursive - TODO: make tail recursive?
-type StartEnd = { start: Moment; end: Moment };
-
-function getMonthsInDateRange(
-  { start, end }: StartEnd,
-  acc: string[] = []
-): string[] {
-  if (start.isSameOrBefore(end, 'month')) {
-    const newAcc = acc.concat([start.format('YYYY-MM')]);
-    const newStart = start.add(1, 'month');
-    return getMonthsInDateRange({ start: newStart, end }, newAcc);
-  } else {
-    return acc;
-  }
-}
 
 class EventsByMonth extends Component<Props, State> {
   state = {
@@ -45,94 +28,51 @@ class EventsByMonth extends Component<Props, State> {
     const { events, links } = this.props;
     const { activeId } = this.state;
     const monthsIndex = {
-      January: 0,
-      February: 1,
-      March: 2,
-      April: 3,
-      May: 4,
-      June: 5,
-      July: 6,
-      August: 7,
-      September: 8,
-      October: 9,
-      November: 10,
-      December: 11,
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
     };
-    const eventsInMonths = events
-      .filter(event => event.times.length > 0)
-      .map(event => {
-        const firstRange = event.times[0];
-        const lastRange = event.times[event.times.length - 1];
 
-        const start =
-          firstRange.range && london(firstRange.range.startDateTime);
+    const eventsInMonths = groupEventsByMonth(events);
 
-        const end = lastRange.range && london(lastRange.range.endDateTime);
+    // Order months correctly.  This returns the headings for each month,
+    // now in chronological order.
+    const monthHeadings = Object.keys(eventsInMonths)
+      .sort((a, b) =>
+        // Because these are YYYY-MM strings (e.g. '2001-02'), we can use
+        // lexicographic ordering for the correct results here.
+        a >= b ? 1 : -1
+      )
+      .map(label => {
+        const yearMonth = parseLabel(label);
 
-        const months = getMonthsInDateRange({ start, end });
-        return { event, months };
-      })
-      .reduce((acc, { event, months }) => {
-        months.forEach(month => {
-          // Only add if it has a time in the month that is the same or after today
-          const hasDateInMonthRemaining = event.times.find(time => {
-            const end = london(time.range.endDateTime);
-            const start = london(time.range.startDateTime);
-            const monthAndYear = london(month);
-            return (
-              (end.isSame(
-                london({
-                  M: monthAndYear.month(),
-                  Y: monthAndYear.year(),
-                }),
-                'month'
-              ) ||
-                start.isSame(
-                  london({
-                    M: monthAndYear.month(),
-                    Y: monthAndYear.year(),
-                  }),
-                  'month'
-                )) &&
-              end.isSameOrAfter(london(), 'day')
-            );
-          });
-          if (hasDateInMonthRemaining) {
-            if (!acc[month]) {
-              acc[month] = [];
-            }
-            acc[month].push(event);
-          }
-        });
-        return acc;
-      }, {});
-
-    // Order months correctly
-    const orderedMonths = {};
-    Object.keys(eventsInMonths)
-      .sort((a, b) => {
-        return london(a).toDate().getTime() - london(b).toDate().getTime();
-      })
-      .map(key => (orderedMonths[key] = eventsInMonths[key]));
-
-    const months = Object.keys(orderedMonths).map(month => ({
-      id: month,
-      url: `#${month}`,
-      text: london(month).format('MMMM'),
-    }));
+        return {
+          id: label,
+          url: `#${label}`,
+          text: monthsIndex[yearMonth.month],
+        };
+      });
 
     // Need to order the events for each month based on their earliest future date range
-    Object.keys(eventsInMonths).map(month => {
-      eventsInMonths[month] = sortBy(eventsInMonths[month], [
+    Object.keys(eventsInMonths).map(label => {
+      eventsInMonths[label] = sortBy(eventsInMonths[label], [
         m => {
           const times = m.times.map(time => ({
             start: time.range.startDateTime,
             end: time.range.endDateTime,
           }));
-          const earliestRange = getEarliestFutureDateRange(
-            times,
-            london({ M: monthsIndex[london(month).format('MMMM')] })
-          );
+          const fromDate = startOf(parseLabel(label));
+
+          const earliestRange = getEarliestFutureDateRange(times, fromDate);
           return earliestRange && earliestRange.start;
         },
       ]);
@@ -150,8 +90,8 @@ class EventsByMonth extends Component<Props, State> {
               >
                 <SegmentedControl
                   id="monthControls"
-                  activeId={months[0] && months[0].id}
-                  items={months}
+                  activeId={monthHeadings[0]?.id}
+                  items={monthHeadings}
                   extraClasses={'segmented-control__list--inline'}
                   onActiveIdChange={id => {
                     this.setState({ activeId: id });
@@ -162,7 +102,7 @@ class EventsByMonth extends Component<Props, State> {
           </CssGridContainer>
         </Space>
 
-        {months.map(month => (
+        {monthHeadings.map(month => (
           <div
             key={month.id}
             className={classNames({
@@ -193,7 +133,7 @@ class EventsByMonth extends Component<Props, State> {
               items={eventsInMonths[month.id]}
               itemsPerRow={3}
               links={links}
-              fromDate={london(month.id)}
+              fromDate={startOf(parseLabel(month.id))}
             />
           </div>
         ))}

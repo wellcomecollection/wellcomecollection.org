@@ -1,99 +1,61 @@
-import PrismicDOM from 'prismic-dom';
 import linkResolver from '../../services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
-import { HTMLSerializer } from 'prismic-reactjs';
-import { Fragment, ReactElement } from 'react';
+import { JSXFunctionSerializer } from '@prismicio/react';
+import { Fragment } from 'react';
+import { RichTextNodeType } from '@prismicio/types';
+import * as prismicH from '@prismicio/helpers';
 
-const { Elements } = PrismicDOM.RichText;
-
-export const dropCapSerializer: HTMLSerializer<ReactElement> = (
+export const defaultSerializer: JSXFunctionSerializer = (
   type,
   element,
   content,
   children,
   key
 ) => {
-  if (type === Elements.paragraph && key === '0' && children[0] !== undefined) {
-    const firstChild = children[0];
-    const firstCharacters =
-      firstChild.props &&
-      firstChild.props.children &&
-      firstChild.props.children[0];
-
-    if (typeof firstCharacters !== 'string') {
-      return <p key={key}>{children}</p>;
-    }
-
-    const firstLetter = firstCharacters.charAt(0);
-    const cappedFirstLetter = (
-      <span key={key} className="drop-cap">
-        {firstLetter}
-      </span>
-    );
-    const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
-    const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
-
-    return <p key={key}>{childrenWithDropCap}</p>;
-  }
-  return defaultSerializer(type, element, content, children, key);
-};
-
-export const defaultSerializer: HTMLSerializer<ReactElement> = (
-  type,
-  element,
-  content,
-  children,
-  key
-) => {
-  switch (type) {
-    case Elements.heading1:
+  switch (element.type) {
+    case RichTextNodeType.heading1:
       return <h1 key={key}>{children}</h1>;
-    case Elements.heading2:
+    case RichTextNodeType.heading2:
       return (
         <h2 key={key} id={dasherize(element.text)}>
           {children}
         </h2>
       );
-    case Elements.heading3:
+    case RichTextNodeType.heading3:
       return <h3 key={key}>{children}</h3>;
-    case Elements.heading4:
+    case RichTextNodeType.heading4:
       return <h4 key={key}>{children}</h4>;
-    case Elements.heading5:
+    case RichTextNodeType.heading5:
       return <h5 key={key}>{children}</h5>;
-    case Elements.heading6:
+    case RichTextNodeType.heading6:
       return <h6 key={key}>{children}</h6>;
-    case Elements.paragraph:
+    case RichTextNodeType.paragraph:
       return <p key={key}>{children}</p>;
-    case Elements.preformatted:
+    case RichTextNodeType.preformatted:
       return <pre key={key}>{children}</pre>;
-    case Elements.strong:
+    case RichTextNodeType.strong:
       return <strong key={key}>{children}</strong>;
-    case Elements.em:
+    case RichTextNodeType.em:
       return <em key={key}>{children}</em>;
-    case Elements.listItem:
+    case RichTextNodeType.listItem:
       return <li key={key}>{children}</li>;
-    case Elements.oListItem:
+    case RichTextNodeType.oListItem:
       return <li key={key}>{children}</li>;
-    case Elements.list:
+    case RichTextNodeType.list:
       return <ul key={key}>{children}</ul>;
-    case Elements.oList:
+    case RichTextNodeType.oList:
       return <ol key={key}>{children}</ol>;
-    case Elements.image:
+    case RichTextNodeType.image:
       const url = element.linkTo
-        ? PrismicDOM.Link.url(element.linkTo, linkResolver)
+        ? prismicH.asLink(element.linkTo, linkResolver)
         : null;
       const linkTarget =
-        element.linkTo && element.linkTo.target
+        element.linkTo && 'target' in element.linkTo
           ? element.linkTo.target
           : undefined;
       const linkRel = linkTarget ? 'noopener' : undefined;
-      const wrapperClassList = [element.label || '', 'block-img'];
-      const img = (
-        <img
-          src={element.url}
-          alt={element.alt || ''}
-        />
-      );
+      const wrapperClassList = ['block-img'];
+      const img = <img src={element.url} alt={element.alt || ''} />;
 
       return (
         <p key={key} className={wrapperClassList.join(' ')}>
@@ -106,7 +68,7 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
           )}
         </p>
       );
-    case Elements.embed:
+    case RichTextNodeType.embed:
       return (
         <div
           key={key}
@@ -117,24 +79,28 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
           {element.oembed.html}
         </div>
       );
-    case Elements.hyperlink:
-      const target = element.data.target || undefined;
+    case RichTextNodeType.hyperlink:
+      const target =
+        'target' in element.data ? element.data.target || undefined : undefined;
       const rel = target ? 'noopener' : undefined;
-      const linkUrl = PrismicDOM.Link.url(element.data, linkResolver);
-      const isDocument = element.data.kind === 'document';
-      const nameWithoutSpaces = element.data.name
-        ? dasherize(element.data.name)
-        : '';
-      const documentSize = isDocument
-        ? Math.round(element.data.size / 1000)
-        : '';
+      const linkUrl = prismicH.asLink(element.data, linkResolver)!;
+      const isDocument =
+        'kind' in element.data ? element.data.kind === 'document' : false;
+      const nameWithoutSpaces =
+        'name' in element.data && element.data.name
+          ? dasherize(element.data.name)
+          : '';
+      const documentSize =
+        isDocument && 'size' in element.data
+          ? Math.round(parseInt(element.data.size) / 1000)
+          : '';
 
       const isInPage = linkUrl.match(/^https:\/\/(#.*)/i);
       const hashLink = isInPage && isInPage[1];
 
       const fileExtension = linkUrl.match(/\.[0-9a-z]+$/i);
       const documentType =
-        fileExtension && fileExtension[0].substr(1).toUpperCase();
+        fileExtension && fileExtension[0].substring(1).toUpperCase();
 
       if (hashLink) {
         return (
@@ -210,14 +176,14 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
           </a>
         );
       }
-    case Elements.label:
+    case RichTextNodeType.label:
       const labelClass = element.data.label || undefined;
       return (
         <span key={key} className={labelClass}>
           {children}
         </span>
       );
-    case Elements.span:
+    case RichTextNodeType.span:
       return content ? (
         <Fragment key={key}>
           {content
@@ -236,4 +202,36 @@ export const defaultSerializer: HTMLSerializer<ReactElement> = (
     default:
       return null;
   }
+};
+
+export const dropCapSerializer: JSXFunctionSerializer = (
+  type,
+  element,
+  content,
+  children,
+  key
+) => {
+  if (type === RichTextNodeType.paragraph && children[0] !== undefined) {
+    const firstChild = children[0];
+    const firstCharacters =
+      firstChild.props &&
+      firstChild.props.children &&
+      firstChild.props.children[0];
+
+    if (typeof firstCharacters !== 'string') {
+      return <p key={key}>{children}</p>;
+    }
+
+    const firstLetter = firstCharacters.charAt(0);
+    const cappedFirstLetter = (
+      <span key={key} className="drop-cap">
+        {firstLetter}
+      </span>
+    );
+    const newfirstCharacters = [cappedFirstLetter, firstCharacters.slice(1)];
+    const childrenWithDropCap = [newfirstCharacters, ...children.slice(1)];
+
+    return <p key={key}>{childrenWithDropCap}</p>;
+  }
+  return defaultSerializer(type, element, content, children, key);
 };

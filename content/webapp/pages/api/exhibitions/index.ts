@@ -2,11 +2,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitions } from '../../../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../../../services/prismic/transformers/exhibitions';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { Exhibition } from 'types/exhibitions';
+import { ExhibitionBasic } from '../../../types/exhibitions';
 
-type Data = PaginatedResults<Exhibition>;
+type Data = PaginatedResults<ExhibitionBasic>;
 type NotFound = { notFound: true };
 
 export default async (

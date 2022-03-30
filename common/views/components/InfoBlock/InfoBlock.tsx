@@ -1,10 +1,10 @@
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { HTMLString } from '../../../services/prismic/types';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import { dasherize } from '@weco/common/utils/grammar';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
+import * as prismicT from '@prismicio/types';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -12,9 +12,9 @@ const Wrapper = styled(Space).attrs({
   border-left: 16px solid ${props => props.theme.color('yellow')};
 `;
 
-type Props = {
+export type Props = {
   title: string;
-  text: HTMLString;
+  text: prismicT.RichTextField;
   linkText: string | null;
   link?: string;
 };

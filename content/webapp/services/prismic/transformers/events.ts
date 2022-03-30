@@ -1,38 +1,44 @@
 import {
   Audience,
-  DateRange,
   DateTimeRange,
   EventTime,
+  Event,
+  EventBasic,
   Interpretation,
   Team,
   ThirdPartyBooking,
-} from '@weco/common/model/events';
-import { Event } from '../../../types/events';
+} from '../../../types/events';
 import {
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
 } from '../types/events';
-import { link } from './vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { GroupField, Query, RelationField } from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
-import { asText, asTitle, transformFormat, transformGenericFields, transformLabelType, transformSingleLevelGroup, transformTimestamp } from '.';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import {
+  asText,
+  asTitle,
+  transformFormat,
+  transformGenericFields,
+  transformLabelType,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { transformSeason } from './seasons';
 import { transformEventSeries } from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
-import { london } from '@weco/common/utils/format-date';
 import { LabelField } from '@weco/common/model/label-field';
 import {
-  InferDataInterface,
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
 } from '../types';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
   eventDoc: EventPrismicDocument
@@ -49,36 +55,11 @@ function transformEventBookingType(
     : undefined;
 }
 
-function determineDateRange(times: EventTime[]): DateRange {
-  const firstDate = times
-    .map(({ range: { startDateTime } }) => london(startDateTime))
-    .reduce((a, b) => (a.isBefore(b, 'day') ? a : b))
-    .toDate();
-
-  const lastDate = times
-    .map(({ range: { endDateTime } }) => london(endDateTime))
-    .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
-    .toDate();
-
-  return {
-    firstDate,
-    lastDate,
-    repeats: times.length,
-  };
-}
-
-function determineDisplayTime(times: EventTime[]): EventTime {
-  const upcomingDates = times.filter(t => {
-    return london(t.range.startDateTime).isSameOrAfter(london(), 'day');
-  });
-  return upcomingDates.length > 0 ? upcomingDates[0] : times[0];
-}
-
-export function getLastEndTime(times: EventTime[]) {
+export function getLastEndTime(times: EventTime[]): Date | undefined {
   return times.length > 0
     ? times
-        .map(({ range: { endDateTime } }) => london(endDateTime))
-        .reduce((a, b) => (a.isAfter(b, 'day') ? a : b))
+        .map(({ range: { endDateTime } }) => endDateTime)
+        .reduce((a, b) => (a.valueOf() > b.valueOf() ? a : b))
     : undefined;
 }
 
@@ -117,44 +98,43 @@ export function transformEvent(
       : [];
   const interpretations: Interpretation[] = data.interpretations
     .map(interpretation =>
-      link(interpretation.interpretationType)
+      prismicH.isFilled.link(interpretation.interpretationType)
         ? {
             interpretationType: {
               id: interpretation.interpretationType.id,
-              title: asTitle(interpretation.interpretationType.data?.title || []),
+              title: asTitle(
+                interpretation.interpretationType.data?.title || []
+              ),
               abbreviation: interpretation.interpretationType.data?.abbreviation
                 ? asText(interpretation.interpretationType.data?.abbreviation)
                 : undefined,
-              description: interpretation.interpretationType.data
-                ?.description as HTMLString,
-              primaryDescription: interpretation.interpretationType.data
-                ?.primaryDescription as HTMLString,
+              description: interpretation.interpretationType.data?.description,
+              primaryDescription:
+                interpretation.interpretationType.data?.primaryDescription,
             },
             isPrimary: Boolean(interpretation.isPrimary),
-            extraInformation: interpretation.extraInformation as HTMLString,
+            extraInformation: interpretation.extraInformation,
           }
         : undefined
     )
     .filter(isNotUndefined);
 
   const matchedId =
-    data.eventbriteEvent && data.eventbriteEvent.url
-      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.url)
+    data.eventbriteEvent && data.eventbriteEvent.embed_url
+      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.embed_url)
       : null;
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
 
   const audiences: Audience[] = data.audiences
     .map(audience =>
-      link(audience.audience)
+      prismicH.isFilled.link(audience.audience)
         ? {
             id: audience.audience.id,
             title: audience.audience.data?.title
               ? asTitle(audience.audience.data?.title)
               : '',
-            description: audience.audience.data?.description as
-              | HTMLString
-              | undefined,
+            description: audience.audience.data?.description,
           }
         : undefined
     )
@@ -180,8 +160,8 @@ export function transformEvent(
         }
       : undefined;
 
-  const series = transformSingleLevelGroup(data.series, 'series').map(
-    series => transformEventSeries(series as EventSeriesPrismicDocument)
+  const series = transformSingleLevelGroup(data.series, 'series').map(series =>
+    transformEventSeries(series as EventSeriesPrismicDocument)
   );
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
@@ -195,18 +175,18 @@ export function transformEvent(
         endDateTime: transformTimestamp(endDateTime),
       };
 
-      return isNotUndefined(range.startDateTime) && isNotUndefined(range.endDateTime)
+      return isNotUndefined(range.startDateTime) &&
+        isNotUndefined(range.endDateTime)
         ? {
-          range: range as DateTimeRange,
-          isFullyBooked
-        }
+            range: range as DateTimeRange,
+            isFullyBooked,
+          }
         : undefined;
     })
     .filter(isNotUndefined);
 
-  const displayTime = determineDisplayTime(times);
   const lastEndTime = getLastEndTime(times);
-  const isRelaxedPerformance = data.isRelaxedPerformance;
+  const isRelaxedPerformance = data.isRelaxedPerformance === 'yes';
   const isOnline = data.isOnline;
   const availableOnline = data.availableOnline;
   const schedule = eventSchedule.map((event, i) => {
@@ -222,24 +202,47 @@ export function transformEvent(
   );
 
   const contributors = transformContributors(document);
+  const format = transformFormat(document);
+
+  const formatLabel = format ? format.title : 'Event';
+  const audiencesLabels = audiences.map(a => a.title);
+  const interpretationsLabels = interpretations.map(
+    i => i.interpretationType.title
+  );
+  const relaxedPerformanceLabel = isRelaxedPerformance ? ['Relaxed'] : [];
+
+  const labels = [
+    formatLabel,
+    ...audiencesLabels,
+    ...interpretationsLabels,
+    ...relaxedPerformanceLabel,
+  ].map(text => ({ text }));
+
+  const primaryLabels = [
+    formatLabel,
+    ...audiencesLabels,
+    ...relaxedPerformanceLabel,
+  ].map(text => ({ text }));
+
+  const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
-  const event = {
+  return {
+    type: 'events',
     ...genericFields,
-    // place,
     locations,
     audiences,
     bookingEnquiryTeam,
     thirdPartyBooking,
     bookingInformation:
       data.bookingInformation && data.bookingInformation.length > 1
-        ? (data.bookingInformation as HTMLString)
+        ? data.bookingInformation
         : undefined,
     bookingType: transformEventBookingType(document),
     cost: data.cost || undefined,
-    format: transformFormat(document),
+    format,
     interpretations,
     policies: Array.isArray(data.policies)
       ? transformEventPolicyLabels(data.policies, 'policy')
@@ -250,70 +253,109 @@ export function transformEvent(
     contributors,
     scheduleLength,
     schedule,
-    backgroundTexture:
-      link(data.backgroundTexture) && data.backgroundTexture.data?.image.url
-        ? data.backgroundTexture.data.image.url
-        : undefined,
     eventbriteId,
     isCompletelySoldOut:
-      data.times && data.times.filter(time => !time.isFullyBooked).length === 0,
+      data.times &&
+      data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
-    displayStart: (displayTime && displayTime.range.startDateTime) || null,
-    displayEnd: (displayTime && displayTime.range.endDateTime) || null,
-    dateRange: determineDateRange(times),
     isPast: lastEndTime ? isPast(lastEndTime) : true,
-    isRelaxedPerformance: isRelaxedPerformance === 'yes',
+    isRelaxedPerformance,
     isOnline,
     availableOnline,
+    labels,
+    primaryLabels,
+    secondaryLabels,
   };
+}
 
-  const eventFormat = event.format
-    ? [
-        {
-          text: event.format.title,
-        },
-      ]
-    : [{ text: 'Event' }];
-  const eventAudiences = event.audiences
-    ? event.audiences.map(a => ({
-        text: a.title,
-      }))
-    : [];
-  const eventInterpretations = event.interpretations
-    ? event.interpretations.map(i => ({
-        text: i.interpretationType.title,
-      }))
-    : [];
-  const relaxedPerformanceLabel = event.isRelaxedPerformance
-    ? [
-        {
-          text: 'Relaxed',
-        },
-      ]
-    : [];
-
-  const labels = [
-    ...eventFormat,
-    ...eventAudiences,
-    ...eventInterpretations,
-    ...relaxedPerformanceLabel,
-  ];
-
-  const primaryLabels = [
-    ...eventFormat,
-    ...eventAudiences,
-    ...relaxedPerformanceLabel,
-  ];
-  const secondaryLabels = [...eventInterpretations];
-
-  return { ...event, type: 'events', labels, primaryLabels, secondaryLabels };
+export function transformEventToEventBasic(event: Event): EventBasic {
+  // returns what is required to render EventPromos and event JSON-LD
+  return (({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    cost,
+    contributors,
+  }) => ({
+    type,
+    promo,
+    id,
+    times,
+    image,
+    isPast,
+    primaryLabels,
+    title,
+    isOnline,
+    locations,
+    availableOnline,
+    scheduleLength,
+    series,
+    secondaryLabels,
+    cost,
+    contributors,
+  }))(event);
 }
 
 export const getScheduleIds = (
   eventDocument: EventPrismicDocument
 ): string[] => {
   return eventDocument.data.schedule
-    .map(linkField => (link(linkField.event) ? linkField.event.id : undefined))
+    .map(linkField =>
+      prismicH.isFilled.link(linkField.event) ? linkField.event.id : undefined
+    )
     .filter(isNotUndefined);
 };
+
+function isEvent(event: Event | EventBasic): event is Event {
+  return (event as Event).audiences !== undefined;
+}
+
+// When events are serialised as JSON then re-parsed, the times will be
+// strings instead of JavaScript Date types.
+//
+// Convert them back to the right types.
+export function fixEventDatesInJson(eventJson: Event): Event;
+export function fixEventDatesInJson(eventJson: EventBasic): EventBasic;
+export function fixEventDatesInJson(
+  jsonEvent: Event | EventBasic
+): Event | EventBasic {
+  const times = jsonEvent.times.map(time => {
+    return {
+      ...time,
+      range: {
+        startDateTime: new Date(time.range.startDateTime),
+        endDateTime: new Date(time.range.endDateTime),
+      },
+    };
+  });
+
+  if (isEvent(jsonEvent)) {
+    const schedule = jsonEvent.schedule?.map(item => ({
+      ...item,
+      event: fixEventDatesInJson(item.event),
+    }));
+
+    return {
+      ...jsonEvent,
+      times,
+      schedule,
+    };
+  } else {
+    return {
+      ...jsonEvent,
+      times,
+    };
+  }
+}

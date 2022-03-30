@@ -11,6 +11,7 @@ import {
   AuthServiceService,
   IIIFAnnotationResource,
   IIIFThumbnailService,
+  EmptyIIIFMediaElement,
 } from '../model/iiif';
 import {
   ContentResource,
@@ -21,6 +22,12 @@ import {
 import { fetchJson } from '@weco/common/utils/http';
 import cloneDeep from 'lodash.clonedeep';
 import { isNotUndefined } from '@weco/common/utils/array';
+
+const isFilledMediaElement = (
+  element: IIIFMediaElement | EmptyIIIFMediaElement
+): element is IIIFMediaElement => {
+  return '@id' in element;
+};
 
 export function getServiceId(canvas?: IIIFCanvas): string | undefined {
   const serviceSrc = canvas?.images[0]?.resource?.service;
@@ -228,6 +235,7 @@ export function getDownloadOptionsFromManifest(
     ? iiifManifest.mediaSequences.reduce((acc: IIIFRendering[], sequence) => {
         return acc.concat(
           sequence.elements
+            .filter(isFilledMediaElement)
             .map(element => {
               return {
                 '@id': element['@id'],
@@ -315,16 +323,18 @@ export function getVideo(
     );
   return (
     videoSequence &&
-    videoSequence.elements.find(
-      element => element['@type'] === 'dctypes:MovingImage'
-    )
+    videoSequence.elements
+      .filter(isFilledMediaElement)
+      .find(element => element['@type'] === 'dctypes:MovingImage')
   );
 }
 
 export function getAudio(iiifManifest: IIIFManifest): IIIFMediaElement[] {
   const audioSequences = (iiifManifest.mediaSequences || [])
     .flatMap(sequence =>
-      sequence.elements.find(element => element['@type'] === 'dctypes:Sound')
+      sequence.elements
+        .filter(isFilledMediaElement)
+        .find(element => element['@type'] === 'dctypes:Sound')
     )
     .filter(isNotUndefined);
 

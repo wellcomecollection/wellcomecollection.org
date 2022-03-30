@@ -1,10 +1,12 @@
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
-import { Card as CardType } from '@weco/common/model/card';
-import Card from '@weco/common/views/components/Card/Card';
+import { Card as CardType } from '../../types/card';
+import Card from '../Card/Card';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import FeaturedCard from '../FeaturedCard/FeaturedCard';
+import { getCrop } from '@weco/common/model/image';
+import { FC } from 'react';
 
 type Props = {
   items: readonly CardType[];
@@ -16,7 +18,7 @@ type CardGridFeaturedCardProps = {
 };
 
 const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
-  const image = item.image ? item.image.crops['16:9'] : undefined;
+  const image = getCrop(item.image, '16:9');
 
   return (
     <Layout12>
@@ -58,7 +60,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
   );
 };
 
-const CardGrid = ({ items, isFeaturedFirst }: Props) => {
+const CardGrid: FC<Props> = ({ items, isFeaturedFirst }: Props) => {
   const cards = items.filter(item => item.type === 'card');
   const threeCards = isFeaturedFirst ? cards.slice(1) : cards.slice(0, 3);
   const featuredCard = isFeaturedFirst ? cards[0] : cards[3];

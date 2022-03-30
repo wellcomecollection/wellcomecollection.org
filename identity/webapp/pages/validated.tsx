@@ -12,7 +12,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import auth0 from '../src/utility/auth0';
 
@@ -85,7 +85,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
   success: boolean;
   message: string | string[];
   isNewSignUp: boolean;

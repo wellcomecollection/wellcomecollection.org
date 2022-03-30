@@ -45,7 +45,7 @@ import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { useRouter } from 'next/router';
 import {
@@ -135,7 +135,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
   user?: Claims;
 };
 
@@ -326,7 +326,13 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                     ] ?? result.status.label}
                                   </ItemStatus>,
                                   enablePickUpDate ? (
-                                    <HTMLDate date={new Date()} /> // TODO need to pass in the actual date once it's available on resuilt
+                                    result.pickupDate ? (
+                                      <HTMLDate
+                                        date={new Date(result.pickupDate)}
+                                      />
+                                    ) : (
+                                      <p>n/a</p>
+                                    )
                                   ) : null,
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}

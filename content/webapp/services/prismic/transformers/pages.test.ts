@@ -3,27 +3,25 @@ import { PagePrismicDocument } from '../types/pages';
 import { transformPage } from './pages';
 
 export const pageWithoutBody: PagePrismicDocument = {
-  ...emptyDocument<PagePrismicDocument>(
-    {
-      title: [],
-      datePublished: null,
-      showOnThisPage: false,
-      metadataDescription: '',
-      availableOnline: false,
-      isOnline: false,
-      format: {
-        link_type: 'Document'
-      },
-      contributorsTitle: [],
-      contributors: [],
-      parents: [],
-      seasons: [],
-      body: [],
-      promo: []
+  ...emptyDocument<PagePrismicDocument>({
+    title: [],
+    datePublished: null,
+    showOnThisPage: false,
+    metadataDescription: '',
+    availableOnline: false,
+    isOnline: false,
+    format: {
+      link_type: 'Document',
     },
-  ),
+    contributorsTitle: [],
+    contributors: [],
+    parents: [],
+    seasons: [],
+    body: [],
+    promo: [],
+  }),
   alternate_languages: [],
-  type: 'pages'
+  type: 'pages',
 };
 
 describe('pages', () => {

@@ -1,6 +1,6 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../types/events';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import { HTMLString } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 
 const image = {
   contentUrl:
@@ -11,7 +11,7 @@ const image = {
   crops: {},
 };
 
-const location = {
+export const location = {
   id: 'Wn1fvyoAACgAH_yG',
   title: 'Reading Room',
   body: [],
@@ -23,10 +23,10 @@ const location = {
       text: 'We’ll be in the Reading Room on level 2. You can walk up the spiral staircase to the Reading Room door, or take the lift up and then head left from the Library Desk.',
       spans: [],
     },
-  ] as HTMLString,
+  ] as prismicT.RichTextField,
 };
 
-const baseEvent: UiEvent = {
+const baseEvent: Event = {
   type: 'events',
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
@@ -50,11 +50,6 @@ const baseEvent: UiEvent = {
     description: undefined,
   },
   body: [],
-  dateRange: {
-    firstDate: new Date(),
-    lastDate: new Date(),
-    repeats: 0,
-  },
   image: image,
   hasEarlyRegistration: false,
   labels: [
@@ -68,21 +63,23 @@ const baseEvent: UiEvent = {
     image: image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  promoImage: { ...image },
-  displayEnd: new Date(),
-  displayStart: new Date(),
   scheduleLength: 0,
   seasons: [],
   isOnline: false,
   availableOnline: false,
+  contributors: [],
 };
 
-export const eventWithOneLocation: UiEvent = {
+export const eventWithOneLocation: Event = {
   ...baseEvent,
   locations: [location],
 };
-export const eventOnline: UiEvent = { ...baseEvent, isOnline: true };
-export const eventWithOneLocationOnline: UiEvent = {
+export const eventWithMultipleLocations: Event = {
+  ...baseEvent,
+  locations: [location, location],
+};
+export const eventOnline: Event = { ...baseEvent, isOnline: true };
+export const eventWithOneLocationOnline: Event = {
   ...baseEvent,
   locations: [location],
   isOnline: true,

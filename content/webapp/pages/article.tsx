@@ -1,17 +1,15 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article } from '../types/articles';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Series } from '../types/series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
-import PageHeader, {
-  getFeaturedMedia,
-  getHeroPicture,
-} from '@weco/common/views/components/PageHeader/PageHeader';
-import { ArticleFormatIds } from '@weco/common/model/content-format-id';
+import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
+import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -26,10 +24,10 @@ import {
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from 'services/prismic';
+import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
-import { transformArticle } from 'services/prismic/transformers/articles';
-import * as prismic from 'prismic-client-beta';
+import { transformArticle } from '../services/prismic/transformers/articles';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   article: Article;
@@ -71,12 +69,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 type ArticleSeriesList = {
-  series: ArticleSeries;
+  series: Series;
   articles: Article[];
 }[];
 
-export function getNextUp(
-  series: ArticleSeries,
+function getNextUp(
+  series: Series,
   articles: Article[],
   article: Article,
   currentPosition?: number
@@ -180,22 +178,6 @@ const ArticlePage: FC<Props> = ({ article }) => {
     />
   );
 
-  const genericFields = {
-    id: article.id,
-    title: article.title,
-    promo: article.promo,
-    body: article.body,
-    standfirst: article.standfirst,
-    promoImage: article.promoImage,
-    promoText: article.promoText,
-    image: article.image,
-    squareImage: article.squareImage,
-    widescreenImage: article.widescreenImage,
-    superWidescreenImage: article.superWidescreenImage,
-    labels: article.labels,
-    metadataDescription: article.metadataDescription,
-  };
-
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
@@ -259,9 +241,9 @@ const ArticlePage: FC<Props> = ({ article }) => {
   );
 
   // This is for content that we don't have the crops for in Prismic
-  const maybeHeroPicture = getHeroPicture(genericFields);
+  const maybeHeroPicture = getHeroPicture(article);
   const maybeFeaturedMedia = !maybeHeroPicture
-    ? getFeaturedMedia(genericFields)
+    ? getFeaturedMedia(article)
     : undefined;
   const isImageGallery =
     article.format &&
@@ -294,7 +276,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   return (
     <PageLayout
       title={article.title}
-      description={article.metadataDescription || article.promoText || ''}
+      description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
       jsonLd={articleLd(article)}
       openGraphType={'article'}

@@ -2,14 +2,14 @@ import { FunctionComponent } from 'react';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import { ArticleSeries } from '@weco/common/model/article-series';
+import { Series } from '../../types/series';
 import { Article } from '../../types/articles';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
 
 type Props = {
-  series: ArticleSeries;
+  series: Series;
   items: readonly (Article | ArticleScheduleItem)[];
 };
 
@@ -21,7 +21,7 @@ const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
         <SearchResults
           key={series.id}
           title={`Read more from ${series.title}`}
-          summary={series.promoText ?? undefined}
+          summary={series.promo?.caption}
           items={items}
           showPosition={showPosition}
         />

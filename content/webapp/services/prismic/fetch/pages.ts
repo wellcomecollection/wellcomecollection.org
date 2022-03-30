@@ -1,4 +1,4 @@
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 import { PagePrismicDocument } from '../types/pages';
 import {
@@ -20,8 +20,8 @@ import {
   pagesFormatsFields,
   guidesFields,
 } from '@weco/common/services/prismic/fetch-links';
-import { Page } from '@weco/common/model/pages';
-import { SiblingsGroup } from '@weco/common/model/siblings-group';
+import { Page } from '../../../types/pages';
+import { SiblingsGroup } from '../../../types/siblings-group';
 
 export const fetchLinks = pagesFields.concat(
   articleSeriesFields,

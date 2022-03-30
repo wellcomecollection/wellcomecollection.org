@@ -1,6 +1,12 @@
-import { Guide as DeprecatedGuide } from '@weco/common/model/guides';
-import { Format as DeprecatedFormat } from '@weco/common/model/format';
+import { GenericContentFields } from './generic-content-fields';
+import { Link } from './link';
+import { Format } from './format';
 
-export type GuideFormat = DeprecatedFormat;
-
-export type Guide = DeprecatedGuide;
+export type Guide = GenericContentFields & {
+  type: 'guides';
+  format?: Format;
+  onThisPage: Link[];
+  datePublished?: Date;
+  siteSection?: string;
+  showOnThisPage: boolean;
+};

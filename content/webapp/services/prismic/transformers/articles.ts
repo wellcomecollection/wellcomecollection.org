@@ -1,4 +1,4 @@
-import { Article } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { london } from '@weco/common/utils/format-date';
 import {
@@ -7,22 +7,25 @@ import {
 } from '../types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
-import { asText, transformGenericFields, transformLabelType, transformSingleLevelGroup } from '.';
-import { MultiContent as DeprecatedMultiContent } from '@weco/common/model/multi-content';
+import {
+  asText,
+  transformGenericFields,
+  transformLabelType,
+  transformSingleLevelGroup,
+} from '.';
+import { MultiContent } from '../../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
-import { Series } from 'types/series';
+import { Series } from '../../../types/series';
 import { transformSeason } from './seasons';
 import { transformSeries } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { Format } from '@weco/common/model/format';
-import { ArticleFormatId } from '@weco/common/model/content-format-id';
+import { Format } from '../../../types/format';
+import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import { transformContributors } from './contributors';
 
-function transformContentLink(
-  document?: LinkField
-): DeprecatedMultiContent | undefined {
+function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
     return;
   }
@@ -38,10 +41,35 @@ function transformContentLink(
   }
 
   if (isFilledLinkToDocumentWithData(document)) {
-    return transformMultiContent(document) as
-      | DeprecatedMultiContent
-      | undefined;
+    return transformMultiContent(document);
   }
+}
+
+export function transformArticleToArticleBasic(article: Article): ArticleBasic {
+  // returns what is required to render StoryPromos and story JSON-LD
+  return (({
+    type,
+    id,
+    promo,
+    series,
+    title,
+    format,
+    image,
+    datePublished,
+    labels,
+    color,
+  }) => ({
+    type,
+    id,
+    promo,
+    series,
+    title,
+    format,
+    image,
+    datePublished,
+    labels,
+    color,
+  }))(article);
 }
 
 export function transformArticle(document: ArticlePrismicDocument): Article {
@@ -55,7 +83,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     data.publishDate || document.first_publication_date || undefined;
 
   const format = isFilledLinkToDocumentWithData(data.format)
-    ? transformLabelType(data.format) as Format<ArticleFormatId>
+    ? (transformLabelType(data.format) as Format<ArticleFormatId>)
     : undefined;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
@@ -77,8 +105,8 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     series,
     contributors,
     datePublished: london(datePublished).toDate(),
-    seasons: transformSingleLevelGroup(data.seasons, 'season').map(
-      season => transformSeason(season as SeasonPrismicDocument)
+    seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
+      transformSeason(season as SeasonPrismicDocument)
     ),
     outroResearchLinkText: asText(data.outroResearchLinkText),
     outroResearchItem: transformContentLink(data.outroResearchItem),

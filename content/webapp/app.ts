@@ -4,7 +4,6 @@ require('@weco/common/services/apm/initApm')('content-server');
 import Koa from 'koa';
 import Router from 'koa-router';
 import next from 'next';
-import Prismic from '@prismicio/client';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
 import bodyParser from 'koa-bodyparser';
@@ -18,8 +17,9 @@ import {
   homepageId,
   prismicPageIds,
 } from '@weco/common/services/prismic/hardcoded-id';
-import { Periods } from '@weco/common/model/periods';
+import { Periods } from './types/periods';
 import linkResolver from './services/prismic/link-resolver';
+import * as prismic from '@prismicio/client';
 
 const periodPaths = Object.values(Periods).join('|');
 
@@ -107,32 +107,33 @@ const appPromise = nextApp
     pageVanityUrl(router, nextApp, '/venue-hire', prismicPageIds.venueHire);
     pageVanityUrl(router, nextApp, '/access', prismicPageIds.access);
     pageVanityUrl(router, nextApp, '/youth', prismicPageIds.youth);
-    pageVanityUrl(router, nextApp, '/schools', 'Wuw2MSIAACtd3StS');
-    pageVanityUrl(router, nextApp, '/covid-welcome-back', 'X5amzBIAAB0Aq6Gm');
+    pageVanityUrl(router, nextApp, '/schools', prismicPageIds.schools);
     pageVanityUrl(
       router,
       nextApp,
-      '/covid-book-your-ticket',
-      'X5aomxIAAB8Aq6n5'
+      '/covid-welcome-back',
+      prismicPageIds.covidWelcomeBack
     );
-    pageVanityUrl(router, nextApp, '/visit-us', 'X8ZTSBIAACQAiDzY', '/page');
-    pageVanityUrl(router, nextApp, '/about-us', 'Wuw2MSIAACtd3Stq');
-    pageVanityUrl(router, nextApp, '/get-involved', 'YDaZmxMAACIAT9u8');
-    pageVanityUrl(router, nextApp, '/user-panel', 'YH17kRAAACoAyWTB');
+    pageVanityUrl(
+      router,
+      nextApp,
+      '/visit-us',
+      prismicPageIds.visitUs,
+      '/page'
+    );
+    pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
+    pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
+    pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 
     router.get('/preview', async ctx => {
       // Kill any cookie we had set, as it think it is causing issues.
-      ctx.cookies.set(Prismic.previewCookie);
+      ctx.cookies.set(prismic.cookie.preview);
 
-      const { token, documentId } = ctx.request.query;
-      const api = await Prismic.getApi(
-        'https://wellcomecollection.cdn.prismic.io/api/v2',
-        {
-          req: ctx.request,
-        }
-      );
+      const endpoint = prismic.getEndpoint('wellcomecollection');
+      const client = prismic.createClient(endpoint, { fetch });
+      client.enableAutoPreviewsFromReq(ctx.request);
 
       /**
        * This is because the type in api.resolve are not true
@@ -141,9 +142,10 @@ const appPromise = nextApp
         return (linkResolver(doc) as string) || '/';
       };
 
-      const url = await api
-        .getPreviewResolver(token!.toString(), documentId!.toString())
-        .resolve(retypedLinkResolver, '/');
+      const url = await client.resolvePreviewURL({
+        linkResolver: retypedLinkResolver,
+        defaultURL: '/',
+      });
 
       ctx.cookies.set('isPreview', 'true', {
         httpOnly: false,

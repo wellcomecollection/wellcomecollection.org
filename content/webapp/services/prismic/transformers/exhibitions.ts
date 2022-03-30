@@ -1,5 +1,8 @@
 import {
+  Exhibit,
+  ExhibitionFormat,
   Exhibition,
+  ExhibitionBasic,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
 import {
@@ -10,19 +13,24 @@ import {
 import { Query } from '@prismicio/types';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
-import { london } from '@weco/common/utils/format-date';
 import { transformMultiContent } from './multi-content';
-import { link } from './vendored-helpers';
-import { asHtml, asRichText, asText, asTitle, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import {
+  asHtml,
+  asRichText,
+  asText,
+  asTitle,
+  transformGenericFields,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { isFilledLinkToDocumentWithData } from '../types';
-import { Exhibit, ExhibitionFormat } from '@weco/common/model/exhibitions';
-import { Resource } from '@weco/common/model/resource';
+import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import * as prismicH from '@prismicio/helpers';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -66,23 +74,19 @@ export function transformExhibition(
   const data = document.data;
   const promo = data.promo;
   const exhibitIds = data.exhibits
-    ? data.exhibits.map(i => link(i.item) && i.item.id)
+    ? data.exhibits.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const eventIds = data.events
-    ? data.events.map(i => link(i.item) && i.item.id)
+    ? data.events.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const articleIds = data.articles
-    ? data.articles.map(i => link(i.item) && i.item.id)
+    ? data.articles.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
   ) as string[];
-  const promoThin = promo && transformImagePromo(promo, '32:15');
-  const promoSquare = promo && transformImagePromo(promo, 'square');
 
-  const promos = [promoThin, promoSquare]
-    .map(p => p?.image)
-    .filter(isNotUndefined);
+  const promoSquare = promo && transformImagePromo(promo, 'square');
 
   const id = document.id;
 
@@ -109,7 +113,10 @@ export function transformExhibition(
     season => transformSeason(season as SeasonPrismicDocument)
   );
 
-  const exhibits: Exhibit[] = transformSingleLevelGroup(data.exhibits, 'item').map(exhibit => {
+  const exhibits: Exhibit[] = transformSingleLevelGroup(
+    data.exhibits,
+    'item'
+  ).map(exhibit => {
     return {
       exhibitType: 'exhibitions',
       item: transformExhibition(exhibit as ExhibitionPrismicDocument),
@@ -147,7 +154,6 @@ export function transformExhibition(
       end,
       statusOverride,
     },
-    featuredImageList: promos,
     resources: Array.isArray(data.resources)
       ? transformResourceTypeList(data.resources, 'resource')
       : [],
@@ -172,10 +178,43 @@ export function transformExhibition(
   return { ...exhibition, type: 'exhibitions', labels };
 }
 
+export function transformExhibitionToExhibitionBasic(
+  exhibition: Exhibition
+): ExhibitionBasic {
+  // returns what is required to render ExhibitionPromos and exhibition JSON-LD
+  return (({
+    type,
+    id,
+    title,
+    promo,
+    format,
+    start,
+    end,
+    isPermanent,
+    statusOverride,
+    contributors,
+    labels,
+  }) => ({
+    type,
+    id,
+    title,
+    promo,
+    format,
+    start,
+    end,
+    isPermanent,
+    statusOverride,
+    contributors,
+    labels,
+  }))(exhibition);
+}
+
 export function transformExhibitionsQuery(
   query: Query<ExhibitionPrismicDocument>
-): PaginatedResults<Exhibition> {
-  const paginatedResult = transformQuery(query, transformExhibition);
+): PaginatedResults<ExhibitionBasic> {
+  const paginatedResult = transformQuery(query, exhibition =>
+    transformExhibitionToExhibitionBasic(transformExhibition(exhibition))
+  );
 
   return {
     ...paginatedResult,
@@ -184,19 +223,21 @@ export function transformExhibitionsQuery(
 }
 
 function putPermanentAfterCurrentExhibitions(
-  exhibitions: Exhibition[]
-): Exhibition[] {
+  exhibitions: ExhibitionBasic[]
+): ExhibitionBasic[] {
   // We order the list this way as, from a user's perspective, seeing the
   // temporary exhibitions is more urgent, so they're at the front of the list,
   // but there's no good way to express that ordering through Prismic's ordering
+  const now = new Date();
+
   const groupedResults = exhibitions.reduce(
     (acc, result) => {
       // Wishing there was `groupBy`.
       if (result.isPermanent) {
         acc.permanent.push(result);
-      } else if (london(result.start).isAfter(london())) {
+      } else if (result.start.valueOf() >= now.valueOf()) {
         acc.comingUp.push(result);
-      } else if (result.end && london(result.end).isBefore(london())) {
+      } else if (result.end && result.end.valueOf() < now.valueOf()) {
         acc.past.push(result);
       } else {
         acc.current.push(result);
@@ -205,10 +246,10 @@ function putPermanentAfterCurrentExhibitions(
       return acc;
     },
     {
-      current: [] as Exhibition[],
-      permanent: [] as Exhibition[],
-      comingUp: [] as Exhibition[],
-      past: [] as Exhibition[],
+      current: [] as ExhibitionBasic[],
+      permanent: [] as ExhibitionBasic[],
+      comingUp: [] as ExhibitionBasic[],
+      past: [] as ExhibitionBasic[],
     }
   );
 
@@ -239,3 +280,15 @@ export const transformExhibitionRelatedContent = (
     ),
   } as ExhibitionRelatedContent;
 };
+
+// When exhibitions are serialised as JSON then re-parsed, the times will be
+// strings instead of JavaScript Date types.
+//
+// Convert them back to the right types.
+export function fixExhibitionDatesInJson(exhibition: Exhibition): Exhibition {
+  return {
+    ...exhibition,
+    start: exhibition.start && new Date(exhibition.start),
+    end: exhibition.end && new Date(exhibition.end),
+  };
+}

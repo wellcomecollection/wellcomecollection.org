@@ -7,11 +7,11 @@ import {
 } from '@prismicio/types';
 import {
   CommonPrismicFields,
-  InferDataInterface,
   WithContributors,
   WithExhibitionParents,
   WithSeasons,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 const typeEnum = 'guides';
 

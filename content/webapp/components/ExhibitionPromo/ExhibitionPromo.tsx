@@ -5,14 +5,14 @@ import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import { CardOuter, CardBody } from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Exhibition } from '../../types/exhibitions';
+import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
   position?: number;
 };
 
@@ -40,18 +40,22 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
       }}
     >
       <div className="relative">
-        {isNotUndefined(image)
-          ? <PrismicImage
-              image={image}
-              sizes={{
-                xlarge: 1 / 3,
-                large: 1 / 3,
-                medium: 1 / 2,
-                small: 1,
-              }}
-            />
-          : undefined
-        }
+        {isNotUndefined(image) ? (
+          <PrismicImage
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            image={{...image, alt: ""}}
+            sizes={{
+              xlarge: 1 / 3,
+              large: 1 / 3,
+              medium: 1 / 2,
+              small: 1,
+            }}
+          />
+        ) : undefined}
 
         <div style={{ position: 'absolute', bottom: 0 }}>
           <LabelsList labels={labels} />

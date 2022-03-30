@@ -1,15 +1,16 @@
 import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { MultiContent } from '../../services/prismic/transformers/multi-content';
+import { MultiContent } from '../../types/multi-content';
 import { grid } from '@weco/common/utils/classnames';
 import { formatDate } from '@weco/common/utils/format-date';
 import Image from '@weco/common/views/components/Image/Image';
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
-import EventCard from '@weco/common/views/components/EventCard/EventCard';
-import ImagePlaceholder from '@weco/common/views/components/ImagePlaceholder/ImagePlaceholder';
+import CompactCard from '../CompactCard/CompactCard';
+import EventCard from '../EventCard/EventCard';
+import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import Space from '@weco/common/views/components/styled/Space';
 import ArticleCard from '../ArticleCard/ArticleCard';
-import { ArticleScheduleItem } from '@weco/common/model/article-schedule-items';
+import { ArticleScheduleItem } from '../../types/article-schedule-items';
+import { getCrop } from '@weco/common/model/image';
 
 const Result = styled.div`
   border-top: 1px solid ${props => props.theme.color('pumice')};
@@ -57,10 +58,13 @@ const SearchResults: FunctionComponent<Props> = ({
             description={item.promo && item.promo.caption}
             urlOverride={item.promo && item.promo.link}
             Image={
-              item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -77,10 +81,13 @@ const SearchResults: FunctionComponent<Props> = ({
             description={item.promo && item.promo.caption}
             urlOverride={item.promo && item.promo.link}
             Image={
-              item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -97,10 +104,13 @@ const SearchResults: FunctionComponent<Props> = ({
             description={item.promo && item.promo.caption}
             urlOverride={item.promo && item.promo.link}
             Image={
-              item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.cover, 'square') && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                <Image {...getCrop(item.cover, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}
@@ -141,12 +151,15 @@ const SearchResults: FunctionComponent<Props> = ({
             color={undefined}
             primaryLabels={item.labels}
             secondaryLabels={[]}
-            description={item.promoText}
+            description={item.promo?.caption}
             Image={
-              item.image &&
-              item.image.crops &&
-              item.image.crops.square && (
-                <Image {...item.image.crops.square} alt="" />
+              getCrop(item.image, 'square') && (
+                // We intentionally omit the alt text on promos, so screen reader
+                // users don't have to listen to the alt text before hearing the
+                // title of the item in the list.
+                //
+                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                <Image {...getCrop(item.image, 'square')!} alt="" />
               )
             }
             xOfY={{ x: index + 1, y: items.length }}

@@ -1,5 +1,6 @@
 import moment, { Moment } from 'moment';
 import 'moment-timezone';
+import { isFuture, isPast, isSameDay } from './dates';
 
 type DateObj = { M?: number; Y?: number };
 
@@ -9,10 +10,7 @@ export function london(d?: DateTypes): Moment {
   return moment.tz(d, 'Europe/London');
 }
 
-export function londonFromFormat(
-  d: DateTypes,
-  format: string
-): Moment {
+export function londonFromFormat(d: DateTypes, format: string): Moment {
   return moment(d, format).tz('Europe/London');
 }
 
@@ -28,26 +26,8 @@ export function formatDate(date: Date | Moment): string {
   return london(date).format('D MMMM YYYY');
 }
 
-export function formatDateRange(date: Date): string {
-  return london(date).format('D MMMM YYYY');
-}
-
-export function formatTime(date: Date): string {
+export function formatTime(date: DateTypes): string {
   return london(date).format('HH:mm');
-}
-
-export function isTimePast(date: Date): boolean {
-  const momentNow = london();
-  const momentEnd = london(date);
-
-  return momentEnd.isBefore(momentNow);
-}
-
-export function isDatePast(date: Date): boolean {
-  const momentNow = london();
-  const momentEnd = london(date);
-
-  return momentEnd.isBefore(momentNow, 'day');
 }
 
 export function formatDateRangeWithMessage({
@@ -57,15 +37,19 @@ export function formatDateRangeWithMessage({
   start: Date;
   end: Date;
 }): { text: string; color: string } {
-  const now = london();
-  const s = london(start);
-  const e = london(end);
+  const today = new Date();
 
-  if (s.isAfter(now, 'day')) {
+  const sevenDaysTime = new Date();
+  sevenDaysTime.setDate(sevenDaysTime.getDate() + 7);
+
+  const closesToday = isSameDay(end, today);
+  const closesInSevenDays = today < end && end < sevenDaysTime;
+
+  if (!isSameDay(today, start) && isFuture(start)) {
     return { text: 'Coming soon', color: 'marble' };
-  } else if (e.isBefore(now, 'day')) {
+  } else if (!isSameDay(today, end) && isPast(end)) {
     return { text: 'Past', color: 'marble' };
-  } else if (now.isBetween(e.clone().subtract(1, 'w'), e, 'day')) {
+  } else if (closesToday || closesInSevenDays) {
     return { text: 'Final week', color: 'orange' };
   } else {
     return { text: 'Now on', color: 'green' };

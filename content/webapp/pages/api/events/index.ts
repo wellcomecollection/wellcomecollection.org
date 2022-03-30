@@ -4,8 +4,8 @@ import { createClient } from '../../../services/prismic/fetch';
 import { fetchEvents } from '../../../services/prismic/fetch/events';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Event } from '../../../types/events';
-import { transformEvent } from 'services/prismic/transformers/events';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
+import { transformEvent } from '../../../services/prismic/transformers/events';
+import { transformQuery } from '../../../services/prismic/transformers/paginated-results';
 
 type Data = PaginatedResults<Event>;
 type NotFound = { notFound: true };

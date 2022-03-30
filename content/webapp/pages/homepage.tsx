@@ -5,8 +5,8 @@ import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHe
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { Article } from '../types/articles';
-import { Page as PageType } from '@weco/common/model/pages';
+import { ArticleBasic } from '../types/articles';
+import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -16,10 +16,9 @@ import {
   orderEventsByNextAvailableDate,
   filterEventsForNext7Days,
 } from '../services/prismic/events';
-import { Exhibition } from '../types/exhibitions';
-import { Event } from '../types/events';
-import { convertJsonToDates } from './event';
-import { convertItemToCardProps } from '@weco/common/model/card';
+import { ExhibitionBasic } from '../types/exhibitions';
+import { EventBasic } from '../types/events';
+import { convertItemToCardProps } from '../types/card';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -30,16 +29,27 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
-import { transformEvent } from '../services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+  transformEventToEventBasic,
+} from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
-import { fetchExhibitions } from 'services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -60,10 +70,11 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
-  events: PaginatedResults<Event>;
-  articles: PaginatedResults<Article>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
+  events: PaginatedResults<EventBasic>;
+  articles: ArticleBasic[];
   page: PageType;
+  jsonLd: JsonLdObj[];
 };
 
 const pageImage: ImageType = {
@@ -72,7 +83,6 @@ const pageImage: ImageType = {
   width: 800,
   height: 450,
   alt: '',
-  crops: {},
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -103,17 +113,23 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const page = transformPage(pageDocument!);
 
     const articles = transformQuery(articlesQuery, transformArticle);
-    const events = transformQuery(eventsQuery, transformEvent);
+    const jsonLd = articles.results.map(articleLd);
+    const basicArticles = articles.results.map(transformArticleToArticleBasic);
+
+    const events = transformQuery(eventsQuery, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
-          articles,
+          articles: basicArticles,
           page,
           exhibitions,
           events,
           serverData,
+          jsonLd,
         }),
       };
     } else {
@@ -122,20 +138,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Homepage: FC<Props> = props => {
-  const events = props.events.results.map(convertJsonToDates);
+  const events = props.events.results.map(fixEventDatesInJson);
   const nextSevenDaysEvents = orderEventsByNextAvailableDate(
     filterEventsForNext7Days(events)
   );
 
-  // Convert dates back to Date types because it's serialised through
-  // `getInitialProps`
-  const exhibitions = props.exhibitions.results.map(exhibition => {
-    return {
-      ...exhibition,
-      start: exhibition.start && new Date(exhibition.start),
-      end: exhibition.end && new Date(exhibition.end),
-    };
-  });
+  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const articles = props.articles;
   const page = props.page;
@@ -149,7 +157,7 @@ const Homepage: FC<Props> = props => {
       title={''}
       description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
-      jsonLd={[...articles.results.map(articleLd)]}
+      jsonLd={props.jsonLd}
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
@@ -188,7 +196,7 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents as Event[]}
+              events={nextSevenDaysEvents as EventBasic[]}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>
@@ -220,7 +228,7 @@ const Homepage: FC<Props> = props => {
         </SpacingComponent>
         <SpacingComponent>
           <CardGrid
-            items={articles.results}
+            items={articles}
             itemsPerRow={4}
             itemsHaveTransparentBackground={true}
             links={[{ text: 'All stories', url: '/stories' }]}

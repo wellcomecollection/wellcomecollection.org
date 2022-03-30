@@ -2,20 +2,16 @@ import { FunctionComponent } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  CardOuter,
-  CardBody,
-  CardPostBody,
-} from '@weco/common/views/components/Card/Card';
+import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
-  article: Article;
+  article: ArticleBasic;
   position: number;
   hidePromoText?: boolean;
   hasTransparentBackground?: boolean;
@@ -41,9 +37,9 @@ const StoryPromo: FunctionComponent<Props> = ({
 
   const seriesColor = seriesWithSchedule?.color ?? undefined;
 
-  const indexInSeriesSchedule = (seriesWithSchedule?.schedule
-    ?.map(scheduleItem => scheduleItem.title) || [])
-    .indexOf(article.title);
+  const seriesTitles =
+    seriesWithSchedule?.schedule?.map(scheduleItem => scheduleItem.title) || [];
+  const indexInSeriesSchedule = seriesTitles.indexOf(article.title);
 
   const positionInSeriesSchedule =
     isNotUndefined(indexInSeriesSchedule) && indexInSeriesSchedule !== -1
@@ -52,10 +48,7 @@ const StoryPromo: FunctionComponent<Props> = ({
 
   const isSerial = Boolean(seriesWithSchedule);
 
-  const labels = [
-    article.format?.title,
-    isSerial ? 'Serial' : undefined,
-  ]
+  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
     .map(text => ({ text }));
 
@@ -74,9 +67,14 @@ const StoryPromo: FunctionComponent<Props> = ({
       })}
     >
       <div className="relative">
-        {isNotUndefined(image) &&
+        {isNotUndefined(image) && (
           <PrismicImage
-            image={image}
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            image={{...image, alt: ''}}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
@@ -84,7 +82,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               small: 1,
             }}
           />
-        }
+        )}
 
         {labels.length > 0 && (
           <div style={{ position: 'absolute', bottom: 0 }}>
@@ -130,8 +128,7 @@ const StoryPromo: FunctionComponent<Props> = ({
         <CardPostBody>
           {article.series.map(series => (
             <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span>{' '}
-              {series.title}
+              <span className={font('hnr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>

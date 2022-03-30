@@ -1,16 +1,17 @@
-import CompactCard from '@weco/common/views/components/CompactCard/CompactCard';
+import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
-import { ArticleFormatIds } from '@weco/common/model/content-format-id';
+import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined } from '@weco/common/utils/array';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import linkResolver from '../../services/prismic/link-resolver';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
-  article: Article;
+  article: ArticleBasic;
   showPosition: boolean;
   xOfY: {
     x: number;
@@ -24,7 +25,7 @@ const ArticleCard: FunctionComponent<Props> = ({
   xOfY,
 }: Props) => {
   const url = linkResolver(article);
-  const image = article.squareImage;
+  const image = getCrop(article.image, 'square');
 
   const seriesWithSchedule = article.series.find(
     series => (series.schedule ?? []).length > 0
@@ -32,8 +33,8 @@ const ArticleCard: FunctionComponent<Props> = ({
 
   const indexInSeriesSchedule = article.promo?.caption
     ? seriesWithSchedule?.schedule
-      ?.map(scheduleItem => scheduleItem.title)
-      .indexOf(article.promo?.caption)
+        ?.map(scheduleItem => scheduleItem.title)
+        .indexOf(article.promo?.caption)
     : undefined;
 
   const seriesColor = seriesWithSchedule?.color ?? undefined;
@@ -46,14 +47,11 @@ const ArticleCard: FunctionComponent<Props> = ({
   const isSerial = Boolean(seriesWithSchedule);
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
-  const labels = [
-    article.format?.title,
-    isSerial ? 'Serial' : undefined,
-  ]
+  const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
     .map(text => ({ text }));
 
-  const publicationDate =article.datePublished;
+  const publicationDate = article.datePublished;
 
   return (
     <CompactCard
@@ -68,7 +66,12 @@ const ArticleCard: FunctionComponent<Props> = ({
       Image={
         (image && (
           <PrismicImage
-            image={image}
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,

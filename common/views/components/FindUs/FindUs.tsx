@@ -8,6 +8,7 @@ import {
 import Space from '../styled/Space';
 import { location as locationIcon } from '@weco/common/icons';
 import { FunctionComponent } from 'react';
+import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
 
 const StyledFindUs = styled.div.attrs({
   className: classNames({
@@ -71,7 +72,7 @@ const FindUs: FunctionComponent = () => (
           block: true,
         })}
       >
-        <a href="/pages/WwabUiAAAHQXGNHB">Getting here</a>
+        <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
       </Space>
       <p
         style={{ marginLeft: '38px' }}

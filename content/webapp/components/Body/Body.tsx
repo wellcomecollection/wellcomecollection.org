@@ -6,7 +6,7 @@ import React, {
   Fragment,
 } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
-import { Link } from '@weco/common/model/link';
+import { Link } from '../../types/link';
 import {
   defaultSerializer,
   dropCapSerializer,
@@ -16,32 +16,32 @@ import { CaptionedImage } from '@weco/common/views/components/Images/Images';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
-import Quote from '@weco/common/views/components/Quote/Quote';
+import Quote from '../Quote/Quote';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import FeaturedText from '@weco/common/views/components/FeaturedText/FeaturedText';
+import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
-import DeprecatedImageList from '@weco/common/views/components/DeprecatedImageList/DeprecatedImageList';
+import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import OnThisPageAnchors from '@weco/common/views/components/OnThisPageAnchors/OnThisPageAnchors';
+import OnThisPageAnchors from '../OnThisPageAnchors/OnThisPageAnchors';
 import VenueClosedPeriods from '../VenueClosedPeriods/VenueClosedPeriods';
 import Table from '@weco/common/views/components/Table/Table';
-import MediaObjectList from '@weco/common/views/components/MediaObjectList/MediaObjectList';
+import MediaObjectList from '../MediaObjectList/MediaObjectList';
 import InfoBlock from '@weco/common/views/components/InfoBlock/InfoBlock';
-import TitledTextList from '@weco/common/views/components/TitledTextList/TitledTextList';
+import TitledTextList from '../TitledTextList/TitledTextList';
 import TagsGroup from '@weco/common/views/components/TagsGroup/TagsGroup';
-import Discussion from '@weco/common/views/components/Discussion/Discussion';
+import Discussion from '../Discussion/Discussion';
 import WobblyEdgedContainer from '@weco/common/views/components/WobblyEdgedContainer/WobblyEdgedContainer';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
-import Card from '@weco/common/views/components/Card/Card';
-import { convertItemToCardProps } from '@weco/common/model/card';
-import { BodyType } from '@weco/common/model/generic-content-fields';
+import Card from '../Card/Card';
+import { convertItemToCardProps } from '../../types/card';
+import { BodyType } from '../../types/generic-content-fields';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
@@ -310,10 +310,23 @@ const Body: FunctionComponent<Props> = ({
                     <div className="body-text spaced-text">
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
-                          <PrismicHtmlBlock
-                            html={slice.value}
-                            htmlSerializer={dropCapSerializer}
-                          />
+                          <>
+                            {/*
+                              The featured text slice can contain multiple paragraphs,
+                              e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
+
+                              The drop cap serializer will see them as two separate paragraphs,
+                              so we have to split out the first paragraph here.
+                            */}
+                            <PrismicHtmlBlock
+                              html={[slice.value[0]]}
+                              htmlSerializer={dropCapSerializer}
+                            />
+                            <PrismicHtmlBlock
+                              html={slice.value.slice(1)}
+                              htmlSerializer={defaultSerializer}
+                            />
+                          </>
                         ) : (
                           <PrismicHtmlBlock
                             html={slice.value}
@@ -474,10 +487,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'tagList' && (
                   <LayoutWidth width={minWidth}>
-                    <TagsGroup
-                      title={slice.value.title}
-                      tags={slice.value.tags}
-                    />
+                    <TagsGroup {...slice.value} />
                   </LayoutWidth>
                 )}
                 {/* deprecated */}

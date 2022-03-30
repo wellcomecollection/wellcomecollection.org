@@ -11,9 +11,8 @@ import { getCreds } from '@weco/ts-aws/sts';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-async function run() {
-  const s3Client = new S3Client({ region });
-  const remoteToggles = await getTogglesObject(s3Client);
+export async function setDefaultValueFor(client: S3Client) {
+  const remoteToggles = await getTogglesObject(client);
 
   const toggles = remoteToggles.toggles.map(toggle => {
     const arg = argv[toggle.id];
@@ -33,7 +32,7 @@ async function run() {
   };
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
-    s3Client,
+    client,
     togglesAndTests
   );
 
@@ -45,16 +44,14 @@ async function run() {
 
   // create an invalidation on the object
   const credentials = await getCreds('experience', 'admin');
-  const client = new CloudFrontClient({ region, credentials });
+  const newClient = new CloudFrontClient({ region, credentials });
   const command = new CreateInvalidationCommand({
     DistributionId: 'E34PPJX23D6HKG',
     InvalidationBatch: {
-      Paths: { Items: [`/${key}.json`], Quantity: 1 },
+      Paths: { Items: [`/${key}`], Quantity: 1 },
       CallerReference: `TogglesInvalidationCallerReference${Date.now()}`,
     },
   });
-  const response = await client.send(command);
+  const response = await newClient.send(command);
   console.info(response);
 }
-
-run();

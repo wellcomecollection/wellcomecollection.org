@@ -1,6 +1,6 @@
 import { Page as PageType } from '../types/pages';
 import Exhibition from '../components/Exhibition/Exhibition';
-import { Exhibition as ExhibitionType} from '../types/exhibitions';
+import { Exhibition as ExhibitionType } from '../types/exhibitions';
 import Installation from '../components/Installation/Installation';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { FC } from 'react';
@@ -8,10 +8,13 @@ import { GetServerSideProps } from 'next';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { createClient } from '../services/prismic/fetch';
-import { fetchExhibition } from 'services/prismic/fetch/exhibitions';
-import { transformQuery } from 'services/prismic/transformers/paginated-results';
-import { transformPage } from 'services/prismic/transformers/pages';
-import { transformExhibition } from 'services/prismic/transformers/exhibitions';
+import { fetchExhibition } from '../services/prismic/fetch/exhibitions';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
+import { transformPage } from '../services/prismic/transformers/pages';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibition,
+} from '../services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '../services/prismic';
 
 type Props = {
@@ -19,7 +22,9 @@ type Props = {
   pages: PageType[];
 } & WithGaDimensions;
 
-const ExhibitionPage: FC<Props> = ({ exhibition, pages }) => {
+const ExhibitionPage: FC<Props> = ({ exhibition: jsonExhibition, pages }) => {
+  const exhibition = fixExhibitionDatesInJson(jsonExhibition);
+
   if (exhibition.format && exhibition.format.title === 'Installation') {
     return <Installation installation={exhibition} />;
   } else {
@@ -45,12 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       return {
         props: removeUndefinedProps({
-          // TODO: This is a temporary shim until we can get rid of the UiExhibition
-          // type.  Ideally we'd pass the exhibitionDoc directly here.
-          exhibition: {
-            ...exhibitionDoc,
-            featuredImageList: [],
-          },
+          exhibition: exhibitionDoc,
           pages: relatedPages?.results || [],
           serverData,
           gaDimensions: {

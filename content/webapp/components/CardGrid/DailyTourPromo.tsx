@@ -1,4 +1,4 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 import EventPromo from '../EventPromo/EventPromo';
 
@@ -11,8 +11,7 @@ const image = {
   crops: {},
 };
 
-export const data: UiEvent = {
-  type: 'events',
+export const data: Event = {
   id: 'tours',
   title: 'Daily Guided Tours and Discussions',
   times: [],
@@ -35,12 +34,7 @@ export const data: UiEvent = {
     description: undefined,
   },
   body: [],
-  dateRange: {
-    firstDate: new Date(),
-    lastDate: new Date(),
-    repeats: 0,
-  },
-  image: image,
+  image,
   hasEarlyRegistration: false,
   labels: [
     {
@@ -50,16 +44,15 @@ export const data: UiEvent = {
   primaryLabels: [],
   secondaryLabels: [],
   promo: {
-    image: image,
+    image,
     link: `/pages/${prismicPageIds.dailyGuidedTours}`,
   },
-  promoImage: { ...image },
-  displayEnd: new Date(),
-  displayStart: new Date(),
   scheduleLength: 0,
   seasons: [],
   isOnline: false,
   availableOnline: false,
+  contributors: [],
+  type: 'events',
 };
 
 const DailyTourPromo = () => (

@@ -13,10 +13,11 @@ import {
   RelationField,
 } from '@prismicio/types';
 import { isUndefined } from '@weco/common/utils/array';
-import { Image, InferDataInterface } from '.';
+import { Image } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from './teams';
 
-type TextSlice = Slice<'text', { text: RichTextField }>;
+export type TextSlice = Slice<'text', { text: RichTextField }>;
 
 export type EditorialImageSlice = Slice<
   'editorialImage',
@@ -45,7 +46,7 @@ export type GifVideoSlice = Slice<
   }
 >;
 
-type Iframe = Slice<
+export type Iframe = Slice<
   'iframe',
   {
     iframeSrc: KeyTextField;
@@ -59,10 +60,10 @@ type QuotePrimaryFields = {
   citation: RichTextField;
 };
 
-type Quote = Slice<'quote', QuotePrimaryFields>;
-type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
+export type Quote = Slice<'quote', QuotePrimaryFields>;
+export type QuoteV2 = Slice<'quoteV2', QuotePrimaryFields>;
 
-type Standfirst = Slice<
+export type Standfirst = Slice<
   'standfirst',
   {
     text: RichTextField;
@@ -86,7 +87,7 @@ export type Embed = Slice<
   }
 >;
 
-type Map = Slice<
+export type Map = Slice<
   'map',
   {
     title: KeyTextField;
@@ -94,7 +95,7 @@ type Map = Slice<
   }
 >;
 
-type CollectionVenue = Slice<
+export type CollectionVenue = Slice<
   'collectionVenue',
   {
     content: RelationField<'collection-venue'>;
@@ -121,7 +122,7 @@ export type Discussion = Slice<
   }
 >;
 
-type TagList = Slice<
+export type TagList = Slice<
   'tagList',
   {
     title: RichTextField;
@@ -132,7 +133,7 @@ type TagList = Slice<
   }
 >;
 
-type InfoBlock = Slice<
+export type InfoBlock = Slice<
   'infoBlock',
   {
     title: RichTextField;
@@ -172,7 +173,7 @@ type ContentList = Slice<
   }
 >;
 
-type SearchResults = Slice<
+export type SearchResults = Slice<
   'searchResults',
   { title: RichTextField; query: KeyTextField }
 >;

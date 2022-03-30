@@ -19,9 +19,9 @@
 import chalk from 'chalk';
 
 export type Delta = {
-  oldRecordOnly: Record<string, any>
-  newRecordOnly: Record<string, any>
-}
+  oldRecordOnly: Record<string, any>;
+  newRecordOnly: Record<string, any>;
+};
 
 const EmptyDelta = {
   oldRecordOnly: {},
@@ -29,18 +29,17 @@ const EmptyDelta = {
 };
 
 export const isEmpty = (d: Delta): boolean =>
-  Object.keys(d.oldRecordOnly).length === 0 && Object.keys(d.newRecordOnly).length === 0;
-
+  Object.keys(d.oldRecordOnly).length === 0 &&
+  Object.keys(d.newRecordOnly).length === 0;
 
 export const diffJson = (oldR: Object, newR: Object): Delta => {
-
   // If they're the same, there's nothing to do!
   if (oldR === newR) {
     return EmptyDelta;
   }
 
-  let oldRecordOnly = {};
-  let newRecordOnly = {};
+  const oldRecordOnly = {};
+  const newRecordOnly = {};
 
   for (const key of Object.keys(oldR)) {
     // If both objects have the key and it's the same, there's nothing to do
@@ -52,7 +51,11 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
     }
     // If the keys have different values and they're both objects, recurse down
     // and compute another diff
-    else if (key in newR && typeof oldR[key] === 'object' && typeof newR[key] === 'object') {
+    else if (
+      key in newR &&
+      typeof oldR[key] === 'object' &&
+      typeof newR[key] === 'object'
+    ) {
       const delta = diffJson(oldR[key], newR[key]);
 
       oldRecordOnly[key] = delta.oldRecordOnly;
@@ -77,20 +80,20 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
   }
 
   return { oldRecordOnly, newRecordOnly };
-}
+};
 
 export const printDelta = (delta: Delta): void => {
   console.info('------------------------');
 
-  console.info("Only in the remote type; this will be deleted/changed:")
-  const remoteJson = JSON.stringify(delta.oldRecordOnly, null, 2)
+  console.info('Only in the remote type; this will be deleted/changed:');
+  const remoteJson = JSON.stringify(delta.oldRecordOnly, null, 2);
   console.log(chalk.red(remoteJson));
 
-  console.info("");
+  console.info('');
 
-  console.info("Only in the local type; this will be added/updated:")
+  console.info('Only in the local type; this will be added/updated:');
   const localJson = JSON.stringify(delta.newRecordOnly, null, 2);
   console.log(chalk.green(localJson));
 
   console.info('------------------------');
-}
+};

@@ -7,9 +7,12 @@ import { ImageField, KeyTextField } from '@prismicio/types';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformContributors } from './contributors';
 
-function transformBackgroundTexture({ image, name }: {
-  image: ImageField,
-  name: KeyTextField
+function transformBackgroundTexture({
+  image,
+  name,
+}: {
+  image: ImageField;
+  name: KeyTextField;
 }): BackgroundTexture | undefined {
   const backgroundName = asText(name);
 
@@ -23,7 +26,9 @@ export function transformEventSeries(
 ): EventSeries {
   const genericFields = transformGenericFields(document);
 
-  const backgroundTexture = isFilledLinkToDocumentWithData(document.data.backgroundTexture)
+  const backgroundTexture = isFilledLinkToDocumentWithData(
+    document.data.backgroundTexture
+  )
     ? transformBackgroundTexture(document.data.backgroundTexture.data)
     : undefined;
 
@@ -32,7 +37,7 @@ export function transformEventSeries(
       text: 'Event series',
     },
   ];
-  
+
   const contributors = transformContributors(document);
 
   return {

@@ -45,6 +45,7 @@ export type CatalogueWorksApiProps = {
   availabilities?: string[];
   sort?: string;
   sortOrder?: string;
+  partOf?: string;
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'genres.label'?: string[];
@@ -67,6 +68,7 @@ export function worksRouteToApiUrl(
     availabilities: worksProps.availabilities,
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
+    partOf: worksProps.partOf,
     'production.dates.from': worksProps['production.dates.from']
       ? toIsoDateString(worksProps['production.dates.from'])
       : undefined,
@@ -76,9 +78,8 @@ export function worksRouteToApiUrl(
     languages: worksProps.languages,
     'genres.label': worksProps['genres.label'].map(quoteVal),
     'subjects.label': worksProps['subjects.label'].map(quoteVal),
-    'contributors.agent.label': worksProps['contributors.agent.label'].map(
-      quoteVal
-    ),
+    'contributors.agent.label':
+      worksProps['contributors.agent.label'].map(quoteVal),
     ...overrides,
   };
 }
@@ -92,12 +93,10 @@ export function imagesRouteToApiUrl(
     page: imagesRouteProps.page,
     color: imagesRouteProps.color,
     'locations.license': imagesRouteProps['locations.license'],
-    'source.genres.label': imagesRouteProps['source.genres.label'].map(
-      quoteVal
-    ),
-    'source.contributors.agent.label': imagesRouteProps[
-      'source.contributors.agent.label'
-    ].map(quoteVal),
+    'source.genres.label':
+      imagesRouteProps['source.genres.label'].map(quoteVal),
+    'source.contributors.agent.label':
+      imagesRouteProps['source.contributors.agent.label'].map(quoteVal),
     ...overrides,
   };
 }

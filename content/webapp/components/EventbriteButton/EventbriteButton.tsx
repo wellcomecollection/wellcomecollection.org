@@ -1,4 +1,4 @@
-import { UiEvent } from '@weco/common/model/events';
+import { Event } from '../../types/events';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { Fragment } from 'react';
@@ -7,7 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ticket } from '@weco/common/icons';
 
 type Props = {
-  event: UiEvent;
+  event: Event;
 };
 
 // FIXME: add back to button extraClasses={`js-eventbrite-show-widget-${event.eventbriteId || ''}`}

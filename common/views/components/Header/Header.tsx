@@ -279,7 +279,7 @@ export const links = [
   },
   {
     href: '/whats-on',
-    title: "What’s on",
+    title: 'What’s on',
     siteSection: 'whats-on',
   },
   {

@@ -24,6 +24,9 @@ const createConfig =
     return withMDX(
       withTM({
         ...defaultConfig,
+        // We handle compression in the nginx sidecar
+        // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
+        compress: false,
         images: options.images || {},
         assetPrefix:
           isProd && prodSubdomain

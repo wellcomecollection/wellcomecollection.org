@@ -5,9 +5,7 @@ import Router from 'koa-router';
 import { NextServer } from 'next/dist/server/next';
 import { parse, UrlWithParsedQuery } from 'url'; // eslint-disable-line node/no-deprecated-api
 
-export const withCachedValues = compose([
-  withPrismicPreviewStatus,
-]);
+export const withCachedValues = compose([withPrismicPreviewStatus]);
 
 export async function route(
   path: string,

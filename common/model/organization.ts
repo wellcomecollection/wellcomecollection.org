@@ -1,7 +1,7 @@
 import type { OpeningHoursDay, SpecialOpeningHours } from './opening-hours';
 import { objToJsonLd } from '../utils/json-ld';
 
-export type PostalAddress = {
+type PostalAddress = {
   addressLocality: string;
   postalCode: string;
   streetAddress: string;

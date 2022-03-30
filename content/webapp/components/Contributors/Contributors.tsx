@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import Contributor from './Contributor';
 import { Contributor as ContributorType } from '../../types/contributors';
 
-type Props = {
+export type Props = {
   titlePrefix?: string;
   contributors: ContributorType[];
   titleOverride?: string;
@@ -71,11 +71,11 @@ const Contributors: FunctionComponent<Props> = ({
 
   return (
     <Fragment>
-      {
-        isNotUndefined(titleOverride)
-          ? <h2 className="h2">{titleOverride}</h2>
-          : <h2 className="h2">{`${getContributorsTitle(roles, titlePrefix)}`}</h2>
-      }
+      {isNotUndefined(titleOverride) ? (
+        <h2 className="h2">{titleOverride}</h2>
+      ) : (
+        <h2 className="h2">{`${getContributorsTitle(roles, titlePrefix)}`}</h2>
+      )}
 
       {contributors.map(({ contributor, role, description }) => (
         <Space

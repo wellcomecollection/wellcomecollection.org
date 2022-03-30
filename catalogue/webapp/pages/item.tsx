@@ -20,7 +20,7 @@ import {
   restrictedAuthServiceUrl,
 } from '../utils/iiif';
 import { getWork, getCanvasOcr } from '../services/catalogue/works';
-import CataloguePageLayout from '@weco/common/views/components/CataloguePageLayout/CataloguePageLayout';
+import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import IIIFViewer from '../components/IIIFViewer/IIIFViewer';
 import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
@@ -46,6 +46,7 @@ import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { unavailableImageMessage } from '@weco/common/data/microcopy';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -213,7 +214,6 @@ const ItemPage: NextPage<Props> = ({
       openGraphType={'website'}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
-      image={undefined}
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -263,7 +263,7 @@ const ItemPage: NextPage<Props> = ({
           <Layout12>
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <div style={{ marginTop: '98px' }}>
-                <BetaMessage message="We are working to make this item available online." />
+                <BetaMessage message={unavailableImageMessage} />
               </div>
             </Space>
           </Layout12>
@@ -441,6 +441,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // from: https://wellcomecollection.org/works/f6qp7m32/items
       const isCollectionManifest =
         manifestOrCollection['@type'] === 'sc:Collection';
+
+      if (
+        isCollectionManifest &&
+        (!manifestOrCollection.manifests ||
+          manifestOrCollection.manifests.length === 0)
+      ) {
+        // There's a certain class of manifests (e.g. iiif.wellcomecollection.org/presentation/v2/b11533377)
+        // which don't have a "manifests" field (which breaks the front end) and the "collections" field has
+        // 404'ing entries (so we can't use that either).
+        // These are being addressed by Ashley, but for now we'll handle them here to stop the alerting being
+        // too noisy.
+        // TODO: Remove this block once we've addressed the issues in the source data
+        // See https://github.com/wellcomecollection/platform/issues/5443
+        console.warn(
+          `Malformed IIIF manifest (no 'manifests' field): ${manifestOrCollection['@id']}`
+        );
+        return { notFound: true };
+      }
 
       const manifest = isCollectionManifest
         ? await fetchJson(

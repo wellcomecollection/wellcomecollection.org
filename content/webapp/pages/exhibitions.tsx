@@ -2,8 +2,8 @@ import type { GetServerSideProps } from 'next';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { Period } from '@weco/common/model/periods';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Period } from '../types/periods';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -12,12 +12,15 @@ import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
-import { Exhibition } from '../types/exhibitions';
+import { ExhibitionBasic } from '../types/exhibitions';
 
 type Props = {
-  exhibitions: PaginatedResults<Exhibition>;
+  exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
   displayTitle: string;
 };
@@ -33,7 +36,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const { period } = context.query;
-    const exhibitionsQuery = await fetchExhibitions(client, { page, period: period as Period });
+    const exhibitionsQuery = await fetchExhibitions(client, {
+      page,
+      period: period as Period,
+    });
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
 
     if (exhibitions && exhibitions.results.length > 0) {
@@ -52,7 +58,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions, period, displayTitle } = props;
+  const { exhibitions: jsonExhibitions, period, displayTitle } = props;
+  const exhibitions = {
+    ...jsonExhibitions,
+    results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
+  };
   const firstExhibition = exhibitions[0];
 
   return (

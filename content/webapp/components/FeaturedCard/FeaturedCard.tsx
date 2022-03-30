@@ -4,18 +4,17 @@ import {
   UiImageProps,
   UiImage,
 } from '@weco/common/views/components/Images/Images';
-import { Exhibition } from '../../types/exhibitions';
-import { UiEvent } from '@weco/common/model/events';
+import { ExhibitionBasic } from '../../types/exhibitions';
 import {
-  Article,
+  ArticleBasic,
   getPositionInSeries,
   getArticleColor,
-} from '@weco/common/model/articles';
-import { Season } from '@weco/common/model/seasons';
-import { Card } from '@weco/common/model/card';
+} from '../../types/articles';
+import { Season } from '../../types/seasons';
+import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
-import { Link } from '@weco/common/model/link';
-import PartNumberIndicator from '@weco/common/views/components/PartNumberIndicator/PartNumberIndicator';
+import { Link } from '../../types/link';
+import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -54,18 +53,23 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: Article | UiEvent | Exhibition | Season
+  item: ArticleBasic | ExhibitionBasic | Season
 ) {
   return {
     id: item.id,
-    image: item.promoImage && {
+    image: item.promo?.image && {
+      // We intentionally omit the alt text on promos, so screen reader
+      // users don't have to listen to the alt text before hearing the
+      // title of the item in the list.
+      //
+      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
       alt: '',
-      contentUrl: item.promoImage.contentUrl,
-      width: item.promoImage.width,
-      height: item.promoImage.height || 9,
+      contentUrl: item.promo?.image.contentUrl,
+      width: item.promo?.image.width,
+      height: item.promo?.image.height || 9,
       sizesQueries:
         '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-      tasl: item.promoImage.tasl,
+      tasl: item.promo?.image.tasl,
       showTasl: false,
       crops: {},
     },
@@ -78,13 +82,13 @@ export function convertItemToFeaturedCardProps(
 }
 
 type FeaturedCardArticleProps = {
-  article: Article;
+  article: ArticleBasic;
   background: string;
   color: string;
 };
 
 type FeaturedCardArticleBodyProps = {
-  article: Article;
+  article: ArticleBasic;
 };
 
 // TODO: make this e.g. just `CardArticleBody` and work it back into the existing promos/cards
@@ -104,13 +108,13 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         >
           {article.title}
         </h2>
-        {article.promoText && (
+        {article.promo?.caption && (
           <p
             className={classNames({
               [font('hnr', 5)]: true,
             })}
           >
-            {article.promoText}
+            {article.promo?.caption}
           </p>
         )}
         {article.series.length > 0 && (
@@ -127,13 +131,13 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
   };
 
 type FeaturedCardExhibitionProps = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
   background: string;
   color: string;
 };
 
 type FeaturedCardExhibitionBodyProps = {
-  exhibition: Exhibition;
+  exhibition: ExhibitionBasic;
 };
 
 const FeaturedCardExhibitionBody = ({

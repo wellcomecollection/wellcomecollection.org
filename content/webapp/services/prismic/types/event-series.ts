@@ -5,9 +5,9 @@ import {
   CommonPrismicFields,
   commonPrismicFieldsFetchLinks,
   contributorFetchLinks,
-  InferDataInterface,
   WithContributors,
 } from '.';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 export type EventSeriesPrismicDocument = PrismicDocument<
   {

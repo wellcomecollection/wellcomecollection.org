@@ -2,8 +2,8 @@ import { clientSideFetcher, fetcher, GetServerSidePropsPrismicClient } from '.';
 import { EventPrismicDocument, eventsFetchLinks } from '../types/events';
 import { Query } from '@prismicio/types';
 import { getPeriodPredicates } from '../types/predicates';
-import * as prismic from 'prismic-client-beta';
-import { Event } from 'types/events';
+import * as prismic from '@prismicio/client';
+import { Event } from '../../../types/events';
 
 const fetchLinks = eventsFetchLinks;
 
@@ -160,4 +160,14 @@ export const fetchEvents = (
   });
 };
 
-export const fetchEventsClientSide = clientSideFetcher<Event>('events').getByTypeClientSide;
+// TODO: I suspect any page that uses this fetcher to get a non-empty
+// list of results will throw a client-side error, because these events
+// will have strings as dates instead of the JavaScript Date type.
+//
+// See a similar comment on the client-side fetcher in multi-content.ts.
+//
+// AFAICT, there aren't any events that call this fetcher right now and
+// return a non-empty list of results, so it's hard to test this -- but
+// be aware that bug is potentially lurking out there.
+export const fetchEventsClientSide =
+  clientSideFetcher<Event>('events').getByTypeClientSide;

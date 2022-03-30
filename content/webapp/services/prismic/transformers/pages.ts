@@ -1,12 +1,17 @@
-import { FeaturedText } from '@weco/common/model/text';
+import { FeaturedText } from '../../../types/text';
 import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
-import { transformFormat, transformGenericFields, transformSingleLevelGroup, transformTimestamp } from '.';
+import {
+  transformFormat,
+  transformGenericFields,
+  transformSingleLevelGroup,
+  transformTimestamp,
+} from '.';
 import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
 import flattenDeep from 'lodash.flattendeep';
-import { Link } from '@weco/common/model/link';
+import { Link } from '../../../types/link';
 import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
@@ -58,7 +63,9 @@ export function transformPage(document: PagePrismicDocument): Page {
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
     promo: promo && promo.image ? promo : undefined,
-    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
+    datePublished: data.datePublished
+      ? transformTimestamp(data.datePublished)
+      : undefined,
     siteSection: siteSection,
   };
 }

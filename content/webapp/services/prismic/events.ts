@@ -1,62 +1,88 @@
-import { UiEvent, EventTime } from '@weco/common/model/events';
 import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
 import { london, formatDayDate } from '@weco/common/utils/format-date';
-import { getNextWeekendDateRange } from '@weco/common/utils/dates';
+import {
+  getNextWeekendDateRange,
+  isDayPast,
+  isFuture,
+} from '@weco/common/utils/dates';
+import { Event, EventBasic } from '../../types/events';
 
-function getNextDateInFuture(event: UiEvent): EventTime | undefined {
-  const now = london();
-  const futureTimes = event.times.filter(time => {
-    const end = london(time.range.endDateTime);
-    return end.isSameOrAfter(now, 'day');
-  });
+function getNextDateInFuture(event: EventBasic): Date | undefined {
+  const futureTimes = event.times.filter(time =>
+    isFuture(time.range.startDateTime)
+  );
 
   if (futureTimes.length === 0) {
     return undefined;
   } else {
-    return futureTimes.reduce((closestStartingDate, time) => {
-      const start = london(time.range.startDateTime);
-      if (start.isBefore(closestStartingDate.range.startDateTime)) {
-        return time;
-      } else {
-        return closestStartingDate;
-      }
-    });
+    return futureTimes.reduce((closestStartingDate, time) =>
+      time.range.startDateTime <= closestStartingDate.range.startDateTime
+        ? time
+        : closestStartingDate
+    ).range.startDateTime;
   }
 }
 
-function filterEventsByTimeRange(events: UiEvent[], start: Moment, end: Moment): UiEvent[] {
+function filterEventsByTimeRange(
+  events: EventBasic[],
+  start: Date,
+  end: Date
+): EventBasic[] {
   return events.filter(event => {
     return event.times.find(time => {
-      const eventStart = london(time.range.startDateTime);
-      const eventEnd = london(time.range.endDateTime);
+      const eventStart = time.range.startDateTime;
+      const eventEnd = time.range.endDateTime;
+
       return (
-        eventStart.isBetween(start, end) ||
-        eventEnd.isBetween(start, end) ||
-        (eventStart.isSameOrBefore(start) && eventEnd.isSameOrAfter(end))
+        (start <= eventStart && eventStart <= end) ||
+        (start <= eventEnd && eventEnd <= end) ||
+        (eventStart <= start && end <= eventEnd)
       );
     });
   });
 }
 
-export function filterEventsForNext7Days(events: UiEvent[]): UiEvent[] {
-  const startOfToday = london().startOf('day');
-  const endOfNext7Days = startOfToday.clone().add(7, 'day').endOf('day');
+function startOfDay(d: Date): Date {
+  const res = new Date(d);
+  res.setUTCHours(0, 0, 0, 0);
+  return res;
+}
+
+function endOfDay(d: Date): Date {
+  const res = new Date(d);
+  res.setUTCHours(23, 59, 59, 999);
+  return res;
+}
+
+function addDays(d: Date, days: number): Date {
+  const res = new Date(d);
+  res.setDate(res.getDate() + days);
+  return res;
+}
+
+export function filterEventsForNext7Days(events: EventBasic[]): EventBasic[] {
+  const startOfToday = startOfDay(new Date());
+  const endOfNext7Days = endOfDay(addDays(new Date(), 7));
+
   return filterEventsByTimeRange(events, startOfToday, endOfNext7Days);
 }
 
-export function filterEventsForToday(events: UiEvent[]): UiEvent[] {
-  const startOfToday = london().startOf('day');
-  const endOfToday = london().endOf('day');
+export function filterEventsForToday(events: EventBasic[]): EventBasic[] {
+  const startOfToday = startOfDay(new Date());
+  const endOfToday = endOfDay(new Date());
+
   return filterEventsByTimeRange(events, startOfToday, endOfToday);
 }
 
-export function filterEventsForWeekend(events: UiEvent[]): UiEvent[] {
+export function filterEventsForWeekend(events: EventBasic[]): EventBasic[] {
   const { start, end } = getNextWeekendDateRange(new Date());
-  return filterEventsByTimeRange(events, london(start), london(end));
+  return filterEventsByTimeRange(events, start, end);
 }
 
-export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
+export function orderEventsByNextAvailableDate(
+  events: EventBasic[]
+): EventBasic[] {
   const reorderedEvents = sortBy(
     [...events].filter(getNextDateInFuture),
     getNextDateInFuture
@@ -65,7 +91,6 @@ export function orderEventsByNextAvailableDate(events: UiEvent[]): UiEvent[] {
   return reorderedEvents;
 }
 
-// TODO: Make this way less forEachy and mutationy 0_0
 const GroupByFormat = {
   day: 'dddd',
   month: 'MMMM',
@@ -75,11 +100,11 @@ type EventsGroup = {
   label: string;
   start: Date;
   end: Date;
-  events: UiEvent[];
+  events: Event[];
 };
 
 export function groupEventsBy(
-  events: UiEvent[],
+  events: Event[],
   groupBy: GroupDatesBy
 ): EventsGroup[] {
   // Get the full range of all the events
@@ -164,16 +189,20 @@ export function groupEventsBy(
 type RangeProps = {
   start: Moment;
   end: Moment;
-}
+};
 
 type Range = {
   label: string;
   start: Moment;
   end: Moment;
 };
-  
+
 // TODO: maybe use a Map?
-function getRanges({ start, end }: RangeProps, groupBy: GroupDatesBy, acc: Range[] = []): Range[] {
+function getRanges(
+  { start, end }: RangeProps,
+  groupBy: GroupDatesBy,
+  acc: Range[] = []
+): Range[] {
   if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
     const newStart = start.clone().add(1, groupBy);
     const newAcc: Range[] = acc.concat([
@@ -187,4 +216,11 @@ function getRanges({ start, end }: RangeProps, groupBy: GroupDatesBy, acc: Range
   } else {
     return acc;
   }
+}
+
+export function isEventPast({ times }: Event): boolean {
+  const hasFutureEvents = times.some(
+    ({ range }) => !isDayPast(range.endDateTime)
+  );
+  return !hasFutureEvents;
 }

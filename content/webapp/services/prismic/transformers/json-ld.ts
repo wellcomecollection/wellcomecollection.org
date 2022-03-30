@@ -1,4 +1,4 @@
-import { Event } from '../../../types/events';
+import { Event, EventBasic } from '../../../types/events';
 import {
   Organization,
   wellcomeCollectionAddress,
@@ -14,12 +14,12 @@ import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
-export function exhibitionLd(exhibition: Exhibition) {
+export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   const promoImage = exhibition.promo?.image;
   return objToJsonLd(
     {
       name: exhibition.title,
-      description: exhibition.promoText,
+      description: exhibition.promo?.caption,
       image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
       location: {
         '@type': 'Place',
@@ -48,7 +48,8 @@ export function exhibitionLd(exhibition: Exhibition) {
   );
 }
 
-export function eventLd(event: Event): JsonLdObj[] {
+export function eventLd(event: Event | EventBasic): JsonLdObj[] {
+  // TODO EventBasic
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {
@@ -73,7 +74,7 @@ export function eventLd(event: Event): JsonLdObj[] {
           },
           startDate: event.times.map(time => time.range.startDateTime),
           endDate: event.times.map(time => time.range.endDateTime),
-          description: event.promoText,
+          description: event.promo?.caption,
           image: promoImage
             ? getImageUrlAtSize(promoImage, { w: 600 })
             : undefined,
@@ -98,8 +99,7 @@ export function eventLd(event: Event): JsonLdObj[] {
     });
 }
 
-export function articleLd(article: Article) {
-
+export function articleLd(article: Article): JsonLdObj {
   // We've left the role off of a lot of articles
   const author: Contributor = article.contributors.find(
     ({ role }) => role && role.title === 'Author'
@@ -136,7 +136,7 @@ export function articleLd(article: Article) {
               false
             )
           : undefined,
-      image: article.promoImage && article.promoImage.contentUrl,
+      image: article.promo?.image?.contentUrl,
       // TODO: isPartOf
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/articles/${article.id}`,
@@ -160,9 +160,8 @@ function orgLd(org: Organization) {
   );
 }
 
-export function contentLd(content: Page | Season) {
-  const contributors =
-    content.type === 'seasons' ? [] : content.contributors;
+export function contentLd(content: Page | Season): JsonLdObj {
+  const contributors = content.type === 'seasons' ? [] : content.contributors;
 
   const author: Contributor = contributors.find(
     ({ role }) => role && role.title === 'Author'
@@ -171,7 +170,7 @@ export function contentLd(content: Page | Season) {
   const promoImage = content.promo?.image;
 
   const url = linkResolver(content);
-  
+
   return objToJsonLd(
     {
       headline: content.title,

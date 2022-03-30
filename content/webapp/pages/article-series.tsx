@@ -3,11 +3,10 @@ import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import PageHeader, {
-  getFeaturedMedia,
-} from '@weco/common/views/components/PageHeader/PageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import { getFeaturedMedia } from '../utils/page-header';
 import { Series } from '../types/series';
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import { seasonsFields } from '@weco/common/services/prismic/fetch-links';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -17,16 +16,16 @@ import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '../services/prismic';
-import { createClient } from 'services/prismic/fetch';
+import { createClient } from '../services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
-import { fetchArticles } from 'services/prismic/fetch/articles';
-import * as prismic from 'prismic-client-beta';
+import { fetchArticles } from '../services/prismic/fetch/articles';
+import * as prismic from '@prismicio/client';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 
 type Props = {
   series: Series;
-  articles: Article[];
+  articles: ArticleBasic[];
 } & WithGaDimensions;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -82,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             articles,
             serverData,
             gaDimensions: {
-              partOf: series.seasons.map<string>(season => season.id),
+              partOf: series.seasons.map(season => season.id),
             },
           }),
         };
@@ -108,26 +107,10 @@ const ArticleSeriesPage: FC<Props> = props => {
     ],
   };
 
-  const genericFields = {
-    id: series.id,
-    title: series.title,
-    promo: series.promo,
-    body: series.body,
-    standfirst: series.standfirst,
-    promoImage: series.promoImage,
-    promoText: series.promoText,
-    image: series.image,
-    squareImage: series.squareImage,
-    widescreenImage: series.widescreenImage,
-    superWidescreenImage: series.superWidescreenImage,
-    labels: series.labels,
-    metadataDescription: series.metadataDescription,
-  };
-
   const ContentTypeInfo = series.standfirst && (
     <PageHeaderStandfirst html={series.standfirst} />
   );
-  const FeaturedMedia = getFeaturedMedia(genericFields);
+  const FeaturedMedia = getFeaturedMedia(series);
   const Header = (
     <PageHeader
       breadcrumbs={breadcrumbs}
@@ -149,7 +132,7 @@ const ArticleSeriesPage: FC<Props> = props => {
   return (
     <PageLayout
       title={series.title}
-      description={series.metadataDescription || series.promoText || ''}
+      description={series.metadataDescription || series.promo?.caption || ''}
       url={{ pathname: `/series/${series.id}` }}
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'stories'}

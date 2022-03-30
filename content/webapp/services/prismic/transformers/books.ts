@@ -1,4 +1,4 @@
-import { Book } from '../../../types/books';
+import { Book, BookBasic } from '../../../types/books';
 import { BookPrismicDocument } from '../types/books';
 import {
   transformGenericFields,
@@ -13,6 +13,19 @@ import { transformPromoToCaptionedImage } from './images';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 
+export function transformBookToBookBasic(book: Book): BookBasic {
+  // returns what is required to render BookPromos and book JSON-LD
+  return (({ type, id, title, subtitle, cover, promo, labels }) => ({
+    type,
+    id,
+    title,
+    subtitle,
+    cover,
+    promo,
+    labels,
+  }))(book);
+}
+
 export function transformBook(document: BookPrismicDocument): Book {
   const { data } = document;
 
@@ -20,7 +33,9 @@ export function transformBook(document: BookPrismicDocument): Book {
   // We do this over the general parser as we want the not 16:9 image.
   const cover =
     data.promo &&
-    (data.promo.length > 0 ? transformPromoToCaptionedImage(data.promo) : undefined);
+    (data.promo.length > 0
+      ? transformPromoToCaptionedImage(data.promo)
+      : undefined);
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
   );
@@ -39,11 +54,13 @@ export function transformBook(document: BookPrismicDocument): Book {
     isbn: asText(data.isbn),
     reviews: data.reviews?.map(review => {
       return {
-        text: review.text && asRichText(review.text) || [],
-        citation: review.citation && asRichText(review.citation) || [],
+        text: (review.text && asRichText(review.text)) || [],
+        citation: (review.citation && asRichText(review.citation)) || [],
       };
     }),
-    datePublished: data.datePublished ? transformTimestamp(data.datePublished) : undefined,
+    datePublished: data.datePublished
+      ? transformTimestamp(data.datePublished)
+      : undefined,
     cover: cover && cover.image,
     seasons,
     contributors,

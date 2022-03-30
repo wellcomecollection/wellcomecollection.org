@@ -2,9 +2,8 @@ import { FC } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
-import type { PaginatedResults } from '@weco/common/services/prismic/types';
-import type { Period } from '@weco/common/model/periods';
-import { convertJsonToDates } from './event';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
+import { Period } from '../types/periods';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -17,14 +16,18 @@ import { eventLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { getPage } from '../utils/query-params';
-import { transformEvent } from '../services/prismic/transformers/events';
+import {
+  fixEventDatesInJson,
+  transformEvent,
+  transformEventToEventBasic,
+} from '../services/prismic/transformers/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { Event } from '../types/events';
+import { EventBasic } from '../types/events';
 
 type Props = {
-  displayTitle: string;
-  events: PaginatedResults<Event>;
+  title: string;
+  events: PaginatedResults<EventBasic>;
   period?: Period;
 };
 
@@ -54,7 +57,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       availableOnline: availableOnline === 'true',
     });
 
-    const events = transformQuery(eventsQueryPromise, transformEvent);
+    const events = transformQuery(eventsQueryPromise, event =>
+      transformEventToEventBasic(transformEvent(event))
+    );
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
@@ -63,7 +68,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events,
           title,
           period: period as Period,
-          displayTitle: title,
           serverData,
         }),
       };
@@ -73,30 +77,30 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventsPage: FC<Props> = props => {
-  const { events, displayTitle, period } = props;
-  const convertedEvents = events.results.map(convertJsonToDates);
+  const { events, title, period } = props;
+  const convertedEvents = events.results.map(fixEventDatesInJson);
   const convertedPaginatedResults = {
     ...events,
     results:
       period !== 'past'
-        ? orderEventsByNextAvailableDate(convertedEvents) as Event[]
+        ? orderEventsByNextAvailableDate(convertedEvents)
         : convertedEvents,
   };
   const firstEvent = events.results[0];
   return (
     <PageLayout
-      title={displayTitle}
+      title={title}
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
       jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      image={firstEvent && firstEvent.image}
+      image={firstEvent?.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={true}
-          title={displayTitle}
+          title={title}
           description={[
             {
               type: 'paragraph',

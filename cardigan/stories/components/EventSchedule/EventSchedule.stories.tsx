@@ -13,8 +13,7 @@ const schedule = [
           'https://images.prismic.io/wellcomecollection/f36afe6d86bb41f157d41e603187e1f53eb93d8d_tania-and-basel.jpg?auto=compress,format',
         width: 3200,
         height: 1800,
-        alt:
-          'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',
+        alt: 'Photograph of a forearm with fingers outstretched, against a slatted wooden background. Small human figures are draw onto the arm, one is circled.',
         crops: {},
       },
       primaryLabels: [

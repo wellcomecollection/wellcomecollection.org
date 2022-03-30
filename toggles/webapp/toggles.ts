@@ -9,8 +9,7 @@ export type ABTest = {
   id: string;
   title: string;
   range: [number, number];
-  description: string;
-  defaultValue: boolean;
+  when: (request: Request) => boolean; // TODO: should take request of type CloudFrontRequest
 };
 
 const toggles = {
@@ -21,7 +20,7 @@ const toggles = {
       title: 'Enables login and requesting functionality',
       description:
         'Puts login links in the headers and enables requesting functionality on works pages ',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'enablePickUpDate',
@@ -42,7 +41,14 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
   ] as const,
-  tests: [] as ABTest[],
+  tests: [
+    {
+      id: 'gaSecureCookies',
+      title: 'GA Secure Cookies',
+      range: [0, 10], // We picked 10% arbitrarily: enough to get data, not too much that we'd lose too much if something breaks
+      when: () => true,
+    },
+  ] as ABTest[],
 };
 
 export default toggles;

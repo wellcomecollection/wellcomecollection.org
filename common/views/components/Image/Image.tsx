@@ -1,18 +1,14 @@
-import { Tasl } from '../../../model/tasl';
 import { classNames } from '../../../utils/classnames';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
-import { ImageType } from '../../../model/image';
 import { isNotUndefined } from '../../../utils/array';
 import { FunctionComponent } from 'react';
 
 export type Props = {
   contentUrl: string;
   width?: number;
-  alt: string;
-  tasl?: Tasl;
   height?: number;
-  caption?: string;
+  alt: string | null;
   lazyload?: boolean;
   sizesQueries?: string;
   copyright?: string;
@@ -20,9 +16,6 @@ export type Props = {
   clickHandler?: () => void;
   zoomable?: boolean;
   extraClasses?: string;
-  crops?: {
-    [key: string]: ImageType;
-  };
   style?: Record<string, string>;
   srcsetRequired?: boolean;
 };
@@ -30,12 +23,12 @@ export type Props = {
 const Img = ({
   width,
   height,
+  alt = '',
   contentUrl,
-  copyright,
   lazyload = true,
   sizesQueries = '100vw',
+  copyright,
   defaultSize = 30,
-  alt = '',
   clickHandler,
   zoomable,
   extraClasses,

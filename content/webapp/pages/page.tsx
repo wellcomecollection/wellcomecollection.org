@@ -8,7 +8,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { UiImage } from '@weco/common/views/components/Images/Images';
 import { Page as PageType } from '../types/pages';
-import { SiblingsGroup } from '@weco/common/model/siblings-group';
+import { SiblingsGroup } from '../types/siblings-group';
 import {
   headerBackgroundLs,
   landingHeaderBackgroundLs,
@@ -20,7 +20,7 @@ import {
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/common/model/content-format-id';
+import { PageFormatIds } from '@weco/common/services/prismic/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -38,6 +38,7 @@ import {
 } from '../services/prismic/fetch/pages';
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
+import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   page: PageType;
@@ -98,7 +99,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           ordersInParents,
           serverData,
           gaDimensions: {
-            partOf: page.seasons.map<string>(season => season.id),
+            partOf: page.seasons.map(season => season.id),
           },
         }),
       };
@@ -138,7 +139,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   const featuredMedia = hasFeaturedMedia ? (
     page.body[0].type === 'picture' ? (
       <UiImage
-        {...(page.body[0].value.image.crops['16:9'] ||
+        {...(getCrop(page.body[0].value.image, '16:9') ||
           page.body[0].value.image)}
       />
     ) : page.body[0].type === 'videoEmbed' ? (
@@ -146,10 +147,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     ) : undefined
   ) : undefined;
 
-  const hiddenBreadcrumbPages = [
-    prismicPageIds.covidWelcomeBack,
-    prismicPageIds.covidBookYourTicket,
-  ];
+  const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];
 
   const sectionLevelPage = sectionLevelPages.includes(page.id);
 
@@ -258,7 +256,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   return (
     <PageLayout
       title={page.title}
-      description={page.metadataDescription || page.promoText || ''}
+      description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname: `/pages/${page.id}` }}
       jsonLd={contentLd(page)}
       openGraphType={'website'}

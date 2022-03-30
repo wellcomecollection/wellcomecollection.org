@@ -9,7 +9,7 @@ import {
 import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
-import { getWork } from '../../services/catalogue/works';
+import { getWorkClientSide } from '../../services/catalogue/works';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
@@ -270,19 +270,14 @@ function createNodeFromWork({
   };
 }
 
-async function getChildren({
-  item,
-  toggles,
-}: {
-  item: UiTreeNode;
-  toggles: Toggles;
-}): Promise<UiTree> {
-  const work = await getWork({ id: item.work.id, toggles });
+async function getChildren(workId: string): Promise<UiTree> {
+  const work = await getWorkClientSide(workId);
+
   return work.type !== 'Error' && work.type !== 'Redirect' && work.parts
     ? work.parts.map(part => ({
         work: part,
         openStatus: false,
-        parentId: item.work.id,
+        parentId: workId,
       }))
     : [];
 }
@@ -368,10 +363,7 @@ async function createArchiveTree({
       const parentId = ancestorArray?.[i - 1]?.id;
       // We add each ancestor and its siblings to the tree
       if (!parentId) {
-        const siblings = await getSiblings({
-          id: curr.id,
-          toggles,
-        });
+        const siblings = await getSiblings({ id: curr.id });
         return siblings;
       }
       if (work.id === curr.id) {
@@ -388,7 +380,6 @@ async function createArchiveTree({
           // For everything else we need more data before creating an array of curr and its siblings
           // This becomes the value of the previous node's children property
           id: curr.id,
-          toggles,
         });
         return updateChildren({
           tree: await acc,
@@ -403,15 +394,13 @@ async function createArchiveTree({
 }
 
 async function getSiblings({
-  id, // id of work to get
-  toggles,
+  id,
   openStatusOverride = false,
 }: {
   id: string;
-  toggles: Toggles;
   openStatusOverride?: boolean;
 }): Promise<UiTreeNode[]> {
-  const currWork = await getWork({ id, toggles });
+  const currWork = await getWorkClientSide(id);
   if (currWork.type !== 'Error' && currWork.type !== 'Redirect') {
     return createSiblingsArray({
       work: {
@@ -459,10 +448,8 @@ async function expandTree({
   setArchiveTree: (tree: UiTree) => void;
   archiveTree: UiTree;
 }) {
-  const children = await getChildren({
-    item: item,
-    toggles,
-  });
+  const children = await getChildren(item.work.id);
+
   setArchiveTree(
     updateChildren({
       tree: archiveTree,

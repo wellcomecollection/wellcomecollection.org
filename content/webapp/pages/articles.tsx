@@ -1,9 +1,12 @@
-import { Article } from '../types/articles';
+import { ArticleBasic } from '../types/articles';
 import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
-import { transformArticle } from '../services/prismic/transformers/articles';
+import {
+  transformArticle,
+  transformArticleToArticleBasic,
+} from '../services/prismic/transformers/articles';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -15,9 +18,11 @@ import { getServerData } from '@weco/common/server-data';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
-  articles: PaginatedResults<Article>;
+  articles: PaginatedResults<ArticleBasic>;
+  jsonLd: JsonLdObj[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -30,18 +35,26 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const articlesQuery = await fetchArticles(client, { page });
+
     const articles = transformQuery(articlesQuery, transformArticle);
+    const jsonLd = articles.results.map(articleLd);
+    const basicArticles = {
+      ...articles,
+      results: articles.results.map(transformArticleToArticleBasic),
+    };
+
     const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
-        articles,
+        articles: basicArticles,
+        jsonLd,
         serverData,
       }),
     };
   };
 
-const ArticlesPage: FC<Props> = ({ articles }: Props) => {
+const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
   const firstArticle = articles.results[0];
 
   return (
@@ -49,10 +62,10 @@ const ArticlesPage: FC<Props> = ({ articles }: Props) => {
       title={'Articles'}
       description={pageDescriptions.articles}
       url={{ pathname: `/articles` }}
-      jsonLd={articles.results.map(articleLd)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'stories'}
-      image={firstArticle && firstArticle.image}
+      image={firstArticle.image}
     >
       <SpacingSection>
         <LayoutPaginatedResults

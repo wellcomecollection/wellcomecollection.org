@@ -12,14 +12,16 @@ import {
   getUpcomingExceptionalPeriods,
   exceptionalOpeningDates,
   exceptionalOpeningPeriods,
-  convertJsonDateStringsToMoment,
   exceptionalOpeningPeriodsAllDates,
-  parseCollectionVenues,
 } from '@weco/common/services/prismic/opening-times';
+import {
+  transformCollectionVenues,
+  fixVenueDatesInJson,
+} from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
-import { Weight } from '@weco/common/model/generic-content-fields';
+import { Weight } from '../../types/generic-content-fields';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
@@ -79,7 +81,7 @@ type Props = {
 
 const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
   const allExceptionalDates = exceptionalOpeningDates(venues);
   const groupedExceptionalDates =
     exceptionalOpeningPeriods(allExceptionalDates);
@@ -88,7 +90,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
   );
   const backfilledExceptionalPeriods = venue
     ? backfillExceptionalVenueDays(
-        convertJsonDateStringsToMoment(venue),
+        fixVenueDatesInJson(venue),
         exceptionalPeriodsAllDates
       )
     : [];
@@ -107,12 +109,11 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
-            {venue?.image?.url && (
+            {venue?.image?.contentUrl && (
               <UiImage
-                contentUrl={venue.image.url}
+                contentUrl={venue.image.contentUrl}
                 width={1600}
                 height={900}
-                crops={{}}
                 alt={venue.image?.alt}
                 sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
                 extraClasses=""

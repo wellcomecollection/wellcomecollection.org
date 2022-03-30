@@ -12,7 +12,6 @@ import {
   FilledLinkToWebField,
   NumberField,
   LinkField,
-  LinkType,
   EmptyLinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
@@ -23,24 +22,12 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
-import { link } from '../transformers/vendored-helpers';
 import { isNotUndefined } from '@weco/common/utils/array';
-
-/**
- * This allows us to get the DataInterface from PrismicDocuments when we
- * Need them for `RelationField`s e.g.
- * type Doc = PrismicDocument<{ title: RichTextField }>
- * type DataInterface = InferDataInterface<Doc> // { title: RichTextField }
- * RelationField<'formats', 'en-gb', DataInterface>
- */
-export type InferDataInterface<T> = T extends PrismicDocument<
-  infer DataInterface
->
-  ? DataInterface
-  : never;
+import * as prismicH from '@prismicio/helpers';
+import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 export type InferCustomType<T> = T extends PrismicDocument<
-  unknown,
+  any,
   infer CustomType
 >
   ? CustomType
@@ -72,8 +59,6 @@ type Dimension = {
   width: number;
   height: number;
 };
-
-export type Crop = '32:15' | '16:9' | 'square';
 
 // Currently the Prismic types only allow you to specify 1 image
 type ThumbnailedImageField<Thumbnails extends Record<string, Dimension>> =
@@ -173,7 +158,13 @@ export type WithExhibitionParents = {
     order: NumberField;
     parent: RelationField<
       'exhibitions',
-      InferDataInterface<ExhibitionPrismicDocument>
+      // We know this is an ExhibitionPrismicDocument, but the type checker gets
+      // unhappy about the circular reference:
+      //
+      //    'event' is referenced directly or indirectly in its own type annotation.
+      //
+      // TODO: Find a better way to do this which doesn't upset the type checker.
+      InferDataInterface<any>
     >;
   }>;
 };
@@ -184,9 +175,13 @@ export const exhibitionsFetchLinks: FetchLinks<ExhibitionPrismicDocument> = [
 ];
 
 type Contributor =
-  | EmptyLinkField<LinkType.Document>
+  | EmptyLinkField<'Document'>
   | FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>>
-  | FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>>;
+  | FilledLinkToDocumentField<
+      'organisations',
+      'en-gb',
+      InferDataInterface<Organisation>
+    >;
 
 export type WithContributors = {
   contributorsTitle: RichTextField;
@@ -235,23 +230,39 @@ export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
 export function isFilledLinkToWebField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return link(field) && field.link_type === 'Web' && 'url' in field;
+  return (
+    prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
+  );
 }
 
 export function isFilledLinkToMediaField(
   field: LinkField
 ): field is FilledLinkToWebField {
-  return link(field) && field.link_type === 'Media' && 'url' in field;
+  return (
+    prismicH.isFilled.link(field) &&
+    field.link_type === 'Media' &&
+    'url' in field
+  );
 }
 
 export function isFilledLinkToPersonField(
   field: Contributor
-): field is FilledLinkToDocumentField<'people', 'en-gb', InferDataInterface<Person>> & { data: Person } {
+): field is FilledLinkToDocumentField<
+  'people',
+  'en-gb',
+  InferDataInterface<Person>
+> & { data: Person } {
   return isFilledLinkToDocumentWithData(field) && field.type === 'people';
 }
 
 export function isFilledLinkToOrganisationField(
   field: Contributor
-): field is FilledLinkToDocumentField<'organisations', 'en-gb', InferDataInterface<Organisation>> & { data: Organisation }  {
-  return isFilledLinkToDocumentWithData(field) && field.type === 'organisations';
+): field is FilledLinkToDocumentField<
+  'organisations',
+  'en-gb',
+  InferDataInterface<Organisation>
+> & { data: Organisation } {
+  return (
+    isFilledLinkToDocumentWithData(field) && field.type === 'organisations'
+  );
 }

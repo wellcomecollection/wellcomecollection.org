@@ -9,7 +9,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes/OpeningTimes';
 import { clock } from '@weco/common/icons';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { parseCollectionVenues } from '@weco/common/services/prismic/opening-times';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 
 type ContainerProps = {
   children: ReactNode;
@@ -28,7 +28,7 @@ const Container: FunctionComponent<ContainerProps> = ({
 
 const VisitUsStaticContent: FunctionComponent = () => {
   const { collectionVenues } = usePrismicData();
-  const venues = parseCollectionVenues(collectionVenues);
+  const venues = transformCollectionVenues(collectionVenues);
 
   return (
     <Container>

@@ -5,7 +5,7 @@ import {
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
 import { fetchPages } from './pages';
-import * as prismic from 'prismic-client-beta';
+import * as prismic from '@prismicio/client';
 import { PagePrismicDocument } from '../types/pages';
 import {
   exhibitionFields,
@@ -27,9 +27,12 @@ import {
   eventsFields,
   seasonsFields,
 } from '@weco/common/services/prismic/fetch-links';
-import { Period } from '@weco/common/model/periods';
+import { Period } from '../../../types/periods';
 import { getPeriodPredicates } from '../types/predicates';
-import { Exhibition, ExhibitionRelatedContent } from 'types/exhibitions';
+import {
+  Exhibition,
+  ExhibitionRelatedContent,
+} from '../../../types/exhibitions';
 
 const fetchLinks = peopleFields.concat(
   exhibitionFields,
@@ -165,7 +168,7 @@ export const fetchExhibitionRelatedContentClientSide = async (
   //
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues
   const urlSearchParams = new URLSearchParams();
-  urlSearchParams.set('params', ids.join(','));
+  urlSearchParams.set('params', JSON.stringify(ids));
 
   // If we have multiple content types, use the first one as the ID.
   const url = `/api/exhibitions-related-content?${urlSearchParams.toString()}`;

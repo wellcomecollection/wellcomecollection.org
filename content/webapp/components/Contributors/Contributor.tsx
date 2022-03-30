@@ -4,7 +4,6 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { HTMLString } from '@weco/common/services/prismic/types';
 
 const Contributor = ({ contributor, role, description }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
@@ -31,13 +30,13 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <PrismicImage image={contributor.image} />
+                <PrismicImage image={contributor.image} maxWidth={72} />
               </div>
             </div>
           )}
           {contributor.image && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <PrismicImage image={contributor.image} />
+              <PrismicImage image={contributor.image} maxWidth={72} />
             </div>
           )}
         </Space>
@@ -88,7 +87,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                 'spaced-text': true,
               })}
             >
-              <PrismicHtmlBlock html={descriptionToRender as HTMLString} />
+              <PrismicHtmlBlock html={descriptionToRender} />
             </Space>
           )}
         </div>

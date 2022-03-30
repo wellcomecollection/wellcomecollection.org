@@ -55,7 +55,6 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -84,7 +83,6 @@ function getItemLinkState({
 }
 
 const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
-  const { enableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
 
   const itemUrl = itemLink({ workId: work.id }, 'work');
@@ -177,7 +175,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const issnIdentifiers = work.identifiers.filter(id => {
     return id.identifierType.id === 'issn';
   });
-
+  const seriesPartOfs = work.partOf.filter(p => !p['id']);
   const sierraIdFromManifestUrl =
     iiifPresentationLocation &&
     sierraIdFromPresentationManifestUrl(iiifPresentationLocation.url);
@@ -234,15 +232,13 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const renderWhereToFindIt = () => {
     return (
       <WorkDetailsSection headingText="Where to find it">
-        {enableRequesting &&
-          physicalItems.some(
-            item =>
-              itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
-          ) && (
-            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-              <LibraryMembersBar />
-            </Space>
-          )}
+        {physicalItems.some(
+          item => itemIsRequestable(item) || itemIsTemporarilyUnavailable(item)
+        ) && (
+          <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+            <LibraryMembersBar />
+          </Space>
+        )}
         {locationOfWork && (
           <WorkDetailsText
             title={locationOfWork.noteType.label}
@@ -612,7 +608,24 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             text={[work.physicalDescription]}
           />
         )}
-
+        {seriesPartOfs.length > 0 && (
+          // Only show partOfs with no id here.
+          // A partOf object with an id will be represented in
+          // the archive hierarchy.
+          // partOfs with no id are Series Links.
+          <WorkDetailsTags
+            title="Series"
+            tags={seriesPartOfs.map(partOf => ({
+              textParts: [partOf.title],
+              linkAttributes: worksLink(
+                {
+                  partOf: partOf.title,
+                },
+                'work_details/partOf'
+              ),
+            }))}
+          />
+        )}
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
