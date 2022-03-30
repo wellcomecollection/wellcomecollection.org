@@ -148,7 +148,7 @@ describe('findNextRegularOpenDay: finds the earliest date on which the venue is 
       london('2022-01-16'), // Sunday
       [0, 1, 2, 3, 4, 5, 6]
     );
-    expect(result).toEqual(null);
+    expect(result).toBeUndefined();
   });
 });
 
@@ -170,7 +170,7 @@ describe('determineNextAvailableDate', () => {
 
   it("doesn't return a date if there are no regular days that are open", () => {
     const result = determineNextAvailableDate(london(), [0, 1, 2, 3, 4, 5, 6]);
-    expect(result).toEqual(null);
+    expect(result).toBeUndefined();
   });
 });
 
@@ -198,7 +198,7 @@ describe('includedRegularClosedDays', () => {
     const result = includedRegularClosedDays({
       startDate: london('2020-01-03'),
       endDate: london('2020-01-16'),
-      regularClosedDays: [0, 1, 4],
+      closedDays: [0, 1, 4],
     });
 
     expect(result).toEqual(6);
@@ -241,7 +241,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2021-11-03'),
       endDate: london('2021-11-16'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      closedDays: [0],
     });
 
     expect(result.toDate()).toEqual(london('2021-11-16').toDate());
@@ -252,7 +252,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2019-12-28'),
       endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [],
+      closedDays: [],
     });
 
     expect(result.toDate()).toEqual(london('2020-01-15').toDate());
@@ -263,7 +263,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2019-12-28'),
       endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      closedDays: [0],
     });
 
     expect(result.toDate()).toEqual(london('2020-01-16').toDate());
@@ -274,7 +274,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2019-12-16'),
       endDate: london('2019-12-30'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [],
+      closedDays: [],
     });
 
     expect(result.toDate()).toEqual(london('2020-01-01').toDate());
@@ -285,7 +285,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2020-01-03'),
       endDate: london('2020-01-16'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      closedDays: [0],
     });
 
     expect(result.toDate()).toEqual(london('2020-01-24').toDate());
@@ -296,7 +296,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       startDate: london('2019-12-24'),
       endDate: london('2019-12-31'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [2],
+      closedDays: [2],
     });
 
     expect(result.toDate()).toEqual(london('2019-12-31').toDate());
@@ -304,24 +304,22 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
 
   it("doesn't return a date if no start date is provided", () => {
     const result = extendEndDate({
-      startDate: null,
       endDate: london('2020-01-10'),
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      closedDays: [0],
     });
 
-    expect(result).toEqual(null);
+    expect(result).toBeUndefined();
   });
 
   it("doesn't return a date if no end date is provided", () => {
     const result = extendEndDate({
       startDate: london('2019-12-24'),
-      endDate: null,
       exceptionalClosedDates: exceptionalClosedDates,
-      regularClosedDays: [0],
+      closedDays: [0],
     });
 
-    expect(result).toEqual(null);
+    expect(result).toBeUndefined();
   });
 });
 
@@ -373,8 +371,6 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
   it('returns true if there are no start and end dates', () => {
     const result = isRequestableDate({
       date: london('2019-12-20'),
-      startDate: null,
-      endDate: null,
       excludedDates: [],
       excludedDays: [],
     });
@@ -384,7 +380,6 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
   it('returns true if the there is no start date and the date falls on or before the end date', () => {
     const result = isRequestableDate({
       date: london('2019-12-20'),
-      startDate: null,
       endDate: london('2019-12-31'),
       excludedDates: [],
       excludedDays: [],
@@ -396,7 +391,6 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
     const result = isRequestableDate({
       date: london('2019-12-20'),
       startDate: london('2019-12-17'),
-      endDate: null,
       excludedDates: [],
       excludedDays: [],
     });
