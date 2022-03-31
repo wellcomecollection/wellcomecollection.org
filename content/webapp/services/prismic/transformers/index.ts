@@ -31,6 +31,7 @@ import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import * as prismicT from '@prismicio/types';
 import { transformBody } from './body';
+import { isStandfirst } from '../../../types/body';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -147,14 +148,14 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
       : undefined;
 
   const body = data.body ? transformBody(data.body) : [];
-  const standfirst = body.find(slice => slice.type === 'standfirst');
+  const standfirst = body.find(isStandfirst);
   const metadataDescription = asText(data.metadataDescription);
 
   return {
     id: doc.id,
     title: asTitle(data.title),
-    body: body,
-    standfirst: standfirst && standfirst.value,
+    body,
+    standfirst: standfirst?.value,
     promo,
     image,
     metadataDescription,

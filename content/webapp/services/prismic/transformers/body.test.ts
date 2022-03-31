@@ -40,8 +40,8 @@ describe('media object list slices', () => {
           items: [
             {
               title: 'Only book for your household or bubble',
-              text: null,
-              image: null,
+              text: undefined,
+              image: undefined,
             },
           ],
         },

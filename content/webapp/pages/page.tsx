@@ -42,6 +42,8 @@ import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { isPicture, isVideoEmbed } from 'types/body';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
   page: PageType;
@@ -144,23 +146,28 @@ const Page: FC<Props> = ({
     ? landingHeaderBackgroundLs
     : headerBackgroundLs;
 
+  const featuredPicture =
+    page.body.length > 1 && isPicture(page.body[0]) ? page.body[0] : undefined;
+
+  const featuredVideo =
+    page.body.length > 1 && isVideoEmbed(page.body[0])
+      ? page.body[0]
+      : undefined;
+
   const hasFeaturedMedia =
-    page.body.length > 1 &&
-    (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
+    isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const body = hasFeaturedMedia
     ? page.body.slice(1, page.body.length)
     : page.body;
 
-  const featuredMedia = hasFeaturedMedia ? (
-    page.body[0].type === 'picture' ? (
-      <UiImage
-        {...(getCrop(page.body[0].value.image, '16:9') ||
-          page.body[0].value.image)}
-      />
-    ) : page.body[0].type === 'videoEmbed' ? (
-      <VideoEmbed {...page.body[0].value} />
-    ) : undefined
+  const featuredMedia = featuredPicture ? (
+    <UiImage
+      {...((getCrop(featuredPicture.value.image, '16:9') ||
+        featuredPicture.value.image) as any)}
+    />
+  ) : featuredVideo ? (
+    <VideoEmbed {...featuredVideo.value} />
   ) : undefined;
 
   const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];

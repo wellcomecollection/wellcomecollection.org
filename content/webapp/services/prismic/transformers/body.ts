@@ -22,22 +22,7 @@ import {
   Discussion as DiscussionSlice,
   Body,
 } from '../types/body';
-import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
-import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
-import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
-import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
-import { Props as SearchResultsProps } from '../../../components/SearchResults/SearchResults';
-import { Props as QuoteProps } from '../../../components/Quote/Quote';
-import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
-import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
-import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
-import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
-import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
-import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
-import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
@@ -46,7 +31,6 @@ import {
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { CaptionedImage } from '@weco/common/model/captioned-image';
 import {
   transformLink,
   asRichText,
@@ -56,8 +40,7 @@ import {
 } from '.';
 import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-import { BodyType, Weight } from '../../../types/generic-content-fields';
-import { Venue } from '@weco/common/model/opening-hours';
+import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
 import { GuidePrismicDocument } from '../types/guides';
 import { SeasonPrismicDocument } from '../types/seasons';
@@ -90,15 +73,7 @@ export function getWeight(weight: string | null): Weight {
   }
 }
 
-type ParsedSlice<TypeName extends string, Value> = {
-  type: TypeName;
-  weight?: Weight;
-  value: Value;
-};
-
-function transformStandfirstSlice(
-  slice: StandfirstSlice
-): ParsedSlice<'standfirst', RichTextField> {
+function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
@@ -106,9 +81,7 @@ function transformStandfirstSlice(
   };
 }
 
-function transformTextSlice(
-  slice: TextSlice
-): ParsedSlice<'text', RichTextField> {
+function transformTextSlice(slice: TextSlice): BodySlice {
   return {
     type: 'text',
     weight: getWeight(slice.slice_label),
@@ -116,7 +89,7 @@ function transformTextSlice(
   };
 }
 
-function transformMapSlice(slice: MapSlice): ParsedSlice<'map', MapProps> {
+function transformMapSlice(slice: MapSlice): BodySlice {
   return {
     type: 'map',
     value: {
@@ -134,9 +107,7 @@ function transformTableCsv(tableData: string): string[][] {
     .map(row => row.split('|').map(cell => cell.trim()));
 }
 
-function transformTableSlice(
-  slice: TableSlice
-): ParsedSlice<'table', TableProps> {
+function transformTableSlice(slice: TableSlice): BodySlice {
   return {
     type: 'table',
     value: {
@@ -149,29 +120,19 @@ function transformTableSlice(
   };
 }
 
-function transformMediaObjectListSlice(
-  slice: MediaObjectListSlice
-): ParsedSlice<'mediaObjectList', { items: MediaObjectType[] }> {
+function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
   return {
     type: 'mediaObjectList',
     value: {
       items: slice.items
         .map(mediaObject => {
           if (mediaObject) {
-            // make sure we have the content we require
-            const title = mediaObject.title.length
-              ? mediaObject?.title
-              : undefined;
-            const text = mediaObject.text.length
-              ? mediaObject?.text
-              : undefined;
-            const image = mediaObject.image?.square?.dimensions
-              ? mediaObject.image
-              : undefined;
             return {
-              title: title ? asTitle(title) : null,
-              text: text ? asRichText(text) || null : null,
-              image: transformImage(image) || null,
+              title: asTitle(mediaObject.title),
+              text: mediaObject.text.length
+                ? asRichText(mediaObject.text)
+                : undefined,
+              image: transformImage(mediaObject.image)!,
             };
           }
         })
@@ -193,9 +154,7 @@ function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   };
 }
 
-function transformContactSlice(
-  slice: ContactSlice
-): ParsedSlice<'contact', ContactProps> | undefined {
+function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'contact',
@@ -204,9 +163,7 @@ function transformContactSlice(
     : undefined;
 }
 
-function transformEditorialImageSlice(
-  slice: EditorialImageSlice
-): ParsedSlice<'picture', CaptionedImage> {
+function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -216,7 +173,7 @@ function transformEditorialImageSlice(
 
 function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
-): ParsedSlice<'imageGallery', ImageGalleryProps> {
+): BodySlice {
   return {
     type: 'imageGallery',
     value: {
@@ -229,7 +186,7 @@ function transformEditorialImageGallerySlice(
 
 function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
-): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
+): BodySlice {
   return {
     type: 'deprecatedImageList',
     weight: getWeight(slice.slice_label),
@@ -250,9 +207,7 @@ function transformDeprecatedImageListSlice(
   };
 }
 
-function transformGifVideoSlice(
-  slice: GifVideoSlice
-): ParsedSlice<'gifVideo', GifVideoProps> | undefined {
+function transformGifVideoSlice(slice: GifVideoSlice): BodySlice | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -299,9 +254,7 @@ function transformTitledTextItem({
   };
 }
 
-function transformTitledTextListSlice(
-  slice: TitledTextListSlice
-): ParsedSlice<'titledTextList', TitledTextListProps> {
+function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
   return {
     type: 'titledTextList',
     value: {
@@ -310,9 +263,7 @@ function transformTitledTextListSlice(
   };
 }
 
-function transformDiscussionSlice(
-  slice: DiscussionSlice
-): ParsedSlice<'discussion', DiscussionProps> {
+function transformDiscussionSlice(slice: DiscussionSlice): BodySlice {
   return {
     type: 'discussion',
     value: {
@@ -322,9 +273,7 @@ function transformDiscussionSlice(
   };
 }
 
-function transformInfoBlockSlice(
-  slice: InfoBlockSlice
-): ParsedSlice<'infoBlock', InfoBlockProps> {
+function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
   return {
     type: 'infoBlock',
     value: {
@@ -336,9 +285,7 @@ function transformInfoBlockSlice(
   };
 }
 
-function transformIframeSlice(
-  slice: IframeSlice
-): ParsedSlice<'iframe', IframeProps> {
+function transformIframeSlice(slice: IframeSlice): BodySlice {
   return {
     type: 'iframe',
     weight: getWeight(slice.slice_label),
@@ -349,9 +296,7 @@ function transformIframeSlice(
   };
 }
 
-function transformQuoteSlice(
-  slice: QuoteSlice | QuoteV2Slice
-): ParsedSlice<'quote', QuoteProps> {
+function transformQuoteSlice(slice: QuoteSlice | QuoteV2Slice): BodySlice {
   return {
     type: 'quote',
     weight: getWeight(slice.slice_label),
@@ -364,9 +309,7 @@ function transformQuoteSlice(
   };
 }
 
-function transformTagListSlice(
-  slice: TagListSlice
-): ParsedSlice<'tagList', TagsGroupProps> {
+function transformTagListSlice(slice: TagListSlice): BodySlice {
   return {
     type: 'tagList',
     value: {
@@ -382,9 +325,7 @@ function transformTagListSlice(
   };
 }
 
-function transformSearchResultsSlice(
-  slice: SearchResultsSlice
-): ParsedSlice<'searchResults', AsyncSearchResultsProps> {
+function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
   return {
     type: 'searchResults',
     weight: getWeight(slice.slice_label),
@@ -397,12 +338,7 @@ function transformSearchResultsSlice(
 
 function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
-):
-  | ParsedSlice<
-      'collectionVenue',
-      { content: Venue; showClosingTimes: boolean }
-    >
-  | undefined {
+): BodySlice | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
@@ -415,9 +351,7 @@ function transformCollectionVenueSlice(
     : undefined;
 }
 
-function transformEmbedSlice(
-  slice: EmbedSlice
-): ParsedSlice<'videoEmbed' | 'soundcloudEmbed', EmbedProps> | undefined {
+function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
   const embed = slice.primary.embed;
 
   if (embed.provider_name === 'Vimeo') {
@@ -481,9 +415,7 @@ function transformEmbedSlice(
   }
 }
 
-function transformContentListSlice(
-  slice: ContentListSlice
-): ParsedSlice<'contentList', SearchResultsProps> {
+function transformContentListSlice(slice: ContentListSlice): BodySlice {
   type ContentListPrismicDocument =
     | PagePrismicDocument
     | EventSeriesPrismicDocument
@@ -533,7 +465,7 @@ function transformContentListSlice(
   };
 }
 
-export function transformBody(body: Body): BodyType {
+export function transformBody(body: Body): BodySlice[] {
   return body
     .map(slice => {
       switch (slice.slice_type) {
