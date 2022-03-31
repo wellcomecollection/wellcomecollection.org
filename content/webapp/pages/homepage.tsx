@@ -72,7 +72,7 @@ const CreamBox = styled(Space).attrs({
 
 type Props = {
   exhibitions: ExhibitionBasic[];
-  events: EventBasic[];
+  nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
   jsonLd: JsonLdObj[];
   standfirst?: BodySlice & { type: 'standfirst' };
@@ -121,6 +121,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
     ).results;
+    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+      filterEventsForNext7Days(events)
+    );
+
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
 
     const standfirst = page.body.find(isStandfirst);
@@ -131,7 +135,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           articles: basicArticles,
           exhibitions,
-          events,
+          nextSevenDaysEvents,
           serverData,
           jsonLd,
           standfirst,
@@ -144,18 +148,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Homepage: FC<Props> = ({
-  events: jsonEvents,
+  nextSevenDaysEvents: jsonEvents,
   exhibitions: jsonExhibitions,
   articles,
   jsonLd,
   standfirst,
   contentLists,
 }) => {
-  const events = jsonEvents.map(fixEventDatesInJson);
-  const nextSevenDaysEvents = orderEventsByNextAvailableDate(
-    filterEventsForNext7Days(events)
-  );
-
+  const nextSevenDaysEvents = jsonEvents.map(fixEventDatesInJson);
   const exhibitions = jsonExhibitions.map(fixExhibitionDatesInJson);
 
   const headerList = contentLists.length === 2 ? contentLists[0] : null;
