@@ -72,6 +72,14 @@ export const Table = styled.table`
 
   td[aria-selected]:focus {
     padding: 1px;
-    border: 1px solid ${props => props.theme.color('black')};
+    border: 3px solid ${props => props.theme.color('black')};
   }
 `;
+
+type TdProps = {
+  disabled: boolean;
+};
+
+export const Td = styled.td.attrs<TdProps>(props => ({
+  disable: props.disabled,
+}))<TdProps>``; // TODO move styles here
