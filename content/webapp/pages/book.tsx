@@ -1,6 +1,9 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FunctionComponent } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -25,7 +28,8 @@ const MetadataWrapper = styled.div`
 
 type Props = {
   book: Book;
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
 // FIXME: This is nonsense
 type BookMetadataProps = { book: Book };
@@ -78,6 +82,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (bookDocument) {
       const serverData = await getServerData(context);
+      const venueProps = getServerSideVenueProps(serverData);
+
       const book = transformBook(bookDocument);
 
       return {
@@ -87,6 +93,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           gaDimensions: {
             partOf: book.seasons.map(season => season.id),
           },
+          venueProps,
         }),
       };
     }
@@ -144,11 +151,12 @@ const BookPage: FunctionComponent<Props> = props => {
     <PageLayout
       title={book.title}
       description={book.metadataDescription || book.promo?.caption || ''}
-      url={{ pathname: `/books/${book.id}`, query: {} }}
+      url={{ pathname: `/books/${book.id}` }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'book'}
       siteSection={null}
       image={book.image}
+      {...props.venueProps}
     >
       <ContentPage
         id={book.id}

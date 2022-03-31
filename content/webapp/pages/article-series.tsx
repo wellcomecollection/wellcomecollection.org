@@ -1,6 +1,9 @@
 import { GetServerSideProps } from 'next';
 import { FC } from 'react';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeaderStandfirst from '../components/PageHeaderStandfirst/PageHeaderStandfirst';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -26,7 +29,8 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 type Props = {
   series: Series;
   articles: ArticleBasic[];
-} & WithGaDimensions;
+} & WithGaDimensions &
+  WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -73,6 +77,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const result = transformArticleSeries(id as string, articlesQuery);
 
       if (isNotUndefined(result)) {
+        const venueProps = getServerSideVenueProps(serverData);
         const { articles, series } = result;
 
         return {
@@ -83,6 +88,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             gaDimensions: {
               partOf: series.seasons.map(season => season.id),
             },
+            venueProps,
           }),
         };
       }
@@ -92,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ArticleSeriesPage: FC<Props> = props => {
-  const { series, articles } = props;
+  const { series, articles, venueProps } = props;
   const breadcrumbs = {
     items: [
       {
@@ -138,6 +144,7 @@ const ArticleSeriesPage: FC<Props> = props => {
       siteSection={'stories'}
       openGraphType={'website'}
       image={series.image}
+      {...venueProps}
     >
       <ContentPage
         id={series.id}

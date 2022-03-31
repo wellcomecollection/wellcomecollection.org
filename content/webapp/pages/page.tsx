@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import PageLayout, {
+  getServerSideVenueProps,
   SiteSection,
+  WithVenueProps,
 } from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -39,6 +41,7 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { isPicture, isVideoEmbed } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 
@@ -47,7 +50,9 @@ type Props = {
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
-} & WithGaDimensions;
+  jsonLd: JsonLdObj;
+} & WithGaDimensions &
+  WithVenueProps;
 
 type OrderInParent = {
   id: string;
@@ -93,6 +98,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
+      const venueProps = getServerSideVenueProps(serverData);
+
       return {
         props: removeUndefinedProps({
           page,
@@ -103,6 +110,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
+          jsonLd: contentLd(page),
+          venueProps,
         }),
       };
     } else {
@@ -110,7 +119,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  venueProps,
+  jsonLd,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -265,10 +281,11 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname: `/pages/${page.id}` }}
-      jsonLd={contentLd(page)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
+      {...venueProps}
     >
       <ContentPage
         id={page.id}

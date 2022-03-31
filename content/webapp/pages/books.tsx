@@ -1,5 +1,8 @@
 import type { GetServerSideProps } from 'next';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -20,7 +23,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   books: PaginatedResults<BookBasic>;
-};
+} & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -41,10 +44,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const serverData = await getServerData(context);
     if (books) {
+      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           books,
           serverData,
+          venueProps,
         }),
       };
     } else {
@@ -52,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 const BooksPage: FunctionComponent<Props> = props => {
-  const { books } = props;
+  const { books, venueProps } = props;
   const firstBook = books.results[0];
 
   return (
@@ -64,6 +69,7 @@ const BooksPage: FunctionComponent<Props> = props => {
       openGraphType={'website'}
       siteSection={null}
       image={firstBook && firstBook.cover}
+      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults

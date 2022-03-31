@@ -23,10 +23,14 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 
-type Props = PageProps<typeof getServerSideProps>;
+type Props = PageProps<typeof getServerSideProps> & WithVenueProps;
 
-const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
+const Works: NextPage<Props> = ({ works, worksRouteProps, venueProps }) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -92,6 +96,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
         excludeRoleMain={true}
+        {...venueProps}
       >
         <Space
           v={{
@@ -282,6 +287,8 @@ export const getServerSideProps = async (
     return appError(context, works.httpStatus, works.description);
   }
 
+  const venueProps = getServerSideVenueProps(serverData);
+
   return {
     props: removeUndefinedProps({
       works,
@@ -291,6 +298,7 @@ export const getServerSideProps = async (
         name: 'works',
         properties: works ? { totalResults: works.totalResults } : {},
       },
+      venueProps,
     }),
   };
 };

@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import NewsletterSignup from '../components/NewsletterSignup/NewsletterSignup';
-import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout, {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -13,22 +16,24 @@ import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
 
 type Props = {
   result?: string;
-};
+} & WithVenueProps;
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { result } = context.query;
+    const venueProps = getServerSideVenueProps(serverData);
 
     return {
       props: removeUndefinedProps({
         result: result ? result.toString() : undefined,
         serverData,
+        venueProps,
       }),
     };
   };
 
-const Newsletter: FC<Props> = ({ result }) => {
+const Newsletter: FC<Props> = ({ result, venueProps }) => {
   return (
     <PageLayout
       title={'Sign up to our newsletter'}
@@ -45,6 +50,7 @@ const Newsletter: FC<Props> = ({ result }) => {
         height: 662,
         alt: '',
       }}
+      {...venueProps}
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
