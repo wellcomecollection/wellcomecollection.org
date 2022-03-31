@@ -32,7 +32,7 @@ const itemWithAltText = async (params: {
 }): Promise<void> => {
   context.addCookies(requiredCookies);
   await gotoWithoutCache(
-    `${baseUrl}/works/pzmyhgsk/items${
+    `${baseUrl}/works/pd4rsazb/items${
       params.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
     }`
   );
