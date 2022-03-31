@@ -31,7 +31,7 @@ import { ArticleFormat } from '../types/article-format';
 import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
 import * as prismicT from '@prismicio/types';
 import { transformBody } from './body';
-import { isStandfirst } from 'types/body';
+import { isStandfirst } from '../../../types/body';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
