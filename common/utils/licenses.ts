@@ -1,29 +1,29 @@
-import merge from 'lodash.merge';
+// We have to deal with licenses from two sources:
+//
+//    - the catalogue API (in the catalogue app), which returns the LicenseAPIData type
+//    - the Prismic API (in the content app)
+//
+// The catalogue API provides licenses as the `CatalogueLicenseData` type; the
+// Prismic API only returns a license ID.
+//
+// We augment the catalogue API types with extra data (e.g. icons and human-readable
+// text) so we can display licenses properly in the catalogue app.
 
-// We have to deal with licenses in both the Catalogue App (using the catalogue API) and the Content App (using the Prismic API)
-// The catalogue API provides licenses as follows:
-export type LicenseAPIData = {
+type CatalogueLicenseData = {
   id: string;
   label: string;
   url: string;
   type: 'License';
 };
 
-// For the UI, we want to add to this data, with an icons array, description and human readable text.
 type CcIcons = 'cc' | 'ccBy' | 'ccNc' | 'ccNd' | 'ccPdm' | 'ccZero' | 'ccSa';
-export type LicenseData = LicenseAPIData & {
+export type LicenseData = CatalogueLicenseData & {
   icons: CcIcons[];
   description?: string;
   humanReadableText: string[];
 };
-// This is achieved with the getAugmentedLicenseInfo function and the data contained in the additionalData object.
 
-// However, the only license information we receive from Prismic is a license id.
-// We therefore duplicate the data that the catalogue API provides (defaultLicenseMap),
-// combine it with the additionalData and use the getLicenseInfo function,
-// for the sole purpose of displaying license information on the Content App.
-
-export const additionalData = {
+const additionalData = {
   pdm: {
     icons: ['ccPdm'],
     humanReadableText: [
@@ -92,17 +92,7 @@ export const additionalData = {
   },
 };
 
-export default function getAugmentedLicenseInfo(
-  license: LicenseAPIData
-): LicenseData {
-  const additionalLicenseData = additionalData[license.id.toLowerCase()];
-  return {
-    ...license,
-    ...additionalLicenseData,
-  };
-}
-
-const defaultLicenseMap = {
+const catalogueLicenses: Record<string, CatalogueLicenseData> = {
   pdm: {
     id: 'pdm',
     label: 'Public Domain Mark',
@@ -173,8 +163,24 @@ const defaultLicenseMap = {
   },
 };
 
-export const mergedLicenseMap = merge(additionalData, defaultLicenseMap);
+// Given a license from the catalogue API, return the license with extra
+// information needed to display it in the UI.
+export function getCatalogueLicenseData(
+  license: CatalogueLicenseData
+): LicenseData {
+  const additionalLicenseData = additionalData[license.id.toLowerCase()];
+  return {
+    ...license,
+    ...additionalLicenseData,
+  };
+}
 
-export function getLicenseInfo(licenseId: string): LicenseData {
-  return mergedLicenseMap[licenseId.toLowerCase()];
+// Given a license ID from Prismic, return the equivalent license data as
+// we'd receive it from the catalogue API.
+//
+// Note: we don't include the augmented data here because the content app doesn't
+// use it.  (At time of writing, the only component that uses license data is <Tasl>,
+// which wants a URL and label.)
+export function getPrismicLicenseData(licenseId: string): CatalogueLicenseData {
+  return catalogueLicenses[licenseId.toLowerCase()];
 }
