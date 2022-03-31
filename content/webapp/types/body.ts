@@ -55,6 +55,24 @@ export function isContentList(
   return slice.type === 'contentList';
 }
 
+export function isVideoEmbed(
+  slice: BodySlice
+): slice is BodySlice & { type: 'videoEmbed' } {
+  return slice.type === 'videoEmbed';
+}
+
+export function isPicture(
+  slice: BodySlice
+): slice is BodySlice & { type: 'picture' } {
+  return slice.type === 'picture';
+}
+
+export function isStandfirst(
+  slice: BodySlice
+): slice is BodySlice & { type: 'standfirst' } {
+  return slice.type === 'standfirst';
+}
+
 export type BodySlice =
   | Slice<'standfirst', prismicT.RichTextField>
   | Slice<'text', prismicT.RichTextField>

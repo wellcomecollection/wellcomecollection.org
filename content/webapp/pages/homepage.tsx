@@ -50,6 +50,7 @@ import {
 } from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { isContentList, isStandfirst } from 'types/body';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -147,8 +148,8 @@ const Homepage: FC<Props> = props => {
 
   const articles = props.articles;
   const page = props.page;
-  const standFirst = page.body.find(slice => slice.type === 'standfirst');
-  const lists = page.body.filter(slice => slice.type === 'contentList');
+  const standFirst = page.body.find(isStandfirst);
+  const lists = page.body.filter(isContentList);
   const headerList = lists.length === 2 ? lists[0] : null;
   const contentList = lists.length === 2 ? lists[1] : lists[0];
 
@@ -181,7 +182,7 @@ const Homepage: FC<Props> = props => {
           )}
           <SpacingComponent>
             <SimpleCardGrid
-              items={headerList.value.items}
+              items={headerList.value.items as any[]}
               isFeaturedFirst={true}
             />
           </SpacingComponent>
@@ -206,17 +207,19 @@ const Homepage: FC<Props> = props => {
       {contentList && (
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title={contentList.value.title} />
+            <SectionHeader title={contentList.value.title || ''} />
           </SpacingComponent>
           <SpacingComponent>
             <SimpleCardGrid
-              items={contentList.value.items.map(item => {
-                if (item.type === 'seasons') {
-                  return convertItemToCardProps(item);
-                } else {
-                  return item;
-                }
-              })}
+              items={
+                contentList.value.items.map(item => {
+                  if (item.type === 'seasons') {
+                    return convertItemToCardProps(item);
+                  } else {
+                    return item;
+                  }
+                }) as any[]
+              }
             />
           </SpacingComponent>
         </SpacingSection>
