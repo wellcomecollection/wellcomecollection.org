@@ -103,8 +103,8 @@ const items: SocialItem[] = [
   },
   {
     url: 'https://soundcloud.com/wellcomecollection',
-    title: 'Soundcloud',
-    service: 'Soundcloud',
+    title: 'SoundCloud',
+    service: 'SoundCloud',
     icon: soundcloud,
   },
   {
