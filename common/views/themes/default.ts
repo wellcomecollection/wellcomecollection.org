@@ -150,6 +150,23 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${makeFontSizeOverrideClasses()}
   ${typography}
   ${grid}
+  ${props =>
+    props.toggles?.inter &&
+    css`
+      @font-face {
+        font-family: 'Helvetica Neue Roman Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
+          format('truetype');
+        font-weight: 400;
+      }
+
+      @font-face {
+        font-family: 'Helvetica Neue Bold Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
+          format('truetype');
+        font-weight: 700;
+      }
+    `}
 `;
 
 export default theme;

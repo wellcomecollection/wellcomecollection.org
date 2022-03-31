@@ -40,6 +40,12 @@ const toggles = {
       defaultValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
+    {
+      id: 'inter',
+      title: 'Inter font',
+      defaultValue: false,
+      description: 'Use Inter in place of Helvetica Neue',
+    },
   ] as const,
   tests: [
     {
