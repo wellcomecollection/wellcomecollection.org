@@ -3,7 +3,7 @@ import MediaObject, {
   Props as MediaObjectProps,
 } from '../MediaObject/MediaObject';
 
-type Props = {
+export type Props = {
   items: MediaObjectProps[];
 };
 
