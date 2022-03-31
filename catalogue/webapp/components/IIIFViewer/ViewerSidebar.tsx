@@ -18,7 +18,7 @@ import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '../../utils/works';
-import { getCatalogueLicenseInfo } from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -149,7 +149,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
 
   const license =
     digitalLocation?.license &&
-    getCatalogueLicenseInfo(digitalLocation.license);
+    getCatalogueLicenseData(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
   const searchService = manifest && getSearchService(manifest);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;

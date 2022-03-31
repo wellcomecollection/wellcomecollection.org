@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
-import { getPrismicLicenseInfo } from '../../../utils/licenses';
+import { getPrismicLicenseData } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../../components/AppContext/AppContext';
 import Icon from '../Icon/Icon';
@@ -68,7 +68,7 @@ function getMarkup({
   copyrightHolder,
   copyrightLink,
 }: MarkUpProps) {
-  const licenseData = license && getPrismicLicenseInfo(license);
+  const licenseData = license && getPrismicLicenseData(license);
 
   return (
     <>

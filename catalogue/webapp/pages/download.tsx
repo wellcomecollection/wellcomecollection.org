@@ -4,7 +4,7 @@ import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
 } from '../utils/works';
-import { getCatalogueLicenseInfo } from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
@@ -48,7 +48,7 @@ const DownloadPage: NextPage<Props> = ({
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const license =
     digitalLocation?.license &&
-    getCatalogueLicenseInfo(digitalLocation.license);
+    getCatalogueLicenseData(digitalLocation.license);
 
   const iiifImageLocationUrl =
     iiifImageLocation &&

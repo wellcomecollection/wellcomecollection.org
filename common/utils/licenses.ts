@@ -165,7 +165,7 @@ const catalogueLicenses: Record<string, CatalogueLicenseData> = {
 
 // Given a license from the catalogue API, return the license with extra
 // information needed to display it in the UI.
-export function getCatalogueLicenseInfo(
+export function getCatalogueLicenseData(
   license: CatalogueLicenseData
 ): LicenseData {
   const additionalLicenseData = additionalData[license.id.toLowerCase()];
@@ -181,6 +181,6 @@ export function getCatalogueLicenseInfo(
 // Note: we don't include the augmented data here because the content app doesn't
 // use it.  (At time of writing, the only component that uses license data is <Tasl>,
 // which wants a URL and label.)
-export function getPrismicLicenseInfo(licenseId: string): CatalogueLicenseData {
+export function getPrismicLicenseData(licenseId: string): CatalogueLicenseData {
   return catalogueLicenses[licenseId.toLowerCase()];
 }

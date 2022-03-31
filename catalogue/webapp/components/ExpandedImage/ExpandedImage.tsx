@@ -9,7 +9,7 @@ import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import { getCatalogueLicenseInfo } from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Image from '@weco/common/views/components/Image/Image';
 import License from '../License/License';
@@ -286,7 +286,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
   const iiifImageLocation = image.locations[0];
   const license =
     iiifImageLocation?.license &&
-    getCatalogueLicenseInfo(iiifImageLocation.license);
+    getCatalogueLicenseData(iiifImageLocation.license);
 
   const expandedImageLink =
     image && !canvasDeeplink
