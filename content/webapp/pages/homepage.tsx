@@ -212,13 +212,9 @@ const Homepage: FC<Props> = props => {
           <SpacingComponent>
             <SimpleCardGrid
               items={
-                contentList.value.items.map(item => {
-                  if (item.type === 'seasons') {
-                    return convertItemToCardProps(item);
-                  } else {
-                    return item;
-                  }
-                }) as any[]
+                contentList.value.items.map(item =>
+                  item.type === 'seasons' ? convertItemToCardProps(item) : item
+                ) as any[]
               }
             />
           </SpacingComponent>
