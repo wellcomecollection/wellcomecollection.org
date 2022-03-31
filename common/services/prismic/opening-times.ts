@@ -244,9 +244,11 @@ export function getTodaysVenueHours(
   const todayString = todaysDate.format('dddd');
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
-    venue.openingHours.exceptional.find(i =>
-      todaysDate.startOf('day').isSame(i.overrideDate.startOf('day'))
-    );
+    venue.openingHours.exceptional.find(i => {
+      return todaysDate
+        .startOf('day')
+        .isSame(london(i.overrideDate).startOf('day'));
+    });
   const regularOpeningHours =
     venue.openingHours.regular &&
     venue.openingHours.regular.find(i => i.dayOfWeek === todayString);
