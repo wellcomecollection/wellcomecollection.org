@@ -158,6 +158,7 @@ const Homepage: FC<Props> = ({
   exhibitions: jsonExhibitions,
   articles,
   jsonLd,
+  venueProps,
   standfirst,
   contentLists,
 }) => {
@@ -177,7 +178,7 @@ const Homepage: FC<Props> = ({
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
-      {...props.venueProps}
+      {...venueProps}
     >
       <Layout10>
         <SpacingSection>
