@@ -286,8 +286,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     scheduleLength,
     series,
     secondaryLabels,
-    cost,
-    contributors,
   }) => ({
     type,
     promo,
@@ -303,8 +301,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     scheduleLength,
     series,
     secondaryLabels,
-    cost,
-    contributors,
   }))(event);
 }
 
