@@ -10,15 +10,20 @@ import { getServerData } from '@weco/common/server-data';
 import Work from '../components/Work/Work';
 import { getWork } from '../services/catalogue/works';
 import { isString } from '@weco/common/utils/array';
+import {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 
 type Props = {
   workResponse: WorkType;
-} & WithPageview;
+} & WithPageview &
+  WithVenueProps;
 
-export const WorkPage: NextPage<Props> = ({ workResponse }) => {
+export const WorkPage: NextPage<Props> = ({ workResponse, venueProps }) => {
   // TODO: remove the <Work> component and move the JSX in here.
   // It was abstracted as we did error handling in the page, and it made it a little clearer.
-  return <Work work={workResponse} />;
+  return <Work work={workResponse} venueProps={venueProps} />;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -55,6 +60,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
+    const venueProps = getServerSideVenueProps(serverData);
+
     return {
       props: removeUndefinedProps({
         workResponse,
@@ -71,6 +78,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
             ),
           },
         },
+        venueProps,
       }),
     };
   };

@@ -28,11 +28,16 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
-} & WithPageview;
+} & WithPageview &
+  WithVenueProps;
 
 type ImagesPaginationProps = {
   query?: string;
@@ -82,6 +87,7 @@ const ImagesPagination = ({
 const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
+  venueProps,
 }): ReactElement<Props> => {
   const [loading, setLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
@@ -147,6 +153,7 @@ const Images: NextPage<Props> = ({
         jsonLd={{ '@type': 'WebPage' }}
         siteSection={'collections'}
         image={undefined}
+        {...venueProps}
       >
         <Space
           v={{
@@ -267,6 +274,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return appError(context, images.httpStatus, 'Images API error');
     }
 
+    const venueProps = getServerSideVenueProps(serverData);
+
     return {
       props: removeUndefinedProps({
         serverData,
@@ -280,6 +289,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               }
             : {},
         },
+        venueProps,
       }),
     };
   };

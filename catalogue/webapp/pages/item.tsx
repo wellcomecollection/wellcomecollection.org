@@ -51,6 +51,10 @@ import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import {
+  getServerSideVenueProps,
+  WithVenueProps,
+} from '@weco/common/views/components/PageLayout/PageLayout';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -91,7 +95,8 @@ type Props = {
   video?: Video;
   audioItems?: IIIFMediaElement[];
   iiifImageLocation?: DigitalLocation;
-} & WithPageview;
+} & WithPageview &
+  WithVenueProps;
 
 const ItemPage: NextPage<Props> = ({
   manifest,
@@ -106,6 +111,7 @@ const ItemPage: NextPage<Props> = ({
   video,
   audioItems,
   iiifImageLocation,
+  venueProps,
 }) => {
   const workId = work.id;
   const [origin, setOrigin] = useState<string>();
@@ -221,6 +227,7 @@ const ItemPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
+      {...venueProps}
     >
       {tokenService && origin && (
         <IframeAuthMessage
@@ -421,6 +428,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
+    const venueProps = getServerSideVenueProps(serverData);
+
     if (manifestOrCollection) {
       // This happens when the main manifest is actually a Collection (manifest of manifest).
       // see: https://wellcomelibrary.org/iiif/collection/b21293302
@@ -480,6 +489,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           audioItems,
           iiifImageLocation,
           pageview,
+          venueProps,
           serverData,
         }),
       };
@@ -495,6 +505,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           canvases: [],
           iiifImageLocation,
           pageview,
+          venueProps,
           serverData,
         }),
       };
