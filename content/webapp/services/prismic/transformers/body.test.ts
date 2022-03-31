@@ -90,7 +90,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RTlA8X0EJ7w?rel=0&list=PL1C12C48F8E360BC2',
-          caption: null,
+          caption: [],
         },
       },
     ]);
@@ -131,7 +131,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RwUS2ev53b8?rel=0&feature=oembed',
-          caption: null,
+          caption: [],
         },
       },
     ]);
