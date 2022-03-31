@@ -237,7 +237,7 @@ export type Props = {
   isStandalone: boolean;
 };
 
-const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
+const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   id,
   title,
   items,
@@ -283,7 +283,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
       trackEvent({
         category: `Control`,
         action: 'close ImageGallery',
-        label: id,
+        label: id.toString(),
       });
     }
 
@@ -296,7 +296,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
     trackEvent({
       category: `${isButton ? 'Button' : 'CaptionedImage'}`,
       action: 'open ImageGallery',
-      label: id,
+      label: id.toString(),
     });
 
     setIsActive(true);

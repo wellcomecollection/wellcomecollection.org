@@ -22,6 +22,11 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
 import linkResolver from '../../services/prismic/link-resolver';
+import { Page } from '../../types/pages';
+import { EventSeries } from '../../types/event-series';
+import { Book } from '../../types/books';
+import { Event } from '../../types/events';
+import { Guide } from '../../types/guides';
 
 type PartialFeaturedCard = {
   id: string;
@@ -53,7 +58,15 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: ArticleBasic | ExhibitionBasic | Season
+  item:
+    | ArticleBasic
+    | ExhibitionBasic
+    | Season
+    | Page
+    | EventSeries
+    | Book
+    | Event
+    | Guide
 ) {
   return {
     id: item.id,
