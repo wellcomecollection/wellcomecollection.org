@@ -17,7 +17,6 @@ import {
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type GetWorkProps = {
   id: string;
