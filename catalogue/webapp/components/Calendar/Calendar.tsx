@@ -6,7 +6,6 @@ import {
   lastDayOfWeek,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
-import { londonFromFormat } from '@weco/common/utils/format-date';
 import { Moment } from 'moment';
 
 const LEFT = [37, 'ArrowLeft'];
@@ -20,7 +19,7 @@ const PAGEDOWN = [34, 'PageDown'];
 const ESCAPE = [27, 'Escape'];
 const ENTER = [13, 'Enter'];
 
-function newDate(date: Moment, key: string): Moment {
+function newDate(date: Moment, key: number | string): Moment {
   const dates = getCalendarRows(date);
   switch (true) {
     case RIGHT.includes(key): {
@@ -71,9 +70,13 @@ function newDate(date: Moment, key: string): Moment {
   return date;
 }
 
-function handleKeyDown(event, date: Moment, min, max, setTabbableDate) {
-  // TODO types
-  event.stopPropagation(); // TODO don't do this?
+function handleKeyDown(
+  event: React.KeyboardEvent<HTMLTableElement>,
+  date: Moment,
+  min: Moment,
+  max: Moment,
+  setTabbableDate: (date: Moment) => void
+) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
     ...LEFT,
@@ -94,7 +97,7 @@ function handleKeyDown(event, date: Moment, min, max, setTabbableDate) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
     setTabbableDate(moveToDate);
   } else {
-    // TODO let the user know that the can't go to dates outisde of the range - aria-live?
+    // TODO let the user know that the can't go to dates outside of the range - aria-live?
     setTabbableDate(date);
   }
 }
@@ -102,16 +105,18 @@ function handleKeyDown(event, date: Moment, min, max, setTabbableDate) {
 type Props = {
   min: Moment;
   max: Moment;
-  // excludedDates: Moment[];
-  // excludedDays: DayNumber[];
+  excludedDates: Moment[];
+  excludedDays: number[];
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
-  // setChosenDate: (date: Moment) => void;
+  // setChosenDate: (date: Moment) => void; /// TODO rename
 };
 
 const Calendar: FC<Props> = ({
   min,
   max,
+  excludedDates,
+  excludedDays,
   initialFocusDate,
   chosenDate,
   // setChosenDate,
@@ -229,13 +234,9 @@ const Calendar: FC<Props> = ({
                       date: date,
                       startDate: min,
                       endDate: max,
-                      excludedDates: [
-                        londonFromFormat('11-03-2022', 'DD-MM-YYYY'),
-                        londonFromFormat('11-05-2022', 'DD-MM-YYYY'),
-                      ], // TODO pass these in
-                      excludedDays: [0], // TODO pass these in
+                      excludedDates,
+                      excludedDays,
                     });
-                  // TODO if there isn't a selected date use nextAvaliableDate
                   return (
                     <Td
                       key={i}
