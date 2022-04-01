@@ -86,7 +86,7 @@ function getNextUp(
   series: Series,
   articles: Article[],
   article: Article,
-  currentPosition?: number,
+  currentPosition: number | undefined,
   isPodcast: boolean
 ): ReactElement | null {
   if (series.schedule.length > 0 && currentPosition) {
