@@ -30,7 +30,6 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import * as prismic from '@prismicio/client';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
@@ -142,7 +141,10 @@ const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        const predicates = [prismic.predicate.at(seriesField, series.id)];
+        // Note: we deliberately use a hard-coded string here instead of the
+        // predicate DSL in the Prismic client library, because it means we don't
+        // send the Prismic client library as part of the browser bundle.
+        const predicates = [`[at(${seriesField}, "${series.id}")]`];
 
         const articlesInSeries = series
           ? await fetchArticlesClientSide({ predicates })
