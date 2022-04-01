@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { DatePicker, Header, Table, Td } from './CalendarStyles';
 import { getCalendarRows } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
@@ -29,30 +29,30 @@ function handleKeyDown(event, date: Moment, setTabbableDate, setDisplayMonth) {
   ].includes(key);
   if (!isKeyOfInterest) return;
   event.preventDefault();
+  function update(newDate: Moment) {
+    setTabbableDate(newDate);
+    setDisplayMonth(newDate);
+  }
   switch (true) {
     // TODO prevent going past to and from
     case RIGHT.includes(key): {
       const newDate = date.clone().add(1, 'day');
-      setTabbableDate(newDate);
-      setDisplayMonth(newDate);
+      update(newDate);
       break;
     }
     case LEFT.includes(key): {
       const newDate = date.clone().subtract(1, 'day');
-      setTabbableDate(newDate);
-      setDisplayMonth(newDate);
+      update(newDate);
       break;
     }
     case DOWN.includes(key): {
       const newDate = date.clone().add(1, 'week');
-      setTabbableDate(newDate);
-      setDisplayMonth(newDate);
+      update(newDate);
       break;
     }
     case UP.includes(key): {
       const newDate = date.clone().subtract(1, 'week');
-      setTabbableDate(newDate);
-      setDisplayMonth(newDate);
+      update(newDate);
       break;
     }
 
@@ -104,6 +104,17 @@ const Calendar: FC<Props> = ({
     displayMonth.isAfter(max, 'month')
   );
   const rows = displayMonth ? getCalendarRows(displayMonth) : [];
+
+  useEffect(() => {
+    const currentFocusElement = document.activeElement;
+    if (currentFocusElement?.nodeName.toLowerCase() === 'td') {
+      // if we're focused on a date, then we want to update the focus when the tabable date changes
+      const currentDateElement = document.querySelector(
+        'td[tabindex="0"]'
+      ) as HTMLElement;
+      currentDateElement?.focus();
+    }
+  }, [tabableDate]);
 
   return (
     <DatePicker id="myDatepicker">
