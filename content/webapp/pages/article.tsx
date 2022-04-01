@@ -87,7 +87,8 @@ function getNextUp(
   series: Series,
   articles: Article[],
   article: Article,
-  currentPosition?: number
+  currentPosition?: number,
+  isPodcast: boolean
 ): ReactElement | null {
   if (series.schedule.length > 0 && currentPosition) {
     const firstArticleFromSchedule = series.schedule.find(
@@ -108,13 +109,24 @@ function getNextUp(
         : nextArticle || null;
 
     return nextUp ? (
-      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+      <SeriesNavigation
+        key={series.id}
+        series={series}
+        items={[nextUp]}
+        isPodcast={isPodcast}
+      />
     ) : null;
   } else {
     const dedupedArticles = articles
       .filter(a => a.id !== article.id)
       .slice(0, 2);
-    return <SeriesNavigation series={series} items={dedupedArticles} />;
+    return (
+      <SeriesNavigation
+        series={series}
+        items={dedupedArticles}
+        isPodcast={isPodcast}
+      />
+    );
   }
 }
 
@@ -279,7 +291,7 @@ const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
 
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, article, positionInSerial);
+      return getNextUp(series, articles, article, positionInSerial, isPodcast);
     })
     .filter(Boolean);
 
