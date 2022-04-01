@@ -184,7 +184,7 @@ const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
   };
 
   const isPodcast =
-    article.format && article.format.id === ArticleFormatIds.Podcast;
+    (article.format && article.format.id === ArticleFormatIds.Podcast) || false;
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
