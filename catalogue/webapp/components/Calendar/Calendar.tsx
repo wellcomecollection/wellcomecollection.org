@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react';
+import { DayNumber } from '@weco/common/model/opening-hours';
 import { DatePicker, Header, Table, Td } from './CalendarStyles';
 import {
   getCalendarRows,
@@ -19,7 +20,12 @@ const PAGEDOWN = [34, 'PageDown'];
 const ESCAPE = [27, 'Escape'];
 const ENTER = [13, 'Enter'];
 
-function newDate(date: Moment, key: number | string): Moment {
+function newDate(
+  date: Moment,
+  key: number | string,
+  disabled: boolean,
+  setChosenDate: (date: string) => void
+): Moment {
   const dates = getCalendarRows(date);
   switch (true) {
     case RIGHT.includes(key): {
@@ -54,12 +60,12 @@ function newDate(date: Moment, key: number | string): Moment {
       return date.clone().add(1, 'month');
       break;
     }
-    // case ENTER.includes(key): {
-    //   // set pickup date (and close calendar modal)
-    //   // TODO not if target has disabled prop
-    //   console.log('ENTER');
-    //   break;
-    // }
+    case ENTER.includes(key): {
+      // set pickup date (and close calendar modal)
+      // TODO not if target has disabled prop
+      setChosenDate(date.format('DD/MM/YYYY'));
+      break;
+    }
     // This should be part of modal dialog, not the calendar
     // case ESCAPE.includes(key): {
     //   // close calendar modal
@@ -75,7 +81,8 @@ function handleKeyDown(
   date: Moment,
   min: Moment,
   max: Moment,
-  setTabbableDate: (date: Moment) => void
+  setTabbableDate: (date: Moment) => void,
+  setChosenDate: (date: string) => void
 ) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
@@ -92,7 +99,9 @@ function handleKeyDown(
   ].includes(key);
   if (!isKeyOfInterest) return;
   event.preventDefault();
-  const moveToDate = newDate(date, key);
+  const isDisabled = false;
+  console.log(event);
+  const moveToDate = newDate(date, key, isDisabled, setChosenDate);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
     setTabbableDate(moveToDate);
@@ -106,10 +115,10 @@ type Props = {
   min: Moment;
   max: Moment;
   excludedDates: Moment[];
-  excludedDays: number[];
+  excludedDays: DayNumber[];
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
-  // setChosenDate: (date: Moment) => void; /// TODO rename
+  setChosenDate: (date: string) => void; /// TODO rename
 };
 
 const Calendar: FC<Props> = ({
@@ -119,7 +128,7 @@ const Calendar: FC<Props> = ({
   excludedDays,
   initialFocusDate,
   chosenDate,
-  // setChosenDate,
+  setChosenDate,
 }) => {
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
   const [previousMonthDisabled, setPreviousMonthDisabled] = useState(true);
@@ -190,7 +199,14 @@ const Calendar: FC<Props> = ({
         role="grid"
         aria-labelledby="id-grid-label"
         onKeyDown={event => {
-          handleKeyDown(event, tabbableDate, min, max, setTabbableDate);
+          handleKeyDown(
+            event,
+            tabbableDate,
+            min,
+            max,
+            setTabbableDate,
+            setChosenDate
+          );
         }}
       >
         <thead>
@@ -245,10 +261,7 @@ const Calendar: FC<Props> = ({
                       }
                       disabled={isDisabled}
                       aria-selected={
-                        !(
-                          !chosenDate ||
-                          (chosenDate && chosenDate.isSame(date, 'day'))
-                        )
+                        chosenDate ? chosenDate.isSame(date, 'day') : false
                       }
                     >
                       {date?.date()}
