@@ -1,6 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { DatePicker, Header, Table, Td } from './CalendarStyles';
-import { getCalendarRows } from './calendar-utils';
+import {
+  getCalendarRows,
+  firstDayOfWeek,
+  lastDayOfWeek,
+} from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
 import { londonFromFormat } from '@weco/common/utils/format-date';
 import { Moment } from 'moment';
@@ -11,14 +15,14 @@ const DOWN = [40, 'ArrowDown'];
 const UP = [38, 'ArrowUp'];
 const HOME = [36, 'Home'];
 const END = [35, 'End'];
+const PAGEUP = [33, 'PageUp'];
+const PAGEDOWN = [34, 'PageDown'];
 const ESCAPE = [27, 'Escape'];
 const ENTER = [13, 'Enter'];
 
 function newDate(date: Moment, key: string): Moment {
+  const dates = getCalendarRows(date);
   switch (true) {
-    // TODO prevent going past to and from add disabled attr.
-    // Let the user know they can't go past the end of the month
-    // TODO does disabled tell the user it's disabled?
     case RIGHT.includes(key): {
       return date.clone().add(1, 'day');
       break;
@@ -35,35 +39,41 @@ function newDate(date: Moment, key: string): Moment {
       return date.clone().subtract(1, 'week');
       break;
     }
-    // TODO add functionality for the following keys:
     case HOME.includes(key): {
-      // first day of week
-      console.log('HOME');
+      return firstDayOfWeek(date, dates);
       break;
     }
     case END.includes(key): {
-      // last day of week
-      console.log('END');
+      return lastDayOfWeek(date, dates);
       break;
     }
-    case ENTER.includes(key): {
-      // set pickup date (and close calendar modal)
-      // TODO not if target has disabled prop
-      console.log('ENTER');
+    case PAGEUP.includes(key): {
+      return date.clone().subtract(1, 'month');
       break;
     }
-    case ESCAPE.includes(key): {
-      // close calendar modal
-      console.log('ESCAPE');
+    case PAGEDOWN.includes(key): {
+      return date.clone().add(1, 'month');
       break;
     }
+    // case ENTER.includes(key): {
+    //   // set pickup date (and close calendar modal)
+    //   // TODO not if target has disabled prop
+    //   console.log('ENTER');
+    //   break;
+    // }
+    // This should be part of modal dialog, not the calendar
+    // case ESCAPE.includes(key): {
+    //   // close calendar modal
+    //   console.log('ESCAPE');
+    //   break;
+    // }
   }
   return date;
 }
 
 function handleKeyDown(event, date: Moment, min, max, setTabbableDate) {
   // TODO types
-  event.stopPropagation();
+  event.stopPropagation(); // TODO don't do this?
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
     ...LEFT,
@@ -72,18 +82,20 @@ function handleKeyDown(event, date: Moment, min, max, setTabbableDate) {
     ...UP,
     ...HOME,
     ...END,
+    ...PAGEUP,
+    ...PAGEDOWN,
     ...ESCAPE,
     ...ENTER,
   ].includes(key);
   if (!isKeyOfInterest) return;
   event.preventDefault();
   const moveToDate = newDate(date, key);
-  // if() - if moveToDate not outside of max/min dates
-  if (date.isBetween(min, max, 'day', '[]')) {
+  if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
     setTabbableDate(moveToDate);
   } else {
-    // TODO let the user know somehow
+    // TODO let the user know that the can't go to dates outisde of the range - aria-live?
+    setTabbableDate(date);
   }
 }
 
@@ -145,7 +157,7 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            {/* TODO make accessible */}prev
+            previous
           </button>
           <button
             type="button"
@@ -164,7 +176,7 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            {/* TODO make accessible */}next
+            next
           </button>
         </div>
       </Header>

@@ -50,3 +50,24 @@ export function getCalendarRows(date: Moment): (Moment | null)[][] {
   });
   return groupIntoSize(rows, 7);
 }
+
+// TODO write tests for these
+export function firstDayOfWeek(
+  date: Moment,
+  dates: (Moment | null)[][]
+): Moment {
+  const currentWeek = dates.find(weekDates =>
+    weekDates?.some(weekDate => weekDate?.isSame(date, 'day'))
+  );
+  return (currentWeek && currentWeek[0]) || date;
+}
+
+export function lastDayOfWeek(
+  date: Moment,
+  dates: (Moment | null)[][]
+): Moment {
+  const currentWeek = dates.find(week =>
+    week?.some(day => day?.isSame(date, 'day'))
+  );
+  return (currentWeek && currentWeek[currentWeek.length - 1]) || date;
+}
