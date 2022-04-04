@@ -248,16 +248,28 @@ const Calendar: FC<Props> = ({
                       }}
                       tabIndex={
                         closestTabbableDate.format('DD/MM/YYYY') ===
-                          date?.format('DD/MM/YYYY') && !isDisabled
+                        date?.format('DD/MM/YYYY')
                           ? 0
                           : -1
                       }
-                      disabled={isDisabled}
+                      aria-disabled={isDisabled}
                       aria-selected={
                         chosenDate ? chosenDate.isSame(date, 'day') : false
                       }
                     >
-                      {date?.date()}
+                      {isDisabled ? (
+                        <span
+                          aria-label={`Not available, ${date?.format(
+                            'Do MMMM YYYY'
+                          )}`}
+                        >
+                          {date?.date()}
+                        </span>
+                      ) : (
+                        <span aria-label={date?.format('Do MMMM YYYY')}>
+                          {date?.date()}
+                        </span>
+                      )}
                     </Td>
                   );
                 })}
