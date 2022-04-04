@@ -56,7 +56,7 @@ export const Table = styled.table`
   }
 
   td:not([disabled]):hover,
-  td:focus {
+  td:not([disabled]):focus {
     border: 1px solid ${props => props.theme.color('pewter')};
     outline: 0;
   }
@@ -73,7 +73,7 @@ export const Table = styled.table`
     border: 1px solid ${props => props.theme.color('yellow')};
   }
 
-  td[aria-selected]:focus {
+  td[aria-selected='true']:focus {
     border: 1px solid ${props => props.theme.color('black')};
   }
 `;
