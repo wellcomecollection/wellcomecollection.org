@@ -37,11 +37,17 @@ export function getCalendarRows(date: Moment): (Moment | null)[][] {
   const days = [...Array(numberOfDays).keys()].map((day, i) => {
     return moment(date).startOf('month').add(i, 'day');
   });
-  const firstDay = days[0].day();
-  const lastDay = days[days.length - 1].day();
-  const emptyStart = [...Array(daysFromStartOfWeek(1, firstDay)).keys()];
-  const emptyEnd = [...Array(daysUntilEndOfWeek(1, lastDay)).keys()];
-  const rows = [...emptyStart, ...days, ...emptyEnd].map(day => {
+  const firstDay = days[0];
+  const lastDay = days[days.length - 1];
+  const previousMonthDays = [
+    ...Array(daysFromStartOfWeek(1, firstDay.day())).keys(),
+  ]
+    .map((emptyDay, i) => firstDay?.clone().subtract(i + 1, 'days'))
+    .reverse();
+  const nextMonthDays = [
+    ...Array(daysUntilEndOfWeek(1, lastDay.day())).keys(),
+  ].map((emptyDay, i) => lastDay?.clone().add(i + 1, 'days'));
+  const rows = [...previousMonthDays, ...days, ...nextMonthDays].map(day => {
     if (typeof day === 'number') {
       return null;
     } else {

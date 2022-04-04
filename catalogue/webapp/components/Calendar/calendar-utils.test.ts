@@ -55,14 +55,18 @@ describe('daysUntilEndOfWeek: gives the number of days between the last day of t
   });
 });
 
-describe.only('getCalendarRows', () => {
+describe('getCalendarRows', () => {
   it('generates Moments for each day of a given month and groups them into weeks. It pads the first and last group arrays, so that the first day of the month is placed at the correct index', () => {
     const result = getCalendarRows(london('2022-03-01'));
-    expect(result[0][0]).toEqual(null); // month starts on Monday so the first day of the week is padded with null
+    expect(result[0][0]?.toDate()).toEqual(london('2022-02-28').toDate()); // month starts on Tuesday so the first day of the week is padded with the last day of the previous month
     expect(result[0][1]?.toDate()).toEqual(london('2022-03-01').toDate());
     expect(result[result.length - 1][3]?.toDate()).toEqual(
       london('2022-03-31').toDate()
     );
-    expect(result[result.length - 1][4]).toEqual(null); // month ends on Thursday so the last days of the week are padded with null
+    expect(result[result.length - 1][4]?.toDate()).toEqual(
+      london('2022-04-01').toDate()
+    ); // month ends on Thursday so the last days of the week are padded with the first days of the next month
+  });
+});
   });
 });
