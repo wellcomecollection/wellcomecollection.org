@@ -333,7 +333,7 @@ describe('ChangePassword', () => {
       );
       userEvent.click(screen.getByRole('button', { name: /update password/i }));
       expect(await screen.findByRole('alert')).toHaveTextContent(
-        /'There is an issue with this library account password. To resolve this, please contact Library Enquiries (library@wellcomecollection.org)./i
+        'There is an issue with this library account password. To resolve this, please contact Library Enquiries (library@wellcomecollection.org).'
       );
     });
   });
