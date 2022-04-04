@@ -164,7 +164,6 @@ const Calendar: FC<Props> = ({
             onClick={() => {
               const newMonth = tabbableDate.clone().add(1, 'month');
               setTabbableDate(newMonth);
-              setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
               );
@@ -243,8 +242,10 @@ const Calendar: FC<Props> = ({
                     <Td
                       key={i}
                       onClick={() => {
-                        if (isDisabled) return;
-                        date && setChosenDate(date.format('DD/MM/YYYY'));
+                        if (!isDisabled && date) {
+                          setChosenDate(date.format('DD/MM/YYYY'));
+                          setTabbableDate(date);
+                        }
                       }}
                       tabIndex={
                         closestTabbableDate.format('DD/MM/YYYY') ===
