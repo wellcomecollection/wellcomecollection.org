@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import OpeningTimes from '../OpeningTimes/OpeningTimes';
 import { Venue } from '../../../model/opening-hours';
+import { footerStrapline } from '../../../data/microcopy';
 
 const FooterNavWrapper = styled(Space).attrs({
   v: {
@@ -276,7 +277,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
               <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
                 <Icon icon={wellcome} />
               </Space>
-              <StrapText>The free museum and library from Wellcome</StrapText>
+              <StrapText>{footerStrapline}</StrapText>
             </FooterStrap>
             <Space
               v={{

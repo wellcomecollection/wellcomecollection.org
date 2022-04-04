@@ -42,6 +42,8 @@ export const newsletterDescription =
 export const booksPromoOnStoriesPage =
   'Get stuck into one of our books, and explore the complexities of the human condition.';
 
+export const footerStrapline = 'The free museum and library from Wellcome';
+
 export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
