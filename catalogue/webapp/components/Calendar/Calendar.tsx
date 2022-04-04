@@ -249,7 +249,7 @@ const Calendar: FC<Props> = ({
                       key={i}
                       tabIndex={
                         closestTabbableDate.format('DD/MM/YYYY') ===
-                        date?.format('DD/MM/YYYY')
+                          date?.format('DD/MM/YYYY') && !isDisabled
                           ? 0
                           : -1
                       }
