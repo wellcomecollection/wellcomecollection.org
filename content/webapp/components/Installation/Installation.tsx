@@ -1,7 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import PageLayout, {
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
@@ -14,20 +12,15 @@ import { font } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Body from '../Body/Body';
 import ContentPage from '../ContentPage/ContentPage';
+import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { fetchExhibitExhibition } from '../../services/prismic/fetch/exhibitions';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   installation: InstallationType;
-  jsonLd: JsonLdObj;
-} & WithVenueProps;
+};
 
-const Installation: FunctionComponent<Props> = ({
-  installation,
-  venueProps,
-  jsonLd,
-}: Props) => {
+const Installation: FunctionComponent<Props> = ({ installation }: Props) => {
   const [partOf, setPartOf] = useState<InstallationType>();
   useEffect(() => {
     fetchExhibitExhibition(installation.id).then(exhibition => {
@@ -94,11 +87,10 @@ const Installation: FunctionComponent<Props> = ({
         installation.metadataDescription || installation.promo?.caption || ''
       }
       url={{ pathname: `/installations/${installation.id}` }}
-      jsonLd={jsonLd}
+      jsonLd={exhibitionLd(installation)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={installation.image}
-      {...venueProps}
     >
       <ContentPage
         id={installation.id}

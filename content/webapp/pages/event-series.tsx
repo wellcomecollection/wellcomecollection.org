@@ -2,10 +2,7 @@ import { GetServerSideProps } from 'next';
 import { EventSeries } from '../types/event-series';
 import { EventBasic } from '../types/events';
 import { FC } from 'react';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
@@ -37,7 +34,7 @@ type Props = {
   jsonLd: JsonLdObj[];
   pastEvents: EventBasic[];
   upcomingEvents: EventBasic[];
-} & WithVenueProps;
+};
 
 function getUpcomingEvents(events: EventBasic[]): EventBasic[] {
   return events
@@ -118,8 +115,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
       const jsonLd = events.flatMap(eventLd);
 
-      const venueProps = getServerSideVenueProps(serverData);
-
       return {
         props: removeUndefinedProps({
           series,
@@ -127,7 +122,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           pastEvents,
           jsonLd,
           serverData,
-          venueProps,
         }),
       };
     } else {
@@ -140,7 +134,6 @@ const EventSeriesPage: FC<Props> = ({
   jsonLd,
   pastEvents: pastJsonEvents,
   upcomingEvents: upcomingJsonEvents,
-  venueProps,
 }) => {
   // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
   // This could probably be done at the time of use, instead of globally...
@@ -183,7 +176,6 @@ const EventSeriesPage: FC<Props> = ({
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={series.image}
-      {...venueProps}
     >
       <ContentPage
         id={series.id}

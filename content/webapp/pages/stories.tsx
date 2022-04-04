@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { classNames, grid } from '@weco/common/utils/classnames';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '../types/articles';
@@ -57,7 +54,7 @@ type Props = {
   featuredText?: FeaturedTextType;
   featuredBooks: BookBasic[];
   jsonLd: JsonLdObj[];
-} & WithVenueProps;
+};
 
 const SerialisedSeries = ({ series }: { series: Series }) => {
   return (
@@ -153,7 +150,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
     if (articles && articles.results) {
-      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
@@ -162,7 +158,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           featuredBooks,
           jsonLd,
-          venueProps,
         }),
       };
     } else {
@@ -176,7 +171,6 @@ const StoriesPage: FC<Props> = ({
   featuredText,
   featuredBooks,
   jsonLd,
-  venueProps,
 }) => {
   const firstArticle = articles[0];
 
@@ -190,7 +184,6 @@ const StoriesPage: FC<Props> = ({
       siteSection={'stories'}
       image={firstArticle && firstArticle.image}
       rssUrl={'https://rss.wellcomecollection.org/stories'}
-      {...venueProps}
     >
       <SpacingSection>
         <Space

@@ -18,22 +18,13 @@ import { getImage } from '../services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
 import { isString } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
-import {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
 
 type Props = {
   image: Image;
   sourceWork: Work;
-} & WithPageview &
-  WithVenueProps;
+} & WithPageview;
 
-const ImagePage: FunctionComponent<Props> = ({
-  image,
-  sourceWork,
-  venueProps,
-}: Props) => {
+const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
   const title = sourceWork.title || '';
   const iiifImageLocation = image.locations[0];
 
@@ -79,7 +70,6 @@ const ImagePage: FunctionComponent<Props> = ({
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
-      {...venueProps}
     >
       {iiifImageLocation ? (
         <>
@@ -159,8 +149,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
-    const venueProps = getServerSideVenueProps(serverData);
-
     return {
       props: removeUndefinedProps({
         image,
@@ -169,7 +157,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'image',
           properties: {},
         },
-        venueProps,
       }),
     };
   };
