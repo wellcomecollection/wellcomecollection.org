@@ -72,21 +72,19 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <>
-          <IIIFViewer
-            title={title}
-            mainPaginatorProps={mainPaginatorProps}
-            thumbsPaginatorProps={thumbsPaginatorProps}
-            lang={lang}
-            canvases={[]}
-            workId={sourceWork.id}
-            pageIndex={0}
-            pageSize={1}
-            canvasIndex={0}
-            iiifImageLocation={iiifImageLocation}
-            work={sourceWork}
-          />
-        </>
+        <IIIFViewer
+          title={title}
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          lang={lang}
+          canvases={[]}
+          workId={sourceWork.id}
+          pageIndex={0}
+          pageSize={1}
+          canvasIndex={0}
+          iiifImageLocation={iiifImageLocation}
+          work={sourceWork}
+        />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
