@@ -82,11 +82,6 @@ function handleKeyDown(
   if (!isKeyOfInterest) return;
   event.preventDefault();
   if (ENTER.includes(key)) {
-    // TODO need this logic for onclick too
-    // TODO and isRequestable
-    // TODO this shouldn't be part of new date
-    // set pickup date (and close calendar modal)
-    // TODO not if target has disabled prop
     setChosenDate(date.format('DD/MM/YYYY'));
   }
   const moveToDate = newDate(date, key);
@@ -247,6 +242,10 @@ const Calendar: FC<Props> = ({
                   return (
                     <Td
                       key={i}
+                      onClick={() => {
+                        if (isDisabled) return;
+                        date && setChosenDate(date.format('DD/MM/YYYY'));
+                      }}
                       tabIndex={
                         closestTabbableDate.format('DD/MM/YYYY') ===
                           date?.format('DD/MM/YYYY') && !isDisabled
