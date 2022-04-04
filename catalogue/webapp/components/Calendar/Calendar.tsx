@@ -17,15 +17,9 @@ const HOME = [36, 'Home'];
 const END = [35, 'End'];
 const PAGEUP = [33, 'PageUp'];
 const PAGEDOWN = [34, 'PageDown'];
-const ESCAPE = [27, 'Escape'];
 const ENTER = [13, 'Enter'];
 
-function newDate(
-  date: Moment,
-  key: number | string,
-  disabled: boolean,
-  setChosenDate: (date: string) => void
-): Moment {
+function newDate(date: Moment, key: number | string): Moment {
   const dates = getCalendarRows(date);
   switch (true) {
     case RIGHT.includes(key): {
@@ -60,18 +54,6 @@ function newDate(
       return date.clone().add(1, 'month');
       break;
     }
-    case ENTER.includes(key): {
-      // set pickup date (and close calendar modal)
-      // TODO not if target has disabled prop
-      setChosenDate(date.format('DD/MM/YYYY'));
-      break;
-    }
-    // This should be part of modal dialog, not the calendar
-    // case ESCAPE.includes(key): {
-    //   // close calendar modal
-    //   console.log('ESCAPE');
-    //   break;
-    // }
   }
   return date;
 }
@@ -94,14 +76,19 @@ function handleKeyDown(
     ...END,
     ...PAGEUP,
     ...PAGEDOWN,
-    ...ESCAPE,
     ...ENTER,
   ].includes(key);
   if (!isKeyOfInterest) return;
   event.preventDefault();
-  const isDisabled = false;
-  console.log(event);
-  const moveToDate = newDate(date, key, isDisabled, setChosenDate);
+  if (ENTER.includes(key)) {
+    // TODO need this logic for onclick too
+    // TODO and isRequestable
+    // TODO this shouldn't be part of new date
+    // set pickup date (and close calendar modal)
+    // TODO not if target has disabled prop
+    setChosenDate(date.format('DD/MM/YYYY'));
+  }
+  const moveToDate = newDate(date, key);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
     setTabbableDate(moveToDate);
@@ -118,7 +105,7 @@ type Props = {
   excludedDays: DayNumber[];
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
-  setChosenDate: (date: string) => void; /// TODO rename
+  setChosenDate: (date: string) => void;
 };
 
 const Calendar: FC<Props> = ({
