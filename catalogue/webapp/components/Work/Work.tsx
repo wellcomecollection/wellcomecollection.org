@@ -17,7 +17,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
-import { WithVenueProps } from '@weco/common/views/components/PageLayout/PageLayout';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -34,11 +33,10 @@ declare global {
 
 type Props = {
   work: WorkType;
-} & WithVenueProps;
+};
 
 const Work: FunctionComponent<Props> = ({
   work,
-  venueProps,
 }: Props): ReactElement<Props> => {
   const { link: searchLink } = useContext(SearchContext);
 
@@ -89,7 +87,6 @@ const Work: FunctionComponent<Props> = ({
         siteSection={'collections'}
         image={image}
         hideNewsletterPromo={true}
-        {...venueProps}
       >
         <div className="container">
           <div className="grid">

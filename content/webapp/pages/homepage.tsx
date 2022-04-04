@@ -4,10 +4,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '../types/articles';
 import { Page as PageType } from '../types/pages';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -80,7 +77,7 @@ type Props = {
   jsonLd: JsonLdObj[];
   standfirst?: BodySlice & { type: 'standfirst' };
   contentLists: (BodySlice & { type: 'contentList' })[];
-} & WithVenueProps;
+};
 
 const pageImage: ImageType = {
   contentUrl:
@@ -133,8 +130,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const standfirst = page.body.find(isStandfirst);
     const contentLists = page.body.filter(isContentList);
 
-    const venueProps = getServerSideVenueProps(serverData);
-
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
@@ -143,7 +138,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           nextSevenDaysEvents,
           serverData,
           jsonLd,
-          venueProps,
           standfirst,
           contentLists,
         }),
@@ -158,7 +152,6 @@ const Homepage: FC<Props> = ({
   exhibitions: jsonExhibitions,
   articles,
   jsonLd,
-  venueProps,
   standfirst,
   contentLists,
 }) => {
@@ -178,7 +171,6 @@ const Homepage: FC<Props> = ({
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
-      {...venueProps}
     >
       <Layout10>
         <SpacingSection>

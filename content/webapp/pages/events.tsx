@@ -1,9 +1,6 @@
 import { FC } from 'react';
 import { orderEventsByNextAvailableDate } from '../services/prismic/events';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { Period } from '../types/periods';
@@ -27,14 +24,12 @@ import {
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { EventBasic } from '../types/events';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   title: string;
   events: PaginatedResults<EventBasic>;
   period?: Period;
-  jsonLd: JsonLdObj[];
-} & WithVenueProps;
+};
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -68,15 +63,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
-      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           events,
           title,
           period: period as Period,
           serverData,
-          jsonLd: events.results.flatMap(eventLd),
-          venueProps,
         }),
       };
     } else {
@@ -85,7 +77,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const EventsPage: FC<Props> = props => {
-  const { events, title, period, venueProps } = props;
+  const { events, title, period } = props;
   const convertedEvents = events.results.map(fixEventDatesInJson);
   const convertedPaginatedResults = {
     ...events,
@@ -100,11 +92,10 @@ const EventsPage: FC<Props> = props => {
       title={title}
       description={pageDescriptions.events}
       url={{ pathname: `/events${period ? `/${period}` : ''}` }}
-      jsonLd={props.jsonLd}
+      jsonLd={events.results.flatMap(eventLd)}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstEvent?.image}
-      {...venueProps}
     >
       <SpacingSection>
         <LayoutPaginatedResults

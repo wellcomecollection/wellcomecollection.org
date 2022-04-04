@@ -4,10 +4,7 @@ import { Article } from '../types/articles';
 import { Series } from '../types/series';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
@@ -30,13 +27,11 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import * as prismic from '@prismicio/client';
 
 type Props = {
   article: Article;
-  jsonLd: JsonLdObj;
-} & WithGaDimensions &
-  WithVenueProps;
+} & WithGaDimensions;
 
 function articleHasOutro(article: Article) {
   return Boolean(
@@ -57,8 +52,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (articleDocument) {
       const article = transformArticle(articleDocument);
-      const jsonLd = articleLd(article);
-      const venueProps = getServerSideVenueProps(serverData);
       return {
         props: removeUndefinedProps({
           article,
@@ -68,8 +61,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               .map(season => season.id)
               .concat(article.series.map(series => series.id)),
           },
-          venueProps,
-          jsonLd,
         }),
       };
     } else {
@@ -129,7 +120,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
+const ArticlePage: FC<Props> = ({ article }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -302,12 +293,10 @@ const ArticlePage: FC<Props> = ({ article, venueProps, jsonLd }) => {
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
-      // TODO: This should be rendered server-side
-      jsonLd={jsonLd}
+      jsonLd={articleLd(article)}
       openGraphType={'article'}
       siteSection={'stories'}
       image={article.image}
-      {...venueProps}
     >
       <ContentPage
         id={article.id}

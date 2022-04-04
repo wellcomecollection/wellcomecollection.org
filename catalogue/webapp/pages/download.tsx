@@ -13,10 +13,7 @@ import {
 } from '../utils/iiif';
 import { IIIFManifest } from '../model/iiif';
 import { getWork } from '../services/catalogue/works';
-import PageLayout, {
-  getServerSideVenueProps,
-  WithVenueProps,
-} from '@weco/common/views/components/PageLayout/PageLayout';
+import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -33,14 +30,13 @@ type Props = {
   sierraId: string;
   manifest?: IIIFManifest;
   work?: Work;
-} & WithVenueProps;
+};
 
 const DownloadPage: NextPage<Props> = ({
   workId,
   sierraId,
   manifest,
   work,
-  venueProps,
 }) => {
   const title = (manifest && manifest.label) || (work && work.title) || '';
   const iiifImageLocation = work
@@ -91,7 +87,6 @@ const DownloadPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       siteSection={'collections'}
       hideNewsletterPromo={true}
-      {...venueProps}
     >
       <Layout8>
         <SpacingSection>
@@ -222,15 +217,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
-    const venueProps = getServerSideVenueProps(serverData);
-
     return {
       props: removeUndefinedProps({
         workId,
         sierraId,
         manifest,
         work,
-        venueProps,
       }),
     };
   };

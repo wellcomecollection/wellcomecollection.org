@@ -48,7 +48,7 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   );
 }
 
-export function eventLd(event: Event): JsonLdObj[] {
+export function eventLd(event: Event | EventBasic): JsonLdObj[] {
   // TODO EventBasic
   const promoImage = event.promo?.image;
   return event.times
