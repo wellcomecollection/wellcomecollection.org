@@ -38,10 +38,10 @@ export const Table = styled.table`
 
   th,
   td {
+    display: inline-block;
     width: 2em;
-    height: 1em;
+    height: 2em;
     text-align: center;
-    font-weight: bold;
     cursor: pointer;
   }
 
@@ -51,28 +51,30 @@ export const Table = styled.table`
 
   td[disabled] {
     cursor: default;
+    border: 1px solid ${props => props.theme.color('transparent')};
     color: ${props => props.theme.color('marble')};
   }
 
   td:not([disabled]):hover,
   td:focus {
-    color: ${props => props.theme.color('pewter')};
+    border: 1px solid ${props => props.theme.color('pewter')};
     outline: 0;
   }
 
   td[tabindex='0'] {
-    // TODO proper styles
-    background: ${props => props.theme.color('green')}; // TODO
+    background: ${props => props.theme.color('green')};
+    border: 1px solid ${props => props.theme.color('green')};
     color: ${props => props.theme.color('white')};
   }
 
   td[aria-selected='true'] {
     background: ${props => props.theme.color('yellow')};
+    color: ${props => props.theme.color('black')};
+    border: 1px solid ${props => props.theme.color('yellow')};
   }
 
   td[aria-selected]:focus {
-    padding: 1px;
-    border: 3px solid ${props => props.theme.color('black')};
+    border: 1px solid ${props => props.theme.color('black')};
   }
 `;
 

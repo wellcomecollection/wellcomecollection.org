@@ -1,9 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import { londonFromFormat } from '@weco/common/utils/format-date';
-import { isRequestableDate } from '@weco/catalogue/utils/dates';
+import { londonFromFormat, london } from '@weco/common/utils/format-date';
+import { isRequestableDate } from '../../utils/dates';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Calendar from '../Calendar/Calendar';
 
 type Props = {
   startDate?: Moment;
@@ -12,6 +13,7 @@ type Props = {
   regularClosedDays: DayNumber[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;
+  nextAvailableDate: Moment | null;
 };
 
 const RequestingDayPicker: FC<Props> = ({
@@ -21,6 +23,7 @@ const RequestingDayPicker: FC<Props> = ({
   regularClosedDays,
   pickUpDate,
   setPickUpDate,
+  nextAvailableDate,
 }: Props) => {
   const [isCorrectFormat, setIsCorrectFormat] = useState(false);
   const [isOnRequestableDate, setIsOnRequestableDate] = useState(false);
@@ -54,23 +57,49 @@ const RequestingDayPicker: FC<Props> = ({
     );
   }, [pickUpDate]);
 
+  // TODO temporary
+  const from = nextAvailableDate || london('2022-4-1');
+  const to = london('2023-7-5');
+  const excludedDates = [
+    londonFromFormat('11-03-2022', 'DD-MM-YYYY'),
+    londonFromFormat('11-05-2022', 'DD-MM-YYYY'),
+  ];
   return (
-    <TextInput
-      id={'selectDate'}
-      label="Select a date"
-      placeholder={stringFormat}
-      value={pickUpDate || ''}
-      setValue={setPickUpDate}
-      isValid={isValid}
-      showValidity={!isValid}
-      errorMessage={
-        isCorrectFormat
-          ? 'Your chosen date is not available to book'
-          : `Please enter a date in the correct format (${stringFormat})`
-      }
-      ariaDescribedBy={'pick-up-date-description'}
-      required={true}
-    />
+    <>
+      <Calendar
+        min={from} // TODO startDate
+        max={to} // TODO endDate
+        excludedDates={excludedDates} // TODO exceptionalClosedDates
+        excludedDays={regularClosedDays}
+        initialFocusDate={
+          pickUpDate
+            ? londonFromFormat(pickUpDate, stringFormat)
+            : nextAvailableDate || london()
+        }
+        chosenDate={
+          (pickUpDate && londonFromFormat(pickUpDate, stringFormat)) ||
+          undefined
+        }
+        // TODO rename
+        setChosenDate={setPickUpDate}
+      />
+      <TextInput
+        id={'selectDate'}
+        label="Select a date"
+        placeholder={stringFormat}
+        value={pickUpDate || ''}
+        setValue={setPickUpDate}
+        isValid={isValid}
+        showValidity={!isValid}
+        errorMessage={
+          isCorrectFormat
+            ? 'Your chosen date is not available to book'
+            : `Please enter a date in the correct format (${stringFormat})`
+        }
+        ariaDescribedBy={'pick-up-date-description'}
+        required={true}
+      />
+    </>
   );
 };
 

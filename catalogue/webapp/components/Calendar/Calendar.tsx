@@ -1,13 +1,14 @@
 import { FC, useState, useEffect } from 'react';
+import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import { DatePicker, Header, Table, Td } from './CalendarStyles';
+import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getCalendarRows,
   firstDayOfWeek,
   lastDayOfWeek,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
-import { Moment } from 'moment';
+import { DatePicker, Header, Table, Td } from './CalendarStyles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -183,6 +184,9 @@ const Calendar: FC<Props> = ({
       </Header>
       {/* // TODO label to match labelledby-id */}
       <Table
+        className={classNames({
+          [font('hnb', 6)]: true,
+        })}
         role="grid"
         aria-labelledby="id-grid-label"
         onKeyDown={event => {
