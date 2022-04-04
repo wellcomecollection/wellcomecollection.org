@@ -116,7 +116,7 @@ const Calendar: FC<Props> = ({
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
   const [previousMonthDisabled, setPreviousMonthDisabled] = useState(true);
   const [nextMonthDisabled, setNextMonthDisabled] = useState(
-    tabbableDate.isAfter(max, 'month')
+    max.isSame(min, 'month')
   );
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
 
