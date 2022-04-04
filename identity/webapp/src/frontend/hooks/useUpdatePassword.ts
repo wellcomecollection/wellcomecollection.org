@@ -7,6 +7,7 @@ export enum UpdatePasswordError { // eslint-disable-line no-shadow
   BRUTE_FORCE_BLOCKED,
   DID_NOT_MEET_POLICY,
   UNKNOWN,
+  REPEATED_CHARACTERS,
 }
 
 type UseUpdatePasswordMutation = {
@@ -37,6 +38,19 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
+          case 400: {
+            if (
+              err.response?.data.message.includes(
+                'PIN is not valid : PIN is trivial'
+              )
+            ) {
+              setError(UpdatePasswordError.REPEATED_CHARACTERS);
+              break;
+            } else {
+              setError(UpdatePasswordError.UNKNOWN);
+              break;
+            }
+          }
           case 401: {
             setError(UpdatePasswordError.INCORRECT_PASSWORD);
             break;
