@@ -12,7 +12,7 @@ import { Page } from '../../../types/pages';
 import { Season } from '../../../types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
-import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '../../../services/prismic/link-resolver';
 
 export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   const promoImage = exhibition.promo?.image;

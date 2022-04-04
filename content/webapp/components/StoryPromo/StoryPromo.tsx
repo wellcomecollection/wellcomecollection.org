@@ -8,7 +8,7 @@ import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '../../services/prismic/link-resolver';
 
 type Props = {
   article: ArticleBasic;
@@ -74,7 +74,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ''}}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
