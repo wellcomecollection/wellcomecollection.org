@@ -227,10 +227,10 @@ const Calendar: FC<Props> = ({
               <tr key={i}>
                 {row.map((date, i) => {
                   const numberOfDaysInMonth = tabbableDate.daysInMonth();
-                  const closesttabbableDate =
+                  const closestTabbableDate =
                     numberOfDaysInMonth >= tabbableDate.date()
-                      ? tabbableDate.date()
-                      : numberOfDaysInMonth;
+                      ? tabbableDate
+                      : tabbableDate.clone().set('date', numberOfDaysInMonth);
                   const isDisabled =
                     !date?.date() ||
                     !isRequestableDate({
@@ -244,7 +244,10 @@ const Calendar: FC<Props> = ({
                     <Td
                       key={i}
                       tabIndex={
-                        closesttabbableDate === date?.get('date') ? 0 : -1
+                        closestTabbableDate.format('DD/MM/YYYY') ===
+                        date?.format('DD/MM/YYYY')
+                          ? 0
+                          : -1
                       }
                       disabled={isDisabled}
                       aria-selected={
