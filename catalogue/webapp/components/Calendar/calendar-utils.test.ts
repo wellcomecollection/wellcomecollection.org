@@ -3,6 +3,8 @@ import {
   daysFromStartOfWeek,
   daysUntilEndOfWeek,
   getCalendarRows,
+  firstDayOfWeek,
+  lastDayOfWeek,
 } from './calendar-utils';
 import { london } from '@weco/common/utils/format-date';
 
@@ -68,5 +70,19 @@ describe('getCalendarRows', () => {
     ); // month ends on Thursday so the last days of the week are padded with the first days of the next month
   });
 });
+
+describe('firstDayOfWeek', () => {
+  it('returns the first item from the array which contains the provided date', () => {
+    const calendarRows = getCalendarRows(london('2022-03-01'));
+    const result = firstDayOfWeek(london('2022-03-30'), calendarRows);
+    expect(result.toDate()).toEqual(london('2022-03-28').toDate());
+  });
+});
+
+describe('firstDayOfWeek', () => {
+  it('returns the last item from the array which contains the provided date', () => {
+    const calendarRows = getCalendarRows(london('2022-03-01'));
+    const result = lastDayOfWeek(london('2022-03-30'), calendarRows);
+    expect(result.toDate()).toEqual(london('2022-04-03').toDate());
   });
 });
