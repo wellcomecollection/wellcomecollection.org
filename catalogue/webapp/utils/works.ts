@@ -12,7 +12,8 @@ import {
 import { IIIFRendering } from '../model/iiif';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { Label } from '@weco/common/model/labels';
-import getAugmentedLicenseInfo, {
+import {
+  getCatalogueLicenseData,
   LicenseData,
 } from '@weco/common/utils/licenses';
 
@@ -333,7 +334,7 @@ export function getDigitalLocationInfo(
     accessCondition: getAccessConditionForDigitalLocation(digitalLocation),
     license:
       digitalLocation?.license &&
-      getAugmentedLicenseInfo(digitalLocation.license),
+      getCatalogueLicenseData(digitalLocation.license),
   };
 }
 

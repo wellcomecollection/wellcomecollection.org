@@ -41,7 +41,7 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
-import { BodyType } from '../../types/generic-content-fields';
+import { BodySlice, isContentList } from '../../types/body';
 import VisitUsStaticContent from './VisitUsStaticContent';
 import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
@@ -52,6 +52,7 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -77,7 +78,7 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 };
 
 type Props = {
-  body: BodyType;
+  body: BodySlice[];
   onThisPage?: Link[];
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
@@ -86,6 +87,8 @@ type Props = {
   isLanding?: boolean;
   sectionLevelPage?: boolean;
 };
+
+type ContentListSlice = BodySlice & { type: 'contentList' };
 
 const Body: FunctionComponent<Props> = ({
   body,
@@ -108,7 +111,7 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
-  const sections = body.filter(slice => slice.type === 'contentList');
+  const sections: ContentListSlice[] = body.filter(isContentList);
   const sectionThemes = [
     {
       rowBackground: 'white',
@@ -141,7 +144,7 @@ const Body: FunctionComponent<Props> = ({
     isLanding = false,
   }: {
     index: number;
-    sections: BodyType;
+    sections: ContentListSlice[];
     isLanding: boolean;
   }): ReactElement<Props> | null => {
     if (index === 0) {
@@ -163,9 +166,7 @@ const Body: FunctionComponent<Props> = ({
               const isFirst = index === 0;
               const isLast = index === sections.length - 1;
               const sectionTheme = sectionThemes[index % sectionThemes.length];
-              const hasFeatured =
-                Boolean(section.value.hasFeatured) ||
-                section.value.items.length === 1;
+              const hasFeatured = section.value.items.length === 1;
               const firstItem = section.value.items?.[0];
               const isCardType = firstItem?.type === 'card';
 
@@ -192,7 +193,7 @@ const Body: FunctionComponent<Props> = ({
                         {firstItem.description}
                       </p>
                     )}
-                    {firstItem.promo && (
+                    {'promo' in firstItem && firstItem.promo && (
                       <p className="font-hnr font-size-5">
                         {firstItem.promo.caption}
                       </p>
@@ -319,11 +320,11 @@ const Body: FunctionComponent<Props> = ({
                               so we have to split out the first paragraph here.
                             */}
                             <PrismicHtmlBlock
-                              html={[slice.value[0]]}
+                              html={[slice.value[0]] as any}
                               htmlSerializer={dropCapSerializer}
                             />
                             <PrismicHtmlBlock
-                              html={slice.value.slice(1)}
+                              html={slice.value.slice(1) as any}
                               htmlSerializer={defaultSerializer}
                             />
                           </>
@@ -379,7 +380,10 @@ const Body: FunctionComponent<Props> = ({
                       <AsyncSearchResults
                         title={slice.value.title}
                         query={slice.value.items
-                          .map(({ id }) => `id:${id}`)
+                          .map(item =>
+                            'id' in item ? `id:${item.id}` : undefined
+                          )
+                          .filter(isNotUndefined)
                           .join(' ')}
                       />
                     )}

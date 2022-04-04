@@ -1,25 +1,26 @@
 import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
 import { london, formatDayDate } from '@weco/common/utils/format-date';
-import { getNextWeekendDateRange, isDayPast } from '@weco/common/utils/dates';
-import { Event, EventBasic, EventTime } from '../../types/events';
+import {
+  getNextWeekendDateRange,
+  isDayPast,
+  isFuture,
+} from '@weco/common/utils/dates';
+import { Event, EventBasic } from '../../types/events';
 
-function getNextDateInFuture(event: EventBasic): EventTime | undefined {
-  const now = new Date();
-  const futureTimes = event.times.filter(time => {
-    return time.range.endDateTime.getDate() >= now.getDate();
-  });
+function getNextDateInFuture(event: EventBasic): Date | undefined {
+  const futureTimes = event.times.filter(time =>
+    isFuture(time.range.startDateTime)
+  );
 
   if (futureTimes.length === 0) {
     return undefined;
   } else {
-    return futureTimes.reduce((closestStartingDate, time) => {
-      if (time.range.startDateTime <= closestStartingDate.range.startDateTime) {
-        return time;
-      } else {
-        return closestStartingDate;
-      }
-    });
+    return futureTimes.reduce((closestStartingDate, time) =>
+      time.range.startDateTime <= closestStartingDate.range.startDateTime
+        ? time
+        : closestStartingDate
+    ).range.startDateTime;
   }
 }
 

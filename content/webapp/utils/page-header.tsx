@@ -5,6 +5,7 @@ import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHead
 import Picture from '@weco/common/views/components/Picture/Picture';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { ReactElement } from 'react';
+import { isVideoEmbed } from 'types/body';
 import { GenericContentFields } from '../types/generic-content-fields';
 
 export function getFeaturedMedia(
@@ -16,10 +17,11 @@ export function getFeaturedMedia(
   const widescreenImage = getCrop(fields.image, '16:9');
   const { body } = fields;
 
-  const hasFeaturedVideo = body.length > 0 && body[0].type === 'videoEmbed';
+  const featuredVideo =
+    body.length > 0 && isVideoEmbed(body[0]) ? body[0] : undefined;
 
-  const featuredMedia = hasFeaturedVideo ? (
-    <VideoEmbed {...body[0].value} />
+  const featuredMedia = featuredVideo ? (
+    <VideoEmbed {...featuredVideo.value} />
   ) : isPicture && widescreenImage && squareImage ? (
     <Picture
       images={[

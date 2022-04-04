@@ -11,16 +11,24 @@ import SearchResults from '../SearchResults/SearchResults';
 type Props = {
   series: Series;
   items: readonly (Article | ArticleScheduleItem)[];
+  isPodcast: boolean;
 };
 
-const SeriesNavigation: FunctionComponent<Props> = ({ series, items }) => {
+const SeriesNavigation: FunctionComponent<Props> = ({
+  series,
+  items,
+  isPodcast,
+}) => {
   const showPosition = !!(series.schedule && series.schedule.length > 0);
+  const title = isPodcast
+    ? `Listen to more from ${series.title}`
+    : `Read more from ${series.title}`;
   return items.length > 0 ? (
     <SpacingComponent>
       <Layout8>
         <SearchResults
           key={series.id}
-          title={`Read more from ${series.title}`}
+          title={title}
           summary={series.promo?.caption}
           items={items}
           showPosition={showPosition}

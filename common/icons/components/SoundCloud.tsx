@@ -1,6 +1,6 @@
 import { IconSvg } from '../types';
 
-const SvgSoundcloud: IconSvg = props => (
+const SvgSoundCloud: IconSvg = props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
     <path
       className="icon__shape"
@@ -10,4 +10,4 @@ const SvgSoundcloud: IconSvg = props => (
   </svg>
 );
 
-export default SvgSoundcloud;
+export default SvgSoundCloud;

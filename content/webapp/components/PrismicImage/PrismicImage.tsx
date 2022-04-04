@@ -28,7 +28,7 @@ export function convertBreakpointSizesToSizes(
       const size =
         breakpoint === 'xlarge'
           ? `${breakpointSize * ratio}px`
-          : `${100 * ratio}vw`;
+          : `${Math.round(100 * ratio)}vw`;
 
       return `(min-width: ${breakpointSize}px) ${size}`;
     }

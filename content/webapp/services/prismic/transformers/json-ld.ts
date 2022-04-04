@@ -14,7 +14,7 @@ import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
-export function exhibitionLd(exhibition: Exhibition) {
+export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   const promoImage = exhibition.promo?.image;
   return objToJsonLd(
     {
@@ -160,7 +160,7 @@ function orgLd(org: Organization) {
   );
 }
 
-export function contentLd(content: Page | Season) {
+export function contentLd(content: Page | Season): JsonLdObj {
   const contributors = content.type === 'seasons' ? [] : content.contributors;
 
   const author: Contributor = contributors.find(

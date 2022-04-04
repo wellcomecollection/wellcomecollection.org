@@ -6,7 +6,6 @@ import {
   transformSingleLevelGroup,
   transformTimestamp,
 } from '.';
-import { london } from '@weco/common/utils/format-date';
 import { transformSeason } from './seasons';
 import { ArticleScheduleItem } from '../../../types/article-schedule-items';
 import { SeasonPrismicDocument } from '../types/seasons';
@@ -28,9 +27,7 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
                 type: 'article-schedule-items',
                 id: `${document.id}_${i}`,
                 title,
-                publishDate: london(
-                  transformTimestamp(item.publishDate)
-                ).toDate(),
+                publishDate: transformTimestamp(item.publishDate),
                 partNumber: i + 1,
                 color,
               }

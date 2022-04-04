@@ -1,4 +1,4 @@
-import { SyntheticEvent, useContext } from 'react';
+import { FC, SyntheticEvent, useContext } from 'react';
 import NextLink from 'next/link';
 
 import { trackEvent } from '@weco/common/utils/ga';
@@ -56,7 +56,7 @@ const ImageWrap = styled(Space).attrs({
   }
 `;
 
-const ImageCard = ({ id, image, onClick, workId }: Props) => {
+const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
   const { isEnhanced } = useContext(AppContext);
 
   return (

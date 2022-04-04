@@ -92,3 +92,5 @@ export const sierraAccessMethodtoNewLabel = {
   'Manual request': 'Manual request',
   'Online request': 'Online request',
 };
+
+export const inOurBuilding = 'In our building';

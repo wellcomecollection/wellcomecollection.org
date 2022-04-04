@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   className?: string;
@@ -17,8 +18,13 @@ const Align = styled.span<{ isActive: boolean }>`
 `;
 
 const AlignFont: FunctionComponent<Props> = ({ children, className }) => {
-  return (
-    <Align className={className} isActive={useIsFontsLoaded()}>
+  const isActive = useIsFontsLoaded();
+  const { inter } = useToggles();
+
+  return inter ? (
+    <>{children}</>
+  ) : (
+    <Align className={className} isActive={isActive}>
       {children}
     </Align>
   );

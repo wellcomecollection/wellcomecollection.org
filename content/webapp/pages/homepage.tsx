@@ -50,6 +50,7 @@ import {
 } from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { BodySlice, isContentList, isStandfirst } from 'types/body';
 
 const PageHeading = styled(Space).attrs({
   as: 'h1',
@@ -70,11 +71,12 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<ExhibitionBasic>;
-  events: PaginatedResults<EventBasic>;
+  exhibitions: ExhibitionBasic[];
+  nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
-  page: PageType;
   jsonLd: JsonLdObj[];
+  standfirst?: BodySlice & { type: 'standfirst' };
+  contentLists: (BodySlice & { type: 'contentList' })[];
 };
 
 const pageImage: ImageType = {
@@ -118,18 +120,26 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
+    ).results;
+    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+      filterEventsForNext7Days(events)
     );
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
+
+    const standfirst = page.body.find(isStandfirst);
+    const contentLists = page.body.filter(isContentList);
 
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
-          page,
           exhibitions,
-          events,
+          nextSevenDaysEvents,
           serverData,
           jsonLd,
+          standfirst,
+          contentLists,
         }),
       };
     } else {
@@ -137,27 +147,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Homepage: FC<Props> = props => {
-  const events = props.events.results.map(fixEventDatesInJson);
-  const nextSevenDaysEvents = orderEventsByNextAvailableDate(
-    filterEventsForNext7Days(events)
-  );
+const Homepage: FC<Props> = ({
+  nextSevenDaysEvents: jsonEvents,
+  exhibitions: jsonExhibitions,
+  articles,
+  jsonLd,
+  standfirst,
+  contentLists,
+}) => {
+  const nextSevenDaysEvents = jsonEvents.map(fixEventDatesInJson);
+  const exhibitions = jsonExhibitions.map(fixExhibitionDatesInJson);
 
-  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
-
-  const articles = props.articles;
-  const page = props.page;
-  const standFirst = page.body.find(slice => slice.type === 'standfirst');
-  const lists = page.body.filter(slice => slice.type === 'contentList');
-  const headerList = lists.length === 2 ? lists[0] : null;
-  const contentList = lists.length === 2 ? lists[1] : lists[0];
+  const headerList = contentLists.length === 2 ? contentLists[0] : null;
+  const contentList =
+    contentLists.length === 2 ? contentLists[1] : contentLists[0];
 
   return (
     <PageLayout
       title={''}
       description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
-      jsonLd={props.jsonLd}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
@@ -165,9 +175,9 @@ const Homepage: FC<Props> = props => {
       <Layout10>
         <SpacingSection>
           <PageHeading>{homepageHeading}</PageHeading>
-          {standFirst && (
+          {standfirst && (
             <CreamBox>
-              <PageHeaderStandfirst html={standFirst.value} />
+              <PageHeaderStandfirst html={standfirst.value} />
             </CreamBox>
           )}
         </SpacingSection>
@@ -181,7 +191,7 @@ const Homepage: FC<Props> = props => {
           )}
           <SpacingComponent>
             <SimpleCardGrid
-              items={headerList.value.items}
+              items={headerList.value.items as any[]}
               isFeaturedFirst={true}
             />
           </SpacingComponent>
@@ -206,17 +216,15 @@ const Homepage: FC<Props> = props => {
       {contentList && (
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title={contentList.value.title} />
+            <SectionHeader title={contentList.value.title || ''} />
           </SpacingComponent>
           <SpacingComponent>
             <SimpleCardGrid
-              items={contentList.value.items.map(item => {
-                if (item.type === 'seasons') {
-                  return convertItemToCardProps(item);
-                } else {
-                  return item;
-                }
-              })}
+              items={
+                contentList.value.items.map(item =>
+                  item.type === 'seasons' ? convertItemToCardProps(item) : item
+                ) as any[]
+              }
             />
           </SpacingComponent>
         </SpacingSection>

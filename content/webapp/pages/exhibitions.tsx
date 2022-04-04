@@ -12,14 +12,17 @@ import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
+import {
+  fixExhibitionDatesInJson,
+  transformExhibitionsQuery,
+} from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
 import { ExhibitionBasic } from '../types/exhibitions';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
-  displayTitle: string;
+  title: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -44,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           exhibitions,
-          displayTitle: title,
+          title,
           period: period as Period,
           serverData,
         }),
@@ -55,12 +58,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions, period, displayTitle } = props;
+  const { exhibitions: jsonExhibitions, period, title } = props;
+  const exhibitions = {
+    ...jsonExhibitions,
+    results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
+  };
   const firstExhibition = exhibitions[0];
 
   return (
     <PageLayout
-      title={displayTitle}
+      title={title}
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
       jsonLd={exhibitions.results.map(exhibitionLd)}
@@ -71,7 +78,7 @@ const ExhibitionsPage: FC<Props> = props => {
       <SpacingSection>
         <LayoutPaginatedResults
           showFreeAdmissionMessage={true}
-          title={displayTitle}
+          title={title}
           description={[
             {
               type: 'paragraph',
