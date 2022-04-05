@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -119,16 +119,10 @@ const Calendar: FC<Props> = ({
     max.isSame(min, 'month')
   );
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
+  const tabbableDateRef = useRef<HTMLTableCellElement>(null);
 
   useEffect(() => {
-    const currentFocusElement = document.activeElement;
-    if (currentFocusElement?.nodeName.toLowerCase() === 'td') {
-      // if we're focused on a date, then we want to update the focus when the tabbable date changes
-      const currentDateElement = document.querySelector(
-        'td[tabindex="0"]'
-      ) as HTMLElement;
-      currentDateElement?.focus();
-    }
+    tabbableDateRef.current?.focus();
   }, [tabbableDate]);
 
   return (
@@ -237,6 +231,9 @@ const Calendar: FC<Props> = ({
                       excludedDates,
                       excludedDays,
                     });
+                  const isTabbable =
+                    closestTabbableDate.format('DD/MM/YYYY') ===
+                    date?.format('DD/MM/YYYY');
                   return (
                     <Td
                       key={i}
@@ -246,12 +243,8 @@ const Calendar: FC<Props> = ({
                           setTabbableDate(date);
                         }
                       }}
-                      tabIndex={
-                        closestTabbableDate.format('DD/MM/YYYY') ===
-                        date?.format('DD/MM/YYYY')
-                          ? 0
-                          : -1
-                      }
+                      tabIndex={isTabbable ? 0 : -1}
+                      ref={isTabbable ? tabbableDateRef : null}
                       aria-disabled={isDisabled}
                       aria-selected={
                         chosenDate ? chosenDate.isSame(date, 'day') : false
