@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
 export const DatePicker = styled.div`
-  border: 1px solid ${props => props.theme.color('pumice')};
-  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
-  /* box-shadow: -2px -2px 8px 0 rgba(0, 0, 0, 0.3); */
-  margin-top: 0.5em;
   padding: 1em;
 
   button {
@@ -37,9 +33,10 @@ export const Table = styled.table`
 `;
 
 export const Td = styled.td`
+  position: relative;
   display: inline-block;
-  width: 1.9em;
-  height: 1.9em;
+  width: 2.5em;
+  height: 2.5em;
   text-align: center;
   cursor: pointer;
   border-radius: 50%;
@@ -51,13 +48,21 @@ export const Td = styled.td`
   }
 
   &[tabindex='0']:focus {
-    outline: none;
     background: ${props => props.theme.color('green')};
     color: ${props => props.theme.color('white')};
+    outline: 0;
+    .is-keyboard & {
+      box-shadow: ${props => props.theme.focusBoxShadow};
+    }
   }
 
   &[aria-selected='true'] {
     background: ${props => props.theme.color('yellow')};
     color: ${props => props.theme.color('black')};
   }
+`;
+
+export const Number = styled.span`
+  position: relative;
+  top: 4px;
 `;

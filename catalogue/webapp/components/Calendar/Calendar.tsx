@@ -8,7 +8,7 @@ import {
   lastDayOfWeek,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
-import { DatePicker, Header, Table, Td } from './CalendarStyles';
+import { DatePicker, Header, Table, Td, Number } from './CalendarStyles';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -262,11 +262,11 @@ const Calendar: FC<Props> = ({
                             'Do MMMM YYYY'
                           )}`}
                         >
-                          {date?.date()}
+                          <Number>{date?.date()}</Number>
                         </span>
                       ) : (
                         <span aria-label={date?.format('Do MMMM YYYY')}>
-                          {date?.date()}
+                          <Number>{date?.date()}</Number>
                         </span>
                       )}
                     </Td>
