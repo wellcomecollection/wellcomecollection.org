@@ -55,32 +55,8 @@ const RequestingDayPicker: FC<Props> = ({
     );
   }, [pickUpDate]);
 
-  // TODO temporary
-  const from = nextAvailableDate || london('2022-4-1');
-  const to = london('2023-7-5');
-  const excludedDates = [
-    londonFromFormat('11-03-2022', 'DD-MM-YYYY'),
-    londonFromFormat('11-05-2022', 'DD-MM-YYYY'),
-  ];
   return (
     <>
-      <Calendar
-        min={from} // TODO startDate
-        max={to} // TODO endDate
-        excludedDates={excludedDates} // TODO exceptionalClosedDates
-        excludedDays={regularClosedDays}
-        initialFocusDate={
-          pickUpDate
-            ? londonFromFormat(pickUpDate, stringFormat)
-            : nextAvailableDate || london()
-        }
-        chosenDate={
-          (pickUpDate && londonFromFormat(pickUpDate, stringFormat)) ||
-          undefined
-        }
-        // TODO rename
-        setChosenDate={setPickUpDate}
-      />
       <TextInput
         id={'selectDate'}
         label="Select a date"
@@ -96,6 +72,22 @@ const RequestingDayPicker: FC<Props> = ({
         }
         ariaDescribedBy={'pick-up-date-description'}
         required={true}
+      />
+      <Calendar
+        min={startDate || london()}
+        max={endDate || london()}
+        excludedDates={exceptionalClosedDates}
+        excludedDays={regularClosedDays}
+        initialFocusDate={
+          pickUpDate
+            ? londonFromFormat(pickUpDate, stringFormat)
+            : startDate || london()
+        }
+        chosenDate={
+          (pickUpDate && londonFromFormat(pickUpDate, stringFormat)) ||
+          undefined
+        }
+        setChosenDate={setPickUpDate}
       />
     </>
   );
