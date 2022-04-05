@@ -117,6 +117,7 @@ const RequestingDayPicker: FC<Props> = ({
               undefined
             }
             setChosenDate={setPickUpDate}
+            showModal={showModal}
             setShowModal={setShowModal}
           />
         </Modal>

@@ -104,6 +104,7 @@ type Props = {
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
   setChosenDate: (date: string) => void;
+  showModal: boolean;
   setShowModal: (boolean: boolean) => void;
 };
 
@@ -115,6 +116,7 @@ const Calendar: FC<Props> = ({
   initialFocusDate,
   chosenDate,
   setChosenDate,
+  showModal,
   setShowModal,
 }) => {
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
@@ -128,6 +130,14 @@ const Calendar: FC<Props> = ({
   useEffect(() => {
     tabbableDateRef.current?.focus();
   }, [tabbableDate]);
+
+  useEffect(() => {
+    if (tabbableDate && showModal) {
+      tabbableDateRef.current?.focus();
+    } else {
+      // focus calendar button
+    }
+  }, [showModal]);
 
   return (
     <DatePicker id="myDatepicker">
