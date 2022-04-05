@@ -65,7 +65,8 @@ function handleKeyDown(
   min: Moment,
   max: Moment,
   setTabbableDate: (date: Moment) => void,
-  setChosenDate: (date: string) => void
+  setChosenDate: (date: string) => void,
+  setShowModal: (boolean: boolean) => void
 ) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
@@ -83,6 +84,7 @@ function handleKeyDown(
   event.preventDefault();
   if (ENTER.includes(key)) {
     setChosenDate(date.format('DD/MM/YYYY'));
+    setShowModal(false);
   }
   const moveToDate = newDate(date, key);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
@@ -102,6 +104,7 @@ type Props = {
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
   setChosenDate: (date: string) => void;
+  setShowModal: (boolean: boolean) => void;
 };
 
 const Calendar: FC<Props> = ({
@@ -112,6 +115,7 @@ const Calendar: FC<Props> = ({
   initialFocusDate,
   chosenDate,
   setChosenDate,
+  setShowModal,
 }) => {
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
   const [previousMonthDisabled, setPreviousMonthDisabled] = useState(true);
@@ -189,7 +193,8 @@ const Calendar: FC<Props> = ({
             min,
             max,
             setTabbableDate,
-            setChosenDate
+            setChosenDate,
+            setShowModal
           );
         }}
       >
@@ -244,6 +249,7 @@ const Calendar: FC<Props> = ({
                         if (!isDisabled && date) {
                           setChosenDate(date.format('DD/MM/YYYY'));
                           setTabbableDate(date);
+                          setShowModal(false);
                         }
                       }}
                       tabIndex={
