@@ -11,7 +11,14 @@ import {
   makeFontSizeOverrideClasses,
 } from './typography';
 import { utilityClasses } from './utility-classes';
-import { base } from './base';
+import { normalize } from './base/normalize';
+import { wellcomeNormalize } from './base/wellcome-normalize';
+import { layout } from './base/layout';
+import { container } from './base/container';
+import { row } from './base/row';
+import { inlineFonts } from './base/inline-fonts';
+import { fonts } from './base/fonts';
+
 import { themeValues, spacingUnits } from './config';
 import { grid } from './grid';
 
@@ -145,28 +152,17 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     )}
   `}
   ${utilityClasses}
-  ${base}
+  ${normalize}
+  ${wellcomeNormalize}
+  ${layout}
+  ${container}
+  ${row}
+  ${inlineFonts}
+  ${fonts}
   ${makeFontSizeClasses()}
   ${makeFontSizeOverrideClasses()}
   ${typography}
   ${grid}
-  ${props =>
-    props.toggles?.inter &&
-    css`
-      @font-face {
-        font-family: 'Helvetica Neue Roman Web';
-        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
-          format('truetype');
-        font-weight: 400;
-      }
-
-      @font-face {
-        font-family: 'Helvetica Neue Bold Web';
-        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
-          format('truetype');
-        font-weight: 700;
-      }
-    `}
 `;
 
 export default theme;
