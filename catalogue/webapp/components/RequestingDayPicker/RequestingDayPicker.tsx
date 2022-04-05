@@ -13,7 +13,6 @@ type Props = {
   regularClosedDays: DayNumber[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;
-  nextAvailableDate: Moment | null;
 };
 
 const RequestingDayPicker: FC<Props> = ({
@@ -23,7 +22,6 @@ const RequestingDayPicker: FC<Props> = ({
   regularClosedDays,
   pickUpDate,
   setPickUpDate,
-  nextAvailableDate,
 }: Props) => {
   const [isCorrectFormat, setIsCorrectFormat] = useState(false);
   const [isOnRequestableDate, setIsOnRequestableDate] = useState(false);
