@@ -176,7 +176,6 @@ const Calendar: FC<Props> = ({
           </button>
         </div>
       </Header>
-      {/* // TODO label to match labelledby-id */}
       <Table
         className={classNames({
           [font('hnb', 6)]: true,
