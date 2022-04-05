@@ -121,7 +121,7 @@ export function transformEvent(
 
   const matchedId =
     data.eventbriteEvent && data.eventbriteEvent.embed_url
-      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.embed_url)
+      ? /\/e\/(.+)/.exec(data.eventbriteEvent.embed_url)
       : null;
   const eventbriteId =
     data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
