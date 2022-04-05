@@ -302,12 +302,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.contributors.length > 0 && (
-          <Contributors
-            contributors={event.contributors}
-            titlePrefix="About your"
-          />
-        )}
         <DateWrapper>
           <h2 id="dates">Dates</h2>
           {DateList(event)}
@@ -481,6 +475,13 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             </a>
           </p>
         </InfoBox>
+
+        {event.contributors.length > 0 && (
+          <Contributors
+            contributors={event.contributors}
+            titlePrefix="About your"
+          />
+        )}
 
         {event.audiences.map(audience => {
           if (audience.description) {
