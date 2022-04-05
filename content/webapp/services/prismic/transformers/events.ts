@@ -81,6 +81,12 @@ export function transformEventPolicyLabels(
     .map(label => transformLabelType(label));
 }
 
+export function getEventbriteId(url: string): string | undefined {
+  const match = /\/e\/(.+)/.exec(url);
+
+  return match?.[1];
+}
+
 export function transformEvent(
   document: EventPrismicDocument,
   scheduleQuery?: Query<EventPrismicDocument>
@@ -119,12 +125,9 @@ export function transformEvent(
     )
     .filter(isNotUndefined);
 
-  const matchedId =
-    data.eventbriteEvent && data.eventbriteEvent.embed_url
-      ? /\/e\/([0-9]+)/.exec(data.eventbriteEvent.embed_url)
-      : null;
-  const eventbriteId =
-    data.eventbriteEvent && matchedId !== null ? matchedId[1] : '';
+  const eventbriteId = data.eventbriteEvent?.embed_url
+    ? getEventbriteId(data.eventbriteEvent.embed_url)
+    : undefined;
 
   const audiences: Audience[] = data.audiences
     .map(audience =>
