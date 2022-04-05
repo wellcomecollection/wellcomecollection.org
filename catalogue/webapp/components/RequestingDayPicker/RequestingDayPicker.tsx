@@ -96,6 +96,8 @@ const RequestingDayPicker: FC<Props> = ({
           setIsActive={setShowModal}
           removeCloseButton={true}
           openButtonRef={openButton}
+          showOverlay={false}
+          modalStyle={'calendar'}
         >
           <Calendar
             min={startDate || london()}

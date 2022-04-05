@@ -40,7 +40,8 @@ type Props = {
   id: string;
   openButtonRef: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
-  overrideDefaultModalStyle?: boolean;
+  showOverlay?: boolean;
+  modalStyle?: 'filters' | 'calendar' | 'default';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -159,18 +160,33 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const ModalWindowPaddingNoOverflow = styled(
-  BaseModalWindow
-).attrs<BaseModalProps>({
+const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'shadow bg-white': true,
+    'shadow bg-red': true,
   }),
 })<BaseModalProps>`
   overflow: hidden;
   padding-left: 0px;
   padding-right: 0px;
 `;
+
+const CalendarModal = styled(BaseModalWindow)`
+  padding: 0;
+  left: auto;
+  right: 0;
+`;
+
+function determineModal(modalStyle: Props['modalStyle']) {
+  switch (modalStyle) {
+    case 'filters':
+      return FiltersModal;
+    case 'calendar':
+      return CalendarModal;
+    default:
+      return BaseModalWindow;
+  }
+}
 
 const Modal: FunctionComponent<Props> = ({
   children,
@@ -180,15 +196,14 @@ const Modal: FunctionComponent<Props> = ({
   id,
   openButtonRef,
   removeCloseButton = false,
-  overrideDefaultModalStyle,
+  showOverlay = true,
+  modalStyle = 'default',
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const lastFocusableRef = useRef<HTMLInputElement | null>(null);
   const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
-  const ModalWindow = overrideDefaultModalStyle
-    ? ModalWindowPaddingNoOverflow
-    : BaseModalWindow;
+  const ModalWindow = determineModal(modalStyle);
 
   function updateLastFocusableRef(newRef: HTMLInputElement) {
     lastFocusableRef.current = newRef;
@@ -244,7 +259,7 @@ const Modal: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isActive && (
+      {isActive && showOverlay && (
         <Overlay
           onClick={() => {
             if (!removeCloseButton) {
