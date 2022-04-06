@@ -32,7 +32,7 @@ export function daysUntilEndOfWeek(
   }
 }
 
-export function getCalendarRows(date: Moment): (Moment | null)[][] {
+export function getCalendarRows(date: Moment): Moment[][] {
   const numberOfDays = date.daysInMonth();
   const days = [...Array(numberOfDays).keys()].map((day, i) => {
     return moment(date).startOf('month').add(i, 'day');
@@ -47,30 +47,18 @@ export function getCalendarRows(date: Moment): (Moment | null)[][] {
   const nextMonthDays = [
     ...Array(daysUntilEndOfWeek(1, lastDay.day())).keys(),
   ].map((emptyDay, i) => lastDay?.clone().add(i + 1, 'days'));
-  const rows = [...previousMonthDays, ...days, ...nextMonthDays].map(day => {
-    if (typeof day === 'number') {
-      return null;
-    } else {
-      return day;
-    }
-  });
+  const rows = [...previousMonthDays, ...days, ...nextMonthDays];
   return groupIntoSize(rows, 7);
 }
 
-export function firstDayOfWeek(
-  date: Moment,
-  dates: (Moment | null)[][]
-): Moment {
+export function firstDayOfWeek(date: Moment, dates: Moment[][]): Moment {
   const currentWeek = dates.find(weekDates =>
     weekDates?.some(weekDate => weekDate?.isSame(date, 'day'))
   );
   return (currentWeek && currentWeek[0]) || date;
 }
 
-export function lastDayOfWeek(
-  date: Moment,
-  dates: (Moment | null)[][]
-): Moment {
+export function lastDayOfWeek(date: Moment, dates: Moment[][]): Moment {
   const currentWeek = dates.find(week =>
     week?.some(day => day?.isSame(date, 'day'))
   );
