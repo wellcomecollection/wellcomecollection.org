@@ -173,8 +173,13 @@ const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
 
 const CalendarModal = styled(BaseModalWindow)`
   padding: 0;
-  left: auto;
   right: 0;
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    width: 300px;
+  }
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    left: auto;
+  }
 `;
 
 function determineModal(modalStyle: Props['modalStyle']) {
