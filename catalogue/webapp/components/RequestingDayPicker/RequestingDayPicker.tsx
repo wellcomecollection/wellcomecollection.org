@@ -78,9 +78,7 @@ const RequestingDayPicker: FC<Props> = ({
         ariaDescribedBy={'pick-up-date-description'}
         required={true}
       />
-      <div
-        style={{ position: 'absolute', right: '0', top: '0', height: '100%' }}
-      >
+      <div style={{ position: 'absolute', right: '0', top: '0' }}>
         <BorderlessButton
           aria-controls="calendar-modal"
           aria-expanded={showModal}
@@ -91,7 +89,7 @@ const RequestingDayPicker: FC<Props> = ({
           text={null}
           aria-label="calendar day picker"
           ref={openButton}
-          style={{ height: '100%' }}
+          style={{ height: '55px' }}
         />
         <Modal
           id="calendar-modal"
