@@ -120,6 +120,11 @@ const Calendar: FC<Props> = ({
   );
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
   const tabbableDateRef = useRef<HTMLTableCellElement>(null);
+  const numberOfDaysInMonth = tabbableDate.daysInMonth();
+  const closestTabbableDate =
+    numberOfDaysInMonth >= tabbableDate.date()
+      ? tabbableDate
+      : tabbableDate.clone().set('date', numberOfDaysInMonth);
 
   useEffect(() => {
     tabbableDateRef.current?.focus();
@@ -217,11 +222,6 @@ const Calendar: FC<Props> = ({
             return (
               <tr key={i}>
                 {row.map((date, i) => {
-                  const numberOfDaysInMonth = tabbableDate.daysInMonth();
-                  const closestTabbableDate =
-                    numberOfDaysInMonth >= tabbableDate.date()
-                      ? tabbableDate
-                      : tabbableDate.clone().set('date', numberOfDaysInMonth);
                   const isDisabled =
                     !date?.date() ||
                     !isRequestableDate({
