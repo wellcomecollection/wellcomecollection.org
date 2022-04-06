@@ -324,7 +324,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               />
             </>
           )}
-
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
             {event.eventbriteId && (
@@ -429,7 +428,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               )}
           </>
         )}
-
         <InfoBox
           title="Need to know"
           items={
@@ -475,14 +473,16 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             </a>
           </p>
         </InfoBox>
-
+        {/* We deliberately position the contributors below the schedule, so a
+        reader can see all the events in a festival/multi-part event before they
+        see the contributors. This was agreed in April 2022 with the content
+        team. */}
         {event.contributors.length > 0 && (
           <Contributors
             contributors={event.contributors}
             titlePrefix="About your"
           />
         )}
-
         {event.audiences.map(audience => {
           if (audience.description) {
             return (
