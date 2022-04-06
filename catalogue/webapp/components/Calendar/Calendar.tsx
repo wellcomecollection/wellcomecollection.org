@@ -66,7 +66,8 @@ function handleKeyDown(
   max: Moment,
   setTabbableDate: (date: Moment) => void,
   setChosenDate: (date: string) => void,
-  setShowModal: (boolean: boolean) => void
+  setShowModal: (boolean: boolean) => void,
+  setUpdateFocus: (boolean: boolean) => void
 ) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
@@ -89,9 +90,11 @@ function handleKeyDown(
   const moveToDate = newDate(date, key);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+    setUpdateFocus(true);
     setTabbableDate(moveToDate);
   } else {
     // TODO let the user know that the can't go to dates outside of the range - aria-live?
+    setUpdateFocus(true);
     setTabbableDate(date);
   }
 }
@@ -120,15 +123,23 @@ const Calendar: FC<Props> = ({
   setShowModal,
 }) => {
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
+  const [updateFocus, setUpdateFocus] = useState(true);
   const [previousMonthDisabled, setPreviousMonthDisabled] = useState(true);
   const [nextMonthDisabled, setNextMonthDisabled] = useState(
     max.isSame(min, 'month')
   );
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
   const tabbableDateRef = useRef<HTMLTableCellElement>(null);
+  const numberOfDaysInMonth = tabbableDate.daysInMonth();
+  const closestTabbableDate =
+    numberOfDaysInMonth >= tabbableDate.date()
+      ? tabbableDate
+      : tabbableDate.clone().set('date', numberOfDaysInMonth);
 
   useEffect(() => {
-    tabbableDateRef.current?.focus();
+    if (updateFocus) {
+      tabbableDateRef.current?.focus();
+    }
   }, [tabbableDate]);
 
   useEffect(() => {
@@ -153,6 +164,7 @@ const Calendar: FC<Props> = ({
             disabled={previousMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().subtract(1, 'month');
+              setUpdateFocus(false);
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -171,6 +183,7 @@ const Calendar: FC<Props> = ({
             disabled={nextMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().add(1, 'month');
+              setUpdateFocus(false);
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -198,7 +211,8 @@ const Calendar: FC<Props> = ({
             max,
             setTabbableDate,
             setChosenDate,
-            setShowModal
+            setShowModal,
+            setUpdateFocus
           );
         }}
       >
@@ -232,11 +246,6 @@ const Calendar: FC<Props> = ({
             return (
               <tr key={i}>
                 {row.map((date, i) => {
-                  const numberOfDaysInMonth = tabbableDate.daysInMonth();
-                  const closestTabbableDate =
-                    numberOfDaysInMonth >= tabbableDate.date()
-                      ? tabbableDate
-                      : tabbableDate.clone().set('date', numberOfDaysInMonth);
                   const isDisabled =
                     !date?.date() ||
                     !isRequestableDate({
@@ -255,6 +264,7 @@ const Calendar: FC<Props> = ({
                       onClick={() => {
                         if (!isDisabled && date) {
                           setChosenDate(date.format('DD/MM/YYYY'));
+                          setUpdateFocus(true);
                           setTabbableDate(date);
                           setShowModal(false);
                         }
