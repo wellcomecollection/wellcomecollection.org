@@ -145,8 +145,6 @@ const Calendar: FC<Props> = ({
   useEffect(() => {
     if (tabbableDate && showModal) {
       tabbableDateRef.current?.focus();
-    } else {
-      // focus calendar button
     }
   }, [showModal]);
 
