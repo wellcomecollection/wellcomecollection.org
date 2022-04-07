@@ -1,18 +1,14 @@
-import { useEffect, FormEvent } from 'react';
+import { FormEvent } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import NextLink from 'next/link';
-import { AccountCreated } from '../src/frontend/Registration/AccountCreated';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import {
   Checkbox,
-  ErrorAlert,
   ExternalLink,
   CheckboxLabel,
-  InProgress,
   YellowBorder,
   FullWidthButton,
   FlexStartCheckbox,
@@ -25,17 +21,11 @@ import {
 import WellcomeTextInput, {
   TextInputErrorMessage,
 } from '@weco/common/views/components/TextInput/TextInput';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import {
-  useRegisterUser,
-  RegistrationError,
-} from '../src/frontend/Registration/useRegisterUser';
 import { usePageTitle } from '../src/frontend/hooks/usePageTitle';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
-import { info2 } from '@weco/common/icons';
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -44,49 +34,20 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
 
-const scrollToTop = () => window.scrollTo(0, 0);
-
 type RegistrationInputs = {
   firstName: string;
   lastName: string;
-  email: string;
-  password: string;
   termsAndConditions: boolean;
 };
 
 const RegistrationPage: NextPage<Props> = ({ email }) => {
-  const { control, trigger, handleSubmit, formState, setError } =
-    useForm<RegistrationInputs>({
-      defaultValues: { password: '' },
-    });
-  const {
-    registerUser,
-    isLoading,
-    isSuccess,
-    error: registrationError,
-  } = useRegisterUser();
+  const { control, trigger, handleSubmit, formState } =
+    useForm<RegistrationInputs>();
 
   usePageTitle('Register for a library account');
 
-  useEffect(() => {
-    scrollToTop();
-    if (registrationError === RegistrationError.EMAIL_ALREADY_EXISTS) {
-      setError('email', {
-        type: 'manual',
-        message: 'Email address already in use',
-      });
-    }
-  }, [registrationError, setError]);
-
-  if (isSuccess) {
-    scrollToTop();
-    return <AccountCreated />;
-  }
-
-  const createUser = (formData: RegistrationInputs) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { termsAndConditions, ...userDetails } = formData;
-    registerUser(userDetails);
+  const updateUser = formData => {
+    // update the user
   };
 
   return (
@@ -129,29 +90,6 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
                       </p>
                     </YellowBorder>
                   </div>
-                  {registrationError && (
-                    <>
-                      <ErrorAlert aria-labelledby="error-text">
-                        <Icon icon={info2} />
-                        {registrationError ===
-                          RegistrationError.EMAIL_ALREADY_EXISTS && (
-                          <span id="error-text">
-                            An account with this email address already exists,
-                            please{' '}
-                            <NextLink href="/account">
-                              <a>Sign in</a>
-                            </NextLink>
-                            .
-                          </span>
-                        )}
-                        {registrationError ===
-                          RegistrationError.PASSWORD_TOO_COMMON &&
-                          'Password is too common'}
-                        {registrationError === RegistrationError.UNKNOWN &&
-                          'An unknown error occurred'}
-                      </ErrorAlert>
-                    </>
-                  )}
 
                   <h2 className={font('hnb', 4)}>Your details</h2>
                   <p className="no-margin">
@@ -167,7 +105,7 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
                     <Divider color={`pumice`} isKeyline />
                   </Space>
 
-                  <form onSubmit={handleSubmit(createUser)} noValidate>
+                  <form onSubmit={handleSubmit(updateUser)} noValidate>
                     <SpacingComponent>
                       <Controller
                         name="firstName"
@@ -274,16 +212,12 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
                       </Space>
                     </SpacingComponent>
                     <SpacingComponent>
-                      {isLoading ? (
-                        <InProgress>Creating account…</InProgress>
-                      ) : (
-                        <FullWidthButton>
-                          <ButtonSolid
-                            type={ButtonTypes.submit}
-                            text="Create library account"
-                          />
-                        </FullWidthButton>
-                      )}
+                      <FullWidthButton>
+                        <ButtonSolid
+                          type={ButtonTypes.submit}
+                          text="Create library account"
+                        />
+                      </FullWidthButton>
                     </SpacingComponent>
                   </form>
                 </Space>
