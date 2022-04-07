@@ -1,19 +1,21 @@
 import { useEffect, FormEvent } from 'react';
-import usePasswordRules from '../src/frontend/hooks/usePasswordRules';
 import { NextPage, GetServerSideProps } from 'next';
-import { useForm, Controller, useWatch } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import NextLink from 'next/link';
 import { AccountCreated } from '../src/frontend/Registration/AccountCreated';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
-import { useRouter } from 'next/router';
+import { font } from '@weco/common/utils/classnames';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import {
-  Cancel,
   Checkbox,
   ErrorAlert,
   ExternalLink,
   CheckboxLabel,
   InProgress,
+  YellowBorder,
+  FullWidthButton,
+  FlexStartCheckbox,
 } from '../src/frontend/Registration/Registration.style';
 import {
   Container,
@@ -29,12 +31,7 @@ import {
   RegistrationError,
 } from '../src/frontend/Registration/useRegisterUser';
 import { usePageTitle } from '../src/frontend/hooks/usePageTitle';
-import {
-  validEmailPattern,
-  validPasswordPattern,
-} from '../src/frontend/components/ValidationPatterns';
-import { PasswordRules } from '../src/frontend/components/PasswordInput';
-import { PasswordInput } from '../src/frontend/Registration/PasswordInput';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -46,7 +43,6 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
 
 const scrollToTop = () => window.scrollTo(0, 0);
 
@@ -58,8 +54,7 @@ type RegistrationInputs = {
   termsAndConditions: boolean;
 };
 
-const RegistrationPage: NextPage = () => {
-  const router = useRouter();
+const RegistrationPage: NextPage<Props> = ({ email }) => {
   const { control, trigger, handleSubmit, formState, setError } =
     useForm<RegistrationInputs>({
       defaultValues: { password: '' },
@@ -70,9 +65,6 @@ const RegistrationPage: NextPage = () => {
     isSuccess,
     error: registrationError,
   } = useRegisterUser();
-
-  const passwordInputValue = useWatch({ control, name: 'password' }) as string;
-  const passwordRules = usePasswordRules(passwordInputValue);
 
   usePageTitle('Register for a library account');
 
@@ -92,7 +84,6 @@ const RegistrationPage: NextPage = () => {
   }
 
   const createUser = (formData: RegistrationInputs) => {
-    console.log(formData);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { termsAndConditions, ...userDetails } = formData;
     registerUser(userDetails);
@@ -104,204 +95,199 @@ const RegistrationPage: NextPage = () => {
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>
             <Wrapper>
-              <SectionHeading as="h1">
-                Register for a library account
-              </SectionHeading>
-              {registrationError && (
-                <>
-                  <ErrorAlert aria-labelledby="error-text">
-                    <Icon icon={info2} />
-                    {registrationError ===
-                      RegistrationError.EMAIL_ALREADY_EXISTS && (
-                      <span id="error-text">
-                        An account with this email address already exists,
-                        please{' '}
-                        <NextLink href="/account">
-                          <a>Sign in</a>
-                        </NextLink>
-                        .
-                      </span>
-                    )}
-                    {registrationError ===
-                      RegistrationError.PASSWORD_TOO_COMMON &&
-                      'Password is too common'}
-                    {registrationError === RegistrationError.UNKNOWN &&
-                      'An unknown error occurred'}
-                  </ErrorAlert>
-                </>
-              )}
-              <p>
-                An account lets you order items from the library&apos;s closed
-                stores and access our online subscription collections.
-              </p>
-              <p>
-                The first time you come to the library, you&apos;ll need to
-                complete your{' '}
-                <a href={`pages/${prismicPageIds.register}`}>
-                  library membership
-                </a>
-                .
-              </p>
+              <Layout8>
+                <Space v={{ size: 'xl', properties: ['padding-top'] }}>
+                  <SectionHeading as="h1">
+                    Apply for a library membership
+                  </SectionHeading>
+                  <div className="body-text">
+                    <p>
+                      With a library membership and online account, you’ll be
+                      able to:
+                      <ul>
+                        <li>
+                          Request up to 15 materials from our closed stores to
+                          view in the library
+                        </li>
+                        <li>
+                          Access subscription databases and other online
+                          resources.
+                        </li>
+                      </ul>
+                      When you complete your registration online, you’ll need to
+                      email a form of personal identification (ID) and proof of
+                      address to the Library team in order to confirm your
+                      membership. Your membership will be confirmed within 72
+                      hours.
+                    </p>
 
-              <form onSubmit={handleSubmit(createUser)} noValidate>
-                <SpacingComponent>
-                  <Controller
-                    name="firstName"
-                    control={control}
-                    defaultValue=""
-                    rules={{ required: 'Enter your first name' }}
-                    render={({ onChange, value, name }, { invalid }) => (
-                      <WellcomeTextInput
-                        required
-                        id={name}
-                        label="First name"
-                        value={value}
-                        setValue={onChange}
-                        isValid={!invalid}
-                        setIsValid={() => trigger('firstName')}
-                        showValidity={formState.isSubmitted}
-                        errorMessage={formState.errors.firstName?.message}
-                      />
-                    )}
-                  />
-                </SpacingComponent>
-                <SpacingComponent>
-                  <Controller
-                    name="lastName"
-                    control={control}
-                    defaultValue=""
-                    rules={{ required: 'Enter your last name' }}
-                    render={({ onChange, value, name }, { invalid }) => (
-                      <WellcomeTextInput
-                        required
-                        id={name}
-                        label="Last name"
-                        value={value}
-                        setValue={onChange}
-                        isValid={!invalid}
-                        setIsValid={() => trigger('lastName')}
-                        showValidity={formState.isSubmitted}
-                        errorMessage={formState.errors.lastName?.message}
-                      />
-                    )}
-                  />
-                </SpacingComponent>
-                <SpacingComponent>
-                  <Controller
-                    name="email"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: 'Enter an email address',
-                      pattern: {
-                        value: validEmailPattern,
-                        message: 'Enter a valid email address',
-                      },
-                    }}
-                    render={({ onChange, value, name }, { invalid }) => (
-                      <WellcomeTextInput
-                        required
-                        id={name}
-                        label="Email address"
-                        value={value}
-                        setValue={onChange}
-                        isValid={!invalid}
-                        setIsValid={() => trigger('email')}
-                        showValidity={formState.isSubmitted}
-                        errorMessage={formState.errors.email?.message}
-                      />
-                    )}
-                  />
-                </SpacingComponent>
-                <SpacingComponent>
-                  <Controller
-                    name="password"
-                    control={control}
-                    defaultValue=""
-                    rules={{
-                      required: 'Enter a password',
-                      pattern: {
-                        value: validPasswordPattern,
-                        message: 'Enter a valid password',
-                      },
-                    }}
-                    render={({ onChange, value, name }, { invalid }) => (
-                      <PasswordInput
-                        required
-                        id={name}
-                        type="password"
-                        label="Password"
-                        value={value}
-                        setValue={onChange}
-                        isValid={!invalid}
-                        setIsValid={() => trigger('password')}
-                        showValidity={formState.isSubmitted}
-                        errorMessage={formState.errors.password?.message}
-                      />
-                    )}
-                  />
-                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                    <PasswordRules {...passwordRules} />
-                  </Space>
-                </SpacingComponent>
-                <SpacingComponent>
-                  <Controller
-                    name="termsAndConditions"
-                    control={control}
-                    defaultValue={false}
-                    rules={{ required: 'Accept the terms to continue.' }}
-                    render={({ value, onChange }) => (
-                      <Checkbox
-                        name={'termsAndConditions'}
-                        id={'termsAndConditions'}
-                        value={value}
-                        onChange={(e: FormEvent<HTMLInputElement>) =>
-                          onChange(e.currentTarget.checked)
-                        }
-                        checked={value}
-                        text={
-                          <CheckboxLabel>
-                            I have read and agree to the{' '}
-                            <ExternalLink
-                              href="https://wellcome.org/about-us/governance/privacy-and-terms"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Privacy and Terms
-                            </ExternalLink>{' '}
-                            for Wellcome
-                          </CheckboxLabel>
-                        }
-                      />
-                    )}
-                  />
-                  <Space v={{ size: 's', properties: ['margin-top'] }}>
-                    <ErrorMessage
-                      errors={formState.errors}
-                      name="termsAndConditions"
-                      render={({ message }) => (
-                        <TextInputErrorMessage>{message}</TextInputErrorMessage>
-                      )}
-                    />
-                  </Space>
-                </SpacingComponent>
-                <SpacingComponent>
-                  {isLoading ? (
-                    <InProgress>Creating account…</InProgress>
-                  ) : (
-                    <ButtonSolid
-                      type={ButtonTypes.submit}
-                      text="Create account"
-                    />
+                    <YellowBorder>
+                      <p>
+                        <strong>Note:</strong> You don’t need to apply for a
+                        membership if you wish to view our digital collections
+                        or visit the library for the day.
+                      </p>
+                    </YellowBorder>
+                  </div>
+                  {registrationError && (
+                    <>
+                      <ErrorAlert aria-labelledby="error-text">
+                        <Icon icon={info2} />
+                        {registrationError ===
+                          RegistrationError.EMAIL_ALREADY_EXISTS && (
+                          <span id="error-text">
+                            An account with this email address already exists,
+                            please{' '}
+                            <NextLink href="/account">
+                              <a>Sign in</a>
+                            </NextLink>
+                            .
+                          </span>
+                        )}
+                        {registrationError ===
+                          RegistrationError.PASSWORD_TOO_COMMON &&
+                          'Password is too common'}
+                        {registrationError === RegistrationError.UNKNOWN &&
+                          'An unknown error occurred'}
+                      </ErrorAlert>
+                    </>
                   )}
+
+                  <h2 className={font('hnb', 4)}>Your details</h2>
+                  <p className="no-margin">
+                    Email address:{' '}
+                    <strong className={font('hnb', 5)}>{email}</strong>
+                  </p>
                   <Space
-                    as="span"
-                    h={{ size: 'm', properties: ['margin-left'] }}
+                    v={{
+                      size: 'm',
+                      properties: ['margin-top', 'margin-bottom'],
+                    }}
                   >
-                    <Cancel onClick={router.back} />
+                    <Divider color={`pumice`} isKeyline />
                   </Space>
-                </SpacingComponent>
-              </form>
+
+                  <form onSubmit={handleSubmit(createUser)} noValidate>
+                    <SpacingComponent>
+                      <Controller
+                        name="firstName"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: 'Enter your first name' }}
+                        render={({ onChange, value, name }, { invalid }) => (
+                          <WellcomeTextInput
+                            required
+                            id={name}
+                            label="First name"
+                            value={value}
+                            setValue={onChange}
+                            isValid={!invalid}
+                            setIsValid={() => trigger('firstName')}
+                            showValidity={formState.isSubmitted}
+                            errorMessage={formState.errors.firstName?.message}
+                          />
+                        )}
+                      />
+                    </SpacingComponent>
+                    <SpacingComponent>
+                      <Controller
+                        name="lastName"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: 'Enter your last name' }}
+                        render={({ onChange, value, name }, { invalid }) => (
+                          <WellcomeTextInput
+                            required
+                            id={name}
+                            label="Last name"
+                            value={value}
+                            setValue={onChange}
+                            isValid={!invalid}
+                            setIsValid={() => trigger('lastName')}
+                            showValidity={formState.isSubmitted}
+                            errorMessage={formState.errors.lastName?.message}
+                          />
+                        )}
+                      />
+                    </SpacingComponent>
+
+                    <SpacingComponent>
+                      <Space
+                        v={{
+                          size: 'm',
+                          properties: ['margin-top', 'margin-bottom'],
+                        }}
+                      >
+                        <Divider color={`pumice`} isKeyline />
+                      </Space>
+                      <h3 className={font('hnb', 5)}>
+                        Collections research agreement
+                      </h3>
+                      <Controller
+                        name="termsAndConditions"
+                        control={control}
+                        defaultValue={false}
+                        rules={{ required: 'Accept the terms to continue.' }}
+                        render={({ value, onChange }) => (
+                          <FlexStartCheckbox>
+                            <Checkbox
+                              name={'termsAndConditions'}
+                              id={'termsAndConditions'}
+                              value={value}
+                              onChange={(e: FormEvent<HTMLInputElement>) =>
+                                onChange(e.currentTarget.checked)
+                              }
+                              checked={value}
+                              text={
+                                <CheckboxLabel>
+                                  I will use personal data on living persons for
+                                  research purposes only. I will not use
+                                  personal data to support decisions about the
+                                  person who is the subject of the data, or in a
+                                  way that causes substantial damage or distress
+                                  to them. I have read and accept the
+                                  regulations detailed in the{' '}
+                                  <ExternalLink
+                                    href="https://wellcome.org/about-us/governance/privacy-and-terms"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Library’s Terms & Conditions of Use
+                                  </ExternalLink>
+                                  .{' '}
+                                </CheckboxLabel>
+                              }
+                            />
+                          </FlexStartCheckbox>
+                        )}
+                      />
+                      <Space v={{ size: 's', properties: ['margin-top'] }}>
+                        <ErrorMessage
+                          errors={formState.errors}
+                          name="termsAndConditions"
+                          render={({ message }) => (
+                            <TextInputErrorMessage>
+                              {message}
+                            </TextInputErrorMessage>
+                          )}
+                        />
+                      </Space>
+                    </SpacingComponent>
+                    <SpacingComponent>
+                      {isLoading ? (
+                        <InProgress>Creating account…</InProgress>
+                      ) : (
+                        <FullWidthButton>
+                          <ButtonSolid
+                            type={ButtonTypes.submit}
+                            text="Create library account"
+                          />
+                        </FullWidthButton>
+                      )}
+                    </SpacingComponent>
+                  </form>
+                </Space>
+              </Layout8>
             </Wrapper>
           </Container>
         </Space>
@@ -312,15 +298,18 @@ const RegistrationPage: NextPage = () => {
 
 type Props = {
   serverData: ServerData;
+  email: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
+    const { email } = context.query;
 
     return {
       props: removeUndefinedProps({
         serverData,
+        email,
       }),
     };
   };
