@@ -1,6 +1,10 @@
 import { Project } from '../../../types/projects';
 import { ProjectPrismicDocument } from '../types/projects';
-import { transformGenericFields, transformSingleLevelGroup } from '.';
+import {
+  transformFormat,
+  transformGenericFields,
+  transformSingleLevelGroup,
+} from '.';
 import { transformSeason } from './seasons';
 import { SeasonPrismicDocument } from '../types/seasons';
 
@@ -17,6 +21,7 @@ export function transformProject(document: ProjectPrismicDocument): Project {
   return {
     type: 'projects',
     ...genericFields,
+    format: transformFormat(document),
     seasons,
     promo: promo && promo.image ? promo : undefined,
   };
