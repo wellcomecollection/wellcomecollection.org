@@ -1,5 +1,6 @@
 import { FormEvent } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
+import { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
@@ -33,6 +34,12 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { ServerData } from '@weco/common/server-data/types';
+import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
+import { Claims } from '@auth0/nextjs-auth0';
+import {
+  Auth0UserProfile,
+  auth0UserProfileToUserInfo,
+} from '@weco/common/model/user';
 
 type RegistrationInputs = {
   firstName: string;
@@ -40,14 +47,39 @@ type RegistrationInputs = {
   termsAndConditions: boolean;
 };
 
-const RegistrationPage: NextPage<Props> = ({ email }) => {
+type Props = {
+  serverData: ServerData;
+  user?: Claims;
+};
+
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  withPageAuthRequiredSSR({
+    getServerSideProps: async context => {
+      const serverData = await getServerData(context);
+
+      return {
+        props: removeUndefinedProps({
+          serverData,
+        }),
+      };
+    },
+  });
+
+const RegistrationPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
   usePageTitle('Register for a library account');
+  const { user: contextUser } = useUser();
+
+  // Use the user from the context provider as first preference, as it will
+  // change without a page reload being required
+  const user =
+    contextUser ||
+    auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   const updateUser = formData => {
-    // update the user
+    // TODO: actually update the user
   };
 
   return (
@@ -94,7 +126,7 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
                   <h2 className={font('hnb', 4)}>Your details</h2>
                   <p className="no-margin">
                     Email address:{' '}
-                    <strong className={font('hnb', 5)}>{email}</strong>
+                    <strong className={font('hnb', 5)}>{user.email}</strong>
                   </p>
                   <Space
                     v={{
@@ -150,14 +182,6 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
                     </SpacingComponent>
 
                     <SpacingComponent>
-                      <Space
-                        v={{
-                          size: 'm',
-                          properties: ['margin-top', 'margin-bottom'],
-                        }}
-                      >
-                        <Divider color={`pumice`} isKeyline />
-                      </Space>
                       <h3 className={font('hnb', 5)}>
                         Collections research agreement
                       </h3>
@@ -229,23 +253,5 @@ const RegistrationPage: NextPage<Props> = ({ email }) => {
     </PageWrapper>
   );
 };
-
-type Props = {
-  serverData: ServerData;
-  email: string;
-};
-
-export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  async context => {
-    const serverData = await getServerData(context);
-    const { email } = context.query;
-
-    return {
-      props: removeUndefinedProps({
-        serverData,
-        email,
-      }),
-    };
-  };
 
 export default RegistrationPage;
