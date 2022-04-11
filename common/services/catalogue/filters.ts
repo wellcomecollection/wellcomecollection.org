@@ -208,21 +208,21 @@ an aggregation of all partOfs via the API.
 */
 const partOfFilter = ({ props }: WorksFilterProps): CheckboxFilter => ({
   type: 'checkbox',
-  id: 'partOf',
+  id: 'partOf.title',
   label: 'Series',
   excludeFromMoreFilters: true,
-  options: props.partOf
+  options: props['partOf.title']
     ? filterOptionsWithNonAggregates(
         [
           {
-            id: props.partOf,
-            value: props.partOf,
-            label: props.partOf,
+            id: props['partOf.title'],
+            value: props['partOf.title'],
+            label: props['partOf.title'],
             count: 0,
-            selected: !!props.partOf,
+            selected: !!props['partOf.title'],
           },
         ],
-        [props.partOf]
+        [props['partOf.title']]
       )
     : [],
 });

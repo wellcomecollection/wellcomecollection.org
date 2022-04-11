@@ -602,7 +602,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               textParts: [partOf.title],
               linkAttributes: worksLink(
                 {
-                  partOf: partOf.title,
+                  'partOf.title': partOf.title,
                 },
                 'work_details/partOf'
               ),
