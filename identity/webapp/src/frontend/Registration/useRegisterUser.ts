@@ -23,10 +23,7 @@ export function useRegisterUser(): UseRegisterUserMutation {
   const registerUser = (userDetails: RegisterUserSchema) => {
     setIsLoading(true);
     axios
-      .post(
-        'https://www-stage.wellcomecollection.org/account/api/user/create',
-        userDetails
-      )
+      .post('/account/api/user/create', userDetails)
       .then(() => {
         setIsLoading(false);
         setIsSuccess(true);
