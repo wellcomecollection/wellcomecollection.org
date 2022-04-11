@@ -115,8 +115,8 @@ const items: SocialItem[] = [
   },
   {
     url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
-    title: 'TripAdvisor',
-    service: 'TripAdvisor',
+    title: 'Tripadvisor',
+    service: 'Tripadvisor',
     icon: tripadvisor,
   },
 ];
