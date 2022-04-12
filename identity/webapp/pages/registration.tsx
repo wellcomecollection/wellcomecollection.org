@@ -33,7 +33,7 @@ import ButtonSolid, {
 import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { ServerData } from '@weco/common/server-data/types';
+import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
 import {
@@ -48,7 +48,7 @@ type RegistrationInputs = {
 };
 
 type Props = {
-  serverData: ServerData;
+  serverData: SimplifiedServerData;
   user?: Claims;
 };
 
