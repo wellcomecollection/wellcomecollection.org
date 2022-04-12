@@ -3,16 +3,12 @@ import {
   PrismicDocument,
   FilledLinkToDocumentField,
   KeyTextField,
-  LinkField,
   RichTextField,
   TimestampField,
 } from '@prismicio/types';
-import linkResolver from '../link-resolver';
 import {
   CommonPrismicFields,
   isFilledLinkToDocumentWithData,
-  isFilledLinkToMediaField,
-  isFilledLinkToWebField,
   WithArticleFormat,
 } from '../types';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
@@ -96,18 +92,6 @@ export function asHtml(field?: RichTextField): string | undefined {
 export function asTitle(title: RichTextField): string {
   // We always need a title - blunt validation, but validation none the less
   return asText(title) || '';
-}
-
-export function transformLink(
-  link?: LinkField<string, string, any>
-): string | undefined {
-  if (link) {
-    if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
-      return link.url;
-    } else if (isFilledLinkToDocumentWithData(link)) {
-      return linkResolver({ id: link.id, type: link.type });
-    }
-  }
 }
 
 export function transformSingleLevelGroup(
