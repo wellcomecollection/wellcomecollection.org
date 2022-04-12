@@ -163,7 +163,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
 const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    'shadow bg-red': true,
+    'shadow bg-white': true,
   }),
 })<BaseModalProps>`
   overflow: hidden;
