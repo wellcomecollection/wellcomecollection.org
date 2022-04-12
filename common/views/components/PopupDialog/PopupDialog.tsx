@@ -18,6 +18,7 @@ import { PopupDialogPrismicDocument } from '../../../services/prismic/documents'
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import { chat, clear } from '../../../icons';
 import { InferDataInterface } from '../../../services/prismic/types';
+import { transformLink } from '../../../services/prismic/transformers';
 
 type PopupDialogOpenProps = {
   isActive: boolean;
@@ -344,7 +345,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           </div>
         </Space>
         <PopupDialogCTA
-          href={link || undefined}
+          href={transformLink(link)}
           ref={ctaRef}
           tabIndex={isActive ? 0 : -1}
           onKeyDown={handleTrapEndKeyDown}

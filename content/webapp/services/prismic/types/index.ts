@@ -5,13 +5,10 @@ import {
   Slice,
   SliceZone,
   PrismicDocument,
-  AnyRegularField,
   GroupField,
   RelationField,
   FilledLinkToDocumentField,
-  FilledLinkToWebField,
   NumberField,
-  LinkField,
   EmptyLinkField,
 } from '@prismicio/types';
 import { ArticleFormat } from './article-format';
@@ -22,9 +19,10 @@ import { EditorialContributorRole, Organisation, Person } from './contributors';
 import { EventSeriesPrismicDocument } from './event-series';
 import { ExhibitionPrismicDocument } from './exhibitions';
 import { SeasonPrismicDocument } from './seasons';
-import { isNotUndefined } from '@weco/common/utils/array';
-import * as prismicH from '@prismicio/helpers';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
+import {
+  isFilledLinkToDocumentWithData,
+  InferDataInterface,
+} from '@weco/common/services/prismic/types';
 
 export type InferCustomType<T> = T extends PrismicDocument<
   any,
@@ -46,14 +44,6 @@ export type FetchLinks<T extends PrismicDocument> = {
     ? `${InferCustomType<T>}.${D}`
     : never;
 }[keyof InferDataInterface<T>][];
-
-/**
- * This is a convenience type for what the generic DataInterface type extend in @prismicio/types
- */
-export type DataInterface = Record<
-  string,
-  AnyRegularField | GroupField | SliceZone
->;
 
 type Dimension = {
   width: number;
@@ -216,35 +206,6 @@ export const contributorFetchLinks: ContributorFetchLink = [
 ];
 
 // Guards
-export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
-  field: RelationField<T, L, D> | undefined
-): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
-  return (
-    isNotUndefined(field) &&
-    'id' in field &&
-    field.isBroken === false &&
-    'data' in field
-  );
-}
-
-export function isFilledLinkToWebField(
-  field: LinkField
-): field is FilledLinkToWebField {
-  return (
-    prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
-  );
-}
-
-export function isFilledLinkToMediaField(
-  field: LinkField
-): field is FilledLinkToWebField {
-  return (
-    prismicH.isFilled.link(field) &&
-    field.link_type === 'Media' &&
-    'url' in field
-  );
-}
-
 export function isFilledLinkToPersonField(
   field: Contributor
 ): field is FilledLinkToDocumentField<

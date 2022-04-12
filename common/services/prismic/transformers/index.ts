@@ -1,5 +1,12 @@
 import { Tasl } from '../../../model/tasl';
 import { licenseTypeArray } from '../../../model/license';
+import { LinkField } from '@prismicio/types';
+import { linkResolver } from '../link-resolver';
+import {
+  isFilledLinkToDocumentWithData,
+  isFilledLinkToMediaField,
+  isFilledLinkToWebField,
+} from '../types';
 
 export function transformTaslFromString(pipedString: string | null): Tasl {
   if (pipedString === null) {
@@ -37,5 +44,17 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
     return {
       title: pipedString,
     };
+  }
+}
+
+export function transformLink(
+  link?: LinkField<string, string, any>
+): string | undefined {
+  if (link) {
+    if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
+      return link.url;
+    } else if (isFilledLinkToDocumentWithData(link)) {
+      return linkResolver({ id: link.id, type: link.type });
+    }
   }
 }

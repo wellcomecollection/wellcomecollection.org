@@ -7,7 +7,7 @@ import {
   transformTimestamp,
   transformSingleLevelGroup,
 } from '.';
-import { isFilledLinkToWebField } from '../types';
+import { isFilledLinkToWebField } from '@weco/common/services/prismic/types';
 import { transformSeason } from './seasons';
 import { transformPromoToCaptionedImage } from './images';
 import { SeasonPrismicDocument } from '../types/seasons';
