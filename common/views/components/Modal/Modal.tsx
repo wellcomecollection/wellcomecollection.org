@@ -209,14 +209,10 @@ const Modal: FunctionComponent<Props> = ({
   const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
+  const initialLoad = useRef(true);
 
   function updateLastFocusableRef(newRef: HTMLInputElement) {
     lastFocusableRef.current = newRef;
-  }
-
-  function closeModal() {
-    setIsActive(false);
-    openButtonRef && openButtonRef.current && openButtonRef.current.focus();
   }
 
   useEffect(() => {
@@ -230,13 +226,16 @@ const Modal: FunctionComponent<Props> = ({
   useEffect(() => {
     if (isActive) {
       closeButtonRef?.current?.focus();
+    } else if (!initialLoad.current) {
+      openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
+    initialLoad.current = false;
   }, [isActive]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === 'Escape' && isActive) {
-        closeModal();
+        setIsActive(false);
       }
     }
     if (!removeCloseButton) {
@@ -268,7 +267,7 @@ const Modal: FunctionComponent<Props> = ({
         <Overlay
           onClick={() => {
             if (!removeCloseButton) {
-              closeModal();
+              setIsActive(false);
             }
           }}
         />
@@ -279,7 +278,9 @@ const Modal: FunctionComponent<Props> = ({
             <CloseButton
               data-test-id="close-modal-buttons"
               ref={closeButtonRef}
-              onClick={closeModal}
+              onClick={() => {
+                setIsActive(false);
+              }}
               hideFocus={!isKeyboard}
             >
               <span className="visually-hidden">Close modal window</span>
