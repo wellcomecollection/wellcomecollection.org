@@ -8,7 +8,16 @@ import {
   lastDayOfWeek,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
-import { DatePicker, Header, Table, Td, Number } from './CalendarStyles';
+import {
+  DatePicker,
+  Header,
+  Table,
+  Td,
+  Number,
+  CalendarButton,
+} from './CalendarStyles';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { chevron } from '@weco/common/icons';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -155,7 +164,7 @@ const Calendar: FC<Props> = ({
           {`${tabbableDate.format('MMMM')} ${tabbableDate.format('YYYY')}`}
         </h2>
         <div>
-          <button
+          <CalendarButton
             type="button"
             className="prev-month"
             aria-label="previous month"
@@ -172,9 +181,15 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            previous
-          </button>
-          <button
+            <Icon
+              matchText={true}
+              color={'currentColor'}
+              icon={chevron}
+              rotate={90}
+            />
+            <span className="visually-hidden">previous month</span>
+          </CalendarButton>
+          <CalendarButton
             type="button"
             className="next-month"
             aria-label="next month"
@@ -191,8 +206,14 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            next
-          </button>
+            <Icon
+              matchText={true}
+              color={'currentColor'}
+              icon={chevron}
+              rotate={270}
+            />
+            <span className="visually-hidden">next month</span>
+          </CalendarButton>
         </div>
       </Header>
       <Table

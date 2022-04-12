@@ -16,28 +16,27 @@ export const DatePicker = styled.div`
 
 export const Header = styled.div`
   background-color: ${props => props.theme.color('white')};
-  /* display: flex; */
+  display: flex;
+  color: ${props => props.theme.color('pewter')};
 
-  h2 {
-    color: ${props => props.theme.color('pewter')};
+  div {
+    margin-left: auto;
   }
 `;
 
 export const Table = styled.table`
   color: ${props => props.theme.color('pewter')};
-  th {
+  th,
+  td {
     display: inline-block;
-    width: 1.9em;
-    height: 1.9em;
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
   }
 `;
 
 export const Td = styled.td`
   position: relative;
-  display: inline-block;
-  width: 2.5em;
-  height: 2.5em;
-  text-align: center;
   cursor: pointer;
   border-radius: 50%;
   border: 1px solid ${props => props.theme.color('transparent')};
@@ -65,4 +64,15 @@ export const Td = styled.td`
 export const Number = styled.span`
   position: relative;
   top: 4px;
+`;
+
+export const CalendarButton = styled.button`
+  border: 0;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  border-radius: 50%;
+  margin-left: 0.5em;
+  background: ${props => props.theme.color('silver')};
 `;
