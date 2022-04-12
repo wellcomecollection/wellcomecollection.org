@@ -6,12 +6,11 @@ import {
   RichTextField,
   TimestampField,
 } from '@prismicio/types';
+import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
-  CommonPrismicFields,
+  InferDataInterface,
   isFilledLinkToDocumentWithData,
-  WithArticleFormat,
-} from '../types';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
+} from '@weco/common/services/prismic/types';
 import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
 import { isNotUndefined, isString } from '@weco/common/utils/array';

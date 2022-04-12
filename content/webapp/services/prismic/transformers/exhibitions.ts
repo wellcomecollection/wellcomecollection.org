@@ -11,7 +11,10 @@ import {
   ExhibitionFormat as ExhibitionFormatPrismicDocument,
 } from '../types/exhibitions';
 import { Query } from '@prismicio/types';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
+import {
+  PaginatedResults,
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
 import { transformQuery } from './paginated-results';
 import { transformMultiContent } from './multi-content';
 import {
@@ -26,7 +29,6 @@ import {
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { transformImagePromo, transformPromoToCaptionedImage } from './images';
-import { isFilledLinkToDocumentWithData } from '../types';
 import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';

@@ -4,7 +4,7 @@ import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
-} from '../types';
+} from '@weco/common/services/prismic/types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
 import {

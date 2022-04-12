@@ -27,18 +27,15 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
-} from '../types';
+} from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import { asRichText, transformLabelType, asTitle, asText } from '.';
 import {
   transformLink,
-  asRichText,
-  transformLabelType,
-  asTitle,
-  asText,
-} from '.';
-import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
+  transformTaslFromString,
+} from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
 import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';

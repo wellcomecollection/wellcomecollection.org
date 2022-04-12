@@ -30,10 +30,10 @@ import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { LabelField } from '@weco/common/model/label-field';
 import {
-  isFilledLinkToDocumentWithData,
+  InferDataInterface,
   isFilledLinkToWebField,
-} from '../types';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
