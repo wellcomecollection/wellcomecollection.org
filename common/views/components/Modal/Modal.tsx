@@ -276,7 +276,7 @@ const Modal: FunctionComponent<Props> = ({
         <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
           {!removeCloseButton && (
             <CloseButton
-              data-test-id="close-modal-buttons"
+              data-testid="close-modal-button"
               ref={closeButtonRef}
               onClick={() => {
                 setIsActive(false);
