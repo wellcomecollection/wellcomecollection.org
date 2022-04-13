@@ -59,6 +59,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
 
+      if (!serverData.toggles.selfRegistration) {
+        return {
+          redirect: {
+            destination: '/',
+            permanent: false,
+          },
+        };
+      }
+
       return {
         props: removeUndefinedProps({
           serverData,

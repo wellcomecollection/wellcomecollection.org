@@ -40,6 +40,12 @@ const toggles = {
       defaultValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
+    {
+      id: 'selfRegistration',
+      title: 'Self registration',
+      defaultValue: false,
+      description: 'Allow users to sign up for an account',
+    },
   ] as const,
   tests: [
     {
