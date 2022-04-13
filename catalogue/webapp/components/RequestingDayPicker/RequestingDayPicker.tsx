@@ -1,9 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import { londonFromFormat } from '@weco/common/utils/format-date';
-import { isRequestableDate } from '@weco/catalogue/utils/dates';
+import { londonFromFormat, london } from '@weco/common/utils/format-date';
+import { isRequestableDate } from '../../utils/dates';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
+import Calendar from '../Calendar/Calendar';
 
 type Props = {
   startDate?: Moment;
@@ -55,22 +56,40 @@ const RequestingDayPicker: FC<Props> = ({
   }, [pickUpDate]);
 
   return (
-    <TextInput
-      id={'selectDate'}
-      label="Select a date"
-      placeholder={stringFormat}
-      value={pickUpDate || ''}
-      setValue={setPickUpDate}
-      isValid={isValid}
-      showValidity={!isValid}
-      errorMessage={
-        isCorrectFormat
-          ? 'Your chosen date is not available to book'
-          : `Please enter a date in the correct format (${stringFormat})`
-      }
-      ariaDescribedBy={'pick-up-date-description'}
-      required={true}
-    />
+    <>
+      <TextInput
+        id={'selectDate'}
+        label="Select a date"
+        placeholder={stringFormat}
+        value={pickUpDate || ''}
+        setValue={setPickUpDate}
+        isValid={isValid}
+        showValidity={!isValid}
+        errorMessage={
+          isCorrectFormat
+            ? 'Your chosen date is not available to book'
+            : `Please enter a date in the correct format (${stringFormat})`
+        }
+        ariaDescribedBy={'pick-up-date-description'}
+        required={true}
+      />
+      <Calendar
+        min={startDate || london()}
+        max={endDate || london()}
+        excludedDates={exceptionalClosedDates}
+        excludedDays={regularClosedDays}
+        initialFocusDate={
+          pickUpDate
+            ? londonFromFormat(pickUpDate, stringFormat)
+            : startDate || london()
+        }
+        chosenDate={
+          (pickUpDate && londonFromFormat(pickUpDate, stringFormat)) ||
+          undefined
+        }
+        setChosenDate={setPickUpDate}
+      />
+    </>
   );
 };
 
