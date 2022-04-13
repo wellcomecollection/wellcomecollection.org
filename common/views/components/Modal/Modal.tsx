@@ -205,7 +205,8 @@ const Modal: FunctionComponent<Props> = ({
   modalStyle = 'default',
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
-  const lastFocusableRef = useRef<HTMLInputElement | null>(null);
+  const firstFocusableRef = useRef<HTMLInputElement | undefined>(null);
+  const lastFocusableRef = useRef<HTMLInputElement | undefined>(null);
   const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
@@ -220,7 +221,8 @@ const Modal: FunctionComponent<Props> = ({
       modalRef.current && [
         ...getFocusableElements<HTMLInputElement>(modalRef.current),
       ];
-    lastFocusableRef.current = focusables && focusables[focusables.length - 1];
+    firstFocusableRef.current = focusables?.[0];
+    lastFocusableRef.current = focusables?.[focusables.length - 1];
   }, [modalRef.current]);
 
   useEffect(() => {
@@ -259,7 +261,10 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, lastFocusableRef!);
+  useFocusTrap(
+    closeButtonRef.current ? closeButtonRef : firstFocusableRef,
+    lastFocusableRef!
+  );
 
   return (
     <>
