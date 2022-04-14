@@ -1,20 +1,28 @@
 import { sign, verify } from 'jsonwebtoken';
-import { NextApiRequest } from 'next';
 
 // we need some jwt encoding to deal with passing data to an auth0 action
 // https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/redirect-with-actions#pass-data-back-to-auth0
 
 // we first need to validate the session key we receive on redirecting from the post-login flow action
-export const validateIncomingToken = (req: NextApiRequest): Promise<void> => {
-  if (!req.query || !req.query.session_token) {
-    console.log('No session_token found');
-  }
+type TokenPayload = {
+  iat: number;
+  iss: string;
+  sub: string;
+  exp: number;
+  aud?: string;
+  state?: string;
+  other?: FormDataObject;
+};
 
+type FormDataObject = {
+  firstname: string;
+  surname: string;
+  termsAndConditions: boolean;
+};
+
+export const decodeToken = (token: string): Promise<TokenPayload> => {
   try {
-    const decoded = verify(
-      req.query.session_token,
-      process.env.AUTH0_ACTION_SECRET
-    );
+    const decoded = verify(token, process.env.AUTH0_ACTION_SECRET);
     console.log(decoded, 'the decoded query');
     return decoded;
   } catch (e) {
@@ -27,10 +35,10 @@ export const validateIncomingToken = (req: NextApiRequest): Promise<void> => {
 // we must also include the state, which validates our ability to finish the action with /continue
 // finally we must make sure to add aud (audience) as without this the token won't be accepted by auth0
 export const generateNewToken = (
-  dataFromAuth0: Promise<void>,
+  dataFromAuth0: Promise<TokenPayload>,
   state: string,
-  formData: { firstName: string; lastName: string; termsAndConditions: boolean }
-): Promise<void> => {
+  formData: FormDataObject
+): Promise<TokenPayload> => {
   const payload = {
     ...dataFromAuth0,
     aud: 'https://wellcomecollection.org/account/registration',
