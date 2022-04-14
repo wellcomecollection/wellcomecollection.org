@@ -3,7 +3,6 @@ import { sign, verify } from 'jsonwebtoken';
 // we need some jwt encoding to deal with passing data to an auth0 action
 // https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/redirect-with-actions#pass-data-back-to-auth0
 
-// we first need to validate the session key we receive on redirecting from the post-login flow action
 type TokenPayload = {
   iat: number;
   iss: string;
@@ -20,6 +19,7 @@ type FormDataObject = {
   termsAndConditions: boolean;
 };
 
+// we first need to decode the session token we receive on redirecting from the post-login flow action
 export const decodeToken = (token: string): Promise<TokenPayload> => {
   try {
     const decoded = verify(token, process.env.AUTH0_ACTION_SECRET);
