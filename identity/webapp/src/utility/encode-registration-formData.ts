@@ -13,7 +13,7 @@ export const validateIncomingToken = (req: NextApiRequest): Promise<void> => {
   try {
     const decoded = verify(
       req.query.session_token,
-      process.env.MY_SHARED_SECRET
+      process.env.AUTH0_ACTION_SECRET
     );
     console.log(decoded, 'the decoded query');
     return decoded;
@@ -33,12 +33,12 @@ export const generateNewToken = (
 ): Promise<void> => {
   const payload = {
     ...dataFromAuth0,
-    aud: 'registration-form-data',
+    aud: 'https://wellcomecollection.org/account/registration',
     state,
     other: formData,
   };
 
-  const token = sign(payload, process.env.MY_SHARED_SECRET, {
+  const token = sign(payload, process.env.AUTH0_ACTION_SECRET, {
     algorithm: 'HS256',
   });
   return token;
