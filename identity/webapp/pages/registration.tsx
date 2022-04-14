@@ -36,7 +36,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
-import axios from 'axios';
 
 import {
   Auth0UserProfile,
@@ -89,8 +88,8 @@ const RegistrationPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
-  const updateUser = async (formData: RegistrationInputs) => {
-    await axios.put(`/account/api/users/${user.userId}`, formData);
+  const updateUser = (/* formData: RegistrationInputs  */) => {
+    // Send form data back to action that brought us to the registration page
   };
 
   return (
