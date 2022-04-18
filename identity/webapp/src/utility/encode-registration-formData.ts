@@ -20,13 +20,14 @@ type FormDataObject = {
 };
 
 // we first need to decode the session token we receive on redirecting from the post-login flow action
+// this token will come from request query when this handler is used in the context of the registration form i.e. req.query.session_token
 export const decodeToken = (token: string): Promise<TokenPayload> => {
   try {
     const decoded = verify(token, process.env.AUTH0_ACTION_SECRET);
-    console.log(decoded, 'the decoded query');
     return decoded;
   } catch (e) {
     console.log('Invalid session_token');
+    throw new Error('Invalid session_token in decode');
   }
 };
 
