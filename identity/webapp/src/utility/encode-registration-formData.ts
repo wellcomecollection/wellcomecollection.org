@@ -10,6 +10,15 @@ type TokenPayload = {
   exp: number;
   aud?: string;
   state?: string;
+};
+
+type GeneratedTokenPayload = {
+  iat: number;
+  iss: string;
+  sub: string;
+  exp: number;
+  aud: string;
+  state?: string;
   other?: FormDataObject;
 };
 
@@ -38,7 +47,7 @@ export const generateNewToken = (
   dataFromAuth0: Promise<TokenPayload>,
   state: string,
   formData: FormDataObject
-): Promise<TokenPayload> => {
+): Promise<GeneratedTokenPayload> => {
   const payload = {
     ...dataFromAuth0,
     aud: 'https://wellcomecollection.org/account/registration',
