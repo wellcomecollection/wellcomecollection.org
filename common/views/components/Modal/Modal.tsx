@@ -3,26 +3,18 @@ import {
   useEffect,
   useRef,
   useContext,
-  createContext,
   FunctionComponent,
   RefObject,
-  createRef,
   MutableRefObject,
 } from 'react';
-import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
-import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
-export const ModalContext = createContext<{
-  updateLastFocusableRef: (arg0: HTMLElement | null) => void | null | undefined;
-}>({
-  updateLastFocusableRef: () => null,
-});
+import FocusTrap from 'focus-trap-react';
 
 type CloseButtonProps = {
   hideFocus: boolean;
@@ -38,7 +30,7 @@ type Props = {
   setIsActive: (value: boolean) => void;
   width?: string | null;
   id: string;
-  openButtonRef: MutableRefObject<HTMLElement | null>;
+  openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
   modalStyle?: 'filters' | 'calendar' | 'default';
@@ -205,25 +197,9 @@ const Modal: FunctionComponent<Props> = ({
   modalStyle = 'default',
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
-  const firstFocusableRef = useRef<HTMLInputElement | undefined>(null);
-  const lastFocusableRef = useRef<HTMLInputElement | undefined>(null);
-  const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
   const ModalWindow = determineModal(modalStyle);
   const initialLoad = useRef(true);
-
-  function updateLastFocusableRef(newRef: HTMLInputElement) {
-    lastFocusableRef.current = newRef;
-  }
-
-  useEffect(() => {
-    const focusables: HTMLInputElement[] | null = modalRef &&
-      modalRef.current && [
-        ...getFocusableElements<HTMLInputElement>(modalRef.current),
-      ];
-    firstFocusableRef.current = focusables?.[0];
-    lastFocusableRef.current = focusables?.[focusables.length - 1];
-  }, [modalRef.current]);
 
   useEffect(() => {
     if (isActive) {
@@ -261,43 +237,38 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive]);
 
-  useFocusTrap(
-    closeButtonRef.current ? closeButtonRef : firstFocusableRef,
-    lastFocusableRef!
-  );
-
   return (
-    <>
-      {isActive && showOverlay && (
-        <Overlay
-          onClick={() => {
-            if (!removeCloseButton) {
-              setIsActive(false);
-            }
-          }}
-        />
-      )}
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
-          {!removeCloseButton && (
-            <CloseButton
-              data-testid="close-modal-button"
-              ref={closeButtonRef}
-              onClick={() => {
+    <FocusTrap active={isActive}>
+      <div>
+        {isActive && showOverlay && (
+          <Overlay
+            onClick={() => {
+              if (!removeCloseButton) {
                 setIsActive(false);
-              }}
-              hideFocus={!isKeyboard}
-            >
-              <span className="visually-hidden">Close modal window</span>
-              <Icon icon={cross} color={'currentColor'} />
-            </CloseButton>
-          )}
-          <ModalContext.Provider value={{ updateLastFocusableRef }}>
+              }
+            }}
+          />
+        )}
+        <CSSTransition in={isActive} classNames="fade" timeout={350}>
+          <ModalWindow width={width} id={id} hidden={!isActive}>
+            {!removeCloseButton && (
+              <CloseButton
+                data-testid="close-modal-button"
+                ref={closeButtonRef}
+                onClick={() => {
+                  setIsActive(false);
+                }}
+                hideFocus={!isKeyboard}
+              >
+                <span className="visually-hidden">Close modal window</span>
+                <Icon icon={cross} color={'currentColor'} />
+              </CloseButton>
+            )}
             {children}
-          </ModalContext.Provider>
-        </ModalWindow>
-      </CSSTransition>
-    </>
+          </ModalWindow>
+        </CSSTransition>
+      </div>
+    </FocusTrap>
   );
 };
 
