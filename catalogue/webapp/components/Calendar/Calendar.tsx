@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef, useContext } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -18,8 +18,6 @@ import {
 } from './CalendarStyles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';
-import { ModalContext } from '@weco/common/views/components/Modal/Modal';
-import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
