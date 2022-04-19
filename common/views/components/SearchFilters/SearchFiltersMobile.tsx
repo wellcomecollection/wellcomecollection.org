@@ -6,8 +6,6 @@ import React, {
 } from 'react';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
 import dynamic from 'next/dynamic';
-import useFocusTrap from '../../../hooks/useFocusTrap';
-import { CSSTransition } from 'react-transition-group';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
@@ -28,12 +26,11 @@ import ButtonSolid, {
   ButtonTypes,
   SolidButton,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import {
-  searchFilterCheckBox,
-  searchFilterCloseButton,
-} from '../../../text/aria-labels';
+import { searchFilterCheckBox } from '../../../text/aria-labels';
 import { dateRegex } from './SearchFiltersDesktop';
-import { cross, filter } from '@weco/common/icons';
+import { filter } from '@weco/common/icons';
+import FocusTrap from 'focus-trap-react';
+import Modal from '../../components/Modal/Modal';
 
 const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
@@ -56,62 +53,6 @@ const FiltersHeader = styled(Space).attrs({
   }),
 })`
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
-`;
-
-const CloseFiltersButton = styled(Space).attrs({
-  h: { size: 'm', properties: ['left'] },
-  as: 'button',
-  type: 'button',
-  className: classNames({
-    'plain-button': true,
-  }),
-  'aria-label': searchFilterCloseButton,
-})`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-`;
-
-const FiltersModal = styled.div.attrs({
-  'aria-modal': true,
-  id: 'mobile-filters-modal',
-  className: classNames({
-    'bg-white': true,
-  }),
-})`
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  transition: opacity 350ms ease, transform 350ms ease;
-
-  &,
-  &.fade-exit-done {
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  &.fade-enter,
-  &.fade-exit,
-  &.fade-enter-done {
-    z-index: 10;
-    pointer-events: all;
-  }
-
-  &,
-  &.fade-enter,
-  &.fade-exit-active,
-  &.fade-exit-done {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-
-  &.fade-enter-active,
-  &.fade-enter-done {
-    opacity: 1;
-    transform: scale(1);
-  }
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -277,8 +218,6 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   const filtersModalRef = useRef<HTMLDivElement>(null);
   const [isActive, setIsActive] = useState(false);
 
-  useFocusTrap(closeFiltersButtonRef, okFiltersButtonRef);
-
   useSkipInitialEffect(() => {
     function setPageScrollLock(value) {
       if (document.documentElement) {
@@ -351,18 +290,16 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           )}
         </SolidButton>
       </ShameButtonWrap>
-
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <FiltersModal ref={filtersModalRef}>
+      <FocusTrap active={isActive}>
+        <Modal
+          id={'mobile-filters-modal'}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          openButtonRef={openFiltersButtonRef}
+          modalStyle={'filters'}
+        >
           <FiltersScrollable>
             <FiltersHeader>
-              <CloseFiltersButton
-                ref={closeFiltersButtonRef}
-                onClick={() => setIsActive(false)}
-              >
-                <Icon icon={cross} />
-                <span className="visually-hidden">close filters</span>
-              </CloseFiltersButton>
               <h2 className="h3 text-align-center block">Filters</h2>
             </FiltersHeader>
 
@@ -407,8 +344,8 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               text="Show results"
             />
           </FiltersFooter>
-        </FiltersModal>
-      </CSSTransition>
+        </Modal>
+      </FocusTrap>
     </Space>
   );
 };
