@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useRef } from 'react';
+import { FC, useState, useEffect, useRef, useContext } from 'react';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -18,6 +18,8 @@ import {
 } from './CalendarStyles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';
+import { ModalContext } from '@weco/common/views/components/Modal/Modal';
+import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -97,13 +99,11 @@ function handleKeyDown(
     setShowModal(false);
   }
   const moveToDate = newDate(date, key);
+  setUpdateFocus(true);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
-    setUpdateFocus(true);
     setTabbableDate(moveToDate);
   } else {
-    // TODO let the user know that the can't go to dates outside of the range - aria-live?
-    setUpdateFocus(true);
     setTabbableDate(date);
   }
 }
@@ -171,7 +171,7 @@ const Calendar: FC<Props> = ({
             disabled={previousMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().subtract(1, 'month');
-              setUpdateFocus(false);
+              setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -196,7 +196,7 @@ const Calendar: FC<Props> = ({
             disabled={nextMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().add(1, 'month');
-              setUpdateFocus(false);
+              setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -283,7 +283,7 @@ const Calendar: FC<Props> = ({
                       onClick={() => {
                         if (!isDisabled && date) {
                           setChosenDate(date.format('DD/MM/YYYY'));
-                          setUpdateFocus(true);
+                          setUpdateFocus(true); // if we are navigating the calendar by day controls, we want to update the focus
                           setTabbableDate(date);
                           setShowModal(false);
                         }
