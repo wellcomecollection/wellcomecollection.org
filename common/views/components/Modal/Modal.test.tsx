@@ -1,71 +1,57 @@
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { useState, useRef } from 'react';
-import { act } from 'react-dom/test-utils';
-import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
+import theme from '@weco/common/views/themes/default';
+import userEvent from '@testing-library/user-event';
 
-const openModalButtonSelector = '[data-test-id="open-modal-button"]';
-const closeModalButtonSelector = '[data-test-id="close-modal-buttons"]';
+const renderComponent = () => {
+  const ModalExample = () => {
+    const [isActive, setIsActive] = useState(false);
+    const openButtonRef = useRef(null);
 
-const ModalExample = () => {
-  const [isActive, setIsActive] = useState(false);
-  const openButtonRef = useRef(null);
-
-  return (
-    <div>
-      <button
-        ref={openButtonRef}
-        data-test-id="open-modal-button"
-        onClick={() => setIsActive(true)}
-      >
-        open
-      </button>
-      <Modal
-        isActive={isActive}
-        setIsActive={setIsActive}
-        openButtonRef={openButtonRef}
-      >
-        <p>This is a modal window.</p>
-      </Modal>
-    </div>
-  );
+    return (
+      <ThemeProvider theme={theme}>
+        <div>
+          <button ref={openButtonRef} onClick={() => setIsActive(true)}>
+            Open modal window
+          </button>
+          <Modal
+            id="modal-example"
+            isActive={isActive}
+            setIsActive={setIsActive}
+            openButtonRef={openButtonRef}
+          >
+            <p>This is a modal window.</p>
+          </Modal>
+        </div>
+      </ThemeProvider>
+    );
+  };
+  render(<ModalExample />);
 };
 
 describe('Modal', () => {
   it(`should have an unfocused button on initial render`, () => {
-    const component = mountWithTheme(<ModalExample />);
-    const openButton = component.find(openModalButtonSelector);
-
-    expect(openButton.is(':focus')).toBe(false);
+    renderComponent();
+    const openButton = screen.getByText(/^Open modal window$/i);
+    expect(document.activeElement).not.toEqual(openButton);
   });
 
   it(`should focus the close button when opened`, () => {
-    const component = mountWithTheme(<ModalExample />);
-    const openButton = component.find(openModalButtonSelector);
-    const closeButtonDOMNode = component
-      .find(closeModalButtonSelector)
-      .at(0)
-      .getDOMNode();
-
-    closeButtonDOMNode.focus = jest.fn();
-    act(() => {
-      openButton.props().onClick();
-    });
-
-    expect(closeButtonDOMNode.focus).toHaveBeenCalled();
+    renderComponent();
+    const openButton = screen.getByText(/^Open modal window$/i);
+    const closeButton = screen.getByTestId('close-modal-button');
+    userEvent.click(openButton);
+    expect(document.activeElement).toEqual(closeButton);
   });
 
   it(`should focus the open button when closed`, () => {
-    const component = mountWithTheme(<ModalExample />);
-    const openButton = component.find(openModalButtonSelector);
-    const openButtonDOMNode = openButton.getDOMNode();
-    const closeButton = component.find(closeModalButtonSelector).at(0);
-
-    openButtonDOMNode.focus = jest.fn();
-    act(() => {
-      openButton.props().onClick();
-      closeButton.props().onClick();
-    });
-
-    expect(openButtonDOMNode.focus).toHaveBeenCalled();
+    renderComponent();
+    const openButton = screen.getByText(/^Open modal window$/i);
+    const closeButton = screen.getByTestId('close-modal-button');
+    userEvent.click(openButton);
+    userEvent.click(closeButton);
+    expect(document.activeElement).toEqual(openButton);
   });
 });

@@ -1,4 +1,5 @@
-import { FC, useState, useEffect, useRef } from 'react';
+import { FC, useState, useEffect, useRef, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -8,7 +9,16 @@ import {
   lastDayOfWeek,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
-import { DatePicker, Header, Table, Td } from './CalendarStyles';
+import {
+  DatePicker,
+  Header,
+  Table,
+  Td,
+  Number,
+  CalendarButton,
+} from './CalendarStyles';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import { chevron } from '@weco/common/icons';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -66,6 +76,7 @@ function handleKeyDown(
   max: Moment,
   setTabbableDate: (date: Moment) => void,
   setChosenDate: (date: string) => void,
+  setShowModal: (boolean: boolean) => void,
   setUpdateFocus: (boolean: boolean) => void
 ) {
   const key = event.key || event.keyCode;
@@ -84,6 +95,7 @@ function handleKeyDown(
   event.preventDefault();
   if (ENTER.includes(key)) {
     setChosenDate(date.format('DD/MM/YYYY'));
+    setShowModal(false);
   }
   const moveToDate = newDate(date, key);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
@@ -105,6 +117,8 @@ type Props = {
   initialFocusDate: Moment;
   chosenDate: Moment | undefined;
   setChosenDate: (date: string) => void;
+  showModal: boolean;
+  setShowModal: (boolean: boolean) => void;
 };
 
 const Calendar: FC<Props> = ({
@@ -115,6 +129,8 @@ const Calendar: FC<Props> = ({
   initialFocusDate,
   chosenDate,
   setChosenDate,
+  showModal,
+  setShowModal,
 }) => {
   const [tabbableDate, setTabbableDate] = useState(initialFocusDate);
   const [updateFocus, setUpdateFocus] = useState(true);
@@ -129,12 +145,19 @@ const Calendar: FC<Props> = ({
     numberOfDaysInMonth >= tabbableDate.date()
       ? tabbableDate
       : tabbableDate.clone().set('date', numberOfDaysInMonth);
+  const { isKeyboard } = useContext(AppContext);
 
   useEffect(() => {
     if (updateFocus) {
       tabbableDateRef.current?.focus();
     }
   }, [tabbableDate]);
+
+  useEffect(() => {
+    if (tabbableDate && showModal) {
+      tabbableDateRef.current?.focus();
+    }
+  }, [showModal]);
 
   return (
     <DatePicker id="myDatepicker">
@@ -143,7 +166,7 @@ const Calendar: FC<Props> = ({
           {`${tabbableDate.format('MMMM')} ${tabbableDate.format('YYYY')}`}
         </h2>
         <div>
-          <button
+          <CalendarButton
             type="button"
             className="prev-month"
             aria-label="previous month"
@@ -160,9 +183,15 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            previous
-          </button>
-          <button
+            <Icon
+              matchText={true}
+              color={'currentColor'}
+              icon={chevron}
+              rotate={90}
+            />
+            <span className="visually-hidden">previous month</span>
+          </CalendarButton>
+          <CalendarButton
             type="button"
             className="next-month"
             aria-label="next month"
@@ -179,8 +208,14 @@ const Calendar: FC<Props> = ({
               );
             }}
           >
-            next
-          </button>
+            <Icon
+              matchText={true}
+              color={'currentColor'}
+              icon={chevron}
+              rotate={270}
+            />
+            <span className="visually-hidden">next month</span>
+          </CalendarButton>
         </div>
       </Header>
       <Table
@@ -197,6 +232,7 @@ const Calendar: FC<Props> = ({
             max,
             setTabbableDate,
             setChosenDate,
+            setShowModal,
             setUpdateFocus
           );
         }}
@@ -245,12 +281,14 @@ const Calendar: FC<Props> = ({
                     date?.format('DD/MM/YYYY');
                   return (
                     <Td
+                      isKeyboard={isKeyboard}
                       key={i}
                       onClick={() => {
                         if (!isDisabled && date) {
                           setChosenDate(date.format('DD/MM/YYYY'));
                           setUpdateFocus(true);
                           setTabbableDate(date);
+                          setShowModal(false);
                         }
                       }}
                       tabIndex={isTabbable ? 0 : -1}
@@ -266,11 +304,11 @@ const Calendar: FC<Props> = ({
                             'Do MMMM YYYY'
                           )}`}
                         >
-                          {date?.date()}
+                          <Number>{date?.date()}</Number>
                         </span>
                       ) : (
                         <span aria-label={date?.format('Do MMMM YYYY')}>
-                          {date?.date()}
+                          <Number>{date?.date()}</Number>
                         </span>
                       )}
                     </Td>

@@ -40,7 +40,8 @@ type Props = {
   id: string;
   openButtonRef: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
-  overrideDefaultModalStyle?: boolean;
+  showOverlay?: boolean;
+  modalStyle?: 'filters' | 'calendar' | 'default';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -159,9 +160,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const ModalWindowPaddingNoOverflow = styled(
-  BaseModalWindow
-).attrs<BaseModalProps>({
+const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     'shadow bg-white': true,
@@ -172,6 +171,28 @@ const ModalWindowPaddingNoOverflow = styled(
   padding-right: 0px;
 `;
 
+const CalendarModal = styled(BaseModalWindow)`
+  padding: 0;
+  right: 0;
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    width: 300px;
+  }
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    left: auto;
+  }
+`;
+
+function determineModal(modalStyle: Props['modalStyle']) {
+  switch (modalStyle) {
+    case 'filters':
+      return FiltersModal;
+    case 'calendar':
+      return CalendarModal;
+    default:
+      return BaseModalWindow;
+  }
+}
+
 const Modal: FunctionComponent<Props> = ({
   children,
   isActive,
@@ -180,23 +201,18 @@ const Modal: FunctionComponent<Props> = ({
   id,
   openButtonRef,
   removeCloseButton = false,
-  overrideDefaultModalStyle,
+  showOverlay = true,
+  modalStyle = 'default',
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
   const lastFocusableRef = useRef<HTMLInputElement | null>(null);
   const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
-  const ModalWindow = overrideDefaultModalStyle
-    ? ModalWindowPaddingNoOverflow
-    : BaseModalWindow;
+  const ModalWindow = determineModal(modalStyle);
+  const initialLoad = useRef(true);
 
   function updateLastFocusableRef(newRef: HTMLInputElement) {
     lastFocusableRef.current = newRef;
-  }
-
-  function closeModal() {
-    setIsActive(false);
-    openButtonRef && openButtonRef.current && openButtonRef.current.focus();
   }
 
   useEffect(() => {
@@ -210,13 +226,16 @@ const Modal: FunctionComponent<Props> = ({
   useEffect(() => {
     if (isActive) {
       closeButtonRef?.current?.focus();
+    } else if (!initialLoad.current) {
+      openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
+    initialLoad.current = false;
   }, [isActive]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === 'Escape' && isActive) {
-        closeModal();
+        setIsActive(false);
       }
     }
     if (!removeCloseButton) {
@@ -244,11 +263,11 @@ const Modal: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isActive && (
+      {isActive && showOverlay && (
         <Overlay
           onClick={() => {
             if (!removeCloseButton) {
-              closeModal();
+              setIsActive(false);
             }
           }}
         />
@@ -257,9 +276,11 @@ const Modal: FunctionComponent<Props> = ({
         <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
           {!removeCloseButton && (
             <CloseButton
-              data-test-id="close-modal-buttons"
+              data-testid="close-modal-button"
               ref={closeButtonRef}
-              onClick={closeModal}
+              onClick={() => {
+                setIsActive(false);
+              }}
               hideFocus={!isKeyboard}
             >
               <span className="visually-hidden">Close modal window</span>
