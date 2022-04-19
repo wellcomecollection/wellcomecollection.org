@@ -1,4 +1,5 @@
-import { FC, useState, useEffect, useRef } from 'react';
+import { FC, useState, useEffect, useRef, useContext } from 'react';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -144,6 +145,7 @@ const Calendar: FC<Props> = ({
     numberOfDaysInMonth >= tabbableDate.date()
       ? tabbableDate
       : tabbableDate.clone().set('date', numberOfDaysInMonth);
+  const { isKeyboard } = useContext(AppContext);
 
   useEffect(() => {
     if (updateFocus) {
@@ -279,6 +281,7 @@ const Calendar: FC<Props> = ({
                     date?.format('DD/MM/YYYY');
                   return (
                     <Td
+                      isKeyboard={isKeyboard}
                       key={i}
                       onClick={() => {
                         if (!isDisabled && date) {

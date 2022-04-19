@@ -35,7 +35,11 @@ export const Table = styled.table`
   }
 `;
 
-export const Td = styled.td`
+type TdProps = {
+  isKeyboard: boolean;
+};
+
+export const Td = styled.td<TdProps>`
   position: relative;
   cursor: pointer;
   border-radius: 50%;
@@ -50,9 +54,8 @@ export const Td = styled.td`
     background: ${props => props.theme.color('green')};
     color: ${props => props.theme.color('white')};
     outline: 0;
-    .is-keyboard & {
-      box-shadow: ${props => props.theme.focusBoxShadow};
-    }
+    box-shadow: ${props =>
+      props.isKeyboard ? props.theme.focusBoxShadow : 'none'};
   }
 
   &[aria-selected='true'] {
