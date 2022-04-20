@@ -36,27 +36,41 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
+import { JwtPayload } from 'jsonwebtoken';
+import { useRouter } from 'next/router';
+import {
+  decodeToken,
+  generateNewToken,
+  RegistrationInputs,
+} from '../src/utility/jwt-codec';
 
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 
-type RegistrationInputs = {
-  firstName: string;
-  lastName: string;
-  termsAndConditions: boolean;
-};
-
 type Props = {
   serverData: SimplifiedServerData;
   user?: Claims;
+  decodedToken: string | JwtPayload;
+  auth0State: string;
+  redirectUri: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   withPageAuthRequiredSSR({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
+      const auth0State = Array.isArray(context.query.state)
+        ? context.query.state[0]
+        : context.query.state;
+      const redirectUri = Array.isArray(context.query.redirect_uri)
+        ? context.query.redirect_uri[0]
+        : context.query.redirect_uri;
+      const sessionToken = Array.isArray(context.query.session_token)
+        ? context.query.session_token[0]
+        : context.query.session_token;
+      const decodedToken = decodeToken(sessionToken);
 
       if (!serverData.toggles.selfRegistration) {
         return {
@@ -70,12 +84,21 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           serverData,
+          decodedToken,
+          auth0State,
+          redirectUri,
         }),
       };
     },
   });
 
-const RegistrationPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
+const RegistrationPage: NextPage<Props> = ({
+  user: auth0UserClaims,
+  decodedToken,
+  auth0State,
+  redirectUri,
+}) => {
+  const router = useRouter();
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
@@ -88,8 +111,16 @@ const RegistrationPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
-  const updateUser = (/* formData: RegistrationInputs  */) => {
-    // Send form data back to action that brought us to the registration page
+  const updateUser = (formData: RegistrationInputs) => {
+    if (typeof decodedToken !== 'string') {
+      const newToken = generateNewToken(decodedToken, auth0State, formData);
+
+      const url = `${redirectUri}?state=${auth0State}&session_token=${newToken}`;
+
+      router.push(url);
+    } else {
+      // TODO: ?
+    }
   };
 
   return (
