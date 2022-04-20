@@ -16,8 +16,6 @@ export const decodeToken = (token: string): JwtPayload | string => {
     const decoded = verify(token, process.env.AUTH0_ACTION_SECRET);
     return decoded;
   } catch (e) {
-    console.log(e);
-    // console.log('Invalid session_token');
     throw new Error('Invalid session_token in decode');
   }
 };
