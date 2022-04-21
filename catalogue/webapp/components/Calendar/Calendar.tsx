@@ -170,9 +170,13 @@ const Calendar: FC<Props> = ({
             aria-label="previous month"
             disabled={previousMonthDisabled}
             onClick={() => {
-              const newMonth = tabbableDate.clone().subtract(1, 'month');
               setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
-              setTabbableDate(newMonth);
+              const newMonth = tabbableDate.clone().subtract(1, 'month');
+              if (newMonth.isBefore(min, 'day')) {
+                setTabbableDate(min);
+              } else {
+                setTabbableDate(newMonth);
+              }
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
               );
@@ -195,9 +199,13 @@ const Calendar: FC<Props> = ({
             aria-label="next month"
             disabled={nextMonthDisabled}
             onClick={() => {
-              const newMonth = tabbableDate.clone().add(1, 'month');
               setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
-              setTabbableDate(newMonth);
+              const newMonth = tabbableDate.clone().add(1, 'month');
+              if (newMonth.isAfter(max, 'day')) {
+                setTabbableDate(max);
+              } else {
+                setTabbableDate(newMonth);
+              }
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
               );
