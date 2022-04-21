@@ -4,8 +4,13 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '../PrismicImage/PrismicImage';
+import { FC } from 'react';
 
-const Contributor = ({ contributor, role, description }: ContributorType) => {
+const Contributor: FC<ContributorType> = ({
+  contributor,
+  role,
+  description,
+}: ContributorType) => {
   const descriptionToRender = description || contributor.description;
 
   return (
