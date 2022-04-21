@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { useForm, Controller } from 'react-hook-form';
@@ -37,13 +37,12 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
 import { JwtPayload } from 'jsonwebtoken';
-import { useRouter } from 'next/router';
 import {
   decodeToken,
   generateNewToken,
   RegistrationInputs,
 } from '../src/utility/jwt-codec';
-
+import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
@@ -61,15 +60,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   withPageAuthRequiredSSR({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
-      const auth0State = Array.isArray(context.query.state)
-        ? context.query.state[0]
-        : context.query.state;
-      const redirectUri = Array.isArray(context.query.redirect_uri)
-        ? context.query.redirect_uri[0]
-        : context.query.redirect_uri;
-      const sessionToken = Array.isArray(context.query.session_token)
-        ? context.query.session_token[0]
-        : context.query.session_token;
+      const auth0State = stringFromStringOrStringArray(context.query.state);
+      const redirectUri = stringFromStringOrStringArray(
+        context.query.redirect_uri
+      );
+      const sessionToken = stringFromStringOrStringArray(
+        context.query.session_token
+      );
       const decodedToken = decodeToken(sessionToken);
 
       if (!serverData.toggles.selfRegistration) {
@@ -98,7 +95,7 @@ const RegistrationPage: NextPage<Props> = ({
   auth0State,
   redirectUri,
 }) => {
-  const router = useRouter();
+  const [newToken, setNewToken] = useState('');
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
@@ -111,13 +108,9 @@ const RegistrationPage: NextPage<Props> = ({
     contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
-  const updateUser = (formData: RegistrationInputs) => {
+  const updateActionData = (formData: RegistrationInputs) => {
     if (typeof decodedToken !== 'string') {
-      const newToken = generateNewToken(decodedToken, auth0State, formData);
-
-      const url = `${redirectUri}?state=${auth0State}&session_token=${newToken}`;
-
-      router.push(url);
+      setNewToken(generateNewToken(decodedToken, auth0State, formData));
     } else {
       // TODO: What to do here? Tell the user that something went wrong?
     }
@@ -178,7 +171,19 @@ const RegistrationPage: NextPage<Props> = ({
                     <Divider color={`pumice`} isKeyline />
                   </Space>
 
-                  <form onSubmit={handleSubmit(updateUser)} noValidate>
+                  <form
+                    action="/api/registration-form"
+                    method="POST"
+                    onSubmit={handleSubmit(updateActionData)}
+                    noValidate
+                  >
+                    <input type="hidden" name="newToken" value={newToken} />
+                    <input type="hidden" name="state" value={auth0State} />
+                    <input
+                      type="hidden"
+                      name="redirectUri"
+                      value={redirectUri}
+                    />
                     <SpacingComponent>
                       <Controller
                         name="firstName"

@@ -9,3 +9,12 @@ export function isUndefined<T>(val: T | undefined): val is T {
 export function isString(v: any): v is string {
   return typeof v === 'string';
 }
+
+export function stringFromStringOrStringArray(
+  input: string | string[]
+): string {
+  if (Array.isArray(input)) {
+    return input.join('');
+  }
+  return input;
+}
