@@ -98,13 +98,11 @@ function handleKeyDown(
     setShowModal(false);
   }
   const moveToDate = newDate(date, key);
+  setUpdateFocus(true);
   if (moveToDate.isBetween(min, max, 'day', '[]')) {
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
-    setUpdateFocus(true);
     setTabbableDate(moveToDate);
   } else {
-    // TODO let the user know that the can't go to dates outside of the range - aria-live?
-    setUpdateFocus(true);
     setTabbableDate(date);
   }
 }
@@ -173,7 +171,7 @@ const Calendar: FC<Props> = ({
             disabled={previousMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().subtract(1, 'month');
-              setUpdateFocus(false);
+              setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -198,7 +196,7 @@ const Calendar: FC<Props> = ({
             disabled={nextMonthDisabled}
             onClick={() => {
               const newMonth = tabbableDate.clone().add(1, 'month');
-              setUpdateFocus(false);
+              setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
               setTabbableDate(newMonth);
               setPreviousMonthDisabled(
                 newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
@@ -286,7 +284,7 @@ const Calendar: FC<Props> = ({
                       onClick={() => {
                         if (!isDisabled && date) {
                           setChosenDate(date.format('DD/MM/YYYY'));
-                          setUpdateFocus(true);
+                          setUpdateFocus(true); // if we are navigating the calendar by day controls, we want to update the focus
                           setTabbableDate(date);
                           setShowModal(false);
                         }
