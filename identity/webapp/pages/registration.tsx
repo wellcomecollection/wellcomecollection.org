@@ -119,7 +119,7 @@ const RegistrationPage: NextPage<Props> = ({
 
       router.push(url);
     } else {
-      // TODO: ?
+      // TODO: What to do here? Tell the user that something went wrong?
     }
   };
 
