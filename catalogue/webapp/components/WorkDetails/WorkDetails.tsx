@@ -69,7 +69,7 @@ function getItemLinkState({
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
   }
-  if (accessCondition === 'closed') {
+  if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
   if (itemUrl && !(audioItems.length > 0) && !video) {
@@ -602,7 +602,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               textParts: [partOf.title],
               linkAttributes: worksLink(
                 {
-                  partOf: partOf.title,
+                  'partOf.title': partOf.title,
                 },
                 'work_details/partOf'
               ),

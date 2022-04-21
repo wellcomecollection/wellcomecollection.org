@@ -46,15 +46,14 @@ const toggles = {
       defaultValue: false,
       description: 'Allow users to sign up for an account',
     },
-  ] as const,
-  tests: [
     {
-      id: 'gaSecureCookies',
-      title: 'GA Secure Cookies',
-      range: [0, 10], // We picked 10% arbitrarily: enough to get data, not too much that we'd lose too much if something breaks
-      when: () => true,
+      id: 'inter',
+      title: 'Inter font',
+      defaultValue: false,
+      description: 'Use Inter in place of Helvetica Neue',
     },
-  ] as ABTest[],
+  ] as const,
+  tests: [] as ABTest[],
 };
 
 export default toggles;

@@ -77,7 +77,8 @@ function getNextUp(
   series: Series,
   articles: Article[],
   article: Article,
-  currentPosition?: number
+  currentPosition: number | undefined,
+  isPodcast: boolean
 ): ReactElement | null {
   if (series.schedule.length > 0 && currentPosition) {
     const firstArticleFromSchedule = series.schedule.find(
@@ -98,13 +99,24 @@ function getNextUp(
         : nextArticle || null;
 
     return nextUp ? (
-      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+      <SeriesNavigation
+        key={series.id}
+        series={series}
+        items={[nextUp]}
+        isPodcast={isPodcast}
+      />
     ) : null;
   } else {
     const dedupedArticles = articles
       .filter(a => a.id !== article.id)
       .slice(0, 2);
-    return <SeriesNavigation series={series} items={dedupedArticles} />;
+    return (
+      <SeriesNavigation
+        series={series}
+        items={dedupedArticles}
+        isPodcast={isPodcast}
+      />
+    );
   }
 }
 
@@ -120,7 +132,10 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        const predicates = [prismic.predicate.at(seriesField, series.id)];
+        // Note: we deliberately use a hard-coded string here instead of the
+        // predicate DSL in the Prismic client library, because it means we don't
+        // send the Prismic client library as part of the browser bundle.
+        const predicates = [`[at(${seriesField}, "${series.id}")]`];
 
         const articlesInSeries = series
           ? await fetchArticlesClientSide({ predicates })
@@ -160,7 +175,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   };
 
   const isPodcast =
-    article.format && article.format.id === ArticleFormatIds.Podcast;
+    (article.format && article.format.id === ArticleFormatIds.Podcast) || false;
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
@@ -269,7 +284,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
 
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, article, positionInSerial);
+      return getNextUp(series, articles, article, positionInSerial, isPodcast);
     })
     .filter(Boolean);
 

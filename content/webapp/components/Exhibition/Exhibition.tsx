@@ -97,7 +97,7 @@ function getTodaysHoursObject(): ExhibitionItem {
       {
         type: 'paragraph',
         text: todaysHoursText,
-        spans: [link as any],
+        spans: [link],
       },
     ],
     icon: clock,

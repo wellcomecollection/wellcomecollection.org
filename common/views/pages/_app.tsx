@@ -196,10 +196,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
-  // We're making sure that secure cookies is what we want, and that our implementation
-  // works as expected. https://github.com/wellcomecollection/wellcomecollection.org/pull/7514
-  const gaSecureCookies = serverData.toggles.gaSecureCookies;
-  const cookieFlags = gaSecureCookies ? 'SameSite=None;secure' : undefined;
+  const cookieFlags = 'SameSite=None;secure';
   // GA v4
   useEffect(() => {
     window.gtag &&

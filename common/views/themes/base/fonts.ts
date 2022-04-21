@@ -1,27 +1,54 @@
-export const fonts = `
-@font-face {
-  font-family: 'Wellcome Bold Web';
-  src: url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-}
+import { css } from 'styled-components';
+import { GlobalStyleProps } from '../default';
 
-@font-face {
-  font-family: 'Helvetica Neue Roman Web';
-  src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff') format('woff');
-}
+export const fonts = css<GlobalStyleProps>`
+  ${props =>
+    props.toggles?.inter
+      ? `
+      @font-face {
+        font-family: 'Helvetica Neue Roman Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
+          format('truetype');
+        font-weight: 400;
+      }
 
-@font-face {
-  font-family: 'Helvetica Neue Bold Web';
-  src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff') format('woff');
-  font-weight: bold;
-}
+      @font-face {
+        font-family: 'Helvetica Neue Bold Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/Inter-VariableFont_slnt,wght.ttf')
+          format('truetype');
+        font-weight: 700;
+      }
+  `
+      : `
+      @font-face {
+        font-family: 'Helvetica Neue Roman Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2')
+            format('woff2'),
+          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff')
+            format('woff');
+      }
 
+      @font-face {
+        font-family: 'Helvetica Neue Bold Web';
+        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2')
+            format('woff2'),
+          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff')
+            format('woff');
+        font-weight: bold;
+      }
+  `}
 
-/*
+  @font-face {
+    font-family: 'Wellcome Bold Web';
+    src: url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff')
+        format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  /*
  * Legal Disclaimer
  *
  * These Fonts are licensed only for use on these domains and their subdomains:
@@ -34,11 +61,13 @@ export const fonts = `
  *
  * Lineto.com, 2016
  */
-@font-face {
-  font-family: 'Lettera Regular Web';
-  src: url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff2') format('woff2'),
-    url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+  @font-face {
+    font-family: 'Lettera Regular Web';
+    src: url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/lineto-lettera-regular.woff')
+        format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
 `;

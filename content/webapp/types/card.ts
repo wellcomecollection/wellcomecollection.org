@@ -6,6 +6,11 @@ import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
 import { Series } from './series';
 import linkResolver from '../services/prismic/link-resolver';
+import { EventSeries } from './event-series';
+import { Book } from './books';
+import { Exhibition } from './exhibitions';
+import { Guide } from './guides';
+import { Project } from './projects';
 
 export type Card = {
   type: 'card';
@@ -18,7 +23,18 @@ export type Card = {
 };
 
 export function convertItemToCardProps(
-  item: Article | Event | Season | Page | Series | ParentPage
+  item:
+    | Article
+    | Event
+    | Season
+    | Page
+    | Series
+    | ParentPage
+    | EventSeries
+    | Book
+    | Exhibition
+    | Guide
+    | Project
 ): Card {
   const format =
     'format' in item
@@ -31,7 +47,7 @@ export function convertItemToCardProps(
 
   return {
     type: 'card',
-    format: format,
+    format: format as any,
     title: item.title,
     order: 'order' in item ? item.order : undefined,
     description: (item.promo && item.promo.caption) ?? undefined,

@@ -7,7 +7,7 @@ export const homepageId = 'XphUbREAACMAgRNP';
 //
 // Ideally, this should be configurable in Prismic or by the content team,
 // to take devs out of the loop.
-export const featuredStoriesSeriesId = 'YXKNnxEAACEARPrl';
+export const featuredStoriesSeriesId = 'YeUt6xAAAIAWMs9o';
 
 export const collectionVenueId = {
   galleries: {
