@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
 import { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { useForm, Controller } from 'react-hook-form';
@@ -36,12 +36,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
-import { JwtPayload } from 'jsonwebtoken';
-import {
-  decodeToken,
-  generateNewToken,
-  RegistrationInputs,
-} from '../src/utility/jwt-codec';
+import { RegistrationInputs } from '../src/utility/jwt-codec';
 import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import {
   Auth0UserProfile,
@@ -51,7 +46,7 @@ import {
 type Props = {
   serverData: SimplifiedServerData;
   user?: Claims;
-  decodedToken: string | JwtPayload;
+  sessionToken: string;
   auth0State: string;
   redirectUri: string;
 };
@@ -67,7 +62,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       const sessionToken = stringFromStringOrStringArray(
         context.query.session_token
       );
-      const decodedToken = decodeToken(sessionToken);
 
       if (!serverData.toggles.selfRegistration) {
         return {
@@ -81,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           serverData,
-          decodedToken,
+          sessionToken,
           auth0State,
           redirectUri,
         }),
@@ -91,11 +85,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const RegistrationPage: NextPage<Props> = ({
   user: auth0UserClaims,
-  decodedToken,
+  sessionToken,
   auth0State,
   redirectUri,
 }) => {
-  const [newToken, setNewToken] = useState('');
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
@@ -108,12 +101,8 @@ const RegistrationPage: NextPage<Props> = ({
     contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
-  const updateActionData = (formData: RegistrationInputs) => {
-    if (typeof decodedToken !== 'string') {
-      setNewToken(generateNewToken(decodedToken, auth0State, formData));
-    } else {
-      // TODO: What to do here? Tell the user that something went wrong?
-    }
+  const updateActionData = (_, event: FormEvent<HTMLFormElement>) => {
+    (event.target as HTMLFormElement).submit(); // Use the action/method if client side validation passes
   };
 
   return (
@@ -131,16 +120,18 @@ const RegistrationPage: NextPage<Props> = ({
                     <p>
                       With a library membership and online account, you’ll be
                       able to:
-                      <ul>
-                        <li>
-                          Request up to 15 materials from our closed stores to
-                          view in the library
-                        </li>
-                        <li>
-                          Access subscription databases and other online
-                          resources.
-                        </li>
-                      </ul>
+                    </p>
+                    <ul>
+                      <li>
+                        Request up to 15 materials from our closed stores to
+                        view in the library
+                      </li>
+                      <li>
+                        Access subscription databases and other online
+                        resources.
+                      </li>
+                    </ul>
+                    <p>
                       When you complete your registration online, you’ll need to
                       email a form of personal identification (ID) and proof of
                       address to the Library team in order to confirm your
@@ -172,12 +163,16 @@ const RegistrationPage: NextPage<Props> = ({
                   </Space>
 
                   <form
-                    action="/api/registration-form"
+                    action="/account/api/registration-form"
                     method="POST"
                     onSubmit={handleSubmit(updateActionData)}
                     noValidate
                   >
-                    <input type="hidden" name="newToken" value={newToken} />
+                    <input
+                      type="hidden"
+                      name="sessionToken"
+                      value={sessionToken}
+                    />
                     <input type="hidden" name="state" value={auth0State} />
                     <input
                       type="hidden"

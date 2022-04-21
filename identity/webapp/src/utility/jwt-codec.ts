@@ -1,4 +1,7 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import getConfig from 'next/config';
+
+const { serverRuntimeConfig: config } = getConfig();
 
 // we need some jwt encoding to deal with passing data to an auth0 action
 // https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/redirect-with-actions#pass-data-back-to-auth0
@@ -51,7 +54,7 @@ export const generateNewToken = (
     'https://wellcomecollection.org/last_name': formData.lastName,
   };
 
-  const token = sign(payload, process.env.AUTH0_ACTION_SECRET, {
+  const token = sign(payload, config.auth0.actionSecret, {
     algorithm: 'HS256',
   });
 
