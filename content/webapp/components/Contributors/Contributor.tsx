@@ -4,9 +4,17 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '../PrismicImage/PrismicImage';
+import { getCrop } from '@weco/common/model/image';
+import { FC } from 'react';
 
-const Contributor = ({ contributor, role, description }: ContributorType) => {
+const Contributor: FC<ContributorType> = ({
+  contributor,
+  role,
+  description,
+}: ContributorType) => {
   const descriptionToRender = description || contributor.description;
+
+  const squareImage = getCrop(contributor.image, 'square');
 
   return (
     <div className="grid">
@@ -15,7 +23,7 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
           style={{ minWidth: '78px' }}
           h={{ size: 'm', properties: ['margin-right'] }}
         >
-          {contributor.image && contributor.type === 'people' && (
+          {squareImage && contributor.type === 'people' && (
             <div
               style={{
                 width: 72,
@@ -30,13 +38,13 @@ const Contributor = ({ contributor, role, description }: ContributorType) => {
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <PrismicImage image={contributor.image} maxWidth={72} />
+                <PrismicImage image={squareImage} maxWidth={72} />
               </div>
             </div>
           )}
-          {contributor.image && contributor.type === 'organisations' && (
+          {squareImage && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <PrismicImage image={contributor.image} maxWidth={72} />
+              <PrismicImage image={squareImage} maxWidth={72} />
             </div>
           )}
         </Space>
