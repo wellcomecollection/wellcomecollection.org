@@ -28,6 +28,7 @@ const END = [35, 'End'];
 const PAGEUP = [33, 'PageUp'];
 const PAGEDOWN = [34, 'PageDown'];
 const ENTER = [13, 'Enter'];
+const SPACE = [32, ' '];
 
 function newDate(date: Moment, key: number | string): Moment {
   const dates = getCalendarRows(date);
@@ -89,10 +90,11 @@ function handleKeyDown(
     ...PAGEUP,
     ...PAGEDOWN,
     ...ENTER,
+    ...SPACE,
   ].includes(key);
   if (!isKeyOfInterest) return;
   event.preventDefault();
-  if (ENTER.includes(key)) {
+  if (ENTER.includes(key) || SPACE.includes(key)) {
     setChosenDate(date.format('DD/MM/YYYY'));
     setShowModal(false);
   }
