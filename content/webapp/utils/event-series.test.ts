@@ -46,4 +46,42 @@ describe('getUpcomingEvents', () => {
 
     expect(upcomingEvents.map(ev => ev.id)).toEqual(['1', '2', '3']);
   });
+
+  // This is to account for events that have multiple dates.
+  //
+  // e.g. https://wellcomecollection.org/events/YjyVoREAACAAhUvk has two times:
+  //
+  //    - 22 April @ 15:00
+  //    - 28 April @ 15:00
+  //
+  // If it's 23rd April, then the overall event is still "upcoming", even though one
+  // of the times has passed.
+  //
+  it('includes an event as upcoming if _any_ of the times are in the future', () => {
+    const events = [
+      {
+        id: '1',
+        times: [
+          {
+            range: {
+              startDateTime: new Date(2001, 3, 25, 16, 30, 0),
+              endDateTime: new Date(2001, 3, 25, 17, 30),
+            },
+            isFullyBooked: false,
+          },
+          {
+            range: {
+              startDateTime: new Date(2100, 3, 25, 16, 30, 0),
+              endDateTime: new Date(2100, 3, 25, 17, 30),
+            },
+            isFullyBooked: false,
+          },
+        ],
+      },
+    ];
+
+    const upcomingEvents = getUpcomingEvents(events);
+
+    expect(upcomingEvents.map(ev => ev.id)).toEqual(['1']);
+  });
 });

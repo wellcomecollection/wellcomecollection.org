@@ -7,14 +7,7 @@ import { HasTimes } from 'types/events';
 export function getUpcomingEvents<T extends HasTimes>(events: T[]): T[] {
   return events
     .filter(event => {
-      const lastStartTime =
-        event.times.length > 0
-          ? event.times[event.times.length - 1].range.startDateTime
-          : null;
-      const inTheFuture = lastStartTime
-        ? new Date(lastStartTime) > new Date()
-        : false;
-      return inTheFuture;
+      return event.times.some(t => t.range.startDateTime > new Date());
     })
     .sort((a, b) => {
       const aStartTime = Math.min(
