@@ -26,25 +26,37 @@ function getPrismicDocuments(snapshotDir: string): any[] {
   return documents;
 }
 
+// Look for eur01 safelinks.  These occur when somebody has copied
+// a URL directly from Outlook and isn't using the original URL.
+//
+// This is a very crude check; we could recurse further down into
+// the object to get more debugging information, but I hope this
+// is good enough for now.
+function detectEur01Safelinks(doc: any): string[] {
+  if (
+    JSON.stringify(doc).indexOf(
+      'https://eur01.safelinks.protection.outlook.com'
+    ) !== -1
+  ) {
+    return ['- eur01 safelinks URL detected!'];
+  }
+
+  return [];
+}
+
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
   for (const doc of getPrismicDocuments(snapshotDir)) {
-    let errors = [];
-
-    // Look for eur01 safelinks.  These occur when somebody has copied
-    // a URL directly from Outlook and isn't using the original URL.
-    //
-    // This is a very crude check; we could recurse further down into
-    // the object to get more debugging information, but I hope this
-    // is good enough for now.
-    if (JSON.stringify(doc).indexOf('https://eur01.safelinks.protection.outlook.com') != -1) {
-      errors.push('- eur01 safelinks URL detected!')
-    }
+    const errors = detectEur01Safelinks(doc);
 
     // If there are any errors, report them to the console.
     if (errors.length > 0) {
-      console.log(chalk.blue(`https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${doc.id}/`));
+      console.log(
+        chalk.blue(
+          `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${doc.id}/`
+        )
+      );
       for (const msg of errors) {
         console.log(msg);
       }
@@ -57,4 +69,3 @@ run().catch(err => {
   error(err);
   process.exit(1);
 });
-
