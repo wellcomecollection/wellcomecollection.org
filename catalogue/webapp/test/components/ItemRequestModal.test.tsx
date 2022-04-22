@@ -52,7 +52,7 @@ describe('ItemRequestModal', () => {
     expect(input.value).toBe('22/01/2020');
   });
 
-  it('allows an available date to be selected from the calendar (based on business rules on what dates for collection should be available) and displays the selected date', async () => {
+  it('allows an available date to be selected from the calendar (based on business rules on what dates for collection should be available) and displays the selected date', () => {
     const spy = jest
       .spyOn(dates, 'determineNextAvailableDate')
       .mockImplementation(() => london('2020-10-02'));
@@ -60,7 +60,7 @@ describe('ItemRequestModal', () => {
     const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
     const calendarButton = screen.getByLabelText(/^calendar day picker$/i);
     userEvent.click(calendarButton);
-    const date = await screen.findByText(/^14$/i);
+    const date = screen.getByText(/^14$/i);
     userEvent.click(date);
     expect(input.value).toBe('14/10/2020');
 
