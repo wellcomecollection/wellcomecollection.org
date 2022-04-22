@@ -16,10 +16,9 @@ const Contributor: FC<ContributorType> = ({
 
   // Contributor images should always be square.
   //
-  // If a square crop is provided, we use that, but not all contributors have
-  // crops defined (e.g. BBC Radio 4 on https://wellcomecollection.org/events/YkMWAhEAAB8AotED)
-  // In this case, we fall back to the default crop -- which is often square
-  // for many contributors anyway.
+  // We prefer the explicit square crop if it's available, but we can't rely on it --
+  // it's not defined on all contributors.  If there's no explicit crop, we fall back
+  // to the default image (which is often square for contributors anyway).
   const contributorImage =
     getCrop(contributor.image, 'square') || contributor.image;
 
