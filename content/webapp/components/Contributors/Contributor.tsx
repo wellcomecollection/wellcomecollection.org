@@ -14,7 +14,14 @@ const Contributor: FC<ContributorType> = ({
 }: ContributorType) => {
   const descriptionToRender = description || contributor.description;
 
-  const squareImage = getCrop(contributor.image, 'square');
+  // Contributor images should always be square.
+  //
+  // If a square crop is provided, we use that, but not all contributors have
+  // crops defined (e.g. BBC Radio 4 on https://wellcomecollection.org/events/YkMWAhEAAB8AotED)
+  // In this case, we fall back to the default crop -- which is often square
+  // for many contributors anyway.
+  const contributorImage =
+    getCrop(contributor.image, 'square') || contributor.image;
 
   return (
     <div className="grid">
@@ -23,7 +30,7 @@ const Contributor: FC<ContributorType> = ({
           style={{ minWidth: '78px' }}
           h={{ size: 'm', properties: ['margin-right'] }}
         >
-          {squareImage && contributor.type === 'people' && (
+          {contributorImage && contributor.type === 'people' && (
             <div
               style={{
                 width: 72,
@@ -38,13 +45,13 @@ const Contributor: FC<ContributorType> = ({
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <PrismicImage image={squareImage} maxWidth={72} />
+                <PrismicImage image={contributorImage} maxWidth={72} />
               </div>
             </div>
           )}
-          {squareImage && contributor.type === 'organisations' && (
+          {contributorImage && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <PrismicImage image={squareImage} maxWidth={72} />
+              <PrismicImage image={contributorImage} maxWidth={72} />
             </div>
           )}
         </Space>
