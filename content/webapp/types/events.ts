@@ -70,14 +70,17 @@ export type ThirdPartyBooking = {
   url: string;
 };
 
-export type EventBasic = {
+export type HasTimes = {
+  times: EventTime[];
+};
+
+export type EventBasic = HasTimes & {
   // this is a mix of props from GenericContentFields and Event
   // and is only what is required to render EventPromos and json-ld
   type: 'events';
   id: string;
   title: string;
   promo?: ImagePromo | undefined;
-  times: EventTime[];
   isPast: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
