@@ -28,7 +28,7 @@ import {
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { getUpcomingEvents } from '../utils/events';
+import { getUpcomingEvents } from '../utils/event-series';
 
 type Props = {
   series: EventSeries;
