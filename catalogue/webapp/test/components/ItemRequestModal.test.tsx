@@ -45,16 +45,29 @@ const renderComponent = () => {
 };
 
 describe('ItemRequestModal', () => {
-  // Needs additional tests when calendar introduced
-  it("lets a user select an available date (based on business rules on what dates for collection should be available)/lets a user see what date they've selected", () => {
+  it('allows an available date to be entered in the input (based on business rules about what dates for collection should be available) and displays the entered date', () => {
     renderComponent();
     const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
     userEvent.type(input, '22/01/2020');
     expect(input.value).toBe('22/01/2020');
   });
 
-  // Needs additional tests when calendar is introduced
-  it('lets users see what dates are available / unavailable to select', () => {
+  it('allows an available date to be selected from the calendar (based on business rules on what dates for collection should be available) and displays the selected date', () => {
+    const spy = jest
+      .spyOn(dates, 'determineNextAvailableDate')
+      .mockImplementation(() => london('2020-10-02'));
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    const calendarButton = screen.getByLabelText(/^calendar day picker$/i);
+    userEvent.click(calendarButton);
+    const date = screen.getByText(/^14$/i);
+    userEvent.click(date);
+    expect(input.value).toBe('14/10/2020');
+
+    spy.mockRestore();
+  });
+
+  it('displays text about which dates are available / unavailable to select', () => {
     const spy = jest
       .spyOn(dates, 'determineNextAvailableDate')
       .mockImplementation(() => london('2020-12-21'));
@@ -67,7 +80,7 @@ describe('ItemRequestModal', () => {
     spy.mockRestore();
   });
 
-  it('only shows users closed dates that occur within the selectable period', () => {
+  it('only shows closed dates that occur within the selectable period', () => {
     const spy = jest
       .spyOn(dates, 'determineNextAvailableDate')
       .mockImplementation(() => london('2020-12-26'));
@@ -80,19 +93,45 @@ describe('ItemRequestModal', () => {
     spy.mockRestore();
   });
 
-  it('advises a user that a date they have selected is unavailable and prompts them to re-select', () => {
+  it('advises when a selected is unavailable', () => {
     renderComponent();
     const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
     userEvent.type(input, '25/12/2020');
     expect(screen.getByText('Your chosen date is not available to book'));
   });
 
-  it("advises a user that the date they've entered is in the wrong format", () => {
+  it('advises when an entered is in an incorrect format', () => {
     renderComponent();
     const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
     userEvent.type(input, '2/122020');
     expect(
       screen.getByText('Please enter a date in the correct format (DD/MM/YYYY)')
     );
+  });
+
+  it('fills the input with the focused date in the calendar when the enter key is pressed', () => {
+    const spy = jest
+      .spyOn(dates, 'determineNextAvailableDate')
+      .mockImplementation(() => london('2020-10-02'));
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    const calendarButton = screen.getByLabelText(/^calendar day picker$/i);
+    userEvent.click(calendarButton);
+    userEvent.keyboard('{Enter}');
+    expect(input.value).toBe('02/10/2020');
+    spy.mockRestore();
+  });
+
+  it('fills the input with the focused date in the calendar when the spacebar is pressed', () => {
+    const spy = jest
+      .spyOn(dates, 'determineNextAvailableDate')
+      .mockImplementation(() => london('2020-10-02'));
+    renderComponent();
+    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
+    const calendarButton = screen.getByLabelText(/^calendar day picker$/i);
+    userEvent.click(calendarButton);
+    userEvent.keyboard(' ');
+    expect(input.value).toBe('02/10/2020');
+    spy.mockRestore();
   });
 });

@@ -50,7 +50,7 @@
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.6.3",
+    "@testing-library/user-event": "13.0.6",
     "@types/jest": "^27.0.2",
     "@types/koa": "^2.11.0",
     "@types/koa-json": "^2.0.18",
