@@ -46,7 +46,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       }
     } catch (error) {
       res.status(400).json({
-        error: 'Invalid session token',
+        error: error.message,
       });
     }
   } else {
