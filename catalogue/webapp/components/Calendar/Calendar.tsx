@@ -77,6 +77,8 @@ function handleKeyDown(
   date: Moment,
   min: Moment,
   max: Moment,
+  excludedDates: Moment[],
+  excludedDays: DayNumber[],
   setTabbableDate: (date: Moment) => void,
   setChosenDate: (date: string) => void,
   setShowModal: (boolean: boolean) => void,
@@ -99,14 +101,20 @@ function handleKeyDown(
   if (!isKeyOfInterest) return;
   event.preventDefault();
   if (ENTER.includes(key) || SPACE.includes(key)) {
-    setChosenDate(date.format('DD/MM/YYYY'));
-    setShowModal(false);
-  }
-  const moveToDate = newDate(date, key);
-  setUpdateFocus(true);
-  if (moveToDate.isBetween(min, max, 'day', '[]')) {
-    // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
-    setTabbableDate(moveToDate);
+    if (
+      isRequestableDate({
+        date: date,
+        startDate: min,
+        endDate: max,
+        excludedDates,
+        excludedDays,
+      })
+    ) {
+      setChosenDate(date.format('DD/MM/YYYY'));
+      setShowModal(false);
+    } else {
+      setMessage(`The ${date.format('Do MMMM')} is not available.`);
+    }
   } else {
     const moveToDate = newDate(date, key);
     setUpdateFocus(true);
@@ -254,6 +262,8 @@ const Calendar: FC<Props> = ({
             tabbableDate,
             min,
             max,
+            excludedDates,
+            excludedDays,
             setTabbableDate,
             setChosenDate,
             setShowModal,
@@ -314,6 +324,11 @@ const Calendar: FC<Props> = ({
                           setUpdateFocus(true); // if we are navigating the calendar by day controls, we want to update the focus
                           setTabbableDate(date);
                           setShowModal(false);
+                          setMessage('');
+                        } else {
+                          setMessage(
+                            `The ${date.format('Do MMMM')} is not available`
+                          );
                         }
                       }}
                       tabIndex={isTabbable ? 0 : -1}
