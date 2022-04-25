@@ -80,7 +80,8 @@ function handleKeyDown(
   setTabbableDate: (date: Moment) => void,
   setChosenDate: (date: string) => void,
   setShowModal: (boolean: boolean) => void,
-  setUpdateFocus: (boolean: boolean) => void
+  setUpdateFocus: (boolean: boolean) => void,
+  setMessage: (string: string) => void
 ) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
@@ -107,7 +108,18 @@ function handleKeyDown(
     // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
     setTabbableDate(moveToDate);
   } else {
-    setTabbableDate(date);
+    const moveToDate = newDate(date, key);
+    setUpdateFocus(true);
+    if (moveToDate.isBetween(min, max, 'day', '[]')) {
+      // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+      setTabbableDate(moveToDate);
+      setMessage('');
+    } else {
+      setTabbableDate(date);
+      setMessage(
+        `The ${moveToDate.format('Do MMMM')} is outside of the available range.`
+      );
+    }
   }
 }
 
@@ -140,6 +152,7 @@ const Calendar: FC<Props> = ({
   const [nextMonthDisabled, setNextMonthDisabled] = useState(
     max.isSame(min, 'month')
   );
+  const [message, setMessage] = useState('');
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
   const tabbableDateRef = useRef<HTMLTableCellElement>(null);
   const numberOfDaysInMonth = tabbableDate.daysInMonth();
@@ -244,7 +257,8 @@ const Calendar: FC<Props> = ({
             setTabbableDate,
             setChosenDate,
             setShowModal,
-            setUpdateFocus
+            setUpdateFocus,
+            setMessage
           );
         }}
       >
@@ -330,6 +344,7 @@ const Calendar: FC<Props> = ({
           })}
         </tbody>
       </Table>
+      <Message aria-live="assertive">{message}</Message>
     </DatePicker>
   );
 };
