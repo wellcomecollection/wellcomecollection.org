@@ -17,6 +17,7 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import styled from 'styled-components';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
+import useHotjar from '@weco/common/hooks/useHotjar';
 
 const ArchiveDetailsContainer = styled.div`
   display: block;
@@ -44,6 +45,8 @@ const Work: FunctionComponent<Props> = ({
     work.parts.length ||
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
+
+  useHotjar(isArchive);
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
