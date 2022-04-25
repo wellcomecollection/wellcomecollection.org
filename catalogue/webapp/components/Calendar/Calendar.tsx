@@ -16,9 +16,11 @@ import {
   Td,
   Number,
   CalendarButton,
+  Message,
 } from './CalendarStyles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';
+import { calendarInstructions } from '@weco/common/data/microcopy';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -75,10 +77,13 @@ function handleKeyDown(
   date: Moment,
   min: Moment,
   max: Moment,
+  excludedDates: Moment[],
+  excludedDays: DayNumber[],
   setTabbableDate: (date: Moment) => void,
   setChosenDate: (date: string) => void,
   setShowModal: (boolean: boolean) => void,
-  setUpdateFocus: (boolean: boolean) => void
+  setUpdateFocus: (boolean: boolean) => void,
+  setMessage: (string: string) => void
 ) {
   const key = event.key || event.keyCode;
   const isKeyOfInterest = [
@@ -96,16 +101,33 @@ function handleKeyDown(
   if (!isKeyOfInterest) return;
   event.preventDefault();
   if (ENTER.includes(key) || SPACE.includes(key)) {
-    setChosenDate(date.format('DD/MM/YYYY'));
-    setShowModal(false);
-  }
-  const moveToDate = newDate(date, key);
-  setUpdateFocus(true);
-  if (moveToDate.isBetween(min, max, 'day', '[]')) {
-    // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
-    setTabbableDate(moveToDate);
+    if (
+      isRequestableDate({
+        date: date,
+        startDate: min,
+        endDate: max,
+        excludedDates,
+        excludedDays,
+      })
+    ) {
+      setChosenDate(date.format('DD/MM/YYYY'));
+      setShowModal(false);
+    } else {
+      setMessage(`The ${date.format('Do MMMM')} is not available.`);
+    }
   } else {
-    setTabbableDate(date);
+    const moveToDate = newDate(date, key);
+    setUpdateFocus(true);
+    if (moveToDate.isBetween(min, max, 'day', '[]')) {
+      // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+      setTabbableDate(moveToDate);
+      setMessage('');
+    } else {
+      setTabbableDate(date);
+      setMessage(
+        `The ${moveToDate.format('Do MMMM')} is outside of the available range.`
+      );
+    }
   }
 }
 
@@ -138,6 +160,7 @@ const Calendar: FC<Props> = ({
   const [nextMonthDisabled, setNextMonthDisabled] = useState(
     max.isSame(min, 'month')
   );
+  const [message, setMessage] = useState('');
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
   const tabbableDateRef = useRef<HTMLTableCellElement>(null);
   const numberOfDaysInMonth = tabbableDate.daysInMonth();
@@ -226,6 +249,7 @@ const Calendar: FC<Props> = ({
           </CalendarButton>
         </div>
       </Header>
+      {isKeyboard && <Message>{calendarInstructions}</Message>}
       <Table
         className={classNames({
           [font('hnb', 6)]: true,
@@ -238,10 +262,13 @@ const Calendar: FC<Props> = ({
             tabbableDate,
             min,
             max,
+            excludedDates,
+            excludedDays,
             setTabbableDate,
             setChosenDate,
             setShowModal,
-            setUpdateFocus
+            setUpdateFocus,
+            setMessage
           );
         }}
       >
@@ -297,6 +324,11 @@ const Calendar: FC<Props> = ({
                           setUpdateFocus(true); // if we are navigating the calendar by day controls, we want to update the focus
                           setTabbableDate(date);
                           setShowModal(false);
+                          setMessage('');
+                        } else {
+                          setMessage(
+                            `The ${date.format('Do MMMM')} is not available`
+                          );
                         }
                       }}
                       tabIndex={isTabbable ? 0 : -1}
@@ -309,13 +341,13 @@ const Calendar: FC<Props> = ({
                       {isDisabled ? (
                         <span
                           aria-label={`Not available, ${date?.format(
-                            'Do MMMM YYYY'
+                            'Do MMMM'
                           )}`}
                         >
                           <Number>{date?.date()}</Number>
                         </span>
                       ) : (
-                        <span aria-label={date?.format('Do MMMM YYYY')}>
+                        <span aria-label={date?.format('Do MMMM')}>
                           <Number>{date?.date()}</Number>
                         </span>
                       )}
@@ -327,6 +359,7 @@ const Calendar: FC<Props> = ({
           })}
         </tbody>
       </Table>
+      <Message aria-live="assertive">{message}</Message>
     </DatePicker>
   );
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { classNames, font } from '@weco/common/utils/classnames';
 
 export const DatePicker = styled.div`
   padding: 1em;
@@ -24,8 +25,20 @@ export const Header = styled.div`
   }
 `;
 
+export const Message = styled.p.attrs(() => ({
+  className: classNames({
+    [font('hnr', 6)]: true,
+  }),
+}))`
+  background: ${props => props.theme.color('yellow')};
+  padding: ${props => `${props.theme.spacingUnit * 2}px`};
+  margin: ${props => `${props.theme.spacingUnit}px`};
+  border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
+`;
+
 export const Table = styled.table`
   color: ${props => props.theme.color('pewter')};
+
   th,
   td {
     display: inline-block;
