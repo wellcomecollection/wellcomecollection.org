@@ -103,7 +103,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
           availableDates.lastAvailable,
           'day',
           '[]'
-        ) // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+        ) && // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
+        availableDates.closedDays.includes(date.day() as DayNumber) === false
     )
   );
 
