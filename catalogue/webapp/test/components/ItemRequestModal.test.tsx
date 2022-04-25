@@ -74,7 +74,7 @@ describe('ItemRequestModal', () => {
     renderComponent();
     expect(
       screen.getByText(
-        'You can choose a date between Monday 21 December and Tuesday 05 January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24 December, Friday 25 December and Sunday 27 December.'
+        'You can choose a date between 21st December and 5th January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24th December and Friday 25th December.'
       )
     );
     spy.mockRestore();
@@ -87,7 +87,7 @@ describe('ItemRequestModal', () => {
     renderComponent();
     expect(
       screen.getByText(
-        'You can choose a date between Saturday 26 December and Friday 08 January. Please bear in mind the library is closed on Sundays and will also be closed on Sunday 27 December.'
+        'You can choose a date between 26th December and 8th January. Please bear in mind the library is closed on Sundays.'
       )
     );
     spy.mockRestore();
