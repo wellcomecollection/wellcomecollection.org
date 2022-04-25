@@ -163,7 +163,7 @@ const RegistrationPage: NextPage<Props> = ({
                   </Space>
 
                   <form
-                    action="/account/api/registration-form"
+                    action="/account/api/registration"
                     method="POST"
                     onSubmit={handleSubmit(updateActionData)}
                     noValidate
