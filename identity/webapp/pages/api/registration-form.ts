@@ -23,25 +23,31 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       return;
     }
 
-    const decodedToken = decodeToken(sessionToken);
-    const formData = { firstName, lastName, termsAndConditions };
+    try {
+      const decodedToken = decodeToken(sessionToken);
+      const formData = { firstName, lastName, termsAndConditions };
 
-    if (typeof decodedToken !== 'string') {
-      const newToken = generateNewToken(decodedToken, state, formData);
+      if (typeof decodedToken !== 'string') {
+        const newToken = generateNewToken(decodedToken, state, formData);
 
-      axios
-        .post(`${config.auth0.domain}/continue`, {
-          state,
-          session_token: newToken,
-        })
-        .then(() => {
-          res.redirect(302, `/account`);
-        })
-        .catch(() => {
-          res.status(400).json({
-            error: 'Registration failed',
+        axios
+          .post(`${config.auth0.domain}/continue`, {
+            state,
+            session_token: newToken,
+          })
+          .then(() => {
+            res.redirect(302, `/account`);
+          })
+          .catch(() => {
+            res.status(400).json({
+              error: 'Registration failed',
+            });
           });
-        });
+      }
+    } catch (error) {
+      res.status(400).json({
+        error: 'Invalid session token',
+      });
     }
   } else {
     res.redirect('/account');
