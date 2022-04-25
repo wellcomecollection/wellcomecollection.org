@@ -16,9 +16,11 @@ import {
   Td,
   Number,
   CalendarButton,
+  Message,
 } from './CalendarStyles';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';
+import { calendarInstructions } from '@weco/common/data/microcopy';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -226,6 +228,7 @@ const Calendar: FC<Props> = ({
           </CalendarButton>
         </div>
       </Header>
+      {isKeyboard && <Message>{calendarInstructions}</Message>}
       <Table
         className={classNames({
           [font('hnb', 6)]: true,
