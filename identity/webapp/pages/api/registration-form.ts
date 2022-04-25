@@ -12,6 +12,20 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       sessionToken,
     } = req.body;
 
+    if (
+      !state ||
+      !redirectUri ||
+      !firstName ||
+      !lastName ||
+      !termsAndConditions ||
+      !sessionToken
+    ) {
+      res.status(400).json({
+        error: 'Missing required fields',
+      });
+      return;
+    }
+
     const decodedToken = decodeToken(sessionToken);
     const formData = { firstName, lastName, termsAndConditions };
 
