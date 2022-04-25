@@ -30,8 +30,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { Claims } from '@auth0/nextjs-auth0';
-import { RegistrationInputs } from '../src/utility/jwt-codec';
-import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
@@ -41,22 +39,18 @@ import RegistrationInformation from '../src/frontend/Registration/RegistrationIn
 type Props = {
   serverData: SimplifiedServerData;
   user?: Claims;
-  sessionToken: string;
-  auth0State: string;
-  redirectUri: string;
+};
+
+type RegistrationInputs = {
+  firstName: string;
+  lastName: string;
+  termsAndConditions: boolean;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   withPageAuthRequiredSSR({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
-      const auth0State = stringFromStringOrStringArray(context.query.state);
-      const redirectUri = stringFromStringOrStringArray(
-        context.query.redirect_uri
-      );
-      const sessionToken = stringFromStringOrStringArray(
-        context.query.session_token
-      );
 
       if (!serverData.toggles.selfRegistration) {
         return {
@@ -70,20 +64,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         props: removeUndefinedProps({
           serverData,
-          sessionToken,
-          auth0State,
-          redirectUri,
         }),
       };
     },
   });
 
-const RegistrationPage: NextPage<Props> = ({
-  user: auth0UserClaims,
-  sessionToken,
-  auth0State,
-  redirectUri,
-}) => {
+const RegistrationPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
@@ -96,8 +82,8 @@ const RegistrationPage: NextPage<Props> = ({
     contextUser ||
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
-  const updateActionData = (_, event: FormEvent<HTMLFormElement>) => {
-    (event.target as HTMLFormElement).submit(); // Use the action/method if client side validation passes
+  const updateActionData = () => {
+    // TODO: Use the action/method if client side validation passes
   };
 
   return (
@@ -110,23 +96,7 @@ const RegistrationPage: NextPage<Props> = ({
                 <Space v={{ size: 'xl', properties: ['padding-top'] }}>
                   <RegistrationInformation user={user} />
 
-                  <form
-                    action="/account/api/registration"
-                    method="POST"
-                    onSubmit={handleSubmit(updateActionData)}
-                    noValidate
-                  >
-                    <input
-                      type="hidden"
-                      name="sessionToken"
-                      value={sessionToken}
-                    />
-                    <input type="hidden" name="state" value={auth0State} />
-                    <input
-                      type="hidden"
-                      name="redirectUri"
-                      value={redirectUri}
-                    />
+                  <form onSubmit={handleSubmit(updateActionData)} noValidate>
                     <SpacingComponent>
                       <Controller
                         name="firstName"

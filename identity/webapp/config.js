@@ -25,7 +25,6 @@ const getConfig = () => {
       domain: process.env.AUTH0_DOMAIN || 'build',
       clientID: process.env.AUTH0_CLIENT_ID || 'build',
       clientSecret: process.env.AUTH0_CLIENT_SECRET || 'build',
-      actionSecret: process.env.AUTH0_ACTION_SECRET || 'build',
     },
 
     remoteApi: {
