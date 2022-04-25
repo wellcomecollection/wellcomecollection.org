@@ -27,17 +27,20 @@ export const decodeToken = (token: string): JwtPayload | string => {
 // this token object includes iat, iss, sub, exp and ip (from auth0 incoming token)
 // we must also include the state, which validates our ability to finish the action with /continue
 // finally we must make sure to add aud (audience) as without this the token won't be accepted by auth0
+const jwtRequiredFields = [
+  'iat',
+  'iss',
+  'sub',
+  'exp',
+  'aud',
+  'state',
+  'https://wellcomecollection.org/terms_agreed',
+  'https://wellcomecollection.org/first_name',
+  'https://wellcomecollection.org/last_name',
+] as const;
 export type RegistrationJwtPayload = Pick<
   JwtPayload,
-  | 'iat'
-  | 'iss'
-  | 'sub'
-  | 'exp'
-  | 'aud'
-  | 'state'
-  | 'https://wellcomecollection.org/terms_agreed'
-  | 'https://wellcomecollection.org/first_name'
-  | 'https://wellcomecollection.org/last_name'
+  typeof jwtRequiredFields[number]
 >;
 
 export const generateNewToken = (
