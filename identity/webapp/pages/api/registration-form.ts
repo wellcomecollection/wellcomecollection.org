@@ -1,20 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { generateNewToken, decodeToken } from '../../src/utility/jwt-codec';
+import axios from 'axios';
+import getConfig from 'next/config';
+
+const { serverRuntimeConfig: config } = getConfig();
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
   if (req.method === 'POST') {
-    const {
-      state,
-      redirectUri,
-      firstName,
-      lastName,
-      termsAndConditions,
-      sessionToken,
-    } = req.body;
+    const { state, firstName, lastName, termsAndConditions, sessionToken } =
+      req.body;
 
     if (
       !state ||
-      !redirectUri ||
       !firstName ||
       !lastName ||
       !termsAndConditions ||
@@ -32,10 +29,19 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
     if (typeof decodedToken !== 'string') {
       const newToken = generateNewToken(decodedToken, state, formData);
 
-      res.redirect(
-        308,
-        `${redirectUri}?state=${state}&session_token=${newToken}`
-      );
+      axios
+        .post(`${config.auth0.domain}/continue`, {
+          state,
+          session_token: newToken,
+        })
+        .then(() => {
+          res.redirect(302, `/account`);
+        })
+        .catch(() => {
+          res.status(400).json({
+            error: 'Registration failed',
+          });
+        });
     }
   } else {
     res.redirect('/account');
