@@ -326,13 +326,13 @@ const Calendar: FC<Props> = ({
                       {isDisabled ? (
                         <span
                           aria-label={`Not available, ${date?.format(
-                            'Do MMMM YYYY'
+                            'Do MMMM'
                           )}`}
                         >
                           <Number>{date?.date()}</Number>
                         </span>
                       ) : (
-                        <span aria-label={date?.format('Do MMMM YYYY')}>
+                        <span aria-label={date?.format('Do MMMM')}>
                           <Number>{date?.date()}</Number>
                         </span>
                       )}

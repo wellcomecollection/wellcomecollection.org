@@ -34,7 +34,7 @@ function datesListToText(dates: Moment[]): ReactNode {
   if (dates.length === 0) {
     return null;
   }
-  return arrayofItemsToText(dates.map(date => date.format('dddd DD MMMM')));
+  return arrayofItemsToText(dates.map(date => date.format('dddd Do MMMM')));
 }
 
 const PickUpDate = styled(Space).attrs({
@@ -110,8 +110,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
   let availableDatesText = '';
   if (availableDates.nextAvailable && availableDates.lastAvailable) {
     availableDatesText += `You can choose a date between ${availableDates.nextAvailable.format(
-      'dddd DD MMMM'
-    )} and ${availableDates.lastAvailable.format('dddd DD MMMM')}.`;
+      'Do MMMM'
+    )} and ${availableDates.lastAvailable.format('Do MMMM')}.`;
   }
   if (regularClosedDaysText) {
     availableDatesText += ` Please bear in mind the library is closed on ${regularClosedDaysText}`;

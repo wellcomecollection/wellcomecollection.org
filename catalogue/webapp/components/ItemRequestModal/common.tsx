@@ -18,9 +18,11 @@ export const CurrentRequests: FC<{
 }> = ({ allowedHoldRequests, currentHoldRequests }) =>
   typeof currentHoldRequests !== 'undefined' ? (
     <CurrentRequestCount>
-      {`${currentHoldRequests}/${allowedHoldRequests} item${
-        currentHoldRequests !== 1 ? 's' : ''
-      } requested`}
+      {currentHoldRequests}
+      <span aria-hidden="true">/</span>
+      <span className="visually-hidden">out of</span>
+      {`${allowedHoldRequests} item${currentHoldRequests !== 1 ? 's' : ''}
+      requested`}
     </CurrentRequestCount>
   ) : null;
 
