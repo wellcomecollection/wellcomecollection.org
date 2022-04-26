@@ -17,10 +17,8 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       !termsAndConditions ||
       !sessionToken
     ) {
-      res.redirect(
-        400,
-        `${req.headers.origin}/account/error?errorDescription="Missing required fields"`
-      );
+      console.error('Missing required fields');
+      res.redirect(302, `/account/error`);
     }
 
     try {
@@ -38,18 +36,14 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
           .then(() => {
             res.redirect(302, `/account`);
           })
-          .catch(() => {
-            res.redirect(
-              400,
-              `${req.headers.origin}/account/error?errorDescription="Registration failed"`
-            );
+          .catch(error => {
+            console.error(error);
+            res.redirect(302, `/account/error`);
           });
       }
     } catch (error) {
-      res.redirect(
-        400,
-        `${req.headers.origin}/account/error?errorDescription=${error.message}`
-      );
+      console.error(error);
+      res.redirect(302, `/account/error`);
     }
   } else {
     res.redirect('/account');
