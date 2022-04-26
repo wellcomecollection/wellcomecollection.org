@@ -63,32 +63,15 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   excludeRoleMain = false,
 }) => {
   const hotjarUrls = [
-    'YLCu9hEAACYAUiJx',
-    'YLCzexEAACMAUi41',
-    'YLCuxhEAACMAUiGQ',
-    'YLCz6hEAACMAUjAx',
-    'YLC0GxEAACUAUjEW',
-    'YLC0bxEAACUAUjKf',
-    'YLC0ShEAACUAUjHz',
-    'YLC03xEAACYAUjSe',
-    'YLC1DREAACYAUjVy',
-    'YLC1QREAACUAUjZP',
-    'YLC2ixEAACUAUjmM',
-    'YLC2tREAACYAUjnP',
-    'YLC22hEAACQAUjoc',
-    'YLC3BBEAACUAUjrf',
-    'YLC3JxEAACYAUjuC',
-    'YLC3TxEAACYAUjwC',
-    'YLC3bxEAACMAUjw3',
-    'YLC3shEAACYAUjz0',
-    'YLC3jhEAACUAUjxr',
-    'YLC38BEAACQAUj4Y',
-    'YLC30REAACMAUj2F',
-    'YLC4MBEAACUAUj6O',
-    'YLC4DhEAACQAUj5X',
-    'YLC4bBEAACYAUj88',
-    'YLC4mREAACMAUkAL',
-  ]; // Digital guides
+    'get-involved',
+    'schools',
+    'Wuw2MSIAACtd3SsM',
+    'YRaLYREAADUTzmYL',
+    'YROPixEAALOYwI1K',
+    'YhenkxMAAMZpgO6C',
+    'YRTXMBEAAAO0xnWa',
+  ]; // TODO: remove these when research for this ticket is complete
+  // https://github.com/wellcomecollection/wellcomecollection.org/issues/7810
   const shouldLoadHotjar = hotjarUrls.some(
     u => url.pathname && url.pathname.match(u)
   );
