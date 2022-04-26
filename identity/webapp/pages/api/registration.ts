@@ -17,10 +17,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       !termsAndConditions ||
       !sessionToken
     ) {
-      res.status(400).json({
-        error: 'Missing required fields',
-      });
-      return;
+      res.redirect(
+        400,
+        `${req.headers.origin}/account/error?errorDescription="Missing required fields"`
+      );
     }
 
     try {
@@ -39,15 +39,17 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
             res.redirect(302, `/account`);
           })
           .catch(() => {
-            res.status(400).json({
-              error: 'Registration failed',
-            });
+            res.redirect(
+              400,
+              `${req.headers.origin}/account/error?errorDescription="Registration failed"`
+            );
           });
       }
     } catch (error) {
-      res.status(400).json({
-        error: error.message,
-      });
+      res.redirect(
+        400,
+        `${req.headers.origin}/account/error?errorDescription=${error.message}`
+      );
     }
   } else {
     res.redirect('/account');
