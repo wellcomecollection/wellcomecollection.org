@@ -43,7 +43,6 @@ type Props = {
   user?: Claims;
   sessionToken: string;
   auth0State: string;
-  redirectUri: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -51,9 +50,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
       const auth0State = stringFromStringOrStringArray(context.query.state);
-      const redirectUri = stringFromStringOrStringArray(
-        context.query.redirect_uri
-      );
       const sessionToken = stringFromStringOrStringArray(
         context.query.session_token
       );
@@ -72,7 +68,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           sessionToken,
           auth0State,
-          redirectUri,
         }),
       };
     },
@@ -82,7 +77,6 @@ const RegistrationPage: NextPage<Props> = ({
   user: auth0UserClaims,
   sessionToken,
   auth0State,
-  redirectUri,
 }) => {
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
@@ -122,11 +116,6 @@ const RegistrationPage: NextPage<Props> = ({
                       value={sessionToken}
                     />
                     <input type="hidden" name="state" value={auth0State} />
-                    <input
-                      type="hidden"
-                      name="redirectUri"
-                      value={redirectUri}
-                    />
                     <SpacingComponent>
                       <Controller
                         name="firstName"
