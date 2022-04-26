@@ -46,6 +46,8 @@ const Work: FunctionComponent<Props> = ({
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
 
+  // TODO: Remove this after we've evaluated how users deal with archive pages.
+  // https://github.com/wellcomecollection/wellcomecollection.org/pull/7916
   useHotjar(isArchive);
 
   const workData = {
