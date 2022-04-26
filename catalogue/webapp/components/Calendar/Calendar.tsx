@@ -347,7 +347,7 @@ const Calendar: FC<Props> = ({
                           <Number>{date?.date()}</Number>
                         </span>
                       ) : (
-                        <span aria-label={date?.format('Do MMMM')}>
+                        <span aria-label={date?.format('dddd Do MMMM')}>
                           <Number>{date?.date()}</Number>
                         </span>
                       )}
