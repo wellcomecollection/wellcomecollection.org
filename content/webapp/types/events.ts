@@ -8,7 +8,7 @@ import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
-import { isDayPast } from '@weco/common/utils/dates';
+import { isPast } from '@weco/common/utils/dates';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -128,7 +128,7 @@ export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times
-      .filter(({ range }) => !isDayPast(range.endDateTime))
+      .filter(({ range }) => !isPast(range.endDateTime))
       .every(({ isFullyBooked }) => {
         return isFullyBooked;
       })
