@@ -5,6 +5,7 @@ import {
   getNextWeekendDateRange,
   isDayPast,
   isFuture,
+  isPast,
 } from '@weco/common/utils/dates';
 import { Event, EventBasic } from '../../types/events';
 
@@ -223,4 +224,18 @@ export function isEventPast({ times }: Event): boolean {
     ({ range }) => !isDayPast(range.endDateTime)
   );
   return !hasFutureEvents;
+}
+
+export function upcomingDatesFullyBooked(event: Event | EventBasic): boolean {
+  const upcoming =
+    event.times.length > 0
+      ? event.times.filter(({ range }) => !isPast(range.endDateTime))
+      : [];
+  if (upcoming.length > 0) {
+    return upcoming.every(({ isFullyBooked }) => {
+      return isFullyBooked;
+    });
+  } else {
+    return false;
+  }
 }
