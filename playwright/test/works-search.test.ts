@@ -87,20 +87,19 @@ describe('Scenario 1: The person is looking for an archive', () => {
   });
 });
 
-// TODO enable after API deploy
-// describe('Scenario 2: The person is searching for a work on open shelves', () => {
-//   test('the work should be browsable to from the search results', async () => {
-//     await worksSearch();
-//     await searchFor('Miasma');
-//     await openDropdown('Location');
-//     await selectCheckbox('Open shelves');
-//     await navigateToNextPage();
-//
-//     expectSearchParam('availabilities', 'open-shelves');
-//
-//     await navigateToResult(6);
-//   });
-// });
+describe('Scenario 2: The person is searching for a work on open shelves', () => {
+  test('the work should be browsable to from the search results', async () => {
+    await worksSearch();
+    await searchFor('Miasma');
+    await openDropdown('Location');
+    await selectCheckbox('Open shelves');
+    await navigateToNextPage();
+
+    expectSearchParam('availabilities', 'open-shelves');
+
+    await navigateToResult(6);
+  });
+});
 
 describe('Scenario 3: The person is searching for a work that is available online', () => {
   test('the work should be browsable to from the search results', async () => {
@@ -130,17 +129,16 @@ describe('Scenario 4: The person is searching for a work from Wellcome Images', 
   });
 });
 
-// TODO enable after API deploy
-// describe('Scenario 5: The person is searching for a work in closed stores', () => {
-//   test('the work should be browsable to from the search results', async () => {
-//     await worksSearch();
-//     await searchFor('Miasma');
-//     await openDropdown('Location');
-//     await selectCheckbox('Closed stores');
-//     await navigateToNextPage();
-//
-//     expectSearchParam('availabilities', 'closed-stores');
-//
-//     await navigateToResult(6);
-//   });
-// });
+describe('Scenario 5: The person is searching for a work in closed stores', () => {
+  test('the work should be browsable to from the search results', async () => {
+    await worksSearch();
+    await searchFor('Miasma');
+    await openDropdown('Location');
+    await selectCheckbox('Closed stores');
+    await navigateToNextPage();
+
+    expectSearchParam('availabilities', 'closed-stores');
+
+    await navigateToResult(6);
+  });
+});
