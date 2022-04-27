@@ -135,6 +135,8 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   );
 };
 
+const nVisibleFilters = 3;
+
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
@@ -145,12 +147,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
-  const availabilitiesFilter = filters.find(
-    ({ id }) => id === 'availabilities'
-  );
-  const otherFilters = filters.filter(({ id }) => id !== 'availabilities');
-  const visibleFilters = otherFilters.slice(0, 2);
-  const modalFilters = otherFilters.slice(2);
+  const visibleFilters = filters.slice(0, nVisibleFilters);
+  const modalFilters = filters.slice(nVisibleFilters);
 
   return (
     <>
@@ -247,60 +245,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               </Space>
             )}
           </Space>
-
-          {availabilitiesFilter && availabilitiesFilter.type === 'checkbox' && (
-            <Space
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={classNames({
-                'flex flex--v-center': true,
-              })}
-            >
-              <Icon icon={eye} />
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                className={classNames({
-                  [font('hnb', 5)]: true,
-                })}
-              >
-                <AlignFont>Show items available</AlignFont>
-              </Space>
-              <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-                <ul
-                  className={classNames({
-                    'no-margin no-padding plain-list flex': true,
-                    [font('hnr', 5)]: true,
-                  })}
-                >
-                  {availabilitiesFilter.options
-                    .slice()
-                    // Hack: Ensure 'Online' appears before 'In the library'
-                    .sort(({ label: a }, { label: b }) => b.localeCompare(a))
-                    .map(({ id, label, count, value, selected }) => {
-                      return (
-                        <Space
-                          as="li"
-                          h={{ size: 's', properties: ['margin-left'] }}
-                          key={id}
-                          className={classNames({
-                            flex: true,
-                          })}
-                        >
-                          <CheckboxRadio
-                            id={id}
-                            type={`checkbox`}
-                            text={`${label} (${count})`}
-                            value={value}
-                            name={availabilitiesFilter.id}
-                            checked={selected}
-                            onChange={changeHandler}
-                          />
-                        </Space>
-                      );
-                    })}
-                </ul>
-              </Space>
-            </Space>
-          )}
         </Space>
       </Space>
 

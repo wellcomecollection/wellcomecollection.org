@@ -2480,11 +2480,20 @@ const aggregations: CatalogueResultsList<Work> = {
         },
         {
           data: {
-            id: 'in-library',
-            label: 'In the library',
+            id: 'closed-stores',
+            label: 'Closed stores',
             type: 'Availability',
           },
           count: 52178,
+          type: 'AggregationBucket',
+        },
+        {
+          data: {
+            id: 'open-shelves',
+            label: 'Open shelves',
+            type: 'Availability',
+          },
+          count: 12345,
           type: 'AggregationBucket',
         },
       ],

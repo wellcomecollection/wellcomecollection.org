@@ -293,8 +293,8 @@ export const workFixture: Work = {
   availableOnline: true,
   availabilities: [
     {
-      id: 'in-library',
-      label: 'In the library',
+      id: 'closed-stores',
+      label: 'Closed stores',
       type: 'Availability',
     },
     {
@@ -376,8 +376,8 @@ export const workWithLibrarySeriesPartOf: Work = {
   alternativeTitles: [],
   availabilities: [
     {
-      id: 'in-library',
-      label: 'In the library',
+      id: 'open-shelves',
+      label: 'Open shelves',
       type: 'Availability',
     },
   ],
@@ -544,8 +544,8 @@ export const workWithPartOf: Work = {
   availableOnline: true,
   availabilities: [
     {
-      id: 'in-library',
-      label: 'In the library',
+      id: 'closed-stores',
+      label: 'Closed stores',
       type: 'Availability',
     },
     {
@@ -717,8 +717,8 @@ export const workWithPartOf: Work = {
 export const workWithMixedPartOf: Work = {
   availabilities: [
     {
-      id: 'in-library',
-      label: 'In the library',
+      id: 'closed-stores',
+      label: 'Closed stores',
       type: 'Availability',
     },
   ],
