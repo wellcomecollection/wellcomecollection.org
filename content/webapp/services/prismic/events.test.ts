@@ -84,4 +84,21 @@ describe('upcomingDatesFullyBooked', () => {
     const result = upcomingDatesFullyBooked(event);
     expect(result).toEqual(false);
   });
+
+  it('returns false if there are no future dates', () => {
+    const event = {
+      id: 'event-id',
+      times: [
+        {
+          range: {
+            startDateTime: new Date(2000, 3, 25, 15, 30, 0),
+            endDateTime: new Date(2000, 3, 25, 16, 30, 0),
+          },
+          isFullyBooked: true,
+        },
+      ],
+    };
+    const result = upcomingDatesFullyBooked(event);
+    expect(result).toEqual(false);
+  });
 });

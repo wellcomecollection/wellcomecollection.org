@@ -227,12 +227,15 @@ export function isEventPast({ times }: Event): boolean {
 }
 
 export function upcomingDatesFullyBooked(event: Event | EventBasic): boolean {
-  return (
-    event.times.length > 0 &&
-    event.times
-      .filter(({ range }) => !isPast(range.endDateTime))
-      .every(({ isFullyBooked }) => {
-        return isFullyBooked;
-      })
-  );
+  const upcoming =
+    event.times.length > 0
+      ? event.times.filter(({ range }) => !isPast(range.endDateTime))
+      : [];
+  if (upcoming.length > 0) {
+    return upcoming.every(({ isFullyBooked }) => {
+      return isFullyBooked;
+    });
+  } else {
+    return false;
+  }
 }
