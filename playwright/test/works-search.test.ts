@@ -105,6 +105,7 @@ describe('Scenario 3: The person is searching for a work that is available onlin
   test('the work should be browsable to from the search results', async () => {
     await worksSearch();
     await searchFor('skin');
+    await openDropdown('Location');
     await selectCheckbox('Online');
     await navigateToNextPage();
 
@@ -128,7 +129,7 @@ describe('Scenario 4: The person is searching for a work from Wellcome Images', 
   });
 });
 
-describe('Scenario 2: The person is searching for a work in closed stores', () => {
+describe('Scenario 5: The person is searching for a work in closed stores', () => {
   test('the work should be browsable to from the search results', async () => {
     await worksSearch();
     await searchFor('Miasma');
