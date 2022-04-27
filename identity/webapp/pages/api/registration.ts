@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { generateNewToken, decodeToken } from '../../src/utility/jwt-codec';
-import axios from 'axios';
 import getConfig from 'next/config';
 
 const { serverRuntimeConfig: config } = getConfig();
@@ -29,15 +28,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
         const newToken = generateNewToken(decodedToken, state, formData);
         const redirectUri = `${config.auth0.domain}/continue`;
 
-        axios
-          .post(redirectUri, { token: newToken })
-          .then(() => {
-            res.redirect(302, `/account`);
-          })
-          .catch(error => {
-            console.error(error);
-            res.redirect(302, `/account/error`);
-          });
+        res.redirect(
+          302,
+          `${redirectUri}?session_token=${newToken}&state=${state}`
+        );
       }
     } catch (error) {
       console.error(error);
