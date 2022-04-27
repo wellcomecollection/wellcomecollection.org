@@ -126,6 +126,7 @@ const RegistrationPage: NextPage<Props> = ({
                           <WellcomeTextInput
                             required
                             id={name}
+                            name={name}
                             label="First name"
                             value={value}
                             setValue={onChange}
@@ -147,6 +148,7 @@ const RegistrationPage: NextPage<Props> = ({
                           <WellcomeTextInput
                             required
                             id={name}
+                            name={name}
                             label="Last name"
                             value={value}
                             setValue={onChange}
