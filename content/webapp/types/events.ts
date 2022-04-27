@@ -127,8 +127,10 @@ export type Event = GenericContentFields & {
 export function isEventFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
-    event.times.every(({ isFullyBooked, range }) => {
-      return isDayPast(range.endDateTime) || isFullyBooked;
-    })
+    event.times
+      .filter(({ range }) => !isDayPast(range.endDateTime))
+      .every(({ isFullyBooked }) => {
+        return isFullyBooked;
+      })
   );
 }
