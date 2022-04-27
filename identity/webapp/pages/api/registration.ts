@@ -27,12 +27,10 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 
       if (typeof decodedToken !== 'string') {
         const newToken = generateNewToken(decodedToken, state, formData);
+        const redirectUri = `${config.auth0.domain}/continue`;
 
         axios
-          .post(`${config.auth0.domain}/continue`, {
-            state,
-            session_token: newToken,
-          })
+          .post(redirectUri, { token: newToken })
           .then(() => {
             res.redirect(302, `/account`);
           })
