@@ -57,7 +57,6 @@ const EventPromo: FC<Props> = ({
   timeString,
   fromDate,
 }) => {
-  const fullyBooked = upcomingDatesFullyBooked(event);
   const isPast = event.isPast;
   return (
     <CardOuter
@@ -155,7 +154,7 @@ const EventPromo: FC<Props> = ({
             </p>
           )}
 
-          {!isPast && fullyBooked && (
+          {upcomingDatesFullyBooked(event) && (
             <Space
               v={{ size: 'm', properties: ['margin-top'] }}
               className={`${font('hnr', 5)} flex flex--v-center`}

@@ -274,8 +274,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             </Space>
           </Space>
           {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
-          {!event.isPast &&
-            upcomingDatesFullyBooked(event) &&
+          {upcomingDatesFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'red' })}
         </>
       }
