@@ -230,7 +230,7 @@ export function upcomingDatesFullyBooked(event: Event | EventBasic): boolean {
   return (
     event.times.length > 0 &&
     event.times
-      .filter(({ range }) => !isPast(range.endDateTime)) // should this be startDateTime?
+      .filter(({ range }) => !isPast(range.endDateTime))
       .every(({ isFullyBooked }) => {
         return isFullyBooked;
       })
