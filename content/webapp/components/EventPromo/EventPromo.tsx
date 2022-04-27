@@ -5,7 +5,8 @@ import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import { EventBasic, isEventFullyBooked } from '../../types/events';
+import { EventBasic } from '../../types/events';
+import { upcomingDatesFullyBooked } from '../../services/prismic/events';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -56,7 +57,7 @@ const EventPromo: FC<Props> = ({
   timeString,
   fromDate,
 }) => {
-  const fullyBooked = isEventFullyBooked(event);
+  const fullyBooked = upcomingDatesFullyBooked(event);
   const isPast = event.isPast;
   return (
     <CardOuter
@@ -169,6 +170,7 @@ const EventPromo: FC<Props> = ({
               Fully booked
             </Space>
           )}
+
           {!isPast && event.scheduleLength > 0 && (
             <p className={`${font('hnb', 5)} no-padding no-margin`}>
               {`${event.scheduleLength} ${

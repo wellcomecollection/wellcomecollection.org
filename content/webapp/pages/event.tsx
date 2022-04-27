@@ -18,7 +18,8 @@ import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
-import { Event, Interpretation, isEventFullyBooked } from '../types/events';
+import { Event, Interpretation } from '../types/events';
+import { upcomingDatesFullyBooked } from '../services/prismic/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -274,7 +275,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
           </Space>
           {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
           {!event.isPast &&
-            isEventFullyBooked(event) &&
+            upcomingDatesFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'red' })}
         </>
       }
