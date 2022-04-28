@@ -255,13 +255,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       'source.contributors.agent.label',
     ];
     const apiProps = imagesRouteToApiUrl(params, { aggregations });
-    const hasQuery = !!(params.query && params.query !== '');
-    const images = hasQuery
-      ? await getImages({
-          params: apiProps,
-          toggles: serverData.toggles,
-        })
-      : undefined;
+    const images = await getImages({
+      params: apiProps,
+      toggles: serverData.toggles,
+    });
 
     if (images && images.type === 'Error') {
       return appError(context, images.httpStatus, 'Images API error');

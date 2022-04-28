@@ -47,6 +47,8 @@ const Work: FunctionComponent<Props> = ({
   );
 
   useHotjar(isArchive, 'view_archive');
+  // TODO: Remove this after we've evaluated how users deal with archive pages.
+  // https://github.com/wellcomecollection/wellcomecollection.org/pull/7916
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),

@@ -195,7 +195,6 @@ const SearchForm = forwardRef(
               value={inputQuery}
               setValue={setInputQuery}
               ref={searchInput}
-              required={true}
               big={true}
               placeholder={''}
               ariaLabel={

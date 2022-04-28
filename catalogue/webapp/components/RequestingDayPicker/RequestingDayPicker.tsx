@@ -4,10 +4,29 @@ import { DayNumber } from '@weco/common/model/opening-hours';
 import { londonFromFormat, london } from '@weco/common/utils/format-date';
 import { isRequestableDate } from '../../utils/dates';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
-import Calendar from '../Calendar/Calendar';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable/BorderlessClickable';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import { calendar } from '@weco/common/icons';
+import LL from '@weco/common/views/components/styled/LL';
+import dynamic from 'next/dynamic';
+
+const LoadingComponent = () => (
+  <div
+    style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: 1000,
+    }}
+  >
+    <LL />
+  </div>
+);
+
+const DynamicCalendar = dynamic(() => import('../Calendar/Calendar'), {
+  ssr: false,
+  loading: LoadingComponent,
+});
 
 type Props = {
   startDate?: Moment;
@@ -100,7 +119,7 @@ const RequestingDayPicker: FC<Props> = ({
           showOverlay={false}
           modalStyle={'calendar'}
         >
-          <Calendar
+          <DynamicCalendar
             min={startDate || london()}
             max={endDate || london()}
             excludedDates={exceptionalClosedDates}
