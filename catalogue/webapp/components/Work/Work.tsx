@@ -46,7 +46,7 @@ const Work: FunctionComponent<Props> = ({
     (work.partOf.length > 0 && work.partOf[0].totalParts)
   );
 
-  useHotjar(isArchive);
+  useHotjar(isArchive, 'view_archive');
 
   const workData = {
     workType: (work.workType ? work.workType.label : '').toLocaleLowerCase(),
