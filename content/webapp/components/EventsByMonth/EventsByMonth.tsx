@@ -6,7 +6,12 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
-import { groupEventsByMonth, parseLabel, startOf } from './group-event-utils';
+import {
+  groupEventsByMonth,
+  parseLabel,
+  sortByEarliestFutureDateRange,
+  startOf,
+} from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
