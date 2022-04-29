@@ -27,7 +27,7 @@ class EventsByMonth extends Component<Props, State> {
     activeId: undefined,
   };
 
-  render() {
+  render(): JSX.Element {
     const { events, links } = this.props;
     const { activeId } = this.state;
     const monthsIndex = {
