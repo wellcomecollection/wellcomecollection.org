@@ -121,7 +121,6 @@ export function groupEventsByMonth<T extends HasTimes>(
 }
 
 export function sortByEarliestFutureDateRange<T extends HasTimes>(
-  label: string,
   events: T[]
 ): T[] {
   return sortBy(events, [
@@ -130,9 +129,8 @@ export function sortByEarliestFutureDateRange<T extends HasTimes>(
         start: time.range.startDateTime,
         end: time.range.endDateTime,
       }));
-      const fromDate = startOf(parseLabel(label));
 
-      const earliestRange = getEarliestFutureDateRange(times, fromDate);
+      const earliestRange = getEarliestFutureDateRange(times);
       return earliestRange && earliestRange.start;
     },
   ]);

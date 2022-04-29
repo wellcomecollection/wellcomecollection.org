@@ -68,7 +68,6 @@ class EventsByMonth extends Component<Props, State> {
     // Need to order the events for each month based on their earliest future date range
     Object.keys(eventsInMonths).map(label => {
       eventsInMonths[label] = sortByEarliestFutureDateRange(
-        label,
         eventsInMonths[label]
       );
     });
