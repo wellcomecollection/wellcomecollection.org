@@ -25,7 +25,6 @@ Digital Editorial Content:
  Danny Birchall
  Lalita Kaplish
  Alice White
- Kate Wilkinson
  Helen Babbs
  Kate Quarry
  James Machin
@@ -42,7 +41,6 @@ Photography:
  Kathleen Arundell
 
 Digital Platform:
- Carla Bowskill
  Tacey Laurie
  Gareth Estchild
  David McCormick
@@ -64,6 +62,8 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Carla Bowskill
+ Kate Wilkinson
  Kirsten Nicholson
  Kirsten Riley
  Anjuli Sharma
