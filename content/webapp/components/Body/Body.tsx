@@ -53,6 +53,7 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
+import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -402,13 +403,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'soundcloudEmbed' && (
                   <LayoutWidth width={minWidth}>
-                    <iframe
-                      width="100%"
-                      height="140"
-                      frameBorder="no"
-                      title="soundcloud player"
-                      src={slice.value.embedUrl}
-                    />
+                    <SoundCloudEmbed {...slice.value} />
                   </LayoutWidth>
                 )}
                 {slice.type === 'map' && (
