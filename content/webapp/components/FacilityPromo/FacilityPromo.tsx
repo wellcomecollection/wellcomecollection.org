@@ -1,7 +1,7 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '../PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import { FacilityPromo as FacilityPromoType } from '../../types/facility-promo';
@@ -38,7 +38,15 @@ const FacilityPromo: FC<FacilityPromoType> = ({
     >
       <div>
         <div className="rounded-corners overflow-hidden">
-          <UiImage {...uiImageProps} />
+          <PrismicImage
+            image={uiImageProps}
+            sizes={{
+              xlarge: 1 / 4,
+              large: 1 / 3,
+              medium: 1 / 2,
+              small: 1,
+            }}
+          />
         </div>
 
         <CardBody>
