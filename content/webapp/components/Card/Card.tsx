@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { getCrop } from '@weco/common/model/image';
+import PrismicImage from '../PrismicImage/PrismicImage';
 
 type Props = {
   item: CardType;
@@ -91,16 +92,14 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
     >
       <div className="relative">
         {image && (
-          <UiImage
-            {...image}
-            // We intentionally omit the alt text on promos, so screen reader
-            // users don't have to listen to the alt text before hearing the
-            // title of the item in the list.
-            //
-            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            alt=""
-            sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(33.24vw - 43px), calc(100vw - 36px)"
-            showTasl={false}
+          <PrismicImage
+            image={image}
+            sizes={{
+              xlarge: 1 / 4,
+              large: 1 / 4,
+              medium: 1 / 2,
+              small: 1,
+            }}
           />
         )}
         {item.format && (
