@@ -1,32 +1,11 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import PrismicImage from '../PrismicImage/PrismicImage';
-import { getCrop } from '@weco/common/model/image';
 import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { FunctionComponent, ReactElement } from 'react';
-
-const BookPromoImageContainer = styled.div.attrs({
-  className: classNames({
-    'bg-cream relative': true,
-  }),
-})`
-  height: 0;
-  padding-top: 100%;
-  transform: rotate(-2deg);
-`;
-
-const BookPromoImage = styled(Space).attrs({
-  className: classNames({
-    absolute: true,
-  }),
-})`
-  width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-`;
+import BookImage from '../../components/BookImage/BookImage';
 
 type LinkOrSpanSpaceAttrs = {
   url?: string;
@@ -64,26 +43,21 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
       }}
     >
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <BookPromoImageContainer>
-          {cover?.contentUrl && (
-            <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-              <PrismicImage
-                image={{
-                  contentUrl: cover.contentUrl || '',
-                  width: cover.width || 0,
-                  height: cover.height || 0,
-                  alt: '',
-                }}
-                sizes={{
-                  xlarge: 1 / 6,
-                  large: 1 / 6,
-                  medium: 1 / 2,
-                  small: 1,
-                }}
-              />
-            </BookPromoImage>
-          )}
-        </BookPromoImageContainer>
+        <BookImage
+          image={{
+            contentUrl: cover?.contentUrl || '',
+            width: cover?.width || 0,
+            height: cover?.height || 0,
+            alt: '',
+            sizesQueries: '',
+          }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 3,
+            small: 1,
+          }}
+        />
         <Space
           h={{
             size: 'l',
