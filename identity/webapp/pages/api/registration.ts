@@ -23,10 +23,12 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
 
     try {
       const decodedToken = decodeToken(sessionToken);
-      const { sub: userId } = decodedToken;
 
       if (typeof decodedToken !== 'string') {
         const redirectUri = `${config.auth0.domain}/continue?state=${state}`;
+        const { sub } = decodedToken;
+        const userIdPrefix = 'auth0|';
+        const userId = sub.replace(userIdPrefix, '');
 
         axios
           .put(`/api/users/${userId}/registration`, {
