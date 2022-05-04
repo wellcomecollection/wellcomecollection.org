@@ -1,9 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import {
-  UiImageProps,
-  UiImage,
-} from '@weco/common/views/components/Images/Images';
+import { UiImageType, getCrop } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
@@ -28,9 +25,11 @@ import { Book } from '../../types/books';
 import { Event } from '../../types/events';
 import { Guide } from '../../types/guides';
 
+import PrismicImage from '../PrismicImage/PrismicImage';
+
 type PartialFeaturedCard = {
   id: string;
-  image?: UiImageProps;
+  image?: UiImageType;
   labels: Label[];
   link: Link;
 };
@@ -47,10 +46,16 @@ export function convertCardToFeaturedCardProps(
   return {
     id: item.title || 'card',
     image: item.image && {
-      ...item.image,
-      extraClasses: '',
+      contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
+      // We intentionally omit the alt text on promos, so screen reader
+      // users don't have to listen to the alt text before hearing the
+      // title of the item in the list.
+      //
+      // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+      alt: '',
+      width: 1600,
+      height: 900,
       sizesQueries: '',
-      showTasl: false,
     },
     labels: item.format ? [{ text: item.format.title }] : [],
     link: { url: item.link || '', text: item.title || '' },
@@ -67,7 +72,7 @@ export function convertItemToFeaturedCardProps(
     | Book
     | Event
     | Guide
-) {
+): PartialFeaturedCard {
   return {
     id: item.id,
     image: item.promo?.image && {
@@ -80,11 +85,7 @@ export function convertItemToFeaturedCardProps(
       contentUrl: item.promo?.image.contentUrl,
       width: item.promo?.image.width,
       height: item.promo?.image.height || 9,
-      sizesQueries:
-        '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-      tasl: item.promo?.image.tasl,
-      showTasl: false,
-      crops: {},
+      sizesQueries: '',
     },
     labels: item.labels,
     link: {
@@ -290,7 +291,19 @@ const FeaturedCard: FunctionComponent<Props> = ({
           });
         }}
       >
-        <FeaturedCardLeft>{image && <UiImage {...image} />}</FeaturedCardLeft>
+        <FeaturedCardLeft>
+          {image && (
+            <PrismicImage
+              image={image}
+              sizes={{
+                xlarge: 1 / 3,
+                large: 1 / 3,
+                medium: 1 / 2,
+                small: 1,
+              }}
+            />
+          )}
+        </FeaturedCardLeft>
         <div
           className={classNames({
             flex: true,
@@ -323,19 +336,16 @@ const FeaturedCard: FunctionComponent<Props> = ({
   );
 };
 
-export const FeaturedCardArticle = ({
-  article,
-  background,
-  color,
-}: FeaturedCardArticleProps) => {
-  const props = convertItemToFeaturedCardProps(article);
+export const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> =
+  ({ article, background, color }) => {
+    const props = convertItemToFeaturedCardProps(article);
 
-  return (
-    <FeaturedCard {...props} background={background} color={color}>
-      <FeaturedCardArticleBody article={article} />
-    </FeaturedCard>
-  );
-};
+    return (
+      <FeaturedCard {...props} background={background} color={color}>
+        <FeaturedCardArticleBody article={article} />
+      </FeaturedCard>
+    );
+  };
 
 export const FeaturedCardExhibition: FunctionComponent<FeaturedCardExhibitionProps> =
   ({ exhibition, background, color }) => {
