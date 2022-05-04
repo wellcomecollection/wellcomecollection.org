@@ -27,7 +27,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       if (typeof decodedToken !== 'string') {
         const redirectUri = `${config.auth0.domain}/continue?state=${state}`;
         const { sub } = decodedToken;
-        const userIdPrefix = 'auth0|';
+        const userIdPrefix = /auth0\|p?/;
         const userId = sub.replace(userIdPrefix, '');
 
         axios
