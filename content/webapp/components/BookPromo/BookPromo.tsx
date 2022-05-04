@@ -1,6 +1,7 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import UiImage from '@weco/common/views/components/Image/Image';
+import PrismicImage from '../PrismicImage/PrismicImage';
+import { getCrop } from '@weco/common/model/image';
 import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
@@ -66,17 +67,19 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
         <BookPromoImageContainer>
           {cover?.contentUrl && (
             <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-              <UiImage
-                contentUrl={cover.contentUrl}
-                width={cover.width || 0}
-                height={cover.height || 0}
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                alt=""
-                sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
+              <PrismicImage
+                image={{
+                  contentUrl: cover.contentUrl || '',
+                  width: cover.width || 0,
+                  height: cover.height || 0,
+                  alt: '',
+                }}
+                sizes={{
+                  xlarge: 1 / 6,
+                  large: 1 / 6,
+                  medium: 1 / 2,
+                  small: 1,
+                }}
               />
             </BookPromoImage>
           )}
