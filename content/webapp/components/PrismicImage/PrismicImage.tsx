@@ -5,14 +5,12 @@ import {
   Breakpoint,
   sizes as breakpointSizes,
 } from '@weco/common/views/themes/config';
-import { Picture } from '@weco/common/model/picture';
 import { ImageType } from '@weco/common/model/image';
 
-type BreakpointSizes = Partial<Record<Breakpoint, number>>;
+export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 type Props = {
-  image: Picture | ImageType;
+  image: ImageType;
   sizes?: BreakpointSizes;
-
   // The maximum width at which the image will be displayed
   maxWidth?: number;
 };
