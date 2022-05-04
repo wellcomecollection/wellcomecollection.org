@@ -5,7 +5,8 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '../PrismicImage/PrismicImage';
+import { getCrop } from '@weco/common/model/image';
 import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
@@ -110,14 +111,19 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
             {venue?.image?.contentUrl && (
-              <UiImage
-                contentUrl={venue.image.contentUrl}
-                width={1600}
-                height={900}
-                alt={venue.image?.alt}
-                sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
-                extraClasses=""
-                showTasl={false}
+              <PrismicImage
+                image={{
+                  contentUrl: getCrop(venue.image, '16:9')?.contentUrl || '',
+                  width: 1600,
+                  height: 900,
+                  alt: venue.image?.alt,
+                }}
+                sizes={{
+                  xlarge: 1 / 6,
+                  large: 1 / 6,
+                  medium: 1 / 2,
+                  small: 1,
+                }}
               />
             )}
           </VenueHoursImage>
