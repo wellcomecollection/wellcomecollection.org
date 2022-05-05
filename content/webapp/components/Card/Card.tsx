@@ -1,7 +1,6 @@
 import { Card as CardType } from '../../types/card';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
