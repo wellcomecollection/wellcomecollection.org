@@ -66,7 +66,7 @@ function createPrismicLoader(maxWidth: number) {
 
     searchParams.set(`auto`, 'compress,format');
     searchParams.set(`rect`, url.searchParams.get('rect') || '');
-    searchParams.set(`q`, (quality || 75).toString());
+    searchParams.set(`q`, (quality || 40).toString());
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
   };
