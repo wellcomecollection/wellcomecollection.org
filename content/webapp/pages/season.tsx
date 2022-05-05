@@ -2,8 +2,8 @@ import { GetServerSideProps } from 'next';
 import { ReactElement } from 'react';
 import { Season } from '../types/seasons';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import SeasonsHeader from '../components/SeasonsHeader/SeasonsHeader';
+import PrismicImage from '../components/PrismicImage/PrismicImage';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -83,7 +83,15 @@ const SeasonPage = ({
       title={season.title}
       FeaturedMedia={
         superWidescreenImage ? (
-          <UiImage {...superWidescreenImage} sizesQueries="" />
+          <PrismicImage
+            image={superWidescreenImage}
+            sizes={{
+              xlarge: 1,
+              large: 1,
+              medium: 1,
+              small: 1,
+            }}
+          />
         ) : undefined
       }
       standfirst={season?.standfirst}
