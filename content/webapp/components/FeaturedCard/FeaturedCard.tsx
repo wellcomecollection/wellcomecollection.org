@@ -24,7 +24,6 @@ import { EventSeries } from '../../types/event-series';
 import { Book } from '../../types/books';
 import { Event } from '../../types/events';
 import { Guide } from '../../types/guides';
-
 import PrismicImage from '../PrismicImage/PrismicImage';
 
 type PartialFeaturedCard = {
@@ -296,11 +295,12 @@ const FeaturedCard: FunctionComponent<Props> = ({
             <PrismicImage
               image={image}
               sizes={{
-                xlarge: 1 / 3,
-                large: 1 / 3,
+                xlarge: 1 / 2,
+                large: 1 / 2,
                 medium: 1 / 2,
                 small: 1,
               }}
+              quality={75}
             />
           )}
         </FeaturedCardLeft>
