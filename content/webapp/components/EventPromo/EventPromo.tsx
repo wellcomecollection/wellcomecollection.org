@@ -17,7 +17,6 @@ import { Place } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
 import PrismicImage from '../PrismicImage/PrismicImage';
-import { getCrop } from '@weco/common/model/image';
 
 type Props = {
   event: EventBasic;
