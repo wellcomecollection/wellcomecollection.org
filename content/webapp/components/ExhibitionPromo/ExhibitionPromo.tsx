@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -16,7 +16,7 @@ type Props = {
   position?: number;
 };
 
-const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
+const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
   const { start, end, statusOverride, isPermanent } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;
@@ -47,7 +47,7 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ""}}
+            image={image}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
