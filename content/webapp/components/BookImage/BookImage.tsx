@@ -28,11 +28,13 @@ const BookPromoImage = styled(Space).attrs({
 type Props = {
   image: UiImageType;
   sizes: BreakpointSizes;
+  quality: number;
 };
 
 const BookImage: FunctionComponent<Props> = ({
   image,
   sizes,
+  quality,
 }: Props): ReactElement<Props> => {
   return (
     <BookPromoImageContainer>
@@ -46,6 +48,7 @@ const BookImage: FunctionComponent<Props> = ({
               alt: image?.alt,
             }}
             sizes={sizes}
+            quality={quality}
           />
         </BookPromoImage>
       )}

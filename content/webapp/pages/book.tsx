@@ -105,7 +105,8 @@ const BookPage: FunctionComponent<Props> = props => {
       <Layout8>
         <BookImage
           image={{ ...book.cover, sizesQueries: '' }}
-          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }} // TODO
+          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+          quality={75}
         />
       </Layout8>
     </Space>
