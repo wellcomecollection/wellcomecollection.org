@@ -13,6 +13,7 @@ type Props = {
   sizes?: BreakpointSizes;
   // The maximum width at which the image will be displayed
   maxWidth?: number;
+  quality?: number;
 };
 
 export function convertBreakpointSizesToSizes(
@@ -66,7 +67,7 @@ function createPrismicLoader(maxWidth: number) {
 
     searchParams.set(`auto`, 'compress,format');
     searchParams.set(`rect`, url.searchParams.get('rect') || '');
-    searchParams.set(`q`, (quality || 40).toString());
+    searchParams.set(`q`, (quality || 20).toString());
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
   };
@@ -77,7 +78,7 @@ function createPrismicLoader(maxWidth: number) {
  * usurping UiImage which has reached a state where it is so bloated it is hard to refactor.
  * This is aimed solely at the Prismic image rendering for now.
  */
-const PrismicImage: FC<Props> = ({ image, sizes, maxWidth }) => {
+const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
@@ -100,6 +101,7 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth }) => {
       src={image.contentUrl}
       alt={image.alt || ''}
       loader={createPrismicLoader(maxLoaderWidth)}
+      quality={quality}
     />
   );
 };
