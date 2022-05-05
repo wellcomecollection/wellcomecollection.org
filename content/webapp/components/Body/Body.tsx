@@ -22,7 +22,7 @@ import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
 import Contact from '@weco/common/views/components/Contact/Contact';
-import Iframe from '@weco/common/views/components/Iframe/Iframe';
+import Iframe from '../Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
 import Layout from '@weco/common/views/components/Layout/Layout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
