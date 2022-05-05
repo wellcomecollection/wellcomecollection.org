@@ -62,12 +62,12 @@ class Iframe extends Component<Props, State> {
             <PrismicImage
               image={imageObject}
               sizes={{
-                xlarge: 1,
-                large: 1,
+                xlarge: 1 / 2,
+                large: 1 / 2,
                 medium: 1,
                 small: 1,
               }}
-              quality={100}
+              quality={60}
             />
             {this.state.iframeShowing && (
               <Control
