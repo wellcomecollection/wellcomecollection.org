@@ -10,6 +10,11 @@ import {
   makeFontSizeClasses,
   makeFontSizeOverrideClasses,
 } from './typography';
+import {
+  typography as interTypography,
+  makeFontSizeClasses as interMakeFontSizeClasses,
+  makeFontSizeOverrideClasses as interMakeFontSizeOverrideClasses,
+} from './inter-typography';
 import { utilityClasses } from './utility-classes';
 import { normalize } from './base/normalize';
 import { wellcomeNormalize } from './base/wellcome-normalize';
@@ -159,9 +164,13 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
   ${row}
   ${inlineFonts}
   ${fonts}
-  ${makeFontSizeClasses()}
-  ${makeFontSizeOverrideClasses()}
-  ${typography}
+  ${props =>
+    props?.toggles?.inter ? interMakeFontSizeClasses() : makeFontSizeClasses()}
+  ${props =>
+    props?.toggles?.inter
+      ? interMakeFontSizeOverrideClasses
+      : makeFontSizeOverrideClasses()}
+  ${props => (props?.toggles?.inter ? interTypography : typography)}
   ${grid}
 `;
 
