@@ -1,6 +1,6 @@
 import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
-import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
+import { Props as IframeProps } from '@weco/content/components/Iframe/Iframe';
 import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
 import { Props as AsyncSearchResultsProps } from '../components/SearchResults/AsyncSearchResults';
 import { Props as QuoteProps } from '../components/Quote/Quote';
