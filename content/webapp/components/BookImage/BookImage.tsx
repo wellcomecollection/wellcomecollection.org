@@ -28,7 +28,7 @@ const BookPromoImage = styled(Space).attrs({
 type Props = {
   image: UiImageType;
   sizes: BreakpointSizes;
-  quality: number;
+  quality?: number;
 };
 
 const BookImage: FunctionComponent<Props> = ({
