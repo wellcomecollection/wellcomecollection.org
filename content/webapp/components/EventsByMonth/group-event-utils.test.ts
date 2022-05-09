@@ -132,8 +132,8 @@ describe('sortByEarliestFutureDateRange', () => {
       times: [
         {
           range: {
-            startDateTime: new Date('2022-05-25T23:00:00.000Z'),
-            endDateTime: new Date('2022-05-27T23:00:00.000Z'),
+            startDateTime: new Date('2032-05-25T23:00:00.000Z'),
+            endDateTime: new Date('2032-05-27T23:00:00.000Z'),
           },
           isFullyBooked: false,
         },
@@ -145,8 +145,8 @@ describe('sortByEarliestFutureDateRange', () => {
       times: [
         {
           range: {
-            startDateTime: new Date('2022-05-09T17:00:00.000Z'),
-            endDateTime: new Date('2022-05-09T19:00:00.000Z'),
+            startDateTime: new Date('2032-05-09T17:00:00.000Z'),
+            endDateTime: new Date('2032-05-09T19:00:00.000Z'),
           },
           isFullyBooked: false,
         },
@@ -158,8 +158,8 @@ describe('sortByEarliestFutureDateRange', () => {
       times: [
         {
           range: {
-            startDateTime: new Date('2022-05-12T18:00:00.000Z'),
-            endDateTime: new Date('2022-05-12T19:30:00.000Z'),
+            startDateTime: new Date('2032-05-12T18:00:00.000Z'),
+            endDateTime: new Date('2032-05-12T19:30:00.000Z'),
           },
           isFullyBooked: false,
         },
@@ -171,8 +171,8 @@ describe('sortByEarliestFutureDateRange', () => {
       times: [
         {
           range: {
-            startDateTime: new Date('2022-05-14T10:00:00.000Z'),
-            endDateTime: new Date('2022-05-14T16:00:00.000Z'),
+            startDateTime: new Date('2032-05-14T10:00:00.000Z'),
+            endDateTime: new Date('2032-05-14T16:00:00.000Z'),
           },
           isFullyBooked: false,
         },
@@ -184,8 +184,8 @@ describe('sortByEarliestFutureDateRange', () => {
       times: [
         {
           range: {
-            startDateTime: new Date('2022-05-07T09:00:00.000Z'),
-            endDateTime: new Date('2022-05-07T16:00:00.000Z'),
+            startDateTime: new Date('2032-05-07T09:00:00.000Z'),
+            endDateTime: new Date('2032-05-07T16:00:00.000Z'),
           },
           isFullyBooked: false,
         },
