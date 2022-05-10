@@ -89,12 +89,12 @@ async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   timers.set(key, timer);
 }
 
-export async function init() {
+export async function init(): Promise<void> {
   await write('toggles', togglesHandler.fetch);
   await write('prismic', prismicHandler.fetch);
 }
 
-export function clear() {
+export function clear(): void {
   for (const [, timer] of timers) {
     clearTimeout(timer);
   }
