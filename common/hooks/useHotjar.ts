@@ -36,7 +36,6 @@ const heatMapTrigger = (triggerName: string): void => {
   // Use triggers if page cannot be determinted by url. e.g archive page.
   // https://help.hotjar.com/hc/en-us/articles/4405109971095-Events-API-Reference#the-events-api-call
   try {
-    window.hj.debug.on();
     window.hj('event', triggerName);
   } catch (e) {
     console.log(e);
