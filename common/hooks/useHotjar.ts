@@ -37,7 +37,9 @@ const heatMapTrigger = (triggerName: string): void => {
   // https://help.hotjar.com/hc/en-us/articles/4405109971095-Events-API-Reference#the-events-api-call
   try {
     window.hj('event', [triggerName]);
-  } catch (e) {}
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
