@@ -37,7 +37,7 @@ const Calendar: FC<Props> = ({
               endDate: max,
               excludedDates,
               excludedDays,
-            }) && date.format('YYYY-MM-DD')
+            }) && date
         )
         .filter(Boolean)
     )
@@ -45,8 +45,8 @@ const Calendar: FC<Props> = ({
     .flat()
     .map(d => {
       return {
-        value: d || '',
-        text: d || '',
+        value: d.format('YYYY-MM-DD') || '',
+        text: d.format('dddd MMMM Do') || '',
       };
     });
 
