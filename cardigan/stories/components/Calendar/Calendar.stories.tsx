@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Calendar from '@weco/catalogue/components/Calendar/Calendar';
+import Calendar from '@weco/catalogue/components/Calendar/CalendarSelect';
 import { london } from '@weco/common/utils/format-date';
 
 const Template = () => {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState('');
 
   return (
     <Calendar
@@ -17,7 +17,7 @@ const Template = () => {
       excludedDays={[0]}
       initialFocusDate={london('2002-04-21')}
       chosenDate={date}
-      setChosenDate={() => console.log('setChosenDate')}
+      setChosenDate={setDate}
     />
   );
 };
