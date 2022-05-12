@@ -8,11 +8,10 @@ import { isRequestableDate } from '../../utils/dates';
 import { isTruthy } from '@weco/common/utils/array';
 
 type Props = {
-  min: Moment;
-  max: Moment;
+  min?: Moment;
+  max?: Moment;
   excludedDates: Moment[];
   excludedDays: DayNumber[];
-  initialFocusDate: Moment;
   chosenDate?: string;
   setChosenDate: (value: string) => void;
 };
@@ -36,7 +35,7 @@ function getAvailableDates(
           excludedDays,
         }) && {
           value: date.format('YYYY-MM-DD'),
-          text: date.format('dddd Do MMMM'),
+          text: date.format('dddd D MMMM'),
         }
       );
     })
@@ -51,22 +50,19 @@ const Calendar: FC<Props> = ({
   chosenDate,
   setChosenDate,
 }) => {
-  const availableDates = getAvailableDates(
-    min,
-    max,
-    excludedDates,
-    excludedDays
-  );
+  const canGetDates = min && max;
+  const availableDates =
+    canGetDates && getAvailableDates(min, max, excludedDates, excludedDays);
 
-  return (
+  return availableDates ? (
     <Select
-      name={`calendar dates`}
-      label={`available dates`}
+      name={`calendar_dates`}
+      label={`Pick a date`}
       options={availableDates}
       value={chosenDate || 'Select a date'}
       onChange={e => setChosenDate(e.target.value)}
     />
-  );
+  ) : null;
 };
 
 export default Calendar;
