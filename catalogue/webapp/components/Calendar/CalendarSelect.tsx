@@ -1,9 +1,11 @@
-import { FC, useState } from 'react';
-import Select from '@weco/common/views/components/Select/Select';
+import { FC } from 'react';
+import Select, {
+  SelectOption,
+} from '@weco/common/views/components/Select/Select';
 import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import { getCalendarRows } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
+import { isTruthy } from '@weco/common/utils/array';
 
 type Props = {
   min: Moment;
@@ -11,44 +13,50 @@ type Props = {
   excludedDates: Moment[];
   excludedDays: DayNumber[];
   initialFocusDate: Moment;
-  chosenDate: string | undefined;
+  chosenDate?: string;
   setChosenDate: (value: string) => void;
 };
+
+function getAvailableDates(
+  min: Moment,
+  max: Moment,
+  excludedDates: Moment[],
+  excludedDays: DayNumber[]
+): SelectOption[] {
+  const rangeNumber = max.diff(min, 'days') + 1;
+  return [...Array(rangeNumber).keys()]
+    .map(n => min.clone().add(n, 'days'))
+    .map(date => {
+      return (
+        isRequestableDate({
+          date,
+          startDate: min,
+          endDate: max,
+          excludedDates,
+          excludedDays,
+        }) && {
+          value: date.format('YYYY-MM-DD'),
+          text: date.format('dddd Do MMMM'),
+        }
+      );
+    })
+    .filter(isTruthy);
+}
 
 const Calendar: FC<Props> = ({
   min,
   max,
   excludedDates,
   excludedDays,
-  initialFocusDate,
   chosenDate,
   setChosenDate,
 }) => {
-  const [tabbableDate] = useState(initialFocusDate);
-  const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
-  const availableDates = rows
-    .map(row =>
-      row
-        .map(
-          date =>
-            isRequestableDate({
-              date,
-              startDate: min,
-              endDate: max,
-              excludedDates,
-              excludedDays,
-            }) && date
-        )
-        .filter(Boolean)
-    )
-    .filter(Boolean)
-    .flat()
-    .map(d => {
-      return {
-        value: d.format('YYYY-MM-DD') || '',
-        text: d.format('dddd MMMM Do') || '',
-      };
-    });
+  const availableDates = getAvailableDates(
+    min,
+    max,
+    excludedDates,
+    excludedDays
+  );
 
   return (
     <Select
