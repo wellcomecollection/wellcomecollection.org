@@ -58,6 +58,7 @@ const Calendar: FC<Props> = ({
     <Select
       name={`calendar_dates`}
       label={`Pick a date`}
+      hideLabel={true}
       options={availableDates}
       value={chosenDate || 'Select a date'}
       onChange={e => setChosenDate(e.target.value)}

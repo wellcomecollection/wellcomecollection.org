@@ -10,13 +10,21 @@ type Props = {
   name: string;
   label: string;
   value: string;
+  hideLabel?: boolean;
   options: SelectOption[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Select: FC<Props> = ({ name, label, options, value, onChange }) => {
+const Select: FC<Props> = ({
+  name,
+  label,
+  hideLabel,
+  options,
+  value,
+  onChange,
+}) => {
   return (
-    <SelectContainer label={label}>
+    <SelectContainer label={label} hideLabel={hideLabel}>
       <select name={name} onChange={onChange} value={value}>
         {options.map(option => {
           return (
