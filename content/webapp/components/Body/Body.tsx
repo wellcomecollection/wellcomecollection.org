@@ -12,7 +12,7 @@ import {
   dropCapSerializer,
 } from '../HTMLSerializers/HTMLSerializers';
 import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
@@ -342,17 +342,17 @@ const Body: FunctionComponent<Props> = ({
               that width isn't an adequate means to illustrate a difference */}
                 {slice.type === 'picture' && slice.weight === 'default' && (
                   <Layout10>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                    <CaptionedImage {...slice.value} />
                   </Layout10>
                 )}
                 {slice.type === 'picture' && slice.weight === 'standalone' && (
                   <Layout12>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                    <CaptionedImage {...slice.value} />
                   </Layout12>
                 )}
                 {slice.type === 'picture' && slice.weight === 'supporting' && (
                   <LayoutWidth width={minWidth}>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
+                    <CaptionedImage {...slice.value} />
                   </LayoutWidth>
                 )}
                 {slice.type === 'imageGallery' && (
