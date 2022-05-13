@@ -5,8 +5,7 @@ import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
 import exhibitionDocument from '../../data/prismic/exhibition';
-
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import {
   squareImage,
   singleLineOfText,
@@ -26,7 +25,7 @@ compactCard.args = {
   url: 'https://wellcomecollection.org',
   title: 'Wellcome Collection',
   description: singleLineOfText(10, 25),
-  Image: <UiImage {...imageProps} tasl={null} />,
+  Image: <PrismicImage image={imageProps} />,
   DateInfo: null,
   Tags: null,
   primaryLabels: primaryLabelList,
@@ -49,7 +48,7 @@ const FeaturedCardTemplate = args => {
   return (
     <FeaturedCard
       id={'id'}
-      image={{ ...image(), showTasl: false }}
+      image={{ ...image() }}
       labels={[{ text: 'Essay' }]}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
       background={args.background}
