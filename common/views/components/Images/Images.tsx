@@ -119,7 +119,7 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           alt={alt || ''}
         />
 
-        {showTasl && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && <Tasl {...tasl} positionTop={isFull} />}
       </Fragment>
     );
   }
