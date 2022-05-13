@@ -33,6 +33,7 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
           if (error.response) {
             return error.response;
           }
+          // This can occur if, e.g. the TLS certificate for the API has expired.
           console.error('Connection-level error (no response received)', error);
           return {
             status: 500,
