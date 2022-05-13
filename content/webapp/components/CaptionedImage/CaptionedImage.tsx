@@ -27,7 +27,7 @@ const CaptionedImageFigure = styled.div<CaptionedImageProps>`
 }`;
 
 type ImageContainerInnerProps = {
-  aspectRatio?: number;
+  aspectRatio: number;
 };
 
 const ImageContainerInner = styled.div<ImageContainerInnerProps>`
@@ -35,6 +35,12 @@ const ImageContainerInner = styled.div<ImageContainerInnerProps>`
   max-height: 80vh;
   aspect-ratio: ${props => props.aspectRatio};
   margin: 0 auto;
+  @supports not (aspect-ratio: auto) {
+    max-width: 90%;
+    ${props => props.theme.media.large`
+      max-width: ${props.aspectRatio > 1 ? '80%' : '50%'};
+    `};
+  }
 `;
 
 type UiCaptionedImageProps = CaptionedImageType & {
