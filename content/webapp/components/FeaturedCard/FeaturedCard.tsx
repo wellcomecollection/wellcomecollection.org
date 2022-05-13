@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { UiImageType } from '@weco/common/model/image';
+import { ImageType } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
@@ -28,7 +28,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 
 type PartialFeaturedCard = {
   id: string;
-  image?: UiImageType;
+  image?: ImageType;
   labels: Label[];
   link: Link;
 };
