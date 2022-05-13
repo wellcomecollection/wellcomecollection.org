@@ -6,8 +6,6 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '../types/articles';
-import { Page as PageType } from '../types/pages';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
