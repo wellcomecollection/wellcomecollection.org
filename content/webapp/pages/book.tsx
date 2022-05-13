@@ -18,6 +18,7 @@ import { createClient } from '../services/prismic/fetch';
 import { transformBook } from '../services/prismic/transformers/books';
 import { Book } from '../types/books';
 import { looksLikePrismicId } from '../services/prismic';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 const MetadataWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.color('smoke')};
@@ -99,7 +100,15 @@ const BookPage: FunctionComponent<Props> = props => {
 
   const { book } = props;
   const FeaturedMedia = book.cover && (
-    <BookImage image={{ ...book.cover, sizesQueries: '' }} />
+    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
+      <Layout8>
+        <BookImage
+          image={{ ...book.cover }}
+          sizes={{ xlarge: 1 / 3, large: 1 / 3, medium: 1 / 3, small: 1 }}
+          quality={75}
+        />
+      </Layout8>
+    </Space>
   );
   const breadcrumbs = {
     items: [
