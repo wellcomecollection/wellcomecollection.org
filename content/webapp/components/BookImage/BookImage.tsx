@@ -5,7 +5,7 @@ import { FunctionComponent, ReactElement } from 'react';
 import PrismicImage, {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
-import { UiImageType } from '@weco/common/model/image';
+import { ImageType } from '@weco/common/model/image';
 
 const BookPromoImageContainer = styled.div.attrs({
   className: classNames({
@@ -28,7 +28,7 @@ const BookPromoImage = styled(Space).attrs({
 `;
 
 type Props = {
-  image: UiImageType;
+  image: ImageType;
   sizes: BreakpointSizes;
   quality?: number;
 };
