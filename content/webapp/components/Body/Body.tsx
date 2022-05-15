@@ -85,7 +85,7 @@ type Props = {
   minWidth?: 10 | 8;
   isLanding?: boolean;
   sectionLevelPage?: boolean;
-  staticContent?: ReactElement;
+  staticContent?: ReactElement | null;
 };
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
