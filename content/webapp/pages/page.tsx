@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -41,13 +41,15 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
+import VisitUsStaticContent from 'components/Body/VisitUsStaticContent';
 
-type Props = {
+export type Props = {
   page: PageType;
   vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
+  staticContent: ReactElement | null;
 } & WithGaDimensions;
 
 type OrderInParent = {
@@ -127,6 +129,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           siblings,
           children,
           ordersInParents,
+          staticContent: null,
           serverData,
           vanityUrl,
           gaDimensions: {
@@ -139,11 +142,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({
+export const Page: FC<Props> = ({
   page,
   siblings,
   children,
   ordersInParents,
+  staticContent,
   vanityUrl,
 }) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
@@ -322,6 +326,7 @@ const Page: FC<Props> = ({
             showOnThisPage={page.showOnThisPage}
             isLanding={isLanding}
             sectionLevelPage={sectionLevelPage}
+            staticContent={staticContent}
           />
         }
         /**
