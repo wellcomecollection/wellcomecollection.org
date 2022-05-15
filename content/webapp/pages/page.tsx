@@ -14,6 +14,7 @@ import {
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import {
+  homepageId,
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
@@ -60,6 +61,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
+
+    // Although the homepage has a Prismic ID, you can't actually view it as a page.
+    // If somebody somehow lands here, send them to the proper homepage.
+    if (id === homepageId) {
+      return {
+        redirect: {
+          destination: `/`,
+          permanent: true,
+        },
+      };
+    }
 
     const client = createClient(context);
 
