@@ -39,6 +39,12 @@ function pageVanityUrl(
   // Redirect specific page IDs to their vanity URL.  In some cases, this also
   // means redirecting them to a different template (e.g. the homepage needs
   // to go to the homepage template, not the page template with ID=Xph...)
+  //
+  // Note: we have similar logic in a Lambda@Edge that's part of the CloudFront
+  // distribution, but we duplicate it here because this is the most up-to-date
+  // definition of vanity URLs.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/redirects.ts
   router.redirect(`/pages/${pageId}`, url, permanentRedirect);
 
   route(url, template, router, app, { id: pageId });

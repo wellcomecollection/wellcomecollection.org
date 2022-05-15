@@ -14,7 +14,6 @@ import {
   landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import {
-  homepageId,
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/services/prismic/hardcoded-id';
