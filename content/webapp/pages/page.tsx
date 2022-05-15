@@ -45,6 +45,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 
 type Props = {
   page: PageType;
+  vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
@@ -57,23 +58,39 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
+/** Is this URL a vanity URL?
+ *
+ * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
+ *
+ * It's moderately fiddly to get all the defined vanity URLs out of the
+ * app controller, so we use a heuristic instead.
+ */
+function isVanityUrl(pageId: string, url: string): boolean {
+  // Does this URL contain a page ID?  We look for the page ID rather
+  // than a specific prefix, because this template is used for multiple
+  // types of Prismic content.
+  //
+  // e.g. /pages/X8ZTSBIAACQAiDzY, /projects/X_SRxhEAACQAPbwS
+  const containsPageId = url.includes(pageId);
+
+  // This should match a single alphanumeric slug directly after the /
+  //
+  // e.g. /visit-us, /collections
+  const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
+
+  return !containsPageId && looksLikeVanityUrl;
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
 
-    // Although the homepage has a Prismic ID, you can't actually view it as a page.
-    // If somebody somehow lands here, send them to the proper homepage.
-    if (id === homepageId) {
-      return {
-        redirect: {
-          destination: `/`,
-          permanent: true,
-        },
-      };
-    }
-
     const client = createClient(context);
+
+    const vanityUrl = isVanityUrl(id as string, context.resolvedUrl)
+      ? context.resolvedUrl
+      : undefined;
 
     const pageLookup = await fetchPage(client, id as string);
     const page = pageLookup && transformPage(pageLookup);
@@ -112,6 +129,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           children,
           ordersInParents,
           serverData,
+          vanityUrl,
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
@@ -122,7 +140,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  vanityUrl,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -272,11 +296,17 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
           </SpacingSection>,
         ]
       : [];
+
+  // If we have a vanity URL, we prefer that for the link rel="canonical"
+  // in the page <head>; it means the canonical URL will match the links
+  // we put elsewhere on the website, e.g. in the header.
+  const pathname = vanityUrl || `/pages/${page.id}`;
+
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      url={{ pathname: `/pages/${page.id}` }}
+      url={{ pathname }}
       jsonLd={contentLd(page)}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
