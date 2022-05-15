@@ -183,7 +183,7 @@ const vanityUrls: Record<string, string> = {
   '/pages/Wuw2MSIAACtd3StS': '/schools',
   '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
   '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
-  '/pages/X8ZTSBIAACQAiDzY§': '/visit-us',
+  '/pages/X8ZTSBIAACQAiDzY': '/visit-us',
   '/pages/Wuw2MSIAACtd3Stq': '/about-us',
   '/pages/YDaZmxMAACIAT9u8': '/get-involved',
   '/pages/YH17kRAAACoAyWTB': '/user-panel',
