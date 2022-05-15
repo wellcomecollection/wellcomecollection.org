@@ -89,9 +89,7 @@ const appPromise = nextApp
 
     route('/newsletter', '/newsletter', router, nextApp);
 
-    route('/collections', '/page', router, nextApp, {
-      id: prismicPageIds.collections,
-    });
+    pageVanityUrl(router, nextApp, '/collections', prismicPageIds.collections);
 
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
