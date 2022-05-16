@@ -65,7 +65,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
 }) => {
   const { enablePickUpDate } = useToggles();
   const availableDates = useAvailableDates();
-  const [pickUpDate, setPickUpDate] = useState<string | undefined>();
+  const [pickUpDate, setPickUpDate] = useState<string | undefined>(
+    availableDates.nextAvailable?.format('DD-MM-YYYY')
+  );
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,6 +75,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
     const pickUpDateMoment = pickUpDate
       ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
       : availableDates.nextAvailable || london();
+
     if (
       !enablePickUpDate ||
       Boolean(
