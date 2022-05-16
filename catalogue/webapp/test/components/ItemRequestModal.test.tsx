@@ -48,7 +48,7 @@ describe('ItemRequestModal', () => {
     const select = screen.getByLabelText(
       /^Select a date$/i
     ) as HTMLSelectElement;
-    userEvent.selectOptions(select, '2022-05-23');
-    expect(select.value).toBe('2022-05-23');
+    userEvent.selectOptions(select, '23-05-2022');
+    expect(select.value).toBe('23-05-2022');
   });
 });
