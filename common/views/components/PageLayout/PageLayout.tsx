@@ -11,7 +11,10 @@ import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
+import {
+  collectionVenueId,
+  prismicPageIds,
+} from '../../../services/prismic/hardcoded-id';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../model/organization';
@@ -63,8 +66,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   excludeRoleMain = false,
 }) => {
   const hotjarUrls = [
-    'get-involved',
-    'schools',
+    prismicPageIds.getInvolved,
+    prismicPageIds.schools,
     'Wuw2MSIAACtd3SsM',
     'YRaLYREAADUTzmYL',
     'YROPixEAALOYwI1K',
