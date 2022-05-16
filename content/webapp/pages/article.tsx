@@ -27,9 +27,11 @@ import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '../services/prismic';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { transformArticle } from '../services/prismic/transformers/articles';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   article: Article;
+  jsonLd: JsonLdObj;
 } & WithGaDimensions;
 
 function articleHasOutro(article: Article) {
@@ -51,9 +53,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (articleDocument) {
       const article = transformArticle(articleDocument);
+      const jsonLd = articleLd(article);
       return {
         props: removeUndefinedProps({
           article,
+          jsonLd,
           serverData,
           gaDimensions: {
             partOf: article.seasons
@@ -119,7 +123,7 @@ function getNextUp(
   }
 }
 
-const ArticlePage: FC<Props> = ({ article }) => {
+const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -292,7 +296,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
-      jsonLd={articleLd(article)}
+      jsonLd={jsonLd}
       openGraphType={'article'}
       siteSection={'stories'}
       image={article.image}
