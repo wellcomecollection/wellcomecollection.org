@@ -41,12 +41,14 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   page: PageType;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
+  jsonLd: JsonLdObj;
 } & WithGaDimensions;
 
 type OrderInParent = {
@@ -93,12 +95,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
+      const jsonLd = contentLd(page);
+
       return {
         props: removeUndefinedProps({
           page,
           siblings,
           children,
           ordersInParents,
+          jsonLd,
           serverData,
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
@@ -110,7 +115,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  jsonLd,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -265,7 +276,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
       url={{ pathname: `/pages/${page.id}` }}
-      jsonLd={contentLd(page)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
