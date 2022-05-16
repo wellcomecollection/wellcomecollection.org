@@ -34,7 +34,7 @@ function getAvailableDates(
           excludedDates,
           excludedDays,
         }) && {
-          value: date.format('YYYY-MM-DD'),
+          value: date.format('DD-MM-YYYY'),
           text: date.format('dddd D MMMM'),
         }
       );
