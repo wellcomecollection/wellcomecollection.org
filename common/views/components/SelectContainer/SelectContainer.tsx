@@ -1,4 +1,4 @@
-import { useContext, ReactElement } from 'react';
+import { useContext, ReactElement, FC } from 'react';
 import { chevron } from '@weco/common/icons';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
@@ -56,10 +56,11 @@ const StyledSelect = styled.div.attrs({
 
 type Props = {
   label: string;
+  hideLabel?: boolean;
   children: ReactElement<'select'>;
 };
 
-const SelectContainer = ({ label, children }: Props) => {
+const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
   const { isKeyboard } = useContext(AppContext);
 
   return (
@@ -70,6 +71,7 @@ const SelectContainer = ({ label, children }: Props) => {
           h={{ size: 's', properties: ['margin-right'] }}
           className={classNames({
             [font('hnb', 5)]: true,
+            'visually-hidden': !!hideLabel,
           })}
         >
           {label}
