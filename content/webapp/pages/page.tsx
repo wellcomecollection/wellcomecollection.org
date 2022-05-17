@@ -6,7 +6,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import PrismicImageWithTasl from '../components/PrismicImageWithTasl/PrismicImageWithTasl';
+import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
 import { Page as PageType } from '../types/pages';
 import { SiblingsGroup } from '../types/siblings-group';
 import {
@@ -41,6 +41,7 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 type Props = {
   page: PageType;
@@ -110,6 +111,29 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
+function getFeaturedPictureWithTasl(featuredPicture) {
+  const image = (getCrop(featuredPicture.value.image, '16:9') ||
+    featuredPicture.value.image) as any;
+
+  return (
+    <ImageWithTasl
+      Image={
+        <PrismicImage
+          image={image}
+          sizes={{
+            xlarge: 1,
+            large: 1,
+            medium: 1,
+            small: 1,
+          }}
+          quality={75}
+        />
+      }
+      tasl={image?.tasl}
+    />
+  );
+}
+
 const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
@@ -146,19 +170,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     : page.body;
 
   const featuredMedia = featuredPicture ? (
-    <PrismicImageWithTasl
-      image={{
-        ...((getCrop(featuredPicture.value.image, '16:9') ||
-          featuredPicture.value.image) as any),
-      }}
-      sizes={{
-        xlarge: 1,
-        large: 1,
-        medium: 1,
-        small: 1,
-      }}
-      quality={75}
-    />
+    getFeaturedPictureWithTasl(featuredPicture)
   ) : featuredVideo ? (
     <VideoEmbed {...featuredVideo.value} />
   ) : undefined;
