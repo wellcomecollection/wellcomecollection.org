@@ -49,7 +49,7 @@ const TaslIcon = styled.span.attrs({
   display: ${props => (props.isEnhanced ? 'flex' : 'inline')};
 `;
 
-type MarkUpProps = {
+export type MarkUpProps = {
   title?: string | null;
   author?: string | null;
   sourceName?: string | null;
