@@ -87,7 +87,6 @@ const appPromise = nextApp
     route(`/events/:id(${prismicId})`, '/event', router, nextApp);
     route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
-    route('/stories', '/stories', router, nextApp);
     route('/articles', '/articles', router, nextApp);
     route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
     route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
@@ -100,8 +99,6 @@ const appPromise = nextApp
     route(`/seasons/:id(${prismicId})`, '/season', router, nextApp);
 
     route('/newsletter', '/newsletter', router, nextApp);
-
-    pageVanityUrl(router, nextApp, '/collections', prismicPageIds.collections);
 
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
@@ -124,13 +121,6 @@ const appPromise = nextApp
       '/covid-welcome-back',
       prismicPageIds.covidWelcomeBack
     );
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/visit-us',
-      prismicPageIds.visitUs,
-      '/page'
-    );
     pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
     pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
     pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
@@ -140,6 +130,21 @@ const appPromise = nextApp
       '/stories',
       permanentRedirect
     );
+    route('/stories', '/stories', router, nextApp);
+
+    router.redirect(
+      `/pages/${prismicPageIds.collections}`,
+      '/collections',
+      permanentRedirect
+    );
+    route('/collections', '/collections', router, nextApp);
+
+    router.redirect(
+      `/pages/${prismicPageIds.visitUs}`,
+      '/visit-us',
+      permanentRedirect
+    );
+    route('/visit-us', '/visit-us', router, nextApp);
 
     // We define this _after_ the vanity URLs and redirects for specific page IDs;
     // this means this route will only serve pages that we want to be accessible by
