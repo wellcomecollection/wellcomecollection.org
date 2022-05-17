@@ -40,7 +40,7 @@ const StyledSelect = styled.div.attrs({
     ${props =>
       props.isFontsLoaded &&
       `
-      padding: 4px 30px 8px 12px;
+      padding: 4px 36px 8px 12px;
       line-height: 1.5;
     `}
 
