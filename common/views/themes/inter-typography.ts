@@ -72,19 +72,6 @@ const fontSizeMixin = size => {
     .map(name => {
       return `@media (min-width: ${themeValues.sizes[name]}px) {
       font-size: ${fontSizesAtBreakpoints[name][size]}px;
-      line-height: ${(() => {
-        switch (size) {
-          case 0:
-          case 1:
-          case 2:
-          case 4:
-          case 5:
-          case 6:
-            return `1.6`;
-          case 3:
-            return `1.5`;
-        }
-      })()}
     }`;
     })
     .join(' ');
@@ -238,6 +225,8 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
+    line-height: 1.6;
+
     h1 {
       ${fontFamilyMixin('wb', true)}
       ${fontSizeMixin(1)}
