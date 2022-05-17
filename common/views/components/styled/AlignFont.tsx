@@ -18,8 +18,8 @@ const Align = styled.span<{ isActive: boolean }>`
 `;
 
 const AlignFont: FunctionComponent<Props> = ({ children, className }) => {
-  const isActive = useIsFontsLoaded();
   const { inter } = useToggles();
+  const isActive = useIsFontsLoaded(inter);
 
   return inter ? (
     <>{children}</>

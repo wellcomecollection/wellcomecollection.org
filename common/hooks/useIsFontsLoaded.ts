@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useIsFontsLoaded = (): boolean => {
+const useIsFontsLoaded = (isInter?: boolean): boolean => {
   const [isFontsLoaded, setIsFontsLoaded] = useState(false);
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') {
@@ -18,7 +18,9 @@ const useIsFontsLoaded = (): boolean => {
     const HNB = new FontFaceObserver('Helvetica Neue Bold Web');
     const LR = new FontFaceObserver('Lettera Regular Web');
 
-    Promise.all([WB.load(null), HNR.load(null), HNB.load(null), LR.load(null)])
+    const fonts = [WB, LR].concat(isInter ? [] : [HNR, HNB]);
+
+    Promise.all(fonts.map(font => font.load(null)))
       .then(() => {
         if (isMounted) {
           setIsFontsLoaded(true);
