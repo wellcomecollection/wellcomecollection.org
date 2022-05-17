@@ -4,8 +4,6 @@ import { classNames } from '../../../utils/classnames';
 import { ImageType } from '../../../model/image';
 import { createPrismicLoader } from '../PrismicImage/PrismicImage';
 
-// TODO restrict height in this component not in captioned image - makes it more flexible
-
 export type Props = {
   image: ImageType;
   maxWidth?: number;
@@ -35,24 +33,15 @@ function determineSize(viewPortImageDifference): string {
 }
 
 const aspectRatios = {
-  // TODO are these sensible ratios - see analytics....
-  // TODO order is important comment // The browser selects the first size for which the query matches
   '16/9': 16 / 9,
   '3/2': 3 / 2,
   '4/3': 4 / 3,
   '9/16': 9 / 16,
 };
 
-// 1.7777777
-// 1.5
-// 1.333333
-// 0.5625
-
-// - screen 218/615
-//  = 0.35
 type AspectRatios = typeof aspectRatios;
 
-export function convertVerticalBreakpointSizesToSizes( // TODO write tests for this
+export function convertVerticalBreakpointSizesToSizes(
   aspectRatios: AspectRatios,
   image: ImageType
 ): string[] {
