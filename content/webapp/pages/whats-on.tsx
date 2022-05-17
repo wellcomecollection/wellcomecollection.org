@@ -106,6 +106,7 @@ export type Props = {
   tryTheseTooPromos: FacilityPromoType[];
   eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
+  jsonLd: JsonLdObj[];
 };
 
 export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
@@ -379,6 +380,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
 
     if (period && events && exhibitions) {
+      const jsonLd = [
+        ...exhibitions.results.map(exhibitionLd),
+        ...events.results.map(eventLd),
+      ] as JsonLdObj[];
+
       return {
         props: removeUndefinedProps({
           period,
@@ -389,6 +395,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           tryTheseTooPromos: [readingRoomPromo],
           eatShopPromos: [cafePromo],
           cafePromo,
+          jsonLd,
           featuredText: featuredText!,
           serverData,
         }),
@@ -399,8 +406,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const WhatsOnPage: FunctionComponent<Props> = props => {
-  const { period, dateRange, tryTheseTooPromos, eatShopPromos, featuredText } =
-    props;
+  const {
+    period,
+    dateRange,
+    tryTheseTooPromos,
+    eatShopPromos,
+    featuredText,
+    jsonLd,
+  } = props;
 
   const events = props.events.results.map(fixEventDatesInJson);
   const availableOnlineEvents =
@@ -431,12 +444,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       title={pageTitle}
       description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
-      jsonLd={
-        [
-          ...exhibitions.map(exhibitionLd),
-          ...events.map(eventLd),
-        ] as JsonLdObj[]
-      }
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstExhibition && firstExhibition.image}

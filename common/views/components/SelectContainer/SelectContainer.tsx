@@ -1,20 +1,22 @@
-import { useContext, ReactElement } from 'react';
+import { useContext, ReactElement, FC } from 'react';
 import { chevron } from '@weco/common/icons';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
+import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
-type IsKeyboardProps = {
+type StyledSelectProps = {
   isKeyboard: boolean;
+  isFontsLoaded: boolean;
 };
 
 const StyledSelect = styled.div.attrs({
   className: classNames({
     [font('hnr', 5)]: true,
   }),
-})<IsKeyboardProps>`
+})<StyledSelectProps>`
   position: relative;
 
   .icon {
@@ -33,6 +35,14 @@ const StyledSelect = styled.div.attrs({
     border: 2px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
+
+    // TODO: Remove this if/when we stop using Helvetica World
+    ${props =>
+      props.isFontsLoaded &&
+      `
+      padding: 4px 36px 8px 12px;
+      line-height: 1.5;
+    `}
 
     &::-ms-expand {
       display: none;
@@ -56,20 +66,23 @@ const StyledSelect = styled.div.attrs({
 
 type Props = {
   label: string;
+  hideLabel?: boolean;
   children: ReactElement<'select'>;
 };
 
-const SelectContainer = ({ label, children }: Props) => {
+const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
   const { isKeyboard } = useContext(AppContext);
+  const isFontsLoaded = useIsFontsLoaded();
 
   return (
-    <StyledSelect isKeyboard={isKeyboard}>
+    <StyledSelect isKeyboard={isKeyboard} isFontsLoaded={isFontsLoaded}>
       <label>
         <Space
           as="span"
           h={{ size: 's', properties: ['margin-right'] }}
           className={classNames({
             [font('hnb', 5)]: true,
+            'visually-hidden': !!hideLabel,
           })}
         >
           {label}

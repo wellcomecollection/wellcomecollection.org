@@ -2,6 +2,10 @@ export function isNotUndefined<T>(val: T | undefined): val is T {
   return typeof val !== 'undefined';
 }
 
+export function isTruthy<T>(val: T | false | null | undefined): val is T {
+  return typeof val !== 'undefined' && val !== false && val !== null;
+}
+
 export function isUndefined<T>(val: T | undefined): val is T {
   return typeof val === 'undefined';
 }

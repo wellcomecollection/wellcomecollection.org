@@ -29,7 +29,6 @@ import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
-import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
@@ -38,6 +37,7 @@ import { Book } from '../../types/books';
 import { Article } from '../../types/articles';
 import { Event as EventType } from '../../types/events';
 import * as prismicT from '@prismicio/types';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -197,10 +197,11 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
 
 type Props = {
   exhibition: ExhibitionType;
+  jsonLd: JsonLdObj;
   pages: PageType[];
 };
 
-const Exhibition: FC<Props> = ({ exhibition, pages }) => {
+const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
   type ExhibitionOf = (ExhibitionType | EventType)[];
   type ExhibitionAbout = (Book | Article)[];
 
@@ -284,7 +285,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
         exhibition.metadataDescription || exhibition.promo?.caption || ''
       }
       url={{ pathname: `/exhibitions/${exhibition.id}` }}
-      jsonLd={exhibitionLd(exhibition)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={exhibition.image}
