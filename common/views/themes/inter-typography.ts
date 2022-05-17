@@ -50,12 +50,12 @@ export const fontSizesAtBreakpoints = {
 
 const fontFamilies = {
   hnb: {
-    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
-    full: `'Helvetica Neue Bold Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
   },
   hnr: {
-    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
-    full: `'Helvetica Neue Roman Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
   },
   wb: {
     base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
