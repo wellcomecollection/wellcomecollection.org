@@ -5,16 +5,18 @@ import styled from 'styled-components';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
+import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 
-type IsKeyboardProps = {
+type StyledSelectProps = {
   isKeyboard: boolean;
+  isFontsLoaded: boolean;
 };
 
 const StyledSelect = styled.div.attrs({
   className: classNames({
     [font('hnr', 5)]: true,
   }),
-})<IsKeyboardProps>`
+})<StyledSelectProps>`
   position: relative;
 
   .icon {
@@ -33,6 +35,14 @@ const StyledSelect = styled.div.attrs({
     border: 2px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
+
+    // TODO: Remove this if/when we stop using Helvetica World
+    ${props =>
+      props.isFontsLoaded &&
+      `
+      padding: 4px 30px 8px 12px;
+      line-height: 1.5;
+    `}
 
     &::-ms-expand {
       display: none;
@@ -62,9 +72,10 @@ type Props = {
 
 const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
   const { isKeyboard } = useContext(AppContext);
+  const isFontsLoaded = useIsFontsLoaded();
 
   return (
-    <StyledSelect isKeyboard={isKeyboard}>
+    <StyledSelect isKeyboard={isKeyboard} isFontsLoaded={isFontsLoaded}>
       <label>
         <Space
           as="span"
