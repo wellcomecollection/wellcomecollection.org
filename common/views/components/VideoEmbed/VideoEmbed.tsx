@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
-import Caption from '@weco/common/views/components/Caption/Caption';
-import { IframeContainer } from '@weco/common/views/components/Iframe/Iframe';
+import Caption from '../Caption/Caption';
+import { IframeContainer } from '../Iframe/Iframe';
 import * as prismicT from '@prismicio/types';
 
 export type Props = {

@@ -50,13 +50,3 @@ export function getCrop(
       : undefined)
   );
 }
-
-export type UiImageType = ImageType & {
-  sizesQueries: string;
-  extraClasses?: string;
-  isFull?: boolean;
-  showTasl?: boolean;
-  isWidthAuto?: boolean;
-  setComputedImageWidth?: (value: number) => void;
-  setIsWidthAuto?: (value: boolean) => void;
-};

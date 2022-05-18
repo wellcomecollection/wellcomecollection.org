@@ -1,9 +1,17 @@
 import Tasl from '../Tasl/Tasl';
 import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-import { UiImageProps } from '../Images/Images';
 import { Picture as PictureProps } from '../../../model/picture';
 import { FunctionComponent } from 'react';
+import { ImageType } from '../../../model/image';
+
+type UiImageProps = ImageType & {
+  extraClasses?: string;
+  isFull?: boolean;
+  isWidthAuto?: boolean;
+  setComputedImageWidth?: (value: number) => void;
+  setIsWidthAuto?: (value: boolean) => void;
+};
 
 type Props = {
   images: PictureProps[];
@@ -57,7 +65,7 @@ export const Picture: FunctionComponent<Props> = ({
   );
 };
 
-// The prder of the images is important, you need to have it from:
+// The order of the images is important, you need to have it from:
 // maximum min-width -> minimum min-width
 type PictureFromImagesProps = {
   images: { string: UiImageProps }; // the key here is the minwidth
