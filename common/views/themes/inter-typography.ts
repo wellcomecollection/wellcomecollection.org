@@ -3,19 +3,20 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 const breakpointNames = ['small', 'medium', 'large'];
+const oneRem = 16;
 
 const fontSizeUnits = {
-  '1': 14,
-  '2': 15,
-  '3': 16,
-  '4': 18,
-  '5': 20,
-  '6': 22,
-  '7': 24,
-  '8': 28,
-  '9': 32,
-  '10': 40,
-  '11': 50,
+  '1': 14 / oneRem,
+  '2': 15 / oneRem,
+  '3': 16 / oneRem,
+  '4': 18 / oneRem,
+  '5': 20 / oneRem,
+  '6': 22 / oneRem,
+  '7': 24 / oneRem,
+  '8': 28 / oneRem,
+  '9': 32 / oneRem,
+  '10': 40 / oneRem,
+  '11': 50 / oneRem,
 };
 
 export const fontSizesAtBreakpoints = {
@@ -70,8 +71,8 @@ const fontFamilies = {
 const fontSizeMixin = size => {
   return breakpointNames
     .map(name => {
-      return `@media (min-width: ${themeValues.sizes[name]}px) {
-      font-size: ${fontSizesAtBreakpoints[name][size]}px;
+      return `@media (min-width: ${themeValues.sizes[name]}rem) {
+      font-size: ${fontSizesAtBreakpoints[name][size]}rem;
     }`;
     })
     .join(' ');
@@ -341,7 +342,7 @@ export function makeFontSizeClasses(): string {
       return `@media (min-width: ${themeValues.sizes[bp]}px) {
       ${Object.entries(fontSizesAtBreakpoints[bp])
         .map(([key, value]) => {
-          return `.font-size-${key} {font-size: ${value}px}`;
+          return `.font-size-${key} {font-size: ${value}rem}`;
         })
         .join(' ')}
     }`;
@@ -352,7 +353,7 @@ export function makeFontSizeClasses(): string {
 function overridesAtBreakpoint(bp) {
   return Object.entries(fontSizeUnits)
     .map(([key, value]) => {
-      return `.font-size-override-${bp}-${key} {font-size: ${value}px}`;
+      return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;
     })
     .join(' ');
 }
