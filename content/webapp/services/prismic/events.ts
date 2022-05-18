@@ -85,7 +85,7 @@ export function orderEventsByNextAvailableDate(
   events: EventBasic[]
 ): EventBasic[] {
   const reorderedEvents = sortBy(
-    [...events].filter(getNextDateInFuture),
+    events.filter(getNextDateInFuture),
     getNextDateInFuture
   );
 
