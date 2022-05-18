@@ -6,7 +6,8 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import PrismicImageWithTasl from '../components/PrismicImageWithTasl/PrismicImageWithTasl';
+import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Page as PageType } from '../types/pages';
 import { SiblingsGroup } from '../types/siblings-group';
 import {
@@ -81,6 +82,29 @@ function isVanityUrl(pageId: string, url: string): boolean {
   const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
 
   return !containsPageId && looksLikeVanityUrl;
+}
+
+function getFeaturedPictureWithTasl(featuredPicture) {
+  const image = (getCrop(featuredPicture.value.image, '16:9') ||
+    featuredPicture.value.image) as any;
+
+  return (
+    <ImageWithTasl
+      Image={
+        <PrismicImage
+          image={image}
+          sizes={{
+            xlarge: 1,
+            large: 1,
+            medium: 1,
+            small: 1,
+          }}
+          quality={45}
+        />
+      }
+      tasl={image?.tasl}
+    />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -190,19 +214,7 @@ export const Page: FC<Props> = ({
     : page.body;
 
   const featuredMedia = featuredPicture ? (
-    <PrismicImageWithTasl
-      image={{
-        ...((getCrop(featuredPicture.value.image, '16:9') ||
-          featuredPicture.value.image) as any),
-      }}
-      sizes={{
-        xlarge: 1,
-        large: 1,
-        medium: 1,
-        small: 1,
-      }}
-      quality={75}
-    />
+    getFeaturedPictureWithTasl(featuredPicture)
   ) : featuredVideo ? (
     <VideoEmbed {...featuredVideo.value} />
   ) : undefined;

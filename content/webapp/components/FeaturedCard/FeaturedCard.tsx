@@ -294,7 +294,7 @@ const FeaturedCard: FunctionComponent<Props> = ({
                 medium: 1 / 2,
                 small: 1,
               }}
-              quality={75}
+              quality={45}
             />
           )}
         </FeaturedCardLeft>

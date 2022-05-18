@@ -2,7 +2,8 @@ import { FC, ReactNode } from 'react';
 import Caption from '@weco/common/views/components/Caption/Caption';
 import styled from 'styled-components';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
-import PrismicImageWithTasl from '../PrismicImageWithTasl/PrismicImageWithTasl';
+import ImageWithTasl from '../ImageWithTasl/ImageWithTasl';
+import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
 
 type CaptionedImageProps = {
   isBody?: boolean;
@@ -54,21 +55,12 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   image,
   isBody,
 }) => {
-  const uiImageProps = { ...image };
   return (
     <CaptionedImageFigure isBody={isBody}>
-      <ImageContainerInner
-        aspectRatio={uiImageProps.width / uiImageProps.height}
-      >
-        <PrismicImageWithTasl
-          image={uiImageProps}
-          sizes={{
-            xlarge: 1,
-            large: 1,
-            medium: 1,
-            small: 1,
-          }}
-          quality={75}
+      <ImageContainerInner aspectRatio={image.width / image.height}>
+        <ImageWithTasl
+          Image={<HeightRestrictedPrismicImage image={image} quality={45} />}
+          tasl={image.tasl}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
       </ImageContainerInner>
