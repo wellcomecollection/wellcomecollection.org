@@ -91,7 +91,7 @@ const SeasonPage = ({
               medium: 1,
               small: 1,
             }}
-            quality={75}
+            quality={45}
           />
         ) : undefined
       }

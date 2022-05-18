@@ -39,7 +39,7 @@ export function getFeaturedMedia(
         medium: 1,
         small: 1,
       }}
-      quality={75}
+      quality={45}
     />
   ) : image ? (
     <PrismicImage
@@ -50,7 +50,7 @@ export function getFeaturedMedia(
         medium: 1,
         small: 1,
       }}
-      quality={75}
+      quality={45}
     />
   ) : undefined;
   return featuredMedia;
