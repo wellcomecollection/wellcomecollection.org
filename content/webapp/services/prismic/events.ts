@@ -7,9 +7,9 @@ import {
   isFuture,
   isPast,
 } from '@weco/common/utils/dates';
-import { Event, EventBasic } from '../../types/events';
+import { Event, EventBasic, HasTimes } from '../../types/events';
 
-function getNextDateInFuture(event: EventBasic): Date | undefined {
+function getNextDateInFuture(event: HasTimes): Date | undefined {
   const futureTimes = event.times.filter(time =>
     isFuture(time.range.startDateTime)
   );
@@ -81,9 +81,9 @@ export function filterEventsForWeekend(events: EventBasic[]): EventBasic[] {
   return filterEventsByTimeRange(events, start, end);
 }
 
-export function orderEventsByNextAvailableDate(
-  events: EventBasic[]
-): EventBasic[] {
+export function orderEventsByNextAvailableDate<T extends HasTimes>(
+  events: T[]
+): T[] {
   const reorderedEvents = sortBy(
     events.filter(getNextDateInFuture),
     getNextDateInFuture
