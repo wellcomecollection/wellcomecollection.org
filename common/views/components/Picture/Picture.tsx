@@ -52,7 +52,7 @@ export const Picture: FunctionComponent<Props> = ({
           />
         )}
       </picture>
-      {tasl && <Tasl {...tasl} isFull={isFull} />}
+      {tasl && <Tasl {...tasl} positionTop={isFull} />}
     </figure>
   );
 };
@@ -106,7 +106,7 @@ export const PictureFromImages = ({
           />
         )}
       </picture>
-      {lastImage && <Tasl {...lastImage.tasl} isFull={isFull} />}
+      {lastImage && <Tasl {...lastImage.tasl} positionTop={isFull} />}
     </figure>
   );
 };

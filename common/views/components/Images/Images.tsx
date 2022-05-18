@@ -1,46 +1,10 @@
-import { Fragment, Component, createRef, ReactNode } from 'react';
+import { Fragment, Component, createRef } from 'react';
 import debounce from 'lodash.debounce';
 import { convertImageUri } from '../../../utils/convert-image-uri';
 import { classNames } from '../../../utils/classnames';
 import { imageSizes } from '../../../utils/image-sizes';
 import Tasl from '../Tasl/Tasl';
 import { ImageType } from '../../../model/image';
-import { CaptionedImage as CaptionedImageType } from '../../../model/captioned-image';
-import Caption from '../Caption/Caption';
-import LL from '../styled/LL';
-import styled from 'styled-components';
-
-type CaptionedImageProps = {
-  isBody?: boolean;
-};
-
-const CaptionedImageFigure = styled.div<CaptionedImageProps>`
-  margin: 0;
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-
-  .image {
-    max-height: 80vh;
-    max-width: 100%;
-
-  }
-
-  noscript .image {
-    max-height: none;
-  }
-
-  ${props =>
-    props.isBody &&
-    `
-    text-align: left;
-
-    .caption {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  `}
-}`;
 
 export type UiImageProps = ImageType & {
   sizesQueries: string;
@@ -155,91 +119,8 @@ export class UiImage extends Component<UiImageProps, UiImageState> {
           alt={alt || ''}
         />
 
-        {showTasl && <Tasl {...tasl} isFull={isFull} />}
+        {showTasl && <Tasl {...tasl} positionTop={isFull} />}
       </Fragment>
-    );
-  }
-}
-
-export type UiCaptionedImageProps = CaptionedImageType & {
-  sizesQueries: string;
-  isBody?: boolean;
-  preCaptionNode?: ReactNode;
-  setTitleStyle?: (value: number) => void;
-};
-
-type UiCaptionedImageState = {
-  computedImageWidth?: number;
-  isWidthAuto: boolean;
-  isEnhanced: boolean;
-};
-
-export class CaptionedImage extends Component<
-  UiCaptionedImageProps,
-  UiCaptionedImageState
-> {
-  state: UiCaptionedImageState = {
-    computedImageWidth: undefined,
-    isWidthAuto: false,
-    isEnhanced: false,
-  };
-
-  componentDidMount() {
-    this.setState({
-      isEnhanced: true,
-    });
-  }
-
-  setIsWidthAuto = (value: boolean) => {
-    this.setState({
-      isWidthAuto: value,
-    });
-  };
-
-  setComputedImageWidth = (width: number) => {
-    this.props.setTitleStyle && this.props.setTitleStyle(width);
-    this.setState({
-      computedImageWidth: width,
-    });
-  };
-
-  render() {
-    const { caption, preCaptionNode, image, isBody, sizesQueries } = this.props;
-    const { computedImageWidth, isWidthAuto, isEnhanced } = this.state;
-    const uiImageProps = { ...image, sizesQueries };
-
-    return (
-      <CaptionedImageFigure className={`captioned-image`} isBody={isBody}>
-        <div
-          style={{
-            display: isWidthAuto ? 'inline-block' : undefined,
-          }}
-          className="captioned-image__image-container relative"
-        >
-          {!isWidthAuto && isEnhanced && <LL />}
-          <UiImage
-            {...uiImageProps}
-            setIsWidthAuto={this.setIsWidthAuto}
-            isWidthAuto={isWidthAuto}
-            setComputedImageWidth={this.setComputedImageWidth}
-          />
-        </div>
-        {isWidthAuto && (
-          <Caption
-            width={computedImageWidth}
-            caption={caption}
-            preCaptionNode={preCaptionNode}
-          />
-        )}
-
-        {!isEnhanced && ( // Render the captions for no-JS
-          <Caption
-            width={computedImageWidth}
-            caption={caption}
-            preCaptionNode={preCaptionNode}
-          />
-        )}
-      </CaptionedImageFigure>
     );
   }
 }
