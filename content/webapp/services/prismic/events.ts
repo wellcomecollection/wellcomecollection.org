@@ -1,4 +1,3 @@
-import sortBy from 'lodash.sortby';
 import { Moment } from 'moment';
 import { london, formatDayDate } from '@weco/common/utils/format-date';
 import {
@@ -7,9 +6,10 @@ import {
   isFuture,
   isPast,
 } from '@weco/common/utils/dates';
-import { Event, EventBasic } from '../../types/events';
+import { Event, EventBasic, HasTimes } from '../../types/events';
+import { isNotUndefined } from '@weco/common/utils/array';
 
-function getNextDateInFuture(event: EventBasic): Date | undefined {
+function getNextDateInFuture(event: HasTimes): Date | undefined {
   const futureTimes = event.times.filter(time =>
     isFuture(time.range.startDateTime)
   );
@@ -81,15 +81,19 @@ export function filterEventsForWeekend(events: EventBasic[]): EventBasic[] {
   return filterEventsByTimeRange(events, start, end);
 }
 
-export function orderEventsByNextAvailableDate(
-  events: EventBasic[]
-): EventBasic[] {
-  const reorderedEvents = sortBy(
-    [...events].filter(getNextDateInFuture),
-    getNextDateInFuture
-  );
-
-  return reorderedEvents;
+export function orderEventsByNextAvailableDate<T extends HasTimes>(
+  events: T[]
+): T[] {
+  return events
+    .map(event => {
+      const nextFutureDate = getNextDateInFuture(event);
+      return isNotUndefined(nextFutureDate)
+        ? { event, nextFutureDate }
+        : undefined;
+    })
+    .filter(isNotUndefined)
+    .sort((a, b) => a.nextFutureDate.valueOf() - b.nextFutureDate.valueOf())
+    .map(({ event }) => event);
 }
 
 const GroupByFormat = {
