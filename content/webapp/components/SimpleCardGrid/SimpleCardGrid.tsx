@@ -27,10 +27,12 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
         image={
           image && {
             ...image,
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
             alt: '',
-            sizesQueries:
-              '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-            showTasl: false,
           }
         }
         labels={

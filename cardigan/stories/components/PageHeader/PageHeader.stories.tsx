@@ -4,7 +4,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
@@ -229,7 +229,7 @@ const bookImage = {
   crops: {},
   sizesQueries: '',
 };
-const EventFeaturedMedia = () => <UiImage {...eventImage} />;
+const EventFeaturedMedia = () => <PrismicImage image={eventImage} />;
 
 const Template = args => <PageHeader {...args} />;
 
