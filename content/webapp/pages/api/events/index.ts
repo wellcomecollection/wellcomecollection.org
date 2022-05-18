@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { isString } from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchEvents } from '../../../services/prismic/fetch/events';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -16,12 +16,15 @@ export default async (
 ): Promise<void> => {
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
-  const client = createClient({ req });
-  const query = await fetchEvents(client, parsedParams);
 
-  if (query) {
-    const events = transformQuery(query, transformEvent);
-    return res.status(200).json(events);
+  if (isNotUndefined(parsedParams)) {
+    const client = createClient({ req });
+    const query = await fetchEvents(client, parsedParams);
+
+    if (query) {
+      const events = transformQuery(query, transformEvent);
+      return res.status(200).json(events);
+    }
   }
 
   return res.status(404).json({ notFound: true });

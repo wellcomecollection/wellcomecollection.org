@@ -292,5 +292,15 @@ book.args = {
   ContentTypeInfo: <BookContentTypeInfo />,
   isContentTypeInfoBeforeMedia: true,
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
-  FeaturedMedia: <BookImage image={bookImage} />,
+  FeaturedMedia: (
+    <BookImage
+      image={bookImage}
+      sizes={{
+        xlarge: 1 / 2,
+        large: 1 / 2,
+        medium: 1 / 2,
+        small: 1,
+      }}
+    />
+  ),
 };

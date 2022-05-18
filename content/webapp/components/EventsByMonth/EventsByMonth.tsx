@@ -1,6 +1,4 @@
 import { Component } from 'react';
-import sortBy from 'lodash.sortby';
-import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
@@ -8,7 +6,12 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
-import { groupEventsByMonth, parseLabel, startOf } from './group-event-utils';
+import {
+  groupEventsByMonth,
+  parseLabel,
+  sortByEarliestFutureDateRange,
+  startOf,
+} from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -24,7 +27,7 @@ class EventsByMonth extends Component<Props, State> {
     activeId: undefined,
   };
 
-  render() {
+  render(): JSX.Element {
     const { events, links } = this.props;
     const { activeId } = this.state;
     const monthsIndex = {
@@ -64,18 +67,9 @@ class EventsByMonth extends Component<Props, State> {
 
     // Need to order the events for each month based on their earliest future date range
     Object.keys(eventsInMonths).map(label => {
-      eventsInMonths[label] = sortBy(eventsInMonths[label], [
-        m => {
-          const times = m.times.map(time => ({
-            start: time.range.startDateTime,
-            end: time.range.endDateTime,
-          }));
-          const fromDate = startOf(parseLabel(label));
-
-          const earliestRange = getEarliestFutureDateRange(times, fromDate);
-          return earliestRange && earliestRange.start;
-        },
-      ]);
+      eventsInMonths[label] = sortByEarliestFutureDateRange(
+        eventsInMonths[label]
+      );
     });
 
     return (

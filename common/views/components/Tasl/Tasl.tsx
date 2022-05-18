@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
 import { getPrismicLicenseData } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
@@ -50,13 +50,13 @@ const TaslIcon = styled.span.attrs({
 `;
 
 export type MarkUpProps = {
-  title?: string | null;
-  author?: string | null;
-  sourceName?: string | null;
-  sourceLink?: string | null;
-  license?: string | null;
-  copyrightHolder?: string | null;
-  copyrightLink?: string | null;
+  title?: string;
+  author?: string;
+  sourceName?: string;
+  sourceLink?: string;
+  license?: string;
+  copyrightHolder?: string;
+  copyrightLink?: string;
 };
 
 function getMarkup({
@@ -68,26 +68,21 @@ function getMarkup({
   copyrightHolder,
   copyrightLink,
 }: MarkUpProps) {
-  const licenseData = license && getPrismicLicenseData(license);
-
   return (
     <>
       {getTitleHtml(title, author, sourceLink)}
       {getSourceHtml(sourceName, sourceLink)}
       {getCopyrightHtml(copyrightHolder, copyrightLink)}
-      {licenseData && (
-        <>
-          <a rel="license" href={licenseData.url}>
-            {licenseData.label}
-          </a>
-          .
-        </>
-      )}
+      {getLicenseHtml(license)}
     </>
   );
 }
 
-function getTitleHtml(title, author, sourceLink) {
+function getTitleHtml(
+  title?: string,
+  author?: string,
+  sourceLink?: string
+): ReactElement | undefined {
   if (!title) return;
 
   const byAuthor = author ? `, ${author}` : '';
@@ -114,8 +109,11 @@ function getTitleHtml(title, author, sourceLink) {
   }
 }
 
-function getSourceHtml(sourceName, sourceLink) {
-  if (!sourceName) return '';
+function getSourceHtml(
+  sourceName?: string,
+  sourceLink?: string
+): ReactElement | undefined {
+  if (!sourceName) return;
 
   if (sourceLink) {
     return (
@@ -132,8 +130,11 @@ function getSourceHtml(sourceName, sourceLink) {
   }
 }
 
-function getCopyrightHtml(copyrightHolder, copyrightLink) {
-  if (!copyrightHolder) return '';
+function getCopyrightHtml(
+  copyrightHolder?: string,
+  copyrightLink?: string
+): ReactElement | undefined {
+  if (!copyrightHolder) return;
 
   if (copyrightLink) {
     return (
@@ -144,6 +145,21 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
   } else {
     return <>&copy; {copyrightHolder}. </>;
   }
+}
+
+function getLicenseHtml(license?: string): ReactElement | undefined {
+  const licenseData = license && getPrismicLicenseData(license);
+
+  if (!licenseData) return;
+
+  return (
+    <>
+      <a rel="license" href={licenseData.url}>
+        {licenseData.label}
+      </a>
+      .
+    </>
+  );
 }
 
 export type Props = MarkUpProps & {

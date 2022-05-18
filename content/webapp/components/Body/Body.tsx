@@ -42,8 +42,6 @@ import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
 import { BodySlice, isContentList } from '../../types/body';
-import VisitUsStaticContent from './VisitUsStaticContent';
-import CollectionsStaticContent from './CollectionsStaticContent';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import VenueHours from '../VenueHours/VenueHours';
@@ -53,6 +51,7 @@ import FeaturedCard, {
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
+import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -86,6 +85,7 @@ type Props = {
   minWidth?: 10 | 8;
   isLanding?: boolean;
   sectionLevelPage?: boolean;
+  staticContent?: ReactElement | null;
 };
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
@@ -99,6 +99,7 @@ const Body: FunctionComponent<Props> = ({
   minWidth = 8,
   isLanding = false,
   sectionLevelPage = false,
+  staticContent = null,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -142,18 +143,17 @@ const Body: FunctionComponent<Props> = ({
     index,
     sections = [],
     isLanding = false,
+    staticContent,
   }: {
     index: number;
     sections: ContentListSlice[];
     isLanding: boolean;
+    staticContent: ReactElement | null;
   }): ReactElement<Props> | null => {
     if (index === 0) {
       return (
         <>
-          {pageId === prismicPageIds.visitUs && <VisitUsStaticContent />}
-          {pageId === prismicPageIds.collections && (
-            <CollectionsStaticContent />
-          )}
+          {staticContent}
           {onThisPage && onThisPage.length > 2 && showOnThisPage && (
             <SpacingComponent>
               <LayoutWidth width={minWidth}>
@@ -270,6 +270,7 @@ const Body: FunctionComponent<Props> = ({
           index={0}
           sections={sections}
           isLanding={isLanding}
+          staticContent={staticContent}
         />
       )}
 
@@ -298,6 +299,7 @@ const Body: FunctionComponent<Props> = ({
             index={i}
             sections={sections}
             isLanding={isLanding}
+            staticContent={staticContent}
           />
           {!(
             i === 0 &&
@@ -402,13 +404,7 @@ const Body: FunctionComponent<Props> = ({
                 )}
                 {slice.type === 'soundcloudEmbed' && (
                   <LayoutWidth width={minWidth}>
-                    <iframe
-                      width="100%"
-                      height="140"
-                      frameBorder="no"
-                      title="soundcloud player"
-                      src={slice.value.embedUrl}
-                    />
+                    <SoundCloudEmbed {...slice.value} />
                   </LayoutWidth>
                 )}
                 {slice.type === 'map' && (

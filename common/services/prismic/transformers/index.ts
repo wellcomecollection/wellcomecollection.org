@@ -17,6 +17,11 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
   // e.g. Self|Rob Bidder|||CC-BY-NC
   try {
     const list = (pipedString || '').split('|');
+
+    if (list.length > 7) {
+      throw new Error('TASL has more than 7 elements');
+    }
+
     const v = list
       .concat(Array(7 - list.length))
       .map(v => (!v.trim() ? undefined : v.trim()));
@@ -41,6 +46,7 @@ export function transformTaslFromString(pipedString: string | null): Tasl {
       copyrightLink,
     };
   } catch (e) {
+    console.warn(`Unable to parse TASL from input (${pipedString}): ${e}`);
     return {
       title: pipedString,
     };

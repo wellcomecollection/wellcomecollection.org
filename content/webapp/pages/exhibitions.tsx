@@ -18,11 +18,13 @@ import {
 } from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
 import { ExhibitionBasic } from '../types/exhibitions';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
   title: string;
+  jsonLd: JsonLdObj[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -44,11 +46,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+      const jsonLd = exhibitions.results.map(exhibitionLd);
       return {
         props: removeUndefinedProps({
           exhibitions,
           title,
           period: period as Period,
+          jsonLd,
           serverData,
         }),
       };
@@ -58,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions: jsonExhibitions, period, title } = props;
+  const { exhibitions: jsonExhibitions, period, title, jsonLd } = props;
   const exhibitions = {
     ...jsonExhibitions,
     results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
@@ -70,7 +74,7 @@ const ExhibitionsPage: FC<Props> = props => {
       title={title}
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
-      jsonLd={exhibitions.results.map(exhibitionLd)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstExhibition && firstExhibition.image}

@@ -80,7 +80,7 @@ const ApiToolbar: FunctionComponent = () => {
     if (fn) {
       fn(router.query).then(setProps);
     }
-  }, []);
+  }, [router.route, router.query]);
 
   const propValue = (prop: Prop) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
