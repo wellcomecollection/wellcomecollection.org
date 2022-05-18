@@ -161,6 +161,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const maybeExtraText = enablePickUpDate
+    ? ' from your selected pickup date'
+    : '';
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -349,8 +352,8 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             }}
                           >
                             Requests made will be available to pick up from the
-                            library for one week. If you wish to cancel a
-                            request, please{' '}
+                            library for one week{maybeExtraText}. If you wish to
+                            cancel a request, please{' '}
                             <a href="mailto:library@wellcomecollection.org">
                               contact the library team.
                             </a>

@@ -9,9 +9,9 @@ type ConfirmedDialogProps = {
 };
 
 const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
-  const { enablePickupDate } = useToggles();
-  const maybeExtraText = enablePickupDate
-    ? ' from your selected pick-up date'
+  const { enablePickUpDate } = useToggles();
+  const maybeExtraText = enablePickUpDate
+    ? ' from your selected pickup date'
     : '';
 
   return (
@@ -25,7 +25,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
       </Header>
       <p>
         It will be available to pick up from the library (Rare Materials Room,
-        level 3) for one week{{ maybeExtraText }}.
+        level 3) for one week{maybeExtraText}.
       </p>
       <CTAs>
         <ButtonSolidLink text={`View your library account`} link={'/account'} />
