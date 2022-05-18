@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -41,12 +41,16 @@ import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed } from 'types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
-type Props = {
+export type Props = {
   page: PageType;
+  vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
+  staticContent: ReactElement | null;
+  jsonLd: JsonLdObj;
 } & WithGaDimensions;
 
 type OrderInParent = {
@@ -56,12 +60,39 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
+/** Is this URL a vanity URL?
+ *
+ * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
+ *
+ * It's moderately fiddly to get all the defined vanity URLs out of the
+ * app controller, so we use a heuristic instead.
+ */
+function isVanityUrl(pageId: string, url: string): boolean {
+  // Does this URL contain a page ID?  We look for the page ID rather
+  // than a specific prefix, because this template is used for multiple
+  // types of Prismic content.
+  //
+  // e.g. /pages/X8ZTSBIAACQAiDzY, /projects/X_SRxhEAACQAPbwS
+  const containsPageId = url.includes(pageId);
+
+  // This should match a single alphanumeric slug directly after the /
+  //
+  // e.g. /visit-us, /collections
+  const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
+
+  return !containsPageId && looksLikeVanityUrl;
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
 
     const client = createClient(context);
+
+    const vanityUrl = isVanityUrl(id as string, context.resolvedUrl)
+      ? context.resolvedUrl
+      : undefined;
 
     const pageLookup = await fetchPage(client, id as string);
     const page = pageLookup && transformPage(pageLookup);
@@ -93,13 +124,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
+      const jsonLd = contentLd(page);
+
       return {
         props: removeUndefinedProps({
           page,
           siblings,
           children,
           ordersInParents,
+          staticContent: null,
+          jsonLd,
           serverData,
+          vanityUrl,
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
@@ -110,7 +146,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+export const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  staticContent,
+  vanityUrl,
+  jsonLd,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -260,12 +304,18 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
           </SpacingSection>,
         ]
       : [];
+
+  // If we have a vanity URL, we prefer that for the link rel="canonical"
+  // in the page <head>; it means the canonical URL will match the links
+  // we put elsewhere on the website, e.g. in the header.
+  const pathname = vanityUrl || `/pages/${page.id}`;
+
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      url={{ pathname: `/pages/${page.id}` }}
-      jsonLd={contentLd(page)}
+      url={{ pathname }}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
@@ -281,6 +331,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
             showOnThisPage={page.showOnThisPage}
             isLanding={isLanding}
             sectionLevelPage={sectionLevelPage}
+            staticContent={staticContent}
           />
         }
         /**

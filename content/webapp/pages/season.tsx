@@ -53,6 +53,7 @@ import { Project } from '../types/projects';
 import { Series } from '../types/series';
 import { looksLikePrismicId } from '../services/prismic';
 import { getCrop } from '@weco/common/model/image';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   season: Season;
@@ -63,6 +64,7 @@ type Props = {
   pages: Page[];
   projects: Project[];
   series: Series[];
+  jsonLd: JsonLdObj;
 };
 
 const SeasonPage = ({
@@ -74,6 +76,7 @@ const SeasonPage = ({
   series,
   projects,
   books,
+  jsonLd,
 }: Props): ReactElement<Props> => {
   const superWidescreenImage = getCrop(season.image, '32:15');
 
@@ -109,7 +112,7 @@ const SeasonPage = ({
       title={season.title}
       description={season.metadataDescription || season.promo?.caption || ''}
       url={{ pathname: `/seasons/${season.id}` }}
-      jsonLd={contentLd(season)}
+      jsonLd={jsonLd}
       siteSection={'whats-on'}
       openGraphType={'website'}
       image={season.image}
@@ -203,6 +206,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const season = seasonDoc && transformSeason(seasonDoc);
 
     if (season) {
+      const jsonLd = contentLd(season);
       const serverData = await getServerData(context);
       return {
         props: removeUndefinedProps({
@@ -214,6 +218,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           pages: pages.results,
           projects: projects.results,
           series: series.results,
+          jsonLd,
           serverData,
         }),
       };

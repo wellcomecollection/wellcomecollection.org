@@ -29,7 +29,17 @@ const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
           },
           validateStatus: (status: number) => status >= 200 && status < 500,
         })
-        .catch(error => error.response);
+        .catch(error => {
+          if (error.response) {
+            return error.response;
+          }
+          // This can occur if, e.g. the TLS certificate for the API has expired.
+          console.error('Connection-level error (no response received)', error);
+          return {
+            status: 500,
+            data: { message: 'Error connecting to API' },
+          };
+        });
 
       res.status(remoteResponse.status).send(remoteResponse.data);
     } catch (e) {
