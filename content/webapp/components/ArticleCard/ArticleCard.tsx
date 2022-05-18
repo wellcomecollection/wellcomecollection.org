@@ -5,7 +5,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined } from '@weco/common/utils/array';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import linkResolver from '../../services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';

@@ -5,7 +5,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
@@ -74,7 +74,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ''}}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,

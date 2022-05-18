@@ -6,7 +6,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';

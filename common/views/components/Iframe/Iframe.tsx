@@ -1,11 +1,11 @@
 import { Component, Fragment, createRef } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '../PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import styled from 'styled-components';
-import { cross } from '@weco/common/icons';
 
 export const IframeContainer = styled.div`
   padding-bottom: 56.25%; /* 16:9 */
@@ -129,7 +129,16 @@ class Iframe extends Component<Props, State> {
                 </span>
               </span>
             )}
-            <UiImage {...imageObject} />
+            <PrismicImage
+              image={imageObject}
+              sizes={{
+                xlarge: 1 / 2,
+                large: 1 / 2,
+                medium: 1,
+                small: 1,
+              }}
+              quality={60}
+            />
             {this.state.iframeShowing && (
               <Control
                 colorScheme="light"

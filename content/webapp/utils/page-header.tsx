@@ -1,6 +1,6 @@
 import { getCrop } from '@weco/common/model/image';
 import { breakpoints } from '@weco/common/utils/breakpoints';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
@@ -31,11 +31,28 @@ export function getFeaturedMedia(
       isFull={true}
     />
   ) : widescreenImage ? (
-    <UiImage {...widescreenImage} sizesQueries="" />
+    <PrismicImage
+      image={widescreenImage}
+      sizes={{
+        xlarge: 1,
+        large: 1,
+        medium: 1,
+        small: 1,
+      }}
+      quality={75}
+    />
   ) : image ? (
-    <UiImage {...image} sizesQueries="" />
+    <PrismicImage
+      image={image}
+      sizes={{
+        xlarge: 1,
+        large: 1,
+        medium: 1,
+        small: 1,
+      }}
+      quality={75}
+    />
   ) : undefined;
-
   return featuredMedia;
 }
 

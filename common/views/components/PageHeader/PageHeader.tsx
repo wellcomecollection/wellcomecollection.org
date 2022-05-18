@@ -1,7 +1,7 @@
 import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
-import { UiImage } from '../Images/Images';
+import PrismicImage from '../PrismicImage/PrismicImage';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import { Picture } from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
@@ -52,7 +52,7 @@ const HeroPictureContainer = styled.div`
 `;
 
 export type FeaturedMedia =
-  | ReactElement<typeof UiImage>
+  | ReactElement<typeof PrismicImage>
   | typeof VideoEmbed
   | typeof Picture;
 

@@ -547,14 +547,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
     &.lazyloaded {
       opacity: 1;
-
-      .captioned-image & {
-        opacity: 1;
-      }
-    }
-
-    .captioned-image & {
-      opacity: 0;
     }
   }
 `;

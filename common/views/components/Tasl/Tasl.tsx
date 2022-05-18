@@ -14,7 +14,7 @@ type StyledTaslProps = {
 };
 
 const StyledTasl = styled.div.attrs({
-  className: `${font('lr', 6)} plain-text tasl`, // Still need the tasl class as it's used with .image-gallery-v2 styles
+  className: `${font('lr', 6)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<StyledTaslProps>`
   text-align: right;
   top: ${props => (props.positionAtTop ? 0 : 'auto')};
@@ -163,11 +163,11 @@ function getLicenseHtml(license?: string): ReactElement | undefined {
 }
 
 export type Props = MarkUpProps & {
-  isFull: boolean;
+  positionTop?: boolean;
 };
 
 const Tasl: FunctionComponent<Props> = ({
-  isFull,
+  positionTop = false,
   title,
   author,
   sourceName,
@@ -190,10 +190,10 @@ const Tasl: FunctionComponent<Props> = ({
   }
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
-    <StyledTasl positionAtTop={isFull} isEnhanced={isEnhanced}>
+    <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
       <TaslButton
         onClick={toggleWithAnalytics}
-        positionAtTop={isFull}
+        positionAtTop={positionTop}
         aria-expanded={isActive}
         aria-controls={title || sourceName || copyrightHolder || ''}
       >

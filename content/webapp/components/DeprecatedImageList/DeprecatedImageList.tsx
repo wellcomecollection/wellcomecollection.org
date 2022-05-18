@@ -1,4 +1,4 @@
-import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import { FunctionComponent } from 'react';
@@ -18,10 +18,7 @@ const DeprecatedImageList: FunctionComponent<Props> = ({ items }: Props) => {
       {items.map((item, i) => (
         <div className="body-text" key={i}>
           <h2>{item.title}</h2>
-          <CaptionedImage
-            {...item.image}
-            sizesQueries="(min-width: 1540px) 1402px, (min-width: 600px) 92.39vw, 100vw"
-          />
+          <CaptionedImage {...item.image} />
           <PrismicHtmlBlock html={item.description} />
         </div>
       ))}
