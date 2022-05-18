@@ -6,17 +6,17 @@ const breakpointNames = ['small', 'medium', 'large'];
 const oneRem = 16;
 
 const fontSizeUnits = {
-  '1': 14 / oneRem,
-  '2': 15 / oneRem,
-  '3': 16 / oneRem,
-  '4': 18 / oneRem,
-  '5': 20 / oneRem,
-  '6': 22 / oneRem,
-  '7': 24 / oneRem,
-  '8': 28 / oneRem,
-  '9': 32 / oneRem,
-  '10': 40 / oneRem,
-  '11': 50 / oneRem,
+  '1': 14 / oneRem, // 0.875rem
+  '2': 15 / oneRem, // 0.9375rem
+  '3': 15.9 / oneRem, // 0.99375rem
+  '4': 18 / oneRem, // 1.125rem
+  '5': 18.8 / oneRem, // 1.175rem
+  '6': 22 / oneRem, // 1.375rem
+  '7': 24 / oneRem, // 1.5rem
+  '8': 28 / oneRem, // 1.75rem
+  '9': 32 / oneRem, // 2rem
+  '10': 40 / oneRem, // 2.5rem
+  '11': 50 / oneRem, // 3.125rem
 };
 
 export const fontSizesAtBreakpoints = {
