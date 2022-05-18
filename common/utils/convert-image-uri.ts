@@ -107,7 +107,7 @@ export function convertIiifImageUri(
 
 export function convertPrismicImageUri(
   originalUri: string,
-  requiredSize: number | 'full'
+  requiredSize: number
 ): string {
   if (!originalUri.startsWith(prismicBaseUri)) {
     return originalUri;

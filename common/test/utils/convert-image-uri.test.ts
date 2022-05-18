@@ -4,17 +4,6 @@ import {
 } from '../../utils/convert-image-uri';
 
 describe('convertPrismicImageUri', () => {
-  it('creates a full-sized image', () => {
-    const result = convertPrismicImageUri(
-      'https://images.prismic.io/wellcomecollection/EP_0001.jpg',
-      'full'
-    );
-
-    expect(result).toEqual(
-      'https://images.prismic.io/wellcomecollection/EP_0001.jpg?auto=&rect=&w=full&h='
-    );
-  });
-
   it('replaces an existing width parameter with a number', () => {
     const result = convertPrismicImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0002.jpg?w=100',
@@ -40,10 +29,10 @@ describe('convertPrismicImageUri', () => {
   it('removes unrecognised parameters', () => {
     const fullResult = convertPrismicImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0004.jpg?token=sekrit',
-      'full'
+      400
     );
     expect(fullResult).toEqual(
-      'https://images.prismic.io/wellcomecollection/EP_0004.jpg?auto=&rect=&w=full&h='
+      'https://images.prismic.io/wellcomecollection/EP_0004.jpg?auto=&rect=&w=400&h='
     );
 
     const wideResult = convertPrismicImageUri(
