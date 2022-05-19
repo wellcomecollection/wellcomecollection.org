@@ -1,4 +1,4 @@
-import { convertImageUri } from './convert-image-uri';
+import { convertPrismicImageUri } from './convert-image-uri';
 import { Organization } from '../model/organization';
 import { BreadcrumbItems } from '../model/breadcrumbs';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -78,7 +78,7 @@ function imageLd(image: Image) {
     image &&
     objToJsonLd(
       {
-        url: convertImageUri((image.contentUrl || image.url)!, 1200),
+        url: convertPrismicImageUri((image.contentUrl || image.url)!, 1200),
         width: image.width,
         height: image.height,
       },

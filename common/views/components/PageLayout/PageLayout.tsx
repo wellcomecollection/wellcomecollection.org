@@ -23,7 +23,7 @@ import { usePrismicData, useToggles } from '../../../server-data/Context';
 import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
-import { convertImageUri } from '@weco/common/utils/convert-image-uri';
+import { convertPrismicImageUri } from '@weco/common/utils/convert-image-uri';
 
 export type SiteSection =
   | 'collections'
@@ -134,7 +134,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
 
   const imageUrl =
     socialPreviewCardImage &&
-    convertImageUri(socialPreviewCardImage.contentUrl, 800);
+    convertPrismicImageUri(socialPreviewCardImage.contentUrl, 800);
   const imageAltText = socialPreviewCardImage?.alt || '';
 
   return (
