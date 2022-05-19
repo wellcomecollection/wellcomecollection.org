@@ -136,7 +136,6 @@ const contentRedirects: Record<string, string> = {
   '/articles/museums-in-context-the-birth-of-the-public-museum':
     '/articles/W_0kHhEAADUAbHiJ',
   '/articles/the-power-of-unicorns': '/articles/W_1gyREAADIAbXjT',
-  '/youth': '/pages/Wuw2MSIAACtd3Ssg',
   '/young-people': '/pages/Wuw2MSIAACtd3Ssg',
   '/openplatform': '/pages/WvljzSAAAB4E3uMF',
   '/the-hub': '/pages/Wuw2MSIAACtd3SsU',

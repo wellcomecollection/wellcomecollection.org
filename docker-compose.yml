@@ -30,6 +30,10 @@ services:
   edge_lambdas:
     build:
       context: ./cache/edge_lambdas
+    volumes:
+      - ~/.aws:/root/.aws
+    environment:
+      - AWS_PROFILE
   toggles:
     build:
       context: ./toggles
