@@ -32,7 +32,7 @@ export const fontSizesAtBreakpoints = {
   medium: {
     0: fontSizeUnits[10],
     1: fontSizeUnits[9],
-    2: fontSizeUnits[8],
+    2: fontSizeUnits[7],
     3: fontSizeUnits[6],
     4: fontSizeUnits[4],
     5: fontSizeUnits[2],
@@ -41,7 +41,7 @@ export const fontSizesAtBreakpoints = {
   large: {
     0: fontSizeUnits[11],
     1: fontSizeUnits[10],
-    2: fontSizeUnits[9],
+    2: fontSizeUnits[8],
     3: fontSizeUnits[7],
     4: fontSizeUnits[5],
     5: fontSizeUnits[3],
