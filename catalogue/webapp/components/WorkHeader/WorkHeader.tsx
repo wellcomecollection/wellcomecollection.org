@@ -1,11 +1,7 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { Work } from '@weco/common/model/catalogue';
 import { font, classNames, grid } from '@weco/common/utils/classnames';
-import {
-  getProductionDates,
-  getArchiveLabels,
-  getCardLabels,
-} from '../../utils/works';
+import { getProductionDates, getCardLabels } from '../../utils/works';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import Space from '@weco/common/views/components/styled/Space';
@@ -32,7 +28,6 @@ const WorkHeader: FunctionComponent<Props> = ({
   work,
 }: Props): ReactElement<Props> => {
   const productionDates = getProductionDates(work);
-  const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
   const { childManifestsCount } = useIIIFManifestData(work);
 
@@ -92,13 +87,6 @@ const WorkHeader: FunctionComponent<Props> = ({
             <LinkLabels
               heading="Reference"
               items={[{ text: work.referenceNumber }]}
-            />
-          )}
-
-          {archiveLabels?.partOf && (
-            <LinkLabels
-              heading="Part of"
-              items={[{ text: archiveLabels.partOf }]}
             />
           )}
 
