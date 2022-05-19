@@ -74,7 +74,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ''}}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,

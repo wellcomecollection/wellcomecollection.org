@@ -1,4 +1,4 @@
-import { Fragment, FC } from 'react';
+import { FC } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -83,10 +83,10 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
               v={{ size: 'm', properties: ['margin-bottom'] }}
               className={`${font('hnr', 5)} no-padding`}
             >
-              <Fragment>
-                <time dateTime={formatDate(start)}>{formatDate(start)}</time>—
+              <>
+                <time dateTime={formatDate(start)}>{formatDate(start)}</time> –{' '}
                 <time dateTime={formatDate(end)}>{formatDate(end)}</time>
-              </Fragment>
+              </>
             </Space>
           )}
 

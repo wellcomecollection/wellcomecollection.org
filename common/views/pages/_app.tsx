@@ -385,7 +385,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
               <ThemeProvider theme={theme}>
                 <GlobalStyle
                   toggles={serverData.toggles}
-                  isFontsLoaded={useIsFontsLoaded()}
+                  isFontsLoaded={useIsFontsLoaded(serverData.toggles.inter)}
                 />
                 <OutboundLinkTracker>
                   <LoadingIndicator />
