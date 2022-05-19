@@ -71,7 +71,7 @@ const fontFamilies = {
 const fontSizeMixin = size => {
   return breakpointNames
     .map(name => {
-      return `@media (min-width: ${themeValues.sizes[name]}rem) {
+      return `@media (min-width: ${themeValues.sizes[name]}px) {
       font-size: ${fontSizesAtBreakpoints[name][size]}rem;
     }`;
     })
