@@ -1,5 +1,6 @@
 import { getCrop } from '@weco/common/model/image';
 import { breakpoints } from '@weco/common/utils/breakpoints';
+import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { FeaturedMedia } from '@weco/common/views/components/PageHeader/PageHeader';
 import Picture from '@weco/common/views/components/Picture/Picture';
@@ -31,26 +32,36 @@ export function getFeaturedMedia(
       isFull={true}
     />
   ) : widescreenImage ? (
-    <PrismicImage
-      image={widescreenImage}
-      sizes={{
-        xlarge: 1,
-        large: 1,
-        medium: 1,
-        small: 1,
-      }}
-      quality={45}
+    <ImageWithTasl
+      Image={
+        <PrismicImage
+          image={widescreenImage}
+          sizes={{
+            xlarge: 1,
+            large: 1,
+            medium: 1,
+            small: 1,
+          }}
+          quality={45}
+        />
+      }
+      tasl={widescreenImage.tasl}
     />
   ) : image ? (
-    <PrismicImage
-      image={image}
-      sizes={{
-        xlarge: 1,
-        large: 1,
-        medium: 1,
-        small: 1,
-      }}
-      quality={45}
+    <ImageWithTasl
+      Image={
+        <PrismicImage
+          image={image}
+          sizes={{
+            xlarge: 1,
+            large: 1,
+            medium: 1,
+            small: 1,
+          }}
+          quality={45}
+        />
+      }
+      tasl={image.tasl}
     />
   ) : undefined;
   return featuredMedia;
