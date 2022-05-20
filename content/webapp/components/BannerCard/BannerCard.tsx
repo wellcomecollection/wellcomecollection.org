@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react';
 import { Season } from '../../types/seasons';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { convertPrismicImageUri } from '@weco/common/utils/convert-image-uri';
+import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
@@ -170,9 +170,7 @@ const BannerCard: FunctionComponent<Props> = ({
         />
       </Space>
       {image && (
-        <ImageWrapper
-          imageUrl={convertPrismicImageUri(image.contentUrl, 640)}
-        />
+        <ImageWrapper imageUrl={convertImageUri(image.contentUrl, 640)} />
       )}
     </CardOuter>
   );

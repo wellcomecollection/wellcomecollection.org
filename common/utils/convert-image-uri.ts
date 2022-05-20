@@ -3,6 +3,16 @@ import urlTemplate from 'url-template';
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
 const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
 
+function determineSrc(url: string): string {
+  if (url.startsWith(prismicBaseUri)) {
+    return 'prismic';
+  } else if (url.startsWith(iiifImageUri)) {
+    return 'iiif';
+  } else {
+    return 'unknown';
+  }
+}
+
 function determineIfGif(originalUriPath: string): boolean {
   return originalUriPath.includes('.gif');
 }
@@ -105,16 +115,19 @@ export function convertIiifImageUri(
   }
 }
 
-export function convertPrismicImageUri(
+export function convertImageUri(
   originalUri: string,
-  requiredSize: number
+  requiredSize: number | 'full'
 ): string {
-  if (!originalUri.startsWith(prismicBaseUri)) {
-    return originalUri;
-  } else {
+  const imageSrc = determineSrc(originalUri);
+  if (imageSrc === 'prismic') {
     const parts = prismicTemplateParts(originalUri, requiredSize);
     return prismicImageTemplate(parts.base)({
       ...parts.params,
     });
+  } else if (imageSrc === 'iiif') {
+    return convertIiifImageUri(originalUri, requiredSize);
+  } else {
+    return originalUri;
   }
 }

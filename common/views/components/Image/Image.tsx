@@ -1,5 +1,5 @@
 import { classNames } from '../../../utils/classnames';
-import { convertPrismicImageUri } from '../../../utils/convert-image-uri';
+import { convertImageUri } from '../../../utils/convert-image-uri';
 import { imageSizes, supportedSizes } from '../../../utils/image-sizes';
 import { isNotUndefined } from '../../../utils/array';
 import { FunctionComponent } from 'react';
@@ -47,11 +47,11 @@ const Img = ({
         'cursor-zoom-in': Boolean(zoomable),
         [`${extraClasses || ''}`]: Boolean(extraClasses),
       })}
-      src={convertPrismicImageUri(contentUrl, defaultSize)}
+      src={convertImageUri(contentUrl, defaultSize)}
       data-srcset={
         srcsetRequired
           ? sizes.map(size => {
-              return `${convertPrismicImageUri(contentUrl, size)} ${size}w`;
+              return `${convertImageUri(contentUrl, size)} ${size}w`;
             })
           : undefined
       }
@@ -77,7 +77,7 @@ const Image: FunctionComponent<Props> = (props: Props) => {
       <img width='${props.width || ''}'
         height='${props.height || ''}'
         class='${classes}'
-        src='${convertPrismicImageUri(props.contentUrl, 640)}'
+        src='${convertImageUri(props.contentUrl, 640)}'
         alt='${props.alt || ''}' />`,
         }}
       />
