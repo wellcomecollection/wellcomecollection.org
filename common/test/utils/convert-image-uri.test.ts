@@ -1,11 +1,22 @@
 import {
   convertIiifImageUri,
-  convertPrismicImageUri,
+  convertImageUri,
 } from '../../utils/convert-image-uri';
 
-describe('convertPrismicImageUri', () => {
+describe('convertImageUri for Prismic images', () => {
+  it('creates a full-sized image', () => {
+    const result = convertImageUri(
+      'https://images.prismic.io/wellcomecollection/EP_0001.jpg',
+      'full'
+    );
+
+    expect(result).toEqual(
+      'https://images.prismic.io/wellcomecollection/EP_0001.jpg?auto=&rect=&w=full&h='
+    );
+  });
+
   it('replaces an existing width parameter with a number', () => {
-    const result = convertPrismicImageUri(
+    const result = convertImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0002.jpg?w=100',
       200
     );
@@ -16,7 +27,7 @@ describe('convertPrismicImageUri', () => {
   });
 
   it('updates an existing height parameter based on the width', () => {
-    const result = convertPrismicImageUri(
+    const result = convertImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0003.jpg?w=100&h=200',
       300
     );
@@ -27,15 +38,15 @@ describe('convertPrismicImageUri', () => {
   });
 
   it('removes unrecognised parameters', () => {
-    const fullResult = convertPrismicImageUri(
+    const fullResult = convertImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0004.jpg?token=sekrit',
-      400
+      'full'
     );
     expect(fullResult).toEqual(
-      'https://images.prismic.io/wellcomecollection/EP_0004.jpg?auto=&rect=&w=400&h='
+      'https://images.prismic.io/wellcomecollection/EP_0004.jpg?auto=&rect=&w=full&h='
     );
 
-    const wideResult = convertPrismicImageUri(
+    const wideResult = convertImageUri(
       'https://images.prismic.io/wellcomecollection/EP_0004.jpg?token=sekrit',
       300
     );
@@ -45,9 +56,9 @@ describe('convertPrismicImageUri', () => {
   });
 });
 
-describe('convertIiifImageUri', () => {
+describe('convertImageUri for IIIF images', () => {
   it('passes through GIFs unmodified', () => {
-    const result = convertIiifImageUri(
+    const result = convertImageUri(
       'https://iiif.wellcomecollection.org/image/b0001.gif',
       'full'
     );
@@ -57,7 +68,7 @@ describe('convertIiifImageUri', () => {
   });
 
   it('sets the size parameter on a URI to full', () => {
-    const result = convertIiifImageUri(
+    const result = convertImageUri(
       'https://iiif.wellcomecollection.org/image/b0002.jpg',
       'full'
     );
@@ -67,7 +78,7 @@ describe('convertIiifImageUri', () => {
   });
 
   it('sets the size parameter on a URI to a number', () => {
-    const result = convertIiifImageUri(
+    const result = convertImageUri(
       'https://iiif.wellcomecollection.org/image/b0003.jpg',
       300
     );
@@ -77,7 +88,7 @@ describe('convertIiifImageUri', () => {
   });
 
   it('returns a URI for a PNG image', () => {
-    const result = convertIiifImageUri(
+    const result = convertImageUri(
       'https://iiif.wellcomecollection.org/image/b0004.png',
       300
     );
@@ -87,7 +98,7 @@ describe('convertIiifImageUri', () => {
   });
 
   it('defaults to a URI for a JPEG image', () => {
-    const result = convertIiifImageUri(
+    const result = convertImageUri(
       'https://iiif.wellcomecollection.org/image/b0005',
       300
     );

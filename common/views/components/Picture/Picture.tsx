@@ -1,6 +1,6 @@
 import Tasl from '../Tasl/Tasl';
 import { imageSizes } from '../../../utils/image-sizes';
-import { convertPrismicImageUri } from '../../../utils/convert-image-uri';
+import { convertImageUri } from '../../../utils/convert-image-uri';
 import { Picture as PictureProps } from '../../../model/picture';
 import { FunctionComponent } from 'react';
 import { ImageType } from '../../../model/image';
@@ -43,10 +43,7 @@ export const Picture: FunctionComponent<Props> = ({
                   .map(size => {
                     return (
                       image.contentUrl &&
-                      `${convertPrismicImageUri(
-                        image.contentUrl,
-                        size
-                      )} ${size}w`
+                      `${convertImageUri(image.contentUrl, size)} ${size}w`
                     );
                   })
                   .join(', ')}
@@ -58,7 +55,7 @@ export const Picture: FunctionComponent<Props> = ({
         {lastImage && lastImage.contentUrl && lastImage.width && (
           <img
             className="image block"
-            src={convertPrismicImageUri(lastImage.contentUrl, lastImage.width)}
+            src={convertImageUri(lastImage.contentUrl, lastImage.width)}
             alt={lastImage.alt || ''}
           />
         )}
@@ -75,7 +72,7 @@ type PictureFromImagesProps = {
   extraClasses?: string;
   isFull: boolean;
 };
-export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
+export const PictureFromImages = ({
   images,
   extraClasses,
   isFull = false,
@@ -99,7 +96,7 @@ export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
                 data-srcset={sizes.map(size => {
                   return (
                     image.contentUrl &&
-                    `${convertPrismicImageUri(image.contentUrl, size)} ${size}w`
+                    `${convertImageUri(image.contentUrl, size)} ${size}w`
                   );
                 })}
               />
@@ -112,10 +109,7 @@ export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
             height={lastImage.height}
             width={lastImage.width}
             className="image lazy-image lazyload"
-            data-src={convertPrismicImageUri(
-              lastImage.contentUrl,
-              lastImage.width
-            )}
+            data-src={convertImageUri(lastImage.contentUrl, lastImage.width)}
             alt={lastImage.alt || ''}
           />
         )}
