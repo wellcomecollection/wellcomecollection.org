@@ -21,6 +21,7 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { chevron, tree } from '@weco/common/icons';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -646,7 +647,16 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     >
       <div className="flex-inline">
         {isEnhanced && level > 1 && hasControl && (
-          <TreeControl highlightCondition={highlightCondition}>
+          <TreeControl
+            highlightCondition={highlightCondition}
+            onClick={() => {
+              trackEvent({
+                category: 'ArchiveTree',
+                action: 'Chevron clicked',
+                label: item.work.id,
+              });
+            }}
+          >
             <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
         )}
@@ -668,6 +678,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
+              trackEvent({
+                category: 'ArchiveTree',
+                action: 'Link clicked',
+                label: item.work.id,
+              });
             }}
             hasControl={hasControl}
           >
