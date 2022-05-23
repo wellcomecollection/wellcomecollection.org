@@ -55,6 +55,11 @@ describe('Image search', () => {
     await clickActionClickSearchResultItem(1);
     await expectItemIsVisible(modalexpandedImageViewMoreButton);
 
+    // Check we show visually similar images.  This could theoretically fail
+    // if the first result doesn't have any similar images, but if it fails
+    // it's much more likely we've broken something on the page.
+    await expectItemIsVisible('h3 >> text="Visually similar images"');
+
     await clickActionClickViewExpandedImage();
     await page.waitForNavigation();
     expectUrlToMatch(regexImageGalleryUrl);

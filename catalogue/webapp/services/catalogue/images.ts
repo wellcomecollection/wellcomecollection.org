@@ -97,18 +97,3 @@ export async function getImage({
     return catalogueApiError();
   }
 }
-
-export async function getVisuallySimilarImagesClientSide(
-  id: string
-): Promise<Image | undefined> {
-  // passing credentials: 'same-origin' ensures we pass the cookies to
-  // the API; in particular the toggle cookies
-  const response = await fetch(`/api/visuallySimilarImages/${id}`, {
-    credentials: 'same-origin',
-  });
-
-  if (response.ok) {
-    const image: Image = await response.json();
-    return image;
-  }
-}
