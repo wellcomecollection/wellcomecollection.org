@@ -11,7 +11,7 @@ const fontSizeUnits = {
   '3': 15.9 / oneRem, // 0.99375rem
   '4': 18 / oneRem, // 1.125rem
   '5': 18.8 / oneRem, // 1.175rem
-  '6': 22 / oneRem, // 1.375rem
+  '6': 21.6 / oneRem, // 1.35rem
   '7': 24 / oneRem, // 1.5rem
   '8': 28 / oneRem, // 1.75rem
   '9': 32 / oneRem, // 2rem
@@ -24,7 +24,7 @@ export const fontSizesAtBreakpoints = {
     0: fontSizeUnits[9],
     1: fontSizeUnits[8],
     2: fontSizeUnits[7],
-    3: fontSizeUnits[6],
+    3: fontSizeUnits[5],
     4: fontSizeUnits[3],
     5: fontSizeUnits[2],
     6: fontSizeUnits[1],
@@ -42,7 +42,7 @@ export const fontSizesAtBreakpoints = {
     0: fontSizeUnits[11],
     1: fontSizeUnits[10],
     2: fontSizeUnits[8],
-    3: fontSizeUnits[7],
+    3: fontSizeUnits[6],
     4: fontSizeUnits[5],
     5: fontSizeUnits[3],
     6: fontSizeUnits[1],
@@ -227,6 +227,7 @@ export const typography = css<GlobalStyleProps>`
 
   .body-text {
     line-height: 1.6;
+    letter-spacing: 0.005rem;
 
     h1 {
       ${fontFamilyMixin('wb', true)}
@@ -234,7 +235,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h2 {
-      ${fontFamilyMixin('hnb', true)}
+      ${fontFamilyMixin('wb', true)}
       ${fontSizeMixin(2)}
     }
 
