@@ -8,6 +8,7 @@ export async function expectItemsIsVisible(
 }
 
 export async function expectItemIsVisible(selector: string): Promise<void> {
+  console.debug(`Waiting for '${selector}' to be visible'`);
   expect(await elementIsVisible(selector)).toBeTruthy();
 }
 
