@@ -549,4 +549,9 @@ export const utilityClasses = css<GlobalStyleProps>`
       opacity: 1;
     }
   }
+
+  noscript {
+    background: ${themeValues.color('white')};
+    color: ${themeValues.color('black')};
+  }
 `;
