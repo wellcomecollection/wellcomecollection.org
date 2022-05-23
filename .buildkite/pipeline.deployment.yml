@@ -45,7 +45,7 @@ steps:
           environment: prod
           ref: "${BUILDKITE_COMMIT}"
 
-  - label: "deploy pa11y"
+  - label: "Update pa11y dashboard"
     branches: "main"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "prod"
     plugins:
