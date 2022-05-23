@@ -227,7 +227,7 @@ export const typography = css<GlobalStyleProps>`
 
   .body-text {
     line-height: 1.6;
-    letter-spacing: 0.005rem;
+    letter-spacing: 0.0044em;
 
     h1 {
       ${fontFamilyMixin('wb', true)}
