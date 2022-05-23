@@ -13,6 +13,37 @@ import boolean from './parts/boolean';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';
 
+function reservationBlock(prefix?: string) {
+  return {
+    [prefix ? `${prefix}TicketSalesStart` : 'ticketSalesStart']:
+      timestamp('Ticket sales start'),
+    [prefix ? `${prefix}BookingEnquiryTeam` : 'bookingEnquiryTeam']: link(
+      'Booking enquiry team',
+      'document',
+      ['teams']
+    ),
+    [prefix ? `${prefix}EventbriteEvent` : 'eventbriteEvent']:
+      embed('Eventbrite event'),
+    // This is what it was labelled on the UI,
+    // so that's what we're calling it here
+    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']: text(
+      'Third party booking name'
+    ),
+    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']: link(
+      'Third party booking url',
+      'web'
+    ),
+    [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
+      structuredText('Extra information'),
+    [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
+      policy: link('Policy', 'document', ['event-policies']),
+    }),
+    [prefix ? `${prefix}HasEarlyRegistration` : 'hasEarlyRegistration']:
+      booleanDeprecated('Early registration'),
+    [prefix ? `${prefix}Cost` : 'cost']: text('Cost'),
+  };
+}
+
 const events: CustomType = {
   id: 'events',
   label: 'Event',
@@ -47,21 +78,8 @@ const events: CustomType = {
         audience: link('Audience', 'document', ['audiences']),
       }),
     },
-    Reservation: {
-      ticketSalesStart: timestamp('Ticket sales start'),
-      bookingEnquiryTeam: link('Booking enquiry team', 'document', ['teams']),
-      eventbriteEvent: embed('Eventbrite event'),
-      // This is what it was labelled on the UI,
-      // so that's what we're calling it here
-      thirdPartyBookingName: text('Third party booking name'),
-      thirdPartyBookingUrl: link('Third party booking url', 'web'),
-      bookingInformation: structuredText('Extra information'),
-      policies: list('Policies', {
-        policy: link('Policy', 'document', ['event-policies']),
-      }),
-      hasEarlyRegistration: booleanDeprecated('Early registration'),
-      cost: text('Cost'),
-    },
+    Reservation: reservationBlock(),
+    'Online reservation': reservationBlock('online'),
     Schedule: {
       schedule: list('Events', {
         event: link('Event', 'document', ['events']),
