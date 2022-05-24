@@ -6,8 +6,7 @@ export const fonts = css<GlobalStyleProps>`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    src: local(''),
-      url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2')
+    src: url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff')
         format('woff');
@@ -17,8 +16,7 @@ export const fonts = css<GlobalStyleProps>`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    src: local(''),
-      url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2')
+    src: url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2')
         format('woff2'),
       url('https://i.wellcomecollection.org/assets/fonts/inter-v11-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff')
         format('woff');
