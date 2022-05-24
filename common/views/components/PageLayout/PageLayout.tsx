@@ -76,7 +76,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     u => url.pathname && url.pathname.match(u)
   );
   useHotjar(shouldLoadHotjar);
-  const { apiToolbar, inter } = useToggles();
+  const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -255,20 +255,16 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           }}
         />
 
-        {inter && (
-          <>
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link
-              rel="preconnect"
-              href="https://fonts.gstatic.com"
-              crossOrigin="anonymous"
-            />
-            <link
-              href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-              rel="stylesheet"
-            ></link>
-          </>
-        )}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+          rel="stylesheet"
+        ></link>
       </Head>
 
       <div id="root">

@@ -46,12 +46,6 @@ const toggles = {
       defaultValue: false,
       description: 'Allow users to sign up for an account',
     },
-    {
-      id: 'inter',
-      title: 'Inter font',
-      defaultValue: false,
-      description: 'Use Inter in place of Helvetica Neue',
-    },
   ] as const,
   tests: [] as ABTest[],
 };

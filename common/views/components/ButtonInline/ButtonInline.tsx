@@ -15,7 +15,6 @@ import {
   ButtonIconWrapper,
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
 import { IconSvg } from '@weco/common/icons';
 
 export type ButtonInlineBaseProps = {
@@ -79,13 +78,13 @@ const Button: FC<ButtonInlineProps> = (
     >
       <BaseButtonInner isInline={true}>
         <>
-          <AlignFont
+          <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
             })}
           >
             {text}
-          </AlignFont>
+          </span>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon icon={icon} />

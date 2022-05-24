@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
-import AlignFont from '../styled/AlignFont';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
@@ -194,13 +193,13 @@ const Button: FC<ButtonSolidProps> = (
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
-          <AlignFont
+          <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
             })}
           >
             {text}
-          </AlignFont>
+          </span>
         </>
       </BaseButtonInner>
     </SolidButton>

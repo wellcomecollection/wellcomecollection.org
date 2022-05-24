@@ -11,7 +11,6 @@ import {
   BaseButtonInner,
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
 import Icon from '../Icon/Icon';
 import { classNames, font } from '../../../utils/classnames';
 import { GaEvent, trackEvent } from '../../../utils/ga';
@@ -83,13 +82,13 @@ const Button: FC<BorderlessClickableProps> = (
               </span>
             </ButtonIconWrapper>
           )}
-          <AlignFont
+          <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
             })}
           >
             {text}
-          </AlignFont>
+          </span>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon icon={icon} />
