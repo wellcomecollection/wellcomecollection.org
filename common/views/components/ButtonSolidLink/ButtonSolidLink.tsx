@@ -9,7 +9,6 @@ import {
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import AlignFont from '../styled/AlignFont';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
@@ -64,7 +63,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
-          <AlignFont>{text}</AlignFont>
+          {text}
         </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>

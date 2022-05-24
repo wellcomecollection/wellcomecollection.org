@@ -4,7 +4,6 @@ import {
   RulesListItem,
   RulesListWrapper,
 } from './PasswordInput.style';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { check } from '@weco/common/icons';
@@ -60,19 +59,19 @@ export const PasswordRules: React.FC<Props> = ({
       <RulesList>
         <RulesListItem>
           <Dot isValid={isAtLeast8Characters} />
-          <AlignFont>At least 8 characters</AlignFont>
+          At least 8 characters
         </RulesListItem>
         <RulesListItem>
           <Dot isValid={hasLowercaseLetters} />
-          <AlignFont>Lowercase letters (a-z)</AlignFont>
+          Lowercase letters (a-z)
         </RulesListItem>
         <RulesListItem>
           <Dot isValid={hasUppercaseLetters} />
-          <AlignFont>Uppercase letters (A-Z)</AlignFont>
+          Uppercase letters (A-Z)
         </RulesListItem>
         <RulesListItem>
           <Dot isValid={hasNumbers} />
-          <AlignFont>Numbers (0-9)</AlignFont>
+          Numbers (0-9)
         </RulesListItem>
       </RulesList>
     </RulesListWrapper>

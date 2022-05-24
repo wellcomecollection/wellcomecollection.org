@@ -3,7 +3,6 @@ import { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import AlignFont from '../styled/AlignFont';
 
 type LabelContainerProps = {
   fontColor: string;
@@ -57,7 +56,7 @@ const Label: FunctionComponent<Props> = ({
       }
       labelColor={label.labelColor || defaultLabelColor}
     >
-      <AlignFont>{label.text}</AlignFont>
+      {label.text}
     </LabelContainer>
   );
 };

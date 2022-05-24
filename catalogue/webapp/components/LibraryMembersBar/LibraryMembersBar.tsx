@@ -2,7 +2,6 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
@@ -15,19 +14,24 @@ const StyledComponent = styled(Space).attrs({
 })`
   background: ${props => props.theme.color('turquoise', 'light')};
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 
   .icon {
-    transform: translateY(0.1em);
+    transform: translateY(0.2em);
   }
 `;
 
 const SignInLink: FC = () => {
   const loginURL = useLoginURLWithReturnToCurrent();
   return (
-    <AlignFont>
-      <span className={font('hnb', 5)}>Library members:</span>{' '}
+    <>
+      <Space
+        h={{ size: 's', properties: ['margin-right'] }}
+        className={font('hnb', 5)}
+      >
+        Library members:
+      </Space>
       <a
         href={loginURL}
         className={font('hnr', 5)}
@@ -41,7 +45,7 @@ const SignInLink: FC = () => {
       >
         sign in to your library account to request items
       </a>
-    </AlignFont>
+    </>
   );
 };
 
@@ -50,7 +54,7 @@ type ReloadProps = {
 };
 const Reload: FC<ReloadProps> = ({ reload }) => {
   return (
-    <AlignFont>
+    <>
       <span className={font('hnb', 5)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
@@ -68,7 +72,7 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
       >
         Try again
       </button>
-    </AlignFont>
+    </>
   );
 };
 
@@ -91,12 +95,10 @@ const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
         <Space h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={memberCard} />
         </Space>
-        <AlignFont>
-          <span className={font('hnb', 5)}>Library members:</span>{' '}
-          <span className={font('hnr', 5)}>
-            Requesting is currently unavailable.
-          </span>
-        </AlignFont>
+        <span className={font('hnb', 5)}>Library members:</span>{' '}
+        <span className={font('hnr', 5)}>
+          Requesting is currently unavailable.
+        </span>
       </StyledComponent>
     );
   }

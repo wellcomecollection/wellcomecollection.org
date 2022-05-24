@@ -87,6 +87,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   line-height: normal;
   margin-bottom: 8px;
   cursor: pointer;
+  min-height: 32px;
 
   &:before {
     content: '';
@@ -127,7 +128,7 @@ const TextWrapper = styled.div`
   margin-top: 8px;
 `;
 
-export function getColorDisplayName(color: string | null) {
+export function getColorDisplayName(color: string | null): string | null {
   if (color) {
     const matchingPaletteColor = palette.find(
       swatch => swatch.hexValue.toUpperCase() === color.toUpperCase()
@@ -159,12 +160,6 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
       firstRender.current = false;
     }
   }, [colorState]);
-
-  const matchingPaletteColor =
-    colorState &&
-    palette.find(
-      swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase()
-    );
 
   return (
     <Wrapper>

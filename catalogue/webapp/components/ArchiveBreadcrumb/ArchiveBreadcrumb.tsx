@@ -8,7 +8,6 @@ import { FunctionComponent, ReactNode, useContext } from 'react';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { archive, folder } from '@weco/common/icons';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 
 const ArchiveBreadcrumbNav = styled.nav`
   * {
@@ -85,11 +84,9 @@ const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
   children,
 }: ArchiveWorkLinkProps) => {
   return (
-    <AlignFont>
-      <WorkLink id={id} source={'archive_tree'}>
-        {children}
-      </WorkLink>
-    </AlignFont>
+    <WorkLink id={id} source={'archive_tree'}>
+      {children}
+    </WorkLink>
   );
 };
 
@@ -181,15 +178,13 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
           <li className={'flex'}>
             <Icon matchText={true} color={'currentColor'} icon={folder} />
             <span className="crumb-inner">
-              <AlignFont>
-                <WorkTitle
-                  title={`${lastCrumb.title}${
-                    lastCrumb.referenceNumber
-                      ? ` ${lastCrumb.referenceNumber}`
-                      : ''
-                  }`}
-                />
-              </AlignFont>
+              <WorkTitle
+                title={`${lastCrumb.title}${
+                  lastCrumb.referenceNumber
+                    ? ` ${lastCrumb.referenceNumber}`
+                    : ''
+                }`}
+              />
             </span>
           </li>
         )}

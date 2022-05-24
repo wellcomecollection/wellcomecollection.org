@@ -11,7 +11,6 @@ import { FixedSizeList } from 'react-window';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
@@ -109,7 +108,7 @@ const AccordionItem = ({
                 'no-margin': true,
               })}
             >
-              <AlignFont>{title}</AlignFont>
+              {title}
             </h2>
             <Icon
               icon={chevron}
@@ -226,7 +225,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
                 'flex flex--v-center': true,
               })}
             >
-              <AlignFont>Catalogue details</AlignFont>
+              Catalogue details
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"

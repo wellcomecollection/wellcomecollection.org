@@ -1,7 +1,6 @@
 import { ReactNode, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
-import AlignFont from '../styled/AlignFont';
 import Space, { SpaceComponentProps } from '../styled/Space';
 
 const ColouredTag: FunctionComponent<SpaceComponentProps> = styled.span.attrs({
@@ -38,11 +37,7 @@ const MessageBar: FunctionComponent<Props> = ({ tagText, children }: Props) => (
       [font('hnr', 6)]: true,
     })}
   >
-    {tagText && (
-      <ColouredTag>
-        <AlignFont>{tagText}</AlignFont>
-      </ColouredTag>
-    )}
+    {tagText && <ColouredTag>{tagText}</ColouredTag>}
     {children}
   </Space>
 );

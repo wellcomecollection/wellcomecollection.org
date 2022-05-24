@@ -2,27 +2,6 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from '../default';
 
 export const fonts = css<GlobalStyleProps>`
-  ${props =>
-    !props.toggles?.inter &&
-    `
-      @font-face {
-        font-family: 'Helvetica Neue Roman Web';
-        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff2')
-            format('woff2'),
-          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-roman.woff')
-            format('woff');
-      }
-
-      @font-face {
-        font-family: 'Helvetica Neue Bold Web';
-        src: url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff2')
-            format('woff2'),
-          url('https://i.wellcomecollection.org/assets/fonts/helvetica-neue-bold.woff')
-            format('woff');
-        font-weight: bold;
-      }
-  `}
-
   @font-face {
     font-family: 'Wellcome Bold Web';
     src: url('https://i.wellcomecollection.org/assets/fonts/wellcome-bold.woff2')

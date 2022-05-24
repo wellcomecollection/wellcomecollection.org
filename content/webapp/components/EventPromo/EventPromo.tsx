@@ -12,7 +12,6 @@ import Divider from '@weco/common/views/components/Divider/Divider';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { location } from '@weco/common/icons';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { Place } from '../../types/places';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { inOurBuilding } from '@weco/common/data/microcopy';
@@ -123,9 +122,7 @@ const EventPromo: FC<Props> = ({
             >
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>
-                <AlignFont>
-                  {getLocationText(event.isOnline, event.locations)}
-                </AlignFont>
+                {getLocationText(event.isOnline, event.locations)}
               </Space>
             </Space>
           )}

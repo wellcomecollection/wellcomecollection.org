@@ -11,7 +11,6 @@ import NextLink from 'next/link';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { getHref } from '../ButtonSolidLink/ButtonSolidLink';
 import { LinkProps } from '../../../model/link-props';
-import AlignFont from '../styled/AlignFont';
 
 type ButtonOutlinedLinkProps = ButtonOutlinedBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
@@ -54,7 +53,7 @@ const ButtonOutlinedLink: FunctionComponent<ButtonOutlinedLinkProps> = ({
         href={getHref(link)}
       >
         <BaseButtonInner>
-          <AlignFont>{text}</AlignFont>
+          {text}
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon icon={icon} />
