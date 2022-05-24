@@ -72,7 +72,7 @@ type PictureFromImagesProps = {
   extraClasses?: string;
   isFull: boolean;
 };
-export const PictureFromImages = ({
+export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
   images,
   extraClasses,
   isFull = false,
