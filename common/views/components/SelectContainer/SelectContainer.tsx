@@ -36,14 +36,6 @@ const StyledSelect = styled.div.attrs({
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
 
-    // TODO: Remove this if/when we stop using Helvetica World
-    ${props =>
-      props.isFontsLoaded &&
-      `
-      padding: 4px 36px 8px 12px;
-      line-height: 1.5;
-    `}
-
     &::-ms-expand {
       display: none;
     }
