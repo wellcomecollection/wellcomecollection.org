@@ -278,7 +278,8 @@ export const transformExhibitionRelatedContent = (
       doc => doc.type === 'exhibitions' || doc.type === 'events'
     ),
     exhibitionAbouts: parsedContent.filter(
-      doc => doc.type === 'books' || doc.type === 'articles'
+      doc =>
+        doc.type === 'books' || doc.type === 'articles' || doc.type === 'series'
     ),
   } as ExhibitionRelatedContent;
 };
