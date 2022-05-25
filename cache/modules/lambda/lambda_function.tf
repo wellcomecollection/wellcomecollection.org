@@ -1,7 +1,7 @@
 data "archive_file" "deployment_package" {
   type        = "zip"
   source_file = var.source_file
-  output_path = "${path.module}/${var.filename}.zip"
+  output_path = "${var.source_file}.zip"
 }
 
 resource "aws_lambda_function" "lambda_function" {
