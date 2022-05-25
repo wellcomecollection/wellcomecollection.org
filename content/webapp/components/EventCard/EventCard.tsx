@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
@@ -5,21 +6,33 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
+import { dateFromDateOrString } from '@weco/common/utils/dates';
 
 type Props = {
   event: EventBasic;
   xOfY: { x: number; y: number };
 };
 
-const EventCard = ({ event, xOfY }: Props) => {
-  const DateRangeComponent = <EventDateRange event={event} />;
+const EventCard: FC<Props> = ({ event, xOfY }) => {
+  const eventTimes = event.times.map(time => ({
+    ...time,
+    range: {
+      startDateTime: dateFromDateOrString(time.range.startDateTime),
+      endDateTime: dateFromDateOrString(time.range.endDateTime),
+    },
+  }));
+  const eventWithDates = {
+    ...event,
+    times: eventTimes,
+  };
+  const DateRangeComponent = <EventDateRange event={eventWithDates} />;
 
-  const squareImage = getCrop(event.image, 'square');
+  const squareImage = getCrop(eventWithDates.image, 'square');
   const ImageComponent = squareImage && <Image {...squareImage} />;
 
-  const firstTime = event.times[0];
-  const lastTime = event.times[event.times.length - 1];
-  const StatusIndicatorComponent = event.isPast ? (
+  const firstTime = eventWithDates.times[0];
+  const lastTime = eventWithDates.times[eventWithDates.times.length - 1];
+  const StatusIndicatorComponent = eventWithDates.isPast ? (
     <StatusIndicator
       start={firstTime.range.startDateTime}
       end={lastTime.range.endDateTime}
@@ -28,17 +41,17 @@ const EventCard = ({ event, xOfY }: Props) => {
 
   return (
     <CompactCard
-      url={`/events/${event.id}`}
-      title={event.title}
-      primaryLabels={event.primaryLabels}
-      secondaryLabels={event.secondaryLabels}
-      urlOverride={event.promo && event.promo.link}
+      url={`/events/${eventWithDates.id}`}
+      title={eventWithDates.title}
+      primaryLabels={eventWithDates.primaryLabels}
+      secondaryLabels={eventWithDates.secondaryLabels}
+      urlOverride={eventWithDates.promo && eventWithDates.promo.link}
       Image={ImageComponent}
       DateInfo={DateRangeComponent}
       StatusIndicator={StatusIndicatorComponent}
       ExtraInfo={
-        !event.isPast &&
-        event.times.length > 1 && (
+        !eventWithDates.isPast &&
+        eventWithDates.times.length > 1 && (
           <p
             className={classNames({
               [font('hnb', 4)]: true,
