@@ -1,3 +1,246 @@
-exports.handler = async (event) => {
-	console.log("Hello World")
+/** Identify errors in the CloudFront logs and post them to Slack.
+ *
+ * Our CloudFront logs get written to an S3 bucket.  This is the source code
+ * of a Lambda function that:
+ *
+ *    1. Listens to the event stream from the bucket
+ *    2. Gets notified of new logs being written to the bucket
+ *    3. Reads new logs, and filters for 5xx errors
+ *    4. If there are any, sends a list of those URLs to a shared Slack channel
+ *
+ * This tells us if something is broken, and helps us target our debugging.
+ *
+ * (As opposed to our previous approach, which dropped a vague metric telling us
+ * there were errors, but with no way to identify which app was the source of
+ * the errors.  Now we know which app's logs we should be checking first.)
+ *
+ * It's written in vanilla JavaScript/Node because it's pretty simpler, and
+ * it simplifies the process of deployment.
+ *
+ */
+
+const AWS = require('aws-sdk');
+const events = require('events');
+const https = require('https');
+const readline = require('readline');
+const zlib = require('zlib');
+
+/** Reads a CloudFront log file and returns structured log events.
+ *
+ * CloudFront logs are semi-structured files, where the top two lines are
+ * a header, then subsequent lines are tab-separated values, e.g.:
+ *
+ *      #Version: 1.0
+ *      #Fields: date time cs-uri-stem
+ *      2022-05-18	14:11:10	/works
+ *      2022-05-18	14:11:09	/works/atry66dj/items
+ *
+ * This function emits objects so that downstream callers don't need
+ * to know about the structure of this file, e.g.
+ *
+ *      { date: '2022-05-18', time: '14:11:10', cs-uri-stem: '/works' }
+ *      { date: '2022-05-18', time: '14:11:09', cs-uri-stem: '/works/atry66dj/items' }
+ *
+ */
+async function findCloudFrontHitsFromLog(bucket, key) {
+  const s3 = new AWS.S3();
+
+  const input = s3
+    .getObject({ Bucket: bucket, Key: key })
+    .createReadStream()
+    .pipe(zlib.createGunzip());
+
+  const lineReader = readline.createInterface({ input: input });
+
+  let fields = [];
+  let result = [];
+
+  lineReader.on('line', line => {
+    // Skip the first header line.
+    if (line.startsWith('#Version')) {
+    }
+    // The second line tells us what the fields are.
+    else if (line.startsWith('#Fields')) {
+      fields = line.replace('#Fields:', '').trim().split(' ');
+    }
+    // All subsequent lines are values.
+    else {
+      const values = line.trim().split('\t');
+      const hit = Object.assign(...fields.map((k, i) => ({ [k]: values[i] })));
+
+      // The CloudFront log records this as a string, but it's more convenient
+      // downstream if we can treat it as a number.
+      hit['sc-status'] = parseInt(hit['sc-status']);
+
+      result.push(hit);
+    }
+  });
+
+  await events.once(lineReader, 'close');
+
+  return result;
+}
+
+/** Send a message to Slack describing the errors.
+ *
+ * This includes a list of the erroring URLs.  Note that it's written
+ * to a public Slack channel, so we need to be a bit careful what we log.
+ */
+async function sendSlackMessage(bucket, key, serverErrors) {
+  const urls = serverErrors.map(function (e) {
+    const protocol = e['cs-protocol'];
+    const host = e['x-host-header'];
+    const path = e['cs-uri-stem'];
+    const query = e['cs-uri-query'];
+
+    // URLs going to the account API might contain sensitive information, e.g. tokens,
+    // which we don't want to log to a public Slack channel.
+    //
+    // We include enough information to distinguish requests, but then redact
+    // the rest of the value.
+    //
+    // e.g.
+    //
+    //      https://wc.org/account/api?password=correct-horse-battery-staple&code=sekritsekrit
+    //
+    // would become
+    //
+    //      https://wc.org/account/api?password=[cor... REDACTED]&code=[sek... REDACTED]
+    //
+    if (path.startsWith('/account/api')) {
+      const originalParams = new URLSearchParams(query);
+
+      const redactedParams = Array.from(originalParams.entries()).map(function (
+        param
+      ) {
+        const key = param[0];
+        const value = param[1];
+        return [key, `[${value.slice(0, 3)}... REDACTED]`];
+      });
+      const redactedQuery = new URLSearchParams(redactedParams).toString();
+
+      return `${protocol}://${host}${path}?${redactedQuery}`
+        .replaceAll('=%5B', '=[')
+        .replaceAll('+REDACTED%5D', ' REDACTED]');
+    }
+
+    // We can return all other URLs as-is; I'm not aware of non-account URLs
+    // that would contain sensitive information.
+    else {
+      return `${protocol}://${host}${path}?${query}`;
+    }
+  });
+
+  // This creates a Markdown-formatted message like:
+  //
+  //    The following URLs had errors in CloudFront:
+  //    https://example.org/badness
+  //    https://example.org/more-badness
+  //
+  const message =
+    'The following URLs had errors in CloudFront:\n```\n' +
+    urls.join('\n') +
+    '\n```';
+
+  // TODO: Include a link to the original CloudFront log in this message.
+  // I tried including a Markdown link to the S3 console, but I got a 400 error
+  // from Slack.
+
+  const slackPayload = {
+    username: 'cloudfront-5xx-errors',
+    icon_emoji: ':rotating_light:',
+    attachments: [
+      {
+        color: 'danger',
+        fallback: 'cloudfront-errors',
+        fields: [
+          {
+            value: `${message}`,
+          },
+        ],
+      },
+    ],
+  };
+
+  const webhookUrl = process.env.WEBHOOK_URL;
+
+  await post(webhookUrl, slackPayload);
+}
+
+/** Post data to a given URL.
+ *
+ * This is a generic helper function written by Rasool Khan on
+ * Stack Overflow: https://stackoverflow.com/a/40539133/1558022
+ *
+ * Used under the Stack Exchange CC BY-SA license.
+ */
+async function post(url, data) {
+  const dataString = JSON.stringify(data);
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': dataString.length,
+    },
+    timeout: 1000, // in ms
+  };
+
+  return new Promise((resolve, reject) => {
+    const req = https.request(url, options, res => {
+      if (res.statusCode < 200 || res.statusCode > 299) {
+        return reject(new Error(`HTTP status code ${res.statusCode}`));
+      }
+
+      const body = [];
+      res.on('data', chunk => body.push(chunk));
+      res.on('end', () => {
+        const resString = Buffer.concat(body).toString();
+        resolve(resString);
+      });
+    });
+
+    req.on('error', err => {
+      reject(err);
+    });
+
+    req.on('timeout', () => {
+      req.destroy();
+      reject(new Error('Request time out'));
+    });
+
+    req.write(dataString);
+    req.end();
+  });
+}
+
+exports.handler = async event => {
+  // This Lambda receives event notifications from S3.
+  //
+  // We only care about the affected objects; extract this information
+  // from the event.
+  const affectedObjects = event.Records.map(function (r) {
+    return {
+      bucket: r.s3.bucket.name,
+      key: r.s3.object.key,
+    };
+  });
+
+  for (const s3Object of affectedObjects) {
+    console.info(
+      `Inspecting CloudFront logs for s3://${s3Object.bucket}/${s3Object.key}`
+    );
+
+    const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
+    const serverErrors = hits.filter(h => h['sc-status'] >= 500);
+
+    if (serverErrors.length === 0) {
+      console.info('No errors in this log file, nothing to do');
+    } else {
+      console.info(
+        `Detected ${serverErrors.length} error(s), sending message to Slack`
+      );
+      await sendSlackMessage(s3Object.bucket, s3Object.key, serverErrors);
+    }
+  }
 };

@@ -8,7 +8,13 @@ module "slack_alerts_for_5xx" {
   description     = "Send alerts to Slack when there are 5xx alerts in the CloudFront logs"
   name            = "send_slack_alert_for_5xx_errors"
 
-  alarm_topic_arn = local.lambda_alarm_topic_arn
+  environment_variables = {
+    WEBHOOK_URL = local.slack_webhook_url
+  }
+
+  # TODO: We should be able to pull this from the monitoring remote state,
+  # but I don't see it defined there.  Is this topic defined in Terraform?
+  alarm_topic_arn = "arn:aws:sns:us-east-1:130871440101:experience_lambda_error_alarm"
 
   timeout = 30
 }

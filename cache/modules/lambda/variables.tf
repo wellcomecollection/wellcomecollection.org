@@ -25,6 +25,10 @@ variable "alarm_topic_arn" {
   description = "ARN of the topic where to send notification for lambda errors"
 }
 
+variable "environment_variables" {
+  type = map(string)
+}
+
 variable "source_file" {
   type = string
 }
