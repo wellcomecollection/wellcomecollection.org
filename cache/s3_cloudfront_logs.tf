@@ -19,3 +19,14 @@ resource "aws_s3_bucket" "cloudfront_logs" {
     type        = "CanonicalUser"
   }
 }
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket = aws_s3_bucket.cloudfront_logs.id
+
+  # Whenever a new log file is written to the CloudFront logs bucket,
+  # we want to inspect it for 5xx errors.
+  lambda_function {
+    lambda_function_arn = module.slack_alerts_for_5xx.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+}
