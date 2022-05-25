@@ -67,7 +67,17 @@ export function createPrismicLoader(maxWidth: number) {
 
     searchParams.set(`auto`, 'compress,format');
     searchParams.set(`rect`, url.searchParams.get('rect') || '');
-    searchParams.set(`q`, (quality || 10).toString());
+
+    // Note: the default quality here was originally 10, but this caused images to
+    // appear very fuzzy on stories.
+    //
+    // I've increased it to 75 because it fixed the immediate problem on a tight
+    // deadline, but it may not be the right long-term value -- we should review
+    // this and understand (1) why an image in stories wasn't passing a quality here
+    // and (2) what the correct default is.
+    //
+    // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
+    searchParams.set(`q`, (quality || 75).toString());
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
   };
