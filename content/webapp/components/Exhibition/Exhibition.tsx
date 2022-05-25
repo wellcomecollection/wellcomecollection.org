@@ -32,9 +32,11 @@ import Contributors from '../Contributors/Contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
-import { Exhibition as ExhibitionType } from '../../types/exhibitions';
-import { Book } from '../../types/books';
-import { Article } from '../../types/articles';
+import {
+  Exhibition as ExhibitionType,
+  ExhibitionAbout,
+} from '../../types/exhibitions';
+
 import { Event as EventType } from '../../types/events';
 import * as prismicT from '@prismicio/types';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -203,10 +205,11 @@ type Props = {
 
 const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
   type ExhibitionOf = (ExhibitionType | EventType)[];
-  type ExhibitionAbout = (Book | Article)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
+    []
+  );
 
   useEffect(() => {
     const ids = exhibition.relatedIds;

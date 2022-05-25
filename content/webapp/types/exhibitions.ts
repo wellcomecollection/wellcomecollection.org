@@ -1,4 +1,5 @@
 import { Article } from './articles';
+import { Series } from './series';
 import { Book } from './books';
 import { Contributor } from './contributors';
 import { Event } from './events';
@@ -58,7 +59,9 @@ export type Exhibit = {
   item: Exhibition;
 };
 
+export type ExhibitionAbout = Book | Article | Series;
+
 export type ExhibitionRelatedContent = {
   exhibitionOfs: (Exhibition | Event)[];
-  exhibitionAbouts: (Book | Article)[];
+  exhibitionAbouts: ExhibitionAbout[];
 };
