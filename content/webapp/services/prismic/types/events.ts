@@ -184,6 +184,25 @@ export type EventPrismicDocument = PrismicDocument<
       'en-gb',
       InferDataInterface<BackgroundTexturesDocument>
     >;
+    onlineTicketSalesStart: TimestampField;
+    onlineBookingEnquiryTeam: RelationField<
+      'teams',
+      'en-gb',
+      InferDataInterface<Team>
+    >;
+    onlineEventbriteEvent: EmbedField;
+    onlineThirdPartyBookingName: KeyTextField;
+    onlineThirdPartyBookingUrl: LinkField;
+    onlineBookingInformation: RichTextField;
+    onlinePolicies: GroupField<{
+      policy: RelationField<
+        'event-policy',
+        'en-gb',
+        InferDataInterface<EventPolicy>
+      >;
+    }>;
+    onlineHasEarlyRegistration: SelectField<'yes'>;
+    onlineCost: KeyTextField;
   } & WithContributors &
     WithEventSeries &
     WithExhibitionParents &

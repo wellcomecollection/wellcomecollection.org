@@ -121,4 +121,12 @@ export type Event = GenericContentFields & {
   primaryLabels: Label[];
   secondaryLabels: Label[];
   contributors: Contributor[];
+  onlineTicketSalesStart?: Date;
+  onlineBookingEnquiryTeam?: Team;
+  onlineEventbriteId?: string;
+  onlineThirdPartyBooking?: ThirdPartyBooking;
+  onlineBookingInformation?: prismicT.RichTextField;
+  onlinePolicies: LabelField[];
+  onlineHasEarlyRegistration: boolean;
+  onlineCost?: string;
 };
