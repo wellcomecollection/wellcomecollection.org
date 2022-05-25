@@ -17,9 +17,7 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 const CollectionsPage: FC<page.Props> = (props: page.Props) => {
-  console.log('CollectionsPage');
   const staticContent = <CollectionsStaticContent />;
-  console.log(staticContent);
   return <page.Page {...props} staticContent={staticContent} />;
 };
 
