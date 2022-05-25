@@ -33,6 +33,7 @@ export default async (
 
   if (query) {
     const exhibitions = transformExhibitionRelatedContent(query);
+    console.log({ exhibitions });
     return res.status(200).json(exhibitions);
   }
 
