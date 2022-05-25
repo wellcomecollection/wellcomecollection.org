@@ -98,3 +98,6 @@ export const inOurBuilding = 'In our building';
 // These are the instructions for people navigating the calendar component with a keyboard.
 export const calendarInstructions =
   'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
+
+export const requestingDisabled =
+  'Requesting is unavailable until Monday 6 June 09:00';
