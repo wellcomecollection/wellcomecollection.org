@@ -270,7 +270,8 @@ export const transformExhibitionRelatedContent = (
     query,
     transformMultiContent
   ).results.filter(doc => {
-    return !(doc.type === 'events' && doc.isPast);
+    // We don't include past events _unless_ they are still available to view online
+    return !(doc.type === 'events' && doc.isPast && !doc.availableOnline);
   });
 
   return {

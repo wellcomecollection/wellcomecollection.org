@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { EventBasic } from '../../types/events';
 import CompactCard from '../CompactCard/CompactCard';
 import Image from '@weco/common/views/components/Image/Image';
@@ -5,13 +6,15 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
+import { fixEventDatesInJson } from '../../services/prismic/transformers/events';
 
 type Props = {
   event: EventBasic;
   xOfY: { x: number; y: number };
 };
 
-const EventCard = ({ event, xOfY }: Props) => {
+const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
+  const event = fixEventDatesInJson(jsonEvent);
   const DateRangeComponent = <EventDateRange event={event} />;
 
   const squareImage = getCrop(event.image, 'square');
