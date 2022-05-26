@@ -20,7 +20,7 @@ const toggles = {
       title: 'Disables requesting functionality',
       description:
         'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.',
-      defaultValue: true,
+      defaultValue: false,
     },
     {
       id: 'enablePickUpDate',
