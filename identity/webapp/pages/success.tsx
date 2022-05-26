@@ -92,13 +92,23 @@ const SuccessPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       membership. Your membership will be confirmed within 72
                       hours.
                     </p>
-                    <Divider color={`pumice`} isKeyline />
-                    <h2 className="h3">Didn’t receive an email?</h2>
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <Divider color={`pumice`} isKeyline />
+                    </Space>
+                    <p>
+                      <strong>Didn’t receive an email?</strong>
+                    </p>
                     <p>
                       If you still don’t see an email from us within the next
                       few minutes, try checking your junk or spam folder.
                     </p>
-                    <p>If you need more help please contact the library.</p>
+                    <p>
+                      If you need more help please{' '}
+                      <a href="mailto:library@wellcomecollection.org">
+                        contact the library
+                      </a>
+                      .
+                    </p>
                   </div>
                 </Space>
               </Layout8>
