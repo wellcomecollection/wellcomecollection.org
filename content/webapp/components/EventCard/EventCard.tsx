@@ -17,12 +17,12 @@ const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
   const event = fixEventDatesInJson(jsonEvent);
   const DateRangeComponent = <EventDateRange event={eventWithDates} />;
 
-  const squareImage = getCrop(eventWithDates.image, 'square');
+  const squareImage = getCrop(event.image, 'square');
   const ImageComponent = squareImage && <Image {...squareImage} />;
 
-  const firstTime = eventWithDates.times[0];
-  const lastTime = eventWithDates.times[eventWithDates.times.length - 1];
-  const StatusIndicatorComponent = eventWithDates.isPast ? (
+  const firstTime = event.times[0];
+  const lastTime = event.times[event.times.length - 1];
+  const StatusIndicatorComponent = event.isPast ? (
     <StatusIndicator
       start={firstTime.range.startDateTime}
       end={lastTime.range.endDateTime}
@@ -31,17 +31,17 @@ const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
 
   return (
     <CompactCard
-      url={`/events/${eventWithDates.id}`}
-      title={eventWithDates.title}
-      primaryLabels={eventWithDates.primaryLabels}
-      secondaryLabels={eventWithDates.secondaryLabels}
-      urlOverride={eventWithDates.promo && eventWithDates.promo.link}
+      url={`/events/${event.id}`}
+      title={event.title}
+      primaryLabels={event.primaryLabels}
+      secondaryLabels={event.secondaryLabels}
+      urlOverride={event.promo && event.promo.link}
       Image={ImageComponent}
       DateInfo={DateRangeComponent}
       StatusIndicator={StatusIndicatorComponent}
       ExtraInfo={
-        !eventWithDates.isPast &&
-        eventWithDates.times.length > 1 && (
+        !event.isPast &&
+        event.times.length > 1 && (
           <p
             className={classNames({
               [font('hnb', 4)]: true,
