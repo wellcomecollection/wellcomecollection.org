@@ -22,10 +22,7 @@ import { useUser } from '@weco/common/views/components/UserProvider/UserProvider
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
-import {
-  sierraAccessMethodtoNewLabel,
-  requestingDisabled,
-} from '@weco/common/data/microcopy';
+import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useToggles } from '@weco/common/server-data/Context';
 
@@ -230,33 +227,29 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           columnWidths={[180, 200, undefined, undefined]}
         />
 
-        {(accessNote || isHeldByUser || disableRequesting) && (
+        {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>
-            {disableRequesting ? (
-              requestingDisabled
-            ) : (
-              <Placeholder
-                nRows={3}
-                // We don't know exactly what we'll render until we know whether the user holds this item
-                isLoading={
-                  accessDataIsStale ||
-                  userNotLoaded ||
-                  (userState === 'signedin' && !userHeldItems)
-                }
-                maxWidth="50%"
-              >
-                <span
-                  dangerouslySetInnerHTML={{
-                    // if the user currently has this item on hold, we don't want
-                    // to show the note that says another user has it
-                    __html: isHeldByUser
-                      ? 'You have requested this item.'
-                      : accessNote || '', // This is always defined
-                  }}
-                />
-              </Placeholder>
-            )}
+            <Placeholder
+              nRows={3}
+              // We don't know exactly what we'll render until we know whether the user holds this item
+              isLoading={
+                accessDataIsStale ||
+                userNotLoaded ||
+                (userState === 'signedin' && !userHeldItems)
+              }
+              maxWidth="50%"
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  // if the user currently has this item on hold, we don't want
+                  // to show the note that says another user has it
+                  __html: isHeldByUser
+                    ? 'You have requested this item.'
+                    : accessNote || '', // This is always defined
+                }}
+              />
+            </Placeholder>
           </Space>
         )}
       </Wrapper>
