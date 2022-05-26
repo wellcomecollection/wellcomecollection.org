@@ -85,7 +85,7 @@ const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
   'event-policies.description',
 ];
 
-type Team = PrismicDocument<
+export type Team = PrismicDocument<
   {
     title: RichTextField;
     subtitle: RichTextField;
