@@ -6,7 +6,7 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import EventDateRange from '../EventDateRange/EventDateRange';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
-import { dateFromDateOrString } from '@weco/common/utils/dates';
+import { fixEventDatesInJson } from '../../services/prismic/transformers/events';
 
 type Props = {
   event: EventBasic;
@@ -14,17 +14,7 @@ type Props = {
 };
 
 const EventCard: FC<Props> = ({ event, xOfY }) => {
-  const eventTimes = event.times.map(time => ({
-    ...time,
-    range: {
-      startDateTime: dateFromDateOrString(time.range.startDateTime),
-      endDateTime: dateFromDateOrString(time.range.endDateTime),
-    },
-  }));
-  const eventWithDates = {
-    ...event,
-    times: eventTimes,
-  };
+  const eventWithDates = fixEventDatesInJson(event);
   const DateRangeComponent = <EventDateRange event={eventWithDates} />;
 
   const squareImage = getCrop(eventWithDates.image, 'square');

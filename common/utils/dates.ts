@@ -1,14 +1,6 @@
 import { DateTypes, london } from './format-date';
 import { DateRange } from '../model/date-range';
 
-export function dateFromDateOrString(date: Date | string): Date {
-  if (typeof date === 'string') {
-    return new Date(date);
-  } else {
-    return date;
-  }
-}
-
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
   fromDate: Date | undefined = new Date()
