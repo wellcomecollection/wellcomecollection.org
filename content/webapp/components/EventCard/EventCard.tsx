@@ -13,8 +13,8 @@ type Props = {
   xOfY: { x: number; y: number };
 };
 
-const EventCard: FC<Props> = ({ event, xOfY }) => {
-  const eventWithDates = fixEventDatesInJson(event);
+const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
+  const event = fixEventDatesInJson(jsonEvent);
   const DateRangeComponent = <EventDateRange event={eventWithDates} />;
 
   const squareImage = getCrop(eventWithDates.image, 'square');
