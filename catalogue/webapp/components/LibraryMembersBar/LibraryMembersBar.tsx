@@ -7,6 +7,8 @@ import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWi
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
+import { useToggles } from '@weco/common/server-data/Context';
+import { requestingDisabled } from '@weco/common/data/microcopy';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -80,25 +82,22 @@ type Props = {
   requestingUnavailable?: boolean;
 };
 
-const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
+const LibraryMembersBar: FC<Props> = () => {
   const { state, reload } = useUser();
-
-  // We originally designed this banner for the building closure in Christmas 2021.
-  //
-  // We're keeping the banner around in case we need to disable requesting again for
-  // other reasons in future – we can reuse the same design.
-  //
-  // If you do need to disable requesting, remember to update the wording in the explanation.
-  if (requestingUnavailable) {
+  const { disableRequesting } = useToggles();
+  if (disableRequesting) {
     return (
       <StyledComponent>
         <Space h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={memberCard} />
         </Space>
-        <span className={font('hnb', 5)}>Library members:</span>{' '}
-        <span className={font('hnr', 5)}>
-          Requesting is currently unavailable.
-        </span>
+        <Space
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={font('hnb', 5)}
+        >
+          Library members:
+        </Space>
+        <span className={font('hnr', 5)}>{requestingDisabled}</span>
       </StyledComponent>
     );
   }

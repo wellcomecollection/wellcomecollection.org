@@ -16,11 +16,11 @@ const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
-      id: 'enableRequesting',
-      title: 'Enables login and requesting functionality',
+      id: 'disableRequesting',
+      title: 'Disables requesting functionality',
       description:
-        'Puts login links in the headers and enables requesting functionality on works pages ',
-      defaultValue: true,
+        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.',
+      defaultValue: false,
     },
     {
       id: 'enablePickUpDate',
