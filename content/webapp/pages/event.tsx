@@ -6,7 +6,7 @@ import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import EventbriteButton from '../components/EventbriteButton/EventbriteButton';
+import EventbriteButtons from '../components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../components/InfoBox/InfoBox';
@@ -246,6 +246,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
       relaxedPerformanceLabel
     ),
   };
+
   const Header = (
     <PageHeader
       asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
@@ -281,7 +282,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
         </>
       }
       HeroPicture={undefined}
-      isFree={!event.cost}
+      isFree={!event.cost} // TODO or no online cost
       isContentTypeInfoBeforeMedia={true}
     />
   );
@@ -328,15 +329,10 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
           )}
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
-            {event.eventbriteId && (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <EventbriteButton event={event} />
-              </Space>
-            )}
-
+            <EventbriteButtons event={event} />
             {event.thirdPartyBooking && (
               <>
-                {event.isCompletelySoldOut ? (
+                {event.isCompletelySoldOut ? ( // TODO online sold out / versus normal sold out
                   <>
                     <ButtonSolid disabled={true} text="Fully booked" />
                   </>
@@ -368,7 +364,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
                 )}
               </>
             )}
-
             {event.bookingEnquiryTeam && (
               <>
                 {event.isCompletelySoldOut ? (
@@ -411,7 +406,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
                 </NextLink>
               </>
             )}
-
             {!event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (

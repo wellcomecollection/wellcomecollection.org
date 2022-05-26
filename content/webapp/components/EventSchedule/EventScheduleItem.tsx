@@ -1,7 +1,7 @@
 import { Fragment, FC } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
-import EventbriteButton from '../EventbriteButton/EventbriteButton';
+import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/common/views/components/Message/Message';
 import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
@@ -75,6 +75,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
             >
               {event.title}
             </Space>
+
             {event.locations[0] && (
               <Space
                 v={{ size: 's', properties: ['margin-bottom'] }}
@@ -142,12 +143,13 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 </Space>
               </Fragment>
             )}
-
-            {!isEventPast(event) && event.eventbriteId && !waitForTicketSales && (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <EventbriteButton event={event} />
-              </Space>
-            )}
+            {!isEventPast(event) &&
+              (event.eventbriteId || event.onlineEventbriteId) &&
+              !waitForTicketSales && (
+                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <EventbriteButtons event={event} />
+                </Space>
+              )}
 
             {!isEventPast(event) &&
               event.bookingEnquiryTeam &&
