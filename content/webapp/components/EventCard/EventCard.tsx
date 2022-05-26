@@ -15,7 +15,7 @@ type Props = {
 
 const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
   const event = fixEventDatesInJson(jsonEvent);
-  const DateRangeComponent = <EventDateRange event={eventWithDates} />;
+  const DateRangeComponent = <EventDateRange event={event} />;
 
   const squareImage = getCrop(event.image, 'square');
   const ImageComponent = squareImage && <Image {...squareImage} />;
