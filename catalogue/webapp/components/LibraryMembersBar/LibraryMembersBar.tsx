@@ -8,6 +8,7 @@ import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
 import { useToggles } from '@weco/common/server-data/Context';
+import { requestingDisabled } from '@weco/common/data/microcopy';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -96,9 +97,7 @@ const LibraryMembersBar: FC<Props> = () => {
         >
           Library members:
         </Space>
-        <span className={font('hnr', 5)}>
-          requesting is currently unavailable
-        </span>
+        <span className={font('hnr', 5)}>{requestingDisabled}</span>
       </StyledComponent>
     );
   }
