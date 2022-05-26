@@ -32,21 +32,8 @@ steps:
     command: ".buildkite/scripts/trigger-e2e.sh"
     agents:
       queue: nano
-
-  - block: ":rocket: Trigger prod deployment"
-    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
-    prompt: "Have you checked the change and main landing pages on staging?"
-
-  - label: "Trigger prod deployment"
-    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
-    plugins:
-      - wellcomecollection/github-deployments#v0.2.4:
-          assume_role: "arn:aws:iam::130871440101:role/experience-ci"
-          environment: prod
-          ref: "${BUILDKITE_COMMIT}"
-
+      
   - label: "Update pa11y dashboard"
-    branches: "main"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "prod"
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
@@ -60,3 +47,15 @@ steps:
             - AWS_ACCESS_KEY_ID
             - AWS_SECRET_ACCESS_KEY
             - AWS_SESSION_TOKEN
+
+  - block: ":rocket: Trigger prod deployment"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    prompt: "Have you checked the change and main landing pages on staging?"
+
+  - label: "Trigger prod deployment"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    plugins:
+      - wellcomecollection/github-deployments#v0.2.4:
+          assume_role: "arn:aws:iam::130871440101:role/experience-ci"
+          environment: prod
+          ref: "${BUILDKITE_COMMIT}"
