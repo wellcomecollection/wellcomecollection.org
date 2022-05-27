@@ -4,7 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 import { Work, Location } from '../../../model/catalogue';
-import { looksLikePrismicId } from 'services/prismic';
+import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
   id: string;
