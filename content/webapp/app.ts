@@ -63,7 +63,24 @@ const appPromise = nextApp
     await initServerData();
 
     const koaApp = new Koa();
-    const router = new Router();
+    const router = new Router({
+      // We have to enable case-sensitive routing to deal with a bizarre
+      // choice of identifier from Prismic.  We have two pages with almost
+      // identical IDs:
+      //
+      //    Schools
+      //    https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/Wuw2MSIAACtd3StS/
+      //
+      //    RawMinds
+      //    https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/Wuw2MSIAACtd3Sts/
+      //
+      // They differ only in that final 's/S', and for added complication we
+      // redirect the /pages/<school ID> because it's a vanity URL.
+      //
+      // With case-insensitive routing, we were redirecting /pages/<RawMinds ID>
+      // to /schools, which is wrong.
+      sensitive: true,
+    });
 
     koaApp.use(apmErrorMiddleware);
     koaApp.use(withCachedValues);
