@@ -14,7 +14,7 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { createClient } from '../services/prismic/fetch';
 import * as prismic from '@prismicio/client';

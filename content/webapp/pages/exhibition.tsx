@@ -15,7 +15,7 @@ import {
   fixExhibitionDatesInJson,
   transformExhibition,
 } from '../services/prismic/transformers/exhibitions';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { exhibitionLd } from 'services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 

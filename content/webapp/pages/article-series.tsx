@@ -15,7 +15,7 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '../services/prismic/fetch';
 import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
 import { fetchArticles } from '../services/prismic/fetch/articles';
