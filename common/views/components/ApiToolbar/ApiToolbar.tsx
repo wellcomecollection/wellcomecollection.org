@@ -4,6 +4,7 @@ import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
 import { Work, Location } from '../../../model/catalogue';
+import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
   id: string;
@@ -26,44 +27,72 @@ const includes = [
   'succeededBy',
   'holdings',
 ];
-const routeProps = {
-  '/work': async (query: ParsedUrlQuery): Promise<Prop[]> => {
-    const { id } = query;
-    const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
-    const work: Work = await fetch(apiUrl).then(res => res.json());
 
-    const apiLink = {
-      id: 'json',
-      label: 'JSON',
-      link: apiUrl,
-    };
+function getRouteProps(path: string) {
+  switch (path) {
+    case '/work':
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { id } = query;
+        const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
+        const work: Work = await fetch(apiUrl).then(res => res.json());
 
-    const iiifItem = work.items
-      ?.reduce((acc, item) => {
-        return acc.concat(item.locations);
-      }, [] as Location[])
-      ?.find(location => location.locationType.id.startsWith('iiif'));
+        const apiLink = {
+          id: 'json',
+          label: 'JSON',
+          link: apiUrl,
+        };
 
-    const iiifLink = iiifItem &&
-      iiifItem.type === 'DigitalLocation' && {
-        id: 'iiif',
-        label: 'IIIF',
-        link: iiifItem.url,
+        const iiifItem = work.items
+          ?.reduce((acc, item) => {
+            return acc.concat(item.locations);
+          }, [] as Location[])
+          ?.find(location => location.locationType.id.startsWith('iiif'));
+
+        const iiifLink = iiifItem &&
+          iiifItem.type === 'DigitalLocation' && {
+            id: 'iiif',
+            label: 'IIIF',
+            link: iiifItem.url,
+          };
+
+        const links = [
+          apiLink,
+          iiifLink,
+          ...work.identifiers.map(id => ({
+            id: id.value,
+            label: id.identifierType.label,
+            value: id.value,
+          })),
+        ].filter(Boolean) as Prop[];
+
+        return links;
       };
 
-    const links = [
-      apiLink,
-      iiifLink,
-      ...work.identifiers.map(id => ({
-        id: id.value,
-        label: id.identifierType.label,
-        value: id.value,
-      })),
-    ].filter(Boolean) as Prop[];
+    default:
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { id } = query;
 
-    return links;
-  },
-};
+        // On some Prismic pages, the ID will be in the query data, e.g. /events/YeViLhAAAJMQM7IY
+        // will have the query {"id": "YeViLhAAAJMQM7IY"}
+        //
+        // If it looks like a Prismic ID, we can guess how to get to the page in Prismic.
+        // This isn't perfect -- there may be cases where the link doesn't work (e.g. if it's
+        // not actually a Prismic ID, or the page is unpublished) -- but hopefully something
+        // that works 95% of the time is still useful.
+        if (looksLikePrismicId(id)) {
+          const prismicLink = {
+            id: 'prismic',
+            label: 'Prismic',
+            link: `https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/${id}/`,
+          };
+
+          return [prismicLink];
+        } else {
+          return [];
+        }
+      };
+  }
+}
 
 const ApiToolbar: FunctionComponent = () => {
   const cookieName = 'apiToolbarMini';
@@ -76,7 +105,7 @@ const ApiToolbar: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    const fn = routeProps[router.route];
+    const fn = getRouteProps(router.route);
     if (fn) {
       fn(router.query).then(setProps);
     }

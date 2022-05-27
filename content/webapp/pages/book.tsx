@@ -17,7 +17,7 @@ import { fetchBook } from '../services/prismic/fetch/books';
 import { createClient } from '../services/prismic/fetch';
 import { transformBook } from '../services/prismic/transformers/books';
 import { Book } from '../types/books';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 
 const MetadataWrapper = styled.div`
