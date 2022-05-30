@@ -1,4 +1,4 @@
-FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:14-alpine
+FROM public.ecr.aws/docker/library/node:14-slim
 
 WORKDIR /app
 
