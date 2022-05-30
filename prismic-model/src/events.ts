@@ -61,7 +61,8 @@ const events: CustomType = {
       times: list('Times', {
         startDateTime: timestamp('Start'),
         endDateTime: timestamp('End'),
-        isFullyBooked: booleanDeprecated('Fully booked'),
+        isFullyBooked: booleanDeprecated('In-venue fully booked'),
+        onlineIsFullyBooked: booleanDeprecated('Online fully booked'),
       }),
       body,
     },
