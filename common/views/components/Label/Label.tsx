@@ -39,14 +39,12 @@ const Label: FunctionComponent<Props> = ({
   return (
     <LabelContainer
       v={{
-        size: 's',
+        size: 'xs',
         properties: ['padding-top', 'padding-bottom'],
-        overrides: { large: 2 },
       }}
       h={{
-        size: 's',
+        size: 'xs',
         properties: ['padding-left', 'padding-right'],
-        overrides: { large: 2 },
       }}
       fontColor={
         label.textColor ||
