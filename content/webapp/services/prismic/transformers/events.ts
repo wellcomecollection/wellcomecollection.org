@@ -193,20 +193,23 @@ export function transformEvent(
   );
 
   const times: EventTime[] = (data.times || [])
-    .map(({ startDateTime, endDateTime, isFullyBooked }) => {
-      const range = {
-        startDateTime: transformTimestamp(startDateTime),
-        endDateTime: transformTimestamp(endDateTime),
-      };
+    .map(
+      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
+        const range = {
+          startDateTime: transformTimestamp(startDateTime),
+          endDateTime: transformTimestamp(endDateTime),
+        };
 
-      return isNotUndefined(range.startDateTime) &&
-        isNotUndefined(range.endDateTime)
-        ? {
-            range: range as DateTimeRange,
-            isFullyBooked,
-          }
-        : undefined;
-    })
+        return isNotUndefined(range.startDateTime) &&
+          isNotUndefined(range.endDateTime)
+          ? {
+              range: range as DateTimeRange,
+              isFullyBooked,
+              onlineIsFullyBooked,
+            }
+          : undefined;
+      }
+    )
     .filter(isNotUndefined);
 
   const lastEndTime = getLastEndTime(times);
@@ -263,6 +266,11 @@ export function transformEvent(
     data.onlineThirdPartyBookingName
   );
 
+  const hasInVenueBooking =
+    eventbriteId || thirdPartyBooking || bookingEnquiryTeam;
+  const hasOnlineBooking =
+    onlineEventbriteId || onlineThirdPartyBooking || onlineBookingEnquiryTeam;
+
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
@@ -292,8 +300,30 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times &&
-      data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
+      data.times?.filter((time: EventTime) => {
+        const onlyInVenueAndItsFullyBooked =
+          !hasOnlineBooking && hasInVenueBooking && time.isFullyBooked;
+        const onlyOnlineAndItsFullyBooked =
+          !hasInVenueBooking && hasOnlineBooking && time.onlineIsFullyBooked;
+        const bothInVenueAndOnlineAndFullyBooked =
+          hasInVenueBooking &&
+          time.isFullyBooked &&
+          hasOnlineBooking &&
+          time.onlineIsFullyBooked;
+        return !(
+          onlyInVenueAndItsFullyBooked ||
+          onlyOnlineAndItsFullyBooked ||
+          bothInVenueAndOnlineAndFullyBooked
+        );
+      }).length === 0,
+    onlineSoldOut:
+      data.times?.filter((time: EventTime) => {
+        return !time.onlineIsFullyBooked;
+      }).length === 0,
+    inVenueSoldOut:
+      data.times?.filter((time: EventTime) => {
+        return !time.isFullyBooked;
+      }).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,
