@@ -35,3 +35,8 @@
 
 # This is an article which is the 'webcomics' type underneath
 /articles/YbNRQBEAACMAZfvG
+
+# This is the RawMinds page, which has an ID very similar to the
+# Schools page, but it shouldn't be redirected.  See the router in
+# the content app, where we enable case-sensitive routing.
+/pages/Wuw2MSIAACtd3Sts

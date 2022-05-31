@@ -126,6 +126,29 @@ const SearchResults: FunctionComponent<Props> = ({
                 xOfY={{ x: index + 1, y: items.length }}
               />
             )}
+            {item.type === 'series' && (
+              <CompactCard
+                url={`/series/${item.id}`}
+                title={item.title || ''}
+                partNumber={undefined}
+                color={undefined}
+                primaryLabels={item.labels}
+                secondaryLabels={[]}
+                description={item.promo && item.promo.caption}
+                urlOverride={item.promo && item.promo.link}
+                Image={
+                  getCrop(item.image, 'square') && (
+                    // We intentionally omit the alt text on promos, so screen reader
+                    // users don't have to listen to the alt text before hearing the
+                    // title of the item in the list.
+                    //
+                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                  )
+                }
+                xOfY={{ x: index + 1, y: items.length }}
+              />
+            )}
             {item.type === 'article-schedule-items' && (
               <CompactCard
                 title={item.title || ''}

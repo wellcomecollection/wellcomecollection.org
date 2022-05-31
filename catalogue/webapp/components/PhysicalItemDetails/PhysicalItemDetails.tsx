@@ -24,6 +24,7 @@ import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { trackEvent } from '@weco/common/utils/ga';
+import { useToggles } from '@weco/common/server-data/Context';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -79,6 +80,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { state: userState } = useUser();
+  const { disableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -123,7 +125,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showAccessMethod = !isOpenShelves;
   const isRequestable = itemIsRequestable(item) && !requestWasCompleted;
 
-  const showButton = isRequestable && userState === 'signedin';
+  const showButton =
+    isRequestable && userState === 'signedin' && !disableRequesting;
 
   const userNotLoaded = userState === 'loading' || userState === 'initial';
 
@@ -223,6 +226,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           maxWidth={isArchive ? 980 : 620}
           columnWidths={[180, 200, undefined, undefined]}
         />
+
         {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>

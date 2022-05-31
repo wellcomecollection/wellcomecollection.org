@@ -8,6 +8,8 @@ import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal
 import userEvent from '@testing-library/user-event';
 import { getItemsWithPhysicalLocation } from '../../utils/works';
 import * as Context from '@weco/common/server-data/Context';
+import * as DateUtils from '../../utils/dates';
+import { london } from '@weco/common/utils/format-date';
 
 jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
   enablePickUpDate: true,
@@ -16,6 +18,10 @@ jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
 jest
   .spyOn(Context, 'usePrismicData')
   .mockImplementation(() => prismicData as any);
+
+jest
+  .spyOn(DateUtils, 'determineNextAvailableDate')
+  .mockImplementation(() => london('2022-05-21'));
 
 const renderComponent = () => {
   const RequestModal = () => {

@@ -51,7 +51,7 @@ import { ExhibitionBasic } from '../types/exhibitions';
 import { Page } from '../types/pages';
 import { Project } from '../types/projects';
 import { Series } from '../types/series';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { getCrop } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 

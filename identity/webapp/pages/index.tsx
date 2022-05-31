@@ -41,7 +41,6 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -120,16 +119,14 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} color={`currentColor`} />
-      <AlignFont>
-        <Space
-          h={{
-            size: 's',
-            properties: ['margin-left'],
-          }}
-        >
-          {children}
-        </Space>
-      </AlignFont>
+      <Space
+        h={{
+          size: 's',
+          properties: ['margin-left'],
+        }}
+      >
+        {children}
+      </Space>
     </StatusAlert>
   );
 };
@@ -161,6 +158,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
+  const maybeExtraText = enablePickUpDate
+    ? ' from your selected pickup date'
+    : '';
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -349,8 +349,8 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             }}
                           >
                             Requests made will be available to pick up from the
-                            library for one week. If you wish to cancel a
-                            request, please{' '}
+                            library for one week{maybeExtraText}. If you wish to
+                            cancel a request, please{' '}
                             <a href="mailto:library@wellcomecollection.org">
                               contact the library team.
                             </a>

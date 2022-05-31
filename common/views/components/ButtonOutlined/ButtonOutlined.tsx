@@ -8,7 +8,6 @@ import {
   BaseButtonInner,
   ButtonIconWrapper,
 } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
 import { IconSvg } from '@weco/common/icons';
 
 type OutlinedButtonProps = {
@@ -112,13 +111,13 @@ const Button: FC<ButtonOutlinedProps> = (
     >
       <BaseButtonInner>
         <>
-          <AlignFont
+          <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
             })}
           >
             {text}
-          </AlignFont>
+          </span>
           {icon && (
             <ConditionalWrapper
               condition={!isTextHidden}

@@ -22,8 +22,7 @@ import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { ResetActiveFilters } from './ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
-import { eye, filter } from '@weco/common/icons';
+import { filter } from '@weco/common/icons';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -188,7 +187,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                   [font('hnb', 5)]: true,
                 })}
               >
-                <AlignFont>Filter by</AlignFont>
+                Filter by
               </Space>
             </Space>
 

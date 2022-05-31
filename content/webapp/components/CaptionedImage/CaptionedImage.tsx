@@ -55,11 +55,20 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
   image,
   isBody,
 }) => {
+  // Note: the default quality here was originally 45, but this caused images to
+  // appear very fuzzy on stories.
+  //
+  // I've increased it to 100 because it fixed the immediate problem on a tight
+  // deadline, but it may not be the right long-term value -- we should review
+  // this and understand (1) why an image in stories wasn't passing a quality here
+  // and (2) what the correct default is.
+  //
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
   return (
     <CaptionedImageFigure isBody={isBody}>
       <ImageContainerInner aspectRatio={image.width / image.height}>
         <ImageWithTasl
-          Image={<HeightRestrictedPrismicImage image={image} quality={45} />}
+          Image={<HeightRestrictedPrismicImage image={image} quality={100} />}
           tasl={image.tasl}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />
