@@ -115,6 +115,7 @@ export type EventTime = {
   startDateTime: TimestampField;
   endDateTime: TimestampField;
   isFullyBooked: BooleanField;
+  onlineIsFullyBooked: BooleanField;
 };
 
 export type EventPrismicDocument = PrismicDocument<
