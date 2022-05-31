@@ -28,6 +28,8 @@ const GridWrapper = styled(Space).attrs({
 const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isPast(event.ticketSalesStart);
+  const isHybridEvent = event.eventbriteId && event.onlineEventbriteId;
+
   return (
     <GridWrapper>
       <div className="grid">
@@ -76,17 +78,18 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               {event.title}
             </Space>
 
-            {event.locations[0] && (
-              <Space
-                v={{ size: 's', properties: ['margin-bottom'] }}
-                as="p"
-                className={classNames({
-                  [font('hnr', 5)]: true,
-                })}
-              >
-                {event.locations[0].title}
-              </Space>
-            )}
+            {event.locations[0] &&
+              !isHybridEvent && ( // if it's a hybrid event the location is displayed with the buttons
+                <Space
+                  v={{ size: 's', properties: ['margin-bottom'] }}
+                  as="p"
+                  className={classNames({
+                    [font('hnr', 5)]: true,
+                  })}
+                >
+                  {event.locations[0].title}
+                </Space>
+              )}
 
             {event.promo?.caption && (
               <Space
@@ -143,6 +146,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 </Space>
               </Fragment>
             )}
+
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
               !waitForTicketSales && (
