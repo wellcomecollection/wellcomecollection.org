@@ -285,8 +285,7 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('hnb', true)}
-      font-weight: normal;
+      ${fontFamilyMixin('hnb', true)};
     }
   }
 
