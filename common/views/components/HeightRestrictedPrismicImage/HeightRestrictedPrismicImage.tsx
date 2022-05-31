@@ -75,7 +75,7 @@ const HeightRestrictedPrismicImage: FC<Props> = ({
       height={image.height}
       layout="responsive"
       className={classNames({
-        'image bg-charcoal font-white': true,
+        'bg-charcoal font-white': true,
       })}
       sizes={`${vSizesString}, calc(100vw - 84px)`}
       src={image.contentUrl}
