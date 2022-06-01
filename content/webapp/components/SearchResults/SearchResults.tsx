@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { MultiContent } from '../../types/multi-content';
 import { grid } from '@weco/common/utils/classnames';
 import { formatDate } from '@weco/common/utils/format-date';
-import Image from '@weco/common/views/components/Image/Image';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import CompactCard from '../CompactCard/CompactCard';
 import EventCard from '../EventCard/EventCard';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
@@ -62,12 +62,23 @@ const SearchResults: FunctionComponent<Props> = ({
                 urlOverride={item.promo && item.promo.link}
                 Image={
                   getCrop(item.image, 'square') && (
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                    <PrismicImage
+                      image={{
+                        // We intentionally omit the alt text on promos, so screen reader
+                        // users don't have to listen to the alt text before hearing the
+                        // title of the item in the list.
+                        //
+                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        ...getCrop(item.image, 'square')!,
+                        alt: '',
+                      }}
+                      sizes={{
+                        xlarge: 1 / 6,
+                        large: 1 / 6,
+                        medium: 1 / 5,
+                        small: 1 / 4,
+                      }}
+                    />
                   )
                 }
                 xOfY={{ x: index + 1, y: items.length }}
@@ -85,12 +96,23 @@ const SearchResults: FunctionComponent<Props> = ({
                 urlOverride={item.promo && item.promo.link}
                 Image={
                   getCrop(item.image, 'square') && (
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                    <PrismicImage
+                      image={{
+                        // We intentionally omit the alt text on promos, so screen reader
+                        // users don't have to listen to the alt text before hearing the
+                        // title of the item in the list.
+                        //
+                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        ...getCrop(item.image, 'square')!,
+                        alt: '',
+                      }}
+                      sizes={{
+                        xlarge: 1 / 6,
+                        large: 1 / 6,
+                        medium: 1 / 5,
+                        small: 1 / 4,
+                      }}
+                    />
                   )
                 }
                 xOfY={{ x: index + 1, y: items.length }}
@@ -108,12 +130,23 @@ const SearchResults: FunctionComponent<Props> = ({
                 urlOverride={item.promo && item.promo.link}
                 Image={
                   getCrop(item.cover, 'square') && (
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    <Image {...getCrop(item.cover, 'square')!} alt="" />
+                    <PrismicImage
+                      image={{
+                        // We intentionally omit the alt text on promos, so screen reader
+                        // users don't have to listen to the alt text before hearing the
+                        // title of the item in the list.
+                        //
+                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        ...getCrop(item.cover, 'square')!,
+                        alt: '',
+                      }}
+                      sizes={{
+                        xlarge: 1 / 6,
+                        large: 1 / 6,
+                        medium: 1 / 5,
+                        small: 1 / 4,
+                      }}
+                    />
                   )
                 }
                 xOfY={{ x: index + 1, y: items.length }}
@@ -138,12 +171,23 @@ const SearchResults: FunctionComponent<Props> = ({
                 urlOverride={item.promo && item.promo.link}
                 Image={
                   getCrop(item.image, 'square') && (
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                    <PrismicImage
+                      image={{
+                        // We intentionally omit the alt text on promos, so screen reader
+                        // users don't have to listen to the alt text before hearing the
+                        // title of the item in the list.
+                        //
+                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        ...getCrop(item.image, 'square')!,
+                        alt: '',
+                      }}
+                      sizes={{
+                        xlarge: 1 / 6,
+                        large: 1 / 6,
+                        medium: 1 / 5,
+                        small: 1 / 4,
+                      }}
+                    />
                   )
                 }
                 xOfY={{ x: index + 1, y: items.length }}
@@ -183,12 +227,23 @@ const SearchResults: FunctionComponent<Props> = ({
                 description={item.promo?.caption}
                 Image={
                   getCrop(item.image, 'square') && (
-                    // We intentionally omit the alt text on promos, so screen reader
-                    // users don't have to listen to the alt text before hearing the
-                    // title of the item in the list.
-                    //
-                    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                    <Image {...getCrop(item.image, 'square')!} alt="" />
+                    <PrismicImage
+                      image={{
+                        // We intentionally omit the alt text on promos, so screen reader
+                        // users don't have to listen to the alt text before hearing the
+                        // title of the item in the list.
+                        //
+                        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+                        ...getCrop(item.image, 'square')!,
+                        alt: '',
+                      }}
+                      sizes={{
+                        xlarge: 1 / 6,
+                        large: 1 / 6,
+                        medium: 1 / 5,
+                        small: 1 / 4,
+                      }}
+                    />
                   )
                 }
                 xOfY={{ x: index + 1, y: items.length }}
