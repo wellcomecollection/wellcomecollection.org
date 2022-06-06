@@ -55,7 +55,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
-  const firstArticle = articles.results[0];
+  // `articles` could be empty if somebody paginates off the end of the list,
+  // e.g. /articles?page=500
+  const image = articles.results[0]?.image;
 
   return (
     <PageLayout
@@ -65,7 +67,7 @@ const ArticlesPage: FC<Props> = ({ articles, jsonLd }: Props) => {
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'stories'}
-      image={firstArticle.image}
+      image={image}
     >
       <SpacingSection>
         <LayoutPaginatedResults
