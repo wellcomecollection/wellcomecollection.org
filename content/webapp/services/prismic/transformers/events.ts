@@ -9,11 +9,18 @@ import {
   ThirdPartyBooking,
 } from '../../../types/events';
 import {
+  Team as PrismicTeam,
   EventPrismicDocument,
   EventPolicy as EventPolicyPrismicDocument,
 } from '../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { GroupField, Query, RelationField } from '@prismicio/types';
+import {
+  GroupField,
+  Query,
+  RelationField,
+  LinkField,
+  KeyTextField,
+} from '@prismicio/types';
 import { isPast } from '@weco/common/utils/dates';
 import {
   asText,
@@ -87,6 +94,32 @@ export function getEventbriteId(url: string): string | undefined {
   return match?.[1];
 }
 
+function transformBookingEnquiryTeam(
+  team: RelationField<'teams', 'en-gb', InferDataInterface<PrismicTeam>>
+): Team | undefined {
+  return isFilledLinkToDocumentWithData(team)
+    ? {
+        id: team.id,
+        title: asText(team.data?.title) || '',
+        email: team.data!.email!,
+        phone: team.data!.phone!,
+        url: team.data!.url!,
+      }
+    : undefined;
+}
+
+function transformThirdPartyBooking(
+  thirdPartyUrl: LinkField,
+  thirdPartyName: KeyTextField
+): ThirdPartyBooking | undefined {
+  return isFilledLinkToWebField(thirdPartyUrl)
+    ? {
+        name: thirdPartyName || undefined,
+        url: thirdPartyUrl.url,
+      }
+    : undefined;
+}
+
 export function transformEvent(
   document: EventPrismicDocument,
   scheduleQuery?: Query<EventPrismicDocument>
@@ -143,26 +176,14 @@ export function transformEvent(
     )
     .filter(isNotUndefined);
 
-  const bookingEnquiryTeam: Team | undefined = isFilledLinkToDocumentWithData(
+  const bookingEnquiryTeam = transformBookingEnquiryTeam(
     data.bookingEnquiryTeam
-  )
-    ? {
-        id: data.bookingEnquiryTeam.id,
-        title: asText(data.bookingEnquiryTeam.data?.title) || '',
-        email: data.bookingEnquiryTeam.data!.email!,
-        phone: data.bookingEnquiryTeam.data!.phone!,
-        url: data.bookingEnquiryTeam.data!.url!,
-      }
-    : undefined;
+  );
 
-  const thirdPartyBooking: ThirdPartyBooking | undefined =
-    isFilledLinkToWebField(data.thirdPartyBookingUrl)
-      ? {
-          name: data.thirdPartyBookingName || undefined,
-          url: data.thirdPartyBookingUrl.url!,
-        }
-      : undefined;
-
+  const thirdPartyBooking = transformThirdPartyBooking(
+    data.thirdPartyBookingUrl,
+    data.thirdPartyBookingName
+  );
   const series = transformSingleLevelGroup(data.series, 'series').map(series =>
     transformEventSeries(series as EventSeriesPrismicDocument)
   );
@@ -172,20 +193,23 @@ export function transformEvent(
   );
 
   const times: EventTime[] = (data.times || [])
-    .map(({ startDateTime, endDateTime, isFullyBooked }) => {
-      const range = {
-        startDateTime: transformTimestamp(startDateTime),
-        endDateTime: transformTimestamp(endDateTime),
-      };
+    .map(
+      ({ startDateTime, endDateTime, isFullyBooked, onlineIsFullyBooked }) => {
+        const range = {
+          startDateTime: transformTimestamp(startDateTime),
+          endDateTime: transformTimestamp(endDateTime),
+        };
 
-      return isNotUndefined(range.startDateTime) &&
-        isNotUndefined(range.endDateTime)
-        ? {
-            range: range as DateTimeRange,
-            isFullyBooked,
-          }
-        : undefined;
-    })
+        return isNotUndefined(range.startDateTime) &&
+          isNotUndefined(range.endDateTime)
+          ? {
+              range: range as DateTimeRange,
+              isFullyBooked,
+              onlineIsFullyBooked,
+            }
+          : undefined;
+      }
+    )
     .filter(isNotUndefined);
 
   const lastEndTime = getLastEndTime(times);
@@ -229,6 +253,24 @@ export function transformEvent(
 
   const secondaryLabels = [...interpretationsLabels].map(text => ({ text }));
 
+  const onlineBookingEnquiryTeam = transformBookingEnquiryTeam(
+    data.onlineBookingEnquiryTeam
+  );
+
+  const onlineEventbriteId = data.onlineEventbriteEvent?.embed_url
+    ? getEventbriteId(data.onlineEventbriteEvent.embed_url)
+    : undefined;
+
+  const onlineThirdPartyBooking = transformThirdPartyBooking(
+    data.onlineThirdPartyBookingUrl,
+    data.onlineThirdPartyBookingName
+  );
+
+  const hasInVenueBooking =
+    eventbriteId || thirdPartyBooking || bookingEnquiryTeam;
+  const hasOnlineBooking =
+    onlineEventbriteId || onlineThirdPartyBooking || onlineBookingEnquiryTeam;
+
   // We want to display the scheduleLength on EventPromos,
   // but don't want to make an extra API request to populate the schedule for every event in a list.
   // We therefore return the scheduleLength property.
@@ -258,8 +300,30 @@ export function transformEvent(
     schedule,
     eventbriteId,
     isCompletelySoldOut:
-      data.times &&
-      data.times.filter((time: EventTime) => !time.isFullyBooked).length === 0,
+      data.times?.filter((time: EventTime) => {
+        const onlyInVenueAndItsFullyBooked =
+          !hasOnlineBooking && hasInVenueBooking && time.isFullyBooked;
+        const onlyOnlineAndItsFullyBooked =
+          !hasInVenueBooking && hasOnlineBooking && time.onlineIsFullyBooked;
+        const bothInVenueAndOnlineAndFullyBooked =
+          hasInVenueBooking &&
+          time.isFullyBooked &&
+          hasOnlineBooking &&
+          time.onlineIsFullyBooked;
+        return !(
+          onlyInVenueAndItsFullyBooked ||
+          onlyOnlineAndItsFullyBooked ||
+          bothInVenueAndOnlineAndFullyBooked
+        );
+      }).length === 0,
+    onlineSoldOut:
+      data.times?.filter((time: EventTime) => {
+        return !time.onlineIsFullyBooked;
+      }).length === 0,
+    inVenueSoldOut:
+      data.times?.filter((time: EventTime) => {
+        return !time.isFullyBooked;
+      }).length === 0,
     ticketSalesStart: transformTimestamp(data.ticketSalesStart),
     times,
     isPast: lastEndTime ? isPast(lastEndTime) : true,
@@ -269,6 +333,19 @@ export function transformEvent(
     labels,
     primaryLabels,
     secondaryLabels,
+    onlineTicketSalesStart: transformTimestamp(data.ticketSalesStart),
+    onlineBookingEnquiryTeam,
+    onlineEventbriteId,
+    onlineThirdPartyBooking,
+    onlineBookingInformation:
+      data.onlineBookingInformation?.length > 1
+        ? data.onlineBookingInformation
+        : undefined,
+    onlinePolicies: Array.isArray(data.onlinePolicies)
+      ? transformEventPolicyLabels(data.onlinePolicies, 'policy')
+      : [],
+    onlineHasEarlyRegistration: Boolean(data.hasEarlyRegistration),
+    onlineCost: data.onlineCost || undefined,
   };
 }
 

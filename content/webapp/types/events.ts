@@ -17,6 +17,7 @@ export type DateTimeRange = {
 export type EventTime = {
   range: DateTimeRange;
   isFullyBooked: boolean;
+  onlineIsFullyBooked: boolean;
 };
 
 type EventSeries = {
@@ -114,6 +115,8 @@ export type Event = GenericContentFields & {
   schedule?: EventSchedule;
   eventbriteId?: string;
   isCompletelySoldOut?: boolean;
+  onlineSoldOut?: boolean;
+  inVenueSoldOut?: boolean;
   isPast: boolean;
   isRelaxedPerformance: boolean;
   isOnline: boolean;
@@ -121,4 +124,12 @@ export type Event = GenericContentFields & {
   primaryLabels: Label[];
   secondaryLabels: Label[];
   contributors: Contributor[];
+  onlineTicketSalesStart?: Date;
+  onlineBookingEnquiryTeam?: Team;
+  onlineEventbriteId?: string;
+  onlineThirdPartyBooking?: ThirdPartyBooking;
+  onlineBookingInformation?: prismicT.RichTextField;
+  onlinePolicies: LabelField[];
+  onlineHasEarlyRegistration: boolean;
+  onlineCost?: string;
 };

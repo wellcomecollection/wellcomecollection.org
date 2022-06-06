@@ -1,7 +1,7 @@
 import { Fragment, FC } from 'react';
 import { grid, font, classNames } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
-import EventbriteButton from '../EventbriteButton/EventbriteButton';
+import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Message from '@weco/common/views/components/Message/Message';
 import { formatTime, formatDayDate } from '@weco/common/utils/format-date';
@@ -28,6 +28,8 @@ const GridWrapper = styled(Space).attrs({
 const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isPast(event.ticketSalesStart);
+  const isHybridEvent = event.eventbriteId && event.onlineEventbriteId;
+
   return (
     <GridWrapper>
       <div className="grid">
@@ -75,17 +77,19 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
             >
               {event.title}
             </Space>
-            {event.locations[0] && (
-              <Space
-                v={{ size: 's', properties: ['margin-bottom'] }}
-                as="p"
-                className={classNames({
-                  [font('hnr', 5)]: true,
-                })}
-              >
-                {event.locations[0].title}
-              </Space>
-            )}
+
+            {event.locations[0] &&
+              !isHybridEvent && ( // if it's a hybrid event the location is displayed with the buttons
+                <Space
+                  v={{ size: 's', properties: ['margin-bottom'] }}
+                  as="p"
+                  className={classNames({
+                    [font('hnr', 5)]: true,
+                  })}
+                >
+                  {event.locations[0].title}
+                </Space>
+              )}
 
             {event.promo?.caption && (
               <Space
@@ -143,11 +147,13 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               </Fragment>
             )}
 
-            {!isEventPast(event) && event.eventbriteId && !waitForTicketSales && (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <EventbriteButton event={event} />
-              </Space>
-            )}
+            {!isEventPast(event) &&
+              (event.eventbriteId || event.onlineEventbriteId) &&
+              !waitForTicketSales && (
+                <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                  <EventbriteButtons event={event} />
+                </Space>
+              )}
 
             {!isEventPast(event) &&
               event.bookingEnquiryTeam &&

@@ -53,6 +53,8 @@ export const data: Event = {
   availableOnline: false,
   contributors: [],
   type: 'events',
+  onlinePolicies: [],
+  onlineHasEarlyRegistration: false,
 };
 
 const DailyTourPromo = () => (
