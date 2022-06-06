@@ -246,7 +246,7 @@ exports.handler = async event => {
       .filter(h =>
         // We ignore errors on the CloudFront domain because nobody should
         // be using it; it's probably somebody malicious.
-        !h['host'].endsWith('cloudfront.net')
+        !(h['x-host-header'].endsWith('cloudfront.net'))
       );
 
     if (serverErrors.length === 0) {
