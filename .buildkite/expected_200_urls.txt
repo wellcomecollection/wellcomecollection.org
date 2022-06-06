@@ -40,3 +40,7 @@
 # Schools page, but it shouldn't be redirected.  See the router in
 # the content app, where we enable case-sensitive routing.
 /pages/Wuw2MSIAACtd3Sts
+
+# This page won't serve anything especially useful, but we want to
+# make sure it won't throw a 500 error
+/articles?page=343
