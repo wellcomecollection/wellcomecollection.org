@@ -241,7 +241,13 @@ exports.handler = async event => {
     );
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
-    const serverErrors = hits.filter(h => h['sc-status'] >= 500);
+    const serverErrors = hits
+      .filter(h => h['sc-status'] >= 500)
+      .filter(h =>
+        // We ignore errors on the CloudFront domain because nobody should
+        // be using it; it's probably somebody malicious.
+        !h['host'].endsWith('cloudfront.net')
+      );
 
     if (serverErrors.length === 0) {
       console.info('No errors in this log file, nothing to do');
