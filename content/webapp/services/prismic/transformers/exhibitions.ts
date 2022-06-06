@@ -21,14 +21,12 @@ import {
   asHtml,
   asRichText,
   asText,
-  asTitle,
   transformGenericFields,
   transformSingleLevelGroup,
   transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
-import { transformImagePromo, transformPromoToCaptionedImage } from './images';
 import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
@@ -74,7 +72,6 @@ export function transformExhibition(
 ): Exhibition {
   const genericFields = transformGenericFields(document);
   const data = document.data;
-  const promo = data.promo;
   const exhibitIds = data.exhibits
     ? data.exhibits.map(i => prismicH.isFilled.link(i.item) && i.item.id)
     : [];
@@ -88,28 +85,16 @@ export function transformExhibition(
     Boolean
   ) as string[];
 
-  const promoSquare = promo && transformImagePromo(promo, 'square');
-
-  const id = document.id;
-
   // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)
     ? transformExhibitionFormat(data.format as any)
     : undefined;
 
-  const url = `/exhibitions/${id}`;
-  const title = asTitle(data.title);
   const start = transformTimestamp(data.start)!;
   const end = data.end ? transformTimestamp(data.end) : undefined;
   const statusOverride = asText(data.statusOverride);
   const bslInfo = asRichText(data.bslInfo);
   const audioDescriptionInfo = asRichText(data.audioDescriptionInfo);
-
-  const promoCrop = '16:9';
-  const promoImage =
-    promo && promo.length > 0
-      ? transformPromoToCaptionedImage(data.promo, promoCrop)
-      : undefined;
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
@@ -144,18 +129,6 @@ export function transformExhibition(
     place,
     exhibits,
     contributors,
-    promo: promoImage && {
-      id,
-      format,
-      url,
-      title,
-      shortTitle: data.shortTitle && asText(data.shortTitle),
-      image: promoImage && promoImage.image,
-      squareImage: promoSquare && promoSquare.image,
-      start,
-      end,
-      statusOverride,
-    },
     resources: Array.isArray(data.resources)
       ? transformResourceTypeList(data.resources, 'resource')
       : [],
