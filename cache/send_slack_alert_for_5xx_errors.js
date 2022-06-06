@@ -91,44 +91,12 @@ async function sendSlackMessage(bucket, key, serverErrors) {
     const protocol = e['cs-protocol'];
     const host = e['x-host-header'];
     const path = e['cs-uri-stem'];
-    const query = e['cs-uri-query'];
 
-    // URLs going to the account API might contain sensitive information, e.g. tokens,
-    // which we don't want to log to a public Slack channel.
-    //
-    // We include enough information to distinguish requests, but then redact
-    // the rest of the value.
-    //
-    // e.g.
-    //
-    //      https://wc.org/account/api?password=correct-horse-battery-staple&code=sekritsekrit
-    //
-    // would become
-    //
-    //      https://wc.org/account/api?password=[cor... REDACTED]&code=[sek... REDACTED]
-    //
-    if (path.startsWith('/account/api')) {
-      const originalParams = new URLSearchParams(query);
+    // Note: if the request contained an empty query string, CloudFront
+    // will log this as '-'
+    const query = e['cs-uri-query'] !== '-' ? e['cs-uri-query'] : null;
 
-      const redactedParams = Array.from(originalParams.entries()).map(function (
-        param
-      ) {
-        const key = param[0];
-        const value = param[1];
-        return [key, `[${value.slice(0, 3)}... REDACTED]`];
-      });
-      const redactedQuery = new URLSearchParams(redactedParams).toString();
-
-      return `${protocol}://${host}${path}?${redactedQuery}`
-        .replaceAll('=%5B', '=[')
-        .replaceAll('+REDACTED%5D', ' REDACTED]');
-    }
-
-    // We can return all other URLs as-is; I'm not aware of non-account URLs
-    // that would contain sensitive information.
-    else {
-      return `${protocol}://${host}${path}?${query}`;
-    }
+    return createDisplayUrl(protocol, host, path, query);
   });
 
   // This creates a Markdown-formatted message like:
@@ -165,6 +133,47 @@ async function sendSlackMessage(bucket, key, serverErrors) {
   const webhookUrl = process.env.WEBHOOK_URL;
 
   await post(webhookUrl, slackPayload);
+}
+
+function createDisplayUrl(protocol, host, path, query) {
+  // URLs going to the account API might contain sensitive information, e.g. tokens,
+  // which we don't want to log to a public Slack channel.
+  //
+  // We include enough information to distinguish requests, but then redact
+  // the rest of the value.
+  //
+  // e.g.
+  //
+  //      https://wc.org/account/api?password=correct-horse-battery-staple&code=sekritsekrit
+  //
+  // would become
+  //
+  //      https://wc.org/account/api?password=[cor... REDACTED]&code=[sek... REDACTED]
+  //
+  if (path.startsWith('/account/api') && query !== null) {
+    const originalParams = new URLSearchParams(query);
+
+    const redactedParams = Array.from(originalParams.entries()).map(function (
+      param
+    ) {
+      const key = param[0];
+      const value = param[1];
+      return [key, `[${value.slice(0, 3)}... REDACTED]`];
+    });
+    const redactedQuery = new URLSearchParams(redactedParams).toString();
+
+    return `${protocol}://${host}${path}?${redactedQuery}`
+      .replaceAll('=%5B', '=[')
+      .replaceAll('+REDACTED%5D', ' REDACTED]');
+  }
+
+  // We can return all other URLs as-is; I'm not aware of non-account URLs
+  // that would contain sensitive information.
+  else if (query === null) {
+    return `${protocol}://${host}${path}`;
+  } else {
+    return `${protocol}://${host}${path}?${query}`;
+  }
 }
 
 /** Post data to a given URL.
@@ -232,7 +241,13 @@ exports.handler = async event => {
     );
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
-    const serverErrors = hits.filter(h => h['sc-status'] >= 500);
+    const serverErrors = hits
+      .filter(h => h['sc-status'] >= 500)
+      .filter(h =>
+        // We ignore errors on the CloudFront domain because nobody should
+        // be using it; it's probably somebody malicious.
+        !(h['x-host-header'].endsWith('cloudfront.net'))
+      );
 
     if (serverErrors.length === 0) {
       console.info('No errors in this log file, nothing to do');
