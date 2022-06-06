@@ -36,6 +36,8 @@ try {
     { encoding: 'utf-8' }
   );
 
+  console.log(`Last Git commit to modify this package was ${lastGitCommit}`);
+
   const bucket = 'weco-lambdas';
   const key = 'edge_lambda_origin.zip';
 
