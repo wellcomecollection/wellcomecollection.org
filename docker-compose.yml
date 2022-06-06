@@ -29,9 +29,11 @@ services:
       context: ./dash
   edge_lambdas:
     build:
-      context: ./cache/edge_lambdas
+      context: .
+      dockerfile: cache/edge_lambdas/Dockerfile
     volumes:
       - ~/.aws:/root/.aws
+      - ./cache/edge_lambdas/deploy.js:/repo/cache/edge_lambdas/deploy.js
     environment:
       - AWS_PROFILE
   toggles:
