@@ -1,5 +1,5 @@
 export const transparentGif =
-  'https://images.prismic.io/wellcomecollection%2F7ca32858-e347-4282-acaf-c55572961736_transparent.gif';
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 export const repeatingLs =
   'https://images.prismic.io/wellcomecollection%2F805ad61b-fba6-4dc1-b2d3-55dbcda0c9f1_ls_svg.svg';
 export const repeatingLsBlack =

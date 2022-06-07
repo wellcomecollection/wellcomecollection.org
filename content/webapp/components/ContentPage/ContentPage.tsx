@@ -22,7 +22,7 @@ import PageHeader, {
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
-import Image from '@weco/common/views/components/Image/Image';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import BannerCard from '../BannerCard/BannerCard';
@@ -71,11 +71,25 @@ const ShameWhatWeDoHack = () => (
       secondaryLabels={[]}
       description={pageDescriptions.userPanel}
       Image={
-        <Image
-          contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}
-          width={3200}
-          height={3200}
-          alt={''}
+        <PrismicImage
+          image={{
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg',
+            width: 3200,
+            height: 3200,
+            alt: '',
+          }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 5,
+            small: 1 / 4,
+          }}
         />
       }
       xOfY={{ x: 1, y: 1 }}

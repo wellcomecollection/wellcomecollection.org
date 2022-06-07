@@ -105,7 +105,7 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
       height={image.height}
       layout="responsive"
       className={classNames({
-        'image bg-charcoal font-white': true,
+        'bg-charcoal font-white': true,
       })}
       sizes={sizesString}
       src={image.contentUrl}

@@ -1,6 +1,6 @@
-import { Props as ImageProps } from '../../../views/components/Image/Image';
+import { ImageType } from '../../../model/image';
 
-export const mockImage: ImageProps = {
+export const mockImage: ImageType = {
   contentUrl:
     'https://images.prismic.io/wellcomecollection/c8f7b7f4-d455-4c3f-ae65-9dc7428ae60a_EP001430_0001.jpg?auto=compress,format',
   width: 3630,
