@@ -221,6 +221,8 @@ const Body: FunctionComponent<Props> = ({
                       properties:
                         isLast && sectionTheme.rowBackground === 'white'
                           ? ['padding-top']
+                          : isFirst && sectionTheme.rowBackground === 'white'
+                          ? ['padding-bottom']
                           : ['padding-top', 'padding-bottom'],
                     }}
                     className={classNames({
