@@ -73,6 +73,7 @@ export const MediaObject: FunctionComponent<Props> = ({
         medium: 1 / 10,
         small: 1 / 10,
       }}
+      quality="low"
     />
   );
 

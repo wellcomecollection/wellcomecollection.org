@@ -124,6 +124,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   medium: 1 / 2,
                   small: 1,
                 }}
+                quality="low"
               />
             )}
           </VenueHoursImage>

@@ -229,7 +229,9 @@ const bookImage = {
   crops: {},
   sizesQueries: '',
 };
-const EventFeaturedMedia = () => <PrismicImage image={eventImage} />;
+const EventFeaturedMedia = () => (
+  <PrismicImage image={eventImage} quality="medium" />
+);
 
 const Template = args => <PageHeader {...args} />;
 
@@ -301,6 +303,7 @@ book.args = {
         medium: 1 / 2,
         small: 1,
       }}
+      quality="medium"
     />
   ),
 };

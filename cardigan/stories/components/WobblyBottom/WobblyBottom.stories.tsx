@@ -6,7 +6,7 @@ const Template = args => <WobblyBottom {...args} />;
 export const image = Template.bind({});
 image.args = {
   color: 'cream',
-  children: <PrismicImage image={contentImage()} />,
+  children: <PrismicImage image={contentImage()} quality="medium" />,
 };
 
 export const headline = Template.bind({});

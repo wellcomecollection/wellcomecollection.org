@@ -99,7 +99,7 @@ function getFeaturedPictureWithTasl(featuredPicture) {
             medium: 1,
             small: 1,
           }}
-          quality={45}
+          quality="medium"
         />
       }
       tasl={image?.tasl}

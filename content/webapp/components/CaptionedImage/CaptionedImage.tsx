@@ -68,7 +68,7 @@ const CaptionedImage: FC<UiCaptionedImageProps> = ({
     <CaptionedImageFigure isBody={isBody}>
       <ImageContainerInner aspectRatio={image.width / image.height}>
         <ImageWithTasl
-          Image={<HeightRestrictedPrismicImage image={image} quality={100} />}
+          Image={<HeightRestrictedPrismicImage image={image} quality="high" />}
           tasl={image.tasl}
         />
         <Caption caption={caption} preCaptionNode={preCaptionNode} />

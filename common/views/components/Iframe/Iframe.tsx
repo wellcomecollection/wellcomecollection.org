@@ -137,7 +137,7 @@ class Iframe extends Component<Props, State> {
                 medium: 1,
                 small: 1,
               }}
-              quality={45}
+              quality="medium"
             />
             {this.state.iframeShowing && (
               <Control
