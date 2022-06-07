@@ -13,7 +13,7 @@ export type Props = {
   sizes?: BreakpointSizes;
   // The maximum width at which the image will be displayed
   maxWidth?: number;
-  quality?: number;
+  quality: 'low' | 'medium' | 'high';
 };
 
 export function convertBreakpointSizesToSizes(
@@ -34,15 +34,23 @@ export function convertBreakpointSizesToSizes(
   );
 }
 
+export type ImageQuality = 'low' | 'medium' | 'high';
+
+const imageQuality = {
+  low: '10',
+  medium: '45',
+  high: '100',
+};
+
 /**
  * This is based on the imgix loader as next has that built in
  * but we that is configured in the next app, so this will
  * make it run in places like Cardigan and allows us to work with things
  * like prismic using `rect` for crops
  */
-export function createPrismicLoader(maxWidth: number) {
-  return ({ src, width, quality }: ImageLoaderProps) => {
-    // e.g. src: https://images.prismic.io/wellcomecollection/5cf4b151-8fa1-47d1-9546-3115debc3b04_Viscera+web+image.jpg?auto=compress,format&rect=0,0,3838,2159&w=3200&h=1800
+export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
+  return ({ src, width }: ImageLoaderProps) => {
+    // e.g. src: https://images.prismic.io/wellcomecollection/5cf4b151-8fa1-47d1-9546-3115debc3b04_Viscera+web+image.jpg?auto=compress,format&rect=0,0,3838,2159&w=3200&h=1800&q=10
     const url = new URL(src);
     const searchParams = new URLSearchParams();
 
@@ -67,17 +75,7 @@ export function createPrismicLoader(maxWidth: number) {
 
     searchParams.set(`auto`, 'compress,format');
     searchParams.set(`rect`, url.searchParams.get('rect') || '');
-
-    // Note: the default quality here was originally 10, but this caused images to
-    // appear very fuzzy on stories.
-    //
-    // I've increased it to 75 because it fixed the immediate problem on a tight
-    // deadline, but it may not be the right long-term value -- we should review
-    // this and understand (1) why an image in stories wasn't passing a quality here
-    // and (2) what the correct default is.
-    //
-    // See https://wellcome.slack.com/archives/C8X9YKM5X/p1653466941113029
-    searchParams.set(`q`, (quality || 75).toString());
+    searchParams.set(`q`, imageQuality[quality]);
 
     return `${url.origin}${url.pathname}?${searchParams.toString()}`;
   };
@@ -110,8 +108,7 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
       sizes={sizesString}
       src={image.contentUrl}
       alt={image.alt || ''}
-      loader={createPrismicLoader(maxLoaderWidth)}
-      quality={quality}
+      loader={createPrismicLoader(maxLoaderWidth, quality)}
     />
   );
 };
