@@ -23,6 +23,10 @@ resource "aws_wafv2_web_acl" "wc_org" {
     name     = "managed-ip-blocking"
     priority = 0
 
+    override_action {
+      none {}
+    }
+
     statement {
       managed_rule_group_statement {
         // https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-ip-rep.html
