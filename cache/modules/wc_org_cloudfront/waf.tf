@@ -6,7 +6,7 @@ locals {
   blanket_rate_limit = 5000
 
   // A more restrictive limit for expensive URLs (eg /works)
-  restrictive_rate_limit  = 600
+  restrictive_rate_limit  = 1000
   restricted_path_regexes = ["^\\/works$", "^\\/images$"]
 }
 
