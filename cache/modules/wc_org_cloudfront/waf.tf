@@ -6,8 +6,8 @@ locals {
   blanket_rate_limit = 5000
 
   // A more restrictive limit for expensive URLs (eg /works)
-  restrictive_rate_limit = 600
-  restricted_paths       = ["/works", "/images"]
+  restrictive_rate_limit  = 600
+  restricted_path_regexes = ["^\\/works$", "^\\/images$"]
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
@@ -109,10 +109,9 @@ resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
   scope = "CLOUDFRONT"
 
   dynamic "regular_expression" {
-    for_each = local.restricted_paths
-    iterator = url_path
+    for_each = local.restricted_path_regexes
     content {
-      regex_string = "^${url_path.value}"
+      regex_string = regular_expression.value
     }
   }
 }
