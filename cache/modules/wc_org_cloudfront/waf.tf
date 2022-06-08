@@ -11,6 +11,10 @@ resource "aws_wafv2_web_acl" "wc_org" {
     name     = "blanket-rate-limiting"
     priority = 1
 
+    action {
+      block {}
+    }
+
     statement {
       rate_based_statement {
         // This number is based on us seeing significant performance degradation for
