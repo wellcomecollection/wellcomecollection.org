@@ -50,17 +50,6 @@ import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
 
-const PageHeading = styled(Space).attrs({
-  as: 'h1',
-  v: {
-    size: 'l',
-    properties: ['margin-top', 'margin-bottom'],
-  },
-  className: classNames({
-    [font('wb', 1)]: true,
-  }),
-})``;
-
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
@@ -172,7 +161,16 @@ const Homepage: FC<Props> = ({
     >
       <Layout10 isCentered={false}>
         <SpacingSection>
-          <PageHeading>{homepageHeading}</PageHeading>
+          <Space
+            v={{ size: 'l', properties: ['margin-top'] }}
+            className={classNames({
+              [font('wb', 1)]: true,
+            })}
+          >
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <h1 className="no-margin">{homepageHeading}</h1>
+            </Space>
+          </Space>
           {standfirst && (
             <CreamBox>
               <PageHeaderStandfirst html={standfirst.value} />
