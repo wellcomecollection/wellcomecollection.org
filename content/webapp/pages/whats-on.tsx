@@ -265,7 +265,7 @@ const Header = ({
                         >
                           <>
                             <time>{todaysOpeningHours.opens}</time>
-                            {'—'}
+                            {' – '}
                             <time>{todaysOpeningHours.closes}</time>
                           </>
                         </Space>

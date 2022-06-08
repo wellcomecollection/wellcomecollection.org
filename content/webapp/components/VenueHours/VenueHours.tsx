@@ -148,7 +148,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
-                {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
+                {dayOfWeek} {isClosed ? 'Closed' : `${opens} – ${closes}`}
               </li>
             )
           )}
@@ -203,7 +203,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                   <li key={p.overrideDate?.toString()}>
                     {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
                     {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
-                    {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
+                    {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}
               </ul>

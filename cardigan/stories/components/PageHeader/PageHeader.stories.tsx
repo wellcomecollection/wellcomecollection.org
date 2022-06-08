@@ -150,7 +150,7 @@ const EventContentTypeInfo = () => (
         'flex flex--wrap': true,
       })}
     >
-      Saturday 8 February 2020, 13:00—16:00
+      Saturday 8 February 2020, 13:00 – 16:00
     </Space>
     <div className="flex">
       <div className={`${font('hnb', 5)} flex flex--v-center`}>
