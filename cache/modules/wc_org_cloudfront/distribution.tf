@@ -4,6 +4,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   is_ipv6_enabled  = true
   aliases          = var.aliases
 
+  web_acl_id = aws_wafv2_web_acl.wc_org.arn
+
   // The primary load balancer for wc.org apps
   origin {
     domain_name = var.load_balancer_dns
