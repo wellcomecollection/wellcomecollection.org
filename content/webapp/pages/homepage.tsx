@@ -170,7 +170,7 @@ const Homepage: FC<Props> = ({
       siteSection={null}
       image={pageImage}
     >
-      <Layout10>
+      <Layout10 isCentered={false}>
         <SpacingSection>
           <PageHeading>{homepageHeading}</PageHeading>
           {standfirst && (
