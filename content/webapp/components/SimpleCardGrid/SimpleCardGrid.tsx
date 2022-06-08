@@ -70,9 +70,7 @@ const CardGrid: FC<Props> = ({ items, isFeaturedFirst }: Props) => {
   return (
     <>
       {featuredCard && isFeaturedFirst && (
-        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
-          <CardGridFeaturedCard item={featuredCard} />
-        </Space>
+        <CardGridFeaturedCard item={featuredCard} />
       )}
       <CssGridContainer>
         <div className="css-grid">
