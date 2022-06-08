@@ -1,3 +1,15 @@
+locals {
+  // Rate limits cover 5 minute windows
+
+  // This number is based on us seeing significant performance degradation for
+  // random (404ing) requests at about 8-10k transactions per minute.
+  blanket_rate_limit = 5000
+
+  // A more restrictive limit for expensive URLs (eg /works)
+  restrictive_rate_limit = 600
+  restricted_paths       = ["/works", "/images"]
+}
+
 resource "aws_wafv2_web_acl" "wc_org" {
   name        = "weco-cloudfront-acl-${var.namespace}"
   description = "Access control for the wellcomecollection.org CloudFront distributions"
@@ -36,10 +48,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     statement {
       rate_based_statement {
-        // This number is based on us seeing significant performance degradation for
-        // random (404ing) requests at about 8-10k transactions per minute. The number here
-        // is for 5 minute windows.
-        limit              = 5000
+        limit              = local.blanket_rate_limit
         aggregate_key_type = "IP"
       }
     }
@@ -51,9 +60,59 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  rule {
+    name     = "restrictive-rate-limiting"
+    priority = 2
+
+    action {
+      block {}
+    }
+
+    statement {
+      rate_based_statement {
+        limit              = local.restrictive_rate_limit
+        aggregate_key_type = "IP"
+
+        scope_down_statement {
+          regex_pattern_set_reference_statement {
+            field_to_match {
+              uri_path {}
+            }
+
+            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
+
+            text_transformation {
+              priority = 1
+              type     = "URL_DECODE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = false
+      sampled_requests_enabled   = false
+      metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = false
     sampled_requests_enabled   = false
     metric_name                = "weco-cloudfront-acl-metric-${var.namespace}"
+  }
+}
+
+resource "aws_wafv2_regex_pattern_set" "restricted_urls" {
+  name  = "restricted-urls-${var.namespace}"
+  scope = "CLOUDFRONT"
+
+  dynamic "regular_expression" {
+    for_each = local.restricted_paths
+    iterator = url_path
+    content {
+      regex_string = "^${url_path.value}"
+    }
   }
 }
