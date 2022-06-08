@@ -95,8 +95,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
 
     visibility_config {
-      cloudwatch_metrics_enabled = false
-      sampled_requests_enabled   = false
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
       metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
     }
   }
