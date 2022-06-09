@@ -193,7 +193,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       {period === 'this-weekend' && (
         <>
           <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
-          &ndash;
+          {' – '}
           <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
         </>
       )}
