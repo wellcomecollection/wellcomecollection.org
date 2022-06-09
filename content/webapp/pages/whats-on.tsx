@@ -467,29 +467,28 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
             <>
               <Space v={{ size: 'l', properties: ['padding-top'] }}>
                 <SpacingSection>
-                  <Layout12>
-                    <div className="flex flex--v-center flex--h-space-between">
-                      <h2 className="h1">Exhibitions</h2>
-                      <span className={font('hnb', 5)}>Free admission</span>
-                    </div>
-                  </Layout12>
-                  <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-                    {firstExhibition ? (
-                      <Layout12>
-                        <FeaturedCardExhibition
-                          exhibition={firstExhibition}
-                          background={'cream'}
-                          color={'black'}
-                        />
-                      </Layout12>
-                    ) : (
-                      <Layout12>
-                        <p data-test-id="no-exhibitions">
-                          There are no current exhibitions
-                        </p>
-                      </Layout12>
-                    )}
-                  </Space>
+                  <SpacingComponent>
+                    <SectionHeader title="Exhibitions" />
+                  </SpacingComponent>
+                  <SpacingComponent>
+                    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                      {firstExhibition ? (
+                        <Layout12>
+                          <FeaturedCardExhibition
+                            exhibition={firstExhibition}
+                            background={'cream'}
+                            color={'black'}
+                          />
+                        </Layout12>
+                      ) : (
+                        <Layout12>
+                          <p data-test-id="no-exhibitions">
+                            There are no current exhibitions
+                          </p>
+                        </Layout12>
+                      )}
+                    </Space>
+                  </SpacingComponent>
                   <CardGrid
                     items={exhibitions.slice(1)}
                     itemsPerRow={3}
