@@ -46,6 +46,13 @@ const toggles = {
       defaultValue: false,
       description: 'Allow users to sign up for an account',
     },
+    {
+      id: 'conceptsPages',
+      title: 'Concepts pages',
+      defaultValue: false,
+      description:
+        'View pages for concepts (subjects and people) and links to them from works pages',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
