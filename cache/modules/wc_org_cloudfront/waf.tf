@@ -7,7 +7,7 @@ locals {
 
   // A more restrictive limit for expensive URLs (eg /works)
   restrictive_rate_limit  = 1000
-  restricted_path_regexes = ["^\\/works$", "^\\/images$"]
+  restricted_path_regexes = ["^\\/works$", "^\\/images$", "^\\/concepts$"]
 }
 
 resource "aws_wafv2_web_acl" "wc_org" {
