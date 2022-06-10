@@ -169,7 +169,7 @@ const FeaturedCardExhibitionBody = ({
             <time dateTime={exhibition.start.toUTCString()}>
               {formatDate(exhibition.start)}
             </time>
-            —
+            {' – '}
             <time dateTime={exhibition.end.toISOString()}>
               {formatDate(exhibition.end)}
             </time>

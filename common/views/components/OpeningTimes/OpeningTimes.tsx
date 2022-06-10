@@ -36,7 +36,7 @@ const OpeningTimes: FunctionComponent<Props> = ({
               ) : (
                 <>
                   <time>{todaysHours.opens}</time>
-                  {'—'}
+                  {' – '}
                   <time>{todaysHours.closes}</time>
                 </>
               )}
