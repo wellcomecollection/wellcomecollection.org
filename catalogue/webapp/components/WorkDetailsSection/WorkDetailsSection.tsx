@@ -7,17 +7,19 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
+  omitDivider: boolean;
 }>;
 
 const WorkDetailsSection: FunctionComponent<Props> = ({
   headingText,
+  omitDivider = false,
   children,
 }: Props) => {
   const isArchive = useContext(IsArchiveContext);
 
   return (
     <>
-      {!isArchive && (
+      {!isArchive && !omitDivider && (
         <>
           <Divider color={`pumice`} isKeyline={true} />
           <SpacingComponent />
