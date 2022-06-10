@@ -50,6 +50,7 @@ export type CatalogueWorksApiProps = {
   'production.dates.to'?: string;
   'genres.label'?: string[];
   'subjects.label'?: string[];
+  subjects?: string[];
   'contributors.agent.label'?: string[];
   languages?: string[];
   _queryType?: string;
