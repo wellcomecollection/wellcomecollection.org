@@ -51,7 +51,7 @@ const toggles = {
       title: 'Concepts pages',
       defaultValue: false,
       description:
-        'View pages for concepts (subjects and people) and links to them from works pages',
+        'View pages for concepts (subjects and people) and link to them from works pages',
     },
   ] as const,
   tests: [] as ABTest[],
