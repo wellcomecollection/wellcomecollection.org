@@ -96,6 +96,17 @@ module "images_search_rule" {
   path_patterns = ["/images*"]
 }
 
+module "concepts_search_rule" {
+  source = "../../../infrastructure/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  priority      = "204"
+  path_patterns = ["/concepts*"]
+}
+
 # We do this as our server side props for next.js are served over
 # /_next/data/{hash}/{page}.json
 # e.g. https://wellcomecollection.org/_next/data/dl7PfaUnoIXaQk0ol_5M8/works.json?query=things&source=search_form%2Fworks
