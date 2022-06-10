@@ -29,6 +29,7 @@ const appPromise = nextApp.prepare().then(async () => {
 
   // Next routing
   route('/works/:id', '/work', router, nextApp);
+  route('/concepts/:id', '/concept', router, nextApp);
   route('/works', '/works', router, nextApp);
   route('/works/:workId/items', '/item', router, nextApp);
   route('/works/:workId/images', '/image', router, nextApp);

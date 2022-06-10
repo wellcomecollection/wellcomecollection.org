@@ -116,7 +116,7 @@ type Genre = {
 
 type ConceptType = 'Concept' | 'Period' | 'Place';
 
-type Concept = {
+export type Concept = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
