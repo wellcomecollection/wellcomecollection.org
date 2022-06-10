@@ -16,6 +16,9 @@ module "catalogue-service-17092020" {
     var.service_egress_security_group_id
   ]
 
+  cpu    = 512
+  memory = 1024
+
   env_vars = {
     PROD_SUBDOMAIN  = var.subdomain
     APM_ENVIRONMENT = var.env_suffix
