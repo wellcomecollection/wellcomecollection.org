@@ -1,5 +1,5 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
-import { arrow, cc, ccBy, clock, wellcome } from '@weco/common/icons';
+import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
 import { font, grid, classNames } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FooterNav from './FooterNav';
@@ -238,12 +238,6 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 className={'flex'}
                 v={{ size: 'l', properties: ['padding-top'] }}
               >
-                <Space
-                  as="span"
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                >
-                  <Icon icon={clock} />
-                </Space>
                 <div
                   className={classNames({
                     [font('hnr', 5)]: true,
