@@ -20,7 +20,6 @@ import GlobalInfoBarContext, {
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
-import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -62,20 +61,6 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideFooter = false,
   excludeRoleMain = false,
 }) => {
-  const hotjarUrls = [
-    'get-involved',
-    'schools',
-    'Wuw2MSIAACtd3SsM',
-    'YRaLYREAADUTzmYL',
-    'YROPixEAALOYwI1K',
-    'YhenkxMAAMZpgO6C',
-    'YRTXMBEAAAO0xnWa',
-  ]; // TODO: remove these when research for this ticket is complete
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/7810
-  const shouldLoadHotjar = hotjarUrls.some(
-    u => url.pathname && url.pathname.match(u)
-  );
-  useHotjar(shouldLoadHotjar);
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
