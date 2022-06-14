@@ -1,9 +1,3 @@
-- label: "Trigger e2e tests (TEMP)"
-  key: "e2e_test"
-  command: ".buildkite/scripts/trigger-e2e.sh"
-  agents:
-    queue: nano
-
 - label: ":docker: build common"
   key: "build_common"
   plugins:
