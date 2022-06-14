@@ -19,7 +19,7 @@ steps:
           run: e2e
           env:
             - BASE_URL=$PLAYWRIGHT_BASE_URL
-          command: check_urls.sh
+          command: ["check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
