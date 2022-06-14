@@ -4,6 +4,7 @@ import { program, Option } from 'commander';
 import { readFile } from 'fs/promises';
 import pLimit from 'p-limit';
 import { Result, urlChecker } from './check-url';
+import { resultTable } from './result-table';
 
 type Options = {
   expectedStatus: number;
@@ -14,13 +15,13 @@ type Options = {
 
 const resultString = (path: string, result: Result): string => {
   if (!result.success) {
-    const firstLine = chalk.bgRed(path) + chalk.red(': failure ❌');
+    const firstLine = chalk.bgRed(path) + chalk.red(' :\t❌');
     const failures = result.failures.map(
       failure => '  - ' + chalk.yellow(failure.description)
     );
     return firstLine + '\n' + failures.join('\n');
   } else {
-    return chalk.bgGreen(path) + chalk.green(': success ✅');
+    return chalk.bgGreen(path) + chalk.green(' :\t✅');
   }
 };
 
@@ -44,9 +45,12 @@ const action = async (options: Options): Promise<void> => {
       .split('\n')
       .filter(line => line.trim().length > 0 && !line.startsWith('#'));
 
+    const table = resultTable(urls);
+    table.init();
+
     const maxCheckConcurrency = 10;
     const rateLimit = pLimit(maxCheckConcurrency);
-    const results = await Promise.all(
+    await Promise.all(
       urls.map(url =>
         rateLimit(async () => {
           const requestUrl =
@@ -54,16 +58,15 @@ const action = async (options: Options): Promise<void> => {
               ? options.baseUrl + url
               : url;
           const result = await checkUrl(requestUrl, options.expectedStatus);
-          console.log(resultString(url, result));
-
-          return result;
+          table.update(url, result);
         })
       )
     );
 
-    const nFailures = results.filter(result => !result.success).length;
-    if (nFailures !== 0) {
-      console.log(chalk.red(`Checks for ${nFailures} failed!`));
+    const success = table.done();
+    await browser.close();
+
+    if (!success) {
       process.exit(1);
     }
   }

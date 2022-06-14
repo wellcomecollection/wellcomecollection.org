@@ -1,4 +1,5 @@
 import { Browser } from 'playwright';
+import { ignoreRequestError } from './ignore';
 
 type FailureType =
   | 'could-not-load-url'
@@ -45,6 +46,13 @@ export const urlChecker =
       })
     );
     page.on('requestfinished', async request => {
+      // https://playwright.dev/docs/api/class-request#request-resource-type
+      const resourceType = request.resourceType();
+      if (resourceType === 'document') {
+        // This is the page itself, and is handled below
+        return;
+      }
+
       const response = await request.response();
       if (response === null) {
         // This will be handled by the requestfailed listener
@@ -52,18 +60,24 @@ export const urlChecker =
       }
       const responseStatus = response.status();
 
-      if (responseStatus < 200 || responseStatus >= 400) {
+      if (
+        (responseStatus < 200 || responseStatus >= 400) &&
+        !ignoreRequestError(request)
+      ) {
         failures.push({
           failureType: 'page-request-error',
           description: `Request made by page returned an error: ${request.method()} ${request.url()} -> ${responseStatus}`,
         });
       }
 
-      // https://playwright.dev/docs/api/class-request#request-resource-type
-      const resourceType = request.resourceType();
-      if (resourceType === 'image') {
+      // Some google resources make requests to URLs that return 204s (I believe for cookieless tracking)
+      // filter them out here as we're looking for images with src URLs that have content which isn't an image
+      if (resourceType === 'image' && responseStatus !== 204) {
         const responseMimeType = await response.headerValue('Content-Type');
-        if (!responseMimeType?.startsWith('image')) {
+        if (
+          responseMimeType !== null &&
+          !responseMimeType?.startsWith('image')
+        ) {
           failures.push({
             failureType: 'mime-type-mismatch',
             description: `Request for an image resource at ${request.url()} returned an unexpected mime type ${responseMimeType}`,
@@ -107,9 +121,21 @@ export const urlChecker =
       };
     }
 
-    await page.waitForLoadState('networkidle');
-    // Wait 500ms for any errors to occur
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      // Can't use networkidle here as pages with YouTube embeds keep sending analytics data :(
+      await page.waitForLoadState('load');
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (e) {
+      return {
+        success: false,
+        failures: [
+          {
+            failureType: 'could-not-load-url',
+            description: 'Timeout while waiting for page load',
+          },
+        ],
+      };
+    }
 
     if (failures.length !== 0) {
       return { success: false, failures };
