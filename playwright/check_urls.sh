@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-yarn url-checker \
-  --base-url $BASE_URL \
-  --input-file ./expected_200_urls.txt \
-  --expected-status 200
+# The contents of 'urls' should be mounted into the docker-compose container with a volume
 
 yarn url-checker \
   --base-url $BASE_URL \
-  --input-file ./expected_404_urls.txt \
-  --expected-status 404
+  --input-file ./urls/expected_200_urls.txt \
+  --expected-status 200 \
+  --no-tty
+
+yarn url-checker \
+  --base-url $BASE_URL \
+  --input-file ./urls/expected_404_urls.txt \
+  --expected-status 404 \
+  --no-tty

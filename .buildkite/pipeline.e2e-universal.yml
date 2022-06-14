@@ -19,6 +19,8 @@ steps:
           run: e2e
           env:
             - BASE_URL=$PLAYWRIGHT_BASE_URL
+          volumes:
+            - "./.buildkite/urls:/usr/src/app/webapp/playwright/urls"
           command: ["bash", "check_urls.sh"]
 
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
