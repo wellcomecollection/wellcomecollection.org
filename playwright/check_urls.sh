@@ -2,6 +2,7 @@
 set -eo pipefail
 
 # The contents of 'urls' should be mounted into the docker-compose container with a volume
+# This is so that the playwright image doesn't need to be rebuilt when they change
 
 yarn url-checker \
   --base-url $BASE_URL \
