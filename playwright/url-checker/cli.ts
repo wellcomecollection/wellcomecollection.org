@@ -11,6 +11,7 @@ type Options = {
   baseUrl?: string;
   url?: string;
   inputFile?: string;
+  tty?: boolean;
 };
 
 const resultString = (path: string, result: Result): string => {
@@ -45,7 +46,7 @@ const action = async (options: Options): Promise<void> => {
       .split('\n')
       .filter(line => line.trim().length > 0 && !line.startsWith('#'));
 
-    const table = resultTable(urls);
+    const table = resultTable({ urls, liveProgress: !!options.tty });
     table.init();
 
     const maxCheckConcurrency = 10;
@@ -83,6 +84,7 @@ const main = async () => {
     )
     .option('-b, --base-url <url>', 'Base URL for if paths are given')
     .option('-u, --url <url>', 'URL or path to check')
+    .option('--no-tty', 'Not an interactive terminal')
     .addOption(
       new Option(
         '-i, --input-file <path>',

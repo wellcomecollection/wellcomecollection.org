@@ -11,13 +11,21 @@ type ResultTable = {
   done: () => boolean;
 };
 
-export const resultTable = (urls: string[]): ResultTable => {
+type Params = {
+  urls: string[];
+  liveProgress: boolean;
+};
+
+export const resultTable = ({
+  urls,
+  liveProgress = true,
+}: Params): ResultTable => {
   const data: Record<string, State> = urls.reduce(
     (acc, url) => ({ ...acc, [url]: 'pending' }),
     {}
   );
 
-  const draw = () => {
+  const getTable = () => {
     const table = new Table();
     const rows = Object.entries(data).map(([url, state]) => {
       if (state === 'pending') {
@@ -29,23 +37,34 @@ export const resultTable = (urls: string[]): ResultTable => {
       }
     });
     table.push(...rows);
-    logUpdate(table.toString());
+    return table.toString();
+  };
+
+  const drawUpdate = () => {
+    if (liveProgress) {
+      logUpdate(getTable());
+    }
   };
 
   return {
-    init: () => draw(),
+    init: drawUpdate,
     update: (url: string, result: Result) => {
       data[url] = result;
-      draw();
+      drawUpdate();
     },
     done: () => {
-      logUpdate.done();
+      if (liveProgress) {
+        logUpdate.done();
+      } else {
+        console.log(getTable());
+      }
+
       const failures = Object.entries(data)
         .filter(([, state]) => state !== 'pending' && !state.success)
         .map(pair => pair as [string, Failures]);
 
       if (failures.length === 0) {
-        console.log(chalk.green(`Checks for ${urls.length} succeeded`));
+        console.log(chalk.green(`Checks for ${urls.length} URLs succeeded`));
         return true;
       }
 
