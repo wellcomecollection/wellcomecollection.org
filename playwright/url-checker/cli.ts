@@ -1,9 +1,8 @@
 import { chromium } from 'playwright';
-import chalk from 'chalk';
 import { program, Option } from 'commander';
 import { readFile } from 'fs/promises';
 import pLimit from 'p-limit';
-import { Result, urlChecker } from './check-url';
+import { urlChecker } from './check-url';
 import { resultTable } from './result-table';
 
 type Options = {
@@ -14,30 +13,21 @@ type Options = {
   tty?: boolean;
 };
 
-const resultString = (path: string, result: Result): string => {
-  if (!result.success) {
-    const firstLine = chalk.bgRed(path) + chalk.red(' :\t❌');
-    const failures = result.failures.map(
-      failure => '  - ' + chalk.yellow(failure.description)
-    );
-    return firstLine + '\n' + failures.join('\n');
-  } else {
-    return chalk.bgGreen(path) + chalk.green(' :\t✅');
-  }
-};
-
 const action = async (options: Options): Promise<void> => {
   const browser = await chromium.launch();
   const checkUrl = urlChecker(browser);
 
   if (options.url) {
-    const requestUrl = options.baseUrl
-      ? options.baseUrl + options.url
-      : options.url;
+    const url = options.url;
+    const requestUrl = options.baseUrl ? options.baseUrl + url : url;
     const result = await checkUrl(requestUrl, options.expectedStatus);
-    console.log(resultString(options.url, result));
+    const table = resultTable({ urls: [url], liveProgress: false });
+    table.update(url, result);
+    const success = table.done();
     await browser.close();
-    return process.exit(result.success ? 0 : 1);
+    if (!success) {
+      process.exit(1);
+    }
   }
 
   if (options.inputFile) {

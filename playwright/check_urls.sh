@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 # The contents of 'urls' should be mounted into the docker-compose container with a volume
 
