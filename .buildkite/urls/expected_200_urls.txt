@@ -4,6 +4,19 @@
 /exhibitions
 /stories
 /whats-on
+/collections
+
+# Catalogue URLs
+/works
+/images
+# A book
+/works/efprdfhc
+# A digitised picture
+/works/d8p8renh
+# An archive collection
+/works/p8dj5s8y
+# An items page
+/works/ng6jw4nx/items
 
 # https://wellcome.slack.com/archives/C8X9YKM5X/p1638456535135800
 /articles/W9m2QxcAAF8AFvE5
