@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:bionic
+FROM mcr.microsoft.com/playwright:focal
 
 ADD ./playwright /usr/src/app/webapp/playwright
 WORKDIR /usr/src/app/webapp/playwright
