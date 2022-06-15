@@ -1,5 +1,6 @@
+import { test } from '@playwright/test';
 import { imagesUrl } from './helpers/urls';
-import { gotoWithoutCache } from './contexts';
+import { gotoWithoutCache, isMobile } from './contexts';
 import {
   fillActionSearchInput,
   pressActionEnterSearchInput,
@@ -14,7 +15,7 @@ import {
   clickActionClickViewExpandedImage,
 } from './actions/images';
 
-import { isMobile, elementIsVisible } from './actions/common';
+import { elementIsVisible } from './actions/common';
 import {
   expectItemsIsVisible,
   expectItemIsVisible,
@@ -29,39 +30,39 @@ import {
 import { regexImageGalleryUrl } from './helpers/regex';
 import { searchResultsContainer } from './selectors/search';
 
-describe('Image search', () => {
-  beforeEach(async () => {
-    await gotoWithoutCache(imagesUrl);
-  });
-  test('Search by term, filter by colour, check results, view image details, view expanded image', async () => {
+test.describe('Image search', () => {
+  test('Search by term, filter by colour, check results, view image details, view expanded image', async ({
+    page,
+  }) => {
+    await gotoWithoutCache(imagesUrl)(page);
     const expectedValue = 'art of science';
-    await fillActionSearchInput(expectedValue);
-    await pressActionEnterSearchInput();
+    await fillActionSearchInput(expectedValue)(page);
+    await pressActionEnterSearchInput(page);
     await page.waitForNavigation();
 
-    if (isMobile()) {
-      await clickActionModalFilterButton();
-      await elementIsVisible(mobileModalImageSearch);
-      await clickActionColourPicker();
-      await clickActionCloseModalFilterButton();
+    if (isMobile(page)) {
+      await clickActionModalFilterButton(page);
+      await elementIsVisible(mobileModalImageSearch)(page);
+      await clickActionColourPicker(page);
+      await clickActionCloseModalFilterButton(page);
     } else {
-      await clickActionColourDropDown();
-      await clickActionColourPicker();
+      await clickActionColourDropDown(page);
+      await clickActionColourPicker(page);
       await page.click('body');
     }
     await page.waitForNavigation();
-    await expectItemIsVisible(searchResultsContainer);
-    await expectItemsIsVisible(imagesResultsListItem, 1);
-    await clickActionClickSearchResultItem(1);
-    await expectItemIsVisible(modalexpandedImageViewMoreButton);
+    await expectItemIsVisible(searchResultsContainer)(page);
+    await expectItemsIsVisible(imagesResultsListItem, 1)(page);
+    await clickActionClickSearchResultItem(1)(page);
+    await expectItemIsVisible(modalexpandedImageViewMoreButton)(page);
 
     // Check we show visually similar images.  This could theoretically fail
     // if the first result doesn't have any similar images, but if it fails
     // it's much more likely we've broken something on the page.
-    await expectItemIsVisible('h3 >> text="Visually similar images"');
+    await expectItemIsVisible('h3 >> text="Visually similar images"')(page);
 
-    await clickActionClickViewExpandedImage();
+    await clickActionClickViewExpandedImage(page);
     await page.waitForNavigation();
-    expectUrlToMatch(regexImageGalleryUrl);
+    expectUrlToMatch(regexImageGalleryUrl)(page);
   });
 });

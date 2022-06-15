@@ -1,3 +1,4 @@
+import { test, expect } from '@playwright/test';
 import {
   homepageUrl,
   visitUsUrl,
@@ -10,10 +11,10 @@ import {
 } from './helpers/urls';
 import { gotoWithoutCache } from './contexts';
 
-describe('Top-level landing pages', () => {
-  test('the homepage renders with an accessible title', async () => {
+test.describe('Top-level landing pages', () => {
+  test('the homepage renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(homepageUrl),
+      gotoWithoutCache(homepageUrl)(page),
       page.textContent('h1'),
     ]);
 
@@ -22,63 +23,73 @@ describe('Top-level landing pages', () => {
     );
   });
 
-  test('the visit us page renders with an accessible title', async () => {
+  test('the visit us page renders with an accessible title', async ({
+    page,
+  }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(visitUsUrl),
+      gotoWithoutCache(visitUsUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('Visit us');
   });
 
-  test(`the what's on page renders with an accessible title`, async () => {
+  test(`the what's on page renders with an accessible title`, async ({
+    page,
+  }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(whatsOnUrl),
+      gotoWithoutCache(whatsOnUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('What’s on');
   });
 
-  test(`the stories page renders with an accessible title`, async () => {
+  test(`the stories page renders with an accessible title`, async ({
+    page,
+  }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(storiesUrl),
+      gotoWithoutCache(storiesUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('Stories');
   });
 
-  test('the collections page renders with an accessible title', async () => {
+  test('the collections page renders with an accessible title', async ({
+    page,
+  }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(collectionsUrl),
+      gotoWithoutCache(collectionsUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('Collections');
   });
 
-  test('the about us page renders with an accessible title', async () => {
+  test('the about us page renders with an accessible title', async ({
+    page,
+  }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(aboutUsUrl),
+      gotoWithoutCache(aboutUsUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('About us');
   });
 
-  test('the works page renders with an accessible title', async () => {
+  test('the works page renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(worksUrl),
+      gotoWithoutCache(worksUrl)(page),
       page.textContent('h1'),
     ]);
 
     expect(content).toBe('Search the collections');
   });
 
-  test('the images page renders with an accessible title', async () => {
+  test('the images page renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(imagesUrl),
+      gotoWithoutCache(imagesUrl)(page),
       page.textContent('h1'),
     ]);
 

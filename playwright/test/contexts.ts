@@ -1,7 +1,10 @@
+import { BrowserContext, Page } from 'playwright';
 import { baseUrl, useStageApis } from './helpers/urls';
-export function gotoWithoutCache(url: string) {
+import { devices } from '@playwright/test';
+
+export const gotoWithoutCache = (url: string) => async (page: Page) => {
   return page.goto(`${url}?cachebust=${Date.now()}`);
-}
+};
 
 const createCookie = (name: string) => {
   return {
@@ -21,102 +24,137 @@ const requiredCookies = useStageApis
   ? [acceptCookieCookie, stageApiToggleCookie]
   : [acceptCookieCookie];
 
-const multiVolumeItem = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`);
-};
-
-const itemWithAltText = async (params: {
-  canvasNumber?: number;
-}): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(
-    `${baseUrl}/works/pd4rsazb/items${
-      params.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
-    }`
-  );
-};
-
-const itemWithOnlyOpenAccess = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/w8t2vh3w/items`);
-};
-const itemWithOnlyRestrictedAccess = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/a24nhdcv/items`);
-};
-const itemWithRestrictedAndOpenAccess = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/p9gepwjs/items`);
-};
-const itemWithRestrictedAndNonRestrictedAccess = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/jsmqcwvt/items`);
-};
-const itemWithNonRestrictedAndOpenAccess = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/fa7pymra/items`);
-};
-
-const itemWithSearchAndStructures = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`);
-};
-
-const workWithPhysicalLocationOnly = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/ffd3zeq3`);
-};
-
-const workWithDigitalLocationOnly = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/j9kukb78`);
-};
-
-const workWithDigitalLocationAndLocationNote = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/a235xn8e`);
-};
-
-const workWithPhysicalAndDigitalLocation = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/works/r9kpkq8e`);
-};
-
-const itemWithReferenceNumber = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`);
-};
-
-const worksSearch = async (): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works`);
-};
-
-const article = async (id: string): Promise<void> => {
-  context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`);
-};
-
-const articleWithMockSiblings = async (
-  id: string,
-  response: Record<string, any>
+const multiVolumeItem = async (
+  context: BrowserContext,
+  page: Page
 ): Promise<void> => {
-  await context.route('**/api/**', route =>
-    route.fulfill({
-      status: 200,
-      body: JSON.stringify(response),
-    })
-  );
-  await gotoWithoutCache(`${baseUrl}/articles/${id}`);
-};
-
-export const event = async (id: string): Promise<void> => {
   context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/events/${id}`);
+  await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`)(page);
 };
 
-export const isMobile = Boolean(deviceName);
+const itemWithAltText =
+  (params: { canvasNumber?: number }) =>
+  async (context: BrowserContext, page: Page): Promise<void> => {
+    context.addCookies(requiredCookies);
+    await gotoWithoutCache(
+      `${baseUrl}/works/pd4rsazb/items${
+        params.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
+      }`
+    )(page);
+  };
+
+const itemWithOnlyOpenAccess = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/w8t2vh3w/items`)(page);
+};
+const itemWithOnlyRestrictedAccess = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/a24nhdcv/items`)(page);
+};
+const itemWithRestrictedAndOpenAccess = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/p9gepwjs/items`)(page);
+};
+const itemWithRestrictedAndNonRestrictedAccess = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/jsmqcwvt/items`)(page);
+};
+const itemWithNonRestrictedAndOpenAccess = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/fa7pymra/items`)(page);
+};
+
+const itemWithSearchAndStructures = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/re9cyhkt/items`)(page);
+};
+
+const workWithPhysicalLocationOnly = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/ffd3zeq3`)(page);
+};
+
+const workWithDigitalLocationOnly = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/j9kukb78`)(page);
+};
+
+const workWithDigitalLocationAndLocationNote = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/a235xn8e`)(page);
+};
+
+const itemWithReferenceNumber = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/qqra7v28/items`)(page);
+};
+
+const worksSearch = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works`)(page);
+};
+
+const article =
+  (id: string) =>
+  async (context: BrowserContext, page: Page): Promise<void> => {
+    context.addCookies(requiredCookies);
+    await gotoWithoutCache(`${baseUrl}/articles/${id}`)(page);
+  };
+
+const articleWithMockSiblings =
+  (id: string, response: Record<string, any>) =>
+  async (context: BrowserContext, page: Page): Promise<void> => {
+    await context.route('**/api/**', route =>
+      route.fulfill({
+        status: 200,
+        body: JSON.stringify(response),
+      })
+    );
+    await gotoWithoutCache(`${baseUrl}/articles/${id}`)(page);
+  };
+
+export const event =
+  (id: string) =>
+  async (context: BrowserContext, page: Page): Promise<void> => {
+    context.addCookies(requiredCookies);
+    await gotoWithoutCache(`${baseUrl}/events/${id}`)(page);
+  };
+
+const isMobile = (page: Page): boolean =>
+  (page.viewportSize()?.width ?? 0) <= devices['iPhone 11'].viewport.width;
 
 export {
   multiVolumeItem,
@@ -124,7 +162,6 @@ export {
   worksSearch,
   itemWithSearchAndStructures,
   itemWithReferenceNumber,
-  workWithPhysicalAndDigitalLocation,
   workWithPhysicalLocationOnly,
   workWithDigitalLocationOnly,
   workWithDigitalLocationAndLocationNote,
@@ -135,4 +172,5 @@ export {
   itemWithNonRestrictedAndOpenAccess,
   article,
   articleWithMockSiblings,
+  isMobile,
 };
