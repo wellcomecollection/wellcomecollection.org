@@ -23,7 +23,7 @@ export async function makeDefaultToggleCookies(
   );
   const { toggles } = data;
 
-  return toggles.map(t => {
+  return toggles.map((t: any) => {
     return {
       name: `${togglePrefix}${t.id}`,
       value: t.defaultValue.toString(),

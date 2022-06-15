@@ -240,8 +240,8 @@ describe('Scenario 7: A user wants to navigate an item by its parts', () => {
   });
 });
 
-async function scrollToBottom(page, selector) {
-  await page.$eval(selector, element => {
+async function scrollToBottom(page: any, selector: string) {
+  await page.$eval(selector, (element: HTMLElement) => {
     element.scrollTo(0, element.scrollHeight);
   });
 }
