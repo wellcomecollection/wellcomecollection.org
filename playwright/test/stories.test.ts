@@ -19,6 +19,6 @@ describe('stories', () => {
     const heading = await page.waitForSelector(`a[href ^= "/series"]`);
     const featuredSeriesTitle = await heading.textContent();
 
-    await page.waitForSelector(`p >> text="Part of ${featuredSeriesTitle}"`);
+    await page.waitForSelector(`p >> text=Part of ${featuredSeriesTitle}`);
   });
 });
