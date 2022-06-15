@@ -1,6 +1,5 @@
 import { baseUrl, useStageApis } from './helpers/urls';
-import { Response } from 'playwright';
-export function gotoWithoutCache(url: string): Promise<null | Response> {
+export function gotoWithoutCache(url: string) {
   return page.goto(`${url}?cachebust=${Date.now()}`);
 }
 
