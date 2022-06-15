@@ -26,7 +26,7 @@ const toggles = {
       id: 'enablePickUpDate',
       title: 'Enables pick up date functionality',
       description: 'Adds a date picker to the requesting modal',
-      defaultValue: false,
+      defaultValue: true,
     },
     {
       id: 'stagingApi',
