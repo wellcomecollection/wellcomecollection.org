@@ -19,7 +19,7 @@ const test = base.extend({
 
 test.describe('articles', () => {
   test('contributors are shown on articles', async ({ page, context }) => {
-    await article('Ya4jyRAAAGNLAejB')(context, page);
+    await article('Ya4jyRAAAGNLAejB', context, page);
     await page.waitForSelector('h3 >> text="Yiling Zhang"');
   });
 
@@ -42,7 +42,7 @@ test.describe('articles', () => {
     //
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
 
-    await article('YPAnpxAAACIAbz2c')(context, page);
+    await article('YPAnpxAAACIAbz2c', context, page);
     await page.waitForSelector('a >> text="Happiness in time"');
   });
 
@@ -50,7 +50,7 @@ test.describe('articles', () => {
     page,
     context,
   }) => {
-    await article('YRzdyREAACEAqIu-')(context, page);
+    await article('YRzdyREAACEAqIu-', context, page);
     await page.waitForSelector(
       'a >> text="Finding out where my lithium comes from"'
     );
@@ -60,7 +60,7 @@ test.describe('articles', () => {
     page,
     context,
   }) => {
-    await article('YUrz5RAAACIA4ZrH')(context, page);
+    await article('YUrz5RAAACIA4ZrH', context, page);
     await page.waitForSelector(
       'a >> text="Diagnosed bipolar, prescribed lithium"'
     );
@@ -70,7 +70,9 @@ test.describe('articles', () => {
     page,
     context,
   }) => {
-    await articleWithMockSiblings('YeUumhAAAJMQMtKc', oneScheduleItem)(
+    await articleWithMockSiblings(
+      'YeUumhAAAJMQMtKc',
+      oneScheduleItem,
       context,
       page
     );
@@ -87,7 +89,7 @@ test.describe('articles', () => {
     page,
     context,
   }) => {
-    await article('Yd8L-hAAAIAWFxqa')(context, page);
+    await article('Yd8L-hAAAIAWFxqa', context, page);
 
     const metaTag = await page.waitForSelector('meta[name="twitter:image"]', {
       state: 'attached',

@@ -20,7 +20,7 @@ test.describe('stories', () => {
   test('cards for the featured series are shown on /stories', async ({
     page,
   }) => {
-    await gotoWithoutCache(`${baseUrl}/stories`)(page);
+    await gotoWithoutCache(`${baseUrl}/stories`, page);
 
     const heading = await page.waitForSelector(`a[href ^= "/series"]`);
     const featuredSeriesTitle = await heading.textContent();

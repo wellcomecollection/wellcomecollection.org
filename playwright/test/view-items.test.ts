@@ -37,7 +37,7 @@ import { Page } from 'playwright';
 
 const domain = new URL(baseUrl).host;
 
-const searchWithin = (query: string) => async (page: Page) => {
+const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
   await page.press(`text=${searchWithinLabel}`, 'Enter');
 };
@@ -281,7 +281,7 @@ test.describe(
   }
 );
 
-const scrollToBottom = (selector: string) => async (page: Page) => {
+const scrollToBottom = async (selector: string, page: Page) => {
   await page.$eval(selector, (element: HTMLElement) => {
     element.scrollTo(0, element.scrollHeight);
   });
@@ -292,7 +292,7 @@ test.describe(
   () => {
     test('the main viewer can be scrolled', async ({ page, context }) => {
       await itemWithSearchAndStructures(context, page);
-      await scrollToBottom(mainViewer)(page);
+      await scrollToBottom(mainViewer, page);
       if (!isMobile(page)) {
         await page.waitForSelector(
           `css=[data-test-id=active-index] >> text="68"`
@@ -310,7 +310,7 @@ test.describe(
       if (isMobile(page)) {
         await page.click('text="Show info"');
       }
-      await searchWithin('darwin')(page);
+      await searchWithin('darwin', page);
       await page.waitForSelector(searchWithinResultsHeader);
       await page.click(
         `${searchWithinResultsHeader} + ul li:first-of-type button`
@@ -328,12 +328,12 @@ test.describe(
   'Scenario 10: A user wants to be able to access alt text for the images',
   () => {
     test('images should have alt text', async ({ page, context }) => {
-      await itemWithAltText({ canvasNumber: 2 })(context, page);
+      await itemWithAltText({ canvasNumber: 2 }, context, page);
       await page.waitForSelector(`img[alt='22102033982']`);
     });
 
     test('image alt text should be unique', async ({ page, context }) => {
-      await itemWithAltText({ canvasNumber: 2 })(context, page);
+      await itemWithAltText({ canvasNumber: 2 }, context, page);
       await page.waitForSelector(`img[alt='22102033982']`);
       const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
       expect(imagesWithSameText.length).toBe(1);

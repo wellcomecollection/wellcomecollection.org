@@ -7,7 +7,7 @@ test('stays focussed on the query input when submitted', async ({
   page,
 }) => {
   await worksSearch(context, page);
-  await searchFor('worms')(page);
+  await searchFor('worms', page);
   await expect(page.locator(worksSearchForm)).toBeFocused();
 });
 

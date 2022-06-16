@@ -14,7 +14,7 @@ import { gotoWithoutCache } from './contexts';
 test.describe('Top-level landing pages', () => {
   test('the homepage renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(homepageUrl)(page),
+      gotoWithoutCache(homepageUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -27,7 +27,7 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(visitUsUrl)(page),
+      gotoWithoutCache(visitUsUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -38,7 +38,7 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(whatsOnUrl)(page),
+      gotoWithoutCache(whatsOnUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -49,7 +49,7 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(storiesUrl)(page),
+      gotoWithoutCache(storiesUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -60,7 +60,7 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(collectionsUrl)(page),
+      gotoWithoutCache(collectionsUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -71,7 +71,7 @@ test.describe('Top-level landing pages', () => {
     page,
   }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(aboutUsUrl)(page),
+      gotoWithoutCache(aboutUsUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -80,7 +80,7 @@ test.describe('Top-level landing pages', () => {
 
   test('the works page renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(worksUrl)(page),
+      gotoWithoutCache(worksUrl, page),
       page.textContent('h1'),
     ]);
 
@@ -89,7 +89,7 @@ test.describe('Top-level landing pages', () => {
 
   test('the images page renders with an accessible title', async ({ page }) => {
     const [, content] = await Promise.all([
-      gotoWithoutCache(imagesUrl)(page),
+      gotoWithoutCache(imagesUrl, page),
       page.textContent('h1'),
     ]);
 

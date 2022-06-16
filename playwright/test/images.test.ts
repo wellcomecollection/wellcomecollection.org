@@ -34,15 +34,15 @@ test.describe('Image search', () => {
   test('Search by term, filter by colour, check results, view image details, view expanded image', async ({
     page,
   }) => {
-    await gotoWithoutCache(imagesUrl)(page);
+    await gotoWithoutCache(imagesUrl, page);
     const expectedValue = 'art of science';
-    await fillActionSearchInput(expectedValue)(page);
+    await fillActionSearchInput(expectedValue, page);
     await pressActionEnterSearchInput(page);
     await page.waitForNavigation();
 
     if (isMobile(page)) {
       await clickActionModalFilterButton(page);
-      await elementIsVisible(mobileModalImageSearch)(page);
+      await elementIsVisible(mobileModalImageSearch, page);
       await clickActionColourPicker(page);
       await clickActionCloseModalFilterButton(page);
     } else {
@@ -51,18 +51,18 @@ test.describe('Image search', () => {
       await page.click('body');
     }
     await page.waitForNavigation();
-    await expectItemIsVisible(searchResultsContainer)(page);
-    await expectItemsIsVisible(imagesResultsListItem, 1)(page);
-    await clickActionClickSearchResultItem(1)(page);
-    await expectItemIsVisible(modalexpandedImageViewMoreButton)(page);
+    await expectItemIsVisible(searchResultsContainer, page);
+    await expectItemsIsVisible(imagesResultsListItem, 1, page);
+    await clickActionClickSearchResultItem(1, page);
+    await expectItemIsVisible(modalexpandedImageViewMoreButton, page);
 
     // Check we show visually similar images.  This could theoretically fail
     // if the first result doesn't have any similar images, but if it fails
     // it's much more likely we've broken something on the page.
-    await expectItemIsVisible('h3 >> text="Visually similar images"')(page);
+    await expectItemIsVisible('h3 >> text="Visually similar images"', page);
 
     await clickActionClickViewExpandedImage(page);
     await page.waitForNavigation();
-    expectUrlToMatch(regexImageGalleryUrl)(page);
+    expectUrlToMatch(regexImageGalleryUrl, page);
   });
 });

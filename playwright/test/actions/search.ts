@@ -12,12 +12,13 @@ import { Page } from 'playwright';
 import { isMobile } from '../contexts';
 
 // Fill actions
-export const fillActionSearchInput =
-  (value: string) =>
-  async (page: Page): Promise<void> => {
-    const selector = `${searchImagesForm} ${worksSearchImagesInputField}`;
-    await fillInputAction(selector, value)(page);
-  };
+export const fillActionSearchInput = async (
+  value: string,
+  page: Page
+): Promise<void> => {
+  const selector = `${searchImagesForm} ${worksSearchImagesInputField}`;
+  await fillInputAction(selector, value, page);
+};
 
 // Press actions
 export const pressActionEnterSearchInput = async (
@@ -32,14 +33,15 @@ export const clickActionFormatDropDown = async (page: Page): Promise<void> => {
   await page.click(formatFilterDropDownButton);
 };
 
-export const clickActionFormatRadioCheckbox =
-  (filterName: string) =>
-  async (page: Page): Promise<void> => {
-    const selector = `${
-      isMobile(page) ? mobileModal : formatFilterDropDown
-    } label[aria-label="Radio checkbox ${filterName}"]`;
-    await page.click(selector);
-  };
+export const clickActionFormatRadioCheckbox = async (
+  filterName: string,
+  page: Page
+): Promise<void> => {
+  const selector = `${
+    isMobile(page) ? mobileModal : formatFilterDropDown
+  } label[aria-label="Radio checkbox ${filterName}"]`;
+  await page.click(selector);
+};
 
 export const clickActionModalFilterButton = async (
   page: Page
@@ -55,10 +57,11 @@ export const clickActionCloseModalFilterButton = async (
   await page.click(selector);
 };
 
-export const clickActionClickSearchResultItem =
-  (nthChild: number) =>
-  async (page: Page): Promise<void> => {
-    const selector = `${imagesResultsListItem}:nth-child(${nthChild}) a`;
+export const clickActionClickSearchResultItem = async (
+  nthChild: number,
+  page: Page
+): Promise<void> => {
+  const selector = `${imagesResultsListItem}:nth-child(${nthChild}) a`;
 
-    await page.click(selector);
-  };
+  await page.click(selector);
+};

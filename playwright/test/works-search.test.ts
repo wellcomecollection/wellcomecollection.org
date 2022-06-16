@@ -4,24 +4,27 @@ import { URLSearchParams } from 'url';
 import { Page } from 'playwright';
 
 export const worksSearchForm = '[aria-label="Search the catalogue"]';
-export const searchFor = (query: string) => async (page: Page) => {
+export const searchFor = async (query: string, page: Page) => {
   console.info('searchFor', query);
   await page.fill(worksSearchForm, query);
   await page.press(worksSearchForm, 'Enter');
 };
 
-const expectSearchParam =
-  (expectedKey: string, expectedVal: string) => (page: Page) => {
-    console.info('expectSearchParam', { expectedKey, expectedVal });
-    const params = new URLSearchParams(page.url());
-    expect(
-      Array.from(params).find(
-        ([key, val]) => key === expectedKey && val === expectedVal
-      )
-    ).toBeTruthy();
-  };
+const expectSearchParam = (
+  expectedKey: string,
+  expectedVal: string,
+  page: Page
+) => {
+  console.info('expectSearchParam', { expectedKey, expectedVal });
+  const params = new URLSearchParams(page.url());
+  expect(
+    Array.from(params).find(
+      ([key, val]) => key === expectedKey && val === expectedVal
+    )
+  ).toBeTruthy();
+};
 
-const openDropdown = (label: string) => async (page: Page) => {
+const openDropdown = async (label: string, page: Page) => {
   console.info('openDropdown', label);
   if (isMobile(page)) {
   } else {
@@ -29,7 +32,7 @@ const openDropdown = (label: string) => async (page: Page) => {
   }
 };
 
-const selectCheckbox = (label: string) => async (page: Page) => {
+const selectCheckbox = async (label: string, page: Page) => {
   if (isMobile(page)) {
     // TODO: Make this a user centric selector
     // for some reason `"Filters"` isn't working.
@@ -53,18 +56,16 @@ const navigateToNextPage = async (page: Page) => {
   await page.waitForNavigation();
 };
 
-const navigateToResult =
-  (n = 1) =>
-  async (page: Page) => {
-    const result = `[role="main"] ul li:nth-of-type(${n}) a`;
-    const searchResultTitle = await page.textContent(`${result} h2`);
+const navigateToResult = async (n = 1, page: Page) => {
+  const result = `[role="main"] ul li:nth-of-type(${n}) a`;
+  const searchResultTitle = await page.textContent(`${result} h2`);
 
-    await page.click(result);
-    await page.waitForNavigation();
+  await page.click(result);
+  await page.waitForNavigation();
 
-    const title = await page.textContent('h1');
-    expect(title).toBe(searchResultTitle);
-  };
+  const title = await page.textContent('h1');
+  expect(title).toBe(searchResultTitle);
+};
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -74,14 +75,14 @@ test.describe('Scenario 1: The person is looking for an archive', () => {
     context,
   }) => {
     await worksSearch(context, page);
-    await searchFor('Persian')(page);
-    await openDropdown('Formats')(page);
-    await selectCheckbox('Archives and manuscripts')(page);
+    await searchFor('Persian', page);
+    await openDropdown('Formats', page);
+    await selectCheckbox('Archives and manuscripts', page);
     await navigateToNextPage(page);
 
-    expectSearchParam('workType', 'h')(page);
+    expectSearchParam('workType', 'h', page);
 
-    await navigateToResult(3)(page);
+    await navigateToResult(3, page);
   });
 });
 
@@ -93,14 +94,14 @@ test.describe(
       context,
     }) => {
       await worksSearch(context, page);
-      await searchFor('eyes')(page);
-      await openDropdown('Locations')(page);
-      await selectCheckbox('Open shelves')(page);
+      await searchFor('eyes', page);
+      await openDropdown('Locations', page);
+      await selectCheckbox('Open shelves', page);
       await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'open-shelves')(page);
+      expectSearchParam('availabilities', 'open-shelves', page);
 
-      await navigateToResult(6)(page);
+      await navigateToResult(6, page);
     });
   }
 );
@@ -113,14 +114,14 @@ test.describe(
       context,
     }) => {
       await worksSearch(context, page);
-      await searchFor('skin')(page);
-      await openDropdown('Locations')(page);
-      await selectCheckbox('Online')(page);
+      await searchFor('skin', page);
+      await openDropdown('Locations', page);
+      await selectCheckbox('Online', page);
       await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'online')(page);
+      expectSearchParam('availabilities', 'online', page);
 
-      await navigateToResult(8)(page);
+      await navigateToResult(8, page);
     });
   }
 );
@@ -133,14 +134,14 @@ test.describe(
       context,
     }) => {
       await worksSearch(context, page);
-      await searchFor('skeleton')(page);
-      await openDropdown('Formats')(page);
-      await selectCheckbox('Digital images')(page);
+      await searchFor('skeleton', page);
+      await openDropdown('Formats', page);
+      await selectCheckbox('Digital images', page);
       await navigateToNextPage(page);
 
-      expectSearchParam('workType', 'q')(page);
+      expectSearchParam('workType', 'q', page);
 
-      await navigateToResult(1)(page);
+      await navigateToResult(1, page);
     });
   }
 );
@@ -153,14 +154,14 @@ test.describe(
       context,
     }) => {
       await worksSearch(context, page);
-      await searchFor('brain')(page);
-      await openDropdown('Locations')(page);
-      await selectCheckbox('Closed stores')(page);
+      await searchFor('brain', page);
+      await openDropdown('Locations', page);
+      await selectCheckbox('Closed stores', page);
       await navigateToNextPage(page);
 
-      expectSearchParam('availabilities', 'closed-stores')(page);
+      expectSearchParam('availabilities', 'closed-stores', page);
 
-      await navigateToResult(6)(page);
+      await navigateToResult(6, page);
     });
   }
 );
