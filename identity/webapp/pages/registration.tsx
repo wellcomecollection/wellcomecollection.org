@@ -1,6 +1,5 @@
 import { FormEvent } from 'react';
 import { NextPage, GetServerSideProps } from 'next';
-import { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { useForm, Controller } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
@@ -28,67 +27,64 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { Claims } from '@auth0/nextjs-auth0';
-import { RegistrationInputs } from '../src/utility/jwt-codec';
+import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
 import { stringFromStringOrStringArray } from '@weco/common/utils/array';
-import {
-  Auth0UserProfile,
-  auth0UserProfileToUserInfo,
-} from '@weco/common/model/user';
 import RegistrationInformation from '../src/frontend/Registration/RegistrationInformation';
 
 type Props = {
   serverData: SimplifiedServerData;
-  user?: Claims;
   sessionToken: string;
   auth0State: string;
+  email: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  withPageAuthRequiredSSR({
-    getServerSideProps: async context => {
-      const serverData = await getServerData(context);
-      const auth0State = stringFromStringOrStringArray(context.query.state);
-      const sessionToken = stringFromStringOrStringArray(
-        context.query.session_token
-      );
+  async context => {
+    const serverData = await getServerData(context);
+    const auth0State = stringFromStringOrStringArray(context.query.state);
+    const sessionToken = stringFromStringOrStringArray(
+      context.query.session_token
+    );
+    let email = '';
 
-      if (!serverData.toggles.selfRegistration) {
-        return {
-          redirect: {
-            destination: '/',
-            permanent: false,
-          },
-        };
+    try {
+      const token = decodeToken(sessionToken);
+
+      if (typeof token !== 'string') {
+        email = token.email;
       }
-
+    } catch {
+      // Redirect if we don't have a valid token from the Auth0 signup action
       return {
-        props: removeUndefinedProps({
-          serverData,
-          sessionToken,
-          auth0State,
-        }),
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
       };
-    },
-  });
+    }
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        sessionToken,
+        auth0State,
+        email,
+      }),
+    };
+  };
 
 const RegistrationPage: NextPage<Props> = ({
-  user: auth0UserClaims,
   sessionToken,
   auth0State,
+  email,
 }) => {
   const { control, trigger, handleSubmit, formState } =
     useForm<RegistrationInputs>();
 
   usePageTitle('Register for a library account');
-  const { user: contextUser } = useUser();
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
-  const user =
-    contextUser ||
-    auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   const updateActionData = (_, event: FormEvent<HTMLFormElement>) => {
     (event.target as HTMLFormElement).submit(); // Use the action/method if client side validation passes
@@ -102,7 +98,7 @@ const RegistrationPage: NextPage<Props> = ({
             <Wrapper>
               <Layout8>
                 <Space v={{ size: 'xl', properties: ['padding-top'] }}>
-                  <RegistrationInformation user={user} />
+                  <RegistrationInformation email={email} />
 
                   <form
                     action="/account/api/registration"
