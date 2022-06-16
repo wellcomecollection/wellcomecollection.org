@@ -1,24 +1,20 @@
+import { test, expect } from '@playwright/test';
 import { worksSearch } from './contexts';
 import { searchFor, worksSearchForm } from './works-search.test';
 
-test('stays focussed on the query input when submitted', async () => {
-  worksSearch();
-  await searchFor('worms');
-  // see: https://github.com/microsoft/playwright/issues/2159#issuecomment-625883641
-  const isFocussed = await page.$eval(
-    worksSearchForm,
-    el => el === document.activeElement
-  );
-
-  expect(isFocussed).toBeTruthy();
+test('stays focussed on the query input when submitted', async ({
+  context,
+  page,
+}) => {
+  await worksSearch(context, page);
+  await searchFor('worms', page);
+  await expect(page.locator(worksSearchForm)).toBeFocused();
 });
 
-test('search input does not have focus on initial load', async () => {
-  await worksSearch();
-  const isFocussed = await page.$eval(
-    worksSearchForm,
-    el => el === document.activeElement
-  );
-
-  expect(isFocussed).toBeFalsy();
+test('search input does not have focus on initial load', async ({
+  context,
+  page,
+}) => {
+  await worksSearch(context, page);
+  await expect(page.locator(worksSearchForm)).not.toBeFocused();
 });

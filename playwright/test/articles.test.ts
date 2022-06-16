@@ -1,3 +1,4 @@
+import { test as base, expect } from '@playwright/test';
 import { article, articleWithMockSiblings } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
@@ -5,21 +6,24 @@ import { oneScheduleItem } from './mocks/one-schedule-item';
 
 const domain = new URL(baseUrl).host;
 
-beforeAll(async () => {
-  const defaultToggleCookies = await makeDefaultToggleCookies(domain);
-  await context.addCookies([
-    { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    ...defaultToggleCookies,
-  ]);
+const test = base.extend({
+  context: async ({ context }, use) => {
+    const defaultToggleCookies = await makeDefaultToggleCookies(domain);
+    await context.addCookies([
+      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      ...defaultToggleCookies,
+    ]);
+    await use(context);
+  },
 });
 
-describe('articles', () => {
-  test('contributors are shown on articles', async () => {
-    await article('Ya4jyRAAAGNLAejB');
+test.describe('articles', () => {
+  test('contributors are shown on articles', async ({ page, context }) => {
+    await article('Ya4jyRAAAGNLAejB', context, page);
     await page.waitForSelector('h3 >> text="Yiling Zhang"');
   });
 
-  test('related stories are shown on articles', async () => {
+  test('related stories are shown on articles', async ({ page, context }) => {
     // We're deliberately testing multiple stories here, to catch an issue where
     // the "related stories" section can show related stories for the wrong series.
     //
@@ -38,26 +42,40 @@ describe('articles', () => {
     //
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7461
 
-    await article('YPAnpxAAACIAbz2c');
+    await article('YPAnpxAAACIAbz2c', context, page);
     await page.waitForSelector('a >> text="Happiness in time"');
   });
 
-  test('an article in a serial with further parts in a schedule will link to the next part', async () => {
-    await article('YRzdyREAACEAqIu-');
+  test('an article in a serial with further parts in a schedule will link to the next part', async ({
+    page,
+    context,
+  }) => {
+    await article('YRzdyREAACEAqIu-', context, page);
     await page.waitForSelector(
       'a >> text="Finding out where my lithium comes from"'
     );
   });
 
-  test('the last article in a serial will link to the first part', async () => {
-    await article('YUrz5RAAACIA4ZrH');
+  test('the last article in a serial will link to the first part', async ({
+    page,
+    context,
+  }) => {
+    await article('YUrz5RAAACIA4ZrH', context, page);
     await page.waitForSelector(
       'a >> text="Diagnosed bipolar, prescribed lithium"'
     );
   });
 
-  test('no related story is shown for an article in a serial with only one schedule item', async () => {
-    await articleWithMockSiblings('YeUumhAAAJMQMtKc', oneScheduleItem);
+  test('no related story is shown for an article in a serial with only one schedule item', async ({
+    page,
+    context,
+  }) => {
+    await articleWithMockSiblings(
+      'YeUumhAAAJMQMtKc',
+      oneScheduleItem,
+      context,
+      page
+    );
 
     expect(
       await page.isVisible(
@@ -67,8 +85,11 @@ describe('articles', () => {
   });
 
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7641
-  test('articles use the 32:15 crop for their social media preview', async () => {
-    await article('Yd8L-hAAAIAWFxqa');
+  test('articles use the 32:15 crop for their social media preview', async ({
+    page,
+    context,
+  }) => {
+    await article('Yd8L-hAAAIAWFxqa', context, page);
 
     const metaTag = await page.waitForSelector('meta[name="twitter:image"]', {
       state: 'attached',

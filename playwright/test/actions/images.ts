@@ -4,17 +4,20 @@ import {
   modalexpandedImaged,
   modalexpandedImageViewMoreButton,
 } from '../selectors/images';
+import { Page } from 'playwright';
 
-export async function clickActionColourDropDown(): Promise<void> {
+export const clickActionColourDropDown = async (page: Page): Promise<void> => {
   await page.click(colourSelectorFilterDropDown);
-}
+};
 
-export async function clickActionColourPicker(): Promise<void> {
+export const clickActionColourPicker = async (page: Page): Promise<void> => {
   await page.click(colourSelector);
-}
+};
 
-export async function clickActionClickViewExpandedImage(): Promise<void> {
+export const clickActionClickViewExpandedImage = async (
+  page: Page
+): Promise<void> => {
   await page.click(
     `${modalexpandedImaged} ${modalexpandedImageViewMoreButton}`
   );
-}
+};

@@ -1,4 +1,3 @@
-import { baseUrl } from './urls';
 import axios from 'axios';
 
 export type CookieType = {
@@ -31,18 +30,4 @@ export async function makeDefaultToggleCookies(
       path: '/',
     };
   });
-}
-
-export async function toggleFeature(
-  toggle: string,
-  condition: 'true' | 'false'
-): Promise<void> {
-  const toggleFeature: CookieType = {
-    name: `${togglePrefix}${toggle}`,
-    value: condition,
-    url: baseUrl,
-    httpOnly: false,
-  };
-
-  await context.addCookies([toggleFeature]);
 }
