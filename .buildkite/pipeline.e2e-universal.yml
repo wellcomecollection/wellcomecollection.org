@@ -35,6 +35,8 @@ steps:
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test"]
+    agents:
+      queue: scala # High parallelism for expensive tests
     retry:
       automatic: true
 
@@ -50,5 +52,7 @@ steps:
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test:mobile"]
+    agents:
+      queue: scala # High parallelism for expensive tests
     retry:
       automatic: true
