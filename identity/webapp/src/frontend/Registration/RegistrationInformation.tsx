@@ -4,13 +4,12 @@ import { YellowBorder } from './Registration.style';
 import { SectionHeading } from '../components/Layout.style';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { UserInfo } from '@weco/common/model/user';
 
 type Props = {
-  user: UserInfo;
+  email: string;
 };
 
-const RegistrationInformation: FC<Props> = ({ user }) => {
+const RegistrationInformation: FC<Props> = ({ email }) => {
   return (
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
@@ -41,7 +40,7 @@ const RegistrationInformation: FC<Props> = ({ user }) => {
 
       <h2 className={font('hnb', 4)}>Your details</h2>
       <p className="no-margin">
-        Email address: <strong className={font('hnb', 5)}>{user.email}</strong>
+        Email address: <strong className={font('hnb', 5)}>{email}</strong>
       </p>
       <Space
         v={{
