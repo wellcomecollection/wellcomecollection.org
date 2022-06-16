@@ -37,8 +37,10 @@ test.describe('Image search', () => {
     await gotoWithoutCache(imagesUrl, page);
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, page);
-    await pressActionEnterSearchInput(page);
-    await page.waitForNavigation();
+    await Promise.all([
+      page.waitForNavigation(),
+      pressActionEnterSearchInput(page),
+    ]);
 
     if (isMobile(page)) {
       await clickActionModalFilterButton(page);
@@ -50,7 +52,6 @@ test.describe('Image search', () => {
       await clickActionColourPicker(page);
       await page.click('body');
     }
-    await page.waitForNavigation();
     await expectItemIsVisible(searchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);
     await clickActionClickSearchResultItem(1, page);
@@ -61,8 +62,10 @@ test.describe('Image search', () => {
     // it's much more likely we've broken something on the page.
     await expectItemIsVisible('h3 >> text="Visually similar images"', page);
 
-    await clickActionClickViewExpandedImage(page);
-    await page.waitForNavigation();
+    await Promise.all([
+      page.waitForNavigation(),
+      clickActionClickViewExpandedImage(page),
+    ]);
     expectUrlToMatch(regexImageGalleryUrl, page);
   });
 });

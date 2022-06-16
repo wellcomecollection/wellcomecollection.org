@@ -52,16 +52,17 @@ const navigateToNextPage = async (page: Page) => {
   // but the selector `Next (page 2)` doesn't work as it's `visually-hidden`
   // we also use nth-of-type as the bottom navigation is the one ued on mobile
   // another hack
-  await page.click('[aria-label="Pagination navigation"]:nth-of-type(1) a');
-  await page.waitForNavigation();
+  await Promise.all([
+    page.waitForNavigation(),
+    page.click('[aria-label="Pagination navigation"]:nth-of-type(1) a'),
+  ]);
 };
 
 const navigateToResult = async (n = 1, page: Page) => {
   const result = `[role="main"] ul li:nth-of-type(${n}) a`;
   const searchResultTitle = await page.textContent(`${result} h2`);
 
-  await page.click(result);
-  await page.waitForNavigation();
+  await Promise.all([page.waitForNavigation(), page.click(result)]);
 
   const title = await page.textContent('h1');
   expect(title).toBe(searchResultTitle);
