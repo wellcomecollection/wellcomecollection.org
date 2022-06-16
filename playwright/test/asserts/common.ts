@@ -4,10 +4,10 @@ import { itemsIsVisible, elementIsVisible } from '../actions/common';
 
 export const expectItemsIsVisible = async (
   selector: string,
-  miniumNumber: number,
+  minimumNumber: number,
   page: Page
 ): Promise<void> => {
-  expect(await itemsIsVisible(selector, miniumNumber)(page)).toBeTruthy();
+  expect(await itemsIsVisible(selector, minimumNumber, page)).toBeTruthy();
 };
 
 export const expectItemIsVisible = async (
@@ -15,7 +15,7 @@ export const expectItemIsVisible = async (
   page: Page
 ): Promise<void> => {
   console.debug(`Waiting for '${selector}' to be visible'`);
-  expect(await elementIsVisible(selector)(page)).toBeTruthy();
+  expect(await elementIsVisible(selector, page)).toBeTruthy();
 };
 
 export const expectUrlToMatch = (regex: RegExp | string, page: Page): void => {
