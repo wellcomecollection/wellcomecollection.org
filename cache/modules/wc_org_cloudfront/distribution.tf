@@ -219,5 +219,21 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cache_policy_id            = var.cache_policies["static-content"]
     response_headers_policy_id = var.response_policies["weco-security"]
   }
+
+  # This is used to verify that we own the domain in
+  # the Google Search Console.
+  #
+  # See https://wellcome.slack.com/archives/C3TQSF63C/p1655464291878209
+  ordered_cache_behavior {
+    path_pattern     = "/googlea25c86e91ccc343b.html"
+    target_origin_id = local.assets_origin_id
+
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id            = var.cache_policies["static-content"]
+    response_headers_policy_id = var.response_policies["weco-security"]
+  }
 }
 
