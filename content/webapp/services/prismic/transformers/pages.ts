@@ -63,8 +63,12 @@ export function transformPage(document: PagePrismicDocument): Page {
   // If somebody puts the description on the image but there's no image, we'll discard
   // that description on the line above, and it won't get rendered on the page.
   //
-  // We should consider whether we really want to be discarding the promo here,
-  // but until then, this warning will at least let us know when it's happening.
+  // The correct fix is probably to move the promo text to the metadata description
+  // in Prismic.  This warning is to help us spot when it's happening.
+  //
+  // (We could also reconsider whether we really want to be discarding the promo
+  // if there's no image, but that's low priority when we're resource constrained.
+  // but until then, this warning will at least let us know when it's happening.)
   if (isUndefined(promo) && isNotUndefined(promoField?.caption)) {
     console.warn(
       `The promo for ${document.id} has a caption but no image; ` +
