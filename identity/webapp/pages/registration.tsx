@@ -49,20 +49,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     try {
       const token = decodeToken(sessionToken);
-      console.log({ token });
 
       if (typeof token !== 'string') {
         email = token.email;
       }
-    } catch {
-      console.log('no valid token');
-      // Redirect if we don't have a valid token from the Auth0 signup action
-      // return {
-      //   redirect: {
-      //     destination: '/',
-      //     permanent: false,
-      //   },
-      // };
+    } catch (error) {
+      throw new Error(error);
     }
 
     return {
