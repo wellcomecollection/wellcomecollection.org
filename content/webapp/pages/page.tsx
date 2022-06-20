@@ -40,7 +40,7 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
-import { isPicture, isVideoEmbed } from 'types/body';
+import { isPicture, isVideoEmbed, BodySlice } from '../types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
@@ -84,9 +84,11 @@ function isVanityUrl(pageId: string, url: string): boolean {
   return !containsPageId && looksLikeVanityUrl;
 }
 
-function getFeaturedPictureWithTasl(featuredPicture) {
-  const image = (getCrop(featuredPicture.value.image, '16:9') ||
-    featuredPicture.value.image) as any;
+function getFeaturedPictureWithTasl(
+  featuredPicture: BodySlice & { type: 'picture' }
+) {
+  const image =
+    getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
 
   return (
     <ImageWithTasl
