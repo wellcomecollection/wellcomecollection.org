@@ -15,6 +15,7 @@ import { Link } from '../../../types/link';
 import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
+import { isNotUndefined, isUndefined } from '@weco/common/utils/array';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(
@@ -49,7 +50,27 @@ export function transformPage(document: PagePrismicDocument): Page {
   const siteSections = headerLinks.map(link => link.siteSection);
   const siteSection = document.tags.find(tag => siteSections.includes(tag));
 
-  const promo = genericFields.promo;
+  const promoField = genericFields.promo;
+  const promo = promoField?.image ? promoField : undefined;
+
+  // There are two ways to supply the description for a page in Prismic:
+  //
+  //    - The metadata description field, under the "Metadata" tab
+  //    - The promo text field on an editorial image, under the "Promo" tab
+  //
+  // These correspond to `page.metadataDescription` and `page.promo.caption`.
+  //
+  // If somebody puts the description on the image but there's no image, we'll discard
+  // that description on the line above, and it won't get rendered on the page.
+  //
+  // We should consider whether we really want to be discarding the promo here,
+  // but until then, this warning will at least let us know when it's happening.
+  if (isUndefined(promo) && isNotUndefined(promoField?.caption)) {
+    console.warn(
+      `The promo for ${document.id} has a caption but no image; ` +
+        'this should be moved to the metadataDescription field.'
+    );
+  }
 
   const contributors = transformContributors(document);
 
@@ -62,7 +83,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     parentPages,
     onThisPage: data.body ? transformOnThisPage(data.body) : [],
     showOnThisPage: data.showOnThisPage || false,
-    promo: promo && promo.image ? promo : undefined,
+    promo,
     datePublished: data.datePublished
       ? transformTimestamp(data.datePublished)
       : undefined,
