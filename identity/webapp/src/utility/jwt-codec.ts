@@ -16,7 +16,7 @@ export type RegistrationInputs = {
 // this token will come from request query when this handler is used in the context of the registration form i.e. req.query.session_token
 export const decodeToken = (token: string): JwtPayload | string => {
   try {
-    const decoded = verify(token, process.env.AUTH0_ACTION_SECRET);
+    const decoded = verify(token, config.auth0.actionSecret);
     return decoded;
   } catch (e) {
     throw new Error('Invalid session_token in decode');
