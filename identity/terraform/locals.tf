@@ -37,6 +37,7 @@ locals {
       SESSION_KEYS        = "identity/${env_name}/account_management_system/session_keys"
       APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
       APM_SECRET          = "elasticsearch/logging/apm_secret"
+      AUTH0_ACTION_SECRET = "identity/${env_name}/redirect_action_secret"
     }
   } }
 }
