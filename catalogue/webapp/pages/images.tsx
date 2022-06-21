@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next';
-import { useEffect, useState, ReactElement, useContext } from 'react';
+import { useEffect, useState, ReactElement, useContext, FC } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
@@ -43,7 +43,7 @@ type ImagesPaginationProps = {
   hideMobileTotalResults?: boolean;
 };
 
-const ImagesPagination = ({
+export const ImagesPagination: FC<ImagesPaginationProps> = ({
   query,
   page,
   results,
@@ -259,6 +259,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const images = await getImages({
       params: apiProps,
       toggles: serverData.toggles,
+      pageSize: 10,
     });
 
     if (images && images.type === 'Error') {

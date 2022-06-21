@@ -2,6 +2,8 @@ import { GetServerSideProps, NextPage } from 'next';
 import {
   Concept as ConceptType,
   Work as WorkType,
+  Image as ImageType,
+  CatalogueResultsList,
 } from '@weco/common/model/catalogue';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
@@ -13,21 +15,27 @@ import { getWorks } from '../services/catalogue/works';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { Fragment } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
-import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
-import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
-import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import WorkDetailsSection from 'components/WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsTags from 'components/WorkDetailsTags/WorkDetailsTags';
+import { getImages } from 'services/catalogue/images';
+import { ImagesPagination } from './images';
+import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 
 type Props = {
   conceptResponse: ConceptType;
   works: WorkType[];
+  images: CatalogueResultsList<ImageType>;
 };
 
-export const ConceptPage: NextPage<Props> = ({ conceptResponse, works }) => {
+export const ConceptPage: NextPage<Props> = ({
+  conceptResponse,
+  works,
+  images,
+}) => {
   const conceptsJson = JSON.stringify(conceptResponse);
   const workJson = JSON.stringify(works);
+  const imagesJson = JSON.stringify(images);
 
   const ContentTypeInfo = (
     <Fragment>
@@ -110,10 +118,27 @@ export const ConceptPage: NextPage<Props> = ({ conceptResponse, works }) => {
         }
       />
       <div className="container">
-        <h1>Concepts API response:</h1>
-        <p>{conceptsJson}</p>
-        <h1>Associated works:</h1>
-        <p>{workJson}</p>
+        <h1>Matching images</h1>
+        <ImageEndpointSearchResults images={images} />
+
+        <h1>Matching works</h1>
+        <ImageEndpointSearchResults images={images} />
+
+        <h1>(Prototype debugging)</h1>
+        <details>
+          <summary>Concepts API response</summary>
+          {conceptsJson}
+        </details>
+
+        <details>
+          <summary>Images API response</summary>
+          {imagesJson}
+        </details>
+
+        <details>
+          <summary>Works API response</summary>
+          {workJson}
+        </details>
       </div>
     </CataloguePageLayout>
   );
@@ -136,20 +161,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const conceptPromise = getConcept({
+    const conceptResponse = await getConcept({
       id,
       toggles: serverData.toggles,
     });
-
-    const worksPromise = getWorks({
-      params: { subjects: [id] },
-      toggles: serverData.toggles,
-    });
-
-    const [conceptResponse, worksResponse] = await Promise.all([
-      conceptPromise,
-      worksPromise,
-    ]);
 
     if (conceptResponse.type === 'Error') {
       if (conceptResponse.httpStatus === 404) {
@@ -162,12 +177,28 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
+    const worksPromise = getWorks({
+      params: { 'subjects.label': [conceptResponse.label] },
+      toggles: serverData.toggles,
+    });
+
+    const imagesPromise = getImages({
+      params: { 'source.subjects.label': [conceptResponse.label] },
+      toggles: serverData.toggles,
+    });
+
+    const [worksResponse, imagesResponse] = await Promise.all([
+      worksPromise,
+      imagesPromise,
+    ]);
+
     const works = worksResponse.type === 'Error' ? [] : worksResponse.results;
 
     return {
       props: removeUndefinedProps({
         conceptResponse,
         works,
+        images: imagesResponse as any,
         serverData,
       }),
     };

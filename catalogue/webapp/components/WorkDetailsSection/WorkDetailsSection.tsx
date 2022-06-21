@@ -7,7 +7,7 @@ import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 
 type Props = PropsWithChildren<{
   headingText?: string;
-  omitDivider: boolean;
+  omitDivider?: boolean;
 }>;
 
 const WorkDetailsSection: FunctionComponent<Props> = ({
