@@ -91,3 +91,22 @@ export function worksRouteToApiUrl(
     ...overrides,
   };
 }
+
+export function imagesRouteToApiUrl(
+  imagesRouteProps: ImagesProps,
+  overrides: Partial<CatalogueImagesApiProps>
+): CatalogueImagesApiProps {
+  return {
+    query: imagesRouteProps.query,
+    page: imagesRouteProps.page,
+    color: imagesRouteProps.color,
+    'locations.license': imagesRouteProps['locations.license'],
+    'source.genres.label':
+      imagesRouteProps['source.genres.label'].map(quoteVal),
+    'source.subjects.label':
+      imagesRouteProps['source.subjects.label'].map(quoteVal),
+    'source.contributors.agent.label':
+      imagesRouteProps['source.contributors.agent.label'].map(quoteVal),
+    ...overrides,
+  };
+}
