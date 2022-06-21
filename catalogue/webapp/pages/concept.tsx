@@ -57,14 +57,14 @@ export const ConceptPage: NextPage<Props> = ({
           ))}
         </ul>
 
-        <p>tumor or cancer of the nose</p>
-        <p>
+        {/* <p>tumor or cancer of the nose</p> */}
+        {/* <p>
           <a href="https://www.wikidata.org/wiki/Q71785199">
             Read more on Wikidata
           </a>{' '}
           &#8599;
-        </p>
-        <WorkDetailsSection headingText="Related" omitDivider={true}>
+        </p> */}
+        {/* <WorkDetailsSection headingText="Related" omitDivider={true}>
           <WorkDetailsTags
             tags={[
               {
@@ -102,7 +102,7 @@ export const ConceptPage: NextPage<Props> = ({
               },
             ]}
           />
-        </WorkDetailsSection>
+        </WorkDetailsSection> */}
       </Space>
     </Fragment>
   );

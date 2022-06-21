@@ -682,15 +682,23 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
             tags={work.subjects.map(s => {
-              return {
-                textParts: s.concepts.map(c => c.label),
-                linkAttributes: worksLink(
-                  {
-                    'subjects.label': [s.label],
-                  },
-                  'work_details/subjects'
-                ),
-              };
+              return s.id
+                ? {
+                    textParts: ['💚', ...s.concepts.map(c => c.label)],
+                    linkAttributes: {
+                      href: `/concepts/${s.id}`,
+                      as: `/concepts/${s.id}`,
+                    },
+                  }
+                : {
+                    textParts: s.concepts.map(c => c.label),
+                    linkAttributes: worksLink(
+                      {
+                        'subjects.label': [s.label],
+                      },
+                      'work_details/subjects'
+                    ),
+                  };
             })}
           />
         </WorkDetailsSection>
