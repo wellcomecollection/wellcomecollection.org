@@ -82,19 +82,23 @@ const ExhibitionsPage: FC<Props> = props => {
   };
   const firstExhibition = exhibitions[0];
 
-  const currentAndUpcomingExhibitions = {
-    ...exhibitions,
-    results: exhibitions.results.filter(result => {
-      return london(result.end).isSameOrAfter(london());
-    }),
-  };
-
-  const pastExhibitions = {
-    ...exhibitions,
-    results: exhibitions.results.filter(result => {
-      return london(result.end).isBefore(london());
-    }),
-  };
+  const partitionedExhibitionItems = exhibitions.results.reduce(
+    (acc, result) => {
+      if (london(result.end).isSameOrAfter(london())) {
+        acc.currentAndUpcoming.push(result);
+      } else {
+        acc.past.push({
+          ...result,
+          hideStatus: true,
+        });
+      }
+      return acc;
+    },
+    { currentAndUpcoming: [], past: [] } as {
+      currentAndUpcoming: ExhibitionBasic[];
+      past: ExhibitionBasic[];
+    }
+  );
 
   const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
 
@@ -127,21 +131,21 @@ const ExhibitionsPage: FC<Props> = props => {
         backgroundTexture={headerBackgroundLs}
         highlightHeading={true}
       />
-      {currentAndUpcomingExhibitions.results.length > 0 && (
+      {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <SectionHeader title="Current exhibitions" />
           </Space>
           <SpacingSection>
             <CardGrid
-              items={currentAndUpcomingExhibitions.results}
+              items={partitionedExhibitionItems.currentAndUpcoming}
               itemsPerRow={3}
             />
           </SpacingSection>
         </>
       )}
 
-      {pastExhibitions.results.length > 0 && (
+      {partitionedExhibitionItems.past.length > 0 && (
         <>
           {!period && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -155,10 +159,7 @@ const ExhibitionsPage: FC<Props> = props => {
           )}
           <SpacingSection>
             <CardGrid
-              items={pastExhibitions.results.map(exhibition => ({
-                ...exhibition,
-                hideStatus: true,
-              }))}
+              items={partitionedExhibitionItems.past}
               itemsHaveTransparentBackground={true}
               itemsPerRow={3}
             />
