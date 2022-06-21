@@ -43,7 +43,7 @@ export const ConceptPage: NextPage<Props> = ({ concepts }) => {
         </p>
         <ul>
           {concepts.results.map(c => (
-            <li>
+            <li key={c.id}>
               <a href={`/concepts/${c.id}`}>{c.label}</a>
             </li>
           ))}
@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
-        concepts,
+        concepts: concepts as any,
         serverData,
       }),
     };

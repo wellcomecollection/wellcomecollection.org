@@ -32,7 +32,8 @@ const UserProvider: FC = ({ children }) => {
   const [state, setState] = useState<State>('initial');
 
   const fetchUser = async (abortSignal?: AbortSignal, refetch = false) => {
-    setState('loading');
+    setState('failed');
+    return;
     try {
       let profileUrl = '/account/api/auth/me';
       if (refetch) {

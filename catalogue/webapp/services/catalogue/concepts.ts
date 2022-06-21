@@ -59,7 +59,9 @@ export async function getConcepts({
   params,
   toggles,
   pageSize = 25,
-}: GetConceptsProps): Promise<CatalogueResultsList | CatalogueApiError> {
+}: GetConceptsProps): Promise<
+  CatalogueResultsList<Concept> | CatalogueApiError
+> {
   const apiOptions = globalApiOptions(toggles);
 
   const extendedParams = {

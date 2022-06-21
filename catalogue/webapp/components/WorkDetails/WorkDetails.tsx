@@ -686,8 +686,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 ? {
                     textParts: ['💚', ...s.concepts.map(c => c.label)],
                     linkAttributes: {
-                      href: `/concepts/${s.id}`,
-                      as: `/concepts/${s.id}`,
+                      href: {
+                        pathname: `/concepts/${s.id}`,
+                      },
+                      as: {
+                        pathname: `/concepts/${s.id}`,
+                      },
                     },
                   }
                 : {

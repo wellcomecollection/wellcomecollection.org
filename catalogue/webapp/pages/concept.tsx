@@ -51,7 +51,7 @@ export const ConceptPage: NextPage<Props> = ({
         <p>Identifiers:</p>
         <ul>
           {conceptResponse.identifiers?.map(id => (
-            <li>
+            <li key={id.value}>
               {id.identifierType.label} {id.value}
             </li>
           ))}
@@ -146,7 +146,7 @@ export const ConceptPage: NextPage<Props> = ({
         <WorksSearchResults works={works} />
 
         <p>
-          <a href={`/works?source.subjects.label=${conceptResponse.label}`}>
+          <a href={`/works?subjects.label=${conceptResponse.label}`}>
             see all matching works &rarr;
           </a>
         </p>

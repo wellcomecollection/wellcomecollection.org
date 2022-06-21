@@ -49,7 +49,7 @@ const toggles = {
     {
       id: 'conceptsPages',
       title: 'Concepts pages',
-      defaultValue: false,
+      defaultValue: true,
       description:
         'View pages for concepts (subjects and people) and link to them from works pages',
     },
