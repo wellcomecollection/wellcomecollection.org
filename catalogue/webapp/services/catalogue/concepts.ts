@@ -3,7 +3,7 @@ import {
   CatalogueResultsList,
   Concept,
 } from '@weco/common/model/catalogue';
-import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/ts_api';
+import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/api';
 import { Toggles } from '@weco/toggles';
 import {
   catalogueApiError,

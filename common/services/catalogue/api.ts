@@ -51,6 +51,10 @@ export type CatalogueImagesApiProps = {
   color?: string;
 };
 
+export type CatalogueConceptsApiProps = {
+  page?: number;
+};
+
 export function worksRouteToApiUrl(
   worksRouteProps: WorksRouteProps,
   overrides: CatalogueWorksApiProps

@@ -58,10 +58,6 @@ export type CatalogueWorksApiProps = {
   aggregations?: string[];
 };
 
-export type CatalogueConceptsApiProps = {
-  page?: number;
-};
-
 export function worksRouteToApiUrl(
   worksProps: WorksProps,
   overrides: Partial<CatalogueWorksApiProps>
