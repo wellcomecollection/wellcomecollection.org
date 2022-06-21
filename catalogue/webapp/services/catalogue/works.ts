@@ -61,7 +61,7 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
 
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
-): Promise<CatalogueResultsList | CatalogueApiError> {
+): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
   const extendedParams = {
     ...props.params,
     include: worksIncludes,

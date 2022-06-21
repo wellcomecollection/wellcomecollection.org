@@ -3,6 +3,7 @@ import { HttpsAgent as Agent } from 'agentkeepalive';
 import {
   CatalogueApiError,
   CatalogueResultsList,
+  ResultType,
 } from '@weco/common/model/catalogue';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
@@ -72,7 +73,7 @@ export type QueryProps<Params> = {
   toggles: Toggles;
 };
 
-export async function catalogueQuery<Params, Result>(
+export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
   { params, toggles, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
