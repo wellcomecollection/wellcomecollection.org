@@ -17,7 +17,7 @@ type Props = {
 };
 
 const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
-  const { start, end, statusOverride, isPermanent } = exhibition;
+  const { start, end, statusOverride, isPermanent, hideStatus } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;
 
@@ -90,11 +90,13 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
             </Space>
           )}
 
-          <StatusIndicator
-            start={start}
-            end={end ?? new Date()}
-            statusOverride={statusOverride}
-          />
+          {!hideStatus && (
+            <StatusIndicator
+              start={start}
+              end={end ?? new Date()}
+              statusOverride={statusOverride}
+            />
+          )}
         </div>
       </CardBody>
     </CardOuter>
