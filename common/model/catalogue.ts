@@ -312,6 +312,7 @@ export type WorkAggregations = {
 export type ImageAggregations = {
   license?: CatalogueAggregation;
   'source.genres.label'?: CatalogueAggregation;
+  'source.subjects.label'?: CatalogueAggregation;
   'source.contributors.agent.label'?: CatalogueAggregation;
   type: 'Aggregations';
 };

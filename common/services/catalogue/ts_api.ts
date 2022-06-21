@@ -7,6 +7,7 @@ export type CatalogueImagesApiProps = {
   page?: number;
   'locations.license'?: string[];
   'source.genres.label'?: string[];
+  'source.subjects.label'?: string[];
   'source.contributors.agent.label'?: string[];
   color?: string;
   aggregations?: string[];
@@ -96,6 +97,8 @@ export function imagesRouteToApiUrl(
     'locations.license': imagesRouteProps['locations.license'],
     'source.genres.label':
       imagesRouteProps['source.genres.label'].map(quoteVal),
+    'source.subjects.label':
+      imagesRouteProps['source.subjects.label'].map(quoteVal),
     'source.contributors.agent.label':
       imagesRouteProps['source.contributors.agent.label'].map(quoteVal),
     ...overrides,
@@ -111,6 +114,7 @@ export function worksPropsToImagesProps(
     page: worksProps.page ?? undefined,
     'locations.license': undefined,
     'source.genres.label': undefined,
+    'source.subjects.label': undefined,
     color: undefined,
   };
 }
