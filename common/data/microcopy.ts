@@ -101,3 +101,6 @@ export const calendarInstructions =
 
 export const requestingDisabled =
   'Requesting is unavailable until 09:00 on Monday 6 June';
+
+export const pastExhibitionsStrapline =
+  'Take a look ar our past exhibitions and installations.';
