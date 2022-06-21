@@ -1,11 +1,18 @@
-import { CatalogueApiError, Concept } from '@weco/common/model/catalogue';
+import {
+  CatalogueApiError,
+  CatalogueResultsList,
+  Concept,
+} from '@weco/common/model/catalogue';
+import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/ts_api';
 import { Toggles } from '@weco/toggles';
 import {
   catalogueApiError,
   catalogueFetch,
+  catalogueQuery,
   globalApiOptions,
   looksLikeCanonicalId,
   notFound,
+  QueryProps,
   rootUris,
 } from '.';
 
@@ -41,4 +48,10 @@ export async function getConcept({
   } catch (e) {
     return catalogueApiError();
   }
+}
+
+export async function getConcepts(
+  props: QueryProps<CatalogueConceptsApiProps>
+): Promise<CatalogueResultsList<Concept> | CatalogueApiError> {
+  return catalogueQuery('concepts', props);
 }
