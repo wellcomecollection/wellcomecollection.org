@@ -19,12 +19,12 @@ import Space from '@weco/common/views/components/styled/Space';
 import WorkDetailsSection from 'components/WorkDetailsSection/WorkDetailsSection';
 import WorkDetailsTags from 'components/WorkDetailsTags/WorkDetailsTags';
 import { getImages } from 'services/catalogue/images';
-import { ImagesPagination } from './images';
-import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
 
 type Props = {
   conceptResponse: ConceptType;
-  works: WorkType[];
+  works: CatalogueResultsList<WorkType>;
   images: CatalogueResultsList<ImageType>;
 };
 
@@ -48,6 +48,15 @@ export const ConceptPage: NextPage<Props> = ({
           'first-para-no-margin': true,
         })}
       >
+        <p>Identifiers:</p>
+        <ul>
+          {conceptResponse.identifiers?.map(id => (
+            <li>
+              {id.identifierType.label} {id.value}
+            </li>
+          ))}
+        </ul>
+
         <p>tumor or cancer of the nose</p>
         <p>
           <a href="https://www.wikidata.org/wiki/Q71785199">
@@ -118,13 +127,35 @@ export const ConceptPage: NextPage<Props> = ({
         }
       />
       <div className="container">
-        <h1>Matching images</h1>
+        <p>
+          <h1>Matching images</h1>
+        </p>
         <ImageEndpointSearchResults images={images} />
 
-        <h1>Matching works</h1>
-        <ImageEndpointSearchResults images={images} />
+        <p>
+          <a href={`/images?source.subjects.label=${conceptResponse.label}`}>
+            see all matching images &rarr;
+          </a>
+        </p>
 
-        <h1>(Prototype debugging)</h1>
+        <hr />
+
+        <p>
+          <h1>Matching works</h1>
+        </p>
+        <WorksSearchResults works={works} />
+
+        <p>
+          <a href={`/works?source.subjects.label=${conceptResponse.label}`}>
+            see all matching works &rarr;
+          </a>
+        </p>
+
+        <hr />
+
+        <p>
+          <h1>(Prototype debugging)</h1>
+        </p>
         <details>
           <summary>Concepts API response</summary>
           {conceptsJson}
@@ -180,11 +211,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const worksPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
+      pageSize: 5,
     });
 
     const imagesPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
+      pageSize: 5,
     });
 
     const [worksResponse, imagesResponse] = await Promise.all([
@@ -192,13 +225,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       imagesPromise,
     ]);
 
-    const works = worksResponse.type === 'Error' ? [] : worksResponse.results;
-
     return {
       props: removeUndefinedProps({
         conceptResponse,
-        works,
+
+        // todo: better error handling
+        works: worksResponse as any,
         images: imagesResponse as any,
+
         serverData,
       }),
     };
