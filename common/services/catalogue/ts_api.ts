@@ -58,34 +58,6 @@ export type CatalogueWorksApiProps = {
   aggregations?: string[];
 };
 
-export function worksRouteToApiUrl(
-  worksProps: WorksProps,
-  overrides: Partial<CatalogueWorksApiProps>
-): CatalogueWorksApiProps {
-  return {
-    query: worksProps.query,
-    page: worksProps.page,
-    workType: worksProps.workType,
-    'items.locations.locationType': worksProps['items.locations.locationType'],
-    availabilities: worksProps.availabilities,
-    sort: worksProps.sort,
-    sortOrder: worksProps.sortOrder,
-    'partOf.title': worksProps['partOf.title'],
-    'production.dates.from': worksProps['production.dates.from']
-      ? toIsoDateString(worksProps['production.dates.from'])
-      : undefined,
-    'production.dates.to': worksProps['production.dates.to']
-      ? toIsoDateString(worksProps['production.dates.to'])
-      : undefined,
-    languages: worksProps.languages,
-    'genres.label': worksProps['genres.label'].map(quoteVal),
-    'subjects.label': worksProps['subjects.label'].map(quoteVal),
-    'contributors.agent.label':
-      worksProps['contributors.agent.label'].map(quoteVal),
-    ...overrides,
-  };
-}
-
 export function imagesRouteToApiUrl(
   imagesRouteProps: ImagesProps,
   overrides: Partial<CatalogueImagesApiProps>
