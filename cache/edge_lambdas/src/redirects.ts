@@ -213,6 +213,7 @@ export const queryRedirects: Record<string, QueryRedirect> = {
       'images.color',
       'locations.license',
       'source.genres.label',
+      'source.subjects.label',
       'source.contributors.agent.label',
       'page',
     ]),
