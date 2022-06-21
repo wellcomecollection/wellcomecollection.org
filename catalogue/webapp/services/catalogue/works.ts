@@ -6,7 +6,7 @@ import {
   Work,
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../model/iiif';
-import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
+import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import {
   catalogueApiError,
   globalApiOptions,

@@ -58,6 +58,7 @@ export type CatalogueImagesApiProps = {
   'source.subjects.label'?: string[];
   'source.contributors.agent.label'?: string[];
   color?: string;
+  aggregations?: string[];
 };
 
 export type CatalogueConceptsApiProps = {

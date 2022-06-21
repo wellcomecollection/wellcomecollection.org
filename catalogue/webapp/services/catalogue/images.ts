@@ -3,7 +3,7 @@ import {
   CatalogueResultsList,
   Image,
 } from '@weco/common/model/catalogue';
-import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/ts_api';
+import { CatalogueImagesApiProps } from '@weco/common/services/catalogue/api';
 import {
   rootUris,
   globalApiOptions,
