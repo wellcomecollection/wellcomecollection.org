@@ -22,7 +22,8 @@ type ImageInclude =
   | 'withSimilarColors'
   | 'withSimilarFeatures'
   | 'source.contributors'
-  | 'source.languages';
+  | 'source.languages'
+  | 'source.subjects';
 
 type GetImageProps = {
   id: string;
