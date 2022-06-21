@@ -108,17 +108,3 @@ export function imagesRouteToApiUrl(
     ...overrides,
   };
 }
-
-// TODO: construct images endpoint params independently rather than extracting from works
-export function worksPropsToImagesProps(
-  worksProps: CatalogueWorksApiProps
-): CatalogueImagesApiProps {
-  return {
-    query: worksProps.query ?? undefined,
-    page: worksProps.page ?? undefined,
-    'locations.license': undefined,
-    'source.genres.label': undefined,
-    'source.subjects.label': undefined,
-    color: undefined,
-  };
-}
