@@ -78,6 +78,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         medium: 1 / 5,
                         small: 1 / 4,
                       }}
+                      quality="low"
                     />
                   )
                 }
@@ -112,6 +113,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         medium: 1 / 5,
                         small: 1 / 4,
                       }}
+                      quality="low"
                     />
                   )
                 }
@@ -146,6 +148,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         medium: 1 / 5,
                         small: 1 / 4,
                       }}
+                      quality="low"
                     />
                   )
                 }
@@ -187,6 +190,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         medium: 1 / 5,
                         small: 1 / 4,
                       }}
+                      quality="low"
                     />
                   )
                 }
@@ -243,6 +247,7 @@ const SearchResults: FunctionComponent<Props> = ({
                         medium: 1 / 5,
                         small: 1 / 4,
                       }}
+                      quality="low"
                     />
                   )
                 }

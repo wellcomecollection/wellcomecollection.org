@@ -4,6 +4,7 @@ import { classNames } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactElement } from 'react';
 import PrismicImage, {
   BreakpointSizes,
+  ImageQuality,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ImageType } from '@weco/common/model/image';
 
@@ -30,7 +31,7 @@ const BookPromoImage = styled(Space).attrs({
 type Props = {
   image: ImageType;
   sizes: BreakpointSizes;
-  quality?: number;
+  quality: ImageQuality;
 };
 
 const BookImage: FunctionComponent<Props> = ({

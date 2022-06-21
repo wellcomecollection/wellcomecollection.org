@@ -39,6 +39,7 @@ const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
         medium: 1 / 5,
         small: 1 / 4,
       }}
+      quality="low"
     />
   );
 

@@ -61,6 +61,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
             medium: 1 / 3,
             small: 1,
           }}
+          quality="low"
         />
         <Space
           h={{

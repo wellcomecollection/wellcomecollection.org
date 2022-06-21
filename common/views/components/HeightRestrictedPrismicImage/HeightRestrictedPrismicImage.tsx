@@ -2,12 +2,15 @@ import { FC } from 'react';
 import Image from 'next/image';
 import { classNames } from '../../../utils/classnames';
 import { ImageType } from '../../../model/image';
-import { createPrismicLoader } from '../PrismicImage/PrismicImage';
+import {
+  createPrismicLoader,
+  ImageQuality,
+} from '../PrismicImage/PrismicImage';
 
 export type Props = {
   image: ImageType;
   maxWidth?: number;
-  quality?: number;
+  quality: ImageQuality;
 };
 
 function determineSize(viewPortImageDifference): string {
@@ -80,8 +83,7 @@ const HeightRestrictedPrismicImage: FC<Props> = ({
       sizes={`${vSizesString}, calc(100vw - 84px)`}
       src={image.contentUrl}
       alt={image.alt || ''}
-      loader={createPrismicLoader(maxLoaderWidth)}
-      quality={quality}
+      loader={createPrismicLoader(maxLoaderWidth, quality)}
     />
   );
 };

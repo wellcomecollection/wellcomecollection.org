@@ -42,7 +42,7 @@ export function getFeaturedMedia(
             medium: 1,
             small: 1,
           }}
-          quality={45}
+          quality="medium"
         />
       }
       tasl={widescreenImage.tasl}
@@ -58,7 +58,7 @@ export function getFeaturedMedia(
             medium: 1,
             small: 1,
           }}
-          quality={45}
+          quality="medium"
         />
       }
       tasl={image.tasl}

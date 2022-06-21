@@ -44,13 +44,21 @@ const Contributor: FC<ContributorType> = ({
                   transform: 'rotateZ(6deg) scale(1.2)',
                 }}
               >
-                <PrismicImage image={contributorImage} maxWidth={72} />
+                <PrismicImage
+                  image={contributorImage}
+                  maxWidth={72}
+                  quality="low"
+                />
               </div>
             </div>
           )}
           {contributorImage && contributor.type === 'organisations' && (
             <div style={{ width: '72px' }}>
-              <PrismicImage image={contributorImage} maxWidth={72} />
+              <PrismicImage
+                image={contributorImage}
+                maxWidth={72}
+                quality="low"
+              />
             </div>
           )}
         </Space>

@@ -90,6 +90,7 @@ const ShameWhatWeDoHack = () => (
             medium: 1 / 5,
             small: 1 / 4,
           }}
+          quality="low"
         />
       }
       xOfY={{ x: 1, y: 1 }}

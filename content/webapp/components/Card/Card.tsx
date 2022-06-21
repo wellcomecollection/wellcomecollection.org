@@ -102,6 +102,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
               medium: 1 / 2,
               small: 1,
             }}
+            quality="low"
           />
         )}
         {item.format && (
