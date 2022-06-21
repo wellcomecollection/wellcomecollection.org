@@ -1,4 +1,10 @@
-import { CatalogueApiError, Concept } from '@weco/common/model/catalogue';
+import {
+  CatalogueApiError,
+  CatalogueResultsList,
+  Concept,
+} from '@weco/common/model/catalogue';
+import { CatalogueConceptsApiProps } from '@weco/common/services/catalogue/ts_api';
+import { propsToQuery } from '@weco/common/utils/routes';
 import { Toggles } from '@weco/toggles';
 import {
   catalogueApiError,
@@ -11,6 +17,12 @@ import {
 
 type GetConceptProps = {
   id: string;
+  toggles: Toggles;
+};
+
+type GetConceptsProps = {
+  params: CatalogueConceptsApiProps;
+  pageSize?: number;
   toggles: Toggles;
 };
 
@@ -39,6 +51,34 @@ export async function getConcept({
   try {
     return await res.json();
   } catch (e) {
+    return catalogueApiError();
+  }
+}
+
+export async function getConcepts({
+  params,
+  toggles,
+  pageSize = 25,
+}: GetConceptsProps): Promise<CatalogueResultsList | CatalogueApiError> {
+  const apiOptions = globalApiOptions(toggles);
+
+  const extendedParams = {
+    ...params,
+    pageSize,
+  };
+
+  const searchParams = new URLSearchParams(
+    propsToQuery(extendedParams)
+  ).toString();
+
+  const url = `${rootUris[apiOptions.env]}/v2/concepts?${searchParams}`;
+
+  try {
+    const res = await catalogueFetch(url);
+    const json = await res.json();
+
+    return json;
+  } catch (error) {
     return catalogueApiError();
   }
 }
