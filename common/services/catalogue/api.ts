@@ -78,12 +78,10 @@ export function worksRouteToApiUrl(
     sort: worksProps.sort,
     sortOrder: worksProps.sortOrder,
     'partOf.title': worksProps['partOf.title'],
-    'production.dates.from': worksProps['production.dates.from']
-      ? toIsoDateString(worksProps['production.dates.from'])
-      : undefined,
-    'production.dates.to': worksProps['production.dates.to']
-      ? toIsoDateString(worksProps['production.dates.to'])
-      : undefined,
+    'production.dates.from': toIsoDateString(
+      worksProps['production.dates.from']
+    ),
+    'production.dates.to': toIsoDateString(worksProps['production.dates.to']),
     languages: worksProps.languages,
     'genres.label': worksProps['genres.label'].map(quoteVal),
     'subjects.label': worksProps['subjects.label'].map(quoteVal),
