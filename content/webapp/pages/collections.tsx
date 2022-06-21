@@ -8,8 +8,6 @@ import * as page from './page';
 export const getServerSideProps: GetServerSideProps<
   page.Props | AppErrorProps
 > = async context => {
-  console.log(`collections.getServerSideProps`);
-
   return page.getServerSideProps({
     ...context,
     query: { id: prismicPageIds.collections },

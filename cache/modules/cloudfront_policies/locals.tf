@@ -46,6 +46,7 @@ locals {
     "source",
     "source.contributors.agent.label",
     "source.genres.label",
+    "source.subjects.label",
     "toggle",
   ]
 

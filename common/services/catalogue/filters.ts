@@ -309,6 +309,25 @@ const sourceGenresFilter = ({
   ),
 });
 
+const sourceSubjectsFilter = ({
+  images,
+  props,
+}: ImagesFilterProps): CheckboxFilter => ({
+  type: 'checkbox',
+  id: 'source.subjects.label',
+  label: 'Subjects',
+  options: filterOptionsWithNonAggregates(
+    images?.aggregations?.['source.subjects.label']?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['source.subjects.label'].includes(bucket.data.label),
+    })) || [],
+    props['source.subjects.label'].map(quoteVal)
+  ),
+});
+
 const sourceContributorAgentsFilter = ({
   images,
   props,
@@ -337,6 +356,7 @@ const imagesFilters: (props: ImagesFilterProps) => Filter[] = props =>
     colorFilter,
     licensesFilter,
     sourceGenresFilter,
+    sourceSubjectsFilter,
     sourceContributorAgentsFilter,
   ].map(f => f(props));
 

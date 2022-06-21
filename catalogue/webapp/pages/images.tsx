@@ -252,6 +252,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const aggregations = [
       'locations.license',
       'source.genres.label',
+      'source.subjects.label',
       'source.contributors.agent.label',
     ];
     const apiProps = imagesRouteToApiUrl(params, { aggregations });
