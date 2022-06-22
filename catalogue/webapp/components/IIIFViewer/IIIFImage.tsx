@@ -3,7 +3,10 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const Image = styled.img<{ filterId?: string | null }>`
-  ${props => (props.filterId ? `filter: url(#${props.filterId})` : '')};
+  ${props =>
+    props.filterId
+      ? `filter: url(#${props.filterId})`
+      : ''}; // the filter is used for highlighting thumbnails that contain search terms
 `;
 
 type Props = {
@@ -13,18 +16,15 @@ type Props = {
   srcSet: string | undefined;
   sizes: string | undefined;
   alt: string;
-  extraClasses?: string;
   lang: string | undefined;
-  isLazy: boolean;
   clickHandler?: () => void | Promise<void>;
   loadHandler?: () => void | Promise<void>;
   errorHandler?: () => void | Promise<void>;
-  presentationOnly?: boolean;
   tabIndex?: number;
   filterId?: string | null;
 };
 
-const IIIFResponsiveImage = (
+const IIIFImage = (
   {
     width,
     height,
@@ -32,13 +32,10 @@ const IIIFResponsiveImage = (
     srcSet,
     sizes,
     alt,
-    extraClasses,
     lang,
     clickHandler,
     loadHandler,
     errorHandler,
-    isLazy,
-    presentationOnly,
     tabIndex,
     filterId,
   }: Props,
@@ -54,8 +51,6 @@ const IIIFResponsiveImage = (
       height={height}
       className={classNames({
         image: true,
-        [extraClasses || '']: true,
-        'lazy-image lazyload': isLazy,
       })}
       onLoad={() => {
         loadHandler && loadHandler();
@@ -69,15 +64,12 @@ const IIIFResponsiveImage = (
       onError={() => {
         errorHandler && errorHandler();
       }}
-      src={isLazy ? undefined : src}
-      data-src={isLazy ? src : undefined}
-      srcSet={isLazy ? undefined : srcSet}
-      data-srcset={isLazy ? srcSet : undefined}
+      src={src}
+      srcSet={srcSet}
       sizes={sizes}
       alt={alt}
-      role={presentationOnly ? 'presentation' : undefined}
     />
   );
 };
 
-export default forwardRef(IIIFResponsiveImage);
+export default forwardRef(IIIFImage);

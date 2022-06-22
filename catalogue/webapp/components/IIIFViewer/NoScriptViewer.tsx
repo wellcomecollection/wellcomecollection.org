@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '../../utils/iiif';
-import IIIFResponsiveImage from './IIIFResponsiveImage';
+import IIIFImage from './IIIFImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -194,7 +194,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
       <NoScriptViewerMain>
         <NoScriptViewerImageWrapper>
           {iiifImageLocation && imageUrl && (
-            <IIIFResponsiveImage
+            <IIIFImage
               width={800}
               src={imageUrl}
               srcSet={srcSet}
@@ -207,11 +207,10 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
               }
-              isLazy={false}
             />
           )}
           {mainImageService['@id'] && currentCanvas && (
-            <IIIFResponsiveImage
+            <IIIFImage
               width={800}
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
@@ -224,7 +223,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
               }
-              isLazy={false}
             />
           )}
         </NoScriptViewerImageWrapper>

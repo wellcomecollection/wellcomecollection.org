@@ -3,7 +3,7 @@ import { IIIFCanvas } from '../../model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from './IIIFResponsiveImage';
+import IIIFImage from './IIIFImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { isImageRestricted, getThumbnailService } from '../../utils/iiif';
 import Padlock from './Padlock';
@@ -126,7 +126,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               </span>
             </>
           ) : (
-            <IIIFResponsiveImage
+            <IIIFImage
               filterId={filterId}
               width={preferredThumbnail ? preferredThumbnail.width : 30}
               src={
@@ -144,7 +144,6 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
               alt={''}
               lang={lang}
-              isLazy={false}
               loadHandler={() => {
                 setThumbnailLoaded(true);
               }}
