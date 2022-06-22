@@ -1,7 +1,12 @@
 import fetch, { Response } from 'node-fetch';
 import { HttpsAgent as Agent } from 'agentkeepalive';
-import { CatalogueApiError } from '@weco/common/model/catalogue';
+import {
+  CatalogueApiError,
+  CatalogueResultsList,
+  ResultType,
+} from '@weco/common/model/catalogue';
 import { Toggles } from '@weco/toggles';
+import { propsToQuery } from '@weco/common/utils/routes';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -61,6 +66,39 @@ export const catalogueFetch = (
 ): Promise<Response> => {
   return fetch(url, { ...options, agent: agentKeepAlive });
 };
+
+export type QueryProps<Params> = {
+  params: Params;
+  pageSize?: number;
+  toggles: Toggles;
+};
+
+export async function catalogueQuery<Params, Result extends ResultType>(
+  endpoint: string,
+  { params, toggles, pageSize }: QueryProps<Params>
+): Promise<CatalogueResultsList<Result> | CatalogueApiError> {
+  const apiOptions = globalApiOptions(toggles);
+
+  const extendedParams = {
+    ...params,
+    pageSize,
+  };
+
+  const searchParams = new URLSearchParams(
+    propsToQuery(extendedParams)
+  ).toString();
+
+  const url = `${rootUris[apiOptions.env]}/v2/${endpoint}?${searchParams}`;
+
+  try {
+    const res = await catalogueFetch(url);
+    const json = await res.json();
+
+    return json;
+  } catch (error) {
+    return catalogueApiError();
+  }
+}
 
 // Returns true if a string is plausibly a canonical ID, false otherwise.
 //
