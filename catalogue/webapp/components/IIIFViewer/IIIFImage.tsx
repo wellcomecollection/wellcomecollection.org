@@ -56,9 +56,8 @@ const IIIFImage = (
         loadHandler && loadHandler();
       }}
       onClick={clickHandler}
-      onKeyDown={({ keyCode }) => {
-        // TODO
-        if (keyCode === 13) {
+      onKeyDown={({ key, keyCode }) => {
+        if (key === 'Enter' || keyCode === 13) {
           clickHandler && clickHandler();
         }
       }}
