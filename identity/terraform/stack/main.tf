@@ -41,7 +41,7 @@ module "path_listener" {
   alb_listener_http_arn  = var.alb_listener_http_arn
   target_group_arn       = local.target_group_arn
 
-  path_patterns = ["/account*"]
+  path_patterns = ["/account*", "/api/users*"]
   priority      = "49994"
 }
 
