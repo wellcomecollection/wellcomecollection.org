@@ -42,7 +42,8 @@ const NoScriptViewerImageWrapper = styled.div`
   img {
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
     width: auto;
     height: auto;
     max-width: 100%;
@@ -199,9 +200,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               src={imageUrl}
               srcSet={srcSet}
               sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-              extraClasses={classNames({
-                'block h-center': true,
-              })}
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
@@ -215,9 +213,6 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
               sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-              extraClasses={classNames({
-                'block h-center': true,
-              })}
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
