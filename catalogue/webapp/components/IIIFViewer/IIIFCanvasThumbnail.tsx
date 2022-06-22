@@ -77,22 +77,20 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
 
 type IIIFCanvasThumbnailProps = {
   canvas: IIIFCanvas;
-  lang?: string;
   isActive: boolean;
   thumbNumber: number;
   clickHandler?: () => void;
   isFocusable?: boolean;
-  filterId: string | null;
+  highlightImage?: boolean;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
-  lang,
   clickHandler,
   isActive,
   thumbNumber,
   isFocusable,
-  filterId,
+  highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const thumbnailService = getThumbnailService(canvas);
@@ -127,7 +125,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           ) : (
             <IIIFImage
-              filterId={filterId}
+              highlightImage={highlightImage}
               width={preferredThumbnail ? preferredThumbnail.width : 30}
               src={
                 urlTemplate
@@ -143,7 +141,6 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               srcSet={''}
               sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
               alt={''}
-              lang={lang}
               loadHandler={() => {
                 setThumbnailLoaded(true);
               }}

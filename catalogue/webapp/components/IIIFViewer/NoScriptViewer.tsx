@@ -254,9 +254,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                     >
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
-                          filterId={null}
                           canvas={canvas}
-                          lang={lang}
                           isActive={canvasNumber === canvasIndex + 1}
                           thumbNumber={canvasNumber}
                         />

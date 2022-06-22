@@ -2,10 +2,10 @@ import { classNames } from '@weco/common/utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Image = styled.img<{ filterId?: string | null }>`
+const Image = styled.img<{ highlightImage?: boolean }>`
   ${props =>
-    props.filterId
-      ? `filter: url(#${props.filterId})`
+    props.highlightImage
+      ? `filter: url(#purpleFilter})`
       : ''}; // the filter is used for highlighting thumbnails that contain search terms
 `;
 
@@ -16,12 +16,12 @@ type Props = {
   srcSet: string | undefined;
   sizes: string | undefined;
   alt: string;
-  lang: string | undefined;
+  lang?: string;
   clickHandler?: () => void | Promise<void>;
   loadHandler?: () => void | Promise<void>;
   errorHandler?: () => void | Promise<void>;
   tabIndex?: number;
-  filterId?: string | null;
+  highlightImage?: boolean;
 };
 
 const IIIFImage = (
@@ -37,13 +37,13 @@ const IIIFImage = (
     loadHandler,
     errorHandler,
     tabIndex,
-    filterId,
+    highlightImage,
   }: Props,
   ref // eslint-disable-line
 ) => {
   return (
     <Image
-      filterId={filterId}
+      highlightImage={highlightImage}
       ref={ref}
       tabIndex={tabIndex}
       lang={lang}
@@ -57,6 +57,7 @@ const IIIFImage = (
       }}
       onClick={clickHandler}
       onKeyDown={({ keyCode }) => {
+        // TODO
         if (keyCode === 13) {
           clickHandler && clickHandler();
         }
