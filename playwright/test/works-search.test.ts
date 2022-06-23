@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { isMobile, worksSearch } from './contexts';
 import { URLSearchParams } from 'url';
 import { Page } from 'playwright';
+import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 export const worksSearchForm = '[aria-label="Search the catalogue"]';
 export const searchFor = async (query: string, page: Page) => {
@@ -44,7 +45,7 @@ const selectCheckbox = async (label: string, page: Page) => {
   if (isMobile(page)) {
     await page.click(`"Show results"`);
   }
-  await page.waitForNavigation();
+  await safeWaitForNavigation(page);
 };
 
 const navigateToNextPage = async (page: Page) => {
@@ -53,7 +54,7 @@ const navigateToNextPage = async (page: Page) => {
   // we also use nth-of-type as the bottom navigation is the one ued on mobile
   // another hack
   await Promise.all([
-    page.waitForNavigation(),
+    safeWaitForNavigation(page),
     page.click('[aria-label="Pagination navigation"]:nth-of-type(1) a'),
   ]);
 };
@@ -62,7 +63,7 @@ const navigateToResult = async (n = 1, page: Page) => {
   const result = `[role="main"] ul li:nth-of-type(${n}) a`;
   const searchResultTitle = await page.textContent(`${result} h2`);
 
-  await Promise.all([page.waitForNavigation(), page.click(result)]);
+  await Promise.all([safeWaitForNavigation(page), page.click(result)]);
 
   const title = await page.textContent('h1');
   expect(title).toBe(searchResultTitle);

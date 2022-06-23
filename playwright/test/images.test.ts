@@ -28,6 +28,7 @@ import {
 } from './selectors/images';
 
 import { regexImageGalleryUrl } from './helpers/regex';
+import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { searchResultsContainer } from './selectors/search';
 
 test.describe('Image search', () => {
@@ -38,7 +39,7 @@ test.describe('Image search', () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, page);
     await Promise.all([
-      page.waitForNavigation(),
+      safeWaitForNavigation(page),
       pressActionEnterSearchInput(page),
     ]);
 
@@ -63,7 +64,7 @@ test.describe('Image search', () => {
     await expectItemIsVisible('h3 >> text="Visually similar images"', page);
 
     await Promise.all([
-      page.waitForNavigation(),
+      safeWaitForNavigation(page),
       clickActionClickViewExpandedImage(page),
     ]);
     expectUrlToMatch(regexImageGalleryUrl, page);
