@@ -1,9 +1,48 @@
-import { BrowserContext, Page } from 'playwright';
+import { BrowserContext, Page, errors as playwrightErrors } from 'playwright';
 import { baseUrl, useStageApis } from './helpers/urls';
 import { devices } from '@playwright/test';
 
-export const gotoWithoutCache = (url: string, page: Page) => {
-  return page.goto(`${url}?cachebust=${Date.now()}`);
+export const gotoWithoutCache = async (
+  url: string,
+  page: Page
+): Promise<void> => {
+  const requestUrl = `${url}?cachebust=${Date.now()}`;
+  /*
+   * What's going on here?
+   * @jamieparkinson 23/06/2022
+   *
+   * For reasons I can't get to the bottom of, sometimes the 'load' event
+   * for page navigation doesn't fire: seemingly that's only in webkit browsers
+   * within the (Ubuntu) docker image. It seems only to happen on some pages,
+   * but I can't see what those pages have in common. Even on those, it's
+   * not deterministic. Sometimes it looks like not setting the cookies
+   * prevents it, but that isn't foolproof either.
+   *
+   * There are some issues on the Playwright GitHub (see below), but nobody
+   * can nail down a reliable repro case and so it's hard for the maintainers
+   * to do much about it.
+   * https://github.com/microsoft/playwright/issues/12182
+   *
+   * My workaround here is to catch these timeouts and to try again but waiting
+   * for a different event to 'load'. If this stops working, we might want to
+   * try using the 'networkidle' event - which will be slower - or we could
+   * wait for an earlier / more primitive event like 'commit' and stick a fixed
+   * delay afterwards so subsequent assertions don't fail.
+   */
+  try {
+    await page.goto(requestUrl, {
+      waitUntil: 'load',
+      timeout: 10 * 1000, // 10s
+    });
+  } catch (e) {
+    if (e instanceof playwrightErrors.TimeoutError) {
+      await page.goto(requestUrl, {
+        waitUntil: 'domcontentloaded',
+      });
+    } else {
+      throw e;
+    }
+  }
 };
 
 const createCookie = (name: string) => {
