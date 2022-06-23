@@ -71,6 +71,12 @@ export const CardBody = styled(Space).attrs(() => ({
   .card-theme.card-theme--transparent & {
     padding-left: 0;
     padding-right: 0;
+    /* CardBodys flex in the column axis by default, which makese them
+    stretch to the height of any others on the same row. We don't want
+    this behaviour when the cards don't have backgrounds because it can
+    make the 'Part of' indicator feel disjointed from the rest of the
+    content. Disabling flex altogether at this level is the most
+    straightforward way to get what we want. */
     flex: none;
   }
 `;
