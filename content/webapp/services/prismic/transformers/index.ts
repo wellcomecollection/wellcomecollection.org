@@ -13,7 +13,11 @@ import {
 } from '@weco/common/services/prismic/types';
 import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { isNotUndefined, isString } from '@weco/common/utils/array';
+import {
+  isNotUndefined,
+  isString,
+  isUndefined,
+} from '@weco/common/utils/array';
 import { WithGuideFormat } from '../types/guides';
 import { WithCardFormat } from '../types/card';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -122,17 +126,29 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
   const promo = data.promo && transformImagePromo(data.promo);
 
-  const image: ImageType | undefined =
+  const primaryPromo =
     data.promo && data.promo.length > 0
       ? data.promo
           .filter((slice: prismicT.Slice) => slice.primary.image)
-          .map(({ primary: { image } }) => transformImage(image))
-          .find(_ => _) || undefined // just get the first one;
+          .find(_ => _)
       : undefined;
+
+  const image: ImageType | undefined = primaryPromo
+    ? transformImage(primaryPromo.primary.image)
+    : undefined;
 
   const body = data.body ? transformBody(data.body) : [];
   const standfirst = body.find(isStandfirst);
-  const metadataDescription = asText(data.metadataDescription);
+
+  // The `promo` field expects to have an image associated; if not, we remove the
+  // entire field.  This means pages that only have promo text and no image get
+  // their promo text removed; if that's the case, copy it to the metadataDescription.
+  const metadataDescription =
+    data.metadataDescription && asText(data.metadataDescription)
+      ? asText(data.metadataDescription)
+      : primaryPromo && isUndefined(image)
+      ? asText(primaryPromo.primary.caption)
+      : undefined;
 
   return {
     id: doc.id,
