@@ -140,15 +140,7 @@ export function transformGenericFields(doc: Doc): GenericContentFields {
   const body = data.body ? transformBody(data.body) : [];
   const standfirst = body.find(isStandfirst);
 
-  // The `promo` field expects to have an image associated; if not, we remove the
-  // entire field.  This means pages that only have promo text and no image get
-  // their promo text removed; if that's the case, copy it to the metadataDescription.
-  const metadataDescription =
-    data.metadataDescription && asText(data.metadataDescription)
-      ? asText(data.metadataDescription)
-      : primaryPromo && isUndefined(image)
-      ? asText(primaryPromo.primary.caption)
-      : undefined;
+  const metadataDescription = asText(data.metadataDescription);
 
   return {
     id: doc.id,
