@@ -63,15 +63,15 @@ export const CardBody = styled(Space).attrs(() => ({
 
   ${props =>
     props.theme.makeSpacePropertyValues('l', ['padding-bottom'], false, {
-      small: 8,
-      medium: 8,
-      large: 8,
+      small: 5,
+      medium: 5,
+      large: 5,
     })}
 
   .card-theme.card-theme--transparent & {
     padding-left: 0;
     padding-right: 0;
-    justify-content: unset;
+    flex: none;
   }
 `;
 
