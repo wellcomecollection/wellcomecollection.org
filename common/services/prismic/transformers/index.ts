@@ -61,6 +61,8 @@ export function transformLink(
       return link.url;
     } else if (isFilledLinkToDocument(link)) {
       return linkResolver({ id: link.id, type: link.type });
+    } else {
+      console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }
   }
 }
