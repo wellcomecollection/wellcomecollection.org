@@ -8,7 +8,10 @@ export const worksSearchForm = '[aria-label="Search the catalogue"]';
 export const searchFor = async (query: string, page: Page) => {
   console.info('searchFor', query);
   await page.fill(worksSearchForm, query);
-  await page.press(worksSearchForm, 'Enter');
+  await Promise.all([
+    page.press(worksSearchForm, 'Enter'),
+    safeWaitForNavigation(page),
+  ]);
 };
 
 const expectSearchParam = (
@@ -40,12 +43,14 @@ const selectCheckbox = async (label: string, page: Page) => {
     await page.click(`[aria-controls="mobile-filters-modal"]`);
   }
 
-  await page.click(`label :text("${label}")`);
+  await Promise.all([
+    safeWaitForNavigation(page),
+    page.click(`label :text("${label}")`),
+  ]);
 
   if (isMobile(page)) {
     await page.click(`"Show results"`);
   }
-  await safeWaitForNavigation(page);
 };
 
 const navigateToNextPage = async (page: Page) => {

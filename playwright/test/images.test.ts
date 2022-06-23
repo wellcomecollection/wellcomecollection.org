@@ -10,7 +10,7 @@ import {
 } from './actions/search';
 
 import {
-  clickActionColourPicker,
+  selectColourInPicker,
   clickActionColourDropDown,
   clickActionClickViewExpandedImage,
 } from './actions/images';
@@ -46,11 +46,11 @@ test.describe('Image search', () => {
     if (isMobile(page)) {
       await clickActionModalFilterButton(page);
       await elementIsVisible(mobileModalImageSearch, page);
-      await clickActionColourPicker(page);
+      await selectColourInPicker(page);
       await clickActionCloseModalFilterButton(page);
     } else {
       await clickActionColourDropDown(page);
-      await clickActionColourPicker(page);
+      await selectColourInPicker(page);
       await page.click('body');
     }
     await expectItemIsVisible(searchResultsContainer, page);
