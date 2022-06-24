@@ -58,7 +58,7 @@ const SearchResults: FunctionComponent<Props> = ({
                 color={undefined}
                 primaryLabels={[]}
                 secondaryLabels={[]}
-                description={item.promo && item.promo.caption}
+                description={item.promo?.caption || item.metadataDescription}
                 urlOverride={item.promo && item.promo.link}
                 Image={
                   getCrop(item.image, 'square') && (
