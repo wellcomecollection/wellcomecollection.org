@@ -34,8 +34,16 @@ export const authenticatedInstanceFactory = (
         throw e;
       }
 
-      // Note: divergence from identity, because we need two headers here
-      // TODO: Comment properly
+      // Note: we diverge from the implementation in identity here, because calling
+      // the identity API requires *two* headers:
+      //
+      //    - An Authorization header with an OAuth access token, which gets set
+      //      inside this function.
+      //    - An x-api-key header with a static API key, which gets passed in via
+      //      getInstanceConfig()
+      //
+      // The implementation in the identity repo doesn't expect to get any headers
+      // from getInstanceConfig(), so it blats them.
       const instanceConfig = getInstanceConfig();
 
       instance = axios.create({
