@@ -25,7 +25,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
           <ItemWrapper key={text} as={prefix ? 'b' : 'span'}>
-            {i !== 0 && (
+            {i > 0 && (
               <Space
                 as="span"
                 h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
