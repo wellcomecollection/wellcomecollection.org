@@ -7,10 +7,6 @@ import jwt from 'jsonwebtoken';
 
 const { serverRuntimeConfig: config } = getConfig();
 
-function responseCodeIs(responseCode: number) {
-  return (status: number) => status === responseCode;
-}
-
 // TODO: Stuff this in state somewhere, so we reuse the same instance
 function getMachineToMachineInstance() {
   return authenticatedInstanceFactory(
@@ -24,7 +20,7 @@ function getMachineToMachineInstance() {
           grant_type: 'client_credentials',
         },
         {
-          validateStatus: responseCodeIs(200),
+          validateStatus: (status: number) => status === 200,
         }
       );
 
