@@ -4,6 +4,24 @@ import Control from '@weco/common/views/components/Buttons/Control/Control';
 import { play, wifi } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
+
+const PlayRateWrapper = styled.div.attrs({
+  className: classNames({
+    flex: true,
+    [font('hnr', 6)]: true,
+  }),
+})`
+  gap: 5px;
+`;
+
+const PlayRateButton = styled.button<{ isActive: boolean }>`
+  border: 1px solid ${props => props.theme.color('pewter')};
+  border-radius: 6px;
+  background: ${props =>
+    props.theme.color(props.isActive ? 'yellow' : 'smoke')};
+  appearance: none;
+`;
 
 const formatTime = (secs: number): string => {
   const minutes = Math.floor(secs / 60);
@@ -12,36 +30,34 @@ const formatTime = (secs: number): string => {
   return `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`;
 };
 
-type PlaybackSpeedButtonProps = {
+type PlayRateProps = {
   audioPlayer: HTMLAudioElement;
 };
 
-const PlaybackSpeedButton: FC<PlaybackSpeedButtonProps> = ({ audioPlayer }) => {
-  const [activeSpeedOptionBtn, setActiveSpeedOptionBtn] = useState(1);
+const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
+  const speeds = [0.5, 1, 1.5, 2];
+  const [currentActiveSpeedIndex, setCurrentActiveSpeedIndex] =
+    useState<typeof speeds[number]>(1);
 
-  const onChangeSpeed = (speed: number) => {
-    const speedOptionsArray = [1, 1.5, 2, 0.5];
-    const prevSpeedIndex = speedOptionsArray.indexOf(speed);
-    const nextSpeedIndex = prevSpeedIndex + 1;
-    const lastItemIndex = speedOptionsArray.length - 1;
-
-    if (nextSpeedIndex > lastItemIndex) {
-      setActiveSpeedOptionBtn(speedOptionsArray[0]);
-      audioPlayer.playbackRate = speedOptionsArray[0];
-    } else {
-      setActiveSpeedOptionBtn(speedOptionsArray[nextSpeedIndex]);
-      audioPlayer.playbackRate = speedOptionsArray[nextSpeedIndex];
-    }
-  };
+  function updatePlaybackRate(speed: number) {
+    setCurrentActiveSpeedIndex(speeds.indexOf(speed));
+    audioPlayer.playbackRate = speed;
+  }
 
   return (
-    <div>
-      <button onClick={() => onChangeSpeed(activeSpeedOptionBtn)}>
-        <span className="visually-hidden">Playback speed:</span>
-        {activeSpeedOptionBtn}
-        <span aria-hidden="true">x</span>
-      </button>
-    </div>
+    <PlayRateWrapper>
+      {speeds.map(speed => (
+        <PlayRateButton
+          key={speed}
+          isActive={speeds[currentActiveSpeedIndex] === speed}
+          onClick={() => updatePlaybackRate(speed)}
+        >
+          <span className="visually-hidden">Playback speed:</span>
+          {speed}
+          <span aria-hidden="true">x</span>
+        </PlayRateButton>
+      ))}
+    </PlayRateWrapper>
   );
 };
 
@@ -166,7 +182,9 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
 
   return (
     <figure>
-      <figcaption>{title}</figcaption>
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <figcaption className={font('hnb', 5)}>{title}</figcaption>
+      </Space>
 
       <div className="flex flex--v-center">
         <Space h={{ size: 'm', properties: ['margin-right'] }}>
@@ -211,7 +229,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
               )}
             </div>
             {audioPlayerRef.current && (
-              <PlaybackSpeedButton audioPlayer={audioPlayerRef.current} />
+              <PlayRate audioPlayer={audioPlayerRef.current} />
             )}
           </div>
         </div>
