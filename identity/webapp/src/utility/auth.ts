@@ -2,7 +2,7 @@
 // token in the default headers.
 //
 // It's copied from a file that does the same thing in the identity repo:
-// https://github.com/wellcomecollection/identity/blob/main/packages/shared/identity-common/src/auth.ts
+// https://github.com/wellcomecollection/identity/blob/5ceab09040b253fb79d7b5399ef31bda9571ad0c/packages/shared/identity-common/src/auth.ts
 
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
@@ -18,7 +18,7 @@ const tokenExpiryThreshold = 30;
 export const authenticatedInstanceFactory = (
   getToken: () => Promise<Token>,
   getInstanceConfig: () => AxiosRequestConfig = () => ({})
-) => {
+): (() => Promise<AxiosInstance>) => {
   let instance: AxiosInstance | undefined;
   let accessToken: string | undefined;
   let expiresAt = 0;
@@ -34,11 +34,16 @@ export const authenticatedInstanceFactory = (
         throw e;
       }
 
+      // Note: divergence from identity, because we need two headers here
+      // TODO: Comment properly
+      const instanceConfig = getInstanceConfig();
+
       instance = axios.create({
+        ...instanceConfig,
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          ...instanceConfig.headers,
         },
-        ...getInstanceConfig(),
       });
     }
     return instance;
