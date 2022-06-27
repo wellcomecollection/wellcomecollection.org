@@ -4,7 +4,7 @@ const Template = args => <AudioPlayer {...args} />;
 export const basic = Template.bind({});
 basic.args = {
   audioFile:
-    'https://wellcome-dot-org-audio.s3.eu-west-1.amazonaws.com/7130---.351a0eac-dd0f-4d97-ae52-eefbfdb96911.mp3',
-  title: 'What is the link between climate change and infectious disease?',
+    'https://iiif.wellcomecollection.org/av/b2248887x_0001.wav/full/max/default.mp3#identity',
+  title: 'Mat Fraser: interview 1',
 };
 basic.storyName = 'AudioPlayer';

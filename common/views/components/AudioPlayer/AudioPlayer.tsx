@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, FC, Ref } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
-import { play, wifi } from '@weco/common/icons';
+import { play, pause } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -15,8 +15,20 @@ const PlayRateWrapper = styled.div.attrs({
   gap: 5px;
 `;
 
+const ControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
+  h: { size: 'm', properties: ['margin-right'] },
+})<{ isPlaying: boolean }>`
+  ${props =>
+    !props.isPlaying &&
+    `
+    svg {
+      transform: translateX(2px);
+    }
+  `}
+`;
+
 const PlayRateButton = styled.button<{ isActive: boolean }>`
-  border: 1px solid ${props => props.theme.color('pewter')};
+  border: 0;
   border-radius: 6px;
   background: ${props =>
     props.theme.color(props.isActive ? 'yellow' : 'smoke')};
@@ -187,14 +199,14 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
       </Space>
 
       <div className="flex flex--v-center">
-        <Space h={{ size: 'm', properties: ['margin-right'] }}>
+        <ControlWrapper isPlaying={isPlaying}>
           <Control
             colorScheme="light"
-            icon={isPlaying ? wifi : play}
+            icon={isPlaying ? pause : play}
             clickHandler={onTogglePlay}
             text={isPlaying ? `pause` : `play`}
           />
-        </Space>
+        </ControlWrapper>
 
         <div className="full-width">
           <div>
@@ -207,7 +219,10 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
             />
           </div>
 
-          <div className="flex flex--h-space-between">
+          <div
+            className="flex flex--h-space-between"
+            style={{ fontVariantNumeric: 'tabular-nums' }}
+          >
             <div
               className={classNames({
                 [font('hnr', 6)]: true,
