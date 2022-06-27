@@ -81,6 +81,8 @@ export default async (
   const { state, firstName, lastName, termsAndConditions, sessionToken } =
     req.body;
 
+  // TODO: Test we'll fail if you get down here without these things,
+  // because I broke it briefly :see_no_evil:
   if (
     !state ||
     !firstName ||
@@ -89,6 +91,8 @@ export default async (
     !sessionToken
   ) {
     console.error('Missing required fields');
+    res.redirect(302, `/account/error`);
+    return;
   }
 
   const userId = getUserIdFromToken(sessionToken);
