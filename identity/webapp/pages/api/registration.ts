@@ -104,7 +104,7 @@ export default async (
         lastName,
       })
       .then(() => {
-        res.redirect(302, `${redirectUri}`);
+        res.redirect(302, redirectUri);
       })
       .catch(error => {
         console.error(error);
