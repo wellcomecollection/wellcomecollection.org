@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState, FC, Ref } from 'react';
-import formatTime, { formatListenToTime } from './format-time';
+import { dasherize } from '@weco/common/utils/grammar';
+import Control from '@weco/common/views/components/Buttons/Control/Control';
+import { play, wifi } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import { classNames, font } from '@weco/common/utils/classnames';
+
+const formatTime = (secs: number): string => {
+  const minutes = Math.floor(secs / 60);
+  const seconds = Math.floor(secs % 60);
+
+  return `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`;
+};
 
 type PlaybackSpeedButtonProps = {
   audioPlayer: HTMLAudioElement;
@@ -49,7 +60,7 @@ const Scrubber: FC<ScrubberProps> = ({
   title,
   progressBarRef,
 }) => {
-  const id = title.trim().toLowerCase().slice(0, 15).replaceAll(' ', '-');
+  const id = dasherize(title.slice(0, 15));
 
   return (
     <div>
@@ -60,6 +71,7 @@ const Scrubber: FC<ScrubberProps> = ({
           )}`}
         </label>
         <input
+          className="full-width"
           aria-valuetext={`Elapsed time: ${formatTime(currentTime)}`}
           defaultValue="0"
           id={`scrubber-${id}`}
@@ -74,25 +86,6 @@ const Scrubber: FC<ScrubberProps> = ({
   );
 };
 
-type ToggleProps = {
-  isPlaying: boolean;
-  onClick: () => void;
-  onText: string;
-  offText: string;
-};
-
-const Toggle: FC<ToggleProps> = ({ isPlaying, onClick, onText, offText }) => {
-  return (
-    <div>
-      {isPlaying ? (
-        <button onClick={onClick}>{offText}</button>
-      ) : (
-        <button onClick={onClick}>{onText}</button>
-      )}
-    </div>
-  );
-};
-
 type AudioPlayerProps = {
   audioFile: string;
   title: string;
@@ -102,7 +95,6 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
@@ -134,13 +126,6 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
     } else {
       audioPlayerRef.current.play();
     }
-  };
-
-  const onToggleMute = () => {
-    if (!audioPlayerRef.current) return;
-
-    setIsMuted(!isMuted);
-    audioPlayerRef.current.muted = !isMuted;
   };
 
   const changePlayerCurrentTime = () => {
@@ -180,23 +165,20 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
   };
 
   return (
-    <div>
-      <div>
-        <span>Listen to this article</span>
-        <span>{formatListenToTime(duration)}</span>
-      </div>
+    <figure>
+      <figcaption>{title}</figcaption>
 
-      <figure>
-        <figcaption>{title}</figcaption>
-
-        <div>
-          <Toggle
-            onText={`play`}
-            offText={`pause`}
-            isPlaying={isPlaying}
-            onClick={onTogglePlay}
+      <div className="flex flex--v-center">
+        <Space h={{ size: 'm', properties: ['margin-right'] }}>
+          <Control
+            colorScheme="light"
+            icon={isPlaying ? wifi : play}
+            clickHandler={onTogglePlay}
+            text={isPlaying ? `pause` : `play`}
           />
+        </Space>
 
+        <div className="full-width">
           <div>
             <Scrubber
               currentTime={currentTime}
@@ -205,51 +187,52 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
               onChange={onScrubberChange}
               progressBarRef={progressBarRef}
             />
+          </div>
 
-            <div>
-              <div>
-                <span>
-                  <span className="visually-hidden">Elapsed time:</span>
-                  {formatTime(currentTime)}
-                </span>
-                {!Number.isNaN(duration) && (
+          <div className="flex flex--h-space-between">
+            <div
+              className={classNames({
+                [font('hnr', 6)]: true,
+              })}
+            >
+              <span>
+                <span className="visually-hidden">Elapsed time:</span>
+                {formatTime(currentTime)}
+              </span>
+              {!Number.isNaN(duration) && (
+                <>
+                  {' '}
+                  /{' '}
                   <span>
                     <span className="visually-hidden">Total time:</span>
                     {formatTime(duration)}
                   </span>
-                )}
-              </div>
-              {audioPlayerRef.current && (
-                <PlaybackSpeedButton audioPlayer={audioPlayerRef.current} />
+                </>
               )}
             </div>
+            {audioPlayerRef.current && (
+              <PlaybackSpeedButton audioPlayer={audioPlayerRef.current} />
+            )}
           </div>
-
-          <Toggle
-            onText={`mute`}
-            offText={`unmute`}
-            isPlaying={isMuted}
-            onClick={onToggleMute}
-          />
         </div>
+      </div>
 
-        <audio
-          onLoadedMetadata={onLoadedMetadata}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onTimeUpdate={onTimeUpdate}
-          preload="metadata"
-          ref={audioPlayerRef}
-          src={audioFile}
-        >
-          <p>
-            Your browser does not support the <code>audio</code> element.
-            <a href={audioFile}>Download the audio</a>
-            instead.
-          </p>
-        </audio>
-      </figure>
-    </div>
+      <audio
+        onLoadedMetadata={onLoadedMetadata}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onTimeUpdate={onTimeUpdate}
+        preload="metadata"
+        ref={audioPlayerRef}
+        src={audioFile}
+      >
+        <p>
+          Your browser does not support the <code>audio</code> element.
+          <a href={audioFile}>Download the audio</a>
+          instead.
+        </p>
+      </audio>
+    </figure>
   );
 };
 
