@@ -46,31 +46,27 @@ export function getUserIdFromToken(
   sessionToken: string,
   secret: string
 ): string {
-  try {
-    const token = decodeToken(sessionToken, secret);
+  const token = decodeToken(sessionToken, secret);
 
-    if (typeof token === 'string') {
-      throw new Error('Cannot get user ID from a token with a string payload');
-    }
-
-    const { sub } = token;
-
-    if (typeof sub !== 'string') {
-      throw new Error('Cannot get user ID from payload');
-    }
-
-    // This is possibly over-defensive, but it's hard to imagine when we'd get
-    // a user ID here which didn't start with this prefix -- so if we do, flag
-    // it as an error for further investigation.
-    const userIdPrefix = 'auth0|p';
-    if (!sub.startsWith(userIdPrefix)) {
-      throw new Error('Cannot get user ID from payload');
-    }
-
-    return sub.replace(userIdPrefix, '');
-  } catch (error) {
-    throw new Error(error);
+  if (typeof token === 'string') {
+    throw new Error('Cannot get user ID from a token with a string payload');
   }
+
+  const { sub } = token;
+
+  if (typeof sub !== 'string') {
+    throw new Error('Cannot get user ID from payload');
+  }
+
+  // This is possibly over-defensive, but it's hard to imagine when we'd get
+  // a user ID here which didn't start with this prefix -- so if we do, flag
+  // it as an error for further investigation.
+  const userIdPrefix = 'auth0|p';
+  if (!sub.startsWith(userIdPrefix)) {
+    throw new Error('Cannot get user ID from payload');
+  }
+
+  return sub.replace(userIdPrefix, '');
 }
 
 export default async (
