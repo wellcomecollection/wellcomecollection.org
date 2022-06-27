@@ -6,7 +6,7 @@ describe('getUserIdFromToken', () => {
     const secret = '123';
 
     expect(() => getUserIdFromToken(token, secret)).toThrow(
-      'Error: Invalid session_token in decode'
+      'Invalid session_token in decode'
     );
   });
 
