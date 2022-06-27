@@ -30,6 +30,7 @@ import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
 import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import RegistrationInformation from '../src/frontend/Registration/RegistrationInformation';
+import getConfig from 'next/config';
 
 type Props = {
   serverData: SimplifiedServerData;
@@ -47,8 +48,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     );
     let email = '';
 
+    const config = getConfig();
+
     try {
-      const token = decodeToken(sessionToken);
+      const token = decodeToken(sessionToken, config.auth0.actionSecret);
 
       if (typeof token !== 'string') {
         email = token.email;

@@ -5,6 +5,7 @@ module.exports = {
       preset: 'ts-jest',
       testEnvironment: 'node',
       testMatch: [
+        '<rootDir>/pages/**/*.test.ts',
         '<rootDir>/src/middleware/**/*.test.ts',
         '<rootDir>/src/routes/**/*.test.ts',
         '<rootDir>/src/utility/**/*.test.ts',

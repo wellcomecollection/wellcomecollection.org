@@ -1,7 +1,7 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import getConfig from 'next/config';
 
-const { serverRuntimeConfig: config } = getConfig();
+const config = getConfig().serverRuntimeConfig;
 
 // we need some jwt encoding to deal with passing data to an auth0 action
 // https://auth0.com/docs/customize/actions/flows-and-triggers/login-flow/redirect-with-actions#pass-data-back-to-auth0
@@ -14,9 +14,12 @@ export type RegistrationInputs = {
 
 // we first need to decode the session token we receive on redirecting from the post-login flow action
 // this token will come from request query when this handler is used in the context of the registration form i.e. req.query.session_token
-export const decodeToken = (token: string): JwtPayload | string => {
+export const decodeToken = (
+  token: string,
+  secret: string
+): JwtPayload | string => {
   try {
-    const decoded = verify(token, config.auth0.actionSecret);
+    const decoded = verify(token, secret);
     return decoded;
   } catch (e) {
     throw new Error('Invalid session_token in decode');
