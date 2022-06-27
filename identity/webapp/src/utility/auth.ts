@@ -1,7 +1,7 @@
 // This is a utility for getting axios instances with an OAuth access
 // token in the default headers.
 //
-// It's copied from a file that does the same thing in the identity repo:
+// It's based on a file that does the same thing in the identity repo:
 // https://github.com/wellcomecollection/identity/blob/5ceab09040b253fb79d7b5399ef31bda9571ad0c/packages/shared/identity-common/src/auth.ts
 
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
