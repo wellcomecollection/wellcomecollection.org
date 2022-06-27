@@ -5,7 +5,7 @@ import getConfig from 'next/config';
 import { authenticatedInstanceFactory } from '../../src/utility/auth';
 import jwt from 'jsonwebtoken';
 
-const config = getConfig().serverRuntimeConfig;
+const { serverRuntimeConfig: config } = getConfig();
 
 const identityApiClient = authenticatedInstanceFactory(
   async () => {

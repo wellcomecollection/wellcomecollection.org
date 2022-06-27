@@ -32,6 +32,8 @@ import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import RegistrationInformation from '../src/frontend/Registration/RegistrationInformation';
 import getConfig from 'next/config';
 
+const { serverRuntimeConfig: config } = getConfig();
+
 type Props = {
   serverData: SimplifiedServerData;
   sessionToken: string;
@@ -47,8 +49,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       context.query.session_token
     );
     let email = '';
-
-    const config = getConfig();
 
     try {
       const token = decodeToken(sessionToken, config.auth0.actionSecret);
