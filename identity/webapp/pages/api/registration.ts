@@ -107,18 +107,12 @@ export default async (
   try {
     const axios = await identityApiClient();
 
-    axios
-      .put(`/users/${userId}/registration`, {
-        firstName,
-        lastName,
-      })
-      .then(() => {
-        res.redirect(302, redirectUri);
-      })
-      .catch(error => {
-        console.error(error);
-        res.redirect(302, `/account/error`);
-      });
+    await axios.put(`/users/${userId}/registration`, {
+      firstName,
+      lastName,
+    });
+
+    res.redirect(302, redirectUri);
   } catch (error) {
     console.error(error);
     res.redirect(302, `/account/error`);
