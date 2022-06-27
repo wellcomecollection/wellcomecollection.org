@@ -52,6 +52,7 @@ function getMachineToMachineInstance() {
 
 // Guard clause that token is okay, but we don't care about anything more
 // TODO: Proper comment and error messages here
+// TODO: Test this function
 function getUserIdFromToken(sessionToken: string): string {
   try {
     const token = decodeToken(sessionToken);
@@ -72,17 +73,13 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  console.log(`@@AWLC registration.ts 1`);
-  console.log(`@@AWLC registration.ts 2 req.method = ${req.method}`);
   if (req.method !== 'POST') {
     res.redirect('/account');
     return;
   }
-  console.log(`@@AWLC registration.ts 3`);
 
   const { state, firstName, lastName, termsAndConditions, sessionToken } =
     req.body;
-  console.log(`@@AWLC registration.ts 4`);
 
   if (
     !state ||
@@ -91,23 +88,15 @@ export default async (
     !termsAndConditions ||
     !sessionToken
   ) {
-    console.log(`@@AWLC registration.ts 4a = error!!!`);
     console.error('Missing required fields');
-    res.redirect(302, `/account/error`);
   }
 
-  console.log(`@@AWLC registration.ts 5`);
-
   const userId = getUserIdFromToken(sessionToken);
-
-  console.log(`@@AWLC registration.ts 6`);
 
   const redirectUri = `${config.auth0.domain}/continue?state=${state}`;
 
   try {
-    console.log(`@@AWLC registration.ts 7`);
     const axios = await getMachineToMachineInstance()();
-    console.log(`@@AWLC registration.ts 8`);
 
     axios
       .put(`/users/${userId}/registration`, {
