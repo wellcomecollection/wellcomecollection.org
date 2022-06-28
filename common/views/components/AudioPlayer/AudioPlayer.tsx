@@ -209,15 +209,13 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
         </ControlWrapper>
 
         <div className="full-width">
-          <div>
-            <Scrubber
-              currentTime={currentTime}
-              duration={duration}
-              title={title}
-              onChange={onScrubberChange}
-              progressBarRef={progressBarRef}
-            />
-          </div>
+          <Scrubber
+            currentTime={currentTime}
+            duration={duration}
+            title={title}
+            onChange={onScrubberChange}
+            progressBarRef={progressBarRef}
+          />
 
           <div
             className="flex flex--h-space-between"
