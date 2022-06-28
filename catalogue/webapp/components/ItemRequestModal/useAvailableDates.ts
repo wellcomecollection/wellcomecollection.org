@@ -43,10 +43,7 @@ export const useAvailableDates = (): AvailableDates => {
     })
     .filter(Boolean);
 
-  const nextAvailable = determineNextAvailableDate(
-    london(new Date()),
-    closedDays
-  );
+  const nextAvailable = determineNextAvailableDate(london(), closedDays);
 
   // There should be a minimum of a 2 week window in which to select a date
   const minimumLastAvailable = nextAvailable?.clone().add(13, 'days');
