@@ -71,7 +71,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const pickUpDateMoment = pickUpDate && moment(pickUpDate, 'DD-MM-YYYY');
+    const pickUpDateMoment = pickUpDate
+      ? moment(pickUpDate, 'DD-MM-YYYY')
+      : undefined;
     // NB. We want a moment object that represents the selected date
     // We previously were previously using a moment with a London timzone here,
     // which could erroneously change the date depending on the timezone the user was in.
