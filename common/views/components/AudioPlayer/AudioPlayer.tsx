@@ -35,11 +35,25 @@ const PlayRateButton = styled.button<{ isActive: boolean }>`
   appearance: none;
 `;
 
-const formatTime = (secs: number): string => {
+const formatTime = (secs: number): { visual: string; nonVisual: string } => {
   const minutes = Math.floor(secs / 60);
   const seconds = Math.floor(secs % 60);
 
-  return `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`;
+  const nonVisualMinutes = (minutes: number): string => {
+    switch (minutes) {
+      case 0:
+        return '';
+      case 1:
+        return '1 minute and';
+      default:
+        return `${minutes} minutes and`;
+    }
+  };
+
+  return {
+    visual: `${`${minutes}`.padStart(2, '0')}:${`${seconds}`.padStart(2, '0')}`,
+    nonVisual: `${nonVisualMinutes(minutes)} ${seconds} seconds`,
+  };
 };
 
 type PlayRateProps = {
@@ -74,7 +88,7 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
 };
 
 type ScrubberProps = {
-  currentTime: number;
+  startTime: number;
   duration: number;
   onChange: () => void;
   title: string;
@@ -82,7 +96,7 @@ type ScrubberProps = {
 };
 
 const Scrubber: FC<ScrubberProps> = ({
-  currentTime,
+  startTime,
   duration,
   onChange,
   title,
@@ -94,13 +108,13 @@ const Scrubber: FC<ScrubberProps> = ({
     <div>
       <div>
         <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
-          {`Audio time scrubber ${formatTime(currentTime)} / ${formatTime(
-            duration
-          )}`}
+          {`Audio time scrubber ${formatTime(startTime).nonVisual} out of ${
+            formatTime(duration).nonVisual
+          }`}
         </label>
         <input
           className="full-width"
-          aria-valuetext={`Elapsed time: ${formatTime(currentTime)}`}
+          aria-valuetext={`Elapsed time: ${formatTime(startTime).nonVisual}`}
           defaultValue="0"
           id={`scrubber-${id}`}
           min={0}
@@ -124,6 +138,10 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
+  // We need static value set to the time that playback begins, to be used as a
+  // one-time announcement for screenreaders. Using `currentTime` causes an
+  // announcement every second.
+  const [startTime, setStartTime] = useState(currentTime);
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -156,23 +174,15 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
     }
   };
 
-  const changePlayerCurrentTime = () => {
-    if (!progressBarRef.current) return;
-
-    const progressValue = parseInt(progressBarRef.current.value, 10);
-
-    setCurrentTime(progressValue);
-  };
-
   const onScrubberChange = () => {
     if (!audioPlayerRef.current) return;
     if (!progressBarRef.current) return;
 
-    audioPlayerRef.current.currentTime = parseInt(
-      progressBarRef.current.value,
-      10
-    );
-    changePlayerCurrentTime();
+    const newTime = parseInt(progressBarRef.current.value, 10);
+
+    audioPlayerRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+    setStartTime(newTime);
   };
 
   const onLoadedMetadata = () => {
@@ -210,7 +220,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
 
         <div className="full-width">
           <Scrubber
-            currentTime={currentTime}
+            startTime={startTime}
             duration={duration}
             title={title}
             onChange={onScrubberChange}
@@ -227,16 +237,22 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
               })}
             >
               <span>
-                <span className="visually-hidden">Elapsed time:</span>
-                {formatTime(currentTime)}
+                <span className="visually-hidden">
+                  Elapsed time: {formatTime(currentTime).nonVisual}
+                </span>
+                <span aria-hidden="true">{formatTime(currentTime).visual}</span>
               </span>
               {!Number.isNaN(duration) && (
                 <>
                   {' '}
-                  /{' '}
+                  <span aria-hidden="true">/</span>{' '}
                   <span>
-                    <span className="visually-hidden">Total time:</span>
-                    {formatTime(duration)}
+                    <span className="visually-hidden">
+                      Total time: {formatTime(duration).nonVisual}
+                    </span>
+                    <span aria-hidden="true">
+                      {formatTime(duration).visual}
+                    </span>
                   </span>
                 </>
               )}
