@@ -108,13 +108,13 @@ const Scrubber: FC<ScrubberProps> = ({
     <div>
       <div>
         <label className="visually-hidden" htmlFor={`scrubber-${id}`}>
-          {`Audio time scrubber ${formatTime(startTime).nonVisual} out of ${
-            formatTime(duration).nonVisual
-          }`}
+          Audio time scrubber
         </label>
         <input
           className="full-width"
-          aria-valuetext={`Elapsed time: ${formatTime(startTime).nonVisual}`}
+          aria-valuetext={`Elapsed time: ${
+            formatTime(startTime).nonVisual
+          }, duration ${formatTime(duration).nonVisual}`}
           defaultValue="0"
           id={`scrubber-${id}`}
           min={0}
@@ -159,6 +159,23 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
     audioPlayerRef.current?.readyState,
     progressBarRef.current,
   ]);
+
+  useEffect(() => {
+    if (!progressBarRef.current) return;
+
+    function updateStartTime() {
+      console.log(currentTime);
+      setStartTime(currentTime);
+    }
+
+    progressBarRef.current.addEventListener('focus', updateStartTime);
+
+    return () => {
+      if (!progressBarRef.current) return;
+
+      progressBarRef.current.removeEventListener('focus', updateStartTime);
+    };
+  }, [progressBarRef.current, currentTime]);
 
   const onTogglePlay = () => {
     if (!audioPlayerRef.current) return;
