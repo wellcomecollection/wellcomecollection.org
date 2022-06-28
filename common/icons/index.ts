@@ -67,6 +67,7 @@ export { default as minus } from './components/Minus';
 export { default as music } from './components/Music';
 export { default as mute } from './components/Mute';
 export { default as network } from './components/Network';
+export { default as pause } from './components/Pause';
 export { default as pdf } from './components/Pdf';
 export { default as phone } from './components/Phone';
 export { default as picture } from './components/Picture';
