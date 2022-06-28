@@ -192,7 +192,6 @@ export function isRequestableDate(params: {
   excludedDays: DayNumber[];
 }): boolean {
   const { date, startDate, endDate, excludedDates, excludedDays } = params;
-
   const isExceptionalClosedDay = excludedDates.some(moment =>
     moment.isSame(date, 'day')
   );
@@ -203,17 +202,13 @@ export function isRequestableDate(params: {
       (!startDate && !endDate) ||
         // both start and end date
         (startDate &&
-          date.startOf('day').isSameOrAfter(startDate.startOf('day')) &&
+          date.isSameOrAfter(startDate, 'day') &&
           endDate &&
-          date.startOf('day').isSameOrBefore(endDate.startOf('day'))) ||
+          date.isSameOrBefore(endDate, 'day')) ||
         // only start date
-        (startDate &&
-          !endDate &&
-          date.startOf('day').isSameOrAfter(startDate.startOf('day'))) ||
+        (startDate && !endDate && date.isSameOrAfter(startDate, 'day')) ||
         // only end date
-        (endDate &&
-          !startDate &&
-          date.startOf('day').isSameOrBefore(endDate.startOf('day')))
+        (endDate && !startDate && date.isSameOrBefore(endDate, 'day'))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay

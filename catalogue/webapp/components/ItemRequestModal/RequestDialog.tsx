@@ -1,7 +1,6 @@
 import { FC, FormEvent, useState } from 'react';
 import { useAvailableDates } from './useAvailableDates';
 import { isRequestableDate } from '../../utils/dates';
-import { london, londonFromFormat } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
 import { allowedRequests } from '@weco/common/values/requests';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -12,7 +11,7 @@ import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonO
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import { useToggles } from '@weco/common/server-data/Context';
 import styled from 'styled-components';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { CTAs, CurrentRequests, Header } from './common';
 
 const PickUpDate = styled(Space).attrs({
@@ -73,8 +72,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
     event.preventDefault();
 
     const pickUpDateMoment = pickUpDate
-      ? londonFromFormat(pickUpDate, 'DD-MM-YYYY')
-      : availableDates.nextAvailable || london();
+      ? moment(pickUpDate, 'DD-MM-YYYY')
+      : undefined;
+    // NB. We want a moment object that represents the selected date
+    // We previously were previously using a moment with a London timzone here,
+    // which could erroneously change the date depending on the timezone the user was in.
 
     if (
       !enablePickUpDate ||
