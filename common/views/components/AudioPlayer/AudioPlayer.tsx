@@ -27,7 +27,9 @@ const ControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
   `}
 `;
 
-const PlayRateButton = styled.button<{ isActive: boolean }>`
+const PlayRateButton = styled.button.attrs<{ isActive: boolean }>(props => ({
+  'aria-current': props.isActive,
+}))<{ isActive: boolean }>`
   border: 0;
   border-radius: 6px;
   background: ${props =>
