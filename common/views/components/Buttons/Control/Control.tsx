@@ -19,6 +19,7 @@ const ControlInner = styled.div.attrs({
 type WrapperProps = {
   ariaControls?: string;
   ariaExpanded?: boolean;
+  ariaPressed?: 'true' | 'false' | 'mixed';
   colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
   tabIndex?: number;
   id?: string;
@@ -29,6 +30,7 @@ type WrapperProps = {
 const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   'aria-controls': props.ariaControls || undefined,
   'aria-expanded': props.ariaExpanded || undefined,
+  'aria-pressed': props.ariaPressed || undefined,
   tabIndex: props.tabIndex || undefined,
   id: props.id || undefined,
   disabled: props.disabled || undefined,
@@ -132,6 +134,7 @@ type CommonProps = {
   disabled?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
+  ariaPressed?: 'true' | 'false' | 'mixed';
   clickHandler?: (event: Event) => void | Promise<void>;
 };
 
@@ -173,12 +176,14 @@ const BaseControl: FC<Props> = (
     trackingEvent,
     ariaControls,
     ariaExpanded,
+    ariaPressed,
   }: Props,
   ref: any
 ) => {
   const attrs = {
     ariaControls,
     ariaExpanded,
+    ariaPressed,
     tabIndex,
     id,
     colorScheme,
