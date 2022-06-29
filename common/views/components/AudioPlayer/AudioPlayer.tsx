@@ -274,7 +274,6 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
     if (!progressBarRef.current) return;
 
     function updateStartTime() {
-      console.log(currentTime);
       setStartTime(currentTime);
     }
 
