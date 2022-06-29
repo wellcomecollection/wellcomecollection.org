@@ -66,14 +66,20 @@ const PlayControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
   `}
 `;
 
-const PlayRateButton = styled.button.attrs<{ isActive: boolean }>(props => ({
-  'aria-current': props.isActive,
-}))<{ isActive: boolean }>`
-  border: 0;
-  border-radius: 6px;
-  background: ${props =>
-    props.theme.color(props.isActive ? 'yellow' : 'smoke')};
+const PlayRateRadio = styled.input.attrs<{ isActive: boolean }>({
+  className: 'visually-hidden',
+  type: 'radio',
+  name: 'playback-rate',
+})<{ isActive: boolean }>`
   appearance: none;
+
+  & + label {
+    padding: 0 4px;
+    border-radius: 5px;
+    text-align: center;
+    background: ${props =>
+      props.theme.color(props.isActive ? 'yellow' : 'marble')};
+  }
 `;
 
 const formatVolume = (vol: number): string => {
@@ -117,16 +123,20 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
 
   return (
     <PlayRateWrapper>
-      {speeds.map(speed => (
-        <PlayRateButton
-          key={speed}
-          isActive={speeds[currentActiveSpeedIndex] === speed}
-          onClick={() => updatePlaybackRate(speed)}
-        >
-          <span className="visually-hidden">Playback speed:</span>
-          {speed}
-          <span aria-hidden="true">x</span>
-        </PlayRateButton>
+      {speeds.map((speed, index) => (
+        <>
+          <PlayRateRadio
+            id={`playrate-${index}`}
+            key={speed}
+            isActive={speeds[currentActiveSpeedIndex] === speed}
+            onClick={() => updatePlaybackRate(speed)}
+          />
+          <label htmlFor={`playrate-${index}`}>
+            <span className="visually-hidden">playback rate:</span>
+            {speed}
+            <span aria-hidden="true">x</span>
+          </label>
+        </>
       ))}
     </PlayRateWrapper>
   );
