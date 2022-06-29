@@ -1,10 +1,23 @@
-import { useEffect, useRef, useState, FC, Ref } from 'react';
+import { useEffect, useRef, useState, FC, Ref, SyntheticEvent } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
-import { play, pause } from '@weco/common/icons';
+import { play, pause, volume as volumeIcon } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+
+const VolumeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  button {
+    transform: scale(0.7);
+  }
+
+  input {
+    width: 60px;
+  }
+`;
 
 const PlayRateWrapper = styled.div.attrs({
   className: classNames({
@@ -15,7 +28,17 @@ const PlayRateWrapper = styled.div.attrs({
   gap: 5px;
 `;
 
-const ControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
+const AudioPlayerGrid = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+`;
+
+const SecondRow = styled.div`
+  grid-column: 2 / -1;
+`;
+
+const PlayControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
   h: { size: 'm', properties: ['margin-right'] },
 })<{ isPlaying: boolean }>`
   ${props =>
@@ -34,6 +57,10 @@ const PlayRateButton = styled.button<{ isActive: boolean }>`
     props.theme.color(props.isActive ? 'yellow' : 'smoke')};
   appearance: none;
 `;
+
+const formatVolume = (vol: number): string => {
+  return `${Math.floor(vol * 100)}`;
+};
 
 const formatTime = (secs: number): string => {
   const minutes = Math.floor(secs / 60);
@@ -73,11 +100,60 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
   );
 };
 
+type VolumeProps = {
+  audioPlayer: HTMLAudioElement;
+  id: string;
+};
+
+const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
+  const [volume, setVolume] = useState(audioPlayer.volume);
+  const [isMuted, setIsMuted] = useState(audioPlayer.muted);
+
+  useEffect(() => {
+    audioPlayer.volume = volume;
+    audioPlayer.muted = isMuted;
+  }, [volume, isMuted]);
+
+  const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+    const newValue = parseFloat(event.currentTarget.value);
+
+    if (newValue > 0) {
+      setIsMuted(false);
+    }
+
+    setVolume(newValue);
+  };
+  return (
+    <VolumeWrapper>
+      <Control
+        colorScheme="light"
+        icon={isMuted || volume === 0 ? pause : volumeIcon}
+        clickHandler={() => setIsMuted(!isMuted)}
+        text={isMuted ? `muted` : `unmuted`}
+        aria-pressed={isMuted}
+      />
+      <label htmlFor={`volume-${id}`}>
+        <span className="visually-hidden">volume</span>
+      </label>
+      <input
+        aria-valuetext={formatVolume(volume)}
+        id={`volume-${id}`}
+        type="range"
+        min={0}
+        max={1}
+        step="any"
+        value={isMuted ? 0 : volume}
+        onChange={onChange}
+      />
+    </VolumeWrapper>
+  );
+};
+
 type ScrubberProps = {
   currentTime: number;
   duration: number;
   onChange: () => void;
-  title: string;
+  id: string;
   progressBarRef: Ref<HTMLInputElement>;
 };
 
@@ -85,11 +161,9 @@ const Scrubber: FC<ScrubberProps> = ({
   currentTime,
   duration,
   onChange,
-  title,
+  id,
   progressBarRef,
 }) => {
-  const id = dasherize(title.slice(0, 15));
-
   return (
     <div>
       <div>
@@ -124,9 +198,9 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMetadataLoaded, setIsMetadataLoaded] = useState(false);
-
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
+  const id = dasherize(title.slice(0, 15));
 
   useEffect(() => {
     if (!audioPlayerRef.current) return;
@@ -193,38 +267,43 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
   };
 
   return (
-    <figure>
+    <figure className="no-margin">
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <figcaption className={font('hnb', 5)}>{title}</figcaption>
       </Space>
 
-      <div className="flex flex--v-center">
-        <ControlWrapper isPlaying={isPlaying}>
+      <AudioPlayerGrid>
+        <PlayControlWrapper isPlaying={isPlaying}>
           <Control
             colorScheme="light"
             icon={isPlaying ? pause : play}
             clickHandler={onTogglePlay}
             text={isPlaying ? `pause` : `play`}
           />
-        </ControlWrapper>
+        </PlayControlWrapper>
 
         <div className="full-width">
           <Scrubber
             currentTime={currentTime}
             duration={duration}
-            title={title}
+            id={id}
             onChange={onScrubberChange}
             progressBarRef={progressBarRef}
           />
-
-          <div
-            className="flex flex--h-space-between"
-            style={{ fontVariantNumeric: 'tabular-nums' }}
-          >
+        </div>
+        {audioPlayerRef.current && (
+          <Volume audioPlayer={audioPlayerRef.current} id={id} />
+        )}
+        <SecondRow>
+          <div className="flex flex--h-space-between">
             <div
               className={classNames({
                 [font('hnr', 6)]: true,
               })}
+              style={{
+                fontVariantNumeric: 'tabular-nums',
+                whiteSpace: 'nowrap',
+              }}
             >
               <span>
                 <span className="visually-hidden">Elapsed time:</span>
@@ -245,8 +324,8 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
               <PlayRate audioPlayer={audioPlayerRef.current} />
             )}
           </div>
-        </div>
-      </div>
+        </SecondRow>
+      </AudioPlayerGrid>
 
       <audio
         onLoadedMetadata={onLoadedMetadata}
