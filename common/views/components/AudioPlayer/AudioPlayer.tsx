@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState, FC, Ref, SyntheticEvent } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
-import { play, pause, volume as volumeIcon } from '@weco/common/icons';
+import {
+  play,
+  pause,
+  volumeMuted,
+  volume as volumeIcon,
+} from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
@@ -17,6 +22,17 @@ const VolumeWrapper = styled.div`
   input {
     width: 60px;
   }
+`;
+
+// FIXME: this exists because the `volumeMute` icon I created is 1px off
+const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
+  ${props =>
+    props.isMuted &&
+    `
+    svg {
+      transform: translateY(1px);
+    }
+  `}
 `;
 
 const PlayRateWrapper = styled.div.attrs({
@@ -125,13 +141,15 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   };
   return (
     <VolumeWrapper>
-      <Control
-        colorScheme="light"
-        icon={isMuted || volume === 0 ? pause : volumeIcon}
-        clickHandler={() => setIsMuted(!isMuted)}
-        text={isMuted ? `muted` : `unmuted`}
-        aria-pressed={isMuted}
-      />
+      <VolumeControlWrapper isMuted={isMuted}>
+        <Control
+          colorScheme="light"
+          icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
+          clickHandler={() => setIsMuted(!isMuted)}
+          text={isMuted ? `muted` : `unmuted`}
+          aria-pressed={isMuted}
+        />
+      </VolumeControlWrapper>
       <label htmlFor={`volume-${id}`}>
         <span className="visually-hidden">volume</span>
       </label>
