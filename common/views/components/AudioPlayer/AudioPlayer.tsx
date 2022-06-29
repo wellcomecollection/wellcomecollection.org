@@ -66,20 +66,25 @@ const PlayControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
   `}
 `;
 
-const PlayRateRadio = styled.input.attrs<{ isActive: boolean }>({
-  className: 'visually-hidden',
+const PlayRateRadio = styled.input.attrs({
   type: 'radio',
   name: 'playback-rate',
-})<{ isActive: boolean }>`
+})`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   appearance: none;
+`;
 
-  & + label {
-    padding: 0 4px;
-    border-radius: 5px;
-    text-align: center;
-    background: ${props =>
-      props.theme.color(props.isActive ? 'yellow' : 'marble')};
-  }
+const PlayRateLabel = styled.label<{ isActive: boolean }>`
+  position: relative;
+  padding: 0 4px;
+  border-radius: 5px;
+  text-align: center;
+  background: ${props =>
+    props.theme.color(props.isActive ? 'yellow' : 'marble')};
 `;
 
 const formatVolume = (vol: number): string => {
@@ -124,19 +129,19 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
   return (
     <PlayRateWrapper>
       {speeds.map((speed, index) => (
-        <>
+        <PlayRateLabel
+          key={speed}
+          htmlFor={`playrate-${index}`}
+          isActive={speeds[currentActiveSpeedIndex] === speed}
+        >
           <PlayRateRadio
             id={`playrate-${index}`}
-            key={speed}
-            isActive={speeds[currentActiveSpeedIndex] === speed}
             onClick={() => updatePlaybackRate(speed)}
           />
-          <label htmlFor={`playrate-${index}`}>
-            <span className="visually-hidden">playback rate:</span>
-            {speed}
-            <span aria-hidden="true">x</span>
-          </label>
-        </>
+          <span className="visually-hidden">playback rate:</span>
+          {speed}
+          <span aria-hidden="true">x</span>
+        </PlayRateLabel>
       ))}
     </PlayRateWrapper>
   );
@@ -178,15 +183,15 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
       </VolumeControlWrapper>
       <div style={{ lineHeight: 0 }}>
         <label htmlFor={`volume-${id}`}>
-          <span className="visually-hidden">volume</span>
+          <span className="visually-hidden">volume control</span>
         </label>
         <input
-          aria-valuetext={formatVolume(volume)}
+          aria-valuetext={`volume: ${formatVolume(volume)}`}
           id={`volume-${id}`}
           type="range"
           min={0}
           max={1}
-          step="any"
+          step={0.01}
           value={isMuted ? 0 : volume}
           onChange={onChange}
         />
