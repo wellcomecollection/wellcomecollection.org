@@ -20,10 +20,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <ul
-      className={'flex flex--wrap plain-list no-padding no-margin'}
-      role="list"
-    >
+    <ul className="flex flex--wrap plain-list no-padding no-margin" role="list">
       {images.results.map((result: Image) => (
         <li key={result.id} role="listitem">
           <ImageCard
