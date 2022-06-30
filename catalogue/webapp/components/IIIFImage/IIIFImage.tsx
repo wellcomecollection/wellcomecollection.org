@@ -15,7 +15,10 @@ const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
 export type Props = {
   image: ImageType;
   sizes?: BreakpointSizes;
-  onLoadingComplete: () => void;
+  onLoadingComplete: (value: {
+    naturalWidth: number;
+    naturalHeight: number;
+  }) => void;
 };
 
 const IIIFImage: FC<Props> = ({ image, sizes, onLoadingComplete }) => {
@@ -27,7 +30,7 @@ const IIIFImage: FC<Props> = ({ image, sizes, onLoadingComplete }) => {
     <Image
       layout="fill"
       className={classNames({
-        'bg-charcoal font-white': true,
+        'bg-white font-charcoal': true,
       })}
       sizes={sizesString}
       src={image.contentUrl}
