@@ -1,11 +1,8 @@
 import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
-import { classNames } from '@weco/common/utils/classnames';
-import {
-  Breakpoint,
-  sizes as breakpointSizes,
-} from '@weco/common/views/themes/config';
-import { ImageType } from '@weco/common/model/image';
+import { classNames } from '../../../utils/classnames';
+import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
+import { ImageType } from '../../../model/image';
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 export type Props = {
