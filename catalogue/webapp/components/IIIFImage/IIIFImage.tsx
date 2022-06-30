@@ -15,7 +15,7 @@ const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
 export type Props = {
   image: ImageType;
   sizes?: BreakpointSizes;
-  onLoadingComplete: (value: {
+  onLoadingComplete?: (value: {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
