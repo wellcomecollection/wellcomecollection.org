@@ -10,6 +10,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const VolumeWrapper = styled.div`
   display: flex;
@@ -114,28 +115,34 @@ const formatTime = (secs: number): { visual: string; nonVisual: string } => {
 
 type PlayRateProps = {
   audioPlayer: HTMLAudioElement;
+  id: string;
 };
 
-const PlayRate: FC<PlayRateProps> = ({ audioPlayer }) => {
+const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
   const speeds = [0.5, 1, 1.5, 2];
   const [currentActiveSpeedIndex, setCurrentActiveSpeedIndex] =
     useState<typeof speeds[number]>(1);
 
   function updatePlaybackRate(speed: number) {
+    trackEvent({
+      category: 'Audio',
+      action: `set speed to ${speed}x`,
+      label: id,
+    });
     setCurrentActiveSpeedIndex(speeds.indexOf(speed));
     audioPlayer.playbackRate = speed;
   }
 
   return (
     <PlayRateWrapper>
-      {speeds.map((speed, index) => (
+      {speeds.map(speed => (
         <PlayRateLabel
           key={speed}
-          htmlFor={`playrate-${index}`}
+          htmlFor={`playrate-${speed}`}
           isActive={speeds[currentActiveSpeedIndex] === speed}
         >
           <PlayRateRadio
-            id={`playrate-${index}`}
+            id={`playrate-${speed}`}
             onClick={() => updatePlaybackRate(speed)}
           />
           <span className="visually-hidden">playback rate:</span>
@@ -170,13 +177,22 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
 
     setVolume(newValue);
   };
+
+  const onVolumeButtonClick = () => {
+    trackEvent({
+      category: 'Audio',
+      action: `${isMuted ? 'unmute' : 'mute'} audio`,
+      label: id,
+    });
+    setIsMuted(!isMuted);
+  };
   return (
     <VolumeWrapper>
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
         <Control
           colorScheme="light"
           icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
-          clickHandler={() => setIsMuted(!isMuted)}
+          clickHandler={onVolumeButtonClick}
           text={isMuted ? `muted` : `unmuted`}
           ariaPressed={`${isMuted}`}
         />
@@ -240,9 +256,14 @@ const Scrubber: FC<ScrubberProps> = ({
 type AudioPlayerProps = {
   audioFile: string;
   title: string;
+  idPrefix?: string;
 };
 
-export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
+export const AudioPlayer: FC<AudioPlayerProps> = ({
+  audioFile,
+  title,
+  idPrefix,
+}) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -254,7 +275,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
-  const id = dasherize(title.slice(0, 15));
+  const id = `${idPrefix || ''}${dasherize(title.slice(0, 15))}`;
 
   useEffect(() => {
     if (!audioPlayerRef.current) return;
@@ -294,8 +315,18 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
     setIsPlaying(!prevValue);
 
     if (prevValue) {
+      trackEvent({
+        category: 'Audio',
+        action: 'pause audio',
+        label: id,
+      });
       audioPlayerRef.current.pause();
     } else {
+      trackEvent({
+        category: 'Audio',
+        action: 'play audio',
+        label: id,
+      });
       audioPlayerRef.current.play();
     }
   };
@@ -390,7 +421,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
               )}
             </div>
             {audioPlayerRef.current && (
-              <PlayRate audioPlayer={audioPlayerRef.current} />
+              <PlayRate id={id} audioPlayer={audioPlayerRef.current} />
             )}
           </div>
         </SecondRow>
