@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import IIIFImage from './IIIFImage';
+import IIIFViewerImage from './IIIFViewerImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
@@ -139,7 +139,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
 
   return (
     <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
-      <IIIFImage
+      <IIIFViewerImage
         ref={imageRef}
         tabIndex={0}
         width={width}

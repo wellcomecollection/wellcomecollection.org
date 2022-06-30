@@ -15,7 +15,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import useScrollVelocity from '../../hooks/useScrollVelocity';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { convertIiifUriToInfoUri } from '../../utils/convert-iiif-uri';
-import IIIFImage from './IIIFImage';
+import IIIFViewerImage from './IIIFViewerImage';
 import {
   getCanvasOcr,
   missingAltTextMessage,
@@ -245,7 +245,7 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
           <LL lighten={true} />
           {!mainLoaded && urlTemplateThumbnail && (
             <ThumbnailWrapper imageLoaded={thumbLoaded}>
-              <IIIFImage
+              <IIIFViewerImage
                 width={currentCanvas.width}
                 height={currentCanvas.height}
                 src={urlTemplateThumbnail({

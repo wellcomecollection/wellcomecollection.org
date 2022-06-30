@@ -24,7 +24,7 @@ type Props = {
   highlightImage?: boolean;
 };
 
-const IIIFImage = (
+const IIIFViewerImage = (
   {
     width,
     height,
@@ -72,4 +72,4 @@ const IIIFImage = (
   );
 };
 
-export default forwardRef(IIIFImage);
+export default forwardRef(IIIFViewerImage);
