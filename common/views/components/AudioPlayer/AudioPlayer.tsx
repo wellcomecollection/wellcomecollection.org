@@ -341,6 +341,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({ audioFile, title }) => {
             icon={isPlaying ? pause : play}
             clickHandler={onTogglePlay}
             text={isPlaying ? `pause` : `play`}
+            ariaPressed={`${isPlaying}`}
           />
         </PlayControlWrapper>
 
