@@ -191,6 +191,12 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   width: 400,
                   height: 400,
                 }}
+                sizes={{
+                  xlarge: 1 / 4,
+                  large: 1 / 4,
+                  medium: 1 / 2,
+                  small: 1 / 2,
+                }}
               />
             </ImageLink>
           </NextLink>
