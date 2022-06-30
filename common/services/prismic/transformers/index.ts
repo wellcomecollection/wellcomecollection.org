@@ -3,7 +3,7 @@ import { licenseTypeArray } from '../../../model/license';
 import { LinkField } from '@prismicio/types';
 import { linkResolver } from '../link-resolver';
 import {
-  isFilledLinkToDocumentWithData,
+  isFilledLinkToDocument,
   isFilledLinkToMediaField,
   isFilledLinkToWebField,
 } from '../types';
@@ -59,8 +59,10 @@ export function transformLink(
   if (link) {
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
       return link.url;
-    } else if (isFilledLinkToDocumentWithData(link)) {
+    } else if (isFilledLinkToDocument(link)) {
       return linkResolver({ id: link.id, type: link.type });
+    } else {
+      console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }
   }
 }

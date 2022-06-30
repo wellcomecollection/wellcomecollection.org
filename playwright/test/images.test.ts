@@ -10,7 +10,7 @@ import {
 } from './actions/search';
 
 import {
-  clickActionColourPicker,
+  selectColourInPicker,
   clickActionColourDropDown,
   clickActionClickViewExpandedImage,
 } from './actions/images';
@@ -28,6 +28,7 @@ import {
 } from './selectors/images';
 
 import { regexImageGalleryUrl } from './helpers/regex';
+import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 import { searchResultsContainer } from './selectors/search';
 
 test.describe('Image search', () => {
@@ -38,18 +39,18 @@ test.describe('Image search', () => {
     const expectedValue = 'art of science';
     await fillActionSearchInput(expectedValue, page);
     await Promise.all([
-      page.waitForNavigation(),
+      safeWaitForNavigation(page),
       pressActionEnterSearchInput(page),
     ]);
 
     if (isMobile(page)) {
       await clickActionModalFilterButton(page);
       await elementIsVisible(mobileModalImageSearch, page);
-      await clickActionColourPicker(page);
+      await selectColourInPicker(page);
       await clickActionCloseModalFilterButton(page);
     } else {
       await clickActionColourDropDown(page);
-      await clickActionColourPicker(page);
+      await selectColourInPicker(page);
       await page.click('body');
     }
     await expectItemIsVisible(searchResultsContainer, page);
@@ -63,7 +64,7 @@ test.describe('Image search', () => {
     await expectItemIsVisible('h3 >> text="Visually similar images"', page);
 
     await Promise.all([
-      page.waitForNavigation(),
+      safeWaitForNavigation(page),
       clickActionClickViewExpandedImage(page),
     ]);
     expectUrlToMatch(regexImageGalleryUrl, page);

@@ -34,6 +34,7 @@ export type ExhibitionBasic = {
   contributors: Contributor[];
   labels: Label[];
   image?: ImageType;
+  hideStatus?: boolean;
 };
 
 export type Exhibition = GenericContentFields & {

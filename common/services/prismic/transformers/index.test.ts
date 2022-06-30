@@ -1,4 +1,4 @@
-import { transformTaslFromString } from '.';
+import { transformLink, transformTaslFromString } from '.';
 
 describe('transformTaslFromString', () => {
   it('returns an empty tasl if the input is null', () => {
@@ -20,5 +20,19 @@ describe('transformTaslFromString', () => {
       sourceName: 'Science Museum London',
       title: 'Mandrake root, England, 1501-1700',
     });
+  });
+});
+
+describe('transformLink', () => {
+  it('transforms a document link without data', () => {
+    const result = transformLink({
+      id: 'YoedaBEAACMAXnil',
+      type: 'projects',
+      slug: 'ellen-reid-soundwalk-at-regents-park',
+      link_type: 'Document',
+      isBroken: false,
+    });
+
+    expect(result).toBe('/projects/YoedaBEAACMAXnil');
   });
 });

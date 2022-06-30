@@ -32,6 +32,7 @@ steps:
       - docker-compose#v3.5.0:
           run: e2e
           env:
+            - CI=true
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test"]
@@ -49,6 +50,7 @@ steps:
       - docker-compose#v3.5.0:
           run: e2e
           env:
+            - CI=true
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test:mobile"]

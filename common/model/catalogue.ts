@@ -317,7 +317,11 @@ export type ImageAggregations = {
   type: 'Aggregations';
 };
 
-export type CatalogueResultsList<Result = Work> = {
+type ConceptAggregations = null;
+
+export type ResultType = Work | Image | Concept;
+
+export type CatalogueResultsList<Result extends ResultType> = {
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
@@ -325,5 +329,11 @@ export type CatalogueResultsList<Result = Work> = {
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
+  aggregations?: Result extends Work
+    ? WorkAggregations
+    : Result extends Image
+    ? ImageAggregations
+    : Result extends Concept
+    ? ConceptAggregations
+    : null;
 };

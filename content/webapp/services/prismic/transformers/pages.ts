@@ -3,6 +3,7 @@ import { Page } from '../../../types/pages';
 import { PagePrismicDocument } from '../types/pages';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import {
+  asText,
   transformFormat,
   transformGenericFields,
   transformSingleLevelGroup,
@@ -63,18 +64,22 @@ export function transformPage(document: PagePrismicDocument): Page {
   // If somebody puts the description on the image but there's no image, we'll discard
   // that description on the line above, and it won't get rendered on the page.
   //
-  // The correct fix is probably to move the promo text to the metadata description
-  // in Prismic.  This warning is to help us spot when it's happening.
+  // There are quite a few pages (including all the press releases) where the promo text
+  // is on the image, not the metadata description.  It's very non-obvious in the
+  // Prismic UI that this is happening, so if the metadataDescription isn't
+  // explicitly set, we copy it from the image promo instead.
   //
   // (We could also reconsider whether we really want to be discarding the promo
   // if there's no image, but that's low priority when we're resource constrained.
   // but until then, this warning will at least let us know when it's happening.)
-  if (isUndefined(promo) && isNotUndefined(promoField?.caption)) {
-    console.warn(
-      `The promo for ${document.id} has a caption but no image; ` +
-        'this should be moved to the metadataDescription field.'
-    );
-  }
+  const metadataDescription = isNotUndefined(genericFields.metadataDescription)
+    ? genericFields.metadataDescription
+    : isUndefined(genericFields.metadataDescription) &&
+      isUndefined(promo) &&
+      isNotUndefined(promoField?.caption) &&
+      promoField?.caption
+    ? asText(promoField?.caption)
+    : undefined;
 
   const contributors = transformContributors(document);
 
@@ -82,6 +87,7 @@ export function transformPage(document: PagePrismicDocument): Page {
     type: 'pages',
     format: transformFormat(document),
     ...genericFields,
+    metadataDescription,
     seasons,
     contributors,
     parentPages,
