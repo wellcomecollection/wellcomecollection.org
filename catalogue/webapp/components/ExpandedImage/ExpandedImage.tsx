@@ -37,22 +37,23 @@ type CanvasLink = {
 };
 
 const ImageWrapper = styled(Space).attrs({
-  as: 'a',
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
   ${props => props.theme.media.medium`
     flex-basis: 40%;
     order: 2;
+    height: auto;
   `}
+`;
+
+const ImageLink = styled.a`
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 500px;
 
   img {
-    transform: translateX(-50%);
-    left: 50%;
-    position: relative;
-    max-height: 100%;
     max-width: 100%;
-    height: auto;
-    width: auto;
   }
 `;
 
@@ -180,17 +181,20 @@ const ExpandedImage: FunctionComponent<Props> = ({
   return (
     <ExpandedImageContainer>
       {iiifImageLocation && expandedImageLink && (
-        <NextLink {...expandedImageLink} passHref>
-          <ImageWrapper>
-            <IIIFImage
-              image={{
-                alt: displayTitle,
-                contentUrl: iiifImageLocation.url,
-                width: 400,
-              }}
-            />
-          </ImageWrapper>
-        </NextLink>
+        <ImageWrapper>
+          <NextLink {...expandedImageLink} passHref>
+            <ImageLink>
+              <IIIFImage
+                image={{
+                  alt: displayTitle,
+                  contentUrl: iiifImageLocation.url,
+                  width: 400,
+                  height: 400,
+                }}
+              />
+            </ImageLink>
+          </NextLink>
+        </ImageWrapper>
       )}
       <InfoWrapper>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
