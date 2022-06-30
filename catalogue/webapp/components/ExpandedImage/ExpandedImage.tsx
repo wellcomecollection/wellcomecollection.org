@@ -11,7 +11,7 @@ import {
 } from '../../utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import Image from '@weco/common/views/components/Image/Image';
+import IIIFImage from '../IIIFImage/IIIFImage';
 import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWorkClientSide } from '../../services/catalogue/works';
@@ -182,11 +182,12 @@ const ExpandedImage: FunctionComponent<Props> = ({
       {iiifImageLocation && expandedImageLink && (
         <NextLink {...expandedImageLink} passHref>
           <ImageWrapper>
-            <Image
-              defaultSize={400}
-              alt={displayTitle}
-              contentUrl={iiifImageLocation.url}
-              lazyload={false}
+            <IIIFImage
+              image={{
+                alt: displayTitle,
+                contentUrl: iiifImageLocation.url,
+                width: 400,
+              }}
             />
           </ImageWrapper>
         </NextLink>
