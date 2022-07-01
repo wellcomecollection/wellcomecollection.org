@@ -16,7 +16,7 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import ImageType from '@weco/common/views/components/Image/Image';
+import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ColorSelection } from '../../types/color-selections';
 import Space, {
   VerticalSpaceProperty,
