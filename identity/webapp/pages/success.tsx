@@ -1,5 +1,4 @@
-import { NextPage, GetServerSideProps } from 'next';
-import { withPageAuthRequiredSSR } from '../src/utility/auth0';
+import { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
   Container,
@@ -14,49 +13,38 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
-import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
-import { Claims } from '@auth0/nextjs-auth0';
 import Divider from '@weco/common/views/components/Divider/Divider';
-
-import {
-  Auth0UserProfile,
-  auth0UserProfileToUserInfo,
-} from '@weco/common/model/user';
 
 type Props = {
   serverData: SimplifiedServerData;
-  user?: Claims;
+  email: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
-  withPageAuthRequiredSSR({
-    getServerSideProps: async context => {
-      const serverData = await getServerData(context);
+  async (context: GetServerSidePropsContext) => {
+    const serverData = await getServerData(context);
 
-      if (!serverData.toggles.selfRegistration) {
-        return {
-          redirect: {
-            destination: '/',
-            permanent: false,
-          },
-        };
-      }
-
+    if (!serverData.toggles.selfRegistration) {
       return {
-        props: removeUndefinedProps({
-          serverData,
-        }),
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
       };
-    },
-  });
+    }
 
-const SuccessPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
+    const { email } = context.query;
+
+    return {
+      props: removeUndefinedProps({
+        serverData,
+        email: email as string,
+      }),
+    };
+  };
+
+const SuccessPage: NextPage<Props> = ({ email }) => {
   usePageTitle('Application received');
-  const { user: contextUser } = useUser();
-
-  const user =
-    contextUser ||
-    auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   return (
     <PageWrapper title={`Registration`}>
@@ -70,27 +58,20 @@ const SuccessPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   <div className="body-text">
                     <p>Thank you for applying for a library membership.</p>
                     <p>
-                      To activate your online account, please click the
-                      verification link in the email we’ve just sent to{' '}
-                      <strong>{user.email}</strong>.
+                      Please click the verification link in the email we’ve just
+                      sent to <strong>{email}</strong>.
                     </p>
                     <p>Please do this within the next 24 hours.</p>
-                    <ul>
-                      <li>
-                        Request up to 15 materials from our closed stores to
-                        view in the library
-                      </li>
-                      <li>
-                        Access subscription databases and other online
-                        resources.
-                      </li>
-                    </ul>
                     <p>
-                      When you complete your registration online, you’ll need to
-                      email a form of personal identification (ID) and proof of
-                      address to the Library team in order to confirm your
-                      membership. Your membership will be confirmed within 72
-                      hours.
+                      Once you have verified your email address, you will be
+                      able to request up to 15 items from our closed stores to
+                      view in the library.
+                    </p>
+                    <p>
+                      If you want to access subscription databases and other
+                      online resources, you need to bring a form of personal
+                      identification (ID) and proof of address to the Admissions
+                      Desk in the library.
                     </p>
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Divider color={`pumice`} isKeyline />
