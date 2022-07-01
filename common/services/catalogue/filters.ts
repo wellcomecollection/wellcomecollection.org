@@ -296,7 +296,7 @@ const sourceGenresFilter = ({
 }: ImagesFilterProps): CheckboxFilter => ({
   type: 'checkbox',
   id: 'source.genres.label',
-  label: 'Genres',
+  label: 'Types/Techniques',
   options: filterOptionsWithNonAggregates(
     images?.aggregations?.['source.genres.label']?.buckets.map(bucket => ({
       id: toHtmlId(bucket.data.label),
