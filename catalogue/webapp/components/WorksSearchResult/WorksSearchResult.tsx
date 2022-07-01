@@ -9,7 +9,7 @@ import {
   getCardLabels,
 } from '../../utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import Image from '@weco/common/views/components/Image/Image';
+import IIIFImage from '../IIIFImage/IIIFImage';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   SpaceComponentProps,
@@ -50,6 +50,7 @@ const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   height: 178px;
   margin-left: auto;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
+  position: relative;
 
   ${props => props.theme.media.medium`
     margin-top: 0;
@@ -165,12 +166,13 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview>
-                <Image
-                  defaultSize={178}
-                  alt={''}
-                  contentUrl={convertIiifImageUri(work.thumbnail.url, 178)}
-                  srcsetRequired={false}
-                  style={{ margin: 'auto' }}
+                <IIIFImage
+                  image={{
+                    alt: '',
+                    contentUrl: convertIiifImageUri(work.thumbnail.url, 178),
+                    width: 178,
+                    height: 178,
+                  }}
                 />
               </Preview>
             )}
