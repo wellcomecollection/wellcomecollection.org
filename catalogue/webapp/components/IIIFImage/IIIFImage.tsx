@@ -19,9 +19,15 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
+  priority?: boolean;
 };
 
-const IIIFImage: FC<Props> = ({ image, sizes, onLoadingComplete }) => {
+const IIIFImage: FC<Props> = ({
+  image,
+  sizes,
+  onLoadingComplete,
+  priority = false,
+}) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
@@ -38,6 +44,7 @@ const IIIFImage: FC<Props> = ({ image, sizes, onLoadingComplete }) => {
       loader={IIIFLoader}
       onLoadingComplete={onLoadingComplete}
       objectFit="contain"
+      priority={priority}
     />
   );
 };
