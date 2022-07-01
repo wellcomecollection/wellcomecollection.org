@@ -64,6 +64,11 @@ export async function createApp(): Promise<Koa> {
       transporter: (_, args) => {
         const [format, method, url, status, time, length] = args;
 
+        // Note: we use a deprecated API here because we're working with
+        // relative URLs, e.g. `/account`.
+        //
+        // The WHATWG URL API that the deprecation message suggests doesn't
+        // work for this use case; it wants absolute URLs.
         const parsedUrl = parse(url);
         const params = new URLSearchParams(parsedUrl.query);
 
