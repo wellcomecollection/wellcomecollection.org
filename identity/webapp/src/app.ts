@@ -47,7 +47,7 @@ export async function createApp(): Promise<Koa> {
   //
   //      --> GET /account/registration?session_token=[redacted]
   //
-  // It is deliberately un-picky about what it redacts, because we're rather
+  // It is deliberately un-picky about what it redacts, because we'd rather
   // remove something innocent (e.g. ?refresh=true) than miss something sensitive.
   //
   // The goal is to keep PII about library users out of the logging cluster.
