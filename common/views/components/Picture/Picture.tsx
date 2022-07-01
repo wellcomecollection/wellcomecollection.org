@@ -52,10 +52,10 @@ export const Picture: FunctionComponent<Props> = ({
           }
         })}
 
-        {lastImage && lastImage.contentUrl && lastImage.width && (
+        {lastImage && lastImage.contentUrl && (
           <img
             className="image block"
-            src={convertImageUri(lastImage.contentUrl, lastImage.width)}
+            src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
         )}
@@ -104,12 +104,11 @@ export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
           }
         })}
 
-        {lastImage && lastImage.contentUrl && lastImage.width && (
+        {lastImage && lastImage.contentUrl && (
           <img
             height={lastImage.height}
             width={lastImage.width}
-            className="image lazy-image lazyload"
-            data-src={convertImageUri(lastImage.contentUrl, lastImage.width)}
+            data-src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
         )}
