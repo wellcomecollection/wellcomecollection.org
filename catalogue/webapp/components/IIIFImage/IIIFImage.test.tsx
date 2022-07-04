@@ -12,7 +12,7 @@ describe('IIIFImage', () => {
 
   it('renders a IIIF image URL', () => {
     const component = mountWithTheme(
-      <IIIFImage image={props} priority={true} />
+      <IIIFImage image={props} priority={true} layout="fill" />
     );
 
     console.log(component.html());

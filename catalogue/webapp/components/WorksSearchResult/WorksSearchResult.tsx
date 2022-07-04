@@ -173,6 +173,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                     width: 178,
                     height: 178,
                   }}
+                  layout="fill"
                 />
               </Preview>
             )}

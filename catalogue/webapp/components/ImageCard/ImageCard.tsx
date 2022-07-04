@@ -60,6 +60,7 @@ const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
         >
           <IIIFImage
             image={image}
+            layout="fill"
             sizes={{
               xlarge: 1 / 6,
               large: 1 / 6,
