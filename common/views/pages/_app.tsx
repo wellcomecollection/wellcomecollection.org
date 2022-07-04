@@ -295,15 +295,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     };
   }, []);
 
-  // lazysizes
-  useEffect(() => {
-    // This needs to be dynamically required as it's only on the client-side
-    /* eslint-disable @typescript-eslint/no-var-requires */
-    const lazysizes = require('lazysizes');
-    /* eslint-enable @typescript-eslint/no-var-requires */
-    lazysizes.init();
-  }, []);
-
   // prismic warnings
   // TODO: This should be componentized
   useEffect(() => {
