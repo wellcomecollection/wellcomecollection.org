@@ -100,7 +100,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               isActive={activeIndex === itemIndex}
               thumbNumber={itemIndex + 1}
               isFocusable={gridVisible}
-              filterId={hasSearchResults ? 'purpleFilter' : null}
+              highlightImage={hasSearchResults}
             />
           </ThumbnailSpacer>
         )

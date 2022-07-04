@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import styled from 'styled-components';
 import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '../../utils/iiif';
-import IIIFResponsiveImage from './IIIFResponsiveImage';
+import IIIFViewerImage from './IIIFViewerImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -42,7 +42,8 @@ const NoScriptViewerImageWrapper = styled.div`
   img {
     position: relative;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
     width: auto;
     height: auto;
     max-width: 100%;
@@ -194,37 +195,29 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
       <NoScriptViewerMain>
         <NoScriptViewerImageWrapper>
           {iiifImageLocation && imageUrl && (
-            <IIIFResponsiveImage
+            <IIIFViewerImage
               width={800}
               src={imageUrl}
               srcSet={srcSet}
               sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-              extraClasses={classNames({
-                'block h-center': true,
-              })}
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
               }
-              isLazy={false}
             />
           )}
           {mainImageService['@id'] && currentCanvas && (
-            <IIIFResponsiveImage
+            <IIIFViewerImage
               width={800}
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
               sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
-              extraClasses={classNames({
-                'block h-center': true,
-              })}
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
                 'no text alternative'
               }
-              isLazy={false}
             />
           )}
         </NoScriptViewerImageWrapper>
@@ -261,9 +254,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
                     >
                       <ThumbnailLink>
                         <IIIFCanvasThumbnail
-                          filterId={null}
                           canvas={canvas}
-                          lang={lang}
                           isActive={canvasNumber === canvasIndex + 1}
                           thumbNumber={canvasNumber}
                         />

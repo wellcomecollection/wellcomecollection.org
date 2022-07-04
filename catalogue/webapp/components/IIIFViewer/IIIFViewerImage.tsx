@@ -2,8 +2,11 @@ import { classNames } from '@weco/common/utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const Image = styled.img<{ filterId?: string | null }>`
-  ${props => (props.filterId ? `filter: url(#${props.filterId})` : '')};
+const Image = styled.img<{ highlightImage?: boolean }>`
+  ${props =>
+    props.highlightImage
+      ? `filter: url(#purpleFilter})`
+      : ''}; // the filter is used for highlighting thumbnails that contain search terms
 `;
 
 type Props = {
@@ -13,18 +16,15 @@ type Props = {
   srcSet: string | undefined;
   sizes: string | undefined;
   alt: string;
-  extraClasses?: string;
-  lang: string | undefined;
-  isLazy: boolean;
+  lang?: string;
   clickHandler?: () => void | Promise<void>;
   loadHandler?: () => void | Promise<void>;
   errorHandler?: () => void | Promise<void>;
-  presentationOnly?: boolean;
   tabIndex?: number;
-  filterId?: string | null;
+  highlightImage?: boolean;
 };
 
-const IIIFResponsiveImage = (
+const IIIFViewerImage = (
   {
     width,
     height,
@@ -32,21 +32,18 @@ const IIIFResponsiveImage = (
     srcSet,
     sizes,
     alt,
-    extraClasses,
     lang,
     clickHandler,
     loadHandler,
     errorHandler,
-    isLazy,
-    presentationOnly,
     tabIndex,
-    filterId,
+    highlightImage,
   }: Props,
   ref // eslint-disable-line
 ) => {
   return (
     <Image
-      filterId={filterId}
+      highlightImage={highlightImage}
       ref={ref}
       tabIndex={tabIndex}
       lang={lang}
@@ -54,30 +51,25 @@ const IIIFResponsiveImage = (
       height={height}
       className={classNames({
         image: true,
-        [extraClasses || '']: true,
-        'lazy-image lazyload': isLazy,
       })}
       onLoad={() => {
         loadHandler && loadHandler();
       }}
       onClick={clickHandler}
-      onKeyDown={({ keyCode }) => {
-        if (keyCode === 13) {
+      onKeyDown={({ key, keyCode }) => {
+        if (key === 'Enter' || keyCode === 13) {
           clickHandler && clickHandler();
         }
       }}
       onError={() => {
         errorHandler && errorHandler();
       }}
-      src={isLazy ? undefined : src}
-      data-src={isLazy ? src : undefined}
-      srcSet={isLazy ? undefined : srcSet}
-      data-srcset={isLazy ? srcSet : undefined}
+      src={src}
+      srcSet={srcSet}
       sizes={sizes}
       alt={alt}
-      role={presentationOnly ? 'presentation' : undefined}
     />
   );
 };
 
-export default forwardRef(IIIFResponsiveImage);
+export default forwardRef(IIIFViewerImage);
