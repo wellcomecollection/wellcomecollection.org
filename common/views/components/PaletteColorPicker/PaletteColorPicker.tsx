@@ -12,49 +12,49 @@ type Props = {
 
 type ColorSwatch = {
   hexValue: string;
-  colorName: string | null;
+  colorName: string;
 };
 
 export const palette: ColorSwatch[] = [
   {
     hexValue: 'e02020',
-    colorName: 'red',
+    colorName: 'Red',
   },
   {
     hexValue: 'ff47d1',
-    colorName: 'pink',
+    colorName: 'Pink',
   },
   {
     hexValue: 'fa6400',
-    colorName: 'orange',
+    colorName: 'Orange',
   },
   {
     hexValue: 'f7b500',
-    colorName: 'yellow',
+    colorName: 'Yellow',
   },
   {
     hexValue: '8b572a',
-    colorName: 'brown',
+    colorName: 'Brown',
   },
   {
     hexValue: '6dd400',
-    colorName: 'green',
+    colorName: 'Green',
   },
   {
     hexValue: '22bbff',
-    colorName: 'blue',
+    colorName: 'Blue',
   },
   {
     hexValue: '8339e8',
-    colorName: 'violet',
+    colorName: 'Violet',
   },
   {
     hexValue: '000000',
-    colorName: 'black',
+    colorName: 'Black',
   },
   {
     hexValue: 'd9d3d3',
-    colorName: 'grey',
+    colorName: 'Grey',
   },
 ];
 
