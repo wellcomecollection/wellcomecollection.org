@@ -1,8 +1,10 @@
+import { palette } from '../../views/components/PaletteColorPicker/PaletteColorPicker';
 import { CatalogueResultsList, Work, Image } from '../../model/catalogue';
 import { quoteVal } from '../../utils/csv';
 import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
+import { isNotUndefined } from '../../utils/array';
 
 export type DateRangeFilter = {
   type: 'dateRange';
@@ -246,12 +248,33 @@ const availabilitiesFilter = ({
   ),
 });
 
-const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => ({
-  type: 'color',
-  id: 'color',
-  label: 'Colours',
-  color: props.color,
-});
+const colorFilter = ({ props }: ImagesFilterProps): ColorFilter => {
+  // In the color filter UI, users can:
+  //
+  //    - pick a named, pre-selected color (e.g. green, violet, red)
+  //    - select an arbitrary color using a hue slider
+  //
+  // We want to make sure the filter is labelled to match what they
+  // selected in the UI, so we:
+  //
+  //    - use our name if it's one of the pre-selected colors
+  //    - use the hex string from the hue slider UI if it's an arbitrary color
+  //
+  // Note that the filter popover uses uppercase hex strings (e.g. #2E2EE6),
+  // so we make sure the label matches.
+  const paletteColor = palette.find(({ hexValue }) => hexValue === props.color);
+
+  const label = isNotUndefined(paletteColor)
+    ? paletteColor.colorName
+    : `#${props.color?.toUpperCase()}`;
+
+  return {
+    type: 'color',
+    id: 'color',
+    label,
+    color: props.color,
+  };
+};
 
 // We want to customise the license labels for our UI as the API
 // ones are, whilst correct, very verbose

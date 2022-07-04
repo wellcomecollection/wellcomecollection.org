@@ -12,7 +12,7 @@ type Props = {
 
 type ColorSwatch = {
   hexValue: string;
-  colorName: string | null;
+  colorName: string;
 };
 
 export const palette: ColorSwatch[] = [
