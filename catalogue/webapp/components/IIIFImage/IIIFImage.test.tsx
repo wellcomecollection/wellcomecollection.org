@@ -1,9 +1,9 @@
 import { mountWithTheme } from '@weco/common/test/fixtures/enzyme-helpers';
-import { Props as ImageProps } from '@weco/common/views/components/Image/Image';
-import ImageCard from './ImageCard';
+import { ImageType } from '@weco/common/model/image';
+import IIIFImage from './IIIFImage';
 
-describe('ImageCard', () => {
-  const props: ImageProps = {
+describe('IIIFImage', () => {
+  const props: ImageType = {
     contentUrl: 'https://iiif.wellcomecollection.org/image/V0043039/info.json',
     width: 300,
     height: 300,
@@ -12,14 +12,7 @@ describe('ImageCard', () => {
 
   it('renders a IIIF image URL', () => {
     const component = mountWithTheme(
-      <ImageCard
-        id="1"
-        workId="zxahbyqz"
-        image={props}
-        onClick={event => {
-          console.log(event);
-        }}
-      />
+      <IIIFImage image={props} priority={true} layout="fill" />
     );
 
     console.log(component.html());
@@ -28,7 +21,7 @@ describe('ImageCard', () => {
       component
         .html()
         .includes(
-          'https://iiif.wellcomecollection.org/image/V0043039/full/300%2C/0/default.jpg'
+          'https://iiif.wellcomecollection.org/image/V0043039/full/3840%2C/0/default.jpg'
         )
     ).toBeTruthy();
   });

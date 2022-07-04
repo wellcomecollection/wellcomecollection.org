@@ -11,7 +11,6 @@ import {
 } from '../../utils/works';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import Image from '@weco/common/views/components/Image/Image';
 import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWorkClientSide } from '../../services/catalogue/works';
@@ -24,6 +23,7 @@ import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import { eye } from '@weco/common/icons';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
   image: ImageType | undefined;
@@ -37,22 +37,24 @@ type CanvasLink = {
 };
 
 const ImageWrapper = styled(Space).attrs({
-  as: 'a',
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
   ${props => props.theme.media.medium`
     flex-basis: 40%;
     order: 2;
+    height: auto;
   `}
+`;
+
+const ImageLink = styled.a`
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
 
   img {
-    transform: translateX(-50%);
-    left: 50%;
-    position: relative;
-    max-height: 100%;
     max-width: 100%;
-    height: auto;
-    width: auto;
   }
 `;
 
@@ -180,16 +182,22 @@ const ExpandedImage: FunctionComponent<Props> = ({
   return (
     <ExpandedImageContainer>
       {iiifImageLocation && expandedImageLink && (
-        <NextLink {...expandedImageLink} passHref>
-          <ImageWrapper>
-            <Image
-              defaultSize={400}
-              alt={displayTitle}
-              contentUrl={iiifImageLocation.url}
-              lazyload={false}
-            />
-          </ImageWrapper>
-        </NextLink>
+        <ImageWrapper>
+          <NextLink {...expandedImageLink} passHref>
+            <ImageLink>
+              <IIIFImage
+                layout="raw"
+                image={{
+                  contentUrl: iiifImageLocation.url,
+                  width: 400,
+                  height: 400,
+                  alt: '',
+                }}
+                width={400}
+              />
+            </ImageLink>
+          </NextLink>
+        </ImageWrapper>
       )}
       <InfoWrapper>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>

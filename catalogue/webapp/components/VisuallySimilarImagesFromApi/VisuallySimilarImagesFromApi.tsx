@@ -1,11 +1,11 @@
 import { font, classNames } from '@weco/common/utils/classnames';
-import Image from '@weco/common/views/components/Image/Image';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
   originalId: string;
@@ -52,12 +52,16 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
-          <a href="#" onClick={() => onClickImage(related)} key={related.id}>
-            <Image
-              contentUrl={related.locations[0]?.url}
-              defaultSize={250}
-              width={250}
-              alt=""
+          <a key={related.id} onClick={() => onClickImage(related)} href="#">
+            <IIIFImage
+              layout="raw"
+              image={{
+                contentUrl: related.locations[0]?.url,
+                width: 180,
+                height: 180,
+                alt: '',
+              }}
+              width={180}
             />
           </a>
         ))}
