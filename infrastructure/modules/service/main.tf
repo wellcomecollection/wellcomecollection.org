@@ -39,9 +39,8 @@ module "nginx_container" {
   forward_port      = var.container_port
   log_configuration = module.log_router_container.container_log_configuration
 
-  // This has an increased max request body size, and increased proxy buffer sizes
-  container_tag = "9b95057b716a60f9891f77111b0bd524b85839aa"
-  image_name    = "uk.ac.wellcome/nginx_frontend"
+  container_tag = var.nginx_container_config["container_tag"]
+  image_name    = var.nginx_container_config["image_name"]
 }
 
 module "app_container" {
