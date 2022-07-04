@@ -200,6 +200,16 @@ export function transformEvent(
           endDateTime: transformTimestamp(endDateTime),
         };
 
+        if (
+          range.startDateTime &&
+          range.endDateTime &&
+          range.startDateTime > range.endDateTime
+        ) {
+          console.warn(
+            `Start time for event ${document.id} is after the end time; this is probably a bug in Prismic`
+          );
+        }
+
         return isNotUndefined(range.startDateTime) &&
           isNotUndefined(range.endDateTime)
           ? {
