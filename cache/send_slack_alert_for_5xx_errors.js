@@ -150,7 +150,7 @@ function createDisplayUrl(protocol, host, path, query) {
   //
   //      https://wc.org/account/api?password=[cor... REDACTED]&code=[sek... REDACTED]
   //
-  if (path.startsWith('/account/api') && query !== null) {
+  if (path.startsWith('/account') && query !== null) {
     const originalParams = new URLSearchParams(query);
 
     const redactedParams = Array.from(originalParams.entries()).map(function (
