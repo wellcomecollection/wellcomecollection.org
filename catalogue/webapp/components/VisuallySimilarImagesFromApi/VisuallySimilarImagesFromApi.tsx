@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
   originalId: string;
@@ -53,12 +53,15 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <Wrapper>
         {similarImages.map(related => (
           <a key={related.id} onClick={() => onClickImage(related)} href="#">
-            {/* // TODO next image layout="raw" experimental */}
-            {/* TODO sizes and srcset maybe? */}
-            <img
-              src={iiifImageTemplate(related.locations[0]?.url)({
-                size: '180,',
-              })}
+            <IIIFImage
+              layout="raw"
+              image={{
+                contentUrl: related.locations[0]?.url,
+                width: 180,
+                height: 180,
+                alt: '',
+              }}
+              width={180}
             />
           </a>
         ))}

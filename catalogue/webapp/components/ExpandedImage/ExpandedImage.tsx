@@ -23,7 +23,7 @@ import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import { eye } from '@weco/common/icons';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
   image: ImageType | undefined;
@@ -50,7 +50,8 @@ const ImageLink = styled.a`
   position: relative;
   display: block;
   width: 100%;
-  height: 500px;
+  max-width: 400px;
+  margin: auto;
 
   img {
     max-width: 100%;
@@ -184,12 +185,15 @@ const ExpandedImage: FunctionComponent<Props> = ({
         <ImageWrapper>
           <NextLink {...expandedImageLink} passHref>
             <ImageLink>
-              {/* // TODO next image layout="raw" experimental */}
-              {/* TODO sizes and srcset */}
-              <img
-                src={iiifImageTemplate(iiifImageLocation.url)({
-                  size: '400,',
-                })}
+              <IIIFImage
+                layout="raw"
+                image={{
+                  contentUrl: iiifImageLocation.url,
+                  width: 400,
+                  height: 400,
+                  alt: '',
+                }}
+                width={400}
               />
             </ImageLink>
           </NextLink>
