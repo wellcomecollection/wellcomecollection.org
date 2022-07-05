@@ -22,7 +22,11 @@ export const transformArticleSeries = (
     transformArticleToArticleBasic
   );
 
+  // This should never happen in practice -- an article series without
+  // any articles should return a 404 before we call this function --
+  // but we drop a warning log here in case it does happen.
   if (articles.length === 0) {
+    console.warn(`Asked to transform series ${seriesId} without any articles`);
     return undefined;
   }
 

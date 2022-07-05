@@ -69,26 +69,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
-    if (articlesQuery.results_size > 0) {
-      const result = transformArticleSeries(id as string, articlesQuery);
-
-      if (isNotUndefined(result)) {
-        const { articles, series } = result;
-
-        return {
-          props: removeUndefinedProps({
-            series,
-            articles,
-            serverData,
-            gaDimensions: {
-              partOf: series.seasons.map(season => season.id),
-            },
-          }),
-        };
-      }
+    if (articlesQuery.results_size === 0) {
+      console.warn(`Series ${id} doesn't contain any articles`);
+      return { notFound: true };
     }
 
-    return { notFound: true };
+    const result = transformArticleSeries(id as string, articlesQuery);
+
+    if (isNotUndefined(result)) {
+      const { articles, series } = result;
+
+      return {
+        props: removeUndefinedProps({
+          series,
+          articles,
+          serverData,
+          gaDimensions: {
+            partOf: series.seasons.map(season => season.id),
+          },
+        }),
+      };
+    }
   };
 
 const ArticleSeriesPage: FC<Props> = props => {
