@@ -81,7 +81,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               medium: 1 / 2,
               small: 1,
             }}
-            quality="low"
+            quality="medium"
           />
         )}
 
