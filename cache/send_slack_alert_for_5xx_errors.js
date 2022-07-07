@@ -169,10 +169,13 @@ function createDisplayUrl(protocol, host, path, query) {
 
   // We can return all other URLs as-is; I'm not aware of non-account URLs
   // that would contain sensitive information.
+  //
+  // Note: CloudFront encodes query parameters so we have to decode to get
+  // back to the actual URL requested.
   else if (query === null) {
     return `${protocol}://${host}${path}`;
   } else {
-    return `${protocol}://${host}${path}?${query}`;
+    return decodeURI(`${protocol}://${host}${path}?${query}`);
   }
 }
 
