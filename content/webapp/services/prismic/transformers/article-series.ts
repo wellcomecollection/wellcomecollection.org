@@ -1,6 +1,5 @@
 import { Query } from '@prismicio/types';
 import { Series } from '../../../types/series';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { transformArticle, transformArticleToArticleBasic } from './articles';
@@ -11,10 +10,17 @@ type ArticleSeriesWithArticles = {
   articles: ArticleBasic[];
 };
 
+/** Transform a series and its articles, given matching articles
+ * from Prismic.
+ *
+ * Note: this function assumes it will get a non-empty list of articles,
+ * otherwise it can't perform the transformation.
+ *
+ */
 export const transformArticleSeries = (
   seriesId: string,
   articleQuery: Query<ArticlePrismicDocument>
-): ArticleSeriesWithArticles | undefined => {
+): ArticleSeriesWithArticles => {
   // TODO: This function is quite confusing.  Refactor it and add
   // more helpful comments.
 
@@ -22,11 +28,15 @@ export const transformArticleSeries = (
     transformArticleToArticleBasic
   );
 
+  // This should never happen in practice -- an article series without
+  // any articles should return a 404 before we call this function.
   if (articles.length === 0) {
-    return undefined;
+    throw new Error(
+      `Asked to transform series ${seriesId} without any articles`
+    );
   }
 
-  const series = articles[0].series.find(series => series.id === seriesId);
+  const series = articles[0].series.find(series => series.id === seriesId)!;
 
   // GOTCHA: We should hopefully be good here, as we only ever use this for serials,
   // which are 6 parts long
@@ -44,31 +54,27 @@ export const transformArticleSeries = (
         })
       : [];
 
-  if (isNotUndefined(series)) {
-    const seriesWithItems: Series = {
-      ...series,
-      // Add some colour
-      items:
-        schedule.length > 0
-          ? schedule.map(item => {
-              return item.type === 'article-schedule-items' ||
-                item.type === 'articles'
-                ? ({
-                    ...item,
-                    color: series && series.color,
-                  } as ArticleBasic)
-                : item;
-            })
-          : articles,
-    };
+  const seriesWithItems: Series = {
+    ...series,
+    // Add some colour
+    items:
+      schedule.length > 0
+        ? schedule.map(item => {
+            return item.type === 'article-schedule-items' ||
+              item.type === 'articles'
+              ? ({
+                  ...item,
+                  color: series && series.color,
+                } as ArticleBasic)
+              : item;
+          })
+        : articles,
+  };
 
-    return (
-      series && {
-        articles,
-        series: seriesWithItems,
-      }
-    );
-  } else {
-    return undefined;
-  }
+  return (
+    series && {
+      articles,
+      series: seriesWithItems,
+    }
+  );
 };
