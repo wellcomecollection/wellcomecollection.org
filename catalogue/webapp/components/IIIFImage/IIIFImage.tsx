@@ -2,14 +2,17 @@ import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import { classNames } from '@weco/common/utils/classnames';
 import { ImageType } from '@weco/common/model/image';
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import {
+  iiifImageTemplate,
+  convertImageUri,
+} from '@weco/common/utils/convert-image-uri';
 import {
   convertBreakpointSizesToSizes,
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
-  return iiifImageTemplate(src)({ size: `${width},` });
+  return convertImageUri(src, width);
 };
 
 export type Props = {
