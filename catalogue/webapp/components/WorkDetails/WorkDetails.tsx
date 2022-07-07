@@ -50,6 +50,7 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   work: Work;
@@ -313,6 +314,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       </>
     );
   };
+
+  const toggles = useToggles();
 
   const renderContent = () => (
     <>
@@ -682,15 +685,37 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
             tags={work.subjects.map(s => {
-              return {
-                textParts: s.concepts.map(c => c.label),
-                linkAttributes: worksLink(
-                  {
-                    'subjects.label': [s.label],
-                  },
-                  'work_details/subjects'
-                ),
-              };
+              /* 
+              If this is an identified subject, link to the concepts prototype
+              page instead.
+
+              The prototype page will only display if you have the toggle enabled,
+              so don't display it if you don't have the toggle.  Also, put a shiny
+              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              */
+              return toggles.conceptsPages && s.id
+                ? {
+                    textParts: [`🆕 ${s.concepts[0].label}`].concat(
+                      s.concepts.slice(1).map(c => c.label)
+                    ),
+                    linkAttributes: {
+                      href: {
+                        pathname: `/concepts/${s.id}`,
+                      },
+                      as: {
+                        pathname: `/concepts/${s.id}`,
+                      },
+                    },
+                  }
+                : {
+                    textParts: s.concepts.map(c => c.label),
+                    linkAttributes: worksLink(
+                      {
+                        'subjects.label': [s.label],
+                      },
+                      'work_details/subjects'
+                    ),
+                  };
             })}
           />
         </WorkDetailsSection>
