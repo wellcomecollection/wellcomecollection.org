@@ -31,7 +31,8 @@ export const ConceptsPage: NextPage<Props> = ({ concepts }) => {
         <p>
           <strong>Prototype note:</strong>
           This is a mostly random selection of concepts from the prototype
-          concepts API. It's meant to help us find examples of concepts pages.
+          concepts API. It&rsquo;s meant to help us find examples of concepts
+          pages.
         </p>
         <ul>
           {concepts.results.map(c => (
