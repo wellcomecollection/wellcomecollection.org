@@ -4,6 +4,7 @@ import link from './link';
 import text from './text';
 import structuredText from './structured-text';
 import gifVideoSlice from './gif-video-slice';
+import title from './title';
 
 export default {
   fieldset: 'Body content',
@@ -286,6 +287,12 @@ export default {
           },
         },
       },
+      audioPlayer: slice('Audio Player', {
+        nonRepeat: {
+          title,
+          audio: link('Audio', 'media', []),
+        },
+      }),
     },
   },
 };
