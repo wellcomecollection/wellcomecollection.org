@@ -176,6 +176,12 @@ export default {
           ...mediaObject,
         },
       }),
+      audioPlayer: slice('Audio Player', {
+        nonRepeat: {
+          title,
+          audio: link('Audio', 'media', []),
+        },
+      }),
     },
   },
 };
