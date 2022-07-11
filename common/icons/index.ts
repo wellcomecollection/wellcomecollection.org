@@ -102,6 +102,7 @@ export { default as underConstruction } from './components/UnderConstruction';
 export { default as user } from './components/User';
 export { default as video } from './components/Video';
 export { default as volume } from './components/Volume';
+export { default as volumeMuted } from './components/VolumeMuted';
 export { default as website } from './components/Website';
 export { default as wellcome } from './components/Wellcome';
 export { default as wifi } from './components/Wifi';
