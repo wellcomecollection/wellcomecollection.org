@@ -133,6 +133,14 @@ export type TagList = Slice<
   }
 >;
 
+export type AudioPlayer = Slice<
+  'audioPlayer',
+  {
+    title: RichTextField;
+    audio: LinkToMediaField;
+  }
+>;
+
 export type InfoBlock = Slice<
   'infoBlock',
   {

@@ -253,7 +253,7 @@ const Scrubber: FC<ScrubberProps> = ({
   );
 };
 
-type AudioPlayerProps = {
+export type AudioPlayerProps = {
   audioFile: string;
   title: string;
   idPrefix?: string;

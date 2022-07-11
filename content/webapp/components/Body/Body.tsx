@@ -21,6 +21,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
@@ -501,6 +502,11 @@ const Body: FunctionComponent<Props> = ({
                 {slice.type === 'mediaObjectList' && (
                   <LayoutWidth width={minWidth}>
                     <MediaObjectList {...slice.value} />
+                  </LayoutWidth>
+                )}
+                {slice.type === 'audioPlayer' && (
+                  <LayoutWidth width={minWidth}>
+                    <AudioPlayer {...slice.value} />
                   </LayoutWidth>
                 )}
               </div>
