@@ -10,7 +10,7 @@ export type Props = {
   sizes?: BreakpointSizes;
   // The maximum width at which the image will be displayed
   maxWidth?: number;
-  quality: 'low' | 'medium' | 'high';
+  quality: 'low' | 'high';
 };
 
 export function convertBreakpointSizesToSizes(
@@ -31,11 +31,10 @@ export function convertBreakpointSizesToSizes(
   );
 }
 
-export type ImageQuality = 'low' | 'medium' | 'high';
+export type ImageQuality = 'low' | 'high';
 
 const imageQuality = {
-  low: '10',
-  medium: '45',
+  low: '50',
   high: '100',
 };
 
