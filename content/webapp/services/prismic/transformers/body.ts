@@ -328,7 +328,7 @@ function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
     type: 'audioPlayer',
     value: {
       title: asTitle(slice.primary.title),
-      audioFile: transformLink(slice.primary.audio),
+      audioFile: transformLink(slice.primary.audio) || '',
     },
   };
 }
