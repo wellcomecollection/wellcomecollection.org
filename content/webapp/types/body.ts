@@ -13,6 +13,7 @@ import { Props as MapProps } from '../components/Map/Map';
 import { Props as DiscussionProps } from '../components/Discussion/Discussion';
 import { Props as EmbedProps } from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import { Props as MediaObjectListProps } from '../components/MediaObjectList/MediaObjectList';
+import { AudioPlayerProps } from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import * as prismicT from '@prismicio/types';
 import { CaptionedImage } from '@weco/common/model/captioned-image';
 import { Venue } from '@weco/common/model/opening-hours';
@@ -94,4 +95,5 @@ export type BodySlice =
   | Slice<'collectionVenue', { content: Venue; showClosingTimes: boolean }>
   | Slice<'videoEmbed', EmbedProps>
   | Slice<'soundcloudEmbed', EmbedProps>
-  | Slice<'contentList', ContentList>;
+  | Slice<'contentList', ContentList>
+  | Slice<'audioPlayer', AudioPlayerProps>;

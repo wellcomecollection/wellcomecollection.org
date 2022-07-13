@@ -20,6 +20,7 @@ import {
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
+  AudioPlayer as AudioPlayerSlice,
   Body,
 } from '../types/body';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
@@ -322,6 +323,16 @@ function transformTagListSlice(slice: TagListSlice): BodySlice {
   };
 }
 
+function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
+  return {
+    type: 'audioPlayer',
+    value: {
+      title: asTitle(slice.primary.title),
+      audioFile: transformLink(slice.primary.audio) || '',
+    },
+  };
+}
+
 function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
   return {
     type: 'searchResults',
@@ -520,6 +531,9 @@ export function transformBody(body: Body): BodySlice[] {
 
         case 'tagList':
           return transformTagListSlice(slice);
+
+        case 'audioPlayer':
+          return transformAudioPlayerSlice(slice);
 
         // Deprecated
         case 'imageList':
