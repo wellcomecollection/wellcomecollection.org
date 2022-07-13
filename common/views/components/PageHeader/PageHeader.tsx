@@ -147,13 +147,13 @@ const PageHeader: FunctionComponent<Props> = ({
             {!sectionLevelPage && (
               <Space
                 v={{
-                  size: 's',
-                  properties: ['margin-top', 'margin-bottom'],
+                  size: 'm',
+                  properties: ['margin-top'],
+                  overrides: { large: 4 },
                 }}
               >
                 {breadcrumbs.items.length > 0 ? (
-                  <Space
-                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                  <div
                     data-component={
                       asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
                     }
@@ -169,7 +169,7 @@ const PageHeader: FunctionComponent<Props> = ({
                     data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
                   >
                     <Breadcrumb {...breadcrumbs} />
-                  </Space>
+                  </div>
                 ) : (
                   <span
                     className={classNames({
