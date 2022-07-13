@@ -88,7 +88,7 @@ type Props = {
   TitleTopper?: ReactNode;
 };
 
-const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
+const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
 const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
@@ -137,7 +137,7 @@ const PageHeader: FunctionComponent<Props> = ({
         >
           <Space
             v={{
-              size: 'm',
+              size: 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
@@ -147,13 +147,13 @@ const PageHeader: FunctionComponent<Props> = ({
             {!sectionLevelPage && (
               <Space
                 v={{
-                  size: 's',
-                  properties: ['margin-top', 'margin-bottom'],
+                  size: 'm',
+                  properties: ['margin-top'],
+                  overrides: { large: 4 },
                 }}
               >
                 {breadcrumbs.items.length > 0 ? (
-                  <Space
-                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                  <div
                     data-component={
                       asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
                     }
@@ -169,7 +169,7 @@ const PageHeader: FunctionComponent<Props> = ({
                     data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
                   >
                     <Breadcrumb {...breadcrumbs} />
-                  </Space>
+                  </div>
                 ) : (
                   <span
                     className={classNames({
