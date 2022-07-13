@@ -137,7 +137,7 @@ const PageHeader: FunctionComponent<Props> = ({
         >
           <Space
             v={{
-              size: 'm',
+              size: 'l',
               properties:
                 isContentTypeInfoBeforeMedia || hasMedia || sectionLevelPage
                   ? ['margin-bottom']
