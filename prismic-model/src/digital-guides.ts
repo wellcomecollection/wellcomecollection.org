@@ -34,11 +34,11 @@ const digitalGuides: CustomType = {
       ]),
     },
     Sections: {
-      sections: list('Sections', {
+      sections: list('Section', {
         ...commonContentFields,
-        stops: {
+        stops: list('Stop', {
           ...commonContentFields,
-        },
+        }),
       }),
     },
   },
