@@ -19,7 +19,7 @@ const headerProps = {
   title: 'What does it mean to be human, now?',
   start: '2021-01-05T00:00:00.000Z',
   end: '2021-01-26T00:00:00.000Z',
-  FeaturedMedia: <PrismicImage image={image} quality="medium" />,
+  FeaturedMedia: <PrismicImage image={image} quality="low" />,
   standfirst: [
     {
       type: 'paragraph',

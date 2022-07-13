@@ -25,7 +25,7 @@ compactCard.args = {
   url: 'https://wellcomecollection.org',
   title: 'Wellcome Collection',
   description: singleLineOfText(10, 25),
-  Image: <PrismicImage image={imageProps} quality="medium" />,
+  Image: <PrismicImage image={imageProps} quality="low" />,
   DateInfo: null,
   Tags: null,
   primaryLabels: primaryLabelList,
