@@ -88,7 +88,7 @@ type Props = {
   TitleTopper?: ReactNode;
 };
 
-const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
+const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
 const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
