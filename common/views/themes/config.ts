@@ -199,6 +199,7 @@ export const themeValues = {
   grid,
   colors,
   color: getColor,
+  minCardHeight: 385,
 };
 
 export type Breakpoint = keyof typeof sizes;
