@@ -120,6 +120,14 @@ const appPromise = nextApp
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
+    route('/digital-guides', '/digital-guides', router, nextApp);
+    route(
+      `/digital-guides/:id(${prismicId})/:type?`,
+      '/digital-guide',
+      router,
+      nextApp
+    ); // :type(${guideType})
+
     pageVanityUrl(
       router,
       nextApp,
