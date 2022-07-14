@@ -115,6 +115,21 @@ resource "aws_wafv2_web_acl" "wc_org" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesBotControlRuleSet"
         vendor_name = "AWS"
+
+        scope_down_statement {
+          regex_pattern_set_reference_statement {
+            field_to_match {
+              uri_path {}
+            }
+
+            arn = aws_wafv2_regex_pattern_set.restricted_urls.arn
+
+            text_transformation {
+              priority = 1
+              type     = "URL_DECODE"
+            }
+          }
+        }
       }
     }
 
