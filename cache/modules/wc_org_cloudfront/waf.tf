@@ -95,9 +95,33 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
 
     visibility_config {
+      cloudwatch_metrics_enabled = false
+      sampled_requests_enabled   = false
+      metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "bot-control"
+    priority = 3
+
+    override_action {
+      # We are only counting Bot Control actions for now while we evaluate its impact
+      # https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control-deploying.html
+      count {}
+    }
+
+    statement {
+      managed_rule_group_statement {
+        name        = "AWSManagedRulesBotControlRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+
+    visibility_config {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
-      metric_name                = "weco-cloudfront-restrictive-rate-limit-${var.namespace}"
+      metric_name                = "weco-cloudfront-acl-bot-control-${var.namespace}"
     }
   }
 
