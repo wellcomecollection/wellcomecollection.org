@@ -297,7 +297,6 @@ const Body: FunctionComponent<Props> = ({
               </div>
             </Layout8>
           )}
-
           <AdditionalContent
             index={i}
             sections={sections}

@@ -7,7 +7,7 @@ type Props = {
 
 const SpacingSection: FunctionComponent<Props> = ({ children }: Props) => {
   return (
-    <Space v={{ size: 'xl', properties: ['padding-bottom'] }}>{children}</Space>
+    <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>{children}</Space>
   );
 };
 
