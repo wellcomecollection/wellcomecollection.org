@@ -13,13 +13,15 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 // import { digitalGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-// import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 
-// type Props = {
-//   guide: DigitalGuide;
-//   jsonLd: JsonLdObj[];
-// };
+type Props = {
+  digitalGuide: any; // TODO DigitalGuide;
+  id: string; // TODO PrismicId?
+  jsonLd: JsonLdObj[];
+  type: string; // TODO union
+};
 
 export const getServerSideProps: GetServerSideProps<
   /* TODO Props */ any | AppErrorProps
@@ -53,7 +55,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 };
 
-const DigitalGuidesPage: FC /* <Props> */ = ({
+const DigitalGuidesPage: FC<Props> = ({
   digitalGuide,
   id,
   type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR

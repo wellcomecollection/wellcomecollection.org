@@ -16,14 +16,14 @@ import { getServerData } from '@weco/common/server-data';
 // import { digitalGuideLd } from '../services/prismic/transformers/json-ld';
 // import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-// import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
-// type Props = {
-//   digitalGuides: PaginatedResults<DigitalGuideBasic>;
-//   jsonLd: JsonLdObj[];
-// };
+type Props = {
+  digitalGuides: any; // TODO PaginatedResults<DigitalGuideBasic>;
+  // jsonLd: // TODO JsonLdObj[];
+};
 
-export const getServerSideProps: GetServerSideProps</* Props | */ AppErrorProps> =
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     // const page = getPage(context.query);
 
@@ -65,9 +65,7 @@ export const getServerSideProps: GetServerSideProps</* Props | */ AppErrorProps>
     };
   };
 
-const DigitalGuidesPage: FC /* <Props> */ = ({
-  digitalGuides /* jsonLd */,
-}) => {
+const DigitalGuidesPage: FC<Props> = ({ digitalGuides /* jsonLd */ }) => {
   // const image = digitalGuides.results[0]?.image; // TODO
 
   return (
@@ -75,7 +73,7 @@ const DigitalGuidesPage: FC /* <Props> */ = ({
       title={'Digital Guides'}
       description={pageDescriptions.digitalGuides}
       url={{ pathname: `/digital-guides` }}
-      jsonLd={{}} // TODO
+      jsonLd={{ '@type': 'webpage' }} // TODO
       openGraphType={'website'}
       siteSection={'stories'}
       image={undefined} // TODO
