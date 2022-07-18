@@ -61,17 +61,19 @@ const SuccessPage: NextPage<Props> = ({ email }) => {
                       Please click the verification link in the email we’ve just
                       sent to <strong>{email}</strong>.
                     </p>
-                    <p>Please do this within the next 24 hours.</p>
+                    <p>
+                      <strong>Please do this within the next 24 hours.</strong>
+                    </p>
                     <p>
                       Once you have verified your email address, you will be
                       able to request up to 15 items from our closed stores to
                       view in the library.
                     </p>
                     <p>
-                      If you want to access subscription databases and other
-                      online resources, you need to bring a form of personal
-                      identification (ID) and proof of address to the Admissions
-                      Desk in the library.
+                      If you want to access subscription databases, e-journals
+                      and e-books, you need to bring a form of personal
+                      identification (ID) and proof of address to the admissions
+                      desk in the library.
                     </p>
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <Divider color={`pumice`} isKeyline />
