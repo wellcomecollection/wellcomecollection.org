@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
 import { IIIFMediaElement } from '../../model/iiif';
+import MediaAnnotations from '../MediaAnnotations/MediaAnnotations';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 
 type Props = {
   items: IIIFMediaElement[];
@@ -20,23 +21,9 @@ const AudioList: FC<Props> = ({ items }) => {
           as="li"
           key={item['@id']}
           v={{ size: 'l', properties: ['margin-bottom'] }}
-          aria-label={items.length > 1 ? (index + 1).toString() : undefined}
         >
-          <span
-            className={classNames({
-              'flex flex--v-center': true,
-            })}
-          >
-            {items.length > 1 && (
-              <Space
-                aria-hidden="true"
-                h={{ size: 's', properties: ['margin-right'] }}
-              >
-                {index + 1}
-              </Space>
-            )}
-            <AudioPlayer audio={item} />
-          </span>
+          <AudioPlayer audioFile={item['@id']} title={(index + 1).toString()} />
+          <MediaAnnotations media={item} />
         </Space>
       ))}
     </ol>
