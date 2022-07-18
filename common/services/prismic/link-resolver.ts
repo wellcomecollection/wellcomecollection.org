@@ -31,6 +31,8 @@ export function linkResolver(doc: Doc): string {
       return `/projects/${doc.id}`;
     case 'guides':
       return `/guides/${doc.id}`;
+    case 'digital-guides':
+      return `/digital-guides/${doc.id}`;
     default:
       return '/';
   }
