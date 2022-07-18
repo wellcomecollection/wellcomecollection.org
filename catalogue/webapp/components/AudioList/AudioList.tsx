@@ -22,7 +22,11 @@ const AudioList: FC<Props> = ({ items }) => {
           key={item['@id']}
           v={{ size: 'l', properties: ['margin-bottom'] }}
         >
-          <AudioPlayer audioFile={item['@id']} title={(index + 1).toString()} />
+          <AudioPlayer
+            audioFile={item['@id']}
+            title={(index + 1).toString()}
+            idPrefix="catalogue:"
+          />
           <MediaAnnotations media={item} />
         </Space>
       ))}
