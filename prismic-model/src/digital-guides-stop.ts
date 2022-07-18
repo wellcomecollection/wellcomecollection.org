@@ -1,7 +1,6 @@
 import { CustomType } from './types/CustomType';
 import title from './parts/title';
 import link from './parts/link';
-import list from './parts/list';
 import image from './parts/image';
 import structuredText from './parts/structured-text';
 import embed from './parts/embed';
@@ -21,25 +20,20 @@ const commonContentFields = {
   transcript: structuredText('Transcript', 'single'),
 };
 
-const digitalGuides: CustomType = {
-  id: 'digital-guides',
-  label: 'Digital Guide',
+const digitalGuidesStop: CustomType = {
+  id: 'digital-guides-stop',
+  label: 'Digital Guide Stop',
   repeatable: true,
   status: true,
   json: {
-    Guide: {
+    Stop: {
       title,
       'related-content': link('Related document, e.g. Exhibition', 'document', [
         'exhibitions',
       ]),
-    },
-    Sections: {
-      sections: list('Section', {
-        ...commonContentFields,
-        stops: link('Stop', 'document', ['digital-guides-stop']),
-      }),
+      ...commonContentFields,
     },
   },
 };
 
-export default digitalGuides;
+export default digitalGuidesStop;
