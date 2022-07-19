@@ -234,7 +234,9 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo article={article} position={i} />
+                      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                        <StoryPromo article={article} position={i} />
+                      </Space>
                     </div>
                   );
                 })}
