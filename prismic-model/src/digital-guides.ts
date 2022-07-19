@@ -9,24 +9,6 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
 import select from './parts/select';
 
-const commonContentFields = {
-  number: number('Position number'),
-  title,
-  creator: contributorsWithTitle(),
-  image: image('image'),
-  description: structuredText('Description', 'single'),
-  'audio-with-description': link('Audio', 'media', []),
-  'audio-without-description': link('Audio', 'media', []),
-  'bsl-video': embed('Embed (Youtube)'),
-  caption: structuredText('Caption', 'single'),
-  transcript: structuredText('Transcript', 'single'),
-  component: select('Guide Component', ['section', 'subsection', 'stop']),
-  partOf: structuredText(
-    'Forms part of the following section or subsection',
-    'single'
-  ),
-};
-
 const digitalGuides: CustomType = {
   id: 'digital-guides',
   label: 'Digital Guide',
@@ -43,7 +25,25 @@ const digitalGuides: CustomType = {
     // A gallery section, a subsection, or a stop within those sections
     Component: {
       components: list('Guide Component', {
-        ...commonContentFields,
+        number: number('Position number'),
+        title,
+        creator: contributorsWithTitle(),
+        image: image('image'),
+        description: structuredText('Description', 'single'),
+        'audio-with-description': link('Audio', 'media', []),
+        'audio-without-description': link('Audio', 'media', []),
+        'bsl-video': embed('Embed (Youtube)'),
+        caption: structuredText('Caption', 'single'),
+        transcript: structuredText('Transcript', 'single'),
+        component: select('Guide Component type', [
+          'section',
+          'subsection',
+          'stop',
+        ]),
+        partOf: structuredText(
+          'Forms part of the following section or subsection',
+          'single'
+        ),
       }),
     },
   },
