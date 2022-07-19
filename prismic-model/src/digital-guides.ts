@@ -7,7 +7,6 @@ import structuredText from './parts/structured-text';
 import embed from './parts/embed';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
-import select from './parts/select';
 
 const digitalGuides: CustomType = {
   id: 'digital-guides',
@@ -35,11 +34,6 @@ const digitalGuides: CustomType = {
         'bsl-video': embed('Embed (Youtube)'),
         caption: structuredText('Caption', 'single'),
         transcript: structuredText('Transcript', 'single'),
-        component: select('Guide Component type', [
-          'section',
-          'subsection',
-          'stop',
-        ]),
         partOf: structuredText(
           'Forms part of the following section or subsection',
           'single'
