@@ -22,16 +22,12 @@ const commonContentFields = {
 };
 
 const digitalGuidesStop: CustomType = {
-  id: 'digital-guides-stop',
+  id: 'digital-guides-stops',
   label: 'Digital Guide Stop',
   repeatable: true,
   status: true,
   json: {
     Stop: {
-      title,
-      'related-content': link('Related document, e.g. Exhibition', 'document', [
-        'exhibitions',
-      ]),
       ...commonContentFields,
     },
     'Content relationships': {
