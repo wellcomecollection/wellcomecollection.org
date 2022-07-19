@@ -7,6 +7,7 @@ import structuredText from './parts/structured-text';
 import embed from './parts/embed';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
+import boolean from './parts/boolean';
 
 const commonContentFields = {
   number: number('Position number'),
@@ -19,6 +20,9 @@ const commonContentFields = {
   'bsl-video': embed('Embed (Youtube)'),
   caption: structuredText('Caption', 'single'),
   transcript: structuredText('Transcript', 'single'),
+  section: boolean('Section'),
+  subSection: boolean('Sub-section'),
+  stop: boolean('Stop'),
 };
 
 const digitalGuides: CustomType = {
@@ -33,10 +37,11 @@ const digitalGuides: CustomType = {
         'exhibitions',
       ]),
     },
-    Sections: {
-      sections: list('Section', {
+    // We are providing a repeatable list of guide components which could be:
+    // A gallery section, a subsection, or a stop within those sections
+    Component: {
+      components: list('Guide Component', {
         ...commonContentFields,
-        stops: link('Stop', 'document', ['digital-guides-stops']),
       }),
     },
   },
