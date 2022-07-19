@@ -56,7 +56,15 @@ export const getRedirect = (
   const request = cf.request;
   const uriSansSlash = request.uri.replace(/\/$/, '');
 
-  const host = 'wellcomecollection.org';
+  const hostHeader = cf.request.headers.host;
+  const requestHost =
+    hostHeader && hostHeader.length > 0 ? hostHeader[0].value : undefined;
+
+  const host =
+    requestHost &&
+    requestHost.indexOf('www-stage.wellcomecollection.org') !== -1
+      ? 'www-stage.wellcomecollection.org'
+      : 'wellcomecollection.org';
 
   if (literalRedirects[uriSansSlash]) {
     return redirect301(host, literalRedirects[uriSansSlash]);
