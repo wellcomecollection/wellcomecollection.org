@@ -43,7 +43,7 @@ const toggles = {
     {
       id: 'selfRegistration',
       title: 'Self registration',
-      defaultValue: false,
+      defaultValue: true,
       description: 'Allow users to sign up for an account',
     },
     {
