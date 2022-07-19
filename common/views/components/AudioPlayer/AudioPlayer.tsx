@@ -138,11 +138,11 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
       {speeds.map(speed => (
         <PlayRateLabel
           key={speed}
-          htmlFor={`playrate-${speed}`}
+          htmlFor={`playrate-${speed}-${id}`}
           isActive={speeds[currentActiveSpeedIndex] === speed}
         >
           <PlayRateRadio
-            id={`playrate-${speed}`}
+            id={`playrate-${speed}-${id}`}
             onClick={() => updatePlaybackRate(speed)}
           />
           <span className="visually-hidden">playback rate:</span>
