@@ -7,7 +7,7 @@ import structuredText from './parts/structured-text';
 import embed from './parts/embed';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
-import boolean from './parts/boolean';
+import select from './parts/select';
 
 const commonContentFields = {
   number: number('Position number'),
@@ -20,9 +20,11 @@ const commonContentFields = {
   'bsl-video': embed('Embed (Youtube)'),
   caption: structuredText('Caption', 'single'),
   transcript: structuredText('Transcript', 'single'),
-  section: boolean('Section'),
-  subSection: boolean('Sub-section'),
-  stop: boolean('Stop'),
+  component: select('Guide Component', ['section', 'subsection', 'stop']),
+  partOf: structuredText(
+    'Forms part of the following section or subsection',
+    'single'
+  ),
 };
 
 const digitalGuides: CustomType = {
