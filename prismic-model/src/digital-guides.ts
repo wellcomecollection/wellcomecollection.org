@@ -36,7 +36,7 @@ const digitalGuides: CustomType = {
     Sections: {
       sections: list('Section', {
         ...commonContentFields,
-        stops: link('Stop', 'document', ['digital-guides-stop']),
+        stops: link('Stop', 'document', ['digital-guides-stops']),
       }),
     },
   },
