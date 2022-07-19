@@ -6,6 +6,7 @@ import structuredText from './parts/structured-text';
 import embed from './parts/embed';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
+import list from './parts/list';
 
 const commonContentFields = {
   number: number('Position number'),
@@ -32,6 +33,17 @@ const digitalGuidesStop: CustomType = {
         'exhibitions',
       ]),
       ...commonContentFields,
+    },
+    'Content relationships': {
+      parents: list('Parents', {
+        order: number('Order'),
+        parent: link(
+          'Parent',
+          'document',
+          ['digital-guide'],
+          'Select a parent'
+        ),
+      }),
     },
   },
 };
