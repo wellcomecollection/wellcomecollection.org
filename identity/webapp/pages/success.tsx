@@ -24,15 +24,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async (context: GetServerSidePropsContext) => {
     const serverData = await getServerData(context);
 
-    if (!serverData.toggles.selfRegistration) {
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false,
-        },
-      };
-    }
-
     const { email } = context.query;
 
     return {
