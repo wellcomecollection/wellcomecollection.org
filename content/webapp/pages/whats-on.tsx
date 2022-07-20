@@ -251,6 +251,7 @@ const Header = ({
                     {!todaysOpeningHours.isClosed && (
                       <>
                         <Space
+                          className="flex"
                           as="span"
                           h={{ size: 's', properties: ['margin-right'] }}
                         >
