@@ -14,7 +14,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import auth0 from '../src/utility/auth0';
-import { HighlightMessage } from 'src/frontend/Registration/Registration.style';
+import { HighlightMessage } from '../src/frontend/Registration/Registration.style';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();
@@ -45,11 +45,10 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                       </p>
                       <HighlightMessage>
                         <p>
-                          <strong>Reminder:</strong> If you want to access
-                          subscription databases, e-journals and e-books, you
-                          need to bring a form of personal identification (ID)
-                          and proof of address to the admissions desk in the
-                          library.
+                          <strong>Reminder:</strong> When you visit the library
+                          in person, you need to bring a form of personal
+                          identification (ID) and proof of address to the
+                          admissions desk, to confirm your details.
                         </p>
                       </HighlightMessage>
                     </div>
