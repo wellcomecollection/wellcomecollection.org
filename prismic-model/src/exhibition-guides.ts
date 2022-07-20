@@ -8,9 +8,9 @@ import embed from './parts/embed';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
 
-const digitalGuides: CustomType = {
-  id: 'digital-guides',
-  label: 'Digital Guide',
+const exhibitionGuides: CustomType = {
+  id: 'exhibition-guides',
+  label: 'Exhibition Guide',
   repeatable: true,
   status: true,
   json: {
@@ -22,6 +22,8 @@ const digitalGuides: CustomType = {
     },
     // We are providing a repeatable list of guide components which could be:
     // A gallery section, a subsection, or a stop within those sections
+    // We did have an extra field 'partOf' where editors can indicate what section or subsection
+    // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
     Component: {
       components: list('Guide Component', {
         number: number('Position number'),
@@ -34,13 +36,9 @@ const digitalGuides: CustomType = {
         'bsl-video': embed('Embed (Youtube)'),
         caption: structuredText('Caption', 'single'),
         transcript: structuredText('Transcript', 'single'),
-        partOf: structuredText(
-          'Forms part of the following section or subsection',
-          'single'
-        ),
       }),
     },
   },
 };
 
-export default digitalGuides;
+export default exhibitionGuides;
