@@ -89,8 +89,8 @@ describe('AccountValidated', () => {
   it('shows a link to login on success', () => {
     renderPage('/validated?success=true&supportSignUp=true');
     const links = screen.getAllByRole('link');
-    const link = links[1];
-    expect(link).toHaveTextContent('Sign in');
+    const link = links.find(lk => lk.textContent === 'Sign in');
+    expect(link).toBeDefined();
     expect(link).toHaveAttribute('href', '/account');
   });
 
