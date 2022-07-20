@@ -16,7 +16,7 @@ const exhibitionGuides: CustomType = {
   json: {
     Guide: {
       title,
-      'related-content': link('Related document, e.g. Exhibition', 'document', [
+      'related-exhibition': link('Related Exhibition', 'document', [
         'exhibitions',
       ]),
     },
