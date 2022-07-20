@@ -14,7 +14,6 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import auth0 from '../src/utility/auth0';
-import { HighlightMessage } from '../src/frontend/Registration/Registration.style';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();
@@ -36,21 +35,15 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
                       <p>
-                        The library team will review your application and will
-                        confirm your membership within the next{' '}
-                        <strong>3 working days</strong>. In the meantime, you
-                        can browse through{' '}
-                        <a href="/collections">our digital collections</a> or
-                        sign in to your account below.
+                        You can now request up to 15 items from our closed
+                        stores in the library.
                       </p>
-                      <HighlightMessage>
-                        <p>
-                          <strong>Reminder:</strong> When you visit the library
-                          in person, you need to bring a form of personal
-                          identification (ID) and proof of address to the
-                          admissions desk, to confirm your details.
-                        </p>
-                      </HighlightMessage>
+                      <p>
+                        If you want to access subscription databases, e-journals
+                        and e-books, you need to bring a form of personal
+                        identification (ID) and proof of address to the
+                        admissions desk in the library.
+                      </p>
                     </div>
                   )}
                   <ButtonSolidLink
