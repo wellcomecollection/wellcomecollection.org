@@ -5,7 +5,6 @@ import {
   Wrapper,
   SectionHeading,
 } from '../src/frontend/components/Layout.style';
-import { HighlightMessage } from '../src/frontend/Registration/Registration.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -36,17 +35,15 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   {isNewSignUp && (
                     <div data-test-id="new-sign-up">
                       <p>
-                        The library team will review your application and will
-                        confirm your membership within the next 72 hours. In the
-                        meantime, you can browse through{' '}
-                        <a href="/collections">our digital collections</a> or
-                        sign in to your account below.
+                        You can now request up to 15 items from our closed
+                        stores in the library.
                       </p>
-                      <HighlightMessage>
-                        <strong>Reminder:</strong> you will need to email a form
-                        of personal identification (ID) and proof of address to
-                        the Library team in order to confirm your details.
-                      </HighlightMessage>
+                      <p>
+                        If you want to access subscription databases, e-journals
+                        and e-books, you need to bring a form of personal
+                        identification (ID) and proof of address to the
+                        admissions desk in the library.
+                      </p>
                     </div>
                   )}
                   <ButtonSolidLink
@@ -66,13 +63,10 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   <p>{message}</p>
                   <p>
                     If you need help, please{' '}
-                    <a
-                      href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      contact us
+                    <a href="mailto:library@wellcomecollection.org">
+                      contact the library
                     </a>
+                    .
                   </p>
                 </>
               )}

@@ -19,6 +19,13 @@ export const withDefaultValuesUnmodified = (
     const { defaultValue } = from.find(({ id }) => id === toggle.id) ?? {
       defaultValue: toggle.defaultValue,
     };
+
+    if (defaultValue !== toggle.defaultValue) {
+      console.log(
+        `Ignoring new default value of ${toggle.id}; use setDefaultValueFor (old: ${defaultValue}, new: ${toggle.defaultValue})`
+      );
+    }
+
     return { ...toggle, defaultValue };
   });
 
