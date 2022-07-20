@@ -20,9 +20,10 @@ const StyledSelect = styled.div.attrs({
   position: relative;
 
   .icon {
+    position: absolute;
     pointer-events: none;
     top: 6px;
-    right: 36px;
+    right: 6px;
   }
 
   select {
@@ -35,6 +36,7 @@ const StyledSelect = styled.div.attrs({
     border: 2px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
     background-color: ${props => props.theme.color('white')};
+    width: 100%;
 
     &::-ms-expand {
       display: none;
@@ -68,10 +70,11 @@ const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
 
   return (
     <StyledSelect isKeyboard={isKeyboard} isFontsLoaded={isFontsLoaded}>
-      <label>
+      <label className="flex flex--v-center">
         <Space
           as="span"
           h={{ size: 's', properties: ['margin-right'] }}
+          style={{ whiteSpace: 'nowrap' }}
           className={classNames({
             [font('hnb', 5)]: true,
             'visually-hidden': !!hideLabel,
