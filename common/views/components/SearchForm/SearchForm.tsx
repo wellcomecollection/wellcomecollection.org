@@ -58,7 +58,9 @@ const SearchButtonWrapper = styled.div.attrs({
   `}
 `;
 
-const SearchSortOrderWrapper = styled.div`
+const SearchSortOrderWrapper = styled(Space).attrs({
+  h: { size: 'm', properties: ['margin-right'] },
+})`
   color: ${props => props.theme.color('black')};
 `;
 
