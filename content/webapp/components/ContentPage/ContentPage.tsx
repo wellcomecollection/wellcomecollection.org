@@ -136,6 +136,7 @@ const ContentPage = ({
           </Space>
         )}
         <div
+          style={{ overflow: 'auto' }} // prevent margin collapsing for children
           className={classNames({
             'bg-cream': isCreamy,
           })}
