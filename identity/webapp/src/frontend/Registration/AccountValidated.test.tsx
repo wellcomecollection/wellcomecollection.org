@@ -97,12 +97,10 @@ describe('AccountValidated', () => {
   it('shows a link to customer support on failure', () => {
     renderPage('/validated?success=false');
     const link = screen.getByRole('link');
-    expect(link).toHaveTextContent(/contact us/i);
+    expect(link).toHaveTextContent(/contact the library/i);
     expect(link).toHaveAttribute(
       'href',
-      'https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/'
+      'mailto:library@wellcomecollection.org'
     );
-    expect(link).toHaveAttribute('target', '_blank');
-    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 });
