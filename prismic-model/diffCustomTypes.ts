@@ -34,7 +34,6 @@ export default async function diffContentTypes(
   const deltas = (
     await Promise.all(
       remoteCustomTypes.map(async remoteCustomType => {
-
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
@@ -55,9 +54,11 @@ export default async function diffContentTypes(
             return { id: remoteCustomType.id };
           }
         } catch (e) {
-          console.warn(`Prismic has type ${remoteCustomType.id}, but it's not defined locally`);
+          console.warn(
+            `Prismic has type ${remoteCustomType.id}, but it can't be found locally: ${e}`
+          );
           return { id: remoteCustomType.id };
-        };
+        }
       })
     )
   ).filter(Boolean) as { id: string }[];
