@@ -16,7 +16,7 @@ import { getServerData } from '@weco/common/server-data';
 // import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+// import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   exhibitionGuides: any; // TODO PaginatedResults<ExhibitionGuideBasic>;
@@ -33,8 +33,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+
+    const basicExhibitionGuides = exhibitionGuidesQuery;
     console.log(exhibitionGuidesQuery);
-    // const exhibitionGuides = transformQuery(
+    // TODO transformQuery(
     //   exhibitionGuidesQuery,
     //   transformExhibitionGuide
     // );
@@ -51,8 +53,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
-        exhibitionGuides: [], // basicExhibitionGuides,
-        jsonLd: { '@type': 'webpage' }, // TODO
+        exhibitionGuides: basicExhibitionGuides,
+        jsonLd: { '@type': 'webpage' }, // TODO - what is is the correct type and the rest of the stuff
         serverData,
       }),
     };
@@ -72,7 +74,26 @@ const ExhibitionGuidesPage: FC<Props> = ({ exhibitionGuides /* jsonLd */ }) => {
       image={undefined} // TODO
     >
       <p>EXHIBITION GUIDES</p>
-      {JSON.stringify(exhibitionGuides)}
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
+      >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          <>{JSON.stringify(exhibitionGuides, null, 1)}</>
+        </code>
+      </pre>
     </PageLayout>
   );
 };

@@ -39,31 +39,29 @@ export const getServerSideProps: GetServerSideProps<
     id as string
   );
 
-  return {
-    props: removeUndefinedProps({
-      exhibitionGuide: {
-        hierarchyExample: constructHierarchy(testComponentData),
-      },
-      // jsonLd, TODO
-      serverData,
-    }),
-  };
-  // if (exhibitionGuideDocument) {
-  //   // const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
-  //   // const jsonLd = exhibitionGuideLd(exhibitionGuide);
+  // return {
+  //   props: removeUndefinedProps({
+  //     exhibitionGuide: {
+  //       hierarchyExample: constructHierarchy(testComponentData),
+  //     },
+  //     // jsonLd, TODO
+  //     serverData,
+  //   }),
+  // };
+  if (exhibitionGuideDocument) {
+    const exhibitionGuide = exhibitionGuideDocument; // TODO transformExhibitionGuide(exhibitionGuideDocument);
+    // const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
-  //   return {
-  //     props: removeUndefinedProps({
-  //       exhibitionGuide: {
-  //         title: 'This is a exhibition guide',
-  //       },
-  //       // jsonLd, TODO
-  //       serverData,
-  //     }),
-  //   };
-  // } else {
-  //   return { notFound: true };
-  // }
+    return {
+      props: removeUndefinedProps({
+        exhibitionGuide,
+        // jsonLd, TODO
+        serverData,
+      }),
+    };
+  } else {
+    return { notFound: true };
+  }
 };
 
 const ExhibitionGuidesPage: FC<Props> = ({
@@ -101,6 +99,7 @@ const ExhibitionGuidesPage: FC<Props> = ({
             borderRadius: '6px',
           }}
         >
+          <>{JSON.stringify(exhibitionGuide, null, 1)}</>
         </code>
       </pre>
     </PageLayout>
