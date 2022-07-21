@@ -12,6 +12,7 @@
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import { FC } from 'react';
+import { ExternalLink } from 'src/frontend/Registration/Registration.style';
 import { SectionHeading } from './src/frontend/components/Layout.style';
 
 type ValidatedSuccessTextProps = {
@@ -89,5 +90,25 @@ export const ApplicationReceived: FC<{ email: string }> = ({ email }) => (
         <a href="mailto:library@wellcomecollection.org">contact the library</a>.
       </p>
     </div>
+  </>
+);
+
+export const collectionsResearchAgreementTitle =
+  'Collections research agreement';
+
+export const collectionsResearchAgreementLabel = (
+  <>
+    I will use personal data on living persons for research purposes only. I
+    will not use personal data to support decisions about the person who is the
+    subject of the data, or in a way that causes substantial damage or distress
+    to them. I have read and accept the regulations detailed in the{' '}
+    <ExternalLink
+      href="https://wellcome.org/about-us/governance/privacy-and-terms"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Library’s Terms & Conditions of Use
+    </ExternalLink>
+    .{' '}
   </>
 );
