@@ -27,7 +27,7 @@ const exhibitionGuides: CustomType = {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
-        creator: structuredText('Creator', 'single'),
+        tombstone: structuredText('Tombstone', 'single'),
         image: image('image'),
         description: structuredText('Description', 'single'),
         'audio-with-description': link('Audio', 'media', []),
