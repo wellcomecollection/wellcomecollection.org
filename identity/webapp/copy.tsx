@@ -32,9 +32,14 @@ export const ValidatedSuccessText: FC<ValidatedSuccessTextProps> = ({
           library.
         </p>
         <p>
-          If you want to access subscription databases, e-journals and e-books,
-          you need to bring a form of personal identification (ID) and proof of
-          address to the admissions desk in the library.
+          To complete your membership and access subscription databases,
+          e-journals and e-books, you’ll need to bring a form of photo
+          identification (ID) and proof of your address to our admissions desk
+          when you visit. The identification we accept is detailed on our{' '}
+          <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+            Library membership page
+          </a>
+          .
         </p>
       </div>
     )}
@@ -71,9 +76,14 @@ export const ApplicationReceived: FC<{ email: string }> = ({ email }) => (
         up to 15 items from our closed stores to view in the library.
       </p>
       <p>
-        If you want to access subscription databases, e-journals and e-books,
-        you need to bring a form of personal identification (ID) and proof of
-        address to the admissions desk in the library.
+        To complete your membership and access subscription databases,
+        e-journals and e-books, you’ll need to bring a form of photo
+        identification (ID) and proof of your address to our admissions desk
+        when you visit. The identification we accept is detailed on our{' '}
+        <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
+          Library membership page
+        </a>
+        .
       </p>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         <Divider color={`pumice`} isKeyline />
