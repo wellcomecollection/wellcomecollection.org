@@ -1,7 +1,7 @@
 import title from './parts/title';
 import body from './parts/body';
 import promo from './parts/promo';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
 import list from './parts/list';
@@ -31,10 +31,7 @@ const projects: CustomType = {
       }),
     },
     Metadata: {
-      metadataDescription: structuredText({
-        label: 'Metadata description',
-        allowMultipleParagraphs: false,
-      }),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
   },
 };

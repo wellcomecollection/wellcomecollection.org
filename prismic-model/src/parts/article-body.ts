@@ -2,10 +2,7 @@ import body, { slice } from './body';
 import heading from './heading';
 import link from './link';
 import text from './text';
-import structuredText, {
-  multiLineText,
-  singleLineText,
-} from './structured-text';
+import { multiLineText, singleLineText } from './structured-text';
 import gifVideoSlice from './gif-video-slice';
 import title from './title';
 

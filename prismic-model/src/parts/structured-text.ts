@@ -9,7 +9,7 @@ type StructuredTextProps = TextProps & {
   allowMultipleParagraphs?: boolean;
 };
 
-export default function structuredText({
+function structuredText({
   label,
   allowMultipleParagraphs = true,
   extraTextOptions = [],

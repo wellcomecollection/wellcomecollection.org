@@ -1,4 +1,4 @@
-import structuredText from './structured-text';
+import { multiLineText, singleLineText } from './structured-text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
@@ -63,9 +63,8 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: structuredText({
+          text: multiLineText({
             label: 'Text',
-            allowMultipleParagraphs: true,
             extraTextOptions: ['heading2', 'heading3', 'list-item'],
           }),
         },
@@ -77,29 +76,20 @@ export default {
       iframe: iframeSlice(),
       quote: slice('Quote', {
         nonRepeat: {
-          text: structuredText({ label: 'Quote' }),
-          citation: structuredText({
-            label: 'Citation',
-            allowMultipleParagraphs: false,
-          }),
+          text: multiLineText({ label: 'Quote' }),
+          citation: singleLineText({ label: 'Citation' }),
         },
       }),
       standfirst: slice('Standfirst', {
         nonRepeat: {
-          text: structuredText({
-            label: 'Standfirst',
-            allowMultipleParagraphs: false,
-          }),
+          text: singleLineText({ label: 'Standfirst' }),
         },
       }),
       table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
-          caption: structuredText({
-            label: 'Caption',
-            allowMultipleParagraphs: false,
-          }),
+          caption: singleLineText({ label: 'Caption' }),
         },
       }),
       map: slice('Map', {
@@ -127,7 +117,7 @@ export default {
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: structuredText({ label: 'Text' }),
+          text: multiLineText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
@@ -142,9 +132,8 @@ export default {
       infoBlock: slice('Info block', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: structuredText({
+          text: multiLineText({
             label: 'Text',
-            allowMultipleParagraphs: true,
             extraTextOptions: ['heading3', 'list-item'],
           }),
           link: link('Button link', 'web'),
@@ -154,9 +143,8 @@ export default {
       titledTextList: slice('Titled text list', {
         repeat: {
           title: heading({ label: 'Title', level: 3 }),
-          text: structuredText({
+          text: multiLineText({
             label: 'Text',
-            allowMultipleParagraphs: true,
             extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),

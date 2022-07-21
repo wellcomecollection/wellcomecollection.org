@@ -1,8 +1,7 @@
-import structuredText from './structured-text';
+import { multiLineText } from './structured-text';
 
-const description = structuredText({
+const description = multiLineText({
   label: 'Description',
-  allowMultipleParagraphs: true,
   extraTextOptions: ['heading2'],
 });
 

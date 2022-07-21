@@ -1,4 +1,4 @@
-import structuredText from './structured-text';
+import { singleLineText } from './structured-text';
 
 export default function heading({
   label = 'Title',
@@ -7,9 +7,8 @@ export default function heading({
   label: string;
   level?: 1 | 2 | 3;
 }) {
-  return structuredText({
+  return singleLineText({
     label,
-    allowMultipleParagraphs: false,
     allTextOptions: [`heading${level}`],
   });
 }
