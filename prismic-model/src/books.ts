@@ -18,7 +18,10 @@ const books: CustomType = {
   json: {
     Book: {
       title,
-      subtitle: structuredText('Subtitle', 'single'),
+      subtitle: structuredText({
+        label: 'Subtitle',
+        allowMultipleParagraphs: false,
+      }),
       body: body,
       orderLink: link('Order link', 'web'),
       price: text('Price'),
@@ -26,8 +29,11 @@ const books: CustomType = {
       extent: text('Extent'),
       isbn: text('ISBN'),
       reviews: list('Reviews', {
-        text: structuredText('Review'),
-        citation: structuredText('Citation', 'single'),
+        text: structuredText({ label: 'Review' }),
+        citation: structuredText({
+          label: 'Citation',
+          allowMultipleParagraphs: false,
+        }),
       }),
       datePublished: timestamp('Date published'),
     },
@@ -36,7 +42,10 @@ const books: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: structuredText({
+        label: 'Metadata description',
+        allowMultipleParagraphs: false,
+      }),
     },
     'Content relationships': {
       seasons: list('Seasons', {

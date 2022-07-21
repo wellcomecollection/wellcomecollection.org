@@ -33,7 +33,10 @@ const articles: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: structuredText({
+        label: 'Metadata description',
+        allowMultipleParagraphs: false,
+      }),
     },
     'Content relationships': {
       series: list('Series', {
