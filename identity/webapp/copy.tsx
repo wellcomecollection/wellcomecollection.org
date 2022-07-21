@@ -38,10 +38,7 @@ export const ValidatedSuccessText: FC<ValidatedSuccessTextProps> = ({
           when you visit.
         </p>
         <p>
-          <strong>Reminder:</strong> you will need to bring a form of personal
-          identification (ID) and proof of address to the Library team, to show
-          when you visit in person, to confirm your details. The identification
-          we accept is detailed on our{' '}
+          The identification we accept is detailed on our{' '}
           <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
             Library membership page
           </a>
