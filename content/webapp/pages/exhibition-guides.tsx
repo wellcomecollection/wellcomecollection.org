@@ -25,6 +25,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
     const page = getPage(context.query);
 
     if (typeof page !== 'number') {
@@ -35,7 +36,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
 
     const basicExhibitionGuides = exhibitionGuidesQuery;
-    console.log(exhibitionGuidesQuery);
     // TODO transformQuery(
     //   exhibitionGuidesQuery,
     //   transformExhibitionGuide
@@ -49,12 +49,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     // const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
 
-    const serverData = await getServerData(context);
-
     return {
       props: removeUndefinedProps({
         exhibitionGuides: basicExhibitionGuides,
-        jsonLd: { '@type': 'webpage' }, // TODO - what is is the correct type and the rest of the stuff
+        jsonLd: { '@type': 'webpage' }, // TODO - what is is the correct type (schema.org) and add the rest of the stuff it should have
         serverData,
       }),
     };
