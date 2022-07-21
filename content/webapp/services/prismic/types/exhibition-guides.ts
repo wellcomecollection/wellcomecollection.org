@@ -1,6 +1,6 @@
 import { PrismicDocument } from '@prismicio/types';
 
-export type DigitalGuidePrismicDocument = PrismicDocument;
+export type ExhibitionGuidePrismicDocument = PrismicDocument;
 // TODO <
 // {}
 // >;

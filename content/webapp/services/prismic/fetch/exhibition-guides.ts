@@ -1,22 +1,22 @@
 import { Query } from '@prismicio/types';
 import { fetcher, GetByTypeParams, GetServerSidePropsPrismicClient } from '.';
-import { DigitalGuidePrismicDocument } from '../types/digital-guides';
+import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { exhibitionsFetchLinks, contributorFetchLinks } from '../types';
 
 const fetchLinks = [...exhibitionsFetchLinks, ...contributorFetchLinks];
 
-const digitalGuidesFetcher = fetcher<DigitalGuidePrismicDocument>(
-  'digital-guides',
+const exhibitionGuidesFetcher = fetcher<ExhibitionGuidePrismicDocument>(
+  'exhibition-guides',
   fetchLinks
 );
 
-export const fetchDigitalGuide = digitalGuidesFetcher.getById;
+export const fetchExhibitionGuide = exhibitionGuidesFetcher.getById;
 
-export const fetchDigitalGuides = (
+export const fetchExhibitionGuides = (
   client: GetServerSidePropsPrismicClient,
   { ...opts }: GetByTypeParams
-): Promise<Query<DigitalGuidePrismicDocument>> => {
-  return digitalGuidesFetcher.getByType(client, {
+): Promise<Query<ExhibitionGuidePrismicDocument>> => {
+  return exhibitionGuidesFetcher.getByType(client, {
     fetchLinks,
     ...opts,
   });
