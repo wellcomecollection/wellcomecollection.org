@@ -1,10 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
-import {
-  Container,
-  Wrapper,
-  SectionHeading,
-} from '../src/frontend/components/Layout.style';
+import { Container, Wrapper } from '../src/frontend/components/Layout.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,6 +10,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import auth0 from '../src/utility/auth0';
+import { ValidatedFailedText, ValidatedSuccessText } from '../copy';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();
@@ -30,22 +27,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             <Wrapper>
               {success || urlUsed ? (
                 <>
-                  <SectionHeading as="h1">Email verified</SectionHeading>
-                  <p>Thank you for verifying your email address.</p>
-                  {isNewSignUp && (
-                    <div data-test-id="new-sign-up">
-                      <p>
-                        You can now request up to 15 items from our closed
-                        stores in the library.
-                      </p>
-                      <p>
-                        If you want to access subscription databases, e-journals
-                        and e-books, you need to bring a form of personal
-                        identification (ID) and proof of address to the
-                        admissions desk in the library.
-                      </p>
-                    </div>
-                  )}
+                  <ValidatedSuccessText isNewSignUp={isNewSignUp} />
                   <ButtonSolidLink
                     link="/account"
                     text={
@@ -56,19 +38,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   />
                 </>
               ) : (
-                <>
-                  <SectionHeading as="h1">
-                    Failed to verify email
-                  </SectionHeading>
-                  <p>{message}</p>
-                  <p>
-                    If you need help, please{' '}
-                    <a href="mailto:library@wellcomecollection.org">
-                      contact the library
-                    </a>
-                    .
-                  </p>
-                </>
+                <ValidatedFailedText message={message} />
               )}
             </Wrapper>
           </Container>
