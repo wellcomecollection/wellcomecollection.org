@@ -24,7 +24,7 @@ const exhibitionGuides: CustomType = {
     // A gallery section, a subsection, or a stop within those sections
     // We did have an extra field 'partOf' where editors can indicate what section or subsection
     // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
-    Component: {
+    Components: {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
