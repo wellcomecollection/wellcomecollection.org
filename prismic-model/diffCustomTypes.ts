@@ -55,7 +55,7 @@ export default async function diffContentTypes(
           }
         } catch (e) {
           console.warn(
-            `Prismic has type ${remoteCustomType.id}, but it can't be found locally: ${e}`
+            `Prismic has type ${remoteCustomType.id}, but it can't be loaded locally: ${e}`
           );
           return { id: remoteCustomType.id };
         }
