@@ -6,7 +6,15 @@ import { error, success } from './console';
 import { isCi, secrets } from './config';
 import { diffJson, Delta, isEmpty, printDelta } from './differ';
 
-export default async function diffContentTypes(credentials?): Promise<void> {
+type Credentials = {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken: string;
+};
+
+export default async function diffContentTypes(
+  credentials?: Credentials
+): Promise<void> {
   await setEnvsFromSecrets(secrets, credentials);
 
   const resp = await fetch(`https://customtypes.prismic.io/customtypes`, {
