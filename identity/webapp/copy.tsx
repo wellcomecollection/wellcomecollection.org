@@ -35,10 +35,7 @@ export const ValidatedSuccessText: FC<ValidatedSuccessTextProps> = ({
           To complete your membership and access subscription databases,
           e-journals and e-books, you’ll need to bring a form of photo
           identification (ID) and proof of your address to our admissions desk
-          when you visit.
-        </p>
-        <p>
-          The identification we accept is detailed on our{' '}
+          when you visit. The identification we accept is detailed on our{' '}
           <a href="https://wellcomecollection.org/pages/X_2eexEAACQAZLBi">
             Library membership page
           </a>
