@@ -34,12 +34,13 @@ const exhibitionGuides: CustomType = {
           allowMultipleParagraphs: false,
         }),
         image: image('image'),
-        description: structuredText({
-          label: 'Description',
-          allowMultipleParagraphs: false,
-        }),
-        'audio-with-description': link('Audio', 'media', []),
-        'audio-without-description': link('Audio', 'media', []),
+        description: structuredText('Description', 'single'),
+        'audio-with-description': link('Audio with description', 'media', []),
+        'audio-without-description': link(
+          'Audio without description',
+          'media',
+          []
+        ),
         'bsl-video': embed('Embed (Youtube)'),
         caption: structuredText({
           label: 'Caption',
