@@ -4,11 +4,10 @@ import timestamp from './parts/timestamp';
 import place from './parts/place';
 import link from './parts/link';
 import list from './parts/list';
-import structuredText from './parts/structured-text';
+import structuredText, { singleLineText } from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import booleanDeprecated from './parts/boolean-deprecated';
-import singleLineText from './parts/single-line-text';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';
 
@@ -21,7 +20,10 @@ const exhibitions: CustomType = {
     Exhibition: {
       format: link('Format', 'document', ['exhibition-formats']),
       title,
-      shortTitle: singleLineText('Short title', 'heading1'),
+      shortTitle: singleLineText({
+        label: 'Short title',
+        textOptions: 'heading1',
+      }),
       body,
       start: timestamp('Start date'),
       end: timestamp('End date'),

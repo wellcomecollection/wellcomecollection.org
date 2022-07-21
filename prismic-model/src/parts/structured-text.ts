@@ -1,9 +1,12 @@
-type StructuredTextProps = {
+type TextProps = {
   label: string;
-  allowMultipleParagraphs?: boolean;
   extraTextOptions?: string[];
   allTextOptions?: string[];
   placeholder?: string;
+};
+
+type StructuredTextProps = TextProps & {
+  allowMultipleParagraphs?: boolean;
 };
 
 export default function structuredText({
@@ -38,4 +41,18 @@ export default function structuredText({
       placeholder,
     },
   };
+}
+
+export function singleLineText(props: TextProps) {
+  return structuredText({
+    ...props,
+    allowMultipleParagraphs: false,
+  });
+}
+
+export function multiLineText(props: TextProps) {
+  return structuredText({
+    ...props,
+    allowMultipleParagraphs: true,
+  });
 }

@@ -2,7 +2,10 @@ import body, { slice } from './body';
 import heading from './heading';
 import link from './link';
 import text from './text';
-import structuredText from './structured-text';
+import structuredText, {
+  multiLineText,
+  singleLineText,
+} from './structured-text';
 import gifVideoSlice from './gif-video-slice';
 import title from './title';
 
@@ -242,49 +245,35 @@ export default {
               label: 'List style',
             },
           },
-          description: {
-            type: 'StructuredText',
-            config: {
-              multi: 'paragraph,hyperlink,em',
-              label: 'Description',
-            },
-          },
+          description: multiLineText({
+            label: 'Description',
+            allTextOptions: ['paragraph', 'hyperlink', 'em'],
+          }),
         },
         repeat: {
-          title: {
-            type: 'StructuredText',
-            config: {
-              label: 'Title',
-              single: 'heading1',
-            },
-          },
-          subtitle: {
-            type: 'StructuredText',
-            config: {
-              single: 'heading2',
-              label: 'Subtitle',
-            },
-          },
+          title: singleLineText({
+            label: 'Title',
+            allTextOptions: ['heading1'],
+          }),
+          subtitle: singleLineText({
+            label: 'Subtitle',
+            allTextOptions: ['heading2'],
+          }),
           image: {
             type: 'Image',
             config: {
               label: 'Image',
             },
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'strong,em,hyperlink',
-            },
-          },
-          description: {
-            type: 'StructuredText',
-            config: {
-              label: 'Description',
-              multi: 'paragraph,hyperlink,em',
-            },
-          },
+          caption: singleLineText({
+            label: 'Captions',
+            allTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
+          description: structuredText({
+            label: 'Description',
+            allowMultipleParagraphs: true,
+            allTextOptions: ['paragraph', 'hyperlink', 'em'],
+          }),
         },
       },
       audioPlayer: slice('Audio Player', {
