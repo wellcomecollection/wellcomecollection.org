@@ -126,13 +126,13 @@ export default {
       }),
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
           text: structuredText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
           link: link('Link', 'web'),
@@ -141,7 +141,7 @@ export default {
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
           text: structuredText({
             label: 'Text',
             allowMultipleParagraphs: true,
@@ -153,7 +153,7 @@ export default {
       }),
       titledTextList: slice('Titled text list', {
         repeat: {
-          title: heading('Title', 3),
+          title: heading({ label: 'Title', level: 3 }),
           text: structuredText({
             label: 'Text',
             allowMultipleParagraphs: true,

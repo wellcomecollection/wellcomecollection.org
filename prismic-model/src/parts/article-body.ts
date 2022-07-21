@@ -217,13 +217,13 @@ export default {
       },
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
           text: structuredText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
           link: link('Link', 'web'),
