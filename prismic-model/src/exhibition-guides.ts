@@ -32,8 +32,12 @@ const exhibitionGuides: CustomType = {
         tombstone: singleLineText({ label: 'Tombstone' }),
         image: image('image'),
         description: singleLineText({ label: 'Description' }),
-        'audio-with-description': link('Audio', 'media', []),
-        'audio-without-description': link('Audio', 'media', []),
+        'audio-with-description': link('Audio with description', 'media', []),
+        'audio-without-description': link(
+          'Audio without description',
+          'media',
+          []
+        ),
         'bsl-video': embed('Embed (Youtube)'),
         caption: multiLineText({ label: 'Caption' }),
         transcript: multiLineText({ label: 'Transcript' }),
