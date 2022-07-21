@@ -9,6 +9,8 @@
 //      why they can't update some text in Prismic.
 //
 
+import Divider from '@weco/common/views/components/Divider/Divider';
+import Space from '@weco/common/views/components/styled/Space';
 import { FC } from 'react';
 import { SectionHeading } from './src/frontend/components/Layout.style';
 
@@ -48,5 +50,44 @@ export const ValidatedFailedText: FC<{ message: string | string[] }> = ({
       If you need help, please{' '}
       <a href="mailto:library@wellcomecollection.org">contact the library</a>.
     </p>
+  </>
+);
+
+export const ApplicationReceived: FC<{ email: string }> = ({ email }) => (
+  <>
+    <SectionHeading as="h1">Application received</SectionHeading>
+    <div className="body-text">
+      <p>Thank you for applying for a library membership.</p>
+      <p>
+        Please click the verification link in the email we’ve just sent to{' '}
+        <strong>{email}</strong>.
+      </p>
+      <p>
+        <strong>Please do this within the next 24 hours.</strong>
+      </p>
+      <p>
+        Once you have verified your email address, you will be able to request
+        up to 15 items from our closed stores to view in the library.
+      </p>
+      <p>
+        If you want to access subscription databases, e-journals and e-books,
+        you need to bring a form of personal identification (ID) and proof of
+        address to the admissions desk in the library.
+      </p>
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <Divider color={`pumice`} isKeyline />
+      </Space>
+      <p>
+        <strong>Didn’t receive an email?</strong>
+      </p>
+      <p>
+        If you still don’t see an email from us within the next few minutes, try
+        checking your junk or spam folder.
+      </p>
+      <p>
+        If you need more help please{' '}
+        <a href="mailto:library@wellcomecollection.org">contact the library</a>.
+      </p>
+    </div>
   </>
 );
