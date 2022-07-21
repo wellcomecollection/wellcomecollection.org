@@ -53,7 +53,8 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
       continue;
     }
     // If the keys have different values and they're both objects, recurse down
-    // and compute another diff
+    // and compute another diff.  Because we only did JSON serialisation above,
+    // these two objects may turn out to be the same anyway.
     else if (
       key in newR &&
       typeof oldR[key] === 'object' &&
@@ -61,8 +62,10 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
     ) {
       const delta = diffJson(oldR[key], newR[key]);
 
-      oldRecordOnly[key] = delta.oldRecordOnly;
-      newRecordOnly[key] = delta.newRecordOnly;
+      if (delta.newRecordOnly.length > 0 || delta.oldRecordOnly.length > 0) {
+        oldRecordOnly[key] = delta.oldRecordOnly;
+        newRecordOnly[key] = delta.newRecordOnly;
+      }
     }
     // If the keys have different values and they're not objects, record their
     // value and move on.
