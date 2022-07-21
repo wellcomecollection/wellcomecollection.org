@@ -31,7 +31,7 @@ const exhibitionGuides: CustomType = {
         // Info on the choice for the name tombstone instead of creator
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         image: image('image'),
-        description: structuredText('Description ', 'single'),
+        description: structuredText('Description', 'single'),
         'audio-with-description': link('Audio with description', 'media', []),
         'audio-without-description': link(
           'Audio without description',
