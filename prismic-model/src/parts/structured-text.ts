@@ -1,6 +1,6 @@
 type StructuredTextProps = {
   label: string;
-  singleOrMulti?: 'single' | 'multi';
+  allowMultipleParagraphs?: boolean;
   extraHtmlTypes?: string[];
   placeholder?: string;
   overrideDefaultHtmlTypes?: string[];
@@ -8,11 +8,13 @@ type StructuredTextProps = {
 
 export default function structuredText({
   label,
-  singleOrMulti = 'multi',
+  allowMultipleParagraphs = true,
   extraHtmlTypes = [],
   placeholder,
   overrideDefaultHtmlTypes,
 }: StructuredTextProps) {
+  const singleOrMulti = allowMultipleParagraphs ? 'multi' : 'single';
+
   return {
     type: 'StructuredText',
     config: {

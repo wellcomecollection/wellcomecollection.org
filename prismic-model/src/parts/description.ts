@@ -2,7 +2,7 @@ import structuredText from './structured-text';
 
 const description = structuredText({
   label: 'Description',
-  singleOrMulti: 'multi',
+  allowMultipleParagraphs: true,
   extraHtmlTypes: ['heading2'],
 });
 

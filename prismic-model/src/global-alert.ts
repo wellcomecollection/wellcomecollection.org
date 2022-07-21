@@ -12,7 +12,7 @@ const globalAlert: CustomType = {
     'Global alert': {
       text: structuredText({
         label: 'text',
-        singleOrMulti: 'multi',
+        allowMultipleParagraphs: true,
         extraHtmlTypes: ['heading2'],
         placeholder: 'text',
       }),

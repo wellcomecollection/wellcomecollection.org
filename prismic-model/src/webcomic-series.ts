@@ -23,7 +23,7 @@ const webcomicSeries: CustomType = {
     Metadata: {
       metadataDescription: structuredText({
         label: 'Metadata description',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
     },
   },

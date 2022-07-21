@@ -22,7 +22,10 @@ const collectionVenue: CustomType = {
       order: number('Order'),
       image: image('Image'),
       link: link('Link', 'web', [], 'Enter url'),
-      linkText: structuredText({ label: 'Linktext', singleOrMulti: 'single' }),
+      linkText: structuredText({
+        label: 'Linktext',
+        allowMultipleParagraphs: false,
+      }),
     },
     'Regular opening times': {
       monday: {

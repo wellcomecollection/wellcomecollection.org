@@ -19,7 +19,7 @@ const card: CustomType = {
       ]),
       description: structuredText({
         label: 'Description',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
       image: image('Image'),
       link: link('Link'),

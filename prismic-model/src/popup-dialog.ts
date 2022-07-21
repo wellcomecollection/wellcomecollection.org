@@ -15,7 +15,7 @@ const popupDialog: CustomType = {
       title: text('Title inside the open dialog'),
       text: structuredText({
         label: 'Text inside the open dialog',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
       linkText: text('CTA inside the open dialog button text'),
       link: link('CTA inside the open dialog button link', 'web'),

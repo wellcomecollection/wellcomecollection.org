@@ -65,7 +65,7 @@ export default {
         nonRepeat: {
           text: structuredText({
             label: 'Text',
-            singleOrMulti: 'multi',
+            allowMultipleParagraphs: true,
             extraHtmlTypes: ['heading2', 'heading3', 'list-item'],
           }),
         },
@@ -80,7 +80,7 @@ export default {
           text: structuredText({ label: 'Quote' }),
           citation: structuredText({
             label: 'Citation',
-            singleOrMulti: 'single',
+            allowMultipleParagraphs: false,
           }),
         },
       }),
@@ -88,7 +88,7 @@ export default {
         nonRepeat: {
           text: structuredText({
             label: 'Standfirst',
-            singleOrMulti: 'single',
+            allowMultipleParagraphs: false,
           }),
         },
       }),
@@ -98,7 +98,7 @@ export default {
           embed: embed('Embed (Youtube, Vimeo etc)'),
           caption: structuredText({
             label: 'Caption',
-            singleOrMulti: 'single',
+            allowMultipleParagraphs: false,
           }),
         },
       }),
@@ -144,7 +144,7 @@ export default {
           title: heading('Title', 2),
           text: structuredText({
             label: 'Text',
-            singleOrMulti: 'multi',
+            allowMultipleParagraphs: true,
             extraHtmlTypes: ['heading3', 'list-item'],
           }),
           link: link('Button link', 'web'),
@@ -156,7 +156,7 @@ export default {
           title: heading('Title', 3),
           text: structuredText({
             label: 'Text',
-            singleOrMulti: 'multi',
+            allowMultipleParagraphs: true,
             extraHtmlTypes: ['heading4', 'list-item'],
           }),
           link: link('Link'),

@@ -14,13 +14,13 @@ const interpretationTypes: CustomType = {
       // see: https://prismic.io/docs/core-concepts/key-text
       abbreviation: structuredText({
         label: 'Abbreviation',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
         overrideDefaultHtmlTypes: ['paragraph'],
       }),
       description: structuredText({ label: 'Message' }),
       primaryDescription: structuredText({
         label: 'Message if primary interpretation',
-        singleOrMulti: 'multi',
+        allowMultipleParagraphs: true,
       }),
     },
   },

@@ -18,7 +18,10 @@ const books: CustomType = {
   json: {
     Book: {
       title,
-      subtitle: structuredText({ label: 'Subtitle', singleOrMulti: 'single' }),
+      subtitle: structuredText({
+        label: 'Subtitle',
+        allowMultipleParagraphs: false,
+      }),
       body: body,
       orderLink: link('Order link', 'web'),
       price: text('Price'),
@@ -29,7 +32,7 @@ const books: CustomType = {
         text: structuredText({ label: 'Review' }),
         citation: structuredText({
           label: 'Citation',
-          singleOrMulti: 'single',
+          allowMultipleParagraphs: false,
         }),
       }),
       datePublished: timestamp('Date published'),
@@ -41,7 +44,7 @@ const books: CustomType = {
     Metadata: {
       metadataDescription: structuredText({
         label: 'Metadata description',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
     },
     'Content relationships': {

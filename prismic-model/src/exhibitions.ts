@@ -28,15 +28,15 @@ const exhibitions: CustomType = {
       isPermanent: booleanDeprecated('Is permanent?'),
       statusOverride: structuredText({
         label: 'Status override',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
       bslInfo: structuredText({
         label: 'BSL information',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
       audioDescriptionInfo: structuredText({
         label: 'Audio description information',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
       place,
     },
@@ -65,7 +65,7 @@ const exhibitions: CustomType = {
     Metadata: {
       metadataDescription: structuredText({
         label: 'Metadata description',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
     },
     'Content relationships': {

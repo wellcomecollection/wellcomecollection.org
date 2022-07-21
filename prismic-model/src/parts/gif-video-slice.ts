@@ -9,11 +9,15 @@ export default function () {
     type: 'Slice',
     fieldset: 'Gif video',
     'non-repeat': {
-      caption: structuredText({ label: 'Caption', singleOrMulti: 'single' }),
+      caption: structuredText({
+        label: 'Caption',
+        allowMultipleParagraphs: false,
+      }),
       tasl: text(
         'TASL',
         'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink'
       ),
+      // TODO: Media link
       video: link('Video', 'media', [], 'Video'),
       playbackRate: select('Playback rate', [
         '0.1',

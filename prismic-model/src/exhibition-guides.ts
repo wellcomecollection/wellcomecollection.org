@@ -27,19 +27,25 @@ const exhibitionGuides: CustomType = {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
-        creator: structuredText({ label: 'Creator', singleOrMulti: 'single' }),
+        creator: structuredText({
+          label: 'Creator',
+          allowMultipleParagraphs: false,
+        }),
         image: image('image'),
         description: structuredText({
           label: 'Description',
-          singleOrMulti: 'single',
+          allowMultipleParagraphs: false,
         }),
         'audio-with-description': link('Audio', 'media', []),
         'audio-without-description': link('Audio', 'media', []),
         'bsl-video': embed('Embed (Youtube)'),
-        caption: structuredText({ label: 'Caption', singleOrMulti: 'multi' }),
+        caption: structuredText({
+          label: 'Caption',
+          allowMultipleParagraphs: true,
+        }),
         transcript: structuredText({
           label: 'Transcript',
-          singleOrMulti: 'multi',
+          allowMultipleParagraphs: true,
         }),
       }),
     },

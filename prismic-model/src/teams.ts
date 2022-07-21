@@ -10,10 +10,13 @@ const teams = {
     Team: {
       title: structuredText({
         label: 'Title',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
         extraHtmlTypes: ['heading1'],
       }),
-      subtitle: structuredText({ label: 'Subtitle', singleOrMulti: 'single' }),
+      subtitle: structuredText({
+        label: 'Subtitle',
+        allowMultipleParagraphs: false,
+      }),
       email: text('Email'),
       phone: text('Phone'),
       url: text('URL'),

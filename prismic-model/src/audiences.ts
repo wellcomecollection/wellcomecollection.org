@@ -12,7 +12,7 @@ const audiences: CustomType = {
       title,
       description: structuredText({
         label: 'Description',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
       }),
     },
   },

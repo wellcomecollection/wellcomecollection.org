@@ -11,7 +11,7 @@ const editorialContributorRoles: CustomType = {
     Contributor: {
       title: structuredText({
         label: 'Title',
-        singleOrMulti: 'single',
+        allowMultipleParagraphs: false,
         extraHtmlTypes: ['heading1'],
       }),
       describedBy: text('Word to describe output of the role'),
