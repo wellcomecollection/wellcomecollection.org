@@ -12,7 +12,7 @@
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import { FC } from 'react';
-import { ExternalLink } from 'src/frontend/Registration/Registration.style';
+import { ExternalLink } from './src/frontend/Registration/Registration.style';
 import { SectionHeading } from './src/frontend/components/Layout.style';
 
 type ValidatedSuccessTextProps = {
