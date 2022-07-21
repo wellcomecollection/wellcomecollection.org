@@ -27,7 +27,9 @@ const exhibitionGuides: CustomType = {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
-        creator: structuredText('Creator', 'single'),
+        tombstone: structuredText('Tombstone', 'single'),
+        // Info on the choice for the name tombstone instead of creator
+        // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         image: image('image'),
         description: structuredText('Description', 'single'),
         'audio-with-description': link('Audio', 'media', []),
