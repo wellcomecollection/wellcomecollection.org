@@ -46,7 +46,10 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
     //
     // Casting them to JSON (which is where they started) and comparing strings is
     // easier than doing object comparisons in JavaScript.
-    if (key in newR && JSON.stringify(newR[key]) == JSON.stringify(oldR[key])) {
+    if (
+      key in newR &&
+      JSON.stringify(newR[key]) === JSON.stringify(oldR[key])
+    ) {
       continue;
     }
     // If the keys have different values and they're both objects, recurse down
