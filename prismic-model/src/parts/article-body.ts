@@ -94,14 +94,19 @@ export default {
         type: 'Slice',
         fieldset: 'Text',
         'non-repeat': {
-          text: {
-            type: 'StructuredText',
-            config: {
-              label: 'Text',
-              multi:
-                'heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed',
-            },
-          },
+          text: multiLineText({
+            label: 'Text',
+            allTextOptions: [
+              'heading2',
+              'heading3',
+              'paragraph',
+              'strong',
+              'em',
+              'hyperlink',
+              'list-item',
+              'embed',
+            ],
+          }),
         },
       },
       editorialImage: body.config.choices.editorialImage,
@@ -130,13 +135,10 @@ export default {
         type: 'Slice',
         fieldset: 'Standfirst',
         'non-repeat': {
-          text: {
-            type: 'StructuredText',
-            config: {
-              single: 'strong,em,hyperlink',
-              label: 'Standfirst',
-            },
-          },
+          text: singleLineText({
+            label: 'Standfirst',
+            allTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
         },
       },
       quoteV2: body.config.choices.quote,
@@ -148,14 +150,11 @@ export default {
             type: 'Embed',
             fieldset: 'Embed',
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'hyperlink,em',
-              placeholder: 'Caption',
-            },
-          },
+          caption: singleLineText({
+            label: 'Caption',
+            placeholder: 'Caption',
+            allTextOptions: ['hyperlink', 'em'],
+          }),
         },
       },
       soundcloudEmbed: {
@@ -208,20 +207,17 @@ export default {
             type: 'Embed',
             fieldset: 'YouTube embed',
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'hyperlink,em',
-              placeholder: 'Caption',
-            },
-          },
+          caption: singleLineText({
+            label: 'Caption',
+            placeholder: 'Caption',
+            allTextOptions: ['hyperlink', 'em'],
+          }),
         },
       },
       discussion: slice('Discussion', {
         nonRepeat: {
           title: heading({ label: 'Title', level: 2 }),
-          text: structuredText({ label: 'Text' }),
+          text: multiLineText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
@@ -269,9 +265,8 @@ export default {
             label: 'Captions',
             allTextOptions: ['strong', 'em', 'hyperlink'],
           }),
-          description: structuredText({
+          description: multiLineText({
             label: 'Description',
-            allowMultipleParagraphs: true,
             allTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },

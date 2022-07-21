@@ -4,7 +4,7 @@ import timestamp from './parts/timestamp';
 import place from './parts/place';
 import link from './parts/link';
 import list from './parts/list';
-import structuredText, { singleLineText } from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import body from './parts/body';
 import booleanDeprecated from './parts/boolean-deprecated';
@@ -22,23 +22,20 @@ const exhibitions: CustomType = {
       title,
       shortTitle: singleLineText({
         label: 'Short title',
-        textOptions: 'heading1',
+        allTextOptions: ['heading1'],
       }),
       body,
       start: timestamp('Start date'),
       end: timestamp('End date'),
       isPermanent: booleanDeprecated('Is permanent?'),
-      statusOverride: structuredText({
+      statusOverride: singleLineText({
         label: 'Status override',
-        allowMultipleParagraphs: false,
       }),
-      bslInfo: structuredText({
+      bslInfo: singleLineText({
         label: 'BSL information',
-        allowMultipleParagraphs: false,
       }),
-      audioDescriptionInfo: structuredText({
+      audioDescriptionInfo: singleLineText({
         label: 'Audio description information',
-        allowMultipleParagraphs: false,
       }),
       place,
     },
@@ -65,9 +62,8 @@ const exhibitions: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText({
+      metadataDescription: singleLineText({
         label: 'Metadata description',
-        allowMultipleParagraphs: false,
       }),
     },
     'Content relationships': {
