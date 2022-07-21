@@ -27,8 +27,10 @@ const exhibitionGuides: CustomType = {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
-        creator: structuredText({
-          label: 'Creator',
+        // Info on the choice for the name tombstone instead of creator
+        // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
+        tombstone: structuredText({
+          label: 'Tombstone',
           allowMultipleParagraphs: false,
         }),
         image: image('image'),
