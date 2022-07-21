@@ -15,7 +15,7 @@ const interpretationTypes: CustomType = {
       abbreviation: structuredText({
         label: 'Abbreviation',
         allowMultipleParagraphs: false,
-        overrideDefaultHtmlTypes: ['paragraph'],
+        allTextOptions: ['paragraph'],
       }),
       description: structuredText({ label: 'Message' }),
       primaryDescription: structuredText({

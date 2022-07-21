@@ -11,7 +11,7 @@ const teams = {
       title: structuredText({
         label: 'Title',
         allowMultipleParagraphs: false,
-        extraHtmlTypes: ['heading1'],
+        extraTextOptions: ['heading1'],
       }),
       subtitle: structuredText({
         label: 'Subtitle',

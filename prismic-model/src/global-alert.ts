@@ -13,7 +13,7 @@ const globalAlert: CustomType = {
       text: structuredText({
         label: 'text',
         allowMultipleParagraphs: true,
-        extraHtmlTypes: ['heading2'],
+        extraTextOptions: ['heading2'],
         placeholder: 'text',
       }),
       isShown: select('Display', ['hide', 'show'], 'hide', 'Show or hide'),

@@ -66,7 +66,7 @@ export default {
           text: structuredText({
             label: 'Text',
             allowMultipleParagraphs: true,
-            extraHtmlTypes: ['heading2', 'heading3', 'list-item'],
+            extraTextOptions: ['heading2', 'heading3', 'list-item'],
           }),
         },
       }),
@@ -145,7 +145,7 @@ export default {
           text: structuredText({
             label: 'Text',
             allowMultipleParagraphs: true,
-            extraHtmlTypes: ['heading3', 'list-item'],
+            extraTextOptions: ['heading3', 'list-item'],
           }),
           link: link('Button link', 'web'),
           linkText: text('Button text'),
@@ -157,7 +157,7 @@ export default {
           text: structuredText({
             label: 'Text',
             allowMultipleParagraphs: true,
-            extraHtmlTypes: ['heading4', 'list-item'],
+            extraTextOptions: ['heading4', 'list-item'],
           }),
           link: link('Link'),
           label: link('tag', 'document', ['labels']),

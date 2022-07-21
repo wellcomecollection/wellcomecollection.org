@@ -12,7 +12,7 @@ const editorialContributorRoles: CustomType = {
       title: structuredText({
         label: 'Title',
         allowMultipleParagraphs: false,
-        extraHtmlTypes: ['heading1'],
+        extraTextOptions: ['heading1'],
       }),
       describedBy: text('Word to describe output of the role'),
     },
