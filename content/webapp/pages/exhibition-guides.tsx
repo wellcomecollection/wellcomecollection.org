@@ -1,25 +1,25 @@
-// import { DigitalGuideBasic } from '../types/digital-guides';
+// import { ExhibitionGuideBasic } from '../types/exhibition-guides';
 // import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
-import { fetchDigitalGuides } from '../services/prismic/fetch/digital-guides';
+import { fetchExhibitionGuides } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
 // import {
-//   transformDigitalGuide,
-//   transformDigitalGuideToDigitalGuideBasic,
-// } from '../services/prismic/transformers/digital-guides';
+//   transformExhibitionGuide,
+//   transformExhibitionGuideToExhibitionGuideBasic,
+// } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-// import { digitalGuideLd } from '../services/prismic/transformers/json-ld';
+// import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
-  digitalGuides: any; // TODO PaginatedResults<DigitalGuideBasic>;
+  exhibitionGuides: any; // TODO PaginatedResults<ExhibitionGuideBasic>;
   // jsonLd: // TODO JsonLdObj[];
 };
 
@@ -32,49 +32,49 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const digitalGuidesQuery = await fetchDigitalGuides(client, { page });
-    console.log(digitalGuidesQuery);
-    // const digitalGuides = transformQuery(
-    //   digitalGuidesQuery,
-    //   transformDigitalGuide
+    const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+    console.log(exhibitionGuidesQuery);
+    // const exhibitionGuides = transformQuery(
+    //   exhibitionGuidesQuery,
+    //   transformExhibitionGuide
     // );
-    // const basicDigitalGuides = {
-    //   ...digitalGuides,
-    //   results: digitalGuides.results.map(
-    //     transformDigitalGuideToDigitalGuideBasic
+    // const basicExhibitionGuides = {
+    //   ...exhibitionGuides,
+    //   results: exhibitionGuides.results.map(
+    //     transformExhibitionGuideToExhibitionGuideBasic
     //   ),
     // };
 
-    // const jsonLd = digitalGuides.results.map(digitalGuideLd);
+    // const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
 
     const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
-        digitalGuides: [], // basicDigitalGuides,
+        exhibitionGuides: [], // basicExhibitionGuides,
         jsonLd: { '@type': 'webpage' }, // TODO
         serverData,
       }),
     };
   };
 
-const DigitalGuidesPage: FC<Props> = ({ digitalGuides /* jsonLd */ }) => {
-  // const image = digitalGuides.results[0]?.image; // TODO
+const ExhibitionGuidesPage: FC<Props> = ({ exhibitionGuides /* jsonLd */ }) => {
+  // const image = exhibitionGuides.results[0]?.image; // TODO
 
   return (
     <PageLayout
-      title={'Digital Guides'}
-      description={pageDescriptions.digitalGuides}
-      url={{ pathname: `/digital-guides` }}
+      title={'Exhibition Guides'}
+      description={pageDescriptions.exhibitionGuides}
+      url={{ pathname: `/guides/exhibitions` }}
       jsonLd={{ '@type': 'webpage' }} // TODO
       openGraphType={'website'}
-      siteSection={'stories'}
+      siteSection={'whats-on'}
       image={undefined} // TODO
     >
-      <p>DIGITAL GUIDES</p>
-      {JSON.stringify(digitalGuides)}
+      <p>EXHIBITION GUIDES</p>
+      {JSON.stringify(exhibitionGuides)}
     </PageLayout>
   );
 };
 
-export default DigitalGuidesPage;
+export default ExhibitionGuidesPage;
