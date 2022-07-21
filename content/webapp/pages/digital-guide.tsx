@@ -1,9 +1,9 @@
-// import { DigitalGuide } from '../types/digital-guides';
+// import { ExhibitionGuide } from '../types/exhibition-guides';
 // import { createClient } from '../services/prismic/fetch';
-// import { fetchDigitalGuide } from '../services/prismic/fetch/digital-guides';
+// import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
 // import {
-//   transformDigitalGuide,
+//   transformExhibitionGuide,
 // } from '../services/prismic/transformers/guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
@@ -11,13 +11,13 @@ import { GetServerSideProps } from 'next';
 import { /* appError, */ AppErrorProps } from '@weco/common/views/pages/_app'; // TODO
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-// import { digitalGuideLd } from '../services/prismic/transformers/json-ld';
+// import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 type Props = {
-  digitalGuide: any; // TODO DigitalGuide;
+  exhibitionGuide: any; // TODO ExhibitionGuide;
   id: string; // TODO PrismicId?
   jsonLd: JsonLdObj[];
   type: string; // TODO union
@@ -33,18 +33,18 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   // const client = createClient(context);
-  // const digitalGuideDocument = await fetchDigitalGuide(client, id as string);
-  const digitalGuideDocument = true;
+  // const exhibitionGuideDocument = await fetchExhibitionGuide(client, id as string);
+  const exhibitionGuideDocument = true;
 
-  if (digitalGuideDocument) {
-    // const digitalGuide = transformDigitalGuide(digitalGuideDocument);
-    // const jsonLd = digitalGuideLd(digitalGuide);
+  if (exhibitionGuideDocument) {
+    // const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
+    // const jsonLd = exhibitionGuideLd(exhibitionGuide);
     const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
-        digitalGuide: {
-          title: 'This is a digital guide',
+        exhibitionGuide: {
+          title: 'This is an exhibition guide',
         },
         // jsonLd, TODO
         serverData,
@@ -55,26 +55,26 @@ export const getServerSideProps: GetServerSideProps<
   }
 };
 
-const DigitalGuidesPage: FC<Props> = ({
-  digitalGuide,
+const ExhibitionGuidesPage: FC<Props> = ({
+  exhibitionGuide,
   id,
   type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR
   /* jsonLd */ // TODO
 }) => {
-  const pathname = 'digital-guides/'; // TODO /id/type
+  const pathname = '/guides/exhibitions/'; // TODO /id/type
   return (
     <PageLayout
-      title={'Digital Guide'} // TODO title
-      description={pageDescriptions.digitalGuides} // TODO
+      title={'Exhibition Guide'} // TODO title
+      description={pageDescriptions.exhibitionGuides} // TODO
       url={{ pathname: pathname }}
       jsonLd={{ '@type': 'WebPage' }} // TODO, get jsonLd properly and what is the correct type
       openGraphType={'website'}
       siteSection={'collections'}
       image={undefined} // TODO, linked doc promo image, e.g. Exhibition image
     >
-      <p>DIGITAL GUIDE</p>
+      <p>EXHIBITION GUIDE</p>
     </PageLayout>
   );
 };
 
-export default DigitalGuidesPage;
+export default ExhibitionGuidesPage;

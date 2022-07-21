@@ -120,10 +120,10 @@ const appPromise = nextApp
     route('/guides', '/guides', router, nextApp);
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
-    route('/digital-guides', '/digital-guides', router, nextApp);
+    route('/guides/exhibitions', '/exhibition-guides', router, nextApp);
     route(
-      `/digital-guides/:id(${prismicId})/:type?`,
-      '/digital-guide',
+      `/guides/exhibitions/:id(${prismicId})/:type?`,
+      '/exhibition-guide',
       router,
       nextApp
     ); // :type(${guideType})
