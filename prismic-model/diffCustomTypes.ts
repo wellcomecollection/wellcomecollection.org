@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, Delta, isEmpty, printDelta } from './differ';
+import { diffJson, isEmpty, printDelta } from './differ';
 
 type Credentials = {
   accessKeyId: string;
