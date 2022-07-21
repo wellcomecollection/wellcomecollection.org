@@ -5,7 +5,6 @@ import list from './parts/list';
 import image from './parts/image';
 import structuredText from './parts/structured-text';
 import embed from './parts/embed';
-import contributorsWithTitle from './parts/contributorsWithTitle';
 import number from './parts/number';
 
 const exhibitionGuides: CustomType = {
@@ -28,7 +27,7 @@ const exhibitionGuides: CustomType = {
       components: list('Guide Component', {
         number: number('Position number'),
         title,
-        creator: contributorsWithTitle(),
+        creator: structuredText('Creator', 'single'),
         image: image('image'),
         description: structuredText('Description', 'single'),
         'audio-with-description': link('Audio', 'media', []),
