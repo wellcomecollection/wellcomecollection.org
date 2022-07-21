@@ -13,6 +13,7 @@ export default function structuredText({
   placeholder,
   overrideDefaultHtmlTypes,
 }: StructuredTextProps) {
+  // See https://prismic.io/docs/technologies/rich-text-title#json-model
   const singleOrMulti = allowMultipleParagraphs ? 'multi' : 'single';
 
   return {
