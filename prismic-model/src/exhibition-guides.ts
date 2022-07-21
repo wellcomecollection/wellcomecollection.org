@@ -32,8 +32,12 @@ const exhibitionGuides: CustomType = {
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         image: image('image'),
         description: structuredText('Description', 'single'),
-        'audio-with-description': link('Audio', 'media', []),
-        'audio-without-description': link('Audio', 'media', []),
+        'audio-with-description': link('Audio with description', 'media', []),
+        'audio-without-description': link(
+          'Audio without description',
+          'media',
+          []
+        ),
         'bsl-video': embed('Embed (Youtube)'),
         caption: structuredText('Caption', 'multi'),
         transcript: structuredText('Transcript', 'multi'),
