@@ -10,7 +10,7 @@ import number from './parts/number';
 
 const exhibitionGuides: CustomType = {
   id: 'exhibition-guides',
-  label: 'Exhibition Guide',
+  label: 'Exhibition guide',
   repeatable: true,
   status: true,
   json: {
