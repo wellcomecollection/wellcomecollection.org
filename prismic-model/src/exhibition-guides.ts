@@ -34,7 +34,10 @@ const exhibitionGuides: CustomType = {
           allowMultipleParagraphs: false,
         }),
         image: image('image'),
-        description: structuredText('Description', 'single'),
+        description: structuredText({
+          label: 'Description',
+          allowMultipleParagraphs: false,
+        }),
         'audio-with-description': link('Audio with description', 'media', []),
         'audio-without-description': link(
           'Audio without description',
