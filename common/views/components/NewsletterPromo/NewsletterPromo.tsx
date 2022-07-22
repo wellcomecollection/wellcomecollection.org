@@ -123,8 +123,8 @@ const NewsletterPromo = () => {
 
     const formEls = [...event.currentTarget.elements];
     const data = {
-      addressbookid: formEls.find(el => el.name === 'addressbookid').value,
-      email: formEls.find(el => el.name === 'email').value,
+      addressBookId: formEls.find(el => el.name === 'addressBookId').value,
+      emailAddress: formEls.find(el => el.name === 'email').value,
     };
 
     const response = await fetch('/newsletter-signup', {
@@ -141,10 +141,7 @@ const NewsletterPromo = () => {
     switch (result) {
       case 'ok':
         setIsSuccess(true);
-        trackEvent({
-          category: 'NewsletterPromo',
-          action: 'submit email',
-        });
+        trackEvent({ category: 'NewsletterPromo', action: 'submit email' });
         break;
       case 'error':
         setIsSubmitError(true);
@@ -206,7 +203,7 @@ const NewsletterPromo = () => {
                       onSubmit={handleSubmit}
                       noValidate={isEnhanced}
                     >
-                      <input type="hidden" name="addressbookid" value="40131" />
+                      <input type="hidden" name="addressBookId" value="40131" />
                       <FormElementWrapper>
                         <TextInput
                           required={true}
