@@ -34,6 +34,9 @@ async function handleNewsletterSignup(ctx, next) {
   const newJson = await newResponse.json();
   const { message } = newJson;
   const isSuppressed = message && message.match(/ERROR_CONTACT_SUPPRESSED/);
+
+  let status = '';
+
   // …but if the email has been suppressed, we resubscribe it
   if (isSuppressed) {
     const resubscribeResponse = await fetch(
@@ -46,10 +49,22 @@ async function handleNewsletterSignup(ctx, next) {
     );
 
     const resubscribeJson = await resubscribeResponse.json();
-
-    ctx.body = resubscribeJson;
+    status = resubscribeJson.status;
   } else {
-    ctx.body = newJson;
+    status = newJson.status;
+  }
+
+  switch (status) {
+    case 'ContactChallenged':
+    case 'ContactAdded':
+    case 'PendingOptIn':
+    case 'Subscribed':
+      ctx.body = { result: 'ok' };
+      break;
+
+    default:
+      ctx.body = { result: 'error' };
+      break;
   }
 
   next();
