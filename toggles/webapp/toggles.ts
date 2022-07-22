@@ -53,6 +53,12 @@ const toggles = {
       description:
         'View pages for concepts (subjects and people) and link to them from works pages',
     },
+    {
+      id: 'exhibitionGuides',
+      title: 'Exhibition guides',
+      defaultValue: false,
+      description: 'View pages related to exhibition guides',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
