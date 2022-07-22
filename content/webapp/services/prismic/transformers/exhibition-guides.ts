@@ -7,9 +7,7 @@ import groupBy from 'lodash.groupby';
 // With the addition of a partOf field to the model, as has previously been discussed,
 // this function will generate the necessary structure.
 export function constructHierarchy(components) {
-  // TODO type function
-  // TODO what happens if partOf left off other stuff? - could we use order to determine with guide or should be part of Guide
-  // if first item it is Guide, subsequent items are part of guide
+  // TODO type function return
   const groupedSections = groupBy(components, component => {
     const partOf = component.partOf;
     if (!partOf) {
