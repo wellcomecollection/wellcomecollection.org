@@ -1,6 +1,11 @@
-import { PrismicDocument } from '@prismicio/types';
+import {
+  PrismicDocument,
+  RichTextField,
+  RelationField,
+} from '@prismicio/types';
 
-export type ExhibitionGuidePrismicDocument = PrismicDocument;
-// TODO <
-// {}
-// >;
+export type ExhibitionGuidePrismicDocument = PrismicDocument<{
+  title: RichTextField;
+  relatedExhibition: RelationField<'exhibition'>;
+  // components:
+}>;
