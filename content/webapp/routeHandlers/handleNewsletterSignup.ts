@@ -1,3 +1,4 @@
+import { isUndefined } from '@weco/common/utils/array';
 import fetch from 'node-fetch';
 
 const dotdigitalUsername = process.env.dotdigital_username;
@@ -13,6 +14,19 @@ async function createSubscription({
   addressBookId: string;
 }): Promise<Status> {
   const newsletterApiUrl = 'https://r1-api.dotmailer.com/v2';
+
+  // This should never happen in practice, but it's a useful hint for
+  // anybody doing local development and wondering why sign-ups are
+  // failing.  These should always be configured in the prod app.
+  if (
+    dotdigitalUsername === '' ||
+    dotdigitalPassword === '' ||
+    isUndefined(dotdigitalUsername) ||
+    isUndefined(dotdigitalPassword)
+  ) {
+    console.warn('Missing dotdigital credentials; newsletter sign-up may fail');
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Basic ${Buffer.from(
