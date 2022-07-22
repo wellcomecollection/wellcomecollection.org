@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps<
   const serverData = await getServerData(context);
   const { id /* type */ } = context.query; // TODO should we have another page template to handle type or do everything in here?
 
-  if (!looksLikePrismicId(id)) {
+  if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
     return { notFound: true };
   }
 
