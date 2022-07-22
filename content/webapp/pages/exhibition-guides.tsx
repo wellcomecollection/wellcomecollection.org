@@ -1,5 +1,5 @@
-// import { ExhibitionGuideBasic } from '../types/exhibition-guides';
-// import type { PaginatedResults } from '@weco/common/services/prismic/types';
+import { ExhibitionGuideBasic } from '../types/exhibition-guides';
+import type { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuides } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
@@ -19,7 +19,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 // import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
-  exhibitionGuides: any; // TODO PaginatedResults<ExhibitionGuideBasic>;
+  exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
   // jsonLd: // TODO JsonLdObj[];
 };
 
