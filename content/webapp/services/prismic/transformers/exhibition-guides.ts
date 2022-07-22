@@ -2,10 +2,12 @@ import { ExhibitionGuide } from '../../../types/exhibition-guides';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import groupBy from 'lodash.groupby';
 
-// TODO It's likely that we will need to construct a hierarchy of stops within a guide.
+// TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
 // With the addition of a partOf field to the model, as has previously been discussed,
 // this function will generate the necessary structure.
+// It relies on there being a top level component with no partOf assigned to it.
+
 export function constructHierarchy(components) {
   // TODO type function return
   const groupedSections = groupBy(components, component => {
