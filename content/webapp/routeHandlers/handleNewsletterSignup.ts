@@ -34,6 +34,9 @@ async function handleNewsletterSignup(ctx, next) {
   const newJson = await newResponse.json();
   const { message } = newJson;
   const isSuppressed = message && message.match(/ERROR_CONTACT_SUPPRESSED/);
+
+  let status = '';
+
   // …but if the email has been suppressed, we resubscribe it
   if (isSuppressed) {
     const resubscribeResponse = await fetch(
@@ -46,22 +49,23 @@ async function handleNewsletterSignup(ctx, next) {
     );
 
     const resubscribeJson = await resubscribeResponse.json();
-
-    ctx.body = resubscribeJson;
+    status = resubscribeJson.status;
   } else {
-    ctx.body = newJson;
+    status = newJson.status;
   }
 
-  // We don't want to send the full Dotdigital response to the page,
-  // just the status.
-  //
-  // The Dotdigital response returns all the data about a particular user,
-  // including first/last name and postcode.  These fields are sparsely
-  // populated among our users so it's fairly unlikely you'd be able to find
-  // anything interesting this way… but there's no reason to expose it.
-  ctx.body = {
-    status: ctx.body.status,
-  };
+  switch (status) {
+    case 'ContactChallenged':
+    case 'ContactAdded':
+    case 'PendingOptIn':
+    case 'Subscribed':
+      ctx.body = { result: 'ok' };
+      break;
+
+    default:
+      ctx.body = { result: 'error' };
+      break;
+  }
 
   next();
 }

@@ -136,20 +136,17 @@ const NewsletterPromo = () => {
     });
 
     const json = await response.json();
-    const { status } = json;
+    const { result } = json;
 
-    switch (status) {
-      case 'ContactChallenged':
-      case 'ContactAdded':
-      case 'PendingOptIn':
-      case 'Subscribed':
+    switch (result) {
+      case 'ok':
         setIsSuccess(true);
         trackEvent({
           category: 'NewsletterPromo',
           action: 'submit email',
         });
         break;
-      default:
+      case 'error':
         setIsSubmitError(true);
         emailValidation.setIsValid(false);
     }
