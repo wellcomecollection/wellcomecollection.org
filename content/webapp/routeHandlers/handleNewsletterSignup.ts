@@ -52,6 +52,17 @@ async function handleNewsletterSignup(ctx, next) {
     ctx.body = newJson;
   }
 
+  // We don't want to send the full Dotdigital response to the page,
+  // just the status.
+  //
+  // The Dotdigital response returns all the data about a particular user,
+  // including first/last name and postcode.  These fields are sparsely
+  // populated among our users so it's fairly unlikely you'd be able to find
+  // anything interesting this way… but there's no reason to expose it.
+  ctx.body = {
+    status: ctx.body.status,
+  };
+
   next();
 }
 
