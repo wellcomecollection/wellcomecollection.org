@@ -118,6 +118,13 @@ const appPromise = nextApp
     route('/newsletter', '/newsletter', router, nextApp);
 
     route('/guides', '/guides', router, nextApp);
+    route('/guides/exhibitions', '/exhibition-guides', router, nextApp);
+    route(
+      `/guides/exhibitions/:id(${prismicId})/:type?`,
+      '/exhibition-guide',
+      router,
+      nextApp
+    ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
     pageVanityUrl(
