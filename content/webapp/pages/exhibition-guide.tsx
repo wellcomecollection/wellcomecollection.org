@@ -1,4 +1,4 @@
-// import { ExhibitionGuide } from '../types/exhibition-guides';
+import { ExhibitionGuide } from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
@@ -17,14 +17,14 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 type Props = {
-  exhibitionGuide: any; // TODO ExhibitionGuide;
+  exhibitionGuide: ExhibitionGuide; // TODO ExhibitionGuide;
   id: string; // TODO PrismicId?
   jsonLd: JsonLdObj[];
   type: string; // TODO union
 };
 
 export const getServerSideProps: GetServerSideProps<
-  /* TODO Props */ any | AppErrorProps
+  /* TODO Props */ ExhibitionGuide | AppErrorProps
 > = async context => {
   const serverData = await getServerData(context);
   const { id /* type */ } = context.query; // TODO should we have another page template to handle type or do everything in here?
@@ -66,8 +66,8 @@ export const getServerSideProps: GetServerSideProps<
 
 const ExhibitionGuidesPage: FC<Props> = ({
   exhibitionGuide,
-  id,
-  type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR
+  // id,
+  // type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR
   /* jsonLd */ // TODO
 }) => {
   const pathname = 'guides/exhibitions/'; // TODO /id/type
@@ -81,7 +81,7 @@ const ExhibitionGuidesPage: FC<Props> = ({
       siteSection={'whats-on'}
       image={undefined} // TODO, linked doc promo image, e.g. Exhibition image
     >
-      <p>EXHIBITION GUIDE</p>
+      <p>Wellcome Collection Exhibition guides</p>
       <pre
         style={{
           maxWidth: '600px',
