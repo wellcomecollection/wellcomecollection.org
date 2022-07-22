@@ -25,6 +25,11 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
+    const serverData = await getServerData(context);
+
+    if (!serverData.toggles.exhibitionGuides) {
+      return { notFound: true };
+    }
     // const page = getPage(context.query);
 
     // if (typeof page !== 'number') {
@@ -40,8 +45,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     //   ...exhibitionGuides,
     //   results: exhibitionGuides.results.map(transformExhibitionGuideToExhibitionGuideBasic),
     // };
-
-    const serverData = await getServerData(context);
 
     // return {
     //   props: removeUndefinedProps({

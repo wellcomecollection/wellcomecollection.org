@@ -26,9 +26,10 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<
   /* TODO Props */ any | AppErrorProps
 > = async context => {
+  const serverData = await getServerData(context);
   const { id /* type */ } = context.query; // TODO should we have another page template to handle type or do everything in here?
 
-  if (!looksLikePrismicId(id)) {
+  if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
     return { notFound: true };
   }
 
@@ -39,7 +40,6 @@ export const getServerSideProps: GetServerSideProps<
   if (exhibitionGuideDocument) {
     // const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
     // const jsonLd = exhibitionGuideLd(exhibitionGuide);
-    const serverData = await getServerData(context);
 
     return {
       props: removeUndefinedProps({
