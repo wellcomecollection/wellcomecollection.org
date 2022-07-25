@@ -6,7 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
-import { secondaryCampaigns } from '@weco/common/data/dotdigital';
+import { secondaryAddressBooks } from '@weco/common/data/dotdigital';
 
 const ErrorBox = styled(Space).attrs({
   v: {
@@ -201,19 +201,19 @@ const NewsletterSignup: FC<Props> = ({
               </legend>
             </Space>
             <ul className="plain-list no-padding">
-              {secondaryCampaigns.map(campaign => (
+              {secondaryAddressBooks.map(addressBook => (
                 <Space
                   as="li"
                   v={{ size: 'm', properties: ['margin-bottom'] }}
-                  key={campaign.slug}
+                  key={addressBook.slug}
                 >
                   <CheckboxRadio
-                    id={campaign.slug}
+                    id={addressBook.slug}
                     type={`checkbox`}
-                    text={campaign.label}
-                    value={`address_${campaign.id}`}
-                    name={`address_${campaign.id}`}
-                    checked={checkedInputs.includes(campaign.slug)}
+                    text={addressBook.label}
+                    value={`address_${addressBook.id}`}
+                    name={`address_${addressBook.id}`}
+                    checked={checkedInputs.includes(addressBook.slug)}
                     onChange={updateCheckedInputs}
                   />
                 </Space>

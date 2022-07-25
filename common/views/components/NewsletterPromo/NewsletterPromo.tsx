@@ -7,7 +7,7 @@ import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { newsletterCampaign } from '../../../data/dotdigital';
+import { newsletterAddressBook } from '../../../data/dotdigital';
 
 const FormElementWrapper = styled.div`
   width: 100%;
@@ -207,7 +207,7 @@ const NewsletterPromo = () => {
                       <input
                         type="hidden"
                         name="addressBookId"
-                        value={newsletterCampaign.id}
+                        value={newsletterAddressBook.id}
                       />
                       <FormElementWrapper>
                         <TextInput

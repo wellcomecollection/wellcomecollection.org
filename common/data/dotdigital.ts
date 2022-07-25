@@ -1,17 +1,17 @@
-type Campaign = {
+type AddressBook = {
   id: number;
   slug: string;
   label: string;
   description?: string;
 };
 
-export const newsletterCampaign: Campaign = {
+export const newsletterAddressBook: AddressBook = {
   id: 40131,
   slug: 'newsletter',
   label: 'Newsletter',
 };
 
-export const secondaryCampaigns: Campaign[] = [
+export const secondaryAddressBooks: AddressBook[] = [
   {
     id: 40129,
     slug: 'accessibility',
