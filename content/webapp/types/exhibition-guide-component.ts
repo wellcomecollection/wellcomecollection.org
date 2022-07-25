@@ -8,9 +8,9 @@ export type GuideComponent = {
   tombstone?: string;
   image?: ImageType;
   description?: string;
-  audioWithDescription?: string;
-  audioWithoutDescription?: string;
+  audioWithDescription?: MediaObjectType;
+  audioWithoutDescription?: MediaObjectType;
   bsl?: MediaObjectType;
-  caption?: MediaObjectType;
-  transcript?: MediaObjectType;
+  caption?: string;
+  transcript?: string;
 };

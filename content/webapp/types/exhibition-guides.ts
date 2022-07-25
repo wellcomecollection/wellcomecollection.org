@@ -1,22 +1,27 @@
 // only what is required to render ArticlePromos and json-ld
 import { Label } from '@weco/common/model/labels';
-import { ImageType } from '@weco/common/model/image';
 import { GuideComponent } from './exhibition-guide-component';
 import { ImagePromo } from './image-promo';
+
+export type ExhibitionLink = {
+  id: string;
+  title: string;
+  description?: string;
+};
 
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;
   title: string;
   labels: Label[];
-  image?: ImageType;
   promo?: ImagePromo | undefined;
+  relatedExhibition: ExhibitionLink;
 };
 
 export type ExhibitionGuide = {
   type: 'exhibition-guides';
   id: string;
   title: string;
-  image?: ImageType;
+  relatedExhibition: ExhibitionLink;
   guideComponents: GuideComponent[];
 };
