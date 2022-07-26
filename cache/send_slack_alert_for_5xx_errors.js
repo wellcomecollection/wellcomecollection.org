@@ -107,7 +107,12 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
     // will log this as '-'
     const query = e['cs-uri-query'] !== '-' ? e['cs-uri-query'] : null;
 
-    return createDisplayUrl(protocol, host, path, query);
+    const url = createDisplayUrl(protocol, host, path, query);
+    const status = e['sc-status'];
+
+    // We assume that most errors are generic 500 errors, but non-500 codes
+    // might be interesting and worth highlighting.
+    return status === 500 ? url : `${url} (${status})`;
   });
 
   // This creates a Markdown-formatted message like:
