@@ -126,13 +126,18 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   //
   const url = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
 
+  const errorCount = `${humanize(lines.length)} error${
+    lines.length > 1 ? 's' : ''
+  }`;
+  const requestCount = `${humanize(hits.length)} request${
+    hits.length > 1 ? 's' : ''
+  }`;
+
   const message =
     '```\n' +
     lines.join('\n') +
     '\n```' +
-    `\n${humanize(lines.length)} errors / ${humanize(
-      hits.length
-    )} requests / <${url}|logs in S3>`;
+    `\n${errorCount} / ${requestCount} / <${url}|logs in S3>`;
 
   const slackPayload = {
     username: `CloudFront: 5xx error${lines.length > 1 ? 's' : ''} detected`,
