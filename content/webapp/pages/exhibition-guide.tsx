@@ -97,7 +97,11 @@ const ExhibitionGuidesPage: FC<Props> = ({
             borderRadius: '6px',
           }}
         >
-          <>{JSON.stringify(exhibitionGuide, null, 1)}</>
+          <details>
+            <summary>exhibition-guide</summary>
+            {/* eslint-disable-next-line no-restricted-syntax */}
+            {JSON.stringify(exhibitionGuide, null, 1)}
+          </details>
         </code>
       </pre>
     </PageLayout>

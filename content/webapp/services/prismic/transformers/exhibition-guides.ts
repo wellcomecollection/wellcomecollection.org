@@ -104,17 +104,11 @@ export function transformExhibitionGuide(
     : undefined;
 
   console.log(relatedExhibition, '<<<<< the data!');
-  // console.log(components, '<<<<< the components');
+
   return {
-    // title: document.title,
     ...genericFields,
     components,
     id: document.id,
-    // relatedExhibition: {
-    //   title: data['related-exhibition'].title,
-    //   id: data['related-exhibition'].id,
-    //   description: data['related-exhibition'].text,
-    // },
     relatedExhibition,
     type: 'exhibition-guides',
   };

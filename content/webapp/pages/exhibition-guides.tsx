@@ -16,8 +16,8 @@ import { getServerData } from '@weco/common/server-data';
 // import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
+// import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+// import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 // import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
@@ -46,6 +46,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       exhibitionGuidesQuery,
       transformExhibitionGuide
     );
+
     console.log(exhibitionGuides, 'you got any?');
 
     const basicExhibitionGuides = {
@@ -81,42 +82,46 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
       siteSection={'whats-on'}
       image={image}
     >
-      {/* <p>EXHIBITION GUIDES</p> */}
-      {/* <pre */}
-      {/*  style={{ */}
-      {/*    maxWidth: '600px', */}
-      {/*    margin: '0 auto 24px', */}
-      {/*    fontSize: '14px', */}
-      {/*  }} */}
-      {/* > */}
-      {/*  <code */}
-      {/*    style={{ */}
-      {/*      display: 'block', */}
-      {/*      padding: '24px', */}
-      {/*      backgroundColor: '#EFE1AA', */}
-      {/*      color: '#000', */}
-      {/*      border: '4px solid #000', */}
-      {/*      borderRadius: '6px', */}
-      {/*    }} */}
-      {/*  > */}
-      {/*    <>{JSON.stringify(exhibitionGuides, null, 1)}</> */}
-      {/*  </code> */}
-      {/* </pre> */}
-      <SpacingSection>
-        <LayoutPaginatedResults
-          showFreeAdmissionMessage={false}
-          title={'Exhibition guides'}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.exhibitionGuides,
-              spans: [],
-            },
-          ]}
-          paginatedResults={exhibitionGuides}
-          paginationRoot={'exhibition-guides'}
-        />
-      </SpacingSection>
+      <p>EXHIBITION GUIDES</p>
+      <pre
+        style={{
+          maxWidth: '600px',
+          margin: '0 auto 24px',
+          fontSize: '14px',
+        }}
+      >
+        <code
+          style={{
+            display: 'block',
+            padding: '24px',
+            backgroundColor: '#EFE1AA',
+            color: '#000',
+            border: '4px solid #000',
+            borderRadius: '6px',
+          }}
+        >
+          <details>
+            <summary>exhibition-guides</summary>
+            {/* eslint-disable-next-line no-restricted-syntax */}
+            {JSON.stringify(exhibitionGuides, null, 1)}
+          </details>
+        </code>
+      </pre>
+      {/* <SpacingSection> */}
+      {/*  <LayoutPaginatedResults */}
+      {/*    showFreeAdmissionMessage={false} */}
+      {/*    title={'Exhibition guides'} */}
+      {/*    description={[ */}
+      {/*      { */}
+      {/*        type: 'paragraph', */}
+      {/*        text: pageDescriptions.exhibitionGuides, */}
+      {/*        spans: [], */}
+      {/*      }, */}
+      {/*    ]} */}
+      {/*    paginatedResults={exhibitionGuides} */}
+      {/*    paginationRoot={'exhibition-guides'} */}
+      {/*  /> */}
+      {/* </SpacingSection> */}
     </PageLayout>
   );
 };
