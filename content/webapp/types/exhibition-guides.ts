@@ -1,7 +1,20 @@
 // only what is required to render ArticlePromos and json-ld
-import { Label } from '@weco/common/model/labels';
-import { GuideComponent } from './exhibition-guide-component';
 import { ImagePromo } from './image-promo';
+import { ImageType } from '@weco/common/model/image';
+import { MediaObjectType } from './media-object';
+
+export type ExhibitionGuideComponent = {
+  number: number;
+  title: string;
+  tombstone?: string;
+  image?: ImageType;
+  description?: string;
+  audioWithDescription?: MediaObjectType;
+  audioWithoutDescription?: MediaObjectType;
+  bsl?: MediaObjectType;
+  caption?: string;
+  transcript?: string;
+};
 
 export type ExhibitionLink = {
   id: string;
@@ -13,15 +26,15 @@ export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;
   title: string;
-  labels: Label[];
   promo?: ImagePromo | undefined;
-  relatedExhibition: ExhibitionLink;
+  image?: ImageType;
+  relatedExhibition: ExhibitionLink | undefined;
 };
 
 export type ExhibitionGuide = {
   type: 'exhibition-guides';
   id: string;
   title: string;
-  relatedExhibition: ExhibitionLink;
-  guideComponents: GuideComponent[];
+  relatedExhibition: ExhibitionLink | undefined;
+  components: ExhibitionGuideComponent[];
 };

@@ -6,24 +6,11 @@ import {
   NumberField,
   LinkToMediaField,
 } from '@prismicio/types';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
 import { Image } from '.';
-
-export type ExhibitionFormat = PrismicDocument<
-  {
-    title: RichTextField;
-    description: RichTextField;
-  },
-  'exhibition-formats'
->;
 
 export type ExhibitionGuidePrismicDocument = PrismicDocument<{
   title: RichTextField;
-  relatedExhibition: RelationField<
-    'exhibitions',
-    'en-gb',
-    InferDataInterface<ExhibitionFormat>
-  >;
+  relatedExhibition: RelationField<'exhibitions'>;
   components: GroupField<{
     number: NumberField;
     title: RichTextField;

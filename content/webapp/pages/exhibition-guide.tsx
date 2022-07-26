@@ -2,9 +2,7 @@ import { ExhibitionGuide } from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
-// import {
-//   transformExhibitionGuide,
-// } from '../services/prismic/transformers/guides';
+import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
@@ -49,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<
   //   }),
   // };
   if (exhibitionGuideDocument) {
-    const exhibitionGuide = exhibitionGuideDocument; // TODO transformExhibitionGuide(exhibitionGuideDocument);
+    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
     // const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
     return {
@@ -66,14 +64,14 @@ export const getServerSideProps: GetServerSideProps<
 
 const ExhibitionGuidesPage: FC<Props> = ({
   exhibitionGuide,
-  // id,
+  id,
   // type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR
   /* jsonLd */ // TODO
 }) => {
-  const pathname = 'guides/exhibitions/'; // TODO /id/type
+  const pathname = `guides/exhibitions/${id}`; // TODO /id/type
   return (
     <PageLayout
-      title={'Exhibition Guide'} // TODO title
+      title={exhibitionGuide.title} // TODO title
       description={pageDescriptions.exhibitionGuides} // TODO
       url={{ pathname: pathname }}
       jsonLd={{ '@type': 'WebPage' }} // TODO, get jsonLd properly and what is the correct type
