@@ -81,12 +81,23 @@ async function findCloudFrontHitsFromLog(bucket, key) {
   return result;
 }
 
+/** Prints a human-readable description of a number, e.g. "5.2K" or "6M". */
+function humanize(n) {
+  if (n < 1000) {
+    return `${n}`;
+  } else if (n < 1000 * 1000) {
+    return `${Math.round(n / 100) / 10}K`;
+  } else {
+    return `${Math.round(n / (100 * 1000)) / 10}M`;
+  }
+}
+
 /** Send a message to Slack describing the errors.
  *
  * This includes a list of the erroring URLs.  Note that it's written
  * to a public Slack channel, so we need to be a bit careful what we log.
  */
-async function sendSlackMessage(bucket, key, serverErrors) {
+async function sendSlackMessage(bucket, key, serverErrors, hits) {
   const urls = serverErrors.map(function (e) {
     const protocol = e['cs-protocol'];
     const host = e['x-host-header'];
@@ -102,13 +113,17 @@ async function sendSlackMessage(bucket, key, serverErrors) {
   // This creates a Markdown-formatted message like:
   //
   //    The following URLs had errors in CloudFront:
+  //    ```
   //    https://example.org/badness
   //    https://example.org/more-badness
+  //    ```
+  //    5 errors / 5K requests
   //
   const message =
     'The following URLs had errors in CloudFront:\n```\n' +
     urls.join('\n') +
-    '\n```';
+    '\n```' +
+    `\n${humanize(urls.length)} errors / ${humanize(hits.length)} requests`;
 
   // TODO: Include a link to the original CloudFront log in this message.
   // I tried including a Markdown link to the S3 console, but I got a 400 error
@@ -123,7 +138,7 @@ async function sendSlackMessage(bucket, key, serverErrors) {
         fallback: 'cloudfront-errors',
         fields: [
           {
-            value: `${message}`,
+            value: message,
           },
         ],
       },
@@ -246,10 +261,11 @@ exports.handler = async event => {
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
     const serverErrors = hits
       .filter(h => h['sc-status'] >= 500)
-      .filter(h =>
-        // We ignore errors on the CloudFront domain because nobody should
-        // be using it; it's probably somebody malicious.
-        !(h['x-host-header'].endsWith('cloudfront.net'))
+      .filter(
+        h =>
+          // We ignore errors on the CloudFront domain because nobody should
+          // be using it; it's probably somebody malicious.
+          !h['x-host-header'].endsWith('cloudfront.net')
       );
 
     if (serverErrors.length === 0) {
@@ -258,7 +274,7 @@ exports.handler = async event => {
       console.info(
         `Detected ${serverErrors.length} error(s), sending message to Slack`
       );
-      await sendSlackMessage(s3Object.bucket, s3Object.key, serverErrors);
+      await sendSlackMessage(s3Object.bucket, s3Object.key, serverErrors, hits);
     }
   }
 };
