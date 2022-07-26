@@ -122,20 +122,20 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   //    https://example.org/badness
   //    https://example.org/more-badness
   //    ```
-  //    5 errors / 5K requests
+  //    5 errors / 5K requests / <https://us-east-1…|logs in S3>
   //
+  const url = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
+
   const message =
     '```\n' +
     lines.join('\n') +
     '\n```' +
-    `\n${humanize(lines.length)} errors / ${humanize(hits.length)} requests`;
-
-  // TODO: Include a link to the original CloudFront log in this message.
-  // I tried including a Markdown link to the S3 console, but I got a 400 error
-  // from Slack.
+    `\n${humanize(lines.length)} errors / ${humanize(
+      hits.length
+    )} requests / <${url}|logs in S3>`;
 
   const slackPayload = {
-    username: '5xx errors from CloudFront',
+    username: `CloudFront: 5xx error${lines.length > 1 ? 's' : ''} detected`,
     icon_emoji: ':rotating_light:',
     attachments: [
       {
