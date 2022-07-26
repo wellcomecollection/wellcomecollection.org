@@ -98,7 +98,7 @@ function humanize(n) {
  * to a public Slack channel, so we need to be a bit careful what we log.
  */
 async function sendSlackMessage(bucket, key, serverErrors, hits) {
-  const urls = serverErrors.map(function (e) {
+  const lines = serverErrors.map(function (e) {
     const protocol = e['cs-protocol'];
     const host = e['x-host-header'];
     const path = e['cs-uri-stem'];
@@ -125,17 +125,17 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   //    5 errors / 5K requests
   //
   const message =
-    'The following URLs had errors in CloudFront:\n```\n' +
-    urls.join('\n') +
+    '```\n' +
+    lines.join('\n') +
     '\n```' +
-    `\n${humanize(urls.length)} errors / ${humanize(hits.length)} requests`;
+    `\n${humanize(lines.length)} errors / ${humanize(hits.length)} requests`;
 
   // TODO: Include a link to the original CloudFront log in this message.
   // I tried including a Markdown link to the S3 console, but I got a 400 error
   // from Slack.
 
   const slackPayload = {
-    username: 'cloudfront-5xx-errors',
+    username: '5xx errors from CloudFront',
     icon_emoji: ':rotating_light:',
     attachments: [
       {
