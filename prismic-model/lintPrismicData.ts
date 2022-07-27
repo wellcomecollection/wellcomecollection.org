@@ -44,11 +44,44 @@ function detectEur01Safelinks(doc: any): string[] {
   return [];
 }
 
+// Look for a TASL that doesn't have exactly seven components.
+//
+// Note: this allows a `copyright` value that isn't a TASL at all; that's
+// an English string.
+function detectInvalidTasl(doc: any): string[] {
+  if (doc === null || typeof doc !== 'object') {
+    return [];
+  }
+
+  const keys = Object.keys(doc);
+
+  if (
+    keys.includes('copyright') &&
+    typeof doc['copyright'] === 'string' &&
+    doc['copyright'].includes('|') &&
+    doc['copyright'].split('|').length !== 7
+  ) {
+    return [`- Invalid TASL: ${doc['copyright']}`];
+  } else if (keys.includes('copyright')) {
+    return [];
+  } else {
+    let errors = [];
+
+    for (let i = 0; i < keys.length; i++) {
+      errors = errors.concat(detectInvalidTasl(doc[keys[i]]));
+    }
+
+    return errors;
+  }
+}
+
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
   for (const doc of getPrismicDocuments(snapshotDir)) {
-    const errors = detectEur01Safelinks(doc);
+    const errors = []
+      .concat(detectEur01Safelinks(doc))
+      .concat(detectInvalidTasl(doc));
 
     // If there are any errors, report them to the console.
     if (errors.length > 0) {
