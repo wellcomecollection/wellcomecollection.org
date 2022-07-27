@@ -122,11 +122,13 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
         {transcriptionText && (
           <Transcription>
             <h3>Audio transcript</h3>
-            <PrismicHtmlBlock
-              html={
-                transcriptionText as [prismicT.RTNode, ...prismicT.RTNode[]]
-              }
-            />
+            <div id="transcription-text">
+              <PrismicHtmlBlock
+                html={
+                  transcriptionText as [prismicT.RTNode, ...prismicT.RTNode[]]
+                }
+              />
+            </div>
             {hasShowFullTranscriptionButton && (
               <ButtonOutlined
                 ariaControls="transcription-text"
