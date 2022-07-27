@@ -17,15 +17,14 @@ import CardGrid from '../CardGrid/CardGrid';
 import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+// import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
   | PaginatedResults<EventBasic>
   | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
-  | PaginatedResults<Guide>
-  | PaginatedResults<ExhibitionGuideBasic>;
+  | PaginatedResults<Guide>;
 
 type Props = {
   title: string;
