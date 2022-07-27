@@ -161,7 +161,7 @@ test.describe(
       await multiVolumeItem(context, page);
       const contributors = await page.textContent(workContributors);
       expect(contributors).toBe(
-        'Bernard, de Gordon, approximately 1260-approximately 1318.'
+        'Bernard, de Gordon, approximately 1260-approximately 1318'
       );
     });
 
