@@ -1,10 +1,12 @@
-import { FC } from 'react';
+import { FC, useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import * as prismicT from '@prismicio/types';
 import { ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const TitleTombstone = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-right'] },
@@ -23,6 +25,7 @@ const TitleTombstone = styled(Space).attrs({
 
 const CaptionTranscription = styled.div`
   flex-basis: 100%;
+  max-width: 45em;
 
   ${props => props.theme.media.medium`
     flex-basis: 60%;
@@ -33,17 +36,16 @@ const CaptionTranscription = styled.div`
   `}
 `;
 
-const Caption = styled(Space).attrs<{ hasTranscription: boolean }>(props => ({
+const Caption = styled(Space).attrs({
   className: 'spaced-text',
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  v: props.hasTranscription
-    ? {
-        size: 'l',
-        properties: ['padding-bottom'],
-      }
-    : undefined,
-}))<{ hasTranscription: boolean }>`
+  v: { size: 'l', properties: ['margin-bottom'] },
+})`
   border-left: 10px solid ${props => props.theme.color('yellow')};
+`;
+
+const PrismicImageWrapper = styled.div`
+  max-width: 600px;
 `;
 
 const Transcription = styled(Space).attrs({
@@ -66,47 +68,91 @@ type Props = {
   stops: [Stop];
 };
 
+const Stop: FC<{ stop: Stop }> = ({ stop }) => {
+  const { isEnhanced } = useContext(AppContext);
+  const hasShowFullTranscriptionButton =
+    (stop.transcription?.length || 0 > 1) && isEnhanced;
+  const transcriptionFirstParagraph = stop.transcription?.slice(0, 1);
+  const [isFullTranscription, setIsFullTranscription] = useState(true);
+  const [transcriptionText, setTranscriptionText] = useState(
+    transcriptionFirstParagraph
+  );
+
+  useEffect(() => {
+    setIsFullTranscription(false);
+  }, []);
+
+  useEffect(() => {
+    setTranscriptionText(
+      isFullTranscription ? stop.transcription : transcriptionFirstParagraph
+    );
+  }, [isFullTranscription]);
+
+  return (
+    <Space
+      className="flex flex--wrap"
+      v={{ size: 'xl', properties: ['margin-bottom'] }}
+    >
+      <TitleTombstone>
+        <h2>
+          {stop.number}. {stop.title}
+        </h2>
+        <em>{stop.tombstone}</em>
+      </TitleTombstone>
+      <CaptionTranscription>
+        <Caption>
+          {stop.image?.contentUrl && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <PrismicImageWrapper>
+                <PrismicImage
+                  image={{
+                    contentUrl: stop.image.contentUrl,
+                    width: stop.image.width,
+                    height: stop.image.height,
+                    alt: stop.image.alt,
+                  }}
+                  sizes={{}}
+                  quality={`low`}
+                />
+              </PrismicImageWrapper>
+            </Space>
+          )}
+          <PrismicHtmlBlock html={stop.caption} />
+        </Caption>
+        {transcriptionText && (
+          <Transcription>
+            <h3>Audio transcript</h3>
+            <PrismicHtmlBlock
+              html={
+                transcriptionText as [prismicT.RTNode, ...prismicT.RTNode[]]
+              }
+            />
+            {hasShowFullTranscriptionButton && (
+              <ButtonOutlined
+                ariaControls="transcription-text"
+                ariaExpanded={isFullTranscription}
+                clickHandler={() => {
+                  setIsFullTranscription(!isFullTranscription);
+                }}
+                text={
+                  isFullTranscription
+                    ? 'Hide full transcript'
+                    : 'Read full transcript'
+                }
+              />
+            )}
+          </Transcription>
+        )}
+      </CaptionTranscription>
+    </Space>
+  );
+};
+
 const ExhibitionCaptions: FC<Props> = ({ stops }) => {
   return (
     <ul className="plain-list no-margin no-padding">
       {stops.map(stop => (
-        <Space
-          key={stop.number}
-          className="flex flex--wrap"
-          v={{ size: 'xl', properties: ['margin-bottom'] }}
-        >
-          <TitleTombstone>
-            <h2>
-              {stop.number}. {stop.title}
-            </h2>
-            <em>{stop.tombstone}</em>
-          </TitleTombstone>
-          <CaptionTranscription>
-            <Caption hasTranscription={Boolean(stop.transcription)}>
-              {stop.image?.contentUrl && (
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <PrismicImage
-                    image={{
-                      contentUrl: stop.image.contentUrl,
-                      width: stop.image.width,
-                      height: stop.image.height,
-                      alt: stop.image.alt,
-                    }}
-                    sizes={{}}
-                    quality={`low`}
-                  />
-                </Space>
-              )}
-              <PrismicHtmlBlock html={stop.caption} />
-            </Caption>
-            {stop.transcription && (
-              <Transcription>
-                <h3>Audio transcript</h3>
-                <PrismicHtmlBlock html={stop.transcription} />
-              </Transcription>
-            )}
-          </CaptionTranscription>
-        </Space>
+        <Stop key={stop.number} stop={stop} />
       ))}
     </ul>
   );
