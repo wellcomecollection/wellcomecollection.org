@@ -71,7 +71,7 @@ type Props = {
 const Stop: FC<{ stop: Stop }> = ({ stop }) => {
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
-    (stop.transcription?.length || 0 > 1) && isEnhanced;
+    (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
   const transcriptionFirstParagraph = stop.transcription?.slice(0, 1);
   const [isFullTranscription, setIsFullTranscription] = useState(true);
   const [transcriptionText, setTranscriptionText] = useState(
@@ -104,16 +104,7 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
           {stop.image?.contentUrl && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <PrismicImageWrapper>
-                <PrismicImage
-                  image={{
-                    contentUrl: stop.image.contentUrl,
-                    width: stop.image.width,
-                    height: stop.image.height,
-                    alt: stop.image.alt,
-                  }}
-                  sizes={{}}
-                  quality={`low`}
-                />
+                <PrismicImage image={stop.image} sizes={{}} quality={`low`} />
               </PrismicImageWrapper>
             </Space>
           )}
@@ -124,9 +115,7 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
             <h3>Audio transcript</h3>
             <div id="transcription-text">
               <PrismicHtmlBlock
-                html={
-                  transcriptionText as [prismicT.RTNode, ...prismicT.RTNode[]]
-                }
+                html={transcriptionText as prismicT.RichTextField}
               />
             </div>
             {hasShowFullTranscriptionButton && (
