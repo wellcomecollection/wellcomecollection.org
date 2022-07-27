@@ -15,10 +15,10 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 type Props = {
-  exhibitionGuide: ExhibitionGuide; // TODO ExhibitionGuide;
+  exhibitionGuide: ExhibitionGuide;
   id: string; // TODO PrismicId?
   jsonLd: JsonLdObj[];
-  type: string; // TODO union
+  type: string; // TODO union - content type/guide format
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -65,10 +65,10 @@ export const getServerSideProps: GetServerSideProps<
 const ExhibitionGuidesPage: FC<Props> = ({
   exhibitionGuide,
   id,
-  // type, // TODO keep types format in Prismic same as we do for Guides, Q. for PR
+  // type, // TODO keep content-types format in Prismic same as we do for Guides, Q. for PR
   /* jsonLd */ // TODO
 }) => {
-  const pathname = `guides/exhibitions/${id}`; // TODO /id/type
+  const pathname = `guides/exhibitions/${id}`; // TODO /id/content-type
   return (
     <PageLayout
       title={exhibitionGuide.title} // TODO title

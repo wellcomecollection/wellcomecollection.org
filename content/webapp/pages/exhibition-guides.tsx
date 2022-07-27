@@ -95,9 +95,9 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
           }}
         >
           <details>
-            <summary>exhibition-guides</summary>
+            <summary>All exhibition guides</summary>
             {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(exhibitionGuides, null, 1)}
+            {JSON.stringify(exhibitionGuides.results, null, 1)}
           </details>
         </code>
       </pre>
