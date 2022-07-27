@@ -16,8 +16,6 @@ import { getServerData } from '@weco/common/server-data';
 // import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-// import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
-// import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 // import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
@@ -40,14 +38,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
-    console.log(exhibitionGuidesQuery, 'the query');
 
     const exhibitionGuides = transformQuery(
       exhibitionGuidesQuery,
       transformExhibitionGuide
     );
-
-    console.log(exhibitionGuides, 'you got any?');
 
     const basicExhibitionGuides = {
       ...exhibitionGuides,
@@ -55,9 +50,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         transformExhibitionGuideToExhibitionGuideBasic
       ),
     };
-    console.log(basicExhibitionGuides, 'BASIC BASIC GUIDES');
 
-    // const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
+    // TODO - jsonLD - const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
 
     return {
       props: removeUndefinedProps({
@@ -71,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
   const { exhibitionGuides } = props;
   const image = exhibitionGuides.results[0]?.image;
-  console.log(exhibitionGuides, 'what do we have');
+
   return (
     <PageLayout
       title={'Exhibition Guides'}
@@ -107,21 +101,6 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
           </details>
         </code>
       </pre>
-      {/* <SpacingSection> */}
-      {/*  <LayoutPaginatedResults */}
-      {/*    showFreeAdmissionMessage={false} */}
-      {/*    title={'Exhibition guides'} */}
-      {/*    description={[ */}
-      {/*      { */}
-      {/*        type: 'paragraph', */}
-      {/*        text: pageDescriptions.exhibitionGuides, */}
-      {/*        spans: [], */}
-      {/*      }, */}
-      {/*    ]} */}
-      {/*    paginatedResults={exhibitionGuides} */}
-      {/*    paginationRoot={'exhibition-guides'} */}
-      {/*  /> */}
-      {/* </SpacingSection> */}
     </PageLayout>
   );
 };
