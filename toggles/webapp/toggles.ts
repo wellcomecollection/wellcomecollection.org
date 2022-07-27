@@ -41,12 +41,6 @@ const toggles = {
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
-      id: 'selfRegistration',
-      title: 'Self registration',
-      defaultValue: false,
-      description: 'Allow users to sign up for an account',
-    },
-    {
       id: 'conceptsPages',
       title: 'Concepts pages',
       defaultValue: false,

@@ -26,6 +26,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
 
   .card-theme.card-theme--transparent & {
     background: ${props => props.theme.color('transparent')};
+    min-height: auto;
   }
 
   .card-theme.bg-charcoal & {
@@ -48,6 +49,14 @@ export const CardPostBody = styled(Space).attrs({
   .card-theme.card-theme--transparent & {
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 0;
+
+    ${props =>
+      props.theme.makeSpacePropertyValues('l', ['padding-top'], false, {
+        small: 5,
+        medium: 5,
+        large: 5,
+      })}
   }
 `;
 
@@ -72,6 +81,7 @@ export const CardBody = styled(Space).attrs(() => ({
   .card-theme.card-theme--transparent & {
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 0;
     /* CardBodys flex in the column axis by default, which makese them
     stretch to the height of any others on the same row. We don't want
     this behaviour when the cards don't have backgrounds because it can

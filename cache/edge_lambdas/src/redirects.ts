@@ -168,6 +168,17 @@ const contentRedirects: Record<string, string> = {
 
   // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
   '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
+
+  // This is the "nice" URL for new memberships.
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
+  '/signup': '/account/api/auth/signup',
+
+  // This is an old "getting around the building page".
+  //
+  // Among other places, it's linked to from the footer of some email
+  // newsletters, so we need to make sure it goes somewhere sensible.
+  // See https://wellcome.slack.com/archives/C3N7J05TK/p1658503007545149
+  '/pages/Wuw19yIAAK1Z3Smy': '/access#getting-around-the-building',
 };
 
 /**

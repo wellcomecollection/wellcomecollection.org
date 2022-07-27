@@ -6,7 +6,6 @@ import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import { font } from '@weco/common/utils/classnames';
 import {
   Checkbox,
-  ExternalLink,
   CheckboxLabel,
   FullWidthButton,
   FlexStartCheckbox,
@@ -31,6 +30,10 @@ import { RegistrationInputs, decodeToken } from '../src/utility/jwt-codec';
 import { stringFromStringOrStringArray } from '@weco/common/utils/array';
 import RegistrationInformation from '../src/frontend/Registration/RegistrationInformation';
 import getConfig from 'next/config';
+import {
+  collectionsResearchAgreementTitle,
+  collectionsResearchAgreementLabel,
+} from '../copy';
 
 const { serverRuntimeConfig: config } = getConfig();
 
@@ -156,7 +159,7 @@ const RegistrationPage: NextPage<Props> = ({
 
                     <SpacingComponent>
                       <h3 className={font('hnb', 5)}>
-                        Collections research agreement
+                        {collectionsResearchAgreementTitle}
                       </h3>
                       <Controller
                         name="termsAndConditions"
@@ -175,21 +178,7 @@ const RegistrationPage: NextPage<Props> = ({
                               checked={value}
                               text={
                                 <CheckboxLabel>
-                                  I will use personal data on living persons for
-                                  research purposes only. I will not use
-                                  personal data to support decisions about the
-                                  person who is the subject of the data, or in a
-                                  way that causes substantial damage or distress
-                                  to them. I have read and accept the
-                                  regulations detailed in the{' '}
-                                  <ExternalLink
-                                    href="https://wellcome.org/about-us/governance/privacy-and-terms"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    Library’s Terms & Conditions of Use
-                                  </ExternalLink>
-                                  .{' '}
+                                  {collectionsResearchAgreementLabel}
                                 </CheckboxLabel>
                               }
                             />

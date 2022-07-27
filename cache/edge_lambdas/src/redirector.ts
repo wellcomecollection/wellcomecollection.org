@@ -2,14 +2,14 @@ import { CloudFrontRequestEvent, CloudFrontResponse } from 'aws-lambda';
 import { URLSearchParams } from 'url';
 import { literalRedirects, queryRedirects } from './redirects';
 
-const redirect301 = (path: string) => ({
+const redirect301 = (host: string, path: string) => ({
   status: '301',
   statusDescription: 'Found',
   headers: {
     location: [
       {
         key: 'Location',
-        value: `https://wellcomecollection.org${path}`,
+        value: `https://${host}${path}`,
       },
     ],
     'x-powered-by': [
@@ -55,8 +55,19 @@ export const getRedirect = (
   const cf = event.Records[0].cf;
   const request = cf.request;
   const uriSansSlash = request.uri.replace(/\/$/, '');
+
+  const hostHeader = cf.request.headers.host;
+  const requestHost =
+    hostHeader && hostHeader.length > 0 ? hostHeader[0].value : undefined;
+
+  const host =
+    requestHost &&
+    requestHost.indexOf('www-stage.wellcomecollection.org') !== -1
+      ? 'www-stage.wellcomecollection.org'
+      : 'wellcomecollection.org';
+
   if (literalRedirects[uriSansSlash]) {
-    return redirect301(literalRedirects[uriSansSlash]);
+    return redirect301(host, literalRedirects[uriSansSlash]);
   }
 
   if (request.querystring && queryRedirects[uriSansSlash]) {
@@ -72,6 +83,7 @@ export const getRedirect = (
       );
       const requestParamsString = newParams.toString();
       return redirect301(
+        host,
         requestParamsString
           ? potentialRedirect.redirectPath + '?' + requestParamsString
           : potentialRedirect.redirectPath

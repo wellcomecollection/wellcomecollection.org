@@ -1,11 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
-import {
-  Container,
-  Wrapper,
-  SectionHeading,
-} from '../src/frontend/components/Layout.style';
-import { HighlightMessage } from '../src/frontend/Registration/Registration.style';
+import { Container, Wrapper } from '../src/frontend/components/Layout.style';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
@@ -15,6 +10,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import auth0 from '../src/utility/auth0';
+import { ValidatedFailedText, ValidatedSuccessText } from '../copy';
 
 const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
   const { state: userState } = useUser();
@@ -31,24 +27,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
             <Wrapper>
               {success || urlUsed ? (
                 <>
-                  <SectionHeading as="h1">Email verified</SectionHeading>
-                  <p>Thank you for verifying your email address.</p>
-                  {isNewSignUp && (
-                    <div data-test-id="new-sign-up">
-                      <p>
-                        The library team will review your application and will
-                        confirm your membership within the next 72 hours. In the
-                        meantime, you can browse through{' '}
-                        <a href="/collections">our digital collections</a> or
-                        sign in to your account below.
-                      </p>
-                      <HighlightMessage>
-                        <strong>Reminder:</strong> you will need to email a form
-                        of personal identification (ID) and proof of address to
-                        the Library team in order to confirm your details.
-                      </HighlightMessage>
-                    </div>
-                  )}
+                  <ValidatedSuccessText isNewSignUp={isNewSignUp} />
                   <ButtonSolidLink
                     link="/account"
                     text={
@@ -59,22 +38,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
                   />
                 </>
               ) : (
-                <>
-                  <SectionHeading as="h1">
-                    Failed to verify email
-                  </SectionHeading>
-                  <p>{message}</p>
-                  <p>
-                    If you need help, please{' '}
-                    <a
-                      href="https://wellcomelibrary.org/using-the-library/services-and-facilities/contact-us/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      contact us
-                    </a>
-                  </p>
-                </>
+                <ValidatedFailedText message={message} />
               )}
             </Wrapper>
           </Container>

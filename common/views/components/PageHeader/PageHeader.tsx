@@ -145,10 +145,12 @@ const PageHeader: FunctionComponent<Props> = ({
             }}
           >
             {!sectionLevelPage && (
+              // We need to keep some space below the breadcrumbs to prevent
+              // 'highlighted' headings from being partially concealed
               <Space
                 v={{
                   size: 'm',
-                  properties: ['margin-top'],
+                  properties: ['margin-top', 'margin-bottom'],
                   overrides: { large: 4 },
                 }}
               >

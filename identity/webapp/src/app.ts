@@ -85,7 +85,7 @@ export async function createApp(): Promise<Koa> {
         // Because they aren't actually URL characters, we put back the
         // original brackets for ease of readability.
         const redactedUrl = formatUrl(parsedUrl).replace(
-          '%5Bredacted%5D',
+          /%5Bredacted%5D/g,
           '[redacted]'
         );
 

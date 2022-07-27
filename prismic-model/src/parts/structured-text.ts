@@ -1,11 +1,21 @@
-type SingleOrMulti = 'single' | 'multi';
-export default function structuredText(
-  label: string,
-  singleOrMulti: SingleOrMulti = 'multi',
-  extraHtmlTypes: string[] = [],
-  placeholder?: string,
-  overrideDefaultHtmlTypes?: string[]
-) {
+type StructuredTextProps = {
+  label: string;
+  allowMultipleParagraphs?: boolean;
+  extraHtmlTypes?: string[];
+  placeholder?: string;
+  overrideDefaultHtmlTypes?: string[];
+};
+
+export default function structuredText({
+  label,
+  allowMultipleParagraphs = true,
+  extraHtmlTypes = [],
+  placeholder,
+  overrideDefaultHtmlTypes,
+}: StructuredTextProps) {
+  // See https://prismic.io/docs/technologies/rich-text-title#json-model
+  const singleOrMulti = allowMultipleParagraphs ? 'multi' : 'single';
+
   return {
     type: 'StructuredText',
     config: {
