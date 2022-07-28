@@ -18,14 +18,13 @@ type Props = {
   exhibitionGuide: ExhibitionGuide;
   id: string;
   jsonLd: JsonLdObj;
-  type: string; // TODO union - content type/guide format
+  // type: string; // TODO union - content type/guide format
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id /* type */ } = context.query; // TODO should we have another page template to handle type or do everything in here?
-
+    const { id } = context.query; // TODO should we have another page template to handle type or do everything in here?
     if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
       return { notFound: true };
     }
