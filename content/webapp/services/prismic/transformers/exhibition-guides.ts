@@ -8,6 +8,7 @@ import {
   ExhibitionFormat,
   ExhibitionGuidePrismicDocument,
 } from '../types/exhibition-guides';
+import { ExhibitionFormatPrismicDocument } from '../types/exhibitions';
 // import groupBy from 'lodash.groupby';
 import { asRichText, asText, transformGenericFields } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
