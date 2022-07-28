@@ -28,6 +28,7 @@ export type ExhibitionGuideBasic = {
   title: string;
   promo?: ImagePromo | undefined;
   image?: ImageType;
+  relatedExhibition: ExhibitionLink | undefined;
 };
 
 export type ExhibitionGuide = {
