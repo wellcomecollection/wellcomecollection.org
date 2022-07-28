@@ -78,7 +78,6 @@ export function transformExhibitionGuide(
 ): ExhibitionGuide {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  // console.log(data, 'RAW DATA FROM GUIDES');
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
     component => {
@@ -105,8 +104,6 @@ export function transformExhibitionGuide(
   )
     ? transformExhibitionFormat(data['related-exhibition'] as ExhibitionFormat)
     : undefined;
-
-  // console.log(relatedExhibition, '<<<<< the data!');
 
   return {
     ...genericFields,
