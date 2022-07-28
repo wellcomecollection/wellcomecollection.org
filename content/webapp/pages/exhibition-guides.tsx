@@ -13,14 +13,14 @@ import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-// import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
+import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
-// import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
-  // jsonLd: // TODO JsonLdObj[];
+  jsonLd: JsonLdObj[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -51,12 +51,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
-    // TODO - jsonLD - const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
+    const jsonLd = exhibitionGuides.results.map(exhibitionGuideLd);
 
     return {
       props: removeUndefinedProps({
         exhibitionGuides: basicExhibitionGuides,
-        jsonLd: { '@type': 'webpage' }, // TODO - what is is the correct type (schema.org) and add the rest of the stuff it should have
+        jsonLd,
         serverData,
       }),
     };
@@ -71,7 +71,7 @@ const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
       title={'Exhibition Guides'}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: `/guides/exhibitions` }}
-      jsonLd={{ '@type': 'webpage' }} // TODO
+      jsonLd={{ '@type': 'WebPage' }} // TODO
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={image}

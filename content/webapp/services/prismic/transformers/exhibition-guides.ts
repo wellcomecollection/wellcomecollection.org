@@ -4,10 +4,12 @@ import {
   ExhibitionGuideComponent,
   ExhibitionLink,
 } from '../../../types/exhibition-guides';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
+import {
+  ExhibitionFormat,
+  ExhibitionGuidePrismicDocument,
+} from '../types/exhibition-guides';
 // import groupBy from 'lodash.groupby';
-import { asHtml, asRichText, asText, transformGenericFields } from '.';
-import { ExhibitionFormat as ExhibitionFormatPrismicDocument } from '../types/exhibitions';
+import { asRichText, asText, transformGenericFields } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
@@ -66,7 +68,8 @@ function transformExhibitionFormat(
   return {
     id: format.id,
     title: (format.data && asText(format.data.title)) || '',
-    description: format.data && asHtml(format.data.description),
+    description:
+      format.data && asText(format.data.promo[0].primary.caption[0].text),
   };
 }
 
@@ -75,7 +78,7 @@ export function transformExhibitionGuide(
 ): ExhibitionGuide {
   const { data } = document;
   const genericFields = transformGenericFields(document);
-  console.log(data, 'RAW DATA FROM GUIDES');
+  // console.log(data, 'RAW DATA FROM GUIDES');
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
     component => {
@@ -103,13 +106,13 @@ export function transformExhibitionGuide(
     ? transformExhibitionFormat(data['related-exhibition'] as ExhibitionFormat)
     : undefined;
 
-  console.log(relatedExhibition, '<<<<< the data!');
+  // console.log(relatedExhibition, '<<<<< the data!');
 
   return {
     ...genericFields,
+    relatedExhibition,
     components,
     id: document.id,
-    relatedExhibition,
     type: 'exhibition-guides',
   };
 }

@@ -8,6 +8,16 @@ import {
 } from '@prismicio/types';
 import { Image } from '.';
 
+export type ExhibitionFormat = PrismicDocument<
+  {
+    title: RichTextField;
+    // TODO: properly type the promo from linked exhibition
+    promo: never;
+    description: RichTextField;
+  },
+  'exhibition-formats'
+>;
+
 export type ExhibitionGuidePrismicDocument = PrismicDocument<{
   title: RichTextField;
   relatedExhibition: RelationField<'exhibitions'>;
