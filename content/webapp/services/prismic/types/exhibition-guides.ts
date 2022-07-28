@@ -5,6 +5,7 @@ import {
   GroupField,
   NumberField,
   LinkToMediaField,
+  EmbedField,
 } from '@prismicio/types';
 import { Image } from '.';
 
@@ -26,7 +27,7 @@ export type ExhibitionGuidePrismicDocument = PrismicDocument<{
     description: RichTextField;
     audioWithDescription: LinkToMediaField;
     audioWithoutDescription: LinkToMediaField;
-    bslVideo: LinkToMediaField;
+    bslVideo: EmbedField;
     caption: RichTextField;
     transcript: RichTextField;
   }>;

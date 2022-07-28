@@ -95,11 +95,6 @@ export function transformExhibitionGuide(
     }
   );
 
-  // const relatedExhibition = transformSingleLevelGroup(
-  //   data['related-exhibition'],
-  //   'exhibition'
-  // ).map(exhibition => transformRelatedExhibition(exhibition as ExhibitionLink));
-
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
   )

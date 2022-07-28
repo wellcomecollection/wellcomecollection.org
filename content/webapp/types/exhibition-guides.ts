@@ -2,6 +2,7 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { MediaObjectType } from './media-object';
+import { EmbedField } from '@prismicio/types';
 
 export type ExhibitionGuideComponent = {
   number: number;
@@ -11,7 +12,7 @@ export type ExhibitionGuideComponent = {
   description?: string;
   audioWithDescription?: MediaObjectType;
   audioWithoutDescription?: MediaObjectType;
-  bsl?: MediaObjectType;
+  bsl?: EmbedField;
   caption?: string;
   transcript?: string;
 };

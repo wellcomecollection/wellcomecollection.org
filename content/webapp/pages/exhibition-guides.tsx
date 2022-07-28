@@ -8,7 +8,7 @@ import {
   transformExhibitionGuideToExhibitionGuideBasic,
 } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     };
   };
 
-const ExhibitionGuidesPage: FunctionComponent<Props> = props => {
+const ExhibitionGuidesPage: FC<Props> = props => {
   const { exhibitionGuides } = props;
   const image = exhibitionGuides.results[0]?.image;
 
