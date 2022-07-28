@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   ExhibitionLink,
 } from '../../../types/exhibition-guides';
-import { ExhibitionFormat as ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
+import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 // import groupBy from 'lodash.groupby';
 import { asRichText, asText, transformGenericFields } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
@@ -59,7 +59,7 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformExhibitionFormat(format: ExhibitionFormat): ExhibitionLink {
+function transformExhibitionFormat(format): ExhibitionLink {
   return {
     id: format.id,
     title: (format.data && asText(format.data.title)) || '',
@@ -97,7 +97,7 @@ export function transformExhibitionGuide(
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
   )
-    ? transformExhibitionFormat(data['related-exhibition'] as ExhibitionFormat)
+    ? transformExhibitionFormat(data['related-exhibition'])
     : undefined;
 
   return {
