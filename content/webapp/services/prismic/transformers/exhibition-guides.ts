@@ -42,7 +42,7 @@ import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/ty
 //       groupedSections[key] = itemsWithParts;
 //     }
 //   }
-//
+
 //   return groupedSections?.['Guide'];
 // }
 
