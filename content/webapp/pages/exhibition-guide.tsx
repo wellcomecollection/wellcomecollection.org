@@ -16,7 +16,6 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
-  id: string;
   jsonLd: JsonLdObj;
   // type: string; // TODO union - content type/guide format
 };
@@ -62,11 +61,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 const ExhibitionGuidesPage: FC<Props> = ({
   exhibitionGuide,
-  id,
   jsonLd,
   // type, // TODO keep content-types format in Prismic same as we do for Guides, Q. for PR
 }) => {
-  const pathname = `guides/exhibition/${id}`; // TODO /id/content-type
+  const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
   return (
     <PageLayout
       title={exhibitionGuide.title}
