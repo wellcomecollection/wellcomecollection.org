@@ -67,7 +67,7 @@ const ExhibitionGuidesPage: FC<Props> = ({
   const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
   return (
     <PageLayout
-      title={exhibitionGuide.title}
+      title={exhibitionGuide.title || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}

@@ -6,7 +6,7 @@ import {
 } from '../../../types/exhibition-guides';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 // import groupBy from 'lodash.groupby';
-import { asRichText, asText, transformGenericFields } from '.';
+import { asRichText, asText } from '.';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
@@ -59,12 +59,13 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformExhibitionFormat(format): ExhibitionLink {
+function transformRelatedExhibition(exhibition): ExhibitionLink {
   return {
-    id: format.id,
-    title: (format.data && asText(format.data.title)) || '',
+    id: exhibition.id,
+    title: (exhibition.data && asText(exhibition.data.title)) || '',
     description:
-      format.data && asText(format.data.promo[0].primary.caption[0].text),
+      exhibition.data &&
+      asText(exhibition.data.promo[0].primary.caption[0].text),
   };
 }
 
@@ -72,7 +73,7 @@ export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
   const { data } = document;
-  const genericFields = transformGenericFields(document);
+  // const genericFields = transformGenericFields(document);
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
     component => {
@@ -94,14 +95,19 @@ export function transformExhibitionGuide(
     }
   );
 
+  // const relatedExhibition = transformSingleLevelGroup(
+  //   data['related-exhibition'],
+  //   'exhibition'
+  // ).map(exhibition => transformRelatedExhibition(exhibition as ExhibitionLink));
+
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
   )
-    ? transformExhibitionFormat(data['related-exhibition'])
+    ? transformRelatedExhibition(data['related-exhibition'])
     : undefined;
 
   return {
-    ...genericFields,
+    title: asText(document.data?.title),
     relatedExhibition,
     components,
     id: document.id,

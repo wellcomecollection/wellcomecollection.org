@@ -25,7 +25,7 @@ export type ExhibitionLink = {
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;
-  title: string;
+  title: string | undefined;
   promo?: ImagePromo | undefined;
   image?: ImageType;
   relatedExhibition: ExhibitionLink | undefined;
@@ -34,7 +34,7 @@ export type ExhibitionGuideBasic = {
 export type ExhibitionGuide = {
   type: 'exhibition-guides';
   id: string;
-  title: string;
+  title: string | undefined;
   relatedExhibition: ExhibitionLink | undefined;
   components: ExhibitionGuideComponent[];
 };
