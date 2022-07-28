@@ -79,6 +79,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
   );
 
   useEffect(() => {
+    // Show full audio transcripts by default and hide them once we know
+    // JavaScript is available
     setIsFullTranscription(false);
   }, []);
 
