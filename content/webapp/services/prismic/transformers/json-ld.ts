@@ -12,7 +12,24 @@ import { Page } from '../../../types/pages';
 import { Season } from '../../../types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
+import { ExhibitionGuide } from '../../../types/exhibition-guides';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+
+export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
+  return objToJsonLd(
+    {
+      name: exhibitionGuide.title,
+      description: exhibitionGuide.relatedExhibition?.description,
+      location: {
+        '@type': 'Place',
+        name: 'Wellcome Collection',
+        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+      },
+      url: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
+    },
+    'ExhibtionGuide'
+  );
+}
 
 export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   const promoImage = exhibition.promo?.image;
