@@ -34,15 +34,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       id as string
     );
 
-    // return {
-    //   props: removeUndefinedProps({
-    //     exhibitionGuide: {
-    //       hierarchyExample: constructHierarchy(testComponentData),
-    //     },
-    //     // jsonLd, TODO Hierarchy
-    //     serverData,
-    //   }),
-    // };
     if (exhibitionGuideDocument) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
