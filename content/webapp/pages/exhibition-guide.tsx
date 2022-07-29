@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       client,
       id as string
     );
-
+    console.log(JSON.stringify(exhibitionGuideDocument, null, 1), 'we fetch');
     if (exhibitionGuideDocument) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
       const jsonLd = exhibitionGuideLd(exhibitionGuide);

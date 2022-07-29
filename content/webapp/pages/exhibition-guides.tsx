@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
+    console.log(exhibitionGuidesQuery, 'we fetch');
 
     const exhibitionGuides = transformQuery(
       exhibitionGuidesQuery,
@@ -94,17 +95,8 @@ const ExhibitionGuidesPage: FC<Props> = props => {
             borderRadius: '6px',
           }}
         >
-          <details>
-            <summary>
-              {' '}
-              {/* eslint-disable-next-line no-restricted-syntax */}
-              {JSON.stringify(
-                exhibitionGuides.results[0].relatedExhibition?.title
-              )}
-            </summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(exhibitionGuides.results[0], null, 1)}
-          </details>
+          {/* eslint-disable-next-line no-restricted-syntax */}
+          {JSON.stringify(exhibitionGuides.results[0], null, 1)}
         </code>
       </pre>
     </PageLayout>
