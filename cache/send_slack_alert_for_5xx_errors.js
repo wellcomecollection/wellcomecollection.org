@@ -117,12 +117,16 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
 
   // This creates a Markdown-formatted message like:
   //
-  //    The following URLs had errors in CloudFront:
+  //    5 errors / 5K requests / <https://us-east-1…|logs in S3>
   //    ```
   //    https://example.org/badness
   //    https://example.org/more-badness
   //    ```
-  //    5 errors / 5K requests / <https://us-east-1…|logs in S3>
+  //
+  // Note: we put the summary message first so that if there are lots of lines with
+  // errors, the summary doesn't get truncated off the end.
+  //
+  // e.g. https://wellcome.slack.com/archives/CQ720BG02/p1659031456721909
   //
   const url = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
 
@@ -134,10 +138,10 @@ async function sendSlackMessage(bucket, key, serverErrors, hits) {
   }`;
 
   const message =
+    `${errorCount} / ${requestCount} / <${url}|logs in S3>\n` +
     '```\n' +
     lines.join('\n') +
-    '\n```' +
-    `\n${errorCount} / ${requestCount} / <${url}|logs in S3>`;
+    '\n```';
 
   const slackPayload = {
     username: `CloudFront: 5xx error${lines.length > 1 ? 's' : ''} detected`,
