@@ -17,6 +17,9 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import CardGrid from '../components/CardGrid/CardGrid';
+// import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -99,6 +102,24 @@ const ExhibitionGuidesPage: FC<Props> = props => {
           {JSON.stringify(exhibitionGuides.results[0], null, 1)}
         </code>
       </pre>
+      <SpacingSection>
+        <CardGrid items={exhibitionGuides.results} itemsPerRow={3} />
+      </SpacingSection>
+      {/* <SpacingSection> */}
+      {/*  <LayoutPaginatedResults */}
+      {/*    showFreeAdmissionMessage={false} */}
+      {/*    title={'Exhibition guides'} */}
+      {/*    description={[ */}
+      {/*      { */}
+      {/*        type: 'paragraph', */}
+      {/*        text: pageDescriptions.exhibitionGuides, */}
+      {/*        spans: [], */}
+      {/*      }, */}
+      {/*    ]} */}
+      {/*    paginatedResults={exhibitionGuides} */}
+      {/*    paginationRoot={'exhibition-guides'} */}
+      {/*  /> */}
+      {/* </SpacingSection> */}
     </PageLayout>
   );
 };

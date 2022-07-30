@@ -21,6 +21,12 @@ export type ExhibitionLink = {
   id: string;
   title: string;
   description?: string;
+  promo?: ImagePromo;
+};
+
+export type Exhibit = {
+  exhibitType: 'exhibitions';
+  item: ExhibitionLink[] | undefined;
 };
 
 export type ExhibitionGuideBasic = {
@@ -29,13 +35,19 @@ export type ExhibitionGuideBasic = {
   title: string | undefined;
   promo?: ImagePromo | undefined;
   image?: ImageType;
-  relatedExhibition: ExhibitionLink | undefined;
+  relatedExhibition: Exhibit[] | undefined;
+  start: string;
+  isPermanent: string;
+  contributors: string;
+  labels: string;
 };
 
 export type ExhibitionGuide = {
   type: 'exhibition-guides';
   id: string;
   title: string | undefined;
+  image?: ImageType;
+  promo?: ImagePromo | undefined;
   relatedExhibition: ExhibitionLink | undefined;
   components: ExhibitionGuideComponent[];
 };

@@ -1,4 +1,4 @@
-import { getCrop, ImageType } from '@weco/common/model/image';
+import { ImageType } from '@weco/common/model/image';
 import { Format } from './format';
 import { Event } from './events';
 import { Article } from './articles';
@@ -11,6 +11,7 @@ import { Book } from './books';
 import { Exhibition } from './exhibitions';
 import { Guide } from './guides';
 import { Project } from './projects';
+import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
 
 export type Card = {
   type: 'card';
@@ -35,6 +36,8 @@ export function convertItemToCardProps(
     | Exhibition
     | Guide
     | Project
+    | ExhibitionGuide
+    | ExhibitionGuideBasic
 ): Card {
   const format =
     'format' in item
@@ -44,10 +47,9 @@ export function convertItemToCardProps(
         // getting this from prismic, that'll do
         { title: 'Serial', id: '' }
       : undefined;
-
   return {
     type: 'card',
-    format: format as any,
+    format: format as never,
     title: item.title,
     order: 'order' in item ? item.order : undefined,
     description: (item.promo && item.promo.caption) ?? undefined,
@@ -66,7 +68,7 @@ export function convertItemToCardProps(
             tasl: item.promo.image.tasl,
             simpleCrops: {
               '16:9': {
-                contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
+                contentUrl: '',
                 width: 1600,
                 height: 900,
               },

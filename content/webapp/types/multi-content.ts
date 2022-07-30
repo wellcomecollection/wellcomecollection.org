@@ -9,6 +9,7 @@ import { Guide } from './guides';
 import { Weblink } from './weblinks';
 import { Project } from './projects';
 import { Season } from './seasons';
+import { ExhibitionGuide, ExhibitionGuideBasic } from './exhibition-guides';
 
 export type MultiContent =
   | Page
@@ -21,4 +22,6 @@ export type MultiContent =
   | Guide
   | Weblink
   | Project
-  | Season;
+  | Season
+  | ExhibitionGuide
+  | ExhibitionGuideBasic;

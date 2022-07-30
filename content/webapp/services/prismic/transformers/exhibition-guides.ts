@@ -4,18 +4,29 @@ import {
   ExhibitionGuideComponent,
   ExhibitionLink,
 } from '../../../types/exhibition-guides';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { asRichText, asText } from '.';
+import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import { transformImagePromo } from './images';
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
-  return (({ type, id, title, relatedExhibition, components }) => ({
+  return (({
     type,
     id,
     title,
+    image,
+    promo,
+    relatedExhibition,
+    components,
+  }) => ({
+    type,
+    id,
+    title,
+    image,
+    promo,
     relatedExhibition,
     components,
   }))(exhibitionGuide);
@@ -33,7 +44,14 @@ function transformRelatedExhibition(exhibition): ExhibitionLink {
 
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
-): ExhibitionGuide {
+): {
+  promo: ImagePromo | string;
+  components: ExhibitionGuideComponent[];
+  id: string;
+  title: string | undefined;
+  type: string;
+  relatedExhibition: ExhibitionLink | undefined;
+} {
   const { data } = document;
   // const genericFields = transformGenericFields(document);
 
@@ -57,6 +75,11 @@ export function transformExhibitionGuide(
     }
   );
 
+  const promo =
+    (data['related-exhibition'].data.promo &&
+      transformImagePromo(data['related-exhibition'].data.promo)) ||
+    '';
+
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
   )
@@ -65,6 +88,7 @@ export function transformExhibitionGuide(
 
   return {
     title: asText(document.data?.title),
+    promo,
     relatedExhibition,
     components,
     id: document.id,
