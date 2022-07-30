@@ -49,7 +49,7 @@ export function convertItemToCardProps(
       : undefined;
   return {
     type: 'card',
-    format: format as never,
+    format: format as never, // TODO: This is now warning for use of any, need to specify type correctly
     title: item.title,
     order: 'order' in item ? item.order : undefined,
     description: (item.promo && item.promo.caption) ?? undefined,
