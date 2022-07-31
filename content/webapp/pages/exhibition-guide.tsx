@@ -9,7 +9,7 @@ import { transformExhibitionGuide } from '../services/prismic/transformers/exhib
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import React, { FC } from 'react';
 import { GetServerSideProps } from 'next';
-import { /* appError, */ AppErrorProps } from '@weco/common/views/pages/_app'; // TODO
+import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';

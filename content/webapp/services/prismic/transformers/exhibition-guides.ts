@@ -22,6 +22,10 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     promo,
     relatedExhibition,
     components,
+    start,
+    isPermanent,
+    contributors,
+    labels,
   }) => ({
     type,
     id,
@@ -30,6 +34,10 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     promo,
     relatedExhibition,
     components,
+    start,
+    isPermanent,
+    contributors,
+    labels,
   }))(exhibitionGuide);
 }
 

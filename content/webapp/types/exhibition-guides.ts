@@ -3,6 +3,7 @@ import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
+import { GenericContentFields } from './generic-content-fields';
 
 export type ExhibitionGuideComponent = {
   // number: number;
@@ -67,12 +68,16 @@ export type ExhibitionGuideBasic = {
   labels: string;
 };
 
-export type ExhibitionGuide = {
+export type ExhibitionGuide = GenericContentFields & {
   type: 'exhibition-guides';
   id: string;
   title: string | undefined;
   image?: ImageType;
   promo?: ImagePromo | undefined;
-  relatedExhibition: ExhibitionLink | undefined;
+  relatedExhibition: Exhibit[] | undefined;
   components: ExhibitionGuideComponent;
+  start: string;
+  isPermanent: string;
+  contributors: string;
+  labels: string;
 };
