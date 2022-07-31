@@ -8,6 +8,7 @@ import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
+import { ImagePromo } from '../../../types/image-promo';
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
@@ -32,6 +33,14 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
+// export function filterByExhibitionGuideFormat(document) {
+//   const { data } = document;
+//   const componentFormat = data.components?.filter(
+//     component => component.caption
+//   );
+//   return componentFormat;
+// }
+
 function transformRelatedExhibition(exhibition): ExhibitionLink {
   return {
     id: exhibition.id,
@@ -54,11 +63,11 @@ export function transformExhibitionGuide(
 } {
   const { data } = document;
   // const genericFields = transformGenericFields(document);
-
+  // console.log(filterByExhibitionGuideFormat(data), 'can i have a filter');
   const components: ExhibitionGuideComponent[] = data.components?.map(
     component => {
       return {
-        number: component.number || [],
+        number: Math.round(Math.random() * 10000000),
         title: (component.title && asText(component.title)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
@@ -66,7 +75,7 @@ export function transformExhibitionGuide(
         description:
           (component.description && asRichText(component.description)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],
-        transcript:
+        transcription:
           (component.transcript && asRichText(component.transcript)) || [],
         audioWithDescription: component['audio-with-description'],
         audioWithoutDescription: component['audio-without-description'],
@@ -74,6 +83,14 @@ export function transformExhibitionGuide(
       };
     }
   );
+
+  // const componentsKeys = Object.keys(components);
+  //
+  // const filterByGuide = components.filter(value => {
+  //   return components[value].caption;
+  // });
+  //
+  // console.log(filterByGuide, 'let us have filters');
 
   const promo =
     (data['related-exhibition'].data.promo &&

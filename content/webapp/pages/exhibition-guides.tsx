@@ -40,7 +40,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const client = createClient(context);
     const exhibitionGuidesQuery = await fetchExhibitionGuides(client, { page });
-    console.log(exhibitionGuidesQuery, 'we fetch');
 
     const exhibitionGuides = transformQuery(
       exhibitionGuidesQuery,

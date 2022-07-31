@@ -1,10 +1,13 @@
-import { ExhibitionGuide } from '../types/exhibition-guides';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideFormat,
+} from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { GetServerSideProps } from 'next';
 import { /* appError, */ AppErrorProps } from '@weco/common/views/pages/_app'; // TODO
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -13,10 +16,15 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { Page as PageType } from '../types/pages';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
+  pages: PageType[];
+  format: ExhibitionGuideFormat[];
   // type: string; // TODO union - content type/guide format
 };
 
@@ -33,15 +41,21 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       client,
       id as string
     );
-    // console.log(JSON.stringify(exhibitionGuideDocument, null, 1), 'we fetch');
     if (exhibitionGuideDocument) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
+
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
+      const format =
+        'audio-with-description' |
+        'audio-without-description' |
+        'bsl-video' |
+        'transcript';
 
       return {
         props: removeUndefinedProps({
           exhibitionGuide,
           jsonLd,
+          format,
           serverData,
         }),
       };
@@ -53,9 +67,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const ExhibitionGuidesPage: FC<Props> = ({
   exhibitionGuide,
   jsonLd,
+  format,
   // type, // TODO keep content-types format in Prismic same as we do for Guides, Q. for PR
 }) => {
-  const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
+  const pathname = `guides/exhibition/${exhibitionGuide.id}/${format}`; // TODO /id/content-type
+  const { components } = exhibitionGuide;
+
   return (
     <PageLayout
       title={exhibitionGuide.title || ''}
@@ -66,31 +83,17 @@ const ExhibitionGuidesPage: FC<Props> = ({
       siteSection={'whats-on'}
       image={undefined} // TODO, linked doc promo image, e.g. Exhibition image
     >
-      <p>Wellcome Collection Exhibition guide: {exhibitionGuide.title}</p>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          <details>
-            <summary>exhibition-guide</summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(exhibitionGuide, null, 1)}
-          </details>
-        </code>
-      </pre>
+      <Layout10>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <h2>{exhibitionGuide.title || ''}</h2>
+        </Space>
+        <h3>{exhibitionGuide.relatedExhibition?.promo?.caption || ''}</h3>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          {components.map((stop, index) => (
+            <p key={index}>{stop.title}</p>
+          ))}
+        </Space>
+      </Layout10>
     </PageLayout>
   );
 };

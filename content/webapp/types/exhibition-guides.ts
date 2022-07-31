@@ -2,20 +2,45 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { MediaObjectType } from './media-object';
-import { EmbedField } from '@prismicio/types';
+import { EmbedField, RichTextField } from '@prismicio/types';
 
 export type ExhibitionGuideComponent = {
+  // number: number;
+  // title: string;
+  // tombstone?: RichTextField;
+  // image?: ImageType;
+  // description?: string;
+  // audioWithDescription?: MediaObjectType;
+  // audioWithoutDescription?: MediaObjectType;
+  // bsl?: MediaObjectType;
+  // caption?: RichTextField;
+  // transcript?: RichTextField;
   number: number;
   title: string;
-  tombstone?: string;
   image?: ImageType;
+  tombstone: RichTextField;
+  caption: RichTextField;
+  transcription?: RichTextField;
   description?: string;
   audioWithDescription?: MediaObjectType;
   audioWithoutDescription?: MediaObjectType;
   bsl?: EmbedField;
-  caption?: string;
-  transcript?: string;
 };
+
+// type Stop = {
+//   number: number;
+//   title: string;
+//   image?: ImageType;
+//   tombstone: prismicT.RichTextField;
+//   caption: prismicT.RichTextField;
+//   transcription?: prismicT.RichTextField;
+//   description?: string;
+//   audioWithDescription?: MediaObjectType;
+//   audioWithoutDescription?: MediaObjectType;
+//   bsl?: MediaObjectType;
+// };
+
+export type ExhibitionGuideFormat = string | number;
 
 export type ExhibitionLink = {
   id: string;
@@ -49,5 +74,5 @@ export type ExhibitionGuide = {
   image?: ImageType;
   promo?: ImagePromo | undefined;
   relatedExhibition: ExhibitionLink | undefined;
-  components: ExhibitionGuideComponent[];
+  components: ExhibitionGuideComponent;
 };
