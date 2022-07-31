@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
+import { ExhibitionGuide } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 type Props = {
-  exhibitionGuide: ExhibitionGuideBasic;
+  exhibitionGuide: ExhibitionGuide;
 };
 
 const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
