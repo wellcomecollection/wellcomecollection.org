@@ -41,14 +41,6 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-// export function filterByExhibitionGuideFormat(document) {
-//   const { data } = document;
-//   const componentFormat = data.components?.filter(
-//     component => component.caption
-//   );
-//   return componentFormat;
-// }
-
 function transformRelatedExhibition(exhibition): ExhibitionLink {
   return {
     id: exhibition.id,
@@ -70,12 +62,11 @@ export function transformExhibitionGuide(
   relatedExhibition: ExhibitionLink | undefined;
 } {
   const { data } = document;
-  // const genericFields = transformGenericFields(document);
-  // console.log(filterByExhibitionGuideFormat(data), 'can i have a filter');
+
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    component => {
+    (component, index) => {
       return {
-        number: Math.round(Math.random() * 10000000),
+        number: index.toString(),
         title: (component.title && asText(component.title)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
@@ -98,7 +89,7 @@ export function transformExhibitionGuide(
   //   return components[value].caption;
   // });
   //
-  // console.log(filterByGuide, 'let us have filters');
+  // TODO: Filters for guide types
 
   const promo =
     (data['related-exhibition'].data.promo &&

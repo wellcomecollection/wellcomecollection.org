@@ -28,21 +28,6 @@ export type ExhibitionGuideComponent = {
   bsl?: EmbedField;
 };
 
-// type Stop = {
-//   number: number;
-//   title: string;
-//   image?: ImageType;
-//   tombstone: prismicT.RichTextField;
-//   caption: prismicT.RichTextField;
-//   transcription?: prismicT.RichTextField;
-//   description?: string;
-//   audioWithDescription?: MediaObjectType;
-//   audioWithoutDescription?: MediaObjectType;
-//   bsl?: MediaObjectType;
-// };
-
-export type ExhibitionGuideFormat = string | number;
-
 export type ExhibitionLink = {
   id: string;
   title: string;
@@ -51,6 +36,7 @@ export type ExhibitionLink = {
 };
 
 export type Exhibit = {
+  description: string;
   exhibitType: 'exhibitions';
   item: ExhibitionLink[] | undefined;
 };
@@ -61,7 +47,7 @@ export type ExhibitionGuideBasic = {
   title: string | undefined;
   promo?: ImagePromo | undefined;
   image?: ImageType;
-  relatedExhibition: Exhibit[] | undefined;
+  relatedExhibition: Exhibit;
   start: string;
   isPermanent: string;
   contributors: string;
@@ -74,10 +60,10 @@ export type ExhibitionGuide = GenericContentFields & {
   title: string | undefined;
   image?: ImageType;
   promo?: ImagePromo | undefined;
-  relatedExhibition: Exhibit[] | undefined;
+  relatedExhibition: Exhibit;
   components: ExhibitionGuideComponent;
-  start: string;
-  isPermanent: string;
-  contributors: string;
-  labels: string;
+  start?: string;
+  isPermanent?: string;
+  contributors?: string;
+  labels?: string;
 };
