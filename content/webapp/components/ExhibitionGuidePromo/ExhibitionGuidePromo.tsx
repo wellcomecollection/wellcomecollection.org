@@ -20,7 +20,7 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
       }
       onClick={() => {
         trackEvent({
-          category: 'ExhibitionGuideBasic',
+          category: 'ExhibitionGuide',
           action: 'follow link',
           label: `${exhibitionGuide.id}`,
         });
