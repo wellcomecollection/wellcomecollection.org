@@ -5,16 +5,6 @@ import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
 
 export type ExhibitionGuideComponent = {
-  // number: number;
-  // title: string;
-  // tombstone?: RichTextField;
-  // image?: ImageType;
-  // description?: string;
-  // audioWithDescription?: MediaObjectType;
-  // audioWithoutDescription?: MediaObjectType;
-  // bsl?: MediaObjectType;
-  // caption?: RichTextField;
-  // transcript?: RichTextField;
   number: number;
   title: string;
   image?: ImageType;
@@ -47,6 +37,7 @@ export type ExhibitionGuideBasic = {
   promo?: ImagePromo | undefined;
   image?: ImageType;
   relatedExhibition: Exhibit;
+  components: ExhibitionGuideComponent;
   start: string;
   isPermanent: string;
   contributors: string;
