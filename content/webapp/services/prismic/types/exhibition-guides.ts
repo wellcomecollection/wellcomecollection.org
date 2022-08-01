@@ -7,7 +7,7 @@ import {
   LinkToMediaField,
   EmbedField,
 } from '@prismicio/types';
-import { Image } from '.';
+import { Image, CommonPrismicFields } from '.';
 
 export type ExhibitionLink = PrismicDocument<{
   title: RichTextField;
@@ -16,19 +16,21 @@ export type ExhibitionLink = PrismicDocument<{
   description: RichTextField;
 }>;
 
-export type ExhibitionGuidePrismicDocument = PrismicDocument<{
-  title: RichTextField;
-  relatedExhibition: RelationField<'exhibitions'>;
-  components: GroupField<{
-    number: NumberField;
+export type ExhibitionGuidePrismicDocument = PrismicDocument<
+  {
     title: RichTextField;
-    tombstone: RichTextField;
-    image: Image;
-    description: RichTextField;
-    audioWithDescription: LinkToMediaField;
-    audioWithoutDescription: LinkToMediaField;
-    bslVideo: EmbedField;
-    caption: RichTextField;
-    transcript: RichTextField;
-  }>;
-}>;
+    relatedExhibition: RelationField<'exhibitions'>;
+    components: GroupField<{
+      number: NumberField;
+      title: RichTextField;
+      tombstone: RichTextField;
+      image: Image;
+      description: RichTextField;
+      audioWithDescription: LinkToMediaField;
+      audioWithoutDescription: LinkToMediaField;
+      bslVideo: EmbedField;
+      caption: RichTextField;
+      transcript: RichTextField;
+    }>;
+  } & CommonPrismicFields
+>;

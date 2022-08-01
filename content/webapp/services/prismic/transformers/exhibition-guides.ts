@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText } from '.';
+import { asRichText, asText, transformGenericFields } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
@@ -47,6 +47,7 @@ function transformRelatedExhibition(exhibition): Exhibit {
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
+  const genericFields = transformGenericFields(document);
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
@@ -89,6 +90,7 @@ export function transformExhibitionGuide(
     : undefined;
 
   return {
+    ...genericFields,
     type: 'exhibition-guides',
     title: asText(document.data?.title) || '',
     promo,
