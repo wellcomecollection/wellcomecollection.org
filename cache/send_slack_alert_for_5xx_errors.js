@@ -255,6 +255,37 @@ async function post(url, data) {
   });
 }
 
+function isError(hit) {
+  return hit['sc-status'] >= 500;
+}
+
+function isInterestingError(hit) {
+  // We ignore errors on the CloudFront domain because nobody should
+  // be using it; it's probably somebody malicious.
+  if (hit['x-host-header'].endsWith('cloudfront.net')) {
+    return false;
+  }
+
+  // It turns out the ALB will throw a 503 Gateway Error if you try
+  // to request a URL that includes a percent-encoded newline; here's
+  // a minimal example:
+  //
+  //      https://wellcomecollection.org/%0A%20
+  //
+  // We've seen this occasionally when somebody tries to append an SVG
+  // as a data-uri to requests.  This generates a noisy Slack log.
+  //
+  // We can't do anything about this, so ignore it.
+  if (
+    hit['sc-status'] === 503 &&
+    hit['cs-uri-stem'].indexOf('%250A%2520') !== -1
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 exports.handler = async event => {
   // This Lambda receives event notifications from S3.
   //
@@ -273,22 +304,25 @@ exports.handler = async event => {
     );
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
-    const serverErrors = hits
-      .filter(h => h['sc-status'] >= 500)
-      .filter(
-        h =>
-          // We ignore errors on the CloudFront domain because nobody should
-          // be using it; it's probably somebody malicious.
-          !h['x-host-header'].endsWith('cloudfront.net')
-      );
+    const serverErrors = hits.filter(isError);
+    const interestingErrors = serverErrors.filter(isInterestingError);
 
-    if (serverErrors.length === 0) {
+    if (interestingErrors.length === 0 && serverErrors.length === 0) {
       console.info('No errors in this log file, nothing to do');
+    } else if (interestingErrors.length === 0) {
+      console.info(
+        `Detected ${serverErrors.length} error(s) in this log file, but nothing interesting, nothing to do`
+      );
     } else {
       console.info(
-        `Detected ${serverErrors.length} error(s), sending message to Slack`
+        `Detected ${serverErrors.length} error(s) and ${interestingErrors.length} interesting error(s), sending message to Slack`
       );
-      await sendSlackMessage(s3Object.bucket, s3Object.key, serverErrors, hits);
+      await sendSlackMessage(
+        s3Object.bucket,
+        s3Object.key,
+        interestingErrors,
+        hits
+      );
     }
   }
 };
