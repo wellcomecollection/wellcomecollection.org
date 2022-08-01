@@ -99,7 +99,9 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
         <h2>
           {stop.number}. {stop.title}
         </h2>
-        <em>{stop.tombstone.text}</em>
+        <em>
+          <PrismicHtmlBlock html={stop.tombstone} />
+        </em>
       </TitleTombstone>
       <CaptionTranscription>
         <Caption>
