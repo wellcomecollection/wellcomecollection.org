@@ -276,6 +276,15 @@ function isInterestingError(hit) {
   // as a data-uri to requests.  This generates a noisy Slack log.
   //
   // We can't do anything about this, so ignore it.
+  //
+  // Note: we have to accommodate for the percent-encoding that happens
+  // in CloudFront logs:
+  //
+  //    > decodeURIComponent('%250A%2520')
+  //    "%0A%20"
+  //    > decodeURIComponent('%0A%20')
+  //    "\n"
+  //
   if (
     hit['sc-status'] === 503 &&
     hit['cs-uri-stem'].indexOf('%250A%2520') !== -1
