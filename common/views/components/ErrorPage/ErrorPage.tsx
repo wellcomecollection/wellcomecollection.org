@@ -37,6 +37,7 @@ const ErrorPage: FunctionComponent<Props> = ({
       openGraphType={'website'}
       siteSection={null}
       image={undefined}
+      hideNewsletterPromo={true}
     >
       <Space v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
         <PageHeader
