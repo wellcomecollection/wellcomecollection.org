@@ -6,9 +6,12 @@ import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../SpacingSection/SpacingSection';
 import SpacingComponent from '../SpacingComponent/SpacingComponent';
 import Space from '../styled/Space';
-import { errorMessages } from '../../../data/microcopy';
 import { isNotUndefined } from '../../../utils/array';
-import { DefaultErrorText } from 'data/errors';
+import {
+  DefaultErrorText,
+  NotFoundErrorText,
+  errorMessages,
+} from '../../../data/errors';
 
 type Props = {
   statusCode?: number;
@@ -54,7 +57,11 @@ const ErrorPage: FunctionComponent<Props> = ({
         >
           <SpacingSection>
             <SpacingComponent>
-              <DefaultErrorText />
+              {statusCode === 404 ? (
+                <NotFoundErrorText />
+              ) : (
+                <DefaultErrorText />
+              )}
             </SpacingComponent>
           </SpacingSection>
         </div>
