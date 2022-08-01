@@ -5,23 +5,16 @@ import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
 
 export type ExhibitionGuideComponent = {
-  number?: number;
+  number: number;
   title: string;
   image?: ImageType;
-  tombstone?: RichTextField;
-  caption?: RichTextField;
-  transcription?: RichTextField;
+  tombstone: RichTextField;
+  caption: RichTextField;
+  transcription: RichTextField;
   description?: string;
   audioWithDescription?: MediaObjectType;
   audioWithoutDescription?: MediaObjectType;
   bsl?: EmbedField;
-
-  // number: number;
-  // title: string;
-  // image?: ImageType;
-  // tombstone: prismicT.RichTextField;
-  // caption: prismicT.RichTextField;
-  // transcription?: prismicT.RichTextField;
 };
 
 export type ExhibitionLink = {
@@ -38,6 +31,10 @@ export type Exhibit = {
   exhibitType: 'exhibitions';
   item: ExhibitionLink | undefined;
 };
+
+export interface Stop extends ExhibitionGuideComponent {
+  Stops: [Stop];
+}
 
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';

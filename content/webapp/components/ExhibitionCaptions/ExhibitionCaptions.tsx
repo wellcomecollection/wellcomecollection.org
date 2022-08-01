@@ -65,7 +65,7 @@ type Stop = {
 };
 
 type Props = {
-  stops: [Stop];
+  stops: Stop[];
 };
 
 const Stop: FC<{ stop: Stop }> = ({ stop }) => {
