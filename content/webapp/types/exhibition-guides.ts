@@ -3,6 +3,7 @@ import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
+import { GenericContentFields } from './generic-content-fields';
 
 export type ExhibitionGuideComponent = {
   number: number;
@@ -46,7 +47,7 @@ export type ExhibitionGuideBasic = {
   components: ExhibitionGuideComponent[];
 };
 
-export type ExhibitionGuide = {
+export type ExhibitionGuide = GenericContentFields & {
   type: 'exhibition-guides';
   id: string;
   title: string;

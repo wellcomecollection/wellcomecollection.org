@@ -16,56 +16,49 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { GetServerSideProps } from 'next';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
-  type: string; // TODO union - content type/guide format
-  id: string;
+  // type: string; // TODO union - content type/guide format
+  // id: string;
 };
 
-export const getServerSideProps: (context) => Promise<
-  | { notFound: boolean }
-  | {
-      props: {
-        jsonLd: JsonLdObj;
-        exhibitionGuide: ExhibitionGuide;
-        serverData: SimplifiedServerData;
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+    const { id } = context.query; // TODO should we have another page template to handle type or do everything in here?
+    if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
+      return { notFound: true };
+    }
+
+    const client = createClient(context);
+    const exhibitionGuideDocument = await fetchExhibitionGuide(
+      client,
+      id as string
+    );
+    if (exhibitionGuideDocument) {
+      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
+
+      const jsonLd = exhibitionGuideLd(exhibitionGuide);
+
+      return {
+        props: removeUndefinedProps({
+          exhibitionGuide,
+          jsonLd,
+          serverData,
+        }),
       };
-    } // TODO: Fix type issues which stop this from being GetServerSideProps<Props | AppErrorProps>
-> = async context => {
-  const serverData = await getServerData(context);
-  const { id } = context.query; // TODO should we have another page template to handle type or do everything in here?
-  if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
-    return { notFound: true };
-  }
-
-  const client = createClient(context);
-  const exhibitionGuideDocument = await fetchExhibitionGuide(
-    client,
-    id as string
-  );
-  if (exhibitionGuideDocument) {
-    const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
-
-    const jsonLd = exhibitionGuideLd(exhibitionGuide);
-
-    return {
-      props: removeUndefinedProps({
-        exhibitionGuide,
-        jsonLd,
-        serverData,
-      }),
-    };
-  } else {
-    return { notFound: true };
-  }
-};
+    } else {
+      return { notFound: true };
+    }
+  };
 
 const ExhibitionGuidesPage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd, type, id } = props;
-  const pathname = `guides/exhibition/${id}/${type}`; // TODO /id/content-type
+  const { exhibitionGuide, jsonLd } = props;
+  const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
   return (
     <PageLayout
       title={exhibitionGuide.title || ''}
