@@ -2,13 +2,14 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { font, classNames } from '@weco/common/utils/classnames';
 import { JSXFunctionSerializer } from '@prismicio/react';
 import * as prismicT from '@prismicio/types';
+import { FC } from 'react';
 
 type Props = {
   html: prismicT.RichTextField;
   htmlSerializer?: JSXFunctionSerializer;
 };
 
-const FeaturedText = ({ html, htmlSerializer }: Props) => (
+const FeaturedText: FC<Props> = ({ html, htmlSerializer }: Props) => (
   <div
     className={classNames({
       'body-text': true,

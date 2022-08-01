@@ -88,7 +88,7 @@ async function createSubscription({
   }
 }
 
-async function handleNewsletterSignup(ctx, next) {
+async function handleNewsletterSignup(ctx, next): Promise<void> {
   const { addressBookId, emailAddress } = ctx.request.body;
   const result = await createSubscription({
     emailAddress,
