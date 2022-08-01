@@ -157,6 +157,7 @@ export type WecoAppProps = AppProps;
 function isErrorPage(route: string): boolean {
   switch (route) {
     case '/404':
+    case '/500':
     case '/ _error':
       return true;
     default:
