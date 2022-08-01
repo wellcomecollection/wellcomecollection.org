@@ -52,7 +52,7 @@ export function transformExhibitionGuide(
   const components: ExhibitionGuideComponent[] = data.components?.map(
     (component, index) => {
       return {
-        number: index.toString(),
+        number: index.toString(), // TODO: Remove once Prismic UI allows us to add number
         title: (component.title && asText(component.title)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
