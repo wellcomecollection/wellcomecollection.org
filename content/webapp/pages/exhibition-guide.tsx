@@ -33,7 +33,7 @@ export const getServerSideProps: (context) => Promise<
         exhibitionGuide: ExhibitionGuide;
         serverData: SimplifiedServerData;
       };
-    }
+    } // TODO: Fix type issues which stop this from being GetServerSideProps<Props | AppErrorProps>
 > = async context => {
   const serverData = await getServerData(context);
   const { id } = context.query; // TODO should we have another page template to handle type or do everything in here?
