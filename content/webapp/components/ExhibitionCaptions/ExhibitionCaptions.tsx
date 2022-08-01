@@ -71,8 +71,8 @@ type Props = {
 const Stop: FC<{ stop: Stop }> = ({ stop }) => {
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
-    (stop[0].transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
-  const transcriptionFirstParagraph = stop[0].transcription?.slice(0, 1);
+    (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
+  const transcriptionFirstParagraph = stop.transcription?.slice(0, 1);
   const [isFullTranscription, setIsFullTranscription] = useState(true);
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
@@ -86,7 +86,7 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
 
   useEffect(() => {
     setTranscriptionText(
-      isFullTranscription ? stop[0].transcription : transcriptionFirstParagraph
+      isFullTranscription ? stop.transcription : transcriptionFirstParagraph
     );
   }, [isFullTranscription]);
 
@@ -97,24 +97,20 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
     >
       <TitleTombstone>
         <h2>
-          {stop[0].number}. {stop[0].title}
+          {stop.number}. {stop.title}
         </h2>
-        <em>{stop[0].tombstone.text}</em>
+        <em>{stop.tombstone.text}</em>
       </TitleTombstone>
       <CaptionTranscription>
         <Caption>
-          {stop[0].image?.contentUrl && (
+          {stop.image?.contentUrl && (
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <PrismicImageWrapper>
-                <PrismicImage
-                  image={stop[0].image}
-                  sizes={{}}
-                  quality={`low`}
-                />
+                <PrismicImage image={stop.image} sizes={{}} quality={`low`} />
               </PrismicImageWrapper>
             </Space>
           )}
-          <PrismicHtmlBlock html={stop[0].caption} />
+          <PrismicHtmlBlock html={stop.caption} />
         </Caption>
         {transcriptionText && (
           <Transcription>
@@ -148,8 +144,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
 const ExhibitionCaptions: FC<Props> = ({ stops }) => {
   return (
     <ul className="plain-list no-margin no-padding">
-      {stops.map((stop, index) => (
-        <Stop key={index.toString()} stop={[stop]} />
+      {stops.map((stop: Stop, index) => (
+        <Stop key={index.toString()} stop={stop} />
       ))}
     </ul>
   );
