@@ -2,13 +2,12 @@ import {
   ExhibitionGuide,
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
-  ExhibitionLink,
+  Exhibit,
 } from '../../../types/exhibition-guides';
 import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
-import { ImagePromo } from '../../../types/image-promo';
 
 export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
@@ -22,10 +21,6 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     promo,
     relatedExhibition,
     components,
-    start,
-    isPermanent,
-    contributors,
-    labels,
   }) => ({
     type,
     id,
@@ -34,15 +29,13 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
     promo,
     relatedExhibition,
     components,
-    start,
-    isPermanent,
-    contributors,
-    labels,
   }))(exhibitionGuide);
 }
 
-function transformRelatedExhibition(exhibition): ExhibitionLink {
+function transformRelatedExhibition(exhibition): Exhibit {
   return {
+    exhibitType: 'exhibitions',
+    item: undefined,
     id: exhibition.id,
     title: (exhibition.data && asText(exhibition.data.title)) || '',
     description:
@@ -53,14 +46,7 @@ function transformRelatedExhibition(exhibition): ExhibitionLink {
 
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
-): {
-  promo: ImagePromo | string;
-  components: ExhibitionGuideComponent[];
-  id: string;
-  title: string | undefined;
-  type: string;
-  relatedExhibition: ExhibitionLink | undefined;
-} {
+): ExhibitionGuide {
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
@@ -103,11 +89,11 @@ export function transformExhibitionGuide(
     : undefined;
 
   return {
-    title: asText(document.data?.title),
+    type: 'exhibition-guides',
+    title: asText(document.data?.title) || '',
     promo,
     relatedExhibition,
     components,
     id: document.id,
-    type: 'exhibition-guides',
   };
 }

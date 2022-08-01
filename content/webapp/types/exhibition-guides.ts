@@ -5,16 +5,23 @@ import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
 
 export type ExhibitionGuideComponent = {
-  number: number;
+  number?: number;
   title: string;
   image?: ImageType;
-  tombstone: RichTextField;
-  caption: RichTextField;
+  tombstone?: RichTextField;
+  caption?: RichTextField;
   transcription?: RichTextField;
   description?: string;
   audioWithDescription?: MediaObjectType;
   audioWithoutDescription?: MediaObjectType;
   bsl?: EmbedField;
+
+  // number: number;
+  // title: string;
+  // image?: ImageType;
+  // tombstone: prismicT.RichTextField;
+  // caption: prismicT.RichTextField;
+  // transcription?: prismicT.RichTextField;
 };
 
 export type ExhibitionLink = {
@@ -25,35 +32,29 @@ export type ExhibitionLink = {
 };
 
 export type Exhibit = {
+  id: string;
+  title: string;
   description: string;
   exhibitType: 'exhibitions';
-  item: ExhibitionLink[] | undefined;
+  item: ExhibitionLink | undefined;
 };
 
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;
-  title: string | undefined;
-  promo?: ImagePromo | undefined;
+  title: string;
+  promo?: ImagePromo;
   image?: ImageType;
-  relatedExhibition: Exhibit;
-  components: ExhibitionGuideComponent;
-  start: string;
-  isPermanent: string;
-  contributors: string;
-  labels: string;
+  relatedExhibition: Exhibit | undefined;
+  components: ExhibitionGuideComponent[];
 };
 
 export type ExhibitionGuide = {
   type: 'exhibition-guides';
   id: string;
-  title: string | undefined;
+  title: string;
   image?: ImageType;
-  promo?: ImagePromo | undefined;
-  relatedExhibition: Exhibit;
-  components: ExhibitionGuideComponent;
-  start?: string;
-  isPermanent?: string;
-  contributors?: string;
-  labels?: string;
+  promo?: ImagePromo;
+  relatedExhibition: Exhibit | undefined;
+  components: ExhibitionGuideComponent[];
 };
