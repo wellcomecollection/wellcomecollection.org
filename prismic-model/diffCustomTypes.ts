@@ -4,9 +4,17 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, Delta, isEmpty, printDelta } from './differ';
+import { diffJson, isEmpty, printDelta } from './differ';
 
-export default async function diffContentTypes(credentials?): Promise<void> {
+type Credentials = {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken: string;
+};
+
+export default async function diffContentTypes(
+  credentials?: Credentials
+): Promise<void> {
   await setEnvsFromSecrets(secrets, credentials);
 
   const resp = await fetch(`https://customtypes.prismic.io/customtypes`, {
@@ -26,7 +34,6 @@ export default async function diffContentTypes(credentials?): Promise<void> {
   const deltas = (
     await Promise.all(
       remoteCustomTypes.map(async remoteCustomType => {
-
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
@@ -47,9 +54,11 @@ export default async function diffContentTypes(credentials?): Promise<void> {
             return { id: remoteCustomType.id };
           }
         } catch (e) {
-          console.warn(`Prismic has type ${remoteCustomType.id}, but it's not defined locally`);
+          console.warn(
+            `Prismic has type ${remoteCustomType.id}, but it can't be loaded locally: ${e}`
+          );
           return { id: remoteCustomType.id };
-        };
+        }
       })
     )
   ).filter(Boolean) as { id: string }[];
