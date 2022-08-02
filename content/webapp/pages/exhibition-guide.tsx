@@ -66,8 +66,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionGuidesPage: FC<Props> = props => {
-  const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
   const { exhibitionGuide, jsonLd, type } = props;
+  const pathname = `guides/exhibition/${exhibitionGuide.id}${
+    type ? `/${type}` : ''
+  }`;
   return (
     <PageLayout
       title={exhibitionGuide.title || ''}
