@@ -81,13 +81,24 @@ async function findCloudFrontHitsFromLog(bucket, key) {
   return result;
 }
 
+/** Prints a human-readable description of a number, e.g. "5.2K" or "6M". */
+function humanize(n) {
+  if (n < 1000) {
+    return `${n}`;
+  } else if (n < 1000 * 1000) {
+    return `${Math.round(n / 100) / 10}K`;
+  } else {
+    return `${Math.round(n / (100 * 1000)) / 10}M`;
+  }
+}
+
 /** Send a message to Slack describing the errors.
  *
  * This includes a list of the erroring URLs.  Note that it's written
  * to a public Slack channel, so we need to be a bit careful what we log.
  */
-async function sendSlackMessage(bucket, key, serverErrors) {
-  const urls = serverErrors.map(function (e) {
+async function sendSlackMessage(bucket, key, serverErrors, hits) {
+  const lines = serverErrors.map(function (e) {
     const protocol = e['cs-protocol'];
     const host = e['x-host-header'];
     const path = e['cs-uri-stem'];
@@ -96,26 +107,44 @@ async function sendSlackMessage(bucket, key, serverErrors) {
     // will log this as '-'
     const query = e['cs-uri-query'] !== '-' ? e['cs-uri-query'] : null;
 
-    return createDisplayUrl(protocol, host, path, query);
+    const url = createDisplayUrl(protocol, host, path, query);
+    const status = e['sc-status'];
+
+    // We assume that most errors are generic 500 errors, but non-500 codes
+    // might be interesting and worth highlighting.
+    return status === 500 ? url : `${url} (${status})`;
   });
 
   // This creates a Markdown-formatted message like:
   //
-  //    The following URLs had errors in CloudFront:
+  //    5 errors / 5K requests / <https://us-east-1…|logs in S3>
+  //    ```
   //    https://example.org/badness
   //    https://example.org/more-badness
+  //    ```
   //
+  // Note: we put the summary message first so that if there are lots of lines with
+  // errors, the summary doesn't get truncated off the end.
+  //
+  // e.g. https://wellcome.slack.com/archives/CQ720BG02/p1659031456721909
+  //
+  const url = `https://us-east-1.console.aws.amazon.com/s3/object/${bucket}?region=us-east-1&prefix=${key}`;
+
+  const errorCount = `${humanize(lines.length)} error${
+    lines.length > 1 ? 's' : ''
+  }`;
+  const requestCount = `${humanize(hits.length)} request${
+    hits.length > 1 ? 's' : ''
+  }`;
+
   const message =
-    'The following URLs had errors in CloudFront:\n```\n' +
-    urls.join('\n') +
+    `${errorCount} / ${requestCount} / <${url}|logs in S3>\n` +
+    '```\n' +
+    lines.join('\n') +
     '\n```';
 
-  // TODO: Include a link to the original CloudFront log in this message.
-  // I tried including a Markdown link to the S3 console, but I got a 400 error
-  // from Slack.
-
   const slackPayload = {
-    username: 'cloudfront-5xx-errors',
+    username: `CloudFront: 5xx error${lines.length > 1 ? 's' : ''} detected`,
     icon_emoji: ':rotating_light:',
     attachments: [
       {
@@ -123,7 +152,7 @@ async function sendSlackMessage(bucket, key, serverErrors) {
         fallback: 'cloudfront-errors',
         fields: [
           {
-            value: `${message}`,
+            value: message,
           },
         ],
       },
@@ -226,6 +255,46 @@ async function post(url, data) {
   });
 }
 
+function isError(hit) {
+  return hit['sc-status'] >= 500;
+}
+
+function isInterestingError(hit) {
+  // We ignore errors on the CloudFront domain because nobody should
+  // be using it; it's probably somebody malicious.
+  if (hit['x-host-header'].endsWith('cloudfront.net')) {
+    return false;
+  }
+
+  // It turns out the ALB will throw a 503 Gateway Error if you try
+  // to request a URL that includes a percent-encoded newline; here's
+  // a minimal example:
+  //
+  //      https://wellcomecollection.org/%0A%20
+  //
+  // We've seen this occasionally when somebody tries to append an SVG
+  // as a data-uri to requests.  This generates a noisy Slack log.
+  //
+  // We can't do anything about this, so ignore it.
+  //
+  // Note: we have to accommodate for the percent-encoding that happens
+  // in CloudFront logs:
+  //
+  //    > decodeURIComponent('%250A%2520')
+  //    "%0A%20"
+  //    > decodeURIComponent('%0A%20')
+  //    "\n"
+  //
+  if (
+    hit['sc-status'] === 503 &&
+    hit['cs-uri-stem'].indexOf('%250A%2520') !== -1
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 exports.handler = async event => {
   // This Lambda receives event notifications from S3.
   //
@@ -244,21 +313,25 @@ exports.handler = async event => {
     );
 
     const hits = await findCloudFrontHitsFromLog(s3Object.bucket, s3Object.key);
-    const serverErrors = hits
-      .filter(h => h['sc-status'] >= 500)
-      .filter(h =>
-        // We ignore errors on the CloudFront domain because nobody should
-        // be using it; it's probably somebody malicious.
-        !(h['x-host-header'].endsWith('cloudfront.net'))
-      );
+    const serverErrors = hits.filter(isError);
+    const interestingErrors = serverErrors.filter(isInterestingError);
 
-    if (serverErrors.length === 0) {
+    if (interestingErrors.length === 0 && serverErrors.length === 0) {
       console.info('No errors in this log file, nothing to do');
+    } else if (interestingErrors.length === 0) {
+      console.info(
+        `Detected ${serverErrors.length} error(s) in this log file, but nothing interesting, nothing to do`
+      );
     } else {
       console.info(
-        `Detected ${serverErrors.length} error(s), sending message to Slack`
+        `Detected ${serverErrors.length} error(s) and ${interestingErrors.length} interesting error(s), sending message to Slack`
       );
-      await sendSlackMessage(s3Object.bucket, s3Object.key, serverErrors);
+      await sendSlackMessage(
+        s3Object.bucket,
+        s3Object.key,
+        interestingErrors,
+        hits
+      );
     }
   }
 };

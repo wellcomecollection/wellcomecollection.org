@@ -17,6 +17,7 @@ import CardGrid from '../CardGrid/CardGrid';
 import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
+// import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>

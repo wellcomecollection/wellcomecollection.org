@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState, useEffect } from 'react';
+import { SyntheticEvent, useState, useEffect, FC } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import { font, classNames } from '@weco/common/utils/classnames';
@@ -6,6 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import styled from 'styled-components';
+import { secondaryAddressBooks } from '@weco/common/data/dotdigital';
 
 const ErrorBox = styled(Space).attrs({
   v: {
@@ -29,38 +30,11 @@ type Props = {
   isConfirmed?: boolean;
 };
 
-type AddressBook = {
-  id: string;
-  label: string;
-  name: string;
-  description?: string;
-};
-
-const addressBooks: AddressBook[] = [
-  {
-    id: 'accessibility',
-    label: `Access events, tours and activities`,
-    name: 'addressbook_40129',
-  },
-  {
-    id: 'young_people_14-19',
-    label: `Events and activities for 14 to 19 year-olds`,
-    name: 'addressbook_40132',
-  },
-  {
-    id: 'teachers',
-    label: `Events and activities for teachers and schools`,
-    name: 'addressbook_40130',
-    description: `Study days and other events for secondary school teachers and school groups`,
-  },
-  {
-    id: 'youth_and_community_workers',
-    label: `Updates for youth and community workers`,
-    name: 'addressbook_40133',
-  },
-];
-
-const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
+const NewsletterSignup: FC<Props> = ({
+  isSuccess,
+  isError,
+  isConfirmed,
+}: Props) => {
   const [checkedInputs, setCheckedInputs] = useState<string[]>([]);
   const [isCheckboxError, setIsCheckboxError] = useState(true);
   const [noValidate, setNoValidate] = useState(false);
@@ -227,19 +201,19 @@ const NewsletterSignup = ({ isSuccess, isError, isConfirmed }: Props) => {
               </legend>
             </Space>
             <ul className="plain-list no-padding">
-              {addressBooks.map(addressBook => (
+              {secondaryAddressBooks.map(addressBook => (
                 <Space
                   as="li"
                   v={{ size: 'm', properties: ['margin-bottom'] }}
-                  key={addressBook.id}
+                  key={addressBook.slug}
                 >
                   <CheckboxRadio
-                    id={addressBook.id}
+                    id={addressBook.slug}
                     type={`checkbox`}
                     text={addressBook.label}
-                    value={addressBook.name}
-                    name={addressBook.name}
-                    checked={checkedInputs.includes(addressBook.id)}
+                    value={`address_${addressBook.id}`}
+                    name={`address_${addressBook.id}`}
+                    checked={checkedInputs.includes(addressBook.slug)}
                     onChange={updateCheckedInputs}
                   />
                 </Space>

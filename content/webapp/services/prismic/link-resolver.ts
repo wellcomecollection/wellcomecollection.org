@@ -12,6 +12,7 @@ const contentTypes = [
   'series',
   'webcomics',
   'guide-formats',
+  'exhibition-guides',
 ] as const;
 export type ContentType = typeof contentTypes[number];
 
@@ -28,6 +29,7 @@ function linkResolver(doc: { id: string; type: string }): string {
 
   if (type === 'webcomics') return `/articles/${id}`;
   if (type === 'webcomic-series') return `/series/${id}`;
+  if (type === 'exhibition-guides') return `/guides/exhibitions/${id}`;
 
   if (isContentType(type)) {
     return `/${type}/${id}`;

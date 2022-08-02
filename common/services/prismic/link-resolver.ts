@@ -31,6 +31,8 @@ export function linkResolver(doc: Doc): string {
       return `/projects/${doc.id}`;
     case 'guides':
       return `/guides/${doc.id}`;
+    case 'exhibition-guides':
+      return `/guides/exhibitions/${doc.id}`;
     default:
       return '/';
   }
