@@ -17,15 +17,12 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 
-const TypeLink = styled(Space).attrs({
-  as: 'a',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
+const TypeLink = styled.a`
   flex-basis: calc(50% - 20px);
   flex-grow: 0;
   flex-shrink: 0;
 
+  padding: 10px;
   text-decoration: none;
   background: ${props => props.theme.color('turquoise', 'light')};
 
@@ -122,31 +119,34 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       {!type ? (
         <Layout10>
+          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            <h1 className="h1">{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
+          </Space>
           <Space
-            v={{ size: 'xl', properties: ['margin-top'] }}
+            v={{ size: 'l', properties: ['margin-top'] }}
             className="flex flex--wrap"
             style={{ gap: '10px' }}
           >
             <TypeLink href={`/${pathname}/audio-without-descriptions`}>
-              <h2>Listen, without audio descriptions</h2>
+              <h2 className="h2">Listen, without audio descriptions</h2>
               <p>Find out more about the exhibition with short audio tracks.</p>
             </TypeLink>
             <TypeLink href={`/${pathname}/audio-with-descriptions`}>
-              <h2>Listen, with audio descriptions</h2>
+              <h2 className="h2">Listen, with audio descriptions</h2>
               <p>
                 Find out more about the exhibition with short audio tracks,
                 including descriptions of the objects.
               </p>
             </TypeLink>
             <TypeLink href={`/${pathname}/captions-and-transcripts`}>
-              <h2>Read captions and transcripts</h2>
+              <h2 className="h2">Read captions and transcripts</h2>
               <p>
                 All the wall and label texts from the gallery, and images of the
                 objects, great for those without headphones.
               </p>
             </TypeLink>
             <TypeLink href={`/${pathname}/bsl`}>
-              <h2>Watch BSL videos</h2>
+              <h2 className="h2">Watch BSL videos</h2>
               <p>
                 Commentary about the exhibition in British Sign Language videos.
               </p>
