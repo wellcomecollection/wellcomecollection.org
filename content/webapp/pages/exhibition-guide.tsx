@@ -69,11 +69,13 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-          <h2>{exhibitionGuide.title || ''}</h2>
+          <h2>{exhibitionGuide.title}</h2>
         </Space>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <h3>Introduction</h3>
-          <p>{exhibitionGuide.relatedExhibition?.description || ''}</p>
+          {exhibitionGuide.relatedExhibition && (
+            <p>{exhibitionGuide.relatedExhibition.description}</p>
+          )}
         </Space>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <ExhibitionCaptions
