@@ -202,11 +202,19 @@ const exhibitionGuidesDoc = {
 
 describe('transformExhibitionGuide', () => {
   it('sets a description on the exhibition guide from the related exhibition', () => {
-    const exhibition = transformExhibitionGuide(exhibitionGuidesDoc);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const exhibition = transformExhibitionGuide(exhibitionGuidesDoc as any);
 
     expect(exhibition.relatedExhibition?.description).toBe(
       'This exhibition explored the intriguing creations of the Festival Pattern Group – a unique project at the 1951 Festival of Britain involving X-ray crystallographers, designers and manufacturers.'
     );
+  });
+
+  it('returns a set of components', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const exhibition = transformExhibitionGuide(exhibitionGuidesDoc as any);
+    console.log(exhibition.components.length, 'the exhibition');
+    expect(exhibition.components.length).toBe(2);
   });
 });
 
