@@ -4,7 +4,7 @@ import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guide
 // import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
