@@ -16,6 +16,14 @@ import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCapti
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 
+const typeNames = [
+  'bsl',
+  'audio-with-description',
+  'audio-without-description',
+  'captions-and-transcripts',
+] as const;
+type GuideType = typeof typeNames[number];
+
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
