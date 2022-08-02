@@ -33,10 +33,6 @@ export type Exhibit = {
   item: ExhibitionLink | undefined;
 };
 
-export interface Stop extends ExhibitionGuideComponent {
-  Stops: [Stop];
-}
-
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;

@@ -5,8 +5,6 @@ import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guide
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import React, { FC } from 'react';
-// import { GetServerSideProps } from 'next';
-// import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
@@ -67,7 +65,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      image={undefined} // TODO, linked doc promo image, e.g. Exhibition image
+      image={exhibitionGuide.image || undefined}
     >
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
