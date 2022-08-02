@@ -35,6 +35,7 @@ export const workFixture: Work = {
       },
       roles: [],
       type: 'Contributor',
+      primary: true,
     },
     {
       agent: {
@@ -43,6 +44,7 @@ export const workFixture: Work = {
       },
       roles: [],
       type: 'Contributor',
+      primary: false,
     },
     {
       agent: {
@@ -51,6 +53,7 @@ export const workFixture: Work = {
       },
       roles: [],
       type: 'Contributor',
+      primary: false,
     },
   ],
   identifiers: [

@@ -79,6 +79,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
 
+  const primaryContributorLabel = work.contributors.find(
+    contributor => contributor.primary
+  )?.agent.label;
+
   return (
     <Wrapper>
       <WorkLink
@@ -119,12 +123,12 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 <WorkTitle title={work.title} />
               </h2>
 
-              {work.contributors.length > 0 && (
+              {primaryContributorLabel && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <LinkLabels
                     items={[
                       {
-                        text: work.contributors[0].agent.label,
+                        text: primaryContributorLabel,
                       },
                     ]}
                   />
