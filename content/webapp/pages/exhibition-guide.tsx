@@ -5,19 +5,23 @@ import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guide
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
-import { GetServerSideProps } from 'next';
-import { /* appError, */ AppErrorProps } from '@weco/common/views/pages/_app'; // TODO
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Space from '@weco/common/views/components/styled/Space';
+import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
+import { GetServerSideProps } from 'next';
+import { AppErrorProps } from '@weco/common/views/pages/_app';
 
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   // type: string; // TODO union - content type/guide format
+  // id: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -33,9 +37,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       client,
       id as string
     );
-
     if (exhibitionGuideDocument) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
+
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
       return {
@@ -50,11 +54,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const ExhibitionGuidesPage: FC<Props> = ({
-  exhibitionGuide,
-  jsonLd,
-  // type, // TODO keep content-types format in Prismic same as we do for Guides, Q. for PR
-}) => {
+const ExhibitionGuidesPage: FC<Props> = props => {
+  const { exhibitionGuide, jsonLd } = props;
   const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
   return (
     <PageLayout
@@ -64,33 +65,24 @@ const ExhibitionGuidesPage: FC<Props> = ({
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
-      image={undefined} // TODO, linked doc promo image, e.g. Exhibition image
+      image={exhibitionGuide.image || undefined}
     >
-      <p>Wellcome Collection Exhibition guide: {exhibitionGuide.title}</p>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          <details>
-            <summary>exhibition-guide</summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(exhibitionGuide, null, 1)}
-          </details>
-        </code>
-      </pre>
+      <Layout10>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <h2>{exhibitionGuide.title}</h2>
+        </Space>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <h3>Introduction</h3>
+          {exhibitionGuide.relatedExhibition && (
+            <p>{exhibitionGuide.relatedExhibition.description}</p>
+          )}
+        </Space>
+        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <ExhibitionCaptions
+            stops={exhibitionGuide.components}
+          ></ExhibitionCaptions>
+        </Space>
+      </Layout10>
     </PageLayout>
   );
 };

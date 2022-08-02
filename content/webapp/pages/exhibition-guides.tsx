@@ -17,6 +17,8 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -76,37 +78,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       siteSection={'whats-on'}
       image={image}
     >
-      <p>EXHIBITION GUIDES</p>
-      <pre
-        style={{
-          maxWidth: '600px',
-          margin: '0 auto 24px',
-          fontSize: '14px',
-        }}
-      >
-        <code
-          style={{
-            display: 'block',
-            padding: '24px',
-            backgroundColor: '#EFE1AA',
-            color: '#000',
-            border: '4px solid #000',
-            borderRadius: '6px',
-          }}
-        >
-          <details>
-            <summary>
-              {' '}
-              {/* eslint-disable-next-line no-restricted-syntax */}
-              {JSON.stringify(
-                exhibitionGuides.results[0].relatedExhibition?.title
-              )}
-            </summary>
-            {/* eslint-disable-next-line no-restricted-syntax */}
-            {JSON.stringify(exhibitionGuides.results[0], null, 1)}
-          </details>
-        </code>
-      </pre>
+      <SpacingSection>
+        <LayoutPaginatedResults
+          showFreeAdmissionMessage={false}
+          title={'Exhibition guides'}
+          paginatedResults={exhibitionGuides}
+          paginationRoot={'exhibition-guides'}
+        />
+      </SpacingSection>
     </PageLayout>
   );
 };

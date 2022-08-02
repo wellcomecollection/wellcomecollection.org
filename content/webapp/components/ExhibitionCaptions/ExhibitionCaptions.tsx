@@ -65,7 +65,7 @@ type Stop = {
 };
 
 type Props = {
-  stops: [Stop];
+  stops: Stop[];
 };
 
 const Stop: FC<{ stop: Stop }> = ({ stop }) => {
@@ -99,7 +99,9 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
         <h2>
           {stop.number}. {stop.title}
         </h2>
-        <em>{stop.tombstone}</em>
+        <em>
+          <PrismicHtmlBlock html={stop.tombstone} />
+        </em>
       </TitleTombstone>
       <CaptionTranscription>
         <Caption>
@@ -144,8 +146,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
 const ExhibitionCaptions: FC<Props> = ({ stops }) => {
   return (
     <ul className="plain-list no-margin no-padding">
-      {stops.map(stop => (
-        <Stop key={stop.number} stop={stop} />
+      {stops.map((stop, index) => (
+        <Stop key={index} stop={stop} />
       ))}
     </ul>
   );

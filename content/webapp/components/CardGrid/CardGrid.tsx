@@ -13,6 +13,7 @@ import ExhibitionPromo from '../ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '../StoryPromo/StoryPromo';
 import DailyTourPromo from './DailyTourPromo';
 import { MultiContent } from '../../types/multi-content';
+import ExhibitionGuidePromo from '../ExhibitionGuidePromo/ExhibitionGuidePromo';
 
 type Props = {
   items: readonly MultiContent[];
@@ -64,6 +65,9 @@ const CardGrid: FunctionComponent<Props> = ({
                   position={i}
                   hidePromoText={hidePromoText}
                 />
+              )}
+              {item.type === 'exhibition-guides' && (
+                <ExhibitionGuidePromo exhibitionGuide={item} />
               )}
               {item.type === 'books' && <BookPromo book={item} />}
               {(item.type === 'pages' ||
