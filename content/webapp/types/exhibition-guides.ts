@@ -1,4 +1,3 @@
-// only what is required to render ArticlePromos and json-ld
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { MediaObjectType } from './media-object';
