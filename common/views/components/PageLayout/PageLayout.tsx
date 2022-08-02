@@ -3,7 +3,7 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import HeaderPrototype from '../Header/HeaderPrototype';
+import Header from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -248,7 +248,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
 
-        <HeaderPrototype siteSection={siteSection} />
+        <Header siteSection={siteSection} />
 
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||
