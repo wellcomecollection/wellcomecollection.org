@@ -24,7 +24,6 @@ import SpacingComponent from '@weco/common/views/components/SpacingComponent/Spa
 import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import Outro from '../Outro/Outro';
@@ -49,6 +48,7 @@ type Props = {
     visitLinkText?: string;
     visitItem?: MultiContent;
   };
+  postOutroContent?: ReactNode;
   seasons?: Season[];
   contributors?: Contributor[];
   contributorTitle?: string;
@@ -106,6 +106,7 @@ const ContentPage = ({
   children,
   RelatedContent = [],
   outroProps,
+  postOutroContent,
   seasons = [],
   contributors,
   contributorTitle,
@@ -190,13 +191,7 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {id === prismicPageIds.covidWelcomeBack && (
-            <Layout8>
-              <div style={{ width: '100px' }}>
-                <WeAreGoodToGo />
-              </div>
-            </Layout8>
-          )}
+          {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
 
           {seasons.length > 0 &&
             seasons.map(season => (
