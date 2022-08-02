@@ -15,17 +15,28 @@ import { Exhibition } from '../../../types/exhibitions';
 import { ExhibitionGuide } from '../../../types/exhibition-guides';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
+// Guide from schema.org
+// https://schema.org/Guide
+// {
+//   "@context": "https://schema.org",
+//   "@type": "Guide",
+//   "about": "Hiking Boots",
+//   "name": "How to Choose Hiking Boots",
+//   "text": "Choosing the right hiking boots is a matchmaking process. Your dream hiking boots need to sync with how and where you hike. ...",
+//   "reviewAspect": [
+//   "Types",
+//   "Components",
+//   "Fit"
+// ]
+// }
 export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
   return objToJsonLd(
     {
+      '@type': 'Guide',
+      about: exhibitionGuide.title,
       name: exhibitionGuide.title,
-      description: exhibitionGuide.relatedExhibition?.description,
-      location: {
-        '@type': 'Place',
-        name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
-      },
-      url: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
+      text: exhibitionGuide.relatedExhibition?.description,
+      discussionUrl: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
     },
     'ExhibtionGuide'
   );
