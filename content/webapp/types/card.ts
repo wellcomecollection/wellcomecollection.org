@@ -1,4 +1,4 @@
-import { ImageType } from '@weco/common/model/image';
+import { getCrop, ImageType } from '@weco/common/model/image';
 import { Format } from './format';
 import { Event } from './events';
 import { Article } from './articles';
@@ -68,7 +68,7 @@ export function convertItemToCardProps(
             tasl: item.promo.image.tasl,
             simpleCrops: {
               '16:9': {
-                contentUrl: '',
+                contentUrl: getCrop(item.image, '16:9')?.contentUrl || '',
                 width: 1600,
                 height: 900,
               },
