@@ -1,7 +1,6 @@
 import { ExhibitionGuide } from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
-// import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
