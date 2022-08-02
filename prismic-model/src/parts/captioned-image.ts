@@ -1,12 +1,9 @@
-import structuredText from './structured-text';
+import { singleLineText } from './structured-text';
 import image from './image';
 
 export default function () {
   return {
     image: image('Image'),
-    caption: structuredText({
-      label: 'Caption',
-      allowMultipleParagraphs: false,
-    }),
+    caption: singleLineText({ label: 'Caption' }),
   };
 }

@@ -46,11 +46,15 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
     //
     // Casting them to JSON (which is where they started) and comparing strings is
     // easier than doing object comparisons in JavaScript.
-    if (key in newR && JSON.stringify(newR[key]) == JSON.stringify(oldR[key])) {
+    if (
+      key in newR &&
+      JSON.stringify(newR[key]) === JSON.stringify(oldR[key])
+    ) {
       continue;
     }
     // If the keys have different values and they're both objects, recurse down
-    // and compute another diff
+    // and compute another diff.  Because we only did JSON serialisation above,
+    // these two objects may turn out to be the same anyway.
     else if (
       key in newR &&
       typeof oldR[key] === 'object' &&
@@ -58,8 +62,10 @@ export const diffJson = (oldR: Object, newR: Object): Delta => {
     ) {
       const delta = diffJson(oldR[key], newR[key]);
 
-      oldRecordOnly[key] = delta.oldRecordOnly;
-      newRecordOnly[key] = delta.newRecordOnly;
+      if (delta.newRecordOnly.length > 0 || delta.oldRecordOnly.length > 0) {
+        oldRecordOnly[key] = delta.oldRecordOnly;
+        newRecordOnly[key] = delta.newRecordOnly;
+      }
     }
     // If the keys have different values and they're not objects, record their
     // value and move on.

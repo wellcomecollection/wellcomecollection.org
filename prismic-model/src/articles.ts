@@ -5,8 +5,7 @@ import link from './parts/link';
 import number from './parts/number';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import singleLineText from './parts/single-line-text';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const articles: CustomType = {
@@ -22,20 +21,21 @@ const articles: CustomType = {
     },
     Outro: {
       outroResearchItem: link('Outro: Research item'),
-      outroResearchLinkText: singleLineText('Outro: Research link text'),
+      outroResearchLinkText: singleLineText({
+        label: 'Outro: Research link text',
+      }),
       outroReadItem: link('Outro: Read item'),
-      outroReadLinkText: singleLineText('Outro: Read link text'),
+      outroReadLinkText: singleLineText({ label: 'Outro: Read link text' }),
       outroVisitItem: link('Outro: Visit item'),
-      outroVisitLinkText: singleLineText('Outro: Visit link text'),
+      outroVisitLinkText: singleLineText({ label: 'Outro: Visit link text' }),
     },
     Contributors: contributorsWithTitle(),
     Promo: {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText({
+      metadataDescription: singleLineText({
         label: 'Metadata description',
-        allowMultipleParagraphs: false,
       }),
     },
     'Content relationships': {
