@@ -70,6 +70,22 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
+const ExhibitionStops = props => {
+  const { type, stops } = props;
+  switch (type) {
+    case 'bsl':
+      return <p>bsl</p>;
+    case 'audio-with-description':
+      return <p>audio with description</p>;
+    case 'audio-without-description':
+      return <p>audio without description</p>;
+    case 'captions-and-transcripts':
+      return <ExhibitionCaptions stops={stops} />;
+    default:
+      return null;
+  }
+};
+
 const ExhibitionGuidesPage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type } = props;
   const pathname = `guides/exhibition/${exhibitionGuide.id}${
@@ -85,22 +101,24 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       siteSection={'whats-on'}
       image={exhibitionGuide.image || undefined}
     >
-      <Layout10>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-          <h2>{exhibitionGuide.title}</h2>
-        </Space>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-          <h3>Introduction</h3>
-          {exhibitionGuide.relatedExhibition && (
-            <p>{exhibitionGuide.relatedExhibition.description}</p>
-          )}
-        </Space>
-        <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-          <ExhibitionCaptions
-            stops={exhibitionGuide.components}
-          ></ExhibitionCaptions>
-        </Space>
-      </Layout10>
+      {!type ? (
+        <p>links</p>
+      ) : (
+        <Layout10>
+          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            <h2>{exhibitionGuide.title}</h2>
+          </Space>
+          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            <h3>Introduction</h3>
+            {exhibitionGuide.relatedExhibition && (
+              <p>{exhibitionGuide.relatedExhibition.description}</p>
+            )}
+          </Space>
+          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+          </Space>
+        </Layout10>
+      )}
     </PageLayout>
   );
 };
