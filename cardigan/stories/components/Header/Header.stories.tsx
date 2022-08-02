@@ -12,7 +12,6 @@ basic.storyName = 'Header';
 
 export const exhibitionGuides = Template.bind({});
 exhibitionGuides.args = {
-  siteSection: undefined,
   customNavLinks: exhibitionGuidesLinks,
   showLibraryLogin: false,
 };
