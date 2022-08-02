@@ -27,15 +27,18 @@ type GuideType = typeof typeNames[number];
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
-  // type: string; // TODO union - content type/guide format
-  // id: string;
+  type?: GuideType;
 };
+
+function isValidType(type) {
+  return typeNames.includes(type);
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id } = context.query; // TODO should we have another page template to handle type or do everything in here?
     if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
+    const { id, type } = context.query;
       return { notFound: true };
     }
 
@@ -54,6 +57,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           exhibitionGuide,
           jsonLd,
           serverData,
+          type: isValidType(type) ? (type as GuideType) : undefined,
         }),
       };
     } else {
@@ -62,8 +66,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionGuidesPage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd } = props;
   const pathname = `guides/exhibition/${exhibitionGuide.id}`; // TODO /id/content-type
+  const { exhibitionGuide, jsonLd, type } = props;
   return (
     <PageLayout
       title={exhibitionGuide.title || ''}
