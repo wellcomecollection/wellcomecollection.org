@@ -43,6 +43,7 @@ import { getCrop } from '@weco/common/model/image';
 import { isPicture, isVideoEmbed, BodySlice } from '../types/body';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
 export type Props = {
   page: PageType;
@@ -293,9 +294,11 @@ export const Page: FC<Props> = ({
       };
     });
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const orderedItems: PageType[] = groupWithOrder
       .filter(s => Boolean(s.order))
       .sort((a, b) => a.order! - b.order!);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     const unorderedItems: PageType[] = groupWithOrder.filter(s => !s.order);
 
@@ -333,6 +336,13 @@ export const Page: FC<Props> = ({
   // we put elsewhere on the website, e.g. in the header.
   const pathname = vanityUrl || `/pages/${page.id}`;
 
+  const postOutroContent =
+    page.id === prismicPageIds.covidWelcomeBack ? (
+      <div style={{ width: '100px' }}>
+        <WeAreGoodToGo />
+      </div>
+    ) : null;
+
   return (
     <PageLayout
       title={page.title}
@@ -363,6 +373,7 @@ export const Page: FC<Props> = ({
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
+        postOutroContent={postOutroContent}
         contributors={page.contributors}
         seasons={page.seasons}
       />
