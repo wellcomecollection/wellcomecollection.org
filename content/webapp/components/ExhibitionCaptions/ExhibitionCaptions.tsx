@@ -146,8 +146,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
 const ExhibitionCaptions: FC<Props> = ({ stops }) => {
   return (
     <ul className="plain-list no-margin no-padding">
-      {stops.map((stop: Stop, index) => (
-        <Stop key={index.toString()} stop={stop} />
+      {stops.map((stop, index) => (
+        <Stop key={index} stop={stop} />
       ))}
     </ul>
   );
