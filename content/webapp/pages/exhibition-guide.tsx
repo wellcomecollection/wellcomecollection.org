@@ -15,6 +15,25 @@ import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
+import styled from 'styled-components';
+
+const TypeLink = styled(Space).attrs({
+  as: 'a',
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})`
+  flex-basis: calc(50% - 20px);
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  text-decoration: none;
+  background: ${props => props.theme.color('turquoise', 'light')};
+
+  &:hover,
+  &:focus {
+    background: ${props => props.theme.color('marble')};
+  }
+`;
 
 const typeNames = [
   'bsl',
@@ -24,15 +43,15 @@ const typeNames = [
 ] as const;
 type GuideType = typeof typeNames[number];
 
+function isValidType(type) {
+  return typeNames.includes(type);
+}
+
 type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   type?: GuideType;
 };
-
-function isValidType(type) {
-  return typeNames.includes(type);
-}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -103,31 +122,35 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       {!type ? (
         <Layout10>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <a href={`/${pathname}/audio-without-descriptions`}>
+          <Space
+            v={{ size: 'xl', properties: ['margin-top'] }}
+            className="flex flex--wrap"
+            style={{ gap: '10px' }}
+          >
+            <TypeLink href={`/${pathname}/audio-without-descriptions`}>
               <h2>Listen, without audio descriptions</h2>
               <p>Find out more about the exhibition with short audio tracks.</p>
-            </a>
-            <a href={`/${pathname}/audio-with-descriptions`}>
+            </TypeLink>
+            <TypeLink href={`/${pathname}/audio-with-descriptions`}>
               <h2>Listen, with audio descriptions</h2>
               <p>
                 Find out more about the exhibition with short audio tracks,
                 including descriptions of the objects.
               </p>
-            </a>
-            <a href={`/${pathname}/captions-and-transcripts`}>
+            </TypeLink>
+            <TypeLink href={`/${pathname}/captions-and-transcripts`}>
               <h2>Read captions and transcripts</h2>
               <p>
                 All the wall and label texts from the gallery, and images of the
                 objects, great for those without headphones.
               </p>
-            </a>
-            <a href={`/${pathname}/bsl`}>
+            </TypeLink>
+            <TypeLink href={`/${pathname}/bsl`}>
               <h2>Watch BSL videos</h2>
               <p>
                 Commentary about the exhibition in British Sign Language videos.
               </p>
-            </a>
+            </TypeLink>
           </Space>
         </Layout10>
       ) : (
