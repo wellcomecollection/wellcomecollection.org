@@ -18,8 +18,8 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 
 const typeNames = [
   'bsl',
-  'audio-with-description',
-  'audio-without-description',
+  'audio-with-descriptions',
+  'audio-without-descriptions',
   'captions-and-transcripts',
 ] as const;
 type GuideType = typeof typeNames[number];
@@ -75,9 +75,9 @@ const ExhibitionStops = props => {
   switch (type) {
     case 'bsl':
       return <p>bsl</p>;
-    case 'audio-with-description':
+    case 'audio-with-descriptions':
       return <p>audio with description</p>;
-    case 'audio-without-description':
+    case 'audio-without-descriptions':
       return <p>audio without description</p>;
     case 'captions-and-transcripts':
       return <ExhibitionCaptions stops={stops} />;
@@ -88,7 +88,7 @@ const ExhibitionStops = props => {
 
 const ExhibitionGuidesPage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type } = props;
-  const pathname = `guides/exhibition/${exhibitionGuide.id}${
+  const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
   return (
@@ -102,7 +102,34 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       image={exhibitionGuide.image || undefined}
     >
       {!type ? (
-        <p>links</p>
+        <Layout10>
+          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            <a href={`/${pathname}/audio-without-descriptions`}>
+              <h2>Listen, without audio descriptions</h2>
+              <p>Find out more about the exhibition with short audio tracks.</p>
+            </a>
+            <a href={`/${pathname}/audio-with-descriptions`}>
+              <h2>Listen, with audio descriptions</h2>
+              <p>
+                Find out more about the exhibition with short audio tracks,
+                including descriptions of the objects.
+              </p>
+            </a>
+            <a href={`/${pathname}/captions-and-transcripts`}>
+              <h2>Read captions and transcripts</h2>
+              <p>
+                All the wall and label texts from the gallery, and images of the
+                objects, great for those without headphones.
+              </p>
+            </a>
+            <a href={`/${pathname}/bsl`}>
+              <h2>Watch BSL videos</h2>
+              <p>
+                Commentary about the exhibition in British Sign Language videos.
+              </p>
+            </a>
+          </Space>
+        </Layout10>
       ) : (
         <Layout10>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
