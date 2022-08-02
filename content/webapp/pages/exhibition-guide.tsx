@@ -37,8 +37,13 @@ function isValidType(type) {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    if (!looksLikePrismicId(id) || !serverData.toggles.exhibitionGuides) {
     const { id, type } = context.query;
+
+    if (
+      !looksLikePrismicId(id) ||
+      !serverData.toggles.exhibitionGuides ||
+      (type && !isValidType(type))
+    ) {
       return { notFound: true };
     }
 
