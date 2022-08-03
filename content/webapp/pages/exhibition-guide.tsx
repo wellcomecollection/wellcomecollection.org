@@ -22,6 +22,23 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+
+type StopProps = {
+  width: number;
+};
+const Stop = styled(Space).attrs({
+  as: 'li',
+  v: { size: 'm', properties: ['margin-bottom'] },
+})<StopProps>`
+  width: 100%;
+  ${props => props.theme.media.large`
+    width: calc(50% - 50px);
+  `}
+  ${props => props.theme.media.xlarge`
+    ${props => `width: calc(${props.width}% - 50px)`};
+  `}
+`;
 
 const TypeLink = styled.a`
   flex-basis: calc(50% - 20px);
@@ -98,8 +115,13 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
+  const stopWidth = type === 'bsl' ? 50 : 33;
+
   return (
-    <ul className="plain-list no-margin no-padding">
+    <ul
+      className="plain-list no-margin no-padding flex flex--wrap"
+      style={{ gap: '50px' }}
+    >
       {stops.map((stop, index) => {
         const {
           title,
@@ -114,7 +136,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return (
-          <li key={index}>
+          <Stop key={index} width={stopWidth}>
             <h2>
               {number}. {title}
             </h2>
@@ -134,8 +156,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
-                {type === 'bsl' && bsl?.embed_url && (
-                  <VideoEmbed embedUrl={bsl.embed_url} />
+                {type === 'bsl' && bsl?.embedUrl && (
+                  <VideoEmbed embedUrl={bsl.embedUrl as string} />
                 )}
               </>
             ) : (
@@ -143,7 +165,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                 <p>There is no content to display</p>
               </>
             )}
-          </li>
+          </Stop>
         );
       })}
     </ul>
@@ -230,6 +252,18 @@ const ExhibitionGuidesPage: FC<Props> = props => {
             {exhibitionGuide.relatedExhibition && (
               <p>{exhibitionGuide.relatedExhibition.description}</p>
             )}
+            <p>
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+                <ButtonSolidLink
+                  text="Change guide type"
+                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                />
+              </Space>
+              <ButtonSolidLink
+                text="Change exhibition"
+                link="/guides/exhibitions"
+              />
+            </p>
           </Space>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
