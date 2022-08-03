@@ -1,4 +1,4 @@
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import text from './parts/text';
 
 const teams = {
@@ -8,15 +8,11 @@ const teams = {
   status: true,
   json: {
     Team: {
-      title: structuredText({
+      title: singleLineText({
         label: 'Title',
-        allowMultipleParagraphs: false,
-        extraHtmlTypes: ['heading1'],
+        extraTextOptions: ['heading1'],
       }),
-      subtitle: structuredText({
-        label: 'Subtitle',
-        allowMultipleParagraphs: false,
-      }),
+      subtitle: singleLineText({ label: 'Subtitle' }),
       email: text('Email'),
       phone: text('Phone'),
       url: text('URL'),

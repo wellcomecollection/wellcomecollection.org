@@ -1,4 +1,4 @@
-import structuredText from './structured-text';
+import { singleLineText } from './structured-text';
 import text from './text';
 import link from './link';
 import select from './select';
@@ -9,10 +9,7 @@ export default function () {
     type: 'Slice',
     fieldset: 'Gif video',
     'non-repeat': {
-      caption: structuredText({
-        label: 'Caption',
-        allowMultipleParagraphs: false,
-      }),
+      caption: singleLineText({ label: 'Caption' }),
       tasl: text(
         'TASL',
         'title|author|sourceName|sourceLink|license|copyrightHolder|copyrightLink'

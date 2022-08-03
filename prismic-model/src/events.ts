@@ -3,7 +3,7 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import link from './parts/link';
 import list from './parts/list';
-import structuredText from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/structured-text';
 import embed from './parts/embed';
 import booleanDeprecated from './parts/boolean-deprecated';
 import text from './parts/text';
@@ -34,7 +34,7 @@ function reservationBlock(prefix?: string) {
       'web'
     ),
     [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
-      structuredText({ label: 'Extra information' }),
+      multiLineText({ label: 'Extra information' }),
     [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
       policy: link('Policy', 'document', ['event-policies']),
     }),
@@ -73,7 +73,7 @@ const events: CustomType = {
           'interpretation-types',
         ]),
         isPrimary: booleanDeprecated('Primary interprtation'),
-        extraInformation: structuredText({ label: 'Extra information' }),
+        extraInformation: multiLineText({ label: 'Extra information' }),
       }),
       audiences: list('Audiences', {
         audience: link('Audience', 'document', ['audiences']),
@@ -95,10 +95,7 @@ const events: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText({
-        label: 'Metadata description',
-        allowMultipleParagraphs: false,
-      }),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       series: list('Event series', {

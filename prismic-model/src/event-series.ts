@@ -3,7 +3,7 @@ import promo from './parts/promo';
 import body from './parts/body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
 import link from './parts/link';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const eventSeries: CustomType = {
@@ -24,10 +24,7 @@ const eventSeries: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText({
-        label: 'Metadata description',
-        allowMultipleParagraphs: false,
-      }),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
   },
 };

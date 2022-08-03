@@ -1,4 +1,4 @@
-import structuredText from './parts/structured-text';
+import { multiLineText } from './parts/structured-text';
 import select from './parts/select';
 import text from './parts/text';
 import { CustomType } from './types/CustomType';
@@ -10,10 +10,9 @@ const globalAlert: CustomType = {
   status: true,
   json: {
     'Global alert': {
-      text: structuredText({
+      text: multiLineText({
         label: 'text',
-        allowMultipleParagraphs: true,
-        extraHtmlTypes: ['heading2'],
+        extraTextOptions: ['heading2'],
         placeholder: 'text',
       }),
       isShown: select('Display', ['hide', 'show'], 'hide', 'Show or hide'),

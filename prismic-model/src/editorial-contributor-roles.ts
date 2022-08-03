@@ -1,4 +1,4 @@
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import text from './parts/text';
 import { CustomType } from './types/CustomType';
 
@@ -9,10 +9,9 @@ const editorialContributorRoles: CustomType = {
   status: true,
   json: {
     Contributor: {
-      title: structuredText({
+      title: singleLineText({
         label: 'Title',
-        allowMultipleParagraphs: false,
-        extraHtmlTypes: ['heading1'],
+        extraTextOptions: ['heading1'],
       }),
       describedBy: text('Word to describe output of the role'),
     },

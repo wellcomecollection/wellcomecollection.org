@@ -1,5 +1,5 @@
 import title from './parts/title';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const audiences: CustomType = {
@@ -10,10 +10,7 @@ const audiences: CustomType = {
   json: {
     Audience: {
       title,
-      description: structuredText({
-        label: 'Description',
-        allowMultipleParagraphs: false,
-      }),
+      description: singleLineText({ label: 'Description' }),
     },
   },
 };

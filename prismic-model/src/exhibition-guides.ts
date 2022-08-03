@@ -3,7 +3,7 @@ import title from './parts/title';
 import link from './parts/link';
 import list from './parts/list';
 import image from './parts/image';
-import structuredText from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/structured-text';
 import embed from './parts/embed';
 import number from './parts/number';
 
@@ -29,15 +29,9 @@ const exhibitionGuides: CustomType = {
         title,
         // Info on the choice for the name tombstone instead of creator
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
-        tombstone: structuredText({
-          label: 'Tombstone',
-          allowMultipleParagraphs: false,
-        }),
+        tombstone: singleLineText({ label: 'Tombstone' }),
         image: image('image'),
-        description: structuredText({
-          label: 'Description',
-          allowMultipleParagraphs: false,
-        }),
+        description: singleLineText({ label: 'Description' }),
         'audio-with-description': link('Audio with description', 'media', []),
         'audio-without-description': link(
           'Audio without description',
@@ -45,14 +39,8 @@ const exhibitionGuides: CustomType = {
           []
         ),
         'bsl-video': embed('Embed (Youtube)'),
-        caption: structuredText({
-          label: 'Caption',
-          allowMultipleParagraphs: true,
-        }),
-        transcript: structuredText({
-          label: 'Transcript',
-          allowMultipleParagraphs: true,
-        }),
+        caption: multiLineText({ label: 'Caption' }),
+        transcript: multiLineText({ label: 'Transcript' }),
       }),
     },
   },
