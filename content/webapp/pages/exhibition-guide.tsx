@@ -1,4 +1,7 @@
-import { ExhibitionGuide } from '../types/exhibition-guides';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideComponent,
+} from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
@@ -88,7 +91,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Stops = ({ stops, type }) => {
+type StopsProps = {
+  stops: ExhibitionGuideComponent[];
+  type?: GuideType;
+};
+
+const Stops: FC<StopsProps> = ({ stops, type }) => {
   return (
     <ul className="plain-list no-margin no-padding">
       {stops.map((stop, index) => {
@@ -100,10 +108,10 @@ const Stops = ({ stops, type }) => {
           bsl,
         } = stop;
         const hasContentOfDesiredType =
-          (type === 'audio-with-descriptions' && audioWithDescription.url) ||
+          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
           (type === 'audio-without-descriptions' &&
-            audioWithoutDescription.url) ||
-          (type === 'bsl' && bsl.embedUrl);
+            audioWithoutDescription?.url) ||
+          (type === 'bsl' && bsl?.embedUrl);
         return (
           <li key={index}>
             <h2>
@@ -112,21 +120,21 @@ const Stops = ({ stops, type }) => {
             {hasContentOfDesiredType ? (
               <>
                 {type === 'audio-with-descriptions' &&
-                  audioWithDescription.url && (
+                  audioWithDescription?.url && (
                     <AudioPlayer
                       title={stop.title} // TODO option not to display title
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription.url && (
+                  audioWithoutDescription?.url && (
                     <AudioPlayer
                       title={title} // TODO option not to display title
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
-                {type === 'bsl' && bsl.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                {type === 'bsl' && bsl?.embed_url && (
+                  <VideoEmbed embedUrl={bsl.embed_url} />
                 )}
               </>
             ) : (
@@ -144,9 +152,7 @@ const Stops = ({ stops, type }) => {
 const ExhibitionStops = ({ type, stops }) => {
   switch (type) {
     case 'bsl':
-      return <Stops stops={stops} type={type} />;
     case 'audio-with-descriptions':
-      return <Stops stops={stops} type={type} />;
     case 'audio-without-descriptions':
       return <Stops stops={stops} type={type} />;
     case 'captions-and-transcripts':
