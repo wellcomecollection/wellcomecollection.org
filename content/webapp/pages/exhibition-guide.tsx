@@ -19,6 +19,7 @@ import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCapti
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 
@@ -174,8 +175,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
       openGraphType={'website'}
-      siteSection={'whats-on'}
+      siteSection={'exhibition-guides'}
       image={exhibitionGuide.image || undefined}
+      headerProps={{
+        customNavLinks: exhibitionGuidesLinks,
+        showLibraryLogin: false,
+      }}
+      hideNewsletterPromo={true}
+      hideFooter={true}
     >
       {!type ? (
         <Layout10>
