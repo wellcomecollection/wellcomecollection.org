@@ -25,7 +25,7 @@ import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
 type StopProps = {
-  width: string;
+  width: number;
 };
 const Stop = styled(Space).attrs({
   as: 'li',
@@ -36,7 +36,7 @@ const Stop = styled(Space).attrs({
     width: calc(50% - 50px);
   `}
   ${props => props.theme.media.xlarge`
-    width: ${props => props.width};
+    ${props => `width: calc(${props.width}% - 50px)`};
   `}
 `;
 
@@ -115,7 +115,7 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const stopWidth = type === 'bsl' ? 'calc(50% - 50px)' : 'calc(33% - 50px)';
+  const stopWidth = type === 'bsl' ? 50 : 33;
 
   return (
     <ul
