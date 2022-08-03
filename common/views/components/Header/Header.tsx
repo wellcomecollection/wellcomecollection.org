@@ -324,7 +324,7 @@ export const links: NavLink[] = [
 
 export const exhibitionGuidesLinks: NavLink[] = [
   {
-    href: '/guides/exhibition-guides',
+    href: '/guides/exhibitions',
     title: 'Exhibition guides',
   },
 ];
