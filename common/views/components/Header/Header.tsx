@@ -286,7 +286,7 @@ type NavLink = {
 type Props = {
   siteSection: string | null;
   customNavLinks?: NavLink[];
-  showLibraryLogin: boolean;
+  showLibraryLogin?: boolean;
 };
 
 export const links: NavLink[] = [
