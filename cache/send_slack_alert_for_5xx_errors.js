@@ -292,6 +292,15 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // This is the Elastic IP address of the platform AWS account;
+  // errors here are probably in our end-to-end tests.
+  //
+  // Since we already get alerts for the e2e tests and they can be
+  // very chatty when something goes wrong, ignore these errors.
+  if (hit['c-ip'] === '54.216.243.181') {
+    return false;
+  }
+
   return true;
 }
 

@@ -36,6 +36,10 @@ const WorkHeader: FunctionComponent<Props> = ({
   const cardLabels = getCardLabels(work);
   const { childManifestsCount } = useIIIFManifestData(work);
 
+  const primaryContributorLabel = work.contributors.find(
+    contributor => contributor.primary
+  )?.agent.label;
+
   return (
     <WorkHeaderContainer>
       <Space
@@ -63,12 +67,12 @@ const WorkHeader: FunctionComponent<Props> = ({
             <WorkTitle title={work.title} />
           </h1>
 
-          {work.contributors.length > 0 && (
+          {primaryContributorLabel && (
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <LinkLabels
                 items={[
                   {
-                    text: work.contributors[0].agent.label,
+                    text: primaryContributorLabel,
                     url: null,
                   },
                 ]}

@@ -17,6 +17,8 @@ import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
+import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 
 const TypeLink = styled.a`
   flex-basis: calc(50% - 20px);
@@ -87,15 +89,67 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const ExhibitionStops = props => {
-  const { type, stops } = props;
+const Stops = ({ stops, type }) => {
+  return (
+    <ul className="plain-list no-margin no-padding">
+      {stops.map((stop, index) => {
+        const {
+          title,
+          number,
+          audioWithDescription,
+          audioWithoutDescription,
+          bsl,
+        } = stop;
+        const hasContentOfDesiredType =
+          (type === 'audio-with-descriptions' && audioWithDescription.url) ||
+          (type === 'audio-without-descriptions' &&
+            audioWithoutDescription.url) ||
+          (type === 'bsl' && bsl.embedUrl);
+        return (
+          <li key={index}>
+            <h2>
+              {number}. {title}
+            </h2>
+            {hasContentOfDesiredType ? (
+              <>
+                {type === 'audio-with-descriptions' &&
+                  audioWithDescription.url && (
+                    <AudioPlayer
+                      title={stop.title} // TODO option not to display title
+                      audioFile={audioWithDescription.url}
+                    />
+                  )}
+                {type === 'audio-without-descriptions' &&
+                  audioWithoutDescription.url && (
+                    <AudioPlayer
+                      title={title} // TODO option not to display title
+                      audioFile={audioWithoutDescription.url}
+                    />
+                  )}
+                {type === 'bsl' && bsl.embedUrl && (
+                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                )}
+              </>
+            ) : (
+              <>
+                <p>There is no content to display</p>
+              </>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+const ExhibitionStops = ({ type, stops }) => {
   switch (type) {
     case 'bsl':
-      return <p>bsl</p>;
+      return <Stops stops={stops} type={type} />;
     case 'audio-with-descriptions':
-      return <p>audio with description</p>;
+      return <Stops stops={stops} type={type} />;
     case 'audio-without-descriptions':
-      return <p>audio without description</p>;
+      return <Stops stops={stops} type={type} />;
     case 'captions-and-transcripts':
       return <ExhibitionCaptions stops={stops} />;
     default:

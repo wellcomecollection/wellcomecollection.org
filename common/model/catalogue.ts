@@ -98,6 +98,7 @@ type Contributor = {
   agent: Agent;
   roles: ContributorRole[];
   type: 'Contributor';
+  primary: boolean;
 };
 
 type Subject = {
