@@ -16,27 +16,30 @@ import { ExhibitionGuide } from '../../../types/exhibition-guides';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
 
 // Guide from schema.org
-// https://schema.org/Guide
-// {
-//   "@context": "https://schema.org",
-//   "@type": "Guide",
-//   "about": "Hiking Boots",
-//   "name": "How to Choose Hiking Boots",
-//   "text": "Choosing the right hiking boots is a matchmaking process. Your dream hiking boots need to sync with how and where you hike. ...",
-//   "reviewAspect": [
-//   "Types",
-//   "Components",
-//   "Fit"
-// ]
-// }
+// https://schema.org/Thing
+//   {
+//     "@context": "https://schema.org/",
+//     "@type": "Thing",
+//     "name": "Schema.org Ontology",
+//     "subjectOf": {
+//       "@type": "Book",
+//       "name": "The Complete History of Schema.org"
+//     }
+//   }
+
 export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
   return objToJsonLd(
     {
-      '@type': 'Guide',
-      about: exhibitionGuide.title,
+      '@type': 'Thing',
       name: exhibitionGuide.title,
       text: exhibitionGuide.relatedExhibition?.description,
+      subjectOf: {
+        '@type': 'Exhibition',
+        name: exhibitionGuide.relatedExhibition?.title,
+      },
       discussionUrl: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
+      potentialAction: 'make use of a guide whilst visiting an exhibition',
+      mainEntityOfPage: `https://wellcomecollection.org/guides/exhibitions/${exhibitionGuide.id}`,
     },
     'ExhibtionGuide'
   );
