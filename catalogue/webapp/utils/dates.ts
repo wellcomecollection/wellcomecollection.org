@@ -52,7 +52,7 @@ export function convertDayNumberToDay(dayNumber: DayNumber): Day {
   }
 }
 
-export function findNextRegularOpenDay(
+export function findNextPickUpDay(
   date: Moment,
   regularClosedDays: DayNumber[]
 ): Moment | undefined {
@@ -60,9 +60,24 @@ export function findNextRegularOpenDay(
     // All days are closed, so we'll never be able to find a non closed day.
     return undefined;
   }
+
+  // If the library is closed on this day, we want to set the pick-up day to be
+  // the next open day plus one, so that e.g. Monday morning isn't a scramble
+  // for library staff handling the weekend's requests. Since this function
+  // calls itself recursively, we add one day if we're closed today and
+  // tomorrow, but add two days if we're closed today and open tomorrow.
+
+  const nextDay = date.clone().add(1, 'days');
   const isClosed = regularClosedDays.includes(date.day() as DayNumber);
+  const isLastClosedDay = !regularClosedDays.includes(
+    nextDay.day() as DayNumber
+  );
+
   if (isClosed) {
-    return findNextRegularOpenDay(date.add(1, 'day'), regularClosedDays);
+    return findNextPickUpDay(
+      date.add(isLastClosedDay ? 2 : 1, 'day'),
+      regularClosedDays
+    );
   } else {
     return date;
   }
@@ -77,7 +92,7 @@ export function determineNextAvailableDate(
     date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
   );
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  return findNextRegularOpenDay(nextAvailableDate, regularClosedDays);
+  return findNextPickUpDay(nextAvailableDate, regularClosedDays);
 }
 
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
