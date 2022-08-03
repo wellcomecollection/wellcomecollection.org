@@ -7,6 +7,7 @@ import { ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { font } from '@weco/common/utils/classnames';
 
 const TitleTombstone = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-right'] },
@@ -96,13 +97,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
       v={{ size: 'xl', properties: ['margin-bottom'] }}
     >
       <TitleTombstone>
-        <h2>
-          {stop.number ? `${stop.number}. ` : ''}
-          {stop.title}
-        </h2>
-        <em>
-          <PrismicHtmlBlock html={stop.tombstone} />
-        </em>
+        <h2 className="h2">{stop.title}</h2>
+        <PrismicHtmlBlock html={stop.tombstone} />
       </TitleTombstone>
       <CaptionTranscription>
         <Caption>
@@ -117,7 +113,9 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
         </Caption>
         {transcriptionText && (
           <Transcription>
-            <h3>Audio transcript</h3>
+            <h3 className={font('wb', 5)}>
+              {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
+            </h3>
             <div id="transcription-text">
               <PrismicHtmlBlock
                 html={transcriptionText as prismicT.RichTextField}
