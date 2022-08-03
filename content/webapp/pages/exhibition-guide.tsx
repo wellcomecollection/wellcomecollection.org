@@ -20,6 +20,22 @@ import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
+type StopProps = {
+  width: string;
+};
+const Stop = styled(Space).attrs({
+  as: 'li',
+  v: { size: 'm', properties: ['margin-bottom'] },
+})<StopProps>`
+  width: 100%;
+  ${props => props.theme.media.large`
+    width: calc(50% - 50px);
+  `}
+  ${props => props.theme.media.xlarge`
+    width: ${props => props.width};
+  `}
+`;
+
 const TypeLink = styled.a`
   flex-basis: calc(50% - 20px);
   flex-grow: 0;
@@ -90,8 +106,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Stops = ({ stops, type }) => {
+  const stopWidth = type === 'bsl' ? 'calc(50% - 50px)' : 'calc(33% - 50px)';
+
   return (
-    <ul className="plain-list no-margin no-padding">
+    <ul
+      className="plain-list no-margin no-padding flex flex--wrap"
+      style={{ gap: '50px' }}
+    >
       {stops.map((stop, index) => {
         const {
           title,
@@ -106,7 +127,7 @@ const Stops = ({ stops, type }) => {
             audioWithoutDescription.url) ||
           (type === 'bsl' && bsl.embedUrl);
         return (
-          <li key={index}>
+          <Stop key={index} width={stopWidth}>
             <h2>
               {number}. {title}
             </h2>
@@ -135,7 +156,7 @@ const Stops = ({ stops, type }) => {
                 <p>There is no content to display</p>
               </>
             )}
-          </li>
+          </Stop>
         );
       })}
     </ul>
