@@ -3,7 +3,7 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import Header from '../Header/Header';
+import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -30,7 +30,13 @@ export type SiteSection =
   | 'visit-us'
   | 'stories'
   | 'whats-on'
-  | 'identity';
+  | 'identity'
+  | 'exhibition-guides';
+
+type HeaderProps = {
+  customNavLinks: NavLink[];
+  showLibraryLogin?: boolean;
+};
 
 export type Props = {
   title: string;
@@ -45,6 +51,7 @@ export type Props = {
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
+  headerProps?: HeaderProps;
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -60,6 +67,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideNewsletterPromo = false,
   hideFooter = false,
   excludeRoleMain = false,
+  headerProps,
 }) => {
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
@@ -248,7 +256,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
 
-        <Header siteSection={siteSection} />
+        <Header siteSection={siteSection} {...headerProps} />
 
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||

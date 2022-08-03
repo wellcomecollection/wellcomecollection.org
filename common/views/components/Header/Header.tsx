@@ -277,7 +277,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-type NavLink = {
+export type NavLink = {
   href: string;
   title: string;
   siteSection?: string;
@@ -324,8 +324,9 @@ export const links: NavLink[] = [
 
 export const exhibitionGuidesLinks: NavLink[] = [
   {
-    href: '/guides/exhibition-guides',
+    href: '/guides/exhibitions',
     title: 'Exhibition guides',
+    siteSection: 'exhibition-guides',
   },
 ];
 
