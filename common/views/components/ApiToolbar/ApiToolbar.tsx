@@ -104,7 +104,7 @@ function getRouteProps(path: string) {
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
         const { id } = query;
 
-        const tzitzitLink = await createTzitzitLink(id);
+        const tzitzitLink = await createTzitzitLink(id as string);
 
         return [tzitzitLink];
       };
