@@ -89,6 +89,26 @@ function transformRelatedExhibition(exhibition): Exhibit {
   };
 }
 
+function transformYoutubeEmbed(embed) {
+  // TODO share some of this with transformEmbedSlice?
+  if (embed.provider_url === 'https://www.youtube.com/') {
+    const embedUrl = embed.html!.match(/src="([^"]+)"?/)![1];
+
+    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
+      'www.youtube.com',
+      'www.youtube-nocookie.com'
+    );
+
+    const newEmbedUrl = embedUrl.includes('?')
+      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
+      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+
+    return {
+      embedUrl: newEmbedUrl,
+    };
+  }
+}
+
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
@@ -108,9 +128,11 @@ export function transformExhibitionGuide(
         caption: (component.caption && asRichText(component.caption)) || [],
         transcription:
           (component.transcript && asRichText(component.transcript)) || [],
-        audioWithDescription: component['audio-with-description'],
-        audioWithoutDescription: component['audio-without-description'],
-        bsl: component['bsl-video'],
+        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
+        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+        bsl: component['bsl-video'].provider_name // TODO better way of checking?
+          ? transformYoutubeEmbed(component['bsl-video'])
+          : {},
       };
     }
   );
