@@ -18,6 +18,7 @@ import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 
 const TypeLink = styled.a`
   flex-basis: calc(50% - 20px);
@@ -217,6 +218,18 @@ const ExhibitionGuidesPage: FC<Props> = props => {
             {exhibitionGuide.relatedExhibition && (
               <p>{exhibitionGuide.relatedExhibition.description}</p>
             )}
+            <p>
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+                <ButtonSolidLink
+                  text="Change guide type"
+                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                />
+              </Space>
+              <ButtonSolidLink
+                text="Change exhibition"
+                link="/guides/exhibitions"
+              />
+            </p>
           </Space>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
