@@ -20,7 +20,7 @@ The exhibition guide card will show the promo image for the exhibition (pulled f
 ## Adding components to your exhibition guide (i.e. stops, sections, subsections)
 
 In Prismic, within your newly created exhibition guide, go to the components tab. Here you will see you have the option to add 'Guide Components'. You can add all the information for a component, or stop, in each repeatable component.
-You can now add all the data including: Position Number (though we may change how this works as not all stops/sections/subsections have numbers), Title, Tombstone, Description, Audio with description, Audio without description, Embed(Youtube) (for BSL Video), Caption, Transcript.
+You can now add all the data for each stop including: Position Number (though we may change how this works as not all stops/sections/subsections have numbers), Title, Tombstone, Description, Audio with description, Audio without description, Embed(Youtube) (for BSL Video), Caption, Transcript.
 
 ### Uploading Audio with description and Audio without description
 
