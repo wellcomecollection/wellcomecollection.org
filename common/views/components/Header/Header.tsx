@@ -277,11 +277,19 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-type Props = {
-  siteSection: string | null;
+export type NavLink = {
+  href: string;
+  title: string;
+  siteSection?: string;
 };
 
-export const links = [
+type Props = {
+  siteSection: string | null;
+  customNavLinks?: NavLink[];
+  showLibraryLogin?: boolean;
+};
+
+export const links: NavLink[] = [
   {
     href: '/visit-us',
     title: 'Visit us',
@@ -314,7 +322,19 @@ export const links = [
   },
 ];
 
-const Header: FC<Props> = ({ siteSection }) => {
+export const exhibitionGuidesLinks: NavLink[] = [
+  {
+    href: '/guides/exhibitions',
+    title: 'Exhibition guides',
+    siteSection: 'exhibition-guides',
+  },
+];
+
+const Header: FC<Props> = ({
+  siteSection,
+  customNavLinks,
+  showLibraryLogin = true,
+}) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -351,7 +371,7 @@ const Header: FC<Props> = ({ siteSection }) => {
               <HeaderList
                 className={`plain-list ${font('wb', 5)} no-margin no-padding`}
               >
-                {links.map((link, i) => (
+                {(customNavLinks || links).map((link, i) => (
                   <HeaderItem key={i}>
                     <HeaderLink
                       isActive={link.siteSection === siteSection}
@@ -364,10 +384,10 @@ const Header: FC<Props> = ({ siteSection }) => {
                     </HeaderLink>
                   </HeaderItem>
                 ))}
-                <MobileSignIn />
+                {showLibraryLogin && <MobileSignIn />}
               </HeaderList>
             </HeaderNav>
-            <DesktopSignIn />
+            {showLibraryLogin && <DesktopSignIn />}
           </NavLoginWrapper>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
-import { MediaObjectType } from './media-object';
 import { EmbedField, RichTextField } from '@prismicio/types';
 import { GenericContentFields } from './generic-content-fields';
+import { Link } from './link';
 
 export type ExhibitionGuideComponent = {
   number: number;
@@ -12,8 +12,8 @@ export type ExhibitionGuideComponent = {
   caption: RichTextField;
   transcription: RichTextField;
   description?: string;
-  audioWithDescription?: MediaObjectType;
-  audioWithoutDescription?: MediaObjectType;
+  audioWithDescription?: Link;
+  audioWithoutDescription?: Link;
   bsl?: EmbedField;
 };
 

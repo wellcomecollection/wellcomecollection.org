@@ -1,4 +1,7 @@
-import { ExhibitionGuide } from '../types/exhibition-guides';
+import {
+  ExhibitionGuide,
+  ExhibitionGuideComponent,
+} from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
@@ -16,6 +19,7 @@ import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCapti
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
@@ -105,7 +109,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Stops = ({ stops, type }) => {
+type StopsProps = {
+  stops: ExhibitionGuideComponent[];
+  type?: GuideType;
+};
+
+const Stops: FC<StopsProps> = ({ stops, type }) => {
   const stopWidth = type === 'bsl' ? 'calc(50% - 50px)' : 'calc(33% - 50px)';
 
   return (
@@ -122,10 +131,10 @@ const Stops = ({ stops, type }) => {
           bsl,
         } = stop;
         const hasContentOfDesiredType =
-          (type === 'audio-with-descriptions' && audioWithDescription.url) ||
+          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
           (type === 'audio-without-descriptions' &&
-            audioWithoutDescription.url) ||
-          (type === 'bsl' && bsl.embedUrl);
+            audioWithoutDescription?.url) ||
+          (type === 'bsl' && bsl?.embedUrl);
         return (
           <Stop key={index} width={stopWidth}>
             <h2>
@@ -134,21 +143,21 @@ const Stops = ({ stops, type }) => {
             {hasContentOfDesiredType ? (
               <>
                 {type === 'audio-with-descriptions' &&
-                  audioWithDescription.url && (
+                  audioWithDescription?.url && (
                     <AudioPlayer
                       title={stop.title} // TODO option not to display title
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription.url && (
+                  audioWithoutDescription?.url && (
                     <AudioPlayer
                       title={title} // TODO option not to display title
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
-                {type === 'bsl' && bsl.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl} />
+                {type === 'bsl' && bsl?.embedUrl && (
+                  <VideoEmbed embedUrl={bsl.embedUrl as string} />
                 )}
               </>
             ) : (
@@ -166,9 +175,7 @@ const Stops = ({ stops, type }) => {
 const ExhibitionStops = ({ type, stops }) => {
   switch (type) {
     case 'bsl':
-      return <Stops stops={stops} type={type} />;
     case 'audio-with-descriptions':
-      return <Stops stops={stops} type={type} />;
     case 'audio-without-descriptions':
       return <Stops stops={stops} type={type} />;
     case 'captions-and-transcripts':
@@ -190,8 +197,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
       openGraphType={'website'}
-      siteSection={'whats-on'}
+      siteSection={'exhibition-guides'}
       image={exhibitionGuide.image || undefined}
+      headerProps={{
+        customNavLinks: exhibitionGuidesLinks,
+        showLibraryLogin: false,
+      }}
+      hideNewsletterPromo={true}
+      hideFooter={true}
     >
       {!type ? (
         <Layout10>

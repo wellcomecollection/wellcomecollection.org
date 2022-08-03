@@ -19,6 +19,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
+import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 
 type Props = {
   exhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
@@ -75,8 +76,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       url={{ pathname: `/guides/exhibitions` }}
       jsonLd={{ '@type': 'WebPage' }} // TODO
       openGraphType={'website'}
-      siteSection={'whats-on'}
+      siteSection={'exhibition-guides'}
       image={image}
+      headerProps={{
+        customNavLinks: exhibitionGuidesLinks,
+        showLibraryLogin: false,
+      }}
+      hideNewsletterPromo={true}
+      hideFooter={true}
     >
       <SpacingSection>
         <LayoutPaginatedResults
