@@ -6,7 +6,7 @@ import {
   groupExceptionalClosedDates,
   extendEndDate,
   findClosedDays,
-  findNextRegularOpenDay,
+  findNextPickUpDay,
   isRequestableDate,
 } from '../../utils/dates';
 import {
@@ -128,23 +128,23 @@ describe('findClosedDays', () => {
   });
 });
 
-describe('findNextRegularOpenDay: finds the earliest date on which the venue is normally open', () => {
+describe('findNextPickUpDay: finds the earliest date on which requested items can be picked up', () => {
   it('returns the same date provided if it occurs on one of the regular open days', () => {
-    const result = findNextRegularOpenDay(
+    const result = findNextPickUpDay(
       london('2022-01-15'), // Saturday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
     expect(result.toDate()).toEqual(london('2022-01-15').toDate()); // Saturday
   });
-  it('returns the date of the next regular open day, if the date provided is a regular closed day', () => {
-    const result = findNextRegularOpenDay(
+  it('leaves a full working day between the request and retrieval', () => {
+    const result = findNextPickUpDay(
       london('2022-01-16'), // Sunday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
-    expect(result.toDate()).toEqual(london('2022-01-19').toDate()); // Wednesday
+    expect(result.toDate()).toEqual(london('2022-01-20').toDate()); // Thursday
   });
   it("doesn't return a date if there are no regular days that are open", () => {
-    const result = findNextRegularOpenDay(
+    const result = findNextPickUpDay(
       london('2022-01-16'), // Sunday
       [0, 1, 2, 3, 4, 5, 6]
     );
@@ -163,9 +163,9 @@ describe('determineNextAvailableDate', () => {
     expect(result.toDate()).toEqual(london('2021-12-11 11:00').toDate());
   });
 
-  it('returns the following Monday rather than a Sunday, if the Sunday is the only closed day', () => {
-    const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]);
-    expect(result.toDate()).toEqual(london('2021-12-13 10:30').toDate());
+  it('defers weekend requests until Tuesday, to avoid a rush of retrievals on Monday', () => {
+    const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]); // Sunday
+    expect(result.toDate()).toEqual(london('2021-12-14 10:30').toDate()); // Tuesday
   });
 
   it("doesn't return a date if there are no regular days that are open", () => {
