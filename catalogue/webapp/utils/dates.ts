@@ -68,16 +68,13 @@ export function findNextPickUpDay(
   // tomorrow, but add two days if we're closed today and open tomorrow.
 
   const nextDay = date.clone().add(1, 'days');
-  const isClosed = regularClosedDays.includes(date.day() as DayNumber);
-  const isLastClosedDay = !regularClosedDays.includes(
-    nextDay.day() as DayNumber
-  );
+  const isClosedThisDay = regularClosedDays.includes(date.day() as DayNumber);
+  const isOpenNextDay = !regularClosedDays.includes(nextDay.day() as DayNumber);
 
-  if (isClosed) {
-    return findNextPickUpDay(
-      date.add(isLastClosedDay ? 2 : 1, 'day'),
-      regularClosedDays
-    );
+  if (isClosedThisDay && isOpenNextDay) {
+    return findNextPickUpDay(date.add(2, 'day'), regularClosedDays);
+  } else if (isClosedThisDay) {
+    return findNextPickUpDay(date.add(1, 'day'), regularClosedDays);
   } else {
     return date;
   }
