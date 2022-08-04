@@ -1,4 +1,3 @@
-import { prismicPageIds } from '../services/prismic/hardcoded-id';
 import Layout8 from '../views/components/Layout8/Layout8';
 import MoreLink from '../views/components/MoreLink/MoreLink';
 import Space from '../views/components/styled/Space';
@@ -69,7 +68,7 @@ export const NotFoundErrorText = () => (
         You’ll find pages from our old Wellcome Library website and blog
         archived by the <a href="https://archive.org">Internet Archive</a> in
         its <a href="https://web.archive.org/">Wayback Machine</a> &ndash;
-        search for wellcome.org.
+        search for wellcomecollection.org.
       </p>
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
         <MoreLink
