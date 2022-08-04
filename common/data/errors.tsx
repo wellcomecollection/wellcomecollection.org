@@ -1,3 +1,4 @@
+import { prismicPageIds } from 'services/prismic/hardcoded-id';
 import Layout8 from '../views/components/Layout8/Layout8';
 import MoreLink from '../views/components/MoreLink/MoreLink';
 import Space from '../views/components/styled/Space';
@@ -52,7 +53,7 @@ export const NotFoundErrorText = () => (
           <a href="/collections">Search our collections</a>
         </li>
         <li>
-          <a href="/pages/Wuw19yIAAK1Z3Smm">Using our library</a>
+          <a href={`/pages/${prismicPageIds.library}`}>Using our library</a>
         </li>
         <li>
           <a href="/get-involved">Collaborating with us</a>
