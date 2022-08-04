@@ -9,7 +9,6 @@ import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
 import styled from 'styled-components';
 import moment, { Moment } from 'moment';
 import { CTAs, CurrentRequests, Header } from './common';
@@ -62,7 +61,6 @@ const RequestDialog: FC<RequestDialogProps> = ({
   setIsActive,
   currentHoldNumber,
 }) => {
-  const { enablePickUpDate } = useToggles();
   const availableDates = useAvailableDates();
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
     availableDates.nextAvailable?.format('DD-MM-YYYY')
@@ -79,25 +77,22 @@ const RequestDialog: FC<RequestDialogProps> = ({
     // which could erroneously change the date depending on the timezone the user was in.
 
     if (
-      !enablePickUpDate ||
-      Boolean(
-        pickUpDateMoment &&
-          pickUpDateMoment.isValid() &&
-          isRequestableDate({
-            date: pickUpDateMoment,
-            startDate: availableDates.nextAvailable,
-            endDate: availableDates.lastAvailable,
-            excludedDates: availableDates.exceptionalClosedDates,
-            excludedDays: availableDates.closedDays,
-          })
-      )
+      pickUpDateMoment &&
+      pickUpDateMoment.isValid() &&
+      isRequestableDate({
+        date: pickUpDateMoment,
+        startDate: availableDates.nextAvailable,
+        endDate: availableDates.lastAvailable,
+        excludedDates: availableDates.exceptionalClosedDates,
+        excludedDays: availableDates.closedDays,
+      })
     ) {
       trackEvent({
         category: 'requesting',
         action: 'confirm_request',
         label: `/works/${work.id}`,
       });
-      confirmRequest(enablePickUpDate ? pickUpDateMoment : undefined);
+      confirmRequest(pickUpDateMoment);
     }
   }
 
@@ -125,39 +120,36 @@ const RequestDialog: FC<RequestDialogProps> = ({
         </p>
       </Space>
 
-      {enablePickUpDate && (
-        <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-          <PickUpDate>
-            <PickUpDateDescription>
-              <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-                <p className="no-margin">
-                  Select the date you would like to view this item in the
-                  library.
-                </p>
-              </Space>
-              <p
-                className={classNames({
-                  [font('hnr', 6)]: true,
-                  'no-margin-l': true,
-                })}
-              >
-                Item requests need to be placed by 10am the day before your
-                visit. Please bear in mind the library is closed on Sundays.
+      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+        <PickUpDate>
+          <PickUpDateDescription>
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
+              <p className="no-margin">
+                Select the date you would like to view this item in the library.
               </p>
-            </PickUpDateDescription>
-            <PickUpDateInputWrapper>
-              <RequestingDayPicker
-                startDate={availableDates.nextAvailable}
-                endDate={availableDates.lastAvailable}
-                exceptionalClosedDates={availableDates.exceptionalClosedDates}
-                regularClosedDays={availableDates.closedDays}
-                pickUpDate={pickUpDate}
-                setPickUpDate={setPickUpDate}
-              />
-            </PickUpDateInputWrapper>
-          </PickUpDate>
-        </Space>
-      )}
+            </Space>
+            <p
+              className={classNames({
+                [font('hnr', 6)]: true,
+                'no-margin-l': true,
+              })}
+            >
+              Item requests need to be placed by 10am the day before your visit.
+              Please bear in mind the library is closed on Sundays.
+            </p>
+          </PickUpDateDescription>
+          <PickUpDateInputWrapper>
+            <RequestingDayPicker
+              startDate={availableDates.nextAvailable}
+              endDate={availableDates.lastAvailable}
+              exceptionalClosedDates={availableDates.exceptionalClosedDates}
+              regularClosedDays={availableDates.closedDays}
+              pickUpDate={pickUpDate}
+              setPickUpDate={setPickUpDate}
+            />
+          </PickUpDateInputWrapper>
+        </PickUpDate>
+      </Space>
 
       <CTAs>
         <Space
