@@ -266,6 +266,8 @@ export type Image = {
   locations: DigitalLocation[];
   source: {
     id: string;
+    title: string;
+    contributors?: Contributor[];
     type: string;
   };
   visuallySimilar?: Image[];

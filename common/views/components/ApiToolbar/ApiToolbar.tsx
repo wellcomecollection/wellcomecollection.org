@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Work, Location } from '../../../model/catalogue';
+import { Work, Location, Image } from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
@@ -27,6 +27,38 @@ const includes = [
   'succeededBy',
   'holdings',
 ];
+
+/** tzitzit is a tool used by the Digital Editorial team to create TASL
+ * strings for Prismic. https://github.com/wellcomecollection/tzitzit
+ *
+ * This creates a link to a tzitzit which is pre-filled with the catalogue
+ * metadata for this image.  They may not want to use it directly
+ * (e.g. they may tidy up the title), but it should save them some copy/pasting
+ * from the catalogue.
+ *
+ */
+async function createTzitzitLink(imageId: string): Promise<Prop> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
+  const image: Image = await fetch(apiUrl).then(res => res.json());
+
+  const params = new URLSearchParams();
+  params.set('title', image.source.title);
+  params.set('sourceName', 'Wellcome Collection');
+  params.set('sourceLink', window.location.toString());
+  params.set('licence', image.locations[0].license.id.toUpperCase());
+
+  const contributors = image.source.contributors;
+
+  if (contributors && contributors.length > 0) {
+    params.set('author', contributors[0].agent.label);
+  }
+
+  return {
+    id: 'tzitzit',
+    label: 'tzitzit',
+    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params.toString()}`,
+  };
+}
 
 function getRouteProps(path: string) {
   switch (path) {
@@ -66,6 +98,15 @@ function getRouteProps(path: string) {
         ].filter(Boolean) as Prop[];
 
         return links;
+      };
+
+    case '/image':
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { id } = query;
+
+        const tzitzitLink = await createTzitzitLink(id as string);
+
+        return [tzitzitLink];
       };
 
     default:

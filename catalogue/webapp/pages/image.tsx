@@ -157,6 +157,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'image',
           properties: {},
         },
+        serverData,
       }),
     };
   };
