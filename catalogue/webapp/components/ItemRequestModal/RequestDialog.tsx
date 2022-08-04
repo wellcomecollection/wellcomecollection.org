@@ -134,8 +134,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
                 'no-margin-l': true,
               })}
             >
-              Item requests need to be placed by 10am the day before your visit.
-              Please bear in mind the library is closed on Sundays.
+              Item requests need to be placed by 10am on the working day before
+              your visit. Please bear in mind the library is closed on Sundays.
             </p>
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
