@@ -1,4 +1,4 @@
-import { prismicPageIds } from 'services/prismic/hardcoded-id';
+import { prismicPageIds } from '../services/prismic/hardcoded-id';
 import Layout8 from '../views/components/Layout8/Layout8';
 import MoreLink from '../views/components/MoreLink/MoreLink';
 import Space from '../views/components/styled/Space';
