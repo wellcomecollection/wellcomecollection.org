@@ -204,6 +204,22 @@ const appPromise = nextApp
       ctx.redirect(url);
     });
 
+    router.get('/oembed', async ctx => {
+      const iframeUrl = ctx.query.url;
+      const width = ctx.query.width || '320';
+      const height = ctx.query.height || '300';
+
+      const oembedResponseObject = {
+        type: 'rich',
+        version: '1.0',
+        width,
+        height,
+        html: `<iframe style='width: 100%; overflow: hidden;' src='${iframeUrl}' width='${width}' height='${height}' frameborder='0' scrolling='no'></iframe>`,
+      };
+      ctx.res.setHeader('Content-Type', 'application/json');
+      ctx.body = JSON.stringify(oembedResponseObject);
+    });
+
     router.get('/content/management/healthcheck', async ctx => {
       ctx.status = 200;
       ctx.body = 'ok';
