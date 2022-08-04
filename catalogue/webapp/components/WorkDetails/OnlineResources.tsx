@@ -66,10 +66,9 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
             })}
             key={item.location.url}
           >
+            {item.title && `${item.title}: `}
             <a href={item.location.url}>
-              {item.title
-                ? `${item.title}: View resource`
-                : item.location.linkText}
+              {item.title ? `View resource` : item.location.linkText}
             </a>
           </li>
         ))}
@@ -82,15 +81,14 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
                 })}
                 key={item.location.url}
               >
+                {item.title && `${item.title}: `}
                 <a
                   href={item.location.url}
                   ref={
                     index === 0 ? firstOfRemainingOnlineResourcesRef : undefined
                   }
                 >
-                  {item.title
-                    ? `${item.title}: View resource`
-                    : item.location.linkText}
+                  {item.title ? `View resource` : item.location.linkText}
                 </a>
               </li>
             ))}
