@@ -64,8 +64,8 @@ export function findNextPickUpDay(
   // If the library is closed on this day, we want to set the pick-up day to be
   // the next open day plus one, so that e.g. Monday morning isn't a scramble
   // for library staff handling the weekend's requests. Since this function
-  // calls itself recursively, we add one day if we're closed today and
-  // tomorrow, but add two days if we're closed today and open tomorrow.
+  // calls itself recursively, we add one day if we're closed this day and
+  // the next, but add two days if we're closed this day and open the next.
 
   const nextDay = date.clone().add(1, 'days');
   const isClosedThisDay = regularClosedDays.includes(date.day() as DayNumber);
