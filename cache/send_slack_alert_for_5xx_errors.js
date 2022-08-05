@@ -300,6 +300,11 @@ function isInterestingError(hit) {
     return false;
   }
 
+  // This is a path we use for testing the 500 error page.
+  if (hit.path === '/500') {
+    return false;
+  }
+
   return true;
 }
 
