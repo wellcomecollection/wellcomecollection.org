@@ -102,7 +102,7 @@ export type Props = {
   events: PaginatedResults<EventBasic>;
   availableOnlineEvents: PaginatedResults<EventBasic>;
   period: string;
-  dateRange: any[];
+  dateRange: (Moment | undefined)[];
   tryTheseTooPromos: FacilityPromoType[];
   eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
