@@ -103,24 +103,26 @@ export type Props = {
   events: PaginatedResults<EventBasic>;
   availableOnlineEvents: PaginatedResults<EventBasic>;
   period: string;
-  dateRange: (Moment | undefined)[];
+  dateRange: { start: Date; end?: Date };
   tryTheseTooPromos: FacilityPromoType[];
   eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
   jsonLd: JsonLdObj[];
 };
 
-export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
+export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
   const todaysDate = london();
 
   switch (period) {
     case 'today':
-      return [todaysDate.startOf('day'), todaysDate.endOf('day')];
+      return {
+        start: todaysDate.startOf('day').toDate(),
+        end: todaysDate.endOf('day').toDate(),
+      };
     case 'this-weekend':
-      const { start, end } = getNextWeekendDateRange(todaysDate);
-      return [start, end];
+      return getNextWeekendDateRange(todaysDate);
     default:
-      return [todaysDate.startOf('day'), undefined];
+      return { start: todaysDate.startOf('day').toDate() };
   }
 }
 
@@ -149,13 +151,12 @@ export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
 // );
 
 type DateRangeProps = {
-  dateRange: (Date | Moment)[];
+  dateRange: { start: Date; end?: Date };
   period: string;
 };
 
 const DateRange = ({ dateRange, period }: DateRangeProps) => {
-  const fromDate = dateRange[0];
-  const toDate = dateRange[1];
+  const { start, end } = dateRange;
   return (
     <Space
       v={{
@@ -168,19 +169,18 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       })}
     >
       {period === 'today' && (
-        <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
+        <time dateTime={formatDate(start)}>{formatDate(start)}</time>
       )}
       {period === 'this-weekend' && (
         <>
-          <time dateTime={formatDate(fromDate)}>{formatDay(fromDate)}</time>
+          <time dateTime={formatDate(start)}>{formatDay(start)}</time>
           {' – '}
-          <time dateTime={formatDate(toDate)}>{formatDay(toDate)}</time>
+          <time dateTime={formatDate(end!)}>{formatDay(end!)}</time>
         </>
       )}
       {period === 'current-and-coming-up' && (
         <>
-          From{' '}
-          <time dateTime={formatDate(fromDate)}>{formatDate(fromDate)}</time>
+          From <time dateTime={formatDate(start)}>{formatDate(start)}</time>
         </>
       )}
     </Space>
@@ -346,7 +346,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       whatsOnPagePromise,
     ]);
 
-    const dateRange = getMomentsForPeriod(period);
+    const dateRange = getRangeForPeriod(period);
 
     const featuredText =
       whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
