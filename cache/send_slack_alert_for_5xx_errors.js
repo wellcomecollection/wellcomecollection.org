@@ -68,9 +68,20 @@ async function findCloudFrontHitsFromLog(bucket, key) {
       const values = line.trim().split('\t');
       const hit = Object.assign(...fields.map((k, i) => ({ [k]: values[i] })));
 
-      // The CloudFront log records this as a string, but it's more convenient
-      // downstream if we can treat it as a number.
-      hit['sc-status'] = parseInt(hit['sc-status']);
+      result.push({
+        protocol: hit['cs-protocol'],
+        host: hit['x-host-header'],
+        path: hit['cs-uri-stem'],
+        ipAddress: hit['c-ip'],
+
+        // The CloudFront log records this as a string, but it's more convenient
+        // downstream if we can treat it as a number.
+        status: parseInt(hit['sc-status']),
+
+        // Note: if the request contained an empty query string, CloudFront
+        // will log this as '-'
+        query: hit['cs-uri-query'] !== '-' ? hit['cs-uri-query'] : null,
+      });
 
       result.push(hit);
     }
@@ -99,20 +110,11 @@ function humanize(n) {
  */
 async function sendSlackMessage(bucket, key, serverErrors, hits) {
   const lines = serverErrors.map(function (e) {
-    const protocol = e['cs-protocol'];
-    const host = e['x-host-header'];
-    const path = e['cs-uri-stem'];
-
-    // Note: if the request contained an empty query string, CloudFront
-    // will log this as '-'
-    const query = e['cs-uri-query'] !== '-' ? e['cs-uri-query'] : null;
-
-    const url = createDisplayUrl(protocol, host, path, query);
-    const status = e['sc-status'];
+    const url = createDisplayUrl(e.protocol, e.host, e.path, e.query);
 
     // We assume that most errors are generic 500 errors, but non-500 codes
     // might be interesting and worth highlighting.
-    return status === 500 ? url : `${url} (${status})`;
+    return e.status === 500 ? url : `${url} (${e.status})`;
   });
 
   // This creates a Markdown-formatted message like:
@@ -256,13 +258,13 @@ async function post(url, data) {
 }
 
 function isError(hit) {
-  return hit['sc-status'] >= 500;
+  return hit.status >= 500;
 }
 
 function isInterestingError(hit) {
   // We ignore errors on the CloudFront domain because nobody should
   // be using it; it's probably somebody malicious.
-  if (hit['x-host-header'].endsWith('cloudfront.net')) {
+  if (hit.host.endsWith('cloudfront.net')) {
     return false;
   }
 
@@ -285,10 +287,7 @@ function isInterestingError(hit) {
   //    > decodeURIComponent('%0A%20')
   //    "\n"
   //
-  if (
-    hit['sc-status'] === 503 &&
-    hit['cs-uri-stem'].indexOf('%250A%2520') !== -1
-  ) {
+  if (hit.status === 503 && hit.path.indexOf('%250A%2520') !== -1) {
     return false;
   }
 
@@ -297,7 +296,7 @@ function isInterestingError(hit) {
   //
   // Since we already get alerts for the e2e tests and they can be
   // very chatty when something goes wrong, ignore these errors.
-  if (hit['c-ip'] === '54.216.243.181') {
+  if (hit.ipAddress === '54.216.243.181') {
     return false;
   }
 
