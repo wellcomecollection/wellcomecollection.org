@@ -40,17 +40,24 @@ const Stop = styled(Space).attrs({
   `}
 `;
 
-const TypeLink = styled.a`
+const TypeLinkItem = styled.li`
   flex-basis: calc(50% - 20px);
   flex-grow: 0;
   flex-shrink: 0;
+  position: relative;
+  border: '1px solid red';
 
-  padding: 10px;
-  text-decoration: none;
-  background: ${props => props.theme.color('turquoise', 'light')};
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    text-decoration: none;
+    background: ${props => props.theme.color('turquoise', 'light')};
+  }
 
-  &:hover,
-  &:focus {
+  a:hover,
+  a:focus {
     background: ${props => props.theme.color('marble')};
   }
 `;
@@ -172,7 +179,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
   );
 };
 
-const ExhibitionStops = ({ type, stops }) => {
+const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
   switch (type) {
     case 'bsl':
     case 'audio-with-descriptions':
@@ -183,6 +190,72 @@ const ExhibitionStops = ({ type, stops }) => {
     default:
       return null;
   }
+};
+
+type ExhibitionLinksProps = {
+  stops: ExhibitionGuideComponent[];
+  pathname: string;
+};
+const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
+  const hasBSLVideo = stops.some(
+    stop => stop.bsl.embedUrl // it can't be undefined can it?
+  );
+  const hasCaptionsOrTranscripts = stops.some(
+    stop => stop.caption.length > 0 || stop.transcription.length > 0
+  );
+  const hasAudioWithoutDescriptions = stops.some(
+    stop => stop.audioWithoutDescription?.url
+  );
+  const hasAudioWithDescriptions = stops.some(
+    stop => stop.audioWithDescription?.url
+  );
+  return (
+    <ul
+      className="plain-list no-margin no-padding flex flex--wrap"
+      style={{ gap: '10px' }}
+    >
+      {hasAudioWithoutDescriptions && (
+        <TypeLinkItem>
+          <a href={`/${pathname}/audio-without-descriptions`}>
+            <h2 className="h2">Listen, without audio descriptions</h2>
+            <p>Find out more about the exhibition with short audio tracks.</p>
+          </a>
+        </TypeLinkItem>
+      )}
+      {hasAudioWithDescriptions && (
+        <TypeLinkItem>
+          <a href={`/${pathname}/audio-with-descriptions`}>
+            <h2 className="h2">Listen, with audio descriptions</h2>
+            <p>
+              Find out more about the exhibition with short audio tracks,
+              including descriptions of the objects.
+            </p>{' '}
+          </a>
+        </TypeLinkItem>
+      )}
+      {hasCaptionsOrTranscripts && (
+        <TypeLinkItem>
+          <a href={`/${pathname}/captions-and-transcripts`}>
+            <h2 className="h2">Read captions and transcripts</h2>
+            <p>
+              All the wall and label texts from the gallery, and images of the
+              objects, great for those without headphones.
+            </p>{' '}
+          </a>
+        </TypeLinkItem>
+      )}
+      {hasBSLVideo && (
+        <TypeLinkItem>
+          <a href={`/${pathname}/bsl`}>
+            <h2 className="h2">Watch BSL videos</h2>
+            <p>
+              Commentary about the exhibition in British Sign Language videos.
+            </p>{' '}
+          </a>
+        </TypeLinkItem>
+      )}
+    </ul>
+  );
 };
 
 const ExhibitionGuidesPage: FC<Props> = props => {
@@ -212,35 +285,11 @@ const ExhibitionGuidesPage: FC<Props> = props => {
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <h1 className="h1">{`Choose the ${exhibitionGuide.relatedExhibition?.title} guide for you`}</h1>
           </Space>
-          <Space
-            v={{ size: 'l', properties: ['margin-top'] }}
-            className="flex flex--wrap"
-            style={{ gap: '10px' }}
-          >
-            <TypeLink href={`/${pathname}/audio-without-descriptions`}>
-              <h2 className="h2">Listen, without audio descriptions</h2>
-              <p>Find out more about the exhibition with short audio tracks.</p>
-            </TypeLink>
-            <TypeLink href={`/${pathname}/audio-with-descriptions`}>
-              <h2 className="h2">Listen, with audio descriptions</h2>
-              <p>
-                Find out more about the exhibition with short audio tracks,
-                including descriptions of the objects.
-              </p>
-            </TypeLink>
-            <TypeLink href={`/${pathname}/captions-and-transcripts`}>
-              <h2 className="h2">Read captions and transcripts</h2>
-              <p>
-                All the wall and label texts from the gallery, and images of the
-                objects, great for those without headphones.
-              </p>
-            </TypeLink>
-            <TypeLink href={`/${pathname}/bsl`}>
-              <h2 className="h2">Watch BSL videos</h2>
-              <p>
-                Commentary about the exhibition in British Sign Language videos.
-              </p>
-            </TypeLink>
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <ExhibitionLinks
+              stops={exhibitionGuide.components}
+              pathname={pathname}
+            />
           </Space>
         </Layout10>
       ) : (
