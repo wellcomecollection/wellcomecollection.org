@@ -1,8 +1,14 @@
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
-import { EmbedField, RichTextField } from '@prismicio/types';
-import { GenericContentFields } from './generic-content-fields';
+import { RichTextField } from '@prismicio/types';
 import { Link } from './link';
+
+export type ExhibitionLink = {
+  id: string;
+  title: string;
+  description?: string;
+  promo?: ImagePromo;
+};
 
 export type ExhibitionGuideComponent = {
   number: number;
@@ -14,14 +20,9 @@ export type ExhibitionGuideComponent = {
   description?: string;
   audioWithDescription?: Link;
   audioWithoutDescription?: Link;
-  bsl?: EmbedField;
-};
-
-export type ExhibitionLink = {
-  id: string;
-  title: string;
-  description?: string;
-  promo?: ImagePromo;
+  bsl: {
+    embedUrl?: string;
+  };
 };
 
 export type Exhibit = {
@@ -35,19 +36,11 @@ export type Exhibit = {
 export type ExhibitionGuideBasic = {
   type: 'exhibition-guides';
   id: string;
-  title: string;
-  promo?: ImagePromo;
   image?: ImageType;
+  promo?: ImagePromo;
   relatedExhibition: Exhibit | undefined;
-  components: ExhibitionGuideComponent[];
 };
 
-export type ExhibitionGuide = GenericContentFields & {
-  type: 'exhibition-guides';
-  id: string;
-  title: string;
-  image?: ImageType;
-  promo?: ImagePromo;
-  relatedExhibition: Exhibit | undefined;
+export type ExhibitionGuide = ExhibitionGuideBasic & {
   components: ExhibitionGuideComponent[];
 };
