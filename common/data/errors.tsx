@@ -69,20 +69,8 @@ export const NotFoundErrorText = () => (
         You’ll find pages from our old Wellcome Library website and blog
         archived by the <a href="https://archive.org">Internet Archive</a> in
         its <a href="https://web.archive.org/">Wayback Machine</a> &ndash;
-        search for wellcomecollection.org.
+        search for wellcomelibrary.org.
       </p>
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <MoreLink
-          url="https://web.archive.org/web/*/wellcomecollection.org"
-          name="See the Wellcome Collection website from 2007&ndash;present"
-        />
-      </Space>
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <MoreLink
-          url="https://web.archive.org/web/*/blog.wellcomecollection.org"
-          name="Read blog posts from 2013&ndash;2017"
-        />
-      </Space>
       <p>
         Still can’t find what you want? Contact us if you’ve got a specific
         query:{' '}
