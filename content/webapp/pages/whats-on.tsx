@@ -112,7 +112,6 @@ export type Props = {
 
 export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
   const todaysDate = london();
-  const todaysDatePlusSix = todaysDate.clone().add(6, 'days');
 
   switch (period) {
     case 'today':
@@ -120,9 +119,6 @@ export function getMomentsForPeriod(period: Period): (Moment | undefined)[] {
     case 'this-weekend':
       const { start, end } = getNextWeekendDateRange(todaysDate);
       return [start, end];
-    // FIXME: this isn't really 'this week', but the 'next seven days' (needs UX/content rethink?)
-    case 'this-week':
-      return [todaysDate.startOf('day'), todaysDatePlusSix.endOf('day')];
     default:
       return [todaysDate.startOf('day'), undefined];
   }
