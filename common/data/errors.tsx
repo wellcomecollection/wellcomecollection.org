@@ -1,6 +1,6 @@
+import { FC } from 'react';
 import { prismicPageIds } from '../services/prismic/hardcoded-id';
 import Layout8 from '../views/components/Layout8/Layout8';
-import MoreLink from '../views/components/MoreLink/MoreLink';
 import Space from '../views/components/styled/Space';
 
 export const errorMessages = {
@@ -8,12 +8,11 @@ export const errorMessages = {
   500: 'Internal Server Error',
 };
 
-export const DefaultErrorText = () => (
+export const DefaultErrorText: FC = () => (
   <Layout8>
     <Space
-      className="plain-list no-padding"
-      as="ul"
-      v={{ size: 'l', properties: ['margin-bottom'] }}
+      className="body-text"
+      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         Looks like something’s not working properly our end. We’ll try to fix it
@@ -35,12 +34,11 @@ export const DefaultErrorText = () => (
   </Layout8>
 );
 
-export const NotFoundErrorText = () => (
+export const NotFoundErrorText: FC = () => (
   <Layout8>
     <Space
-      className="plain-list no-padding"
-      as="ul"
-      v={{ size: 'l', properties: ['margin-bottom'] }}
+      className="body-text"
+      v={{ size: 'l', properties: ['margin-top', 'margin-bottom'] }}
     >
       <p>
         We can’t find the page you’re looking for. Maybe one of these will help:
@@ -59,10 +57,8 @@ export const NotFoundErrorText = () => (
           <a href="/get-involved">Collaborating with us</a>
         </li>
         <li>
-          <p>
-            Read{' '}
-            <a href="/stories">articles on our Stories publishing platform</a>
-          </p>
+          Read{' '}
+          <a href="/stories">articles on our Stories publishing platform</a>
         </li>
       </ul>
       <p>
