@@ -60,7 +60,7 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
               [font('wb', 3)]: true,
             })}
           >
-            {exhibitionGuide.title}
+            {exhibitionGuide.relatedExhibition?.title}
           </Space>
           {exhibitionGuide.promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
