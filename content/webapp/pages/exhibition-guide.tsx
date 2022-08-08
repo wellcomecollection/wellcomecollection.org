@@ -86,7 +86,7 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
       >
         <h2 className="h2">{title}</h2>
         <p className={`${font('hnr', 5)}`}>{text}</p>
-        <Icon icon={icon} />
+        {icon && <Icon icon={icon} />}
       </Space>
     </TypeLink>
   </TypeItem>
