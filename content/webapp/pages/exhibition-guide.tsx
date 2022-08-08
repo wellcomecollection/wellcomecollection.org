@@ -49,11 +49,7 @@ const TypeItem = styled.li`
   position: relative;
 `;
 
-const TypeLink = styled(Space).attrs({
-  as: 'a',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})`
+const TypeLink = styled.a`
   display: block;
   height: 100%;
   width: 100%;
@@ -76,8 +72,13 @@ type TypeOptionProps = {
 const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color }) => (
   <TypeItem>
     <TypeLink href={url} color={color}>
-      <h2 className="h2">{title}</h2>
-      <p className={font('hnr', 5)}>{text}</p>
+      <Space
+        v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
+      >
+        <h2 className="h2">{title}</h2>
+        <p className={font('hnr', 5)}>{text}</p>
+      </Space>
     </TypeLink>
   </TypeItem>
 );
