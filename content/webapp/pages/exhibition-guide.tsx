@@ -7,6 +7,7 @@ import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guide
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
@@ -15,6 +16,7 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
+import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
