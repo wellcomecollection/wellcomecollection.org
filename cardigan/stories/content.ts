@@ -497,13 +497,14 @@ export const quote = () => ({
   citation: [
     {
       type: 'paragraph',
-      text: 'Spike Milligan - A Silly Poem',
+      text: 'Spike Milligan – A Silly Poem',
       spans: [
         {
           type: 'hyperlink',
           start: 0,
           end: 29,
           data: {
+            link_type: 'Web',
             url: 'https://www.poemhunter.com/poem/a-silly-poem/',
           },
         },
