@@ -11,6 +11,7 @@ type Prop = {
   label: string;
   value?: string;
   link?: string;
+  displayLink?: boolean;
 };
 const includes = [
   'identifiers',
@@ -37,26 +38,78 @@ const includes = [
  * from the catalogue.
  *
  */
-async function createTzitzitLink(imageId: string): Promise<Prop> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
-  const image: Image = await fetch(apiUrl).then(res => res.json());
+
+function setTzitzitParams(data: {
+  title: string;
+  sourceLink: string;
+  licence: string;
+  author?: string;
+}): string {
+  // If license is INC, return as the tool should not be made available
+  if (data.licence === 'INC') return '';
 
   const params = new URLSearchParams();
-  params.set('title', image.source.title);
+  params.set('title', data.title);
   params.set('sourceName', 'Wellcome Collection');
-  params.set('sourceLink', window.location.toString());
-  params.set('licence', image.locations[0].license.id.toUpperCase());
+  params.set('sourceLink', data.sourceLink);
+  if (data.licence) params.set('licence', data.licence);
+  if (data.author) params.set('author', data.author);
 
+  return params.toString();
+}
+
+async function createTzitzitImageLink(imageId: string): Promise<Prop> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
+  const image: Image = await fetch(apiUrl).then(res => res.json());
   const contributors = image.source.contributors;
 
-  if (contributors && contributors.length > 0) {
-    params.set('author', contributors[0].agent.label);
-  }
+  const params = setTzitzitParams({
+    title: image.source.title,
+    sourceLink: window.location.toString(),
+    licence: image.locations[0].license.id.toUpperCase(),
+    author:
+      contributors && contributors.length > 0
+        ? contributors[0].agent.label
+        : '',
+  });
 
   return {
     id: 'tzitzit',
     label: 'tzitzit',
-    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params.toString()}`,
+    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params}`,
+    displayLink: Boolean(params),
+  };
+}
+
+async function createTzitzitWorkLink(workId: string): Promise<Prop> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
+  const work: Work = await fetch(apiUrl).then(res => res.json());
+  const contributors = work.contributors;
+  // Look at digital item locations only
+  const digitalLocation = work.items
+    ?.map(item =>
+      item.locations.find(location => location.type === 'DigitalLocation')
+    )
+    .find(i => i);
+
+  const params = setTzitzitParams({
+    title: work.title,
+    sourceLink: window.location.toString(),
+    licence:
+      digitalLocation?.type === 'DigitalLocation'
+        ? digitalLocation.license.id.toUpperCase()
+        : '',
+    author:
+      contributors && contributors.length > 0
+        ? contributors[0].agent.label
+        : '',
+  });
+
+  return {
+    id: 'tzitzit',
+    label: 'tzitzit',
+    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params}`,
+    displayLink: Boolean(params),
   };
 }
 
@@ -104,11 +157,18 @@ function getRouteProps(path: string) {
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
         const { id } = query;
 
-        const tzitzitLink = await createTzitzitLink(id as string);
+        const tzitzitLink = await createTzitzitImageLink(id as string);
 
-        return [tzitzitLink];
+        return tzitzitLink.displayLink ? [tzitzitLink] : [];
       };
+    case '/item':
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { workId } = query;
 
+        const tzitzitLink = await createTzitzitWorkLink(workId as string);
+
+        return tzitzitLink.displayLink ? [tzitzitLink] : [];
+      };
     default:
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
         const { id } = query;
