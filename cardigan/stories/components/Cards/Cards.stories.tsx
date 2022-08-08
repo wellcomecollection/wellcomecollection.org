@@ -10,7 +10,7 @@ import {
   squareImage,
   singleLineOfText,
   bannerCardItem,
-  article,
+  articleBasic,
   image,
   event,
 } from '../../content';
@@ -96,7 +96,7 @@ exhibitionPromo.storyName = 'ExhibitionPromo';
 const StoryPromoTemplate = args => <StoryPromo {...args} />;
 export const storyPromo = StoryPromoTemplate.bind({});
 storyPromo.args = {
-  item: article,
+  article: articleBasic,
   position: 0,
 };
 storyPromo.parameters = {

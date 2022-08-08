@@ -791,3 +791,13 @@ export const article: Article = {
   outroReadLinkText: '',
   outroVisitLinkText: '',
 };
+
+export const articleBasic = {
+  type: 'articles',
+  id: 'article-basic',
+  promo: article.promo,
+  series: [],
+  title: article.title,
+  datePublished: article.datePublished,
+  labels: [],
+};
