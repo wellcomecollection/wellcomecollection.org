@@ -2,7 +2,11 @@ import { convertImageUri } from './convert-image-uri';
 import { Organization } from '../model/organization';
 import { BreadcrumbItems } from '../model/breadcrumbs';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import type { OpeningHours } from '../model/opening-hours';
+import type {
+  OpeningHours,
+  OpeningHoursDay,
+  SpecialOpeningHours,
+} from '../model/opening-hours';
 
 type ObjToJsonLdProps = { type: string; root?: boolean };
 
@@ -88,8 +92,8 @@ function imageLd(image: Image) {
 }
 
 export function openingHoursLd(openingHours: OpeningHours | undefined): {
-  openingHoursSpecification: JsonLdObj[];
-  specialOpeningHoursSpecification: JsonLdObj[];
+  openingHoursSpecification: OpeningHoursDay[];
+  specialOpeningHoursSpecification: SpecialOpeningHours[];
 } {
   return {
     openingHoursSpecification: openingHours?.regular
