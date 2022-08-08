@@ -7,7 +7,7 @@ import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guide
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
-import { IconSvg } from '@weco/common/types';
+import { IconSvg } from '@weco/common/icons/types';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -74,7 +74,7 @@ type TypeOptionProps = {
   title: string;
   text: string;
   color: string; // TODO type with specific strings
-  icon: IconSvg;
+  icon?: IconSvg;
 };
 
 const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
