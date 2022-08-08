@@ -282,15 +282,26 @@ const ExhibitionGuidesPage: FC<Props> = props => {
     >
       {!type ? (
         <Layout10>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h1 className="h1">{`Choose the ${exhibitionGuide.relatedExhibition?.title} guide for you`}</h1>
-          </Space>
-          <Space v={{ size: 'l', properties: ['margin-top'] }}>
-            <ExhibitionLinks
-              stops={exhibitionGuide.components}
-              pathname={pathname}
-            />
-          </Space>
+          <SpacingSection>
+            <Space
+              v={{ size: 'l', properties: ['margin-top'] }}
+              className={classNames({
+                [font('wb', 1)]: true,
+              })}
+            >
+              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                <h1 className="no-margin">
+                  {`Choose the ${exhibitionGuide.relatedExhibition?.title} guide for you`}
+                </h1>
+              </Space>
+            </Space>
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+              <ExhibitionLinks
+                stops={exhibitionGuide.components}
+                pathname={pathname}
+              />
+            </Space>
+          </SpacingSection>
         </Layout10>
       ) : (
         <Layout10>
