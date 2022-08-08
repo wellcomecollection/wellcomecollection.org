@@ -6,7 +6,7 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
 import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
@@ -25,6 +25,12 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import Icon from '@weco/common/views/components/Icon/Icon';
+import {
+  britishSignLanguage,
+  audioDescribed,
+  speechToText,
+} from '@weco/common/icons';
 
 type StopProps = {
   width: number;
@@ -67,9 +73,10 @@ type TypeOptionProps = {
   title: string;
   text: string;
   color: string; // TODO type with specific strings
+  icon: ReactElement<typeof Icon>;
 };
 
-const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color }) => (
+const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
   <TypeItem>
     <TypeLink href={url} color={color}>
       <Space
@@ -77,7 +84,8 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color }) => (
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         <h2 className="h2">{title}</h2>
-        <p className={font('hnr', 5)}>{text}</p>
+        <p className={`${font('hnr', 5)}`}>{text}</p>
+        <Icon icon={icon} />
       </Space>
     </TypeLink>
   </TypeItem>
@@ -249,8 +257,9 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
-              including descriptions of the objects."
+        including descriptions of the objects."
           color="orange"
+          icon={audioDescribed}
         />
       )}
       {hasCaptionsOrTranscripts && (
@@ -260,6 +269,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="All the wall and label texts from the gallery, and images of the
               objects, great for those without headphones."
           color="yellow"
+          icon={speechToText}
         />
       )}
       {hasBSLVideo && (
@@ -268,6 +278,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
           color="green"
+          icon={britishSignLanguage}
         />
       )}
     </ul>
