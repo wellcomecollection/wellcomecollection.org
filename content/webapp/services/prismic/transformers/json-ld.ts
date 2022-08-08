@@ -1,9 +1,9 @@
 import { Event, EventBasic } from '../../../types/events';
 import {
-  Organization,
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
-} from '@weco/common/model/organization';
+} from '@weco/common/data/organization';
+import { Organization } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
 import { Article } from '../../../types/articles';
 import { Contributor } from '../../../types/contributors';
