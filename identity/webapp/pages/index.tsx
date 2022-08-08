@@ -52,7 +52,6 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
-import { useToggles } from '@weco/common/server-data/Context';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
 
@@ -198,13 +197,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
-  const { enablePickUpDate } = useToggles();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const maybeExtraText = enablePickUpDate
-    ? ' from your selected pickup date'
-    : '';
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -333,14 +328,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             />
                           </ProgressBar>
                           <StackingTable
-                            maxWidth={enablePickUpDate ? 1180 : 980}
+                            maxWidth={1180}
                             rows={[
                               [
                                 'Title',
                                 'Status',
-                                enablePickUpDate
-                                  ? 'Pickup date requested'
-                                  : null,
+                                'Pickup date requested',
                                 'Pickup location',
                               ].filter(Boolean),
                               ...requestedItems.results.map(result =>
@@ -370,15 +363,13 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                       result.status.id
                                     ] ?? result.status.label}
                                   </ItemStatus>,
-                                  enablePickUpDate ? (
-                                    result.pickupDate ? (
-                                      <HTMLDate
-                                        date={new Date(result.pickupDate)}
-                                      />
-                                    ) : (
-                                      <p>n/a</p>
-                                    )
-                                  ) : null,
+                                  result.pickupDate ? (
+                                    <HTMLDate
+                                      date={new Date(result.pickupDate)}
+                                    />
+                                  ) : (
+                                    <p>n/a</p>
+                                  ),
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}
                                   </ItemPickup>,
@@ -394,8 +385,8 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             }}
                           >
                             Requests made will be available to pick up from the
-                            library for one week{maybeExtraText}. If you wish to
-                            cancel a request, please{' '}
+                            library for one week from your selected pickup date.
+                            If you wish to cancel a request, please{' '}
                             <a href="mailto:library@wellcomecollection.org">
                               contact the library team.
                             </a>
