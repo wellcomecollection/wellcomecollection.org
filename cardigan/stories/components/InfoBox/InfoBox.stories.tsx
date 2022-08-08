@@ -1,12 +1,5 @@
 import InfoBox from '@weco/content/components/InfoBox/InfoBox';
-import {
-  a11Y,
-  a11YVisual,
-  britishSignLanguage,
-  family,
-  location,
-  ticket,
-} from '@weco/common/icons';
+import { a11Y, a11YVisual, clock, location, ticket } from '@weco/common/icons';
 
 const Template = args => <InfoBox {...args} />;
 export const basic = Template.bind({});
@@ -14,7 +7,6 @@ basic.args = {
   title: 'Visit us',
   items: [
     {
-      title: null,
       description: [
         {
           type: 'paragraph',
@@ -25,18 +17,36 @@ basic.args = {
       icon: ticket,
     },
     {
-      title: null,
       description: [
         {
           type: 'paragraph',
-          text: 'Gallery 1, Level 0',
+          text: 'Galleries open Tuesday–Sunday, Opening times',
+          spans: [
+            {
+              type: 'hyperlink',
+              start: 31,
+              end: 44,
+              data: {
+                link_type: 'Web',
+                url: '/opening-times',
+              },
+            },
+          ],
+        },
+      ],
+      icon: clock,
+    },
+    {
+      description: [
+        {
+          type: 'paragraph',
+          text: 'Medicine Man gallery, level 1',
           spans: [],
         },
       ],
       icon: location,
     },
     {
-      title: null,
       description: [
         {
           type: 'paragraph',
@@ -47,66 +57,14 @@ basic.args = {
       icon: a11Y,
     },
     {
-      title: null,
       description: [
         {
           type: 'paragraph',
-          text: 'Large print guides, transscripts and magnifiers are available in the gallery',
+          text: 'Large-print guides, transcripts and magnifiers are available in the gallery',
           spans: [],
         },
       ],
       icon: a11YVisual,
-    },
-    {
-      title: null,
-      description: [
-        {
-          type: 'paragraph',
-          text: 'A family activity pack is available in the gallery',
-          spans: [
-            {
-              type: 'hyperlink',
-              start: 2,
-              end: 17,
-              data: {
-                url: '/',
-              },
-            },
-          ],
-        },
-      ],
-      icon: family,
-    },
-    {
-      title: 'Location',
-      description: [
-        {
-          type: 'paragraph',
-          text: 'We’ll be in the Conservation Studio. To get there, go to the Information Point and you’ll be escorted up and through the staff doors to this behind-the-scenes space.',
-          spans: [],
-        },
-      ],
-    },
-    {
-      title: 'First come, first served',
-      description: [
-        {
-          type: 'paragraph',
-          text: 'Booking a ticket for a free event does not guarantee a place on the day. Doors usually open 15 minutes before an event starts. We advise arriving ten minutes before the event is scheduled to start.',
-          spans: [],
-        },
-      ],
-    },
-    {
-      title: 'British Sign Language',
-      description: [
-        {
-          type: 'paragraph',
-          text: 'This event will have British Sign Language interpretation. If you would like to come along, email us at access@wellcomecollection.org or call 020 7611 2222.',
-          spans: [],
-        },
-      ],
-      icon: britishSignLanguage,
     },
   ],
 };
