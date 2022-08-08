@@ -2,13 +2,14 @@ import { convertImageUri } from './convert-image-uri';
 import { Organization } from '../model/organization';
 import { BreadcrumbItems } from '../model/breadcrumbs';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import type {
-  OpeningHours,
-  OpeningHoursDay,
-  SpecialOpeningHours,
-} from '../model/opening-hours';
+import type { OpeningHours } from '../model/opening-hours';
 
-export function objToJsonLd<T>(obj: T, type: string, root = true) {
+type ObjToJsonLdProps = { type: string; root?: boolean };
+
+export function objToJsonLd<T>(
+  obj: T,
+  { type, root = true }: ObjToJsonLdProps
+): T & JsonLdObj {
   const jsonObj = JSON.parse(JSON.stringify(obj));
   const jsonLdAddition = root
     ? {
@@ -25,21 +26,21 @@ export function museumLd(museum: Organization): JsonLdObj {
       ...museum,
       logo: imageLd(museum.logo),
     },
-    'Museum'
+    { type: 'Museum' }
   );
 }
 
-export function libraryLd(library: Organization) {
+export function libraryLd(library: Organization): JsonLdObj {
   return objToJsonLd(
     {
       ...library,
       logo: imageLd(library.logo),
     },
-    'Library'
+    { type: 'Library' }
   );
 }
 
-export function breadcrumbsLd(breadcrumbs: BreadcrumbItems) {
+export function breadcrumbsLd(breadcrumbs: BreadcrumbItems): JsonLdObj {
   return objToJsonLd(
     {
       itemListElement: breadcrumbs.items.map(({ url, text }, i) => {
@@ -49,12 +50,11 @@ export function breadcrumbsLd(breadcrumbs: BreadcrumbItems) {
             name: text,
             item: `https://wellcomecollection.org${url}`,
           },
-          'ListItem',
-          false
+          { type: 'ListItem', root: false }
         );
       }),
     },
-    'BreadcrumbList'
+    { type: 'BreadcrumbList' }
   );
 }
 
@@ -62,8 +62,8 @@ type WebpageProps = {
   url: string;
 };
 
-export function webpageLd(url: WebpageProps) {
-  return objToJsonLd({ url }, 'WebPage');
+export function webpageLd(url: WebpageProps): JsonLdObj {
+  return objToJsonLd({ url }, { type: 'WebPage' });
 }
 
 type Image = {
@@ -82,29 +82,26 @@ function imageLd(image: Image) {
         width: image.width,
         height: image.height,
       },
-      'ImageObject'
+      { type: 'ImageObject' }
     )
   );
 }
 
 export function openingHoursLd(openingHours: OpeningHours | undefined): {
-  openingHoursSpecification: OpeningHoursDay[];
-  specialOpeningHoursSpecification: SpecialOpeningHours[];
+  openingHoursSpecification: JsonLdObj[];
+  specialOpeningHoursSpecification: JsonLdObj[];
 } {
   return {
     openingHoursSpecification: openingHours?.regular
       ? openingHours.regular.map(openingHoursDay => {
-          const specObject = objToJsonLd(
+          return objToJsonLd(
             {
               dayOfWeek: openingHoursDay.dayOfWeek,
               opens: openingHoursDay.opens,
               closes: openingHoursDay.closes,
             },
-            'OpeningHoursSpecification',
-            false
+            { type: 'OpeningHoursSpecification', root: false }
           );
-          delete specObject.note;
-          return specObject;
         })
       : [],
     specialOpeningHoursSpecification: openingHours?.exceptional
@@ -115,7 +112,10 @@ export function openingHoursLd(openingHours: OpeningHours | undefined): {
             validFrom: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
             validThrough: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
           };
-          return objToJsonLd(specObject, 'OpeningHoursSpecification', false);
+          return objToJsonLd(specObject, {
+            type: 'OpeningHoursSpecification',
+            root: false,
+          });
         })
       : [],
   };

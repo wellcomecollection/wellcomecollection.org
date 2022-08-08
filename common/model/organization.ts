@@ -47,11 +47,10 @@ export const wellcomeCollectionGallery: Organization = {
     'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
   ],
   openingHoursSpecification: [],
-  address: objToJsonLd(
-    wellcomeCollectionAddress,
-    'PostalAddress',
-    false
-  ) as PostalAddress,
+  address: objToJsonLd(wellcomeCollectionAddress, {
+    type: 'PostalAddress',
+    root: false,
+  }),
   isAccessibleForFree: true,
   publicAccess: true,
   telephone: '+4420 7611 2222',
