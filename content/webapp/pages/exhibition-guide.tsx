@@ -55,7 +55,7 @@ const TypeLinkItem = styled.li`
     width: 100%;
     padding: 10px;
     text-decoration: none;
-    background: ${props => props.theme.color('turquoise', 'light')};
+    background: ${props => props.theme.color(props.color)};
   }
 
   a:hover,
@@ -217,7 +217,8 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
       style={{ gap: '10px' }}
     >
       {hasAudioWithoutDescriptions && (
-        <TypeLinkItem>
+        // TODO pass in correct colours from theme, onnce new colour palette is established
+        <TypeLinkItem color="turquoise">
           <a href={`/${pathname}/audio-without-descriptions`}>
             <h2 className="h2">Listen, without audio descriptions</h2>
             <p>Find out more about the exhibition with short audio tracks.</p>
@@ -225,7 +226,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         </TypeLinkItem>
       )}
       {hasAudioWithDescriptions && (
-        <TypeLinkItem>
+        <TypeLinkItem color="orange">
           <a href={`/${pathname}/audio-with-descriptions`}>
             <h2 className="h2">Listen, with audio descriptions</h2>
             <p>
@@ -236,7 +237,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         </TypeLinkItem>
       )}
       {hasCaptionsOrTranscripts && (
-        <TypeLinkItem>
+        <TypeLinkItem color="yellow">
           <a href={`/${pathname}/captions-and-transcripts`}>
             <h2 className="h2">Read captions and transcripts</h2>
             <p>
@@ -247,7 +248,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         </TypeLinkItem>
       )}
       {hasBSLVideo && (
-        <TypeLinkItem>
+        <TypeLinkItem color="green">
           <a href={`/${pathname}/bsl`}>
             <h2 className="h2">Watch BSL videos</h2>
             <p>
