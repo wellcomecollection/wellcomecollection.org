@@ -42,27 +42,45 @@ const Stop = styled(Space).attrs({
   `}
 `;
 
-const TypeLinkItem = styled.li`
+const TypeItem = styled.li`
   flex-basis: calc(50% - 20px);
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
-  border: '1px solid red';
+`;
 
-  a {
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 10px;
-    text-decoration: none;
-    background: ${props => props.theme.color(props.color)};
-  }
+const TypeLink = styled(Space).attrs({
+  as: 'a',
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+})`
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  background: ${props => props.theme.color(props.color)};
 
-  a:hover,
-  a:focus {
+  &:hover,
+  &:focus {
     background: ${props => props.theme.color('marble')};
   }
 `;
+
+type TypeOptionProps = {
+  url: string;
+  title: string;
+  text: string;
+  color: string; // TODO type with specific strings
+};
+
+const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color }) => (
+  <TypeItem>
+    <TypeLink href={url} color={color}>
+      <h2 className="h2">{title}</h2>
+      <p>{text}</p>
+    </TypeLink>
+  </TypeItem>
+);
 
 const typeNames = [
   'bsl',
@@ -218,44 +236,38 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
     >
       {hasAudioWithoutDescriptions && (
         // TODO pass in correct colours from theme, onnce new colour palette is established
-        <TypeLinkItem color="turquoise">
-          <a href={`/${pathname}/audio-without-descriptions`}>
-            <h2 className="h2">Listen, without audio descriptions</h2>
-            <p>Find out more about the exhibition with short audio tracks.</p>
-          </a>
-        </TypeLinkItem>
+        <TypeOption
+          url={`/${pathname}/audio-without-descriptions`}
+          title="Listen, without audio descriptions"
+          text="Find out more about the exhibition with short audio tracks."
+          color="turquoise"
+        />
       )}
       {hasAudioWithDescriptions && (
-        <TypeLinkItem color="orange">
-          <a href={`/${pathname}/audio-with-descriptions`}>
-            <h2 className="h2">Listen, with audio descriptions</h2>
-            <p>
-              Find out more about the exhibition with short audio tracks,
-              including descriptions of the objects.
-            </p>{' '}
-          </a>
-        </TypeLinkItem>
+        <TypeOption
+          url={`/${pathname}/audio-with-descriptions`}
+          title="Listen, with audio descriptions"
+          text="Find out more about the exhibition with short audio tracks,
+              including descriptions of the objects."
+          color="orange"
+        />
       )}
       {hasCaptionsOrTranscripts && (
-        <TypeLinkItem color="yellow">
-          <a href={`/${pathname}/captions-and-transcripts`}>
-            <h2 className="h2">Read captions and transcripts</h2>
-            <p>
-              All the wall and label texts from the gallery, and images of the
-              objects, great for those without headphones.
-            </p>{' '}
-          </a>
-        </TypeLinkItem>
+        <TypeOption
+          url={`/${pathname}/captions-and-transcripts`}
+          title="Read captions and transcripts"
+          text="All the wall and label texts from the gallery, and images of the
+              objects, great for those without headphones."
+          color="yellow"
+        />
       )}
       {hasBSLVideo && (
-        <TypeLinkItem color="green">
-          <a href={`/${pathname}/bsl`}>
-            <h2 className="h2">Watch BSL videos</h2>
-            <p>
-              Commentary about the exhibition in British Sign Language videos.
-            </p>{' '}
-          </a>
-        </TypeLinkItem>
+        <TypeOption
+          url={`/${pathname}/bsl`}
+          title="Watch BSL videos"
+          text="Commentary about the exhibition in British Sign Language videos."
+          color="green"
+        />
       )}
     </ul>
   );
