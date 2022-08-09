@@ -3,8 +3,15 @@ import {
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
-import { fetchExhibitionGuide } from '../services/prismic/fetch/exhibition-guides';
-import { transformExhibitionGuide } from '../services/prismic/transformers/exhibition-guides';
+import {
+  fetchExhibitionGuide,
+  fetchExhibitionGuides,
+} from '../services/prismic/fetch/exhibition-guides';
+import {
+  transformExhibitionGuide,
+  transformExhibitionGuideToExhibitionGuideBasic,
+} from '../services/prismic/transformers/exhibition-guides';
+import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
@@ -18,6 +25,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
+import CardGrid from '../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
@@ -108,6 +116,7 @@ type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   type?: GuideType;
+  otherExhibitionGuides: any; // TODO
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -124,12 +133,34 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const exhibitionGuideDocument = await fetchExhibitionGuide(
+    const exhibitionGuideQueryPromise = fetchExhibitionGuide(
       client,
       id as string
     );
-    if (exhibitionGuideDocument) {
-      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideDocument);
+    const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
+      page: 1,
+    });
+
+    const [exhibitionGuideQuery, exhibitionGuidesQuery] = await Promise.all([
+      exhibitionGuideQueryPromise,
+      exhibitionGuidesQueryPromise,
+    ]);
+
+    const exhibitionGuides = transformQuery(
+      exhibitionGuidesQuery,
+      transformExhibitionGuide
+    );
+    console.log(exhibitionGuides);
+
+    const basicExhibitionGuides = {
+      ...exhibitionGuides,
+      results: exhibitionGuides.results.map(
+        transformExhibitionGuideToExhibitionGuideBasic
+      ),
+    };
+
+    if (exhibitionGuideQuery) {
+      const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
       const jsonLd = exhibitionGuideLd(exhibitionGuide);
 
@@ -139,6 +170,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           jsonLd,
           serverData,
           type: isValidType(type) ? (type as GuideType) : undefined,
+          otherExhibitionGuides: {
+            ...basicExhibitionGuides,
+            results: basicExhibitionGuides.results.filter(
+              result => true
+              // result => result.id !== id // TODO
+            ),
+          },
         }),
       };
     } else {
@@ -286,8 +324,8 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-const ExhibitionGuidesPage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd, type } = props;
+const ExhibitionGuidePage: FC<Props> = props => {
+  const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
@@ -359,8 +397,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
           </Space>
         </Layout10>
       )}
+      {otherExhibitionGuides.results.length > 0 && (
+        <SpacingSection>
+          {JSON.stringify(otherExhibitionGuides.results)}
+          <CardGrid items={otherExhibitionGuides.results} itemsPerRow={3} />
+        </SpacingSection>
+      )}
     </PageLayout>
   );
 };
 
-export default ExhibitionGuidesPage;
+export default ExhibitionGuidePage;

@@ -11,6 +11,8 @@ import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
 
+// TODO don't need all the things in here
+// TODO way to show links instead of description
 type Props = {
   exhibition: ExhibitionBasic;
   position?: number;
