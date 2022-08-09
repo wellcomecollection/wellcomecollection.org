@@ -55,7 +55,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
                   </time>
-                  &mdash;
+                  &ndash;
                   <time dateTime={endTimeString}>
                     {formatTime(t.range.endDateTime)}
                   </time>
