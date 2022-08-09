@@ -58,22 +58,13 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
-  return (({
+  return (({ title, type, id, image, promo, relatedExhibition }) => ({
     title,
     type,
     id,
     image,
     promo,
     relatedExhibition,
-    components,
-  }) => ({
-    title,
-    type,
-    id,
-    image,
-    promo,
-    relatedExhibition,
-    components,
   }))(exhibitionGuide);
 }
 
