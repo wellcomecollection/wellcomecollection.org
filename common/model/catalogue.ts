@@ -94,7 +94,7 @@ type ContributorRole = {
   type: 'ContributionRole';
 };
 
-type Contributor = {
+export type Contributor = {
   agent: Agent;
   roles: ContributorRole[];
   type: 'Contributor';

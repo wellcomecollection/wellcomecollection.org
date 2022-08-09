@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Work, Location, Image } from '../../../model/catalogue';
+import { Work, Location, Image, Contributor } from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
@@ -11,7 +11,6 @@ type Prop = {
   label: string;
   value?: string;
   link?: string;
-  displayLink?: boolean;
 };
 const includes = [
   'identifiers',
@@ -39,52 +38,55 @@ const includes = [
  *
  */
 
-function setTzitzitParams(data: {
+function setTzitzitParams({
+  title,
+  sourceLink,
+  licence,
+  contributors,
+}: {
   title: string;
   sourceLink: string;
   licence: string;
-  author?: string;
-}): string {
-  // If license is INC, return as the tool should not be made available
-  if (data.licence === 'INC') return '';
+  contributors: Contributor[] | undefined;
+}): Prop | undefined {
+  // We should not be using in copyright images in Stories
+  if (licence === 'INC') return;
 
   const params = new URLSearchParams();
-  params.set('title', data.title);
+  params.set('title', title);
   params.set('sourceName', 'Wellcome Collection');
-  params.set('sourceLink', data.sourceLink);
-  if (data.licence) params.set('licence', data.licence);
-  if (data.author) params.set('author', data.author);
-
-  return params.toString();
-}
-
-async function createTzitzitImageLink(imageId: string): Promise<Prop> {
-  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
-  const image: Image = await fetch(apiUrl).then(res => res.json());
-  const contributors = image.source.contributors;
-
-  const params = setTzitzitParams({
-    title: image.source.title,
-    sourceLink: window.location.toString(),
-    licence: image.locations[0].license.id.toUpperCase(),
-    author:
-      contributors && contributors.length > 0
-        ? contributors[0].agent.label
-        : '',
-  });
+  params.set('sourceLink', sourceLink);
+  if (licence) params.set('licence', licence);
+  if (contributors && contributors.length > 0)
+    params.set('author', contributors[0].agent.label);
 
   return {
     id: 'tzitzit',
     label: 'tzitzit',
-    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params}`,
-    displayLink: Boolean(params),
+    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params.toString()}`,
   };
 }
 
-async function createTzitzitWorkLink(workId: string): Promise<Prop> {
+async function createTzitzitImageLink(
+  imageId: string
+): Promise<Prop | undefined> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
+  const image: Image = await fetch(apiUrl).then(res => res.json());
+
+  return setTzitzitParams({
+    title: image.source.title,
+    sourceLink: window.location.toString(),
+    licence: image.locations[0].license.id.toUpperCase(),
+    contributors: image.source.contributors,
+  });
+}
+
+async function createTzitzitWorkLink(
+  workId: string
+): Promise<Prop | undefined> {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
   const work: Work = await fetch(apiUrl).then(res => res.json());
-  const contributors = work.contributors;
+
   // Look at digital item locations only
   const digitalLocation = work.items
     ?.map(item =>
@@ -92,25 +94,15 @@ async function createTzitzitWorkLink(workId: string): Promise<Prop> {
     )
     .find(i => i);
 
-  const params = setTzitzitParams({
+  return setTzitzitParams({
     title: work.title,
     sourceLink: window.location.toString(),
     licence:
       digitalLocation?.type === 'DigitalLocation'
         ? digitalLocation.license.id.toUpperCase()
         : '',
-    author:
-      contributors && contributors.length > 0
-        ? contributors[0].agent.label
-        : '',
+    contributors: work.contributors,
   });
-
-  return {
-    id: 'tzitzit',
-    label: 'tzitzit',
-    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params}`,
-    displayLink: Boolean(params),
-  };
 }
 
 function getRouteProps(path: string) {
@@ -159,7 +151,7 @@ function getRouteProps(path: string) {
 
         const tzitzitLink = await createTzitzitImageLink(id as string);
 
-        return tzitzitLink.displayLink ? [tzitzitLink] : [];
+        return tzitzitLink ? [tzitzitLink] : [];
       };
     case '/item':
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
@@ -167,7 +159,7 @@ function getRouteProps(path: string) {
 
         const tzitzitLink = await createTzitzitWorkLink(workId as string);
 
-        return tzitzitLink.displayLink ? [tzitzitLink] : [];
+        return tzitzitLink ? [tzitzitLink] : [];
       };
     default:
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
