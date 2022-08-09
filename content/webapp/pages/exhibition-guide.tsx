@@ -14,6 +14,7 @@ import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
@@ -22,7 +23,7 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import GridFactory from '@weco/content/components/Body/GridFactory';
 import { font } from '@weco/common/utils/classnames';
 
@@ -51,6 +52,12 @@ const TypeLink = styled.a`
   }
 `;
 
+const Header = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('greenNewPalette')};
+`;
+
 const typeNames = [
   'bsl',
   'audio-with-descriptions',
@@ -68,6 +75,19 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
 };
+
+function getTypeTitle(type: GuideType): string {
+  switch (type) {
+    case 'bsl':
+      return 'BSL';
+    case 'audio-with-descriptions':
+      return 'Audio with descriptions';
+    case 'audio-without-descriptions':
+      return 'Audio without descriptions';
+    case 'captions-and-transcripts':
+      return 'Captions and transcripts';
+  }
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -237,32 +257,30 @@ const ExhibitionGuidesPage: FC<Props> = props => {
         </Layout12>
       ) : (
         <>
-          <Layout12>
-            <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-              <h2>{exhibitionGuide.title}</h2>
-            </Space>
-            <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-              <h3>Introduction</h3>
-              {exhibitionGuide.relatedExhibition && (
-                <p>{exhibitionGuide.relatedExhibition.description}</p>
-              )}
-              <p>
+          <Header>
+            <Layout8 shift={false}>
+              <>
+                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+                <h3 className="h1">{getTypeTitle(type)}</h3>
+                {exhibitionGuide.relatedExhibition && (
+                  <p>{exhibitionGuide.relatedExhibition.description}</p>
+                )}
                 <Space
                   as="span"
                   h={{ size: 's', properties: ['margin-right'] }}
                 >
-                  <ButtonSolidLink
+                  <ButtonOutlinedLink
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
                   />
                 </Space>
-                <ButtonSolidLink
+                <ButtonOutlinedLink
                   text="Change exhibition"
                   link="/guides/exhibitions"
                 />
-              </p>
-            </Space>
-          </Layout12>
+              </>
+            </Layout8>
+          </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
