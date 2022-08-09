@@ -118,34 +118,36 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               </Space>
             )}
 
-            {event.ticketSalesStart && waitForTicketSales && (
-              <Fragment>
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: [
-                      'margin-top',
-                      'margin-bottom',
-                      'padding-top',
-                      'padding-bottom',
-                    ],
-                  }}
-                  h={{
-                    size: 'm',
-                    properties: ['padding-left', 'padding-right'],
-                  }}
-                  className={classNames({
-                    'bg-yellow inline-block': true,
-                    [font('hnb', 5)]: true,
-                  })}
-                >
-                  <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {formatTime(event.ticketSalesStart)}
-                  </span>
-                </Space>
-              </Fragment>
-            )}
+            {!isEventPast(event) &&
+              event.ticketSalesStart &&
+              waitForTicketSales && (
+                <Fragment>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: [
+                        'margin-top',
+                        'margin-bottom',
+                        'padding-top',
+                        'padding-bottom',
+                      ],
+                    }}
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
+                    className={classNames({
+                      'bg-yellow inline-block': true,
+                      [font('hnb', 5)]: true,
+                    })}
+                  >
+                    <span>
+                      Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                      {formatTime(event.ticketSalesStart)}
+                    </span>
+                  </Space>
+                </Fragment>
+              )}
 
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
