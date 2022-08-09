@@ -14,7 +14,7 @@ import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
 import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '../../../services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '../../../model/organization';
+import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
