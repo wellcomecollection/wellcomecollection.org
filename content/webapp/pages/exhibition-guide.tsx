@@ -294,7 +294,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
 
   return (
     <PageLayout
-      title={`${exhibitionGuide.relatedExhibition?.title} guide` || ''}
+      title={`${exhibitionGuide.title} guide` || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
@@ -319,7 +319,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <h1 className="no-margin">
-                  {`Choose the ${exhibitionGuide.relatedExhibition?.title} guide for you`}
+                  {`Choose the ${exhibitionGuide.title} guide for you`}
                 </h1>
               </Space>
             </Space>
@@ -334,7 +334,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       ) : (
         <Layout10>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h2>{exhibitionGuide.relatedExhibition?.title}</h2>
+            <h2>{exhibitionGuide.title}</h2>
           </Space>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <h3>Introduction</h3>

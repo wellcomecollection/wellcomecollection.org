@@ -34,6 +34,7 @@ export type Exhibit = {
 };
 
 export type ExhibitionGuideBasic = {
+  title: string;
   type: 'exhibition-guides';
   id: string;
   image?: ImageType;

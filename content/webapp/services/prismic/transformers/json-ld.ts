@@ -33,8 +33,8 @@ export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
   return objToJsonLd(
     {
       '@type': 'Guide',
-      about: exhibitionGuide.relatedExhibition?.title,
-      name: exhibitionGuide.relatedExhibition?.title,
+      about: exhibitionGuide.title,
+      name: exhibitionGuide.title,
       text: exhibitionGuide.relatedExhibition?.description,
       discussionUrl: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
     },
