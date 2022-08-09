@@ -3,7 +3,13 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Work, Location, Image, Contributor } from '../../../model/catalogue';
+import {
+  Work,
+  Location,
+  Image,
+  Contributor,
+  License,
+} from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
@@ -46,17 +52,19 @@ function setTzitzitParams({
 }: {
   title: string;
   sourceLink: string;
-  licence: string;
+  licence: License | undefined;
   contributors: Contributor[] | undefined;
 }): Prop | undefined {
+  const licenceId = licence?.id.toUpperCase();
+
   // We should not be using in copyright images in Stories
-  if (licence === 'INC') return;
+  if (licenceId === 'INC') return;
 
   const params = new URLSearchParams();
   params.set('title', title);
   params.set('sourceName', 'Wellcome Collection');
   params.set('sourceLink', sourceLink);
-  if (licence) params.set('licence', licence);
+  if (licenceId) params.set('licence', licenceId);
   if (contributors && contributors.length > 0)
     params.set('author', contributors[0].agent.label);
 
@@ -76,7 +84,7 @@ async function createTzitzitImageLink(
   return setTzitzitParams({
     title: image.source.title,
     sourceLink: window.location.toString(),
-    licence: image.locations[0].license.id.toUpperCase(),
+    licence: image.locations[0].license,
     contributors: image.source.contributors,
   });
 }
@@ -99,8 +107,8 @@ async function createTzitzitWorkLink(
     sourceLink: window.location.toString(),
     licence:
       digitalLocation?.type === 'DigitalLocation'
-        ? digitalLocation.license.id.toUpperCase()
-        : '',
+        ? digitalLocation.license
+        : undefined,
     contributors: work.contributors,
   });
 }

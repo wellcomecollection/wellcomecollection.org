@@ -151,7 +151,7 @@ type LocationType = {
   type: 'LocationType';
 };
 
-type License = {
+export type License = {
   id: string;
   label: string;
   url: string;
