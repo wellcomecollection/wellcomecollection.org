@@ -165,7 +165,8 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 </Space>
               )}
 
-            {!event.eventbriteId &&
+            {!isEventPast(event) &&
+              !event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>
