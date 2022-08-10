@@ -22,7 +22,8 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout12 from '@weco/common/views/components/Layout10/Layout10';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import CardGrid from '../components/CardGrid/CardGrid';
@@ -41,9 +42,14 @@ import {
   speechToText,
 } from '@weco/common/icons';
 
+const PromoContainer = styled.div`
+  background: ${props => props.theme.color('cream')};
+`;
+
 type StopProps = {
   width: number;
 };
+
 const Stop = styled(Space).attrs({
   as: 'li',
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -356,7 +362,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideFooter={true}
     >
       {!type ? (
-        <Layout12 isCentered={false}>
+        <Layout10 isCentered={false}>
           <SpacingSection>
             <Space
               v={{ size: 'l', properties: ['margin-top'] }}
@@ -377,9 +383,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
               />
             </Space>
           </SpacingSection>
-        </Layout12>
+        </Layout10>
       ) : (
-        <Layout12>
+        <Layout10>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <h2>{exhibitionGuide.title}</h2>
           </Space>
@@ -404,13 +410,28 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
-        </Layout12>
+        </Layout10>
       )}
       {otherExhibitionGuides.results.length > 0 && (
-        <SpacingSection>
-          {JSON.stringify(otherExhibitionGuides.results)}
-          <CardGrid items={otherExhibitionGuides.results} itemsPerRow={3} />
-        </SpacingSection>
+        <PromoContainer>
+          <Space
+            v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+          >
+            <Layout8 shift={false}>
+              <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                <h2 className="h2">Other exhibition guides available</h2>
+              </Space>
+            </Layout8>
+            <CardGrid
+              itemsHaveTransparentBackground={true}
+              items={otherExhibitionGuides.results.map(result => ({
+                ...result,
+                type: 'exhibition-guides-links',
+              }))}
+              itemsPerRow={3}
+            />
+          </Space>
+        </PromoContainer>
       )}
     </PageLayout>
   );
