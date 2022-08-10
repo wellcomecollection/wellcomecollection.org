@@ -35,7 +35,7 @@ export type Exhibit = {
 
 export type ExhibitionGuideBasic = {
   title: string;
-  type: 'exhibition-guides';
+  type: 'exhibition-guides' | 'exhibition-guides-links';
   id: string;
   image?: ImageType;
   promo?: ImagePromo;
