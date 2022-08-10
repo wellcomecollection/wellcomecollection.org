@@ -55,7 +55,7 @@ const TypeLink = styled.a`
 const Header = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background: ${props => props.theme.color('greenNewPalette')};
+  background: ${props => props.theme.color('newPaletteOrange')};
 `;
 
 const typeNames = [
