@@ -13,7 +13,8 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
 import { GetServerSideProps } from 'next';
@@ -22,22 +23,18 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import GridFactory from '@weco/content/components/Body/GridFactory';
+import { font } from '@weco/common/utils/classnames';
 
 type StopProps = {
   width: number;
 };
 const Stop = styled(Space).attrs({
-  as: 'li',
-  v: { size: 'm', properties: ['margin-bottom'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<StopProps>`
-  width: 100%;
-  ${props => props.theme.media.large`
-    width: calc(50% - 50px);
-  `}
-  ${props => props.theme.media.xlarge`
-    ${props => `width: calc(${props.width}% - 50px)`};
-  `}
+  background: ${props => props.theme.color('cream')};
 `;
 
 const TypeLink = styled.a`
@@ -53,6 +50,12 @@ const TypeLink = styled.a`
   &:focus {
     background: ${props => props.theme.color('marble')};
   }
+`;
+
+const Header = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('newPaletteOrange')};
 `;
 
 const typeNames = [
@@ -72,6 +75,19 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
 };
+
+function getTypeTitle(type: GuideType): string {
+  switch (type) {
+    case 'bsl':
+      return 'BSL';
+    case 'audio-with-descriptions':
+      return 'Audio with descriptions';
+    case 'audio-without-descriptions':
+      return 'Audio without descriptions';
+    case 'captions-and-transcripts':
+      return 'Captions and transcripts';
+  }
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -118,11 +134,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
   const stopWidth = type === 'bsl' ? 50 : 33;
 
   return (
-    <ul
-      className="plain-list no-margin no-padding flex flex--wrap"
-      style={{ gap: '50px' }}
-    >
-      {stops.map((stop, index) => {
+    <GridFactory
+      items={stops.map((stop, index) => {
         const {
           title,
           number,
@@ -137,22 +150,19 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
           (type === 'bsl' && bsl?.embedUrl);
         return (
           <Stop key={index} width={stopWidth}>
-            <h2>
-              {number}. {title}
-            </h2>
             {hasContentOfDesiredType ? (
               <>
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={stop.title} // TODO option not to display title
+                      title={`${number}. ${stop.title}`} // TODO option not to display title
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={title} // TODO option not to display title
+                      title={`${number}. ${stop.title}`} // TODO option not to display title
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
@@ -162,13 +172,16 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               </>
             ) : (
               <>
+                <span className={font('hnb', 5)}>
+                  {number}. {title}
+                </span>
                 <p>There is no content to display</p>
               </>
             )}
           </Stop>
         );
       })}
-    </ul>
+    />
   );
 };
 
@@ -207,7 +220,7 @@ const ExhibitionGuidesPage: FC<Props> = props => {
       hideFooter={true}
     >
       {!type ? (
-        <Layout10>
+        <Layout12>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <h1 className="h1">{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
           </Space>
@@ -241,34 +254,37 @@ const ExhibitionGuidesPage: FC<Props> = props => {
               </p>
             </TypeLink>
           </Space>
-        </Layout10>
+        </Layout12>
       ) : (
-        <Layout10>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h2>{exhibitionGuide.title}</h2>
-          </Space>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h3>Introduction</h3>
-            {exhibitionGuide.relatedExhibition && (
-              <p>{exhibitionGuide.relatedExhibition.description}</p>
-            )}
-            <p>
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <ButtonSolidLink
-                  text="Change guide type"
-                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+        <>
+          <Header>
+            <Layout8 shift={false}>
+              <>
+                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+                <h3 className="h1">{getTypeTitle(type)}</h3>
+                {exhibitionGuide.relatedExhibition && (
+                  <p>{exhibitionGuide.relatedExhibition.description}</p>
+                )}
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <ButtonOutlinedLink
+                    text="Change guide type"
+                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                  />
+                </Space>
+                <ButtonOutlinedLink
+                  text="Change exhibition"
+                  link="/guides/exhibitions"
                 />
-              </Space>
-              <ButtonSolidLink
-                text="Change exhibition"
-                link="/guides/exhibitions"
-              />
-            </p>
-          </Space>
+              </>
+            </Layout8>
+          </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
-        </Layout10>
+        </>
       )}
     </PageLayout>
   );

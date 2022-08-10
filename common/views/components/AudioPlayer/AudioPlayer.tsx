@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, FC, Ref, SyntheticEvent } from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   play,
   pause,
@@ -15,18 +15,41 @@ import { trackEvent } from '@weco/common/utils/ga';
 const VolumeWrapper = styled.div`
   display: flex;
   align-items: center;
-
-  button {
-    transform: scale(0.7);
-  }
+  gap: 5px;
 
   input {
     width: 60px;
   }
 `;
 
+const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
+  className: 'plain-button no-padding',
+  ariaPressed: props.isPlaying,
+}))<{ isPlaying: boolean }>`
+  svg {
+    transform: translateX(${props => (!props.isPlaying ? '2px' : '0')});
+  }
+`;
+
+const PlayPauseInner = styled.div`
+  border: 2px solid ${props => props.theme.color('pewter')};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
+  className: 'plain-button no-padding',
+  ariaPressed: props.isMuted,
+}))``;
+
 // FIXME: this exists because the `volumeMute` icon I created is 1px off
 const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
+  display: flex;
+
   ${props =>
     props.isMuted &&
     `
@@ -49,22 +72,11 @@ const AudioPlayerGrid = styled.div`
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 5px;
 `;
 
 const SecondRow = styled.div`
-  grid-column: 2 / -1;
-`;
-
-const PlayControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
-  h: { size: 'm', properties: ['margin-right'] },
-})<{ isPlaying: boolean }>`
-  ${props =>
-    !props.isPlaying &&
-    `
-    svg {
-      transform: translateX(2px);
-    }
-  `}
+  grid-column: 1 / -1;
 `;
 
 const PlayRateRadio = styled.input.attrs({
@@ -189,13 +201,12 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   return (
     <VolumeWrapper>
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
-        <Control
-          colorScheme="light"
-          icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
-          clickHandler={onVolumeButtonClick}
-          text={isMuted ? `muted` : `unmuted`}
-          ariaPressed={`${isMuted}`}
-        />
+        <MuteUnmuteButton onClick={onVolumeButtonClick}>
+          <Icon
+            color="pewter"
+            icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
+          />
+        </MuteUnmuteButton>
       </VolumeControlWrapper>
       <div style={{ lineHeight: 0 }}>
         <label htmlFor={`volume-${id}`}>
@@ -366,15 +377,11 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
       </Space>
 
       <AudioPlayerGrid>
-        <PlayControlWrapper isPlaying={isPlaying}>
-          <Control
-            colorScheme="light"
-            icon={isPlaying ? pause : play}
-            clickHandler={onTogglePlay}
-            text={isPlaying ? `pause` : `play`}
-            ariaPressed={`${isPlaying}`}
-          />
-        </PlayControlWrapper>
+        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
+          <PlayPauseInner>
+            <Icon color="pewter" icon={isPlaying ? pause : play} />
+          </PlayPauseInner>
+        </PlayPauseButton>
 
         <div className="full-width">
           <Scrubber
