@@ -22,7 +22,7 @@ import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import Layout10 from '@weco/common/views/components/Layout10/Layout10';
+import Layout12 from '@weco/common/views/components/Layout10/Layout10';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import CardGrid from '../components/CardGrid/CardGrid';
@@ -57,11 +57,23 @@ const Stop = styled(Space).attrs({
   `}
 `;
 
+const TypeList = styled.ul.attrs({
+  className: 'plain-list no-margin no-padding flex flex--wrap',
+})`
+  gap: 20px;
+  ${props => props.theme.media.medium`
+    gap: 50px;
+  `}
+`;
+
 const TypeItem = styled.li`
-  flex-basis: calc(50% - 20px);
+  flex-basis: 100%;
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
+  ${props => props.theme.media.medium`
+    flex-basis: calc(50% - 25px);
+  `}
 `;
 
 const TypeLink = styled.a`
@@ -278,10 +290,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
     stop => stop.audioWithDescription?.url
   );
   return (
-    <ul
-      className="plain-list no-margin no-padding flex flex--wrap"
-      style={{ gap: '10px' }}
-    >
+    <TypeList>
       {hasAudioWithoutDescriptions && (
         // TODO pass in correct colours from theme, onnce new colour palette is established
         <TypeOption
@@ -320,7 +329,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           icon={britishSignLanguage}
         />
       )}
-    </ul>
+    </TypeList>
   );
 };
 
@@ -347,7 +356,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideFooter={true}
     >
       {!type ? (
-        <Layout10>
+        <Layout12 isCentered={false}>
           <SpacingSection>
             <Space
               v={{ size: 'l', properties: ['margin-top'] }}
@@ -368,9 +377,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
               />
             </Space>
           </SpacingSection>
-        </Layout10>
+        </Layout12>
       ) : (
-        <Layout10>
+        <Layout12>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <h2>{exhibitionGuide.title}</h2>
           </Space>
@@ -395,7 +404,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
-        </Layout10>
+        </Layout12>
       )}
       {otherExhibitionGuides.results.length > 0 && (
         <SpacingSection>
