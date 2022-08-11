@@ -141,19 +141,16 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 )<SolidButtonProps>`
   background: ${props =>
     props.theme.color(
-      props?.colors?.background ||
-        props.theme.buttonColors.defaultSolidButtonColors.background
+      props?.colors?.background || props.theme.buttonColors.default.background
     )};
   color: ${props =>
     props.theme.color(
-      props?.colors?.background ||
-        props.theme.buttonColors.defaultSolidButtonColors.text
+      props?.colors?.background || props.theme.buttonColors.default.text
     )};
   border: 2px solid
     ${props =>
       props.theme.color(
-        props?.colors?.background ||
-          props.theme.buttonColors.defaultSolidButtonColors.border
+        props?.colors?.background || props.theme.buttonColors.default.border
       )};
 
   ${props =>
@@ -166,13 +163,12 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     background: ${props =>
       props.theme.color(
         props?.colors?.background ||
-          props.theme.buttonColors.defaultSolidButtonColors.background,
+          props.theme.buttonColors.default.background,
         'dark'
       )};
     border-color: ${props =>
       props.theme.color(
-        props?.colors?.background ||
-          props.theme.buttonColors.defaultSolidButtonColors.border,
+        props?.colors?.background || props.theme.buttonColors.default.border,
         'dark'
       )};
   }

@@ -136,22 +136,22 @@ export const sizes = {
   headerLarge: 1040,
 };
 
-const defaultSolidButtonColors: ButtonColors = {
+const defaultButtonColors: ButtonColors = {
   text: 'white',
   background: 'green',
   border: 'green',
 };
 
-const dangerSolidButtonColors: ButtonColors = {
+const dangerButtonColors: ButtonColors = {
   text: 'white',
   background: 'red',
   border: 'red',
 };
 
-const defaultOutlinedButtonColors: ButtonColors = {
-  text: 'green',
-  background: 'transparent',
-  border: 'green',
+const needsABetterName: ButtonColors = {
+  text: 'charcoal',
+  background: 'white',
+  border: 'charcoal',
 };
 
 export const themeValues = {
@@ -221,9 +221,9 @@ export const themeValues = {
   color: getColor,
   minCardHeight: 385,
   buttonColors: {
-    defaultSolidButtonColors,
-    defaultOutlinedButtonColors,
-    dangerSolidButtonColors,
+    default: defaultButtonColors,
+    danger: dangerButtonColors,
+    needsABetterName,
   },
 };
 
