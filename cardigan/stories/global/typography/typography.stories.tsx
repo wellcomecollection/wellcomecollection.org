@@ -31,9 +31,9 @@ const TypographyScale = ({ fontFamily }) => {
       return (
         <span
           key={index}
-          style={{ fontSize: `${v}px`, fontFamily: fontFamily }}
+          style={{ fontSize: `${v}rem`, fontFamily: fontFamily }}
         >
-          {v}px
+          {v}rem
         </span>
       );
     });

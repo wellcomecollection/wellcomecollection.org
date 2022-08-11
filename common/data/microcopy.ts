@@ -49,11 +49,6 @@ export const a11y = {
     'Large-print guides, transcripts and magnifiers are available in the gallery',
 };
 
-export const errorMessages = {
-  404: 'This isn’t the page you’re looking for, but how about these?',
-  500: 'This isn’t the page you’re looking for, but how about these?',
-};
-
 export const wellcomeImagesRedirectBanner =
   'Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we’re working to improve data quality, search relevance and tools to help you use these images more easily.';
 

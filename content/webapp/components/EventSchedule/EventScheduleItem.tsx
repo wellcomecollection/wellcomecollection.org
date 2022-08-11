@@ -55,7 +55,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
                   </time>
-                  &mdash;
+                  &ndash;
                   <time dateTime={endTimeString}>
                     {formatTime(t.range.endDateTime)}
                   </time>
@@ -118,34 +118,36 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               </Space>
             )}
 
-            {event.ticketSalesStart && waitForTicketSales && (
-              <Fragment>
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: [
-                      'margin-top',
-                      'margin-bottom',
-                      'padding-top',
-                      'padding-bottom',
-                    ],
-                  }}
-                  h={{
-                    size: 'm',
-                    properties: ['padding-left', 'padding-right'],
-                  }}
-                  className={classNames({
-                    'bg-yellow inline-block': true,
-                    [font('hnb', 5)]: true,
-                  })}
-                >
-                  <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {formatTime(event.ticketSalesStart)}
-                  </span>
-                </Space>
-              </Fragment>
-            )}
+            {!isEventPast(event) &&
+              event.ticketSalesStart &&
+              waitForTicketSales && (
+                <Fragment>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: [
+                        'margin-top',
+                        'margin-bottom',
+                        'padding-top',
+                        'padding-bottom',
+                      ],
+                    }}
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
+                    className={classNames({
+                      'bg-yellow inline-block': true,
+                      [font('hnb', 5)]: true,
+                    })}
+                  >
+                    <span>
+                      Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                      {formatTime(event.ticketSalesStart)}
+                    </span>
+                  </Space>
+                </Fragment>
+              )}
 
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
@@ -163,7 +165,8 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 </Space>
               )}
 
-            {!event.eventbriteId &&
+            {!isEventPast(event) &&
+              !event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>

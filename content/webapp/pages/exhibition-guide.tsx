@@ -3,6 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
+import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -16,7 +17,7 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font, classNames } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
@@ -35,7 +36,8 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import GridFactory from '@weco/content/components/Body/GridFactory';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
@@ -46,22 +48,15 @@ import {
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
 `;
-
 type StopProps = {
   width: number;
 };
 
 const Stop = styled(Space).attrs({
-  as: 'li',
-  v: { size: 'm', properties: ['margin-bottom'] },
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })<StopProps>`
-  width: 100%;
-  ${props => props.theme.media.large`
-    width: calc(50% - 50px);
-  `}
-  ${props => props.theme.media.xlarge`
-    ${props => `width: calc(${props.width}% - 50px)`};
-  `}
+  background: ${props => props.theme.color('cream')};
 `;
 
 const TypeList = styled.ul.attrs({
@@ -123,6 +118,12 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
   </TypeItem>
 );
 
+const Header = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background: ${props => props.theme.color('newPaletteOrange')};
+`;
+
 const typeNames = [
   'bsl',
   'audio-with-descriptions',
@@ -139,8 +140,21 @@ type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   type?: GuideType;
-  otherExhibitionGuides: ExhibitionGuideBasic[];
+  otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
 };
+
+function getTypeTitle(type: GuideType): string {
+  switch (type) {
+    case 'bsl':
+      return 'BSL';
+    case 'audio-with-descriptions':
+      return 'Audio with descriptions';
+    case 'audio-without-descriptions':
+      return 'Audio without descriptions';
+    case 'captions-and-transcripts':
+      return 'Captions and transcripts';
+  }
+}
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
@@ -214,11 +228,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
   const stopWidth = type === 'bsl' ? 50 : 33;
 
   return (
-    <ul
-      className="plain-list no-margin no-padding flex flex--wrap"
-      style={{ gap: '50px' }}
-    >
-      {stops.map((stop, index) => {
+    <GridFactory
+      items={stops.map((stop, index) => {
         const {
           title,
           number,
@@ -233,22 +244,19 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
           (type === 'bsl' && bsl?.embedUrl);
         return (
           <Stop key={index} width={stopWidth}>
-            <h2>
-              {number}. {title}
-            </h2>
             {hasContentOfDesiredType ? (
               <>
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={stop.title}
+                      title={`${number}. ${stop.title}`}
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={title}
+                      title={`${number}. ${stop.title}`}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
@@ -258,13 +266,16 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               </>
             ) : (
               <>
+                <span className={font('hnb', 5)}>
+                  {number}. {title}
+                </span>
                 <p>There is no content to display</p>
               </>
             )}
           </Stop>
         );
       })}
-    </ul>
+    />
   );
 };
 
@@ -387,32 +398,35 @@ const ExhibitionGuidePage: FC<Props> = props => {
           </SpacingSection>
         </Layout10>
       ) : (
-        <Layout10>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h2>{exhibitionGuide.title}</h2>
-          </Space>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <h3>Introduction</h3>
-            {exhibitionGuide.relatedExhibition && (
-              <p>{exhibitionGuide.relatedExhibition.description}</p>
-            )}
-            <p>
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-                <ButtonSolidLink
-                  text="Change guide type"
-                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+        <>
+          <Header>
+            <Layout8 shift={false}>
+              <>
+                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+                <h3 className="h1">{getTypeTitle(type)}</h3>
+                {exhibitionGuide.relatedExhibition && (
+                  <p>{exhibitionGuide.relatedExhibition.description}</p>
+                )}
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <ButtonOutlinedLink
+                    text="Change guide type"
+                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                  />
+                </Space>
+                <ButtonOutlinedLink
+                  text="Change exhibition"
+                  link="/guides/exhibitions"
                 />
-              </Space>
-              <ButtonSolidLink
-                text="Change exhibition"
-                link="/guides/exhibitions"
-              />
-            </p>
-          </Space>
+              </>
+            </Layout8>
+          </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
-        </Layout10>
+        </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
         <PromoContainer>

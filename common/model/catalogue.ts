@@ -94,7 +94,7 @@ type ContributorRole = {
   type: 'ContributionRole';
 };
 
-type Contributor = {
+export type Contributor = {
   agent: Agent;
   roles: ContributorRole[];
   type: 'Contributor';
@@ -151,7 +151,7 @@ type LocationType = {
   type: 'LocationType';
 };
 
-type License = {
+export type License = {
   id: string;
   label: string;
   url: string;
@@ -266,6 +266,8 @@ export type Image = {
   locations: DigitalLocation[];
   source: {
     id: string;
+    title: string;
+    contributors?: Contributor[];
     type: string;
   };
   visuallySimilar?: Image[];

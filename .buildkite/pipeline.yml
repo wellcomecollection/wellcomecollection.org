@@ -266,22 +266,6 @@
           - AWS_SECRET_ACCESS_KEY
           - AWS_SESSION_TOKEN
 
-- label: "deploy toggles"
-  branches: "main"
-  plugins:
-    - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
-    - ecr#v2.1.1:
-        login: true
-    - docker-compose#v3.5.0:
-        run: toggles
-        command: [ "yarn", "deploy" ]
-        env:
-          - AWS_ACCESS_KEY_ID
-          - AWS_SECRET_ACCESS_KEY
-          - AWS_SESSION_TOKEN
-          - CI
-
 - label: "deploy edge_lambdas"
   branches: "main"
   plugins:
@@ -324,7 +308,7 @@
 - label: "Trigger stage deployment"
   branches: "main"
   plugins:
-    - wellcomecollection/github-deployments#v0.2.4:
+    - wellcomecollection/github-deployments#v0.3.0:
         assume_role: "arn:aws:iam::130871440101:role/experience-ci"
         environment: stage
         ref: "${BUILDKITE_COMMIT}"
