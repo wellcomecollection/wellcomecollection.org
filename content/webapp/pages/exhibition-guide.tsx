@@ -173,7 +173,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       exhibitionGuidesQuery,
       transformExhibitionGuide
     );
-    console.log(exhibitionGuides);
 
     const basicExhibitionGuides = {
       ...exhibitionGuides,
@@ -242,14 +241,14 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                 {type === 'audio-with-descriptions' &&
                   audioWithDescription?.url && (
                     <AudioPlayer
-                      title={stop.title} // TODO option not to display title
+                      title={stop.title}
                       audioFile={audioWithDescription.url}
                     />
                   )}
                 {type === 'audio-without-descriptions' &&
                   audioWithoutDescription?.url && (
                     <AudioPlayer
-                      title={title} // TODO option not to display title
+                      title={title}
                       audioFile={audioWithoutDescription.url}
                     />
                   )}
@@ -302,7 +301,6 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   return (
     <TypeList>
       {hasAudioWithoutDescriptions && (
-        // TODO pass in correct colours from theme, onnce new colour palette is established
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
