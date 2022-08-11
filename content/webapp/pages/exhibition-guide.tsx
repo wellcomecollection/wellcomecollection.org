@@ -121,7 +121,7 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
 const Header = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background: ${props => props.theme.color('newPaletteOrange')};
+  background: ${props => props.theme.color(props.color)};
 `;
 
 const typeNames = [
@@ -356,11 +356,27 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
+function getTypeColor(type) {
+  switch (type) {
+    case 'bsl':
+      return 'newPaletteBlue';
+    case 'audio-without-descriptions':
+      return 'newPaletteOrange';
+    case 'audio-with-descriptions':
+      return 'newPaletteSalmon';
+    case 'captions-and-transcripts':
+      return 'newPaletteMint';
+    default:
+      return 'newPaletteMint';
+  }
+}
+
 const ExhibitionGuidePage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
+  const typeColor = getTypeColor(type);
 
   return (
     <PageLayout
@@ -403,7 +419,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
         </Layout10>
       ) : (
         <>
-          <Header>
+          <Header color={typeColor}>
             <Layout8 shift={false}>
               <>
                 <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
