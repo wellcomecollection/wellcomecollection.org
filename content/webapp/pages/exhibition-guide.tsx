@@ -286,7 +286,11 @@ const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
     case 'audio-without-descriptions':
       return <Stops stops={stops} type={type} />;
     case 'captions-and-transcripts':
-      return <ExhibitionCaptions stops={stops} />;
+      return (
+        <div className="container">
+          <ExhibitionCaptions stops={stops} />
+        </div>
+      );
     default:
       return null;
   }
