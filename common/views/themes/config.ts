@@ -1,4 +1,5 @@
 import { keyframes } from 'styled-components';
+import { ButtonColors } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 export type ColumnKey =
   | 's'
@@ -135,6 +136,24 @@ export const sizes = {
   headerLarge: 1040,
 };
 
+const defaultSolidButtonColors: ButtonColors = {
+  text: 'white',
+  background: 'green',
+  border: 'green',
+};
+
+const dangerSolidButtonColors: ButtonColors = {
+  text: 'white',
+  background: 'red',
+  border: 'red',
+};
+
+const defaultOutlinedButtonColors: ButtonColors = {
+  text: 'green',
+  background: 'transparent',
+  border: 'green',
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -201,6 +220,11 @@ export const themeValues = {
   colors,
   color: getColor,
   minCardHeight: 385,
+  buttonColors: {
+    defaultSolidButtonColors,
+    defaultOutlinedButtonColors,
+    dangerSolidButtonColors,
+  },
 };
 
 export type Breakpoint = keyof typeof sizes;

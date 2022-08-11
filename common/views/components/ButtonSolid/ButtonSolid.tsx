@@ -5,9 +5,16 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
+import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
 
 type BaseButtonProps = {
   href?: string;
+};
+
+export type ButtonColors = {
+  text: PaletteColor;
+  background: PaletteColor;
+  border: PaletteColor;
 };
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
@@ -106,10 +113,10 @@ export type ButtonSolidBaseProps = {
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
   isBig?: boolean;
-  isDangerous?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
+  colors?: ButtonColors;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -121,7 +128,7 @@ type SolidButtonProps = {
   href?: string;
   isBig?: boolean;
   ariaLabel?: string;
-  isDangerous?: boolean;
+  colors: ButtonColors;
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
@@ -132,11 +139,9 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     }),
   })
 )<SolidButtonProps>`
-  background: ${props =>
-    props.theme.color(props.isDangerous ? 'red' : 'green')};
-  color: ${props => props.theme.color('white')};
-  border: 2px solid
-    ${props => props.theme.color(props.isDangerous ? 'red' : 'green')};
+  background: ${props => props.theme.color(props.colors.background)};
+  color: ${props => props.theme.color(props.colors.text)};
+  border: 2px solid ${props => props.theme.color(props.colors.border)};
 
   ${props =>
     props.isBig &&
@@ -145,10 +150,8 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   `}
 
   &:not([disabled]):hover {
-    background: ${props =>
-      props.theme.color(props.isDangerous ? 'red' : 'green', 'dark')};
-    border-color: ${props =>
-      props.theme.color(props.isDangerous ? 'red' : 'green', 'dark')};
+    background: ${props => props.theme.color(props.colors.background, 'dark')};
+    border-color: ${props => props.theme.color(props.colors.border, 'dark')};
   }
 `;
 
@@ -166,7 +169,7 @@ const Button: FC<ButtonSolidProps> = (
     ariaLive,
     disabled,
     isBig,
-    isDangerous,
+    colors,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -174,6 +177,9 @@ const Button: FC<ButtonSolidProps> = (
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
   }
+  const buttonColors =
+    colors || themeValues.buttonColors.defaultSolidButtonColors;
+
   return (
     <SolidButton
       type={type}
@@ -183,7 +189,7 @@ const Button: FC<ButtonSolidProps> = (
       onClick={handleClick}
       disabled={disabled}
       isBig={isBig}
-      isDangerous={isDangerous}
+      colors={buttonColors}
       ref={ref}
     >
       <BaseButtonInner>

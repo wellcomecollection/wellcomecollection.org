@@ -30,6 +30,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   ariaExpanded,
   isBig,
   ariaLabel,
+  colors,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -56,6 +57,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         isBig={isBig}
         href={getHref(link)}
         ariaLabel={ariaLabel}
+        colors={colors}
       >
         <BaseButtonInner>
           {icon && (

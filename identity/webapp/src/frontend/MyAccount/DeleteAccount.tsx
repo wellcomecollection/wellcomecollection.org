@@ -21,6 +21,7 @@ import {
 } from '../hooks/useRequestDelete';
 import { Loading } from './Loading';
 import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type DeleteAccountInputs = {
   password: string;
@@ -123,7 +124,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
           </FieldMargin>
           <ButtonAlign>
             <ButtonSolid
-              isDangerous
+              colors={themeValues.buttonColors.dangerSolidButtonColors}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />

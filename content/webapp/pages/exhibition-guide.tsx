@@ -23,9 +23,10 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import GridFactory from '@weco/content/components/Body/GridFactory';
 import { font } from '@weco/common/utils/classnames';
+import { ButtonColors } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 type StopProps = {
   width: number;
@@ -198,6 +199,12 @@ const ExhibitionStops = ({ type, stops }) => {
   }
 };
 
+const buttonColors: ButtonColors = {
+  text: 'charcoal',
+  background: 'white',
+  border: 'charcoal',
+};
+
 const ExhibitionGuidesPage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
@@ -269,12 +276,14 @@ const ExhibitionGuidesPage: FC<Props> = props => {
                   as="span"
                   h={{ size: 's', properties: ['margin-right'] }}
                 >
-                  <ButtonOutlinedLink
+                  <ButtonSolidLink
+                    colors={buttonColors}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
                   />
                 </Space>
-                <ButtonOutlinedLink
+                <ButtonSolidLink
+                  colors={buttonColors}
                   text="Change exhibition"
                   link="/guides/exhibitions"
                 />

@@ -15,7 +15,6 @@ export type ChangeDetailsModalContentProps =
 type ChangeDetailsModalProps = {
   id: string;
   buttonText: string;
-  isDangerous?: boolean;
   onComplete: (newDetails?: UpdateUserSchema) => void;
   render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
@@ -23,7 +22,6 @@ type ChangeDetailsModalProps = {
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   id,
   buttonText,
-  isDangerous = false,
   onComplete,
   render,
 }) => {
@@ -42,7 +40,6 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
     <>
       <ButtonOutlined
         text={buttonText}
-        isDangerous={isDangerous}
         clickHandler={() => setIsActive(true)}
         ref={openButton}
       />
