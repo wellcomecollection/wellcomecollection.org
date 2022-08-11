@@ -99,7 +99,11 @@ type TypeOptionProps = {
   url: string;
   title: string;
   text: string;
-  color: string; // TODO type with specific strings
+  color:
+    | 'newPaletteOrange'
+    | 'newPaletteMint'
+    | 'newPaletteSalmon'
+    | 'newPaletteBlue';
   icon?: IconSvg;
 };
 
@@ -303,7 +307,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
-          color="turquoise"
+          color="newPaletteOrange"
         />
       )}
       {hasAudioWithDescriptions && (
@@ -312,7 +316,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, with audio descriptions"
           text="Find out more about the exhibition with short audio tracks,
         including descriptions of the objects."
-          color="orange"
+          color="newPaletteSalmon"
           icon={audioDescribed}
         />
       )}
@@ -322,7 +326,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Read captions and transcripts"
           text="All the wall and label texts from the gallery, and images of the
               objects, great for those without headphones."
-          color="yellow"
+          color="newPaletteMint"
           icon={speechToText}
         />
       )}
@@ -331,7 +335,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
-          color="green"
+          color="newPaletteBlue"
           icon={britishSignLanguage}
         />
       )}
