@@ -5,7 +5,7 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
-import { PaletteColor, themeValues } from '@weco/common/views/themes/config';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 type BaseButtonProps = {
   href?: string;
@@ -128,7 +128,7 @@ type SolidButtonProps = {
   href?: string;
   isBig?: boolean;
   ariaLabel?: string;
-  colors: ButtonColors;
+  colors?: ButtonColors;
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
@@ -139,9 +139,22 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
     }),
   })
 )<SolidButtonProps>`
-  background: ${props => props.theme.color(props.colors.background)};
-  color: ${props => props.theme.color(props.colors.text)};
-  border: 2px solid ${props => props.theme.color(props.colors.border)};
+  background: ${props =>
+    props.theme.color(
+      props?.colors?.background ||
+        props.theme.buttonColors.defaultSolidButtonColors.background
+    )};
+  color: ${props =>
+    props.theme.color(
+      props?.colors?.background ||
+        props.theme.buttonColors.defaultSolidButtonColors.text
+    )};
+  border: 2px solid
+    ${props =>
+      props.theme.color(
+        props?.colors?.background ||
+          props.theme.buttonColors.defaultSolidButtonColors.border
+      )};
 
   ${props =>
     props.isBig &&
@@ -150,8 +163,18 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   `}
 
   &:not([disabled]):hover {
-    background: ${props => props.theme.color(props.colors.background, 'dark')};
-    border-color: ${props => props.theme.color(props.colors.border, 'dark')};
+    background: ${props =>
+      props.theme.color(
+        props?.colors?.background ||
+          props.theme.buttonColors.defaultSolidButtonColors.background,
+        'dark'
+      )};
+    border-color: ${props =>
+      props.theme.color(
+        props?.colors?.background ||
+          props.theme.buttonColors.defaultSolidButtonColors.border,
+        'dark'
+      )};
   }
 `;
 
@@ -177,8 +200,6 @@ const Button: FC<ButtonSolidProps> = (
     clickHandler && clickHandler(event);
     trackingEvent && trackEvent(trackingEvent);
   }
-  const buttonColors =
-    colors || themeValues.buttonColors.defaultSolidButtonColors;
 
   return (
     <SolidButton
@@ -189,7 +210,7 @@ const Button: FC<ButtonSolidProps> = (
       onClick={handleClick}
       disabled={disabled}
       isBig={isBig}
-      colors={buttonColors}
+      colors={colors}
       ref={ref}
     >
       <BaseButtonInner>
