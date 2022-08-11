@@ -11,7 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   prismicPageIds,
   featuredStoriesSeriesId,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {

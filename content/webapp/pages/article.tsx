@@ -25,7 +25,7 @@ import {
 } from '../services/prismic/fetch/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 

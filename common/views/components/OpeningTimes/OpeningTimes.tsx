@@ -4,7 +4,7 @@ import { Venue } from '../../../model/opening-hours';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
