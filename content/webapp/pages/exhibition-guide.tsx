@@ -1,5 +1,6 @@
 import {
   ExhibitionGuide,
+  ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
 import { createClient } from '../services/prismic/fetch';
@@ -138,7 +139,7 @@ type Props = {
   exhibitionGuide: ExhibitionGuide;
   jsonLd: JsonLdObj;
   type?: GuideType;
-  otherExhibitionGuides: any; // TODO
+  otherExhibitionGuides: ExhibitionGuideBasic[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
