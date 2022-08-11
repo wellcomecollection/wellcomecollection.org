@@ -195,8 +195,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           otherExhibitionGuides: {
             ...basicExhibitionGuides,
             results: basicExhibitionGuides.results.filter(
-              result => true
-              // result => result.id !== id // TODO
+              result => result.id !== id
             ),
           },
         }),
