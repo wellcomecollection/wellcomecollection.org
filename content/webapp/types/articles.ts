@@ -1,5 +1,5 @@
 import { ColorSelection } from './color-selections';
-import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';
 import { MultiContent } from './multi-content';
