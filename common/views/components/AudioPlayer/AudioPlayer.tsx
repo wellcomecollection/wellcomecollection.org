@@ -97,7 +97,7 @@ const PlayRateLabel = styled.label<{ isActive: boolean }>`
   border-radius: 5px;
   text-align: center;
   background: ${props =>
-    props.theme.color(props.isActive ? 'yellow' : 'marble')};
+    props.isActive ? props.theme.color('yellow') : undefined}; ;
 `;
 
 const formatVolume = (vol: number): string => {
