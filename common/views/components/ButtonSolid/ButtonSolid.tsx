@@ -12,9 +12,9 @@ type BaseButtonProps = {
 };
 
 export type ButtonColors = {
-  text: PaletteColor;
-  background: PaletteColor;
   border: PaletteColor;
+  background: PaletteColor;
+  text: PaletteColor;
 };
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({

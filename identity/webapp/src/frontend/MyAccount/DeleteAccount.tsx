@@ -124,7 +124,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
           </FieldMargin>
           <ButtonAlign>
             <ButtonSolid
-              colors={themeValues.buttonColors.dangerSolidButtonColors}
+              colors={themeValues.buttonColors.danger}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />

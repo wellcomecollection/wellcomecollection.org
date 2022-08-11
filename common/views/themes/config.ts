@@ -137,21 +137,22 @@ export const sizes = {
 };
 
 const defaultButtonColors: ButtonColors = {
-  text: 'white',
-  background: 'green',
   border: 'green',
+  background: 'green',
+  text: 'white',
 };
 
 const dangerButtonColors: ButtonColors = {
-  text: 'white',
-  background: 'red',
   border: 'red',
+  background: 'red',
+  text: 'white',
 };
 
-const needsABetterName: ButtonColors = {
-  text: 'charcoal',
-  background: 'white',
+// Button color naming convention: [border][Background][Text]
+const charcoalWhiteCharcoal: ButtonColors = {
   border: 'charcoal',
+  background: 'white',
+  text: 'charcoal',
 };
 
 export const themeValues = {
@@ -223,7 +224,7 @@ export const themeValues = {
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
-    needsABetterName,
+    charcoalWhiteCharcoal,
   },
 };
 

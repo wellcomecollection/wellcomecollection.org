@@ -271,13 +271,13 @@ const ExhibitionGuidesPage: FC<Props> = props => {
                   h={{ size: 's', properties: ['margin-right'] }}
                 >
                   <ButtonSolidLink
-                    colors={themeValues.buttonColors.needsABetterName}
+                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
                   />
                 </Space>
                 <ButtonSolidLink
-                  colors={themeValues.buttonColors.needsABetterName}
+                  colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                   text="Change exhibition"
                   link="/guides/exhibitions"
                 />
