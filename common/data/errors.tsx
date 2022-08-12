@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { prismicPageIds } from '../services/prismic/hardcoded-id';
+import { prismicPageIds } from './hardcoded-ids';
 import Layout8 from '../views/components/Layout8/Layout8';
 import Space from '../views/components/styled/Space';
 

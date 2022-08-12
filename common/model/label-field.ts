@@ -1,5 +1,5 @@
 import * as prismicT from '@prismicio/types';
-import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 
 export type LabelField = {
   id?: ArticleFormatId;

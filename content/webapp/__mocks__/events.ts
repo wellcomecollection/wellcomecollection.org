@@ -1,5 +1,5 @@
 import { Event } from '../types/events';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import * as prismicT from '@prismicio/types';
 
 const image = {

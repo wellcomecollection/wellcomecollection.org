@@ -1,6 +1,6 @@
 import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
-import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';

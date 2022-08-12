@@ -44,7 +44,7 @@ import {
 import {
   collectionVenueId,
   prismicPageIds,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '../types/text';

@@ -53,7 +53,7 @@ import {
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isDayPast, isPast } from '@weco/common/utils/dates';
 

@@ -17,7 +17,7 @@ import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '../services/prismic/fetch';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
