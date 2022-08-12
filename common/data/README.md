@@ -7,6 +7,6 @@ These files should ideally be kept simple, so that non-devs can understand them 
 
 Files likely to be especially interesting to non-devs:
 
-* `hardcoded-ids.ts` – a list of Prismic IDs, including the ID of the series featured on the /stories page
-* `microcopy.ts` – all the short bits of text that appear on the site, including page descriptions and some titles
-* `organization.ts` – the organisation contact info, including phone number and address
+* [`hardcoded-ids.ts`](./hardcoded-ids.ts) – a list of Prismic IDs, including the ID of the series featured on the /stories page
+* [`microcopy.ts`](./microcopy.ts) – all the short bits of text that appear on the site, including page descriptions and some titles
+* [`organization.ts`](./organization.ts) – the organisation contact info, including phone number and address
