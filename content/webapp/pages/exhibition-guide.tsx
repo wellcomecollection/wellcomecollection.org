@@ -3,7 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
-import { getCookie, setCookie } from 'cookies-next';
+import { getCookie, hasCookie, setCookie } from "cookies-next";
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -413,8 +413,13 @@ function getTypeColor(type) {
 
 const ExhibitionGuidePage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
+  const hasUserPreference = hasCookie('userPreferenceGuideType');
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
+  }`;
+  const userPreferenceGuideType = getCookie('userPreferenceGuideType');
+  const userPreferencePathname = `guides/exhibitions/${exhibitionGuide.id}${
+    type ? `/${userPreferenceGuideType}` : ''
   }`;
   const typeColor = getTypeColor(type);
 
@@ -422,7 +427,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     <PageLayout
       title={`${exhibitionGuide.title} guide` || ''}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname: pathname }}
+      url={{ pathname: hasUserPreference ? userPreferencePathname : pathname }}
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'exhibition-guides'}
@@ -486,8 +491,14 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout8>
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            {/* TODO: conditional to show user preference guide based on cookie*!/ */}
-            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+            {hasUserPreference ? (
+              <ExhibitionStops
+                type={userPreferenceGuideType as GuideType}
+                stops={exhibitionGuide.components}
+              />
+            ) : (
+              <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+            )}
           </Space>
         </>
       )}
