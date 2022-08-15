@@ -164,6 +164,12 @@ const greenTransparentGreen: ButtonColors = {
   text: 'green',
 };
 
+const whiteTransparentWhite: ButtonColors = {
+  border: 'white',
+  background: 'transparent',
+  text: 'white',
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -235,6 +241,7 @@ export const themeValues = {
     danger: dangerButtonColors,
     charcoalWhiteCharcoal,
     greenTransparentGreen,
+    whiteTransparentWhite,
   },
 };
 

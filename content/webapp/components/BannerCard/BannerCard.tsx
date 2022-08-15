@@ -165,11 +165,10 @@ const BannerCard: FunctionComponent<Props> = ({
           {description}
         </p>
         <ButtonSolid
-          colors={themeValues.buttonColors.greenTransparentGreen}
+          colors={themeValues.buttonColors.whiteTransparentWhite}
           isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}
-          isOnDark={true}
         />
       </Space>
       {image && (

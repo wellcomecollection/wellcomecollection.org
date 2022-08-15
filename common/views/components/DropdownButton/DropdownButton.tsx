@@ -150,19 +150,19 @@ const DropdownButton: FC<Props> = ({
     icon: chevron,
     text: label,
     type: ButtonTypes.button,
-    isOnDark: isOnDark,
+    colors: isOnDark
+      ? themeValues.buttonColors.whiteTransparentWhite
+      : themeValues.buttonColors.greenTransparentGreen,
     ariaControls: id,
     ariaExpanded: isActive,
   };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
-      {buttonType === 'inline' && <ButtonInline {...buttonProps} />}
+      {buttonType === 'inline' && (
+        <ButtonInline {...buttonProps} isOnDark={isOnDark} />
+      )}
       {buttonType === 'outlined' && (
-        <ButtonSolid
-          {...buttonProps}
-          colors={themeValues.buttonColors.greenTransparentGreen}
-          isIconAfter={true}
-        />
+        <ButtonSolid {...buttonProps} isIconAfter={true} />
       )}
       {buttonType === 'borderless' && (
         <BorderlessButton
