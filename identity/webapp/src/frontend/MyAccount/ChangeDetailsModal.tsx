@@ -1,7 +1,8 @@
 import React, { ReactElement, useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
+import { themeValues } from '@weco/common/views/themes/config';
 
 export type ChangeDetailsModalContentProps =
   | Record<string, never>
@@ -38,7 +39,8 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
 
   return (
     <>
-      <ButtonOutlined
+      <ButtonSolid
+        colors={themeValues.buttonColors.greenTransparentGreen}
         text={buttonText}
         clickHandler={() => setIsActive(true)}
         ref={openButton}

@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import ButtonInline from '../ButtonInline/ButtonInline';
-import ButtonOutlined from '../ButtonOutlined/ButtonOutlined';
+import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
 import { chevron, IconSvg } from '../../../icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const DropdownWrapper = styled.div.attrs({
   className: classNames({
@@ -157,7 +157,13 @@ const DropdownButton: FC<Props> = ({
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
       {buttonType === 'inline' && <ButtonInline {...buttonProps} />}
-      {buttonType === 'outlined' && <ButtonOutlined {...buttonProps} />}
+      {buttonType === 'outlined' && (
+        <ButtonSolid
+          {...buttonProps}
+          colors={themeValues.buttonColors.greenTransparentGreen}
+          isIconAfter={true}
+        />
+      )}
       {buttonType === 'borderless' && (
         <BorderlessButton
           aria-controls={id}

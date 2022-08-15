@@ -6,11 +6,12 @@ import { Season } from '../../types/seasons';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '../../services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -163,7 +164,9 @@ const BannerCard: FunctionComponent<Props> = ({
         >
           {description}
         </p>
-        <ButtonOutlined
+        <ButtonSolid
+          colors={themeValues.buttonColors.greenTransparentGreen}
+          isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}
           isOnDark={true}
