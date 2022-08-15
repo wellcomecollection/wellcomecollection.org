@@ -36,8 +36,9 @@ import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import GridFactory from '@weco/content/components/Body/GridFactory';
+import { themeValues } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   britishSignLanguage,
@@ -431,12 +432,14 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   as="span"
                   h={{ size: 's', properties: ['margin-right'] }}
                 >
-                  <ButtonOutlinedLink
+                  <ButtonSolidLink
+                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
                   />
                 </Space>
-                <ButtonOutlinedLink
+                <ButtonSolidLink
+                  colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                   text="Change exhibition"
                   link="/guides/exhibitions"
                 />
