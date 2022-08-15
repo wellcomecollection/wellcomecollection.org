@@ -172,6 +172,12 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border,
         'dark'
       )};
+
+    ${props =>
+      props?.colors?.background === 'transparent' &&
+      `
+      text-decoration: underline;
+    `};
   }
 `;
 
