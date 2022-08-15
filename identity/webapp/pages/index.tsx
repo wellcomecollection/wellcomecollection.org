@@ -54,6 +54,7 @@ import {
 import { Claims } from '@auth0/nextjs-auth0';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
+import { useSendVerificationEmail } from 'src/frontend/hooks/useSendVerificationEmail';
 
 type DetailProps = {
   label: string;
@@ -201,6 +202,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
 
+  const { sendVerificationEmail, isLoading, isSuccess, error } =
+    useSendVerificationEmail();
+
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
   const user =
@@ -217,13 +221,8 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
 
   const sendNewValidationEmail = async () => {
     alert(`About to send verification email for ${user.userId}!`);
-    const apiResponse = await fetch(
-      `/account/api/users/${user.userId}/send_verification_email`,
-      {
-        method: 'POST',
-      }
-    );
-    console.log(apiResponse);
+    const response = await sendVerificationEmail();
+    console.log(response);
   };
 
   return (
