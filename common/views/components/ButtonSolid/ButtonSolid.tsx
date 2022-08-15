@@ -196,6 +196,7 @@ const Button: FC<ButtonSolidProps> = (
     disabled,
     isBig,
     colors,
+    isIconAfter,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -217,12 +218,7 @@ const Button: FC<ButtonSolidProps> = (
       ref={ref}
     >
       <BaseButtonInner>
-        <>
-          {icon && (
-            <ButtonIconWrapper>
-              <Icon icon={icon} />
-            </ButtonIconWrapper>
-          )}
+        {isIconAfter && (
           <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
@@ -230,7 +226,21 @@ const Button: FC<ButtonSolidProps> = (
           >
             {text}
           </span>
-        </>
+        )}
+        {icon && (
+          <ButtonIconWrapper iconAfter={isIconAfter}>
+            <Icon icon={icon} />
+          </ButtonIconWrapper>
+        )}
+        {!isIconAfter && (
+          <span
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
+            {text}
+          </span>
+        )}
       </BaseButtonInner>
     </SolidButton>
   );
