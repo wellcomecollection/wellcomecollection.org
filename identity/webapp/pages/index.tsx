@@ -55,7 +55,7 @@ import { Claims } from '@auth0/nextjs-auth0';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
 import { useSendVerificationEmail } from '../src/frontend/hooks/useSendVerificationEmail';
-import { UnverifiedEmail } from '../src/frontend/components/UnverifiedEmail';
+import { UnverifiedEmail } from '../src/frontend/MyAccount/UnverifiedEmail';
 
 type DetailProps = {
   label: string;
