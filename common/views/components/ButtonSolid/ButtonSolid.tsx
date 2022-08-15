@@ -117,6 +117,7 @@ export type ButtonSolidBaseProps = {
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
+  isIconAfter?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {

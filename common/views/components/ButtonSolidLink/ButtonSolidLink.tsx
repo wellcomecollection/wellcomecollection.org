@@ -31,6 +31,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isBig,
   ariaLabel,
   colors,
+  isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -60,12 +61,13 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         colors={colors}
       >
         <BaseButtonInner>
+          {isIconAfter && text}
           {icon && (
-            <ButtonIconWrapper>
+            <ButtonIconWrapper iconAfter={isIconAfter}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
-          {text}
+          {!isIconAfter && text}
         </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>

@@ -158,6 +158,12 @@ const charcoalWhiteCharcoal: ButtonColors = {
   text: 'charcoal',
 };
 
+const greenTransparentGreen: ButtonColors = {
+  border: 'green',
+  background: 'transparent',
+  text: 'green',
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -228,6 +234,7 @@ export const themeValues = {
     default: defaultButtonColors,
     danger: dangerButtonColors,
     charcoalWhiteCharcoal,
+    greenTransparentGreen,
   },
 };
 
