@@ -120,6 +120,9 @@ export const colors = {
   inherit: { base: 'inherit', dark: '', light: '' },
   currentColor: { base: 'currentColor', dark: '', light: '' },
   newPaletteOrange: { base: '#e7b792', dark: '', light: '' },
+  newPaletteMint: { base: '#acddbd', dark: '', light: '' },
+  newPaletteBlue: { base: '#7bc1ce', dark: '', light: '' },
+  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
 };
 
 const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>

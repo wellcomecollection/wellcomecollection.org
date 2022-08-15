@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
@@ -44,7 +43,7 @@ import {
 import {
   collectionVenueId,
   prismicPageIds,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import { FeaturedText as FeaturedTextType } from '../types/text';

@@ -11,7 +11,7 @@ import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
+import { collectionVenueId } from '../../../data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '../../../services/prismic/opening-times';
 import { wellcomeCollectionGallery } from '../../../data/organization';

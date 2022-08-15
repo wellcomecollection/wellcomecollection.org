@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText, transformGenericFields } from '.';
+import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
@@ -58,22 +58,13 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
-  return (({
+  return (({ title, type, id, image, promo, relatedExhibition }) => ({
+    title,
     type,
     id,
-    title,
     image,
     promo,
     relatedExhibition,
-    components,
-  }) => ({
-    type,
-    id,
-    title,
-    image,
-    promo,
-    relatedExhibition,
-    components,
   }))(exhibitionGuide);
 }
 
@@ -104,15 +95,16 @@ function transformYoutubeEmbed(embed) {
       : `${embedUrlWithEnhancedPrivacy}?rel=0`;
 
     return {
-      embedUrl: newEmbedUrl,
+      embedUrl: newEmbedUrl as string,
     };
+  } else {
+    return {};
   }
 }
 
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
-  const genericFields = transformGenericFields(document);
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
@@ -130,7 +122,7 @@ export function transformExhibitionGuide(
           (component.transcript && asRichText(component.transcript)) || [],
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-        bsl: component['bsl-video'].provider_name // TODO better way of checking?
+        bsl: component['bsl-video'].provider_name
           ? transformYoutubeEmbed(component['bsl-video'])
           : {},
       };
@@ -149,9 +141,8 @@ export function transformExhibitionGuide(
     : undefined;
 
   return {
-    ...genericFields,
+    title: relatedExhibition?.title || '',
     type: 'exhibition-guides',
-    title: asText(document.data?.title) || '',
     promo,
     relatedExhibition,
     components,

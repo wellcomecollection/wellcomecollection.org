@@ -9,7 +9,21 @@ export default auth0.handleAuth({
       res.redirect(`/account/error?${query.toString()}`);
     }
 
-    return auth0.handleCallback(req, res);
+    // We have to `try … catch` here so we don't raise an Internal Server Error
+    // when the Auth0 callback fails for explicable reasons, e.g. somebody sending
+    // a deliberately malformed token or code.
+    //
+    // We could include the error message:
+    //
+    //      .end(error.message)
+    //
+    // but I haven't because I don't think anybody will encounter this in normal running,
+    // and I'm not sure if that message might leak sensitive info.
+    try {
+      return await auth0.handleCallback(req, res);
+    } catch (error) {
+      res.status(error.status || 500);
+    }
   },
   logout: async (req, res) => {
     // A given returnTo value must be in the client's `allowed_logout_urls`

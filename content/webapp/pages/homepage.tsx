@@ -31,7 +31,7 @@ import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
-import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
+import { homepageId } from '@weco/common/data/hardcoded-ids';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
