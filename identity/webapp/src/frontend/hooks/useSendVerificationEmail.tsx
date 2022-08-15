@@ -15,7 +15,7 @@ type UseSendVerificationEmailMutation = {
 export function useSendVerificationEmail(): UseSendVerificationEmailMutation {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<SendVerificationEmailError>();
+  const [error, setError] = useState<SendVerificationEmailError>(null);
 
   const sendVerificationEmail = () => {
     setIsLoading(true);
