@@ -7,6 +7,7 @@ import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/T
 import ButtonSolid, {
   ButtonTypes,
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import {
   ModalContainer,
   ModalTitle,
@@ -127,7 +128,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
               type={ButtonTypes.submit}
               text="Yes, delete my account"
             />
-            <ButtonSolid
+            <ButtonSolidLink
               colors={themeValues.buttonColors.greenTransparentGreen}
               link={`/account`}
               clickHandler={onCancel}
