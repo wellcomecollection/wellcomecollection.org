@@ -76,7 +76,7 @@ describe('MyAccount', () => {
       ).not.toBeInTheDocument();
     });
     expect(
-      screen.queryByText(/you have not yet validated your email address/i)
+      screen.queryByText(/Please verify your email address/i)
     ).not.toBeInTheDocument();
   });
 
