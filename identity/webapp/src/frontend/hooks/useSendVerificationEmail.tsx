@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { SendVerificationEmailSchema } from '../../types/schemas/send-verification-email';
 
 export enum SendVerificationEmailError { // eslint-disable-line no-shadow
   UNKNOWN,
 }
 
 type UseSendVerificationEmailMutation = {
-  sendVerificationEmail: (SendVerificationEmailSchema) => void;
+  sendVerificationEmail: () => void;
   isLoading: boolean;
   isSuccess: boolean;
   error?: SendVerificationEmailError;
@@ -18,15 +17,10 @@ export function useSendVerificationEmail(): UseSendVerificationEmailMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<SendVerificationEmailError>();
 
-  const sendVerificationEmail = (
-    sendVerificationEmailBody: SendVerificationEmailSchema
-  ) => {
+  const sendVerificationEmail = () => {
     setIsLoading(true);
     axios
-      .put(
-        '/account/api/users/me/send-verification-email',
-        sendVerificationEmailBody
-      )
+      .post('/account/api/users/me/send-verification-email')
       .then(() => {
         setIsSuccess(true);
       })

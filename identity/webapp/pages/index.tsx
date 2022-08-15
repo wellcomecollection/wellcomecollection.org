@@ -198,12 +198,11 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const { sendVerificationEmail, isLoading, isSuccess, error } =
+    useSendVerificationEmail();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-
-  const { sendVerificationEmail, isLoading, isSuccess, error } =
-    useSendVerificationEmail();
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
