@@ -34,6 +34,7 @@ import {
   collectionsResearchAgreementTitle,
   collectionsResearchAgreementLabel,
 } from '../copy';
+import { JwtPayload } from 'jsonwebtoken';
 
 const { serverRuntimeConfig: config } = getConfig();
 
@@ -51,16 +52,27 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const sessionToken = stringFromStringOrStringArray(
       context.query.session_token
     );
+
+    let token: string | JwtPayload = '';
     let email = '';
 
+    // We can get an error here if somebody tries to use an invalid session token;
+    // which we return as a user error.
     try {
-      const token = decodeToken(sessionToken, config.auth0.actionSecret);
-
-      if (typeof token !== 'string') {
-        email = token.email;
-      }
+      token = decodeToken(sessionToken, config.auth0.actionSecret);
     } catch (error) {
-      throw new Error(error);
+      return {
+        props: {
+          err: {
+            statusCode: 400,
+            message: 'Invalid session_token query parameter',
+          },
+        },
+      };
+    }
+
+    if (typeof token !== 'string') {
+      email = token.email;
     }
 
     return {
