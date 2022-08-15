@@ -26,11 +26,11 @@ const exhibitionGuides: CustomType = {
     Components: {
       components: list('Guide Component', {
         title,
+        // Info on the choice for the name 'tombstone' instead of e.g. 'creator'
+        // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         tombstone: singleLineText({ label: 'Tombstone' }),
         caption: multiLineText({ label: 'Caption' }),
         image: image('image'),
-        // Info on the choice for the name tombstone instead of creator
-        // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         number: number('Stop number', 'Stop number for this content'),
         context: multiLineText({
           label: 'Context',
