@@ -13,10 +13,17 @@ export default auth0.handleAuth({
     // We have to `try … catch` here so we don't raise an Internal Server Error
     // when the Auth0 callback fails for explicable reasons, e.g. somebody sending
     // a deliberately malformed token or code.
+    //
+    // We deliberately omit the error message from the user-facing response.
+    // I don't think anybody will encounter this in normal running, and I'm not
+    // sure if that message could leak sensitive info.
     try {
       return await auth0.handleCallback(req, res);
     } catch (error) {
-      res.status(error.status || 500).end(error.message);
+      console.warn(`Error in the Auth0 callback: ${error.message}`);
+      res
+        .status(error.status || 500)
+        .end('Something went wrong in the Auth0 callback');
     }
   },
   logout: async (req, res) => {
