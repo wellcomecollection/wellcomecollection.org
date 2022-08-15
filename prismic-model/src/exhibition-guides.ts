@@ -36,9 +36,13 @@ const exhibitionGuides: CustomType = {
           label: 'Context',
           placeholder: 'Optional context for a group of stops',
         }),
-        'audio-with-description': link('Audio with description', 'media', []),
+        'audio-with-description': link(
+          'Audio with description (.mp3 file)',
+          'media',
+          []
+        ),
         'audio-without-description': link(
-          'Audio without description',
+          'Audio without description (.mp3 file)',
           'media',
           []
         ),
