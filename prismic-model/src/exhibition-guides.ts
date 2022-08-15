@@ -25,13 +25,17 @@ const exhibitionGuides: CustomType = {
     // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
     Components: {
       components: list('Guide Component', {
-        number: number('Position number'),
         title,
+        tombstone: singleLineText({ label: 'Tombstone' }),
+        caption: multiLineText({ label: 'Caption' }),
+        image: image('image'),
         // Info on the choice for the name tombstone instead of creator
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
-        tombstone: singleLineText({ label: 'Tombstone' }),
-        image: image('image'),
-        description: singleLineText({ label: 'Description' }),
+        number: number('Stop number', 'Stop number for this content'),
+        context: multiLineText({
+          label: 'Context',
+          placeholder: 'Optional context for a group of stops',
+        }),
         'audio-with-description': link('Audio with description', 'media', []),
         'audio-without-description': link(
           'Audio without description',
@@ -39,7 +43,6 @@ const exhibitionGuides: CustomType = {
           []
         ),
         'bsl-video': embed('Embed (Youtube)'),
-        caption: multiLineText({ label: 'Caption' }),
         transcript: multiLineText({ label: 'Transcript' }),
       }),
     },
