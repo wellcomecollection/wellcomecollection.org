@@ -24,6 +24,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
+  iconPosition = 'before',
   trackingEvent,
   clickHandler,
   ariaControls,
@@ -58,12 +59,17 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         ariaLabel={ariaLabel}
       >
         <BaseButtonInner>
-          {icon && (
+          {icon && iconPosition === 'before' && (
             <ButtonIconWrapper>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
           {text}
+          {icon && iconPosition === 'after' && (
+            <ButtonIconWrapper iconAfter>
+              <Icon icon={icon} />
+            </ButtonIconWrapper>
+          )}
         </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>

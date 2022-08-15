@@ -1,15 +1,31 @@
 import { FunctionComponent, useState } from 'react';
+
+// Types
+import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
+
+// Components
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
-import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
 import Modal from '@weco/common/views/components/Modal/Modal';
+
+// Styles
+import styled from 'styled-components';
 
 type Props = {
   images: CatalogueResultsList<Image>;
+  isScroller: boolean;
 };
+
+const ImagesContainer = styled.ul.attrs<{ isScroller: boolean }>({
+  role: 'list',
+})<{ isScroller: boolean }>`
+  ${({ isScroller }) =>
+    isScroller ? 'overflow-y: scroll; padding: 0.5rem 0;' : ''};
+`;
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
+  isScroller = false,
 }: Props) => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   // In the case that the modal changes the expanded image to
@@ -20,7 +36,12 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const [isActive, setIsActive] = useState(false);
 
   return (
-    <ul className="flex flex--wrap plain-list no-padding no-margin" role="list">
+    <ImagesContainer
+      className={`flex plain-list ${
+        !isScroller && 'flex--wrap no-padding no-margin'
+      }`}
+      isScroller={isScroller}
+    >
       {images.results.map((result: Image) => (
         <li key={result.id} role="listitem">
           <ImageCard
@@ -32,6 +53,8 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               height: 300,
               alt: '',
             }}
+            thumbHeight={240}
+            hasMarginBottom={false}
             onClick={event => {
               event.preventDefault();
               setExpandedImage(result);
@@ -52,7 +75,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
           setExpandedImage={setExpandedImage}
         />
       </Modal>
-    </ul>
+    </ImagesContainer>
   );
 };
 

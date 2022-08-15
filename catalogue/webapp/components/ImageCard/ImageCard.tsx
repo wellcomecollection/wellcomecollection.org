@@ -12,34 +12,41 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
+  thumbHeight: number;
+  hasMarginBottom: boolean;
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
-
-const thumbHeight = 156;
 
 type StyledLinkProps = {
   imageWidth: number;
   imageHeight: number;
+  thumbHeight: number;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
   width: ${props =>
-    `${(props.imageWidth / props.imageHeight) * thumbHeight}px`};
-  max-width: 250px;
-  height: ${`${thumbHeight}px`};
+    `${(props.imageWidth / props.imageHeight) * props.thumbHeight}px`};
+  height: ${props => props.thumbHeight}px;
   position: relative;
 `;
 
-const ImageWrap = styled(Space).attrs({
-  h: { size: 'l', properties: ['margin-right'] },
-  v: { size: 'l', properties: ['margin-bottom'] },
-})``;
-
-const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
+const ImageCard: FC<Props> = ({
+  id,
+  image,
+  onClick,
+  workId,
+  hasMarginBottom = true,
+  thumbHeight = 156,
+}: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [imageWidth, setImageWidth] = useState(300);
   const [imageHeight, setImageHeight] = useState(300);
+
+  const ImageWrap = styled(Space).attrs({
+    h: { size: 'l', properties: ['margin-right'] },
+    ...(hasMarginBottom && { v: { size: 'l', properties: ['margin-bottom'] } }),
+  })``;
 
   return (
     <ImageWrap>
@@ -57,6 +64,7 @@ const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
           title={isEnhanced ? 'Open modal window' : undefined}
           imageWidth={imageWidth}
           imageHeight={imageHeight}
+          thumbHeight={thumbHeight}
         >
           <IIIFImage
             image={image}

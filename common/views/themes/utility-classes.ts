@@ -400,7 +400,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('green')};
+      text-decoration-color: ${themeValues.color('black')};
     }
   }
 
@@ -523,7 +523,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.color('green')};
+        text-decoration-color: ${themeValues.color('black')};
       }
     }
   }

@@ -50,6 +50,7 @@ export const fontSizesAtBreakpoints = {
 };
 
 const fontFamilies = {
+  // TODO rename to reflect Inter?
   hnb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,

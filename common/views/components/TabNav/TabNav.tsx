@@ -1,11 +1,12 @@
-import { ComponentType } from 'react';
+import { SyntheticEvent, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import NextLink from 'next/link';
-import { TextLink } from '../../../model/text-links';
+import { NextLinkType } from '@weco/common/model/next-link-type';
+import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
-import Space, { SpaceComponentProps } from '../styled/Space';
 
-type SelectableTextLink = TextLink & {
+type SelectableTextLink = {
+  text: string;
+  link: NextLinkType;
   selected: boolean;
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
@@ -14,29 +15,27 @@ type Props = {
   items: SelectableTextLink[];
 };
 
-const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
-  props => ({
+type NavItemInnerProps = {
+  selected: boolean;
+};
+
+const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
+  return {
     className: classNames({
       selected: props.selected,
       block: true,
       relative: true,
     }),
-  })
-)`
+  };
+})<NavItemInnerProps>`
   z-index: 1;
-  padding: 0 0.3em;
+  padding: 0 0.3em 1.5em;
+  border-bottom: 0 solid ${props => props.theme.color('black')};
+  transition: width 200ms ease;
+  cursor: pointer;
 
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 0.6rem;
-    left: 0;
-    width: 0;
-    background: ${props => props.theme.color('yellow')};
-    z-index: -1;
-    transition: width 200ms ease;
-  }
+  &.selected {
+    border-bottom-width: 3px;
 
   &:hover,
   &:focus {
@@ -49,38 +48,32 @@ const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
       }
     }
   }
-
-  &.selected:after {
-    width: 100%;
-  }
 `;
 
-const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
-  <NextLink {...link} passHref>
-    <Space
-      v={{
-        size: 'm',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      as="a"
-      className={classNames({
-        'plain-link': true,
-        block: true,
-      })}
-      onClick={onClick}
+const NavItem = ({ text, selected, onClick }: SelectableTextLink) => (
+  <Space
+    v={{
+      size: 'm',
+      properties: ['padding-top'],
+    }}
+    as="a"
+    className={classNames({
+      'plain-link': true,
+      block: true,
+    })}
+    onClick={onClick}
+  >
+    <NavItemInner
+      as="span"
+      h={{ size: 'm', properties: ['margin-right'] }}
+      selected={selected}
     >
-      <NavItemInner
-        as="span"
-        h={{ size: 'm', properties: ['margin-right'] }}
-        selected={selected}
-      >
-        {text}
-      </NavItemInner>
-    </Space>
-  </NextLink>
+      {text}
+    </NavItemInner>
+  </Space>
 );
 
-const TabNav = ({ items }: Props) => {
+const TabNav: FunctionComponent<Props> = ({ items }: Props) => {
   return (
     <div
       className={classNames({

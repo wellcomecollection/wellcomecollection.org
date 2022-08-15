@@ -102,6 +102,7 @@ export enum ButtonTypes {
 export type ButtonSolidBaseProps = {
   text: string;
   icon?: IconSvg;
+  iconPosition?: 'before' | 'after';
   type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
@@ -156,6 +157,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
 const Button: FC<ButtonSolidProps> = (
   {
     icon,
+    iconPosition = 'before',
     text,
     type,
     isTextHidden,
@@ -188,7 +190,7 @@ const Button: FC<ButtonSolidProps> = (
     >
       <BaseButtonInner>
         <>
-          {icon && (
+          {icon && iconPosition === 'before' && (
             <ButtonIconWrapper>
               <Icon icon={icon} />
             </ButtonIconWrapper>
@@ -200,6 +202,11 @@ const Button: FC<ButtonSolidProps> = (
           >
             {text}
           </span>
+          {icon && iconPosition === 'after' && (
+            <ButtonIconWrapper iconAfter>
+              <Icon icon={icon} />
+            </ButtonIconWrapper>
+          )}
         </>
       </BaseButtonInner>
     </SolidButton>
