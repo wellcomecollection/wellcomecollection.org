@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent, ForwardedRef, FC } from 'react';
+import { forwardRef, SyntheticEvent, ForwardedRef, FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
@@ -107,7 +107,7 @@ export enum ButtonTypes {
 }
 
 export type ButtonSolidBaseProps = {
-  text: string;
+  text: ReactNode;
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
