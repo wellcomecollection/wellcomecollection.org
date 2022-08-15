@@ -106,18 +106,21 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
+type ButtonSize = 'small' | 'medium' | 'large';
+
 export type ButtonSolidBaseProps = {
   text: ReactNode;
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
-  isBig?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
+  size?: ButtonSize;
+  hoverUnderline?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -127,9 +130,10 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 
 type SolidButtonProps = {
   href?: string;
-  isBig?: boolean;
   ariaLabel?: string;
   colors?: ButtonColors;
+  size?: ButtonSize;
+  hoverUnderline?: boolean;
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
@@ -154,8 +158,20 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 
+  content: '${props => props.size}';
+
   ${props =>
-    props.isBig &&
+    props.size === 'small' &&
+    `
+    padding: 8px 12px;
+  `}
+  ${props =>
+    props.size === 'medium' &&
+    `
+    padding: 13px 20px;
+  `}
+  ${props =>
+    props.size === 'large' &&
     `
     padding: 14px;
   `}
@@ -178,6 +194,18 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       `
       text-decoration: underline;
     `};
+
+    ${props =>
+      props.hoverUnderline === false &&
+      `
+      text-decoration: none;
+    `}
+
+    ${props =>
+      props.hoverUnderline === true &&
+      `
+      text-decoration: underline;
+    `}
   }
 `;
 
@@ -194,9 +222,10 @@ const Button: FC<ButtonSolidProps> = (
     ariaExpanded,
     ariaLive,
     disabled,
-    isBig,
+    size,
     colors,
     isIconAfter,
+    hoverUnderline,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -213,11 +242,12 @@ const Button: FC<ButtonSolidProps> = (
       aria-live={ariaLive}
       onClick={handleClick}
       disabled={disabled}
-      isBig={isBig}
+      size={size}
       colors={colors}
+      hoverUnderline={hoverUnderline}
       ref={ref}
     >
-      <BaseButtonInner>
+      <BaseButtonInner isInline={size === 'small'}>
         {isIconAfter && (
           <span
             className={classNames({

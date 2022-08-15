@@ -1,20 +1,10 @@
 import { useState } from 'react';
-import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
 import { chevron, digitalImage, eye, gridView } from '@weco/common/icons';
-
-const ButtonInlineTemplate = args => <ButtonInline {...args} />;
-export const buttonInline = ButtonInlineTemplate.bind({});
-buttonInline.args = {
-  disabled: false,
-  text: 'Click me',
-  isOnDark: false,
-};
-buttonInline.storyName = 'ButtonInline';
 
 const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
 export const buttonSolid = ButtonSolidTemplate.bind({});

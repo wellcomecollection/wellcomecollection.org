@@ -19,10 +19,10 @@ import {
   ColorFilter as ColorFilterType,
 } from '../../../services/catalogue/filters';
 import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
-import ButtonInline from '../ButtonInline/ButtonInline';
 import { ResetActiveFilters } from './ResetActiveFilters';
-import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
+import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { filter } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -223,7 +223,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
                 })}
                 h={{ size: 's', properties: ['margin-left'] }}
               >
-                <ButtonInline
+                <ButtonSolid
+                  colors={themeValues.buttonColors.marbleWhiteCharcoal}
+                  hoverUnderline={true}
+                  size="small"
                   type={ButtonTypes.button}
                   text="More filters"
                   clickHandler={event => {

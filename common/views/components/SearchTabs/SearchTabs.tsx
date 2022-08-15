@@ -13,15 +13,6 @@ import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
 import { Filter } from '../../../services/catalogue/filters';
 import { propsToQuery } from '../../../utils/routes';
 
-const BaseTabsWrapper = styled.div`
-  // FIXME: For testing, make the checkboxes/buttons have a white background because they're on grey
-  [class*='ButtonInline__InlineButton'],
-  [class^='CheckboxRadio__CheckboxRadioBox'] {
-    background: white !important;
-    border-color: ${props => props.theme.color('marble')};
-  }
-`;
-
 type TabProps = {
   isLast: boolean;
   isActive: boolean;
@@ -297,14 +288,12 @@ const SearchTabs: FunctionComponent<Props> = ({
 
   return (
     <div style={{ position: 'relative' }}>
-      <BaseTabsWrapper>
-        <BaseTabs
-          tabs={tabs}
-          label={'Search'}
-          activeTabIndex={activeTabIndex}
-          onTabClick={onTabClick}
-        />
-      </BaseTabsWrapper>
+      <BaseTabs
+        tabs={tabs}
+        label={'Search'}
+        activeTabIndex={activeTabIndex}
+        onTabClick={onTabClick}
+      />
     </div>
   );
 };

@@ -155,7 +155,7 @@ const TableTd = styled(Space).attrs({
 })`
   vertical-align: ${props => props.vAlign};
   white-space: nowrap;
-  height: 53px; // Make rows the same height with/without ButtonInline
+  height: 53px;
 `;
 
 export type Props = {

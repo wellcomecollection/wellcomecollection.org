@@ -1,10 +1,11 @@
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Space from '../styled/Space';
-import { InlineButton } from '../ButtonInline/ButtonInline';
+import { SolidButton } from '../ButtonSolid/ButtonSolid';
 import { FunctionComponent, ReactElement } from 'react';
 import { LinkProps } from '../../../model/link-props';
 import styled from 'styled-components';
+import { themeValues } from '@weco/common/views/themes/config';
 
 export type TagType = {
   textParts: string[];
@@ -69,7 +70,10 @@ const Tags: FunctionComponent<Props> = ({
               })}
             >
               <NextLink {...linkAttributes} passHref>
-                <InlineButton>
+                <SolidButton
+                  size="small"
+                  colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+                >
                   <TagInner>
                     {textParts.map((part, i, arr) => (
                       <PartWithSeparator
@@ -90,7 +94,7 @@ const Tags: FunctionComponent<Props> = ({
                       </PartWithSeparator>
                     ))}
                   </TagInner>
-                </InlineButton>
+                </SolidButton>
               </NextLink>
             </Space>
           );
