@@ -21,6 +21,12 @@ export const redactUrl = (url: string): string => {
   // The WHATWG URL API that the deprecation message suggests doesn't
   // work for this use case; it wants absolute URLs.
   const parsedUrl = parse(url);
+
+  // If there are no query parameters to redact, we don't need to do anything.
+  if (parsedUrl.query === null) {
+    return url;
+  }
+
   const params = new URLSearchParams(parsedUrl.query);
 
   for (const key of params.keys()) {
