@@ -3,6 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
+import { getCookie, setCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -15,7 +16,7 @@ import {
 } from '../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -102,11 +103,19 @@ type TypeOptionProps = {
     | 'newPaletteSalmon'
     | 'newPaletteBlue';
   icon?: IconSvg;
+  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
-const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
+const TypeOption: FC<TypeOptionProps> = ({
+  url,
+  title,
+  text,
+  color,
+  icon,
+  onClick,
+}) => (
   <TypeItem>
-    <TypeLink href={url} color={color}>
+    <TypeLink href={url} color={color} onClick={onClick}>
       <Space
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
@@ -314,6 +323,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasAudioWithDescriptions = stops.some(
     stop => stop.audioWithDescription?.url
   );
+
   return (
     <TypeList>
       {hasAudioWithoutDescriptions && (
@@ -322,6 +332,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
           color="newPaletteOrange"
+          onClick={event => {
+            event.stopPropagation();
+            setCookie('userPreferenceGuideType', 'audio-without-descriptions', {
+              maxAge: 6000,
+            });
+          }}
         />
       )}
       {hasAudioWithDescriptions && (
@@ -332,6 +348,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
+          onClick={event => {
+            event.stopPropagation();
+            setCookie('userPreferenceGuideType', 'audio-with-descriptions', {
+              maxAge: 6000,
+            });
+          }}
         />
       )}
       {hasCaptionsOrTranscripts && (
@@ -342,6 +364,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
+          onClick={event => {
+            event.stopPropagation();
+            setCookie('userPreferenceGuideType', 'captions-and-transcripts', {
+              maxAge: 6000,
+            });
+          }}
         />
       )}
       {hasBSLVideo && (
@@ -351,6 +379,17 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
+          onClick={event => {
+            event.stopPropagation();
+            setCookie('userPreferenceGuideType', 'bsl', {
+              maxAge: 6000,
+            });
+            const testCookieContent = getCookie('userPreferenceGuideType');
+            console.log(
+              testCookieContent,
+              'This is the preference cookie that has been set'
+            );
+          }}
         />
       )}
     </TypeList>
@@ -447,6 +486,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout8>
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            {/* TODO: conditional to show user preference guide based on cookie*!/ */}
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
         </>
