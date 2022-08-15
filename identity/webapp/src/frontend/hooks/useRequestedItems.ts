@@ -23,7 +23,7 @@ export function useRequestedItems(): UseRequestedItems {
   async function fetchRequests(abortSignal?: AbortSignal) {
     setState('loading');
     try {
-      const items = await axios.get(`/account/api/users/me/item-requests`, {
+      const items = await axios.get('/account/api/users/me/item-requests', {
         signal: abortSignal,
       });
       if (items.data) {

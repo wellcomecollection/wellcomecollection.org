@@ -1,5 +1,5 @@
 import { FieldError } from 'react-hook-form';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -22,20 +22,8 @@ export const TextInput = styled.input<{ invalid?: FieldError }>`
   border-radius: 6px;
 `;
 
-export const DangerButtonModifier = css`
-  background-color: #d1192c;
-  border-color: #d1192c;
-
-  &:not([disabled]):hover {
-    background-color: #b80013;
-    border-color: #b80013;
-  }
-`;
-
-export const Button = styled(SolidButton)<{ isDangerous?: boolean }>`
+export const Button = styled(SolidButton)`
   justify-content: center;
-
-  ${props => props.isDangerous && DangerButtonModifier}
 `;
 
 export const Cancel = styled.a.attrs({ href: '#cancel' })`

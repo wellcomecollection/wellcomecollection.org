@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react';
-import { Moment } from 'moment';
 import NextLink from 'next/link';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';

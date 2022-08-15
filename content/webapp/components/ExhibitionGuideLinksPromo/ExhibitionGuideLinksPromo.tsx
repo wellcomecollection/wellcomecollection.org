@@ -23,7 +23,7 @@ type Props = {
 };
 
 // We use this Promo for Exhibition Guides when we want to link to the individual types within a guide
-// and not the guide itself
+// and not just the guide itself
 const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
   const links = [
     {
@@ -44,29 +44,29 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
     },
   ];
   return (
-    <div>
-      <div className="relative">
-        {exhibitionGuide.promo?.image && (
-          <PrismicImage
-            // We intentionally omit the alt text on promos, so screen reader
-            // users don't have to listen to the alt text before hearing the
-            // title of the item in the list.
-            image={{
-              ...exhibitionGuide.promo.image,
-              alt: '',
-            }}
-            sizes={{
-              xlarge: 1 / 4,
-              large: 1 / 3,
-              medium: 1 / 2,
-              small: 1,
-            }}
-            quality="low"
-          />
-        )}
-      </div>
+    <>
+      <a href={`/guides/exhibitions/${exhibitionGuide.id}`}>
+        <div className="relative">
+          {exhibitionGuide.promo?.image && (
+            <PrismicImage
+              // We intentionally omit the alt text on promos, so screen reader
+              // users don't have to listen to the alt text before hearing the
+              // title of the item in the list.
+              image={{
+                ...exhibitionGuide.promo.image,
+                alt: '',
+              }}
+              sizes={{
+                xlarge: 1 / 4,
+                large: 1 / 3,
+                medium: 1 / 2,
+                small: 1,
+              }}
+              quality="low"
+            />
+          )}
+        </div>
 
-      <div>
         <Space
           v={{
             size: 'm',
@@ -79,22 +79,20 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
         >
           {exhibitionGuide.title}
         </Space>
-        {exhibitionGuide.promo?.caption && (
-          <Space v={{ size: 's', properties: ['margin-top'] }}>
-            <ul
-              className={classNames({
-                [font('hnr', 5)]: true,
-                'no-margin plain-list no-padding': true,
-              })}
-            >
-              {links.map((link, i) => (
-                <TypeListItem key={i} url={link.url} text={link.text} />
-              ))}
-            </ul>
-          </Space>
-        )}
-      </div>
-    </div>
+      </a>
+      <Space v={{ size: 's', properties: ['margin-top'] }}>
+        <ul
+          className={classNames({
+            [font('hnr', 5)]: true,
+            'no-margin plain-list no-padding': true,
+          })}
+        >
+          {links.map((link, i) => (
+            <TypeListItem key={i} url={link.url} text={link.text} />
+          ))}
+        </ul>
+      </Space>
+    </>
   );
 };
 

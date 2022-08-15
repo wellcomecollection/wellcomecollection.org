@@ -54,6 +54,8 @@ import {
 import { Claims } from '@auth0/nextjs-auth0';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
+import { useSendVerificationEmail } from '../src/frontend/hooks/useSendVerificationEmail';
+import { UnverifiedEmail } from '../src/frontend/MyAccount/UnverifiedEmail';
 
 type DetailProps = {
   label: string;
@@ -197,6 +199,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
+  const sendVerificationEmail = useSendVerificationEmail();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -241,7 +244,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
-              You have not yet validated your email address
+              <UnverifiedEmail {...sendVerificationEmail} />
             </AccountStatus>
           )}
           {isEmailUpdated && (
@@ -306,9 +309,17 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   case 'success':
                     if (requestedItems.totalResults === 0) {
                       return (
-                        <p className={`${font('hnr', 5)}`}>
+                        <Space
+                          as="p"
+                          className={`${font('hnr', 5)}`}
+                          v={{
+                            size: 's',
+                            properties: ['margin-bottom'],
+                            overrides: { small: 1 },
+                          }}
+                        >
                           Any item requests you make will appear here.
-                        </p>
+                        </Space>
                       );
                     } else {
                       return (

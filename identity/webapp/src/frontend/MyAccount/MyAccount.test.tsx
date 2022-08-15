@@ -61,7 +61,7 @@ describe('MyAccount', () => {
   it('informs the user when their email has not been validated', async () => {
     renderComponent({ ...mockAuth0Profile, email_verified: false });
     expect(
-      await screen.findByText(/you have not yet validated your email address/i)
+      await screen.findByText(/Please verify your email address/i)
     ).toBeInTheDocument();
   });
 
@@ -76,7 +76,7 @@ describe('MyAccount', () => {
       ).not.toBeInTheDocument();
     });
     expect(
-      screen.queryByText(/you have not yet validated your email address/i)
+      screen.queryByText(/Please verify your email address/i)
     ).not.toBeInTheDocument();
   });
 
