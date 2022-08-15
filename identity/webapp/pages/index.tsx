@@ -215,6 +215,17 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     );
   };
 
+  const sendNewValidationEmail = async () => {
+    alert(`About to send verification email for ${user.userId}!`);
+    const apiResponse = await fetch(
+      `/account/api/users/${user.userId}/send_verification_email`,
+      {
+        method: 'POST',
+      }
+    );
+    console.log(apiResponse);
+  };
+
   return (
     <PageWrapper title={`Your library account`}>
       <Header
@@ -241,7 +252,10 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
-              You have not yet validated your email address
+              You have not yet validated your email address.{' '}
+              <a href="#" onClick={() => sendNewValidationEmail()}>
+                Send new validation email
+              </a>
             </AccountStatus>
           )}
           {isEmailUpdated && (
