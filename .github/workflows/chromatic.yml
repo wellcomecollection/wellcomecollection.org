@@ -4,9 +4,6 @@ on: push
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: cardigan
     steps:
       - uses: actions/checkout@v1
       - name: Install dependencies
@@ -15,3 +12,5 @@ jobs:
         uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: cardigan
+          buildScriptName: build
