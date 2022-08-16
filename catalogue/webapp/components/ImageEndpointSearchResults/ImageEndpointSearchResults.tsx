@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  isScroller: boolean;
+  isScroller?: boolean;
 };
 
 const ImagesContainer = styled.ul.attrs<{ isScroller: boolean }>({
