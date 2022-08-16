@@ -1,17 +1,20 @@
-import { url, image, singleLineOfText } from '../../content';
+import { image, singleLineOfText } from '../../content';
 import BookPromo from '@weco/content/components/BookPromo/BookPromo';
 
 const Template = args => <BookPromo {...args} />;
 
 export const basic = Template.bind({});
 basic.args = {
-  image: image(
-    'https://images.prismic.io/wellcomecollection/1e958377a9f21d49a5de6578212e02ad4381d473_9781781254875_0.png?auto=compress,format'
-  ),
-  url: url,
-  title: singleLineOfText(2, 6),
-  subtitle: singleLineOfText(3, 6),
-  description: singleLineOfText(10, 20),
+  book: {
+    id: 'cardigan',
+    cover: image(
+      'https://images.prismic.io/wellcomecollection/1e958377a9f21d49a5de6578212e02ad4381d473_9781781254875_0.png?auto=compress,format',
+      575,
+      884
+    ),
+    title: singleLineOfText(2, 6),
+    subtitle: singleLineOfText(3, 6),
+  },
 };
 basic.storyName = 'BookPromo';
 basic.parameters = {
