@@ -29,7 +29,6 @@ import styled from 'styled-components';
 import { grid, font } from '@weco/common/utils/classnames';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-// import theme from '@weco/common/views/themes/default';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
 type Props = {
@@ -69,10 +68,7 @@ const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
   }
 `;
 
-const ConceptTabs = styled(TabNav)`
-  background-color: #fbfaf4;
-`;
-
+// Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
 const FAKE_DATA = {
   id: 'azxzhnuh',
   identifiers: [
@@ -121,55 +117,38 @@ const FAKE_DATA = {
   ],
 };
 
+// TODO change to use ButtonSolid when refactor is over (with David)
+const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
+  <ButtonSolidLink
+    text={text}
+    link={link}
+    icon={arrow}
+    isIconAfter={true}
+    // TODO remove border-radius?
+    // TODO make this work
+    colors={{
+      border: leadingColor,
+      background: leadingColor,
+      text: 'black',
+    }}
+  />
+);
+
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   worksAbout,
   worksBy,
   images,
 }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
-  // const conceptsJson = JSON.stringify(conceptResponse);
-  // const worksAboutJson = JSON.stringify(worksAbout);
-  // const worksByJson = JSON.stringify(worksBy);
-  // const imagesJson = JSON.stringify(images);
+  const [selectedTab, setSelectedTab] = useState('works-about');
+  const handleTabChange = id => {
+    if (selectedTab !== id) setSelectedTab(id);
+  };
 
-  const tabsItems = [
-    {
-      text: `Works about ${conceptResponse.label} ${
-        worksAbout ? `(${worksAbout.totalResults})` : ''
-      }`,
-      link: {
-        href: {},
-        as: {},
-      },
-      selected: selectedTab === 0,
-      onClick: () => {
-        if (selectedTab !== 0) {
-          setSelectedTab(0);
-        }
-      },
-    },
-    {
-      text: `Works by ${conceptResponse.label} ${
-        worksBy ? `(${worksBy.totalResults})` : ''
-      }`,
-      link: {
-        href: {},
-        as: {},
-      },
-      selected: selectedTab === 1,
-      onClick: () => {
-        if (selectedTab !== 1) {
-          setSelectedTab(1);
-        }
-      },
-    },
-  ];
-
-  const hasWorksTabs = tabsItems.length > 1;
+  const hasWorksTabs = !!worksBy?.totalResults && !!worksAbout?.totalResults;
 
   return (
-    // TODO fill information
+    // TODO fill meta information; who decides this?
     <CataloguePageLayout
       title={conceptResponse.label}
       description={'<TBC>'}
@@ -180,26 +159,20 @@ export const ConceptPage: NextPage<Props> = ({
       hideNewsletterPromo={true}
     >
       <ConceptHero
-        v={{
-          size: 'xl',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{
-          size: 'xl',
-          properties: ['padding-left', 'padding-right'],
-        }}
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'xl', properties: ['padding-left', 'padding-right'] }}
         className="grid"
       >
         <div className={grid({ m: 12, l: 6, xl: 6 })}>
-          <h1 className="font-hnb">
-            {conceptResponse.label || FAKE_DATA.label}
-          </h1>
+          <h1 className="font-hnb">{conceptResponse.label}</h1>
           {/* TODO dynamise */}
-          <p className={font('hnr', 4)}>{FAKE_DATA.description}</p>
+          {FAKE_DATA.description && (
+            <p className={font('hnr', 4)}>{FAKE_DATA.description}</p>
+          )}
           {/* TODO dynamise */}
-          {/* TODO Check if external to display arrow? */}
           {FAKE_DATA.urls?.length > 0 &&
             FAKE_DATA.urls.map(link => {
+              /* TODO Could they be internal links? Check if external to display arrow, decide on rel. */
               return (
                 <a
                   key={link.url}
@@ -213,123 +186,92 @@ export const ConceptPage: NextPage<Props> = ({
             })}
         </div>
       </ConceptHero>
+
       <ConceptImages
         as="section"
-        v={{
-          size: 'xl',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{
-          size: 'xl',
-          properties: ['padding-left'],
-        }}
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'xl', properties: ['padding-left'] }}
       >
         <h2 className="sectionTitle">Images</h2>
         {images && images.totalResults ? (
           <>
-            {/* TODO change component properly to allow for changes */}
             <ImageEndpointSearchResults isScroller={true} images={images} />
-            {/* TODO modify component to allow for icons on the right */}
-            <ButtonSolidLink
+            <SeeMoreButton
               text={`All images (${images.totalResults})`}
               link={`/images?source.subjects.label=${conceptResponse.label}`}
-              icon={arrow}
-              // TODO make this work
-              // color={theme.color(leadingColor, 'dark')}
             />
           </>
         ) : (
           <p>There are no matching images</p>
         )}
       </ConceptImages>
+
       <ConceptWorksHeader
         as="div"
-        v={{
-          size: 'xl',
-          properties: ['padding-top'],
-        }}
-        h={{
-          size: 'xl',
-          properties: ['padding-left', 'padding-right'],
-        }}
+        v={{ size: 'xl', properties: ['padding-top'] }}
+        h={{ size: 'xl', properties: ['padding-left', 'padding-right'] }}
         hasWorksTabs={hasWorksTabs}
       >
         <h2 className="sectionTitle">Works</h2>
-        {hasWorksTabs && <ConceptTabs items={tabsItems} />}
+        {/* TODO responsive tabs + accessible navigation */}
+        {hasWorksTabs && (
+          <TabNav
+            items={[
+              {
+                id: 'works-about',
+                text: `Works about ${conceptResponse.label} ${
+                  worksAbout ? `(${worksAbout.totalResults})` : ''
+                }`,
+                selected: selectedTab === 'works-about',
+                onClick: handleTabChange,
+              },
+              {
+                id: 'works-by',
+                text: `Works by ${conceptResponse.label} ${
+                  worksBy ? `(${worksBy.totalResults})` : ''
+                }`,
+                selected: selectedTab === 'works-by',
+                onClick: handleTabChange,
+              },
+            ]}
+            color={leadingColor}
+          />
+        )}
       </ConceptWorksHeader>
 
       <Space
         as="section"
-        v={{
-          size: 'xl',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{
-          size: 'xl',
-          properties: ['padding-left', 'padding-right'],
-        }}
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+        h={{ size: 'xl', properties: ['padding-left', 'padding-right'] }}
       >
-        {worksAbout && worksAbout.totalResults ? (
-          selectedTab === 0 && (
-            <>
+        {worksAbout?.totalResults ? (
+          selectedTab === 'works-about' && (
+            <div role="tabpanel">
               <WorksSearchResultsV2 works={worksAbout} />
-              <ButtonSolidLink
+              <SeeMoreButton
                 text={` All works about ${conceptResponse.label} (${worksAbout.totalResults})`}
                 link={`/works?subjects.label=${conceptResponse.label}`}
-                icon={arrow}
-                iconPosition="after"
-                // TODO make this work
-                // color={theme.color(leadingColor, 'dark')}
               />
-            </>
+            </div>
           )
         ) : (
           <p>There are no matching works</p>
         )}
-        {worksBy && worksBy.totalResults ? (
-          selectedTab === 1 && (
-            <>
+        {worksBy?.totalResults ? (
+          selectedTab === 'works-by' && (
+            <div role="tabpanel">
+              {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
               <WorksSearchResultsV2 works={worksBy} />
-              <ButtonSolidLink
+              <SeeMoreButton
                 text={` All works by ${conceptResponse.label} (${worksBy.totalResults})`}
                 link={`/works?subjects.label=${conceptResponse.label}`}
-                icon={arrow}
-                iconPosition="after"
-                // TODO make this work
-                // color={theme.color(leadingColor, 'dark')}
               />
-            </>
+            </div>
           )
         ) : (
           <p>There are no matching works</p>
         )}
       </Space>
-      {/* <div className="container">
-        <p>
-          <h2>Debug information</h2>
-        </p>
-        <p>
-          <details>
-            <summary>Concepts API response</summary>
-            <p>{conceptsJson}</p>
-          </details>
-
-          <details>
-            <summary>Works API response</summary>
-            <p>{worksAboutJson}</p>
-          </details>
-
-          <details>
-            <summary>Works API response</summary>
-            <p>{worksByJson}</p>
-          </details>
-
-          <details>
-            <summary>Images API response</summary>
-            <p>{imagesJson}</p>
-          </details>
-        </p>
-      </div> */}
     </CataloguePageLayout>
   );
 };

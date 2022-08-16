@@ -24,7 +24,6 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
-  iconPosition = 'before',
   trackingEvent,
   clickHandler,
   ariaControls,
@@ -32,6 +31,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isBig,
   ariaLabel,
   colors,
+  isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -61,13 +61,13 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         colors={colors}
       >
         <BaseButtonInner>
-          {icon && iconPosition === 'before' && (
+          {icon && !isIconAfter && (
             <ButtonIconWrapper>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
           {text}
-          {icon && iconPosition === 'after' && (
+          {icon && isIconAfter && (
             <ButtonIconWrapper iconAfter>
               <Icon icon={icon} />
             </ButtonIconWrapper>

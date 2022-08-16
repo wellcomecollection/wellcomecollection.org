@@ -1,24 +1,29 @@
-import { SyntheticEvent, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { NextLinkType } from '@weco/common/model/next-link-type';
+// import { NextLinkType } from '@weco/common/model/next-link-type';
 import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
 
 type SelectableTextLink = {
+  id: string;
   text: string;
-  link: NextLinkType;
+  // TODO we probably want anchors here so people can share the url/go back to the correct section?
+  // link: NextLinkType;
   selected: boolean;
-  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  color?: string;
+  onClick: (id: string) => void;
 };
 
 type Props = {
   items: SelectableTextLink[];
+  color?: string;
 };
 
 type NavItemInnerProps = {
   selected: boolean;
 };
 
+// TODO do we want to make the border colour dynamic or not?
 const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
     className: classNames({
@@ -30,7 +35,8 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
 })<NavItemInnerProps>`
   z-index: 1;
   padding: 0 0.3em 1.5em;
-  border-bottom: 0 solid ${props => props.theme.color('black')};
+  border-bottom: 0 solid ${({ color, theme }) =>
+    theme.color(color, 'dark') || theme.color('black')};
   transition: width 200ms ease;
   cursor: pointer;
 
@@ -50,30 +56,29 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   }
 `;
 
-const NavItem = ({ text, selected, onClick }: SelectableTextLink) => (
-  <Space
-    v={{
-      size: 'm',
-      properties: ['padding-top'],
-    }}
-    as="a"
-    className={classNames({
-      'plain-link': true,
-      block: true,
-    })}
-    onClick={onClick}
+const NavItem = ({
+  id,
+  text,
+  selected,
+  color,
+  onClick,
+}: SelectableTextLink) => (
+  <NavItemInner
+    as="span"
+    h={{ size: 'm', properties: ['margin-right'] }}
+    v={{ size: 'm', properties: ['padding-top'] }}
+    selected={selected}
+    color={color}
+    onClick={() => onClick(id)}
+    role="tab"
+    tabIndex={selected ? 0 : -1}
+    aria-selected={selected}
   >
-    <NavItemInner
-      as="span"
-      h={{ size: 'm', properties: ['margin-right'] }}
-      selected={selected}
-    >
-      {text}
-    </NavItemInner>
-  </Space>
+    {text}
+  </NavItemInner>
 );
 
-const TabNav: FunctionComponent<Props> = ({ items }: Props) => {
+const TabNav: FunctionComponent<Props> = ({ items, color }: Props) => {
   return (
     <div
       className={classNames({
@@ -85,6 +90,7 @@ const TabNav: FunctionComponent<Props> = ({ items }: Props) => {
           'plain-list no-margin no-padding': true,
           'flex flex--wrap': true,
         })}
+        role="tablist"
       >
         {items.map(item => (
           <li
@@ -93,7 +99,7 @@ const TabNav: FunctionComponent<Props> = ({ items }: Props) => {
               marginRight: '1vw',
             }}
           >
-            <NavItem {...item} />
+            <NavItem {...item} color={color} />
           </li>
         ))}
       </ul>
