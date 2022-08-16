@@ -4,6 +4,7 @@ import {
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -31,7 +32,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import CardGrid from '../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
@@ -310,6 +311,14 @@ type ExhibitionLinksProps = {
   stops: ExhibitionGuideComponent[];
   pathname: string;
 };
+
+function cookieHandler(key, data, req: NextApiRequest, res: NextApiResponse) {
+  console.log(key, data, 'we are in the cookie handler function <<<<');
+  // We set the cookie to expire in a certain amount of time
+  const options = { req, res, maxAge: 6000 };
+  setCookie(key, data, options);
+}
+
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasUserPreference = hasCookie('userPreferenceGuideType');
   const hasBSLVideo = stops.some(
@@ -335,9 +344,10 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           color="newPaletteOrange"
           onClick={event => {
             event.stopPropagation();
-            setCookie('userPreferenceGuideType', 'audio-without-descriptions', {
-              maxAge: 6000,
-            });
+            cookieHandler(
+              'userPreferenceGuideType',
+              'audio-without-descriptions'
+            );
           }}
         />
       )}
@@ -349,12 +359,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
-          onClick={event => {
-            event.stopPropagation();
-            setCookie('userPreferenceGuideType', 'audio-with-descriptions', {
-              maxAge: 6000,
-            });
-          }}
+          // onClick={event => {
+          //   event.stopPropagation();
+          //   setCookie('userPreferenceGuideType', 'audio-with-descriptions', {
+          //     maxAge: 6000,
+          //   });
+          // }}
         />
       )}
       {!hasUserPreference && hasCaptionsOrTranscripts && (
@@ -365,12 +375,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
-          onClick={event => {
-            event.stopPropagation();
-            setCookie('userPreferenceGuideType', 'captions-and-transcripts', {
-              maxAge: 6000,
-            });
-          }}
+          // onClick={event => {
+          //   event.stopPropagation();
+          //   setCookie('userPreferenceGuideType', 'captions-and-transcripts', {
+          //     maxAge: 6000,
+          //   });
+          // }}
         />
       )}
       {!hasUserPreference && hasBSLVideo && (
@@ -380,17 +390,17 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
-          onClick={event => {
-            event.stopPropagation();
-            setCookie('userPreferenceGuideType', 'bsl', {
-              maxAge: 6000,
-            });
-            const testCookieContent = getCookie('userPreferenceGuideType');
-            console.log(
-              testCookieContent,
-              'This is the preference cookie that has been set'
-            );
-          }}
+          // onClick={event => {
+          //   event.stopPropagation();
+          //   setCookie('userPreferenceGuideType', 'bsl', {
+          //     maxAge: 6000,
+          //   });
+          //   const testCookieContent = getCookie('userPreferenceGuideType');
+          //   console.log(
+          //     testCookieContent,
+          //     'This is the preference cookie that has been set'
+          //   );
+          // }}
         />
       )}
     </TypeList>
@@ -422,7 +432,20 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const userPreferencePathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${userPreferenceGuideType}` : ''
   }`;
+  console.log(userPreferencePathname, 'this is the user preference pathname');
   const typeColor = getTypeColor(type);
+  const router = useRouter();
+  if (hasUserPreference) {
+    router
+      .push(
+        `guides/exhibitions/${exhibitionGuide.id}/${userPreferenceGuideType}`
+      )
+      // .push({
+      //   pathname: `guides/exhibitions/${exhibitionGuide.id}`,
+      //   query: { type: userPreferenceGuideType },
+      // })
+      .then(() => window.scrollTo(0, 0));
+  }
 
   return (
     <PageLayout
