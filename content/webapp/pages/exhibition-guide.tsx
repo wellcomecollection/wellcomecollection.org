@@ -311,6 +311,7 @@ type ExhibitionLinksProps = {
   pathname: string;
 };
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
+  const hasUserPreference = hasCookie('userPreferenceGuideType');
   const hasBSLVideo = stops.some(
     stop => stop.bsl.embedUrl // it can't be undefined can it?
   );
@@ -326,7 +327,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
 
   return (
     <TypeList>
-      {hasAudioWithoutDescriptions && (
+      {!hasUserPreference && hasAudioWithoutDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
@@ -340,7 +341,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasAudioWithDescriptions && (
+      {!hasUserPreference && hasAudioWithDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
@@ -356,7 +357,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasCaptionsOrTranscripts && (
+      {!hasUserPreference && hasCaptionsOrTranscripts && (
         <TypeOption
           url={`/${pathname}/captions-and-transcripts`}
           title="Read captions and transcripts"
@@ -372,7 +373,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           }}
         />
       )}
-      {hasBSLVideo && (
+      {!hasUserPreference && hasBSLVideo && (
         <TypeOption
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
@@ -439,7 +440,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideNewsletterPromo={true}
       hideFooter={true}
     >
-      {!type ? (
+      {!type && !hasUserPreference ? (
         <Layout10 isCentered={false}>
           <SpacingSection>
             <Space
