@@ -26,6 +26,12 @@ export type Failures = {
 
 export type Result = Success | Failures;
 
+const cachebustUrl = (url: string): string => {
+  const parsedUrl = new URL(url);
+  parsedUrl.searchParams.set('cachebust', Date.now().toString());
+  return parsedUrl.toString();
+};
+
 export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
@@ -87,7 +93,7 @@ export const urlChecker =
     });
 
     try {
-      const response = await page.goto(url);
+      const response = await page.goto(cachebustUrl(url));
       const status = response?.status();
       if (status !== expectedStatus) {
         return {
