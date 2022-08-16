@@ -6,6 +6,8 @@ export function randomNumber(min, max): number {
   return Math.floor(Math.random() * max) + min;
 }
 
+faker.seed(123);
+
 export const id = randomNumber(1000, 2000);
 
 export const interpretations = [
