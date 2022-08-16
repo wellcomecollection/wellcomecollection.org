@@ -45,12 +45,21 @@ export const urlChecker =
         description: `Uncaught error on page: ${error}`,
       })
     );
-    page.on('requestfailed', request =>
+    page.on('requestfailed', request => {
+      const failure = request.failure();
+      const errorText = failure?.errorText ?? 'unknown cause';
+
+      // Servers (particularly analytics servers) can abort requests, which
+      // we needn't regard as an issue
+      if (errorText.includes('net::ERR_ABORTED')) {
+        return;
+      }
+
       failures.push({
         failureType: 'page-request-failure',
-        description: `Request made by page failed: ${request.method()} ${request.url()}`,
-      })
-    );
+        description: `Request made by page failed with ${errorText}: ${request.method()} ${request.url()}`,
+      });
+    });
     page.on('requestfinished', async request => {
       // https://playwright.dev/docs/api/class-request#request-resource-type
       const resourceType = request.resourceType();
@@ -130,7 +139,7 @@ export const urlChecker =
     try {
       // Can't use networkidle here as pages with YouTube embeds keep sending analytics data :(
       await page.waitForLoadState('load');
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 1000));
     } catch (e) {
       return {
         success: false,
@@ -142,6 +151,8 @@ export const urlChecker =
         ],
       };
     }
+
+    await page.close({ runBeforeUnload: true });
 
     if (failures.length !== 0) {
       return { success: false, failures };
