@@ -12,8 +12,7 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
-  thumbHeight: number;
-  hasMarginBottom: boolean;
+  isScroller?: boolean;
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
@@ -36,8 +35,7 @@ const ImageCard: FC<Props> = ({
   image,
   onClick,
   workId,
-  hasMarginBottom = true,
-  thumbHeight = 156,
+  isScroller,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [imageWidth, setImageWidth] = useState(300);
@@ -45,7 +43,7 @@ const ImageCard: FC<Props> = ({
 
   const ImageWrap = styled(Space).attrs({
     h: { size: 'l', properties: ['margin-right'] },
-    ...(hasMarginBottom && { v: { size: 'l', properties: ['margin-bottom'] } }),
+    ...(!isScroller && { v: { size: 'l', properties: ['margin-bottom'] } }),
   })``;
 
   return (
@@ -64,7 +62,7 @@ const ImageCard: FC<Props> = ({
           title={isEnhanced ? 'Open modal window' : undefined}
           imageWidth={imageWidth}
           imageHeight={imageHeight}
-          thumbHeight={thumbHeight}
+          thumbHeight={isScroller ? 240 : 156}
         >
           <IIIFImage
             image={image}

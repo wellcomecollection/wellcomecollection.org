@@ -26,7 +26,7 @@ import {
 
 // Styles
 import styled from 'styled-components';
-import { grid, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
@@ -40,14 +40,22 @@ type Props = {
 
 const leadingColor = 'newPaletteYellow';
 
+// TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
   background-color: ${props => props.theme.color(leadingColor)};
 
   h1 {
     font-size: 4rem;
+    line-height: 1.2;
     margin-bottom: 2.5rem;
   }
 `;
+
+const ConceptDescription = styled.section`
+  max-width: 600px;
+`;
+
+// TODO use preset styles for sectionTitle?
 const ConceptImages = styled(Space)`
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color('white')};
@@ -58,6 +66,7 @@ const ConceptImages = styled(Space)`
   }
 `;
 
+// TODO use preset styles for sectionTitle?
 const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs }) =>
     hasWorksTabs ? '#fbfaf4' : 'white'};
@@ -90,7 +99,7 @@ const FAKE_DATA = {
   // in the final API.
 
   description:
-    'Florence Nightingale was an English social reformer, statistician and the founder of modern nursing. Nightingale came to prominence while serving as a manager and trainer of nurses during the Crimean War, in which she organised care for wounded soldiers at Constantinople.',
+    '[Dummy data] Florence Nightingale was an English social reformer, statistician and the founder of modern nursing. Nightingale came to prominence while serving as a manager and trainer of nurses during the Crimean War, in which she organised care for wounded soldiers at Constantinople.',
 
   // not locations
   urls: [
@@ -145,7 +154,8 @@ export const ConceptPage: NextPage<Props> = ({
     if (selectedTab !== id) setSelectedTab(id);
   };
 
-  const hasWorksTabs = !!worksBy?.totalResults && !!worksAbout?.totalResults;
+  const hasWorks = !!(worksBy?.totalResults || worksAbout?.totalResults);
+  const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
 
   return (
     // TODO fill meta information; who decides this?
@@ -160,10 +170,9 @@ export const ConceptPage: NextPage<Props> = ({
     >
       <ConceptHero
         v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        className="grid"
       >
         <div className="container">
-          <div className={grid({ m: 12, l: 6, xl: 6 })}>
+          <ConceptDescription>
             <h1 className="font-hnb">{conceptResponse.label}</h1>
             {/* TODO dynamise */}
             {FAKE_DATA.description && (
@@ -184,101 +193,103 @@ export const ConceptPage: NextPage<Props> = ({
                   </a>
                 );
               })}
-          </div>
+          </ConceptDescription>
         </div>
       </ConceptHero>
 
-      <ConceptImages
-        as="section"
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      >
-        {/* TODO determine if we want it to overflow completely or stay within a container */}
-        <div className="container" style={{ paddingRight: 0 }}>
-          <h2 className="sectionTitle">Images</h2>
-          {images && images.totalResults ? (
-            <>
-              {/* TODO images get a white border over a certain screen size */}
-              {/* TODO mobile; smaller images? */}
-              <ImageEndpointSearchResults isScroller={true} images={images} />
-              <SeeMoreButton
-                text={`All images (${images.totalResults})`}
-                link={`/images?source.subjects.label=${conceptResponse.label}`}
-              />
-            </>
-          ) : (
-            <p>There are no matching images</p>
-          )}
-        </div>
-      </ConceptImages>
-
-      <ConceptWorksHeader
-        as="div"
-        v={{ size: 'xl', properties: ['padding-top'] }}
-        hasWorksTabs={hasWorksTabs}
-      >
-        <div className="container">
-          <h2 className="sectionTitle">Works</h2>
-          {/* TODO responsive tabs + accessible navigation */}
-          {hasWorksTabs && (
-            <TabNav
-              items={[
-                {
-                  id: 'works-about',
-                  text: `Works about ${conceptResponse.label} ${
-                    worksAbout ? `(${worksAbout.totalResults})` : ''
-                  }`,
-                  selected: selectedTab === 'works-about',
-                  onClick: handleTabChange,
-                },
-                {
-                  id: 'works-by',
-                  text: `Works by ${conceptResponse.label} ${
-                    worksBy ? `(${worksBy.totalResults})` : ''
-                  }`,
-                  selected: selectedTab === 'works-by',
-                  onClick: handleTabChange,
-                },
-              ]}
-              color={leadingColor}
+      {!!images?.totalResults && (
+        <ConceptImages
+          as="section"
+          v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+        >
+          {/* TODO determine if we want it to overflow completely or stay within a container */}
+          <div className="container" style={{ paddingRight: 0 }}>
+            <h2 className="sectionTitle">Images</h2>
+            {/* TODO images get a white border over a certain screen size */}
+            {/* TODO mobile; smaller images? */}
+            <ImageEndpointSearchResults images={images} isScroller={true} />
+            <SeeMoreButton
+              text={`All images (${images.totalResults})`}
+              link={`/images?source.subjects.label=${conceptResponse.label}`}
             />
-          )}
-        </div>
-      </ConceptWorksHeader>
+          </div>
+        </ConceptImages>
+      )}
 
-      <Space
-        as="section"
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      >
-        <div className="container">
-          {worksAbout?.totalResults ? (
-            selectedTab === 'works-about' && (
-              <div role="tabpanel">
-                <WorksSearchResultsV2 works={worksAbout} />
-                <SeeMoreButton
-                  text={` All works about ${conceptResponse.label} (${worksAbout.totalResults})`}
-                  link={`/works?subjects.label=${conceptResponse.label}`}
+      {hasWorks && (
+        <>
+          <ConceptWorksHeader
+            as="div"
+            v={{ size: 'xl', properties: ['padding-top'] }}
+            hasWorksTabs={hasWorksTabs}
+          >
+            <div className="container">
+              <h2 className="sectionTitle">Works</h2>
+              {/* TODO responsive tabs + accessible navigation */}
+              {hasWorksTabs && (
+                <TabNav
+                  items={[
+                    {
+                      id: 'works-about',
+                      text: `Works about ${conceptResponse.label} ${
+                        worksAbout ? `(${worksAbout.totalResults})` : ''
+                      }`,
+                      selected: selectedTab === 'works-about',
+                      onClick: handleTabChange,
+                    },
+                    {
+                      id: 'works-by',
+                      text: `Works by ${conceptResponse.label} ${
+                        worksBy ? `(${worksBy.totalResults})` : ''
+                      }`,
+                      selected: selectedTab === 'works-by',
+                      onClick: handleTabChange,
+                    },
+                  ]}
+                  color={leadingColor}
                 />
-              </div>
-            )
-          ) : (
-            <p>There are no matching works</p>
-          )}
-          {worksBy?.totalResults ? (
-            selectedTab === 'works-by' && (
-              <div role="tabpanel">
-                {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
-                <WorksSearchResultsV2 works={worksBy} />
-                <SeeMoreButton
-                  text={` All works by ${conceptResponse.label} (${worksBy.totalResults})`}
-                  link={`/works?subjects.label=${conceptResponse.label}`}
-                />
-              </div>
-            )
-          ) : (
-            <p>There are no matching works</p>
-          )}
-        </div>
-      </Space>
+              )}
+            </div>
+          </ConceptWorksHeader>
+
+          <Space
+            as="section"
+            v={{
+              size: 'xl',
+              properties: hasWorksTabs
+                ? ['padding-top', 'padding-bottom']
+                : ['padding-bottom'],
+            }}
+          >
+            <div className="container">
+              {selectedTab === 'works-about' && !!worksAbout?.totalResults && (
+                <div role="tabpanel">
+                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
+                  <WorksSearchResultsV2 works={worksAbout} />
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All works about ${conceptResponse.label} (${worksAbout.totalResults})`}
+                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    />
+                  </Space>
+                </div>
+              )}
+              {selectedTab === 'works-by' && !!worksBy?.totalResults && (
+                <div role="tabpanel">
+                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
+                  <WorksSearchResultsV2 works={worksBy} />
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All works by ${conceptResponse.label} (${worksBy.totalResults})`}
+                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    />
+                  </Space>
+                </div>
+              )}
+            </div>
+          </Space>
+        </>
+      )}
     </CataloguePageLayout>
   );
 };

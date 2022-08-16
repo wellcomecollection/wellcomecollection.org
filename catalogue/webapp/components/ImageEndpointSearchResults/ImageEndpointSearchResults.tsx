@@ -53,8 +53,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               height: 300,
               alt: '',
             }}
-            thumbHeight={240}
-            hasMarginBottom={false}
+            isScroller={isScroller}
             onClick={event => {
               event.preventDefault();
               setExpandedImage(result);
