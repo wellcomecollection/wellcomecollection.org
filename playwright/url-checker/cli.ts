@@ -39,10 +39,7 @@ const action = async (options: Options): Promise<void> => {
     const table = resultTable({ urls, liveProgress: !!options.tty });
     table.init();
 
-    // We saw intermittent flakiness in the "Check URLs" tests when this was
-    // set to 10; a few URLs would fail out of every batch on the first run.
-    // I'm trying a lower number to see if that improves things.
-    const maxCheckConcurrency = 5;
+    const maxCheckConcurrency = 10;
 
     const rateLimit = pLimit(maxCheckConcurrency);
     await Promise.all(
