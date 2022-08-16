@@ -1,5 +1,6 @@
 name: 'Chromatic'
-
+# We get one Storybook per branch at https://<branch>--<appid>.chromatic.com
+# https://www.chromatic.com/docs/permalinks
 on: push
 jobs:
   chromatic-deployment:
