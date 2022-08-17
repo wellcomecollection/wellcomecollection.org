@@ -75,6 +75,12 @@ const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
             style={{
               marginRight: '1vw',
             }}
+            onClick={() => {
+              if (!item.selected) setSelectedTab(item.id);
+            }}
+            role="tab"
+            tabIndex={item.selected ? 0 : -1}
+            aria-selected={item.selected}
           >
             <NavItemInner
               as="span"
@@ -82,12 +88,6 @@ const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
               v={{ size: 'm', properties: ['padding-top'] }}
               selected={item.selected}
               color={color}
-              onClick={() => {
-                if (!item.selected) setSelectedTab(item.id);
-              }}
-              role="tab"
-              tabIndex={item.selected ? 0 : -1}
-              aria-selected={item.selected}
             >
               {item.text}
             </NavItemInner>
