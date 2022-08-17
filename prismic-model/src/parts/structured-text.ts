@@ -25,11 +25,12 @@ function structuredText({
     );
   }
 
-  const textOptions = allTextOptions
-    ? allTextOptions.join(',')
     : ['paragraph', 'hyperlink', 'strong', 'em']
         .concat(extraTextOptions)
         .join(',');
+  const textOptions =
+    allTextOptions.length > 0
+      ? allTextOptions.join(',')
 
   return {
     type: 'StructuredText',
