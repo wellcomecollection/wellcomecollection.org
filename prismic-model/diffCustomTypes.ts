@@ -4,7 +4,11 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, isEmpty, printDelta } from './differ';
+import { diffString } from 'json-diff';
+
+export const removeUndefinedProps = obj => {
+  return JSON.parse(JSON.stringify(obj));
+};
 
 type Credentials = {
   accessKeyId: string;
@@ -37,7 +41,7 @@ export default async function diffContentTypes(
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
-        // This erorr handling logic is meant to make this more
+        // This error handling logic is meant to make this more
         // obvious, because otherwise you get an error like:
         //
         //      !!! Error: Cannot find module './src/testingtesting123'
@@ -46,11 +50,19 @@ export default async function diffContentTypes(
           const localCustomType = (await import(`./src/${remoteCustomType.id}`))
             .default;
 
-          const delta = diffJson(remoteCustomType, localCustomType);
+          const delta = diffString(
+            remoteCustomType,
+            removeUndefinedProps(localCustomType), // we'll never get undefined props from Prismic, so we don't want them locally
+            {
+              keepUnchangedValues: true,
+            }
+          );
 
-          if (!isEmpty(delta)) {
+          if (delta) {
+            console.info('------------------------');
             console.log(`Diff on ${remoteCustomType.id}:`);
-            printDelta(delta);
+            console.info('------------------------');
+            console.log(delta);
             return { id: remoteCustomType.id };
           }
         } catch (e) {
