@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -21,5 +20,5 @@ type Props = {
   text: string;
 };
 
-const Message: ReactNode = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
+const Message = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
 export default Message;
