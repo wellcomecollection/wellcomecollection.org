@@ -169,7 +169,7 @@ function getTypeTitle(type: GuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type } = context.query;
+    const { id, type, usingQRCode } = context.query;
     const { res, req } = context;
 
     if (
@@ -215,8 +215,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       res,
     });
 
+    // We want to set a user preference cookie if the qr code url contains a guide type
+    // 28000 is 8 hours - the average length of time the collection is open for
+    if (usingQRCode) {
+      setCookie('WC_userPreferenceGuideType', type, {
+        res,
+        req,
+        maxAge: 28800,
+      });
+    }
+
     // We want to check for a user guide type preference cookie, and redirect to the appropriate type
-    // TODO: We can adjust this conditional to check the QR code url query params for a type
     if (hasUserPreference && req.url === `/guides/exhibitions/${id}`) {
       return {
         redirect: {
@@ -332,9 +341,8 @@ type ExhibitionLinksProps = {
 };
 
 function cookieHandler(key, data) {
-  console.log(key, data, 'we are in the cookie handler function <<<<');
-  // We set the cookie to expire in 24 hours
-  const options = { maxAge: 84000 };
+  // We set the cookie to expire in 8 hours (the average length of time the gallery is open for each day)
+  const options = { maxAge: 28800 };
   setCookie(key, data, options);
 }
 
