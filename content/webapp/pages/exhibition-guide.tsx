@@ -151,6 +151,7 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  userPreferenceSet: boolean;
 };
 
 function getTypeTitle(type: GuideType): string {
@@ -169,7 +170,7 @@ function getTypeTitle(type: GuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type, usingQRCode } = context.query;
+    const { id, type, usingQRCode, userPreferenceSet } = context.query;
     const { res, req } = context;
 
     if (
@@ -230,7 +231,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         redirect: {
           permanent: false,
-          destination: `${id}/${userPreferenceGuideType}`,
+          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
         },
       };
     }
@@ -251,6 +252,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               result => result.id !== id
             ),
           },
+          userPreferenceSet,
         }),
       };
     } else {
@@ -444,7 +446,13 @@ function getTypeColor(type) {
 }
 
 const ExhibitionGuidePage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
+  const {
+    exhibitionGuide,
+    jsonLd,
+    type,
+    otherExhibitionGuides,
+    userPreferenceSet,
+  } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
@@ -518,6 +526,18 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout8>
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+            {userPreferenceSet ? (
+              <p>
+                This exhibition has {exhibitionGuide.components.length} stops.
+                You have indicated a preference for this guide type, to select
+                another type click Change guide type. // TODO: implement delete
+                cookie on click of Change guide type
+              </p>
+            ) : (
+              <p>
+                This exhibition has {exhibitionGuide.components.length} stops.
+              </p>
+            )}
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
         </>
