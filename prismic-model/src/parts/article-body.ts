@@ -93,7 +93,7 @@ export default {
         'non-repeat': {
           text: multiLineText({
             label: 'Text',
-            allTextOptions: [
+            overrideTextOptions: [
               'heading2',
               'heading3',
               'paragraph',
@@ -134,7 +134,7 @@ export default {
         'non-repeat': {
           text: singleLineText({
             label: 'Standfirst',
-            allTextOptions: ['strong', 'em', 'hyperlink'],
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
         },
       },
@@ -150,7 +150,7 @@ export default {
           caption: singleLineText({
             label: 'Caption',
             placeholder: 'Caption',
-            allTextOptions: ['hyperlink', 'em'],
+            overrideTextOptions: ['hyperlink', 'em'],
           }),
         },
       },
@@ -207,7 +207,7 @@ export default {
           caption: singleLineText({
             label: 'Caption',
             placeholder: 'Caption',
-            allTextOptions: ['hyperlink', 'em'],
+            overrideTextOptions: ['hyperlink', 'em'],
           }),
         },
       },
@@ -240,17 +240,17 @@ export default {
           },
           description: multiLineText({
             label: 'Description',
-            allTextOptions: ['paragraph', 'hyperlink', 'em'],
+            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },
         repeat: {
           title: singleLineText({
             label: 'Title',
-            allTextOptions: ['heading1'],
+            overrideTextOptions: ['heading1'],
           }),
           subtitle: singleLineText({
             label: 'Subtitle',
-            allTextOptions: ['heading2'],
+            overrideTextOptions: ['heading2'],
           }),
           image: {
             type: 'Image',
@@ -260,11 +260,11 @@ export default {
           },
           caption: singleLineText({
             label: 'Caption',
-            allTextOptions: ['strong', 'em', 'hyperlink'],
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
           }),
           description: multiLineText({
             label: 'Description',
-            allTextOptions: ['paragraph', 'hyperlink', 'em'],
+            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
           }),
         },
       },

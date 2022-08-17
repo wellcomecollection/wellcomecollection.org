@@ -9,6 +9,6 @@ export default function heading({
 }) {
   return singleLineText({
     label,
-    allTextOptions: [`heading${level}`],
+    overrideTextOptions: [`heading${level}`],
   });
 }
