@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 // import { NextLinkType } from '@weco/common/model/next-link-type';
 import Space from '../styled/Space';
@@ -78,7 +78,7 @@ const NavItem = ({
   </NavItemInner>
 );
 
-const TabNav: FunctionComponent<Props> = ({ items, color }: Props) => {
+const TabNav: FC<Props> = ({ items, color }: Props) => {
   return (
     <div
       className={classNames({

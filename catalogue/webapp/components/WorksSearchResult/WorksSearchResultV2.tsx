@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 // Types
@@ -51,7 +51,7 @@ const Details = styled.div`
 `;
 const WorkInformation = styled.div`
   display: flex;
-  color: #6e6e6e;
+  color: ${props => props.theme.color('pewter')};
 `;
 const WorkTitleHeading = styled.h3`
   margin-bottom: 0.5rem;
@@ -64,10 +64,7 @@ function isPdfThumbnail(thumbnail): boolean {
   return Boolean(thumbnail.url.match('.pdf/full'));
 }
 
-const WorkSearchResultV2: FunctionComponent<Props> = ({
-  work,
-  resultPosition,
-}: Props) => {
+const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);

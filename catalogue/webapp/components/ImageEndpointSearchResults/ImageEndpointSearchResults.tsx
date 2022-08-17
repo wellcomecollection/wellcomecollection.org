@@ -11,14 +11,15 @@ import Modal from '@weco/common/views/components/Modal/Modal';
 // Styles
 import styled from 'styled-components';
 
+// Helpers/utils
+import { classNames } from '@weco/common/utils/classnames';
+
 type Props = {
   images: CatalogueResultsList<Image>;
   isScroller?: boolean;
 };
 
-const ImagesContainer = styled.ul.attrs<{ isScroller: boolean }>({
-  role: 'list',
-})<{ isScroller: boolean }>`
+const ImagesContainer = styled.ul<{ isScroller: boolean }>`
   ${({ isScroller }) =>
     isScroller ? 'overflow-y: scroll; padding: 0.5rem 0;' : ''};
 `;
@@ -37,9 +38,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   return (
     <ImagesContainer
-      className={`flex plain-list ${
-        !isScroller && 'flex--wrap no-padding no-margin'
-      }`}
+      className={classNames({
+        'flex plain-list': true,
+        'flex--wrap no-padding no-margin': !isScroller,
+      })}
       isScroller={isScroller}
     >
       {images.results.map((result: Image) => (
