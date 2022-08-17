@@ -15,8 +15,8 @@ export default {
         },
         'non-repeat': {
           caption: singleLineText({
+            overrideTextOptions: ['paragraph'],
             label: 'Promo text',
-            allTextOptions: ['paragraph'],
           }),
           image: image('Promo image'),
           link: text('Link override'),
