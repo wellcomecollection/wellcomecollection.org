@@ -100,7 +100,7 @@ const BookPromo: FC<Props> = ({ book }) => {
               v={{ size: 's', properties: ['margin-top'] }}
               className={classNames({
                 'no-margin': true,
-                [font('hnb', 5)]: true,
+                [font('intb', 5)]: true,
               })}
             >
               {subtitle}
@@ -111,7 +111,7 @@ const BookPromo: FC<Props> = ({ book }) => {
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                   'no-margin': true,
                 })}
               >

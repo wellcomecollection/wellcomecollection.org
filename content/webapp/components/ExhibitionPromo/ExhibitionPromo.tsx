@@ -82,7 +82,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
             <Space
               as="p"
               v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={`${font('hnr', 5)} no-padding`}
+              className={`${font('intr', 5)} no-padding`}
             >
               <>
                 <time dateTime={formatDate(start)}>{formatDate(start)}</time> –{' '}

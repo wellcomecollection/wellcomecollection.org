@@ -77,7 +77,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
   className: classNames({
     'plain-button': true,
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
   'aria-pressed': !!props.ariaPressed,
 }))<SwatchProps>`

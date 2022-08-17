@@ -40,7 +40,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     overrides: { small: 5, medium: 5, large: 5 },
   },
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
     'plain-button line-height-1 flex-inline flex--v-center': true,
   }),
 }))<PopupDialogOpenProps>`
@@ -142,7 +142,7 @@ const PopupDialogCTA = styled(Space).attrs({
     overrides: { small: 5, medium: 5, large: 5 },
   },
   className: classNames({
-    [font('hnb', 5, { small: 3, medium: 3 })]: true,
+    [font('intb', 5, { small: 3, medium: 3 })]: true,
     'bg-purple rounded-corners inline-block': true,
   }),
 })`
@@ -338,7 +338,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           </h2>
           <div
             className={classNames({
-              [font('hnr', 5, { medium: 2, large: 2 })]: true,
+              [font('intr', 5, { medium: 2, large: 2 })]: true,
             })}
           >
             <PrismicHtmlBlock html={text} />

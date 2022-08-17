@@ -24,31 +24,29 @@ export const AccountCreated: React.FC = () => {
                 you&apos;ll need to verify your email address.
               </SuccessMessage>
               <SpacingComponent />
-              <p className="font-hnr">
+              <p className="font-intr">
                 We&apos;ve sent you an email with a link to verify your email
                 address and activate your library account. Please do this within
                 the next 24 hours, before the link expires.
               </p>
-              <p className="font-hnr">
+              <p className="font-intr">
                 You won&apos;t be able to sign in until you have activated your
                 account.
               </p>
-              <h2 className="font-hnr" style={{ fontWeight: 'bold' }}>
-                Didn&apos;t receive an email?
-              </h2>
-              <p className="font-hnr">
+              <h2 className="font-intb">Didn&apos;t receive an email?</h2>
+              <p className="font-intr">
                 If you don&apos;t see an email from us within the next few
                 minutes, please check the following:
               </p>
               <ul>
-                <li className="font-hnr">
+                <li className="font-intr">
                   Is the email is in your spam/junk folder?
                 </li>
-                <li className="font-hnr">
+                <li className="font-intr">
                   Was the email address you entered correct?
                 </li>
               </ul>
-              <p className="font-hnr" style={{ fontWeight: 'bold' }}>
+              <p className="font-intb">
                 If you still haven&apos;t received a verification email or need
                 any other help with your account, please contact{' '}
                 <a href="mailto:library@wellcomecollection.org">

@@ -83,7 +83,7 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
       <Space v={{ size: 's', properties: ['margin-top'] }}>
         <ul
           className={classNames({
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
             'no-margin plain-list no-padding': true,
           })}
         >

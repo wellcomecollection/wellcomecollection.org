@@ -22,7 +22,7 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
       className={classNames({
         'flex-inline': true,
         'flex-v-center': true,
-        [font('hnb', 5)]: true,
+        [font('intb', 5)]: true,
       })}
     >
       <Icon icon={arrowSmall} color={'black'} rotate={90} />

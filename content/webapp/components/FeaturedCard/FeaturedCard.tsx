@@ -118,7 +118,7 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {article.promo?.caption && (
           <p
             className={classNames({
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
           >
             {article.promo?.caption}
@@ -127,8 +127,8 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {article.series.length > 0 && (
           <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {article.series.map(series => (
-              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-                <span className={font('hnr', 6)}>Part of</span> {series.title}
+              <p key={series.title} className={`${font('intb', 6)} no-margin`}>
+                <span className={font('intr', 6)}>Part of</span> {series.title}
               </p>
             ))}
           </Space>
@@ -163,7 +163,7 @@ const FeaturedCardExhibitionBody = ({
         <Space
           as="p"
           v={{ size: 'm', properties: ['margin-bottom'] }}
-          className={`${font('hnr', 4)} no-margin no-padding`}
+          className={`${font('intr', 4)} no-margin no-padding`}
         >
           <>
             <time dateTime={exhibition.start.toUTCString()}>

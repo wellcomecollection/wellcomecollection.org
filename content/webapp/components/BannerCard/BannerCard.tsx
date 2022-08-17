@@ -151,14 +151,14 @@ const BannerCard: FunctionComponent<Props> = ({
               size: 's',
               properties: ['margin-top', 'margin-bottom'],
             }}
-            className={`${font('hnr', 5)} font-marble`}
+            className={`${font('intr', 5)} font-marble`}
           >
             <DateRange start={new Date(start)} end={new Date(end)} />
           </Space>
         )}
         <p
           className={classNames({
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
           })}
         >
           {description}

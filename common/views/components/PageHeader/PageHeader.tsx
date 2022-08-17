@@ -175,7 +175,7 @@ const PageHeader: FunctionComponent<Props> = ({
                 ) : (
                   <span
                     className={classNames({
-                      [font('hnr', 5)]: true,
+                      [font('intr', 5)]: true,
                       flex: true,
                     })}
                   >
@@ -200,7 +200,7 @@ const PageHeader: FunctionComponent<Props> = ({
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
-                  [font('hnr', 4)]: true,
+                  [font('intr', 4)]: true,
                 })}
               >
                 {ContentTypeInfo}
@@ -248,7 +248,7 @@ const PageHeader: FunctionComponent<Props> = ({
               properties: ['margin-top'],
             }}
             className={classNames({
-              [font('hnb', 4)]: true,
+              [font('intb', 4)]: true,
             })}
           >
             {ContentTypeInfo}

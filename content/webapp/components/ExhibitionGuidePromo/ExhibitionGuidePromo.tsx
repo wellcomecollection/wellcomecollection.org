@@ -66,7 +66,7 @@ const ExhibitionGuidePromo: FC<Props> = ({ exhibitionGuide }) => {
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                   'no-margin': true,
                 })}
               >

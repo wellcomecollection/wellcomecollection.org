@@ -77,7 +77,7 @@ const NewsletterSignup: FC<Props> = ({
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnb', 3)]: true,
+              [font('intb', 3)]: true,
             })}
           >
             Thank you for confirming your email address
@@ -102,7 +102,7 @@ const NewsletterSignup: FC<Props> = ({
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnb', 3)]: true,
+              [font('intb', 3)]: true,
             })}
           >
             You’re signed up
@@ -119,7 +119,7 @@ const NewsletterSignup: FC<Props> = ({
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnb', 3)]: true,
+              [font('intb', 3)]: true,
             })}
           >
             Sorry, there’s been a problem
@@ -132,7 +132,7 @@ const NewsletterSignup: FC<Props> = ({
         <div className="body-text">
           <p
             className={classNames({
-              [font('hnb', 3)]: true,
+              [font('intb', 3)]: true,
             })}
           >
             Want to hear more from us?
@@ -194,7 +194,7 @@ const NewsletterSignup: FC<Props> = ({
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
               <legend
                 className={classNames({
-                  [font('hnb', 4)]: true,
+                  [font('intb', 4)]: true,
                 })}
               >
                 You might also be interested in receiving updates on:
@@ -231,7 +231,7 @@ const NewsletterSignup: FC<Props> = ({
             </div>
           )}
 
-          <p className={`${font('hnr', 6)}`}>
+          <p className={`${font('intr', 6)}`}>
             We use a third-party provider,{' '}
             <a href="https://dotdigital.com/terms/privacy-policy/">
               dotdigital

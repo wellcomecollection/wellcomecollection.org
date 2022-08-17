@@ -37,7 +37,7 @@ const Control = styled.button.attrs(props => ({
     'plain-button': true,
     flex: true,
     'flex--v-center': true,
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 }))<ControlProps>`
   cursor: pointer;

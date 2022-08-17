@@ -1,5 +1,5 @@
 import { Event } from '../../types/events';
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Message from '@weco/common/views/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
@@ -59,12 +59,12 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
       size: 's',
       properties: ['margin-top'],
     },
-    className: `block font-charcoal ${font('hnr', 4)}`,
+    className: `block font-charcoal ${font('intr', 4)}`,
     href: `mailto:${props.email}?subject=${props.title}`,
   })
 )<EventBookingButtonProps>``;
 
-const EventBookingButton = ({ event }: Props) => {
+const EventBookingButton: ReactNode = ({ event }: Props) => {
   const team = event.bookingEnquiryTeam;
 
   return (

@@ -117,7 +117,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             <p
               className={classNames({
                 'inline-block no-margin': true,
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
               })}
             >
               {article.promo?.caption}
@@ -128,8 +128,8 @@ const StoryPromo: FunctionComponent<Props> = ({
       {article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
-            <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span> {series.title}
+            <p key={series.id} className={`${font('intb', 6)} no-margin`}>
+              <span className={font('intr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>

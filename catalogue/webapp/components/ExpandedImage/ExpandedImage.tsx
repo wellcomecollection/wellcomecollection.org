@@ -203,7 +203,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <h2
             className={classNames({
-              [font('hnb', 3)]: true,
+              [font('intb', 3)]: true,
               'no-margin': true,
             })}
             dangerouslySetInnerHTML={{ __html: displayTitle }}
@@ -212,7 +212,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
             <Space
               as="h3"
               v={{ size: 's', properties: ['margin-top'] }}
-              className={classNames({ [font('hnb', 5)]: true })}
+              className={classNames({ [font('intb', 5)]: true })}
             >
               {displayContributor}
             </Space>
@@ -220,7 +220,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
         </Space>
         {license && (
           <Space
-            className={font('hnr', 5)}
+            className={font('intr', 5)}
             v={{ size: 'l', properties: ['margin-bottom'] }}
           >
             <License license={license} />
@@ -250,7 +250,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
               <a
                 className={classNames({
                   'inline-block': true,
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
               >
                 More about this work

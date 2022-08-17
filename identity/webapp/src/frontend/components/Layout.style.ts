@@ -22,7 +22,7 @@ export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
       : ['padding-top', 'padding-bottom'],
   },
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
-  className: font('hnr', 5),
+  className: font('intr', 5),
 }))<WrapperProps>`
   position: relative;
 `;

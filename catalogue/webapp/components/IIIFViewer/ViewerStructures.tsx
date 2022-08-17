@@ -31,7 +31,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
     h: { size: 'm', properties: ['padding-left', 'padding-right'] },
     className: classNames({
-      [font('hnr', 5)]: true,
+      [font('intr', 5)]: true,
     }),
   })<{ isActive: boolean }>`
     position: relative;

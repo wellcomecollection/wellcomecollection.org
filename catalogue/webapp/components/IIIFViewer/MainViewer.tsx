@@ -228,11 +228,11 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
         </div>
       ) : isRestricted ? (
         <MessageContainer>
-          <h2 className={font('hnb', 4)}>
+          <h2 className={font('intb', 4)}>
             {imageAuthService && (imageAuthService as AuthService).label}
           </h2>
           <p
-            className={font('hnr', 5)}
+            className={font('intr', 5)}
             dangerouslySetInnerHTML={{
               __html: imageAuthService
                 ? (imageAuthService as AuthService).description
