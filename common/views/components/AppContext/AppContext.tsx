@@ -4,16 +4,20 @@ import {
   useState,
   useEffect,
   ReactElement,
-  FunctionComponent,
+  FC,
   ReactNode,
 } from 'react';
 import theme, { Size } from '../../../views/themes/default';
+
+export type PlaybackRate = 0.5 | 1 | 1.5 | 2;
 
 type AppContextProps = {
   isEnhanced: boolean;
   isKeyboard: boolean;
   isFullSupportBrowser: boolean;
   windowSize: Size;
+  audioPlaybackRate: PlaybackRate;
+  setAudioPlaybackRate: (rate: PlaybackRate) => void;
 };
 
 const appContextDefaults = {
@@ -21,6 +25,8 @@ const appContextDefaults = {
   isKeyboard: true,
   isFullSupportBrowser: false,
   windowSize: 'small' as Size,
+  audioPlaybackRate: 1 as PlaybackRate,
+  setAudioPlaybackRate: () => null,
 };
 
 export const AppContext = createContext<AppContextProps>(appContextDefaults);
@@ -42,7 +48,7 @@ function getWindowSize(): Size {
   }
 }
 
-export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
+export const AppContextProvider: FC<AppContextProviderProps> = ({
   children,
 }: AppContextProviderProps): ReactElement<AppContextProviderProps> => {
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
@@ -52,6 +58,9 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
   );
   const [windowSize, setWindowSize] = useState<Size>(
     appContextDefaults.windowSize
+  );
+  const [audioPlaybackRate, setAudioPlaybackRate] = useState(
+    appContextDefaults.audioPlaybackRate
   );
 
   useEffect(() => {
@@ -109,6 +118,8 @@ export const AppContextProvider: FunctionComponent<AppContextProviderProps> = ({
         isKeyboard,
         isFullSupportBrowser,
         windowSize,
+        audioPlaybackRate,
+        setAudioPlaybackRate,
       }}
     >
       {children}
