@@ -171,6 +171,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id, type } = context.query;
+    const { res, req } = context;
 
     if (
       !looksLikePrismicId(id) ||
@@ -206,6 +207,25 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
+    const userPreferenceGuideType = getCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+    const hasUserPreference = hasCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+
+    // We want to check for a user guide type preference cookie, and redirect to the appropriate type
+    // TODO: We can adjust this conditional to check the QR code url query params for a type
+    if (hasUserPreference && req.url === `/guides/exhibitions/${id}`) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `${id}/${userPreferenceGuideType}`,
+        },
+      };
+    }
     if (exhibitionGuideQuery) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
@@ -312,15 +332,14 @@ type ExhibitionLinksProps = {
   pathname: string;
 };
 
-function cookieHandler(key, data, req: NextApiRequest, res: NextApiResponse) {
+function cookieHandler(key, data) {
   console.log(key, data, 'we are in the cookie handler function <<<<');
-  // We set the cookie to expire in a certain amount of time
-  const options = { req, res, maxAge: 6000 };
+  // We set the cookie to expire in 24 hours
+  const options = { maxAge: 84000 };
   setCookie(key, data, options);
 }
 
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
-  const hasUserPreference = hasCookie('userPreferenceGuideType');
   const hasBSLVideo = stops.some(
     stop => stop.bsl.embedUrl // it can't be undefined can it?
   );
@@ -336,7 +355,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
 
   return (
     <TypeList>
-      {!hasUserPreference && hasAudioWithoutDescriptions && (
+      {hasAudioWithoutDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-without-descriptions`}
           title="Listen, without audio descriptions"
@@ -345,13 +364,13 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           onClick={event => {
             event.stopPropagation();
             cookieHandler(
-              'userPreferenceGuideType',
+              'WC_userPreferenceGuideType',
               'audio-without-descriptions'
             );
           }}
         />
       )}
-      {!hasUserPreference && hasAudioWithDescriptions && (
+      {hasAudioWithDescriptions && (
         <TypeOption
           url={`/${pathname}/audio-with-descriptions`}
           title="Listen, with audio descriptions"
@@ -359,15 +378,16 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
-          // onClick={event => {
-          //   event.stopPropagation();
-          //   setCookie('userPreferenceGuideType', 'audio-with-descriptions', {
-          //     maxAge: 6000,
-          //   });
-          // }}
+          onClick={event => {
+            event.stopPropagation();
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'audio-with-descriptions'
+            );
+          }}
         />
       )}
-      {!hasUserPreference && hasCaptionsOrTranscripts && (
+      {hasCaptionsOrTranscripts && (
         <TypeOption
           url={`/${pathname}/captions-and-transcripts`}
           title="Read captions and transcripts"
@@ -375,32 +395,29 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
-          // onClick={event => {
-          //   event.stopPropagation();
-          //   setCookie('userPreferenceGuideType', 'captions-and-transcripts', {
-          //     maxAge: 6000,
-          //   });
-          // }}
+          onClick={event => {
+            event.stopPropagation();
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'captions-and-transcripts'
+            );
+          }}
         />
       )}
-      {!hasUserPreference && hasBSLVideo && (
+      {hasBSLVideo && (
         <TypeOption
           url={`/${pathname}/bsl`}
           title="Watch BSL videos"
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
-          // onClick={event => {
-          //   event.stopPropagation();
-          //   setCookie('userPreferenceGuideType', 'bsl', {
-          //     maxAge: 6000,
-          //   });
-          //   const testCookieContent = getCookie('userPreferenceGuideType');
-          //   console.log(
-          //     testCookieContent,
-          //     'This is the preference cookie that has been set'
-          //   );
-          // }}
+          onClick={event => {
+            event.stopPropagation();
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'bsl'
+            );
+          }}
         />
       )}
     </TypeList>
@@ -424,34 +441,16 @@ function getTypeColor(type) {
 
 const ExhibitionGuidePage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
-  const hasUserPreference = hasCookie('userPreferenceGuideType');
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
-  const userPreferenceGuideType = getCookie('userPreferenceGuideType');
-  const userPreferencePathname = `guides/exhibitions/${exhibitionGuide.id}${
-    type ? `/${userPreferenceGuideType}` : ''
-  }`;
-  console.log(userPreferencePathname, 'this is the user preference pathname');
   const typeColor = getTypeColor(type);
-  const router = useRouter();
-  if (hasUserPreference) {
-    router
-      .push(
-        `guides/exhibitions/${exhibitionGuide.id}/${userPreferenceGuideType}`
-      )
-      // .push({
-      //   pathname: `guides/exhibitions/${exhibitionGuide.id}`,
-      //   query: { type: userPreferenceGuideType },
-      // })
-      .then(() => window.scrollTo(0, 0));
-  }
 
   return (
     <PageLayout
       title={`${exhibitionGuide.title} guide` || ''}
       description={pageDescriptions.exhibitionGuides}
-      url={{ pathname: hasUserPreference ? userPreferencePathname : pathname }}
+      url={{ pathname: pathname }}
       jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'exhibition-guides'}
@@ -463,7 +462,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
       hideNewsletterPromo={true}
       hideFooter={true}
     >
-      {!type && !hasUserPreference ? (
+      {!type ? (
         <Layout10 isCentered={false}>
           <SpacingSection>
             <Space
@@ -515,14 +514,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout8>
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            {hasUserPreference ? (
-              <ExhibitionStops
-                type={userPreferenceGuideType as GuideType}
-                stops={exhibitionGuide.components}
-              />
-            ) : (
-              <ExhibitionStops type={type} stops={exhibitionGuide.components} />
-            )}
+            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
         </>
       )}
