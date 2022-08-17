@@ -259,7 +259,7 @@ export default {
             },
           },
           caption: singleLineText({
-            label: 'Captions',
+            label: 'Caption',
             allTextOptions: ['strong', 'em', 'hyperlink'],
           }),
           description: multiLineText({
