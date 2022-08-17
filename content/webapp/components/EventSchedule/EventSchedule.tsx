@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, FC } from 'react';
 import type { EventSchedule as EventScheduleType } from '../../types/events';
 import EventScheduleItem from './EventScheduleItem';
 import { groupEventsBy } from '../../services/prismic/events';
@@ -9,7 +9,7 @@ type Props = {
   schedule: EventScheduleType;
 };
 
-const EventSchedule = ({ schedule }: Props) => {
+const EventSchedule: FC<Props> = ({ schedule }) => {
   const events = schedule.map(({ event }) => event as Event);
   const groupedEvents = groupEventsBy(events, 'day');
   const isNotLinkedIds = schedule

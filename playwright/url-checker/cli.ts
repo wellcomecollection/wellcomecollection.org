@@ -40,6 +40,7 @@ const action = async (options: Options): Promise<void> => {
     table.init();
 
     const maxCheckConcurrency = 10;
+
     const rateLimit = pLimit(maxCheckConcurrency);
     await Promise.all(
       urls.map(url =>

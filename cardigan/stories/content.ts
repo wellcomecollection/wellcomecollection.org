@@ -6,6 +6,8 @@ export function randomNumber(min, max): number {
   return Math.floor(Math.random() * max) + min;
 }
 
+faker.seed(123);
+
 export const id = randomNumber(1000, 2000);
 
 export const interpretations = [
@@ -497,13 +499,14 @@ export const quote = () => ({
   citation: [
     {
       type: 'paragraph',
-      text: 'Spike Milligan - A Silly Poem',
+      text: 'Spike Milligan – A Silly Poem',
       spans: [
         {
           type: 'hyperlink',
           start: 0,
           end: 29,
           data: {
+            link_type: 'Web',
             url: 'https://www.poemhunter.com/poem/a-silly-poem/',
           },
         },
@@ -789,4 +792,14 @@ export const article: Article = {
   outroResearchLinkText: '',
   outroReadLinkText: '',
   outroVisitLinkText: '',
+};
+
+export const articleBasic = {
+  type: 'articles',
+  id: 'article-basic',
+  promo: article.promo,
+  series: [],
+  title: article.title,
+  datePublished: article.datePublished,
+  labels: [],
 };
