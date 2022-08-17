@@ -10,7 +10,9 @@ import debounce from 'lodash.debounce';
 import { prefixedPropertyStyleObject } from '../../../utils/prefixed-property-style-object';
 import styled from 'styled-components';
 
-const Edge = styled.div<{
+const Edge = styled.div.attrs({
+  'data-chromatic': 'ignore',
+})<{
   background: string;
   isRotated: boolean;
   isEnhanced: boolean;
