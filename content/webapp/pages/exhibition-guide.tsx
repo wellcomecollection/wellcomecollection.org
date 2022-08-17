@@ -4,7 +4,6 @@ import {
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie } from 'cookies-next';
-import { useRouter } from 'next/router';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -32,7 +31,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import CardGrid from '../components/CardGrid/CardGrid';
 import ExhibitionCaptions from '../components/ExhibitionCaptions/ExhibitionCaptions';
-import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
+import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import styled from 'styled-components';
 import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Header';
@@ -413,10 +412,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           icon={britishSignLanguage}
           onClick={event => {
             event.stopPropagation();
-            cookieHandler(
-              'WC_userPreferenceGuideType',
-              'bsl'
-            );
+            cookieHandler('WC_userPreferenceGuideType', 'bsl');
           }}
         />
       )}
