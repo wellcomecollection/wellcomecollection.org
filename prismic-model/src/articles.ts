@@ -23,11 +23,18 @@ const articles: CustomType = {
       outroResearchItem: link('Outro: Research item'),
       outroResearchLinkText: singleLineText({
         label: 'Outro: Research link text',
+        overrideTextOptions: ['paragraph'],
       }),
       outroReadItem: link('Outro: Read item'),
-      outroReadLinkText: singleLineText({ label: 'Outro: Read link text' }),
+      outroReadLinkText: singleLineText({
+        label: 'Outro: Read link text',
+        overrideTextOptions: ['paragraph'],
+      }),
       outroVisitItem: link('Outro: Visit item'),
-      outroVisitLinkText: singleLineText({ label: 'Outro: Visit link text' }),
+      outroVisitLinkText: singleLineText({
+        label: 'Outro: Visit link text',
+        overrideTextOptions: ['paragraph'],
+      }),
     },
     Contributors: contributorsWithTitle(),
     Promo: {
