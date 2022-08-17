@@ -62,10 +62,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const didSucceed = success === 'true';
 
     if (didSucceed) {
-      // The email validation state is held within the ID token, which will be
-      // refreshed by fetching a new access token.
+      // The email validation state is held within the ID token, which we need to
+      // refresh after fetching a new access token.
       try {
         await auth0.getAccessToken(req, res, { refresh: true });
+        await auth0.getSession(req, res);
       } catch (e) {
         // It doesn't matter if this fails; it means the user doesn't currently have a session
       }
