@@ -1,38 +1,29 @@
+import { useState } from 'react';
 import TabNav from '@weco/common/views/components/TabNav/TabNav';
 
-const Template = args => <TabNav {...args} />;
-export const basic = Template.bind({});
-basic.args = {
-  items: [
+const Template = () => {
+  const [selectedTab, setSelectedTab] = useState('all'); //eslint-disable-line
+
+  const items = [
     {
+      id: 'all',
       text: 'All',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-      selected: true,
+      selected: selectedTab === 'all',
     },
     {
+      id: 'books',
       text: 'Books',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-
-      selected: false,
+      selected: selectedTab === 'books',
     },
     {
+      id: 'pictures',
       text: 'Pictures',
-      link: {
-        href: {
-          pathname: '',
-        },
-      },
-
-      selected: false,
+      selected: selectedTab === 'pictures',
     },
-  ],
+  ];
+
+  return <TabNav items={items} setSelectedTab={setSelectedTab} />;
 };
+export const basic = Template.bind({});
+
 basic.storyName = 'TabNav';

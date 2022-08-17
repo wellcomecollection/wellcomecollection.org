@@ -150,9 +150,6 @@ export const ConceptPage: NextPage<Props> = ({
   images,
 }) => {
   const [selectedTab, setSelectedTab] = useState('works-about');
-  const handleTabChange = id => {
-    if (selectedTab !== id) setSelectedTab(id);
-  };
 
   const hasWorks = !!(worksBy?.totalResults || worksAbout?.totalResults);
   const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
@@ -235,7 +232,6 @@ export const ConceptPage: NextPage<Props> = ({
                         worksAbout ? `(${worksAbout.totalResults})` : ''
                       }`,
                       selected: selectedTab === 'works-about',
-                      onClick: handleTabChange,
                     },
                     {
                       id: 'works-by',
@@ -243,10 +239,10 @@ export const ConceptPage: NextPage<Props> = ({
                         worksBy ? `(${worksBy.totalResults})` : ''
                       }`,
                       selected: selectedTab === 'works-by',
-                      onClick: handleTabChange,
                     },
                   ]}
                   color={leadingColor}
+                  setSelectedTab={setSelectedTab}
                 />
               )}
             </div>
