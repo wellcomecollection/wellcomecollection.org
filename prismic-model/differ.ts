@@ -32,14 +32,15 @@ export const isEmpty = (d: Delta): boolean =>
   Object.keys(d.oldRecordOnly).length === 0 &&
   Object.keys(d.newRecordOnly).length === 0;
 
+const oldRecordOnly = {};
+const newRecordOnly = {};
+
 export const diffJson = (oldR: Object, newR: Object): Delta => {
   // If they're the same, there's nothing to do!
+
   if (oldR === newR) {
     return EmptyDelta;
   }
-
-  const oldRecordOnly = {};
-  const newRecordOnly = {};
 
   for (const key of Object.keys(oldR)) {
     // If both objects have the key and it's the same, there's nothing to do
