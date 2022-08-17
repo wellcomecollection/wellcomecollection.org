@@ -11,6 +11,9 @@ import { prefixedPropertyStyleObject } from '../../../utils/prefixed-property-st
 import styled from 'styled-components';
 
 const Edge = styled.div.attrs({
+  // This edge is deliberately random. We don't want Chromatic shout when
+  // there's inevitably a visual difference between builds.
+  // https://www.chromatic.com/docs/ignoring-elements#ignore-dom-elements
   'data-chromatic': 'ignore',
 })<{
   background: string;
