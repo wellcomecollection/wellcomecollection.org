@@ -5,22 +5,7 @@ import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
 import { diffString } from 'json-diff';
-
-export const removeUndefinedProps = obj => {
-  return JSON.parse(JSON.stringify(obj));
-};
-
-export const printDelta = (id, delta): void => {
-  console.info('------------------------');
-
-  console.log(`Diff on ${id}:`);
-
-  console.info('------------------------');
-
-  console.log(delta);
-
-  console.info('------------------------');
-};
+import { removeUndefinedProps, printDelta } from './utils';
 
 type Credentials = {
   accessKeyId: string;

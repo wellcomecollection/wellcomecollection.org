@@ -6,7 +6,7 @@ import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
 import { secrets } from './config';
-import { removeUndefinedProps, printDelta } from './diffCustomTypes';
+import { removeUndefinedProps, printDelta } from './utils';
 import { diffString } from 'json-diff';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
