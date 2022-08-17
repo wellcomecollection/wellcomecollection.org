@@ -10,6 +10,18 @@ export const removeUndefinedProps = obj => {
   return JSON.parse(JSON.stringify(obj));
 };
 
+export const printDelta = (id, delta): void => {
+  console.info('------------------------');
+
+  console.log(`Diff on ${id}:`);
+
+  console.info('------------------------');
+
+  console.log(delta);
+
+  console.info('------------------------');
+};
+
 type Credentials = {
   accessKeyId: string;
   secretAccessKey: string;
@@ -38,6 +50,7 @@ export default async function diffContentTypes(
   const deltas = (
     await Promise.all(
       remoteCustomTypes.map(async remoteCustomType => {
+        const { id } = remoteCustomType;
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
@@ -47,8 +60,7 @@ export default async function diffContentTypes(
         //      !!! Error: Cannot find module './src/testingtesting123'
         //
         try {
-          const localCustomType = (await import(`./src/${remoteCustomType.id}`))
-            .default;
+          const localCustomType = (await import(`./src/${id}`)).default;
 
           const delta = diffString(
             remoteCustomType,
@@ -58,18 +70,15 @@ export default async function diffContentTypes(
             }
           );
 
-          if (delta) {
-            console.info('------------------------');
-            console.log(`Diff on ${remoteCustomType.id}:`);
-            console.info('------------------------');
-            console.log(delta);
-            return { id: remoteCustomType.id };
+          if (delta.length > 0) {
+            printDelta(id, delta);
+            return { id };
           }
         } catch (e) {
           console.warn(
-            `Prismic has type ${remoteCustomType.id}, but it can't be loaded locally: ${e}`
+            `Prismic has type ${id}, but it can't be loaded locally: ${e}`
           );
-          return { id: remoteCustomType.id };
+          return { id };
         }
       })
     )
