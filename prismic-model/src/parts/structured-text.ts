@@ -9,6 +9,8 @@ type StructuredTextProps = TextProps & {
   allowMultipleParagraphs?: boolean;
 };
 
+const defaultTextOptions = ['paragraph', 'hyperlink', 'strong', 'em'];
+
 function structuredText({
   label,
   allowMultipleParagraphs = true,
@@ -25,12 +27,10 @@ function structuredText({
     );
   }
 
-    : ['paragraph', 'hyperlink', 'strong', 'em']
-        .concat(extraTextOptions)
-        .join(',');
   const textOptions =
     allTextOptions.length > 0
       ? allTextOptions.join(',')
+      : [...defaultTextOptions, ...extraTextOptions].join(',');
 
   return {
     type: 'StructuredText',
