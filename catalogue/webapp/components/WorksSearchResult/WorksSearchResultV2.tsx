@@ -126,7 +126,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             </Space>
             <WorkTitleHeading
               className={classNames({
-                [font('hnb', 4)]: true,
+                [font('intb', 4)]: true,
                 'card-link__title': true,
               })}
             >

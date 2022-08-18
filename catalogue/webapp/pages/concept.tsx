@@ -170,10 +170,10 @@ export const ConceptPage: NextPage<Props> = ({
       >
         <div className="container">
           <ConceptDescription>
-            <h1 className="font-hnb">{conceptResponse.label}</h1>
+            <h1 className="font-intb">{conceptResponse.label}</h1>
             {/* TODO dynamise */}
             {FAKE_DATA.description && (
-              <p className={font('hnr', 4)}>{FAKE_DATA.description}</p>
+              <p className={font('intr', 4)}>{FAKE_DATA.description}</p>
             )}
             {/* TODO dynamise */}
             {FAKE_DATA.urls?.length > 0 &&
@@ -184,7 +184,7 @@ export const ConceptPage: NextPage<Props> = ({
                     key={link.url}
                     href={link.url}
                     rel="nofollow"
-                    className={font('hnr', 6)}
+                    className={font('intr', 6)}
                   >
                     {link.label} ↗
                   </a>
