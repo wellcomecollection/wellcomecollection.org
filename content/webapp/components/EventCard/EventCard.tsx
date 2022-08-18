@@ -67,7 +67,7 @@ const EventCard: FC<Props> = ({ event: jsonEvent, xOfY }) => {
     ) : !event.isPast && event.times.length > 1 ? (
       <p
         className={classNames({
-          [font('hnb', 4)]: true,
+          [font('intb', 4)]: true,
           'no-margin': true,
         })}
       >

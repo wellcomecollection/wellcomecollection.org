@@ -62,7 +62,7 @@ const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
 const PlayRateWrapper = styled.div.attrs({
   className: classNames({
     flex: true,
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 })`
   gap: 5px;
@@ -373,7 +373,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
   return (
     <figure className="no-margin">
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <figcaption className={font('hnb', 5)}>{title}</figcaption>
+        <figcaption className={font('intb', 5)}>{title}</figcaption>
       </Space>
 
       <AudioPlayerGrid>
@@ -399,7 +399,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
           <div className="flex flex--h-space-between">
             <div
               className={classNames({
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
               style={{
                 fontVariantNumeric: 'tabular-nums',

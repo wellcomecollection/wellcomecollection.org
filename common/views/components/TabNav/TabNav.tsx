@@ -59,7 +59,7 @@ const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
   return (
     <div
       className={classNames({
-        [font('hnb', 4)]: true,
+        [font('intb', 4)]: true,
       })}
     >
       <ul

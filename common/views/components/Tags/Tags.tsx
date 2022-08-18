@@ -25,7 +25,7 @@ type PartWithSeparatorProps = {
 
 const PartWithSeparator = styled.span.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })<PartWithSeparatorProps>`
   &:after {
@@ -80,7 +80,7 @@ const Tags: FunctionComponent<Props> = ({
                         <span
                           className={classNames({
                             [font(
-                              i === 0 && isFirstPartBold ? 'hnb' : 'hnr',
+                              i === 0 && isFirstPartBold ? 'intb' : 'intr',
                               5
                             )]: true,
                           })}

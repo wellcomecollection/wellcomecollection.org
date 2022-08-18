@@ -5,8 +5,9 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import * as prismicT from '@prismicio/types';
 import { ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const TitleTombstone = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-right'] },
@@ -124,7 +125,8 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
               />
             </div>
             {hasShowFullTranscriptionButton && (
-              <ButtonOutlined
+              <ButtonSolid
+                colors={themeValues.buttonColors.greenTransparentGreen}
                 ariaControls="transcription-text"
                 ariaExpanded={isFullTranscription}
                 clickHandler={() => {

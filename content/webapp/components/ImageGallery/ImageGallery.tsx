@@ -374,7 +374,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                           properties: ['margin-bottom'],
                         }}
                         className={classNames({
-                          [font('hnb', 5)]: true,
+                          [font('intb', 5)]: true,
                         })}
                       >
                         {i + 1} of {items.length}

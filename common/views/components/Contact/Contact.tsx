@@ -32,7 +32,7 @@ const Contact: FunctionComponent<Props> = ({
       >
         <span
           className={classNames({
-            [font('hnb', 4)]: true,
+            [font('intb', 4)]: true,
           })}
         >
           {title}
@@ -42,7 +42,7 @@ const Contact: FunctionComponent<Props> = ({
             as="span"
             h={{ size: 's', properties: ['margin-left'] }}
             className={classNames({
-              [font('hnr', 4)]: true,
+              [font('intr', 4)]: true,
             })}
           >
             {subtitle}
@@ -52,7 +52,7 @@ const Contact: FunctionComponent<Props> = ({
       {phone && (
         <span
           className={classNames({
-            [font('hnr', 4)]: true,
+            [font('intr', 4)]: true,
             block: true,
           })}
         >
@@ -63,7 +63,7 @@ const Contact: FunctionComponent<Props> = ({
         <div>
           <a
             className={classNames({
-              [font('hnr', 4)]: true,
+              [font('intr', 4)]: true,
             })}
             href={`mailto:${email}`}
           >

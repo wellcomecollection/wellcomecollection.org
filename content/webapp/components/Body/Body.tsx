@@ -5,7 +5,7 @@ import React, {
   FunctionComponent,
   Fragment,
 } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
@@ -190,12 +190,10 @@ const Body: FunctionComponent<Props> = ({
                   >
                     <h2 className="font-wb font-size-2">{firstItem.title}</h2>
                     {isCardType && firstItem.description && (
-                      <p className="font-hnr font-size-5">
-                        {firstItem.description}
-                      </p>
+                      <p className={font('intr', 5)}>{firstItem.description}</p>
                     )}
                     {'promo' in firstItem && firstItem.promo && (
-                      <p className="font-hnr font-size-5">
+                      <p className={font('intr', 5)}>
                         {firstItem.promo.caption}
                       </p>
                     )}

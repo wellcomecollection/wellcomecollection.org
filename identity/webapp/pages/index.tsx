@@ -68,8 +68,8 @@ type DetailListProps = {
 
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
-    <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
+    <dt className={font('intb', 5)}>{label}</dt>
+    <StyledDd className={`${font('intr', 5)}`}>{value}</StyledDd>
   </>
 );
 
@@ -88,7 +88,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
   ...props
 }) => (
   <button
-    className={font('hnr', 5)}
+    className={font('intr', 5)}
     style={{
       border: 'none',
       background: 'none',
@@ -102,7 +102,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
 );
 
 const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
-  <p className={`${font('hnr', 5)}`}>
+  <p className={`${font('intr', 5)}`}>
     Something went wrong fetching your item requests.
     <TextButton
       onClick={() => {
@@ -311,7 +311,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       return (
                         <Space
                           as="p"
-                          className={`${font('hnr', 5)}`}
+                          className={`${font('intr', 5)}`}
                           v={{
                             size: 's',
                             properties: ['margin-bottom'],
@@ -326,7 +326,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                         <>
                           <Space
                             as="p"
-                            className={`${font('hnb', 5)}`}
+                            className={`${font('intb', 5)}`}
                             v={{ size: 's', properties: ['margin-bottom'] }}
                           >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
                           <ProgressBar>
@@ -389,7 +389,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             ]}
                           />
                           <Space
-                            className={`${font('hnr', 5)}`}
+                            className={`${font('intr', 5)}`}
                             v={{
                               size: 'l',
                               properties: ['margin-top'],
@@ -415,7 +415,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('hnr', 5)}>
+              <p className={font('intr', 5)}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

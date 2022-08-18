@@ -95,7 +95,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
         <h3
           className={classNames({
-            [font('hnb', 5)]: true,
+            [font('intb', 5)]: true,
             'no-margin': true,
           })}
         >
@@ -103,7 +103,7 @@ export const ChangeEmail: React.FC<ChangeDetailsModalContentProps> = ({
         </h3>
         <p
           className={classNames({
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
             'no-margin': true,
           })}
         >

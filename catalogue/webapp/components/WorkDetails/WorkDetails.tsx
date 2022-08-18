@@ -28,7 +28,6 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -51,6 +50,7 @@ import {
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
 import { useToggles } from '@weco/common/server-data/Context';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   work: Work;
@@ -281,7 +281,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     {locationLink && (
                       <a
                         className={classNames({
-                          [font('hnr', 5)]: true,
+                          [font('intr', 5)]: true,
                         })}
                         href={locationLink.url}
                       >
@@ -553,7 +553,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
-          <ButtonOutlinedLink
+          <ButtonSolidLink
+            colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1
                 ? `View ${work.images.length} images`
@@ -685,7 +686,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
             tags={work.subjects.map(s => {
-              /* 
+              /*
               If this is an identified subject, link to the concepts prototype
               page instead.
 
@@ -726,7 +727,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={`${font('hnr', 5)}`}>
+        <div className={`${font('intr', 5)}`}>
           <CopyUrl
             id={work.id}
             url={`https://wellcomecollection.org/works/${work.id}`}

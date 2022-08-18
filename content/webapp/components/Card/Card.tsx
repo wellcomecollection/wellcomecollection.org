@@ -148,7 +148,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
             </Space>
           )}
           {item.description && (
-            <p className={`${font('hnr', 5)} no-padding no-margin`}>
+            <p className={`${font('intr', 5)} no-padding no-margin`}>
               {item.description}
             </p>
           )}

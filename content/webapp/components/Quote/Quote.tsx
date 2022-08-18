@@ -15,7 +15,7 @@ const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
     <blockquote
       className={classNames({
         'quote--pull': isPullOrReview,
-        [font('hnr', 2)]: isPullOrReview,
+        [font('intr', 2)]: isPullOrReview,
         'quote no-margin': true,
       })}
     >
@@ -28,7 +28,7 @@ const Quote: FC<Props> = ({ text, citation, isPullOrReview }) => {
         <footer className="quote__footer flex">
           <cite
             className={`quote__cite flex flex--v-end font-pewter ${font(
-              'hnr',
+              'intr',
               5
             )}`}
           >

@@ -66,7 +66,7 @@ const Contributor: FC<ContributorType> = ({
           <div className={`flex flex--h-baseline`}>
             <h3
               className={classNames({
-                [font('hnb', 4)]: true,
+                [font('intb', 4)]: true,
                 'no-margin': true,
               })}
             >
@@ -76,7 +76,7 @@ const Contributor: FC<ContributorType> = ({
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                   'font-pewter': true,
                 })}
               >
@@ -86,7 +86,7 @@ const Contributor: FC<ContributorType> = ({
           </div>
 
           {role && role.title && (
-            <div className={'font-pewter ' + font('hnb', 5)}>{role.title}</div>
+            <div className={'font-pewter ' + font('intb', 5)}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (
@@ -105,7 +105,7 @@ const Contributor: FC<ContributorType> = ({
                 properties: ['margin-top'],
               }}
               className={classNames({
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
                 'spaced-text': true,
               })}
             >

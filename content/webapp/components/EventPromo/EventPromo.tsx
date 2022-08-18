@@ -117,7 +117,7 @@ const EventPromo: FC<Props> = ({
             <Space
               v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
               className={classNames({
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
                 'flex flex--v-center': true,
               })}
             >
@@ -135,7 +135,7 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && (
-            <p className={`${font('hnr', 5)} no-padding no-margin`}>
+            <p className={`${font('intr', 5)} no-padding no-margin`}>
               <EventDateRange
                 event={event}
                 splitTime={true}
@@ -145,13 +145,13 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && dateString && (
-            <p className={`${font('hnr', 5)} no-padding no-margin`}>
+            <p className={`${font('intr', 5)} no-padding no-margin`}>
               {dateString}
             </p>
           )}
 
           {!isPast && timeString && (
-            <p className={`${font('hnr', 5)} no-padding no-margin`}>
+            <p className={`${font('intr', 5)} no-padding no-margin`}>
               {timeString}
             </p>
           )}
@@ -159,7 +159,7 @@ const EventPromo: FC<Props> = ({
           {upcomingDatesFullyBooked(event) && (
             <Space
               v={{ size: 'm', properties: ['margin-top'] }}
-              className={`${font('hnr', 5)} flex flex--v-center`}
+              className={`${font('intr', 5)} flex flex--v-center`}
             >
               <Space
                 as="span"
@@ -173,7 +173,7 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && event.scheduleLength > 0 && (
-            <p className={`${font('hnb', 5)} no-padding no-margin`}>
+            <p className={`${font('intb', 5)} no-padding no-margin`}>
               {`${event.scheduleLength} ${
                 event.scheduleLength > 1 ? 'events' : 'event'
               }`}
@@ -181,11 +181,11 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && event.times.length > 1 && (
-            <p className={`${font('hnb', 6)}`}>See all dates/times</p>
+            <p className={`${font('intb', 6)}`}>See all dates/times</p>
           )}
 
           {isPast && !event.availableOnline && (
-            <div className={`${font('hnr', 5)} flex flex--v-center`}>
+            <div className={`${font('intr', 5)} flex flex--v-center`}>
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
@@ -201,8 +201,8 @@ const EventPromo: FC<Props> = ({
       {event.series.length > 0 && (
         <CardPostBody>
           {event.series.map(series => (
-            <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span> {series.title}
+            <p key={series.title} className={`${font('intb', 6)} no-margin`}>
+              <span className={font('intr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>
