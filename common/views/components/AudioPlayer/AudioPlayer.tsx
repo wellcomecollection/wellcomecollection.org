@@ -1,4 +1,12 @@
-import { useEffect, useRef, useState, FC, Ref, SyntheticEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  FC,
+  Ref,
+  SyntheticEvent,
+  useContext,
+} from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
@@ -11,6 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const VolumeWrapper = styled.div`
   display: flex;
@@ -131,9 +140,12 @@ type PlayRateProps = {
 };
 
 const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
+  const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
   const speeds = [0.5, 1, 1.5, 2];
-  const [currentActiveSpeedIndex, setCurrentActiveSpeedIndex] =
-    useState<typeof speeds[number]>(1);
+
+  useEffect(() => {
+    audioPlayer.playbackRate = audioPlaybackRate;
+  }, [audioPlaybackRate]);
 
   function updatePlaybackRate(speed: number) {
     trackEvent({
@@ -141,7 +153,8 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
       action: `set speed to ${speed}x`,
       label: id,
     });
-    setCurrentActiveSpeedIndex(speeds.indexOf(speed));
+
+    setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
   }
 
@@ -151,7 +164,7 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
         <PlayRateLabel
           key={speed}
           htmlFor={`playrate-${speed}-${id}`}
-          isActive={speeds[currentActiveSpeedIndex] === speed}
+          isActive={audioPlaybackRate === speed}
         >
           <PlayRateRadio
             id={`playrate-${speed}-${id}`}
