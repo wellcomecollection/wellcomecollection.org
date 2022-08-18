@@ -3,7 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
-import { getCookie, hasCookie, setCookie } from 'cookies-next';
+import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -515,6 +515,10 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    clickHandler={event => {
+                      event.stopPropagation();
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
                   />
                 </Space>
                 <ButtonSolidLink
