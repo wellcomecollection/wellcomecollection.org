@@ -7,7 +7,7 @@ import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
 const ItemWrapper = styled(Space).attrs(() => ({
   className: classNames({
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 }))``;
 
@@ -36,7 +36,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('hnb', 6)]: Boolean(prefix),
+                [font('intb', 6)]: Boolean(prefix),
               })}
               href={url}
             >
@@ -49,7 +49,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
     {items.length === 0 && (
       <span
         className={classNames({
-          [font('hnr', 6)]: true,
+          [font('intr', 6)]: true,
           'empty-filler': true,
         })}
         style={{ lineHeight: 1 }}

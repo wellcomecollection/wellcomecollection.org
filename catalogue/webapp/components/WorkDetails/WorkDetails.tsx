@@ -281,7 +281,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     {locationLink && (
                       <a
                         className={classNames({
-                          [font('hnr', 5)]: true,
+                          [font('intr', 5)]: true,
                         })}
                         href={locationLink.url}
                       >
@@ -727,7 +727,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={`${font('hnr', 5)}`}>
+        <div className={`${font('intr', 5)}`}>
           <CopyUrl
             id={work.id}
             url={`https://wellcomecollection.org/works/${work.id}`}

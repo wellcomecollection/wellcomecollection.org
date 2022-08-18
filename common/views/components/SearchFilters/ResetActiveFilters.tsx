@@ -102,7 +102,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
       h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       className="tokens bg-white"
     >
-      <div className={classNames({ [font('hnb', 5)]: true })} role="status">
+      <div className={classNames({ [font('intb', 5)]: true })} role="status">
         <div>
           <h2 className="inline">
             <Space

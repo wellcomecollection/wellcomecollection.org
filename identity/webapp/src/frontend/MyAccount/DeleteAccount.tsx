@@ -94,7 +94,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       )}
       <div
         className={classNames({
-          [font('hnr', 5)]: true,
+          [font('intr', 5)]: true,
         })}
       >
         <p>

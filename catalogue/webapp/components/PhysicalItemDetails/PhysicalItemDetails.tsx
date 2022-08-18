@@ -59,7 +59,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 
 const DetailHeading = styled.h3.attrs({
   className: classNames({
-    [font('hnb', 5, { small: 3, medium: 3 })]: true,
+    [font('intb', 5, { small: 3, medium: 3 })]: true,
     'no-margin': true,
   }),
 })``;

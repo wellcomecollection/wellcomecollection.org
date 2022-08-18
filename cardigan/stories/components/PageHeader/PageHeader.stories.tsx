@@ -36,21 +36,21 @@ const ContentTypeInfo = (
       <Space
         h={{ size: 's', properties: ['margin-right', 'margin-top'] }}
         className={classNames({
-          [font('hnr', 6)]: true,
+          [font('intr', 6)]: true,
         })}
       >
         <p className="no-margin">
           <span>By </span>
           <span
             className={classNames({
-              [font('hnb', 6)]: true,
+              [font('intb', 6)]: true,
             })}
           >
             Naomi Paxton
           </span>{' '}
           <span
             className={classNames({
-              [font('hnr', 6)]: true,
+              [font('intr', 6)]: true,
               'font-pewter': true,
             })}
           >
@@ -153,7 +153,7 @@ const EventContentTypeInfo = () => (
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>
     <div className="flex">
-      <div className={`${font('hnb', 5)} flex flex--v-center`}>
+      <div className={`${font('intb', 5)} flex flex--v-center`}>
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
@@ -169,7 +169,7 @@ const EventContentTypeInfo = () => (
 
 const ExhibitionContentTypeInfo = () => (
   <div className="flex">
-    <div className={`${font('hnb', 5)} flex flex--v-center`}>
+    <div className={`${font('intb', 5)} flex flex--v-center`}>
       <Space
         as="span"
         h={{ size: 'xs', properties: ['margin-right'] }}
@@ -186,7 +186,7 @@ const BookContentTypeInfo = () => (
   <p
     className={classNames({
       'no-margin': true,
-      [font('hnb', 3)]: true,
+      [font('intb', 3)]: true,
     })}
   >
     Loneliness, Health & What Happens When We Find Connection

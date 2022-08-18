@@ -68,7 +68,7 @@ const InfoBanner: FunctionComponent<Props> = ({
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
-            <div className={`flex flex--h-space-between ${font('hnr', 5)}`}>
+            <div className={`flex flex--h-space-between ${font('intr', 5)}`}>
               <div>
                 <span className="flex">
                   <Space

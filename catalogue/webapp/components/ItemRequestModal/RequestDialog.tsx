@@ -109,7 +109,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
       </Header>
       <p
         className={classNames({
-          [font('hnb', 5)]: true,
+          [font('intb', 5)]: true,
           'no-margin': true,
         })}
       >
@@ -132,7 +132,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
             </Space>
             <p
               className={classNames({
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
                 'no-margin-l': true,
               })}
             >

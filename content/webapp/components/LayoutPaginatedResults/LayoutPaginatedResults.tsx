@@ -94,7 +94,7 @@ const LayoutPaginatedResults: FC<Props> = ({
         <div className="flex-inline flex--v-center">
           <span
             className={classNames({
-              [font('hnb', 4)]: true,
+              [font('intb', 4)]: true,
             })}
           >
             Free admission

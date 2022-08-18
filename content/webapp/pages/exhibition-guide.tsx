@@ -112,7 +112,7 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         <h2 className="h2">{title}</h2>
-        <p className={`${font('hnr', 5)}`}>{text}</p>
+        <p className={`${font('intr', 5)}`}>{text}</p>
         {icon && <Icon icon={icon} />}
       </Space>
     </TypeLink>
@@ -267,7 +267,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               </>
             ) : (
               <>
-                <span className={font('hnb', 5)}>
+                <span className={font('intb', 5)}>
                   {number}. {title}
                 </span>
                 <p>There is no content to display</p>

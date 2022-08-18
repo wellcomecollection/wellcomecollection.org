@@ -170,7 +170,7 @@ const RegistrationPage: NextPage<Props> = ({
                     </SpacingComponent>
 
                     <SpacingComponent>
-                      <h3 className={font('hnb', 5)}>
+                      <h3 className={font('intb', 5)}>
                         {collectionsResearchAgreementTitle}
                       </h3>
                       <Controller

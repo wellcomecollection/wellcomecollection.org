@@ -93,7 +93,7 @@ const TableWrap = styled.div`
 
 const TableTable = styled.table.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })`
   width: 100%;

@@ -2,12 +2,13 @@ import { FieldError } from 'react-hook-form';
 import styled from 'styled-components';
 import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Space from '@weco/common/views/components/styled/Space';
+import { font } from '@weco/common/utils/classnames';
 
 export const FieldMargin = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-export const Label = styled.label.attrs({ className: 'font-hnr font-size-4' })`
+export const Label = styled.label.attrs({ className: font('intr', 4) })`
   display: block;
   font-weight: bold;
 `;

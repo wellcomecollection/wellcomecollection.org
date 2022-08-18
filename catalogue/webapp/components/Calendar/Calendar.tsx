@@ -252,7 +252,7 @@ const Calendar: FC<Props> = ({
       {isKeyboard && <Message>{calendarInstructions}</Message>}
       <Table
         className={classNames({
-          [font('hnb', 6)]: true,
+          [font('intb', 6)]: true,
         })}
         role="grid"
         aria-labelledby="id-grid-label"
