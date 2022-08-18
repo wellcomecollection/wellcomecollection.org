@@ -151,7 +151,7 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
-  userPreferenceSet: boolean;
+  userPreferenceSet: string | string[] | undefined;
 };
 
 function getTypeTitle(type: GuideType): string {
@@ -217,12 +217,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     // We want to set a user preference cookie if the qr code url contains a guide type
-    // 28000 is 8 hours - the average length of time the collection is open for
+    // 28000 is 8 hours (the maximum length of time the collection is open for in a day)
     if (usingQRCode) {
       setCookie('WC_userPreferenceGuideType', type, {
         res,
         req,
-        maxAge: 28800,
+        maxAge: 8 * 60 * 60,
       });
     }
 
@@ -343,8 +343,8 @@ type ExhibitionLinksProps = {
 };
 
 function cookieHandler(key, data) {
-  // We set the cookie to expire in 8 hours (the average length of time the gallery is open for each day)
-  const options = { maxAge: 28800 };
+  // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
+  const options = { maxAge: 8 * 60 * 60 };
   setCookie(key, data, options);
 }
 
@@ -527,11 +527,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             {userPreferenceSet ? (
+              // TODO: implement delete cookie on click of Change guide type
               <p>
                 This exhibition has {exhibitionGuide.components.length} stops.
                 You have indicated a preference for this guide type, to select
-                another type click Change guide type. // TODO: implement delete
-                cookie on click of Change guide type
+                another type select Change guide type.
               </p>
             ) : (
               <p>
