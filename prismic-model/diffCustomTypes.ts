@@ -4,7 +4,8 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, isEmpty, printDelta } from './differ';
+import { diffString } from 'json-diff';
+import { removeUndefinedProps, printDelta } from './utils';
 
 type Credentials = {
   accessKeyId: string;
@@ -34,30 +35,35 @@ export default async function diffContentTypes(
   const deltas = (
     await Promise.all(
       remoteCustomTypes.map(async remoteCustomType => {
+        const { id } = remoteCustomType;
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
-        // This erorr handling logic is meant to make this more
+        // This error handling logic is meant to make this more
         // obvious, because otherwise you get an error like:
         //
         //      !!! Error: Cannot find module './src/testingtesting123'
         //
         try {
-          const localCustomType = (await import(`./src/${remoteCustomType.id}`))
-            .default;
+          const localCustomType = (await import(`./src/${id}`)).default;
 
-          const delta = diffJson(remoteCustomType, localCustomType);
+          const delta = diffString(
+            remoteCustomType,
+            removeUndefinedProps(localCustomType), // we'll never get undefined props from Prismic, so we don't want them locally
+            {
+              keepUnchangedValues: true,
+            }
+          );
 
-          if (!isEmpty(delta)) {
-            console.log(`Diff on ${remoteCustomType.id}:`);
-            printDelta(delta);
-            return { id: remoteCustomType.id };
+          if (delta.length > 0) {
+            printDelta(id, delta);
+            return { id };
           }
         } catch (e) {
           console.warn(
-            `Prismic has type ${remoteCustomType.id}, but it can't be loaded locally: ${e}`
+            `Prismic has type ${id}, but it can't be loaded locally: ${e}`
           );
-          return { id: remoteCustomType.id };
+          return { id };
         }
       })
     )
