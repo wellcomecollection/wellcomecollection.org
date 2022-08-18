@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
+import { classNames } from '../../../utils/classnames';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -24,6 +25,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
+  isTextHidden,
   trackingEvent,
   clickHandler,
   ariaControls,
@@ -31,6 +33,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isBig,
   ariaLabel,
   colors,
+  isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -60,12 +63,29 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         colors={colors}
       >
         <BaseButtonInner>
+          {isIconAfter && (
+            <span
+              className={classNames({
+                'visually-hidden': !!isTextHidden,
+              })}
+            >
+              {text}
+            </span>
+          )}
           {icon && (
-            <ButtonIconWrapper>
+            <ButtonIconWrapper iconAfter={isIconAfter}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
-          {text}
+          {!isIconAfter && (
+            <span
+              className={classNames({
+                'visually-hidden': !!isTextHidden,
+              })}
+            >
+              {text}
+            </span>
+          )}
         </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>

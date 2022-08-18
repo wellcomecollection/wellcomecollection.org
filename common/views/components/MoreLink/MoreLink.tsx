@@ -1,7 +1,8 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { trackEvent, GaEvent } from '../../../utils/ga';
-import ButtonOutlinedLink from '../ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonSolidLink from '../ButtonSolidLink/ButtonSolidLink';
 import { arrowSmall } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   url: string;
@@ -25,7 +26,9 @@ const MoreLink: FunctionComponent<Props> = ({
   }
 
   return (
-    <ButtonOutlinedLink
+    <ButtonSolidLink
+      colors={themeValues.buttonColors.greenTransparentGreen}
+      isIconAfter={true}
       clickHandler={handleClick}
       text={name}
       link={url}

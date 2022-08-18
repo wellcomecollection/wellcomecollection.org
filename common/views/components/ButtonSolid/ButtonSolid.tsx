@@ -1,4 +1,4 @@
-import { forwardRef, SyntheticEvent, ForwardedRef, FC } from 'react';
+import { forwardRef, SyntheticEvent, ForwardedRef, FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { classNames, font } from '../../../utils/classnames';
 import { trackEvent, GaEvent } from '../../../utils/ga';
@@ -107,7 +107,7 @@ export enum ButtonTypes {
 }
 
 export type ButtonSolidBaseProps = {
-  text: string;
+  text: ReactNode;
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
@@ -117,6 +117,7 @@ export type ButtonSolidBaseProps = {
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
+  isIconAfter?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -171,6 +172,12 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border,
         'dark'
       )};
+
+    ${props =>
+      props?.colors?.background === 'transparent' &&
+      `
+      text-decoration: underline;
+    `};
   }
 `;
 
@@ -189,6 +196,7 @@ const Button: FC<ButtonSolidProps> = (
     disabled,
     isBig,
     colors,
+    isIconAfter,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -210,12 +218,7 @@ const Button: FC<ButtonSolidProps> = (
       ref={ref}
     >
       <BaseButtonInner>
-        <>
-          {icon && (
-            <ButtonIconWrapper>
-              <Icon icon={icon} />
-            </ButtonIconWrapper>
-          )}
+        {isIconAfter && (
           <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
@@ -223,7 +226,21 @@ const Button: FC<ButtonSolidProps> = (
           >
             {text}
           </span>
-        </>
+        )}
+        {icon && (
+          <ButtonIconWrapper iconAfter={isIconAfter}>
+            <Icon icon={icon} />
+          </ButtonIconWrapper>
+        )}
+        {!isIconAfter && (
+          <span
+            className={classNames({
+              'visually-hidden': !!isTextHidden,
+            })}
+          >
+            {text}
+          </span>
+        )}
       </BaseButtonInner>
     </SolidButton>
   );

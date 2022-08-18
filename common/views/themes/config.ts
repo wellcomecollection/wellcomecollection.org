@@ -152,10 +152,24 @@ const dangerButtonColors: ButtonColors = {
 };
 
 // Button color naming convention: [border][Background][Text]
+// TODO: Work out and document which variants we want to use when/where/why
+// (and possibly improve naming at that point)
 const charcoalWhiteCharcoal: ButtonColors = {
   border: 'charcoal',
   background: 'white',
   text: 'charcoal',
+};
+
+const greenTransparentGreen: ButtonColors = {
+  border: 'green',
+  background: 'transparent',
+  text: 'green',
+};
+
+const whiteTransparentWhite: ButtonColors = {
+  border: 'white',
+  background: 'transparent',
+  text: 'white',
 };
 
 export const themeValues = {
@@ -228,6 +242,8 @@ export const themeValues = {
     default: defaultButtonColors,
     danger: dangerButtonColors,
     charcoalWhiteCharcoal,
+    greenTransparentGreen,
+    whiteTransparentWhite,
   },
 };
 

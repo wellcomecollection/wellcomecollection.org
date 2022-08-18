@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { defaultRequestErrorMessage } from '@weco/common/data/microcopy';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { CTAs, Header } from './common';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type ErrorDialogProps = {
   setIsActive: (value: boolean) => void;
@@ -15,7 +16,11 @@ const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
     </Header>
     <p className="no-margin">{errorMessage || defaultRequestErrorMessage}</p>
     <CTAs>
-      <ButtonOutlined text={`Close`} clickHandler={() => setIsActive(false)} />
+      <ButtonSolid
+        colors={themeValues.buttonColors.greenTransparentGreen}
+        text={`Close`}
+        clickHandler={() => setIsActive(false)}
+      />
     </CTAs>
   </>
 );

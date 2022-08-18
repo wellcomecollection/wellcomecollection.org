@@ -6,12 +6,14 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { classNames, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
-import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid, {
+  ButtonTypes,
+} from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 import moment, { Moment } from 'moment';
 import { CTAs, CurrentRequests, Header } from './common';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -159,8 +161,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
         >
           <ButtonSolid text={`Confirm request`} />
         </Space>
-        <ButtonOutlined
-          type="button"
+        <ButtonSolid
+          colors={themeValues.buttonColors.greenTransparentGreen}
+          type={ButtonTypes.button}
           text={`Cancel`}
           clickHandler={() => setIsActive(false)}
         />
