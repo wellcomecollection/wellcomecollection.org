@@ -115,7 +115,7 @@ const Stop: FC<{ stop: Stop }> = ({ stop }) => {
           )}
           <PrismicHtmlBlock html={stop.caption} />
         </Caption>
-        {transcriptionText && (
+        {transcriptionText && transcriptionText.length > 0 && (
           <Transcription>
             <h3>Audio transcript</h3>
             <div id="transcription-text">
