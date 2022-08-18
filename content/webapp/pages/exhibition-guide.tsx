@@ -217,7 +217,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     // We want to set a user preference cookie if the qr code url contains a guide type
-    // 28000 is 8 hours (the maximum length of time the collection is open for in a day)
+    // 8 hours (the maximum length of time the collection is open for in a day)
     if (usingQRCode) {
       setCookie('WC_userPreferenceGuideType', type, {
         res,
