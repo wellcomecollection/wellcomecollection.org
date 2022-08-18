@@ -14,7 +14,7 @@ const interpretationTypes: CustomType = {
       // see: https://prismic.io/docs/core-concepts/key-text
       abbreviation: singleLineText({
         label: 'Abbreviation',
-        allTextOptions: ['paragraph'],
+        overrideTextOptions: ['paragraph'],
       }),
       description: multiLineText({ label: 'Message' }),
       primaryDescription: multiLineText({

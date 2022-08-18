@@ -1,7 +1,7 @@
 type TextProps = {
   label: string;
   extraTextOptions?: string[];
-  allTextOptions?: string[];
+  overrideTextOptions?: string[];
   placeholder?: string;
 };
 
@@ -9,27 +9,28 @@ type StructuredTextProps = TextProps & {
   allowMultipleParagraphs?: boolean;
 };
 
+const defaultTextOptions = ['paragraph', 'hyperlink', 'strong', 'em'];
+
 function structuredText({
   label,
   allowMultipleParagraphs = true,
   extraTextOptions = [],
-  allTextOptions = [],
+  overrideTextOptions = [],
   placeholder,
 }: StructuredTextProps) {
   // See https://prismic.io/docs/technologies/rich-text-title#json-model
   const singleOrMulti = allowMultipleParagraphs ? 'multi' : 'single';
 
-  if (allTextOptions.length > 0 && extraTextOptions.length > 0) {
+  if (overrideTextOptions.length > 0 && extraTextOptions.length > 0) {
     throw new Error(
       'Either specify extra text options or a complete list; not both'
     );
   }
 
-  const textOptions = allTextOptions
-    ? allTextOptions.join(',')
-    : ['paragraph', 'hyperlink', 'strong', 'em']
-        .concat(extraTextOptions)
-        .join(',');
+  const textOptions =
+    overrideTextOptions.length > 0
+      ? overrideTextOptions.join(',')
+      : [...defaultTextOptions, ...extraTextOptions].join(',');
 
   return {
     type: 'StructuredText',

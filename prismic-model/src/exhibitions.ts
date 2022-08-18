@@ -22,7 +22,7 @@ const exhibitions: CustomType = {
       title,
       shortTitle: singleLineText({
         label: 'Short title',
-        allTextOptions: ['heading1'],
+        overrideTextOptions: ['heading1'],
       }),
       body,
       start: timestamp('Start date'),
