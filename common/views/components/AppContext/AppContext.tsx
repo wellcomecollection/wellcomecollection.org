@@ -9,15 +9,13 @@ import {
 } from 'react';
 import theme, { Size } from '../../../views/themes/default';
 
-export type PlaybackRate = 0.5 | 1 | 1.5 | 2;
-
 type AppContextProps = {
   isEnhanced: boolean;
   isKeyboard: boolean;
   isFullSupportBrowser: boolean;
   windowSize: Size;
-  audioPlaybackRate: PlaybackRate;
-  setAudioPlaybackRate: (rate: PlaybackRate) => void;
+  audioPlaybackRate: number;
+  setAudioPlaybackRate: (rate: number) => void;
 };
 
 const appContextDefaults = {
@@ -25,7 +23,7 @@ const appContextDefaults = {
   isKeyboard: true,
   isFullSupportBrowser: false,
   windowSize: 'small' as Size,
-  audioPlaybackRate: 1 as PlaybackRate,
+  audioPlaybackRate: 1,
   setAudioPlaybackRate: () => null,
 };
 
