@@ -29,7 +29,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-import TabNav from '@weco/common/views/components/TabNav/TabNav';
+import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -224,7 +224,7 @@ export const ConceptPage: NextPage<Props> = ({
               <h2 className="sectionTitle">Works</h2>
               {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
-                <TabNav
+                <TabNavV2
                   items={[
                     {
                       id: 'works-about',

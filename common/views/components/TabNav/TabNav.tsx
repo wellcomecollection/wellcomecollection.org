@@ -1,46 +1,42 @@
-import { FC } from 'react';
+import { ComponentType, FC } from 'react';
 import styled from 'styled-components';
-// import { NextLinkType } from '@weco/common/model/next-link-type';
-import Space from '../styled/Space';
+import NextLink from 'next/link';
+import { TextLink } from '../../../model/text-links';
 import { font, classNames } from '../../../utils/classnames';
+import Space, { SpaceComponentProps } from '../styled/Space';
 
-type SelectableTextLink = {
-  id: string;
-  text: string;
-  // TODO we probably want anchors here so people can share the url/go back to the correct section?
-  // link: NextLinkType;
+type SelectableTextLink = TextLink & {
   selected: boolean;
-  color?: string;
+  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
 type Props = {
   items: SelectableTextLink[];
-  setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
-  color?: string;
 };
 
-type NavItemInnerProps = {
-  selected: boolean;
-};
-
-const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
-  return {
+const NavItemInner: ComponentType<SpaceComponentProps> = styled(Space).attrs(
+  props => ({
     className: classNames({
       selected: props.selected,
       block: true,
       relative: true,
     }),
-  };
-})<NavItemInnerProps>`
+  })
+)`
   z-index: 1;
-  padding: 0 0.3em 1.5em;
-  border-bottom: 0 solid ${({ color, theme }) =>
-    color ? theme.color(color, 'dark') : theme.color('black')};
-  transition: width 200ms ease;
-  cursor: pointer;
+  padding: 0 0.3em;
 
-  &.selected {
-    border-bottom-width: 3px;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 0.6rem;
+    left: 0;
+    width: 0;
+    background: ${props => props.theme.color('yellow')};
+    z-index: -1;
+    transition: width 200ms ease;
+  }
 
   &:hover,
   &:focus {
@@ -53,9 +49,38 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
       }
     }
   }
+
+  &.selected:after {
+    width: 100%;
+  }
 `;
 
-const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
+const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
+  <NextLink {...link} passHref>
+    <Space
+      v={{
+        size: 'm',
+        properties: ['padding-top', 'padding-bottom'],
+      }}
+      as="a"
+      className={classNames({
+        'plain-link': true,
+        block: true,
+      })}
+      onClick={onClick}
+    >
+      <NavItemInner
+        as="span"
+        h={{ size: 'm', properties: ['margin-right'] }}
+        selected={selected}
+      >
+        {text}
+      </NavItemInner>
+    </Space>
+  </NextLink>
+);
+
+const TabNav: FC = ({ items }: Props) => {
   return (
     <div
       className={classNames({
@@ -67,7 +92,6 @@ const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
           'plain-list no-margin no-padding': true,
           'flex flex--wrap': true,
         })}
-        role="tablist"
       >
         {items.map(item => (
           <li
@@ -75,22 +99,8 @@ const TabNav: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
             style={{
               marginRight: '1vw',
             }}
-            onClick={() => {
-              if (!item.selected) setSelectedTab(item.id);
-            }}
-            role="tab"
-            tabIndex={item.selected ? 0 : -1}
-            aria-selected={item.selected}
           >
-            <NavItemInner
-              as="span"
-              h={{ size: 'm', properties: ['margin-right'] }}
-              v={{ size: 'm', properties: ['padding-top'] }}
-              selected={item.selected}
-              color={color}
-            >
-              {item.text}
-            </NavItemInner>
+            <NavItem {...item} />
           </li>
         ))}
       </ul>
