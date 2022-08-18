@@ -151,7 +151,7 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
-  userPreferenceSet: string | string[] | undefined;
+  userPreferenceSet?: string | string[];
 };
 
 function getTypeTitle(type: GuideType): string {
@@ -370,8 +370,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
           color="newPaletteOrange"
-          onClick={event => {
-            event.stopPropagation();
+          onClick={() => {
             cookieHandler(
               'WC_userPreferenceGuideType',
               'audio-without-descriptions'
@@ -387,8 +386,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
-          onClick={event => {
-            event.stopPropagation();
+          onClick={() => {
             cookieHandler(
               'WC_userPreferenceGuideType',
               'audio-with-descriptions'
@@ -404,8 +402,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
-          onClick={event => {
-            event.stopPropagation();
+          onClick={() => {
             cookieHandler(
               'WC_userPreferenceGuideType',
               'captions-and-transcripts'
@@ -420,8 +417,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
-          onClick={event => {
-            event.stopPropagation();
+          onClick={() => {
             cookieHandler('WC_userPreferenceGuideType', 'bsl');
           }}
         />
