@@ -531,7 +531,6 @@ const ExhibitionGuidePage: FC<Props> = props => {
           </Header>
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             {userPreferenceSet ? (
-              // TODO: implement delete cookie on click of Change guide type
               <p>
                 This exhibition has {exhibitionGuide.components.length} stops.
                 You have indicated a preference for this guide type, to select
