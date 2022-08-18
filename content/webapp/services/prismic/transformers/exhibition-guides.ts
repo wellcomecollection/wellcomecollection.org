@@ -115,8 +115,7 @@ export function transformExhibitionGuide(
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
         image: component.image,
-        description:
-          (component.description && asRichText(component.description)) || [],
+        context: (component.context && asRichText(component.description)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],
         transcription:
           (component.transcript && asRichText(component.transcript)) || [],
