@@ -511,8 +511,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                    clickHandler={event => {
-                      event.stopPropagation();
+                    clickHandler={() => {
                       deleteCookie('WC_userPreferenceGuideType');
                     }}
                   />
@@ -525,17 +524,29 @@ const ExhibitionGuidePage: FC<Props> = props => {
               </>
             </Layout8>
           </Header>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <Space h={{ size: 'l', properties: ['padding-left'] }}>
             {userPreferenceSet ? (
-              <p>
-                This exhibition has {exhibitionGuide.components.length} stops.
-                You have indicated a preference for this guide type, to select
-                another type select Change guide type.
-              </p>
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p>
+                  This exhibition has {exhibitionGuide.components.length} stops.
+                  This is a {type} guide, which you have used previously, but
+                  you can also select{' '}
+                  <a
+                    href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    onClick={() => {
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
+                  >
+                    another type of guide.
+                  </a>
+                </p>
+              </Space>
             ) : (
-              <p>
-                This exhibition has {exhibitionGuide.components.length} stops.
-              </p>
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p>
+                  This exhibition has {exhibitionGuide.components.length} stops.
+                </p>
+              </Space>
             )}
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
