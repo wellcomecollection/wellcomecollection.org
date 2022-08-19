@@ -3,6 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
+import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { createClient } from '../services/prismic/fetch';
 import {
@@ -15,7 +16,7 @@ import {
 } from '../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -102,11 +103,19 @@ type TypeOptionProps = {
     | 'newPaletteSalmon'
     | 'newPaletteBlue';
   icon?: IconSvg;
+  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
-const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
+const TypeOption: FC<TypeOptionProps> = ({
+  url,
+  title,
+  text,
+  color,
+  icon,
+  onClick,
+}) => (
   <TypeItem>
-    <TypeLink href={url} color={color}>
+    <TypeLink href={url} color={color} onClick={onClick}>
       <Space
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
@@ -142,6 +151,7 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  userPreferenceSet?: string | string[];
 };
 
 function getTypeTitle(type: GuideType): string {
@@ -160,7 +170,8 @@ function getTypeTitle(type: GuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type } = context.query;
+    const { id, type, usingQRCode, userPreferenceSet } = context.query;
+    const { res, req } = context;
 
     if (
       !looksLikePrismicId(id) ||
@@ -196,6 +207,34 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
+    const userPreferenceGuideType = getCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+    const hasUserPreference = hasCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+
+    // We want to set a user preference cookie if the qr code url contains a guide type
+    // 8 hours (the maximum length of time the collection is open for in a day)
+    if (usingQRCode) {
+      setCookie('WC_userPreferenceGuideType', type, {
+        res,
+        req,
+        maxAge: 8 * 60 * 60,
+      });
+    }
+
+    // We want to check for a user guide type preference cookie, and redirect to the appropriate type
+    if (hasUserPreference && req.url === `/guides/exhibitions/${id}`) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
+        },
+      };
+    }
     if (exhibitionGuideQuery) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
@@ -213,6 +252,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               result => result.id !== id
             ),
           },
+          userPreferenceSet,
         }),
       };
     } else {
@@ -301,6 +341,13 @@ type ExhibitionLinksProps = {
   stops: ExhibitionGuideComponent[];
   pathname: string;
 };
+
+function cookieHandler(key, data) {
+  // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
+  const options = { maxAge: 8 * 60 * 60 };
+  setCookie(key, data, options);
+}
+
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasBSLVideo = stops.some(
     stop => stop.bsl.embedUrl // it can't be undefined can it?
@@ -314,6 +361,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasAudioWithDescriptions = stops.some(
     stop => stop.audioWithDescription?.url
   );
+
   return (
     <TypeList>
       {hasAudioWithoutDescriptions && (
@@ -322,6 +370,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
           color="newPaletteOrange"
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'audio-without-descriptions'
+            );
+          }}
         />
       )}
       {hasAudioWithDescriptions && (
@@ -332,6 +386,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'audio-with-descriptions'
+            );
+          }}
         />
       )}
       {hasCaptionsOrTranscripts && (
@@ -342,6 +402,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'captions-and-transcripts'
+            );
+          }}
         />
       )}
       {hasBSLVideo && (
@@ -351,6 +417,9 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
+          onClick={() => {
+            cookieHandler('WC_userPreferenceGuideType', 'bsl');
+          }}
         />
       )}
     </TypeList>
@@ -373,7 +442,13 @@ function getTypeColor(type) {
 }
 
 const ExhibitionGuidePage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
+  const {
+    exhibitionGuide,
+    jsonLd,
+    type,
+    otherExhibitionGuides,
+    userPreferenceSet,
+  } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
@@ -436,6 +511,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    clickHandler={() => {
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
                   />
                 </Space>
                 <ButtonSolidLink
@@ -446,7 +524,30 @@ const ExhibitionGuidePage: FC<Props> = props => {
               </>
             </Layout8>
           </Header>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
+          <Space h={{ size: 'l', properties: ['padding-left'] }}>
+            {userPreferenceSet ? (
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p>
+                  This exhibition has {exhibitionGuide.components.length} stops.
+                  This is a {type} guide, which you have used previously, but
+                  you can also select{' '}
+                  <a
+                    href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    onClick={() => {
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
+                  >
+                    another type of guide.
+                  </a>
+                </p>
+              </Space>
+            ) : (
+              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+                <p>
+                  This exhibition has {exhibitionGuide.components.length} stops.
+                </p>
+              </Space>
+            )}
             <ExhibitionStops type={type} stops={exhibitionGuide.components} />
           </Space>
         </>
