@@ -223,6 +223,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         res,
         req,
         maxAge: 8 * 60 * 60,
+        path: '/',
+        sameSite: false
       });
     }
 
@@ -234,7 +236,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         redirect: {
           permanent: false,
-          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
+          destination: `/${userPreferenceGuideType}?userPreferenceSet=true`,
         },
       };
     }
@@ -347,7 +349,7 @@ type ExhibitionLinksProps = {
 
 function cookieHandler(key, data) {
   // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
-  const options = { maxAge: 8 * 60 * 60 };
+  const options = { maxAge: 8 * 60 * 60, path: '/', sameSite: false };
   setCookie(key, data, options);
 }
 
