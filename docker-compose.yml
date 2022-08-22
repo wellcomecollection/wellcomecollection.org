@@ -20,10 +20,6 @@ services:
     build:
       context: .
       dockerfile: identity/Dockerfile
-  cardigan:
-    build:
-      context: .
-      dockerfile: cardigan/Dockerfile
   dash:
     build:
       context: ./dash
