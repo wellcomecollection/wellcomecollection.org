@@ -26,7 +26,12 @@ const DesktopSignIn: FC = () => {
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">
-      <BorderlessLink iconLeft={userIcon} text={null} href="/account" />
+      <BorderlessLink
+        iconLeft={userIcon}
+        text="Library account"
+        isTextHidden={true}
+        href="/account"
+      />
     </span>
   ) : (
     <>
