@@ -283,6 +283,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const works = await getWorks({
       params: worksApiProps,
+      pageSize: 25,
       toggles: serverData.toggles,
     });
 
