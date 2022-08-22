@@ -227,7 +227,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     // We want to check for a user guide type preference cookie, and redirect to the appropriate type
-    if (hasUserPreference && req.url === `/guides/exhibitions/${id}`) {
+    if (
+      hasUserPreference &&
+      context.resolvedUrl === `/guides/exhibitions/${id}`
+    ) {
       return {
         redirect: {
           permanent: false,
