@@ -224,10 +224,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         req,
         maxAge: 8 * 60 * 60,
         path: '/',
-        sameSite: false
+        // TOD0: @@Mel The line below is temporary to be removed once debugging is complete
+        sameSite: false,
       });
     }
-    // TOD0: The logs below are temporary to be removed once debugging is complete
+    // TOD0: @@Mel The logs below are temporary to be removed once debugging is complete
     console.log(
       hasUserPreference,
       'hasUserPreference: do we get a user preference?'
@@ -357,6 +358,7 @@ type ExhibitionLinksProps = {
 
 function cookieHandler(key, data) {
   // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
+  // TOD0: @@Mel The sameSite attribute below is temporary to be removed once debugging is complete
   const options = { maxAge: 8 * 60 * 60, path: '/', sameSite: false };
   setCookie(key, data, options);
 }
