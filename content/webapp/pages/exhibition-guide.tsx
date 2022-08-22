@@ -227,10 +227,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         sameSite: false
       });
     }
-    console.log(hasUserPreference, 'do we get a user preference?');
+    // TOD0: The logs below are temporary to be removed once debugging is complete
+    console.log(
+      hasUserPreference,
+      'hasUserPreference: do we get a user preference?'
+    );
     console.log(
       context.resolvedUrl,
-      'what is the resolved url in this context?'
+      'context.resolvedUrl: what is the resolved url in this context?'
     );
     // We want to check for a user guide type preference cookie, and redirect to the appropriate type
     if (
