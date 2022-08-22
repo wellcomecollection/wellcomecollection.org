@@ -42,6 +42,23 @@ function getFormatString(format: string): DownloadFormat | undefined {
   }
 }
 
+function getCreditString(
+  workId: string,
+  title: string,
+  iiifImageLocationCredit: string | undefined,
+  license: LicenseData
+): string[] {
+  const linkCredit = iiifImageLocationCredit
+    ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+    : ` `;
+
+  const licenseCredit = license.url
+    ? `<a href="${license.url}">${license.label}</a>`
+    : license.label;
+
+  return [`${title}. ${linkCredit}\n${licenseCredit}`];
+}
+
 type Props = {
   ariaControlsId: string;
   workId: string;
@@ -138,18 +155,12 @@ const Download: NextPage<Props> = ({
                       )}
                       <WorkDetailsText
                         title="Credit"
-                        text={[
-                          `${title}. ${
-                            iiifImageLocationCredit
-                              ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
-                              : ` `
-                          }
-                    ${
-                      license.url
-                        ? `<a href="${license.url}">${license.label}</a>`
-                        : license.label
-                    }`,
-                        ]}
+                        text={getCreditString(
+                          workId,
+                          title,
+                          iiifImageLocationCredit,
+                          license
+                        )}
                       />
                     </div>
                   </SpacingComponent>
