@@ -15,7 +15,9 @@ import { IIIFManifest } from '../model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Download from '@weco/catalogue/components/Download/Download';
+import Download, {
+  getCreditString,
+} from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -129,19 +131,7 @@ const DownloadPage: NextPage<Props> = ({
                 )}
                 <WorkDetailsText
                   title="Credit"
-                  text={[
-                    `${title.replace(/\.$/g, '')}.${' '}
-              ${
-                credit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${credit}</a>. `
-                  : ` `
-              }
-              ${
-                license.url
-                  ? `<a href="${license.url}">${license.label}</a>`
-                  : license.label
-              }`,
-                  ]}
+                  text={getCreditString(workId, title, credit, license)}
                 />
               </div>
             </SpacingComponent>

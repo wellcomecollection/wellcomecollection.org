@@ -42,12 +42,14 @@ function getFormatString(format: string): DownloadFormat | undefined {
   }
 }
 
-function getCreditString(
+export function getCreditString(
   workId: string,
   title: string,
   iiifImageLocationCredit: string | undefined,
   license: LicenseData
 ): string[] {
+  const titleCredit = title.replace(/\.$/g, '');
+
   const linkCredit = iiifImageLocationCredit
     ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
     : ` `;
@@ -56,7 +58,7 @@ function getCreditString(
     ? `<a href="${license.url}">${license.label}</a>`
     : license.label;
 
-  return [`${title}. ${linkCredit}\n${licenseCredit}`];
+  return [`${titleCredit}. ${linkCredit}\n${licenseCredit}`];
 }
 
 type Props = {
