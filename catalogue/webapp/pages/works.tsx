@@ -30,10 +30,10 @@ import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 
-type Props = WithPageview & {
+type Props = {
   works: CatalogueResultsList<Work>;
   worksRouteProps: WorksRouteProps;
-};
+} & WithPageview;
 
 const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);
