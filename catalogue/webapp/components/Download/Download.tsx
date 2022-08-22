@@ -153,6 +153,7 @@ const Download: NextPage<Props> = ({
                         <WorkDetailsText
                           title="Licence information"
                           text={license.humanReadableText}
+                          allowRawHtml={true}
                         />
                       )}
                       <WorkDetailsText
@@ -163,6 +164,7 @@ const Download: NextPage<Props> = ({
                           iiifImageLocationCredit,
                           license
                         )}
+                        allowRawHtml={true}
                       />
                     </div>
                   </SpacingComponent>
