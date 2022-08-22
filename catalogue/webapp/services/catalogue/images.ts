@@ -49,7 +49,7 @@ export async function getImage({
   const apiOptions = globalApiOptions(toggles);
 
   const params = {
-    include: include,
+    include,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params));
