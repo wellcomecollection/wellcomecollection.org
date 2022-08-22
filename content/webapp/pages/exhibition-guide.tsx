@@ -223,9 +223,20 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         res,
         req,
         maxAge: 8 * 60 * 60,
+        path: '/',
+        // TOD0: @@Mel The line below is temporary to be removed once debugging is complete
+        sameSite: false,
       });
     }
-
+    // TOD0: @@Mel The logs below are temporary to be removed once debugging is complete
+    console.log(
+      hasUserPreference,
+      'hasUserPreference: do we get a user preference?'
+    );
+    console.log(
+      context.resolvedUrl,
+      'context.resolvedUrl: what is the resolved url in this context?'
+    );
     // We want to check for a user guide type preference cookie, and redirect to the appropriate type
     if (
       hasUserPreference &&
@@ -234,7 +245,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return {
         redirect: {
           permanent: false,
-          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
+          destination: `/${userPreferenceGuideType}?userPreferenceSet=true`,
         },
       };
     }
@@ -347,7 +358,8 @@ type ExhibitionLinksProps = {
 
 function cookieHandler(key, data) {
   // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
-  const options = { maxAge: 8 * 60 * 60 };
+  // TOD0: @@Mel The sameSite attribute below is temporary to be removed once debugging is complete
+  const options = { maxAge: 8 * 60 * 60, path: '/', sameSite: false };
   setCookie(key, data, options);
 }
 
