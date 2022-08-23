@@ -328,7 +328,7 @@ type ExhibitionLinksProps = {
   pathname: string;
 };
 
-function cookieHandler(key, data) {
+function cookieHandler(key: string, data: string) {
   // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
   const options = { maxAge: 8 * 60 * 60, path: '/' };
   setCookie(key, data, options);
@@ -412,7 +412,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type) {
+function getTypeColor(type?: GuideType) {
   switch (type) {
     case 'bsl':
       return 'newPaletteBlue';
