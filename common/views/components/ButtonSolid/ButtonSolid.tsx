@@ -98,7 +98,10 @@ export const ButtonIconWrapper = styled(
   className: classNames({
     'flex-inline': true,
   }),
-}))<ButtonIconWrapperAttrsProps>``;
+}))<ButtonIconWrapperAttrsProps>`
+  // Prevent icon within .spaced-text parent having top margin
+  margin-top: 0;
+`;
 
 export enum ButtonTypes {
   button = 'button',
