@@ -46,7 +46,6 @@ import {
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
-import { isNotUndefined } from '@weco/common/utils/array';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -270,49 +269,47 @@ type StopsProps = {
 const Stops: FC<StopsProps> = ({ stops, type }) => {
   return (
     <GridFactory
-      items={stops
-        .map((stop, index) => {
-          const {
-            number,
-            audioWithDescription,
-            audioWithoutDescription,
-            bsl,
-            title,
-          } = stop;
-          const hasContentOfDesiredType =
-            (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
-            (type === 'audio-without-descriptions' &&
-              audioWithoutDescription?.url) ||
-            (type === 'bsl' && bsl?.embedUrl);
-          return hasContentOfDesiredType ? (
-            <Stop key={index}>
-              {type === 'audio-with-descriptions' &&
-                audioWithDescription?.url && (
-                  <AudioPlayer
-                    title={`${number}. ${stop.title}`}
-                    audioFile={audioWithDescription.url}
-                  />
-                )}
-              {type === 'audio-without-descriptions' &&
-                audioWithoutDescription?.url && (
-                  <AudioPlayer
-                    title={`${number}. ${stop.title}`}
-                    audioFile={audioWithoutDescription.url}
-                  />
-                )}
-              {type === 'bsl' && bsl?.embedUrl && (
-                <VideoEmbed embedUrl={bsl.embedUrl as string} />
+      items={stops.map((stop, index) => {
+        const {
+          number,
+          audioWithDescription,
+          audioWithoutDescription,
+          bsl,
+          title,
+        } = stop;
+        const hasContentOfDesiredType =
+          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
+          (type === 'audio-without-descriptions' &&
+            audioWithoutDescription?.url) ||
+          (type === 'bsl' && bsl?.embedUrl);
+        return hasContentOfDesiredType ? (
+          <Stop key={index}>
+            {type === 'audio-with-descriptions' &&
+              audioWithDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithDescription.url}
+                />
               )}
-            </Stop>
-          ) : (
-            <Stop key={index}>
-              <span className={font('intb', 5)}>
-                {number}. {title}
-              </span>
-            </Stop>
-          );
-        })
-        .filter(isNotUndefined)}
+            {type === 'audio-without-descriptions' &&
+              audioWithoutDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithoutDescription.url}
+                />
+              )}
+            {type === 'bsl' && bsl?.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl as string} />
+            )}
+          </Stop>
+        ) : (
+          <Stop key={index}>
+            <span className={font('intb', 5)}>
+              {number}. {title}
+            </span>
+          </Stop>
+        );
+      })}
     />
   );
 };
