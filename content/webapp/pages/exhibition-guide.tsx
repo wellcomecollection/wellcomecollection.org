@@ -284,7 +284,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               {type === 'audio-with-descriptions' &&
                 audioWithDescription?.url && (
                   <AudioPlayer
-                    title={`${number}. ${stop.title}`}
+                    title={number ? `${number}. ${stop.title}` : stop.title}
                     audioFile={audioWithDescription.url}
                   />
                 )}
