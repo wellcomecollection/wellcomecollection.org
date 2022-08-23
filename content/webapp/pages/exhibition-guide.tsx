@@ -155,11 +155,10 @@ type Props = {
 function getTypeTitle(type: GuideType): string {
   switch (type) {
     case 'bsl':
-      return 'BSL';
+      return 'Watch BSL videos';
     case 'audio-with-descriptions':
-      return 'Audio with descriptions';
     case 'audio-without-descriptions':
-      return 'Audio without descriptions';
+      return 'Listen to audio'; // We don't yet have any audio with descriptions so don't want to imply that we do
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
@@ -516,8 +515,8 @@ const ExhibitionGuidePage: FC<Props> = props => {
               {userPreferenceSet ? (
                 <p>
                   This exhibition has {exhibitionGuide.components.length} stops.
-                  This is a {type} guide, which you have used previously, but
-                  you can also select{' '}
+                  You selected this type of guide previously, but you can also
+                  select{' '}
                   <a
                     href={`/guides/exhibitions/${exhibitionGuide.id}`}
                     onClick={() => {
