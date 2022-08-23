@@ -235,6 +235,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title={locationOfWork.noteType.label}
             text={locationOfWork.contents}
+            allowRawHtml={true}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -294,6 +295,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Location"
                         noSpacing={true}
                         text={[`${locationLabel} ${locationShelfmark}`]}
+                        allowRawHtml={true}
                       />
                     )}
 
@@ -303,6 +305,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         inlineHeading={true}
                         noSpacing={true}
                         text={[holding.note]}
+                        allowRawHtml={true}
                       />
                     )}
                   </Space>
@@ -494,6 +497,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 <WorkDetailsText
                   title="Licence"
                   text={[digitalLocationInfo.license.label]}
+                  allowRawHtml={true}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -507,6 +511,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     title="Access conditions"
                     noSpacing={true}
                     text={[digitalLocation?.accessConditions[0]?.terms]}
+                    allowRawHtml={true}
                   />
                 </Space>
               )}
@@ -525,6 +530,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       0 && (
                       <WorkDetailsText
                         text={digitalLocationInfo.license.humanReadableText}
+                        allowRawHtml={true}
                       />
                     )}
                     <WorkDetailsText
@@ -540,6 +546,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           .filter(Boolean)
                           .join(' '),
                       ]}
+                      allowRawHtml={true}
                     />
                   </>
                 </ExplanatoryText>
@@ -575,17 +582,23 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Also known as"
             text={work.alternativeTitles}
+            allowRawHtml={true}
           />
         )}
 
         {work.description && (
-          <WorkDetailsText title="Description" text={[work.description]} />
+          <WorkDetailsText
+            title="Description"
+            text={[work.description]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
+            allowRawHtml={true}
           />
         )}
 
@@ -593,6 +606,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Physical description"
             text={[work.physicalDescription]}
+            allowRawHtml={true}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -637,24 +651,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 
         {work.lettering && (
-          <WorkDetailsText title="Lettering" text={[work.lettering]} />
+          <WorkDetailsText
+            title="Lettering"
+            text={[work.lettering]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.edition && (
-          <WorkDetailsText title="Edition" text={[work.edition]} />
+          <WorkDetailsText
+            title="Edition"
+            text={[work.edition]}
+            allowRawHtml={true}
+          />
         )}
 
-        {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+        {duration && (
+          <WorkDetailsText
+            title="Duration"
+            text={[duration]}
+            allowRawHtml={true}
+          />
+        )}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 
