@@ -15,8 +15,6 @@ describe('IIIFImage', () => {
       <IIIFImage image={props} priority={true} layout="fill" />
     );
 
-    console.log(component.html());
-
     expect(
       component
         .html()
