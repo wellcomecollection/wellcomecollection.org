@@ -57,6 +57,7 @@ const Stop = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   background: ${props => props.theme.color('cream')};
+  height: 100%;
 `;
 
 const TypeList = styled.ul.attrs({
@@ -271,8 +272,13 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
     <GridFactory
       items={stops
         .map((stop, index) => {
-          const { number, audioWithDescription, audioWithoutDescription, bsl } =
-            stop;
+          const {
+            number,
+            audioWithDescription,
+            audioWithoutDescription,
+            bsl,
+            title,
+          } = stop;
           const hasContentOfDesiredType =
             (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
             (type === 'audio-without-descriptions' &&
@@ -283,7 +289,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
               {type === 'audio-with-descriptions' &&
                 audioWithDescription?.url && (
                   <AudioPlayer
-                    title={number ? `${number}. ${stop.title}` : stop.title}
+                    title={`${number}. ${stop.title}`}
                     audioFile={audioWithDescription.url}
                   />
                 )}
@@ -298,7 +304,13 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                 <VideoEmbed embedUrl={bsl.embedUrl as string} />
               )}
             </Stop>
-          ) : undefined;
+          ) : (
+            <Stop key={index}>
+              <span className={font('intb', 5)}>
+                {number}. {title}
+              </span>
+            </Stop>
+          );
         })
         .filter(isNotUndefined)}
     />
@@ -438,6 +450,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     type ? `/${type}` : ''
   }`;
   const typeColor = getTypeColor(type);
+  const numberedStops = exhibitionGuide.components.filter(c => c.number);
 
   return (
     <PageLayout
@@ -482,31 +495,26 @@ const ExhibitionGuidePage: FC<Props> = props => {
         <>
           <Header color={typeColor}>
             <Layout8 shift={false}>
-              <>
-                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
-                <h3 className="h1">{getTypeTitle(type)}</h3>
-                {exhibitionGuide.relatedExhibition && (
-                  <p>{exhibitionGuide.relatedExhibition.description}</p>
-                )}
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <ButtonSolidLink
-                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                    text="Change guide type"
-                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                    clickHandler={() => {
-                      deleteCookie('WC_userPreferenceGuideType');
-                    }}
-                  />
-                </Space>
+              <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+              <h3 className="h1">{getTypeTitle(type)}</h3>
+              {exhibitionGuide.relatedExhibition && (
+                <p>{exhibitionGuide.relatedExhibition.description}</p>
+              )}
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
                 <ButtonSolidLink
                   colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                  text="Change exhibition"
-                  link="/guides/exhibitions"
+                  text="Change guide type"
+                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                  clickHandler={() => {
+                    deleteCookie('WC_userPreferenceGuideType');
+                  }}
                 />
-              </>
+              </Space>
+              <ButtonSolidLink
+                colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+                text="Change exhibition"
+                link="/guides/exhibitions"
+              />
             </Layout8>
           </Header>
 
@@ -514,9 +522,8 @@ const ExhibitionGuidePage: FC<Props> = props => {
             <Layout10 isCentered={false}>
               {userPreferenceSet ? (
                 <p>
-                  This exhibition has {exhibitionGuide.components.length} stops.
-                  You selected this type of guide previously, but you can also
-                  select{' '}
+                  This exhibition has {numberedStops.length} stops. You selected
+                  this type of guide previously, but you can also select{' '}
                   <a
                     href={`/guides/exhibitions/${exhibitionGuide.id}`}
                     onClick={() => {
@@ -527,14 +534,12 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   </a>
                 </p>
               ) : (
-                <p>
-                  This exhibition has {exhibitionGuide.components.length} stops.
-                </p>
+                <p>This exhibition has {numberedStops.length} stops.</p>
               )}
             </Layout10>
           </Space>
 
-          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+          <ExhibitionStops type={type} stops={numberedStops} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
