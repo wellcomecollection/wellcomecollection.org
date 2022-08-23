@@ -46,18 +46,16 @@ import {
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
 `;
-type StopProps = {
-  width: number;
-};
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<StopProps>`
+})`
   background: ${props => props.theme.color('cream')};
 `;
 
@@ -270,56 +268,40 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const stopWidth = type === 'bsl' ? 50 : 33;
-
   return (
     <GridFactory
-      items={stops.map((stop, index) => {
-        const {
-          title,
-          number,
-          audioWithDescription,
-          audioWithoutDescription,
-          bsl,
-        } = stop;
-        const hasContentOfDesiredType =
-          (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
-          (type === 'audio-without-descriptions' &&
-            audioWithoutDescription?.url) ||
-          (type === 'bsl' && bsl?.embedUrl);
-        return (
-          <Stop key={index} width={stopWidth}>
-            {hasContentOfDesiredType ? (
-              <>
-                {type === 'audio-with-descriptions' &&
-                  audioWithDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithDescription.url}
-                    />
-                  )}
-                {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithoutDescription.url}
-                    />
-                  )}
-                {type === 'bsl' && bsl?.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl as string} />
+      items={stops
+        .map((stop, index) => {
+          const { number, audioWithDescription, audioWithoutDescription, bsl } =
+            stop;
+          const hasContentOfDesiredType =
+            (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
+            (type === 'audio-without-descriptions' &&
+              audioWithoutDescription?.url) ||
+            (type === 'bsl' && bsl?.embedUrl);
+          return hasContentOfDesiredType ? (
+            <Stop key={index}>
+              {type === 'audio-with-descriptions' &&
+                audioWithDescription?.url && (
+                  <AudioPlayer
+                    title={`${number}. ${stop.title}`}
+                    audioFile={audioWithDescription.url}
+                  />
                 )}
-              </>
-            ) : (
-              <>
-                <span className={font('intb', 5)}>
-                  {number}. {title}
-                </span>
-                <p>There is no content to display</p>
-              </>
-            )}
-          </Stop>
-        );
-      })}
+              {type === 'audio-without-descriptions' &&
+                audioWithoutDescription?.url && (
+                  <AudioPlayer
+                    title={`${number}. ${stop.title}`}
+                    audioFile={audioWithoutDescription.url}
+                  />
+                )}
+              {type === 'bsl' && bsl?.embedUrl && (
+                <VideoEmbed embedUrl={bsl.embedUrl as string} />
+              )}
+            </Stop>
+          ) : undefined;
+        })
+        .filter(isNotUndefined)}
     />
   );
 };
@@ -528,9 +510,10 @@ const ExhibitionGuidePage: FC<Props> = props => {
               </>
             </Layout8>
           </Header>
-          <Space h={{ size: 'l', properties: ['padding-left'] }}>
-            {userPreferenceSet ? (
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <Layout10 isCentered={false}>
+              {userPreferenceSet ? (
                 <p>
                   This exhibition has {exhibitionGuide.components.length} stops.
                   This is a {type} guide, which you have used previously, but
@@ -544,16 +527,15 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     another type of guide.
                   </a>
                 </p>
-              </Space>
-            ) : (
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+              ) : (
                 <p>
                   This exhibition has {exhibitionGuide.components.length} stops.
                 </p>
-              </Space>
-            )}
-            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+              )}
+            </Layout10>
           </Space>
+
+          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
