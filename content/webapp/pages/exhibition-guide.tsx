@@ -122,7 +122,7 @@ const TypeOption: FC<TypeOptionProps> = ({
       >
         <h2 className="h2">{title}</h2>
         <p className={`${font('intr', 5)}`}>{text}</p>
-        {icon && <Icon icon={icon} />}
+        {icon ? <Icon icon={icon} /> : <Icon></Icon>}
       </Space>
     </TypeLink>
   </TypeItem>

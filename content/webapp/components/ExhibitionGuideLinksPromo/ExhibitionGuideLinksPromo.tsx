@@ -10,10 +10,14 @@ const Type = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
+const TypeListLink = styled.a`
+  text-decoration: none;
+`;
+
 const TypeListItem = ({ url, text }) => {
   return (
     <Type>
-      <a href={url}>{text}</a>
+      <TypeListLink href={url}>{text}</TypeListLink>
     </Type>
   );
 };
