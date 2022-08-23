@@ -287,11 +287,7 @@ const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
     case 'audio-without-descriptions':
       return <Stops stops={stops} type={type} />;
     case 'captions-and-transcripts':
-      return (
-        <div className="container">
-          <ExhibitionCaptions stops={stops} />
-        </div>
-      );
+      return <ExhibitionCaptions stops={stops} />;
     default:
       return null;
   }
@@ -446,9 +442,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
               </>
             </Layout8>
           </Header>
-          <Space v={{ size: 'xl', properties: ['margin-top'] }}>
-            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
-          </Space>
+          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
