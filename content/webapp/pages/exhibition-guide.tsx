@@ -353,27 +353,20 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type) {
-  switch (type) {
-    case 'bsl':
-      return 'newPaletteBlue';
-    case 'audio-without-descriptions':
-      return 'newPaletteOrange';
-    case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
-    case 'captions-and-transcripts':
-      return 'newPaletteMint';
-    default:
-      return 'newPaletteMint';
-  }
-}
+export const guideColours = {
+  bsl: 'newPaletteBlue',
+  'audio-without-descriptions': 'newPaletteOrange',
+  'audio-with-descriptions': 'newPaletteSalmon',
+  'captions-and-transcripts': 'newPaletteMint',
+  default: 'newPaletteMint',
+};
 
 const ExhibitionGuidePage: FC<Props> = props => {
   const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
-  const typeColor = getTypeColor(type);
+  const typeColor = type ? guideColours[type] : guideColours.default;
 
   return (
     <PageLayout

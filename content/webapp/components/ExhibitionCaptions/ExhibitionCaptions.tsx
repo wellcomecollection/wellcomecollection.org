@@ -8,15 +8,39 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import { font } from '@weco/common/utils/classnames';
+import { guideColours } from '../../pages/exhibition-guide';
 
-const StandaloneTitle = styled.h2`
-  background: ${props => props.theme.color('newPaletteMint')};
+const StandaloneTitle = styled(Space).attrs({
+  as: 'h2',
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: font('wb', 2),
+})`
+  display: inline-block;
+  position: relative;
+
+  background: ${props =>
+    props.theme.color(guideColours['captions-and-transcripts'])};
 `;
+
+const ContextTitle = styled(Space).attrs({
+  as: 'h2',
+  className: font('wb', 3),
+  v: { size: 'm', properties: ['margin-bottom'] },
+})``;
+
+const TranscriptTitle = styled(Space).attrs({
+  as: 'h3',
+  className: font('wb', 4),
+  v: { size: 'm', properties: ['margin-bottom'] },
+})``;
+
 const ContextContainer = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top'] },
-})<{ backgroundColor: string }>`
+})<{ backgroundColor: string; backgroundShade: string }>`
   background: ${props =>
-    props.theme.color(props.backgroundColor)}; // TODO cream light
+    props.theme.color(props.backgroundColor, props.backgroundShade)};
 `;
 
 const TitleTombstone = styled(Space).attrs({
@@ -48,15 +72,10 @@ const CaptionTranscription = styled.div`
 `;
 
 const Caption = styled(Space).attrs({
-  className: 'spaced-text',
+  className: `spaced-text ${font('hnr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  // v: { size: 'l', properties: ['margin-bottom'] },
 })`
-  border-left: 10px solid ${props => props.theme.color('yellow')};
-
-  :last-child {
-    margin-bottom: 0 !important; // why is this not applied?
-  }
+  border-left: 20px solid ${props => props.theme.color('yellow')};
 `;
 // TODO thicker coloured lines
 const PrismicImageWrapper = styled.div`
@@ -66,8 +85,9 @@ const PrismicImageWrapper = styled.div`
 const Transcription = styled(Space).attrs({
   className: 'spaced-text',
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 10px solid ${props => props.theme.color('newPaletteBlue')};
+  border-left: 20px solid ${props => props.theme.color('newPaletteBlue')};
 `;
 
 type Stop = {
@@ -123,14 +143,17 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
       <ConditionalWrapper
         condition={hasContext}
         wrapper={children => (
-          <ContextContainer backgroundColor={isFirstStop ? 'red' : 'brown'}>
+          <ContextContainer
+            backgroundColor={isFirstStop ? 'white' : 'cream'}
+            backgroundShade={isFirstStop ? 'base' : 'light'}
+          >
             {children}
           </ContextContainer>
         )}
       >
         <div className="flex flex--wrap container">
           <TitleTombstone>
-            <h2>
+            <h2 className={font('wb', 4)}>
               {number ? `${number}. ` : ''}
               {!hasContext && title}
             </h2>
@@ -139,12 +162,22 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
           {/* // TODO rename CaptionTranscription */}
           <CaptionTranscription>
             {isFirstStop && title.length > 0 && (
-              <StandaloneTitle>{title}</StandaloneTitle>
+              <Space
+                h={{
+                  size: 'm',
+                  properties: ['margin-left'],
+                  negative: true,
+                }}
+              >
+                <StandaloneTitle>{title}</StandaloneTitle>
+              </Space>
             )}
 
             {hasContext && (
               <>
-                {!isFirstStop && title.length > 0 && <h2>{title}</h2>}
+                {!isFirstStop && title.length > 0 && (
+                  <ContextTitle>{title}</ContextTitle>
+                )}
                 <PrismicHtmlBlock html={context as prismicT.RichTextField} />
               </>
             )}
@@ -161,7 +194,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
             </Caption>
             {transcriptionText && transcriptionText.length > 0 && (
               <Transcription>
-                <h3>Audio transcript</h3>
+                <TranscriptTitle>Audio transcript</TranscriptTitle>
                 <div id="transcription-text">
                   <PrismicHtmlBlock
                     html={transcriptionText as prismicT.RichTextField}
