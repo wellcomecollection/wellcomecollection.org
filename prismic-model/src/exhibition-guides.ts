@@ -18,7 +18,7 @@ const exhibitionGuides: CustomType = {
       'related-exhibition': link('Related Exhibition', 'document', [
         'exhibitions',
       ]),
-      introTitle: multiLineText({
+      introText: multiLineText({
         label: 'Introductory text',
         placeholder:
           "This will fallback to the related exhibition's promo text if not filled in",
