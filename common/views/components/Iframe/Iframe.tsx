@@ -7,7 +7,9 @@ import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import styled from 'styled-components';
 
-export const IframeContainer = styled.div`
+export const IframeContainer = styled.div.attrs({
+  'data-chromatic': 'ignore',
+})`
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   position: relative;
