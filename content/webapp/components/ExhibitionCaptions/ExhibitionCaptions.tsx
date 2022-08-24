@@ -11,6 +11,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { guideColours } from '../../pages/exhibition-guide';
+import { plus, minus } from '@weco/common/icons';
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -40,31 +41,46 @@ const TranscriptTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const ContextContainer = styled(Space).attrs<{ hasTopPadding: boolean }>(
+const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
   props => ({
-    v: props.hasTopPadding ? { size: 'l', properties: ['padding-top'] } : null,
+    v: props.hasPadding
+      ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
+      : null,
   })
-)<{ backgroundColor: string; backgroundShade: string; hasTopPadding: boolean }>`
+)<{ backgroundColor: string; backgroundShade: string; hasPadding: boolean }>`
   background: ${props =>
     props.theme.color(props.backgroundColor, props.backgroundShade)};
 `;
 
-const TitleTombstone = styled(Space).attrs({
-  className: 'spaced-text',
+const TombstoneTitle = styled(Space).attrs({
+  as: 'h2',
+  className: font('wb', 3),
+  v: { size: 's', properties: ['margin-bottom'] },
+})``;
+
+const Tombstone = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
+  margin-bottom: 1em;
 
   ${props => props.theme.media.medium`
     flex-basis: 40%;
+    margin-bottom: 0;
   `}
 
   ${props => props.theme.media.large`
     flex-basis: 25%;
   `}
+
+  p {
+    margin-bottom: 0;
+  }
 `;
 
-const CaptionTranscription = styled.div`
+const CaptionTranscription = styled.div.attrs({
+  className: 'spaced-text',
+})`
   flex-basis: 100%;
   max-width: 45em;
 
@@ -83,7 +99,7 @@ const Caption = styled(Space).attrs({
 })`
   border-left: 20px solid ${props => props.theme.color('yellow')};
 `;
-// TODO thicker coloured lines
+
 const PrismicImageWrapper = styled.div`
   max-width: 600px;
 `;
@@ -101,7 +117,7 @@ type Stop = {
   number: number;
   title: string;
   image?: ImageType;
-  tombstone: prismicT.RichTextField; // TODO transforms?
+  tombstone: prismicT.RichTextField;
   caption: prismicT.RichTextField;
   context?: prismicT.RichTextField;
   transcription?: prismicT.RichTextField;
@@ -160,8 +176,8 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
             <Divider color={`pumice`} isKeyline={true} />
           </Space>
           <div className="flex flex--wrap">
-            <TitleTombstone />
-            {/* This empty TitleTombstone is needed for correct alignmennt of the standaloneTitle */}
+            <Tombstone />
+            {/* This empty Tombstone is needed for correct alignmennt of the standaloneTitle */}
             <Space
               h={{
                 size: 'm',
@@ -175,27 +191,29 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
           </div>
         </div>
       )}
-      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+      <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
         <ConditionalWrapper
           condition={hasContext}
           wrapper={children => (
             <ContextContainer
               backgroundColor={isFirstStop ? 'white' : 'cream'}
               backgroundShade={isFirstStop ? 'base' : 'light'}
-              hasTopPadding={!isFirstStop}
+              hasPadding={!isFirstStop}
             >
               {children}
             </ContextContainer>
           )}
         >
           <div className="flex flex--wrap container">
-            <TitleTombstone>
-              <h2 className={font('wb', 4)}>
+            <Tombstone>
+              <TombstoneTitle>
                 {number ? `${number}. ` : ''}
                 {!hasContext && title}
-              </h2>
-              <PrismicHtmlBlock html={tombstone} />
-            </TitleTombstone>
+              </TombstoneTitle>
+              <div className={font('hnr', 4)}>
+                <PrismicHtmlBlock html={tombstone} />
+              </div>
+            </Tombstone>
 
             <CaptionTranscription>
               {isFirstStop && hasContext && title.length > 0 && (
@@ -220,16 +238,22 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                 </>
               )}
 
-              <Caption>
-                {image?.contentUrl && (
-                  <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                    <PrismicImageWrapper>
-                      <PrismicImage image={image} sizes={{}} quality={`low`} />
-                    </PrismicImageWrapper>
-                  </Space>
-                )}
-                <PrismicHtmlBlock html={caption} />
-              </Caption>
+              {caption.length > 0 && (
+                <Caption>
+                  {image?.contentUrl && (
+                    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                      <PrismicImageWrapper>
+                        <PrismicImage
+                          image={image}
+                          sizes={{}}
+                          quality={`low`}
+                        />
+                      </PrismicImageWrapper>
+                    </Space>
+                  )}
+                  <PrismicHtmlBlock html={caption} />
+                </Caption>
+              )}
               {transcriptionText && transcriptionText.length > 0 && (
                 <Transcription>
                   <TranscriptTitle>Audio transcript</TranscriptTitle>
