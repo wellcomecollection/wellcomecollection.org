@@ -30,7 +30,7 @@ const secretsManager = new AWS.SecretsManager();
 const getSecretParams = { SecretId: 'builds/updown_api_key' };
 
 export type Check = {
-  token?: string;
+  token: string;
 } & CheckOptions;
 
 let client: UpdownClient;
@@ -89,11 +89,11 @@ secretsManager
     }
 
     const deletionRequests = deletions.map(check => {
-      return client.deleteCheck(check.token!);
+      return client.deleteCheck(check.token);
     });
 
     const updatesRequests = updates.map(check => {
-      return client.updateCheck(check.token!, {
+      return client.updateCheck(check.token, {
         alias: check.alias,
         period: 60,
       });
