@@ -32,11 +32,11 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
   const links = [
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
-      text: 'List to audio guide, without audio description',
+      text: 'Listen to audio guide, without audio description',
     },
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
-      text: 'List to audio guide, with audio description',
+      text: 'Listen to audio guide, with audio description',
     },
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/captions-and-transcripts`,

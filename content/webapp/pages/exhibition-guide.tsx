@@ -75,6 +75,7 @@ const TypeItem = styled.li`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
+  flex-height: 100%;
   ${props => props.theme.media.medium`
     flex-basis: calc(50% - 25px);
   `}
@@ -122,7 +123,7 @@ const TypeOption: FC<TypeOptionProps> = ({
       >
         <h2 className="h2">{title}</h2>
         <p className={`${font('intr', 5)}`}>{text}</p>
-        {icon ? <Icon icon={icon} /> : <Icon></Icon>}
+        {icon && <Icon icon={icon} />}
       </Space>
     </TypeLink>
   </TypeItem>
