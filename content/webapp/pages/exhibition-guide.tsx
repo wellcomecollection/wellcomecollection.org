@@ -485,9 +485,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
               })}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className="no-margin">
-                  {`Choose the ${exhibitionGuide.title} guide for you`}
-                </h1>
+                <h1
+                  className={`${font('wb', 0)}`}
+                >{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
               </Space>
             </Space>
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
