@@ -4,6 +4,7 @@ import {
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -45,6 +46,7 @@ import {
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -414,8 +416,14 @@ const ExhibitionGuidePage: FC<Props> = props => {
               <>
                 <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
                 <h3 className="h1">{getTypeTitle(type)}</h3>
-                {exhibitionGuide.relatedExhibition && (
-                  <p>{exhibitionGuide.relatedExhibition.description}</p>
+                {exhibitionGuide.introText?.length > 0 ? (
+                  <PrismicHtmlBlock
+                    html={exhibitionGuide.introText as prismicT.RichTextField}
+                  />
+                ) : (
+                  exhibitionGuide.relatedExhibition && (
+                    <p>{exhibitionGuide.relatedExhibition.description}</p>
+                  )
                 )}
                 <Space
                   as="span"
