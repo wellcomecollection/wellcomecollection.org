@@ -2,7 +2,7 @@ import { Page, errors as playwrightErrors } from 'playwright';
 
 // See comment on `gotoWithoutCache` in `contexts.ts`, it's non-trivial to
 // do this in a DRY way so the behaviour is duplicated here
-const safeWaitForNavigation = async (page: Page) => {
+const safeWaitForNavigation = async (page: Page): Promise<void> => {
   try {
     await page.waitForNavigation({
       waitUntil: 'load',
