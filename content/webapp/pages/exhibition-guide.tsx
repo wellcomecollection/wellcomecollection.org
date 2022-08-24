@@ -122,7 +122,10 @@ const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
 );
 
 const Header = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  v: {
+    size: 'xl',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
 })`
   background: ${props => props.theme.color(props.color)};
 `;
