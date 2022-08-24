@@ -75,7 +75,7 @@ const TypeItem = styled.li`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
-  flex-height: 100%;
+  min-height: 200px;
   ${props => props.theme.media.medium`
     flex-basis: calc(50% - 25px);
   `}
@@ -564,7 +564,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
           >
             <Layout8 shift={false}>
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <h2 className="h2">Other exhibition guides available</h2>
+                <h1 className="h1">Other exhibition guides available</h1>
               </Space>
             </Layout8>
             <CardGrid

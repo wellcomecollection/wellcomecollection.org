@@ -8,16 +8,14 @@ import styled from 'styled-components';
 const Type = styled(Space).attrs({
   as: 'li',
   v: { size: 'm', properties: ['margin-bottom'] },
-})``;
-
-const TypeListLink = styled.a`
+})`
   text-decoration: none;
 `;
 
 const TypeListItem = ({ url, text }) => {
   return (
     <Type>
-      <TypeListLink href={url}>{text}</TypeListLink>
+      <a href={url}>{text}</a>
     </Type>
   );
 };
@@ -81,7 +79,7 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
             [font('wb', 3)]: true,
           })}
         >
-          {exhibitionGuide.title}
+            {exhibitionGuide.title}
         </Space>
       </a>
       <Space v={{ size: 's', properties: ['margin-top'] }}>
