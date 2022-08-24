@@ -41,7 +41,7 @@ const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
 `;
 
 const PlayPauseInner = styled.div`
-  border: 2px solid ${props => props.theme.color('pewter')};
+  border: 2px solid ${props => props.theme.color('green')};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -392,7 +392,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
       <AudioPlayerGrid>
         <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
           <PlayPauseInner>
-            <Icon color="pewter" icon={isPlaying ? pause : play} />
+            <Icon color="green" icon={isPlaying ? pause : play} />
           </PlayPauseInner>
         </PlayPauseButton>
 
