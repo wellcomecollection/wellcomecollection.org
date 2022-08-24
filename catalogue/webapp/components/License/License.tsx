@@ -1,9 +1,10 @@
 import { LicenseData } from '@weco/common/utils/licenses';
+import { FC } from 'react';
 type Props = {
   license: LicenseData;
 };
 
-const License = ({ license }: Props) => {
+const License: FC<Props> = ({ license }: Props) => {
   return (
     <>
       {license.description && `${license.description} `}

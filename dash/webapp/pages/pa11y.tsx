@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, FC } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 
@@ -34,7 +34,7 @@ const Issue = styled.div`
       : ''}
 `;
 
-const Index = () => {
+const Index: FC = () => {
   const [resultsList, setResultsList] = useState(null);
 
   useEffect(() => {

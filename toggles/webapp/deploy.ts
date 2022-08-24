@@ -32,7 +32,7 @@ export const withDefaultValuesUnmodified = (
   return toggles;
 };
 
-export async function deploy(client: S3Client) {
+export async function deploy(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
   const togglesToDeploy = withDefaultValuesUnmodified(remoteToggles.toggles, [
