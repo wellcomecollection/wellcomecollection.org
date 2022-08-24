@@ -18,7 +18,11 @@ const exhibitionGuides: CustomType = {
       'related-exhibition': link('Related Exhibition', 'document', [
         'exhibitions',
       ]),
-      introTitle: multiLineText({ label: 'Introductory text' }),
+      introTitle: multiLineText({
+        label: 'Introductory text',
+        placeholder:
+          "This will fallback to the related exhibition's promo text if not filled in",
+      }),
     },
     // We are providing a repeatable list of guide components which could be:
     // A gallery section, a subsection, or a stop within those sections
