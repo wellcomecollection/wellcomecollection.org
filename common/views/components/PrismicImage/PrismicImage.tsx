@@ -45,7 +45,7 @@ const imageQuality = {
  * like prismic using `rect` for crops
  */
 export function createPrismicLoader(maxWidth: number, quality: ImageQuality) {
-  return ({ src, width }: ImageLoaderProps) => {
+  return ({ src, width }: ImageLoaderProps): string => {
     // e.g. src: https://images.prismic.io/wellcomecollection/5cf4b151-8fa1-47d1-9546-3115debc3b04_Viscera+web+image.jpg?auto=compress,format&rect=0,0,3838,2159&w=3200&h=1800&q=10
     const url = new URL(src);
     const searchParams = new URLSearchParams();

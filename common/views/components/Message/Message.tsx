@@ -1,6 +1,7 @@
 import { classNames, font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { FC } from 'react';
 
 const Wrapper = styled(Space).attrs({
   v: {
@@ -20,5 +21,5 @@ type Props = {
   text: string;
 };
 
-const Message = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
+const Message: FC<Props> = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
 export default Message;
