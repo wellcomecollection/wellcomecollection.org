@@ -120,7 +120,7 @@ const TypeOption: FC<TypeOptionProps> = ({
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         <h2 className="h2">{title}</h2>
-        <p className={`${font('intr', 5)}`}>{text}</p>
+        <p className={font('intr', 5)}>{text}</p>
         {icon && <Icon icon={icon} />}
       </Space>
     </TypeLink>
