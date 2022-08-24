@@ -94,7 +94,7 @@ const CaptionTranscription = styled.div.attrs({
 `;
 
 const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('hnr', 5)}`,
+  className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('yellow')};
@@ -210,7 +210,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                 {number ? `${number}. ` : ''}
                 {!hasContext && title}
               </TombstoneTitle>
-              <div className={font('hnr', 4)}>
+              <div className={font('intr', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
             </Tombstone>

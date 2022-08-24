@@ -509,7 +509,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
                     clickHandler={() => {
-                     deleteCookie('WC_userPreferenceGuideType');
+                      deleteCookie('WC_userPreferenceGuideType');
                     }}
                   />
                 </Space>
