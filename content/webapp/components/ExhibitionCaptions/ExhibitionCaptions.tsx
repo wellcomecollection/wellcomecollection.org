@@ -40,9 +40,11 @@ const TranscriptTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })``;
 
-const ContextContainer = styled(Space).attrs({
-  v: { size: 'l', properties: ['padding-top'] },
-})<{ backgroundColor: string; backgroundShade: string }>`
+const ContextContainer = styled(Space).attrs<{ hasTopPadding: boolean }>(
+  props => ({
+    v: props.hasTopPadding ? { size: 'l', properties: ['padding-top'] } : null,
+  })
+)<{ backgroundColor: string; backgroundShade: string; hasTopPadding: boolean }>`
   background: ${props =>
     props.theme.color(props.backgroundColor, props.backgroundShade)};
 `;
@@ -180,6 +182,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
             <ContextContainer
               backgroundColor={isFirstStop ? 'white' : 'cream'}
               backgroundShade={isFirstStop ? 'base' : 'light'}
+              hasTopPadding={!isFirstStop}
             >
               {children}
             </ContextContainer>
