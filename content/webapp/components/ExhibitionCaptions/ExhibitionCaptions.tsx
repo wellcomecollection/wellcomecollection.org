@@ -14,9 +14,12 @@ import { guideColours } from '../../pages/exhibition-guide';
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
-  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  v: {
+    size: 'm',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: font('wb', 2),
+  className: `${font('wb', 2)} no-margin`,
 })`
   display: inline-block;
   position: relative;
@@ -146,16 +149,24 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
     <>
       {standaloneTitle.length > 0 && (
         <div className="container">
-          <Divider color={`pumice`} isKeyline={true} />
+          <Space
+            v={{
+              size: 'xl',
+              properties: ['margin-bottom'],
+            }}
+          >
+            <Divider color={`pumice`} isKeyline={true} />
+          </Space>
           <div className="flex flex--wrap">
             <TitleTombstone />
-            {/* This empty TitleTomstone is needed for correct alignmennt of the standaloneTitle */}
+            {/* This empty TitleTombstone is needed for correct alignmennt of the standaloneTitle */}
             <Space
               h={{
                 size: 'm',
                 properties: ['margin-left'],
                 negative: true,
               }}
+              v={{ size: 'l', properties: ['margin-bottom'] }}
             >
               <StandaloneTitle>{standaloneTitle}</StandaloneTitle>
             </Space>
@@ -191,6 +202,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                     properties: ['margin-left'],
                     negative: true,
                   }}
+                  v={{ size: 'l', properties: ['margin-bottom'] }}
                 >
                   <StandaloneTitle>{title}</StandaloneTitle>
                 </Space>
