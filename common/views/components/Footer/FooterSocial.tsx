@@ -11,6 +11,7 @@ import { font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
+import { FC } from 'react';
 
 const Wrapper = styled(Space).attrs({
   v: {
