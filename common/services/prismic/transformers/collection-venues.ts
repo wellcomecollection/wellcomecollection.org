@@ -1,4 +1,3 @@
-import { Query } from '@prismicio/types';
 import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,

@@ -31,7 +31,7 @@ const LoadingIndicatorWrapper = styled.div.attrs({
   }
 `;
 
-const LoadingIndicator = () => {
+const LoadingIndicator: FC = () => {
   function handleRouteChangeStart() {
     NProgress.start();
   }

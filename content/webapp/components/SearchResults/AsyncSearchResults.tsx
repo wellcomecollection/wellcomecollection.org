@@ -17,14 +17,14 @@ class AsyncSearchResults extends Component<Props, State> {
     items: [],
   };
 
-  async componentDidMount() {
+  async componentDidMount(): Promise<void> {
     const multiContentQuery = await fetchMultiContentClientSide(
       this.props.query
     );
 
     this.setState({ items: multiContentQuery?.results || [] });
   }
-  render() {
+  render(): ReactElement {
     return (
       <Fragment>
         {this.props.title && (

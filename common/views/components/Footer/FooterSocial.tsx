@@ -121,7 +121,7 @@ const items: SocialItem[] = [
   },
 ];
 
-const FooterSocial = () => (
+const FooterSocial: FC = () => (
   <Wrapper>
     {items.map(item => (
       <Cell key={item.title}>
