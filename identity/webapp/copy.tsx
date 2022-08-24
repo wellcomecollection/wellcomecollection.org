@@ -123,7 +123,7 @@ export const collectionsResearchAgreementLabel = (
   </>
 );
 
-export const DeleteRequestedText = () => (
+export const DeleteRequestedText: FC = () => (
   <>
     <SectionHeading as="h1">Delete request received</SectionHeading>
 
