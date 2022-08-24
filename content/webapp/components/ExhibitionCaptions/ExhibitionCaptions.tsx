@@ -5,13 +5,13 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import * as prismicT from '@prismicio/types';
 import { ImageType } from '@weco/common/model/image';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { guideColours } from '../../pages/exhibition-guide';
-import { plus, minus } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -263,7 +263,8 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                     />
                   </div>
                   {hasShowFullTranscriptionButton && (
-                    <ButtonOutlined
+                    <ButtonSolid
+                      colors={themeValues.buttonColors.greenTransparentGreen}
                       ariaControls="transcription-text"
                       ariaExpanded={isFullTranscription}
                       clickHandler={() => {

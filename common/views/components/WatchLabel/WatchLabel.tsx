@@ -22,7 +22,7 @@ const WatchIconWrapper = styled.div`
 const WatchText = styled(Space).attrs({
   v: { size: 's', properties: ['margin-left'] },
   className: classNames({
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 })`
   color: ${props => props.theme.color('pewter')};
@@ -35,7 +35,7 @@ type Props = {
 const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
   <div
     className={classNames({
-      [font('hnr', 4)]: true,
+      [font('intr', 4)]: true,
       'flex flex--v-center': true,
     })}
   >

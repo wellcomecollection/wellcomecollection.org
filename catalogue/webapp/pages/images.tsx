@@ -259,6 +259,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const images = await getImages({
       params: apiProps,
       toggles: serverData.toggles,
+      pageSize: 25,
     });
 
     if (images && images.type === 'Error') {

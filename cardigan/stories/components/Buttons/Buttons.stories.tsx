@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DropdownButton from '@weco/common/views/components/DropdownButton/DropdownButton';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
@@ -16,17 +15,6 @@ buttonInline.args = {
   isOnDark: false,
 };
 buttonInline.storyName = 'ButtonInline';
-
-const ButtonOutlinedTemplate = args => <ButtonOutlined {...args} />;
-export const buttonOutlined = ButtonOutlinedTemplate.bind({});
-buttonOutlined.args = {
-  disabled: false,
-  icon: eye,
-  text: 'Click me',
-  isOnDark: false,
-  isDangerous: false,
-};
-buttonOutlined.storyName = 'ButtonOutlined';
 
 const ButtonSolidTemplate = args => <ButtonSolid {...args} />;
 export const buttonSolid = ButtonSolidTemplate.bind({});

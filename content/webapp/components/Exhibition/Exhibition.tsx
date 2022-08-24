@@ -316,7 +316,7 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
 
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={`no-margin ${font('hnr', 5)}`}>
+            <p className={`no-margin ${font('intr', 5)}`}>
               <a href="/access">All our accessibility services</a>
             </p>
           </InfoBox>

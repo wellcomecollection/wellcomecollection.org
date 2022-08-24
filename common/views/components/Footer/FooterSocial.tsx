@@ -57,7 +57,7 @@ const Link = styled(Space).attrs({
     properties: ['margin-bottom'],
   },
   as: 'a',
-  className: font('hnb', 6),
+  className: font('intb', 6),
 })<LinkProps>`
   color: ${props => props.theme.color('white')};
   text-decoration: none;

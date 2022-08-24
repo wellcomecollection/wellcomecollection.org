@@ -3,6 +3,7 @@ import {
   ExhibitionGuideBasic,
   ExhibitionGuideComponent,
 } from '../types/exhibition-guides';
+import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import * as prismicT from '@prismicio/types';
 import { createClient } from '../services/prismic/fetch';
@@ -16,7 +17,7 @@ import {
 } from '../services/prismic/transformers/exhibition-guides';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import { FC } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -51,15 +52,13 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
 `;
-type StopProps = {
-  width: number;
-};
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<StopProps>`
+})`
   background: ${props => props.theme.color('cream')};
+  height: 100%;
 `;
 
 const TypeList = styled.ul.attrs({
@@ -76,6 +75,7 @@ const TypeItem = styled.li`
   flex-grow: 0;
   flex-shrink: 0;
   position: relative;
+  min-height: 200px;
   ${props => props.theme.media.medium`
     flex-basis: calc(50% - 25px);
   `}
@@ -104,17 +104,25 @@ type TypeOptionProps = {
     | 'newPaletteSalmon'
     | 'newPaletteBlue';
   icon?: IconSvg;
+  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
 
-const TypeOption: FC<TypeOptionProps> = ({ url, title, text, color, icon }) => (
+const TypeOption: FC<TypeOptionProps> = ({
+  url,
+  title,
+  text,
+  color,
+  icon,
+  onClick,
+}) => (
   <TypeItem>
-    <TypeLink href={url} color={color}>
+    <TypeLink href={url} color={color} onClick={onClick}>
       <Space
         v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       >
         <h2 className="h2">{title}</h2>
-        <p className={`${font('hnr', 5)}`}>{text}</p>
+        <p className={font('intr', 5)}>{text}</p>
         {icon && <Icon icon={icon} />}
       </Space>
     </TypeLink>
@@ -147,16 +155,16 @@ type Props = {
   jsonLd: JsonLdObj;
   type?: GuideType;
   otherExhibitionGuides: PaginatedResults<ExhibitionGuideBasic>;
+  userPreferenceSet?: string | string[];
 };
 
 function getTypeTitle(type: GuideType): string {
   switch (type) {
     case 'bsl':
-      return 'BSL';
+      return 'Watch BSL videos';
     case 'audio-with-descriptions':
-      return 'Audio with descriptions';
     case 'audio-without-descriptions':
-      return 'Audio without descriptions';
+      return 'Listen to audio'; // We don't yet have any audio with descriptions so don't want to imply that we do
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
@@ -165,7 +173,8 @@ function getTypeTitle(type: GuideType): string {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-    const { id, type } = context.query;
+    const { id, type, usingQRCode, userPreferenceSet } = context.query;
+    const { res, req } = context;
 
     if (
       !looksLikePrismicId(id) ||
@@ -201,6 +210,38 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       ),
     };
 
+    const userPreferenceGuideType = getCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+    const hasUserPreference = hasCookie('WC_userPreferenceGuideType', {
+      req,
+      res,
+    });
+
+    // We want to set a user preference cookie if the qr code url contains a guide type
+    // 8 hours (the maximum length of time the collection is open for in a day)
+    if (usingQRCode) {
+      setCookie('WC_userPreferenceGuideType', type, {
+        res,
+        req,
+        maxAge: 8 * 60 * 60,
+        path: '/',
+      });
+    }
+
+    // We want to check for a user guide type preference cookie, and redirect to the appropriate type
+    if (
+      hasUserPreference &&
+      context.resolvedUrl === `/guides/exhibitions/${id}`
+    ) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: `${id}/${userPreferenceGuideType}?userPreferenceSet=true`,
+        },
+      };
+    }
     if (exhibitionGuideQuery) {
       const exhibitionGuide = transformExhibitionGuide(exhibitionGuideQuery);
 
@@ -218,6 +259,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
               result => result.id !== id
             ),
           },
+          userPreferenceSet,
         }),
       };
     } else {
@@ -231,53 +273,46 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const stopWidth = type === 'bsl' ? 50 : 33;
-
   return (
     <GridFactory
       items={stops.map((stop, index) => {
         const {
-          title,
           number,
           audioWithDescription,
           audioWithoutDescription,
           bsl,
+          title,
         } = stop;
         const hasContentOfDesiredType =
           (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
           (type === 'audio-without-descriptions' &&
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
-        return (
-          <Stop key={index} width={stopWidth}>
-            {hasContentOfDesiredType ? (
-              <>
-                {type === 'audio-with-descriptions' &&
-                  audioWithDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithDescription.url}
-                    />
-                  )}
-                {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithoutDescription.url}
-                    />
-                  )}
-                {type === 'bsl' && bsl?.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl as string} />
-                )}
-              </>
-            ) : (
-              <>
-                <span className={font('hnb', 5)}>
-                  {number}. {title}
-                </span>
-                <p>There is no content to display</p>
-              </>
+        return hasContentOfDesiredType ? (
+          <Stop key={index}>
+            {type === 'audio-with-descriptions' &&
+              audioWithDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithDescription.url}
+                />
+              )}
+            {type === 'audio-without-descriptions' &&
+              audioWithoutDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithoutDescription.url}
+                />
+              )}
+            {type === 'bsl' && bsl?.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl as string} />
             )}
+          </Stop>
+        ) : (
+          <Stop key={index}>
+            <span className={font('intb', 5)}>
+              {number}. {title}
+            </span>
           </Stop>
         );
       })}
@@ -302,6 +337,13 @@ type ExhibitionLinksProps = {
   stops: ExhibitionGuideComponent[];
   pathname: string;
 };
+
+function cookieHandler(key: string, data: string) {
+  // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
+  const options = { maxAge: 8 * 60 * 60, path: '/' };
+  setCookie(key, data, options);
+}
+
 const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasBSLVideo = stops.some(
     stop => stop.bsl.embedUrl // it can't be undefined can it?
@@ -315,6 +357,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   const hasAudioWithDescriptions = stops.some(
     stop => stop.audioWithDescription?.url
   );
+
   return (
     <TypeList>
       {hasAudioWithoutDescriptions && (
@@ -323,6 +366,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           title="Listen, without audio descriptions"
           text="Find out more about the exhibition with short audio tracks."
           color="newPaletteOrange"
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'audio-without-descriptions'
+            );
+          }}
         />
       )}
       {hasAudioWithDescriptions && (
@@ -333,6 +382,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
         including descriptions of the objects."
           color="newPaletteSalmon"
           icon={audioDescribed}
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'audio-with-descriptions'
+            );
+          }}
         />
       )}
       {hasCaptionsOrTranscripts && (
@@ -343,6 +398,12 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
               objects, great for those without headphones."
           color="newPaletteMint"
           icon={speechToText}
+          onClick={() => {
+            cookieHandler(
+              'WC_userPreferenceGuideType',
+              'captions-and-transcripts'
+            );
+          }}
         />
       )}
       {hasBSLVideo && (
@@ -352,6 +413,9 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
           text="Commentary about the exhibition in British Sign Language videos."
           color="newPaletteBlue"
           icon={britishSignLanguage}
+          onClick={() => {
+            cookieHandler('WC_userPreferenceGuideType', 'bsl');
+          }}
         />
       )}
     </TypeList>
@@ -367,11 +431,18 @@ export const guideColours = {
 };
 
 const ExhibitionGuidePage: FC<Props> = props => {
-  const { exhibitionGuide, jsonLd, type, otherExhibitionGuides } = props;
+  const {
+    exhibitionGuide,
+    jsonLd,
+    type,
+    otherExhibitionGuides,
+    userPreferenceSet,
+  } = props;
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
   const typeColor = type ? guideColours[type] : guideColours.default;
+  const numberedStops = exhibitionGuide.components.filter(c => c.number);
 
   return (
     <PageLayout
@@ -399,9 +470,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
               })}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <h1 className="no-margin">
-                  {`Choose the ${exhibitionGuide.title} guide for you`}
-                </h1>
+                <h1
+                  className={font('wb', 0)}
+                >{`Choose the ${exhibitionGuide.title} guide for you`}</h1>
               </Space>
             </Space>
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -436,6 +507,9 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     colors={themeValues.buttonColors.charcoalWhiteCharcoal}
                     text="Change guide type"
                     link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    clickHandler={() => {
+                     deleteCookie('WC_userPreferenceGuideType');
+                    }}
                   />
                 </Space>
                 <ButtonSolidLink
@@ -446,7 +520,29 @@ const ExhibitionGuidePage: FC<Props> = props => {
               </>
             </Layout8>
           </Header>
-          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <Layout10 isCentered={false}>
+              {userPreferenceSet ? (
+                <p>
+                  This exhibition has {numberedStops.length} stops. You selected
+                  this type of guide previously, but you can also select{' '}
+                  <a
+                    href={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    onClick={() => {
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
+                  >
+                    another type of guide.
+                  </a>
+                </p>
+              ) : (
+                <p>This exhibition has {numberedStops.length} stops.</p>
+              )}
+            </Layout10>
+          </Space>
+
+          <ExhibitionStops type={type} stops={numberedStops} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (

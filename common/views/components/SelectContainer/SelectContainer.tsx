@@ -14,7 +14,7 @@ type StyledSelectProps = {
 
 const StyledSelect = styled.div.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })<StyledSelectProps>`
   position: relative;
@@ -76,7 +76,7 @@ const SelectContainer: FC<Props> = ({ label, hideLabel, children }) => {
           h={{ size: 's', properties: ['margin-right'] }}
           style={{ whiteSpace: 'nowrap' }}
           className={classNames({
-            [font('hnb', 5)]: true,
+            [font('intb', 5)]: true,
             'visually-hidden': !!hideLabel,
           })}
         >

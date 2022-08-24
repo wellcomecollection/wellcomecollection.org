@@ -97,7 +97,7 @@ const StrapText = styled.div`
 
 const HygieneItem = styled.li.attrs({
   className: classNames({
-    [font('hnb', 6)]: true,
+    [font('intb', 6)]: true,
   }),
 })`
   width: 100%;
@@ -189,7 +189,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`relative ${font('hnr', 4)}`}
+              className={`relative ${font('intr', 4)}`}
             >
               <span className="hidden">Wellcome collection</span>
               <NavBrand href="#">
@@ -207,7 +207,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`hidden is-hidden-s is-hidden-m ${font('hnr', 5)}`}
+              className={`hidden is-hidden-s is-hidden-m ${font('intr', 5)}`}
             >
               Finding us:
             </Space>
@@ -220,7 +220,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           <div
             className={classNames({
               [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
           >
             <Space
@@ -229,7 +229,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 properties: ['margin-bottom'],
               }}
               as="h3"
-              className={`hidden is-hidden-s is-hidden-m ${font('hnr', 5)}`}
+              className={`hidden is-hidden-s is-hidden-m ${font('intr', 5)}`}
             >
               {`Opening times:`}
             </Space>
@@ -240,13 +240,13 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
               >
                 <div
                   className={classNames({
-                    [font('hnr', 5)]: true,
+                    [font('intr', 5)]: true,
                     'float-l': true,
                   })}
                 >
                   <h4
                     className={classNames({
-                      [font('hnb', 5)]: true,
+                      [font('intb', 5)]: true,
                       'no-margin': true,
                     })}
                   >{`Today's opening times`}</h4>
@@ -264,7 +264,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           <FooterLeft>
             <FooterStrap
               className={classNames({
-                [font('hnb', 6)]: true,
+                [font('intb', 6)]: true,
               })}
             >
               <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
@@ -278,7 +278,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
               }}
               className={classNames({
-                [font('hnb', 6)]: true,
+                [font('intb', 6)]: true,
                 'flex flex--v-center': true,
               })}
             >

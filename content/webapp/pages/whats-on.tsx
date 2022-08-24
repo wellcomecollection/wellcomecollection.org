@@ -164,7 +164,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
       }}
       as="p"
       className={classNames({
-        [font('hnr', 5)]: true,
+        [font('intr', 5)]: true,
       })}
     >
       {period === 'today' && (
@@ -220,7 +220,7 @@ const Header = ({
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
                       className={classNames({
-                        [font('hnb', 5)]: true,
+                        [font('intb', 5)]: true,
                       })}
                     >
                       Galleries
@@ -240,7 +240,7 @@ const Header = ({
                           as="span"
                           h={{ size: 'm', properties: ['margin-right'] }}
                           className={classNames({
-                            [font('hnr', 5)]: true,
+                            [font('intr', 5)]: true,
                           })}
                         >
                           <>
@@ -256,7 +256,7 @@ const Header = ({
                 <NextLink href={`/opening-times`} as={`/opening-times`}>
                   <a
                     className={classNames({
-                      [font('hnb', 5)]: true,
+                      [font('intb', 5)]: true,
                     })}
                   >{`Full opening times`}</a>
                 </NextLink>
@@ -536,7 +536,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                 <Layout12>
                   <div className="flex flex--v-center flex--h-space-between">
                     <h2 className="h1">Exhibitions and Events</h2>
-                    <span className={font('hnb', 4)}>Free admission</span>
+                    <span className={font('intb', 4)}>Free admission</span>
                   </div>
                 </Layout12>
               </Space>

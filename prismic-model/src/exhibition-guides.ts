@@ -18,6 +18,11 @@ const exhibitionGuides: CustomType = {
       'related-exhibition': link('Related Exhibition', 'document', [
         'exhibitions',
       ]),
+      introText: multiLineText({
+        label: 'Introductory text',
+        placeholder:
+          "This will fallback to the related exhibition's promo text if not filled in",
+      }),
     },
     // We are providing a repeatable list of guide components which could be:
     // A gallery section, a subsection, or a stop within those sections
@@ -25,21 +30,33 @@ const exhibitionGuides: CustomType = {
     // a stop is related to, but removed this to get a first iteration and think about hierarchy structure later
     Components: {
       components: list('Guide Component', {
-        number: number('Position number'),
+        standaloneTitle: singleLineText({
+          label: 'Standalone title',
+          placeholder:
+            'Provides a group heading for stops on captions and transcription pages',
+        }),
         title,
-        // Info on the choice for the name tombstone instead of creator
+        // Info on the choice for the name 'tombstone' instead of e.g. 'creator'
         // https://wellcome.slack.com/archives/CUA669WHH/p1658396258859169
         tombstone: singleLineText({ label: 'Tombstone' }),
+        caption: multiLineText({ label: 'Caption' }),
         image: image('image'),
-        description: singleLineText({ label: 'Description' }),
-        'audio-with-description': link('Audio with description', 'media', []),
+        number: number('Stop number', 'Stop number for this content'),
+        context: multiLineText({
+          label: 'Context',
+          placeholder: 'Optional context for a group of stops',
+        }),
+        'audio-with-description': link(
+          'Audio with description (.mp3 file)',
+          'media',
+          []
+        ),
         'audio-without-description': link(
-          'Audio without description',
+          'Audio without description (.mp3 file)',
           'media',
           []
         ),
         'bsl-video': embed('Embed (Youtube)'),
-        caption: multiLineText({ label: 'Caption' }),
         transcript: multiLineText({ label: 'Transcript' }),
       }),
     },

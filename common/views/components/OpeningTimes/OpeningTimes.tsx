@@ -15,7 +15,7 @@ const OpeningTimes: FunctionComponent<Props> = ({
   venues,
 }: Props): ReactElement<Props> => {
   return (
-    <ul className="plain-list no-padding no-margin">
+    <ul className="plain-list no-padding no-margin" data-chromatic="ignore">
       {venues.map(venue => {
         const todaysHours = getTodaysVenueHours(venue);
         return (

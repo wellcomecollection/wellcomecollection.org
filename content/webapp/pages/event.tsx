@@ -89,7 +89,7 @@ type EventStatusProps = {
 function EventStatus({ text, color }: EventStatusProps) {
   return (
     <div className="flex">
-      <div className={`${font('hnb', 5)} flex flex--v-center`}>
+      <div className={`${font('intb', 5)} flex flex--v-center`}>
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
@@ -352,7 +352,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
                           className={`no-margin font-charcoal ${font(
-                            'hnr',
+                            'intr',
                             5
                           )}`}
                         >
@@ -398,7 +398,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
                     as="a"
                     className={classNames({
                       'block font-charcoal': true,
-                      [font('hnb', 5)]: true,
+                      [font('intb', 5)]: true,
                     })}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
@@ -461,7 +461,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          <p className={`no-margin ${font('hnr', 5)}`}>
+          <p className={`no-margin ${font('intr', 5)}`}>
             <a
               href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
             >

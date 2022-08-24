@@ -11,7 +11,7 @@ const Location = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
   as: 'p',
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 })``;
 
@@ -88,7 +88,7 @@ const EventbriteButtons: FC<Props> = ({ event }) => {
           <p
             className={classNames({
               'font-charcoal no-margin': true,
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
           >
             Tickets via Eventbrite

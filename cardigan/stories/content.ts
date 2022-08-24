@@ -289,28 +289,27 @@ export const captionedImage = () => ({
   caption: [
     {
       type: 'paragraph',
-      text: faker.random.words(randomNumber(5, 15)),
+      text: faker.random.words(10),
       spans: [],
     },
   ],
 });
 
-export const singleLineOfText = (min = 3, max = 8) =>
-  faker.random.words(randomNumber(min, max));
+export const singleLineOfText = () => faker.random.words(7);
 
 export const text = () =>
-  Array(randomNumber(1, 2))
+  Array(2)
     .fill()
     .map(() => ({
       type: 'paragraph',
-      text: `${faker.random.words(randomNumber(25, 40))}`,
+      text: `${faker.random.words(30)}`,
       spans: [],
     }));
 
 const smallText = () => [
   {
     type: 'paragraph',
-    text: `${faker.random.words(randomNumber(12, 24))}`,
+    text: `${faker.random.words(20)}`,
     spans: [],
   },
 ];
@@ -480,7 +479,7 @@ export const event: Event = {
 };
 
 export const imageGallery = () => {
-  const items = Array(randomNumber(3, 5)).fill().map(captionedImage);
+  const items = Array(4).fill().map(captionedImage);
   return {
     id: '123',
     title: singleLineOfText(),

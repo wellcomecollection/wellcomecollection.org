@@ -1,7 +1,7 @@
 import moment, { Moment } from 'moment';
 
-export function groupIntoSize(array: any[], size): any[][] {
-  const result = [] as any[];
+export function groupIntoSize<T>(array: T[], size: number): T[][] {
+  const result: T[][] = [];
   for (let i = 0; i < array.length; i += size) {
     const group = array.slice(i, i + size);
     result.push(group);

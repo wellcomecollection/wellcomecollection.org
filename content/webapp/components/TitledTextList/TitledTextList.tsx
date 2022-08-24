@@ -9,7 +9,7 @@ import * as prismicT from '@prismicio/types';
 
 const HeadingLink = styled.a.attrs({
   className: classNames({
-    [font('hnb', 4)]: true,
+    [font('intb', 4)]: true,
   }),
 })`
   cursor: pointer;

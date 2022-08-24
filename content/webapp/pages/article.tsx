@@ -209,7 +209,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
           <p
             className={classNames({
               'no-margin': true,
-              [font('hnr', 6)]: true,
+              [font('intr', 6)]: true,
             })}
           >
             {article.contributors.length > 0 &&
@@ -225,7 +225,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   )}
                   <span
                     className={classNames({
-                      [font('hnb', 6)]: true,
+                      [font('intb', 6)]: true,
                     })}
                   >
                     {contributor.name}
@@ -247,7 +247,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             <span
               className={classNames({
                 'block font-pewter': true,
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
             >
               <HTMLDate date={new Date(article.datePublished)} />

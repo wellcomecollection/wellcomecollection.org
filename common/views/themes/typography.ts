@@ -50,11 +50,11 @@ export const fontSizesAtBreakpoints = {
 };
 
 const fontFamilies = {
-  hnb: {
+  intr: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
   },
-  hnr: {
+  intb: {
     base: `Inter, sans-serif;`,
     full: `Inter, sans-serif;`,
   },
@@ -88,21 +88,21 @@ export const fontFamilyMixin = (
 };
 
 export const typography = css<GlobalStyleProps>`
-  .font-hnb {
+  .font-intb {
     font-weight: bold;
   }
 
-  .font-hnr {
+  .font-intr {
     font-weight: normal;
   }
 
   ${props => `
-    .font-hnb {
-      ${fontFamilyMixin('hnb', !!props.isFontsLoaded)};
+    .font-intb {
+      ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
     }
 
-    .font-hnr {
-      ${fontFamilyMixin('hnr', !!props.isFontsLoaded)};
+    .font-intr {
+      ${fontFamilyMixin('intr', !!props.isFontsLoaded)};
     }
 
     .font-wb {
@@ -119,7 +119,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   body {
-    ${fontFamilyMixin('hnr', true)}
+    ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
     color: ${themeValues.color('black')};
@@ -240,7 +240,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     h3 {
-      ${fontFamilyMixin('hnb', true)}
+      ${fontFamilyMixin('intb', true)}
       ${fontSizeMixin(3)}
     }
 
@@ -285,7 +285,7 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('hnb', true)};
+      ${fontFamilyMixin('intb', true)};
     }
   }
 

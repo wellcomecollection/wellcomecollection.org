@@ -11,7 +11,7 @@ type TableProps = {
 
 const StyledTable = styled.table.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })<TableProps>`
    {
@@ -76,7 +76,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
     ),
   },
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 }))<ThProps>`
   background: ${props =>
@@ -129,7 +129,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       display: block;
       white-space: nowrap;
       content: ${props => (props.content ? `'${props.content}'` : '')};
-      ${fontFamilyMixin('hnb', true)}
+      ${fontFamilyMixin('intb', true)}
     }
   }
 `;

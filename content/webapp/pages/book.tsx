@@ -135,7 +135,7 @@ const BookPage: FunctionComponent<Props> = props => {
             <p
               className={classNames({
                 'no-margin': true,
-                [font('hnb', 3)]: true,
+                [font('intb', 3)]: true,
               })}
             >
               {book.subtitle}
