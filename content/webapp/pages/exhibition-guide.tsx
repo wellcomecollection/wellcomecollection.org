@@ -267,9 +267,25 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const twoUp = { s: 12, m: 6, l: 5, shiftL: 1, xl: 4, shiftXl: 2 };
+  const twoUp = { s: 12, m: 12, l: 6, xl: 6 };
   const threeUp = { s: 12, m: 6, l: 4, xl: 4 };
-  const gridSizes = type === 'bsl' ? twoUp : threeUp;
+
+  const twoUpGrid = {
+    1: [twoUp],
+    2: [twoUp, twoUp],
+    3: [twoUp, twoUp],
+    4: [twoUp, twoUp],
+  };
+
+  const threeUpGrid = {
+    1: [threeUp],
+    2: [threeUp, threeUp],
+    3: [threeUp, threeUp],
+    4: [threeUp, threeUp],
+  };
+
+  console.log(type);
+  const gridSizes = type === 'bsl' ? twoUpGrid : threeUpGrid;
   return (
     <GridFactory
       overrideGridSizes={gridSizes}
