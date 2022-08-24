@@ -91,6 +91,7 @@ const Transcription = styled(Space).attrs({
 `;
 
 type Stop = {
+  standaloneTitle: prismicT.RichTextField;
   number: number;
   title: string;
   image?: ImageType;
@@ -108,8 +109,16 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
   stop,
   isFirstStop,
 }) => {
-  const { number, title, image, tombstone, caption, context, transcription } =
-    stop;
+  const {
+    standaloneTitle,
+    number,
+    title,
+    image,
+    tombstone,
+    caption,
+    context,
+    transcription,
+  } = stop;
   const { isEnhanced } = useContext(AppContext);
   const hasShowFullTranscriptionButton =
     (stop.transcription?.length || 0) > 1 && isEnhanced; // We only show the button if there is more than one paragraph
@@ -132,94 +141,105 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
     );
   }, [isFullTranscription]);
 
-  // TODO
-  // - title fonts
-  // all fonts
-  // spacing
-  // TODO where do the other headers and text come from?
-  // TODO exhibition promo text too short ? use exhibition something else?
   return (
-    <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-      <ConditionalWrapper
-        condition={hasContext}
-        wrapper={children => (
-          <ContextContainer
-            backgroundColor={isFirstStop ? 'white' : 'cream'}
-            backgroundShade={isFirstStop ? 'base' : 'light'}
-          >
-            {children}
-          </ContextContainer>
-        )}
-      >
+    <>
+      {standaloneTitle.length > 0 && (
         <div className="flex flex--wrap container">
-          <TitleTombstone>
-            <h2 className={font('wb', 4)}>
-              {number ? `${number}. ` : ''}
-              {!hasContext && title}
-            </h2>
-            <PrismicHtmlBlock html={tombstone} />
-          </TitleTombstone>
-          {/* // TODO rename CaptionTranscription */}
-          <CaptionTranscription>
-            {isFirstStop && title.length > 0 && (
-              <Space
-                h={{
-                  size: 'm',
-                  properties: ['margin-left'],
-                  negative: true,
-                }}
-              >
-                <StandaloneTitle>{title}</StandaloneTitle>
-              </Space>
-            )}
-
-            {hasContext && (
-              <>
-                {!isFirstStop && title.length > 0 && (
-                  <ContextTitle>{title}</ContextTitle>
-                )}
-                <PrismicHtmlBlock html={context as prismicT.RichTextField} />
-              </>
-            )}
-
-            <Caption>
-              {image?.contentUrl && (
-                <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                  <PrismicImageWrapper>
-                    <PrismicImage image={image} sizes={{}} quality={`low`} />
-                  </PrismicImageWrapper>
+          <TitleTombstone />
+          {/* This empty TitleTomstone is needed for correct alignmennt of the standaloneTitle */}
+          <Space
+            h={{
+              size: 'm',
+              properties: ['margin-left'],
+              negative: true,
+            }}
+          >
+            <StandaloneTitle>{standaloneTitle}</StandaloneTitle>
+          </Space>
+        </div>
+      )}
+      <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+        <ConditionalWrapper
+          condition={hasContext}
+          wrapper={children => (
+            <ContextContainer
+              backgroundColor={isFirstStop ? 'white' : 'cream'}
+              backgroundShade={isFirstStop ? 'base' : 'light'}
+            >
+              {children}
+            </ContextContainer>
+          )}
+        >
+          <div className="flex flex--wrap container">
+            <TitleTombstone>
+              <h2 className={font('wb', 4)}>
+                {number ? `${number}. ` : ''}
+                {!hasContext && title}
+              </h2>
+              <PrismicHtmlBlock html={tombstone} />
+            </TitleTombstone>
+            {/* // TODO rename CaptionTranscription */}
+            <CaptionTranscription>
+              {isFirstStop && title.length > 0 && (
+                <Space
+                  h={{
+                    size: 'm',
+                    properties: ['margin-left'],
+                    negative: true,
+                  }}
+                >
+                  <StandaloneTitle>{title}</StandaloneTitle>
                 </Space>
               )}
-              <PrismicHtmlBlock html={caption} />
-            </Caption>
-            {transcriptionText && transcriptionText.length > 0 && (
-              <Transcription>
-                <TranscriptTitle>Audio transcript</TranscriptTitle>
-                <div id="transcription-text">
-                  <PrismicHtmlBlock
-                    html={transcriptionText as prismicT.RichTextField}
-                  />
-                </div>
-                {hasShowFullTranscriptionButton && (
-                  <ButtonOutlined
-                    ariaControls="transcription-text"
-                    ariaExpanded={isFullTranscription}
-                    clickHandler={() => {
-                      setIsFullTranscription(!isFullTranscription);
-                    }}
-                    text={
-                      isFullTranscription
-                        ? 'Hide full transcript'
-                        : 'Read full transcript'
-                    }
-                  />
+
+              {hasContext && (
+                <>
+                  {!isFirstStop && title.length > 0 && (
+                    <ContextTitle>{title}</ContextTitle>
+                  )}
+                  <PrismicHtmlBlock html={context as prismicT.RichTextField} />
+                </>
+              )}
+
+              <Caption>
+                {image?.contentUrl && (
+                  <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+                    <PrismicImageWrapper>
+                      <PrismicImage image={image} sizes={{}} quality={`low`} />
+                    </PrismicImageWrapper>
+                  </Space>
                 )}
-              </Transcription>
-            )}
-          </CaptionTranscription>
-        </div>
-      </ConditionalWrapper>
-    </Space>
+                <PrismicHtmlBlock html={caption} />
+              </Caption>
+              {transcriptionText && transcriptionText.length > 0 && (
+                <Transcription>
+                  <TranscriptTitle>Audio transcript</TranscriptTitle>
+                  <div id="transcription-text">
+                    <PrismicHtmlBlock
+                      html={transcriptionText as prismicT.RichTextField}
+                    />
+                  </div>
+                  {hasShowFullTranscriptionButton && (
+                    <ButtonOutlined
+                      ariaControls="transcription-text"
+                      ariaExpanded={isFullTranscription}
+                      clickHandler={() => {
+                        setIsFullTranscription(!isFullTranscription);
+                      }}
+                      text={
+                        isFullTranscription
+                          ? 'Hide full transcript'
+                          : 'Read full transcript'
+                      }
+                    />
+                  )}
+                </Transcription>
+              )}
+            </CaptionTranscription>
+          </div>
+        </ConditionalWrapper>
+      </Space>
+    </>
   );
 };
 
