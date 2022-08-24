@@ -321,11 +321,12 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
 };
 
 const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
+  const numberedStops = stops.filter(c => c.number);
   switch (type) {
     case 'bsl':
     case 'audio-with-descriptions':
     case 'audio-without-descriptions':
-      return <Stops stops={stops} type={type} />;
+      return <Stops stops={numberedStops} type={type} />;
     case 'captions-and-transcripts':
       return <ExhibitionCaptions stops={stops} />;
     default:
@@ -542,7 +543,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout10>
           </Space>
 
-          <ExhibitionStops type={type} stops={numberedStops} />
+          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
