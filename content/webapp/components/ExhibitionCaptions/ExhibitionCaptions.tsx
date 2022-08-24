@@ -196,9 +196,9 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               </h2>
               <PrismicHtmlBlock html={tombstone} />
             </TitleTombstone>
-            {/* // TODO rename CaptionTranscription */}
+
             <CaptionTranscription>
-              {isFirstStop && title.length > 0 && (
+              {isFirstStop && hasContext && title.length > 0 && (
                 <Space
                   h={{
                     size: 'm',
