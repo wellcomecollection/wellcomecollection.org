@@ -50,15 +50,13 @@ import {
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
 `;
-type StopProps = {
-  width: number;
-};
 
 const Stop = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-})<StopProps>`
+})`
   background: ${props => props.theme.color('cream')};
+  height: 100%;
 `;
 
 const TypeList = styled.ul.attrs({
@@ -157,11 +155,10 @@ type Props = {
 function getTypeTitle(type: GuideType): string {
   switch (type) {
     case 'bsl':
-      return 'BSL';
+      return 'Watch BSL videos';
     case 'audio-with-descriptions':
-      return 'Audio with descriptions';
     case 'audio-without-descriptions':
-      return 'Audio without descriptions';
+      return 'Listen to audio'; // We don't yet have any audio with descriptions so don't want to imply that we do
     case 'captions-and-transcripts':
       return 'Captions and transcripts';
   }
@@ -270,53 +267,46 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const stopWidth = type === 'bsl' ? 50 : 33;
-
   return (
     <GridFactory
       items={stops.map((stop, index) => {
         const {
-          title,
           number,
           audioWithDescription,
           audioWithoutDescription,
           bsl,
+          title,
         } = stop;
         const hasContentOfDesiredType =
           (type === 'audio-with-descriptions' && audioWithDescription?.url) ||
           (type === 'audio-without-descriptions' &&
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
-        return (
-          <Stop key={index} width={stopWidth}>
-            {hasContentOfDesiredType ? (
-              <>
-                {type === 'audio-with-descriptions' &&
-                  audioWithDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithDescription.url}
-                    />
-                  )}
-                {type === 'audio-without-descriptions' &&
-                  audioWithoutDescription?.url && (
-                    <AudioPlayer
-                      title={`${number}. ${stop.title}`}
-                      audioFile={audioWithoutDescription.url}
-                    />
-                  )}
-                {type === 'bsl' && bsl?.embedUrl && (
-                  <VideoEmbed embedUrl={bsl.embedUrl as string} />
-                )}
-              </>
-            ) : (
-              <>
-                <span className={font('intb', 5)}>
-                  {number}. {title}
-                </span>
-                <p>There is no content to display</p>
-              </>
+        return hasContentOfDesiredType ? (
+          <Stop key={index}>
+            {type === 'audio-with-descriptions' &&
+              audioWithDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithDescription.url}
+                />
+              )}
+            {type === 'audio-without-descriptions' &&
+              audioWithoutDescription?.url && (
+                <AudioPlayer
+                  title={`${number}. ${stop.title}`}
+                  audioFile={audioWithoutDescription.url}
+                />
+              )}
+            {type === 'bsl' && bsl?.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl as string} />
             )}
+          </Stop>
+        ) : (
+          <Stop key={index}>
+            <span className={font('intb', 5)}>
+              {number}. {title}
+            </span>
           </Stop>
         );
       })}
@@ -346,7 +336,7 @@ type ExhibitionLinksProps = {
   pathname: string;
 };
 
-function cookieHandler(key, data) {
+function cookieHandler(key: string, data: string) {
   // We set the cookie to expire in 8 hours (the maximum length of time the collection is open for in a day)
   const options = { maxAge: 8 * 60 * 60, path: '/' };
   setCookie(key, data, options);
@@ -430,7 +420,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type) {
+function getTypeColor(type?: GuideType) {
   switch (type) {
     case 'bsl':
       return 'newPaletteBlue';
@@ -457,6 +447,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
     type ? `/${type}` : ''
   }`;
   const typeColor = getTypeColor(type);
+  const numberedStops = exhibitionGuide.components.filter(c => c.number);
 
   return (
     <PageLayout
@@ -501,40 +492,35 @@ const ExhibitionGuidePage: FC<Props> = props => {
         <>
           <Header color={typeColor}>
             <Layout8 shift={false}>
-              <>
-                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
-                <h3 className="h1">{getTypeTitle(type)}</h3>
-                {exhibitionGuide.relatedExhibition && (
-                  <p>{exhibitionGuide.relatedExhibition.description}</p>
-                )}
-                <Space
-                  as="span"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  <ButtonSolidLink
-                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                    text="Change guide type"
-                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                    clickHandler={() => {
-                      deleteCookie('WC_userPreferenceGuideType');
-                    }}
-                  />
-                </Space>
+              <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+              <h3 className="h1">{getTypeTitle(type)}</h3>
+              {exhibitionGuide.relatedExhibition && (
+                <p>{exhibitionGuide.relatedExhibition.description}</p>
+              )}
+              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
                 <ButtonSolidLink
                   colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                  text="Change exhibition"
-                  link="/guides/exhibitions"
+                  text="Change guide type"
+                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                  clickHandler={() => {
+                    deleteCookie('WC_userPreferenceGuideType');
+                  }}
                 />
-              </>
+              </Space>
+              <ButtonSolidLink
+                colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+                text="Change exhibition"
+                link="/guides/exhibitions"
+              />
             </Layout8>
           </Header>
-          <Space h={{ size: 'l', properties: ['padding-left'] }}>
-            {userPreferenceSet ? (
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
+
+          <Space v={{ size: 'l', properties: ['margin-top'] }}>
+            <Layout10 isCentered={false}>
+              {userPreferenceSet ? (
                 <p>
-                  This exhibition has {exhibitionGuide.components.length} stops.
-                  This is a {type} guide, which you have used previously, but
-                  you can also select{' '}
+                  This exhibition has {numberedStops.length} stops. You selected
+                  this type of guide previously, but you can also select{' '}
                   <a
                     href={`/guides/exhibitions/${exhibitionGuide.id}`}
                     onClick={() => {
@@ -544,16 +530,13 @@ const ExhibitionGuidePage: FC<Props> = props => {
                     another type of guide.
                   </a>
                 </p>
-              </Space>
-            ) : (
-              <Space v={{ size: 'l', properties: ['margin-top'] }}>
-                <p>
-                  This exhibition has {exhibitionGuide.components.length} stops.
-                </p>
-              </Space>
-            )}
-            <ExhibitionStops type={type} stops={exhibitionGuide.components} />
+              ) : (
+                <p>This exhibition has {numberedStops.length} stops.</p>
+              )}
+            </Layout10>
           </Space>
+
+          <ExhibitionStops type={type} stops={numberedStops} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
