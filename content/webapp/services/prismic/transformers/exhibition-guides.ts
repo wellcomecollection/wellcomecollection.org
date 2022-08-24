@@ -58,8 +58,17 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
-  return (({ title, type, id, image, promo, relatedExhibition }) => ({
+  return (({
     title,
+    introText,
+    type,
+    id,
+    image,
+    promo,
+    relatedExhibition,
+  }) => ({
+    title,
+    introText,
     type,
     id,
     image,
@@ -127,7 +136,8 @@ export function transformExhibitionGuide(
       };
     }
   );
-
+  console.log(data);
+  const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
     (data['related-exhibition'].data.promo &&
       transformImagePromo(data['related-exhibition'].data.promo)) ||
@@ -141,6 +151,7 @@ export function transformExhibitionGuide(
 
   return {
     title: relatedExhibition?.title || '',
+    introText,
     type: 'exhibition-guides',
     promo,
     relatedExhibition,
