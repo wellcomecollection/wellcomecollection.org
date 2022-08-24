@@ -267,8 +267,12 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
+  const twoUp = { s: 12, m: 6, l: 5, shiftL: 1, xl: 4, shiftXl: 2 };
+  const threeUp = { s: 12, m: 6, l: 4, xl: 4 };
+  const gridSizes = type === 'bsl' ? twoUp : threeUp;
   return (
     <GridFactory
+      overrideGridSizes={gridSizes}
       items={stops.map((stop, index) => {
         const {
           number,

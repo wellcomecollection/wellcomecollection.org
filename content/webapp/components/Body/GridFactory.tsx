@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -18,7 +19,7 @@ export const sectionLevelPageGrid = {
   ],
 };
 
-const GridFactory = ({ items, overrideGridSizes }: Props) => {
+const GridFactory: FC<Props> = ({ items, overrideGridSizes }) => {
   const gridSizesMap = overrideGridSizes || {
     1: [{ s: 12, m: 12, l: 12, xl: 12 }],
     2: [
