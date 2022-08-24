@@ -12,6 +12,10 @@ const Type = styled(Space).attrs({
   text-decoration: none;
 `;
 
+const ExhibitionTitleLink = styled.a`
+  text-decoration: none;
+`;
+
 const TypeListItem = ({ url, text }) => {
   return (
     <Type>
@@ -47,7 +51,7 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
   ];
   return (
     <>
-      <a href={`/guides/exhibitions/${exhibitionGuide.id}`}>
+      <ExhibitionTitleLink href={`/guides/exhibitions/${exhibitionGuide.id}`}>
         <div className="relative">
           {exhibitionGuide.promo?.image && (
             <PrismicImage
@@ -79,9 +83,9 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
             [font('wb', 3)]: true,
           })}
         >
-            {exhibitionGuide.title}
+          {exhibitionGuide.title}
         </Space>
-      </a>
+      </ExhibitionTitleLink>
       <Space v={{ size: 's', properties: ['margin-top'] }}>
         <ul
           className={classNames({
