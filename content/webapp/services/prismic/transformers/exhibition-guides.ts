@@ -121,6 +121,8 @@ export function transformExhibitionGuide(
       return {
         number: component.number || '',
         title: (component.title && asText(component.title)) || [],
+        standaloneTitle:
+          (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
         image: component.image,
@@ -136,7 +138,7 @@ export function transformExhibitionGuide(
       };
     }
   );
-  console.log(data);
+
   const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
     (data['related-exhibition'].data.promo &&
