@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import styled from 'styled-components';
