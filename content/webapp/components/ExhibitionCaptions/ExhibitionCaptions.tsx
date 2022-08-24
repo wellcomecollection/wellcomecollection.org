@@ -8,6 +8,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
+import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { guideColours } from '../../pages/exhibition-guide';
 
@@ -144,18 +145,21 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
   return (
     <>
       {standaloneTitle.length > 0 && (
-        <div className="flex flex--wrap container">
-          <TitleTombstone />
-          {/* This empty TitleTomstone is needed for correct alignmennt of the standaloneTitle */}
-          <Space
-            h={{
-              size: 'm',
-              properties: ['margin-left'],
-              negative: true,
-            }}
-          >
-            <StandaloneTitle>{standaloneTitle}</StandaloneTitle>
-          </Space>
+        <div className="container">
+          <Divider color={`pumice`} isKeyline={true} />
+          <div className="flex flex--wrap">
+            <TitleTombstone />
+            {/* This empty TitleTomstone is needed for correct alignmennt of the standaloneTitle */}
+            <Space
+              h={{
+                size: 'm',
+                properties: ['margin-left'],
+                negative: true,
+              }}
+            >
+              <StandaloneTitle>{standaloneTitle}</StandaloneTitle>
+            </Space>
+          </div>
         </div>
       )}
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
