@@ -15,6 +15,7 @@ export type ExhibitionGuidePrismicDocument = PrismicDocument<{
   relatedExhibition: RelationField<'exhibitions'>;
   components: GroupField<{
     number: NumberField;
+    standaloneTitle: RichTextField;
     title: RichTextField;
     tombstone: RichTextField;
     image: Image;
