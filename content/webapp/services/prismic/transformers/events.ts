@@ -32,7 +32,10 @@ import {
   transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
-import { transformEventSeries } from './event-series';
+import {
+  transformEventSeries,
+  transformEventSeriesToEventSeriesBasic,
+} from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { LabelField } from '@weco/common/model/label-field';
@@ -44,7 +47,10 @@ import {
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
-import { transformContributors } from './contributors';
+import {
+  transformContributors,
+  transformContributorToContributorBasic,
+} from './contributors';
 import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
@@ -184,9 +190,9 @@ export function transformEvent(
     data.thirdPartyBookingUrl,
     data.thirdPartyBookingName
   );
-  const series = transformSingleLevelGroup(data.series, 'series').map(series =>
-    transformEventSeries(series as EventSeriesPrismicDocument)
-  );
+  const series = transformSingleLevelGroup(data.series, 'series')
+    .map(series => transformEventSeries(series as EventSeriesPrismicDocument))
+    .map(transformEventSeriesToEventSeriesBasic);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
@@ -394,7 +400,7 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-    contributors,
+    contributors: contributors.map(transformContributorToContributorBasic),
   }))(event);
 }
 

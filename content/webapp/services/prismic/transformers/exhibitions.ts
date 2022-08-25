@@ -29,7 +29,10 @@ import { transformSeason } from './seasons';
 import { transformPlace } from './places';
 import { Resource } from '../../../types/resource';
 import { SeasonPrismicDocument } from '../types/seasons';
-import { transformContributors } from './contributors';
+import {
+  transformContributors,
+  transformContributorToContributorBasic,
+} from './contributors';
 import * as prismicH from '@prismicio/helpers';
 
 // TODO: Use better types than Record<string, any>.
@@ -179,7 +182,7 @@ export function transformExhibitionToExhibitionBasic(
     end,
     isPermanent,
     statusOverride,
-    contributors,
+    contributors: contributors.map(transformContributorToContributorBasic),
     labels,
   }))(exhibition);
 }

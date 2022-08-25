@@ -24,9 +24,7 @@ export const transformArticleSeries = (
   // TODO: This function is quite confusing.  Refactor it and add
   // more helpful comments.
 
-  const articles = transformQuery(articleQuery, transformArticle).results.map(
-    transformArticleToArticleBasic
-  );
+  const articles = transformQuery(articleQuery, transformArticle).results;
 
   // This should never happen in practice -- an article series without
   // any articles should return a 404 before we call this function.
@@ -68,12 +66,12 @@ export const transformArticleSeries = (
                 } as ArticleBasic)
               : item;
           })
-        : articles,
+        : articles.map(transformArticleToArticleBasic),
   };
 
   return (
     series && {
-      articles,
+      articles: articles.map(transformArticleToArticleBasic),
       series: seriesWithItems,
     }
   );
