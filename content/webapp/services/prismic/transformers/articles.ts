@@ -18,7 +18,7 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { Label } from '@weco/common/model/labels';
 import { Series } from '../../../types/series';
 import { transformSeason } from './seasons';
-import { transformSeries } from './series';
+import { transformSeries, transformSeriesToSeriesBasic } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
@@ -62,7 +62,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     type,
     id,
     promo,
-    series,
+    series: series.map(transformSeriesToSeriesBasic),
     title,
     format,
     image,

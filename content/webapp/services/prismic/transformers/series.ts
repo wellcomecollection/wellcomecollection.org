@@ -1,4 +1,4 @@
-import { Series } from '../../../types/series';
+import { Series, SeriesBasic } from '../../../types/series';
 import { SeriesPrismicDocument } from '../types/series';
 import {
   asTitle,
@@ -52,4 +52,13 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
     seasons,
     contributors,
   };
+}
+
+export function transformSeriesToSeriesBasic(series: Series): SeriesBasic {
+  return (({ id, title, color, schedule }) => ({
+    id,
+    title,
+    color,
+    schedule,
+  }))(series);
 }
