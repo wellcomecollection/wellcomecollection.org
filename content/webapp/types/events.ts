@@ -1,4 +1,4 @@
-import { Contributor } from './contributors';
+import { Contributor, ContributorBasic } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
 import { LabelField } from '@weco/common/model/label-field';
@@ -86,7 +86,7 @@ export type EventBasic = HasTimes & {
   scheduleLength: number;
   series: EventSeriesBasic[];
   cost?: string;
-  contributors: Contributor[];
+  contributors: ContributorBasic[];
 };
 
 export type Event = GenericContentFields & {
