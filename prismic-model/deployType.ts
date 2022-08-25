@@ -6,7 +6,8 @@ import prompts from 'prompts';
 import { error, success } from './console';
 import { CustomType } from './src/types/CustomType';
 import { secrets } from './config';
-import { diffJson, printDelta, isEmpty } from './differ';
+import { removeUndefinedProps, printDelta } from './utils';
+import { diffString } from 'json-diff';
 
 const { id, argsConfirm } = yargs(process.argv.slice(2))
   .usage('Usage: $0 --id [customTypeId]')
@@ -38,14 +39,14 @@ async function run() {
 
   const localType = (await import(`./src/${id}`)).default;
 
-  const delta = diffJson(remoteType, localType);
+  const delta = diffString(remoteType, removeUndefinedProps(localType)); // we'll never get undefined props from Prismic, so we don't want them locally
 
-  if (isEmpty(delta)) {
+  if (delta.length === 0) {
     success(`Remote type matches local model; nothing to do.`);
     process.exit(0);
   }
 
-  printDelta(delta);
+  printDelta(localType.id, delta);
 
   const { confirm } = argsConfirm
     ? { confirm: true }

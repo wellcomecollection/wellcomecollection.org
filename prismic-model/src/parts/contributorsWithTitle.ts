@@ -4,6 +4,6 @@ import contributors from './contributors';
 export default function () {
   return {
     contributors,
-    contributorsTitle: heading('Contributors heading override'),
+    contributorsTitle: heading({ label: 'Contributors heading override' }),
   };
 }

@@ -1,31 +1,11 @@
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
-import UiImage from '@weco/common/views/components/Image/Image';
 import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { FunctionComponent, ReactElement } from 'react';
-
-const BookPromoImageContainer = styled.div.attrs({
-  className: classNames({
-    'bg-cream relative': true,
-  }),
-})`
-  height: 0;
-  padding-top: 100%;
-  transform: rotate(-2deg);
-`;
-
-const BookPromoImage = styled(Space).attrs({
-  className: classNames({
-    absolute: true,
-  }),
-})`
-  width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-`;
+import { FC } from 'react';
+import BookImage from '../../components/BookImage/BookImage';
 
 type LinkOrSpanSpaceAttrs = {
   url?: string;
@@ -41,7 +21,7 @@ type Props = {
   book: BookBasic;
 };
 
-const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
+const BookPromo: FC<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
     <LinkOrSpanSpace
@@ -63,24 +43,26 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
       }}
     >
       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-        <BookPromoImageContainer>
-          {cover?.contentUrl && (
-            <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
-              <UiImage
-                contentUrl={cover.contentUrl}
-                width={cover.width || 0}
-                height={cover.height || 0}
-                // We intentionally omit the alt text on promos, so screen reader
-                // users don't have to listen to the alt text before hearing the
-                // title of the item in the list.
-                //
-                // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-                alt=""
-                sizesQueries="(min-width: 1420px) 386px, (min-width: 960px) calc(28.64vw - 15px), (min-width: 600px) calc(50vw - 54px), calc(100vw - 36px)"
-              />
-            </BookPromoImage>
-          )}
-        </BookPromoImageContainer>
+        <BookImage
+          image={{
+            contentUrl: cover?.contentUrl || '',
+            width: cover?.width || 0,
+            height: cover?.height || 0,
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            alt: '',
+          }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 3,
+            small: 1,
+          }}
+          quality="low"
+        />
         <Space
           h={{
             size: 'l',
@@ -118,7 +100,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
               v={{ size: 's', properties: ['margin-top'] }}
               className={classNames({
                 'no-margin': true,
-                [font('hnb', 5)]: true,
+                [font('intb', 5)]: true,
               })}
             >
               {subtitle}
@@ -129,7 +111,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                   'no-margin': true,
                 })}
               >

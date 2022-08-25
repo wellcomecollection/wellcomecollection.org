@@ -28,6 +28,7 @@ export const pageDescriptions = {
     'Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more.',
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
+  exhibitionGuides: 'Exhibition Guides...',
 };
 
 export const defaultPageTitle =
@@ -46,11 +47,6 @@ export const a11y = {
   stepFreeAccess: 'Step-free access is available to all floors of the building',
   largePrintGuides:
     'Large-print guides, transcripts and magnifiers are available in the gallery',
-};
-
-export const errorMessages = {
-  404: 'This isn’t the page you’re looking for, but how about these?',
-  500: 'This isn’t the page you’re looking for, but how about these?',
 };
 
 export const wellcomeImagesRedirectBanner =
@@ -94,3 +90,13 @@ export const sierraAccessMethodtoNewLabel = {
 };
 
 export const inOurBuilding = 'In our building';
+
+// These are the instructions for people navigating the calendar component with a keyboard.
+export const calendarInstructions =
+  'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
+
+export const requestingDisabled =
+  'Requesting is unavailable until 09:00 on Monday 6 June';
+
+export const pastExhibitionsStrapline =
+  'Take a look at our past exhibitions and installations.';

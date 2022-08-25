@@ -22,7 +22,6 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [isActive, setIsActive] = useState(true);
   const [textToShow, setTextToShow] = useState(text);
-  const lowercaseTitle = title?.toLowerCase();
   const firstPartOfText = text?.slice(0, 2);
   useEffect(() => {
     setIsActive(false);
@@ -52,9 +51,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
                   setIsActive(!isActive);
                 }}
                 text={
-                  isActive
-                    ? `Hide ${lowercaseTitle}`
-                    : `Read full ${lowercaseTitle}`
+                  isActive ? `Hide full transcript` : `Read full transcript`
                 }
               />
             </ButtonContainer>

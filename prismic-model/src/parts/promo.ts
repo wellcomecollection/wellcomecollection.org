@@ -1,4 +1,5 @@
 import image from './image';
+import { singleLineText } from './structured-text';
 import text from './text';
 
 export default {
@@ -13,13 +14,10 @@ export default {
           label: 'Editorial image',
         },
         'non-repeat': {
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Promo text',
-              single: 'paragraph',
-            },
-          },
+          caption: singleLineText({
+            overrideTextOptions: ['paragraph'],
+            label: 'Promo text',
+          }),
           image: image('Promo image'),
           link: text('Link override'),
         },

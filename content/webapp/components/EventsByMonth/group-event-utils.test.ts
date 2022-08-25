@@ -3,6 +3,7 @@ import {
   findMonthsThatEventSpans,
   getMonthsInDateRange,
   groupEventsByMonth,
+  sortByEarliestFutureDateRange,
 } from './group-event-utils';
 
 describe('createLabel', () => {
@@ -115,5 +116,96 @@ describe('groupEventsByMonth', () => {
       '2101-02': [event1, event2],
       '2101-04': [event2],
     });
+  });
+});
+
+describe('sortByEarliestFutureDateRange', () => {
+  it('sorts a group of events correctly', () => {
+    // These examples are based on events from a bug report, where an event
+    // happening at the end of the month was appearing one happening at the
+    // start of the month, because the later event had only just been added
+    // to Prismic.
+    //
+    // See https://wellcome.slack.com/archives/C8X9YKM5X/p1651224877047299
+    const eventSlalom = {
+      title: 'Slalom',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2032-05-25T23:00:00.000Z'),
+            endDateTime: new Date('2032-05-27T23:00:00.000Z'),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const eventGardenersQT = {
+      title: 'Gardeners’ Question Time',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2032-05-09T17:00:00.000Z'),
+            endDateTime: new Date('2032-05-09T19:00:00.000Z'),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const eventMentalHealth = {
+      title: 'The Nature of Mental Health',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2032-05-12T18:00:00.000Z'),
+            endDateTime: new Date('2032-05-12T19:30:00.000Z'),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const eventWomb = {
+      title: 'Wandering Womb',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2032-05-14T10:00:00.000Z'),
+            endDateTime: new Date('2032-05-14T16:00:00.000Z'),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const eventTouch = {
+      title: 'Personal Touch',
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2032-05-07T09:00:00.000Z'),
+            endDateTime: new Date('2032-05-07T16:00:00.000Z'),
+          },
+          isFullyBooked: false,
+        },
+      ],
+    };
+
+    const result = sortByEarliestFutureDateRange([
+      eventSlalom,
+      eventGardenersQT,
+      eventMentalHealth,
+      eventWomb,
+      eventTouch,
+    ]);
+
+    expect(result).toEqual([
+      eventTouch,
+      eventGardenersQT,
+      eventMentalHealth,
+      eventWomb,
+      eventSlalom,
+    ]);
   });
 });

@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement } from 'react';
-import Image from '@weco/common/views/components/Image/Image';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import MediaObjectBase, {
   HasImageProps,
 } from '../MediaObjectBase/MediaObjectBase';
@@ -13,7 +13,6 @@ export type Props = {
   title: string;
   text?: prismicT.RichTextField;
   image: ImageType;
-  sizesQueries?: string;
 };
 
 type ImageWrapperProp = {
@@ -55,11 +54,27 @@ export const MediaObject: FunctionComponent<Props> = ({
   title,
   text,
   image,
-  sizesQueries,
 }: Props): ReactElement<Props> => {
   const squareImage = getCrop(image, 'square');
   const ImageComponent = squareImage && (
-    <Image {...squareImage} sizesQueries={sizesQueries} />
+    <PrismicImage
+      image={{
+        // We intentionally omit the alt text on promos, so screen reader
+        // users don't have to listen to the alt text before hearing the
+        // title of the item in the list.
+        //
+        // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+        ...squareImage,
+        alt: '',
+      }}
+      sizes={{
+        xlarge: 1 / 10,
+        large: 1 / 10,
+        medium: 1 / 10,
+        small: 1 / 10,
+      }}
+      quality="low"
+    />
   );
 
   const description = text && <PrismicHtmlBlock html={text} />;

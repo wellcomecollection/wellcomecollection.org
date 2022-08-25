@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import AudioPlayer from '../AudioPlayer/AudioPlayer';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import DownloadLink from '../DownloadLink/DownloadLink';
 import { IIIFExternalWebResource, ContentResource } from '@iiif/presentation-3';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -37,29 +37,20 @@ const AudioList: FC<Props> = ({
         })}
       >
         {items.map((item, index) => (
-          <Space
-            as="li"
-            key={item.sound.id}
-            v={{ size: 'l', properties: ['margin-bottom'] }}
-            aria-label={items.length > 1 ? (index + 1).toString() : undefined}
-          >
-            {item.title && <h3 className={font('hnb', 5)}>{item.title}</h3>}
-            <span
-              className={classNames({
-                'flex flex--v-center': true,
-              })}
-            >
-              {items.length > 1 && (
-                <Space
-                  aria-hidden="true"
-                  h={{ size: 's', properties: ['margin-right'] }}
-                >
-                  {index + 1}
-                </Space>
-              )}
-              <AudioPlayer audio={item.sound} />
-            </span>
-          </Space>
+          <>
+            {item.sound.id && (
+              <Space
+                as="li"
+                key={item.sound.id}
+                v={{ size: 'l', properties: ['margin-bottom'] }}
+              >
+                <AudioPlayer
+                  audioFile={item.sound.id}
+                  title={item.title || (items.length > 1 ? `${index + 1}` : '')}
+                />
+              </Space>
+            )}
+          </>
         ))}
       </ol>
       {isNotUndefined(transcript) && isNotUndefined(transcript.id) && (

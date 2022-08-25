@@ -26,7 +26,12 @@ const DesktopSignIn: FC = () => {
 
   return state === 'initial' || state === 'loading' ? (
     <span className="display-none headerMedium-display-block">
-      <BorderlessLink iconLeft={userIcon} text={null} href="/account" />
+      <BorderlessLink
+        iconLeft={userIcon}
+        text="Library account"
+        isTextHidden={true}
+        href="/account"
+      />
     </span>
   ) : (
     <>
@@ -38,7 +43,7 @@ const DesktopSignIn: FC = () => {
               text={
                 <span
                   className={classNames({
-                    [font('hnr', 6)]: true,
+                    [font('intr', 6)]: true,
                   })}
                 >
                   Library sign in
@@ -56,7 +61,7 @@ const DesktopSignIn: FC = () => {
           </span>
           <span
             className={`display-none headerMedium-display-block headerLarge-display-none ${font(
-              'hnr',
+              'intr',
               6
             )}`}
           >
@@ -79,7 +84,7 @@ const DesktopSignIn: FC = () => {
             label={
               <span
                 className={classNames({
-                  [font('hnr', 6)]: true,
+                  [font('intr', 6)]: true,
                 })}
               >
                 {user.firstName.charAt(0).toLocaleUpperCase()}
@@ -92,7 +97,7 @@ const DesktopSignIn: FC = () => {
           >
             <span
               className={classNames({
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
             >
               <AccountA

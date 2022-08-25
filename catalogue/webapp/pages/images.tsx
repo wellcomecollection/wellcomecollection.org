@@ -7,7 +7,7 @@ import { grid, classNames } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import { imagesRouteToApiUrl } from '@weco/common/services/catalogue/ts_api';
+import { imagesRouteToApiUrl } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
@@ -252,16 +252,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const aggregations = [
       'locations.license',
       'source.genres.label',
+      'source.subjects.label',
       'source.contributors.agent.label',
     ];
     const apiProps = imagesRouteToApiUrl(params, { aggregations });
-    const hasQuery = !!(params.query && params.query !== '');
-    const images = hasQuery
-      ? await getImages({
-          params: apiProps,
-          toggles: serverData.toggles,
-        })
-      : undefined;
+    const images = await getImages({
+      params: apiProps,
+      toggles: serverData.toggles,
+      pageSize: 25,
+    });
 
     if (images && images.type === 'Error') {
       return appError(context, images.httpStatus, 'Images API error');

@@ -9,42 +9,25 @@ import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { CaptionedImage as CaptionedImageProps } from '@weco/common/model/captioned-image';
 import { repeatingLsBlack } from '@weco/common/utils/backgrounds';
-import { breakpoints } from '@weco/common/utils/breakpoints';
 import { trackEvent } from '@weco/common/utils/ga';
-import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
 
-type TitleStyle = {
-  transform?: string;
-  maxWidth?: string;
-  opacity?: number;
-};
-
-const GalleryTitle = styled(Space).attrs<{
-  titleStyle: TitleStyle;
-  isEnhanced: boolean;
-}>(props => ({
+const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  style: props.titleStyle,
   className: classNames({
     'flex flex--v-top': true,
   }),
-}))<{ titleStyle: TitleStyle; isEnhanced: boolean }>`
-  ${props =>
-    props.isEnhanced &&
-    `
-    opacity: 0;
-  `}
-`;
+})``;
 
 const Gallery = styled.div.attrs({
   className: 'row relative',
@@ -60,6 +43,18 @@ const Gallery = styled.div.attrs({
   .tasl {
     display: none;
   }
+
+  img {
+    transition: filter 400ms ease;
+  }
+
+  ${props =>
+    !props.isActive &&
+    `
+      img:hover {
+        filter: brightness(80%);
+      }
+    `}
 
   ${props =>
     props.isActive &&
@@ -91,50 +86,7 @@ const Gallery = styled.div.attrs({
       `
       }
     }
-
-    .captioned-image__image-container {
-      background: ${props.theme.color('charcoal')};
-
-      &:before {
-        display: none;
-      }
-      &:hover:before {
-        opacity: 0;
-      }
-    }
   `}
-
-  .captioned-image__image-container {
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      opacity: 0;
-      background: ${props => props.theme.color('charcoal')};
-      transition: opacity 400ms ease;
-    }
-
-    &:hover:before {
-      opacity: 0.3;
-    }
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 100px;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    transition: all 400ms ease;
-
-    @include respond-to('medium') {
-      top: 200px;
-    }
-  }
 
   transition: all 400ms ease;
 
@@ -237,22 +189,16 @@ export type Props = {
   isStandalone: boolean;
 };
 
-const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
+const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   id,
   title,
   items,
   isStandalone,
 }) => {
   const [isActive, setIsActive] = useState(true);
-  const [titleStyle, setTitleStyle] = useState<TitleStyle>({
-    transform: undefined,
-    maxWidth: undefined,
-    opacity: undefined,
-  });
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const { isEnhanced } = useContext(AppContext);
   const pageBackground = useContext(PageBackgroundContext);
 
   useEffect(() => {
@@ -283,7 +229,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
       trackEvent({
         category: `Control`,
         action: 'close ImageGallery',
-        label: id,
+        label: id.toString(),
       });
     }
 
@@ -296,7 +242,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
     trackEvent({
       category: `${isButton ? 'Button' : 'CaptionedImage'}`,
       action: 'open ImageGallery',
-      label: id,
+      label: id.toString(),
     });
 
     setIsActive(true);
@@ -306,27 +252,19 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
     return isActive ? items : [items[0]];
   };
 
-  // We want the image gallery title to be aligned with the first image
-  // So we adjust the translateX and width accordingly
-  function updateTitleStyle(value: number) {
-    setTitleStyle({
-      transform: `translateX(calc((100vw - ${value}px) / 2))`,
-      maxWidth: `${value}px`,
-      opacity: 1,
-    });
-  }
-
   return (
     <>
       {!isStandalone && (
-        <GalleryTitle titleStyle={titleStyle} isEnhanced={isEnhanced}>
-          <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon icon={gallery} />
-          </Space>
-          <h2 id={`gallery-${id}`} className="h2 no-margin" ref={headingRef}>
-            {title || 'In pictures'}
-          </h2>
-        </GalleryTitle>
+        <Layout8>
+          <GalleryTitle>
+            <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+              <Icon icon={gallery} />
+            </Space>
+            <h2 id={`gallery-${id}`} className="h2 no-margin" ref={headingRef}>
+              {title || 'In pictures'}
+            </h2>
+          </GalleryTitle>
+        </Layout8>
       )}
       <Gallery
         isActive={isActive}
@@ -428,11 +366,6 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                 <CaptionedImage
                   image={captionedImage.image}
                   caption={captionedImage.caption}
-                  setTitleStyle={i === 0 ? updateTitleStyle : undefined}
-                  sizesQueries={`
-                          (min-width: ${breakpoints.xlarge}) calc(${breakpoints.xlarge} - 120px),
-                          calc(100vw - 84px)
-                        `}
                   preCaptionNode={
                     items.length > 1 ? (
                       <Space
@@ -441,7 +374,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                           properties: ['margin-bottom'],
                         }}
                         className={classNames({
-                          [font('hnb', 5)]: true,
+                          [font('intb', 5)]: true,
                         })}
                       >
                         {i + 1} of {items.length}
@@ -452,7 +385,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
               </Space>
             ))}
 
-            {titleStyle && (
+            {!isStandalone && (
               <ButtonContainer isHidden={isActive}>
                 <ButtonSolid
                   ref={openButtonRef}

@@ -1,9 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import {
-  UiImageProps,
-  UiImage,
-} from '@weco/common/views/components/Images/Images';
+import { ImageType } from '@weco/common/model/image';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import {
   ArticleBasic,
@@ -22,10 +19,16 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
 import linkResolver from '../../services/prismic/link-resolver';
+import { Page } from '../../types/pages';
+import { EventSeries } from '../../types/event-series';
+import { Book } from '../../types/books';
+import { Event } from '../../types/events';
+import { Guide } from '../../types/guides';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 type PartialFeaturedCard = {
   id: string;
-  image?: UiImageProps;
+  image?: ImageType;
   labels: Label[];
   link: Link;
 };
@@ -41,11 +44,14 @@ export function convertCardToFeaturedCardProps(
 ): PartialFeaturedCard {
   return {
     id: item.title || 'card',
+    // We intentionally omit the alt text on promos, so screen reader
+    // users don't have to listen to the alt text before hearing the
+    // title of the item in the list.
+    //
+    // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
     image: item.image && {
       ...item.image,
-      extraClasses: '',
-      sizesQueries: '',
-      showTasl: false,
+      alt: '',
     },
     labels: item.format ? [{ text: item.format.title }] : [],
     link: { url: item.link || '', text: item.title || '' },
@@ -53,25 +59,26 @@ export function convertCardToFeaturedCardProps(
 }
 
 export function convertItemToFeaturedCardProps(
-  item: ArticleBasic | ExhibitionBasic | Season
-) {
+  item:
+    | ArticleBasic
+    | ExhibitionBasic
+    | Season
+    | Page
+    | EventSeries
+    | Book
+    | Event
+    | Guide
+): PartialFeaturedCard {
   return {
     id: item.id,
     image: item.promo?.image && {
+      ...item.promo.image,
       // We intentionally omit the alt text on promos, so screen reader
       // users don't have to listen to the alt text before hearing the
       // title of the item in the list.
       //
       // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
       alt: '',
-      contentUrl: item.promo?.image.contentUrl,
-      width: item.promo?.image.width,
-      height: item.promo?.image.height || 9,
-      sizesQueries:
-        '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-      tasl: item.promo?.image.tasl,
-      showTasl: false,
-      crops: {},
     },
     labels: item.labels,
     link: {
@@ -111,7 +118,7 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {article.promo?.caption && (
           <p
             className={classNames({
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
           >
             {article.promo?.caption}
@@ -120,8 +127,8 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {article.series.length > 0 && (
           <Space v={{ size: 'l', properties: ['margin-top'] }}>
             {article.series.map(series => (
-              <p key={series.title} className={`${font('hnb', 6)} no-margin`}>
-                <span className={font('hnr', 6)}>Part of</span> {series.title}
+              <p key={series.title} className={`${font('intb', 6)} no-margin`}>
+                <span className={font('intr', 6)}>Part of</span> {series.title}
               </p>
             ))}
           </Space>
@@ -156,13 +163,13 @@ const FeaturedCardExhibitionBody = ({
         <Space
           as="p"
           v={{ size: 'm', properties: ['margin-bottom'] }}
-          className={`${font('hnr', 4)} no-margin no-padding`}
+          className={`${font('intr', 4)} no-margin no-padding`}
         >
           <>
             <time dateTime={exhibition.start.toUTCString()}>
               {formatDate(exhibition.start)}
             </time>
-            —
+            {' – '}
             <time dateTime={exhibition.end.toISOString()}>
               {formatDate(exhibition.end)}
             </time>
@@ -277,7 +284,20 @@ const FeaturedCard: FunctionComponent<Props> = ({
           });
         }}
       >
-        <FeaturedCardLeft>{image && <UiImage {...image} />}</FeaturedCardLeft>
+        <FeaturedCardLeft>
+          {image && (
+            <PrismicImage
+              image={image}
+              sizes={{
+                xlarge: 1 / 2,
+                large: 1 / 2,
+                medium: 1 / 2,
+                small: 1,
+              }}
+              quality="low"
+            />
+          )}
+        </FeaturedCardLeft>
         <div
           className={classNames({
             flex: true,
@@ -310,19 +330,16 @@ const FeaturedCard: FunctionComponent<Props> = ({
   );
 };
 
-export const FeaturedCardArticle = ({
-  article,
-  background,
-  color,
-}: FeaturedCardArticleProps) => {
-  const props = convertItemToFeaturedCardProps(article);
+export const FeaturedCardArticle: FunctionComponent<FeaturedCardArticleProps> =
+  ({ article, background, color }) => {
+    const props = convertItemToFeaturedCardProps(article);
 
-  return (
-    <FeaturedCard {...props} background={background} color={color}>
-      <FeaturedCardArticleBody article={article} />
-    </FeaturedCard>
-  );
-};
+    return (
+      <FeaturedCard {...props} background={background} color={color}>
+        <FeaturedCardArticleBody article={article} />
+      </FeaturedCard>
+    );
+  };
 
 export const FeaturedCardExhibition: FunctionComponent<FeaturedCardExhibitionProps> =
   ({ exhibition, background, color }) => {

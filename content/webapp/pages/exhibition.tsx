@@ -15,20 +15,27 @@ import {
   fixExhibitionDatesInJson,
   transformExhibition,
 } from '../services/prismic/transformers/exhibitions';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { exhibitionLd } from 'services/prismic/transformers/json-ld';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   exhibition: ExhibitionType;
+  jsonLd: JsonLdObj;
   pages: PageType[];
 } & WithGaDimensions;
 
-const ExhibitionPage: FC<Props> = ({ exhibition: jsonExhibition, pages }) => {
+const ExhibitionPage: FC<Props> = ({
+  exhibition: jsonExhibition,
+  pages,
+  jsonLd,
+}) => {
   const exhibition = fixExhibitionDatesInJson(jsonExhibition);
 
   if (exhibition.format && exhibition.format.title === 'Installation') {
-    return <Installation installation={exhibition} />;
+    return <Installation installation={exhibition} jsonLd={jsonLd} />;
   } else {
-    return <Exhibition exhibition={exhibition} pages={pages} />;
+    return <Exhibition exhibition={exhibition} jsonLd={jsonLd} pages={pages} />;
   }
 };
 
@@ -47,11 +54,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     if (exhibition) {
       const exhibitionDoc = transformExhibition(exhibition);
       const relatedPages = transformQuery(pages, transformPage);
+      const jsonLd = exhibitionLd(exhibitionDoc);
 
       return {
         props: removeUndefinedProps({
           exhibition: exhibitionDoc,
           pages: relatedPages?.results || [],
+          jsonLd,
           serverData,
           gaDimensions: {
             partOf: exhibitionDoc.seasons.map(season => season.id),

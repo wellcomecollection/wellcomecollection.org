@@ -13,10 +13,7 @@ import {
   route,
   handleAllRoute,
 } from '@weco/common/koa-middleware/withCachedValues';
-import {
-  homepageId,
-  prismicPageIds,
-} from '@weco/common/services/prismic/hardcoded-id';
+import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Periods } from './types/periods';
 import linkResolver from './services/prismic/link-resolver';
 import * as prismic from '@prismicio/client';
@@ -27,6 +24,8 @@ const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
 const handle = nextApp.getRequestHandler();
 
+const permanentRedirect = 301;
+
 function pageVanityUrl(
   router: Router,
   app,
@@ -34,6 +33,17 @@ function pageVanityUrl(
   pageId: string,
   template = '/page'
 ) {
+  // Redirect specific page IDs to their vanity URL.  In some cases, this also
+  // means redirecting them to a different template (e.g. the homepage needs
+  // to go to the homepage template, not the page template with ID=Xph...)
+  //
+  // Note: we have similar logic in a Lambda@Edge that's part of the CloudFront
+  // distribution, but we duplicate it here because this is the most up-to-date
+  // definition of vanity URLs.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/redirects.ts
+  router.redirect(`/pages/${pageId}`, url, permanentRedirect);
+
   route(url, template, router, app, { id: pageId });
 }
 
@@ -50,7 +60,24 @@ const appPromise = nextApp
     await initServerData();
 
     const koaApp = new Koa();
-    const router = new Router();
+    const router = new Router({
+      // We have to enable case-sensitive routing to deal with a bizarre
+      // choice of identifier from Prismic.  We have two pages with almost
+      // identical IDs:
+      //
+      //    Schools
+      //    https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/Wuw2MSIAACtd3StS/
+      //
+      //    RawMinds
+      //    https://wellcomecollection.prismic.io/documents~b=working&c=published&l=en-gb/Wuw2MSIAACtd3Sts/
+      //
+      // They differ only in that final 's/S', and for added complication we
+      // redirect the /pages/<school ID> because it's a vanity URL.
+      //
+      // With case-insensitive routing, we were redirecting /pages/<RawMinds ID>
+      // to /schools, which is wrong.
+      sensitive: true,
+    });
 
     koaApp.use(apmErrorMiddleware);
     koaApp.use(withCachedValues);
@@ -74,7 +101,6 @@ const appPromise = nextApp
     route(`/events/:id(${prismicId})`, '/event', router, nextApp);
     route(`/event-series/:id(${prismicId})`, '/event-series', router, nextApp);
 
-    route('/stories', '/stories', router, nextApp);
     route('/articles', '/articles', router, nextApp);
     route(`/articles/:id(${prismicId})`, '/article', router, nextApp);
     route(`/series/:id(${prismicId})`, '/article-series', router, nextApp);
@@ -84,16 +110,18 @@ const appPromise = nextApp
     route(`/books/:id(${prismicId})`, '/book', router, nextApp);
 
     route(`/places/:id(${prismicId})`, '/place', router, nextApp);
-    route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
     route(`/seasons/:id(${prismicId})`, '/season', router, nextApp);
 
     route('/newsletter', '/newsletter', router, nextApp);
 
-    route('/collections', '/page', router, nextApp, {
-      id: prismicPageIds.collections,
-    });
-
     route('/guides', '/guides', router, nextApp);
+    route('/guides/exhibitions', '/exhibition-guides', router, nextApp);
+    route(
+      `/guides/exhibitions/:id(${prismicId})/:type?`,
+      '/exhibition-guide',
+      router,
+      nextApp
+    ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
     pageVanityUrl(
@@ -114,16 +142,35 @@ const appPromise = nextApp
       '/covid-welcome-back',
       prismicPageIds.covidWelcomeBack
     );
-    pageVanityUrl(
-      router,
-      nextApp,
-      '/visit-us',
-      prismicPageIds.visitUs,
-      '/page'
-    );
     pageVanityUrl(router, nextApp, '/about-us', prismicPageIds.aboutUs);
     pageVanityUrl(router, nextApp, '/get-involved', prismicPageIds.getInvolved);
     pageVanityUrl(router, nextApp, '/user-panel', prismicPageIds.userPanel);
+
+    router.redirect(
+      `/pages/${prismicPageIds.stories}`,
+      '/stories',
+      permanentRedirect
+    );
+    route('/stories', '/stories', router, nextApp);
+
+    router.redirect(
+      `/pages/${prismicPageIds.collections}`,
+      '/collections',
+      permanentRedirect
+    );
+    route('/collections', '/collections', router, nextApp);
+
+    router.redirect(
+      `/pages/${prismicPageIds.visitUs}`,
+      '/visit-us',
+      permanentRedirect
+    );
+    route('/visit-us', '/visit-us', router, nextApp);
+
+    // We define this _after_ the vanity URLs and redirects for specific page IDs;
+    // this means this route will only serve pages that we want to be accessible by
+    // ID and not a vanity URL.
+    route(`/pages/:id(${prismicId})`, '/page', router, nextApp);
 
     router.post('/newsletter-signup', handleNewsletterSignup);
 

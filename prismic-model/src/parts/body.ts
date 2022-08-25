@@ -1,4 +1,4 @@
-import structuredText from './structured-text';
+import { multiLineText, singleLineText } from './structured-text';
 import captionedImageSlice from './captioned-image-slice';
 import captionedImageGallerySlice from './captioned-image-gallery-slice';
 import gifVideoSlice from './gif-video-slice';
@@ -63,11 +63,10 @@ export default {
     choices: {
       text: slice('Text', {
         nonRepeat: {
-          text: structuredText('Text', 'multi', [
-            'heading2',
-            'heading3',
-            'list-item',
-          ]),
+          text: multiLineText({
+            label: 'Text',
+            extraTextOptions: ['heading2', 'heading3', 'list-item'],
+          }),
         },
       }),
       // These should probably be called captionedImage etc, but legacy says no
@@ -77,20 +76,20 @@ export default {
       iframe: iframeSlice(),
       quote: slice('Quote', {
         nonRepeat: {
-          text: structuredText('Quote'),
-          citation: structuredText('Citation', 'single'),
+          text: multiLineText({ label: 'Quote' }),
+          citation: singleLineText({ label: 'Citation' }),
         },
       }),
       standfirst: slice('Standfirst', {
         nonRepeat: {
-          text: structuredText('Standfirst', 'single'),
+          text: singleLineText({ label: 'Standfirst' }),
         },
       }),
       table: table(),
       embed: slice('Embed', {
         nonRepeat: {
           embed: embed('Embed (Youtube, Vimeo etc)'),
-          caption: structuredText('Caption', 'single'),
+          caption: singleLineText({ label: 'Caption' }),
         },
       }),
       map: slice('Map', {
@@ -117,13 +116,13 @@ export default {
       }),
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading('Title', 2),
-          text: structuredText('Text'),
+          title: heading({ label: 'Title', level: 2 }),
+          text: multiLineText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
           link: link('Link', 'web'),
@@ -132,16 +131,22 @@ export default {
       }),
       infoBlock: slice('Info block', {
         nonRepeat: {
-          title: heading('Title', 2),
-          text: structuredText('Text', 'multi', ['heading3', 'list-item']),
+          title: heading({ label: 'Title', level: 2 }),
+          text: multiLineText({
+            label: 'Text',
+            extraTextOptions: ['heading3', 'list-item'],
+          }),
           link: link('Button link', 'web'),
           linkText: text('Button text'),
         },
       }),
       titledTextList: slice('Titled text list', {
         repeat: {
-          title: heading('Title', 3),
-          text: structuredText('Text', 'multi', ['heading4', 'list-item']),
+          title: heading({ label: 'Title', level: 3 }),
+          text: multiLineText({
+            label: 'Text',
+            extraTextOptions: ['heading4', 'list-item'],
+          }),
           link: link('Link'),
           label: link('tag', 'document', ['labels']),
         },
@@ -174,6 +179,12 @@ export default {
       mediaObjectList: slice('Media Object List', {
         repeat: {
           ...mediaObject,
+        },
+      }),
+      audioPlayer: slice('Audio Player', {
+        nonRepeat: {
+          title,
+          audio: link('Audio', 'media', []),
         },
       }),
     },

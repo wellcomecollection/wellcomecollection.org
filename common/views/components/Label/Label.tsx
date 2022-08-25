@@ -3,7 +3,6 @@ import { Label as LabelType, LabelColor } from '../../../model/labels';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
-import AlignFont from '../styled/AlignFont';
 
 type LabelContainerProps = {
   fontColor: string;
@@ -13,7 +12,7 @@ type LabelContainerProps = {
 const LabelContainer = styled(Space).attrs({
   className: classNames({
     'nowrap line-height-1': true,
-    [font('hnb', 6)]: true,
+    [font('intb', 6)]: true,
   }),
 })<LabelContainerProps>`
   color: ${props => props.theme.color(props.fontColor)};
@@ -40,14 +39,12 @@ const Label: FunctionComponent<Props> = ({
   return (
     <LabelContainer
       v={{
-        size: 's',
+        size: 'xs',
         properties: ['padding-top', 'padding-bottom'],
-        overrides: { large: 2 },
       }}
       h={{
-        size: 's',
+        size: 'xs',
         properties: ['padding-left', 'padding-right'],
-        overrides: { large: 2 },
       }}
       fontColor={
         label.textColor ||
@@ -57,7 +54,7 @@ const Label: FunctionComponent<Props> = ({
       }
       labelColor={label.labelColor || defaultLabelColor}
     >
-      <AlignFont>{label.text}</AlignFont>
+      {label.text}
     </LabelContainer>
   );
 };

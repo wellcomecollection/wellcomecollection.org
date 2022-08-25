@@ -1,10 +1,11 @@
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import { dasherize } from '@weco/common/utils/grammar';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import * as prismicT from '@prismicio/types';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -35,7 +36,11 @@ const InfoBlock: FunctionComponent<Props> = ({
       </div>
       {link && linkText && (
         <Space v={{ size: 'l', properties: ['margin-top'] }}>
-          <ButtonOutlinedLink link={link} text={linkText} />
+          <ButtonSolidLink
+            colors={themeValues.buttonColors.greenTransparentGreen}
+            link={link}
+            text={linkText}
+          />
         </Space>
       )}
     </Wrapper>

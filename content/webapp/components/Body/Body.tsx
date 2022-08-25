@@ -5,14 +5,14 @@ import React, {
   FunctionComponent,
   Fragment,
 } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '../HTMLSerializers/HTMLSerializers';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
-import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import Space from '@weco/common/views/components/styled/Space';
@@ -21,6 +21,7 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import FeaturedText from '../FeaturedText/FeaturedText';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import GifVideo from '../GifVideo/GifVideo';
+import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import Contact from '@weco/common/views/components/Contact/Contact';
 import Iframe from '@weco/common/views/components/Iframe/Iframe';
 import DeprecatedImageList from '../DeprecatedImageList/DeprecatedImageList';
@@ -41,9 +42,7 @@ import WobblyEdge from '@weco/common/views/components/WobblyEdge/WobblyEdge';
 import GridFactory, { sectionLevelPageGrid } from './GridFactory';
 import Card from '../Card/Card';
 import { convertItemToCardProps } from '../../types/card';
-import { BodyType } from '../../types/generic-content-fields';
-import VisitUsStaticContent from './VisitUsStaticContent';
-import CollectionsStaticContent from './CollectionsStaticContent';
+import { BodySlice, isContentList } from '../../types/body';
 import AsyncSearchResults from '../SearchResults/AsyncSearchResults';
 import SearchResults from '../SearchResults/SearchResults';
 import VenueHours from '../VenueHours/VenueHours';
@@ -52,6 +51,8 @@ import FeaturedCard, {
   convertCardToFeaturedCardProps,
 } from '../FeaturedCard/FeaturedCard';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import { isNotUndefined } from '@weco/common/utils/array';
+import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -77,7 +78,7 @@ const LayoutWidth: FunctionComponent<LayoutWidthProps> = ({
 };
 
 type Props = {
-  body: BodyType;
+  body: BodySlice[];
   onThisPage?: Link[];
   showOnThisPage?: boolean;
   isDropCapped?: boolean;
@@ -85,7 +86,10 @@ type Props = {
   minWidth?: 10 | 8;
   isLanding?: boolean;
   sectionLevelPage?: boolean;
+  staticContent?: ReactElement | null;
 };
+
+type ContentListSlice = BodySlice & { type: 'contentList' };
 
 const Body: FunctionComponent<Props> = ({
   body,
@@ -96,6 +100,7 @@ const Body: FunctionComponent<Props> = ({
   minWidth = 8,
   isLanding = false,
   sectionLevelPage = false,
+  staticContent = null,
 }: Props) => {
   const filteredBody = body
     .filter(slice => !(slice.type === 'picture' && slice.weight === 'featured'))
@@ -108,7 +113,7 @@ const Body: FunctionComponent<Props> = ({
     .indexOf('text');
   let imageGalleryIdCount = 1;
 
-  const sections = body.filter(slice => slice.type === 'contentList');
+  const sections: ContentListSlice[] = body.filter(isContentList);
   const sectionThemes = [
     {
       rowBackground: 'white',
@@ -139,18 +144,17 @@ const Body: FunctionComponent<Props> = ({
     index,
     sections = [],
     isLanding = false,
+    staticContent,
   }: {
     index: number;
-    sections: BodyType;
+    sections: ContentListSlice[];
     isLanding: boolean;
+    staticContent: ReactElement | null;
   }): ReactElement<Props> | null => {
     if (index === 0) {
       return (
         <>
-          {pageId === prismicPageIds.visitUs && <VisitUsStaticContent />}
-          {pageId === prismicPageIds.collections && (
-            <CollectionsStaticContent />
-          )}
+          {staticContent}
           {onThisPage && onThisPage.length > 2 && showOnThisPage && (
             <SpacingComponent>
               <LayoutWidth width={minWidth}>
@@ -163,9 +167,7 @@ const Body: FunctionComponent<Props> = ({
               const isFirst = index === 0;
               const isLast = index === sections.length - 1;
               const sectionTheme = sectionThemes[index % sectionThemes.length];
-              const hasFeatured =
-                Boolean(section.value.hasFeatured) ||
-                section.value.items.length === 1;
+              const hasFeatured = section.value.items.length === 1;
               const firstItem = section.value.items?.[0];
               const isCardType = firstItem?.type === 'card';
 
@@ -188,12 +190,10 @@ const Body: FunctionComponent<Props> = ({
                   >
                     <h2 className="font-wb font-size-2">{firstItem.title}</h2>
                     {isCardType && firstItem.description && (
-                      <p className="font-hnr font-size-5">
-                        {firstItem.description}
-                      </p>
+                      <p className={font('intr', 5)}>{firstItem.description}</p>
                     )}
-                    {firstItem.promo && (
-                      <p className="font-hnr font-size-5">
+                    {'promo' in firstItem && firstItem.promo && (
+                      <p className={font('intr', 5)}>
                         {firstItem.promo.caption}
                       </p>
                     )}
@@ -220,6 +220,8 @@ const Body: FunctionComponent<Props> = ({
                       properties:
                         isLast && sectionTheme.rowBackground === 'white'
                           ? ['padding-top']
+                          : isFirst && sectionTheme.rowBackground === 'white'
+                          ? ['padding-bottom']
                           : ['padding-top', 'padding-bottom'],
                     }}
                     className={classNames({
@@ -269,6 +271,7 @@ const Body: FunctionComponent<Props> = ({
           index={0}
           sections={sections}
           isLanding={isLanding}
+          staticContent={staticContent}
         />
       )}
 
@@ -292,218 +295,217 @@ const Body: FunctionComponent<Props> = ({
               </div>
             </Layout8>
           )}
-
           <AdditionalContent
             index={i}
             sections={sections}
             isLanding={isLanding}
+            staticContent={staticContent}
           />
-          {!(
-            i === 0 &&
-            slice.type === 'text' &&
-            slice.weight === 'featured'
-          ) && (
-            <SpacingComponent>
-              <div>
-                {slice.type === 'text' && (
-                  <LayoutWidth width={minWidth}>
-                    <div className="body-text spaced-text">
-                      {slice.weight !== 'featured' &&
-                        (firstTextSliceIndex === i && isDropCapped ? (
-                          <>
-                            {/*
+          {!(i === 0 && slice.type === 'text' && slice.weight === 'featured') &&
+            !isLanding && (
+              <SpacingComponent>
+                <div>
+                  {slice.type === 'text' && (
+                    <LayoutWidth width={minWidth}>
+                      <div className="body-text spaced-text">
+                        {slice.weight !== 'featured' &&
+                          (firstTextSliceIndex === i && isDropCapped ? (
+                            <>
+                              {/*
                               The featured text slice can contain multiple paragraphs,
                               e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
 
                               The drop cap serializer will see them as two separate paragraphs,
                               so we have to split out the first paragraph here.
                             */}
+                              <PrismicHtmlBlock
+                                html={[slice.value[0]] as any}
+                                htmlSerializer={dropCapSerializer}
+                              />
+                              <PrismicHtmlBlock
+                                html={slice.value.slice(1) as any}
+                                htmlSerializer={defaultSerializer}
+                              />
+                            </>
+                          ) : (
                             <PrismicHtmlBlock
-                              html={[slice.value[0]]}
-                              htmlSerializer={dropCapSerializer}
-                            />
-                            <PrismicHtmlBlock
-                              html={slice.value.slice(1)}
+                              html={slice.value}
                               htmlSerializer={defaultSerializer}
                             />
-                          </>
-                        ) : (
-                          <PrismicHtmlBlock
-                            html={slice.value}
-                            htmlSerializer={defaultSerializer}
-                          />
-                        ))}
-                    </div>
-                  </LayoutWidth>
-                )}
+                          ))}
+                      </div>
+                    </LayoutWidth>
+                  )}
 
-                {/* TODO: use one layout for all image weights if/when it's established
+                  {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
-                {slice.type === 'picture' && slice.weight === 'default' && (
-                  <Layout10>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
-                  </Layout10>
-                )}
-                {slice.type === 'picture' && slice.weight === 'standalone' && (
-                  <Layout12>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
-                  </Layout12>
-                )}
-                {slice.type === 'picture' && slice.weight === 'supporting' && (
-                  <LayoutWidth width={minWidth}>
-                    <CaptionedImage {...slice.value} sizesQueries={''} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'imageGallery' && (
-                  <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
-                )}
-                {slice.type === 'quote' && (
-                  <LayoutWidth width={minWidth}>
-                    <Quote {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'titledTextList' && (
-                  <LayoutWidth width={minWidth}>
-                    <TitledTextList {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'contentList' && !isLanding && (
-                  <LayoutWidth width={minWidth}>
-                    {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
-                    {pageId === prismicPageIds.whatWeDo ? (
-                      <SearchResults
+                  {slice.type === 'picture' && slice.weight === 'default' && (
+                    <Layout10>
+                      <CaptionedImage {...slice.value} />
+                    </Layout10>
+                  )}
+                  {slice.type === 'picture' && slice.weight === 'standalone' && (
+                    <Layout12>
+                      <CaptionedImage {...slice.value} />
+                    </Layout12>
+                  )}
+                  {slice.type === 'picture' && slice.weight === 'supporting' && (
+                    <LayoutWidth width={minWidth}>
+                      <CaptionedImage {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'imageGallery' && (
+                    <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
+                  )}
+                  {slice.type === 'quote' && (
+                    <LayoutWidth width={minWidth}>
+                      <Quote {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'titledTextList' && (
+                    <LayoutWidth width={minWidth}>
+                      <TitledTextList {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'contentList' && (
+                    <LayoutWidth width={minWidth}>
+                      {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
+                      {pageId === prismicPageIds.whatWeDo ? (
+                        <SearchResults
+                          title={slice.value.title}
+                          items={slice.value.items}
+                        />
+                      ) : (
+                        <AsyncSearchResults
+                          title={slice.value.title}
+                          query={slice.value.items
+                            .map(item =>
+                              'id' in item ? `id:${item.id}` : undefined
+                            )
+                            .filter(isNotUndefined)
+                            .join(' ')}
+                        />
+                      )}
+                    </LayoutWidth>
+                  )}
+                  {/* TODO: remove this slice type if we're not using it? */}
+                  {slice.type === 'searchResults' && (
+                    <LayoutWidth width={minWidth}>
+                      <AsyncSearchResults {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'videoEmbed' && (
+                    <LayoutWidth width={minWidth}>
+                      <VideoEmbed {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'soundcloudEmbed' && (
+                    <LayoutWidth width={minWidth}>
+                      <SoundCloudEmbed {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'map' && (
+                    <LayoutWidth width={minWidth}>
+                      <Map {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'gifVideo' && (
+                    <Layout10>
+                      <GifVideo {...slice.value} />
+                    </Layout10>
+                  )}
+                  {slice.type === 'iframe' && (
+                    <Layout10>
+                      <Iframe {...slice.value} />
+                    </Layout10>
+                  )}
+                  {slice.type === 'contact' && (
+                    <LayoutWidth width={minWidth}>
+                      <Contact {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'collectionVenue' && (
+                    <>
+                      {slice.value.showClosingTimes && (
+                        <LayoutWidth width={minWidth}>
+                          <VenueClosedPeriods venue={slice.value.content} />
+                        </LayoutWidth>
+                      )}
+                      {!slice.value.showClosingTimes && (
+                        <>
+                          <Layout
+                            gridSizes={
+                              slice.weight === 'featured'
+                                ? {
+                                    s: 12,
+                                    m: 12,
+                                    l: 11,
+                                    shiftL: 1,
+                                    xl: 10,
+                                    shiftXL: 2,
+                                  }
+                                : {
+                                    s: 12,
+                                    m: 10,
+                                    shiftM: 1,
+                                    l: 8,
+                                    shiftL: 2,
+                                    xl: 8,
+                                    shiftXL: 2,
+                                  }
+                            }
+                          >
+                            <VenueHours
+                              venue={slice.value.content}
+                              weight={slice.weight || 'default'}
+                            />
+                          </Layout>
+                        </>
+                      )}
+                    </>
+                  )}
+                  {slice.type === 'table' && (
+                    <LayoutWidth width={minWidth}>
+                      <Table {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'infoBlock' && (
+                    <LayoutWidth width={minWidth}>
+                      <InfoBlock {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'discussion' && (
+                    <WobblyEdgedContainer>
+                      <Discussion
                         title={slice.value.title}
-                        items={slice.value.items}
+                        text={slice.value.text}
                       />
-                    ) : (
-                      <AsyncSearchResults
-                        title={slice.value.title}
-                        query={slice.value.items
-                          .map(({ id }) => `id:${id}`)
-                          .join(' ')}
-                      />
-                    )}
-                  </LayoutWidth>
-                )}
-                {/* TODO: remove this slice type if we're not using it? */}
-                {slice.type === 'searchResults' && (
-                  <LayoutWidth width={minWidth}>
-                    <AsyncSearchResults {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'videoEmbed' && (
-                  <LayoutWidth width={minWidth}>
-                    <VideoEmbed {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'soundcloudEmbed' && (
-                  <LayoutWidth width={minWidth}>
-                    <iframe
-                      width="100%"
-                      height="140"
-                      frameBorder="no"
-                      title="soundcloud player"
-                      src={slice.value.embedUrl}
-                    />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'map' && (
-                  <LayoutWidth width={minWidth}>
-                    <Map {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'gifVideo' && (
-                  <Layout10>
-                    <GifVideo {...slice.value} />
-                  </Layout10>
-                )}
-                {slice.type === 'iframe' && (
-                  <Layout10>
-                    <Iframe {...slice.value} />
-                  </Layout10>
-                )}
-                {slice.type === 'contact' && (
-                  <LayoutWidth width={minWidth}>
-                    <Contact {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'collectionVenue' && (
-                  <>
-                    {slice.value.showClosingTimes && (
-                      <LayoutWidth width={minWidth}>
-                        <VenueClosedPeriods venue={slice.value.content} />
-                      </LayoutWidth>
-                    )}
-                    {!slice.value.showClosingTimes && (
-                      <>
-                        <Layout
-                          gridSizes={
-                            slice.weight === 'featured'
-                              ? {
-                                  s: 12,
-                                  m: 12,
-                                  l: 11,
-                                  shiftL: 1,
-                                  xl: 10,
-                                  shiftXL: 2,
-                                }
-                              : {
-                                  s: 12,
-                                  m: 10,
-                                  shiftM: 1,
-                                  l: 8,
-                                  shiftL: 2,
-                                  xl: 8,
-                                  shiftXL: 2,
-                                }
-                          }
-                        >
-                          <VenueHours
-                            venue={slice.value.content}
-                            weight={slice.weight || 'default'}
-                          />
-                        </Layout>
-                      </>
-                    )}
-                  </>
-                )}
-                {slice.type === 'table' && (
-                  <LayoutWidth width={minWidth}>
-                    <Table {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'infoBlock' && (
-                  <LayoutWidth width={minWidth}>
-                    <InfoBlock {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'discussion' && (
-                  <WobblyEdgedContainer>
-                    <Discussion
-                      title={slice.value.title}
-                      text={slice.value.text}
-                    />
-                  </WobblyEdgedContainer>
-                )}
-                {slice.type === 'tagList' && (
-                  <LayoutWidth width={minWidth}>
-                    <TagsGroup {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {/* deprecated */}
-                {slice.type === 'deprecatedImageList' && (
-                  <LayoutWidth width={minWidth}>
-                    <DeprecatedImageList {...slice.value} />
-                  </LayoutWidth>
-                )}
-                {slice.type === 'mediaObjectList' && (
-                  <LayoutWidth width={minWidth}>
-                    <MediaObjectList {...slice.value} />
-                  </LayoutWidth>
-                )}
-              </div>
-            </SpacingComponent>
-          )}
+                    </WobblyEdgedContainer>
+                  )}
+                  {slice.type === 'tagList' && (
+                    <LayoutWidth width={minWidth}>
+                      <TagsGroup {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {/* deprecated */}
+                  {slice.type === 'deprecatedImageList' && (
+                    <LayoutWidth width={minWidth}>
+                      <DeprecatedImageList {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'mediaObjectList' && (
+                    <LayoutWidth width={minWidth}>
+                      <MediaObjectList {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                  {slice.type === 'audioPlayer' && (
+                    <LayoutWidth width={minWidth}>
+                      <AudioPlayer {...slice.value} />
+                    </LayoutWidth>
+                  )}
+                </div>
+              </SpacingComponent>
+            )}
         </Fragment>
       ))}
     </div>

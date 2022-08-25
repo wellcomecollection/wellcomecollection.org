@@ -1,11 +1,11 @@
 import CompactCard from '../CompactCard/CompactCard';
 import { FunctionComponent } from 'react';
-import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
 import { isNotUndefined } from '@weco/common/utils/array';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import linkResolver from '../../services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
@@ -78,6 +78,7 @@ const ArticleCard: FunctionComponent<Props> = ({
               medium: 1 / 2,
               small: 1,
             }}
+            quality="low"
           />
         )) ||
         undefined

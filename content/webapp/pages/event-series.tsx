@@ -14,7 +14,7 @@ import Body from '../components/Body/Body';
 import ContentPage from '../components/ContentPage/ContentPage';
 import SearchResults from '../components/SearchResults/SearchResults';
 import { eventLd } from '../services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { createClient } from '../services/prismic/fetch';
 import * as prismic from '@prismicio/client';
@@ -28,6 +28,7 @@ import {
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { getUpcomingEvents } from '../utils/event-series';
 
 type Props = {
   series: EventSeries;
@@ -35,29 +36,6 @@ type Props = {
   pastEvents: EventBasic[];
   upcomingEvents: EventBasic[];
 };
-
-function getUpcomingEvents(events: EventBasic[]): EventBasic[] {
-  return events
-    .filter(event => {
-      const lastStartTime =
-        event.times.length > 0
-          ? event.times[event.times.length - 1].range.startDateTime
-          : null;
-      const inTheFuture = lastStartTime
-        ? new Date(lastStartTime) > new Date()
-        : false;
-      return inTheFuture;
-    })
-    .sort((a, b) => {
-      const aStartTime = Math.min(
-        ...a.times.map(aTime => aTime.range.startDateTime.valueOf())
-      );
-      const bStartTime = Math.min(
-        ...b.times.map(bTime => bTime.range.startDateTime.valueOf())
-      );
-      return aStartTime - bStartTime;
-    });
-}
 
 function getPastEvents(
   events: EventBasic[],

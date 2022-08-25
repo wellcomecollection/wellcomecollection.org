@@ -4,7 +4,7 @@ import { Venue } from '../../../model/opening-hours';
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import { FunctionComponent, ReactElement } from 'react';
 
 type Props = {
@@ -15,7 +15,7 @@ const OpeningTimes: FunctionComponent<Props> = ({
   venues,
 }: Props): ReactElement<Props> => {
   return (
-    <ul className="plain-list no-padding no-margin">
+    <ul className="plain-list no-padding no-margin" data-chromatic="ignore">
       {venues.map(venue => {
         const todaysHours = getTodaysVenueHours(venue);
         return (
@@ -36,7 +36,7 @@ const OpeningTimes: FunctionComponent<Props> = ({
               ) : (
                 <>
                   <time>{todaysHours.opens}</time>
-                  {'—'}
+                  {' – '}
                   <time>{todaysHours.closes}</time>
                 </>
               )}

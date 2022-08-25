@@ -86,8 +86,18 @@ export const ChangePassword: React.FC<ChangeDetailsModalContentProps> = ({
         });
         break;
       }
+      case UpdatePasswordError.REPEATED_CHARACTERS: {
+        setError('newPassword', {
+          type: 'manual',
+          message:
+            "Repeating characters, such as aaaa, ababab, abcabc, won't be accepted as a password.",
+        });
+        break;
+      }
       case UpdatePasswordError.UNKNOWN: {
-        setSubmissionErrorMessage('An unknown error occurred');
+        setSubmissionErrorMessage(
+          'There is an issue with this library account password. To resolve this, please contact Library Enquiries (library@wellcomecollection.org).'
+        );
         break;
       }
     }

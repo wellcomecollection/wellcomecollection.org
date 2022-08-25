@@ -45,7 +45,7 @@ const emptyWorksProps: WorksProps = {
   'contributors.agent.label': [],
   sort: undefined,
   sortOrder: undefined,
-  partOf: undefined,
+  'partOf.title': undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
 };
@@ -62,7 +62,7 @@ const codecMap = {
   'contributors.agent.label': quotedCsvCodec,
   sort: maybeStringCodec,
   sortOrder: maybeStringCodec,
-  partOf: maybeStringCodec,
+  'partOf.title': maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
 };

@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import CustomError from '../src/frontend/components/CustomError';
 import { Container, Wrapper } from '../src/frontend/components/Layout.style';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
@@ -9,6 +9,7 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
   return (
@@ -18,7 +19,9 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
           <Container>
             <Wrapper>
               <CustomError errorDescription={errorDescription}>
-                <OutlinedButton>
+                <SolidButton
+                  colors={themeValues.buttonColors.greenTransparentGreen}
+                >
                   <a
                     href="mailto:library@wellcomecollection.org"
                     target="_blank"
@@ -26,7 +29,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
                   >
                     Contact us
                   </a>
-                </OutlinedButton>
+                </SolidButton>
               </CustomError>
             </Wrapper>
           </Container>

@@ -4,6 +4,8 @@ resource "aws_cloudfront_distribution" "wc_org" {
   is_ipv6_enabled  = true
   aliases          = var.aliases
 
+  web_acl_id = aws_wafv2_web_acl.wc_org.arn
+
   // The primary load balancer for wc.org apps
   origin {
     domain_name = var.load_balancer_dns
@@ -129,6 +131,28 @@ resource "aws_cloudfront_distribution" "wc_org" {
     }
   }
 
+  # Concepts
+  ordered_cache_behavior {
+    path_pattern     = "/concepts*"
+    target_origin_id = local.alb_origin_id
+
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id            = var.cache_policies["weco-apps"]
+    origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
+    response_headers_policy_id = var.response_policies["weco-security"]
+
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+  }
+
   # This is for the data fetching routes used in NextJs's getServerSideProps
   # see: https://nextjs.org/docs/basic-features/data-fetching#getserversideprops-server-side-rendering
   ordered_cache_behavior {
@@ -167,6 +191,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cached_methods         = local.stateless_methods
     viewer_protocol_policy = "redirect-to-https"
 
+    dynamic "lambda_function_association" {
+      for_each = local.lambda_associations
+      content {
+        event_type = lambda_function_association.value.event_type
+        lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+
     cache_policy_id            = var.cache_policies["short-lived-toggles-only"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
@@ -186,6 +218,22 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
   ordered_cache_behavior {
     path_pattern     = "/robots.txt"
+    target_origin_id = local.assets_origin_id
+
+    allowed_methods        = local.stateless_methods
+    cached_methods         = local.stateless_methods
+    viewer_protocol_policy = "redirect-to-https"
+
+    cache_policy_id            = var.cache_policies["static-content"]
+    response_headers_policy_id = var.response_policies["weco-security"]
+  }
+
+  # This is used to verify that we own the domain in
+  # the Google Search Console.
+  #
+  # See https://wellcome.slack.com/archives/C3TQSF63C/p1655464291878209
+  ordered_cache_behavior {
+    path_pattern     = "/googlea25c86e91ccc343b.html"
     target_origin_id = local.assets_origin_id
 
     allowed_methods        = local.stateless_methods

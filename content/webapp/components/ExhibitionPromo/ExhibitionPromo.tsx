@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { FC } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
@@ -6,7 +6,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import linkResolver from '../../services/prismic/link-resolver';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -16,8 +16,8 @@ type Props = {
   position?: number;
 };
 
-const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
-  const { start, end, statusOverride, isPermanent } = exhibition;
+const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
+  const { start, end, statusOverride, isPermanent, hideStatus } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;
 
@@ -47,13 +47,14 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ""}}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
               medium: 1 / 2,
               small: 1,
             }}
+            quality="low"
           />
         ) : undefined}
 
@@ -81,20 +82,22 @@ const ExhibitionPromo = ({ exhibition, position = 0 }: Props) => {
             <Space
               as="p"
               v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={`${font('hnr', 5)} no-padding`}
+              className={`${font('intr', 5)} no-padding`}
             >
-              <Fragment>
-                <time dateTime={formatDate(start)}>{formatDate(start)}</time>—
+              <>
+                <time dateTime={formatDate(start)}>{formatDate(start)}</time> –{' '}
                 <time dateTime={formatDate(end)}>{formatDate(end)}</time>
-              </Fragment>
+              </>
             </Space>
           )}
 
-          <StatusIndicator
-            start={start}
-            end={end ?? new Date()}
-            statusOverride={statusOverride}
-          />
+          {!hideStatus && (
+            <StatusIndicator
+              start={start}
+              end={end ?? new Date()}
+              statusOverride={statusOverride}
+            />
+          )}
         </div>
       </CardBody>
     </CardOuter>

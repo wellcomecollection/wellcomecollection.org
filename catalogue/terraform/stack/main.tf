@@ -16,6 +16,9 @@ module "catalogue-service-17092020" {
     var.service_egress_security_group_id
   ]
 
+  cpu    = 512
+  memory = 1024
+
   env_vars = {
     PROD_SUBDOMAIN  = var.subdomain
     APM_ENVIRONMENT = var.env_suffix
@@ -94,6 +97,17 @@ module "images_search_rule" {
 
   priority      = "203"
   path_patterns = ["/images*"]
+}
+
+module "concepts_search_rule" {
+  source = "../../../infrastructure/modules/alb_listener_rule"
+
+  alb_listener_https_arn = var.alb_listener_https_arn
+  alb_listener_http_arn  = var.alb_listener_http_arn
+  target_group_arn       = local.target_group_arn
+
+  priority      = "204"
+  path_patterns = ["/concepts*"]
 }
 
 # We do this as our server side props for next.js are served over

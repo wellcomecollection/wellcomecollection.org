@@ -2,8 +2,9 @@ import body, { slice } from './body';
 import heading from './heading';
 import link from './link';
 import text from './text';
-import structuredText from './structured-text';
+import { multiLineText, singleLineText } from './structured-text';
 import gifVideoSlice from './gif-video-slice';
+import title from './title';
 
 export default {
   fieldset: 'Body content',
@@ -90,14 +91,19 @@ export default {
         type: 'Slice',
         fieldset: 'Text',
         'non-repeat': {
-          text: {
-            type: 'StructuredText',
-            config: {
-              label: 'Text',
-              multi:
-                'heading2,heading3,paragraph,strong,em,hyperlink,list-item,embed',
-            },
-          },
+          text: multiLineText({
+            label: 'Text',
+            overrideTextOptions: [
+              'heading2',
+              'heading3',
+              'paragraph',
+              'strong',
+              'em',
+              'hyperlink',
+              'list-item',
+              'embed',
+            ],
+          }),
         },
       },
       editorialImage: body.config.choices.editorialImage,
@@ -126,13 +132,10 @@ export default {
         type: 'Slice',
         fieldset: 'Standfirst',
         'non-repeat': {
-          text: {
-            type: 'StructuredText',
-            config: {
-              single: 'strong,em,hyperlink',
-              label: 'Standfirst',
-            },
-          },
+          text: singleLineText({
+            label: 'Standfirst',
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
         },
       },
       quoteV2: body.config.choices.quote,
@@ -144,14 +147,11 @@ export default {
             type: 'Embed',
             fieldset: 'Embed',
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'hyperlink,em',
-              placeholder: 'Caption',
-            },
-          },
+          caption: singleLineText({
+            label: 'Caption',
+            placeholder: 'Caption',
+            overrideTextOptions: ['hyperlink', 'em'],
+          }),
         },
       },
       soundcloudEmbed: {
@@ -204,25 +204,22 @@ export default {
             type: 'Embed',
             fieldset: 'YouTube embed',
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'hyperlink,em',
-              placeholder: 'Caption',
-            },
-          },
+          caption: singleLineText({
+            label: 'Caption',
+            placeholder: 'Caption',
+            overrideTextOptions: ['hyperlink', 'em'],
+          }),
         },
       },
       discussion: slice('Discussion', {
         nonRepeat: {
-          title: heading('Title', 2),
-          text: structuredText('Text'),
+          title: heading({ label: 'Title', level: 2 }),
+          text: multiLineText({ label: 'Text' }),
         },
       }),
       tagList: slice('Tag List', {
         nonRepeat: {
-          title: heading('Title', 2),
+          title: heading({ label: 'Title', level: 2 }),
         },
         repeat: {
           link: link('Link', 'web'),
@@ -241,51 +238,42 @@ export default {
               label: 'List style',
             },
           },
-          description: {
-            type: 'StructuredText',
-            config: {
-              multi: 'paragraph,hyperlink,em',
-              label: 'Description',
-            },
-          },
+          description: multiLineText({
+            label: 'Description',
+            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
+          }),
         },
         repeat: {
-          title: {
-            type: 'StructuredText',
-            config: {
-              label: 'Title',
-              single: 'heading1',
-            },
-          },
-          subtitle: {
-            type: 'StructuredText',
-            config: {
-              single: 'heading2',
-              label: 'Subtitle',
-            },
-          },
+          title: singleLineText({
+            label: 'Title',
+            overrideTextOptions: ['heading1'],
+          }),
+          subtitle: singleLineText({
+            label: 'Subtitle',
+            overrideTextOptions: ['heading2'],
+          }),
           image: {
             type: 'Image',
             config: {
               label: 'Image',
             },
           },
-          caption: {
-            type: 'StructuredText',
-            config: {
-              label: 'Caption',
-              single: 'strong,em,hyperlink',
-            },
-          },
-          description: {
-            type: 'StructuredText',
-            config: {
-              label: 'Description',
-              multi: 'paragraph,hyperlink,em',
-            },
-          },
+          caption: singleLineText({
+            label: 'Caption',
+            overrideTextOptions: ['strong', 'em', 'hyperlink'],
+          }),
+          description: multiLineText({
+            label: 'Description',
+            overrideTextOptions: ['paragraph', 'hyperlink', 'em'],
+          }),
         },
       },
+      audioPlayer: slice('Audio Player', {
+        nonRepeat: {
+          title,
+          audio: link('Audio', 'media', []),
+        },
+      }),
     },
   },
 };

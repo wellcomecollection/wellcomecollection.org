@@ -5,6 +5,7 @@ type Props = {
   title?: string;
   inlineHeading?: boolean;
   noSpacing?: boolean;
+  allowRawHtml: boolean;
   text: string[];
 };
 
@@ -12,6 +13,7 @@ const WorkDetailsText: FunctionComponent<Props> = ({
   title,
   inlineHeading = false,
   noSpacing = false,
+  allowRawHtml,
   text,
 }: Props) => {
   return (
@@ -22,7 +24,11 @@ const WorkDetailsText: FunctionComponent<Props> = ({
     >
       <div className="spaced-text">
         {text.map((para, i) => {
-          return <div key={i} dangerouslySetInnerHTML={{ __html: para }} />;
+          return allowRawHtml ? (
+            <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
+          ) : (
+            <div key={i}>{para}</div>
+          );
         })}
       </div>
     </WorkDetailsProperty>

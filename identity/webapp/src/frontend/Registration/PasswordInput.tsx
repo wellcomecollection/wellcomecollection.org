@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import WellcomeTextInput from '@weco/common/views/components/TextInput/TextInput';
-import { OutlinedButton } from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import { SolidButton } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { a11YVisual, eye } from '@weco/common/icons';
 
@@ -14,7 +14,10 @@ const PasswordInputContainer = styled.div`
   }
 `;
 
-const VisibilityButton = styled(OutlinedButton).attrs({ type: 'button' })`
+const VisibilityButton = styled(SolidButton).attrs(props => ({
+  colors: props.theme.buttonColors.greenTransparentGreen,
+  type: 'button',
+}))`
   height: 55px;
 `;
 

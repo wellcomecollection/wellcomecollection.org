@@ -6,7 +6,7 @@ import EventSchedule from '../components/EventSchedule/EventSchedule';
 import Dot from '@weco/common/views/components/Dot/Dot';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import EventbriteButton from '../components/EventbriteButton/EventbriteButton';
+import EventbriteButtons from '../components/EventbriteButtons/EventbriteButtons';
 import Message from '@weco/common/views/components/Message/Message';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import InfoBox from '../components/InfoBox/InfoBox';
@@ -18,7 +18,8 @@ import EventDateRange from '../components/EventDateRange/EventDateRange';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../utils/page-header';
-import { Event, Interpretation, isEventFullyBooked } from '../types/events';
+import { Event, Interpretation } from '../types/events';
+import { upcomingDatesFullyBooked } from '../services/prismic/events';
 import EventDatesLink from '../components/EventDatesLink/EventDatesLink';
 import Space from '@weco/common/views/components/styled/Space';
 import { LabelField } from '@weco/common/model/label-field';
@@ -52,11 +53,12 @@ import {
   transformEvent,
 } from '../services/prismic/transformers/events';
 import { createClient } from '../services/prismic/fetch';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isDayPast, isPast } from '@weco/common/utils/dates';
 
 import * as prismicT from '@prismicio/types';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 const TimeWrapper = styled(Space).attrs({
   v: {
@@ -76,6 +78,7 @@ const DateWrapper = styled.div.attrs({
 
 type Props = {
   jsonEvent: Event;
+  jsonLd: JsonLdObj[];
 } & WithGaDimensions;
 
 // TODO: Probably use the StatusIndicator?
@@ -86,7 +89,7 @@ type EventStatusProps = {
 function EventStatus({ text, color }: EventStatusProps) {
   return (
     <div className="flex">
-      <div className={`${font('hnb', 5)} flex flex--v-center`}>
+      <div className={`${font('intb', 5)} flex flex--v-center`}>
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
@@ -159,7 +162,7 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
+const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
@@ -243,6 +246,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       relaxedPerformanceLabel
     ),
   };
+
   const Header = (
     <PageHeader
       asyncBreadcrumbsRoute={`/events/${event.id}/scheduled-in`}
@@ -273,13 +277,12 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             </Space>
           </Space>
           {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
-          {!event.isPast &&
-            isEventFullyBooked(event) &&
+          {upcomingDatesFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'red' })}
         </>
       }
       HeroPicture={undefined}
-      isFree={!event.cost}
+      isFree={!event.cost} // TODO or no online cost
       isContentTypeInfoBeforeMedia={true}
     />
   );
@@ -289,7 +292,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
       title={event.title}
       description={event.metadataDescription || event.promo?.caption || ''}
       url={{ pathname: `/events/${event.id}` }}
-      jsonLd={eventLd(event)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={event.image}
@@ -302,12 +305,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
         // We hide contributors as we render them higher up the page on events
         hideContributors={true}
       >
-        {event.contributors.length > 0 && (
-          <Contributors
-            contributors={event.contributors}
-            titlePrefix="About your"
-          />
-        )}
         <DateWrapper>
           <h2 id="dates">Dates</h2>
           {DateList(event)}
@@ -330,18 +327,12 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               />
             </>
           )}
-
         {!event.isPast && !showTicketSalesStart(event.ticketSalesStart) && (
           <>
-            {event.eventbriteId && (
-              <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-                <EventbriteButton event={event} />
-              </Space>
-            )}
-
+            <EventbriteButtons event={event} />
             {event.thirdPartyBooking && (
               <>
-                {event.isCompletelySoldOut ? (
+                {event.isCompletelySoldOut ? ( // TODO online sold out / versus normal sold out
                   <>
                     <ButtonSolid disabled={true} text="Fully booked" />
                   </>
@@ -361,7 +352,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
                           className={`no-margin font-charcoal ${font(
-                            'hnr',
+                            'intr',
                             5
                           )}`}
                         >
@@ -373,7 +364,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                 )}
               </>
             )}
-
             {event.bookingEnquiryTeam && (
               <>
                 {event.isCompletelySoldOut ? (
@@ -408,7 +398,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                     as="a"
                     className={classNames({
                       'block font-charcoal': true,
-                      [font('hnb', 5)]: true,
+                      [font('intb', 5)]: true,
                     })}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
@@ -416,7 +406,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
                 </NextLink>
               </>
             )}
-
             {!event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
@@ -435,7 +424,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               )}
           </>
         )}
-
         <InfoBox
           title="Need to know"
           items={
@@ -473,7 +461,7 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
               .filter(Boolean) as LabelField[]
           }
         >
-          <p className={`no-margin ${font('hnr', 5)}`}>
+          <p className={`no-margin ${font('intr', 5)}`}>
             <a
               href={`https://wellcomecollection.org/pages/${prismicPageIds.bookingAndAttendingOurEvents}`}
             >
@@ -481,7 +469,16 @@ const EventPage: NextPage<Props> = ({ jsonEvent }: Props) => {
             </a>
           </p>
         </InfoBox>
-
+        {/* We deliberately position the contributors below the schedule, so a
+        reader can see all the events in a festival/multi-part event before they
+        see the contributors. This was agreed in April 2022 with the content
+        team. */}
+        {event.contributors.length > 0 && (
+          <Contributors
+            contributors={event.contributors}
+            titlePrefix="About your"
+          />
+        )}
         {event.audiences.map(audience => {
           if (audience.description) {
             return (
@@ -519,12 +516,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
 
   const event = transformEvent(eventDocument, scheduleQuery);
 
+  const jsonLd = eventLd(event);
+
   // This is a bit of nonsense as the event type has loads `undefined` values
   // which we could pick out explicitly, or do this.
   // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
   return {
     props: removeUndefinedProps({
       jsonEvent: JSON.parse(JSON.stringify(event)),
+      jsonLd,
       serverData,
       gaDimensions: {
         partOf: event.seasons

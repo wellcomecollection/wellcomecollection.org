@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, ReactElement } from 'react';
+import React, { Fragment, FC, ReactNode } from 'react';
 import { font, classNames } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '@weco/common/views/components/Icon/Icon';
@@ -13,13 +13,13 @@ type InfoBoxItem = LabelField & {
 type Props = {
   title: string;
   items: InfoBoxItem[];
-  children: ReactElement<'p'>;
+  children: ReactNode;
 };
 
-const InfoBox: FunctionComponent<Props> = (props: Props) => {
+const InfoBox: FC<Props> = ({ title, items, children }) => {
   return (
-    <Fragment>
-      <h2 className="h2">{props.title}</h2>
+    <>
+      <h2 className="h2">{title}</h2>
       <Space
         v={{
           size: 'l',
@@ -30,9 +30,9 @@ const InfoBox: FunctionComponent<Props> = (props: Props) => {
           'bg-yellow': true,
         })}
       >
-        {props.items.map(({ title, description, icon }, i) => (
+        {items.map(({ title, description, icon }, i) => (
           <Fragment key={i}>
-            <div className={font('hnb', 4)}>
+            <div className={font('intb', 4)}>
               {icon && (title || description) && (
                 <Space
                   h={{ size: 's', properties: ['margin-right'] }}
@@ -42,7 +42,7 @@ const InfoBox: FunctionComponent<Props> = (props: Props) => {
                 </Space>
               )}
               {title && (
-                <h3 className={classNames([font('hnb', 5)])}>{title}</h3>
+                <h3 className={classNames([font('intb', 5)])}>{title}</h3>
               )}
               {description && (
                 <Space
@@ -51,7 +51,7 @@ const InfoBox: FunctionComponent<Props> = (props: Props) => {
                     properties: ['margin-bottom'],
                   }}
                   className={classNames({
-                    [font('hnr', 5)]: true,
+                    [font('intr', 5)]: true,
                   })}
                 >
                   <PrismicHtmlBlock html={description} />
@@ -60,9 +60,9 @@ const InfoBox: FunctionComponent<Props> = (props: Props) => {
             </div>
           </Fragment>
         ))}
-        {props.children}
+        {children}
       </Space>
-    </Fragment>
+    </>
   );
 };
 

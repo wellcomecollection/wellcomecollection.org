@@ -6,7 +6,7 @@ basic.args = {
   title: 'Listen or subscribe on',
   tags: [
     {
-      textParts: ['Soundcloud'],
+      textParts: ['SoundCloud'],
       linkAttributes: {
         href: { pathname: '/', query: '' },
         as: { pathname: '/', query: '' },

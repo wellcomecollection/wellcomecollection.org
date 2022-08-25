@@ -3,26 +3,18 @@ import {
   useEffect,
   useRef,
   useContext,
-  createContext,
   FunctionComponent,
   RefObject,
-  createRef,
   MutableRefObject,
 } from 'react';
-import useFocusTrap from '../../../hooks/useFocusTrap';
 import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
-import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { CSSTransition } from 'react-transition-group';
 import { cross } from '@weco/common/icons';
-export const ModalContext = createContext<{
-  updateLastFocusableRef: (arg0: HTMLElement | null) => void | null | undefined;
-}>({
-  updateLastFocusableRef: () => null,
-});
+import FocusTrap from 'focus-trap-react';
 
 type CloseButtonProps = {
   hideFocus: boolean;
@@ -38,9 +30,10 @@ type Props = {
   setIsActive: (value: boolean) => void;
   width?: string | null;
   id: string;
-  openButtonRef: MutableRefObject<HTMLElement | null>;
+  openButtonRef?: MutableRefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
-  overrideDefaultModalStyle?: boolean;
+  showOverlay?: boolean;
+  modalStyle?: 'filters' | 'calendar' | 'default';
 };
 const Overlay = styled.div`
   z-index: 1000;
@@ -159,9 +152,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   }
 `;
 
-const ModalWindowPaddingNoOverflow = styled(
-  BaseModalWindow
-).attrs<BaseModalProps>({
+const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
     'shadow bg-white': true,
@@ -172,6 +163,28 @@ const ModalWindowPaddingNoOverflow = styled(
   padding-right: 0px;
 `;
 
+const CalendarModal = styled(BaseModalWindow)`
+  padding: 0;
+  right: 0;
+  @media (min-width: ${props => props.theme.sizes.medium}px) {
+    width: 300px;
+  }
+  @media (min-width: ${props => props.theme.sizes.large}px) {
+    left: auto;
+  }
+`;
+
+function determineModal(modalStyle: Props['modalStyle']) {
+  switch (modalStyle) {
+    case 'filters':
+      return FiltersModal;
+    case 'calendar':
+      return CalendarModal;
+    default:
+      return BaseModalWindow;
+  }
+}
+
 const Modal: FunctionComponent<Props> = ({
   children,
   isActive,
@@ -180,43 +193,27 @@ const Modal: FunctionComponent<Props> = ({
   id,
   openButtonRef,
   removeCloseButton = false,
-  overrideDefaultModalStyle,
+  showOverlay = true,
+  modalStyle = 'default',
 }: Props) => {
   const closeButtonRef: RefObject<HTMLInputElement> = useRef(null);
-  const lastFocusableRef = useRef<HTMLInputElement | null>(null);
-  const modalRef: RefObject<HTMLInputElement> = createRef();
   const { isKeyboard } = useContext(AppContext);
-  const ModalWindow = overrideDefaultModalStyle
-    ? ModalWindowPaddingNoOverflow
-    : BaseModalWindow;
-
-  function updateLastFocusableRef(newRef: HTMLInputElement) {
-    lastFocusableRef.current = newRef;
-  }
-
-  function closeModal() {
-    setIsActive(false);
-    openButtonRef && openButtonRef.current && openButtonRef.current.focus();
-  }
-
-  useEffect(() => {
-    const focusables: HTMLInputElement[] | null = modalRef &&
-      modalRef.current && [
-        ...getFocusableElements<HTMLInputElement>(modalRef.current),
-      ];
-    lastFocusableRef.current = focusables && focusables[focusables.length - 1];
-  }, [modalRef.current]);
+  const ModalWindow = determineModal(modalStyle);
+  const initialLoad = useRef(true);
 
   useEffect(() => {
     if (isActive) {
       closeButtonRef?.current?.focus();
+    } else if (!initialLoad.current) {
+      openButtonRef && openButtonRef.current && openButtonRef.current.focus();
     }
+    initialLoad.current = false;
   }, [isActive]);
 
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === 'Escape' && isActive) {
-        closeModal();
+        setIsActive(false);
       }
     }
     if (!removeCloseButton) {
@@ -240,38 +237,38 @@ const Modal: FunctionComponent<Props> = ({
     };
   }, [isActive]);
 
-  useFocusTrap(closeButtonRef, lastFocusableRef!);
-
   return (
-    <>
-      {isActive && (
-        <Overlay
-          onClick={() => {
-            if (!removeCloseButton) {
-              closeModal();
-            }
-          }}
-        />
-      )}
-      <CSSTransition in={isActive} classNames="fade" timeout={350}>
-        <ModalWindow ref={modalRef} width={width} id={id} hidden={!isActive}>
-          {!removeCloseButton && (
-            <CloseButton
-              data-test-id="close-modal-buttons"
-              ref={closeButtonRef}
-              onClick={closeModal}
-              hideFocus={!isKeyboard}
-            >
-              <span className="visually-hidden">Close modal window</span>
-              <Icon icon={cross} color={'currentColor'} />
-            </CloseButton>
-          )}
-          <ModalContext.Provider value={{ updateLastFocusableRef }}>
+    <FocusTrap active={isActive}>
+      <div>
+        {isActive && showOverlay && (
+          <Overlay
+            onClick={() => {
+              if (!removeCloseButton) {
+                setIsActive(false);
+              }
+            }}
+          />
+        )}
+        <CSSTransition in={isActive} classNames="fade" timeout={350}>
+          <ModalWindow width={width} id={id} hidden={!isActive}>
+            {!removeCloseButton && (
+              <CloseButton
+                data-testid="close-modal-button"
+                ref={closeButtonRef}
+                onClick={() => {
+                  setIsActive(false);
+                }}
+                hideFocus={!isKeyboard}
+              >
+                <span className="visually-hidden">Close modal window</span>
+                <Icon icon={cross} color={'currentColor'} />
+              </CloseButton>
+            )}
             {children}
-          </ModalContext.Provider>
-        </ModalWindow>
-      </CSSTransition>
-    </>
+          </ModalWindow>
+        </CSSTransition>
+      </div>
+    </FocusTrap>
   );
 };
 

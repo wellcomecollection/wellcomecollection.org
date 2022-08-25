@@ -6,18 +6,18 @@ import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import ItemRequestModal from '../../components/ItemRequestModal/ItemRequestModal';
 import userEvent from '@testing-library/user-event';
-import { london } from '@weco/common/utils/format-date';
 import { getItemsWithPhysicalLocation } from '../../utils/works';
-import * as dates from '@weco/catalogue/utils/dates';
 import * as Context from '@weco/common/server-data/Context';
-
-jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
-  enablePickUpDate: true,
-}));
+import * as DateUtils from '../../utils/dates';
+import { london } from '@weco/common/utils/format-date';
 
 jest
   .spyOn(Context, 'usePrismicData')
   .mockImplementation(() => prismicData as any);
+
+jest
+  .spyOn(DateUtils, 'determineNextAvailableDate')
+  .mockImplementation(() => london('2022-05-21'));
 
 const renderComponent = () => {
   const RequestModal = () => {
@@ -45,54 +45,12 @@ const renderComponent = () => {
 };
 
 describe('ItemRequestModal', () => {
-  // Needs additional tests when calendar introduced
-  it("lets a user select an available date (based on business rules on what dates for collection should be available)/lets a user see what date they've selected", () => {
+  it('allows an available date to selected (based on business rules about what dates for collection should be available) and displays the entered date', () => {
     renderComponent();
-    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
-    userEvent.type(input, '22/01/2020');
-    expect(input.value).toBe('22/01/2020');
-  });
-
-  // Needs additional tests when calendar is introduced
-  it('lets users see what dates are available / unavailable to select', () => {
-    const spy = jest
-      .spyOn(dates, 'determineNextAvailableDate')
-      .mockImplementation(() => london('2020-12-21'));
-    renderComponent();
-    expect(
-      screen.getByText(
-        'You can choose a date between Monday 21 December and Tuesday 05 January. Please bear in mind the library is closed on Sundays and will also be closed on Thursday 24 December, Friday 25 December and Sunday 27 December.'
-      )
-    );
-    spy.mockRestore();
-  });
-
-  it('only shows users closed dates that occur within the selectable period', () => {
-    const spy = jest
-      .spyOn(dates, 'determineNextAvailableDate')
-      .mockImplementation(() => london('2020-12-26'));
-    renderComponent();
-    expect(
-      screen.getByText(
-        'You can choose a date between Saturday 26 December and Friday 08 January. Please bear in mind the library is closed on Sundays and will also be closed on Sunday 27 December.'
-      )
-    );
-    spy.mockRestore();
-  });
-
-  it('advises a user that a date they have selected is unavailable and prompts them to re-select', () => {
-    renderComponent();
-    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
-    userEvent.type(input, '25/12/2020');
-    expect(screen.getByText('Your chosen date is not available to book'));
-  });
-
-  it("advises a user that the date they've entered is in the wrong format", () => {
-    renderComponent();
-    const input = screen.getByLabelText(/^Select a date$/i) as HTMLInputElement;
-    userEvent.type(input, '2/122020');
-    expect(
-      screen.getByText('Please enter a date in the correct format (DD/MM/YYYY)')
-    );
+    const select = screen.getByLabelText(
+      /^Select a date$/i
+    ) as HTMLSelectElement;
+    userEvent.selectOptions(select, '23-05-2022');
+    expect(select.value).toBe('23-05-2022');
   });
 });

@@ -16,16 +16,10 @@ const toggles = {
   // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
   toggles: [
     {
-      id: 'enableRequesting',
-      title: 'Enables login and requesting functionality',
+      id: 'disableRequesting',
+      title: 'Disables requesting functionality',
       description:
-        'Puts login links in the headers and enables requesting functionality on works pages ',
-      defaultValue: true,
-    },
-    {
-      id: 'enablePickUpDate',
-      title: 'Enables pick up date functionality',
-      description: 'Adds a date picker to the requesting modal',
+        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.',
       defaultValue: false,
     },
     {
@@ -40,15 +34,21 @@ const toggles = {
       defaultValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
-  ] as const,
-  tests: [
     {
-      id: 'gaSecureCookies',
-      title: 'GA Secure Cookies',
-      range: [0, 10], // We picked 10% arbitrarily: enough to get data, not too much that we'd lose too much if something breaks
-      when: () => true,
+      id: 'conceptsPages',
+      title: 'Concepts pages',
+      defaultValue: false,
+      description:
+        'View pages for concepts (subjects and people) and link to them from works pages',
     },
-  ] as ABTest[],
+    {
+      id: 'exhibitionGuides',
+      title: 'Exhibition guides',
+      defaultValue: false,
+      description: 'View pages related to exhibition guides',
+    },
+  ] as const,
+  tests: [] as ABTest[],
 };
 
 export default toggles;

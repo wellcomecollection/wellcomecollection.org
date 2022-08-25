@@ -5,28 +5,11 @@ import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
-type ItemWrapperProps = {
-  isFirst: boolean;
-};
-
-const ItemWrapper = styled(Space).attrs<ItemWrapperProps>(props => ({
-  h: {
-    size: 'm',
-    properties: [
-      'padding-right',
-      !props.isFirst ? 'padding-left' : undefined,
-    ].filter(Boolean),
-  },
+const ItemWrapper = styled(Space).attrs(() => ({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 6)]: true,
   }),
-}))<ItemWrapperProps>`
-  ${props =>
-    !props.isFirst &&
-    `
-  border-left: 1px solid ${props.theme.color('black')};
-`}
-`;
+}))``;
 
 const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
@@ -41,11 +24,19 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
       .map(({ text, url, prefix }, i) => {
         const LinkOrSpanTag = url ? 'a' : 'span';
         return (
-          <ItemWrapper isFirst={i === 0} key={text} as={prefix ? 'b' : 'span'}>
+          <ItemWrapper key={text} as={prefix ? 'b' : 'span'}>
+            {i > 0 && (
+              <Space
+                as="span"
+                h={{ size: 's', properties: ['margin-left', 'margin-right'] }}
+              >
+                |
+              </Space>
+            )}
             {prefix}{' '}
             <LinkOrSpanTag
               className={classNames({
-                [font('hnb', 5)]: Boolean(prefix),
+                [font('intb', 6)]: Boolean(prefix),
               })}
               href={url}
             >
@@ -58,7 +49,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
     {items.length === 0 && (
       <span
         className={classNames({
-          [font('hnr', 5)]: true,
+          [font('intr', 6)]: true,
           'empty-filler': true,
         })}
         style={{ lineHeight: 1 }}

@@ -94,10 +94,11 @@ type ContributorRole = {
   type: 'ContributionRole';
 };
 
-type Contributor = {
+export type Contributor = {
   agent: Agent;
   roles: ContributorRole[];
   type: 'Contributor';
+  primary: boolean;
 };
 
 type Subject = {
@@ -116,7 +117,7 @@ type Genre = {
 
 type ConceptType = 'Concept' | 'Period' | 'Place';
 
-type Concept = {
+export type Concept = {
   id?: string;
   identifiers?: Identifier[];
   label: string;
@@ -150,7 +151,7 @@ type LocationType = {
   type: 'LocationType';
 };
 
-type License = {
+export type License = {
   id: string;
   label: string;
   url: string;
@@ -265,6 +266,8 @@ export type Image = {
   locations: DigitalLocation[];
   source: {
     id: string;
+    title: string;
+    contributors?: Contributor[];
     type: string;
   };
   visuallySimilar?: Image[];
@@ -312,11 +315,16 @@ export type WorkAggregations = {
 export type ImageAggregations = {
   license?: CatalogueAggregation;
   'source.genres.label'?: CatalogueAggregation;
+  'source.subjects.label'?: CatalogueAggregation;
   'source.contributors.agent.label'?: CatalogueAggregation;
   type: 'Aggregations';
 };
 
-export type CatalogueResultsList<Result = Work> = {
+type ConceptAggregations = null;
+
+export type ResultType = Work | Image | Concept;
+
+export type CatalogueResultsList<Result extends ResultType> = {
   type: 'ResultList';
   totalResults: number;
   totalPages: number;
@@ -324,5 +332,11 @@ export type CatalogueResultsList<Result = Work> = {
   pageSize: number;
   prevPage: string | null;
   nextPage: string | null;
-  aggregations?: Result extends Work ? WorkAggregations : ImageAggregations;
+  aggregations?: Result extends Work
+    ? WorkAggregations
+    : Result extends Image
+    ? ImageAggregations
+    : Result extends Concept
+    ? ConceptAggregations
+    : null;
 };

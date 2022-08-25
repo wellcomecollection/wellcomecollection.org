@@ -11,14 +11,13 @@ import { FixedSizeList } from 'react-window';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { classNames, font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getProductionDates,
   getDigitalLocationOfType,
 } from '../../utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 import ViewerStructures from './ViewerStructures';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
@@ -46,7 +45,7 @@ const Inner = styled(Space).attrs({
 const AccordionInner = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 })`
   button {
@@ -105,11 +104,11 @@ const AccordionItem = ({
           <span>
             <h2
               className={classNames({
-                [font('hnb', 5)]: true,
+                [font('intb', 5)]: true,
                 'no-margin': true,
               })}
             >
-              <AlignFont>{title}</AlignFont>
+              {title}
             </h2>
             <Icon
               icon={chevron}
@@ -148,9 +147,8 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     iiifPresentationLocation || iiifImageLocation;
 
   const license =
-    digitalLocation &&
-    digitalLocation.license &&
-    getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation?.license &&
+    getCatalogueLicenseData(digitalLocation.license);
   const { iiifCredit } = useIIIFManifestData(work);
   const searchService = manifest && getSearchService(manifest);
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
@@ -159,14 +157,14 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
     <>
       <Inner
         className={classNames({
-          [font('hnb', 5)]: true,
+          [font('intb', 5)]: true,
         })}
       >
         {currentManifestLabel && (
           <span
             data-test-id="current-manifest"
             className={classNames({
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
           >
             {currentManifestLabel}
@@ -223,11 +221,11 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           <WorkLink id={work.id} source="viewer_back_link">
             <a
               className={classNames({
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
                 'flex flex--v-center': true,
               })}
             >
-              <AlignFont>Catalogue details</AlignFont>
+              Catalogue details
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
@@ -243,7 +241,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           title={'Licence and credit'}
           testId={'license-and-credit'}
         >
-          <div className={font('hnr', 6)}>
+          <div className={font('intr', 6)}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}

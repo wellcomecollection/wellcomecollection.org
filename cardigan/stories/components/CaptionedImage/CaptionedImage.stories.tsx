@@ -1,4 +1,4 @@
-import { CaptionedImage } from '@weco/common/views/components/Images/Images';
+import CaptionedImage from '@weco/content/components/CaptionedImage/CaptionedImage';
 import { captionedImage } from '../../content';
 
 const Template = args => <CaptionedImage {...args} />;

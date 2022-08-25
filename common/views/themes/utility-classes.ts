@@ -535,26 +535,8 @@ export const utilityClasses = css<GlobalStyleProps>`
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
   }
 
-  .lazy-image.lazy-image {
-    opacity: 0.6;
-    transition: opacity ${themeValues.transitionProperties};
-
-    display: none;
-
-    .enhanced & {
-      display: block;
-    }
-
-    &.lazyloaded {
-      opacity: 1;
-
-      .captioned-image & {
-        opacity: 1;
-      }
-    }
-
-    .captioned-image & {
-      opacity: 0;
-    }
+  noscript {
+    background: ${themeValues.color('white')};
+    color: ${themeValues.color('black')};
   }
 `;

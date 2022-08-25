@@ -1,5 +1,5 @@
 import title from './parts/title';
-import structuredText from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/structured-text';
 import body from './parts/body';
 import link from './parts/link';
 import text from './parts/text';
@@ -18,7 +18,7 @@ const books: CustomType = {
   json: {
     Book: {
       title,
-      subtitle: structuredText('Subtitle', 'single'),
+      subtitle: singleLineText({ label: 'Subtitle' }),
       body: body,
       orderLink: link('Order link', 'web'),
       price: text('Price'),
@@ -26,8 +26,8 @@ const books: CustomType = {
       extent: text('Extent'),
       isbn: text('ISBN'),
       reviews: list('Reviews', {
-        text: structuredText('Review'),
-        citation: structuredText('Citation', 'single'),
+        text: multiLineText({ label: 'Review' }),
+        citation: singleLineText({ label: 'Citation' }),
       }),
       datePublished: timestamp('Date published'),
     },
@@ -36,7 +36,7 @@ const books: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       seasons: list('Seasons', {

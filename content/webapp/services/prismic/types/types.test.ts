@@ -1,4 +1,4 @@
-import { isFilledLinkToDocumentWithData } from '.';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 
 const emptyLink = {
   link_type: 'Document',

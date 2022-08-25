@@ -7,15 +7,19 @@ import { ExhibitionRelatedContent } from '../../../types/exhibitions';
 
 type Data = ExhibitionRelatedContent;
 type NotFound = { notFound: true };
+type UserError = { description: string };
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<Data | NotFound>
+  res: NextApiResponse<Data | NotFound | UserError>
 ): Promise<void> => {
   const { params } = req.query;
-  const parsedParams: string[] = isString(params)
-    ? JSON.parse(params)
-    : undefined;
+
+  if (!isString(params)) {
+    return res.status(400).json({ description: 'Missing params' });
+  }
+
+  const parsedParams: string[] = JSON.parse(params);
   const client = createClient({ req });
 
   if (parsedParams.length === 0) {

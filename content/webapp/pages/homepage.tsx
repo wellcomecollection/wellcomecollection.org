@@ -6,8 +6,6 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { ArticleBasic } from '../types/articles';
-import { Page as PageType } from '../types/pages';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import SimpleCardGrid from '../components/SimpleCardGrid/SimpleCardGrid';
@@ -33,7 +31,7 @@ import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
-import { homepageId } from '@weco/common/services/prismic/hardcoded-id';
+import { homepageId } from '@weco/common/data/hardcoded-ids';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
@@ -50,17 +48,7 @@ import {
 } from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-
-const PageHeading = styled(Space).attrs({
-  as: 'h1',
-  v: {
-    size: 'l',
-    properties: ['margin-top', 'margin-bottom'],
-  },
-  className: classNames({
-    [font('wb', 1)]: true,
-  }),
-})``;
+import { BodySlice, isContentList, isStandfirst } from 'types/body';
 
 const CreamBox = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
@@ -70,11 +58,12 @@ const CreamBox = styled(Space).attrs({
 `;
 
 type Props = {
-  exhibitions: PaginatedResults<ExhibitionBasic>;
-  events: PaginatedResults<EventBasic>;
+  exhibitions: ExhibitionBasic[];
+  nextSevenDaysEvents: EventBasic[];
   articles: ArticleBasic[];
-  page: PageType;
   jsonLd: JsonLdObj[];
+  standfirst?: BodySlice & { type: 'standfirst' };
+  contentLists: (BodySlice & { type: 'contentList' })[];
 };
 
 const pageImage: ImageType = {
@@ -118,18 +107,26 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
+    ).results;
+    const nextSevenDaysEvents = orderEventsByNextAvailableDate(
+      filterEventsForNext7Days(events)
     );
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
+
+    const standfirst = page.body.find(isStandfirst);
+    const contentLists = page.body.filter(isContentList);
 
     if (events && exhibitions && articles && page) {
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
-          page,
           exhibitions,
-          events,
+          nextSevenDaysEvents,
           serverData,
           jsonLd,
+          standfirst,
+          contentLists,
         }),
       };
     } else {
@@ -137,37 +134,46 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Homepage: FC<Props> = props => {
-  const events = props.events.results.map(fixEventDatesInJson);
-  const nextSevenDaysEvents = orderEventsByNextAvailableDate(
-    filterEventsForNext7Days(events)
-  );
+const Homepage: FC<Props> = ({
+  nextSevenDaysEvents: jsonEvents,
+  exhibitions: jsonExhibitions,
+  articles,
+  jsonLd,
+  standfirst,
+  contentLists,
+}) => {
+  const nextSevenDaysEvents = jsonEvents.map(fixEventDatesInJson);
+  const exhibitions = jsonExhibitions.map(fixExhibitionDatesInJson);
 
-  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
-
-  const articles = props.articles;
-  const page = props.page;
-  const standFirst = page.body.find(slice => slice.type === 'standfirst');
-  const lists = page.body.filter(slice => slice.type === 'contentList');
-  const headerList = lists.length === 2 ? lists[0] : null;
-  const contentList = lists.length === 2 ? lists[1] : lists[0];
+  const headerList = contentLists.length === 2 ? contentLists[0] : null;
+  const contentList =
+    contentLists.length === 2 ? contentLists[1] : contentLists[0];
 
   return (
     <PageLayout
       title={''}
       description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
-      jsonLd={props.jsonLd}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={null}
       image={pageImage}
     >
-      <Layout10>
+      <Layout10 isCentered={false}>
         <SpacingSection>
-          <PageHeading>{homepageHeading}</PageHeading>
-          {standFirst && (
+          <Space
+            v={{ size: 'l', properties: ['margin-top'] }}
+            className={classNames({
+              [font('wb', 1)]: true,
+            })}
+          >
+            <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+              <h1 className="no-margin">{homepageHeading}</h1>
+            </Space>
+          </Space>
+          {standfirst && (
             <CreamBox>
-              <PageHeaderStandfirst html={standFirst.value} />
+              <PageHeaderStandfirst html={standfirst.value} />
             </CreamBox>
           )}
         </SpacingSection>
@@ -181,7 +187,7 @@ const Homepage: FC<Props> = props => {
           )}
           <SpacingComponent>
             <SimpleCardGrid
-              items={headerList.value.items}
+              items={headerList.value.items as any[]}
               isFeaturedFirst={true}
             />
           </SpacingComponent>
@@ -206,17 +212,15 @@ const Homepage: FC<Props> = props => {
       {contentList && (
         <SpacingSection>
           <SpacingComponent>
-            <SectionHeader title={contentList.value.title} />
+            <SectionHeader title={contentList.value.title || ''} />
           </SpacingComponent>
           <SpacingComponent>
             <SimpleCardGrid
-              items={contentList.value.items.map(item => {
-                if (item.type === 'seasons') {
-                  return convertItemToCardProps(item);
-                } else {
-                  return item;
-                }
-              })}
+              items={
+                contentList.value.items.map(item =>
+                  item.type === 'seasons' ? convertItemToCardProps(item) : item
+                ) as any[]
+              }
             />
           </SpacingComponent>
         </SpacingSection>

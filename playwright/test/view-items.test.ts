@@ -1,3 +1,4 @@
+import { test as base, expect } from '@playwright/test';
 import {
   multiVolumeItem,
   itemWithSearchAndStructures,
@@ -8,8 +9,8 @@ import {
   itemWithRestrictedAndOpenAccess,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithNonRestrictedAndOpenAccess,
+  isMobile,
 } from './contexts';
-import { isMobile } from './actions/common';
 import { volumesNavigationLabel, searchWithinLabel } from './text/aria-labels';
 import {
   zoomInButton,
@@ -32,26 +33,32 @@ import {
 } from './selectors/item';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
+import { Page } from 'playwright';
 
 const domain = new URL(baseUrl).host;
 
-async function searchWithin(query: string) {
+const searchWithin = async (query: string, page: Page) => {
   await page.fill(`text=${searchWithinLabel}`, query);
   await page.press(`text=${searchWithinLabel}`, 'Enter');
-}
+};
 
-beforeAll(async () => {
-  const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
-  await context.addCookies([
-    { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
-    ...defaultToggleAndTestCookies,
-  ]);
+const test = base.extend({
+  context: async ({ context }, use) => {
+    const defaultToggleAndTestCookies = await makeDefaultToggleCookies(domain);
+    await context.addCookies([
+      { name: 'WC_cookiesAccepted', value: 'true', domain: domain, path: '/' },
+      ...defaultToggleAndTestCookies,
+    ]);
+    await use(context);
+  },
 });
 
-describe('Scenario 1: A user wants a large-scale view of an item', () => {
-  test('the images are scalable', async () => {
-    await multiVolumeItem();
-    if (!isMobile()) {
+test.describe.configure({ mode: 'parallel' });
+
+test.describe('Scenario 1: A user wants a large-scale view of an item', () => {
+  test('the images are scalable', async ({ page, context }) => {
+    await multiVolumeItem(context, page);
+    if (!isMobile(page)) {
       // TODO work out why this is causing issues on mobile
       await page.click(fullscreenButton);
     }
@@ -63,9 +70,12 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     expect(isVisible).toBeTruthy();
   });
 
-  test('the info panel visibility can be toggled', async () => {
-    await multiVolumeItem();
-    if (!isMobile()) {
+  test('the info panel visibility can be toggled', async ({
+    page,
+    context,
+  }) => {
+    await multiVolumeItem(context, page);
+    if (!isMobile(page)) {
       const isVisibleBefore = await page.isVisible(viewerSidebar);
       expect(isVisibleBefore).toBeTruthy();
       await page.click(toggleInfoDesktop);
@@ -76,7 +86,7 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
     // Info is hidden by default on mobile. It covers the viewing
     // area on mobile, so we want to ensure things that control
     // the viewing area are also hidden when it is visible
-    if (isMobile()) {
+    if (isMobile(page)) {
       const isSidebarVisibleBefore = await page.isVisible(viewerSidebar);
       const isMobilePageGridButtonVisibleBefore = await page.isVisible(
         mobilePageGridButtons
@@ -97,30 +107,36 @@ describe('Scenario 1: A user wants a large-scale view of an item', () => {
   });
 });
 
-describe('Scenario 2: A user wants to use the content offline', () => {
+test.describe('Scenario 2: A user wants to use the content offline', () => {
   const smallImageDownloadUrl =
     'https://iiif.wellcomecollection.org/image/b10326947_hin-wel-all-00012266_0001.jp2/full/full/0/default.jpg';
   const fullItemDownloadUrl =
     'https://iiif.wellcomecollection.org/pdf/b10326947_0001';
 
-  beforeEach(async () => {
-    await multiVolumeItem();
-    await page.click(downloadsButton);
-    await page.waitForSelector(itemDownloadsModal);
+  const multiVolumeTest = test.extend({
+    page: async ({ page, context }, use) => {
+      await multiVolumeItem(context, page);
+      await page.click(downloadsButton);
+      await page.waitForSelector(itemDownloadsModal);
+      await use(page);
+    },
   });
 
-  test('downloading an image of the current canvas', async () => {
-    const smallImageDownloadElement = await page.waitForSelector(
-      smallImageDownload
-    );
-    const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
-      'href'
-    );
+  multiVolumeTest(
+    'downloading an image of the current canvas',
+    async ({ page }) => {
+      const smallImageDownloadElement = await page.waitForSelector(
+        smallImageDownload
+      );
+      const imageDownloadUrl = await smallImageDownloadElement.getAttribute(
+        'href'
+      );
 
-    expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
-  });
+      expect(imageDownloadUrl).toBe(smallImageDownloadUrl);
+    }
+  );
 
-  test('downloading the entire item', async () => {
+  multiVolumeTest('downloading the entire item', async ({ page }) => {
     const fullItemDownloadElement = await page.waitForSelector(
       fullItemDownload
     );
@@ -130,69 +146,86 @@ describe('Scenario 2: A user wants to use the content offline', () => {
   });
 });
 
-describe('Scenario 3: A user wants information about the item they are viewing', () => {
-  test('the item has a title', async () => {
-    await multiVolumeItem();
-    const title = await page.textContent('h1');
-    expect(title).toBe('Practica seu Lilium medicinae / [Bernard de Gordon].');
-  });
-
-  test('the item has contributor information', async () => {
-    await multiVolumeItem();
-    const contributors = await page.textContent(workContributors);
-    expect(contributors).toBe(
-      'Bernard, de Gordon, approximately 1260-approximately 1318.'
-    );
-  });
-
-  test('the item has date information', async () => {
-    await multiVolumeItem();
-    const dates = await page.textContent(workDates);
-    // TODO: this text isn't very explanitory and should probably be updated in the DOM
-    expect(dates).toBe('Date1496[7]');
-  });
-
-  test('the item has reference number information', async () => {
-    await itemWithReferenceNumber();
-    const dates = await page.textContent(referenceNumber);
-    expect(dates).toBe('ReferenceWA/HMM/BU/1');
-  });
-});
-
-describe('Scenario 4: A user wants to know how they can make use of an item', () => {
-  test('licence information should be available', async () => {
-    await itemWithSearchAndStructures();
-    if (isMobile()) {
-      page.click('text="Show info"');
-    }
-    await page.click('text="Licence and credit"');
-    await page.waitForSelector(`css=body >> text="Licence:"`);
-    await page.waitForSelector(`css=body >> text="Credit:"`);
-  });
-});
-
-describe('Scenario 5: A user wants to view an item in a different orientation', () => {
-  test('the image should rotate', async () => {
-    await itemWithSearchAndStructures();
-    await page.waitForSelector(rotateButton);
-    await page.click(rotateButton);
-    if (!isMobile()) {
-      const currentIndex = await page.textContent(
-        '[data-test-id=active-index]'
+test.describe(
+  'Scenario 3: A user wants information about the item they are viewing',
+  () => {
+    test('the item has a title', async ({ page, context }) => {
+      await multiVolumeItem(context, page);
+      const title = await page.textContent('h1');
+      expect(title).toBe(
+        'Practica seu Lilium medicinae / [Bernard de Gordon].'
       );
-      const currentImageSrc = await page.getAttribute(
-        `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
-        'src'
-      );
-      expect(currentImageSrc).toContain('/90/default.jpg');
-    }
-  });
-});
+    });
 
-describe('Scenario 6: Item has multiple volumes', () => {
-  test('the volumes should be browsable', async () => {
-    if (!isMobile()) {
-      await multiVolumeItem();
+    test('the item has contributor information', async ({ page, context }) => {
+      await multiVolumeItem(context, page);
+      const contributors = await page.textContent(workContributors);
+      expect(contributors).toBe(
+        'Bernard, de Gordon, approximately 1260-approximately 1318'
+      );
+    });
+
+    test('the item has date information', async ({ page, context }) => {
+      await multiVolumeItem(context, page);
+      const dates = await page.textContent(workDates);
+      // TODO: this text isn't very explanitory and should probably be updated in the DOM
+      expect(dates).toBe('Date1496[7]');
+    });
+
+    test('the item has reference number information', async ({
+      page,
+      context,
+    }) => {
+      await itemWithReferenceNumber(context, page);
+      const dates = await page.textContent(referenceNumber);
+      expect(dates).toBe('ReferenceWA/HMM/BU/1');
+    });
+  }
+);
+
+test.describe(
+  'Scenario 4: A user wants to know how they can make use of an item',
+  () => {
+    test('licence information should be available', async ({
+      page,
+      context,
+    }) => {
+      await itemWithSearchAndStructures(context, page);
+      if (isMobile(page)) {
+        await page.click('text="Show info"');
+      }
+      await page.click('text="Licence and credit"');
+      await page.waitForSelector(`css=body >> text="Licence:"`);
+      await page.waitForSelector(`css=body >> text="Credit:"`);
+    });
+  }
+);
+
+test.describe(
+  'Scenario 5: A user wants to view an item in a different orientation',
+  () => {
+    test('the image should rotate', async ({ page, context }) => {
+      await itemWithSearchAndStructures(context, page);
+      await page.waitForSelector(rotateButton);
+      await page.click(rotateButton);
+      if (!isMobile(page)) {
+        const currentIndex = await page.textContent(
+          '[data-test-id=active-index]'
+        );
+        const currentImageSrc = await page.getAttribute(
+          `[data-test-id=canvas-${Number(currentIndex) - 1}] img`,
+          'src'
+        );
+        expect(currentImageSrc).toContain('/90/default.jpg');
+      }
+    });
+  }
+);
+
+test.describe('Scenario 6: Item has multiple volumes', () => {
+  test('the volumes should be browsable', async ({ page, context }) => {
+    if (!isMobile(page)) {
+      await multiVolumeItem(context, page);
       await page.waitForSelector(`css=body >> text="Volumes"`);
       await page.click('text="Volumes"');
       const navigationSelector = `[role="navigation"][aria-label="${volumesNavigationLabel}"]`;
@@ -225,111 +258,148 @@ describe('Scenario 6: Item has multiple volumes', () => {
   });
 });
 
-describe('Scenario 7: A user wants to navigate an item by its parts', () => {
-  test('the structured parts should be browseable', async () => {
-    await itemWithSearchAndStructures();
-    if (isMobile()) {
-      page.click('text="Show info"');
-    }
-    await page.click('css=body >> text="Contents"');
-    await page.waitForSelector('css=body >> text="Title Page"');
-    await page.click('text="Title Page"');
-    if (!isMobile()) {
-      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-    }
-  });
-});
+test.describe(
+  'Scenario 7: A user wants to navigate an item by its parts',
+  () => {
+    test('the structured parts should be browseable', async ({
+      page,
+      context,
+    }) => {
+      await itemWithSearchAndStructures(context, page);
+      if (isMobile(page)) {
+        await page.click('text="Show info"');
+      }
+      await page.click('css=body >> text="Contents"');
+      await page.waitForSelector('css=body >> text="Title Page"');
+      await page.click('text="Title Page"');
+      if (!isMobile(page)) {
+        await page.waitForSelector(
+          `css=[data-test-id=active-index] >> text="5"`
+        );
+      }
+    });
+  }
+);
 
-async function scrollToBottom(page, selector) {
-  await page.$eval(selector, element => {
+const scrollToBottom = async (selector: string, page: Page) => {
+  await page.$eval(selector, (element: HTMLElement) => {
     element.scrollTo(0, element.scrollHeight);
   });
-}
+};
 
-describe('Scenario 8: A user wants to be able to see all the images for an item', () => {
-  test('the main viewer can be scrolled', async () => {
-    await itemWithSearchAndStructures();
-    await scrollToBottom(page, mainViewer);
-    if (!isMobile()) {
-      await page.waitForSelector(
-        `css=[data-test-id=active-index] >> text="68"`
+test.describe(
+  'Scenario 8: A user wants to be able to see all the images for an item',
+  () => {
+    test('the main viewer can be scrolled', async ({ page, context }) => {
+      await itemWithSearchAndStructures(context, page);
+      await scrollToBottom(mainViewer, page);
+      if (!isMobile(page)) {
+        await page.waitForSelector(
+          `css=[data-test-id=active-index] >> text="68"`
+        );
+      }
+    });
+  }
+);
+
+test.describe(
+  "Scenario 9: A user wants to be able to search inside an item's text",
+  () => {
+    test('the item should be searchable', async ({ page, context }) => {
+      await itemWithSearchAndStructures(context, page);
+      if (isMobile(page)) {
+        await page.click('text="Show info"');
+      }
+      await searchWithin('darwin', page);
+      await page.waitForSelector(searchWithinResultsHeader);
+      await page.click(
+        `${searchWithinResultsHeader} + ul li:first-of-type button`
       );
-    }
-  });
-});
+      if (!isMobile(page)) {
+        await page.waitForSelector(
+          `css=[data-test-id=active-index] >> text="5"`
+        );
+      }
+    });
+  }
+);
 
-describe("Scenario 9: A user wants to be able to search inside an item's text", () => {
-  test('the item should be searchable', async () => {
-    await itemWithSearchAndStructures();
-    if (isMobile()) {
-      page.click('text="Show info"');
-    }
-    await searchWithin('darwin');
-    await page.waitForSelector(searchWithinResultsHeader);
-    await page.click(
-      `${searchWithinResultsHeader} + ul li:first-of-type button`
-    );
-    if (!isMobile()) {
-      await page.waitForSelector(`css=[data-test-id=active-index] >> text="5"`);
-    }
-  });
-});
+test.describe(
+  'Scenario 10: A user wants to be able to access alt text for the images',
+  () => {
+    test('images should have alt text', async ({ page, context }) => {
+      await itemWithAltText({ canvasNumber: 2 }, context, page);
+      await page.waitForSelector(`img[alt='22102033982']`);
+    });
 
-describe('Scenario 10: A user wants to be able to access alt text for the images', () => {
-  test('images should have alt text', async () => {
-    await itemWithAltText({ canvasNumber: 2 });
-    await page.waitForSelector(`img[alt='22900393554']`);
-  });
+    test('image alt text should be unique', async ({ page, context }) => {
+      await itemWithAltText({ canvasNumber: 2 }, context, page);
+      await page.waitForSelector(`img[alt='22102033982']`);
+      const imagesWithSameText = await page.$$(`img[alt='22102033982']`);
+      expect(imagesWithSameText.length).toBe(1);
+    });
+  }
+);
 
-  test('image alt text should be unique', async () => {
-    await itemWithAltText({ canvasNumber: 2 });
-    await page.waitForSelector(`img[alt='22900393554']`);
-    const imagesWithSameText = await page.$$(`img[alt='22900393554']`);
-    expect(imagesWithSameText.length).toBe(1);
-  });
-});
+test.describe(
+  'Scenario 11: A user wants to view an item with access restrictions',
+  () => {
+    test('an item with only open access items will not display a modal', async ({
+      page,
+      context,
+    }) => {
+      await itemWithOnlyOpenAccess(context, page);
+      await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
+      expect(
+        await page.isVisible(`button:has-text('Show the content')`)
+      ).toBeFalsy();
+    });
 
-describe('Scenario 11: A user wants to view an item with access restrictions', () => {
-  test('an item with only open access items will not display a modal', async () => {
-    await itemWithOnlyOpenAccess();
-    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-  });
+    test('an item with a mix of restricted and open access items will not display a modal', async ({
+      page,
+      context,
+    }) => {
+      await itemWithRestrictedAndOpenAccess(context, page);
+      await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
+      expect(
+        await page.isVisible(`button:has-text('Show the content')`)
+      ).toBeFalsy();
+    });
 
-  test('an item with a mix of restricted and open access items will not display a modal', async () => {
-    await itemWithRestrictedAndOpenAccess();
-    await page.waitForSelector(`css=[data-test-id="canvas-0"] img`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-  });
+    test('an item with only restricted access items will display a modal with no option to view the content', async ({
+      page,
+      context,
+    }) => {
+      await itemWithOnlyRestrictedAccess(context, page);
+      await page.waitForSelector(`h2:has-text('Restricted material')`);
+      expect(
+        await page.isVisible(`button:has-text('Show the content')`)
+      ).toBeFalsy();
+      expect(
+        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+      ).toBeFalsy();
+    });
 
-  test('an item with only restricted access items will display a modal with no option to view the content', async () => {
-    await itemWithOnlyRestrictedAccess();
-    await page.waitForSelector(`h2:has-text('Restricted material')`);
-    expect(
-      await page.isVisible(`button:has-text('Show the content')`)
-    ).toBeFalsy();
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
+    test('an item with a mix of restricted and non-restricted access items will display a modal', async ({
+      page,
+      context,
+    }) => {
+      await itemWithRestrictedAndNonRestrictedAccess(context, page);
+      await page.waitForSelector(`button:has-text('Show the content')`);
+      expect(
+        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+      ).toBeFalsy();
+    });
 
-  test('an item with a mix of restricted and non-restricted access items will display a modal', async () => {
-    await itemWithRestrictedAndNonRestrictedAccess();
-    await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
-
-  test('an item with a mix of non-restricted and open access items will display a modal', async () => {
-    await itemWithNonRestrictedAndOpenAccess();
-    await page.waitForSelector(`button:has-text('Show the content')`);
-    expect(
-      await page.isVisible(`css=[data-test-id="canvas-0"] img`)
-    ).toBeFalsy();
-  });
-});
+    test('an item with a mix of non-restricted and open access items will display a modal', async ({
+      page,
+      context,
+    }) => {
+      await itemWithNonRestrictedAndOpenAccess(context, page);
+      await page.waitForSelector(`button:has-text('Show the content')`);
+      expect(
+        await page.isVisible(`css=[data-test-id="canvas-0"] img`)
+      ).toBeFalsy();
+    });
+  }
+);

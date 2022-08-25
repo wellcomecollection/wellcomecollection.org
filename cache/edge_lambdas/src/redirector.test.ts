@@ -1,10 +1,15 @@
 import { getRedirect } from './redirector';
-import { CloudFrontRequestEvent } from 'aws-lambda';
+import { CloudFrontHeaders, CloudFrontRequestEvent } from 'aws-lambda';
 
-const request = (
-  uri: string,
-  querystring?: string
-): CloudFrontRequestEvent => ({
+const request = ({
+  uri,
+  querystring,
+  headers,
+}: {
+  uri: string;
+  querystring?: string;
+  headers?: CloudFrontHeaders;
+}): CloudFrontRequestEvent => ({
   Records: [
     {
       cf: {
@@ -19,7 +24,7 @@ const request = (
           querystring: querystring || '',
           method: 'GET',
           clientIp: '2001:cdba::3257:9652',
-          headers: {},
+          headers: headers || {},
         },
       },
     },
@@ -28,7 +33,9 @@ const request = (
 
 test('It returns 301 responses for URLs with defined redirects', () => {
   // Should have been redirected
-  const redirectedResponse = getRedirect(request('/visit-us/wellcome-café/'));
+  const redirectedResponse = getRedirect(
+    request({ uri: '/visit-us/wellcome-café/' })
+  );
 
   expect(redirectedResponse?.status).toEqual('301');
   expect(redirectedResponse?.headers.location[0]).toEqual({
@@ -38,8 +45,24 @@ test('It returns 301 responses for URLs with defined redirects', () => {
 });
 
 test('It returns nothing for URLs without defined redirects', () => {
-  const nonRedirectedResponse = getRedirect(request('/visit-us/'));
+  const nonRedirectedResponse = getRedirect(request({ uri: '/visit-us/' }));
   expect(nonRedirectedResponse).toBeUndefined();
+});
+
+test('It redirects requests from the staging site to a staging page', () => {
+  const redirectedResponse = getRedirect(
+    request({
+      uri: '/visit-us/wellcome-café/',
+      headers: {
+        host: [{ key: 'Host', value: 'www-stage.wellcomecollection.org' }],
+      },
+    })
+  );
+
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://www-stage.wellcomecollection.org/pages/Wvl1wiAAADMJ3zNe`,
+  });
 });
 
 // We need to add some extra query redirects to test all of the desired behaviour
@@ -64,7 +87,9 @@ jest.mock('./redirects', () => {
 
 describe('Query string redirects', () => {
   test('Occur when all the params in the definition are in the request', () => {
-    const redirectedResponse = getRedirect(request('/works', 'search=images'));
+    const redirectedResponse = getRedirect(
+      request({ uri: '/works', querystring: 'search=images' })
+    );
 
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({
@@ -74,13 +99,18 @@ describe('Query string redirects', () => {
   });
 
   test('Do not occur if all of the params in the definition are not matched', () => {
-    const nonRedirectedResponse = getRedirect(request('/test', 'bing=bong'));
+    const nonRedirectedResponse = getRedirect(
+      request({ uri: '/test', querystring: 'bing=bong' })
+    );
     expect(nonRedirectedResponse).toBeUndefined();
   });
 
   test('Only forwards params that are contained within forwardParams', () => {
     const redirectedResponse = getRedirect(
-      request('/works', 'search=images&query=beep&something=else')
+      request({
+        uri: '/works',
+        querystring: 'search=images&query=beep&something=else',
+      })
     );
     expect(redirectedResponse?.status).toEqual('301');
     expect(redirectedResponse?.headers.location[0]).toEqual({

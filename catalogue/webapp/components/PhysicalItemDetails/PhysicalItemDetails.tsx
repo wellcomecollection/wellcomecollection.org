@@ -21,9 +21,11 @@ import StackingTable from '@weco/common/views/components/StackingTable/StackingT
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { itemIsRequestable } from '../../utils/requesting';
 import Placeholder from '@weco/common/views/components/Placeholder/Placeholder';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
 import { trackEvent } from '@weco/common/utils/ga';
+import { useToggles } from '@weco/common/server-data/Context';
+import { themeValues } from '@weco/common/views/themes/config';
 
 const Wrapper = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom', 'padding-bottom'] },
@@ -57,7 +59,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 
 const DetailHeading = styled.h3.attrs({
   className: classNames({
-    [font('hnb', 5, { small: 3, medium: 3 })]: true,
+    [font('intb', 5, { small: 3, medium: 3 })]: true,
     'no-margin': true,
   }),
 })``;
@@ -79,6 +81,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { state: userState } = useUser();
+  const { disableRequesting } = useToggles();
   const isArchive = useContext(IsArchiveContext);
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -123,7 +126,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   const showAccessMethod = !isOpenShelves;
   const isRequestable = itemIsRequestable(item) && !requestWasCompleted;
 
-  const showButton = isRequestable && userState === 'signedin';
+  const showButton =
+    isRequestable && userState === 'signedin' && !disableRequesting;
 
   const userNotLoaded = userState === 'loading' || userState === 'initial';
 
@@ -134,7 +138,8 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   function createRows() {
     const requestButton = (
-      <ButtonOutlined
+      <ButtonSolid
+        colors={themeValues.buttonColors.greenTransparentGreen}
         disabled={userState !== 'signedin'}
         ref={requestButtonRef}
         text={'Request item'}
@@ -223,6 +228,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
           maxWidth={isArchive ? 980 : 620}
           columnWidths={[180, 200, undefined, undefined]}
         />
+
         {(accessNote || isHeldByUser) && (
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
             <DetailHeading>Note</DetailHeading>

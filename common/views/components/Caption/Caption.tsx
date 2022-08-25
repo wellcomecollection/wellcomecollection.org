@@ -5,11 +5,22 @@ import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
-const CaptionWrapper = styled(Space).attrs({
+const CaptionText = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
 })`
   text-align: left;
   border-left: 1px solid ${props => props.theme.color('currentColor')};
+
+  p {
+    display: inline;
+  }
+`;
+
+const CaptionWrapper = styled.div.attrs({
+  className: 'overflow-hidden',
+})`
+  max-width: 55em;
+  margin: 0 auto;
 `;
 
 type Props = {
@@ -36,18 +47,12 @@ const Caption: FunctionComponent<Props> = ({
         'caption h-center': true,
       })}
     >
-      <div
-        className={classNames({
-          'overflow-hidden': true,
-        })}
-        style={{ maxWidth: '55em' }}
-      >
+      <CaptionWrapper>
         {preCaptionNode}
-        <CaptionWrapper>
+        <CaptionText>
           <PrismicHtmlBlock html={caption} />
-        </CaptionWrapper>
-        <style>{'.caption p { display: inline; }'}</style>
-      </div>
+        </CaptionText>
+      </CaptionWrapper>
     </Space>
   );
 };

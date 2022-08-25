@@ -27,10 +27,12 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
         image={
           image && {
             ...image,
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
             alt: '',
-            sizesQueries:
-              '(min-width: 1420px) 698px, (min-width: 960px) 50.23vw, (min-width: 600px) calc(100vw - 84px), 100vw',
-            showTasl: false,
           }
         }
         labels={
@@ -53,7 +55,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
       >
         {item.title && <h2 className="font-wb font-size-2">{item.title}</h2>}
         {item.description && (
-          <p className="font-hnr font-size-5">{item.description}</p>
+          <p className="font-intr font-size-5">{item.description}</p>
         )}
       </FeaturedCard>
     </Layout12>
@@ -68,9 +70,7 @@ const CardGrid: FC<Props> = ({ items, isFeaturedFirst }: Props) => {
   return (
     <>
       {featuredCard && isFeaturedFirst && (
-        <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
-          <CardGridFeaturedCard item={featuredCard} />
-        </Space>
+        <CardGridFeaturedCard item={featuredCard} />
       )}
       <CssGridContainer>
         <div className="css-grid">

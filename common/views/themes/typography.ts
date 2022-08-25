@@ -3,19 +3,20 @@ import { css } from 'styled-components';
 import { GlobalStyleProps } from './default';
 
 const breakpointNames = ['small', 'medium', 'large'];
+const oneRem = 16;
 
 const fontSizeUnits = {
-  '1': 14,
-  '2': 15,
-  '3': 16,
-  '4': 18,
-  '5': 20,
-  '6': 22,
-  '7': 24,
-  '8': 28,
-  '9': 32,
-  '10': 40,
-  '11': 50,
+  '1': 14 / oneRem, // 0.875rem
+  '2': 15 / oneRem, // 0.9375rem
+  '3': 15.9 / oneRem, // 0.99375rem
+  '4': 18 / oneRem, // 1.125rem
+  '5': 18.8 / oneRem, // 1.175rem
+  '6': 21.6 / oneRem, // 1.35rem
+  '7': 24 / oneRem, // 1.5rem
+  '8': 28 / oneRem, // 1.75rem
+  '9': 32 / oneRem, // 2rem
+  '10': 40 / oneRem, // 2.5rem
+  '11': 50 / oneRem, // 3.125rem
 };
 
 export const fontSizesAtBreakpoints = {
@@ -23,7 +24,7 @@ export const fontSizesAtBreakpoints = {
     0: fontSizeUnits[9],
     1: fontSizeUnits[8],
     2: fontSizeUnits[7],
-    3: fontSizeUnits[6],
+    3: fontSizeUnits[5],
     4: fontSizeUnits[3],
     5: fontSizeUnits[2],
     6: fontSizeUnits[1],
@@ -31,7 +32,7 @@ export const fontSizesAtBreakpoints = {
   medium: {
     0: fontSizeUnits[10],
     1: fontSizeUnits[9],
-    2: fontSizeUnits[8],
+    2: fontSizeUnits[7],
     3: fontSizeUnits[6],
     4: fontSizeUnits[4],
     5: fontSizeUnits[2],
@@ -40,8 +41,8 @@ export const fontSizesAtBreakpoints = {
   large: {
     0: fontSizeUnits[11],
     1: fontSizeUnits[10],
-    2: fontSizeUnits[9],
-    3: fontSizeUnits[7],
+    2: fontSizeUnits[8],
+    3: fontSizeUnits[6],
     4: fontSizeUnits[5],
     5: fontSizeUnits[3],
     6: fontSizeUnits[1],
@@ -49,13 +50,13 @@ export const fontSizesAtBreakpoints = {
 };
 
 const fontFamilies = {
-  hnb: {
-    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
-    full: `'Helvetica Neue Bold Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+  intr: {
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
   },
-  hnr: {
-    base: `'Helvetica Neue', Helvetica, Arial, sans-serif;`,
-    full: `'Helvetica Neue Roman Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;`,
+  intb: {
+    base: `Inter, sans-serif;`,
+    full: `Inter, sans-serif;`,
   },
   wb: {
     base: `'Wellcome Bold Web Subset', 'Arial Black', sans-serif;`,
@@ -71,7 +72,7 @@ const fontSizeMixin = size => {
   return breakpointNames
     .map(name => {
       return `@media (min-width: ${themeValues.sizes[name]}px) {
-      font-size: ${fontSizesAtBreakpoints[name][size]}px;
+      font-size: ${fontSizesAtBreakpoints[name][size]}rem;
     }`;
     })
     .join(' ');
@@ -87,21 +88,21 @@ export const fontFamilyMixin = (
 };
 
 export const typography = css<GlobalStyleProps>`
-  .font-hnb {
+  .font-intb {
     font-weight: bold;
   }
 
-  .font-hnr {
+  .font-intr {
     font-weight: normal;
   }
 
   ${props => `
-    .font-hnb {
-      ${fontFamilyMixin('hnb', !!props.isFontsLoaded)};
+    .font-intb {
+      ${fontFamilyMixin('intb', !!props.isFontsLoaded)};
     }
 
-    .font-hnr {
-      ${fontFamilyMixin('hnr', !!props.isFontsLoaded)};
+    .font-intr {
+      ${fontFamilyMixin('intr', !!props.isFontsLoaded)};
     }
 
     .font-wb {
@@ -118,7 +119,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   body {
-    ${fontFamilyMixin('hnr', true)}
+    ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
     color: ${themeValues.color('black')};
@@ -225,19 +226,22 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .body-text {
+    line-height: 1.6;
+    letter-spacing: 0.0044em;
+
     h1 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(2)}
+      ${fontSizeMixin(1)}
     }
 
     h2 {
       ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(3)}
+      ${fontSizeMixin(2)}
     }
 
     h3 {
-      ${fontFamilyMixin('wb', true)}
-      ${fontSizeMixin(4)}
+      ${fontFamilyMixin('intb', true)}
+      ${fontSizeMixin(3)}
     }
 
     *::selection {
@@ -281,16 +285,8 @@ export const typography = css<GlobalStyleProps>`
 
     strong,
     b {
-      ${fontFamilyMixin('hnb', true)}
-      font-weight: normal;
+      ${fontFamilyMixin('intb', true)};
     }
-  }
-
-  // This is for when we receive content from a CMS,
-  // making it easier to style the first node
-  .first-para-bold p:first-of-type {
-    ${fontFamilyMixin('hnb', true)}
-    ${fontSizeMixin(4)}
   }
 
   .drop-cap {
@@ -346,7 +342,7 @@ export function makeFontSizeClasses(): string {
       return `@media (min-width: ${themeValues.sizes[bp]}px) {
       ${Object.entries(fontSizesAtBreakpoints[bp])
         .map(([key, value]) => {
-          return `.font-size-${key} {font-size: ${value}px}`;
+          return `.font-size-${key} {font-size: ${value}rem}`;
         })
         .join(' ')}
     }`;
@@ -357,7 +353,7 @@ export function makeFontSizeClasses(): string {
 function overridesAtBreakpoint(bp) {
   return Object.entries(fontSizeUnits)
     .map(([key, value]) => {
-      return `.font-size-override-${bp}-${key} {font-size: ${value}px}`;
+      return `.font-size-override-${bp}-${key} {font-size: ${value}rem}`;
     })
     .join(' ');
 }

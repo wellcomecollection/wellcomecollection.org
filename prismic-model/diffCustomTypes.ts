@@ -4,9 +4,18 @@ import fetch from 'node-fetch';
 import { CustomType } from './src/types/CustomType';
 import { error, success } from './console';
 import { isCi, secrets } from './config';
-import { diffJson, Delta, isEmpty, printDelta } from './differ';
+import { diffString } from 'json-diff';
+import { removeUndefinedProps, printDelta } from './utils';
 
-export default async function diffContentTypes(credentials?): Promise<void> {
+type Credentials = {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken: string;
+};
+
+export default async function diffContentTypes(
+  credentials?: Credentials
+): Promise<void> {
   await setEnvsFromSecrets(secrets, credentials);
 
   const resp = await fetch(`https://customtypes.prismic.io/customtypes`, {
@@ -26,30 +35,36 @@ export default async function diffContentTypes(credentials?): Promise<void> {
   const deltas = (
     await Promise.all(
       remoteCustomTypes.map(async remoteCustomType => {
-
+        const { id } = remoteCustomType;
         // We can get an error here if somebody adds a type in
         // the Prismic GUI, but doesn't define it locally.
         //
-        // This erorr handling logic is meant to make this more
+        // This error handling logic is meant to make this more
         // obvious, because otherwise you get an error like:
         //
         //      !!! Error: Cannot find module './src/testingtesting123'
         //
         try {
-          const localCustomType = (await import(`./src/${remoteCustomType.id}`))
-            .default;
+          const localCustomType = (await import(`./src/${id}`)).default;
 
-          const delta = diffJson(remoteCustomType, localCustomType);
+          const delta = diffString(
+            remoteCustomType,
+            removeUndefinedProps(localCustomType), // we'll never get undefined props from Prismic, so we don't want them locally
+            {
+              keepUnchangedValues: true,
+            }
+          );
 
-          if (!isEmpty(delta)) {
-            console.log(`Diff on ${remoteCustomType.id}:`);
-            printDelta(delta);
-            return { id: remoteCustomType.id };
+          if (delta.length > 0) {
+            printDelta(id, delta);
+            return { id };
           }
         } catch (e) {
-          console.warn(`Prismic has type ${remoteCustomType.id}, but it's not defined locally`);
-          return { id: remoteCustomType.id };
-        };
+          console.warn(
+            `Prismic has type ${id}, but it can't be loaded locally: ${e}`
+          );
+          return { id };
+        }
       })
     )
   ).filter(Boolean) as { id: string }[];

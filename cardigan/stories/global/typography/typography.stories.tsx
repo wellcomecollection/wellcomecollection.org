@@ -11,7 +11,7 @@ const Font = styled.div`
 
 const FontName = styled.h2.attrs({
   className: classNames({
-    [font('hnb', 6)]: true,
+    [font('intb', 6)]: true,
   }),
 })`
   color: ${props => props.theme.color('red')};
@@ -31,9 +31,9 @@ const TypographyScale = ({ fontFamily }) => {
       return (
         <span
           key={index}
-          style={{ fontSize: `${v}px`, fontFamily: fontFamily }}
+          style={{ fontSize: `${v}rem`, fontFamily: fontFamily }}
         >
-          {v}px
+          {v}rem
         </span>
       );
     });
@@ -55,7 +55,7 @@ const TypographyScale = ({ fontFamily }) => {
 };
 
 const sizes = [0, 1, 2, 3, 4, 5, 6];
-const fontFamilies = ['wb', 'hnb', 'hnr', 'lr'];
+const fontFamilies = ['intr', 'intb', 'wb', 'lr'];
 
 const Typography = ({ text }) => {
   return (

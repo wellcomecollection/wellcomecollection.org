@@ -33,7 +33,7 @@ export const defaultValue = {
   popupDialog: {
     data: {
       isShown: false,
-      link: null,
+      link: { link_type: 'Web' },
       linkText: null,
       openButtonText: null,
       text: [] as RichTextField,

@@ -1,9 +1,14 @@
-export default function heading(label = 'Title', headingLevel: 1 | 2 | 3 = 1) {
-  return {
-    type: 'StructuredText',
-    config: {
-      label: label,
-      single: `heading${headingLevel}`,
-    },
-  };
+import { singleLineText } from './structured-text';
+
+export default function heading({
+  label = 'Title',
+  level = 1,
+}: {
+  label: string;
+  level?: 1 | 2 | 3;
+}) {
+  return singleLineText({
+    label,
+    overrideTextOptions: [`heading${level}`],
+  });
 }

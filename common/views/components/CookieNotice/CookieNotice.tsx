@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import { font, classNames } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';
-import moment from 'moment';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -11,7 +10,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
-    [font('hnb', 4)]: true,
+    [font('intb', 4)]: true,
   }),
 })`
   position: fixed;
@@ -44,10 +43,11 @@ type Props = {
 const CookieNotice: FunctionComponent<Props> = ({ source }) => {
   const [shouldRender, setShouldRender] = useState(true);
   function hideCookieNotice() {
-    cookie.set('WC_cookiesAccepted', 'true', {
-      path: '/',
-      expires: moment().add(1, 'month').toDate(),
-    });
+    // Remember that the user has accepted cookies for the next month.
+    const expires = new Date();
+    expires.setDate(new Date().getDate() + 30);
+
+    cookie.set('WC_cookiesAccepted', 'true', { path: '/', expires });
 
     trackEvent({
       category: 'CookieNotice',

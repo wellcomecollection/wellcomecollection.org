@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { GetServerSideProps, NextPage } from 'next';
-import { withPageAuthRequiredSSR } from '../src/utility/auth0';
+import auth0, { withPageAuthRequiredSSR } from '../src/utility/auth0';
 import { ChangeDetailsModal } from '../src/frontend/MyAccount/ChangeDetailsModal';
 import { PageWrapper } from '../src/frontend/components/PageWrapper';
 import {
@@ -41,7 +41,6 @@ import { allowedRequests } from '@weco/common/values/requests';
 import { info2 } from '@weco/common/icons';
 import StackingTable from '@weco/common/views/components/StackingTable/StackingTable';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { getServerData } from '@weco/common/server-data';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -53,8 +52,10 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
-import { useToggles } from '@weco/common/server-data/Context';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
+import { URLSearchParams } from 'url';
+import { useSendVerificationEmail } from '../src/frontend/hooks/useSendVerificationEmail';
+import { UnverifiedEmail } from '../src/frontend/MyAccount/UnverifiedEmail';
 
 type DetailProps = {
   label: string;
@@ -67,8 +68,8 @@ type DetailListProps = {
 
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
-    <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
+    <dt className={font('intb', 5)}>{label}</dt>
+    <StyledDd className={`${font('intr', 5)}`}>{value}</StyledDd>
   </>
 );
 
@@ -87,7 +88,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
   ...props
 }) => (
   <button
-    className={font('hnr', 5)}
+    className={font('intr', 5)}
     style={{
       border: 'none',
       background: 'none',
@@ -101,7 +102,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
 );
 
 const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
-  <p className={`${font('hnr', 5)}`}>
+  <p className={`${font('intr', 5)}`}>
     Something went wrong fetching your item requests.
     <TextButton
       onClick={() => {
@@ -120,16 +121,14 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
   return (
     <StatusAlert type={type}>
       <Icon icon={info2} color={`currentColor`} />
-      <AlignFont>
-        <Space
-          h={{
-            size: 's',
-            properties: ['margin-left'],
-          }}
-        >
-          {children}
-        </Space>
-      </AlignFont>
+      <Space
+        h={{
+          size: 's',
+          properties: ['margin-left'],
+        }}
+      >
+        {children}
+      </Space>
     </StatusAlert>
   );
 };
@@ -143,6 +142,49 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   withPageAuthRequiredSSR({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
+
+      // When a user goes through the registration flow, we create a user
+      // with a placeholder name and *then* update their name in Sierra.
+      //
+      // This causes an issue if they go from the registration flow directly
+      // to their account page:
+      //
+      //    - We can't update their name directly with the Auth0 management
+      //      API, because it's synced from Sierra.
+      //    - Auth0 syncs data from Sierra whenever the user authenticates,
+      //      i.e. logs in [2], and despite trying I haven't found an easy way
+      //      to get Auth0 to re-sync without a login.
+      //
+      // So to get something working for sign-up, we assume that anybody who
+      // signs in with the placeholder surname has just signed up, and we log
+      // them out and redirect to the /success page.
+      //
+      // When they log back in, Auth0 will re-sync their data and pick up their
+      // updated name.
+      //
+      // This is less than ideal, but it gets _something_ working, and we can
+      // revisit re-syncing user data without a login later.
+      //
+      // [1]: https://wellcome.slack.com/archives/CUA669WHH/p1656325929053499?thread_ts=1656322401.443269&cid=CUA669WHH
+      // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
+      //
+      const session = auth0.getSession(context.req, context.res);
+
+      if (session.user.family_name === 'Auth0_Registration_tempLastName') {
+        const successParams = new URLSearchParams();
+        successParams.append('email', session.user.email);
+
+        const params = new URLSearchParams();
+        params.append('returnTo', `/success?${successParams}`);
+
+        return {
+          redirect: {
+            destination: `/api/auth/logout?${params}`,
+            permanent: false,
+          },
+        };
+      }
+
       return {
         props: removeUndefinedProps({
           serverData,
@@ -157,7 +199,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
-  const { enablePickUpDate } = useToggles();
+  const sendVerificationEmail = useSendVerificationEmail();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
@@ -169,6 +211,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     auth0UserProfileToUserInfo(auth0UserClaims as Auth0UserProfile);
 
   const router = useRouter();
+
   const logoutOnDeletionRequest = () => {
     router.replace(
       `/api/auth/logout?returnTo=${encodeURIComponent('/delete-requested')}`
@@ -201,7 +244,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
-              You have not yet validated your email address
+              <UnverifiedEmail {...sendVerificationEmail} />
             </AccountStatus>
           )}
           {isEmailUpdated && (
@@ -266,16 +309,24 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   case 'success':
                     if (requestedItems.totalResults === 0) {
                       return (
-                        <p className={`${font('hnr', 5)}`}>
+                        <Space
+                          as="p"
+                          className={`${font('intr', 5)}`}
+                          v={{
+                            size: 's',
+                            properties: ['margin-bottom'],
+                            overrides: { small: 1 },
+                          }}
+                        >
                           Any item requests you make will appear here.
-                        </p>
+                        </Space>
                       );
                     } else {
                       return (
                         <>
                           <Space
                             as="p"
-                            className={`${font('hnb', 5)}`}
+                            className={`${font('intb', 5)}`}
                             v={{ size: 's', properties: ['margin-bottom'] }}
                           >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
                           <ProgressBar>
@@ -288,14 +339,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             />
                           </ProgressBar>
                           <StackingTable
-                            maxWidth={enablePickUpDate ? 1180 : 980}
+                            maxWidth={1180}
                             rows={[
                               [
                                 'Title',
                                 'Status',
-                                enablePickUpDate
-                                  ? 'Pickup date requested'
-                                  : null,
+                                'Pickup date requested',
                                 'Pickup location',
                               ].filter(Boolean),
                               ...requestedItems.results.map(result =>
@@ -325,15 +374,13 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                       result.status.id
                                     ] ?? result.status.label}
                                   </ItemStatus>,
-                                  enablePickUpDate ? (
-                                    result.pickupDate ? (
-                                      <HTMLDate
-                                        date={new Date(result.pickupDate)}
-                                      />
-                                    ) : (
-                                      <p>n/a</p>
-                                    )
-                                  ) : null,
+                                  result.pickupDate ? (
+                                    <HTMLDate
+                                      date={new Date(result.pickupDate)}
+                                    />
+                                  ) : (
+                                    <p>n/a</p>
+                                  ),
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}
                                   </ItemPickup>,
@@ -342,15 +389,15 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             ]}
                           />
                           <Space
-                            className={`${font('hnr', 5)}`}
+                            className={`${font('intr', 5)}`}
                             v={{
                               size: 'l',
                               properties: ['margin-top'],
                             }}
                           >
                             Requests made will be available to pick up from the
-                            library for one week. If you wish to cancel a
-                            request, please{' '}
+                            library for one week from your selected pickup date.
+                            If you wish to cancel a request, please{' '}
                             <a href="mailto:library@wellcomecollection.org">
                               contact the library team.
                             </a>
@@ -368,7 +415,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('hnr', 5)}>
+              <p className={font('intr', 5)}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

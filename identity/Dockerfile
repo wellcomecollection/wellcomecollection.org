@@ -1,5 +1,5 @@
 # This image should be built with the parent directory as context
-FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:14.17.6
+FROM public.ecr.aws/docker/library/node:14-slim
 
 RUN apt-get update && apt-get install -y awscli
 

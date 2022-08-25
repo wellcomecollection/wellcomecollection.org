@@ -1,7 +1,6 @@
 import { font, classNames } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Space from '../styled/Space';
-import AlignFont from '../styled/AlignFont';
 import { InlineButton } from '../ButtonInline/ButtonInline';
 import { FunctionComponent, ReactElement } from 'react';
 import { LinkProps } from '../../../model/link-props';
@@ -26,7 +25,7 @@ type PartWithSeparatorProps = {
 
 const PartWithSeparator = styled.span.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })<PartWithSeparatorProps>`
   &:after {
@@ -71,28 +70,26 @@ const Tags: FunctionComponent<Props> = ({
             >
               <NextLink {...linkAttributes} passHref>
                 <InlineButton>
-                  <AlignFont>
-                    <TagInner>
-                      {textParts.map((part, i, arr) => (
-                        <PartWithSeparator
-                          key={part}
-                          separator={i === 0 ? '|' : separator}
-                          isLast={i === arr.length - 1}
+                  <TagInner>
+                    {textParts.map((part, i, arr) => (
+                      <PartWithSeparator
+                        key={part}
+                        separator={i === 0 ? '|' : separator}
+                        isLast={i === arr.length - 1}
+                      >
+                        <span
+                          className={classNames({
+                            [font(
+                              i === 0 && isFirstPartBold ? 'intb' : 'intr',
+                              5
+                            )]: true,
+                          })}
                         >
-                          <span
-                            className={classNames({
-                              [font(
-                                i === 0 && isFirstPartBold ? 'hnb' : 'hnr',
-                                5
-                              )]: true,
-                            })}
-                          >
-                            {part}
-                          </span>
-                        </PartWithSeparator>
-                      ))}
-                    </TagInner>
-                  </AlignFont>
+                          {part}
+                        </span>
+                      </PartWithSeparator>
+                    ))}
+                  </TagInner>
                 </InlineButton>
               </NextLink>
             </Space>

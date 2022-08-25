@@ -115,19 +115,32 @@ export function convertIiifImageUri(
   }
 }
 
-export function convertImageUri(
+export function convertPrismicImageUri(
   originalUri: string,
   requiredSize: number | 'full'
 ): string {
-  const imageSrc = determineSrc(originalUri);
-  if (imageSrc === 'prismic') {
+  if (!originalUri.startsWith(prismicBaseUri)) {
+    return originalUri;
+  } else {
     const parts = prismicTemplateParts(originalUri, requiredSize);
     return prismicImageTemplate(parts.base)({
       ...parts.params,
     });
-  } else if (imageSrc === 'iiif') {
-    return convertIiifImageUri(originalUri, requiredSize);
-  } else {
-    return originalUri;
+  }
+}
+
+export function convertImageUri(
+  originalUri: string,
+  requiredSize: number | 'full'
+): string {
+  switch (determineSrc(originalUri)) {
+    case 'prismic':
+      return convertPrismicImageUri(originalUri, requiredSize);
+
+    case 'iiif':
+      return convertIiifImageUri(originalUri, requiredSize);
+
+    default:
+      return originalUri;
   }
 }

@@ -1,12 +1,12 @@
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { image as contentImage } from '../../content';
 
 const Template = args => <WobblyBottom {...args} />;
 export const image = Template.bind({});
 image.args = {
   color: 'cream',
-  children: <UiImage {...contentImage()} isFull={true} />,
+  children: <PrismicImage image={contentImage()} quality="low" />,
 };
 
 export const headline = Template.bind({});

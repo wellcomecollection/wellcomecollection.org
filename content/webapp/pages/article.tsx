@@ -9,7 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
-import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -24,13 +24,14 @@ import {
   fetchArticlesClientSide,
 } from '../services/prismic/fetch/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
-import { looksLikePrismicId } from '../services/prismic';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
-import * as prismic from '@prismicio/client';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type Props = {
   article: Article;
+  jsonLd: JsonLdObj;
 } & WithGaDimensions;
 
 function articleHasOutro(article: Article) {
@@ -52,9 +53,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (articleDocument) {
       const article = transformArticle(articleDocument);
+      const jsonLd = articleLd(article);
       return {
         props: removeUndefinedProps({
           article,
+          jsonLd,
           serverData,
           gaDimensions: {
             partOf: article.seasons
@@ -77,7 +80,8 @@ function getNextUp(
   series: Series,
   articles: Article[],
   article: Article,
-  currentPosition?: number
+  currentPosition: number | undefined,
+  isPodcast: boolean
 ): ReactElement | null {
   if (series.schedule.length > 0 && currentPosition) {
     const firstArticleFromSchedule = series.schedule.find(
@@ -98,17 +102,28 @@ function getNextUp(
         : nextArticle || null;
 
     return nextUp ? (
-      <SeriesNavigation key={series.id} series={series} items={[nextUp]} />
+      <SeriesNavigation
+        key={series.id}
+        series={series}
+        items={[nextUp]}
+        isPodcast={isPodcast}
+      />
     ) : null;
   } else {
     const dedupedArticles = articles
       .filter(a => a.id !== article.id)
       .slice(0, 2);
-    return <SeriesNavigation series={series} items={dedupedArticles} />;
+    return (
+      <SeriesNavigation
+        series={series}
+        items={dedupedArticles}
+        isPodcast={isPodcast}
+      />
+    );
   }
 }
 
-const ArticlePage: FC<Props> = ({ article }) => {
+const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
 
   useEffect(() => {
@@ -120,7 +135,10 @@ const ArticlePage: FC<Props> = ({ article }) => {
             ? 'my.webcomics.series.series'
             : 'my.articles.series.series';
 
-        const predicates = [prismic.predicate.at(seriesField, series.id)];
+        // Note: we deliberately use a hard-coded string here instead of the
+        // predicate DSL in the Prismic client library, because it means we don't
+        // send the Prismic client library as part of the browser bundle.
+        const predicates = [`[at(${seriesField}, "${series.id}")]`];
 
         const articlesInSeries = series
           ? await fetchArticlesClientSide({ predicates })
@@ -160,7 +178,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
   };
 
   const isPodcast =
-    article.format && article.format.id === ArticleFormatIds.Podcast;
+    (article.format && article.format.id === ArticleFormatIds.Podcast) || false;
 
   // Check if the article is in a serial, and where
   const serial = article.series.find(series => series.schedule.length > 0);
@@ -191,7 +209,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
           <p
             className={classNames({
               'no-margin': true,
-              [font('hnr', 6)]: true,
+              [font('intr', 6)]: true,
             })}
           >
             {article.contributors.length > 0 &&
@@ -207,7 +225,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
                   )}
                   <span
                     className={classNames({
-                      [font('hnb', 6)]: true,
+                      [font('intb', 6)]: true,
                     })}
                   >
                     {contributor.name}
@@ -229,7 +247,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
             <span
               className={classNames({
                 'block font-pewter': true,
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
             >
               <HTMLDate date={new Date(article.datePublished)} />
@@ -269,7 +287,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
 
   const Siblings = listOfSeries
     ?.map(({ series, articles }) => {
-      return getNextUp(series, articles, article, positionInSerial);
+      return getNextUp(series, articles, article, positionInSerial, isPodcast);
     })
     .filter(Boolean);
 
@@ -278,7 +296,7 @@ const ArticlePage: FC<Props> = ({ article }) => {
       title={article.title}
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
-      jsonLd={articleLd(article)}
+      jsonLd={jsonLd}
       openGraphType={'article'}
       siteSection={'stories'}
       image={article.image}

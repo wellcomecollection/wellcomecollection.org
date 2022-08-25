@@ -9,6 +9,20 @@ steps:
 
   - wait
 
+  - label: "Check URLs"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: e2e
+          env:
+            - BASE_URL=$PLAYWRIGHT_BASE_URL
+          volumes:
+            - "./.buildkite/urls:/usr/src/app/webapp/playwright/urls"
+          command: ["bash", "check_urls.sh"]
+
   - label: "e2e test:desktop [$DEPLOYMENT_ENVIRONMENT]"
     plugins:
       - wellcomecollection/aws-assume-role#v0.2.2:
@@ -18,9 +32,12 @@ steps:
       - docker-compose#v3.5.0:
           run: e2e
           env:
+            - CI=true
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test"]
+    agents:
+      queue: scala # High parallelism for expensive tests
     retry:
       automatic: true
 
@@ -33,8 +50,11 @@ steps:
       - docker-compose#v3.5.0:
           run: e2e
           env:
+            - CI=true
             - PLAYWRIGHT_BASE_URL=$PLAYWRIGHT_BASE_URL
             - USE_STAGE_APIS=$USE_STAGE_APIS
           command: ["yarn", "test:mobile"]
+    agents:
+      queue: scala # High parallelism for expensive tests
     retry:
       automatic: true

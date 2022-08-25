@@ -1,30 +1,25 @@
-export async function fillInputAction(
+import { Page } from 'playwright';
+
+export const fillInputAction = async (
   selector: string,
-  text: string
-): Promise<void> {
+  text: string,
+  page: Page
+): Promise<void> => {
   await page.fill(selector, text);
-}
+};
 
-export async function getInputValueAction(selector: string): Promise<string> {
-  const value = await page.$eval<string, HTMLInputElement>(
-    selector,
-    el => el.value
-  );
-  return value;
-}
-
-export function isMobile(): boolean {
-  return Boolean(deviceName);
-}
-
-export async function elementIsVisible(selector: string): Promise<boolean> {
-  return Boolean(await page.waitForSelector(selector));
-}
-
-export async function itemsIsVisible(
+export const elementIsVisible = async (
   selector: string,
-  minNoOfItems: number
-): Promise<boolean> {
+  page: Page
+): Promise<boolean> => {
+  return Boolean(await page.waitForSelector(selector));
+};
+
+export const itemsIsVisible = async (
+  selector: string,
+  minNoOfItems: number,
+  page: Page
+): Promise<boolean> => {
   const result = await page.$$eval(
     selector,
     (items, min) => {
@@ -34,4 +29,4 @@ export async function itemsIsVisible(
   );
 
   return result;
-}
+};

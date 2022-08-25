@@ -1,0 +1,25 @@
+# A real URL we saw, where the work ID had somehow been mangled to
+# add a bunch of spaces.  The corresponding wellcomeimages.org URL
+# redirects correctly, so we just check this 404s.
+/works/%E2%80%8Cqvku%E2%80%8Czu%E2%80%8C5w?wellcomeImagesUrl=/indexplus/image/L0025863.html
+
+# See https://github.com/wellcomecollection/wellcomecollection.org/issues/7417
+/articles/notfound
+/books/notfound
+/exhibitions/notfound
+
+# Ignore attempts to inject malicious data into our Prismic queries
+/event-series/WlYUDCQAACQAWcdt..!5c..
+
+# This is a real Prismic ID, but it's an exhibition, not an event
+/events/YZYdQxEAACQAVm7b
+
+# Ignore requests for bare types
+/event-series
+
+# Weird characters in the Prismic ID
+# See https://github.com/wellcomecollection/wellcomecollection.org/issues/7611
+/exhibitions/states-mind-tracing-edges-consciousness%22
+
+# Guide formats that don't exist
+/guides?format=%not-a-prismic-id%

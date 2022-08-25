@@ -2,7 +2,7 @@ import title from './parts/title';
 import geolocation from './parts/geolocation';
 import number from './parts/number';
 import body from './parts/body';
-import structuredText from './parts/structured-text';
+import { multiLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const places: CustomType = {
@@ -16,7 +16,7 @@ const places: CustomType = {
       geolocation: geolocation(),
       level: number('Level'),
       capacity: number('Capacity'),
-      locationInformation: structuredText('Location information'),
+      locationInformation: multiLineText({ label: 'Location information' }),
       body,
     },
   },

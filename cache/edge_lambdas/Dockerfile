@@ -1,12 +1,10 @@
-FROM 760097843905.dkr.ecr.eu-west-1.amazonaws.com/node:12.18.3
+FROM public.ecr.aws/docker/library/node:12-slim
 
-VOLUME /dist
+RUN apt-get update && apt-get install -yq --no-install-recommends git zip
 
-RUN apt-get update && apt-get install -yq --no-install-recommends zip
-
-WORKDIR /usr/src/app/webapp
-
-ADD . /usr/src/app/webapp
+ADD .git /repo/.git
+ADD cache/edge_lambdas /repo/cache/edge_lambdas
+WORKDIR /repo/cache/edge_lambdas
 
 RUN yarn && yarn build && yarn cache clean
 

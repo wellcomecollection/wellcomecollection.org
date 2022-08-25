@@ -1,5 +1,23 @@
-import { PrismicDocument } from '@prismicio/types';
+import {
+  PrismicDocument,
+  RelationField,
+  FilledLinkToDocumentField,
+  FilledLinkToWebField,
+  LinkField,
+  AnyRegularField,
+  GroupField,
+  SliceZone,
+} from '@prismicio/types';
+import { isNotUndefined } from '../../../utils/array';
+import * as prismicH from '@prismicio/helpers';
 
+/**
+ * This is a convenience type for what the generic DataInterface type extend in @prismicio/types
+ */
+export type DataInterface = Record<
+  string,
+  AnyRegularField | GroupField | SliceZone
+>;
 /**
  * This allows us to get the DataInterface from PrismicDocuments when we
  * Need them for `RelationField`s e.g.
@@ -22,3 +40,34 @@ export type PaginatedResults<T> = {
   totalResults: number;
   totalPages: number;
 };
+
+// Guards
+export function isFilledLinkToDocument<T, L, D extends DataInterface>(
+  field: RelationField<T, L, D> | undefined
+): field is FilledLinkToDocumentField<T, L, D> {
+  return isNotUndefined(field) && 'id' in field && field.isBroken === false;
+}
+
+export function isFilledLinkToDocumentWithData<T, L, D extends DataInterface>(
+  field: RelationField<T, L, D> | undefined
+): field is FilledLinkToDocumentField<T, L, D> & { data: DataInterface } {
+  return isFilledLinkToDocument(field) && 'data' in field;
+}
+
+export function isFilledLinkToWebField(
+  field: LinkField
+): field is FilledLinkToWebField {
+  return (
+    prismicH.isFilled.link(field) && field.link_type === 'Web' && 'url' in field
+  );
+}
+
+export function isFilledLinkToMediaField(
+  field: LinkField
+): field is FilledLinkToWebField {
+  return (
+    prismicH.isFilled.link(field) &&
+    field.link_type === 'Media' &&
+    'url' in field
+  );
+}

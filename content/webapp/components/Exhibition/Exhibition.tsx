@@ -29,15 +29,17 @@ import Body from '../Body/Body';
 import SearchResults from '../SearchResults/SearchResults';
 import ContentPage from '../ContentPage/ContentPage';
 import Contributors from '../Contributors/Contributors';
-import { exhibitionLd } from '../../services/prismic/transformers/json-ld';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { a11y } from '@weco/common/data/microcopy';
 import { fetchExhibitionRelatedContentClientSide } from '../../services/prismic/fetch/exhibitions';
-import { Exhibition as ExhibitionType } from '../../types/exhibitions';
-import { Book } from '../../types/books';
-import { Article } from '../../types/articles';
+import {
+  Exhibition as ExhibitionType,
+  ExhibitionAbout,
+} from '../../types/exhibitions';
+
 import { Event as EventType } from '../../types/events';
 import * as prismicT from '@prismicio/types';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
 type ExhibitionItem = LabelField & {
   icon?: IconSvg;
@@ -97,7 +99,7 @@ function getTodaysHoursObject(): ExhibitionItem {
       {
         type: 'paragraph',
         text: todaysHoursText,
-        spans: [link as any],
+        spans: [link],
       },
     ],
     icon: clock,
@@ -197,15 +199,17 @@ export function getInfoItems(exhibition: ExhibitionType): ExhibitionItem[] {
 
 type Props = {
   exhibition: ExhibitionType;
+  jsonLd: JsonLdObj;
   pages: PageType[];
 };
 
-const Exhibition: FC<Props> = ({ exhibition, pages }) => {
+const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
   type ExhibitionOf = (ExhibitionType | EventType)[];
-  type ExhibitionAbout = (Book | Article)[];
 
   const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout>([]);
+  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
+    []
+  );
 
   useEffect(() => {
     const ids = exhibition.relatedIds;
@@ -284,7 +288,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
         exhibition.metadataDescription || exhibition.promo?.caption || ''
       }
       url={{ pathname: `/exhibitions/${exhibition.id}` }}
-      jsonLd={exhibitionLd(exhibition)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={exhibition.image}
@@ -312,7 +316,7 @@ const Exhibition: FC<Props> = ({ exhibition, pages }) => {
 
         {exhibition.end && !isPast(exhibition.end) && (
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={`no-margin ${font('hnr', 5)}`}>
+            <p className={`no-margin ${font('intr', 5)}`}>
               <a href="/access">All our accessibility services</a>
             </p>
           </InfoBox>

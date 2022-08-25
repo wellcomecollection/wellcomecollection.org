@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { classNames, grid } from '@weco/common/utils/classnames';
+import { classNames } from '@weco/common/utils/classnames';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -11,7 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   prismicPageIds,
   featuredStoriesSeriesId,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import FeaturedText from '../components/FeaturedText/FeaturedText';
 import { defaultSerializer } from '../components/HTMLSerializers/HTMLSerializers';
 import {
@@ -19,7 +19,8 @@ import {
   transformPage,
 } from '../services/prismic/transformers/pages';
 import { FeaturedText as FeaturedTextType } from '../types/text';
-import { SectionPageHeader } from '@weco/common/views/components/styled/SectionPageHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { GetServerSideProps } from 'next';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -185,49 +186,31 @@ const StoriesPage: FC<Props> = ({
       image={firstArticle && firstArticle.image}
       rssUrl={'https://rss.wellcomecollection.org/stories'}
     >
-      <SpacingSection>
-        <Space
-          v={{
-            size: 'l',
-            properties: ['padding-top', 'padding-bottom'],
-          }}
-          className={classNames({
-            row: true,
-          })}
-        >
-          <div className="container">
-            <div className="grid">
-              <div
-                className={classNames({
-                  [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-                })}
+      <PageHeader
+        breadcrumbs={{ items: [] }}
+        title={'Stories'}
+        isContentTypeInfoBeforeMedia={false}
+        sectionLevelPage={true}
+      />
+      <>
+        {featuredText && featuredText.value && (
+          <Layout8 shift={false}>
+            <div className="body-text spaced-text">
+              <Space
+                v={{
+                  size: 'xl',
+                  properties: ['margin-bottom'],
+                }}
               >
-                <SectionPageHeader sectionLevelPage={true}>
-                  Stories
-                </SectionPageHeader>
-                {featuredText && featuredText.value && (
-                  <Space
-                    v={{
-                      size: 's',
-                      properties: ['margin-top'],
-                    }}
-                    className={classNames({
-                      'first-para-no-margin body-text': true,
-                    })}
-                  >
-                    {
-                      <FeaturedText
-                        html={featuredText.value}
-                        htmlSerializer={defaultSerializer}
-                      />
-                    }
-                  </Space>
-                )}
-              </div>
+                <FeaturedText
+                  html={featuredText.value}
+                  htmlSerializer={defaultSerializer}
+                />
+              </Space>
             </div>
-          </div>
-        </Space>
-      </SpacingSection>
+          </Layout8>
+        )}
+      </>
 
       <SpacingSection>
         <div
@@ -251,7 +234,9 @@ const StoriesPage: FC<Props> = ({
                 {articles.slice(1, 5).map((article, i) => {
                   return (
                     <div className="grid__cell" key={article.id}>
-                      <StoryPromo article={article} position={i} />
+                      <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
+                        <StoryPromo article={article} position={i} />
+                      </Space>
                     </div>
                   );
                 })}

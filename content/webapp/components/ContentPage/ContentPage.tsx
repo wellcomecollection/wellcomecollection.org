@@ -9,7 +9,7 @@ import {
 import {
   prismicPageIds,
   sectionLevelPages,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import { classNames } from '@weco/common/utils/classnames';
 import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
@@ -22,9 +22,8 @@ import PageHeader, {
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import CompactCard from '../CompactCard/CompactCard';
-import Image from '@weco/common/views/components/Image/Image';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 import BannerCard from '../BannerCard/BannerCard';
 import Contributors from '../Contributors/Contributors';
 import Outro from '../Outro/Outro';
@@ -49,6 +48,7 @@ type Props = {
     visitLinkText?: string;
     visitItem?: MultiContent;
   };
+  postOutroContent?: ReactNode;
   seasons?: Season[];
   contributors?: Contributor[];
   contributorTitle?: string;
@@ -71,11 +71,26 @@ const ShameWhatWeDoHack = () => (
       secondaryLabels={[]}
       description={pageDescriptions.userPanel}
       Image={
-        <Image
-          contentUrl={`https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg?auto=compress,format`}
-          width={3200}
-          height={3200}
-          alt={''}
+        <PrismicImage
+          image={{
+            // We intentionally omit the alt text on promos, so screen reader
+            // users don't have to listen to the alt text before hearing the
+            // title of the item in the list.
+            //
+            // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+            contentUrl:
+              'https://images.prismic.io/wellcomecollection/65334f9d-50d0-433f-a4ac-a780eef352e3_user_research_square.jpg',
+            width: 3200,
+            height: 3200,
+            alt: '',
+          }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 5,
+            small: 1 / 4,
+          }}
+          quality="low"
         />
       }
       xOfY={{ x: 1, y: 1 }}
@@ -91,6 +106,7 @@ const ContentPage = ({
   children,
   RelatedContent = [],
   outroProps,
+  postOutroContent,
   seasons = [],
   contributors,
   contributorTitle,
@@ -121,6 +137,7 @@ const ContentPage = ({
           </Space>
         )}
         <div
+          style={{ overflow: 'auto' }} // prevent margin collapsing for children
           className={classNames({
             'bg-cream': isCreamy,
           })}
@@ -175,13 +192,7 @@ const ContentPage = ({
             </SpacingSection>
           )}
 
-          {id === prismicPageIds.covidWelcomeBack && (
-            <Layout8>
-              <div style={{ width: '100px' }}>
-                <WeAreGoodToGo />
-              </div>
-            </Layout8>
-          )}
+          {postOutroContent && <Layout8>{postOutroContent}</Layout8>}
 
           {seasons.length > 0 &&
             seasons.map(season => (

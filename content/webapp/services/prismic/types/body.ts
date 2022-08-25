@@ -83,7 +83,7 @@ export type Embed = Slice<
   'embed',
   {
     embed: EmbedField;
-    caption: KeyTextField;
+    caption: RichTextField;
   }
 >;
 
@@ -133,6 +133,14 @@ export type TagList = Slice<
   }
 >;
 
+export type AudioPlayer = Slice<
+  'audioPlayer',
+  {
+    title: RichTextField;
+    audio: LinkToMediaField;
+  }
+>;
+
 export type InfoBlock = Slice<
   'infoBlock',
   {
@@ -154,7 +162,7 @@ export type TitledTextList = Slice<
   }
 >;
 
-type ContentList = Slice<
+export type ContentList = Slice<
   'contentList',
   { title: RichTextField },
   {

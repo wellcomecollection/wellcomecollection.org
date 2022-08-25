@@ -85,7 +85,7 @@ const eventPolicyFetchLink: FetchLinks<EventPolicy> = [
   'event-policies.description',
 ];
 
-type Team = PrismicDocument<
+export type Team = PrismicDocument<
   {
     title: RichTextField;
     subtitle: RichTextField;
@@ -115,6 +115,7 @@ export type EventTime = {
   startDateTime: TimestampField;
   endDateTime: TimestampField;
   isFullyBooked: BooleanField;
+  onlineIsFullyBooked: BooleanField;
 };
 
 export type EventPrismicDocument = PrismicDocument<
@@ -184,6 +185,25 @@ export type EventPrismicDocument = PrismicDocument<
       'en-gb',
       InferDataInterface<BackgroundTexturesDocument>
     >;
+    onlineTicketSalesStart: TimestampField;
+    onlineBookingEnquiryTeam: RelationField<
+      'teams',
+      'en-gb',
+      InferDataInterface<Team>
+    >;
+    onlineEventbriteEvent: EmbedField;
+    onlineThirdPartyBookingName: KeyTextField;
+    onlineThirdPartyBookingUrl: LinkField;
+    onlineBookingInformation: RichTextField;
+    onlinePolicies: GroupField<{
+      policy: RelationField<
+        'event-policy',
+        'en-gb',
+        InferDataInterface<EventPolicy>
+      >;
+    }>;
+    onlineHasEarlyRegistration: SelectField<'yes'>;
+    onlineCost: KeyTextField;
   } & WithContributors &
     WithEventSeries &
     WithExhibitionParents &

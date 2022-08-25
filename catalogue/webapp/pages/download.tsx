@@ -4,7 +4,7 @@ import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
 } from '../utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import {
   getDownloadOptionsFromManifest,
   getIIIFPresentationCredit,
@@ -15,7 +15,9 @@ import { IIIFManifest } from '../model/iiif';
 import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
-import Download from '@weco/catalogue/components/Download/Download';
+import Download, {
+  getCreditString,
+} from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import Space from '@weco/common/views/components/styled/Space';
@@ -47,9 +49,8 @@ const DownloadPage: NextPage<Props> = ({
     : null;
   const digitalLocation = iiifImageLocation || iiifPresentationLocation;
   const license =
-    digitalLocation &&
-    digitalLocation.license &&
-    getAugmentedLicenseInfo(digitalLocation.license);
+    digitalLocation?.license &&
+    getCatalogueLicenseData(digitalLocation.license);
 
   const iiifImageLocationUrl =
     iiifImageLocation &&
@@ -100,7 +101,7 @@ const DownloadPage: NextPage<Props> = ({
               as="h1"
               id="work-info"
               className={classNames({
-                [font('hnb', 1)]: true,
+                [font('intb', 1)]: true,
               })}
             >
               {title}
@@ -126,23 +127,13 @@ const DownloadPage: NextPage<Props> = ({
                   <WorkDetailsText
                     title="License information"
                     text={license.humanReadableText}
+                    allowRawHtml={true}
                   />
                 )}
                 <WorkDetailsText
                   title="Credit"
-                  text={[
-                    `${title.replace(/\.$/g, '')}.${' '}
-              ${
-                credit
-                  ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${credit}</a>. `
-                  : ` `
-              }
-              ${
-                license.url
-                  ? `<a href="${license.url}">${license.label}</a>`
-                  : license.label
-              }`,
-                  ]}
+                  text={getCreditString(workId, title, credit, license)}
+                  allowRawHtml={true}
                 />
               </div>
             </SpacingComponent>

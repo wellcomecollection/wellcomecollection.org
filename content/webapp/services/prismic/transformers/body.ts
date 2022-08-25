@@ -1,8 +1,10 @@
 import {
   CollectionVenue as CollectionVenueSlice,
   Contact as ContactSlice,
+  ContentList as ContentListSlice,
   EditorialImageSlice,
   EditorialImageGallerySlice,
+  Embed as EmbedSlice,
   Iframe as IframeSlice,
   InfoBlock as InfoBlockSlice,
   Map as MapSlice,
@@ -18,42 +20,43 @@ import {
   TitledTextList as TitledTextListSlice,
   GifVideoSlice,
   Discussion as DiscussionSlice,
+  AudioPlayer as AudioPlayerSlice,
+  Body,
 } from '../types/body';
-import { Props as TableProps } from '@weco/common/views/components/Table/Table';
 import { Props as ContactProps } from '@weco/common/views/components/Contact/Contact';
-import { Props as IframeProps } from '@weco/common/views/components/Iframe/Iframe';
-import { Props as InfoBlockProps } from '@weco/common/views/components/InfoBlock/InfoBlock';
-import { Props as AsyncSearchResultsProps } from '../../../components/SearchResults/AsyncSearchResults';
-import { Props as QuoteProps } from '../../../components/Quote/Quote';
-import { Props as ImageGalleryProps } from '../../../components/ImageGallery/ImageGallery';
-import { Props as DeprecatedImageListProps } from '../../../components/DeprecatedImageList/DeprecatedImageList';
-import { Props as GifVideoProps } from '../../../components/GifVideo/GifVideo';
-import { Props as TitledTextListProps } from '../../../components/TitledTextList/TitledTextList';
-import { Props as TagsGroupProps } from '@weco/common/views/components/TagsGroup/TagsGroup';
-import { Props as MapProps } from '../../../components/Map/Map';
-import { Props as DiscussionProps } from '../../../components/Discussion/Discussion';
-import { MediaObjectType } from '../../../types/media-object';
 import { isNotUndefined } from '@weco/common/utils/array';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToMediaField,
-} from '../types';
+} from '@weco/common/services/prismic/types';
 import { TeamPrismicDocument } from '../types/teams';
 import { transformCaptionedImage } from './images';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
-import { CaptionedImage } from '@weco/common/model/captioned-image';
+import { asRichText, transformLabelType, asTitle, asText } from '.';
 import {
   transformLink,
-  asRichText,
-  transformLabelType,
-  asTitle,
-  asText,
-} from '.';
-import { transformTaslFromString } from '@weco/common/services/prismic/transformers';
+  transformTaslFromString,
+} from '@weco/common/services/prismic/transformers';
 import { LinkField, RelationField, RichTextField } from '@prismicio/types';
-import { Weight } from '../../../types/generic-content-fields';
-import { Venue } from '@weco/common/model/opening-hours';
+import { BodySlice, Weight } from '../../../types/body';
 import { transformCollectionVenue } from '@weco/common/services/prismic/transformers/collection-venues';
+import { GuidePrismicDocument } from '../types/guides';
+import { SeasonPrismicDocument } from '../types/seasons';
+import { CardPrismicDocument } from '../types/card';
+import { PagePrismicDocument } from '../types/pages';
+import { EventSeriesPrismicDocument } from '../types/event-series';
+import { BookPrismicDocument } from '../types/books';
+import { EventPrismicDocument } from '../types/events';
+import { ArticlePrismicDocument } from '../types/articles';
+import { ExhibitionPrismicDocument } from '../types/exhibitions';
+import { transformPage } from './pages';
+import { transformGuide } from './guides';
+import { transformEventSeries } from './event-series';
+import { transformExhibition } from './exhibitions';
+import { transformArticle } from './articles';
+import { transformEvent } from './events';
+import { transformSeason } from './seasons';
+import { transformCard } from './card';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -68,15 +71,7 @@ export function getWeight(weight: string | null): Weight {
   }
 }
 
-type ParsedSlice<TypeName extends string, Value> = {
-  type: TypeName;
-  weight?: Weight;
-  value: Value;
-};
-
-export function transformStandfirstSlice(
-  slice: StandfirstSlice
-): ParsedSlice<'standfirst', RichTextField> {
+function transformStandfirstSlice(slice: StandfirstSlice): BodySlice {
   return {
     type: 'standfirst',
     weight: getWeight(slice.slice_label),
@@ -84,9 +79,7 @@ export function transformStandfirstSlice(
   };
 }
 
-export function transformTextSlice(
-  slice: TextSlice
-): ParsedSlice<'text', RichTextField> {
+function transformTextSlice(slice: TextSlice): BodySlice {
   return {
     type: 'text',
     weight: getWeight(slice.slice_label),
@@ -94,9 +87,7 @@ export function transformTextSlice(
   };
 }
 
-export function transformMapSlice(
-  slice: MapSlice
-): ParsedSlice<'map', MapProps> {
+function transformMapSlice(slice: MapSlice): BodySlice {
   return {
     type: 'map',
     value: {
@@ -114,9 +105,7 @@ function transformTableCsv(tableData: string): string[][] {
     .map(row => row.split('|').map(cell => cell.trim()));
 }
 
-export function transformTableSlice(
-  slice: TableSlice
-): ParsedSlice<'table', TableProps> {
+function transformTableSlice(slice: TableSlice): BodySlice {
   return {
     type: 'table',
     value: {
@@ -129,29 +118,19 @@ export function transformTableSlice(
   };
 }
 
-export function transformMediaObjectListSlice(
-  slice: MediaObjectListSlice
-): ParsedSlice<'mediaObjectList', { items: MediaObjectType[] }> {
+function transformMediaObjectListSlice(slice: MediaObjectListSlice): BodySlice {
   return {
     type: 'mediaObjectList',
     value: {
       items: slice.items
         .map(mediaObject => {
           if (mediaObject) {
-            // make sure we have the content we require
-            const title = mediaObject.title.length
-              ? mediaObject?.title
-              : undefined;
-            const text = mediaObject.text.length
-              ? mediaObject?.text
-              : undefined;
-            const image = mediaObject.image?.square?.dimensions
-              ? mediaObject.image
-              : undefined;
             return {
-              title: title ? asTitle(title) : null,
-              text: text ? asRichText(text) || null : null,
-              image: transformImage(image) || null,
+              title: asTitle(mediaObject.title),
+              text: mediaObject.text.length
+                ? asRichText(mediaObject.text)
+                : undefined,
+              image: transformImage(mediaObject.image)!,
             };
           }
         })
@@ -160,9 +139,7 @@ export function transformMediaObjectListSlice(
   };
 }
 
-export function transformTeamToContact(
-  team: TeamPrismicDocument
-): ContactProps {
+function transformTeamToContact(team: TeamPrismicDocument): ContactProps {
   const {
     data: { title, subtitle, email, phone },
   } = team;
@@ -175,9 +152,7 @@ export function transformTeamToContact(
   };
 }
 
-export function transformContactSlice(
-  slice: ContactSlice
-): ParsedSlice<'contact', ContactProps> | undefined {
+function transformContactSlice(slice: ContactSlice): BodySlice | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'contact',
@@ -186,9 +161,7 @@ export function transformContactSlice(
     : undefined;
 }
 
-export function transformEditorialImageSlice(
-  slice: EditorialImageSlice
-): ParsedSlice<'picture', CaptionedImage> {
+function transformEditorialImageSlice(slice: EditorialImageSlice): BodySlice {
   return {
     weight: getWeight(slice.slice_label),
     type: 'picture',
@@ -196,9 +169,9 @@ export function transformEditorialImageSlice(
   };
 }
 
-export function transformEditorialImageGallerySlice(
+function transformEditorialImageGallerySlice(
   slice: EditorialImageGallerySlice
-): ParsedSlice<'imageGallery', ImageGalleryProps> {
+): BodySlice {
   return {
     type: 'imageGallery',
     value: {
@@ -209,9 +182,9 @@ export function transformEditorialImageGallerySlice(
   };
 }
 
-export function transformDeprecatedImageListSlice(
+function transformDeprecatedImageListSlice(
   slice: DeprecatedImageListSlice
-): ParsedSlice<'deprecatedImageList', DeprecatedImageListProps> {
+): BodySlice {
   return {
     type: 'deprecatedImageList',
     weight: getWeight(slice.slice_label),
@@ -232,9 +205,7 @@ export function transformDeprecatedImageListSlice(
   };
 }
 
-export function transformGifVideoSlice(
-  slice: GifVideoSlice
-): ParsedSlice<'gifVideo', GifVideoProps> | undefined {
+function transformGifVideoSlice(slice: GifVideoSlice): BodySlice | undefined {
   const playbackRate = slice.primary.playbackRate
     ? parseFloat(slice.primary.playbackRate)
     : 1;
@@ -281,9 +252,7 @@ function transformTitledTextItem({
   };
 }
 
-export function transformTitledTextListSlice(
-  slice: TitledTextListSlice
-): ParsedSlice<'titledTextList', TitledTextListProps> {
+function transformTitledTextListSlice(slice: TitledTextListSlice): BodySlice {
   return {
     type: 'titledTextList',
     value: {
@@ -292,9 +261,7 @@ export function transformTitledTextListSlice(
   };
 }
 
-export function transformDiscussionSlice(
-  slice: DiscussionSlice
-): ParsedSlice<'discussion', DiscussionProps> {
+function transformDiscussionSlice(slice: DiscussionSlice): BodySlice {
   return {
     type: 'discussion',
     value: {
@@ -304,9 +271,7 @@ export function transformDiscussionSlice(
   };
 }
 
-export function transformInfoBlockSlice(
-  slice: InfoBlockSlice
-): ParsedSlice<'infoBlock', InfoBlockProps> {
+function transformInfoBlockSlice(slice: InfoBlockSlice): BodySlice {
   return {
     type: 'infoBlock',
     value: {
@@ -318,9 +283,7 @@ export function transformInfoBlockSlice(
   };
 }
 
-export function transformIframeSlice(
-  slice: IframeSlice
-): ParsedSlice<'iframe', IframeProps> {
+function transformIframeSlice(slice: IframeSlice): BodySlice {
   return {
     type: 'iframe',
     weight: getWeight(slice.slice_label),
@@ -331,9 +294,7 @@ export function transformIframeSlice(
   };
 }
 
-export function transformQuoteSlice(
-  slice: QuoteSlice | QuoteV2Slice
-): ParsedSlice<'quote', QuoteProps> {
+function transformQuoteSlice(slice: QuoteSlice | QuoteV2Slice): BodySlice {
   return {
     type: 'quote',
     weight: getWeight(slice.slice_label),
@@ -346,9 +307,7 @@ export function transformQuoteSlice(
   };
 }
 
-export function transformTagListSlice(
-  slice: TagListSlice
-): ParsedSlice<'tagList', TagsGroupProps> {
+function transformTagListSlice(slice: TagListSlice): BodySlice {
   return {
     type: 'tagList',
     value: {
@@ -364,9 +323,17 @@ export function transformTagListSlice(
   };
 }
 
-export function transformSearchResultsSlice(
-  slice: SearchResultsSlice
-): ParsedSlice<'searchResults', AsyncSearchResultsProps> {
+function transformAudioPlayerSlice(slice: AudioPlayerSlice): BodySlice {
+  return {
+    type: 'audioPlayer',
+    value: {
+      title: asTitle(slice.primary.title),
+      audioFile: transformLink(slice.primary.audio) || '',
+    },
+  };
+}
+
+function transformSearchResultsSlice(slice: SearchResultsSlice): BodySlice {
   return {
     type: 'searchResults',
     weight: getWeight(slice.slice_label),
@@ -377,14 +344,9 @@ export function transformSearchResultsSlice(
   };
 }
 
-export function transformCollectionVenueSlice(
+function transformCollectionVenueSlice(
   slice: CollectionVenueSlice
-):
-  | ParsedSlice<
-      'collectionVenue',
-      { content: Venue; showClosingTimes: boolean }
-    >
-  | undefined {
+): BodySlice | undefined {
   return isFilledLinkToDocumentWithData(slice.primary.content)
     ? {
         type: 'collectionVenue',
@@ -395,4 +357,191 @@ export function transformCollectionVenueSlice(
         },
       }
     : undefined;
+}
+
+function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
+  const embed = slice.primary.embed;
+
+  if (embed.provider_name === 'Vimeo') {
+    const embedUrl = slice.primary.embed.html?.match(
+      /src="([-a-zA-Z0-9://.?=_]+)?/
+    )![1];
+
+    return {
+      type: 'videoEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: `${embedUrl}?rel=0&dnt=1`,
+        caption: slice.primary.caption,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'SoundCloud') {
+    const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
+    const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
+    const secretTokenString =
+      secretToken && secretToken[1]
+        ? `%3Fsecret_token%3D${secretToken[1]}`
+        : '';
+
+    return {
+      type: 'soundcloudEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
+        caption: slice.primary.caption,
+      },
+    };
+  }
+
+  if (embed.provider_name === 'YouTube') {
+    // The embed will be a blob of HTML of the form
+    //
+    //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
+    //
+    // We want to add the query parameter ?rel=0
+    const embedUrl = slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
+
+    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
+      'www.youtube.com',
+      'www.youtube-nocookie.com'
+    );
+
+    const newEmbedUrl = embedUrl.includes('?')
+      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
+      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+
+    return {
+      type: 'videoEmbed',
+      weight: getWeight(slice.slice_label),
+      value: {
+        embedUrl: newEmbedUrl,
+        caption: slice.primary.caption,
+      },
+    };
+  }
+}
+
+function transformContentListSlice(slice: ContentListSlice): BodySlice {
+  type ContentListPrismicDocument =
+    | PagePrismicDocument
+    | EventSeriesPrismicDocument
+    | BookPrismicDocument
+    | EventPrismicDocument
+    | ArticlePrismicDocument
+    | ExhibitionPrismicDocument
+    | CardPrismicDocument
+    | SeasonPrismicDocument
+    | GuidePrismicDocument;
+
+  const contents: ContentListPrismicDocument[] = slice.items
+    .map(item => item.content)
+    .filter(isFilledLinkToDocumentWithData);
+
+  return {
+    type: 'contentList',
+    weight: getWeight(slice.slice_label),
+    value: {
+      title: asText(slice.primary.title),
+      // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
+      // but that doesn't exist in our Prismic model.
+      // hasFeatured: slice.primary.hasFeatured,
+      items: contents
+        .map(content => {
+          switch (content.type) {
+            case 'pages':
+              return transformPage(content);
+            case 'guides':
+              return transformGuide(content);
+            case 'event-series':
+              return transformEventSeries(content);
+            case 'exhibitions':
+              return transformExhibition(content);
+            case 'articles':
+              return transformArticle(content);
+            case 'events':
+              return transformEvent(content);
+            case 'seasons':
+              return transformSeason(content);
+            case 'card':
+              return transformCard(content);
+          }
+        })
+        .filter(isNotUndefined),
+    },
+  };
+}
+
+export function transformBody(body: Body): BodySlice[] {
+  return body
+    .map(slice => {
+      switch (slice.slice_type) {
+        case 'standfirst':
+          return transformStandfirstSlice(slice);
+
+        case 'text':
+          return transformTextSlice(slice);
+
+        case 'map':
+          return transformMapSlice(slice);
+
+        case 'editorialImage':
+          return transformEditorialImageSlice(slice);
+
+        case 'editorialImageGallery':
+          return transformEditorialImageGallerySlice(slice);
+
+        case 'titledTextList':
+          return transformTitledTextListSlice(slice);
+
+        case 'contentList':
+          return transformContentListSlice(slice);
+
+        case 'collectionVenue':
+          return transformCollectionVenueSlice(slice);
+
+        case 'searchResults':
+          return transformSearchResultsSlice(slice);
+
+        case 'quote':
+        case 'quoteV2':
+          return transformQuoteSlice(slice);
+
+        case 'iframe':
+          return transformIframeSlice(slice);
+
+        case 'gifVideo':
+          return transformGifVideoSlice(slice);
+
+        case 'contact':
+          return transformContactSlice(slice);
+
+        case 'embed':
+          return transformEmbedSlice(slice);
+
+        case 'table':
+          return transformTableSlice(slice);
+
+        case 'infoBlock':
+          return transformInfoBlockSlice(slice);
+
+        case 'discussion':
+          return transformDiscussionSlice(slice);
+
+        case 'tagList':
+          return transformTagListSlice(slice);
+
+        case 'audioPlayer':
+          return transformAudioPlayerSlice(slice);
+
+        // Deprecated
+        case 'imageList':
+          return transformDeprecatedImageListSlice(slice);
+
+        case 'mediaObjectList':
+          return transformMediaObjectListSlice(slice);
+      }
+    })
+    .filter(isNotUndefined);
 }

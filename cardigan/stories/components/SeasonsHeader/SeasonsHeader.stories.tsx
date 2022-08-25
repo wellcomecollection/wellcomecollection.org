@@ -1,5 +1,5 @@
 import SeasonsHeader from '@weco/content/components/SeasonsHeader/SeasonsHeader';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ImageType } from '@weco/common/model/image';
 
 const image: ImageType = {
@@ -19,7 +19,7 @@ const headerProps = {
   title: 'What does it mean to be human, now?',
   start: '2021-01-05T00:00:00.000Z',
   end: '2021-01-26T00:00:00.000Z',
-  FeaturedMedia: <UiImage {...image} />,
+  FeaturedMedia: <PrismicImage image={image} quality="low" />,
   standfirst: [
     {
       type: 'paragraph',

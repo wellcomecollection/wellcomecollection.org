@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
-import IIIFResponsiveImage from './IIIFResponsiveImage';
+import IIIFViewerImage from './IIIFViewerImage';
 import useOnScreen from '@weco/common/hooks/useOnScreen';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 
@@ -139,17 +139,16 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
 
   return (
     <ImageWrapper onLoad={loadHandler} ref={imageViewer}>
-      <IIIFResponsiveImage
+      <IIIFViewerImage
         ref={imageRef}
         tabIndex={0}
         width={width}
-        height={height}
         src={imageSrc}
+        height={height}
         srcSet={imageSrcSet}
         sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
         lang={lang}
         alt={alt}
-        isLazy={false}
         clickHandler={() => {
           setZoomInfoUrl && setZoomInfoUrl(infoUrl);
           setShowZoomed(true);

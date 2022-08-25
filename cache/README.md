@@ -22,18 +22,25 @@ Randomly assign people into A/B buckets against a `key` that is then available t
 
 We do this by setting a `toggle_{key}=true|false` that is then read via the standard toggles method.
 
-![Sequence diagram showing flow of how we assign people into A/B buckets](./lambda-edge-sequence-diagram.png)
-
--- [Mermaid diagram][lambda-sequence-diagram]
+```mermaid
+sequenceDiagram
+participant End_user
+participant CloudFront
+participant Lambda_origin_request
+participant Lambda_origin_response
+participant Origin
+End_user->>CloudFront: request
+CloudFront->>Lambda_origin_request: request
+alt is in test
+    Lambda_origin_request->>Origin: send default client cookies
+else should be in test
+    Lambda_origin_request->>Origin: append toggle_x cookie header
+    Lambda_origin_request->>Origin: append x-toggled header
+end
+Origin->>Lambda_origin_response: response
+alt has x-toggled header
+    Lambda_origin_response->>End_user: send Set-cookie header to x-toggled
+end
+```
 
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
-
-## Deployment of lambda@edge
-
-* Run `terraform apply` to deploy the latest lambda versions to the `stage` cloudfront distribution
-* Make note of the `edge_lambda_request_version` and `edge_lambda_response_version` numbers output to the console
-* Once deployed check <www-stage.wellcomecollection.org> to make sure everything is working as expected
-* To deploy to `prod` bump the `edge_lambda_request_version` and `edge_lambda_response_version` in [`terraform.tf`](./terraform.tf) to the new versions
-* Run `terraform apply`
-
-[lambda-sequence-diagram]: (https://mermaid-js.github.io/mermaid-live-editor/edit#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG5wYXJ0aWNpcGFudCBFbmRfdXNlclxucGFydGljaXBhbnQgQ2xvdWRGcm9udFxucGFydGljaXBhbnQgTGFtYmRhX29yaWdpbl9yZXF1ZXN0XG5wYXJ0aWNpcGFudCBMYW1iZGFfb3JpZ2luX3Jlc3BvbnNlXG5wYXJ0aWNpcGFudCBPcmlnaW5cbkVuZF91c2VyLT4-Q2xvdWRGcm9udDogcmVxdWVzdFxuQ2xvdWRGcm9udC0-PkxhbWJkYV9vcmlnaW5fcmVxdWVzdDogcmVxdWVzdFxuYWx0IGlzIGluIHRlc3RcbiAgICBMYW1iZGFfb3JpZ2luX3JlcXVlc3QtPj5PcmlnaW46IHNlbmQgZGVmYXVsdCBjbGllbnQgY29va2llc1xuZWxzZSBzaG91bGQgYmUgaW4gdGVzdFxuICAgIExhbWJkYV9vcmlnaW5fcmVxdWVzdC0-Pk9yaWdpbjogYXBwZW5kIHRvZ2dsZV94IGNvb2tpZSBoZWFkZXJcbiAgICBMYW1iZGFfb3JpZ2luX3JlcXVlc3QtPj5PcmlnaW46IGFwcGVuZCB4LXRvZ2dsZWQgaGVhZGVyXG5lbmRcbk9yaWdpbi0-PkxhbWJkYV9vcmlnaW5fcmVzcG9uc2U6IHJlc3BvbnNlXG5hbHQgaGFzIHgtdG9nZ2xlZCBoZWFkZXJcbiAgICBMYW1iZGFfb3JpZ2luX3Jlc3BvbnNlLT4-RW5kX3VzZXI6IHNlbmQgU2V0LWNvb2tpZSBoZWFkZXIgdG8geC10b2dnbGVkIFxuZW5kXG4iLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjpmYWxzZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)

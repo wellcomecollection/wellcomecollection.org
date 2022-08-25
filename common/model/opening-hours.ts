@@ -33,7 +33,7 @@ export type OpeningHoursDay = {
   dayOfWeek: Day;
   opens: string;
   closes: string;
-  isClosed: boolean;
+  isClosed?: boolean;
 };
 
 export type ExceptionalOpeningHoursDay = {
@@ -41,7 +41,7 @@ export type ExceptionalOpeningHoursDay = {
   overrideType: OverrideType;
   opens: string;
   closes: string;
-  isClosed: boolean;
+  isClosed?: boolean;
 };
 
 export type OpeningHours = {
@@ -63,6 +63,6 @@ export type Venue = {
 export type SpecialOpeningHours = {
   opens: string;
   closes: string;
-  validFrom: Date;
-  validThrough: Date;
+  validFrom: Date | string;
+  validThrough: Date | string;
 };

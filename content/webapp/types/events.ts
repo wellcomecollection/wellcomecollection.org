@@ -8,7 +8,6 @@ import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
-import { isDayPast } from '@weco/common/utils/dates';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -18,6 +17,7 @@ export type DateTimeRange = {
 export type EventTime = {
   range: DateTimeRange;
   isFullyBooked: boolean;
+  onlineIsFullyBooked: boolean;
 };
 
 type EventSeries = {
@@ -70,14 +70,17 @@ export type ThirdPartyBooking = {
   url: string;
 };
 
-export type EventBasic = {
+export type HasTimes = {
+  times: EventTime[];
+};
+
+export type EventBasic = HasTimes & {
   // this is a mix of props from GenericContentFields and Event
   // and is only what is required to render EventPromos and json-ld
   type: 'events';
   id: string;
   title: string;
   promo?: ImagePromo | undefined;
-  times: EventTime[];
   isPast: boolean;
   primaryLabels: Label[];
   secondaryLabels: Label[];
@@ -112,6 +115,8 @@ export type Event = GenericContentFields & {
   schedule?: EventSchedule;
   eventbriteId?: string;
   isCompletelySoldOut?: boolean;
+  onlineSoldOut?: boolean;
+  inVenueSoldOut?: boolean;
   isPast: boolean;
   isRelaxedPerformance: boolean;
   isOnline: boolean;
@@ -119,13 +124,12 @@ export type Event = GenericContentFields & {
   primaryLabels: Label[];
   secondaryLabels: Label[];
   contributors: Contributor[];
+  onlineTicketSalesStart?: Date;
+  onlineBookingEnquiryTeam?: Team;
+  onlineEventbriteId?: string;
+  onlineThirdPartyBooking?: ThirdPartyBooking;
+  onlineBookingInformation?: prismicT.RichTextField;
+  onlinePolicies: LabelField[];
+  onlineHasEarlyRegistration: boolean;
+  onlineCost?: string;
 };
-
-export function isEventFullyBooked(event: Event | EventBasic): boolean {
-  return (
-    event.times.length > 0 &&
-    event.times.every(({ isFullyBooked, range }) => {
-      return isDayPast(range.endDateTime) || isFullyBooked;
-    })
-  );
-}

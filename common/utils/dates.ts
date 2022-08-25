@@ -38,12 +38,13 @@ export function isSameDay(date1: Date, date2: Date): boolean {
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.
-//
-// Note: this means it will return true if `date` falls on an earlier time
-// today, e.g. isDayPast(09:00) called at 12:00 on the same day will be true.
 export function isDayPast(date: Date): boolean {
   const now = new Date();
-  return isSameDay(date, now) || date < now;
+  if (isSameDay(date, now) || date > now) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 export function getNextWeekendDateRange(date: DateTypes): DateRange {

@@ -1,4 +1,5 @@
 import { keyframes } from 'styled-components';
+import { ButtonColors } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 
 export type ColumnKey =
   | 's'
@@ -118,6 +119,10 @@ export const colors = {
   // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
   inherit: { base: 'inherit', dark: '', light: '' },
   currentColor: { base: 'currentColor', dark: '', light: '' },
+  newPaletteOrange: { base: '#e7b792', dark: '', light: '' },
+  newPaletteMint: { base: '#acddbd', dark: '', light: '' },
+  newPaletteBlue: { base: '#7bc1ce', dark: '', light: '' },
+  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
 };
 
 const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
@@ -132,6 +137,39 @@ export const sizes = {
   // Occasionally we need to respond to specific breakpoints beyond the defaults
   headerMedium: 825,
   headerLarge: 1040,
+};
+
+const defaultButtonColors: ButtonColors = {
+  border: 'green',
+  background: 'green',
+  text: 'white',
+};
+
+const dangerButtonColors: ButtonColors = {
+  border: 'red',
+  background: 'red',
+  text: 'white',
+};
+
+// Button color naming convention: [border][Background][Text]
+// TODO: Work out and document which variants we want to use when/where/why
+// (and possibly improve naming at that point)
+const charcoalWhiteCharcoal: ButtonColors = {
+  border: 'charcoal',
+  background: 'white',
+  text: 'charcoal',
+};
+
+const greenTransparentGreen: ButtonColors = {
+  border: 'green',
+  background: 'transparent',
+  text: 'green',
+};
+
+const whiteTransparentWhite: ButtonColors = {
+  border: 'white',
+  background: 'transparent',
+  text: 'white',
 };
 
 export const themeValues = {
@@ -199,6 +237,14 @@ export const themeValues = {
   grid,
   colors,
   color: getColor,
+  minCardHeight: 385,
+  buttonColors: {
+    default: defaultButtonColors,
+    danger: dangerButtonColors,
+    charcoalWhiteCharcoal,
+    greenTransparentGreen,
+    whiteTransparentWhite,
+  },
 };
 
 export type Breakpoint = keyof typeof sizes;

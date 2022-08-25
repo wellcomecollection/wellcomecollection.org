@@ -9,7 +9,6 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/common/hooks/useIsFullscreenEnabled';
 import ToolbarSegmentedControl from '@weco/common/views/components/ToolbarSegmentedControl/ToolbarSegmentedControl';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import {
   chevrons,
   collapse,
@@ -22,7 +21,7 @@ import {
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'relative flex flex--v-center': true,
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   line-height: 1.5;
@@ -179,7 +178,7 @@ const LeftZone = styled.div`
 
 const MiddleZone = styled.div.attrs({
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 })`
   display: flex;
@@ -258,9 +257,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   setIsMobileSidebarActive(!isMobileSidebarActive);
                 }}
               >
-                <AlignFont>
-                  {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-                </AlignFont>
+                {isMobileSidebarActive ? 'Hide info' : 'Show info'}
               </ShameButton>
             </>
           )}
@@ -365,14 +362,12 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   document['webkitFullscreenElement'] ? (
                     <>
                       <Icon icon={collapse} />
-                      <AlignFont className={`btn__text`}>
-                        Exit full screen
-                      </AlignFont>
+                      Exit full screen
                     </>
                   ) : (
                     <>
                       <Icon icon={expand} />
-                      <AlignFont className={`btn__text`}>Full screen</AlignFont>
+                      <span className={`btn__text`}>Full screen</span>
                     </>
                   )}
                 </ShameButton>

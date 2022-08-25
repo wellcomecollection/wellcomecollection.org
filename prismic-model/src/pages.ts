@@ -4,7 +4,7 @@ import promo from './parts/promo';
 import link from './parts/link';
 import list from './parts/list';
 import timestamp from './parts/timestamp';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import number from './parts/number';
 import boolean from './parts/boolean';
 import contributorsWithTitle from './parts/contributorsWithTitle';
@@ -30,7 +30,7 @@ const pages: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       seasons: list('Seasons', {

@@ -187,7 +187,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openMoreFiltersButtonRef}
-        overrideDefaultModalStyle={true}
+        modalStyle={'filters'}
       >
         <FiltersHeader>
           <h3 className="h3">More filters</h3>

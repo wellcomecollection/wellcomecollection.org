@@ -4,7 +4,7 @@ import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
-} from '../types';
+} from '@weco/common/services/prismic/types';
 import { LinkField } from '@prismicio/types';
 import { transformMultiContent } from './multi-content';
 import {
@@ -22,7 +22,7 @@ import { transformSeries } from './series';
 import { SeriesPrismicDocument } from '../types/series';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
-import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {

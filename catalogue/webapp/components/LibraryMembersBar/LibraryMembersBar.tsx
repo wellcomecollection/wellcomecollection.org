@@ -2,12 +2,13 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import Icon from '@weco/common/views/components/Icon/Icon';
-import AlignFont from '@weco/common/views/components/styled/AlignFont';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { useLoginURLWithReturnToCurrent } from '@weco/common/utils/useLoginURLWithReturnToCurrent';
 import { font } from '@weco/common/utils/classnames';
 import { memberCard } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
+import { useToggles } from '@weco/common/server-data/Context';
+import { requestingDisabled } from '@weco/common/data/microcopy';
 
 const StyledComponent = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
@@ -15,22 +16,27 @@ const StyledComponent = styled(Space).attrs({
 })`
   background: ${props => props.theme.color('turquoise', 'light')};
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   position: relative;
 
   .icon {
-    transform: translateY(0.1em);
+    transform: translateY(0.2em);
   }
 `;
 
 const SignInLink: FC = () => {
   const loginURL = useLoginURLWithReturnToCurrent();
   return (
-    <AlignFont>
-      <span className={font('hnb', 5)}>Library members:</span>{' '}
+    <>
+      <Space
+        h={{ size: 's', properties: ['margin-right'] }}
+        className={font('intb', 5)}
+      >
+        Library members:
+      </Space>
       <a
         href={loginURL}
-        className={font('hnr', 5)}
+        className={font('intr', 5)}
         onClick={() => {
           trackEvent({
             category: 'library_account',
@@ -41,7 +47,7 @@ const SignInLink: FC = () => {
       >
         sign in to your library account to request items
       </a>
-    </AlignFont>
+    </>
   );
 };
 
@@ -50,12 +56,12 @@ type ReloadProps = {
 };
 const Reload: FC<ReloadProps> = ({ reload }) => {
   return (
-    <AlignFont>
-      <span className={font('hnb', 5)}>
+    <>
+      <span className={font('intb', 5)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
-        className={font('hnr', 5)}
+        className={font('intr', 5)}
         onClick={() => {
           reload();
         }}
@@ -68,7 +74,7 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
       >
         Try again
       </button>
-    </AlignFont>
+    </>
   );
 };
 
@@ -76,27 +82,22 @@ type Props = {
   requestingUnavailable?: boolean;
 };
 
-const LibraryMembersBar: FC<Props> = ({ requestingUnavailable }) => {
+const LibraryMembersBar: FC<Props> = () => {
   const { state, reload } = useUser();
-
-  // We originally designed this banner for the building closure in Christmas 2021.
-  //
-  // We're keeping the banner around in case we need to disable requesting again for
-  // other reasons in future – we can reuse the same design.
-  //
-  // If you do need to disable requesting, remember to update the wording in the explanation.
-  if (requestingUnavailable) {
+  const { disableRequesting } = useToggles();
+  if (disableRequesting) {
     return (
       <StyledComponent>
         <Space h={{ size: 's', properties: ['margin-right'] }}>
           <Icon icon={memberCard} />
         </Space>
-        <AlignFont>
-          <span className={font('hnb', 5)}>Library members:</span>{' '}
-          <span className={font('hnr', 5)}>
-            Requesting is currently unavailable.
-          </span>
-        </AlignFont>
+        <Space
+          h={{ size: 's', properties: ['margin-right'] }}
+          className={font('intb', 5)}
+        >
+          Library members:
+        </Space>
+        <span className={font('intr', 5)}>{requestingDisabled}</span>
       </StyledComponent>
     );
   }

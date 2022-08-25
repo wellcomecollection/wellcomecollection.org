@@ -22,6 +22,7 @@ import { getServerData } from '@weco/common/server-data';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import { Guide } from '../types/guides';
 import { Format } from '../types/format';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 
 const displayTitle = 'Guides';
 
@@ -103,6 +104,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { format } = context.query;
+
+    if (!looksLikePrismicId(format)) {
+      return { notFound: true };
+    }
 
     const client = createClient(context);
 

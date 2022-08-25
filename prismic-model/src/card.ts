@@ -1,4 +1,4 @@
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import title from './parts/title';
 import image from './parts/image';
 import link from './parts/link';
@@ -17,7 +17,7 @@ const card: CustomType = {
         'article-formats',
         'labels',
       ]),
-      description: structuredText('Description', 'single'),
+      description: singleLineText({ label: 'Description' }),
       image: image('Image'),
       link: link('Link'),
     },

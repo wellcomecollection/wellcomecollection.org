@@ -1,6 +1,6 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, ReactElement, useContext, useState } from 'react';
 import { font, classNames } from '../../../utils/classnames';
-import { getLicenseInfo } from '../../../utils/licenses';
+import { getPrismicLicenseData } from '../../../utils/licenses';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../../components/AppContext/AppContext';
 import Icon from '../Icon/Icon';
@@ -14,7 +14,7 @@ type StyledTaslProps = {
 };
 
 const StyledTasl = styled.div.attrs({
-  className: `${font('lr', 6)} plain-text tasl`, // Still need the tasl class as it's used with .image-gallery-v2 styles
+  className: `${font('lr', 6)} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<StyledTaslProps>`
   text-align: right;
   top: ${props => (props.positionAtTop ? 0 : 'auto')};
@@ -49,14 +49,14 @@ const TaslIcon = styled.span.attrs({
   display: ${props => (props.isEnhanced ? 'flex' : 'inline')};
 `;
 
-type MarkUpProps = {
-  title?: string | null;
-  author?: string | null;
-  sourceName?: string | null;
-  sourceLink?: string | null;
-  license?: string | null;
-  copyrightHolder?: string | null;
-  copyrightLink?: string | null;
+export type MarkUpProps = {
+  title?: string;
+  author?: string;
+  sourceName?: string;
+  sourceLink?: string;
+  license?: string;
+  copyrightHolder?: string;
+  copyrightLink?: string;
 };
 
 function getMarkup({
@@ -68,26 +68,21 @@ function getMarkup({
   copyrightHolder,
   copyrightLink,
 }: MarkUpProps) {
-  const licenseInfo = license && getLicenseInfo(license);
-
   return (
     <>
       {getTitleHtml(title, author, sourceLink)}
       {getSourceHtml(sourceName, sourceLink)}
       {getCopyrightHtml(copyrightHolder, copyrightLink)}
-      {licenseInfo && (
-        <>
-          <a rel="license" href={licenseInfo.url}>
-            {licenseInfo.label}
-          </a>
-          .
-        </>
-      )}
+      {getLicenseHtml(license)}
     </>
   );
 }
 
-function getTitleHtml(title, author, sourceLink) {
+function getTitleHtml(
+  title?: string,
+  author?: string,
+  sourceLink?: string
+): ReactElement | undefined {
   if (!title) return;
 
   const byAuthor = author ? `, ${author}` : '';
@@ -114,8 +109,11 @@ function getTitleHtml(title, author, sourceLink) {
   }
 }
 
-function getSourceHtml(sourceName, sourceLink) {
-  if (!sourceName) return '';
+function getSourceHtml(
+  sourceName?: string,
+  sourceLink?: string
+): ReactElement | undefined {
+  if (!sourceName) return;
 
   if (sourceLink) {
     return (
@@ -132,8 +130,11 @@ function getSourceHtml(sourceName, sourceLink) {
   }
 }
 
-function getCopyrightHtml(copyrightHolder, copyrightLink) {
-  if (!copyrightHolder) return '';
+function getCopyrightHtml(
+  copyrightHolder?: string,
+  copyrightLink?: string
+): ReactElement | undefined {
+  if (!copyrightHolder) return;
 
   if (copyrightLink) {
     return (
@@ -146,12 +147,27 @@ function getCopyrightHtml(copyrightHolder, copyrightLink) {
   }
 }
 
+function getLicenseHtml(license?: string): ReactElement | undefined {
+  const licenseData = license && getPrismicLicenseData(license);
+
+  if (!licenseData) return;
+
+  return (
+    <>
+      <a rel="license" href={licenseData.url}>
+        {licenseData.label}
+      </a>
+      .
+    </>
+  );
+}
+
 export type Props = MarkUpProps & {
-  isFull: boolean;
+  positionTop?: boolean;
 };
 
 const Tasl: FunctionComponent<Props> = ({
-  isFull,
+  positionTop = false,
   title,
   author,
   sourceName,
@@ -174,10 +190,10 @@ const Tasl: FunctionComponent<Props> = ({
   }
 
   return [title, sourceName, copyrightHolder].some(_ => _) ? (
-    <StyledTasl positionAtTop={isFull} isEnhanced={isEnhanced}>
+    <StyledTasl positionAtTop={positionTop} isEnhanced={isEnhanced}>
       <TaslButton
         onClick={toggleWithAnalytics}
-        positionAtTop={isFull}
+        positionAtTop={positionTop}
         aria-expanded={isActive}
         aria-controls={title || sourceName || copyrightHolder || ''}
       >

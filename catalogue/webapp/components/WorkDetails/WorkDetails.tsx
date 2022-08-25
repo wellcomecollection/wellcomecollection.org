@@ -33,7 +33,6 @@ import WorkDetailsTags from '../WorkDetailsTags/WorkDetailsTags';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import AudioList from '../AudioList/AudioList';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import ButtonOutlinedLink from '@weco/common/views/components/ButtonOutlinedLink/ButtonOutlinedLink';
 import ExplanatoryText from './ExplanatoryText';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { trackEvent } from '@weco/common/utils/ga';
@@ -55,6 +54,8 @@ import {
   itemIsRequestable,
   itemIsTemporarilyUnavailable,
 } from '../../utils/requesting';
+import { useToggles } from '@weco/common/server-data/Context';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   work: Work;
@@ -74,7 +75,7 @@ function getItemLinkState({
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
     return 'useLibraryLink';
   }
-  if (accessCondition === 'closed') {
+  if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
   if (itemUrl && !(audio.sounds.length > 0) && !video) {
@@ -243,6 +244,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title={locationOfWork.noteType.label}
             text={locationOfWork.contents}
+            allowRawHtml={true}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -289,7 +291,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     {locationLink && (
                       <a
                         className={classNames({
-                          [font('hnr', 5)]: true,
+                          [font('intr', 5)]: true,
                         })}
                         href={locationLink.url}
                       >
@@ -302,6 +304,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Location"
                         noSpacing={true}
                         text={[`${locationLabel} ${locationShelfmark}`]}
+                        allowRawHtml={true}
                       />
                     )}
 
@@ -311,6 +314,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         inlineHeading={true}
                         noSpacing={true}
                         text={[holding.note]}
+                        allowRawHtml={true}
                       />
                     )}
                   </Space>
@@ -322,6 +326,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       </>
     );
   };
+
+  const toggles = useToggles();
 
   const renderContent = () => (
     <>
@@ -508,6 +514,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 <WorkDetailsText
                   title="Licence"
                   text={[digitalLocationInfo.license.label]}
+                  allowRawHtml={true}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -521,6 +528,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     title="Access conditions"
                     noSpacing={true}
                     text={[digitalLocation?.accessConditions[0]?.terms]}
+                    allowRawHtml={true}
                   />
                 </Space>
               )}
@@ -539,6 +547,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       0 && (
                       <WorkDetailsText
                         text={digitalLocationInfo.license.humanReadableText}
+                        allowRawHtml={true}
                       />
                     )}
                     <WorkDetailsText
@@ -554,6 +563,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           .filter(Boolean)
                           .join(' '),
                       ]}
+                      allowRawHtml={true}
                     />
                   </>
                 </ExplanatoryText>
@@ -567,7 +577,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
 
       {work.images && work.images.length > 0 && (
         <WorkDetailsSection headingText="Selected images from this work">
-          <ButtonOutlinedLink
+          <ButtonSolidLink
+            colors={themeValues.buttonColors.greenTransparentGreen}
             text={
               work.images.length > 1
                 ? `View ${work.images.length} images`
@@ -588,17 +599,23 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Also known as"
             text={work.alternativeTitles}
+            allowRawHtml={true}
           />
         )}
 
         {work.description && (
-          <WorkDetailsText title="Description" text={[work.description]} />
+          <WorkDetailsText
+            title="Description"
+            text={[work.description]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
+            allowRawHtml={true}
           />
         )}
 
@@ -606,6 +623,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Physical description"
             text={[work.physicalDescription]}
+            allowRawHtml={true}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -619,7 +637,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               textParts: [partOf.title],
               linkAttributes: worksLink(
                 {
-                  partOf: partOf.title,
+                  'partOf.title': partOf.title,
                 },
                 'work_details/partOf'
               ),
@@ -650,24 +668,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 
         {work.lettering && (
-          <WorkDetailsText title="Lettering" text={[work.lettering]} />
+          <WorkDetailsText
+            title="Lettering"
+            text={[work.lettering]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.edition && (
-          <WorkDetailsText title="Edition" text={[work.edition]} />
+          <WorkDetailsText
+            title="Edition"
+            text={[work.edition]}
+            allowRawHtml={true}
+          />
         )}
 
-        {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+        {duration && (
+          <WorkDetailsText
+            title="Duration"
+            text={[duration]}
+            allowRawHtml={true}
+          />
+        )}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 
@@ -699,15 +733,37 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         <WorkDetailsSection headingText="Subjects">
           <WorkDetailsTags
             tags={work.subjects.map(s => {
-              return {
-                textParts: s.concepts.map(c => c.label),
-                linkAttributes: worksLink(
-                  {
-                    'subjects.label': [s.label],
-                  },
-                  'work_details/subjects'
-                ),
-              };
+              /*
+              If this is an identified subject, link to the concepts prototype
+              page instead.
+
+              The prototype page will only display if you have the toggle enabled,
+              so don't display it if you don't have the toggle.  Also, put a shiny
+              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              */
+              return toggles.conceptsPages && s.id
+                ? {
+                    textParts: [`🆕 ${s.concepts[0].label}`].concat(
+                      s.concepts.slice(1).map(c => c.label)
+                    ),
+                    linkAttributes: {
+                      href: {
+                        pathname: `/concepts/${s.id}`,
+                      },
+                      as: {
+                        pathname: `/concepts/${s.id}`,
+                      },
+                    },
+                  }
+                : {
+                    textParts: s.concepts.map(c => c.label),
+                    linkAttributes: worksLink(
+                      {
+                        'subjects.label': [s.label],
+                      },
+                      'work_details/subjects'
+                    ),
+                  };
             })}
           />
         </WorkDetailsSection>
@@ -718,7 +774,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={`${font('hnr', 5)}`}>
+        <div className={`${font('intr', 5)}`}>
           <CopyUrl
             id={work.id}
             url={`https://wellcomecollection.org/works/${work.id}`}

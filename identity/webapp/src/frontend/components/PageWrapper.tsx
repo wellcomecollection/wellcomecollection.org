@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import HeaderPrototype from '@weco/common/views/components/Header/HeaderPrototype';
+import Header from '@weco/common/views/components/Header/Header';
 import { GlobalStyle } from '@weco/common/views/themes/default';
 import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import Favicons from '@weco/common/views/components/Favicons/Favicons';
@@ -25,7 +25,7 @@ export const PageWrapper: FC<Props> = ({ title, children }) => {
         <Favicons />
       </Head>
       <GlobalStyle isFontsLoaded={useIsFontsLoaded()} />
-      <HeaderPrototype siteSection="collections" />
+      <Header siteSection="collections" />
       <Main>{children}</Main>
     </>
   );

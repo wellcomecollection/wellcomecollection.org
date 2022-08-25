@@ -5,7 +5,7 @@ import contributorsWithTitle from './parts/contributorsWithTitle';
 import list from './parts/list';
 import select from './parts/select';
 import timestamp from './parts/timestamp';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import link from './parts/link';
 import { CustomType } from './types/CustomType';
 
@@ -33,7 +33,7 @@ const articleSeries: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       seasons: list('Seasons', {

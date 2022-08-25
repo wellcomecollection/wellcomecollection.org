@@ -4,7 +4,7 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import BookImage from '@weco/content/components/BookImage/BookImage';
@@ -36,21 +36,21 @@ const ContentTypeInfo = (
       <Space
         h={{ size: 's', properties: ['margin-right', 'margin-top'] }}
         className={classNames({
-          [font('hnr', 6)]: true,
+          [font('intr', 6)]: true,
         })}
       >
         <p className="no-margin">
           <span>By </span>
           <span
             className={classNames({
-              [font('hnb', 6)]: true,
+              [font('intb', 6)]: true,
             })}
           >
             Naomi Paxton
           </span>{' '}
           <span
             className={classNames({
-              [font('hnr', 6)]: true,
+              [font('intr', 6)]: true,
               'font-pewter': true,
             })}
           >
@@ -150,10 +150,10 @@ const EventContentTypeInfo = () => (
         'flex flex--wrap': true,
       })}
     >
-      Saturday 8 February 2020, 13:00—16:00
+      Saturday 8 February 2020, 13:00 – 16:00
     </Space>
     <div className="flex">
-      <div className={`${font('hnb', 5)} flex flex--v-center`}>
+      <div className={`${font('intb', 5)} flex flex--v-center`}>
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
@@ -169,7 +169,7 @@ const EventContentTypeInfo = () => (
 
 const ExhibitionContentTypeInfo = () => (
   <div className="flex">
-    <div className={`${font('hnb', 5)} flex flex--v-center`}>
+    <div className={`${font('intb', 5)} flex flex--v-center`}>
       <Space
         as="span"
         h={{ size: 'xs', properties: ['margin-right'] }}
@@ -186,7 +186,7 @@ const BookContentTypeInfo = () => (
   <p
     className={classNames({
       'no-margin': true,
-      [font('hnb', 3)]: true,
+      [font('intb', 3)]: true,
     })}
   >
     Loneliness, Health & What Happens When We Find Connection
@@ -229,7 +229,9 @@ const bookImage = {
   crops: {},
   sizesQueries: '',
 };
-const EventFeaturedMedia = () => <UiImage {...eventImage} />;
+const EventFeaturedMedia = () => (
+  <PrismicImage image={eventImage} quality="low" />
+);
 
 const Template = args => <PageHeader {...args} />;
 
@@ -292,5 +294,16 @@ book.args = {
   ContentTypeInfo: <BookContentTypeInfo />,
   isContentTypeInfoBeforeMedia: true,
   breadcrumbs: { items: [{ text: 'Books', url: '#' }] },
-  FeaturedMedia: <BookImage image={bookImage} />,
+  FeaturedMedia: (
+    <BookImage
+      image={bookImage}
+      sizes={{
+        xlarge: 1 / 2,
+        large: 1 / 2,
+        medium: 1 / 2,
+        small: 1,
+      }}
+      quality="low"
+    />
+  ),
 };

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactElement } from 'react';
 import PageLayout, {
   SiteSection,
 } from '@weco/common/views/components/PageLayout/PageLayout';
@@ -6,7 +6,8 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import ImageWithTasl from '../components/ImageWithTasl/ImageWithTasl';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { Page as PageType } from '../types/pages';
 import { SiblingsGroup } from '../types/siblings-group';
 import {
@@ -16,11 +17,11 @@ import {
 import {
   prismicPageIds,
   sectionLevelPages,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
-import { PageFormatIds } from '@weco/common/services/prismic/content-format-ids';
+import { PageFormatIds } from '@weco/common/data/content-format-ids';
 import { links } from '@weco/common/views/components/Header/Header';
 import { Props as LabelsListProps } from '@weco/common/views/components/LabelsList/LabelsList';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
@@ -39,12 +40,19 @@ import {
 import { createClient } from '../services/prismic/fetch';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { getCrop } from '@weco/common/model/image';
+import { isPicture, isVideoEmbed, BodySlice } from '../types/body';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { WeAreGoodToGo } from '@weco/common/views/components/CovidIcons/CovidIcons';
 
-type Props = {
+export type Props = {
   page: PageType;
+  vanityUrl: string | undefined;
   siblings: SiblingsGroup<PageType>[];
   children: SiblingsGroup<PageType>;
   ordersInParents: OrderInParent[];
+  staticContent: ReactElement | null;
+  jsonLd: JsonLdObj;
 } & WithGaDimensions;
 
 type OrderInParent = {
@@ -54,12 +62,64 @@ type OrderInParent = {
   type: 'pages' | 'exhibitions';
 };
 
+/** Is this URL a vanity URL?
+ *
+ * e.g. /visit-us instead of /pages/X8ZTSBIAACQAiDzY
+ *
+ * It's moderately fiddly to get all the defined vanity URLs out of the
+ * app controller, so we use a heuristic instead.
+ */
+function isVanityUrl(pageId: string, url: string): boolean {
+  // Does this URL contain a page ID?  We look for the page ID rather
+  // than a specific prefix, because this template is used for multiple
+  // types of Prismic content.
+  //
+  // e.g. /pages/X8ZTSBIAACQAiDzY, /projects/X_SRxhEAACQAPbwS
+  const containsPageId = url.includes(pageId);
+
+  // This should match a single alphanumeric slug directly after the /
+  //
+  // e.g. /visit-us, /collections
+  const looksLikeVanityUrl = url.match(/\/[a-z-]+/) !== null;
+
+  return !containsPageId && looksLikeVanityUrl;
+}
+
+function getFeaturedPictureWithTasl(
+  featuredPicture: BodySlice & { type: 'picture' }
+) {
+  const image =
+    getCrop(featuredPicture.value.image, '16:9') || featuredPicture.value.image;
+
+  return (
+    <ImageWithTasl
+      Image={
+        <PrismicImage
+          image={image}
+          sizes={{
+            xlarge: 1,
+            large: 1,
+            medium: 1,
+            small: 1,
+          }}
+          quality="low"
+        />
+      }
+      tasl={image?.tasl}
+    />
+  );
+}
+
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const { id } = context.query;
 
     const client = createClient(context);
+
+    const vanityUrl = isVanityUrl(id as string, context.resolvedUrl)
+      ? context.resolvedUrl
+      : undefined;
 
     const pageLookup = await fetchPage(client, id as string);
     const page = pageLookup && transformPage(pageLookup);
@@ -91,13 +151,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         siblings: (await fetchChildren(client, page)).map(transformPage),
       };
 
+      const jsonLd = contentLd(page);
+
       return {
         props: removeUndefinedProps({
           page,
           siblings,
           children,
           ordersInParents,
+          staticContent: null,
+          jsonLd,
           serverData,
+          vanityUrl,
           gaDimensions: {
             partOf: page.seasons.map(season => season.id),
           },
@@ -108,7 +173,15 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
   };
 
-const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
+export const Page: FC<Props> = ({
+  page,
+  siblings,
+  children,
+  ordersInParents,
+  staticContent,
+  vanityUrl,
+  jsonLd,
+}) => {
   function makeLabels(title?: string): LabelsListProps | undefined {
     if (!title) return;
 
@@ -128,23 +201,25 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
     ? landingHeaderBackgroundLs
     : headerBackgroundLs;
 
+  const featuredPicture =
+    page.body.length > 1 && isPicture(page.body[0]) ? page.body[0] : undefined;
+
+  const featuredVideo =
+    page.body.length > 1 && isVideoEmbed(page.body[0])
+      ? page.body[0]
+      : undefined;
+
   const hasFeaturedMedia =
-    page.body.length > 1 &&
-    (page.body[0].type === 'picture' || page.body[0].type === 'videoEmbed');
+    isNotUndefined(featuredPicture) || isNotUndefined(featuredVideo);
 
   const body = hasFeaturedMedia
     ? page.body.slice(1, page.body.length)
     : page.body;
 
-  const featuredMedia = hasFeaturedMedia ? (
-    page.body[0].type === 'picture' ? (
-      <UiImage
-        {...(getCrop(page.body[0].value.image, '16:9') ||
-          page.body[0].value.image)}
-      />
-    ) : page.body[0].type === 'videoEmbed' ? (
-      <VideoEmbed {...page.body[0].value} />
-    ) : undefined
+  const featuredMedia = featuredPicture ? (
+    getFeaturedPictureWithTasl(featuredPicture)
+  ) : featuredVideo ? (
+    <VideoEmbed {...featuredVideo.value} />
   ) : undefined;
 
   const hiddenBreadcrumbPages = [prismicPageIds.covidWelcomeBack];
@@ -219,9 +294,11 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
       };
     });
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     const orderedItems: PageType[] = groupWithOrder
       .filter(s => Boolean(s.order))
       .sort((a, b) => a.order! - b.order!);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     const unorderedItems: PageType[] = groupWithOrder.filter(s => !s.order);
 
@@ -253,12 +330,25 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
           </SpacingSection>,
         ]
       : [];
+
+  // If we have a vanity URL, we prefer that for the link rel="canonical"
+  // in the page <head>; it means the canonical URL will match the links
+  // we put elsewhere on the website, e.g. in the header.
+  const pathname = vanityUrl || `/pages/${page.id}`;
+
+  const postOutroContent =
+    page.id === prismicPageIds.covidWelcomeBack ? (
+      <div style={{ width: '100px' }}>
+        <WeAreGoodToGo />
+      </div>
+    ) : null;
+
   return (
     <PageLayout
       title={page.title}
       description={page.metadataDescription || page.promo?.caption || ''}
-      url={{ pathname: `/pages/${page.id}` }}
-      jsonLd={contentLd(page)}
+      url={{ pathname }}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={page?.siteSection as SiteSection}
       image={page.image}
@@ -274,6 +364,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
             showOnThisPage={page.showOnThisPage}
             isLanding={isLanding}
             sectionLevelPage={sectionLevelPage}
+            staticContent={staticContent}
           />
         }
         /**
@@ -282,6 +373,7 @@ const Page: FC<Props> = ({ page, siblings, children, ordersInParents }) => {
          * - Explore around a subject (siblings)
          */
         RelatedContent={[...Children, ...Siblings]}
+        postOutroContent={postOutroContent}
         contributors={page.contributors}
         seasons={page.seasons}
       />

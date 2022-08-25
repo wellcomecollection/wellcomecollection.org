@@ -4,6 +4,7 @@
     "deployType": "ts-node deployType",
     "diffCustomTypes": "ts-node diffCustomTypes",
     "downloadSnapshot": "ts-node downloadSnapshot",
+    "lintPrismicData": "ts-node lintPrismicData",
     "tryAllContentPages": "ts-node tryAllContentPages"
   },
   "license": "MIT",
@@ -21,6 +22,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "chalk": "^4.1.2",
+    "json-diff": "^0.9.0",
     "node-fetch": "2",
     "prompts": "^2.4.2",
     "ts-node": "^10.4.0",

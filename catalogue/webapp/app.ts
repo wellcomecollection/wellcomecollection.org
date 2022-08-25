@@ -34,6 +34,9 @@ const appPromise = nextApp.prepare().then(async () => {
   route('/works/:workId/images', '/image', router, nextApp);
   route('/works/:workId/download', '/download', router, nextApp);
 
+  route('/concepts', '/concepts', router, nextApp);
+  route('/concepts/:id', '/concept', router, nextApp);
+
   router.get('/works/management/healthcheck', async ctx => {
     ctx.status = 200;
     ctx.body = 'ok';

@@ -32,11 +32,12 @@ locals {
     }
 
     secret_env_vars = {
-      AUTH0_CLIENT_SECRET = "identity/${env_name}/account_management_system/auth0_client_secret"
-      IDENTITY_API_KEY    = "identity/${env_name}/account_management_system/api_key"
-      SESSION_KEYS        = "identity/${env_name}/account_management_system/session_keys"
+      AUTH0_CLIENT_SECRET = "identity/${env_name}/identity_web_app/auth0_client_secret"
+      IDENTITY_API_KEY    = "identity/${env_name}/identity_web_app/api_key"
+      SESSION_KEYS        = "identity/${env_name}/identity_web_app/session_keys"
       APM_SERVER_URL      = "elasticsearch/logging/apm_server_url"
       APM_SECRET          = "elasticsearch/logging/apm_secret"
+      AUTH0_ACTION_SECRET = "identity/${env_name}/redirect_action_secret"
     }
   } }
 }
@@ -44,7 +45,7 @@ locals {
 resource "aws_secretsmanager_secret" "session_keys" {
   for_each = toset(local.service_env_names)
 
-  name = "identity/${each.key}/account_management_system/session_keys"
+  name = "identity/${each.key}/identity_web_app/session_keys"
 }
 
 resource "aws_secretsmanager_secret_version" "session_keys" {
@@ -66,23 +67,23 @@ resource "random_password" "session_keys" {
 data "aws_ssm_parameter" "auth0_domain" {
   for_each = toset(local.service_env_names)
 
-  name = "/identity/${each.key}/account_management_system/auth0_domain"
+  name = "/identity/${each.key}/identity_web_app/auth0_domain"
 }
 
 data "aws_ssm_parameter" "auth0_client_id" {
   for_each = toset(local.service_env_names)
 
-  name = "/identity/${each.key}/account_management_system/auth0_client_id"
+  name = "/identity/${each.key}/identity_web_app/auth0_client_id"
 }
 
 data "aws_ssm_parameter" "logout_redirect_url" {
   for_each = toset(local.service_env_names)
 
-  name = "/identity/${each.key}/account_management_system/logout_redirect_url"
+  name = "/identity/${each.key}/identity_web_app/logout_redirect_url"
 }
 
 data "aws_ssm_parameter" "api_host" {
   for_each = toset(local.service_env_names)
 
-  name = "/identity/${each.key}/account_management_system/api_base_url"
+  name = "/identity/${each.key}/identity_web_app/api_base_url"
 }

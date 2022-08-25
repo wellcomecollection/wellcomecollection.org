@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from 'react';
 import ExpandedImage from '../ExpandedImage/ExpandedImage';
 import ImageCard from '../ImageCard/ImageCard';
 import { Image, CatalogueResultsList } from '@weco/common/model/catalogue';
+import Modal from '@weco/common/views/components/Modal/Modal';
 
 type Props = {
   images: CatalogueResultsList<Image>;
@@ -16,12 +17,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   const expandedImagePosition = images.results.findIndex(
     img => expandedImage && img.id === expandedImage.id
   );
+  const [isActive, setIsActive] = useState(false);
 
   return (
-    <ul
-      className={'flex flex--wrap plain-list no-padding no-margin'}
-      role="list"
-    >
+    <ul className="flex flex--wrap plain-list no-padding no-margin" role="list">
       {images.results.map((result: Image) => (
         <li key={result.id} role="listitem">
           <ImageCard
@@ -36,18 +35,23 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             onClick={event => {
               event.preventDefault();
               setExpandedImage(result);
+              setIsActive(true);
             }}
           />
         </li>
       ))}
-      {expandedImage && (
+      <Modal
+        id={'expanded-image-dialog'}
+        isActive={isActive}
+        setIsActive={setIsActive}
+        width={'80vw'}
+      >
         <ExpandedImage
           resultPosition={expandedImagePosition}
           image={expandedImage}
           setExpandedImage={setExpandedImage}
-          id="expanded-image-dialog"
         />
-      )}
+      </Modal>
     </ul>
   );
 };

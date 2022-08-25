@@ -3,7 +3,7 @@ import { IIIFCanvas } from '../../model/iiif';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
-import IIIFResponsiveImage from './IIIFResponsiveImage';
+import IIIFViewerImage from './IIIFViewerImage';
 import LL from '@weco/common/views/components/styled/LL';
 import { isImageRestricted, getThumbnailService } from '../../utils/iiif';
 import Padlock from './Padlock';
@@ -68,7 +68,7 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
     'font-white': !props.isActive,
     'font-black': !!props.isActive,
     'bg-yellow': !!props.isActive,
-    [font('hnb', 6)]: true,
+    [font('intb', 6)]: true,
   }),
 }))<ViewerThumbProps>`
   padding: 3px 6px;
@@ -77,22 +77,20 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
 
 type IIIFCanvasThumbnailProps = {
   canvas: IIIFCanvas;
-  lang?: string;
   isActive: boolean;
   thumbNumber: number;
   clickHandler?: () => void;
   isFocusable?: boolean;
-  filterId: string | null;
+  highlightImage?: boolean;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
-  lang,
   clickHandler,
   isActive,
   thumbNumber,
   isFocusable,
-  filterId,
+  highlightImage,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const thumbnailService = getThumbnailService(canvas);
@@ -126,8 +124,8 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               </span>
             </>
           ) : (
-            <IIIFResponsiveImage
-              filterId={filterId}
+            <IIIFViewerImage
+              highlightImage={highlightImage}
               width={preferredThumbnail ? preferredThumbnail.width : 30}
               src={
                 urlTemplate
@@ -143,8 +141,6 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               srcSet={''}
               sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
               alt={''}
-              lang={lang}
-              isLazy={false}
               loadHandler={() => {
                 setThumbnailLoaded(true);
               }}

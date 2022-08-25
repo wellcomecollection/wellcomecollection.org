@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactElement, SyntheticEvent } from 'react';
 import NextLink, { LinkProps } from 'next/link';
+import { classNames } from '../../../utils/classnames';
 import {
   BaseButtonInner,
   ButtonIconWrapper,
@@ -9,7 +10,6 @@ import {
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '../Icon/Icon';
 import ConditionalWrapper from '../ConditionalWrapper/ConditionalWrapper';
-import AlignFont from '../styled/AlignFont';
 
 type ButtonSolidLinkProps = ButtonSolidBaseProps & {
   clickHandler?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
@@ -25,12 +25,15 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   text,
   link,
   icon,
+  isTextHidden,
   trackingEvent,
   clickHandler,
   ariaControls,
   ariaExpanded,
   isBig,
   ariaLabel,
+  colors,
+  isIconAfter,
 }: ButtonSolidLinkProps): ReactElement<ButtonSolidLinkProps> => {
   function handleClick(event) {
     clickHandler && clickHandler(event);
@@ -57,14 +60,32 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         isBig={isBig}
         href={getHref(link)}
         ariaLabel={ariaLabel}
+        colors={colors}
       >
         <BaseButtonInner>
+          {isIconAfter && (
+            <span
+              className={classNames({
+                'visually-hidden': !!isTextHidden,
+              })}
+            >
+              {text}
+            </span>
+          )}
           {icon && (
-            <ButtonIconWrapper>
+            <ButtonIconWrapper iconAfter={isIconAfter}>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}
-          <AlignFont>{text}</AlignFont>
+          {!isIconAfter && (
+            <span
+              className={classNames({
+                'visually-hidden': !!isTextHidden,
+              })}
+            >
+              {text}
+            </span>
+          )}
         </BaseButtonInner>
       </SolidButton>
     </ConditionalWrapper>

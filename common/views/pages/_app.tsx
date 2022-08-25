@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
@@ -16,30 +16,13 @@ import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
+import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
 
 declare global {
   interface Window {
-    prismic: any;
+    prismic: PrismicData | SimplifiedPrismicData | { endpoint: string };
   }
 }
-
-/**
- * This allows us to use appError() in Page.getServerSideProps
- * and still infer it's props return type if it didn't error.
- * e.g.
- * type BadProps = InferGetServerSidePropsType<typeof getServerSideProps> // { id: string } | AppErrorProps
- * type Props = PageProps<typeof getServerSideProps> // { id: string }
- * const Page = (props: Props) => {}
- * export const getServerSideProps = context => {
- *   const { id } = context.query
- *   if (!id) return appError(context, 400, 'ID please')
- *   else return { props: { id } }
- * }
- */
-export type PageProps<GetServerSideProps> = Exclude<
-  InferGetServerSidePropsType<GetServerSideProps>,
-  AppErrorProps
->;
 
 export type AppErrorProps = {
   err: {
@@ -157,6 +140,7 @@ export type WecoAppProps = AppProps;
 function isErrorPage(route: string): boolean {
   switch (route) {
     case '/404':
+    case '/500':
     case '/ _error':
       return true;
     default:
@@ -196,10 +180,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
     document.documentElement.classList.add('enhanced');
   }, []);
 
-  // We're making sure that secure cookies is what we want, and that our implementation
-  // works as expected. https://github.com/wellcomecollection/wellcomecollection.org/pull/7514
-  const gaSecureCookies = serverData.toggles.gaSecureCookies;
-  const cookieFlags = gaSecureCookies ? 'SameSite=None;secure' : undefined;
+  const cookieFlags = 'SameSite=None;secure';
   // GA v4
   useEffect(() => {
     window.gtag &&
@@ -296,15 +277,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         window.removeEventListener('beforeunload', trackVisibleTimeOnPage);
       } catch (error) {}
     };
-  }, []);
-
-  // lazysizes
-  useEffect(() => {
-    // This needs to be dynamically required as it's only on the client-side
-    /* eslint-disable @typescript-eslint/no-var-requires */
-    const lazysizes = require('lazysizes');
-    /* eslint-enable @typescript-eslint/no-var-requires */
-    lazysizes.init();
   }, []);
 
   // prismic warnings

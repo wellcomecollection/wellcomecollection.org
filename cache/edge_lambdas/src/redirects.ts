@@ -136,7 +136,6 @@ const contentRedirects: Record<string, string> = {
   '/articles/museums-in-context-the-birth-of-the-public-museum':
     '/articles/W_0kHhEAADUAbHiJ',
   '/articles/the-power-of-unicorns': '/articles/W_1gyREAADIAbXjT',
-  '/youth': '/pages/Wuw2MSIAACtd3Ssg',
   '/young-people': '/pages/Wuw2MSIAACtd3Ssg',
   '/openplatform': '/pages/WvljzSAAAB4E3uMF',
   '/the-hub': '/pages/Wuw2MSIAACtd3SsU',
@@ -166,6 +165,20 @@ const contentRedirects: Record<string, string> = {
   '/articles/X7bJORMAACEAiRPo': '/articles/X8dU2BIAACMAjKT-',
   '/articles/X8Ay3hIAACMAbSL2': '/articles/X8dV8xIAACIAjKn6',
   '/articles/X_dsXREAACMASftU': '/articles/X_g6ohEAACQATYJF',
+
+  // See https://wellcome.slack.com/archives/C8X9YKM5X/p1656920569188629
+  '/events/YrCXAREAACEAFSTW': '/events/Yqcv7xEAACEA61Co',
+
+  // This is the "nice" URL for new memberships.
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8167
+  '/signup': '/account/api/auth/signup',
+
+  // This is an old "getting around the building page".
+  //
+  // Among other places, it's linked to from the footer of some email
+  // newsletters, so we need to make sure it goes somewhere sensible.
+  // See https://wellcome.slack.com/archives/C3N7J05TK/p1658503007545149
+  '/pages/Wuw19yIAAK1Z3Smy': '/access#getting-around-the-building',
 };
 
 /**
@@ -183,7 +196,7 @@ const vanityUrls: Record<string, string> = {
   '/pages/Wuw2MSIAACtd3StS': '/schools',
   '/pages/X5amzBIAAB0Aq6Gm': '/covid-welcome-back',
   '/pages/X5aomxIAAB8Aq6n5': '/covid-book-your-ticket',
-  '/pages/X8ZTSBIAACQAiDzY§': '/visit-us',
+  '/pages/X8ZTSBIAACQAiDzY': '/visit-us',
   '/pages/Wuw2MSIAACtd3Stq': '/about-us',
   '/pages/YDaZmxMAACIAT9u8': '/get-involved',
   '/pages/YH17kRAAACoAyWTB': '/user-panel',
@@ -214,6 +227,7 @@ export const queryRedirects: Record<string, QueryRedirect> = {
       'images.color',
       'locations.license',
       'source.genres.label',
+      'source.subjects.label',
       'source.contributors.agent.label',
       'page',
     ]),

@@ -57,7 +57,7 @@ const Link = styled(Space).attrs({
     properties: ['margin-bottom'],
   },
   as: 'a',
-  className: font('hnb', 6),
+  className: font('intb', 6),
 })<LinkProps>`
   color: ${props => props.theme.color('white')};
   text-decoration: none;
@@ -103,8 +103,8 @@ const items: SocialItem[] = [
   },
   {
     url: 'https://soundcloud.com/wellcomecollection',
-    title: 'Soundcloud',
-    service: 'Soundcloud',
+    title: 'SoundCloud',
+    service: 'SoundCloud',
     icon: soundcloud,
   },
   {
@@ -115,8 +115,8 @@ const items: SocialItem[] = [
   },
   {
     url: 'https://www.tripadvisor.co.uk/Attraction_Review-g186338-d662065-Reviews-Wellcome_Collection-London_England.html',
-    title: 'TripAdvisor',
-    service: 'TripAdvisor',
+    title: 'Tripadvisor',
+    service: 'Tripadvisor',
     icon: tripadvisor,
   },
 ];

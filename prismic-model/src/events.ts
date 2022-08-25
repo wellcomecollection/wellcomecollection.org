@@ -3,7 +3,7 @@ import promo from './parts/promo';
 import timestamp from './parts/timestamp';
 import link from './parts/link';
 import list from './parts/list';
-import structuredText from './parts/structured-text';
+import { multiLineText, singleLineText } from './parts/structured-text';
 import embed from './parts/embed';
 import booleanDeprecated from './parts/boolean-deprecated';
 import text from './parts/text';
@@ -12,6 +12,37 @@ import body from './parts/body';
 import boolean from './parts/boolean';
 import number from './parts/number';
 import { CustomType } from './types/CustomType';
+
+function reservationBlock(prefix?: string) {
+  return {
+    [prefix ? `${prefix}TicketSalesStart` : 'ticketSalesStart']:
+      timestamp('Ticket sales start'),
+    [prefix ? `${prefix}BookingEnquiryTeam` : 'bookingEnquiryTeam']: link(
+      'Booking enquiry team',
+      'document',
+      ['teams']
+    ),
+    [prefix ? `${prefix}EventbriteEvent` : 'eventbriteEvent']:
+      embed('Eventbrite event'),
+    // This is what it was labelled on the UI,
+    // so that's what we're calling it here
+    [prefix ? `${prefix}ThirdPartyBookingName` : 'thirdPartyBookingName']: text(
+      'Third party booking name'
+    ),
+    [prefix ? `${prefix}ThirdPartyBookingUrl` : 'thirdPartyBookingUrl']: link(
+      'Third party booking url',
+      'web'
+    ),
+    [prefix ? `${prefix}BookingInformation` : 'bookingInformation']:
+      multiLineText({ label: 'Extra information' }),
+    [prefix ? `${prefix}Policies` : 'policies']: list('Policies', {
+      policy: link('Policy', 'document', ['event-policies']),
+    }),
+    [prefix ? `${prefix}HasEarlyRegistration` : 'hasEarlyRegistration']:
+      booleanDeprecated('Early registration'),
+    [prefix ? `${prefix}Cost` : 'cost']: text('Cost'),
+  };
+}
 
 const events: CustomType = {
   id: 'events',
@@ -30,7 +61,8 @@ const events: CustomType = {
       times: list('Times', {
         startDateTime: timestamp('Start'),
         endDateTime: timestamp('End'),
-        isFullyBooked: booleanDeprecated('Fully booked'),
+        isFullyBooked: booleanDeprecated('In-venue fully booked'),
+        onlineIsFullyBooked: booleanDeprecated('Online fully booked'),
       }),
       body,
     },
@@ -41,27 +73,14 @@ const events: CustomType = {
           'interpretation-types',
         ]),
         isPrimary: booleanDeprecated('Primary interprtation'),
-        extraInformation: structuredText('Extra information'),
+        extraInformation: multiLineText({ label: 'Extra information' }),
       }),
       audiences: list('Audiences', {
         audience: link('Audience', 'document', ['audiences']),
       }),
     },
-    Reservation: {
-      ticketSalesStart: timestamp('Ticket sales start'),
-      bookingEnquiryTeam: link('Booking enquiry team', 'document', ['teams']),
-      eventbriteEvent: embed('Eventbrite event'),
-      // This is what it was labelled on the UI,
-      // so that's what we're calling it here
-      thirdPartyBookingName: text('Third party booking name'),
-      thirdPartyBookingUrl: link('Third party booking url', 'web'),
-      bookingInformation: structuredText('Extra information'),
-      policies: list('Policies', {
-        policy: link('Policy', 'document', ['event-policies']),
-      }),
-      hasEarlyRegistration: booleanDeprecated('Early registration'),
-      cost: text('Cost'),
-    },
+    Reservation: reservationBlock(),
+    'Online reservation': reservationBlock('online'),
     Schedule: {
       schedule: list('Events', {
         event: link('Event', 'document', ['events']),
@@ -76,7 +95,7 @@ const events: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       series: list('Event series', {

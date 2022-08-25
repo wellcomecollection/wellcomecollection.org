@@ -3,7 +3,7 @@ import { Url } from '../../../model/link-props';
 import { JsonLdObj } from '../JsonLd/JsonLd';
 import Head from 'next/head';
 import convertUrlToString from '../../../utils/convert-url-to-string';
-import HeaderPrototype from '../Header/HeaderPrototype';
+import Header, { NavLink } from '../Header/Header';
 import InfoBanner from '../InfoBanner/InfoBanner';
 import CookieNotice from '../CookieNotice/CookieNotice';
 import NewsletterPromo from '../NewsletterPromo/NewsletterPromo';
@@ -11,16 +11,15 @@ import Footer from '../Footer/Footer';
 import PopupDialog from '../PopupDialog/PopupDialog';
 import Space from '../styled/Space';
 import { museumLd, libraryLd, openingHoursLd } from '../../../utils/json-ld';
-import { collectionVenueId } from '../../../services/prismic/hardcoded-id';
+import { collectionVenueId } from '../../../data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '../../../services/prismic/opening-times';
-import { wellcomeCollectionGallery } from '../../../model/organization';
+import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
 import ApiToolbar from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
-import useHotjar from '../../../hooks/useHotjar';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
@@ -31,7 +30,13 @@ export type SiteSection =
   | 'visit-us'
   | 'stories'
   | 'whats-on'
-  | 'identity';
+  | 'identity'
+  | 'exhibition-guides';
+
+type HeaderProps = {
+  customNavLinks: NavLink[];
+  showLibraryLogin?: boolean;
+};
 
 export type Props = {
   title: string;
@@ -46,6 +51,7 @@ export type Props = {
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
+  headerProps?: HeaderProps;
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -61,38 +67,8 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideNewsletterPromo = false,
   hideFooter = false,
   excludeRoleMain = false,
+  headerProps,
 }) => {
-  const hotjarUrls = [
-    'YLCu9hEAACYAUiJx',
-    'YLCzexEAACMAUi41',
-    'YLCuxhEAACMAUiGQ',
-    'YLCz6hEAACMAUjAx',
-    'YLC0GxEAACUAUjEW',
-    'YLC0bxEAACUAUjKf',
-    'YLC0ShEAACUAUjHz',
-    'YLC03xEAACYAUjSe',
-    'YLC1DREAACYAUjVy',
-    'YLC1QREAACUAUjZP',
-    'YLC2ixEAACUAUjmM',
-    'YLC2tREAACYAUjnP',
-    'YLC22hEAACQAUjoc',
-    'YLC3BBEAACUAUjrf',
-    'YLC3JxEAACYAUjuC',
-    'YLC3TxEAACYAUjwC',
-    'YLC3bxEAACMAUjw3',
-    'YLC3shEAACYAUjz0',
-    'YLC3jhEAACUAUjxr',
-    'YLC38BEAACQAUj4Y',
-    'YLC30REAACMAUj2F',
-    'YLC4MBEAACUAUj6O',
-    'YLC4DhEAACQAUj5X',
-    'YLC4bBEAACYAUj88',
-    'YLC4mREAACMAUkAL',
-  ]; // Digital guides
-  const shouldLoadHotjar = hotjarUrls.some(
-    u => url.pathname && url.pathname.match(u)
-  );
-  useHotjar(shouldLoadHotjar);
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
   const fullTitle =
@@ -280,7 +256,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
           Skip to main content
         </a>
 
-        <HeaderPrototype siteSection={siteSection} />
+        <Header siteSection={siteSection} {...headerProps} />
 
         {globalAlert.data.isShown === 'show' &&
           (!globalAlert.data.routeRegex ||

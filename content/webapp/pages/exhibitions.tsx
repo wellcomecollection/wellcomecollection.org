@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next';
 import { FC } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
-import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutPaginatedResults';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -10,7 +9,10 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionLd } from '../services/prismic/transformers/json-ld';
 import { getPage } from '../utils/query-params';
-import { pageDescriptions } from '@weco/common/data/microcopy';
+import {
+  pageDescriptions,
+  pastExhibitionsStrapline,
+} from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
 import {
   fixExhibitionDatesInJson,
@@ -18,11 +20,23 @@ import {
 } from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
 import { ExhibitionBasic } from '../types/exhibitions';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+
+import { london } from '@weco/common/utils/format-date';
+import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Space from '@weco/common/views/components/styled/Space';
+import CardGrid from '../components/CardGrid/CardGrid';
+import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
+import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import Pagination from '@weco/common/views/components/Pagination/Pagination';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
   period?: Period;
-  displayTitle: string;
+  title: string;
+  jsonLd: JsonLdObj[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
@@ -36,6 +50,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const { period } = context.query;
+
     const exhibitionsQuery = await fetchExhibitions(client, {
       page,
       period: period as Period,
@@ -44,11 +59,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (exhibitions && exhibitions.results.length > 0) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'xhibitions';
+      const jsonLd = exhibitions.results.map(exhibitionLd);
       return {
         props: removeUndefinedProps({
           exhibitions,
-          displayTitle: title,
+          title,
           period: period as Period,
+          jsonLd,
           serverData,
         }),
       };
@@ -58,38 +75,132 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions: jsonExhibitions, period, displayTitle } = props;
+  const { exhibitions: jsonExhibitions, period, title, jsonLd } = props;
   const exhibitions = {
     ...jsonExhibitions,
     results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
   };
   const firstExhibition = exhibitions[0];
 
+  const partitionedExhibitionItems = exhibitions.results.reduce(
+    (acc, result) => {
+      if (london(result.end).isSameOrAfter(london())) {
+        acc.currentAndUpcoming.push(result);
+      } else {
+        acc.past.push({
+          ...result,
+          hideStatus: true,
+        });
+      }
+      return acc;
+    },
+    { currentAndUpcoming: [], past: [] } as {
+      currentAndUpcoming: ExhibitionBasic[];
+      past: ExhibitionBasic[];
+    }
+  );
+
+  const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
+
   return (
     <PageLayout
-      title={displayTitle}
+      title={title}
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
-      jsonLd={exhibitions.results.map(exhibitionLd)}
+      jsonLd={jsonLd}
       openGraphType={'website'}
       siteSection={'whats-on'}
       image={firstExhibition && firstExhibition.image}
     >
-      <SpacingSection>
-        <LayoutPaginatedResults
-          showFreeAdmissionMessage={true}
-          title={displayTitle}
-          description={[
-            {
-              type: 'paragraph',
-              text: pageDescriptions.exhibitions,
-              spans: [],
-            },
-          ]}
-          paginatedResults={exhibitions}
-          paginationRoot={`exhibitions${period ? `/${period}` : ''}`}
-        />
-      </SpacingSection>
+      <PageHeader
+        breadcrumbs={{ items: [] }}
+        title={title}
+        ContentTypeInfo={
+          pageDescriptions.exhibitions && (
+            <PrismicHtmlBlock
+              html={[
+                {
+                  type: 'paragraph',
+                  text: pageDescriptions.exhibitions,
+                  spans: [],
+                },
+              ]}
+            />
+          )
+        }
+        backgroundTexture={headerBackgroundLs}
+        highlightHeading={true}
+      />
+      {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
+        <>
+          <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+            <SectionHeader title="Current exhibitions" />
+          </Space>
+          <SpacingSection>
+            <CardGrid
+              items={partitionedExhibitionItems.currentAndUpcoming}
+              itemsPerRow={3}
+            />
+          </SpacingSection>
+        </>
+      )}
+
+      {partitionedExhibitionItems.past.length > 0 && (
+        <>
+          {!period && (
+            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+              <SectionHeader title="Past Exhibitions" />
+              <Layout12>
+                <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                  <p className="no-margin">{pastExhibitionsStrapline}</p>
+                </Space>
+              </Layout12>
+            </Space>
+          )}
+          <SpacingSection>
+            <CardGrid
+              items={partitionedExhibitionItems.past}
+              itemsHaveTransparentBackground={true}
+              itemsPerRow={3}
+            />
+            {exhibitions.totalPages > 1 && (
+              <Layout12>
+                <div className="text-align-right">
+                  <Pagination
+                    total={exhibitions.totalResults}
+                    currentPage={exhibitions.currentPage}
+                    pageCount={exhibitions.totalPages}
+                    prevPage={
+                      exhibitions.currentPage > 1
+                        ? exhibitions.currentPage - 1
+                        : undefined
+                    }
+                    nextPage={
+                      exhibitions.currentPage < exhibitions.totalPages
+                        ? exhibitions.currentPage + 1
+                        : undefined
+                    }
+                    prevQueryString={
+                      `/${paginationRoot}` +
+                      (period ? `/${period}` : '') +
+                      (exhibitions.currentPage > 1
+                        ? `?page=${exhibitions.currentPage - 1}`
+                        : '')
+                    }
+                    nextQueryString={
+                      `/${paginationRoot}` +
+                      (period ? `/${period}` : '') +
+                      (exhibitions.currentPage < exhibitions.totalPages
+                        ? `?page=${exhibitions.currentPage + 1}`
+                        : '')
+                    }
+                  />
+                </div>
+              </Layout12>
+            )}
+          </SpacingSection>
+        </>
+      )}
     </PageLayout>
   );
 };

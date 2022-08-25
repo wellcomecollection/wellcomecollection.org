@@ -1,6 +1,6 @@
 import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import Layout8 from '@weco/common/views/components/Layout10/Layout10';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import WobblyBottom from '@weco/common/views/components/WobblyBottom/WobblyBottom';
@@ -22,7 +22,7 @@ const TextWrapper = styled.div`
 type Props = {
   labels: ComponentProps<typeof LabelsList>;
   title: string;
-  FeaturedMedia?: ReactElement<typeof UiImage>;
+  FeaturedMedia?: ReactElement<typeof PrismicImage>;
   standfirst?: prismicT.RichTextField;
   start?: Date;
   end?: Date;
@@ -63,7 +63,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                         </h1>
                       </Space>
                       {start && end && (
-                        <div className={font('hnr', 5)}>
+                        <div className={font('intr', 5)}>
                           <DateRange
                             start={new Date(start)}
                             end={new Date(end)}

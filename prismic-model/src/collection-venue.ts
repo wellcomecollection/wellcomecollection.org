@@ -3,7 +3,7 @@ import number from './parts/number';
 import select from './parts/select';
 import image from './parts/image';
 import link from './parts/link';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const collectionVenue: CustomType = {
@@ -22,7 +22,7 @@ const collectionVenue: CustomType = {
       order: number('Order'),
       image: image('Image'),
       link: link('Link', 'web', [], 'Enter url'),
-      linkText: structuredText('Linktext', 'single'),
+      linkText: singleLineText({ label: 'Linktext' }),
     },
     'Regular opening times': {
       monday: {

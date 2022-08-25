@@ -9,7 +9,7 @@ import {
   getCardLabels,
 } from '../../utils/works';
 import { trackEvent } from '@weco/common/utils/ga';
-import Image from '@weco/common/views/components/Image/Image';
+import IIIFImage from '../IIIFImage/IIIFImage';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import Space, {
   SpaceComponentProps,
@@ -50,6 +50,7 @@ const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   height: 178px;
   margin-left: auto;
   margin-top: ${props => props.theme.spacingUnit * 2}px;
+  position: relative;
 
   ${props => props.theme.media.medium`
     margin-top: 0;
@@ -77,6 +78,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   const productionDates = getProductionDates(work);
   const archiveLabels = getArchiveLabels(work);
   const cardLabels = getCardLabels(work);
+
+  const primaryContributorLabel = work.contributors.find(
+    contributor => contributor.primary
+  )?.agent.label;
 
   return (
     <Wrapper>
@@ -111,19 +116,19 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             <Details>
               <h2
                 className={classNames({
-                  [font('hnb', 4)]: true,
+                  [font('intb', 4)]: true,
                   'card-link__title': true,
                 })}
               >
                 <WorkTitle title={work.title} />
               </h2>
 
-              {work.contributors.length > 0 && (
+              {primaryContributorLabel && (
                 <Space h={{ size: 'm', properties: ['margin-right'] }}>
                   <LinkLabels
                     items={[
                       {
-                        text: work.contributors[0].agent.label,
+                        text: primaryContributorLabel,
                       },
                     ]}
                   />
@@ -165,12 +170,14 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             </Details>
             {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
               <Preview>
-                <Image
-                  defaultSize={178}
-                  alt={''}
-                  contentUrl={convertIiifImageUri(work.thumbnail.url, 178)}
-                  srcsetRequired={false}
-                  style={{ margin: 'auto' }}
+                <IIIFImage
+                  image={{
+                    alt: '',
+                    contentUrl: convertIiifImageUri(work.thumbnail.url, 178),
+                    width: 178,
+                    height: 178,
+                  }}
+                  layout="fill"
                 />
               </Preview>
             )}

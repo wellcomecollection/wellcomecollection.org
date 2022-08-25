@@ -5,7 +5,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
-import PrismicImage from '../PrismicImage/PrismicImage';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { linkResolver } from '@weco/common/services/prismic/link-resolver';
@@ -74,13 +74,14 @@ const StoryPromo: FunctionComponent<Props> = ({
             // title of the item in the list.
             //
             // See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
-            image={{...image, alt: ''}}
+            image={{ ...image, alt: '' }}
             sizes={{
               xlarge: 1 / 3,
               large: 1 / 3,
               medium: 1 / 2,
               small: 1,
             }}
+            quality="low"
           />
         )}
 
@@ -116,7 +117,7 @@ const StoryPromo: FunctionComponent<Props> = ({
             <p
               className={classNames({
                 'inline-block no-margin': true,
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
               })}
             >
               {article.promo?.caption}
@@ -127,8 +128,8 @@ const StoryPromo: FunctionComponent<Props> = ({
       {article.series.length > 0 && (
         <CardPostBody>
           {article.series.map(series => (
-            <p key={series.id} className={`${font('hnb', 6)} no-margin`}>
-              <span className={font('hnr', 6)}>Part of</span> {series.title}
+            <p key={series.id} className={`${font('intb', 6)} no-margin`}>
+              <span className={font('intr', 6)}>Part of</span> {series.title}
             </p>
           ))}
         </CardPostBody>

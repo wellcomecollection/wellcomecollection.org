@@ -6,7 +6,7 @@ export const ExternalLink = styled.a`
   white-space: nowrap;
 `;
 
-const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnr' })`
+const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-intr' })`
   padding: 1em 2em;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@ export const HighlightMessage = styled(Space).attrs({
 
 export const Checkbox = styled(CheckboxRadio).attrs({ type: 'checkbox' })``;
 
-export const CheckboxLabel = styled.span`
+export const CheckboxLabel = styled.div`
   margin-left: 0.333em;
 `;
 
@@ -77,5 +77,23 @@ export const Cancel = styled.button.attrs({
   &:hover {
     text-decoration: none;
     cursor: pointer;
+  }
+`;
+
+export const YellowBorder = styled(Space).attrs({
+  h: { size: 's', properties: ['padding-left'] },
+})`
+  border-left: 10px solid ${props => props.theme.color('yellow')};
+`;
+
+export const FullWidthButton = styled.div`
+  * {
+    width: 100%;
+  }
+`;
+
+export const FlexStartCheckbox = styled.div`
+  label {
+    align-items: flex-start;
   }
 `;

@@ -17,12 +17,11 @@ import WorkTitle from '../WorkTitle/WorkTitle';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { getArchiveAncestorArray } from '../../utils/works';
 import { RelatedWork, Work } from '@weco/common/model/catalogue';
-import Modal, { ModalContext } from '@weco/common/views/components/Modal/Modal';
+import Modal from '@weco/common/views/components/Modal/Modal';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
-import { Toggles } from '@weco/toggles';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { chevron, tree } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
+import { trackEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
   border-right: 1px solid ${props => props.theme.color('pumice')};
@@ -195,7 +194,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 
 const RefNumber = styled.span.attrs({
   className: classNames({
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 })`
   line-height: 1;
@@ -351,11 +350,9 @@ function updateChildren({
 async function createArchiveTree({
   work,
   archiveAncestorArray,
-  toggles,
 }: {
   work: RelatedWork;
   archiveAncestorArray: RelatedWork[];
-  toggles: Toggles;
 }): Promise<UiTree> {
   const allTreeNodes = [...archiveAncestorArray, work]; // An array of a work and all its ancestors (ancestors first)
   const treeStructure = await allTreeNodes.reduce(
@@ -439,12 +436,10 @@ function getPreviousTabbableId({
 
 async function expandTree({
   item,
-  toggles,
   setArchiveTree,
   archiveTree,
 }: {
   item: UiTreeNode;
-  toggles: Toggles;
   setArchiveTree: (tree: UiTree) => void;
   archiveTree: UiTree;
 }) {
@@ -502,8 +497,6 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   const isSelected =
     (tabbableId && tabbableId === item.work.id) ||
     (!tabbableId && currentWorkId === item.work.id);
-  const toggles = useToggles();
-  const { updateLastFocusableRef } = useContext(ModalContext);
   const descendentIsSelected =
     archiveAncestorArray &&
     archiveAncestorArray.some(ancestor => ancestor.id === item.work.id);
@@ -517,23 +510,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
     item?.work?.totalParts && item?.work?.totalParts > 0
   );
 
-  function updateTabbing(id) {
-    // We only want one tabbable item in the tree at a time,
-    // so that keyboard users can get past the tree, without having to tab through all the elements
-    // When the tree is inside a Modal we also need to update the lastFocusableRef, from Modal, which is used for the focus trap
-    // and prevents users from being able to tab items outside of the Modal when it is open.
-    setTabbableId(id);
-    const listItem = document.getElementById(id);
-    if (listItem && updateLastFocusableRef) {
-      updateLastFocusableRef(listItem.getElementsByTagName('a')[0]);
-    }
-  }
   function toggleBranch() {
     // TODO use new API totalParts data when available
     if (item.children === undefined) {
       expandTree({
         item,
-        toggles,
         setArchiveTree,
         archiveTree: fullTree,
       });
@@ -598,7 +579,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             // When focus is on an open node, moves focus to the first child node.
             if (item.openStatus) {
               if (nextId) {
-                updateTabbing(nextId);
+                setTabbableId(nextId);
               }
             }
 
@@ -610,7 +591,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             // When focus is on a closed node, opens the node; focus does not move.
             if (!item.openStatus) {
               toggleBranch();
-              updateTabbing(item.work.id);
+              setTabbableId(item.work.id);
             }
             break;
           }
@@ -625,7 +606,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
                   value: !item.openStatus,
                 })
               );
-              updateTabbing(item.work.id);
+              setTabbableId(item.work.id);
             }
             // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
             // When focus is on a root node that is also either an end node or a closed node, does nothing.
@@ -635,7 +616,7 @@ const ListItem: FunctionComponent<ListItemProps> = ({
               (item.children && item.children.length === 0) // TODO remove when API updated
             ) {
               if (item.parentId) {
-                updateTabbing(item.parentId);
+                setTabbableId(item.parentId);
               }
             }
             break;
@@ -643,14 +624,14 @@ const ListItem: FunctionComponent<ListItemProps> = ({
           case DOWN.includes(key): {
             // Moves focus to the next node that is focusable without opening or closing a node.
             if (nextId) {
-              updateTabbing(nextId);
+              setTabbableId(nextId);
             }
             break;
           }
           case UP.includes(key): {
             // Moves focus to the previous node that is focusable without opening or closing a node.
             if (previousId) {
-              updateTabbing(previousId);
+              setTabbableId(previousId);
             }
             break;
           }
@@ -660,13 +641,22 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         event.stopPropagation();
         if (level > 0) {
           toggleBranch();
-          updateTabbing(item.work.id);
+          setTabbableId(item.work.id);
         }
       }}
     >
       <div className="flex-inline">
         {isEnhanced && level > 1 && hasControl && (
-          <TreeControl highlightCondition={highlightCondition}>
+          <TreeControl
+            highlightCondition={highlightCondition}
+            onClick={() => {
+              trackEvent({
+                category: 'ArchiveTree',
+                action: 'Chevron clicked',
+                label: item.work.id,
+              });
+            }}
+          >
             <Icon rotate={item.openStatus ? undefined : 270} icon={chevron} />
           </TreeControl>
         )}
@@ -678,8 +668,8 @@ const ListItem: FunctionComponent<ListItemProps> = ({
         >
           <StyledLink
             className={classNames({
-              [font('hnb', 6)]: level === 1,
-              [font('hnr', 6)]: level > 1,
+              [font('intb', 6)]: level === 1,
+              [font('intr', 6)]: level > 1,
             })}
             hideFocus={!isKeyboard}
             tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
@@ -688,6 +678,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
             onClick={event => {
               event.stopPropagation();
               setShowArchiveTree(false);
+              trackEvent({
+                category: 'ArchiveTree',
+                action: 'Link clicked',
+                label: item.work.id,
+              });
             }}
             hasControl={hasControl}
           >
@@ -822,7 +817,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
 }: {
   work: Work;
 }) => {
-  const toggles = useToggles();
   const { isEnhanced, windowSize } = useContext(AppContext);
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const initialLoad = useRef(true);
@@ -846,7 +840,6 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
       const tree = await createArchiveTree({
         work,
         archiveAncestorArray,
-        toggles,
       });
       setArchiveTree(tree || []);
     }

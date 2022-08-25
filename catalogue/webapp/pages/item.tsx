@@ -287,9 +287,9 @@ const ItemPage: NextPage<Props> = ({
         removeCloseButton={true}
         openButtonRef={{ current: null }}
       >
-        <div className={font('hnr', 5)}>
+        <div className={font('intr', 5)}>
           {authService?.label && (
-            <h2 className={font('hnb', 4)}>{authService?.label}</h2>
+            <h2 className={font('intb', 4)}>{authService?.label}</h2>
           )}
           {authService?.description && (
             <div
@@ -441,24 +441,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       // from: https://wellcomecollection.org/works/f6qp7m32/items
       const isCollectionManifest =
         manifestOrCollection['@type'] === 'sc:Collection';
-
-      if (
-        isCollectionManifest &&
-        (!manifestOrCollection.manifests ||
-          manifestOrCollection.manifests.length === 0)
-      ) {
-        // There's a certain class of manifests (e.g. iiif.wellcomecollection.org/presentation/v2/b11533377)
-        // which don't have a "manifests" field (which breaks the front end) and the "collections" field has
-        // 404'ing entries (so we can't use that either).
-        // These are being addressed by Ashley, but for now we'll handle them here to stop the alerting being
-        // too noisy.
-        // TODO: Remove this block once we've addressed the issues in the source data
-        // See https://github.com/wellcomecollection/platform/issues/5443
-        console.warn(
-          `Malformed IIIF manifest (no 'manifests' field): ${manifestOrCollection['@id']}`
-        );
-        return { notFound: true };
-      }
 
       const manifest = isCollectionManifest
         ? await fetchJson(

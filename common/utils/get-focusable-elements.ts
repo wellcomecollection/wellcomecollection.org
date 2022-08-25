@@ -4,7 +4,7 @@ function getFocusableElements<E extends Element = Element>(
 ): E[] {
   return [
     ...el.querySelectorAll<E>(
-      'button, [href]:not([tabindex="-1"]), input, select, textarea, [tabindex]:not([tabindex="-1"]), [role=slider]'
+      'button:not([disabled]), [href]:not([tabindex="-1"]), input, select, textarea, [tabindex]:not([tabindex="-1"]), [role=slider]'
     ),
   ];
 }

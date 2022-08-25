@@ -1,17 +1,35 @@
-import { FunctionComponent, useState } from 'react';
+import { FC, useState } from 'react';
+import styled from 'styled-components';
 import { font, classNames } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
-import styled from 'styled-components';
-import { respondBetween, respondTo } from '@weco/common/views/themes/mixins';
+import { respondBetween, respondTo } from '../../themes/mixins';
+import DesktopSignIn from './DesktopSignIn';
+import MobileSignIn from './MobileSignIn';
+
+const NavLoginWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  ${respondTo(
+    'headerMedium',
+    `
+    width: 100%;
+  `
+  )}
+`;
 
 type WrapperProps = {
   isBurgerOpen: boolean;
 };
+
 const Wrapper = styled.div.attrs({
   className: classNames({
-    'grid bg-white': true,
+    'grid bg-white flex--v-center': true,
   }),
 })<WrapperProps>`
+  position: relative;
+  z-index: 6;
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
@@ -119,7 +137,6 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
   display: ${props => (props.isActive ? 'block' : 'none')};
   background: ${props => props.theme.color('white')};
   position: absolute;
-  z-index: 1;
   top: 100%;
   left: 0;
   right: 0;
@@ -133,7 +150,8 @@ const HeaderNav = styled.nav<{ isActive: boolean }>`
       'headerMedium',
       `
       border-top: 1px solid ${props.theme.color('pumice')};
-      min-height: 100vh;
+      height: calc(100vh - 84px);
+      overflow: auto;
     `
     )}
   `}
@@ -182,36 +200,28 @@ const HeaderItem = styled.li`
     'headerMedium',
     `
     border-bottom: 0;
-    margin-right: 1vw;
+    margin-right: calc(3vw - 20px);
   `
   )}
-
-  ${respondTo(
-    'large',
-    `
-    margin-right: 2vw;
-  `
-  )}
-
 
   ${respondBetween(
     'headerMedium',
     'large',
     `
-    font-size: 1.6vw;
+    font-size: 1.5vw;
   `
   )}
 
   ${respondTo(
     'xlarge',
     `
-    margin-right: 2rem;
+    margin-right: 1.4rem;
   `
   )}
 `;
 
 const HeaderLink = styled.a<{ isActive: boolean }>`
-  padding: 2rem 0.3rem;
+  padding: 1.4rem 0.3rem;
   display: inline-block;
   text-decoration: none;
   position: relative;
@@ -229,7 +239,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   &:after {
     content: '';
     position: absolute;
-    bottom: 1.9rem;
+    bottom: 1.3rem;
     height: 0.6rem;
     left: 0;
     width: 0;
@@ -267,11 +277,19 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
   `}
 `;
 
-type Props = {
-  siteSection: string | null;
+export type NavLink = {
+  href: string;
+  title: string;
+  siteSection?: string;
 };
 
-export const links = [
+type Props = {
+  siteSection: string | null;
+  customNavLinks?: NavLink[];
+  showLibraryLogin?: boolean;
+};
+
+export const links: NavLink[] = [
   {
     href: '/visit-us',
     title: 'Visit us',
@@ -304,15 +322,24 @@ export const links = [
   },
 ];
 
-const Header: FunctionComponent<Props> = ({ siteSection }) => {
+export const exhibitionGuidesLinks: NavLink[] = [
+  {
+    href: '/guides/exhibitions',
+    title: 'Exhibition guides',
+    siteSection: 'exhibition-guides',
+  },
+];
+
+const Header: FC<Props> = ({
+  siteSection,
+  customNavLinks,
+  showLibraryLogin = true,
+}) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
     <Wrapper isBurgerOpen={isActive}>
-      <div
-        className="relative grid__cell"
-        style={{ paddingTop: '15px', paddingBottom: '15px' }}
-      >
+      <div className="relative grid__cell">
         <div className="flex flex--v-center container">
           <Burger>
             <BurgerTrigger
@@ -335,31 +362,33 @@ const Header: FunctionComponent<Props> = ({ siteSection }) => {
               <WellcomeCollectionBlack />
             </a>
           </HeaderBrand>
-          <HeaderNav
-            isActive={isActive}
-            id="header-nav"
-            aria-labelledby="header-burger-trigger"
-          >
-            <HeaderList
-              className={`plain-list ${font('wb', 5)} no-margin no-padding`}
+          <NavLoginWrapper>
+            <HeaderNav
+              isActive={isActive}
+              id="header-nav"
+              aria-labelledby="header-burger-trigger"
             >
-              {links.map((link, i) => (
-                <HeaderItem key={i}>
-                  <HeaderLink
-                    isActive={link.siteSection === siteSection}
-                    href={link.href}
-                    {...(link.siteSection === siteSection
-                      ? { 'aria-current': true }
-                      : {})}
-                  >
-                    {link.title}
-                  </HeaderLink>
-                </HeaderItem>
-              ))}
-            </HeaderList>
-          </HeaderNav>
-          {/* we leave this here until we know exactly what we want to do with search */}
-          <div id="header-search" className="header__search" />
+              <HeaderList
+                className={`plain-list ${font('wb', 5)} no-margin no-padding`}
+              >
+                {(customNavLinks || links).map((link, i) => (
+                  <HeaderItem key={i}>
+                    <HeaderLink
+                      isActive={link.siteSection === siteSection}
+                      href={link.href}
+                      {...(link.siteSection === siteSection
+                        ? { 'aria-current': true }
+                        : {})}
+                    >
+                      {link.title}
+                    </HeaderLink>
+                  </HeaderItem>
+                ))}
+                {showLibraryLogin && <MobileSignIn />}
+              </HeaderList>
+            </HeaderNav>
+            {showLibraryLogin && <DesktopSignIn />}
+          </NavLoginWrapper>
         </div>
       </div>
     </Wrapper>

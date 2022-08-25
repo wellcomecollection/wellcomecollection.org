@@ -1,7 +1,7 @@
 import { isNotUndefined } from '@weco/common/utils/array';
 import { FeaturedBooksPrismicDocument } from '../types/books';
 import { transformBook } from '../transformers/books';
-import { isFilledLinkToDocumentWithData } from '../types';
+import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { Book } from '../../../types/books';
 
 export function transformFeaturedBooks(

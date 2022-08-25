@@ -1,20 +1,30 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 import SelectContainer from '../SelectContainer/SelectContainer';
+
+export type SelectOption = {
+  value?: string;
+  text: string;
+};
 
 type Props = {
   name: string;
   label: string;
   value: string;
-  options: {
-    value?: string;
-    text: string;
-  }[];
+  hideLabel?: boolean;
+  options: SelectOption[];
   onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Select = ({ name, label, options, value, onChange }: Props) => {
+const Select: FC<Props> = ({
+  name,
+  label,
+  hideLabel,
+  options,
+  value,
+  onChange,
+}) => {
   return (
-    <SelectContainer label={label}>
+    <SelectContainer label={label} hideLabel={hideLabel}>
       <select name={name} onChange={onChange} value={value}>
         {options.map(option => {
           return (

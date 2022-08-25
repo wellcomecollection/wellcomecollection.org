@@ -16,7 +16,7 @@ import StatusIndicator from '@weco/common/views/components/StatusIndicator/Statu
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import ImageType from '@weco/common/views/components/Image/Image';
+import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ColorSelection } from '../../types/color-selections';
 import Space, {
   VerticalSpaceProperty,
@@ -161,11 +161,11 @@ const MediaObjectBase: FunctionComponent<Props> = ({
           <div
             className={classNames({
               'spaced-text': true,
-              [font('hnr', 5)]: !descriptionIsString,
+              [font('intr', 5)]: !descriptionIsString,
             })}
           >
             {descriptionIsString ? (
-              <p className={font('hnr', 5)}>{description}</p>
+              <p className={font('intr', 5)}>{description}</p>
             ) : (
               description
             )}

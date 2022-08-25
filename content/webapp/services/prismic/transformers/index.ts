@@ -3,59 +3,19 @@ import {
   PrismicDocument,
   FilledLinkToDocumentField,
   KeyTextField,
-  LinkField,
   RichTextField,
   TimestampField,
 } from '@prismicio/types';
-import linkResolver from '../link-resolver';
+import { CommonPrismicFields, WithArticleFormat } from '../types';
 import {
-  CommonPrismicFields,
+  InferDataInterface,
   isFilledLinkToDocumentWithData,
-  isFilledLinkToMediaField,
-  isFilledLinkToWebField,
-  WithArticleFormat,
-} from '../types';
-import { InferDataInterface } from '@weco/common/services/prismic/types';
-import {
-  BodyType,
-  GenericContentFields,
-} from '../../../types/generic-content-fields';
+} from '@weco/common/services/prismic/types';
+import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import { Body } from '../types/body';
 import { isNotUndefined, isString } from '@weco/common/utils/array';
-import { transformPage } from './pages';
-import { transformGuide } from './guides';
-import { transformEventSeries } from './event-series';
-import { transformExhibition } from './exhibitions';
-import { transformArticle } from './articles';
-import { transformEvent } from './events';
-import { transformSeason } from './seasons';
-import { transformCard } from './card';
-import { MultiContentPrismicDocument } from '../types/multi-content';
-import { GuidePrismicDocument, WithGuideFormat } from '../types/guides';
-import { SeasonPrismicDocument } from '../types/seasons';
-import { CardPrismicDocument, WithCardFormat } from '../types/card';
-import {
-  getWeight,
-  transformCollectionVenueSlice,
-  transformContactSlice,
-  transformDeprecatedImageListSlice,
-  transformDiscussionSlice,
-  transformEditorialImageGallerySlice,
-  transformEditorialImageSlice,
-  transformGifVideoSlice,
-  transformIframeSlice,
-  transformInfoBlockSlice,
-  transformMapSlice,
-  transformMediaObjectListSlice,
-  transformQuoteSlice,
-  transformSearchResultsSlice,
-  transformStandfirstSlice,
-  transformTableSlice,
-  transformTagListSlice,
-  transformTextSlice,
-  transformTitledTextListSlice,
-} from './body';
+import { WithGuideFormat } from '../types/guides';
+import { WithCardFormat } from '../types/card';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { transformImagePromo } from './images';
 import { WithPageFormat } from '../types/pages';
@@ -63,8 +23,10 @@ import { WithEventFormat } from '../types/events';
 import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
-import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import * as prismicT from '@prismicio/types';
+import { transformBody } from './body';
+import { isStandfirst } from '../../../types/body';
 
 type Doc = PrismicDocument<CommonPrismicFields>;
 
@@ -131,18 +93,6 @@ export function asTitle(title: RichTextField): string {
   return asText(title) || '';
 }
 
-export function transformLink(
-  link?: LinkField<string, string, any>
-): string | undefined {
-  if (link) {
-    if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
-      return link.url;
-    } else if (isFilledLinkToDocumentWithData(link)) {
-      return linkResolver({ id: link.id, type: link.type });
-    }
-  }
-}
-
 export function transformSingleLevelGroup(
   frag: Record<string, any>[],
   singlePropertyName: string
@@ -168,204 +118,31 @@ export function transformLabelType(
   };
 }
 
-// TODO: Consider moving this into a dedicated file for body transformers.
-// TODO: Rather than doing transformation inline, have this function consistently
-// call out to other transformer functions (a la contentList).
-// See https://github.com/wellcomecollection/wellcomecollection.org/pull/7679/files#r811138079
-export function transformBody(body: Body): BodyType {
-  return body
-    .map(slice => {
-      switch (slice.slice_type) {
-        case 'standfirst':
-          return transformStandfirstSlice(slice);
-
-        case 'text':
-          return transformTextSlice(slice);
-
-        case 'map':
-          return transformMapSlice(slice);
-
-        case 'editorialImage':
-          return transformEditorialImageSlice(slice);
-
-        case 'editorialImageGallery':
-          return transformEditorialImageGallerySlice(slice);
-
-        case 'titledTextList':
-          return transformTitledTextListSlice(slice);
-
-        case 'contentList':
-          type ContentListPrismicDocument =
-            | MultiContentPrismicDocument
-            | GuidePrismicDocument
-            | SeasonPrismicDocument
-            | CardPrismicDocument;
-
-          const contents: ContentListPrismicDocument[] = slice.items
-            .map(item => item.content)
-            .filter(isFilledLinkToDocumentWithData);
-
-          return {
-            type: 'contentList',
-            weight: getWeight(slice.slice_label),
-            value: {
-              title: asText(slice.primary.title),
-              // TODO: The old code would look up a `hasFeatured` field on `slice.primary`,
-              // but that doesn't exist in our Prismic model.
-              // hasFeatured: slice.primary.hasFeatured,
-              items: contents
-                .map(content => {
-                  switch (content.type) {
-                    case 'pages':
-                      return transformPage(content);
-                    case 'guides':
-                      return transformGuide(content);
-                    case 'event-series':
-                      return transformEventSeries(content);
-                    case 'exhibitions':
-                      return transformExhibition(content);
-                    case 'articles':
-                      return transformArticle(content);
-                    case 'events':
-                      return transformEvent(content);
-                    case 'seasons':
-                      return transformSeason(content);
-                    case 'card':
-                      return transformCard(content);
-                  }
-                })
-                .filter(Boolean),
-            },
-          };
-
-        case 'collectionVenue':
-          return transformCollectionVenueSlice(slice);
-
-        case 'searchResults':
-          return transformSearchResultsSlice(slice);
-
-        case 'quote':
-        case 'quoteV2':
-          return transformQuoteSlice(slice);
-
-        case 'iframe':
-          return transformIframeSlice(slice);
-
-        case 'gifVideo':
-          return transformGifVideoSlice(slice);
-
-        case 'contact':
-          return transformContactSlice(slice);
-
-        case 'embed':
-          const embed = slice.primary.embed;
-
-          if (embed.provider_name === 'Vimeo') {
-            const embedUrl = slice.primary.embed.html?.match(
-              /src="([-a-zA-Z0-9://.?=_]+)?/
-            )![1];
-
-            return {
-              type: 'videoEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: `${embedUrl}?rel=0&dnt=1`,
-                caption: slice.primary.caption,
-              },
-            };
-          }
-
-          if (embed.provider_name === 'SoundCloud') {
-            const apiUrl = embed.html!.match(/url=([^&]*)&/)!;
-            const secretToken = embed.html!.match(/secret_token=([^"]*)"/);
-            const secretTokenString =
-              secretToken && secretToken[1]
-                ? `%3Fsecret_token%3D${secretToken[1]}`
-                : '';
-
-            return {
-              type: 'soundcloudEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: `https://w.soundcloud.com/player/?url=${apiUrl[1]}${secretTokenString}&color=%23ff5500&inverse=false&auto_play=false&show_user=true`,
-                caption: slice.primary.caption,
-              },
-            };
-          }
-
-          if (embed.provider_name === 'YouTube') {
-            // The embed will be a blob of HTML of the form
-            //
-            //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
-            //
-            // We want to add the query parameter ?rel=0
-            const embedUrl =
-              slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
-
-            const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-              'www.youtube.com',
-              'www.youtube-nocookie.com'
-            );
-
-            const newEmbedUrl = embedUrl.includes('?')
-              ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-              : `${embedUrlWithEnhancedPrivacy}?rel=0`;
-
-            return {
-              type: 'videoEmbed',
-              weight: getWeight(slice.slice_label),
-              value: {
-                embedUrl: newEmbedUrl,
-                caption: slice.primary.caption,
-              },
-            };
-          }
-          break;
-
-        case 'table':
-          return transformTableSlice(slice);
-
-        case 'infoBlock':
-          return transformInfoBlockSlice(slice);
-
-        case 'discussion':
-          return transformDiscussionSlice(slice);
-
-        case 'tagList':
-          return transformTagListSlice(slice);
-
-        // Deprecated
-        case 'imageList':
-          return transformDeprecatedImageListSlice(slice);
-
-        case 'mediaObjectList':
-          return transformMediaObjectListSlice(slice);
-      }
-    })
-    .filter(isNotUndefined);
-}
-
 export function transformGenericFields(doc: Doc): GenericContentFields {
   const { data } = doc;
   const promo = data.promo && transformImagePromo(data.promo);
 
-  const image: ImageType | undefined =
+  const primaryPromo =
     data.promo && data.promo.length > 0
       ? data.promo
           .filter((slice: prismicT.Slice) => slice.primary.image)
-          .map(({ primary: { image } }) => transformImage(image))
-          .find(_ => _) || undefined // just get the first one;
+          .find(_ => _)
       : undefined;
 
+  const image: ImageType | undefined = primaryPromo
+    ? transformImage(primaryPromo.primary.image)
+    : undefined;
+
   const body = data.body ? transformBody(data.body) : [];
-  const standfirst = body.find(slice => slice.type === 'standfirst');
+  const standfirst = body.find(isStandfirst);
+
   const metadataDescription = asText(data.metadataDescription);
 
   return {
     id: doc.id,
     title: asTitle(data.title),
-    body: body,
-    standfirst: standfirst && standfirst.value,
+    body,
+    standfirst: standfirst?.value,
     promo,
     image,
     metadataDescription,

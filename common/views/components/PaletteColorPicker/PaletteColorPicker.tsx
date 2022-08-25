@@ -12,49 +12,49 @@ type Props = {
 
 type ColorSwatch = {
   hexValue: string;
-  colorName: string | null;
+  colorName: string;
 };
 
 export const palette: ColorSwatch[] = [
   {
     hexValue: 'e02020',
-    colorName: 'red',
+    colorName: 'Red',
   },
   {
     hexValue: 'ff47d1',
-    colorName: 'pink',
+    colorName: 'Pink',
   },
   {
     hexValue: 'fa6400',
-    colorName: 'orange',
+    colorName: 'Orange',
   },
   {
     hexValue: 'f7b500',
-    colorName: 'yellow',
+    colorName: 'Yellow',
   },
   {
     hexValue: '8b572a',
-    colorName: 'brown',
+    colorName: 'Brown',
   },
   {
     hexValue: '6dd400',
-    colorName: 'green',
+    colorName: 'Green',
   },
   {
     hexValue: '22bbff',
-    colorName: 'blue',
+    colorName: 'Blue',
   },
   {
     hexValue: '8339e8',
-    colorName: 'violet',
+    colorName: 'Violet',
   },
   {
     hexValue: '000000',
-    colorName: 'black',
+    colorName: 'Black',
   },
   {
     hexValue: 'd9d3d3',
-    colorName: 'grey',
+    colorName: 'Grey',
   },
 ];
 
@@ -77,7 +77,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
   className: classNames({
     'plain-button': true,
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
   'aria-pressed': !!props.ariaPressed,
 }))<SwatchProps>`
@@ -87,6 +87,7 @@ const Swatch = styled.button.attrs((props: SwatchProps) => ({
   line-height: normal;
   margin-bottom: 8px;
   cursor: pointer;
+  min-height: 32px;
 
   &:before {
     content: '';
@@ -127,7 +128,7 @@ const TextWrapper = styled.div`
   margin-top: 8px;
 `;
 
-export function getColorDisplayName(color: string | null) {
+export function getColorDisplayName(color: string | null): string | null {
   if (color) {
     const matchingPaletteColor = palette.find(
       swatch => swatch.hexValue.toUpperCase() === color.toUpperCase()
@@ -159,12 +160,6 @@ const PaletteColorPicker: FunctionComponent<Props> = ({
       firstRender.current = false;
     }
   }, [colorState]);
-
-  const matchingPaletteColor =
-    colorState &&
-    palette.find(
-      swatch => swatch.hexValue.toUpperCase() === colorState.toUpperCase()
-    );
 
   return (
     <Wrapper>

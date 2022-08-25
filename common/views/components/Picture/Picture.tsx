@@ -1,9 +1,17 @@
 import Tasl from '../Tasl/Tasl';
 import { imageSizes } from '../../../utils/image-sizes';
 import { convertImageUri } from '../../../utils/convert-image-uri';
-import { UiImageProps } from '../Images/Images';
 import { Picture as PictureProps } from '../../../model/picture';
 import { FunctionComponent } from 'react';
+import { ImageType } from '../../../model/image';
+
+type UiImageProps = ImageType & {
+  extraClasses?: string;
+  isFull?: boolean;
+  isWidthAuto?: boolean;
+  setComputedImageWidth?: (value: number) => void;
+  setIsWidthAuto?: (value: boolean) => void;
+};
 
 type Props = {
   images: PictureProps[];
@@ -44,27 +52,27 @@ export const Picture: FunctionComponent<Props> = ({
           }
         })}
 
-        {lastImage && lastImage.contentUrl && lastImage.width && (
+        {lastImage && lastImage.contentUrl && (
           <img
             className="image block"
-            src={convertImageUri(lastImage.contentUrl, lastImage.width)}
+            src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
         )}
       </picture>
-      {tasl && <Tasl {...tasl} isFull={isFull} />}
+      {tasl && <Tasl {...tasl} positionTop={isFull} />}
     </figure>
   );
 };
 
-// The prder of the images is important, you need to have it from:
+// The order of the images is important, you need to have it from:
 // maximum min-width -> minimum min-width
 type PictureFromImagesProps = {
   images: { string: UiImageProps }; // the key here is the minwidth
   extraClasses?: string;
   isFull: boolean;
 };
-export const PictureFromImages = ({
+export const PictureFromImages: FunctionComponent<PictureFromImagesProps> = ({
   images,
   extraClasses,
   isFull = false,
@@ -96,17 +104,16 @@ export const PictureFromImages = ({
           }
         })}
 
-        {lastImage && lastImage.contentUrl && lastImage.width && (
+        {lastImage && lastImage.contentUrl && (
           <img
             height={lastImage.height}
             width={lastImage.width}
-            className="image lazy-image lazyload"
-            data-src={convertImageUri(lastImage.contentUrl, lastImage.width)}
+            data-src={convertImageUri(lastImage.contentUrl, 1200)}
             alt={lastImage.alt || ''}
           />
         )}
       </picture>
-      {lastImage && <Tasl {...lastImage.tasl} isFull={isFull} />}
+      {lastImage && <Tasl {...lastImage.tasl} positionTop={isFull} />}
     </figure>
   );
 };

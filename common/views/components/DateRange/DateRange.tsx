@@ -7,7 +7,7 @@ import { isSameDay } from '../../../utils/dates';
 
 const TimeRange = ({ start, end }: DateRangeProps) => (
   <>
-    <HTMLTime date={start} />—<HTMLTime date={end} />
+    <HTMLTime date={start} /> – <HTMLTime date={end} />
   </>
 );
 
@@ -29,7 +29,7 @@ const DateRange: FunctionComponent<Props> = ({
     </>
   ) : (
     <>
-      <HTMLDate date={start} />—<HTMLDate date={end} />
+      <HTMLDate date={start} /> – <HTMLDate date={end} />
     </>
   );
 };

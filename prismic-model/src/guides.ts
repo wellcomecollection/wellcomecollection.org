@@ -3,7 +3,7 @@ import body from './parts/body';
 import promo from './parts/promo';
 import link from './parts/link';
 import timestamp from './parts/timestamp';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import boolean from './parts/boolean';
 import { CustomType } from './types/CustomType';
 
@@ -27,7 +27,7 @@ const guides: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
   },
 };

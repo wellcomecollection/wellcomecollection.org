@@ -1,7 +1,7 @@
 import { font, classNames } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
-import { UiImage } from '../Images/Images';
+import PrismicImage from '../PrismicImage/PrismicImage';
 import VideoEmbed from '../VideoEmbed/VideoEmbed';
 import { Picture } from '../Picture/Picture';
 import HeaderBackground from '../HeaderBackground/HeaderBackground';
@@ -52,7 +52,7 @@ const HeroPictureContainer = styled.div`
 `;
 
 export type FeaturedMedia =
-  | ReactElement<typeof UiImage>
+  | ReactElement<typeof PrismicImage>
   | typeof VideoEmbed
   | typeof Picture;
 
@@ -88,7 +88,7 @@ type Props = {
   TitleTopper?: ReactNode;
 };
 
-const sectionLevelPageGridLayout = { s: 12, m: 10, l: 8, xl: 8 };
+const sectionLevelPageGridLayout = { s: 12, m: 12, l: 10, xl: 10 };
 const PageHeader: FunctionComponent<Props> = ({
   breadcrumbs,
   labels,
@@ -145,15 +145,17 @@ const PageHeader: FunctionComponent<Props> = ({
             }}
           >
             {!sectionLevelPage && (
+              // We need to keep some space below the breadcrumbs to prevent
+              // 'highlighted' headings from being partially concealed
               <Space
                 v={{
-                  size: 's',
+                  size: 'm',
                   properties: ['margin-top', 'margin-bottom'],
+                  overrides: { large: 4 },
                 }}
               >
                 {breadcrumbs.items.length > 0 ? (
-                  <Space
-                    v={{ size: 'm', properties: ['margin-bottom'] }}
+                  <div
                     data-component={
                       asyncBreadcrumbsRoute ? 'AsyncBreadcrumb' : undefined
                     }
@@ -169,11 +171,11 @@ const PageHeader: FunctionComponent<Props> = ({
                     data-modifiers={asyncBreadcrumbsRoute ? '' : undefined}
                   >
                     <Breadcrumb {...breadcrumbs} />
-                  </Space>
+                  </div>
                 ) : (
                   <span
                     className={classNames({
-                      [font('hnr', 5)]: true,
+                      [font('intr', 5)]: true,
                       flex: true,
                     })}
                   >
@@ -198,7 +200,7 @@ const PageHeader: FunctionComponent<Props> = ({
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
                 className={classNames({
-                  [font('hnr', 4)]: true,
+                  [font('intr', 4)]: true,
                 })}
               >
                 {ContentTypeInfo}
@@ -246,7 +248,7 @@ const PageHeader: FunctionComponent<Props> = ({
               properties: ['margin-top'],
             }}
             className={classNames({
-              [font('hnb', 4)]: true,
+              [font('intb', 4)]: true,
             })}
           >
             {ContentTypeInfo}

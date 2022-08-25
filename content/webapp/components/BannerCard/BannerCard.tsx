@@ -6,11 +6,12 @@ import { Season } from '../../types/seasons';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
 import linkResolver from '../../services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type CardOuterProps = {
   background: 'charcoal' | 'cream';
@@ -151,22 +152,23 @@ const BannerCard: FunctionComponent<Props> = ({
               size: 's',
               properties: ['margin-top', 'margin-bottom'],
             }}
-            className={`${font('hnr', 5)} font-marble`}
+            className={`${font('intr', 5)} font-marble`}
           >
             <DateRange start={new Date(start)} end={new Date(end)} />
           </Space>
         )}
         <p
           className={classNames({
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
           })}
         >
           {description}
         </p>
-        <ButtonOutlined
+        <ButtonSolid
+          colors={themeValues.buttonColors.whiteTransparentWhite}
+          isIconAfter={true}
           icon={arrowSmall}
           text={`Explore ${type}`}
-          isOnDark={true}
         />
       </Space>
       {image && (

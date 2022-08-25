@@ -7,7 +7,7 @@ import {
   mockData,
   mockDataWithPrismicText,
 } from '@weco/common/test/fixtures/components/compact-card';
-import Image from '@weco/common/views/components/Image/Image';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
 import { grid, classNames, font } from '@weco/common/utils/classnames';
@@ -59,7 +59,18 @@ describe('MediaObjectBase', () => {
   const componentWithImage = mountWithTheme(
     <MediaObjectBase
       title={mockData.title}
-      Image={<Image {...mockData.image} />}
+      Image={
+        <PrismicImage
+          image={{ ...mockData.image }}
+          sizes={{
+            xlarge: 1 / 6,
+            large: 1 / 6,
+            medium: 1 / 5,
+            small: 1 / 4,
+          }}
+          quality="low"
+        />
+      }
       description={mockData.text}
       primaryLabels={[]}
       secondaryLabels={[]}
@@ -137,7 +148,18 @@ describe('MediaObjectBase', () => {
         const component = shallowWithTheme(
           <MediaObjectBase
             title={mockData.title}
-            Image={<Image {...mockData.image} />}
+            Image={
+              <PrismicImage
+                image={{ ...mockData.image }}
+                sizes={{
+                  xlarge: 1 / 6,
+                  large: 1 / 6,
+                  medium: 1 / 5,
+                  small: 1 / 4,
+                }}
+                quality="low"
+              />
+            }
             ExtraInfo={null}
             primaryLabels={[]}
             secondaryLabels={[]}

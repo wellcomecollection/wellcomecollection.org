@@ -36,6 +36,10 @@ const WorkHeader: FunctionComponent<Props> = ({
   const cardLabels = getCardLabels(work);
   const { childManifestsCount } = useIIIFManifestData(work);
 
+  const primaryContributorLabel = work.contributors.find(
+    contributor => contributor.primary
+  )?.agent.label;
+
   return (
     <WorkHeaderContainer>
       <Space
@@ -51,7 +55,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             id="work-info"
             className={classNames({
               'no-margin': true,
-              [font('hnb', 2)]: true,
+              [font('intb', 2)]: true,
               'inline-block': true,
             })}
             // We only send a lang if it's unambiguous -- better to send
@@ -63,12 +67,12 @@ const WorkHeader: FunctionComponent<Props> = ({
             <WorkTitle title={work.title} />
           </h1>
 
-          {work.contributors.length > 0 && (
+          {primaryContributorLabel && (
             <Space h={{ size: 'm', properties: ['margin-right'] }}>
               <LinkLabels
                 items={[
                   {
-                    text: work.contributors[0].agent.label,
+                    text: primaryContributorLabel,
                     url: null,
                   },
                 ]}
@@ -115,7 +119,7 @@ const WorkHeader: FunctionComponent<Props> = ({
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                   'no-margin': true,
                 })}
               >

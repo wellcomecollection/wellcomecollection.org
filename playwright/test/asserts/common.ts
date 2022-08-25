@@ -1,17 +1,24 @@
+import { expect } from '@playwright/test';
+import { Page } from 'playwright';
 import { itemsIsVisible, elementIsVisible } from '../actions/common';
 
-export async function expectItemsIsVisible(
+export const expectItemsIsVisible = async (
   selector: string,
-  miniumNumber: number
-): Promise<void> {
-  expect(await itemsIsVisible(selector, miniumNumber)).toBeTruthy();
-}
+  minimumNumber: number,
+  page: Page
+): Promise<void> => {
+  expect(await itemsIsVisible(selector, minimumNumber, page)).toBeTruthy();
+};
 
-export async function expectItemIsVisible(selector: string): Promise<void> {
-  expect(await elementIsVisible(selector)).toBeTruthy();
-}
+export const expectItemIsVisible = async (
+  selector: string,
+  page: Page
+): Promise<void> => {
+  console.debug(`Waiting for '${selector}' to be visible'`);
+  expect(await elementIsVisible(selector, page)).toBeTruthy();
+};
 
-export function expectUrlToMatch(regex: RegExp | string): void {
+export const expectUrlToMatch = (regex: RegExp | string, page: Page): void => {
   const condition = RegExp(regex);
   expect(condition.test(page.url())).toBeTruthy();
-}
+};

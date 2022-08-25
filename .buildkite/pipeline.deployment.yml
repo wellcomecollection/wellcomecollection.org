@@ -21,17 +21,26 @@ steps:
 
   - wait
 
-  - label: "Check URLs"
-    command:
-      .buildkite/scripts/check_urls_with_curl.sh
-    agents:
-      queue: nano
-
   - label: "Trigger e2e tests"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
     command: ".buildkite/scripts/trigger-e2e.sh"
     agents:
       queue: nano
+
+  - label: "Update pa11y dashboard"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "prod"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+      - ecr#v2.1.1:
+          login: true
+      - docker-compose#v3.5.0:
+          run: pa11y
+          command: [ "yarn", "deploy" ]
+          env:
+            - AWS_ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY
+            - AWS_SESSION_TOKEN
 
   - block: ":rocket: Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
@@ -40,7 +49,7 @@ steps:
   - label: "Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     plugins:
-      - wellcomecollection/github-deployments#v0.2.4:
+      - wellcomecollection/github-deployments#v0.3.0:
           assume_role: "arn:aws:iam::130871440101:role/experience-ci"
           environment: prod
           ref: "${BUILDKITE_COMMIT}"

@@ -1,7 +1,6 @@
-import { transformBody } from '.';
 import { Embed, MediaObjectList as MediaObjectListSlice } from '../types/body';
-import { EmbedType, RichTextNodeType } from '@prismicio/types';
-import { transformMediaObjectListSlice } from './body';
+import * as prismicT from '@prismicio/types';
+import { transformBody } from './body';
 
 export const sameAs = [
   { link: 'https://twitter.com/mbannisy', title: [] },
@@ -12,13 +11,13 @@ export const sameAs = [
   },
 ];
 
-describe('transformMediaObjectListSlice', () => {
+describe('media object list slices', () => {
   const missingImageTextSlice: MediaObjectListSlice = {
     items: [
       {
         title: [
           {
-            type: RichTextNodeType.oListItem,
+            type: prismicT.RichTextNodeType.oListItem,
             text: 'Only book for your household or bubble',
             spans: [],
           },
@@ -33,21 +32,21 @@ describe('transformMediaObjectListSlice', () => {
   };
 
   it('returns data structure if missing image and title content', () => {
-    const mediaObjectList = transformMediaObjectListSlice(
-      missingImageTextSlice
-    );
-    expect(mediaObjectList).toEqual({
-      type: 'mediaObjectList',
-      value: {
-        items: [
-          {
-            title: 'Only book for your household or bubble',
-            text: null,
-            image: null,
-          },
-        ],
+    const mediaObjectList = transformBody([missingImageTextSlice]);
+    expect(mediaObjectList).toEqual([
+      {
+        type: 'mediaObjectList',
+        value: {
+          items: [
+            {
+              title: 'Only book for your household or bubble',
+              text: undefined,
+              image: undefined,
+            },
+          ],
+        },
       },
-    });
+    ]);
   });
 });
 
@@ -67,7 +66,7 @@ describe('transformBody', () => {
           title: 'Monstrous Births in the Middle Ages',
           author_name: 'Wellcome Collection',
           author_url: 'https://www.youtube.com/user/WellcomeCollection',
-          type: EmbedType.Rich,
+          type: prismicT.OEmbedType.Rich,
           height: 113,
           width: 200,
           version: '1.0',
@@ -78,7 +77,7 @@ describe('transformBody', () => {
           embed_url:
             'https://www.youtube.com/watch?v=RTlA8X0EJ7w&list=PL1C12C48F8E360BC2&index=13',
         },
-        caption: null,
+        caption: [],
       },
     };
 
@@ -91,7 +90,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RTlA8X0EJ7w?rel=0&list=PL1C12C48F8E360BC2',
-          caption: null,
+          caption: [],
         },
       },
     ]);
@@ -109,7 +108,7 @@ describe('transformBody', () => {
           title: 'Experiencing Ear Trumpets in the Enlightenment',
           author_name: 'Wellcome Collection',
           author_url: 'https://www.youtube.com/user/WellcomeCollection',
-          type: EmbedType.Rich,
+          type: prismicT.OEmbedType.Rich,
           height: 113,
           width: 200,
           version: '1.0',
@@ -119,7 +118,7 @@ describe('transformBody', () => {
           html: '<iframe width="200" height="113" src="https://www.youtube.com/embed/RwUS2ev53b8?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
           embed_url: 'https://www.youtube.com/watch?v=RwUS2ev53b8',
         },
-        caption: null,
+        caption: [],
       },
     };
 
@@ -132,7 +131,7 @@ describe('transformBody', () => {
         value: {
           embedUrl:
             'https://www.youtube-nocookie.com/embed/RwUS2ev53b8?rel=0&feature=oembed',
-          caption: null,
+          caption: [],
         },
       },
     ]);

@@ -4,7 +4,7 @@ import link from './parts/link';
 import promo from './parts/promo';
 import articleBody from './parts/article-body';
 import contributorsWithTitle from './parts/contributorsWithTitle';
-import structuredText from './parts/structured-text';
+import { singleLineText } from './parts/structured-text';
 import { CustomType } from './types/CustomType';
 
 const webcomics: CustomType = {
@@ -29,7 +29,7 @@ const webcomics: CustomType = {
       promo,
     },
     Metadata: {
-      metadataDescription: structuredText('Metadata description', 'single'),
+      metadataDescription: singleLineText({ label: 'Metadata description' }),
     },
     'Content relationships': {
       series: list('Series', {

@@ -23,6 +23,14 @@ module "identity-service-18012021" {
 
   secret_env_vars = merge({}, var.secret_env_vars)
 
+  # We have a custom nginx container that redacts the values of
+  # sensitive query parameters, e.g. email, to avoid leaking PII
+  # into the shared logging cluster.
+  nginx_container_config = {
+    image_name    = "uk.ac.wellcome/nginx_frontend_identity"
+    container_tag = "39d58d9252e68c954e85323f3ac07eb3c0f580e8"
+  }
+
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
 

@@ -1,5 +1,5 @@
 import { Event } from '../../types/events';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import EventPromo from '../EventPromo/EventPromo';
 
 const image = {
@@ -53,6 +53,8 @@ export const data: Event = {
   availableOnline: false,
   contributors: [],
   type: 'events',
+  onlinePolicies: [],
+  onlineHasEarlyRegistration: false,
 };
 
 const DailyTourPromo = () => (

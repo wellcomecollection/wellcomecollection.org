@@ -61,7 +61,7 @@ export type PopupDialogPrismicDocument = PrismicDocument<{
   title: KeyTextField;
   text: RichTextField;
   linkText: KeyTextField;
-  link: KeyTextField;
+  link: LinkField;
   isShown: BooleanField;
 }>;
 
@@ -112,7 +112,7 @@ export function emptyGlobalAlert(
 export function emptyPopupDialog(): PopupDialogPrismicDocument {
   return emptyDocument<PopupDialogPrismicDocument>({
     isShown: false,
-    link: null,
+    link: { link_type: 'Web' },
     linkText: null,
     openButtonText: null,
     text: [],

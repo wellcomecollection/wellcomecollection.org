@@ -17,13 +17,15 @@ import CardGrid from '../CardGrid/CardGrid';
 import { BookBasic } from '../../types/books';
 import { Guide } from '../../types/guides';
 import * as prismicT from '@prismicio/types';
+import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 
 type PaginatedResultsTypes =
   | PaginatedResults<ExhibitionBasic>
   | PaginatedResults<EventBasic>
   | PaginatedResults<BookBasic>
   | PaginatedResults<ArticleBasic>
-  | PaginatedResults<Guide>;
+  | PaginatedResults<Guide>
+  | PaginatedResults<ExhibitionGuideBasic>;
 
 type Props = {
   title: string;
@@ -92,7 +94,7 @@ const LayoutPaginatedResults: FC<Props> = ({
         <div className="flex-inline flex--v-center">
           <span
             className={classNames({
-              [font('hnb', 4)]: true,
+              [font('intb', 4)]: true,
             })}
           >
             Free admission

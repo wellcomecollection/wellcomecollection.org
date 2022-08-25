@@ -22,7 +22,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
         </h2>
       );
     case RichTextNodeType.heading3:
-      return <h3 key={key}>{children}</h3>;
+      return (
+        <h3 key={key} id={dasherize(element.text)}>
+          {children}
+        </h3>
+      );
     case RichTextNodeType.heading4:
       return <h4 key={key}>{children}</h4>;
     case RichTextNodeType.heading5:

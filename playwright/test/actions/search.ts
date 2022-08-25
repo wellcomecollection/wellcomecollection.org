@@ -7,48 +7,61 @@ import {
   mobileModalCloseButton,
   worksSearchImagesInputField,
 } from '../selectors/search';
-import { isMobile, fillInputAction } from './common';
+import { fillInputAction } from './common';
+import { Page } from 'playwright';
+import { isMobile } from '../contexts';
 
 // Fill actions
-export async function fillActionSearchInput(value: string): Promise<void> {
+export const fillActionSearchInput = async (
+  value: string,
+  page: Page
+): Promise<void> => {
   const selector = `${searchImagesForm} ${worksSearchImagesInputField}`;
-  await fillInputAction(selector, value);
-}
+  await fillInputAction(selector, value, page);
+};
 
 // Press actions
-export async function pressActionEnterSearchInput(): Promise<void> {
+export const pressActionEnterSearchInput = async (
+  page: Page
+): Promise<void> => {
   const selector = `${searchImagesForm} ${worksSearchImagesInputField}`;
   await page.press(selector, 'Enter');
-}
+};
 
 // Click actions
-export async function clickActionFormatDropDown(): Promise<void> {
+export const clickActionFormatDropDown = async (page: Page): Promise<void> => {
   await page.click(formatFilterDropDownButton);
-}
+};
 
-export async function clickActionFormatRadioCheckbox(
-  filterName: string
-): Promise<void> {
+export const clickActionFormatRadioCheckbox = async (
+  filterName: string,
+  page: Page
+): Promise<void> => {
   const selector = `${
-    isMobile() ? mobileModal : formatFilterDropDown
+    isMobile(page) ? mobileModal : formatFilterDropDown
   } label[aria-label="Radio checkbox ${filterName}"]`;
   await page.click(selector);
-}
+};
 
-export async function clickActionModalFilterButton(): Promise<void> {
+export const clickActionModalFilterButton = async (
+  page: Page
+): Promise<void> => {
   const selector = `${searchImagesForm} ${formatFilterMobileButton}`;
   await page.click(selector);
-}
+};
 
-export async function clickActionCloseModalFilterButton(): Promise<void> {
+export const clickActionCloseModalFilterButton = async (
+  page: Page
+): Promise<void> => {
   const selector = `${searchImagesForm} ${mobileModalCloseButton}`;
   await page.click(selector);
-}
+};
 
-export async function clickActionClickSearchResultItem(
-  nthChild: number
-): Promise<void> {
+export const clickActionClickSearchResultItem = async (
+  nthChild: number,
+  page: Page
+): Promise<void> => {
   const selector = `${imagesResultsListItem}:nth-child(${nthChild}) a`;
 
   await page.click(selector);
-}
+};

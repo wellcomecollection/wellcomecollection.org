@@ -22,8 +22,7 @@ import ModalMoreFilters from '../ModalMoreFilters/ModalMoreFilters';
 import ButtonInline from '../ButtonInline/ButtonInline';
 import { ResetActiveFilters } from './ResetActiveFilters';
 import { ButtonTypes } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
-import { eye, filter } from '@weco/common/icons';
+import { filter } from '@weco/common/icons';
 
 export const dateRegex = /^\d{4}$|^$/;
 
@@ -41,7 +40,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       <ul
         className={classNames({
           'no-margin no-padding plain-list': true,
-          [font('hnr', 5)]: true,
+          [font('intr', 5)]: true,
         })}
       >
         {f.options.map(({ id, label, value, count, selected }) => {
@@ -76,7 +75,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
   return (
     <Space
       className={classNames({
-        [font('hnr', 5)]: true,
+        [font('intr', 5)]: true,
       })}
     >
       <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
@@ -135,6 +134,8 @@ const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   );
 };
 
+const nVisibleFilters = 3;
+
 const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   query,
   changeHandler,
@@ -145,12 +146,8 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
   const [showMoreFiltersModal, setShowMoreFiltersModal] = useState(false);
   const openMoreFiltersButtonRef = useRef(null);
 
-  const availabilitiesFilter = filters.find(
-    ({ id }) => id === 'availabilities'
-  );
-  const otherFilters = filters.filter(({ id }) => id !== 'availabilities');
-  const visibleFilters = otherFilters.slice(0, 2);
-  const modalFilters = otherFilters.slice(2);
+  const visibleFilters = filters.slice(0, nVisibleFilters);
+  const modalFilters = filters.slice(nVisibleFilters);
 
   return (
     <>
@@ -187,10 +184,10 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                 })}
               >
-                <AlignFont>Filter by</AlignFont>
+                Filter by
               </Space>
             </Space>
 
@@ -222,7 +219,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {modalFilters.length > 0 && (
               <Space
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
                 h={{ size: 's', properties: ['margin-left'] }}
               >
@@ -247,60 +244,6 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               </Space>
             )}
           </Space>
-
-          {availabilitiesFilter && availabilitiesFilter.type === 'checkbox' && (
-            <Space
-              v={{ size: 'm', properties: ['margin-bottom'] }}
-              className={classNames({
-                'flex flex--v-center': true,
-              })}
-            >
-              <Icon icon={eye} />
-              <Space
-                h={{ size: 's', properties: ['margin-left'] }}
-                className={classNames({
-                  [font('hnb', 5)]: true,
-                })}
-              >
-                <AlignFont>Show items available</AlignFont>
-              </Space>
-              <Space as="span" h={{ size: 's', properties: ['margin-left'] }}>
-                <ul
-                  className={classNames({
-                    'no-margin no-padding plain-list flex': true,
-                    [font('hnr', 5)]: true,
-                  })}
-                >
-                  {availabilitiesFilter.options
-                    .slice()
-                    // Hack: Ensure 'Online' appears before 'In the library'
-                    .sort(({ label: a }, { label: b }) => b.localeCompare(a))
-                    .map(({ id, label, count, value, selected }) => {
-                      return (
-                        <Space
-                          as="li"
-                          h={{ size: 's', properties: ['margin-left'] }}
-                          key={id}
-                          className={classNames({
-                            flex: true,
-                          })}
-                        >
-                          <CheckboxRadio
-                            id={id}
-                            type={`checkbox`}
-                            text={`${label} (${count})`}
-                            value={value}
-                            name={availabilitiesFilter.id}
-                            checked={selected}
-                            onChange={changeHandler}
-                          />
-                        </Space>
-                      );
-                    })}
-                </ul>
-              </Space>
-            </Space>
-          )}
         </Space>
       </Space>
 

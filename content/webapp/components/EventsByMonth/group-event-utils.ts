@@ -1,6 +1,12 @@
 // Utilities for grouping events
 
-import { isFuture, isSameDay, isSameMonth } from '@weco/common/utils/dates';
+import sortBy from 'lodash.sortby';
+import {
+  getEarliestFutureDateRange,
+  isFuture,
+  isSameDay,
+  isSameMonth,
+} from '@weco/common/utils/dates';
 import { EventTime } from '../../types/events';
 
 type HasTimes = {
@@ -112,4 +118,20 @@ export function groupEventsByMonth<T extends HasTimes>(
     });
     return acc;
   }, {} as Record<string, T[]>);
+}
+
+export function sortByEarliestFutureDateRange<T extends HasTimes>(
+  events: T[]
+): T[] {
+  return sortBy(events, [
+    m => {
+      const times = m.times.map(time => ({
+        start: time.range.startDateTime,
+        end: time.range.endDateTime,
+      }));
+
+      const earliestRange = getEarliestFutureDateRange(times);
+      return earliestRange && earliestRange.start;
+    },
+  ]);
 }

@@ -9,37 +9,25 @@ import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import getAugmentedLicenseInfo from '@weco/common/utils/licenses';
+import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import Image from '@weco/common/views/components/Image/Image';
 import License from '../License/License';
 import { Image as ImageType, Work } from '@weco/common/model/catalogue';
 import { getWorkClientSide } from '../../services/catalogue/works';
-import {
-  useEffect,
-  useState,
-  useRef,
-  useContext,
-  FunctionComponent,
-} from 'react';
-import useFocusTrap from '@weco/common/hooks/useFocusTrap';
+import { useEffect, useState, FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import Icon from '@weco/common/views/components/Icon/Icon';
-import getFocusableElements from '@weco/common/utils/get-focusable-elements';
-import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import VisuallySimilarImagesFromApi from '../VisuallySimilarImagesFromApi/VisuallySimilarImagesFromApi';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import { expandedViewImageButton } from '@weco/common/text/aria-labels';
 import { toLink as itemLink } from '@weco/common/views/components/ItemLink/ItemLink';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
-import { cross, eye } from '@weco/common/icons';
-import { useToggles } from '@weco/common/server-data/Context';
+import { eye } from '@weco/common/icons';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
-  image: ImageType;
+  image: ImageType | undefined;
   setExpandedImage: (image?: ImageType) => void;
-  id?: string;
   resultPosition: number;
 };
 
@@ -49,22 +37,24 @@ type CanvasLink = {
 };
 
 const ImageWrapper = styled(Space).attrs({
-  as: 'a',
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
   ${props => props.theme.media.medium`
     flex-basis: 40%;
     order: 2;
+    height: auto;
   `}
+`;
+
+const ImageLink = styled.a`
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
 
   img {
-    transform: translateX(-50%);
-    left: 50%;
-    position: relative;
-    max-height: 100%;
     max-width: 100%;
-    height: auto;
-    width: auto;
   }
 `;
 
@@ -77,104 +67,10 @@ const InfoWrapper = styled.div`
   `}
 `;
 
-const Overlay = styled.div.attrs({})`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
-`;
-
-const Modal = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  className: classNames({
-    'shadow bg-white': true,
-  }),
-})`
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
-  overflow: auto;
-
-  ${props => props.theme.media.medium`
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translateX(-50%) translateY(-50%);
-    height: auto;
-    max-height: 90vh;
-    width: 80vw;
-    max-width: ${props.theme.sizes.large}px
-    border-radius: ${props.theme.borderRadiusUnit}px;
-    display: flex;
-    overflow: hidden;
-
-    &:after {
-      pointer-events: none;
-      content: '';
-      position: absolute;
-      bottom: 40px;
-      left: 0;
-      width: 60%;
-      height: 40px;
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0) 100%
-      );
-    }
-  `}
-`;
-
-const ModalInner = styled.div`
+const ExpandedImageContainer = styled.div`
   ${props => props.theme.media.medium`
     overflow: auto;
     display: flex;
-  `}
-`;
-
-type CloseButtonProps = {
-  hideFocus: boolean;
-};
-
-const CloseButton = styled(Space).attrs({
-  v: { size: 'm', properties: ['top'] },
-  h: { size: 'm', properties: ['left'] },
-})<CloseButtonProps>`
-  position: fixed;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  appearance: none;
-  background: rgba(0, 0, 0, 0.7);
-  color: ${props => props.theme.color('white')};
-  border: 0;
-  outline: 0;
-  z-index: 1;
-
-  &:focus {
-    ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
-  }
-
-  .icon {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-  }
-
-  ${props => props.theme.media.medium`
-    background: none;
-    color: ${props => props.theme.color('pewter')};
-    position: absolute;
   `}
 `;
 
@@ -183,55 +79,27 @@ const trackingSource = 'images_search_result';
 const ExpandedImage: FunctionComponent<Props> = ({
   image,
   setExpandedImage,
-  id,
   resultPosition,
 }: Props) => {
-  const { isKeyboard } = useContext(AppContext);
-  const toggles = useToggles();
   const [detailedWork, setDetailedWork] = useState<Work | undefined>();
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     CanvasLink | undefined
   >();
-  const modalRef = useRef<HTMLInputElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const endRef = useRef<HTMLInputElement>();
 
-  const workId = image.source.id;
+  const workId = image?.source.id;
   const displayTitle = detailedWork?.title ?? '';
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
 
   useEffect(() => {
-    const focusables =
-      (modalRef?.current && [
-        ...getFocusableElements<HTMLInputElement>(modalRef.current),
-      ]) ||
-      [];
-
-    endRef.current = focusables?.[focusables.length - 1];
-  }, [modalRef.current]);
-
-  useEffect(() => closeButtonRef?.current?.focus(), []);
-
-  useEffect(() => {
-    function closeOnEscape(event: KeyboardEvent) {
-      if (event.key !== 'Escape') return;
-
-      setExpandedImage(undefined);
+    if (workId) {
+      const fetchDetailedWork = async () => {
+        const res = await getWorkClientSide(workId);
+        if (res.type === 'Work') {
+          setDetailedWork(res);
+        }
+      };
+      fetchDetailedWork();
     }
-
-    document.addEventListener('keydown', closeOnEscape);
-
-    return () => document.removeEventListener('keydown', closeOnEscape);
-  }, []);
-
-  useEffect(() => {
-    const fetchDetailedWork = async () => {
-      const res = await getWorkClientSide(workId);
-      if (res.type === 'Work') {
-        setDetailedWork(res);
-      }
-    };
-    fetchDetailedWork();
   }, [workId]);
 
   useEffect(() => {
@@ -270,7 +138,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
         'iiif-presentation'
       );
       if (manifestLocation) {
-        fetchDeeplinkCanvasIndex(manifestLocation.url, image.locations[0]?.url);
+        fetchDeeplinkCanvasIndex(
+          manifestLocation.url,
+          image?.locations[0]?.url || ''
+        );
       }
     }
   }, [detailedWork]);
@@ -283,12 +154,10 @@ const ExpandedImage: FunctionComponent<Props> = ({
     };
   }, []);
 
-  useFocusTrap(closeButtonRef, endRef);
-
-  const iiifImageLocation = image.locations[0];
+  const iiifImageLocation = image?.locations[0];
   const license =
     iiifImageLocation?.license &&
-    getAugmentedLicenseInfo(iiifImageLocation.license);
+    getCatalogueLicenseData(iiifImageLocation.license);
 
   const expandedImageLink =
     image && !canvasDeeplink
@@ -311,96 +180,92 @@ const ExpandedImage: FunctionComponent<Props> = ({
         );
 
   return (
-    <div role="dialog" id={id} aria-modal={true}>
-      <Overlay onClick={() => setExpandedImage(undefined)} />
-      <Modal ref={modalRef}>
-        <CloseButton
-          hideFocus={!isKeyboard}
-          as="button"
-          ref={closeButtonRef}
-          onClick={() => setExpandedImage(undefined)}
-        >
-          <span className="visually-hidden">Close modal window</span>
-          <Icon icon={cross} color={'currentColor'} />
-        </CloseButton>
-        <ModalInner>
-          {iiifImageLocation && expandedImageLink && (
-            <NextLink {...expandedImageLink} passHref>
-              <ImageWrapper>
-                <Image
-                  defaultSize={400}
-                  alt={displayTitle}
-                  contentUrl={iiifImageLocation.url}
-                  lazyload={false}
-                />
-              </ImageWrapper>
-            </NextLink>
-          )}
-          <InfoWrapper>
-            <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <h2
-                className={classNames({
-                  [font('hnb', 3)]: true,
-                  'no-margin': true,
-                })}
-                dangerouslySetInnerHTML={{ __html: displayTitle }}
+    <ExpandedImageContainer>
+      {iiifImageLocation && expandedImageLink && (
+        <ImageWrapper>
+          <NextLink {...expandedImageLink} passHref>
+            <ImageLink>
+              <IIIFImage
+                layout="raw"
+                image={{
+                  contentUrl: iiifImageLocation.url,
+                  width: 400,
+                  height: 400,
+                  alt: '',
+                }}
+                width={400}
               />
-              {displayContributor && (
-                <Space
-                  as="h3"
-                  v={{ size: 's', properties: ['margin-top'] }}
-                  className={classNames({ [font('hnb', 5)]: true })}
-                >
-                  {displayContributor}
-                </Space>
-              )}
+            </ImageLink>
+          </NextLink>
+        </ImageWrapper>
+      )}
+      <InfoWrapper>
+        <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
+          <h2
+            className={classNames({
+              [font('intb', 3)]: true,
+              'no-margin': true,
+            })}
+            dangerouslySetInnerHTML={{ __html: displayTitle }}
+          />
+          {displayContributor && (
+            <Space
+              as="h3"
+              v={{ size: 's', properties: ['margin-top'] }}
+              className={classNames({ [font('intb', 5)]: true })}
+            >
+              {displayContributor}
             </Space>
-            {license && (
-              <Space
-                className={font('hnr', 5)}
-                v={{ size: 'l', properties: ['margin-bottom'] }}
-              >
-                <License license={license} />
-              </Space>
-            )}
+          )}
+        </Space>
+        {license && (
+          <Space
+            className={font('intr', 5)}
+            v={{ size: 'l', properties: ['margin-bottom'] }}
+          >
+            <License license={license} />
+          </Space>
+        )}
 
-            <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-              {expandedImageLink && (
-                <Space
-                  h={{ size: 'm', properties: ['margin-right'] }}
-                  className="inline-block"
-                >
-                  <ButtonSolidLink
-                    text="View image"
-                    icon={eye}
-                    link={expandedImageLink}
-                    ariaLabel={expandedViewImageButton}
-                  />
-                </Space>
-              )}
-              <WorkLink
-                id={workId}
-                source={trackingSource}
-                resultPosition={resultPosition}
-              >
-                <a
-                  className={classNames({
-                    'inline-block': true,
-                    [font('hnr', 5)]: true,
-                  })}
-                >
-                  More about this work
-                </a>
-              </WorkLink>
+        <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+          {expandedImageLink && (
+            <Space
+              h={{ size: 'm', properties: ['margin-right'] }}
+              className="inline-block"
+            >
+              <ButtonSolidLink
+                text="View image"
+                icon={eye}
+                link={expandedImageLink}
+                ariaLabel={expandedViewImageButton}
+              />
             </Space>
-            <VisuallySimilarImagesFromApi
-              originalId={image.id}
-              onClickImage={setExpandedImage}
-            />
-          </InfoWrapper>
-        </ModalInner>
-      </Modal>
-    </div>
+          )}
+          {workId && (
+            <WorkLink
+              id={workId}
+              source={trackingSource}
+              resultPosition={resultPosition}
+            >
+              <a
+                className={classNames({
+                  'inline-block': true,
+                  [font('intr', 5)]: true,
+                })}
+              >
+                More about this work
+              </a>
+            </WorkLink>
+          )}
+        </Space>
+        {image?.id && (
+          <VisuallySimilarImagesFromApi
+            originalId={image?.id}
+            onClickImage={setExpandedImage}
+          />
+        )}
+      </InfoWrapper>
+    </ExpandedImageContainer>
   );
 };
 

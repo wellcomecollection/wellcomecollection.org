@@ -15,12 +15,11 @@ import { getServerData } from '@weco/common/server-data';
 import Body from '../components/Body/Body';
 import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
-import { looksLikePrismicId } from '../services/prismic';
+import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '../services/prismic/fetch';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
-import { isNotUndefined } from '@weco/common/utils/array';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
 
 type Props = {
@@ -69,26 +68,31 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
-    if (articlesQuery.results_size > 0) {
-      const result = transformArticleSeries(id as string, articlesQuery);
-
-      if (isNotUndefined(result)) {
-        const { articles, series } = result;
-
-        return {
-          props: removeUndefinedProps({
-            series,
-            articles,
-            serverData,
-            gaDimensions: {
-              partOf: series.seasons.map(season => season.id),
-            },
-          }),
-        };
-      }
+    // This can occasionally occur if somebody in the Editorial team is
+    // trying to preview a series that doesn't have any entries yet.
+    //
+    // It should never happen for live content so we don't support it;
+    // the log is to make it easier to debug if somebody tries it.
+    if (articlesQuery.total_results_size === 0) {
+      console.warn(`Series ${id} doesn't contain any articles`);
+      return { notFound: true };
     }
 
-    return { notFound: true };
+    const { articles, series } = transformArticleSeries(
+      id as string,
+      articlesQuery
+    );
+
+    return {
+      props: removeUndefinedProps({
+        series,
+        articles,
+        serverData,
+        gaDimensions: {
+          partOf: series.seasons.map(season => season.id),
+        },
+      }),
+    };
   };
 
 const ArticleSeriesPage: FC<Props> = props => {

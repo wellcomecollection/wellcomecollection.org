@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, FC } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -7,6 +7,7 @@ import TextInput from '../TextInput/TextInput';
 import { trackEvent } from '../../../utils/ga';
 import useValidation from '../../../hooks/useValidation';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
+import { newsletterAddressBook } from '../../../data/dotdigital';
 
 const FormElementWrapper = styled.div`
   width: 100%;
@@ -95,7 +96,7 @@ const CopyWrap = styled(Space).attrs({
   `}
 `;
 
-const NewsletterPromo = () => {
+const NewsletterPromo: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
@@ -123,8 +124,8 @@ const NewsletterPromo = () => {
 
     const formEls = [...event.currentTarget.elements];
     const data = {
-      addressbookid: formEls.find(el => el.name === 'addressbookid').value,
-      email: formEls.find(el => el.name === 'email').value,
+      addressBookId: formEls.find(el => el.name === 'addressBookId').value,
+      emailAddress: formEls.find(el => el.name === 'email').value,
     };
 
     const response = await fetch('/newsletter-signup', {
@@ -136,20 +137,14 @@ const NewsletterPromo = () => {
     });
 
     const json = await response.json();
-    const { status } = json;
+    const { result } = json;
 
-    switch (status) {
-      case 'ContactChallenged':
-      case 'ContactAdded':
-      case 'PendingOptIn':
-      case 'Subscribed':
+    switch (result) {
+      case 'ok':
         setIsSuccess(true);
-        trackEvent({
-          category: 'NewsletterPromo',
-          action: 'submit email',
-        });
+        trackEvent({ category: 'NewsletterPromo', action: 'submit email' });
         break;
-      default:
+      case 'error':
         setIsSubmitError(true);
         emailValidation.setIsValid(false);
     }
@@ -176,7 +171,7 @@ const NewsletterPromo = () => {
                   {!isSuccess && (
                     <p
                       className={classNames({
-                        [font('hnr', 5)]: true,
+                        [font('intr', 5)]: true,
                         'no-margin': true,
                       })}
                     >
@@ -186,7 +181,7 @@ const NewsletterPromo = () => {
                   {isSuccess && (
                     <div
                       className={classNames({
-                        [font('hnr', 5)]: true,
+                        [font('intr', 5)]: true,
                         'spaced-text': true,
                       })}
                     >
@@ -209,18 +204,11 @@ const NewsletterPromo = () => {
                       onSubmit={handleSubmit}
                       noValidate={isEnhanced}
                     >
-                      <input type="hidden" name="userid" value="225683" />
                       <input
                         type="hidden"
-                        name="SIG22a9ece3ebe9b2e10e328f234fd10b3f5686b9f4d45f628f08852417032dc990"
-                        value=""
+                        name="addressBookId"
+                        value={newsletterAddressBook.id}
                       />
-                      <input
-                        type="hidden"
-                        name="ReturnURL"
-                        value="https://wellcomecollection.org/newsletter"
-                      />
-                      <input type="hidden" name="addressbookid" value="40131" />
                       <FormElementWrapper>
                         <TextInput
                           required={true}
@@ -251,7 +239,7 @@ const NewsletterPromo = () => {
               {!isSuccess && (
                 <p
                   className={classNames({
-                    [font('hnr', 6)]: true,
+                    [font('intr', 6)]: true,
                     'no-margin': true,
                   })}
                 >
@@ -263,7 +251,7 @@ const NewsletterPromo = () => {
               v={{ size: 'l', properties: ['margin-top'] }}
               style={{ flexBasis: '100%' }}
             >
-              <p className={font('hnr', 6)} style={{ maxWidth: '800px' }}>
+              <p className={font('intr', 6)} style={{ maxWidth: '800px' }}>
                 We use a third party provider,{' '}
                 <a href="https://dotdigital.com/terms/privacy-policy/">
                   dotdigital

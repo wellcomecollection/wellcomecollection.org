@@ -10,7 +10,7 @@ import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import { Label } from '@weco/common/model/labels';
 import ImagePlaceholder from '../ImagePlaceholder/ImagePlaceholder';
-import ImageType from '@weco/common/views/components/Image/Image';
+import ImageType from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ColorSelection } from '../../types/color-selections';
 import MediaObjectBase, {
   HasImageProps,

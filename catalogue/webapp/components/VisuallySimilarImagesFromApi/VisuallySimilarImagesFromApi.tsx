@@ -1,10 +1,11 @@
 import { font, classNames } from '@weco/common/utils/classnames';
-import Image from '@weco/common/views/components/Image/Image';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getVisuallySimilarImagesClientSide } from '../../services/catalogue/images';
+import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
+import { useToggles } from '@weco/common/server-data/Context';
+import IIIFImage from '../IIIFImage/IIIFImage';
 
 type Props = {
   originalId: string;
@@ -31,16 +32,19 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
   onClickImage,
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
+  const toggles = useToggles();
 
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
-      const fullImage = await getVisuallySimilarImagesClientSide(originalId);
-
-      if (fullImage && fullImage.type === 'Image') {
+      const fullImage = await getImage({
+        id: originalId,
+        toggles,
+        include: ['visuallySimilar'],
+      });
+      if (fullImage.type === 'Image') {
         setSimilarImages(fullImage.visuallySimilar || []);
       }
     };
-
     fetchVisuallySimilarImages();
   }, [originalId]);
   return similarImages.length === 0 ? null : (
@@ -48,19 +52,23 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
-          <a href="#" onClick={() => onClickImage(related)} key={related.id}>
-            <Image
-              contentUrl={related.locations[0]?.url}
-              defaultSize={250}
-              width={250}
-              alt=""
+          <a key={related.id} onClick={() => onClickImage(related)} href="#">
+            <IIIFImage
+              layout="raw"
+              image={{
+                contentUrl: related.locations[0]?.url,
+                width: 180,
+                height: 180,
+                alt: '',
+              }}
+              width={180}
             />
           </a>
         ))}
       </Wrapper>
       <p
         className={classNames({
-          [font('hnr', 6)]: true,
+          [font('intr', 6)]: true,
           'no-margin': true,
         })}
       >

@@ -14,7 +14,7 @@ import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
   className: classNames({
-    [font('hnb', 4)]: true,
+    [font('intb', 4)]: true,
   }),
 }))`
   white-space: normal;
@@ -40,6 +40,25 @@ function getFormatString(format: string): DownloadFormat | undefined {
     default:
       return undefined;
   }
+}
+
+export function getCreditString(
+  workId: string,
+  title: string,
+  iiifImageLocationCredit: string | undefined,
+  license: LicenseData
+): string[] {
+  const titleCredit = title.replace(/\.$/g, '');
+
+  const linkCredit = iiifImageLocationCredit
+    ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
+    : ` `;
+
+  const licenseCredit = license.url
+    ? `<a href="${license.url}">${license.label}</a>`
+    : license.label;
+
+  return [`${titleCredit}. ${linkCredit}\n${licenseCredit}`];
 }
 
 type Props = {
@@ -69,7 +88,7 @@ const Download: NextPage<Props> = ({
   return (
     <div
       className={classNames({
-        [font('hnr', 5)]: true,
+        [font('intr', 5)]: true,
         'inline-block': isEnhanced,
         relative: true,
       })}
@@ -85,7 +104,7 @@ const Download: NextPage<Props> = ({
           >
             <DownloadOptions
               className={classNames({
-                [font('hnb', 5)]: true,
+                [font('intb', 5)]: true,
               })}
             >
               <SpacingComponent>
@@ -134,22 +153,18 @@ const Download: NextPage<Props> = ({
                         <WorkDetailsText
                           title="Licence information"
                           text={license.humanReadableText}
+                          allowRawHtml={true}
                         />
                       )}
                       <WorkDetailsText
                         title="Credit"
-                        text={[
-                          `${title}. ${
-                            iiifImageLocationCredit
-                              ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
-                              : ` `
-                          }
-                    ${
-                      license.url
-                        ? `<a href="${license.url}">${license.label}</a>`
-                        : license.label
-                    }`,
-                        ]}
+                        text={getCreditString(
+                          workId,
+                          title,
+                          iiifImageLocationCredit,
+                          license
+                        )}
+                        allowRawHtml={true}
                       />
                     </div>
                   </SpacingComponent>

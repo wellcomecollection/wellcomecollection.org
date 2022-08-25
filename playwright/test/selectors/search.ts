@@ -1,7 +1,4 @@
-import {
-  searchFormInputImage,
-  searchFilterCloseButton,
-} from '../text/aria-labels';
+import { searchFormInputImage } from '../text/aria-labels';
 
 // input
 
@@ -10,7 +7,7 @@ export const worksSearchImagesInputField = `input[aria-label="${searchFormInputI
 // modal
 
 export const mobileModal = '#mobile-filters-modal';
-export const mobileModalCloseButton = `${mobileModal} button[aria-label="${searchFilterCloseButton}"]`;
+export const mobileModalCloseButton = `${mobileModal} [data-testid="close-modal-button"]`;
 export const formatFilterDropDownContainer = 'div[id="workType"]';
 export const formatFilterMobileButton =
   'button[aria-controls="mobile-filters-modal"]';

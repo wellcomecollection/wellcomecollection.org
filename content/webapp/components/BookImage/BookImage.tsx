@@ -1,54 +1,61 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { UiImage } from '@weco/common/views/components/Images/Images';
 import { classNames } from '@weco/common/utils/classnames';
-import { UiImageType } from '@weco/common/model/image';
 import { FunctionComponent, ReactElement } from 'react';
+import PrismicImage, {
+  BreakpointSizes,
+  ImageQuality,
+} from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { ImageType } from '@weco/common/model/image';
 
-const Outer = styled('div').attrs({
+const BookPromoImageContainer = styled.div.attrs({
   className: classNames({
-    'bg-cream relative h-center': true,
+    'bg-cream relative': true,
   }),
 })`
-  height: 70vh;
-  max-height: 100vw;
-  max-width: 600px;
+  height: 0;
+  padding-top: 100%;
   transform: rotate(-2deg);
 `;
 
-const Inner = styled('div').attrs({
+const BookPromoImage = styled(Space).attrs({
   className: classNames({
     absolute: true,
   }),
 })`
-  bottom: 0;
-  width: 66vw;
+  width: 66%;
   left: 50%;
-  transform: translateX(-50%) rotate(2deg) translateY(-5vw);
-
-  ${props => props.theme.media.large`
-    transform: translateX(-50%) rotate(2deg) translateY(-50px);
-  `}
+  transform: translateX(-50%) rotate(2deg);
 `;
 
 type Props = {
-  image: UiImageType;
+  image: ImageType;
+  sizes: BreakpointSizes;
+  quality: ImageQuality;
 };
 
 const BookImage: FunctionComponent<Props> = ({
   image,
+  sizes,
+  quality,
 }: Props): ReactElement<Props> => {
   return (
-    <Space v={{ size: 'xl', properties: ['margin-top', 'padding-top'] }}>
-      <Outer>
-        <Inner>
-          <UiImage
-            extraClasses="margin-h-auto width-auto max-height-70vh"
-            {...image}
+    <BookPromoImageContainer>
+      {image.contentUrl && (
+        <BookPromoImage v={{ size: 'l', properties: ['bottom'] }}>
+          <PrismicImage
+            image={{
+              contentUrl: image.contentUrl || '',
+              width: image.width,
+              height: image.height,
+              alt: image?.alt,
+            }}
+            sizes={sizes}
+            quality={quality}
           />
-        </Inner>
-      </Outer>
-    </Space>
+        </BookPromoImage>
+      )}
+    </BookPromoImageContainer>
   );
 };
 

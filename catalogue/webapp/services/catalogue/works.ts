@@ -6,7 +6,7 @@ import {
   Work,
 } from '@weco/common/model/catalogue';
 import { IIIFCanvas } from '../../model/iiif';
-import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/ts_api';
+import { CatalogueWorksApiProps } from '@weco/common/services/catalogue/api';
 import {
   catalogueApiError,
   globalApiOptions,
@@ -14,19 +14,14 @@ import {
   rootUris,
   notFound,
   catalogueFetch,
+  catalogueQuery,
+  QueryProps,
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 
 type GetWorkProps = {
   id: string;
-  toggles: Toggles;
-};
-
-type GetWorksProps = {
-  params: CatalogueWorksApiProps;
-  pageSize?: number;
   toggles: Toggles;
 };
 
@@ -64,33 +59,18 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   status,
 });
 
-export async function getWorks({
-  params,
-  toggles,
-  pageSize = 25,
-}: GetWorksProps): Promise<CatalogueResultsList | CatalogueApiError> {
-  const apiOptions = globalApiOptions(toggles);
-
+export async function getWorks(
+  props: QueryProps<CatalogueWorksApiProps>
+): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
   const extendedParams = {
-    ...params,
-    pageSize,
+    ...props.params,
     include: worksIncludes,
   };
 
-  const searchParams = new URLSearchParams(
-    propsToQuery(extendedParams)
-  ).toString();
-
-  const url = `${rootUris[apiOptions.env]}/v2/works?${searchParams}`;
-
-  try {
-    const res = await catalogueFetch(url);
-    const json = await res.json();
-
-    return json;
-  } catch (error) {
-    return catalogueApiError();
-  }
+  return catalogueQuery('works', {
+    ...props,
+    params: extendedParams,
+  });
 }
 
 type WorkResponse = Work | CatalogueApiError | CatalogueApiRedirect;

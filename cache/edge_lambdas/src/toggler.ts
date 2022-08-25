@@ -19,14 +19,7 @@ type Test = {
 };
 
 // This is mutable for testing
-export let tests: Test[] = [
-  {
-    id: 'gaSecureCookies',
-    title: 'GA Secure Cookies',
-    range: [0, 10], // We picked 10% arbitrarily: enough to get data, not too much that we'd lose too much if something breaks
-    when: () => true,
-  },
-];
+export let tests: Test[] = [];
 export const setTests = function (newTests: Test[]): void {
   tests = newTests;
 };

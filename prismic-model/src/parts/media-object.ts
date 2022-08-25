@@ -1,10 +1,10 @@
-import structuredText from './structured-text';
+import { multiLineText } from './structured-text';
 import title from './title';
 import image from './image';
 
 const mediaObject = {
   title,
-  text: structuredText('Text', 'multi'),
+  text: multiLineText({ label: 'Text' }),
   image: image('Image'),
 };
 

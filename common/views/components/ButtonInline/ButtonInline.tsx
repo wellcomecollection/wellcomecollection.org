@@ -15,7 +15,6 @@ import {
   ButtonIconWrapper,
   ButtonTypes,
 } from '../ButtonSolid/ButtonSolid';
-import AlignFont from '../styled/AlignFont';
 import { IconSvg } from '@weco/common/icons';
 
 export type ButtonInlineBaseProps = {
@@ -34,7 +33,7 @@ export const InlineButton = styled(BaseButton)<{ isOnDark?: boolean }>`
   border: 2px solid ${props => props.theme.color('pumice')};
   background: ${props => props.theme.color('transparent')};
   color: ${props => props.theme.color(props.isOnDark ? 'white' : 'charcoal')};
-  padding: 7px 12px 9px;
+  padding: 8px 12px;
 
   &:hover {
     text-decoration: underline;
@@ -79,13 +78,13 @@ const Button: FC<ButtonInlineProps> = (
     >
       <BaseButtonInner isInline={true}>
         <>
-          <AlignFont
+          <span
             className={classNames({
               'visually-hidden': !!isTextHidden,
             })}
           >
             {text}
-          </AlignFont>
+          </span>
           {icon && (
             <ButtonIconWrapper iconAfter={true}>
               <Icon icon={icon} />

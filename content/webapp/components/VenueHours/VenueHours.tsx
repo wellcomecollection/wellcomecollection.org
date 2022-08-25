@@ -5,7 +5,8 @@ import { classNames, font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
-import { UiImage } from '@weco/common/views/components/Images/Images';
+import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
+import { getCrop } from '@weco/common/model/image';
 import { clock } from '@weco/common/icons';
 import {
   backfillExceptionalVenueDays,
@@ -21,7 +22,7 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
-import { Weight } from '../../types/generic-content-fields';
+import { Weight } from '../../types/body';
 
 const VenueHoursImage = styled(Space)`
   ${props => props.theme.media.medium`
@@ -110,14 +111,20 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
             {venue?.image?.contentUrl && (
-              <UiImage
-                contentUrl={venue.image.contentUrl}
-                width={1600}
-                height={900}
-                alt={venue.image?.alt}
-                sizesQueries="(min-width: 1340px) 303px, (min-width: 960px) calc(30.28vw - 68px), (min-width: 600px) calc(50vw - 42px), calc(100vw - 36px)"
-                extraClasses=""
-                showTasl={false}
+              <PrismicImage
+                image={{
+                  contentUrl: getCrop(venue.image, '16:9')?.contentUrl || '',
+                  width: 1600,
+                  height: 900,
+                  alt: venue.image?.alt,
+                }}
+                sizes={{
+                  xlarge: 1 / 6,
+                  large: 1 / 6,
+                  medium: 1 / 2,
+                  small: 1,
+                }}
+                quality="low"
               />
             )}
           </VenueHoursImage>
@@ -136,13 +143,13 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
           })}
         >
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
-                {dayOfWeek} {isClosed ? 'Closed' : `${opens}—${closes}`}
+                {dayOfWeek} {isClosed ? 'Closed' : `${opens} – ${closes}`}
               </li>
             )
           )}
@@ -170,7 +177,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             >
               <h3
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                 })}
               >
                 <div
@@ -190,14 +197,14 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               <ul
                 className={classNames({
                   'plain-list no-padding no-margin': true,
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
                     {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
                     {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
-                    {p.isClosed ? 'Closed' : `${p.opens}—${p.closes}`}
+                    {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}
               </ul>
