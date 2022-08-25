@@ -1,5 +1,6 @@
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
+import { FC } from 'react';
 import { Event, EventBasic } from '../../types/events';
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
   fromDate?: Date;
 };
 
-const EventDateRange = ({ event, splitTime, fromDate }: Props) => {
+const EventDateRange: FC<Props> = ({ event, splitTime, fromDate }: Props) => {
   const dateRanges = event.times.map(({ range }) => ({
     start: range.startDateTime,
     end: range.endDateTime,

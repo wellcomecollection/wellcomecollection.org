@@ -11,9 +11,7 @@ import * as Context from '@weco/common/server-data/Context';
 import * as DateUtils from '../../utils/dates';
 import { london } from '@weco/common/utils/format-date';
 
-jest
-  .spyOn(Context, 'usePrismicData')
-  .mockImplementation(() => prismicData as any);
+jest.spyOn(Context, 'usePrismicData').mockImplementation(() => prismicData);
 
 jest
   .spyOn(DateUtils, 'determineNextAvailableDate')

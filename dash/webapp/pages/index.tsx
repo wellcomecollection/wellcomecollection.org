@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import Header from '../components/Header';
 const fontFamily = 'Gadget, sans-serif';
 
-const IndexPage = () => {
+const IndexPage: FC = () => {
   return (
     <div
       style={{
