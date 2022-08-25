@@ -58,8 +58,17 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   exhibitionGuide: ExhibitionGuide
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
-  return (({ title, type, id, image, promo, relatedExhibition }) => ({
+  return (({
     title,
+    introText,
+    type,
+    id,
+    image,
+    promo,
+    relatedExhibition,
+  }) => ({
+    title,
+    introText,
     type,
     id,
     image,
@@ -112,11 +121,12 @@ export function transformExhibitionGuide(
       return {
         number: component.number || '',
         title: (component.title && asText(component.title)) || [],
+        standaloneTitle:
+          (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
         image: component.image,
-        description:
-          (component.description && asRichText(component.description)) || [],
+        context: (component.context && asRichText(component.context)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],
         transcription:
           (component.transcript && asRichText(component.transcript)) || [],
@@ -129,6 +139,7 @@ export function transformExhibitionGuide(
     }
   );
 
+  const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
     (data['related-exhibition'].data.promo &&
       transformImagePromo(data['related-exhibition'].data.promo)) ||
@@ -142,6 +153,7 @@ export function transformExhibitionGuide(
 
   return {
     title: relatedExhibition?.title || '',
+    introText,
     type: 'exhibition-guides',
     promo,
     relatedExhibition,

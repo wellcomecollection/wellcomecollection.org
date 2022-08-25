@@ -5,6 +5,7 @@ import {
 } from '../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
+import * as prismicT from '@prismicio/types';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
@@ -46,6 +47,7 @@ import {
   audioDescribed,
   speechToText,
 } from '@weco/common/icons';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -128,7 +130,10 @@ const TypeOption: FC<TypeOptionProps> = ({
 );
 
 const Header = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  v: {
+    size: 'xl',
+    properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
+  },
 })`
   background: ${props => props.theme.color(props.color)};
 `;
@@ -316,17 +321,14 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
 };
 
 const ExhibitionStops: FC<StopsProps> = ({ stops, type }) => {
+  const numberedStops = stops.filter(c => c.number);
   switch (type) {
     case 'bsl':
     case 'audio-with-descriptions':
     case 'audio-without-descriptions':
-      return <Stops stops={stops} type={type} />;
+      return <Stops stops={numberedStops} type={type} />;
     case 'captions-and-transcripts':
-      return (
-        <div className="container">
-          <ExhibitionCaptions stops={stops} />
-        </div>
-      );
+      return <ExhibitionCaptions stops={stops} />;
     default:
       return null;
   }
@@ -421,7 +423,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-function getTypeColor(type?: GuideType) {
+function getTypeColor(type?: GuideType): string {
   switch (type) {
     case 'bsl':
       return 'newPaletteBlue';
@@ -493,26 +495,37 @@ const ExhibitionGuidePage: FC<Props> = props => {
         <>
           <Header color={typeColor}>
             <Layout8 shift={false}>
-              <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
-              <h3 className="h1">{getTypeTitle(type)}</h3>
-              {exhibitionGuide.relatedExhibition && (
-                <p>{exhibitionGuide.relatedExhibition.description}</p>
-              )}
-              <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
+              <>
+                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
+                <h3 className="h1">{getTypeTitle(type)}</h3>
+                {exhibitionGuide.introText?.length > 0 ? (
+                  <PrismicHtmlBlock
+                    html={exhibitionGuide.introText as prismicT.RichTextField}
+                  />
+                ) : (
+                  exhibitionGuide.relatedExhibition && (
+                    <p>{exhibitionGuide.relatedExhibition.description}</p>
+                  )
+                )}
+                <Space
+                  as="span"
+                  h={{ size: 's', properties: ['margin-right'] }}
+                >
+                  <ButtonSolidLink
+                    colors={themeValues.buttonColors.charcoalWhiteCharcoal}
+                    text="Change guide type"
+                    link={`/guides/exhibitions/${exhibitionGuide.id}`}
+                    clickHandler={() => {
+                      deleteCookie('WC_userPreferenceGuideType');
+                    }}
+                  />
+                </Space>
                 <ButtonSolidLink
                   colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                  text="Change guide type"
-                  link={`/guides/exhibitions/${exhibitionGuide.id}`}
-                  clickHandler={() => {
-                    deleteCookie('WC_userPreferenceGuideType');
-                  }}
+                  text="Change exhibition"
+                  link="/guides/exhibitions"
                 />
-              </Space>
-              <ButtonSolidLink
-                colors={themeValues.buttonColors.charcoalWhiteCharcoal}
-                text="Change exhibition"
-                link="/guides/exhibitions"
-              />
+              </>
             </Layout8>
           </Header>
 
@@ -537,7 +550,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
             </Layout10>
           </Space>
 
-          <ExhibitionStops type={type} stops={numberedStops} />
+          <ExhibitionStops type={type} stops={exhibitionGuide.components} />
         </>
       )}
       {otherExhibitionGuides.results.length > 0 && (
@@ -547,7 +560,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
           >
             <Layout8 shift={false}>
               <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-                <h1 className="h1">Other exhibition guides available</h1>
+                <h2 className="h2">Other exhibition guides available</h2>
               </Space>
             </Layout8>
             <CardGrid
