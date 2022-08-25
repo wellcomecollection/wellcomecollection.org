@@ -32,7 +32,10 @@ import {
   transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
-import { transformEventSeries } from './event-series';
+import {
+  transformEventSeries,
+  transformEventSeriesToEventSeriesBasic,
+} from './event-series';
 import { transformPlace } from './places';
 import isEmptyObj from '@weco/common/utils/is-empty-object';
 import { LabelField } from '@weco/common/model/label-field';
@@ -184,9 +187,9 @@ export function transformEvent(
     data.thirdPartyBookingUrl,
     data.thirdPartyBookingName
   );
-  const series = transformSingleLevelGroup(data.series, 'series').map(series =>
-    transformEventSeries(series as EventSeriesPrismicDocument)
-  );
+  const series = transformSingleLevelGroup(data.series, 'series')
+    .map(series => transformEventSeries(series as EventSeriesPrismicDocument))
+    .map(transformEventSeriesToEventSeriesBasic);
 
   const seasons = transformSingleLevelGroup(data.seasons, 'season').map(
     season => transformSeason(season as SeasonPrismicDocument)
