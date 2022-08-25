@@ -12,7 +12,6 @@ buttonSolid.args = {
   disabled: false,
   icon: eye,
   text: 'Click me',
-  isBig: false,
 };
 buttonSolid.storyName = 'ButtonSolid';
 
