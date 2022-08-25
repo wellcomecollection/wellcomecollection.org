@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import SearchResults from './SearchResults';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
