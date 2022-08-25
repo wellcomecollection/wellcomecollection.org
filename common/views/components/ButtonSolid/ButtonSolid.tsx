@@ -158,8 +158,6 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 
-  content: '${props => props.size}';
-
   ${props =>
     props.size === 'small' &&
     `
