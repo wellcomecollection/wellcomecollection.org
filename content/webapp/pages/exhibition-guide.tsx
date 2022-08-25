@@ -38,7 +38,10 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import GridFactory from '@weco/content/components/Body/GridFactory';
+import GridFactory, {
+  threeUpGridSizesMap,
+  twoUpGridSizesMap,
+} from '@weco/content/components/Body/GridFactory';
 import { themeValues } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
@@ -267,28 +270,11 @@ type StopsProps = {
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
-  const twoUp = { s: 12, m: 12, l: 6, xl: 6 };
-  const threeUp = { s: 12, m: 6, l: 4, xl: 4 };
-
-  const twoUpGrid = {
-    1: [twoUp],
-    2: [twoUp, twoUp],
-    3: [twoUp, twoUp],
-    4: [twoUp, twoUp],
-  };
-
-  const threeUpGrid = {
-    1: [threeUp],
-    2: [threeUp, threeUp],
-    3: [threeUp, threeUp],
-    4: [threeUp, threeUp],
-  };
-
-  console.log(type);
-  const gridSizes = type === 'bsl' ? twoUpGrid : threeUpGrid;
   return (
     <GridFactory
-      overrideGridSizes={gridSizes}
+      overrideGridSizes={
+        type === 'bsl' ? twoUpGridSizesMap : threeUpGridSizesMap
+      }
       items={stops.map((stop, index) => {
         const {
           number,
