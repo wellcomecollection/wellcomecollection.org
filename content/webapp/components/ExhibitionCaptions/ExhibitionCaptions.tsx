@@ -166,7 +166,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
   );
-  const hasContext = Boolean(context && context.length > 0); // TODO better way to check? // TODO is context really optional?
+  const hasContext = Boolean(context && context.length > 0);
 
   useEffect(() => {
     // Show full audio transcripts by default and hide them once we know

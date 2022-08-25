@@ -12,12 +12,16 @@ basic.args = {
       tombstone: text(),
       caption: text(),
       transcription: text(),
+      context: [],
+      standaloneTitle: [],
     },
     {
       number: 7,
       title: 'Sagacity: The Periodic Table of Emotions',
       tombstone: text(),
       caption: text(),
+      context: [],
+      standaloneTitle: [],
     },
   ],
 };
