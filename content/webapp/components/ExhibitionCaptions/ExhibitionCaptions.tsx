@@ -10,8 +10,25 @@ import { AppContext } from '@weco/common/views/components/AppContext/AppContext'
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
-import { guideColours } from '../../pages/exhibition-guide';
 import { themeValues } from '@weco/common/views/themes/config';
+
+function getTypeColor(type: string): string {
+  // importing this from exhibition-guide.tsx was causing a storybook build failure
+  // need to investigate why, but am duplicating the function here for now
+  // in order to get the exhibition guides work deployed
+  switch (type) {
+    case 'bsl':
+      return 'newPaletteBlue';
+    case 'audio-without-descriptions':
+      return 'newPaletteOrange';
+    case 'audio-with-descriptions':
+      return 'newPaletteSalmon';
+    case 'captions-and-transcripts':
+      return 'newPaletteMint';
+    default:
+      return 'newPaletteMint';
+  }
+}
 
 const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
@@ -26,7 +43,7 @@ const StandaloneTitle = styled(Space).attrs({
   position: relative;
 
   background: ${props =>
-    props.theme.color(guideColours['captions-and-transcripts'])};
+    props.theme.color(getTypeColor('captions-and-transcripts'))};
 `;
 
 const ContextTitle = styled(Space).attrs({

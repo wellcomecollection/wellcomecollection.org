@@ -423,13 +423,20 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
   );
 };
 
-export const guideColours = {
-  bsl: 'newPaletteBlue',
-  'audio-without-descriptions': 'newPaletteOrange',
-  'audio-with-descriptions': 'newPaletteSalmon',
-  'captions-and-transcripts': 'newPaletteMint',
-  default: 'newPaletteMint',
-};
+function getTypeColor(type?: GuideType): string {
+  switch (type) {
+    case 'bsl':
+      return 'newPaletteBlue';
+    case 'audio-without-descriptions':
+      return 'newPaletteOrange';
+    case 'audio-with-descriptions':
+      return 'newPaletteSalmon';
+    case 'captions-and-transcripts':
+      return 'newPaletteMint';
+    default:
+      return 'newPaletteMint';
+  }
+}
 
 const ExhibitionGuidePage: FC<Props> = props => {
   const {
@@ -442,7 +449,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const pathname = `guides/exhibitions/${exhibitionGuide.id}${
     type ? `/${type}` : ''
   }`;
-  const typeColor = type ? guideColours[type] : guideColours.default;
+  const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
 
   return (
