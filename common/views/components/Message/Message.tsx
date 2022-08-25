@@ -21,5 +21,5 @@ type Props = {
   text: string;
 };
 
-const Message: FC<Props> = ({ text }: Props) => <Wrapper>{text}</Wrapper>;
+const Message: FC<Props> = ({ text }) => <Wrapper>{text}</Wrapper>;
 export default Message;

@@ -8,7 +8,7 @@ type Props = {
   htmlSerializer?: JSXFunctionSerializer;
 };
 
-const PrismicHtmlBlock: FC<Props> = ({ html, htmlSerializer }: Props) => (
+const PrismicHtmlBlock: FC<Props> = ({ html, htmlSerializer }) => (
   <PrismicRichText
     field={html}
     components={htmlSerializer}
