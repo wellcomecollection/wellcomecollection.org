@@ -125,6 +125,122 @@ export const colors = {
   newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
 };
 
+export const newColors = {
+  // suggested new colors
+
+  // white: { base: '#ffffff', dark: '', light: '' },
+  // black: { base: '#121212', dark: '', light: '' },
+  // transparent: {
+  //   base: 'transparent',
+  //   dark: 'transparent',
+  //   light: 'transparent',
+  // },
+  // inherit: { base: 'inherit', dark: '', light: '' },
+  // currentColor: { base: 'currentColor', dark: '', light: '' },
+  // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
+  // purple: { base: '#724e91', dark: '', light: '#baa4cd' },
+  // turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
+  // green: { base: '#0b7051', dark: '#146a5c', light: '' },
+  // yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
+  // cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
+  // blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
+  // khaki: { base: '#4f7d68', dark: '', light: '#9bc0af' },
+  // salmon: { base: '#ff6f59', dark: '', light: '#ff9585' },
+  // greys: {
+  //   2: '#323232', // 20
+  //   4: '#6b6b6b', // 42
+  //   5: '#8f8f8f', // 56
+  //   8: '#d9d9d9', // 85
+  //   9: '#e8e8e8', // 91
+  // },
+
+  // unchanged
+  white: { base: '#ffffff', dark: '', light: '' },
+  black: { base: '#121212', dark: '', light: '' },
+  // is dark unchanged to?
+  red: { base: '#e01b2f', dark: '#c1192a', light: '' },
+  transparent: {
+    base: 'transparent',
+    dark: 'transparent',
+    light: 'transparent',
+  },
+  inherit: { base: 'inherit', dark: '', light: '' },
+  currentColor: { base: 'currentColor', dark: '', light: '' },
+
+  // new tones
+  purple: { base: '#724e91', dark: '', light: '#baa4cd' },
+  turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
+  // is dark unchanged?
+  green: { base: '#0b7051', dark: '#146a5c', light: '' },
+  // there's an even paler yellow, what do we do with it? (#fff9e6)
+  yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
+  cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
+
+  // all new
+  blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
+  khaki: { base: '#4f7d68', dark: '', light: '#9bc0af' },
+  salmon: { base: '#ff6f59', dark: '', light: '#ff9585' },
+
+  // greys
+  // grey1: { base: '#e8e8e8', dark: '', light: '' }, // smoke
+  smoke: { base: '#e8e8e8', dark: '', light: '' },
+  // grey2: { base: '#d9d9d9', dark: '', light: '' }, // could be pumice
+  pumice: { base: '#d9d9d9', dark: '', light: '' },
+  // grey3: { base: '#8f8f8f', dark: '', light: '' }, // silver
+  silver: { base: '#8f8f8f', dark: '', light: '' },
+  // grey4: { base: '#6b6b6b', dark: '', light: '' }, // pewter
+  pewter: { base: '#6b6b6b', dark: '', light: '' },
+  // grey5: { base: '#323232', dark: '', light: '' }, // charcoal
+  // Can we get rid of the dark? Used once catalogue/webapp/components/IIIFViewer/IIIFViewer.tsx
+  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
+
+  //
+  // old
+  // replaced with khaki?
+  // teal: { base: '#006272', dark: '', light: '' },
+  teal: { base: '#4f7d68', dark: '', light: '' },
+
+  // not used anywhere
+  // cyan: { base: '#298187', dark: '', light: '' },
+
+  // replaced with salmon?
+  // orange: { base: '#e87500', dark: '', light: '' },
+  orange: { base: '#ff6f59', dark: '', light: '' },
+
+  // not used anywhere but PaletteColorPicker, so commented it out of it
+  // brown: { base: '#815e48', dark: '', light: '' },
+
+  // replaced with pumice/grey2
+  // marble: { base: '#bcbab5', dark: '', light: '' },
+  marble: { base: '#d9d9d9', dark: '', light: '' },
+
+  // what do we do with this one?
+  // The following 'black' is only to be used for the item viewer, does it need to be in theme?
+  coal: { base: '#1f1f1f', dark: '', light: '' },
+
+  // doesn't seem to be used anywhere but here common/views/components/Tasl/Tasl.tsx, does it need to be in theme?
+  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
+  'transparent-black': {
+    base: 'rgba(29, 29, 29, 0.61)',
+    dark: '',
+    light: '',
+  },
+
+  // replace these in the codebase eventually to use the color names above
+  // doesn't match anything, using yellow light
+  // newPaletteOrange: { base: '#e7b792', dark: '', light: '' },
+  newPaletteOrange: { base: '#ffebad', dark: '', light: '' },
+  // khaki light?
+  // newPaletteMint: { base: '#acddbd', dark: '', light: '' },
+  newPaletteMint: { base: '#9bc0af', dark: '', light: '' },
+  // doesn't match anything, using turquoise light
+  // newPaletteBlue: { base: '#7bc1ce', dark: '', light: '' },
+  newPaletteBlue: { base: '#a2eeed', dark: '', light: '' },
+  // replace with salmon light?
+  // newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
+  newPaletteSalmon: { base: '#ff9585', dark: '', light: '' },
+};
+
 const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
   colors[name][variant];
 

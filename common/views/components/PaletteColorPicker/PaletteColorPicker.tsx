@@ -32,10 +32,10 @@ export const palette: ColorSwatch[] = [
     hexValue: 'f7b500',
     colorName: 'Yellow',
   },
-  {
-    hexValue: '8b572a',
-    colorName: 'Brown',
-  },
+  // {
+  //   hexValue: '8b572a',
+  //   colorName: 'Brown',
+  // },
   {
     hexValue: '6dd400',
     colorName: 'Green',
