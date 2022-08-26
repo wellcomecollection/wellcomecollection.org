@@ -87,24 +87,15 @@ export const spacingUnits = {
 export const colors = {
   // suggested new colors
 
-  // white: { base: '#ffffff', dark: '', light: '' },
-  // black: { base: '#121212', dark: '', light: '' },
+  // inherit: { base: 'inherit', dark: '', light: '' },
+  // currentColor: { base: 'currentColor', dark: '', light: '' },
   // transparent: {
   //   base: 'transparent',
   //   dark: 'transparent',
   //   light: 'transparent',
   // },
-  // inherit: { base: 'inherit', dark: '', light: '' },
-  // currentColor: { base: 'currentColor', dark: '', light: '' },
-  // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
-  // purple: { base: '#724e91', dark: '', light: '#baa4cd' },
-  // turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
-  // green: { base: '#0b7051', dark: '#146a5c', light: '' },
-  // yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
-  // cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
-  // blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
-  // khaki: { base: '#4f7d68', dark: '', light: '#9bc0af' },
-  // salmon: { base: '#ff6f59', dark: '', light: '#ff9585' },
+  // white: { base: '#ffffff', dark: '', light: '' },
+  // black: { base: '#121212', dark: '', light: '' },
   // greys: {
   //   2: '#323232', // 20
   //   4: '#6b6b6b', // 42
@@ -112,6 +103,15 @@ export const colors = {
   //   8: '#d9d9d9', // 85
   //   9: '#e8e8e8', // 91
   // },
+  // cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
+  // purple: { base: '#724e91', dark: '', light: '#baa4cd' },
+  // turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
+  // blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
+  // khaki: { base: '#4f7d68', dark: '', light: '#9bc0af' },
+  // salmon: { base: '#ff6f59', dark: '', light: '#ff9585' },
+  // yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
+  // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
+  // green: { base: '#0b7051', dark: '#146a5c', light: '' },
 
   //
   // unchanged
