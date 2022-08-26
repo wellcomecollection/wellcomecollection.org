@@ -1,6 +1,6 @@
 import { Query } from '@prismicio/types';
 import { Series } from '../../../types/series';
-import { ArticleBasic } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { transformArticle, transformArticleToArticleBasic } from './articles';
 import { transformQuery } from './paginated-results';
@@ -52,21 +52,23 @@ export const transformArticleSeries = (
         })
       : [];
 
+  // Add some colour
+  const items =
+    schedule.length > 0
+      ? schedule.map(item => {
+          return item.type === 'article-schedule-items' ||
+            item.type === 'articles'
+            ? ({
+                ...item,
+                color: series && series.color,
+              } as Article)
+            : item;
+        })
+      : articles;
+
   const seriesWithItems: Series = {
     ...series,
-    // Add some colour
-    items:
-      schedule.length > 0
-        ? schedule.map(item => {
-            return item.type === 'article-schedule-items' ||
-              item.type === 'articles'
-              ? ({
-                  ...item,
-                  color: series && series.color,
-                } as ArticleBasic)
-              : item;
-          })
-        : articles.map(transformArticleToArticleBasic),
+    items: items.map(transformArticleToArticleBasic),
   };
 
   return (
