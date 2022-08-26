@@ -4,7 +4,7 @@ import { mobileModal, searchResultsContainer } from './search';
 export const searchImagesForm =
   'form[aria-describedby="images-form-description"]';
 export const colourSelectorFilterDropDown = `${searchImagesForm} button[aria-controls="images.color"]`;
-export const colourSelector = 'button[color="fa6400"]';
+export const colourSelector = 'button[color="000000"]';
 
 // results list
 export const imagesResultsListItem = `${searchResultsContainer} li[role="listitem"]`;
