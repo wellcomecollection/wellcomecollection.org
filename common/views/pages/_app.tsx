@@ -5,6 +5,7 @@ import ReactGA from 'react-ga';
 import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
+import newTheme from '../themes/newThemeDefault';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { trackEvent } from '../../utils/ga';
@@ -17,6 +18,7 @@ import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
+import { useToggles } from '@weco/common/server-data/Context';
 
 declare global {
   interface Window {
@@ -153,6 +155,8 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   pageProps,
   router,
 }) => {
+  const { newPalette } = useToggles();
+
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
@@ -357,7 +361,7 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         <ServerDataContext.Provider value={serverData}>
           <UserProvider>
             <AppContextProvider>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider theme={newPalette ? newTheme : theme}>
                 <GlobalStyle
                   toggles={serverData.toggles}
                   isFontsLoaded={useIsFontsLoaded()}
