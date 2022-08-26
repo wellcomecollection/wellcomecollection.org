@@ -304,8 +304,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                   audioFile={audioWithoutDescription.url}
                 />
               )}
-            {type === 'bsl' && bsl?.embedUrl && (
-              <VideoEmbed embedUrl={bsl.embedUrl as string} />
+            {type === 'bsl' && bsl.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl} />
             )}
           </Stop>
         ) : (
