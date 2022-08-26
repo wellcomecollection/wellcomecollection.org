@@ -15,16 +15,12 @@ export function downloadUrl({
       pathname: `/download`,
       query: {
         workId,
-        ...removeEmptyProps({
-          sierraId: sierraId,
-        }),
+        ...removeEmptyProps({ sierraId }),
       },
     },
     as: {
       pathname: `/works/${workId}/download`,
-      query: removeEmptyProps({
-        sierraId: sierraId,
-      }),
+      query: removeEmptyProps({ sierraId }),
     },
   };
 }
