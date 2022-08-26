@@ -152,6 +152,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
+
+    // TODO: Is there a reason we're hard-coding predicates here, and not
+    // using the Prismic library helpers as on the other pages?
     const booksQueryPromise = fetchBooks(client, {
       predicates: [`[at(my.books.seasons.season, "${id}")]`],
     });
