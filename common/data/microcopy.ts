@@ -96,7 +96,7 @@ export const calendarInstructions =
   'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
 
 export const requestingDisabled =
-  'Requesting is unavailable until 09:00 on Monday 6 June';
+  'Requesting is temporarily unavailable while we perform maintenance work, and should be available again next week';
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';
