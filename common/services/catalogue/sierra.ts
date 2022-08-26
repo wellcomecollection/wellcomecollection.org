@@ -11,5 +11,6 @@
 
 import { isString } from '@weco/common/utils/array';
 
-export const looksLikeSierraId = (id: string | string[] | undefined): boolean =>
-  isString(id) ? /^(b[0-9]{7}[0-9x])$/.test(id) : false;
+export const looksLikeSierraId = (
+  id: string | string[] | undefined
+): id is string => (isString(id) ? /^(b[0-9]{7}[0-9x])$/.test(id) : false);
