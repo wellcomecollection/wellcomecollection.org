@@ -24,6 +24,7 @@ import ViewerTopBar from './ViewerTopBar';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
+  RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
@@ -235,7 +236,7 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
-  const [rotatedImages, setRotatedImages] = useState<any[]>([]);
+  const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
