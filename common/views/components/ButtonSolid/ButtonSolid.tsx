@@ -30,7 +30,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
     border-color ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
-  padding: 13px 20px;
   cursor: pointer;
 
   &:focus {
@@ -136,6 +135,18 @@ type SolidButtonProps = {
   hoverUnderline?: boolean;
 };
 
+// Default to medium button
+const getPadding = (size: ButtonSize = 'medium') => {
+  switch (size) {
+    case 'small':
+      return '8px 12px';
+    case 'medium':
+      return '13px 20px';
+    case 'large':
+      return '14px';
+  }
+};
+
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   props => ({
     'aria-label': props.ariaLabel,
@@ -158,21 +169,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 
-  ${props =>
-    props.size === 'small' &&
-    `
-    padding: 8px 12px;
-  `}
-  ${props =>
-    props.size === 'medium' &&
-    `
-    padding: 13px 20px;
-  `}
-  ${props =>
-    props.size === 'large' &&
-    `
-    padding: 14px;
-  `}
+  padding: ${({ size }) => getPadding(size)};
 
   &:not([disabled]):hover {
     background: ${props =>
