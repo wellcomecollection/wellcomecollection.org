@@ -1,4 +1,8 @@
-import { ContentResource, IIIFExternalWebResource } from '@iiif/presentation-3';
+import {
+  ContentResource,
+  InternationalString,
+  IIIFExternalWebResource,
+} from '@iiif/presentation-3';
 
 export type IIIFImageServiceSize = {
   width: number;
@@ -86,8 +90,12 @@ export type IIIFMediaElement = {
   service?: AuthService | AuthService[];
 };
 
-export type IIIFLabelV3 = Record<string, string[]>;
-
+type IIIFTextV3 = {
+  id: string;
+  type: 'Text';
+  label: InternationalString;
+  format: string;
+};
 export type AudioV3 = {
   title?: string;
   sounds: {
@@ -95,7 +103,7 @@ export type AudioV3 = {
     title?: string;
   }[];
   thumbnail?: ContentResource;
-  transcript?: ContentResource;
+  transcript?: IIIFTextV3;
 };
 
 // This occurs on some born-digital presentation manifests,
@@ -162,7 +170,7 @@ export type IIIFManifest = {
 export type IIIFImageV3 = {
   id: string;
   type: 'Image';
-  label: IIIFLabelV3;
+  label: InternationalString;
   format: string;
 };
 
