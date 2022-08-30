@@ -101,5 +101,4 @@ module "service" {
 
   deployment_service = var.deployment_service_name
   deployment_env     = var.deployment_service_env
-  deployment_label   = "initial"
 }
