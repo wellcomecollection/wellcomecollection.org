@@ -26,6 +26,7 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { GetServerSideProps, NextPage } from 'next';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
+import { looksLikeCanonicalId } from 'services/catalogue';
 
 type Props = {
   workId: string;
@@ -149,7 +150,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { workId, sierraId } = context.query;
 
-    if (typeof workId !== 'string' || typeof sierraId !== 'string') {
+    if (!looksLikeCanonicalId(workId) || typeof sierraId !== 'string') {
       return {
         notFound: true,
       };

@@ -8,13 +8,13 @@ import {
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import { getConcept } from 'services/catalogue/concepts';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import { getWorks } from '../services/catalogue/works';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from 'services/catalogue/images';
 import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
+import { looksLikeCanonicalId } from 'services/catalogue';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -136,7 +136,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    if (!isString(id)) {
+    if (!looksLikeCanonicalId(id)) {
       return { notFound: true };
     }
 

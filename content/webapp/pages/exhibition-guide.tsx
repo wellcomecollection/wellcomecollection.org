@@ -185,10 +185,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const exhibitionGuideQueryPromise = fetchExhibitionGuide(
-      client,
-      id as string
-    );
+    const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
     const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
       page: 1,
     });
@@ -304,8 +301,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                   audioFile={audioWithoutDescription.url}
                 />
               )}
-            {type === 'bsl' && bsl?.embedUrl && (
-              <VideoEmbed embedUrl={bsl.embedUrl as string} />
+            {type === 'bsl' && bsl.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl} />
             )}
           </Stop>
         ) : (

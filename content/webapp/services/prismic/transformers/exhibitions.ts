@@ -86,7 +86,7 @@ export function transformExhibition(
     : [];
   const relatedIds = [...exhibitIds, ...eventIds, ...articleIds].filter(
     Boolean
-  ) as string[];
+  );
 
   // TODO: Work out how to get this to type check without the 'as any'.
   const format = isFilledLinkToDocumentWithData(data.format)

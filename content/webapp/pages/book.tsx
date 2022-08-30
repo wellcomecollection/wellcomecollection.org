@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
     const client = createClient(context);
-    const bookDocument = await fetchBook(client, id as string);
+    const bookDocument = await fetchBook(client, id);
 
     if (bookDocument) {
       const serverData = await getServerData(context);
