@@ -305,6 +305,10 @@ function isInterestingError(hit) {
     return false;
   }
 
+  if (hit.path.indexOf('/api/works/items') !== -1) {
+    return false;
+  }
+
   return true;
 }
 
