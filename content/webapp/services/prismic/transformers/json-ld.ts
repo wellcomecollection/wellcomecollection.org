@@ -1,4 +1,4 @@
-import { Event, EventBasic } from '../../../types/events';
+import { EventBasic } from '../../../types/events';
 import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
