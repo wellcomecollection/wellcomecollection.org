@@ -2,7 +2,7 @@ import { Article } from '@weco/content/types/articles';
 import { Card } from '@weco/content/types/card';
 import { Event } from '@weco/content/types/events';
 import faker from 'faker';
-export function randomNumber(min, max): number {
+export function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * max) + min;
 }
 
