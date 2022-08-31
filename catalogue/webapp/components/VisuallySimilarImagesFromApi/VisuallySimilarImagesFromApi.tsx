@@ -52,7 +52,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
-          <a key={related.id} onClick={() => onClickImage(related)} href="#">
+          <a key={related.id} onClick={() => onClickImage(related)}>
             <IIIFImage
               layout="raw"
               image={{
