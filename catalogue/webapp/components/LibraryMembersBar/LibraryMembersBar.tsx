@@ -78,11 +78,7 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
   );
 };
 
-type Props = {
-  requestingUnavailable?: boolean;
-};
-
-const LibraryMembersBar: FC<Props> = () => {
+const LibraryMembersBar: FC = () => {
   const { state, reload } = useUser();
   const { disableRequesting } = useToggles();
   if (disableRequesting) {
