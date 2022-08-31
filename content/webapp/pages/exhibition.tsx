@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const { exhibition, pages } = await fetchExhibition(client, id as string);
+    const { exhibition, pages } = await fetchExhibition(client, id);
 
     if (exhibition) {
       const exhibitionDoc = transformExhibition(exhibition);

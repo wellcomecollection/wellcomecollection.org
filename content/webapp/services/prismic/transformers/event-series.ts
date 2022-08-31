@@ -1,4 +1,4 @@
-import { EventSeries } from '../../../types/event-series';
+import { EventSeries, EventSeriesBasic } from '../../../types/event-series';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { transformGenericFields, asText } from '.';
 import { BackgroundTexture } from '@weco/common/model/background-texture';
@@ -47,4 +47,13 @@ export function transformEventSeries(
     labels,
     contributors,
   };
+}
+
+export function transformEventSeriesToEventSeriesBasic(
+  eventSeries: EventSeries
+): EventSeriesBasic {
+  return (({ id, title }) => ({
+    id,
+    title,
+  }))(eventSeries);
 }

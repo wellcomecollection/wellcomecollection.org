@@ -6,6 +6,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
 import linkResolver from '../../services/prismic/link-resolver';
+import { FC } from 'react';
 
 type Props = {
   researchLinkText?: string;
@@ -16,14 +17,14 @@ type Props = {
   visitItem?: MultiContent;
 };
 
-const Outro = ({
+const Outro: FC<Props> = ({
   researchLinkText,
   researchItem,
   readLinkText,
   readItem,
   visitLinkText,
   visitItem,
-}: Props) => {
+}) => {
   function getItemInfo(item) {
     switch (item) {
       case researchItem:

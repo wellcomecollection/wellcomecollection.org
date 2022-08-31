@@ -16,7 +16,7 @@ const guideFormatsFetcher = fetcher<GuideFormatPrismicDocument>(
 );
 
 type GuidesQueryProps = GetByTypeParams & {
-  format?: string | string[];
+  format?: string;
 };
 
 export const fetchGuides = (

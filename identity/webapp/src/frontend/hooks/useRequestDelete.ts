@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { RequestDeleteSchema } from '../../types/schemas/request-delete';
 
-export enum RequestDeleteError { // eslint-disable-line no-shadow
+export enum RequestDeleteError {
   INCORRECT_PASSWORD,
   BRUTE_FORCE_BLOCKED,
   UNKNOWN,

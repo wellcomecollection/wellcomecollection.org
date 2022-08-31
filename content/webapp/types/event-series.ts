@@ -7,3 +7,8 @@ export type EventSeries = GenericContentFields & {
   backgroundTexture?: BackgroundTexture;
   contributors: Contributor[];
 };
+
+export type EventSeriesBasic = {
+  id: string;
+  title: string;
+};

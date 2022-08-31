@@ -39,7 +39,10 @@ import { exhibitionGuidesLinks } from '@weco/common/views/components/Header/Head
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed/VideoEmbed';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import GridFactory from '@weco/content/components/Body/GridFactory';
+import GridFactory, {
+  threeUpGridSizesMap,
+  twoUpGridSizesMap,
+} from '@weco/content/components/Body/GridFactory';
 import { themeValues } from '@weco/common/views/themes/config';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import {
@@ -185,10 +188,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const exhibitionGuideQueryPromise = fetchExhibitionGuide(
-      client,
-      id as string
-    );
+    const exhibitionGuideQueryPromise = fetchExhibitionGuide(client, id);
     const exhibitionGuidesQueryPromise = fetchExhibitionGuides(client, {
       page: 1,
     });
@@ -275,6 +275,9 @@ type StopsProps = {
 const Stops: FC<StopsProps> = ({ stops, type }) => {
   return (
     <GridFactory
+      overrideGridSizes={
+        type === 'bsl' ? twoUpGridSizesMap : threeUpGridSizesMap
+      }
       items={stops.map((stop, index) => {
         const {
           number,
@@ -304,8 +307,8 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
                   audioFile={audioWithoutDescription.url}
                 />
               )}
-            {type === 'bsl' && bsl?.embedUrl && (
-              <VideoEmbed embedUrl={bsl.embedUrl as string} />
+            {type === 'bsl' && bsl.embedUrl && (
+              <VideoEmbed embedUrl={bsl.embedUrl} />
             )}
           </Stop>
         ) : (

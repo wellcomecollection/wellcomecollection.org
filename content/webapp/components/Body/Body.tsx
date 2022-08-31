@@ -53,6 +53,7 @@ import FeaturedCard, {
 import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
+import * as prismicT from '@prismicio/types';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -244,7 +245,7 @@ const Body: FunctionComponent<Props> = ({
                       <GridFactory
                         items={cards}
                         overrideGridSizes={
-                          sectionLevelPage && sectionLevelPageGrid
+                          sectionLevelPage ? sectionLevelPageGrid : undefined
                         }
                       />
                     )}
@@ -319,11 +320,15 @@ const Body: FunctionComponent<Props> = ({
                               so we have to split out the first paragraph here.
                             */}
                               <PrismicHtmlBlock
-                                html={[slice.value[0]] as any}
+                                html={
+                                  [slice.value[0]] as prismicT.RichTextField
+                                }
                                 htmlSerializer={dropCapSerializer}
                               />
                               <PrismicHtmlBlock
-                                html={slice.value.slice(1) as any}
+                                html={
+                                  slice.value.slice(1) as prismicT.RichTextField
+                                }
                                 htmlSerializer={defaultSerializer}
                               />
                             </>

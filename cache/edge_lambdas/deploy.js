@@ -14,11 +14,11 @@ function uploadNewLambdaPackage(bucket, key, lastGitCommit) {
     ACL: 'private',
     ContentType: 'application/zip',
     Metadata: {
-      'gitCommit': lastGitCommit,
+      gitCommit: lastGitCommit,
     },
   };
 
-  s3.putObject(putParams, function(err, data) {
+  s3.putObject(putParams, function (err, data) {
     if (err) console.log(err, err.stack);
     else console.log('Finished uploading edge_lambda_origin.zip');
   });
@@ -46,14 +46,16 @@ try {
     Key: key,
   };
 
-  s3.headObject(getParams, function(err, data) {
+  s3.headObject(getParams, function (err, data) {
     if (err) {
       console.log(err, err.stack);
     } else {
       if (data.Metadata !== null && data.Metadata.gitcommit === lastGitCommit) {
-        console.log("S3 deployment package is already up-to-date; skipping deployment");
+        console.log(
+          'S3 deployment package is already up-to-date; skipping deployment'
+        );
       } else {
-        console.log("S3 deployment package is stale; uploading new Lambda");
+        console.log('S3 deployment package is stale; uploading new Lambda');
         uploadNewLambdaPackage(bucket, key, lastGitCommit);
       }
     }

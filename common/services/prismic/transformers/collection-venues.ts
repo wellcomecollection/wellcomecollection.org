@@ -1,4 +1,3 @@
-import { Query } from '@prismicio/types';
 import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,
@@ -66,7 +65,7 @@ export function transformCollectionVenue(
     : [];
 
   return {
-    id: venue.id as string,
+    id: venue.id,
     order: data.order ?? undefined,
     name: data.title ?? '',
     openingHours: {

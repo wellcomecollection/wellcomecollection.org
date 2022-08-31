@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { UpdatePasswordSchema } from '../../types/schemas/update-password';
 
-export enum UpdatePasswordError { // eslint-disable-line no-shadow
+export enum UpdatePasswordError {
   INCORRECT_PASSWORD,
   BRUTE_FORCE_BLOCKED,
   DID_NOT_MEET_POLICY,
