@@ -1,5 +1,9 @@
-import { getCanvases, groupStructures } from '../../utils/iiif';
+import { getCanvases, groupStructures, getAudioV3 } from '../../utils/iiif';
 import manifest from '@weco/common/__mocks__/iiif-manifest';
+import {
+  manifestWithAudioTitles,
+  manifestWithTranscript,
+} from '@weco/common/__mocks__/iiif-manifest-v3';
 
 const canvases = getCanvases(manifest);
 const structures = [
@@ -105,5 +109,24 @@ describe('Group repetitive iiif structures', () => {
   it('groups iiifStructures with consecutive canvases and the same label', () => {
     const groupedStructures = groupStructures(canvases, structures);
     expect(groupedStructures).toEqual(correctResult);
+  });
+});
+
+describe('IIIF V3', () => {
+  it('parses audio files and titles from a manifest', () => {
+    const { sounds } = getAudioV3(manifestWithAudioTitles);
+    expect(sounds.length).toBe(4);
+    expect(sounds[0].sound.id).toBe(
+      'https://iiif.wellcomecollection.org/av/b3250200x_0001.wav/full/max/default.mp3'
+    );
+    expect(sounds[0].title).toBe('Tape 1, Side 1');
+    expect(sounds[3].title).toBe('Tape 2, Side 2');
+  });
+
+  it('parses an associated audio transcript from a manifest', () => {
+    const { transcript } = getAudioV3(manifestWithTranscript);
+    expect(transcript?.id).toBe(
+      'https://iiif.wellcomecollection.org/file/b2248887x_0001.pdf'
+    );
   });
 });

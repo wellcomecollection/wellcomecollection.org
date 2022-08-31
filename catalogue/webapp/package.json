@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.1.5",
+    "@iiif/presentation-3": "^1.0.4",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "13.0.6",
     "@types/jest": "^27.0.2",

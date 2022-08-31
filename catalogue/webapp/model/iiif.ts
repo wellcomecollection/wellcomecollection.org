@@ -1,3 +1,9 @@
+import {
+  ContentResource,
+  IIIFExternalWebResource,
+  InternationalString,
+} from '@iiif/presentation-3';
+
 export type IIIFImageServiceSize = {
   width: number;
   height: number;
@@ -84,6 +90,16 @@ export type IIIFMediaElement = {
   service?: AuthService | AuthService[];
 };
 
+export type AudioV3 = {
+  title?: string;
+  sounds: {
+    sound: IIIFExternalWebResource;
+    title?: string;
+  }[];
+  thumbnail?: ContentResource;
+  transcript?: ContentResource;
+};
+
 // This occurs on some born-digital presentation manifests,
 // e.g. https://iiif.wellcomecollection.org/presentation/v2/b29696586
 export type EmptyIIIFMediaElement = {
@@ -143,6 +159,13 @@ export type IIIFManifest = {
   license: string;
   within?: string;
   service?: Service | Service[];
+};
+
+export type IIIFImageV3 = {
+  id: string;
+  type: 'Image';
+  label: InternationalString;
+  format: string;
 };
 
 export type SearchService = {
