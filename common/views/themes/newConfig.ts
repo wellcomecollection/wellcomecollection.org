@@ -149,9 +149,9 @@ export const colors = {
   pumice: { base: '#d9d8d0', dark: '', light: '' },
   silver: { base: '#8f8f8f', dark: '', light: '' },
   pewter: { base: '#6b6b6b', dark: '', light: '' },
-  // the dark value is legacy, can we get rid of it?
+  // the dark value is legacy, replace it with just charcoal
   // Used once catalogue/webapp/components/IIIFViewer/IIIFViewer.tsx
-  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
+  charcoal: { base: '#323232', dark: '#323232', light: '' },
 
   //
   // old colours that don't have an equivalent in the new palette
@@ -174,18 +174,6 @@ export const colors = {
   // marble: { base: '#bcbab5', dark: '', light: '' },
   // replaced with pumice/grey8
   marble: { base: '#d9d9d9', dark: '', light: '' },
-
-  // what do we do with this one?
-  // The following 'black' is only to be used for the item viewer, does it need to be in theme?
-  coal: { base: '#1f1f1f', dark: '', light: '' },
-
-  // doesn't seem to be used anywhere but here common/views/components/Tasl/Tasl.tsx, does it need to be in theme?
-  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-  'transparent-black': {
-    base: 'rgba(29, 29, 29, 0.61)',
-    dark: '',
-    light: '',
-  },
 
   //
   // Exhibition guide colors
