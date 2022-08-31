@@ -1,6 +1,7 @@
 import {
   GetObjectCommand,
   PutObjectCommand,
+  PutObjectCommandOutput,
   S3Client,
 } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';
@@ -17,7 +18,7 @@ async function streamToString(stream: Readable): Promise<string> {
   });
 }
 
-export async function getTogglesObject(client: S3Client) {
+export async function getTogglesObject(client: S3Client): Promise<TogglesResp> {
   const getObjectCommand = new GetObjectCommand({
     Bucket: bucket,
     Key: key,
@@ -32,7 +33,10 @@ export async function getTogglesObject(client: S3Client) {
   return toggles;
 }
 
-export async function putTogglesObject(client: S3Client, obj: TogglesResp) {
+export async function putTogglesObject(
+  client: S3Client,
+  obj: TogglesResp
+): Promise<PutObjectCommandOutput> {
   const putObjectCommand = new PutObjectCommand({
     Bucket: bucket,
     Key: `${key}`,

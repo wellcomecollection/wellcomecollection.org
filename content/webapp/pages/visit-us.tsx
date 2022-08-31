@@ -1,4 +1,4 @@
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { AppErrorProps } from '@weco/common/views/pages/_app';
 import VisitUsStaticContent from 'components/Body/VisitUsStaticContent';
 import { GetServerSideProps } from 'next';

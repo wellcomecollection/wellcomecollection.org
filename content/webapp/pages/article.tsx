@@ -9,7 +9,7 @@ import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
 import PartNumberIndicator from '../components/PartNumberIndicator/PartNumberIndicator';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../utils/page-header';
-import { ArticleFormatIds } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatIds } from '@weco/common/data/content-format-ids';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppErrorProps, WithGaDimensions } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
@@ -25,7 +25,7 @@ import {
 } from '../services/prismic/fetch/articles';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id as string);
+    const articleDocument = await fetchArticle(client, id);
     const serverData = await getServerData(context);
 
     if (articleDocument) {
@@ -209,7 +209,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
           <p
             className={classNames({
               'no-margin': true,
-              [font('hnr', 6)]: true,
+              [font('intr', 6)]: true,
             })}
           >
             {article.contributors.length > 0 &&
@@ -225,7 +225,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   )}
                   <span
                     className={classNames({
-                      [font('hnb', 6)]: true,
+                      [font('intb', 6)]: true,
                     })}
                   >
                     {contributor.name}
@@ -247,7 +247,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             <span
               className={classNames({
                 'block font-pewter': true,
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
             >
               <HTMLDate date={new Date(article.datePublished)} />

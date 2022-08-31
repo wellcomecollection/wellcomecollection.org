@@ -1,7 +1,8 @@
 import React, { ReactElement, useRef, useState } from 'react';
 import Modal from '@weco/common/views/components/Modal/Modal';
-import ButtonOutlined from '@weco/common/views/components/ButtonOutlined/ButtonOutlined';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { UpdateUserSchema } from '../../types/schemas/update-user';
+import { themeValues } from '@weco/common/views/themes/config';
 
 export type ChangeDetailsModalContentProps =
   | Record<string, never>
@@ -15,7 +16,6 @@ export type ChangeDetailsModalContentProps =
 type ChangeDetailsModalProps = {
   id: string;
   buttonText: string;
-  isDangerous?: boolean;
   onComplete: (newDetails?: UpdateUserSchema) => void;
   render: (props: ChangeDetailsModalContentProps) => ReactElement;
 };
@@ -23,7 +23,6 @@ type ChangeDetailsModalProps = {
 export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
   id,
   buttonText,
-  isDangerous = false,
   onComplete,
   render,
 }) => {
@@ -40,9 +39,9 @@ export const ChangeDetailsModal: React.FC<ChangeDetailsModalProps> = ({
 
   return (
     <>
-      <ButtonOutlined
+      <ButtonSolid
+        colors={themeValues.buttonColors.greenTransparentGreen}
         text={buttonText}
-        isDangerous={isDangerous}
         clickHandler={() => setIsActive(true)}
         ref={openButton}
       />

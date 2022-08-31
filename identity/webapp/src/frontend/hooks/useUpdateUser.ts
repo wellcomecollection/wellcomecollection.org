@@ -4,7 +4,7 @@ import { UpdateUserSchema } from '../../types/schemas/update-user';
 import { useUser } from '@weco/common/views/components/UserProvider/UserProvider';
 import { UserInfo } from '@weco/common/model/user';
 
-export enum UpdateUserError { // eslint-disable-line no-shadow
+export enum UpdateUserError {
   EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
   INCORRECT_PASSWORD = 'INCORRECT_PASSWORD',
   BRUTE_FORCE_BLOCKED = 'BRUTE_FORCE_BLOCKED',

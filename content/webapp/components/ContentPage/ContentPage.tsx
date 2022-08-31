@@ -9,7 +9,7 @@ import {
 import {
   prismicPageIds,
   sectionLevelPages,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import { classNames } from '@weco/common/utils/classnames';
 import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';

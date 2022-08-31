@@ -1,13 +1,14 @@
 import { linkResolver } from '../../../services/prismic/link-resolver';
 import { JSXFunctionSerializer, PrismicRichText } from '@prismicio/react';
 import * as prismicT from '@prismicio/types';
+import { FC } from 'react';
 
 type Props = {
   html: prismicT.RichTextField;
   htmlSerializer?: JSXFunctionSerializer;
 };
 
-const PrismicHtmlBlock = ({ html, htmlSerializer }: Props) => (
+const PrismicHtmlBlock: FC<Props> = ({ html, htmlSerializer }) => (
   <PrismicRichText
     field={html}
     components={htmlSerializer}

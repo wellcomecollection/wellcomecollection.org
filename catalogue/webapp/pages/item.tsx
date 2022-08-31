@@ -51,6 +51,7 @@ import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { looksLikeCanonicalId } from 'services/catalogue';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -286,9 +287,9 @@ const ItemPage: NextPage<Props> = ({
         removeCloseButton={true}
         openButtonRef={{ current: null }}
       >
-        <div className={font('hnr', 5)}>
+        <div className={font('intr', 5)}>
           {authService?.label && (
-            <h2 className={font('hnb', 4)}>{authService?.label}</h2>
+            <h2 className={font('intb', 4)}>{authService?.label}</h2>
           )}
           {authService?.description && (
             <div
@@ -375,6 +376,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       canvas = 1,
       manifest: manifestParam = 1,
     } = fromQuery(context.query);
+
+    if (!looksLikeCanonicalId(workId)) {
+      return { notFound: true };
+    }
 
     const pageview = {
       name: 'item',

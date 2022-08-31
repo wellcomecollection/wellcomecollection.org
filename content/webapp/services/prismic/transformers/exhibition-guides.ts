@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText, transformGenericFields } from '.';
+import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
@@ -59,21 +59,21 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
 ): ExhibitionGuideBasic {
   // returns what is required to render StoryPromos and story JSON-LD
   return (({
+    title,
+    introText,
     type,
     id,
-    title,
     image,
     promo,
     relatedExhibition,
-    components,
   }) => ({
+    title,
+    introText,
     type,
     id,
-    title,
     image,
     promo,
     relatedExhibition,
-    components,
   }))(exhibitionGuide);
 }
 
@@ -104,15 +104,16 @@ function transformYoutubeEmbed(embed) {
       : `${embedUrlWithEnhancedPrivacy}?rel=0`;
 
     return {
-      embedUrl: newEmbedUrl,
+      embedUrl: newEmbedUrl as string,
     };
+  } else {
+    return {};
   }
 }
 
 export function transformExhibitionGuide(
   document: ExhibitionGuidePrismicDocument
 ): ExhibitionGuide {
-  const genericFields = transformGenericFields(document);
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
@@ -120,23 +121,25 @@ export function transformExhibitionGuide(
       return {
         number: component.number || '',
         title: (component.title && asText(component.title)) || [],
+        standaloneTitle:
+          (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
           (component.tombstone && asRichText(component.tombstone)) || [],
         image: component.image,
-        description:
-          (component.description && asRichText(component.description)) || [],
+        context: (component.context && asRichText(component.context)) || [],
         caption: (component.caption && asRichText(component.caption)) || [],
         transcription:
           (component.transcript && asRichText(component.transcript)) || [],
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
-        bsl: component['bsl-video'].provider_name // TODO better way of checking?
+        bsl: component['bsl-video'].provider_name
           ? transformYoutubeEmbed(component['bsl-video'])
           : {},
       };
     }
   );
 
+  const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
     (data['related-exhibition'].data.promo &&
       transformImagePromo(data['related-exhibition'].data.promo)) ||
@@ -149,9 +152,9 @@ export function transformExhibitionGuide(
     : undefined;
 
   return {
-    ...genericFields,
+    title: relatedExhibition?.title || '',
+    introText,
     type: 'exhibition-guides',
-    title: asText(document.data?.title) || '',
     promo,
     relatedExhibition,
     components,

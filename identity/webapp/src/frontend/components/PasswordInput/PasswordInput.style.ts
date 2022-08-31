@@ -13,7 +13,7 @@ export const RulesListWrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })`
   border: 1px solid ${props => props.theme.color('smoke')};

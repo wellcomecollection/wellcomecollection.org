@@ -10,7 +10,7 @@ import { trackEvent } from '../../../utils/ga';
 
 const StyledComponent = styled.div.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })`
   ${respondTo(
@@ -56,7 +56,7 @@ const MobileSignIn: FC = () => {
       <Space
         h={{ size: 's', properties: ['margin-right'] }}
         className={classNames({
-          [font('hnr', 4)]: true,
+          [font('intr', 4)]: true,
         })}
       >
         <Icon icon={userIcon} matchText={true} />

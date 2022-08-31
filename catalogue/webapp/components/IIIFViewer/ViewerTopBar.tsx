@@ -21,7 +21,7 @@ import {
 export const ShameButton = styled.button.attrs(() => ({
   className: classNames({
     'relative flex flex--v-center': true,
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 }))<{ isDark?: boolean }>`
   line-height: 1.5;
@@ -178,7 +178,7 @@ const LeftZone = styled.div`
 
 const MiddleZone = styled.div.attrs({
   className: classNames({
-    [font('hnb', 5)]: true,
+    [font('intb', 5)]: true,
   }),
 })`
   display: flex;

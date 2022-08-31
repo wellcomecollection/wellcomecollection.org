@@ -13,11 +13,7 @@ import {
 } from '@weco/common/services/prismic/types';
 import { GenericContentFields } from '../../../types/generic-content-fields';
 import { ImageType } from '@weco/common/model/image';
-import {
-  isNotUndefined,
-  isString,
-  isUndefined,
-} from '@weco/common/utils/array';
+import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { WithGuideFormat } from '../types/guides';
 import { WithCardFormat } from '../types/card';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
@@ -27,7 +23,7 @@ import { WithEventFormat } from '../types/events';
 import { Format } from '../../../types/format';
 import { LabelField } from '@weco/common/model/label-field';
 import { ArticleFormat } from '../types/article-format';
-import { ArticleFormatId } from '@weco/common/services/prismic/content-format-ids';
+import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import * as prismicT from '@prismicio/types';
 import { transformBody } from './body';
 import { isStandfirst } from '../../../types/body';

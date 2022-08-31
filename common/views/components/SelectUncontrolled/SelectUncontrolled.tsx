@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import SelectContainer from '../SelectContainer/SelectContainer';
 
 type Props = {
@@ -10,7 +11,12 @@ type Props = {
   }[];
 };
 
-const SelectUncontrolled = ({ name, label, options, defaultValue }: Props) => {
+const SelectUncontrolled: FC<Props> = ({
+  name,
+  label,
+  options,
+  defaultValue,
+}: Props) => {
   return (
     <SelectContainer label={label}>
       <select name={name} defaultValue={defaultValue}>

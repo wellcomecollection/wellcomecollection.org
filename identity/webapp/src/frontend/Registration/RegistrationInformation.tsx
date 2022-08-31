@@ -13,9 +13,9 @@ const RegistrationInformation: FC<Props> = ({ email }) => {
     <>
       <SectionHeading as="h1">Apply for a library membership</SectionHeading>
 
-      <h2 className={font('hnb', 4)}>Your details</h2>
+      <h2 className={font('intb', 4)}>Your details</h2>
       <p className="no-margin">
-        Email address: <strong className={font('hnb', 5)}>{email}</strong>
+        Email address: <strong className={font('intb', 5)}>{email}</strong>
       </p>
       <Space
         v={{

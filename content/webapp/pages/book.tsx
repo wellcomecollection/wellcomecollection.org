@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
     const client = createClient(context);
-    const bookDocument = await fetchBook(client, id as string);
+    const bookDocument = await fetchBook(client, id);
 
     if (bookDocument) {
       const serverData = await getServerData(context);
@@ -135,7 +135,7 @@ const BookPage: FunctionComponent<Props> = props => {
             <p
               className={classNames({
                 'no-margin': true,
-                [font('hnb', 3)]: true,
+                [font('intb', 3)]: true,
               })}
             >
               {book.subtitle}

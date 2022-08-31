@@ -54,10 +54,11 @@ export const delistPredicate = prismic.predicate.not('document.tags', [
  *    const events = await getEvents(context)
  * }
  */
-export function createClient(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { req }: GetServerSidePropsContext | { req: NextApiRequest }
-): GetServerSidePropsPrismicClient {
+export function createClient({
+  req,
+}:
+  | GetServerSidePropsContext
+  | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
   client.enableAutoPreviewsFromReq(req);
   return { type: 'GetServerSidePropsPrismicClient', client };
 }

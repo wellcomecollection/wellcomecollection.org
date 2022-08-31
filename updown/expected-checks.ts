@@ -1,5 +1,4 @@
-import { CheckInterval } from 'node-updown/lib/types/Check';
-import { Check } from './checks';
+import { CheckInterval, CheckOptions } from 'node-updown/lib/types/Check';
 
 const contentChecks = [
   {
@@ -107,7 +106,7 @@ const expectedChecks = contentChecks.concat(worksChecks, apiChecks, [
 ]);
 
 function withOriginPrefix(originPrefix: string) {
-  return ({ url, alias }: Check) => [
+  return ({ url, alias }: CheckOptions) => [
     {
       url: `https://${originPrefix}.wellcomecollection.org${url}`,
       alias: `${alias} (origin)`,

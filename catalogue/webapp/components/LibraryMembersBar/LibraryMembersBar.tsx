@@ -30,13 +30,13 @@ const SignInLink: FC = () => {
     <>
       <Space
         h={{ size: 's', properties: ['margin-right'] }}
-        className={font('hnb', 5)}
+        className={font('intb', 5)}
       >
         Library members:
       </Space>
       <a
         href={loginURL}
-        className={font('hnr', 5)}
+        className={font('intr', 5)}
         onClick={() => {
           trackEvent({
             category: 'library_account',
@@ -57,11 +57,11 @@ type ReloadProps = {
 const Reload: FC<ReloadProps> = ({ reload }) => {
   return (
     <>
-      <span className={font('hnb', 5)}>
+      <span className={font('intb', 5)}>
         Something went wrong trying to check if you are signed in
       </span>{' '}
       <button
-        className={font('hnr', 5)}
+        className={font('intr', 5)}
         onClick={() => {
           reload();
         }}
@@ -78,11 +78,7 @@ const Reload: FC<ReloadProps> = ({ reload }) => {
   );
 };
 
-type Props = {
-  requestingUnavailable?: boolean;
-};
-
-const LibraryMembersBar: FC<Props> = () => {
+const LibraryMembersBar: FC = () => {
   const { state, reload } = useUser();
   const { disableRequesting } = useToggles();
   if (disableRequesting) {
@@ -93,11 +89,11 @@ const LibraryMembersBar: FC<Props> = () => {
         </Space>
         <Space
           h={{ size: 's', properties: ['margin-right'] }}
-          className={font('hnb', 5)}
+          className={font('intb', 5)}
         >
           Library members:
         </Space>
-        <span className={font('hnr', 5)}>{requestingDisabled}</span>
+        <span className={font('intr', 5)}>{requestingDisabled}</span>
       </StyledComponent>
     );
   }

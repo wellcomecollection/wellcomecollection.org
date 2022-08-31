@@ -16,4 +16,4 @@ import { isString } from '@weco/common/utils/array';
 
 export const looksLikePrismicId = (
   id: string | string[] | undefined
-): boolean => (isString(id) ? /^([A-Za-z0-9-_]{9,})$/.test(id) : false);
+): id is string => (isString(id) ? /^([A-Za-z0-9-_]{9,})$/.test(id) : false);

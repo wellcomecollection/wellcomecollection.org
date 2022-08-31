@@ -143,7 +143,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <ul
           className={classNames({
             'plain-list no-padding no-margin': true,
-            [font('hnr', 5)]: true,
+            [font('intr', 5)]: true,
           })}
         >
           {venue?.openingHours.regular.map(
@@ -177,7 +177,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
             >
               <h3
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                 })}
               >
                 <div
@@ -197,7 +197,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               <ul
                 className={classNames({
                   'plain-list no-padding no-margin': true,
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
               >
                 {upcomingExceptionalPeriod.map(p => (

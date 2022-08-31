@@ -12,9 +12,6 @@ import {
   eventWithOneLocationOnline,
   eventWithMultipleLocations,
 } from '../../__mocks__/events';
-jest.spyOn(Context, 'useToggles').mockImplementation(() => ({
-  enablePickUpDate: true,
-}));
 
 jest
   .spyOn(Context, 'usePrismicData')

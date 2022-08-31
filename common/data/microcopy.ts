@@ -49,11 +49,6 @@ export const a11y = {
     'Large-print guides, transcripts and magnifiers are available in the gallery',
 };
 
-export const errorMessages = {
-  404: 'This isn’t the page you’re looking for, but how about these?',
-  500: 'This isn’t the page you’re looking for, but how about these?',
-};
-
 export const wellcomeImagesRedirectBanner =
   'Coming from Wellcome Images? All freely available images have now been moved to the Wellcome Collection website. Here we’re working to improve data quality, search relevance and tools to help you use these images more easily.';
 
@@ -101,7 +96,7 @@ export const calendarInstructions =
   'Use the arrow keys to move around the calendar. Use the home key to move to the beginning of a row. Use the end key to move to the end of a row. When focused on a date you can select it with the Enter or Space key.';
 
 export const requestingDisabled =
-  'Requesting is unavailable until 09:00 on Monday 6 June';
+  'Requesting is temporarily unavailable while we perform maintenance work. In the meantime, email library@wellcomecollection.org the details of your request and when you would like to consult it and we can retrieve the items for you.';
 
 export const pastExhibitionsStrapline =
   'Take a look at our past exhibitions and installations.';

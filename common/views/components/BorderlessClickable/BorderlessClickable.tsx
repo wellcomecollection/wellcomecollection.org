@@ -74,7 +74,7 @@ const Button: FC<BorderlessClickableProps> = (
               {/* We currently only use this in the header sign in button */}
               <span
                 className={classNames({
-                  [font('hnr', 4)]: true,
+                  [font('intr', 4)]: true,
                 })}
                 style={{ transform: 'translateY(0.01em)' }}
               >

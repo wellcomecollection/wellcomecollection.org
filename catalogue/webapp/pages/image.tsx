@@ -16,8 +16,8 @@ import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getWork } from '../services/catalogue/works';
 import { getImage } from '../services/catalogue/images';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { looksLikeCanonicalId } from 'services/catalogue';
 
 type Props = {
   image: Image;
@@ -72,21 +72,19 @@ const ImagePage: FunctionComponent<Props> = ({ image, sourceWork }: Props) => {
       hideTopContent={true}
     >
       {iiifImageLocation ? (
-        <>
-          <IIIFViewer
-            title={title}
-            mainPaginatorProps={mainPaginatorProps}
-            thumbsPaginatorProps={thumbsPaginatorProps}
-            lang={lang}
-            canvases={[]}
-            workId={sourceWork.id}
-            pageIndex={0}
-            pageSize={1}
-            canvasIndex={0}
-            iiifImageLocation={iiifImageLocation}
-            work={sourceWork}
-          />
-        </>
+        <IIIFViewer
+          title={title}
+          mainPaginatorProps={mainPaginatorProps}
+          thumbsPaginatorProps={thumbsPaginatorProps}
+          lang={lang}
+          canvases={[]}
+          workId={sourceWork.id}
+          pageIndex={0}
+          pageSize={1}
+          canvasIndex={0}
+          iiifImageLocation={iiifImageLocation}
+          work={sourceWork}
+        />
       ) : (
         <Layout12>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -105,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const serverData = await getServerData(context);
     const { id, workId } = context.query;
 
-    if (!isString(id)) {
+    if (!looksLikeCanonicalId(id) || !looksLikeCanonicalId(workId)) {
       return { notFound: true };
     }
 
@@ -157,6 +155,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           name: 'image',
           properties: {},
         },
+        serverData,
       }),
     };
   };

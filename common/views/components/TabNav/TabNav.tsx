@@ -1,4 +1,4 @@
-import { ComponentType } from 'react';
+import { ComponentType, FC } from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
 import { TextLink } from '../../../model/text-links';
@@ -80,11 +80,11 @@ const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
   </NextLink>
 );
 
-const TabNav = ({ items }: Props) => {
+const TabNav: FC = ({ items }: Props) => {
   return (
     <div
       className={classNames({
-        [font('hnb', 4)]: true,
+        [font('intb', 4)]: true,
       })}
     >
       <ul

@@ -1,7 +1,8 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
+import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 
-export function workLd(work: WorkType) {
+export function workLd(work: WorkType): JsonLdObj {
   const creators = (work.contributors || []).map(c => {
     return {
       '@type': c.agent.type,
@@ -29,6 +30,6 @@ export function workLd(work: WorkType) {
       thumbnailUrl: work?.thumbnail?.url,
       license: work?.thumbnail?.license?.url,
     },
-    'CreativeWork'
+    { type: 'CreativeWork' }
   );
 }

@@ -10,7 +10,7 @@ import Router from '@koa/router';
 import next from 'next';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { init as initServerData } from '@weco/common/server-data';
-import { format as formatUrl, parse } from 'url'; // eslint-disable-line node/no-deprecated-api
+import { redactUrl } from './utility/logging';
 
 /* eslint-enable @typescript-eslint/no-var-requires, import/first */
 
@@ -30,11 +30,11 @@ export async function createApp(): Promise<Koa> {
 
   app.use(json({ pretty: process.env.NODE_ENV !== 'production' }));
 
-  // This custom logger query parameter values from the logs.
+  // This custom logger redacts URLs in the logs.
   //
   // This is to prevent PII from being written to the logs, in particular
   // email addresses and other personal information being passed around
-  // as JWTs as part of the sign-up process.
+  // as part of the sign-up process.
   //
   // The default logger might log something like:
   //
@@ -64,30 +64,7 @@ export async function createApp(): Promise<Koa> {
       transporter: (_, args) => {
         const [format, method, url, status, time, length] = args;
 
-        // Note: we use a deprecated API here because we're working with
-        // relative URLs, e.g. `/account`.
-        //
-        // The WHATWG URL API that the deprecation message suggests doesn't
-        // work for this use case; it wants absolute URLs.
-        const parsedUrl = parse(url);
-        const params = new URLSearchParams(parsedUrl.query);
-
-        for (const key of params.keys()) {
-          params.set(key, '[redacted]');
-        }
-
-        parsedUrl.query = params.toString();
-        parsedUrl.search = `?${params.toString()}`;
-
-        // When the square brackets get URL-encoded, they're replaced with
-        // percent characters, e.g. `/account?token=%5Bredacted%5D`.
-        //
-        // Because they aren't actually URL characters, we put back the
-        // original brackets for ease of readability.
-        const redactedUrl = formatUrl(parsedUrl).replace(
-          /%5Bredacted%5D/g,
-          '[redacted]'
-        );
+        const redactedUrl = redactUrl(url);
 
         const newArgs = [
           format,

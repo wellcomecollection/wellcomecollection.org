@@ -6,11 +6,11 @@ import {
 } from '../../services/prismic/documents';
 import { ServerData } from '../types';
 
-export async function init() {
+export async function init(): Promise<void> {
   // we avoid writing to the filesystem so we can run this in CI
 }
 
-export function clear() {
+export function clear(): void {
   // We do nothing here as we haven't created any timeouts
 }
 

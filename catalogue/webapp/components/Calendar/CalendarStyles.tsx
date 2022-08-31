@@ -27,7 +27,7 @@ export const Header = styled.div`
 
 export const Message = styled.p.attrs(() => ({
   className: classNames({
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 }))`
   background: ${props => props.theme.color('yellow')};

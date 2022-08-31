@@ -1,9 +1,9 @@
-import { Event, EventBasic } from '../../../types/events';
+import { EventBasic } from '../../../types/events';
 import {
-  Organization,
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
-} from '@weco/common/model/organization';
+} from '@weco/common/data/organization';
+import { Organization } from '@weco/common/model/organization';
 import { getImageUrlAtSize } from '../types/images';
 import { Article } from '../../../types/articles';
 import { Contributor } from '../../../types/contributors';
@@ -38,7 +38,7 @@ export function exhibitionGuideLd(exhibitionGuide: ExhibitionGuide): JsonLdObj {
       text: exhibitionGuide.relatedExhibition?.description,
       discussionUrl: `https://wellcomecollection.org/guides/exhibition/${exhibitionGuide.id}`,
     },
-    'ExhibtionGuide'
+    { type: 'ExhibitionGuide' }
   );
 }
 
@@ -52,7 +52,10 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
       location: {
         '@type': 'Place',
         name: 'Wellcome Collection',
-        address: objToJsonLd(wellcomeCollectionAddress, 'PostalAddress', false),
+        address: objToJsonLd(wellcomeCollectionAddress, {
+          type: 'PostalAddress',
+          root: false,
+        }),
       },
       startDate: exhibition.start,
       endDate: exhibition.end,
@@ -67,17 +70,15 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
               ? getImageUrlAtSize(contributor.image, { w: 600 })
               : undefined,
           },
-          type,
-          false
+          { type, root: false }
         );
       }),
     },
-    'ExhibitionEvent'
+    { type: 'ExhibitionEvent' }
   );
 }
 
-export function eventLd(event: Event | EventBasic): JsonLdObj[] {
-  // TODO EventBasic
+export function eventLd(event: EventBasic): JsonLdObj[] {
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {
@@ -94,11 +95,10 @@ export function eventLd(event: Event | EventBasic): JsonLdObj[] {
           location: {
             '@type': 'Place',
             name: 'Wellcome Collection',
-            address: objToJsonLd(
-              wellcomeCollectionAddress,
-              'PostalAddress',
-              false
-            ),
+            address: objToJsonLd(wellcomeCollectionAddress, {
+              type: 'PostalAddress',
+              root: false,
+            }),
           },
           startDate: event.times.map(time => time.range.startDateTime),
           endDate: event.times.map(time => time.range.endDateTime),
@@ -117,12 +117,11 @@ export function eventLd(event: Event | EventBasic): JsonLdObj[] {
                   ? getImageUrlAtSize(contributor.image, { w: 600 })
                   : undefined,
               },
-              type,
-              false
+              { type, root: false }
             );
           }),
         },
-        'Event'
+        { type: 'Event' }
       );
     });
 }
@@ -144,8 +143,7 @@ export function articleLd(article: Article): JsonLdObj {
               ? getImageUrlAtSize(contributor.image, { w: 600 })
               : undefined,
           },
-          type,
-          false
+          { type, root: false }
         );
       }),
       dateCreated: article.datePublished,
@@ -160,8 +158,7 @@ export function articleLd(article: Article): JsonLdObj {
                   ? getImageUrlAtSize(author.contributor.image, { w: 600 })
                   : undefined,
               },
-              'Person',
-              false
+              { type: 'Person', root: false }
             )
           : undefined,
       image: article.promo?.image?.contentUrl,
@@ -169,7 +166,7 @@ export function articleLd(article: Article): JsonLdObj {
       publisher: orgLd(wellcomeCollectionGallery),
       url: `https://wellcomecollection.org/articles/${article.id}`,
     },
-    'Article'
+    { type: 'Article' }
   );
 }
 
@@ -183,7 +180,7 @@ function orgLd(org: Organization) {
         logo: org.logo.url,
         sameAs: org.sameAs,
       },
-      'Organization'
+      { type: 'Organization' }
     )
   );
 }
@@ -211,8 +208,7 @@ export function contentLd(content: Page | Season): JsonLdObj {
                   ? getImageUrlAtSize(author.contributor.image, { w: 600 })
                   : undefined,
               },
-              'Person',
-              false
+              { type: 'Person', root: false }
             )
           : undefined,
       image: promoImage ? getImageUrlAtSize(promoImage, { w: 600 }) : undefined,
@@ -221,6 +217,6 @@ export function contentLd(content: Page | Season): JsonLdObj {
       publisher: orgLd(wellcomeCollectionGallery),
       mainEntityOfPage: `https://wellcomecollection.org${url}`,
     },
-    'Article'
+    { type: 'Article' }
   );
 }

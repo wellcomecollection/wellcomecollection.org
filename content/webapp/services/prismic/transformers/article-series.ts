@@ -1,6 +1,6 @@
 import { Query } from '@prismicio/types';
 import { Series } from '../../../types/series';
-import { ArticleBasic } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { transformArticle, transformArticleToArticleBasic } from './articles';
 import { transformQuery } from './paginated-results';
@@ -24,9 +24,7 @@ export const transformArticleSeries = (
   // TODO: This function is quite confusing.  Refactor it and add
   // more helpful comments.
 
-  const articles = transformQuery(articleQuery, transformArticle).results.map(
-    transformArticleToArticleBasic
-  );
+  const articles = transformQuery(articleQuery, transformArticle).results;
 
   // This should never happen in practice -- an article series without
   // any articles should return a 404 before we call this function.
@@ -54,26 +52,28 @@ export const transformArticleSeries = (
         })
       : [];
 
+  // Add some colour
+  const items =
+    schedule.length > 0
+      ? schedule.map(item => {
+          return item.type === 'article-schedule-items' ||
+            item.type === 'articles'
+            ? ({
+                ...item,
+                color: series && series.color,
+              } as Article)
+            : item;
+        })
+      : articles;
+
   const seriesWithItems: Series = {
     ...series,
-    // Add some colour
-    items:
-      schedule.length > 0
-        ? schedule.map(item => {
-            return item.type === 'article-schedule-items' ||
-              item.type === 'articles'
-              ? ({
-                  ...item,
-                  color: series && series.color,
-                } as ArticleBasic)
-              : item;
-          })
-        : articles,
+    items: items.map(transformArticleToArticleBasic),
   };
 
   return (
     series && {
-      articles,
+      articles: articles.map(transformArticleToArticleBasic),
       series: seriesWithItems,
     }
   );

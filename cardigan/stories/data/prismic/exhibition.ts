@@ -1,4 +1,4 @@
-export default {
+const exhibitionDocument = {
   id: 'YKTDpxAAACEAGIb7',
   uid: null,
   url: null,
@@ -396,4 +396,24 @@ export default {
       },
     ],
   },
+};
+
+export default exhibitionDocument;
+export const exhibitionBasic = {
+  type: 'exhibitions',
+  id: 'exhibition-basic',
+  title: 'What does it mean to be human now? Four views by CYP x CALLY',
+  promo: {
+    image: {
+      contentUrl:
+        'https://images.prismic.io/wellcomecollection/2c4f31fc-ed75-4a01-9e1c-882bdae8a92d_EP_001991_018.jpg?auto=compress,format&rect=0,180,4000,2250&w=3200&h=1800',
+      width: 3200,
+      height: 1800,
+    },
+  },
+  start: new Date(exhibitionDocument.data.start),
+  end: new Date(exhibitionDocument.data.end),
+  isPermanent: exhibitionDocument.data.isPermanent,
+  contributors: exhibitionDocument.data.contributors,
+  labels: [],
 };

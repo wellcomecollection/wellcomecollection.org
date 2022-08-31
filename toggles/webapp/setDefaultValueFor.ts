@@ -11,7 +11,7 @@ import { getCreds } from '@weco/ts-aws/sts';
 
 const argv = yargs(hideBin(process.argv)).parseSync();
 
-export async function setDefaultValueFor(client: S3Client) {
+export async function setDefaultValueFor(client: S3Client): Promise<void> {
   const remoteToggles = await getTogglesObject(client);
 
   const toggles = remoteToggles.toggles.map(toggle => {

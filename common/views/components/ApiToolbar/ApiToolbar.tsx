@@ -3,7 +3,13 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
-import { Work, Location } from '../../../model/catalogue';
+import {
+  Work,
+  Location,
+  Image,
+  Contributor,
+  License,
+} from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
 type Prop = {
@@ -27,6 +33,85 @@ const includes = [
   'succeededBy',
   'holdings',
 ];
+
+/** tzitzit is a tool used by the Digital Editorial team to create TASL
+ * strings for Prismic. https://github.com/wellcomecollection/tzitzit
+ *
+ * This creates a link to a tzitzit which is pre-filled with the catalogue
+ * metadata for this image.  They may not want to use it directly
+ * (e.g. they may tidy up the title), but it should save them some copy/pasting
+ * from the catalogue.
+ *
+ */
+
+function setTzitzitParams({
+  title,
+  sourceLink,
+  licence,
+  contributors,
+}: {
+  title: string;
+  sourceLink: string;
+  licence: License | undefined;
+  contributors: Contributor[] | undefined;
+}): Prop | undefined {
+  const licenceId = licence?.id.toUpperCase();
+
+  // We should not be using in copyright images in Stories
+  if (licenceId === 'INC') return;
+
+  const params = new URLSearchParams();
+  params.set('title', title);
+  params.set('sourceName', 'Wellcome Collection');
+  params.set('sourceLink', sourceLink);
+  if (licenceId) params.set('licence', licenceId);
+  if (contributors && contributors.length > 0)
+    params.set('author', contributors[0].agent.label);
+
+  return {
+    id: 'tzitzit',
+    label: 'tzitzit',
+    link: `https://s3-eu-west-1.amazonaws.com/tzitzit.wellcomecollection.org/index.html?${params.toString()}`,
+  };
+}
+
+async function createTzitzitImageLink(
+  imageId: string
+): Promise<Prop | undefined> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
+  const image: Image = await fetch(apiUrl).then(res => res.json());
+
+  return setTzitzitParams({
+    title: image.source.title,
+    sourceLink: window.location.toString(),
+    licence: image.locations[0].license,
+    contributors: image.source.contributors,
+  });
+}
+
+async function createTzitzitWorkLink(
+  workId: string
+): Promise<Prop | undefined> {
+  const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
+  const work: Work = await fetch(apiUrl).then(res => res.json());
+
+  // Look at digital item locations only
+  const digitalLocation = work.items
+    ?.map(item =>
+      item.locations.find(location => location.type === 'DigitalLocation')
+    )
+    .find(i => i);
+
+  return setTzitzitParams({
+    title: work.title,
+    sourceLink: window.location.toString(),
+    licence:
+      digitalLocation?.type === 'DigitalLocation'
+        ? digitalLocation.license
+        : undefined,
+    contributors: work.contributors,
+  });
+}
 
 function getRouteProps(path: string) {
   switch (path) {
@@ -68,6 +153,22 @@ function getRouteProps(path: string) {
         return links;
       };
 
+    case '/image':
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { id } = query;
+
+        const tzitzitLink = await createTzitzitImageLink(id as string);
+
+        return tzitzitLink ? [tzitzitLink] : [];
+      };
+    case '/item':
+      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+        const { workId } = query;
+
+        const tzitzitLink = await createTzitzitWorkLink(workId as string);
+
+        return tzitzitLink ? [tzitzitLink] : [];
+      };
     default:
       return async (query: ParsedUrlQuery): Promise<Prop[]> => {
         const { id } = query;

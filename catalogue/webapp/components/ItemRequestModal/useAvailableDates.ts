@@ -11,7 +11,7 @@ import {
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import { usePrismicData } from '@weco/common/server-data/Context';
-import { collectionVenueId } from '@weco/common/services/prismic/hardcoded-id';
+import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
 

@@ -34,7 +34,7 @@ const VisitUsStaticContent: FunctionComponent = () => {
         <div
           className={classNames({
             [grid({ s: 12, l: 5, xl: 5 })]: true,
-            [font('hnr', 4)]: true,
+            [font('intr', 4)]: true,
           })}
         >
           <FindUs />
@@ -42,19 +42,19 @@ const VisitUsStaticContent: FunctionComponent = () => {
         <div
           className={classNames({
             [grid({ s: 12, l: 5, xl: 5 })]: true,
-            [font('hnr', 4)]: true,
+            [font('intr', 4)]: true,
           })}
         >
           <div className="flex">
             <div
               className={classNames({
-                [font('hnr', 5)]: true,
+                [font('intr', 5)]: true,
                 'float-l': true,
               })}
             >
               <h2
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                   'no-margin': true,
                 })}
               >{`Today's opening times`}</h2>

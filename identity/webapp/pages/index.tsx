@@ -52,9 +52,10 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { Claims } from '@auth0/nextjs-auth0';
-import { useToggles } from '@weco/common/server-data/Context';
 import { sierraStatusCodeToLabel } from '@weco/common/data/microcopy';
 import { URLSearchParams } from 'url';
+import { useSendVerificationEmail } from '../src/frontend/hooks/useSendVerificationEmail';
+import { UnverifiedEmail } from '../src/frontend/MyAccount/UnverifiedEmail';
 
 type DetailProps = {
   label: string;
@@ -67,8 +68,8 @@ type DetailListProps = {
 
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
-    <dt className={font('hnb', 5)}>{label}</dt>
-    <StyledDd className={`${font('hnr', 5)}`}>{value}</StyledDd>
+    <dt className={font('intb', 5)}>{label}</dt>
+    <StyledDd className={`${font('intr', 5)}`}>{value}</StyledDd>
   </>
 );
 
@@ -87,7 +88,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
   ...props
 }) => (
   <button
-    className={font('hnr', 5)}
+    className={font('intr', 5)}
     style={{
       border: 'none',
       background: 'none',
@@ -101,7 +102,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
 );
 
 const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
-  <p className={`${font('hnr', 5)}`}>
+  <p className={`${font('intr', 5)}`}>
     Something went wrong fetching your item requests.
     <TextButton
       onClick={() => {
@@ -198,13 +199,10 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
     state: requestedItemsState,
     fetchRequests,
   } = useRequestedItems();
-  const { enablePickUpDate } = useToggles();
+  const sendVerificationEmail = useSendVerificationEmail();
   const { user: contextUser } = useUser();
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const maybeExtraText = enablePickUpDate
-    ? ' from your selected pickup date'
-    : '';
 
   // Use the user from the context provider as first preference, as it will
   // change without a page reload being required
@@ -246,7 +244,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
         <>
           {!user?.emailValidated && (
             <AccountStatus type="info">
-              You have not yet validated your email address
+              <UnverifiedEmail {...sendVerificationEmail} />
             </AccountStatus>
           )}
           {isEmailUpdated && (
@@ -311,16 +309,24 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                   case 'success':
                     if (requestedItems.totalResults === 0) {
                       return (
-                        <p className={`${font('hnr', 5)}`}>
+                        <Space
+                          as="p"
+                          className={`${font('intr', 5)}`}
+                          v={{
+                            size: 's',
+                            properties: ['margin-bottom'],
+                            overrides: { small: 1 },
+                          }}
+                        >
                           Any item requests you make will appear here.
-                        </p>
+                        </Space>
                       );
                     } else {
                       return (
                         <>
                           <Space
                             as="p"
-                            className={`${font('hnb', 5)}`}
+                            className={`${font('intb', 5)}`}
                             v={{ size: 's', properties: ['margin-bottom'] }}
                           >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
                           <ProgressBar>
@@ -333,14 +339,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             />
                           </ProgressBar>
                           <StackingTable
-                            maxWidth={enablePickUpDate ? 1180 : 980}
+                            maxWidth={1180}
                             rows={[
                               [
                                 'Title',
                                 'Status',
-                                enablePickUpDate
-                                  ? 'Pickup date requested'
-                                  : null,
+                                'Pickup date requested',
                                 'Pickup location',
                               ].filter(Boolean),
                               ...requestedItems.results.map(result =>
@@ -370,15 +374,13 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                       result.status.id
                                     ] ?? result.status.label}
                                   </ItemStatus>,
-                                  enablePickUpDate ? (
-                                    result.pickupDate ? (
-                                      <HTMLDate
-                                        date={new Date(result.pickupDate)}
-                                      />
-                                    ) : (
-                                      <p>n/a</p>
-                                    )
-                                  ) : null,
+                                  result.pickupDate ? (
+                                    <HTMLDate
+                                      date={new Date(result.pickupDate)}
+                                    />
+                                  ) : (
+                                    <p>n/a</p>
+                                  ),
                                   <ItemPickup key={`${result.item.id}-pickup`}>
                                     {result.pickupLocation.label}
                                   </ItemPickup>,
@@ -387,15 +389,15 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             ]}
                           />
                           <Space
-                            className={`${font('hnr', 5)}`}
+                            className={`${font('intr', 5)}`}
                             v={{
                               size: 'l',
                               properties: ['margin-top'],
                             }}
                           >
                             Requests made will be available to pick up from the
-                            library for one week{maybeExtraText}. If you wish to
-                            cancel a request, please{' '}
+                            library for one week from your selected pickup date.
+                            If you wish to cancel a request, please{' '}
                             <a href="mailto:library@wellcomecollection.org">
                               contact the library team.
                             </a>
@@ -413,7 +415,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('hnr', 5)}>
+              <p className={font('intr', 5)}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

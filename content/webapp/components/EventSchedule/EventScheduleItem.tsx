@@ -50,12 +50,12 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               return (
                 <h4
                   key={`${event.title} ${startTimeString}`}
-                  className={`${font('hnb', 5)} no-margin`}
+                  className={`${font('intb', 5)} no-margin`}
                 >
                   <time dateTime={startTimeString}>
                     {formatTime(t.range.startDateTime)}
                   </time>
-                  &mdash;
+                  &ndash;
                   <time dateTime={endTimeString}>
                     {formatTime(t.range.endDateTime)}
                   </time>
@@ -84,7 +84,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                   v={{ size: 's', properties: ['margin-bottom'] }}
                   as="p"
                   className={classNames({
-                    [font('hnr', 5)]: true,
+                    [font('intr', 5)]: true,
                   })}
                 >
                   {event.locations[0].title}
@@ -94,7 +94,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
             {event.promo?.caption && (
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={font('hnr', 5)}
+                className={font('intr', 5)}
                 dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
             )}
@@ -106,7 +106,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={`${font('hnr', 5)} no-margin`}>
+                <p className={`${font('intr', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className={`visually-hidden`}>
@@ -118,34 +118,36 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
               </Space>
             )}
 
-            {event.ticketSalesStart && waitForTicketSales && (
-              <Fragment>
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: [
-                      'margin-top',
-                      'margin-bottom',
-                      'padding-top',
-                      'padding-bottom',
-                    ],
-                  }}
-                  h={{
-                    size: 'm',
-                    properties: ['padding-left', 'padding-right'],
-                  }}
-                  className={classNames({
-                    'bg-yellow inline-block': true,
-                    [font('hnb', 5)]: true,
-                  })}
-                >
-                  <span>
-                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                    {formatTime(event.ticketSalesStart)}
-                  </span>
-                </Space>
-              </Fragment>
-            )}
+            {!isEventPast(event) &&
+              event.ticketSalesStart &&
+              waitForTicketSales && (
+                <Fragment>
+                  <Space
+                    v={{
+                      size: 'm',
+                      properties: [
+                        'margin-top',
+                        'margin-bottom',
+                        'padding-top',
+                        'padding-bottom',
+                      ],
+                    }}
+                    h={{
+                      size: 'm',
+                      properties: ['padding-left', 'padding-right'],
+                    }}
+                    className={classNames({
+                      'bg-yellow inline-block': true,
+                      [font('intb', 5)]: true,
+                    })}
+                  >
+                    <span>
+                      Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                      {formatTime(event.ticketSalesStart)}
+                    </span>
+                  </Space>
+                </Fragment>
+              )}
 
             {!isEventPast(event) &&
               (event.eventbriteId || event.onlineEventbriteId) &&
@@ -163,7 +165,8 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 </Space>
               )}
 
-            {!event.eventbriteId &&
+            {!isEventPast(event) &&
+              !event.eventbriteId &&
               !event.bookingEnquiryTeam &&
               !(event.schedule && event.schedule.length > 1) && (
                 <Space v={{ size: 'm', properties: ['margin-top'] }}>

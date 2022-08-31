@@ -2,18 +2,12 @@ import { FC } from 'react';
 import { CTAs, CurrentRequests, Header } from './common';
 import { allowedRequests } from '@weco/common/values/requests';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { useToggles } from '@weco/common/server-data/Context';
 
 type ConfirmedDialogProps = {
   currentHoldNumber?: number;
 };
 
 const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
-  const { enablePickUpDate } = useToggles();
-  const maybeExtraText = enablePickUpDate
-    ? ' from your selected pickup date'
-    : '';
-
   return (
     <>
       <Header>
@@ -25,7 +19,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
       </Header>
       <p>
         It will be available to pick up from the library (Rare Materials Room,
-        level 3) for one week{maybeExtraText}.
+        level 3) for one week from your selected pickup date.
       </p>
       <CTAs>
         <ButtonSolidLink text={`View your library account`} link={'/account'} />

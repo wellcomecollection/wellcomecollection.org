@@ -24,6 +24,7 @@ import ViewerTopBar from './ViewerTopBar';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import ItemViewerContext, {
   results,
+  RotatedImage,
 } from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
 import useSkipInitialEffect from '@weco/common/hooks/useSkipInitialEffect';
@@ -231,11 +232,11 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainAreaRef = useRef<HTMLDivElement>(null);
   const [isDesktopSidebarActive, setIsDesktopSidebarActive] = useState(true);
-  const [isMobileSidebarActive, setisMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
+  const [isMobileSidebarActive, setIsMobileSidebarActive] = useState(false); // don't show sidebar by default on mobile
   const [activeIndex, setActiveIndex] = useState(0);
   const [showZoomed, setShowZoomed] = useState(false);
   const [zoomInfoUrl, setZoomInfoUrl] = useState<string | undefined>();
-  const [rotatedImages, setRotatedImages] = useState<any[]>([]);
+  const [rotatedImages, setRotatedImages] = useState<RotatedImage[]>([]);
   const [showControls, setShowControls] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -432,48 +433,48 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   return isFullSupportBrowser ? (
     <ItemViewerContext.Provider
       value={{
-        work: work,
-        manifest: manifest,
-        manifestIndex: manifestIndex,
-        lang: lang,
-        canvases: canvases,
-        canvasIndex: canvasIndex,
-        activeIndex: activeIndex,
-        gridVisible: gridVisible,
-        currentManifestLabel: currentManifestLabel,
-        licenseInfo: licenseInfo,
-        iiifImageLocationCredit: iiifImageLocationCredit,
-        downloadOptions: downloadOptions,
-        iiifPresentationDownloadOptions: iiifPresentationDownloadOptions,
-        parentManifest: parentManifest,
-        mainAreaWidth: mainAreaWidth,
-        mainAreaHeight: mainAreaHeight,
-        showZoomed: showZoomed,
-        zoomInfoUrl: zoomInfoUrl,
-        rotatedImages: rotatedImages,
-        showControls: showControls,
-        isLoading: isLoading,
-        isFullscreen: isFullscreen,
-        isDesktopSidebarActive: isDesktopSidebarActive,
-        urlTemplate: urlTemplate,
-        isMobileSidebarActive: isMobileSidebarActive,
-        searchResults: searchResults,
-        isResizing: isResizing,
-        setSearchResults: setSearchResults,
-        setIsMobileSidebarActive: setisMobileSidebarActive,
-        setIsDesktopSidebarActive: setIsDesktopSidebarActive,
-        setActiveIndex: setActiveIndex,
-        setGridVisible: setGridVisible,
-        setShowZoomed: setShowZoomed,
-        setIsFullscreen: setIsFullscreen,
-        setZoomInfoUrl: setZoomInfoUrl,
-        setIsLoading: setIsLoading,
-        setShowControls: setShowControls,
+        work,
+        manifest,
+        manifestIndex,
+        lang,
+        canvases,
+        canvasIndex,
+        activeIndex,
+        gridVisible,
+        currentManifestLabel,
+        licenseInfo,
+        iiifImageLocationCredit,
+        downloadOptions,
+        iiifPresentationDownloadOptions,
+        parentManifest,
+        mainAreaWidth,
+        mainAreaHeight,
+        showZoomed,
+        zoomInfoUrl,
+        rotatedImages,
+        showControls,
+        isLoading,
+        isFullscreen,
+        isDesktopSidebarActive,
+        urlTemplate,
+        isMobileSidebarActive,
+        searchResults,
+        isResizing,
+        setSearchResults,
+        setIsMobileSidebarActive,
+        setIsDesktopSidebarActive,
+        setActiveIndex,
+        setGridVisible,
+        setShowZoomed,
+        setIsFullscreen,
+        setZoomInfoUrl,
+        setIsLoading,
+        setShowControls,
         errorHandler: handleImageError,
-        setRotatedImages: setRotatedImages,
-        setImageJson: setImageJson,
-        setParentManifest: setParentManifest,
-        setCurrentManifestLabel: setCurrentManifestLabel,
+        setRotatedImages,
+        setImageJson,
+        setParentManifest,
+        setCurrentManifestLabel,
       }}
     >
       <Grid ref={viewerRef}>

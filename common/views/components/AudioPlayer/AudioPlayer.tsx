@@ -1,6 +1,14 @@
-import { useEffect, useRef, useState, FC, Ref, SyntheticEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  FC,
+  Ref,
+  SyntheticEvent,
+  useContext,
+} from 'react';
 import { dasherize } from '@weco/common/utils/grammar';
-import Control from '@weco/common/views/components/Buttons/Control/Control';
+import Icon from '@weco/common/views/components/Icon/Icon';
 import {
   play,
   pause,
@@ -11,22 +19,46 @@ import Space from '@weco/common/views/components/styled/Space';
 import { classNames, font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
+import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 
 const VolumeWrapper = styled.div`
   display: flex;
   align-items: center;
-
-  button {
-    transform: scale(0.7);
-  }
+  gap: 5px;
 
   input {
     width: 60px;
   }
 `;
 
+const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
+  className: 'plain-button no-padding',
+  ariaPressed: props.isPlaying,
+}))<{ isPlaying: boolean }>`
+  svg {
+    transform: translateX(${props => (!props.isPlaying ? '2px' : '0')});
+  }
+`;
+
+const PlayPauseInner = styled.div`
+  border: 2px solid ${props => props.theme.color('green')};
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
+  className: 'plain-button no-padding',
+  ariaPressed: props.isMuted,
+}))``;
+
 // FIXME: this exists because the `volumeMute` icon I created is 1px off
 const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
+  display: flex;
+
   ${props =>
     props.isMuted &&
     `
@@ -39,7 +71,7 @@ const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
 const PlayRateWrapper = styled.div.attrs({
   className: classNames({
     flex: true,
-    [font('hnr', 6)]: true,
+    [font('intr', 6)]: true,
   }),
 })`
   gap: 5px;
@@ -49,22 +81,11 @@ const AudioPlayerGrid = styled.div`
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 5px;
 `;
 
 const SecondRow = styled.div`
-  grid-column: 2 / -1;
-`;
-
-const PlayControlWrapper = styled(Space).attrs<{ isPlaying: boolean }>({
-  h: { size: 'm', properties: ['margin-right'] },
-})<{ isPlaying: boolean }>`
-  ${props =>
-    !props.isPlaying &&
-    `
-    svg {
-      transform: translateX(2px);
-    }
-  `}
+  grid-column: 1 / -1;
 `;
 
 const PlayRateRadio = styled.input.attrs({
@@ -85,7 +106,7 @@ const PlayRateLabel = styled.label<{ isActive: boolean }>`
   border-radius: 5px;
   text-align: center;
   background: ${props =>
-    props.theme.color(props.isActive ? 'yellow' : 'marble')};
+    props.isActive ? props.theme.color('yellow') : undefined}; ;
 `;
 
 const formatVolume = (vol: number): string => {
@@ -119,9 +140,12 @@ type PlayRateProps = {
 };
 
 const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
+  const { audioPlaybackRate, setAudioPlaybackRate } = useContext(AppContext);
   const speeds = [0.5, 1, 1.5, 2];
-  const [currentActiveSpeedIndex, setCurrentActiveSpeedIndex] =
-    useState<typeof speeds[number]>(1);
+
+  useEffect(() => {
+    audioPlayer.playbackRate = audioPlaybackRate;
+  }, [audioPlaybackRate]);
 
   function updatePlaybackRate(speed: number) {
     trackEvent({
@@ -129,7 +153,8 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
       action: `set speed to ${speed}x`,
       label: id,
     });
-    setCurrentActiveSpeedIndex(speeds.indexOf(speed));
+
+    setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
   }
 
@@ -139,7 +164,7 @@ const PlayRate: FC<PlayRateProps> = ({ audioPlayer, id }) => {
         <PlayRateLabel
           key={speed}
           htmlFor={`playrate-${speed}-${id}`}
-          isActive={speeds[currentActiveSpeedIndex] === speed}
+          isActive={audioPlaybackRate === speed}
         >
           <PlayRateRadio
             id={`playrate-${speed}-${id}`}
@@ -189,13 +214,12 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
   return (
     <VolumeWrapper>
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
-        <Control
-          colorScheme="light"
-          icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
-          clickHandler={onVolumeButtonClick}
-          text={isMuted ? `muted` : `unmuted`}
-          ariaPressed={`${isMuted}`}
-        />
+        <MuteUnmuteButton onClick={onVolumeButtonClick}>
+          <Icon
+            color="pewter"
+            icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
+          />
+        </MuteUnmuteButton>
       </VolumeControlWrapper>
       <div style={{ lineHeight: 0 }}>
         <label htmlFor={`volume-${id}`}>
@@ -362,19 +386,15 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
   return (
     <figure className="no-margin">
       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
-        <figcaption className={font('hnb', 5)}>{title}</figcaption>
+        <figcaption className={font('intb', 5)}>{title}</figcaption>
       </Space>
 
       <AudioPlayerGrid>
-        <PlayControlWrapper isPlaying={isPlaying}>
-          <Control
-            colorScheme="light"
-            icon={isPlaying ? pause : play}
-            clickHandler={onTogglePlay}
-            text={isPlaying ? `pause` : `play`}
-            ariaPressed={`${isPlaying}`}
-          />
-        </PlayControlWrapper>
+        <PlayPauseButton onClick={onTogglePlay} isPlaying={isPlaying}>
+          <PlayPauseInner>
+            <Icon color="green" icon={isPlaying ? pause : play} />
+          </PlayPauseInner>
+        </PlayPauseButton>
 
         <div className="full-width">
           <Scrubber
@@ -392,7 +412,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
           <div className="flex flex--h-space-between">
             <div
               className={classNames({
-                [font('hnr', 6)]: true,
+                [font('intr', 6)]: true,
               })}
               style={{
                 fontVariantNumeric: 'tabular-nums',

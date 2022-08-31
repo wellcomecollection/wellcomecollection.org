@@ -40,7 +40,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
       <ul
         className={classNames({
           'no-margin no-padding plain-list': true,
-          [font('hnr', 5)]: true,
+          [font('intr', 5)]: true,
         })}
       >
         {f.options.map(({ id, label, value, count, selected }) => {
@@ -75,7 +75,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
   return (
     <Space
       className={classNames({
-        [font('hnr', 5)]: true,
+        [font('intr', 5)]: true,
       })}
     >
       <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
@@ -184,7 +184,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className={classNames({
-                  [font('hnb', 5)]: true,
+                  [font('intb', 5)]: true,
                 })}
               >
                 Filter by
@@ -219,7 +219,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             {modalFilters.length > 0 && (
               <Space
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
                 h={{ size: 's', properties: ['margin-left'] }}
               >

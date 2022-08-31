@@ -34,8 +34,8 @@ export function getImageUrlAtSize(
   }
 
   // We remove the `h` param as it's returned from the cropped image in Prismic
-  // but the wrnog value when we apply a new `w` param. ImgIx calculated the height
-  // automatically so ew leave it at that.
+  // but the wrong value when we apply a new `w` param. ImgIx calculated the height
+  // automatically so we leave it at that.
   urlSearchParams.delete('h');
 
   return `${base}?${urlSearchParams.toString()}`;

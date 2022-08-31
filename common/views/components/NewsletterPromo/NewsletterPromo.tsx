@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, FC } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { font, classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
@@ -96,7 +96,7 @@ const CopyWrap = styled(Space).attrs({
   `}
 `;
 
-const NewsletterPromo = () => {
+const NewsletterPromo: FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
@@ -171,7 +171,7 @@ const NewsletterPromo = () => {
                   {!isSuccess && (
                     <p
                       className={classNames({
-                        [font('hnr', 5)]: true,
+                        [font('intr', 5)]: true,
                         'no-margin': true,
                       })}
                     >
@@ -181,7 +181,7 @@ const NewsletterPromo = () => {
                   {isSuccess && (
                     <div
                       className={classNames({
-                        [font('hnr', 5)]: true,
+                        [font('intr', 5)]: true,
                         'spaced-text': true,
                       })}
                     >
@@ -239,7 +239,7 @@ const NewsletterPromo = () => {
               {!isSuccess && (
                 <p
                   className={classNames({
-                    [font('hnr', 6)]: true,
+                    [font('intr', 6)]: true,
                     'no-margin': true,
                   })}
                 >
@@ -251,7 +251,7 @@ const NewsletterPromo = () => {
               v={{ size: 'l', properties: ['margin-top'] }}
               style={{ flexBasis: '100%' }}
             >
-              <p className={font('hnr', 6)} style={{ maxWidth: '800px' }}>
+              <p className={font('intr', 6)} style={{ maxWidth: '800px' }}>
                 We use a third party provider,{' '}
                 <a href="https://dotdigital.com/terms/privacy-policy/">
                   dotdigital

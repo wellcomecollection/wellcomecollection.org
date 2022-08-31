@@ -4,13 +4,13 @@ import FeaturedCard from '@weco/content/components/FeaturedCard/FeaturedCard';
 import EventPromo from '@weco/content/components/EventPromo/EventPromo';
 import ExhibitionPromo from '@weco/content/components/ExhibitionPromo/ExhibitionPromo';
 import StoryPromo from '@weco/content/components/StoryPromo/StoryPromo';
-import exhibitionDocument from '../../data/prismic/exhibition';
+import { exhibitionBasic } from '../../data/prismic/exhibition';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import {
   squareImage,
   singleLineOfText,
   bannerCardItem,
-  article,
+  articleBasic,
   image,
   event,
 } from '../../content';
@@ -58,7 +58,7 @@ const FeaturedCardTemplate = args => {
       <h2 className="font-wb font-size-2">
         Remote diagnosis from wee to the Web
       </h2>
-      <p className="font-hnr font-size-5">
+      <p className="font-intr font-size-5">
         Medical practice might have moved on from when patients posted flasks of
         their urine for doctors to taste, but telehealth today keeps up the
         tradition of remote diagnosis – to our possible detriment.
@@ -87,7 +87,7 @@ eventPromo.storyName = 'EventPromo';
 
 const ExhibitionPromoTemplate = args => <ExhibitionPromo {...args} />;
 export const exhibitionPromo = ExhibitionPromoTemplate.bind({});
-exhibitionPromo.args = { exhibition: exhibitionDocument };
+exhibitionPromo.args = { exhibition: exhibitionBasic };
 exhibitionPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },
 };
@@ -96,7 +96,7 @@ exhibitionPromo.storyName = 'ExhibitionPromo';
 const StoryPromoTemplate = args => <StoryPromo {...args} />;
 export const storyPromo = StoryPromoTemplate.bind({});
 storyPromo.args = {
-  item: article,
+  article: articleBasic,
   position: 0,
 };
 storyPromo.parameters = {

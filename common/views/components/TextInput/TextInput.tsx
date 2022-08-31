@@ -129,7 +129,7 @@ export const TextInputErrorMessage = styled.span.attrs({
   role: 'alert',
   'data-test-id': 'TextInputErrorMessage',
   className: classNames({
-    'font-hnb': true,
+    'font-intb': true,
   }),
 })`
   display: block;

@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 // TODO names and colours from theme
 const StyledPadlock = styled.div`
@@ -71,7 +72,7 @@ const StyledPadlock = styled.div`
   }
 `;
 
-const Padlock = () => (
+const Padlock: FC = () => (
   <StyledPadlock>
     <div></div>
   </StyledPadlock>

@@ -5,13 +5,13 @@ import React, {
   FunctionComponent,
   Fragment,
 } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
+import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
   dropCapSerializer,
 } from '../HTMLSerializers/HTMLSerializers';
-import { prismicPageIds } from '@weco/common/services/prismic/hardcoded-id';
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import CaptionedImage from '../CaptionedImage/CaptionedImage';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -53,6 +53,7 @@ import FeaturedCard, {
 import ImageGallery from '../ImageGallery/ImageGallery';
 import { isNotUndefined } from '@weco/common/utils/array';
 import SoundCloudEmbed from '../SoundCloudEmbed/SoundCloudEmbed';
+import * as prismicT from '@prismicio/types';
 
 const Map = dynamic(import('../Map/Map'), {
   ssr: false,
@@ -190,12 +191,10 @@ const Body: FunctionComponent<Props> = ({
                   >
                     <h2 className="font-wb font-size-2">{firstItem.title}</h2>
                     {isCardType && firstItem.description && (
-                      <p className="font-hnr font-size-5">
-                        {firstItem.description}
-                      </p>
+                      <p className={font('intr', 5)}>{firstItem.description}</p>
                     )}
                     {'promo' in firstItem && firstItem.promo && (
-                      <p className="font-hnr font-size-5">
+                      <p className={font('intr', 5)}>
                         {firstItem.promo.caption}
                       </p>
                     )}
@@ -246,7 +245,7 @@ const Body: FunctionComponent<Props> = ({
                       <GridFactory
                         items={cards}
                         overrideGridSizes={
-                          sectionLevelPage && sectionLevelPageGrid
+                          sectionLevelPage ? sectionLevelPageGrid : undefined
                         }
                       />
                     )}
@@ -321,11 +320,11 @@ const Body: FunctionComponent<Props> = ({
                               so we have to split out the first paragraph here.
                             */}
                               <PrismicHtmlBlock
-                                html={[slice.value[0]] as any}
+                                html={[slice.value[0] as prismicT.RTNode]}
                                 htmlSerializer={dropCapSerializer}
                               />
                               <PrismicHtmlBlock
-                                html={slice.value.slice(1) as any}
+                                html={slice.value.slice(1) as [prismicT.RTNode]}
                                 htmlSerializer={defaultSerializer}
                               />
                             </>

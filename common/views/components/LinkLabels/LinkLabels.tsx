@@ -32,7 +32,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
     ].filter(Boolean),
   },
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 }))<LinkOrSpanSpaceAttrs>`
   ${props =>
@@ -53,7 +53,7 @@ const LinkLabels: FunctionComponent<Props> = ({
         flex: true,
         'flex--wrap': true,
         'no-margin': true,
-        [font('hnb', 5)]: true,
+        [font('intb', 5)]: true,
       })}
     >
       <Space
@@ -91,7 +91,7 @@ const LinkLabels: FunctionComponent<Props> = ({
         'flex--wrap': true,
         'no-margin': true,
         'no-padding': true,
-        [font('hnb', 5)]: true,
+        [font('intb', 5)]: true,
       })}
     >
       {items.map(({ url, text }, i) => (

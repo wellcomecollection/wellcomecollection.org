@@ -4,7 +4,7 @@ import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import { FunctionComponent, ReactElement } from 'react';
+import { FC } from 'react';
 import BookImage from '../../components/BookImage/BookImage';
 
 type LinkOrSpanSpaceAttrs = {
@@ -21,7 +21,7 @@ type Props = {
   book: BookBasic;
 };
 
-const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
+const BookPromo: FC<Props> = ({ book }) => {
   const { id, title, subtitle, promo, cover } = book;
   return (
     <LinkOrSpanSpace
@@ -100,7 +100,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
               v={{ size: 's', properties: ['margin-top'] }}
               className={classNames({
                 'no-margin': true,
-                [font('hnb', 5)]: true,
+                [font('intb', 5)]: true,
               })}
             >
               {subtitle}
@@ -111,7 +111,7 @@ const BookPromo: FunctionComponent<Props> = ({ book }: Props): ReactElement => {
             <Space v={{ size: 's', properties: ['margin-top'] }}>
               <p
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                   'no-margin': true,
                 })}
               >

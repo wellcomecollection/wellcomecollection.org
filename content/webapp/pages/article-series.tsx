@@ -17,7 +17,7 @@ import SearchResults from '../components/SearchResults/SearchResults';
 import ContentPage from '../components/ContentPage/ContentPage';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { createClient } from '../services/prismic/fetch';
-import { bodySquabblesSeries } from '@weco/common/services/prismic/hardcoded-id';
+import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { fetchArticles } from '../services/prismic/fetch/articles';
 import * as prismic from '@prismicio/client';
 import { transformArticleSeries } from '../services/prismic/transformers/article-series';
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : 'my.articles.series.series';
 
     const articlesQuery = await fetchArticles(client, {
-      predicates: [prismic.predicate.at(seriesField, id as string)],
+      predicates: [prismic.predicate.at(seriesField, id)],
       page: 1,
       pageSize: 100,
       fetchLinks: seasonsFields,
@@ -78,10 +78,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const { articles, series } = transformArticleSeries(
-      id as string,
-      articlesQuery
-    );
+    const { articles, series } = transformArticleSeries(id, articlesQuery);
 
     return {
       props: removeUndefinedProps({

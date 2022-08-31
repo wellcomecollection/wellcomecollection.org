@@ -7,7 +7,7 @@ import { fixVenueDatesInJson } from '@weco/common/services/prismic/transformers/
 import {
   collectionVenueId,
   getNameFromCollectionVenue,
-} from '@weco/common/services/prismic/hardcoded-id';
+} from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
 import HTMLDayDate from '@weco/common/views/components/HTMLDayDate/HTMLDayDate';
 
@@ -47,7 +47,7 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
                 {firstDate && <HTMLDayDate date={firstDate} />}
                 {lastDate && (
                   <>
-                    &mdash;
+                    &ndash;
                     <HTMLDayDate date={lastDate} />
                   </>
                 )}

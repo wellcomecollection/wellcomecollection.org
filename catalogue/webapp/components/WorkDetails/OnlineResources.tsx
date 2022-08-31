@@ -8,7 +8,7 @@ import styled from 'styled-components';
 const ShowHideButton = styled.button.attrs({
   className: classNames({
     'plain-button no-margin no-padding': true,
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })`
   text-decoration: underline;
@@ -62,14 +62,13 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         {firstThreeOnlineResources.map(item => (
           <li
             className={classNames({
-              [font('hnr', 5)]: true,
+              [font('intr', 5)]: true,
             })}
             key={item.location.url}
           >
+            {item.title && `${item.title}: `}
             <a href={item.location.url}>
-              {item.title
-                ? `${item.title}: View resource`
-                : item.location.linkText}
+              {item.title ? `View resource` : item.location.linkText}
             </a>
           </li>
         ))}
@@ -78,19 +77,18 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
             {remainingOnlineResources.map((item, index) => (
               <li
                 className={classNames({
-                  [font('hnr', 5)]: true,
+                  [font('intr', 5)]: true,
                 })}
                 key={item.location.url}
               >
+                {item.title && `${item.title}: `}
                 <a
                   href={item.location.url}
                   ref={
                     index === 0 ? firstOfRemainingOnlineResourcesRef : undefined
                   }
                 >
-                  {item.title
-                    ? `${item.title}: View resource`
-                    : item.location.linkText}
+                  {item.title ? `View resource` : item.location.linkText}
                 </a>
               </li>
             ))}

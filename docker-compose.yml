@@ -20,10 +20,6 @@ services:
     build:
       context: .
       dockerfile: identity/Dockerfile
-  cardigan:
-    build:
-      context: .
-      dockerfile: cardigan/Dockerfile
   dash:
     build:
       context: ./dash
@@ -36,9 +32,6 @@ services:
       - ./cache/edge_lambdas/deploy.js:/repo/cache/edge_lambdas/deploy.js
     environment:
       - AWS_PROFILE
-  toggles:
-    build:
-      context: ./toggles
   pa11y:
     build:
       context: ./pa11y

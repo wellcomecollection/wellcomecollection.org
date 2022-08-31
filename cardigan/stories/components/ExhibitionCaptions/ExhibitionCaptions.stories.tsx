@@ -1,5 +1,5 @@
 import ExhibitionCaptions from '@weco/content/components/ExhibitionCaptions/ExhibitionCaptions';
-import { singleLineOfText, text, image } from '../../content';
+import { text, image } from '../../content';
 
 const Template = args => <ExhibitionCaptions {...args} />;
 export const basic = Template.bind({});
@@ -9,15 +9,19 @@ basic.args = {
       number: 6,
       title: 'Stockport Spider-Man',
       image: image(),
-      tombstone: singleLineOfText(),
+      tombstone: text(),
       caption: text(),
       transcription: text(),
+      context: [],
+      standaloneTitle: [],
     },
     {
       number: 7,
       title: 'Sagacity: The Periodic Table of Emotions',
-      tombstone: singleLineOfText(),
+      tombstone: text(),
       caption: text(),
+      context: [],
+      standaloneTitle: [],
     },
   ],
 };

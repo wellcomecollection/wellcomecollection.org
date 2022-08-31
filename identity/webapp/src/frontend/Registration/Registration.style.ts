@@ -6,7 +6,7 @@ export const ExternalLink = styled.a`
   white-space: nowrap;
 `;
 
-const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-hnr' })`
+const AlertBox = styled.div.attrs({ role: 'alert', className: 'font-intr' })`
   padding: 1em 2em;
   display: flex;
   flex-direction: column;

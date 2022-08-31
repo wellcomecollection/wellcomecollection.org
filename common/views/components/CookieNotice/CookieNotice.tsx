@@ -10,7 +10,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 
 const CookieNoticeStyle = styled.div.attrs({
   className: classNames({
-    [font('hnb', 4)]: true,
+    [font('intb', 4)]: true,
   }),
 })`
   position: fixed;

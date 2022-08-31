@@ -3,13 +3,13 @@ import { font, classNames } from '../../../utils/classnames';
 import {
   wellcomeCollectionGallery,
   wellcomeCollectionAddress,
-} from '../../../model/organization';
+} from '../../../data/organization';
 import Space from '../styled/Space';
 import { FunctionComponent } from 'react';
-import { prismicPageIds } from '../../../services/prismic/hardcoded-id';
+import { prismicPageIds } from '../../../data/hardcoded-ids';
 const StyledFindUs = styled.div.attrs({
   className: classNames({
-    [font('hnr', 5)]: true,
+    [font('intr', 5)]: true,
   }),
 })`
   &:hover,
