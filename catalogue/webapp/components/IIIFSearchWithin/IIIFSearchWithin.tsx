@@ -154,7 +154,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           )}
           <SearchButtonWrapper>
             <ButtonSolid
-              isBig
+              size="large"
               icon={search}
               text="search"
               isTextHidden={true}

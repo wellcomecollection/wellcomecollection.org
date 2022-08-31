@@ -30,7 +30,8 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   clickHandler,
   ariaControls,
   ariaExpanded,
-  isBig,
+  size,
+  hoverUnderline,
   ariaLabel,
   colors,
   isIconAfter,
@@ -57,10 +58,11 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         aria-controls={ariaControls}
         aria-expanded={ariaExpanded}
         onClick={handleClick}
-        isBig={isBig}
+        size={size}
         href={getHref(link)}
         ariaLabel={ariaLabel}
         colors={colors}
+        hoverUnderline={hoverUnderline}
       >
         <BaseButtonInner>
           {isIconAfter && (

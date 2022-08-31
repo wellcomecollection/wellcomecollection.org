@@ -9,8 +9,9 @@ import { trackEvent } from '@weco/common/utils/ga';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import Space from '@weco/common/views/components/styled/Space';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import ButtonInline from '@weco/common/views/components/ButtonInline/ButtonInline';
+import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { check } from '@weco/common/icons';
+import { themeValues } from '@weco/common/views/themes/config';
 
 type Props = {
   id: string;
@@ -81,12 +82,15 @@ const CopyUrl: FunctionComponent<Props> = ({
             properties: ['margin-top'],
           }}
         >
-          <ButtonInline
+          <ButtonSolid
+            colors={themeValues.buttonColors.pumiceTransparentCharcoal}
+            size="small"
             aria-live="polite"
             clickHandler={handleButtonClick}
             ref={buttonRef}
             text={getButtonMarkup()}
             icon={isTextCopied ? check : undefined}
+            isIconAfter={true}
           />
         </Space>
       )}

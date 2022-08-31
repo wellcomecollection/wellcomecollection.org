@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
-import ButtonInline from '../ButtonInline/ButtonInline';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
 import { BorderlessButton } from '../BorderlessClickable/BorderlessClickable';
 import { AppContext } from '../AppContext/AppContext';
@@ -148,21 +147,35 @@ const DropdownButton: FC<Props> = ({
     isActive: isActive,
     clickHandler: () => setIsActive(!isActive),
     icon: chevron,
+    isIconAfter: true,
     text: label,
     type: ButtonTypes.button,
-    colors: isOnDark
-      ? themeValues.buttonColors.whiteTransparentWhite
-      : themeValues.buttonColors.greenTransparentGreen,
     ariaControls: id,
     ariaExpanded: isActive,
   };
   return (
     <DropdownWrapper ref={dropdownWrapperRef}>
       {buttonType === 'inline' && (
-        <ButtonInline {...buttonProps} isOnDark={isOnDark} />
+        <ButtonSolid
+          {...buttonProps}
+          size="small"
+          hoverUnderline={true}
+          colors={
+            isOnDark
+              ? themeValues.buttonColors.whiteTransparentWhite
+              : themeValues.buttonColors.marbleWhiteCharcoal
+          }
+        />
       )}
       {buttonType === 'outlined' && (
-        <ButtonSolid {...buttonProps} isIconAfter={true} />
+        <ButtonSolid
+          {...buttonProps}
+          colors={
+            isOnDark
+              ? themeValues.buttonColors.whiteTransparentWhite
+              : themeValues.buttonColors.greenTransparentGreen
+          }
+        />
       )}
       {buttonType === 'borderless' && (
         <BorderlessButton

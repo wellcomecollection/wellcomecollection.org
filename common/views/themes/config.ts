@@ -172,6 +172,18 @@ const whiteTransparentWhite: ButtonColors = {
   text: 'white',
 };
 
+const pumiceTransparentCharcoal: ButtonColors = {
+  border: 'pumice',
+  background: 'transparent',
+  text: 'charcoal',
+};
+
+const marbleWhiteCharcoal: ButtonColors = {
+  border: 'marble',
+  background: 'white',
+  text: 'charcoal',
+};
+
 export const themeValues = {
   spacingUnit: 6,
   borderRadiusUnit: 6,
@@ -244,6 +256,8 @@ export const themeValues = {
     charcoalWhiteCharcoal,
     greenTransparentGreen,
     whiteTransparentWhite,
+    pumiceTransparentCharcoal,
+    marbleWhiteCharcoal,
   },
 };
 

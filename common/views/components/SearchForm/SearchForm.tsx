@@ -294,7 +294,7 @@ const SearchForm = forwardRef(
           )}
         </noscript>
         <SearchButtonWrapper>
-          <ButtonSolid text="Search" isTextHidden={false} isBig={true} />
+          <ButtonSolid text="Search" size="large" />
         </SearchButtonWrapper>
       </form>
     );
