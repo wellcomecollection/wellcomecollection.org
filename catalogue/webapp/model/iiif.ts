@@ -1,4 +1,8 @@
-import { ContentResource, IIIFExternalWebResource } from '@iiif/presentation-3';
+import {
+  ContentResource,
+  IIIFExternalWebResource,
+  InternationalString,
+} from '@iiif/presentation-3';
 
 export type IIIFImageServiceSize = {
   width: number;
