@@ -320,11 +320,15 @@ const Body: FunctionComponent<Props> = ({
                               so we have to split out the first paragraph here.
                             */}
                               <PrismicHtmlBlock
-                                html={[slice.value[0] as prismicT.RTNode]}
+                                html={
+                                  [slice.value[0]] as prismicT.RichTextField
+                                }
                                 htmlSerializer={dropCapSerializer}
                               />
                               <PrismicHtmlBlock
-                                html={slice.value.slice(1) as [prismicT.RTNode]}
+                                html={
+                                  slice.value.slice(1) as prismicT.RichTextField
+                                }
                                 htmlSerializer={defaultSerializer}
                               />
                             </>

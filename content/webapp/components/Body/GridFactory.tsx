@@ -1,13 +1,28 @@
+import { FC, ReactElement } from 'react';
 import { classNames, grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { FC, ReactElement } from 'react';
+
+type Grid = {
+  s: number;
+  m: number;
+  l: number;
+  xl: number;
+};
+
+type GridMap = {
+  [key: number]: Grid[];
+  default: Grid[];
+};
 
 type Props = {
   items: ReactElement[];
-  overrideGridSizes?: typeof sectionLevelPageGrid;
+  overrideGridSizes?: GridMap;
 };
 
-export const sectionLevelPageGrid = {
+const s12m6l4xl4 = { s: 12, m: 6, l: 4, xl: 4 }; // 3-up on desktop
+const s12m6l6xl6 = { s: 12, m: 6, l: 6, xl: 6 }; // 2-up on desktop
+
+export const sectionLevelPageGrid: GridMap = {
   1: [{ s: 12, m: 12, l: 12, xl: 12 }],
   2: [
     { s: 12, m: 6, l: 5, xl: 5 },
@@ -17,9 +32,18 @@ export const sectionLevelPageGrid = {
     { s: 12, m: 6, l: 5, xl: 5 },
     { s: 12, m: 6, l: 5, xl: 5 },
   ],
+  default: [s12m6l4xl4],
 };
 
-const GridFactory: FC<Props> = ({ items, overrideGridSizes }: Props) => {
+export const threeUpGridSizesMap: GridMap = {
+  default: [s12m6l4xl4],
+};
+
+export const twoUpGridSizesMap: GridMap = {
+  default: [s12m6l6xl6],
+};
+
+const GridFactory: FC<Props> = ({ items, overrideGridSizes }) => {
   const gridSizesMap = overrideGridSizes || {
     1: [{ s: 12, m: 12, l: 12, xl: 12 }],
     2: [
@@ -30,11 +54,10 @@ const GridFactory: FC<Props> = ({ items, overrideGridSizes }: Props) => {
       { s: 12, m: 6, l: 5, shiftL: 1, xl: 4, shiftXl: 2 },
       { s: 12, m: 6, l: 5, xl: 4 },
     ],
+    default: [s12m6l4xl4],
   };
 
-  const gridSizes = gridSizesMap[items.length] || [
-    { s: 12, m: 6, l: 4, xl: 4 },
-  ];
+  const gridSizes = gridSizesMap[items?.length] || gridSizesMap['default'];
 
   return (
     <div className="container">
