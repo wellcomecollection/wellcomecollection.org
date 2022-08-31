@@ -128,6 +128,5 @@ describe('IIIF V3', () => {
     expect(transcript?.id).toBe(
       'https://iiif.wellcomecollection.org/file/b2248887x_0001.pdf'
     );
-    expect(transcript?.label?.en?.[0]).toBe('PDF Transcript');
   });
 });
