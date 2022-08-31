@@ -57,7 +57,7 @@ export const prismicPageIds = {
   youth: 'Wuw2MSIAACtd3Ssg',
 };
 
-export const getNameFromCollectionVenue = (id: string) => {
+export const getNameFromCollectionVenue = (id: string): string | undefined => {
   // check the keys and returns back name based on id
   for (const [key, value] of Object.entries(collectionVenueId)) {
     if (value && value.id === id) {

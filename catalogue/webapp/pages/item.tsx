@@ -51,6 +51,7 @@ import { getServerData } from '@weco/common/server-data';
 import AudioList from '../components/AudioList/AudioList';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { unavailableImageMessage } from '@weco/common/data/microcopy';
+import { looksLikeCanonicalId } from 'services/catalogue';
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
@@ -375,6 +376,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       canvas = 1,
       manifest: manifestParam = 1,
     } = fromQuery(context.query);
+
+    if (!looksLikeCanonicalId(workId)) {
+      return { notFound: true };
+    }
 
     const pageview = {
       name: 'item',

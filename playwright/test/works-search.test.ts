@@ -5,7 +5,7 @@ import { Page } from 'playwright';
 import safeWaitForNavigation from './helpers/safeWaitForNavigation';
 
 export const worksSearchForm = '[aria-label="Search the catalogue"]';
-export const searchFor = async (query: string, page: Page) => {
+export const searchFor = async (query: string, page: Page): Promise<void> => {
   console.info('searchFor', query);
   await page.fill(worksSearchForm, query);
   await Promise.all([

@@ -4,7 +4,6 @@ module "prod_wc_org_cloudfront_distribution" {
   namespace = "prod"
   aliases = [
     "wellcomecollection.org",
-    "blog.wellcomecollection.org",
     "content.wellcomecollection.org",
     "content.www.wellcomecollection.org",
     "identity.wellcomecollection.org",

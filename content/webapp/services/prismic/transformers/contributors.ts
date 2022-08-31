@@ -9,7 +9,7 @@ import {
   InferDataInterface,
 } from '@weco/common/services/prismic/types';
 
-import { Contributor } from '../../../types/contributors';
+import { Contributor, ContributorBasic } from '../../../types/contributors';
 import { isNotUndefined } from '@weco/common/utils/array';
 import { asRichText, asText } from '.';
 import { ImageType } from '@weco/common/model/image';
@@ -112,4 +112,17 @@ export function transformContributors(
     .filter(isNotUndefined);
 
   return contributors;
+}
+
+export function transformContributorToContributorBasic(
+  contributor: Contributor
+): ContributorBasic {
+  const { type, name, image } = contributor.contributor;
+  return {
+    contributor: {
+      type,
+      name,
+      image,
+    },
+  };
 }

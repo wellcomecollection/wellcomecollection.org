@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     }
 
     const client = createClient(context);
-    const articleDocument = await fetchArticle(client, id as string);
+    const articleDocument = await fetchArticle(client, id);
     const serverData = await getServerData(context);
 
     if (articleDocument) {

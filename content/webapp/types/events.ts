@@ -1,4 +1,4 @@
-import { Contributor } from './contributors';
+import { Contributor, ContributorBasic } from './contributors';
 import { GenericContentFields } from './generic-content-fields';
 import { Format } from './format';
 import { LabelField } from '@weco/common/model/label-field';
@@ -8,6 +8,7 @@ import { Label } from '@weco/common/model/labels';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import * as prismicT from '@prismicio/types';
+import { EventSeriesBasic } from './event-series';
 
 export type DateTimeRange = {
   startDateTime: Date;
@@ -18,12 +19,6 @@ export type EventTime = {
   range: DateTimeRange;
   isFullyBooked: boolean;
   onlineIsFullyBooked: boolean;
-};
-
-type EventSeries = {
-  id: string;
-  title: string;
-  description?: string;
 };
 
 // E.g. 'British sign language interpreted' | 'Audio described' | 'Speech-to-Text';
@@ -89,9 +84,9 @@ export type EventBasic = HasTimes & {
   locations: Place[];
   availableOnline: boolean;
   scheduleLength: number;
-  series: EventSeries[];
+  series: EventSeriesBasic[];
   cost?: string;
-  contributors: Contributor[];
+  contributors: ContributorBasic[];
 };
 
 export type Event = GenericContentFields & {
@@ -100,7 +95,7 @@ export type Event = GenericContentFields & {
   hasEarlyRegistration: boolean;
   ticketSalesStart?: Date;
   times: EventTime[];
-  series: EventSeries[];
+  series: EventSeriesBasic[];
   seasons: Season[];
   locations: Place[];
   bookingEnquiryTeam?: Team;

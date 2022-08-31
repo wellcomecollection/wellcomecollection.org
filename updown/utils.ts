@@ -1,3 +1,4 @@
+import { CheckOptions } from 'node-updown/lib/types/Check';
 import { Check } from './checks';
 
 type CheckKey = keyof Check;
@@ -13,10 +14,10 @@ function checksAreEqual(check1: Check, check2: Check): boolean {
   return areEqual;
 }
 
-function removeDuplicates(
-  targetArray: Check[],
-  comparisonArray: Check[]
-): Check[] {
+function removeDuplicates<T extends { url: string }>(
+  targetArray: T[],
+  comparisonArray: { url: string }[]
+): T[] {
   return targetArray.filter(targetCheck => {
     return !comparisonArray.some(check => {
       return targetCheck.url === check.url;
@@ -26,11 +27,11 @@ function removeDuplicates(
 
 export function getDeltas(
   currentChecks: Check[],
-  expectedChecks: Check[]
+  expectedChecks: CheckOptions[]
 ): {
   deletions: Check[];
   updates: Check[];
-  additions: Check[];
+  additions: CheckOptions[];
 } {
   // deletions: any URLs in the current checks, not in the expected checks
   const deletions = removeDuplicates(currentChecks, expectedChecks);

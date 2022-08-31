@@ -1,6 +1,7 @@
 import { Event } from '../../types/events';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import EventPromo from '../EventPromo/EventPromo';
+import { FC } from 'react';
 
 const image = {
   contentUrl:
@@ -57,7 +58,7 @@ export const data: Event = {
   onlineHasEarlyRegistration: false,
 };
 
-const DailyTourPromo = () => (
+const DailyTourPromo: FC = () => (
   <EventPromo
     event={data}
     dateString={'Tuesday–Sunday'}

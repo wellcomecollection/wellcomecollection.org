@@ -5,7 +5,7 @@ import { GenericContentFields } from './generic-content-fields';
 import { MultiContent } from './multi-content';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
-import { Series } from './series';
+import { Series, SeriesBasic } from './series';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
@@ -16,7 +16,7 @@ export type ArticleBasic = {
   type: 'articles';
   id: string;
   promo?: ImagePromo | undefined;
-  series: Series[];
+  series: SeriesBasic[];
   title: string;
   format?: Format<ArticleFormatId>;
   image?: ImageType;

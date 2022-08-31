@@ -36,3 +36,11 @@ export type Contributor = {
   role?: ContributorRole;
   description?: prismicT.RichTextField;
 };
+
+export type ContributorBasic = {
+  contributor: {
+    type: string;
+    name?: string;
+    image: ImageType;
+  };
+};

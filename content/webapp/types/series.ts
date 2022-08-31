@@ -5,6 +5,13 @@ import { ArticleBasic } from './articles';
 import { Contributor } from './contributors';
 import { Season } from './seasons';
 
+export type SeriesBasic = {
+  id: string;
+  title: string;
+  color?: ColorSelection;
+  schedule: ArticleScheduleItem[];
+};
+
 export type Series = GenericContentFields & {
   type: 'series';
   schedule: ArticleScheduleItem[];

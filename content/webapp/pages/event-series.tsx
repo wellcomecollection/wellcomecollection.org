@@ -67,13 +67,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const client = createClient(context);
 
     const eventsQueryPromise = fetchEvents(client, {
-      predicates: [
-        prismic.predicate.at('my.events.series.series', id as string),
-      ],
+      predicates: [prismic.predicate.at('my.events.series.series', id)],
       pageSize: 100,
     });
 
-    const seriesPromise = fetchEventSeriesById(client, id as string);
+    const seriesPromise = fetchEventSeriesById(client, id);
 
     const [eventsQuery, seriesDocument] = await Promise.all([
       eventsQueryPromise,

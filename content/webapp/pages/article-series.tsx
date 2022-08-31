@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         : 'my.articles.series.series';
 
     const articlesQuery = await fetchArticles(client, {
-      predicates: [prismic.predicate.at(seriesField, id as string)],
+      predicates: [prismic.predicate.at(seriesField, id)],
       page: 1,
       pageSize: 100,
       fetchLinks: seasonsFields,
@@ -78,10 +78,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    const { articles, series } = transformArticleSeries(
-      id as string,
-      articlesQuery
-    );
+    const { articles, series } = transformArticleSeries(id, articlesQuery);
 
     return {
       props: removeUndefinedProps({
