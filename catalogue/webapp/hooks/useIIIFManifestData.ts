@@ -88,6 +88,8 @@ export async function fetchIIIFPresentationManifest(
       iiifManifestPromise,
     ]);
 
+    console.log({ iiifManifest, iiifManifestV3 });
+
     if (iiifManifest && iiifManifestV3) {
       return parseManifest(
         iiifManifest as IIIFManifest,
