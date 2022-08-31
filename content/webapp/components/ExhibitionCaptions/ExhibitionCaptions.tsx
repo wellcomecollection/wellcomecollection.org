@@ -150,7 +150,6 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
 }) => {
   const {
     standaloneTitle,
-    number,
     title,
     image,
     tombstone,
@@ -223,10 +222,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              <TombstoneTitle>
-                {number ? `${number}. ` : ''}
-                {!hasContext && title}
-              </TombstoneTitle>
+              <TombstoneTitle>{!hasContext && title}</TombstoneTitle>
               <div className={font('intr', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
@@ -273,7 +269,9 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               )}
               {transcriptionText && transcriptionText.length > 0 && (
                 <Transcription>
-                  <TranscriptTitle>Audio transcript</TranscriptTitle>
+                  <TranscriptTitle>
+                    {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
+                  </TranscriptTitle>
                   <div id="transcription-text">
                     <PrismicHtmlBlock
                       html={transcriptionText as prismicT.RichTextField}
