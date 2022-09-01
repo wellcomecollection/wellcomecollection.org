@@ -1,3 +1,4 @@
+// These are the types we make addressable from Prismic
 const contentTypes = [
   'articles',
   'books',
