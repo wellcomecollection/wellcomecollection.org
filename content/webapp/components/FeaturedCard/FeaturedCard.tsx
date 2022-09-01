@@ -18,7 +18,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
-import linkResolver from '../../services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { Page } from '../../types/pages';
 import { EventSeries } from '../../types/event-series';
 import { Book } from '../../types/books';

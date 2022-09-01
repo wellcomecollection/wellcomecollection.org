@@ -2,7 +2,7 @@ import { Query, PrismicDocument } from '@prismicio/types';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
-import { ContentType } from '../link-resolver';
+import { ContentType } from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/array';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 

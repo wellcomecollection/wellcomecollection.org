@@ -8,7 +8,7 @@ import { CardOuter, CardBody, CardPostBody } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
   article: ArticleBasic;

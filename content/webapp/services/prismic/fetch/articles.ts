@@ -6,14 +6,14 @@ import {
   clientSideFetcher,
 } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
-import { ContentType } from '../link-resolver';
+import { ContentType } from '@weco/common/services/prismic/content-types';
 import { Article } from '../../../types/articles';
 
-const contentTypes = ['articles', 'webcomics'];
+const contentTypes: ContentType[] = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;
 
 const articlesFetcher = fetcher<ArticlePrismicDocument>(
-  contentTypes as ContentType[],
+  contentTypes,
   fetchLinks
 );
 

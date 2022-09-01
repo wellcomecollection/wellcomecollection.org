@@ -13,7 +13,7 @@ import { Season } from '../../../types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
 import { ExhibitionGuide } from '../../../types/exhibition-guides';
-import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 // Guide from schema.org
 // https://schema.org/Guide
