@@ -434,13 +434,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       manifestV3Promise as Promise<Manifest>,
     ]).catch(() => []);
 
-    if (!manifestOrCollection) {
-      return {
-        notFound: true,
-      };
-    }
-
-    if (manifestOrCollection) {
+    async function handleManifestOrCollection() {
       // This happens when the main manifest is actually a Collection (manifest of manifest).
       // see: https://wellcomelibrary.org/iiif/collection/b21293302
       // from: https://wellcomecollection.org/works/f6qp7m32/items
@@ -486,7 +480,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       };
     }
 
-    if (iiifImageLocation) {
+    function handleIiifImageLocation() {
       return {
         props: removeUndefinedProps({
           pageSize,
@@ -499,6 +493,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
         }),
       };
+    }
+
+    if (manifestOrCollection) {
+      return handleManifestOrCollection();
+    }
+
+    if (iiifImageLocation) {
+      return handleIiifImageLocation();
     }
 
     return {
