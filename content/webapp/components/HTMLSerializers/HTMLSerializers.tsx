@@ -1,4 +1,4 @@
-import linkResolver from '../../services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { dasherize } from '@weco/common/utils/grammar';
 import { JSXFunctionSerializer } from '@prismicio/react';
 import { Fragment } from 'react';

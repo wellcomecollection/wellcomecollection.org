@@ -5,7 +5,7 @@ import { trackEvent } from '@weco/common/utils/ga';
 import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Space from '@weco/common/views/components/styled/Space';
-import linkResolver from '../../services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { FC } from 'react';
 
 type Props = {
