@@ -93,7 +93,9 @@ const LibraryMembersBar: FC = () => {
         >
           Library members:
         </Space>
-        <span className={font('intr', 5)}>{requestingDisabled}</span>
+        <span data-test-id="requestingDisabled" className={font('intr', 5)}>
+          {requestingDisabled}
+        </span>
       </StyledComponent>
     );
   }
