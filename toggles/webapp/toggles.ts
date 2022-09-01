@@ -58,7 +58,7 @@ const toggles = {
     {
       id: 'newPalette',
       title: 'New Colour Palette',
-      defaultValue: false,
+      initialValue: false,
       description: 'View pages with the new colour palette',
     },
   ] as const,
