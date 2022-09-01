@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 // import { NextLinkType } from '@weco/common/model/next-link-type';
 import Space from '../styled/Space';
@@ -15,7 +15,7 @@ type SelectableTextLink = {
 
 type Props = {
   items: SelectableTextLink[];
-  setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedTab: Dispatch<SetStateAction<string>>;
   color?: string;
 };
 
