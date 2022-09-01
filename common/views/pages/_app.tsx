@@ -18,7 +18,6 @@ import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
 import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
-import { useToggles } from '@weco/common/server-data/Context';
 
 declare global {
   interface Window {
@@ -155,8 +154,6 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
   pageProps,
   router,
 }) => {
-  const { newPalette } = useToggles();
-
   // We throw on dev as all pages should set this
   // You can set `skipServerData: true` to explicitly bypass this
   // e.g. for error pages
@@ -361,7 +358,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         <ServerDataContext.Provider value={serverData}>
           <UserProvider>
             <AppContextProvider>
-              <ThemeProvider theme={newPalette ? newTheme : theme}>
+              <ThemeProvider
+                theme={serverData.toggles.newPalette ? newTheme : theme}
+              >
                 <GlobalStyle
                   toggles={serverData.toggles}
                   isFontsLoaded={useIsFontsLoaded()}
