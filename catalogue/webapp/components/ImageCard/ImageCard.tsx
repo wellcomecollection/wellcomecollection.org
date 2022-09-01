@@ -12,39 +12,34 @@ type Props = {
   id: string;
   workId: string;
   image: ImageType;
-  isScroller?: boolean;
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
 };
+
+const thumbHeight = 156;
 
 type StyledLinkProps = {
   imageWidth: number;
   imageHeight: number;
-  thumbHeight: number;
 };
 
 const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
   width: ${props =>
-    `${(props.imageWidth / props.imageHeight) * props.thumbHeight}px`};
-  height: ${props => props.thumbHeight}px;
+    `${(props.imageWidth / props.imageHeight) * thumbHeight}px`};
+  max-width: 250px;
+  height: ${`${thumbHeight}px`};
   position: relative;
 `;
 
-const ImageCard: FC<Props> = ({
-  id,
-  image,
-  onClick,
-  workId,
-  isScroller,
-}: Props) => {
+const ImageWrap = styled(Space).attrs({
+  h: { size: 'l', properties: ['margin-right'] },
+  v: { size: 'l', properties: ['margin-bottom'] },
+})``;
+
+const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
   const { isEnhanced } = useContext(AppContext);
   const [imageWidth, setImageWidth] = useState(300);
   const [imageHeight, setImageHeight] = useState(300);
-
-  const ImageWrap = styled(Space).attrs({
-    h: { size: 'l', properties: ['margin-right'] },
-    ...(!isScroller && { v: { size: 'l', properties: ['margin-bottom'] } }),
-  })``;
 
   return (
     <ImageWrap>
@@ -62,7 +57,6 @@ const ImageCard: FC<Props> = ({
           title={isEnhanced ? 'Open modal window' : undefined}
           imageWidth={imageWidth}
           imageHeight={imageHeight}
-          thumbHeight={isScroller ? 240 : 156}
         >
           <IIIFImage
             image={image}

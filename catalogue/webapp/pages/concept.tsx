@@ -92,36 +92,14 @@ const FAKE_DATA = {
   alternativeLabels: ['The Lady with the Lamp'],
 
   type: 'Person',
-  // "type": "Person|Subject|Organisation|Place",
-
-  // Everything above here is stuff I'm pretty sure we'll need;
-  // everything below it is more nebulous and more likely to change
-  // in the final API.
-
   description:
-    '[Dummy data] Florence Nightingale was an English social reformer, statistician and the founder of modern nursing. Nightingale came to prominence while serving as a manager and trainer of nurses during the Crimean War, in which she organised care for wounded soldiers at Constantinople.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
 
   // not locations
   urls: [
     {
       label: 'Read more on Wikipedia',
-      url: 'https://en.wikipedia.org/wiki/Florence_Nightingale',
-    },
-  ],
-
-  // cf productionEvent?
-  // "dates": [ { date, meaning } ],
-  // "places": [ { place, meaning } ],
-  // "birthDate/place",
-  // "deathDate/place",
-
-  thumbnail: {},
-
-  connectedConcepts: [
-    {
-      id: 'asoiham1',
-      label: 'Crimea',
-      type: 'Place',
+      url: '#',
     },
   ],
 };
@@ -204,7 +182,7 @@ export const ConceptPage: NextPage<Props> = ({
             <h2 className="sectionTitle">Images</h2>
             {/* TODO images get a white border over a certain screen size */}
             {/* TODO mobile; smaller images? */}
-            <ImageEndpointSearchResults images={images} isScroller={true} />
+            <ImageEndpointSearchResults images={images} />
             <SeeMoreButton
               text={`All images (${images.totalResults})`}
               link={`/images?source.subjects.label=${conceptResponse.label}`}
@@ -327,7 +305,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 12,
+      pageSize: 8,
     });
 
     const [worksAboutResponse, worksByResponse, imagesResponse] =

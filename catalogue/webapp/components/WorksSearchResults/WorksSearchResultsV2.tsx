@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import WorksSearchResultV2 from '../WorksSearchResult/WorksSearchResultV2';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
@@ -25,7 +25,7 @@ const SearchResultListItem = styled.li`
   }
 `;
 
-const WorkSearchResultsV2: FunctionComponent<Props> = ({ works }: Props) => {
+const WorkSearchResultsV2: FC<Props> = ({ works }: Props) => {
   return (
     <SearchResultUnorderedList>
       {works.results.map((result, i) => (
