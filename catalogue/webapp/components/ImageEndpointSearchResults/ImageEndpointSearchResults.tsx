@@ -35,7 +35,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   };
 
   useEffect(() => {
-    // If there is a set expandedImage and it's a different one that the current queried one
+    // If there is a set expandedImage and it's a different one than the current queried one
     // Change URL to reflect the change
     if (!!expandedImage && routerImageId !== expandedImage.id) {
       router.push(
@@ -65,7 +65,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // If there is an imageId in the query, fetch that image and display it
-    // Otherwise ensure modal is closed and URL gets resetted
+    // Otherwise ensure modal is closed and URL resets
     routerImageId ? getImage(routerImageId) : setIsActive(false);
   }, [routerImageId]);
 
