@@ -1,7 +1,7 @@
 import { Tasl } from '../../../model/tasl';
 import { licenseTypeArray } from '../../../model/license';
 import { LinkField } from '@prismicio/types';
-import { linkResolver } from '../link-resolver';
+import linkResolver from '../link-resolver';
 import {
   isFilledLinkToDocument,
   isFilledLinkToMediaField,
@@ -60,7 +60,7 @@ export function transformLink(
     if (isFilledLinkToWebField(link) || isFilledLinkToMediaField(link)) {
       return link.url;
     } else if (isFilledLinkToDocument(link)) {
-      return linkResolver({ id: link.id, type: link.type });
+      return linkResolver(link);
     } else {
       console.warn(`Unable to construct link for ${JSON.stringify(link)}`);
     }

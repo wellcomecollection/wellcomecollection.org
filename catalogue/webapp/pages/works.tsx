@@ -14,17 +14,26 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
-import { GetServerSidePropsContext, NextPage } from 'next';
-import { appError, PageProps } from '@weco/common/views/pages/_app';
+import { GetServerSideProps, NextPage } from 'next';
+import {
+  appError,
+  AppErrorProps,
+  WithPageview,
+} from '@weco/common/views/pages/_app';
 import {
   fromQuery,
   toLink,
+  WorksProps as WorksRouteProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
 
-type Props = PageProps<typeof getServerSideProps>;
+type Props = {
+  works: CatalogueResultsList<Work>;
+  worksRouteProps: WorksRouteProps;
+} & WithPageview;
 
 const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   const [loading, setLoading] = useState(false);
@@ -251,48 +260,48 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const serverData = await getServerData(context);
-  const props = fromQuery(context.query);
+export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
+  async context => {
+    const serverData = await getServerData(context);
+    const props = fromQuery(context.query);
 
-  const aggregations = [
-    'workType',
-    'availabilities',
-    'genres.label',
-    'languages',
-    'subjects.label',
-    'contributors.agent.label',
-  ];
+    const aggregations = [
+      'workType',
+      'availabilities',
+      'genres.label',
+      'languages',
+      'subjects.label',
+      'contributors.agent.label',
+    ];
 
-  const _queryType = cookies(context)._queryType;
+    const _queryType = cookies(context)._queryType;
 
-  const worksApiProps = worksRouteToApiUrl(props, {
-    _queryType,
-    aggregations,
-  });
+    const worksApiProps = worksRouteToApiUrl(props, {
+      _queryType,
+      aggregations,
+    });
 
-  const works = await getWorks({
-    params: worksApiProps,
-    toggles: serverData.toggles,
-  });
+    const works = await getWorks({
+      params: worksApiProps,
+      pageSize: 25,
+      toggles: serverData.toggles,
+    });
 
-  if (works.type === 'Error') {
-    return appError(context, works.httpStatus, works.description);
-  }
+    if (works.type === 'Error') {
+      return appError(context, works.httpStatus, works.description);
+    }
 
-  return {
-    props: removeUndefinedProps({
-      works,
-      worksRouteProps: props,
-      serverData,
-      pageview: {
-        name: 'works',
-        properties: works ? { totalResults: works.totalResults } : {},
-      },
-    }),
+    return {
+      props: removeUndefinedProps({
+        works,
+        worksRouteProps: props,
+        serverData,
+        pageview: {
+          name: 'works',
+          properties: works ? { totalResults: works.totalResults } : {},
+        },
+      }),
+    };
   };
-};
 
 export default Works;

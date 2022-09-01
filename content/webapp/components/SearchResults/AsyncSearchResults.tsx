@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import SearchResults from './SearchResults';
 import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -17,14 +17,14 @@ class AsyncSearchResults extends Component<Props, State> {
     items: [],
   };
 
-  async componentDidMount() {
+  async componentDidMount(): Promise<void> {
     const multiContentQuery = await fetchMultiContentClientSide(
       this.props.query
     );
 
     this.setState({ items: multiContentQuery?.results || [] });
   }
-  render() {
+  render(): ReactElement {
     return (
       <Fragment>
         {this.props.title && (

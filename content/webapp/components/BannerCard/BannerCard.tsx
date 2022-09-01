@@ -9,7 +9,7 @@ import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { arrowSmall } from '@weco/common/icons';
-import linkResolver from '../../services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
 

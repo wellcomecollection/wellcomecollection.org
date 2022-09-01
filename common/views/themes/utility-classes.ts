@@ -390,7 +390,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   .bg-transparent-black {
-    background: ${themeValues.color('transparent-black')};
+    background: rgba(29, 29, 29, 0.61);
   }
 
   .promo-link {

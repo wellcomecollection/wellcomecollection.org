@@ -1,4 +1,6 @@
-const FooterWellcomeLogo = () => (
+import { FC } from 'react';
+
+const FooterWellcomeLogo: FC = () => (
   <svg
     width="128"
     height="42"

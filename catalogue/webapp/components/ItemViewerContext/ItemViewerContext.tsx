@@ -8,6 +8,9 @@ import {
 } from '../../model/iiif';
 import { LicenseData } from '@weco/common/utils/licenses';
 import { UrlTemplate } from 'url-template';
+
+export type RotatedImage = { canvasIndex: number; rotation: number };
+
 type Props = {
   work: Work;
   manifest: IIIFManifest | undefined;
@@ -39,7 +42,7 @@ type Props = {
   setZoomInfoUrl: (v: string) => void;
   setIsFullscreen: (v: boolean) => void;
   zoomInfoUrl: string | undefined;
-  setRotatedImages: (v: { canvasIndex: number; rotation: number }[]) => void;
+  setRotatedImages: (v: RotatedImage[]) => void;
   showControls: boolean;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;

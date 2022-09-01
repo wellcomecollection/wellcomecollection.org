@@ -2,7 +2,7 @@ import { Query, PrismicDocument } from '@prismicio/types';
 import * as prismic from '@prismicio/client';
 import fetch from 'node-fetch';
 import { GetServerSidePropsContext, NextApiRequest } from 'next';
-import { ContentType } from '../link-resolver';
+import { ContentType } from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/array';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 
@@ -54,10 +54,11 @@ export const delistPredicate = prismic.predicate.not('document.tags', [
  *    const events = await getEvents(context)
  * }
  */
-export function createClient(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  { req }: GetServerSidePropsContext | { req: NextApiRequest }
-): GetServerSidePropsPrismicClient {
+export function createClient({
+  req,
+}:
+  | GetServerSidePropsContext
+  | { req: NextApiRequest }): GetServerSidePropsPrismicClient {
   client.enableAutoPreviewsFromReq(req);
   return { type: 'GetServerSidePropsPrismicClient', client };
 }

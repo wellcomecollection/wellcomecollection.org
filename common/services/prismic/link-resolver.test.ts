@@ -1,4 +1,4 @@
-import linkResolver from '../link-resolver';
+import linkResolver from './link-resolver';
 
 /**
  * articles and webcomics look and act the same, but we're unable
@@ -12,6 +12,11 @@ describe('webcomic edge case', () => {
   ])('$doc resolves to $path', ({ doc, path }) => {
     expect(linkResolver(doc)).toBe(path);
   });
+});
+
+it('resolves exhibition guides to /guides/exhibitions/{id}', () => {
+  const doc = { type: 'exhibition-guides', id: '1' };
+  expect(linkResolver(doc)).toBe('/guides/exhibitions/1');
 });
 
 test.each([

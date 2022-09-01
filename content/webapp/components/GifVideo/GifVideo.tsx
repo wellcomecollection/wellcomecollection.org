@@ -113,7 +113,7 @@ const GifVideo: FunctionComponent<Props> = ({
   const computeVideoWidth = () => {
     const computedVideoWidth = videoRef?.current?.clientWidth;
     if (isNotUndefined(computedVideoWidth)) {
-      setComputedVideoWidth(computedVideoWidth!);
+      setComputedVideoWidth(computedVideoWidth);
     }
   };
 

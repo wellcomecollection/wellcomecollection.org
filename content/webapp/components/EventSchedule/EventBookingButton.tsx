@@ -1,5 +1,5 @@
 import { Event } from '../../types/events';
-import { Fragment } from 'react';
+import { FC, Fragment } from 'react';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import Message from '@weco/common/views/components/Message/Message';
 import { font } from '@weco/common/utils/classnames';
@@ -64,7 +64,7 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   })
 )<EventBookingButtonProps>``;
 
-const EventBookingButton = ({ event }: Props) => {
+const EventBookingButton: FC<Props> = ({ event }: Props) => {
   const team = event.bookingEnquiryTeam;
 
   return (

@@ -12,12 +12,13 @@ export type ExhibitionLink = {
 
 export type ExhibitionGuideComponent = {
   number: number;
+  standaloneTitle: RichTextField;
   title: string;
   image?: ImageType;
   tombstone: RichTextField;
   caption: RichTextField;
   transcription: RichTextField;
-  description?: string;
+  context?: RichTextField;
   audioWithDescription?: Link;
   audioWithoutDescription?: Link;
   bsl: {
@@ -35,6 +36,7 @@ export type Exhibit = {
 
 export type ExhibitionGuideBasic = {
   title: string;
+  introText: RichTextField;
   type: 'exhibition-guides' | 'exhibition-guides-links';
   id: string;
   image?: ImageType;

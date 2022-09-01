@@ -85,7 +85,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     `
     border: 0;
     border-radius: 0;
-    background: ${props.theme.color('coal')};
+    background: #1f1f1f;
 
     .icon__shape {
       fill: ${props.theme.color('white')};

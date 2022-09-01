@@ -1,4 +1,4 @@
-import { Component, Fragment, createRef } from 'react';
+import { Component, Fragment, createRef, ReactElement } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
 import PrismicImage from '../PrismicImage/PrismicImage';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
@@ -7,7 +7,9 @@ import { cross } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
 import styled from 'styled-components';
 
-export const IframeContainer = styled.div`
+export const IframeContainer = styled.div.attrs({
+  'data-chromatic': 'ignore',
+})`
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   position: relative;
@@ -93,7 +95,7 @@ class Iframe extends Component<Props, State> {
 
   iframeRef: { current: HTMLIFrameElement | null } = createRef();
 
-  toggleIframeDisplay = () => {
+  toggleIframeDisplay = (): void => {
     if (!this.state.iframeShowing) {
       trackEvent({
         category: 'Iframe',
@@ -106,7 +108,7 @@ class Iframe extends Component<Props, State> {
     }));
   };
 
-  render() {
+  render(): ReactElement {
     const { image, src } = this.props;
     const imageObject = {
       ...image,

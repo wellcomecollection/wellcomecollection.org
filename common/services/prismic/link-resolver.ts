@@ -1,39 +1,17 @@
-type Doc = {
-  id: string;
-  type: string;
-};
+import { isContentType } from './content-types';
 
-// TODO: we have an implementation of this in the content app to.
-// Do we need both?
-export function linkResolver(doc: Doc): string {
-  switch (doc.type) {
-    case 'articles':
-      return `/articles/${doc.id}`;
-    case 'webcomics':
-      return `/articles/${doc.id}`;
-    case 'exhibitions':
-      return `/exhibitions/${doc.id}`;
-    case 'events':
-      return `/events/${doc.id}`;
-    case 'series':
-      return `/series/${doc.id}`;
-    case 'webcomic-series':
-      return `/series/${doc.id}`;
-    case 'event-series':
-      return `/event-series/${doc.id}`;
-    case 'pages':
-      return `/pages/${doc.id}`;
-    case 'books':
-      return `/books/${doc.id}`;
-    case 'seasons':
-      return `/seasons/${doc.id}`;
-    case 'projects':
-      return `/projects/${doc.id}`;
-    case 'guides':
-      return `/guides/${doc.id}`;
-    case 'exhibition-guides':
-      return `/guides/exhibitions/${doc.id}`;
-    default:
-      return '/';
+function linkResolver(doc: { id: string; type: string }): string {
+  const { id, type } = doc;
+
+  if (type === 'webcomics') return `/articles/${id}`;
+  if (type === 'webcomic-series') return `/series/${id}`;
+  if (type === 'exhibition-guides') return `/guides/exhibitions/${id}`;
+
+  if (isContentType(type)) {
+    return `/${type}/${id}`;
   }
+
+  return '/';
 }
+
+export default linkResolver;

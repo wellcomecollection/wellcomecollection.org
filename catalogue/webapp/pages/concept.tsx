@@ -5,7 +5,7 @@ import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 // Helpers/Utils
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
-import { isString } from '@weco/common/utils/array';
+import { looksLikeCanonicalId } from 'services/catalogue';
 import { getConcept } from 'services/catalogue/concepts';
 import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
@@ -303,7 +303,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       return { notFound: true };
     }
 
-    if (!isString(id)) {
+    if (!looksLikeCanonicalId(id)) {
       return { notFound: true };
     }
 

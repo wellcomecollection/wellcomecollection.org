@@ -16,7 +16,12 @@ import {
   getLocationShelfmark,
   sierraIdFromPresentationManifestUrl,
 } from '../../utils/works';
-import { getMediaClickthroughService, getTokenService } from '../../utils/iiif';
+import {
+  getMediaClickthroughService,
+  getMediaClickthroughServiceV3,
+  getTokenService,
+  getTokenServiceV3,
+} from '../../utils/iiif';
 import CopyUrl from '../CopyUrl/CopyUrl';
 import Space from '@weco/common/views/components/styled/Space';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper/ConditionalWrapper';
@@ -64,7 +69,7 @@ function getItemLinkState({
   accessCondition,
   sierraIdFromManifestUrl,
   itemUrl,
-  audioItems,
+  audio,
   video,
 }): ItemLinkState | undefined {
   if (accessCondition === 'permission-required' && sierraIdFromManifestUrl) {
@@ -73,7 +78,7 @@ function getItemLinkState({
   if (accessCondition === 'closed' || accessCondition === 'restricted') {
     return 'useNoLink';
   }
-  if (itemUrl && !(audioItems.length > 0) && !video) {
+  if (itemUrl && !(audio.sounds.length > 0) && !video) {
     return 'useItemLink';
   }
 }
@@ -120,22 +125,26 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   const {
     imageCount,
     childManifestsCount,
-    audioItems,
+    audio,
     video,
     iiifCredit,
     iiifPresentationDownloadOptions = [],
     iiifDownloadEnabled,
+    manifestV3,
   } = useIIIFManifestData(work);
 
   // We display a content advisory warning at the work level, so it is sufficient
   // to check if any individual piece of audio content requires an advisory notice
-  const audioWithAuthService = audioItems.find(getMediaClickthroughService);
+  const videoAuthService = video && getMediaClickthroughService(video);
+  const audioAuthService =
+    manifestV3?.services && getMediaClickthroughServiceV3(manifestV3.services);
+  const authService = videoAuthService || audioAuthService;
 
-  const authService =
-    (video && getMediaClickthroughService(video)) ||
-    (audioWithAuthService && getMediaClickthroughService(audioWithAuthService));
-
-  const tokenService = authService && getTokenService(authService);
+  const tokenService = videoAuthService
+    ? getTokenService(videoAuthService)
+    : audioAuthService
+    ? getTokenServiceV3(audioAuthService['@id'], manifestV3.services)
+    : undefined;
 
   // iiif-presentation locations don't have credit info in the work API currently, so we try and get it from the manifest
   const credit = (digitalLocation && digitalLocation.credit) || iiifCredit;
@@ -215,7 +224,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
     accessCondition: digitalLocationInfo?.accessCondition,
     sierraIdFromManifestUrl,
     itemUrl,
-    audioItems,
+    audio,
     video,
   });
 
@@ -235,6 +244,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title={locationOfWork.noteType.label}
             text={locationOfWork.contents}
+            allowRawHtml={true}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -294,6 +304,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Location"
                         noSpacing={true}
                         text={[`${locationLabel} ${locationShelfmark}`]}
+                        allowRawHtml={true}
                       />
                     )}
 
@@ -303,6 +314,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         inlineHeading={true}
                         noSpacing={true}
                         text={[holding.note]}
+                        allowRawHtml={true}
                       />
                     )}
                   </Space>
@@ -343,7 +355,15 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 />
               </Space>
             )}
-            {audioItems.length > 0 && <AudioList items={audioItems} />}
+
+            {audio.sounds.length > 0 && (
+              <AudioList
+                items={audio.sounds}
+                thumbnail={audio.thumbnail}
+                transcript={audio.transcript}
+                workTitle={work.title}
+              />
+            )}
             {itemLinkState === 'useLibraryLink' && (
               <Space
                 as="span"
@@ -494,6 +514,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 <WorkDetailsText
                   title="Licence"
                   text={[digitalLocationInfo.license.label]}
+                  allowRawHtml={true}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -507,6 +528,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     title="Access conditions"
                     noSpacing={true}
                     text={[digitalLocation?.accessConditions[0]?.terms]}
+                    allowRawHtml={true}
                   />
                 </Space>
               )}
@@ -525,6 +547,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       0 && (
                       <WorkDetailsText
                         text={digitalLocationInfo.license.humanReadableText}
+                        allowRawHtml={true}
                       />
                     )}
                     <WorkDetailsText
@@ -540,6 +563,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           .filter(Boolean)
                           .join(' '),
                       ]}
+                      allowRawHtml={true}
                     />
                   </>
                 </ExplanatoryText>
@@ -575,17 +599,23 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Also known as"
             text={work.alternativeTitles}
+            allowRawHtml={true}
           />
         )}
 
         {work.description && (
-          <WorkDetailsText title="Description" text={[work.description]} />
+          <WorkDetailsText
+            title="Description"
+            text={[work.description]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
+            allowRawHtml={true}
           />
         )}
 
@@ -593,6 +623,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Physical description"
             text={[work.physicalDescription]}
+            allowRawHtml={true}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -637,24 +668,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 
         {work.lettering && (
-          <WorkDetailsText title="Lettering" text={[work.lettering]} />
+          <WorkDetailsText
+            title="Lettering"
+            text={[work.lettering]}
+            allowRawHtml={true}
+          />
         )}
 
         {work.edition && (
-          <WorkDetailsText title="Edition" text={[work.edition]} />
+          <WorkDetailsText
+            title="Edition"
+            text={[work.edition]}
+            allowRawHtml={true}
+          />
         )}
 
-        {duration && <WorkDetailsText title="Duration" text={[duration]} />}
+        {duration && (
+          <WorkDetailsText
+            title="Duration"
+            text={[duration]}
+            allowRawHtml={true}
+          />
+        )}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
             text={note.contents}
+            allowRawHtml={true}
           />
         ))}
 

@@ -15,7 +15,7 @@ import {
 } from '@weco/common/koa-middleware/withCachedValues';
 import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Periods } from './types/periods';
-import linkResolver from './services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 import * as prismic from '@prismicio/client';
 
 const periodPaths = Object.values(Periods).join('|');

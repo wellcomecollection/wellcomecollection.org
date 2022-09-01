@@ -272,7 +272,9 @@ export const ImageRoute: NextRoute<ImageRouteProps> = {
   },
 };
 
-export const worksLink = (params: WorksRouteProps, source: string) =>
-  WorksRoute.toLink({ ...params, source });
+export const worksLink = (
+  params: WorksRouteProps,
+  source: string
+): NextLinkType => WorksRoute.toLink({ ...params, source });
 export const itemLink = ItemRoute.toLink;
 export const imageLink = ImageRoute.toLink;

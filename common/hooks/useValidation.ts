@@ -1,6 +1,16 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const useValidation = (initIsValid = false, initShowValidity = false) => {
+type Validation = {
+  isValid: boolean;
+  setIsValid: Dispatch<SetStateAction<boolean>>;
+  showValidity: boolean;
+  setShowValidity: Dispatch<SetStateAction<boolean>>;
+};
+
+const useValidation = (
+  initIsValid = false,
+  initShowValidity = false
+): Validation => {
   const [isValid, setIsValid] = useState(initIsValid);
   const [showValidity, setShowValidity] = useState(initShowValidity);
 

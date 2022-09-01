@@ -1,4 +1,4 @@
-import { Event, EventBasic } from '../../../types/events';
+import { EventBasic } from '../../../types/events';
 import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
@@ -13,7 +13,7 @@ import { Season } from '../../../types/seasons';
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { Exhibition } from '../../../types/exhibitions';
 import { ExhibitionGuide } from '../../../types/exhibition-guides';
-import { linkResolver } from '@weco/common/services/prismic/link-resolver';
+import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 // Guide from schema.org
 // https://schema.org/Guide
@@ -78,8 +78,7 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   );
 }
 
-export function eventLd(event: Event | EventBasic): JsonLdObj[] {
-  // TODO EventBasic
+export function eventLd(event: EventBasic): JsonLdObj[] {
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {

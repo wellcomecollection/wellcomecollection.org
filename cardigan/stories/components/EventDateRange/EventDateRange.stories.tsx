@@ -1,11 +1,13 @@
 import EventDateRange from '@weco/content/components/EventDateRange/EventDateRange';
 
-const now = new Date();
-const firstDate = new Date();
-const secondDate = new Date();
-const thirdDate = new Date();
-const fourthDate = new Date();
-const fifthDate = new Date();
+const dateString = '2022-03-01T13:15:00Z';
+
+const now = new Date(dateString);
+const firstDate = new Date(dateString);
+const secondDate = new Date(dateString);
+const thirdDate = new Date(dateString);
+const fourthDate = new Date(dateString);
+const fifthDate = new Date(dateString);
 
 firstDate.setHours(now.getHours() - 48);
 secondDate.setMinutes(now.getMinutes() + 1);

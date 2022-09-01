@@ -1,10 +1,11 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import ReactGA from 'react-ga';
 import React, { useEffect, FunctionComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme, { GlobalStyle } from '../../views/themes/default';
+import newTheme from '../themes/newThemeDefault';
 import OutboundLinkTracker from '../../views/components/OutboundLinkTracker/OutboundLinkTracker';
 import LoadingIndicator from '../../views/components/LoadingIndicator/LoadingIndicator';
 import { trackEvent } from '../../utils/ga';
@@ -16,30 +17,13 @@ import { isServerData, defaultServerData } from '../../server-data/types';
 import { ServerDataContext } from '../../server-data/Context';
 import UserProvider from '../components/UserProvider/UserProvider';
 import { ApmContextProvider } from '../components/ApmContext/ApmContext';
+import { PrismicData, SimplifiedPrismicData } from '../../server-data/prismic';
 
 declare global {
   interface Window {
-    prismic: any;
+    prismic: PrismicData | SimplifiedPrismicData | { endpoint: string };
   }
 }
-
-/**
- * This allows us to use appError() in Page.getServerSideProps
- * and still infer it's props return type if it didn't error.
- * e.g.
- * type BadProps = InferGetServerSidePropsType<typeof getServerSideProps> // { id: string } | AppErrorProps
- * type Props = PageProps<typeof getServerSideProps> // { id: string }
- * const Page = (props: Props) => {}
- * export const getServerSideProps = context => {
- *   const { id } = context.query
- *   if (!id) return appError(context, 400, 'ID please')
- *   else return { props: { id } }
- * }
- */
-export type PageProps<GetServerSideProps> = Exclude<
-  InferGetServerSidePropsType<GetServerSideProps>,
-  AppErrorProps
->;
 
 export type AppErrorProps = {
   err: {
@@ -374,7 +358,9 @@ const WecoApp: FunctionComponent<WecoAppProps> = ({
         <ServerDataContext.Provider value={serverData}>
           <UserProvider>
             <AppContextProvider>
-              <ThemeProvider theme={theme}>
+              <ThemeProvider
+                theme={serverData.toggles.newPalette ? newTheme : theme}
+              >
                 <GlobalStyle
                   toggles={serverData.toggles}
                   isFontsLoaded={useIsFontsLoaded()}

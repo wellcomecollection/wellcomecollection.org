@@ -7,7 +7,11 @@ set -o verbose
 ROOT="$(git rev-parse --show-toplevel)"
 ASSETS="$ROOT/assets"
 
-aws s3 cp "$ASSETS/humans.txt" s3://i.wellcomecollection.org/humans.txt --acl public-read
+aws s3 cp "$ASSETS/humans.txt" s3://i.wellcomecollection.org/humans.txt \
+  --acl public-read \
+  --content-type "text/plain; charset=utf-8" \
+  --content-encoding "utf-8"
+
 aws s3 cp "$ASSETS/robots.txt" s3://i.wellcomecollection.org/robots.txt --acl public-read
 
 # This is used to verify that we own the domain in

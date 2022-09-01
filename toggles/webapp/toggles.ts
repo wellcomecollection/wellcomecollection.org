@@ -1,7 +1,14 @@
-export type Toggle = {
+type ToggleBase = {
   id: string;
   title: string;
   description: string;
+};
+
+export type ToggleDefinition = ToggleBase & {
+  initialValue: boolean;
+};
+
+export type PublishedToggle = ToggleBase & {
   defaultValue: boolean;
 };
 
@@ -19,33 +26,40 @@ const toggles = {
       id: 'disableRequesting',
       title: 'Disables requesting functionality',
       description:
-        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.',
-      defaultValue: false,
+        'Replaces the "sign into your library account to request items" message, with "requesting is currently unavailable". Adds a note to say when requesting will be available again.' +
+        'See documentation link (tbc).',
+      initialValue: false,
     },
     {
       id: 'stagingApi',
       title: 'Staging API',
-      defaultValue: false,
+      initialValue: false,
       description: 'Use the staging catalogue API',
     },
     {
       id: 'apiToolbar',
       title: 'API toolbar',
-      defaultValue: false,
+      initialValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
     },
     {
       id: 'conceptsPages',
       title: 'Concepts pages',
-      defaultValue: false,
+      initialValue: false,
       description:
         'View pages for concepts (subjects and people) and link to them from works pages',
     },
     {
       id: 'exhibitionGuides',
       title: 'Exhibition guides',
-      defaultValue: false,
+      initialValue: false,
       description: 'View pages related to exhibition guides',
+    },
+    {
+      id: 'newPalette',
+      title: 'New Colour Palette',
+      initialValue: false,
+      description: 'View pages with the new colour palette',
     },
   ] as const,
   tests: [] as ABTest[],

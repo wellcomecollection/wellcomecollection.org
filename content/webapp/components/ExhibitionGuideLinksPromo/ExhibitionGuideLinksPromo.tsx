@@ -8,7 +8,13 @@ import styled from 'styled-components';
 const Type = styled(Space).attrs({
   as: 'li',
   v: { size: 'm', properties: ['margin-bottom'] },
-})``;
+})`
+  text-decoration: none;
+`;
+
+const ExhibitionTitleLink = styled.a`
+  text-decoration: none;
+`;
 
 const TypeListItem = ({ url, text }) => {
   return (
@@ -28,11 +34,11 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
   const links = [
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-without-descriptions`,
-      text: 'List to audio guide, without audio description',
+      text: 'Listen to audio guide, without audio description',
     },
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/audio-with-descriptions`,
-      text: 'List to audio guide, with audio description',
+      text: 'Listen to audio guide, with audio description',
     },
     {
       url: `/guides/exhibitions/${exhibitionGuide.id}/captions-and-transcripts`,
@@ -45,7 +51,7 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
   ];
   return (
     <>
-      <a href={`/guides/exhibitions/${exhibitionGuide.id}`}>
+      <ExhibitionTitleLink href={`/guides/exhibitions/${exhibitionGuide.id}`}>
         <div className="relative">
           {exhibitionGuide.promo?.image && (
             <PrismicImage
@@ -79,7 +85,7 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
         >
           {exhibitionGuide.title}
         </Space>
-      </a>
+      </ExhibitionTitleLink>
       <Space v={{ size: 's', properties: ['margin-top'] }}>
         <ul
           className={classNames({

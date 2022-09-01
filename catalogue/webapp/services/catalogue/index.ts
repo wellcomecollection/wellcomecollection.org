@@ -7,6 +7,7 @@ import {
 } from '@weco/common/model/catalogue';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import { isString } from '@weco/common/utils/array';
 
 export const rootUris = {
   prod: 'https://api.wellcomecollection.org/catalogue',
@@ -110,6 +111,8 @@ export async function catalogueQuery<Params, Result extends ResultType>(
 //
 // This is useful for rejecting queries that are obviously malformed, which might
 // be attempts to inject malicious data into API queries.
-export const looksLikeCanonicalId = (id: string): boolean => {
-  return /^([a-z0-9]+)$/.test(id);
+export const looksLikeCanonicalId = (
+  id: string | string[] | undefined
+): id is string => {
+  return isString(id) && /^([a-z0-9]+)$/.test(id);
 };

@@ -1,7 +1,7 @@
 import { Article } from './articles';
 import { Series } from './series';
 import { Book } from './books';
-import { Contributor } from './contributors';
+import { Contributor, ContributorBasic } from './contributors';
 import { Event } from './events';
 import { Place } from './places';
 import { GenericContentFields } from './generic-content-fields';
@@ -31,7 +31,7 @@ export type ExhibitionBasic = {
   end?: Date;
   isPermanent: boolean;
   statusOverride?: string;
-  contributors: Contributor[];
+  contributors: ContributorBasic[];
   labels: Label[];
   image?: ImageType;
   hideStatus?: boolean;

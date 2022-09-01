@@ -30,7 +30,6 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
     border-color ${props => props.theme.transitionProperties};
   border: 0;
   white-space: nowrap;
-  padding: 13px 20px;
   cursor: pointer;
 
   &:focus {
@@ -98,7 +97,10 @@ export const ButtonIconWrapper = styled(
   className: classNames({
     'flex-inline': true,
   }),
-}))<ButtonIconWrapperAttrsProps>``;
+}))<ButtonIconWrapperAttrsProps>`
+  // Prevent icon within .spaced-text parent having top margin
+  margin-top: 0;
+`;
 
 export enum ButtonTypes {
   button = 'button',
@@ -106,18 +108,21 @@ export enum ButtonTypes {
   submit = 'submit',
 }
 
+type ButtonSize = 'small' | 'medium' | 'large';
+
 export type ButtonSolidBaseProps = {
   text: ReactNode;
   icon?: IconSvg;
   type?: ButtonTypes;
   isTextHidden?: boolean;
   trackingEvent?: GaEvent;
-  isBig?: boolean;
   ariaControls?: string;
   ariaExpanded?: boolean;
   ariaLive?: 'off' | 'polite' | 'assertive';
   colors?: ButtonColors;
   isIconAfter?: boolean;
+  size?: ButtonSize;
+  hoverUnderline?: boolean;
 };
 
 type ButtonSolidProps = ButtonSolidBaseProps & {
@@ -127,9 +132,22 @@ type ButtonSolidProps = ButtonSolidBaseProps & {
 
 type SolidButtonProps = {
   href?: string;
-  isBig?: boolean;
   ariaLabel?: string;
   colors?: ButtonColors;
+  size?: ButtonSize;
+  hoverUnderline?: boolean;
+};
+
+// Default to medium button
+const getPadding = (size: ButtonSize = 'medium') => {
+  switch (size) {
+    case 'small':
+      return '8px 12px';
+    case 'medium':
+      return '13px 20px';
+    case 'large':
+      return '14px';
+  }
 };
 
 export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
@@ -154,11 +172,7 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 
-  ${props =>
-    props.isBig &&
-    `
-    padding: 14px;
-  `}
+  padding: ${({ size }) => getPadding(size)};
 
   &:not([disabled]):hover {
     background: ${props =>
@@ -178,6 +192,18 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
       `
       text-decoration: underline;
     `};
+
+    ${props =>
+      props.hoverUnderline === false &&
+      `
+      text-decoration: none;
+    `}
+
+    ${props =>
+      props.hoverUnderline === true &&
+      `
+      text-decoration: underline;
+    `}
   }
 `;
 
@@ -194,9 +220,10 @@ const Button: FC<ButtonSolidProps> = (
     ariaExpanded,
     ariaLive,
     disabled,
-    isBig,
+    size,
     colors,
     isIconAfter,
+    hoverUnderline,
   }: ButtonSolidProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) => {
@@ -213,11 +240,12 @@ const Button: FC<ButtonSolidProps> = (
       aria-live={ariaLive}
       onClick={handleClick}
       disabled={disabled}
-      isBig={isBig}
+      size={size}
       colors={colors}
+      hoverUnderline={hoverUnderline}
       ref={ref}
     >
-      <BaseButtonInner>
+      <BaseButtonInner isInline={size === 'small'}>
         {isIconAfter && (
           <span
             className={classNames({

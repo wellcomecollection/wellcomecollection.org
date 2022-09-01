@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import styled from 'styled-components';
@@ -31,7 +31,7 @@ const LoadingIndicatorWrapper = styled.div.attrs({
   }
 `;
 
-const LoadingIndicator = () => {
+const LoadingIndicator: FC = () => {
   function handleRouteChangeStart() {
     NProgress.start();
   }
