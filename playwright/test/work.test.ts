@@ -9,9 +9,7 @@ import { Page } from 'playwright';
 const getWhereToFindItAndEncoreLink = async (page: Page) => {
   const whereToFindIt = await page.$('h2:has-text("Where to find it")');
   const encoreLink = await page.$('a:has-text("Request item")');
-  const unavailableBanner = await page.$(
-    'span:has-text("Requesting is currently unavailable, while our building is closed.")'
-  );
+  const unavailableBanner = await page.$("[data-test-id='requestingDisabled']");
 
   return {
     whereToFindIt,
@@ -36,8 +34,6 @@ test.describe(
       const { whereToFindIt, encoreLink, unavailableBanner } =
         await getWhereToFindItAndEncoreLink(page);
       expect(whereToFindIt).toBeTruthy();
-
-      // TODO: Remove the check for the unavailableBanner when the building is reopened.
       expect(encoreLink || unavailableBanner).toBeTruthy();
     });
 

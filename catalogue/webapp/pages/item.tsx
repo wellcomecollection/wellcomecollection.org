@@ -434,12 +434,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       manifestV3Promise as Promise<Manifest>,
     ]).catch(() => []);
 
-    if (!manifestOrCollection) {
-      return {
-        notFound: true,
-      };
-    }
-
     if (manifestOrCollection) {
       // This happens when the main manifest is actually a Collection (manifest of manifest).
       // see: https://wellcomelibrary.org/iiif/collection/b21293302
