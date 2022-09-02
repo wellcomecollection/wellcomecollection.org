@@ -12,6 +12,7 @@ import { error } from './console';
 import { downloadPrismicSnapshot } from './downloadSnapshot';
 import fs from 'fs';
 import fetch from 'node-fetch';
+import tqdm from 'tqdm';
 
 type PrismicDocument = {
   id: string;
@@ -80,11 +81,17 @@ async function run() {
     .filter(({ type }) => !nonVisibleTypes.has(type))
     .map(doc => createUrl(prefix, doc));
 
-  for (const u of urls) {
+  const pageErrors = [];
+
+  for await (const u of tqdm(urls)) {
     const resp = await fetch(u);
     if (resp.status !== 200) {
-      error(`${resp.status} ${u}`);
+      pageErrors.push(`${resp.status} ${u}`);
     }
+  }
+
+  for (const message of pageErrors) {
+    error(message);
   }
 }
 
