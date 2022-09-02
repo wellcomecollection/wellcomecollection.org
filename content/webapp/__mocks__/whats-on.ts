@@ -1197,28 +1197,11 @@ export const whatsOn: (hasExhibition: boolean) => WhatsOnProps = (
   hasExhibition: boolean
 ) => ({
   period: 'current-and-coming-up',
-  exhibitions: {
-    currentPage: 1,
-    pageSize: 20,
-    totalResults: 1,
-    totalPages: 1,
-    results: [hasExhibition ? beingHuman : undefined].filter(isNotUndefined),
-  },
-  events: {
-    currentPage: 1,
-    pageSize: 100,
-    totalResults: 0,
-    totalPages: 0,
-    results: [],
-  },
-  availableOnlineEvents: {
-    currentPage: 1,
-    pageSize: 100,
-    totalResults: 0,
-    totalPages: 0,
-    results: [],
-  },
-  dateRange: ['2020-11-05T00:00:00.000Z', null],
+  exhibitions: hasExhibition ? [beingHuman] : [],
+  events: [],
+  availableOnlineEvents: [],
+  dateRange: { start: new Date(2020, 11, 5) },
+  jsonLd: [],
   tryTheseTooPromos: [
     {
       type: 'promo',
