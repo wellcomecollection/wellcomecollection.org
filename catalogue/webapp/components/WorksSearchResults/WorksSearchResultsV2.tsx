@@ -19,7 +19,7 @@ const SearchResultListItem = styled.li`
 
 const WorkSearchResultsV2: FC<Props> = ({ works }: Props) => {
   return (
-    <ul className="plain-list flex flex-wrap no-margin no-padding">
+    <ul className="plain-list flex flex--wrap no-margin no-padding">
       {works.results.map((result, i) => (
         <SearchResultListItem key={result.id}>
           <WorksSearchResultV2 work={result} resultPosition={i} />
