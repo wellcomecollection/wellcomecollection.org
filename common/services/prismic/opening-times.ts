@@ -226,7 +226,7 @@ export function getUpcomingExceptionalPeriods(
     const upcomingPeriod = period.find(d => {
       return (
         d.overrideDate &&
-        d.overrideDate >= startOfToday &&
+        startOfToday <= d.overrideDate &&
         d.overrideDate <= upcomingUntil
       );
     });
