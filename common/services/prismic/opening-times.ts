@@ -77,7 +77,7 @@ export function exceptionalOpeningPeriods(
       return acc;
     }, [] as ExceptionalPeriod[])
     .sort((a, b) => {
-      // order groups by their earlist date
+      // order groups by their earliest date
       return a.dates[0] < b.dates[0] ? -1 : 1;
     });
 }
