@@ -33,10 +33,10 @@ const VenueClosedPeriods: FunctionComponent<Props> = ({ venue }) => {
 
       <ul>
         {groupedConsectiveClosedDays.map((closedGroup, i) => {
-          const firstDate = closedGroup[0].overrideDate;
+          const firstDate = closedGroup[0].overrideDate?.toDate();
           const lastDate =
             closedGroup.length > 1
-              ? closedGroup[closedGroup.length - 1].overrideDate
+              ? closedGroup[closedGroup.length - 1].overrideDate?.toDate()
               : undefined;
           return (
             closedGroup.length > 0 && (

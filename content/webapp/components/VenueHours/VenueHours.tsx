@@ -196,8 +196,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {p.overrideDate && formatDay(p.overrideDate)}{' '}
-                    {p.overrideDate && formatDayMonth(p.overrideDate)}{' '}
+                    {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
+                    {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}
