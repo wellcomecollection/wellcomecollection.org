@@ -1,37 +1,139 @@
+import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+
+// Helpers/Utils
+import { removeUndefinedProps } from '@weco/common/utils/json';
+import { getServerData } from '@weco/common/server-data';
+import { looksLikeCanonicalId } from 'services/catalogue';
+import { getConcept } from 'services/catalogue/concepts';
+import { getWorks } from '../services/catalogue/works';
+import { getImages } from 'services/catalogue/images';
+
+// Components
+import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
+import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
+import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
+import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+
+// Types
 import {
   CatalogueResultsList,
   Concept as ConceptType,
   Image as ImageType,
   Work as WorkType,
 } from '@weco/common/model/catalogue';
-import { removeUndefinedProps } from '@weco/common/utils/json';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
-import { getServerData } from '@weco/common/server-data';
-import { getConcept } from 'services/catalogue/concepts';
-import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import { getWorks } from '../services/catalogue/works';
-import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import { getImages } from 'services/catalogue/images';
-import WorksSearchResults from '../components/WorksSearchResults/WorksSearchResults';
-import { looksLikeCanonicalId } from 'services/catalogue';
+
+// Styles
+import styled from 'styled-components';
+import { font } from '@weco/common/utils/classnames';
+import { arrow } from '@weco/common/icons';
+import Space from '@weco/common/views/components/styled/Space';
+import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 
 type Props = {
   conceptResponse: ConceptType;
-  works: CatalogueResultsList<WorkType> | undefined;
+  worksAbout: CatalogueResultsList<WorkType> | undefined;
+  worksBy: CatalogueResultsList<WorkType> | undefined;
   images: CatalogueResultsList<ImageType> | undefined;
 };
 
+const leadingColor = 'newPaletteYellow';
+
+// TODO use preset styles for h1, are there any with this big a font-size?
+const ConceptHero = styled(Space)`
+  background-color: ${props => props.theme.color(leadingColor)};
+
+  h1 {
+    font-size: 4rem;
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+  }
+`;
+
+const ConceptDescription = styled.section`
+  max-width: 600px;
+`;
+
+// TODO use preset styles for sectionTitle?
+const ConceptImages = styled(Space)`
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color('white')};
+
+  .sectionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 1.875rem;
+  }
+`;
+
+// TODO use preset styles for sectionTitle?
+const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
+  background-color: ${({ hasWorksTabs }) =>
+    hasWorksTabs ? '#fbfaf4' : 'white'};
+
+  .sectionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 1.875rem;
+  }
+`;
+
+// Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
+const FAKE_DATA = {
+  id: 'azxzhnuh',
+  identifiers: [
+    {
+      identifierType: 'lc-names',
+      value: 'n12345678',
+      type: 'Identifier',
+    },
+  ],
+
+  label: 'Florence Nightingale',
+  alternativeLabels: ['The Lady with the Lamp'],
+
+  type: 'Person',
+  description:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
+
+  // not locations
+  urls: [
+    {
+      label: 'Read more on Wikipedia',
+      url: '#',
+    },
+  ],
+};
+
+// TODO change to use ButtonSolid when refactor is over (with David)
+const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
+  <ButtonSolidLink
+    text={text}
+    link={link}
+    icon={arrow}
+    isIconAfter={true}
+    // TODO remove border-radius?
+    // TODO make this work
+    colors={{
+      border: leadingColor,
+      background: leadingColor,
+      text: 'black',
+    }}
+  />
+);
+
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
-  works,
+  worksAbout,
+  worksBy,
   images,
 }) => {
-  const conceptsJson = JSON.stringify(conceptResponse);
-  const workJson = JSON.stringify(works);
-  const imagesJson = JSON.stringify(images);
+  const [selectedTab, setSelectedTab] = useState('works-about');
+
+  const hasWorks = !!(worksBy?.totalResults || worksAbout?.totalResults);
+  const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
 
   return (
+    // TODO fill meta information; who decides this?
     <CataloguePageLayout
       title={conceptResponse.label}
       description={'<TBC>'}
@@ -41,84 +143,127 @@ export const ConceptPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >
-      <div className="container">
-        <p>
-          <strong>Label</strong>
-          <br />
-          {conceptResponse.label}
-        </p>
+      <ConceptHero
+        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+      >
+        <div className="container">
+          <ConceptDescription>
+            <h1 className="font-intb">{conceptResponse.label}</h1>
+            {/* TODO dynamise */}
+            {FAKE_DATA.description && (
+              <p className={font('intr', 4)}>{FAKE_DATA.description}</p>
+            )}
+            {/* TODO dynamise */}
+            {FAKE_DATA.urls?.length > 0 &&
+              FAKE_DATA.urls.map(link => {
+                /* TODO Could they be internal links? Check if external to display arrow, decide on rel. */
+                return (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    rel="nofollow"
+                    className={font('intr', 6)}
+                  >
+                    {link.label} ↗
+                  </a>
+                );
+              })}
+          </ConceptDescription>
+        </div>
+      </ConceptHero>
 
-        <strong>Identifiers</strong>
-        <ul>
-          {conceptResponse.identifiers?.map(id => (
-            <li key={id.value}>
-              {id.identifierType.label} {id.value}
-            </li>
-          ))}
-        </ul>
-
-        <hr />
-
-        <p>
-          <h2>Matching images</h2>
-        </p>
-
-        {images && images.totalResults ? (
-          <>
+      {!!images?.totalResults && (
+        <ConceptImages
+          as="section"
+          v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
+        >
+          {/* TODO determine if we want it to overflow completely or stay within a container */}
+          <div className="container" style={{ paddingRight: 0 }}>
+            <h2 className="sectionTitle">Images</h2>
+            {/* TODO images get a white border over a certain screen size */}
+            {/* TODO mobile; smaller images? */}
             <ImageEndpointSearchResults images={images} />
-            <p>
-              <a
-                href={`/images?source.subjects.label=${conceptResponse.label}`}
-              >
-                see all matching images ({images.totalResults}) &rarr;
-              </a>
-            </p>
-          </>
-        ) : (
-          <p>There are no matching images</p>
-        )}
+            <SeeMoreButton
+              text={`All images (${images.totalResults})`}
+              link={`/images?source.subjects.label=${conceptResponse.label}`}
+            />
+          </div>
+        </ConceptImages>
+      )}
 
-        <hr />
+      {hasWorks && (
+        <>
+          <ConceptWorksHeader
+            as="div"
+            v={{ size: 'xl', properties: ['padding-top'] }}
+            hasWorksTabs={hasWorksTabs}
+          >
+            <div className="container">
+              <h2 className="sectionTitle">Works</h2>
+              {/* TODO responsive tabs + accessible navigation */}
+              {hasWorksTabs && (
+                <TabNavV2
+                  items={[
+                    {
+                      id: 'works-about',
+                      text: `Works about ${conceptResponse.label} ${
+                        worksAbout ? `(${worksAbout.totalResults})` : ''
+                      }`,
+                      selected: selectedTab === 'works-about',
+                    },
+                    {
+                      id: 'works-by',
+                      text: `Works by ${conceptResponse.label} ${
+                        worksBy ? `(${worksBy.totalResults})` : ''
+                      }`,
+                      selected: selectedTab === 'works-by',
+                    },
+                  ]}
+                  color={leadingColor}
+                  setSelectedTab={setSelectedTab}
+                />
+              )}
+            </div>
+          </ConceptWorksHeader>
 
-        <p>
-          <h2>Matching works</h2>
-        </p>
-
-        {works && works.totalResults ? (
-          <>
-            <WorksSearchResults works={works} />
-            <p>
-              <a href={`/works?subjects.label=${conceptResponse.label}`}>
-                see all matching works ({works.totalResults}) &rarr;
-              </a>
-            </p>
-          </>
-        ) : (
-          <p>There are no matching works</p>
-        )}
-
-        <hr />
-
-        <p>
-          <h2>Debug information</h2>
-        </p>
-        <p>
-          <details>
-            <summary>Concepts API response</summary>
-            <p>{conceptsJson}</p>
-          </details>
-
-          <details>
-            <summary>Works API response</summary>
-            <p>{workJson}</p>
-          </details>
-
-          <details>
-            <summary>Images API response</summary>
-            <p>{imagesJson}</p>
-          </details>
-        </p>
-      </div>
+          <Space
+            as="section"
+            v={{
+              size: 'xl',
+              properties: hasWorksTabs
+                ? ['padding-top', 'padding-bottom']
+                : ['padding-bottom'],
+            }}
+          >
+            <div className="container">
+              {selectedTab === 'works-about' && !!worksAbout?.totalResults && (
+                <div role="tabpanel">
+                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
+                  <WorksSearchResultsV2 works={worksAbout} />
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All works about ${conceptResponse.label} (${worksAbout.totalResults})`}
+                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    />
+                  </Space>
+                </div>
+              )}
+              {selectedTab === 'works-by' && !!worksBy?.totalResults && (
+                <div role="tabpanel">
+                  {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
+                  <WorksSearchResultsV2 works={worksBy} />
+                  <Space v={{ size: 'l', properties: ['padding-top'] }}>
+                    <SeeMoreButton
+                      text={`All works by ${conceptResponse.label} (${worksBy.totalResults})`}
+                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    />
+                  </Space>
+                </div>
+              )}
+            </div>
+          </Space>
+        </>
+      )}
     </CataloguePageLayout>
   );
 };
@@ -145,8 +290,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       toggles: serverData.toggles,
     });
 
-    const worksPromise = getWorks({
+    const worksAboutPromise = getWorks({
       params: { 'subjects.label': [conceptResponse.label] },
+      toggles: serverData.toggles,
+      pageSize: 5,
+    });
+
+    const worksByPromise = getWorks({
+      params: { 'contributors.agent.label': [conceptResponse.label] },
       toggles: serverData.toggles,
       pageSize: 5,
     });
@@ -154,13 +305,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 5,
+      pageSize: 8,
     });
 
-    const [worksResponse, imagesResponse] = await Promise.all([
-      worksPromise,
-      imagesPromise,
-    ]);
+    const [worksAboutResponse, worksByResponse, imagesResponse] =
+      await Promise.all([worksAboutPromise, worksByPromise, imagesPromise]);
 
     if (conceptResponse.type === 'Error') {
       if (conceptResponse.httpStatus === 404) {
@@ -173,13 +322,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       );
     }
 
-    const works = worksResponse.type === 'Error' ? undefined : worksResponse;
+    const worksAbout =
+      worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
+    const worksBy =
+      worksByResponse.type === 'Error' ? undefined : worksByResponse;
     const images = imagesResponse.type === 'Error' ? undefined : imagesResponse;
 
     return {
       props: removeUndefinedProps({
         conceptResponse,
-        works,
+        worksAbout,
+        worksBy,
         images,
         serverData,
       }),
