@@ -30,7 +30,7 @@ type ApiResponse = {
 };
 
 /** Generates the paginated API responses for a given reference. */
-async function* getApiResponses(ref: string): AsyncGenerator<ApiResponse> {
+async function getApiResponses(ref: string): Promise<ApiResponse[]> {
   // Get as many results as we can per page, to reduce the number of requests.
   // pageSize = 100 is the max allowed at time of writing.
   //
@@ -39,15 +39,19 @@ async function* getApiResponses(ref: string): AsyncGenerator<ApiResponse> {
 
   let url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
 
+  const responses = [];
+
   while (url !== null) {
     const resp = await fetch(url);
     const json = await resp.json();
     const pageNumber: number = json.page;
 
-    yield { pageNumber, json };
+    responses.push({ pageNumber, json });
 
     url = json.next_page;
   }
+
+  return responses;
 }
 
 /** Downloads the snapshots for a given ref to a local directory.
@@ -73,7 +77,7 @@ export async function downloadPrismicSnapshot(
     }
   });
 
-  for await (const { pageNumber, json } of getApiResponses(ref)) {
+  for (const { pageNumber, json } of await getApiResponses(ref)) {
     console.log(`Downloading page ${pageNumber}...`);
     fs.writeFileSync(
       `${tmpDir}/page${pageNumber}.json`,
