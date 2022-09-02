@@ -55,26 +55,17 @@ const ConceptDescription = styled.section`
   max-width: 600px;
 `;
 
-// TODO use preset styles for sectionTitle?
 const ConceptImages = styled(Space)`
   background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
 
-  .sectionTitle {
-    font-size: 1.75rem;
-    margin-bottom: 1.875rem;
+  h2 {
+    color: ${props => props.theme.color('white')};
   }
 `;
 
-// TODO use preset styles for sectionTitle?
 const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
-  background-color: ${({ hasWorksTabs }) =>
-    hasWorksTabs ? '#fbfaf4' : 'white'};
-
-  .sectionTitle {
-    font-size: 1.75rem;
-    margin-bottom: 1.875rem;
-  }
+  background-color: ${({ hasWorksTabs, theme }) =>
+    hasWorksTabs ? theme.color('cream', 'light') : 'white'};
 `;
 
 // Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
@@ -111,7 +102,6 @@ const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
     link={link}
     icon={arrow}
     isIconAfter={true}
-    // TODO make this work
     colors={{
       border: leadingColor,
       background: leadingColor,
@@ -178,7 +168,7 @@ export const ConceptPage: NextPage<Props> = ({
         >
           {/* TODO determine if we want it to overflow completely or stay within a container */}
           <div className="container" style={{ paddingRight: 0 }}>
-            <h2 className="sectionTitle">Images</h2>
+            <h2 className="sectionTitle font-size-2">Images</h2>
             {/* TODO images get a white border over a certain screen size */}
             {/* TODO mobile; smaller images? */}
             <ImageEndpointSearchResults images={images} />
@@ -198,7 +188,7 @@ export const ConceptPage: NextPage<Props> = ({
             hasWorksTabs={hasWorksTabs}
           >
             <div className="container">
-              <h2 className="sectionTitle">Works</h2>
+              <h2 className="font-size-2">Works</h2>
               {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
                 <TabNavV2
