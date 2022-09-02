@@ -45,7 +45,7 @@ export function transformCollectionVenue(
           const end = modified.endDateTime;
           const isClosed = !start;
           const overrideDate = modified.overrideDate
-            ? london(modified.overrideDate)
+            ? london(modified.overrideDate).toDate()
             : undefined;
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
@@ -102,7 +102,7 @@ export function fixVenueDatesInJson(venue: Venue): Venue {
       ...venue.openingHours,
       exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
         ...exceptionalOpening,
-        overrideDate: london(exceptionalOpening.overrideDate),
+        overrideDate: new Date(exceptionalOpening.overrideDate),
       })),
     },
   };
