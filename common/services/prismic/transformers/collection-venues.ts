@@ -50,7 +50,7 @@ export function transformCollectionVenue(
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
             return {
-              overrideDate,
+              overrideDate: overrideDate.toDate(),
               overrideType,
               // If there is no start time from prismic, then we set both opens and closes to 00:00.
               // This is necessary for the json-ld schema data, so Google knows when the venues are closed.
