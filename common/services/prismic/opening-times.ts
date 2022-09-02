@@ -62,9 +62,8 @@ export function exceptionalOpeningPeriods(
       } else if (
         previousDate &&
         date.overrideDate &&
-        london(date.overrideDate).isBefore(
-          london(previousDate).clone().add(6, 'days')
-        ) &&
+        date.overrideDate <
+          london(previousDate).clone().add(6, 'days').toDate() &&
         date.overrideType === acc[groupedIndex].type
       ) {
         acc[groupedIndex].dates.push(date.overrideDate);
