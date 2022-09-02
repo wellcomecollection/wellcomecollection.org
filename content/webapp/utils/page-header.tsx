@@ -10,11 +10,9 @@ import { isVideoEmbed } from 'types/body';
 import { GenericContentFields } from '../types/generic-content-fields';
 
 export function getFeaturedMedia(
-  fields: GenericContentFields,
-  isPicture?: boolean
+  fields: GenericContentFields
 ): FeaturedMedia | undefined {
   const image = fields.promo && fields.promo.image;
-  const squareImage = getCrop(fields.image, 'square');
   const widescreenImage = getCrop(fields.image, '16:9');
   const { body } = fields;
 
@@ -23,14 +21,6 @@ export function getFeaturedMedia(
 
   const featuredMedia = featuredVideo ? (
     <VideoEmbed {...featuredVideo.value} />
-  ) : isPicture && widescreenImage && squareImage ? (
-    <Picture
-      images={[
-        { ...widescreenImage, minWidth: breakpoints.medium },
-        squareImage,
-      ]}
-      isFull={true}
-    />
   ) : widescreenImage ? (
     <ImageWithTasl
       Image={
