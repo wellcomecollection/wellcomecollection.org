@@ -124,6 +124,8 @@ const appPromise = nextApp
     ); // :type(${guideType})
     route(`/guides/:id(${prismicId})`, '/page', router, nextApp);
 
+    route('/now', '/now', router, nextApp);
+
     pageVanityUrl(
       router,
       nextApp,

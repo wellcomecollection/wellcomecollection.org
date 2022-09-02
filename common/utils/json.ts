@@ -11,7 +11,21 @@ export function removeEmptyProps(obj: Record<string, unknown>): Keyable {
   );
 }
 
+// https://github.com/vercel/next.js/discussions/11209#discussioncomment-38480
+function deleteUndefined<T extends Record<string, any>>(obj: T): T {
+  if (obj) {
+    Object.keys(obj).forEach((key: string) => {
+      if (obj[key] && typeof obj[key] === 'object') {
+        deleteUndefined(obj[key]);
+      } else if (typeof obj[key] === 'undefined') {
+        delete obj[key];
+      }
+    });
+  }
+}
+
 // removes keys with value undefined associated with them
-export function removeUndefinedProps<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj));
+export function removeUndefinedProps<T extends Record<string, any>>(obj: T): T {
+  deleteUndefined(obj);
+  return obj;
 }
