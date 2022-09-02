@@ -220,12 +220,15 @@ export function groupConsecutiveExceptionalDays(
 export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
 ): ExceptionalOpeningHoursDay[][] {
+  const startOfToday = london().startOf('day').toDate();
+  const upcomingUntil = london().add(28, 'day').endOf('day').toDate();
+
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(d => {
       return (
         d.overrideDate &&
-        london(d.overrideDate).isSameOrBefore(london().add(28, 'day'), 'day') &&
-        london(d.overrideDate).isSameOrAfter(london(), 'day')
+        d.overrideDate >= startOfToday &&
+        d.overrideDate <= upcomingUntil
       );
     });
     return upcomingPeriod || false;
