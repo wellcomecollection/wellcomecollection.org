@@ -33,14 +33,24 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   };
 })<NavItemInnerProps>`
   z-index: 1;
-  padding: 0 0.3em 1.5em;
-  border-bottom: 0 solid ${({ color, theme }) =>
-    color ? theme.color(color, 'dark') : theme.color('black')};
-  transition: width 200ms ease;
+  padding: 1em 0.3em;
   cursor: pointer;
 
-  &.selected {
-    border-bottom-width: 3px;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    left: 0;
+    width: 0;
+    background-color: ${props => {
+      return props.color
+        ? props.theme.color(props.color)
+        : props.theme.color('black');
+    }};
+    z-index: -1;
+    transition: width 200ms ease;
+  }
 
   &:hover,
   &:focus {
@@ -52,6 +62,10 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
         width: 0;
       }
     }
+  }
+
+  &.selected:after {
+    width: 100%;
   }
 `;
 
