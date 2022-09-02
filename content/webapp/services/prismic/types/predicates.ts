@@ -1,7 +1,12 @@
-import moment from 'moment';
 import { predicate } from '@prismicio/client';
-import { getNextWeekendDateRange } from '@weco/common/utils/dates';
-import { london } from '@weco/common/utils/format-date';
+import {
+  addDays,
+  endOfDay,
+  endOfWeek,
+  getNextWeekendDateRange,
+  startOfDay,
+  startOfWeek,
+} from '@weco/common/utils/dates';
 import { Period } from '../../../types/periods';
 
 type Props = { period?: Period; startField: string; endField: string };
@@ -10,21 +15,23 @@ export const getPeriodPredicates = ({
   startField,
   endField,
 }: Props): string[] => {
-  const now = london(new Date());
-  const startOfDay = moment().startOf('day');
-  const endOfDay = moment().endOf('day');
+  const now = new Date();
+
+  const startOfToday = startOfDay(now);
+  const endOfToday = endOfDay(now);
+
   const weekendDateRange = getNextWeekendDateRange(now);
   const predicates =
     period === 'coming-up'
-      ? [predicate.dateAfter(startField, endOfDay.toDate())]
+      ? [predicate.dateAfter(startField, endOfToday)]
       : period === 'current-and-coming-up'
-      ? [predicate.dateAfter(endField, startOfDay.toDate())]
+      ? [predicate.dateAfter(endField, startOfToday)]
       : period === 'past'
-      ? [predicate.dateBefore(endField, startOfDay.toDate())]
+      ? [predicate.dateBefore(endField, startOfToday)]
       : period === 'today'
       ? [
-          predicate.dateBefore(startField, endOfDay.toDate()),
-          predicate.dateAfter(endField, startOfDay.toDate()),
+          predicate.dateBefore(startField, endOfToday),
+          predicate.dateAfter(endField, startOfToday),
         ]
       : period === 'this-weekend'
       ? [
@@ -33,16 +40,13 @@ export const getPeriodPredicates = ({
         ]
       : period === 'this-week'
       ? [
-          predicate.dateBefore(startField, now.endOf('week').toDate()),
-          predicate.dateAfter(startField, now.startOf('week').toDate()),
+          predicate.dateBefore(startField, endOfWeek(now)),
+          predicate.dateAfter(startField, startOfWeek(now)),
         ]
       : period === 'next-seven-days'
       ? [
-          predicate.dateBefore(
-            startField,
-            now.add(6, 'days').endOf('day').toDate()
-          ),
-          predicate.dateAfter(endField, startOfDay.toDate()),
+          predicate.dateBefore(startField, endOfDay(addDays(now, 6))),
+          predicate.dateAfter(endField, startOfToday),
         ]
       : [];
 
