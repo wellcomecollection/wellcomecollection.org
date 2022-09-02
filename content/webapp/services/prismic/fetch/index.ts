@@ -156,9 +156,7 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
       const response = await fetch(url);
 
       if (response.ok) {
-        const json: PaginatedResults<TransformedDocument> =
-          await response.json();
-        return json;
+        return response.json();
       }
     },
   };
