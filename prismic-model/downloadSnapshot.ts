@@ -7,6 +7,7 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 import { error, success } from './console';
+import tqdm from 'tqdm';
 
 /** Gets the Prismic API ref for a given id (e.g. 'master')
  *
@@ -37,18 +38,20 @@ async function getApiResponses(ref: string): Promise<ApiResponse[]> {
   // See https://prismic.io/docs/technologies/pagination-for-results-rest-api#the-pagesize-parameter
   const pageSize = 100;
 
-  let url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
+  const url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
+
+  const resp = await fetch(url);
+  const json = await resp.json();
+  const pageCount = json.total_pages;
+
+  const pages = Array.from({ length: pageCount }, (v, i) => i + 1);
 
   const responses = [];
 
-  while (url !== null) {
-    const resp = await fetch(url);
+  for await (const pageNumber of tqdm(pages)) {
+    const resp = await fetch(`${url}&page=${pageNumber}`);
     const json = await resp.json();
-    const pageNumber: number = json.page;
-
     responses.push({ pageNumber, json });
-
-    url = json.next_page;
   }
 
   return responses;
@@ -78,7 +81,6 @@ export async function downloadPrismicSnapshot(
   });
 
   for (const { pageNumber, json } of await getApiResponses(ref)) {
-    console.log(`Downloading page ${pageNumber}...`);
     fs.writeFileSync(
       `${tmpDir}/page${pageNumber}.json`,
       JSON.stringify(json, null, 2)
