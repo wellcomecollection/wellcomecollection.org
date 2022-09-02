@@ -6,8 +6,6 @@ import { getImage } from '../../services/catalogue/images';
 import Space from '@weco/common/views/components/styled/Space';
 import { useToggles } from '@weco/common/server-data/Context';
 import IIIFImage from '../IIIFImage/IIIFImage';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 
 type Props = {
   originalId: string;
@@ -35,8 +33,6 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const toggles = useToggles();
-  const router = useRouter();
-  const { page } = router.query;
 
   useEffect(() => {
     const fetchVisuallySimilarImages = async () => {
@@ -56,27 +52,18 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
       <h3 className={font('wb', 5)}>Visually similar images</h3>
       <Wrapper>
         {similarImages.map(related => (
-          <Link
-            key={related.id}
-            href={`${router.pathname}?${
-              page ? 'page=' + page + '&' : ''
-            }imageId=${related.id}`}
-            shallow={true}
-            passHref
-          >
-            <a onClick={() => onClickImage(related)}>
-              <IIIFImage
-                layout="raw"
-                image={{
-                  contentUrl: related.locations[0]?.url,
-                  width: 180,
-                  height: 180,
-                  alt: '',
-                }}
-                width={180}
-              />
-            </a>
-          </Link>
+          <a key={related.id} onClick={() => onClickImage(related)} href="#">
+            <IIIFImage
+              layout="raw"
+              image={{
+                contentUrl: related.locations[0]?.url,
+                width: 180,
+                height: 180,
+                alt: '',
+              }}
+              width={180}
+            />
+          </a>
         ))}
       </Wrapper>
       <p
