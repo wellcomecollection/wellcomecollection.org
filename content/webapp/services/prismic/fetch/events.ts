@@ -131,19 +131,12 @@ export const fetchEvents = (
     ? getPeriodPredicates({ period, startField, endField })
     : [];
 
-  // NOTE: Ideally we'd use the Prismic DSL to construct these predicates rather
-  // than dropping in raw strings, but they interfere with the type checker.
-  //
-  // The current version of the Prismic libraries require the second argument of
-  // the 'at()' predicate to be a `string | number | (string | number)[]`, but they
-  // need to be booleans.
-  //
-  // TODO: When we upgrade the Prismic client libraries, convert these to the DSL.
-  //
-  const onlinePredicates = isOnline ? ['[at(my.events.isOnline, true)]'] : [];
+  const onlinePredicates = isOnline
+    ? [prismic.predicate.at('my.events.isOnline', 'true')]
+    : [];
 
   const availableOnlinePredicates = availableOnline
-    ? ['[at(my.events.availableOnline, true)]']
+    ? [prismic.predicate.at('my.events.availableOnline', 'true')]
     : [];
 
   return eventsFetcher.getByType(client, {
