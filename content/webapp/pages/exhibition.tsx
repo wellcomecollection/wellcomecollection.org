@@ -11,10 +11,7 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchExhibition } from '../services/prismic/fetch/exhibitions';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import { transformPage } from '../services/prismic/transformers/pages';
-import {
-  fixExhibitionDatesInJson,
-  transformExhibition,
-} from '../services/prismic/transformers/exhibitions';
+import { transformExhibition } from '../services/prismic/transformers/exhibitions';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { exhibitionLd } from 'services/prismic/transformers/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
@@ -25,13 +22,7 @@ type Props = {
   pages: PageType[];
 } & WithGaDimensions;
 
-const ExhibitionPage: FC<Props> = ({
-  exhibition: jsonExhibition,
-  pages,
-  jsonLd,
-}) => {
-  const exhibition = fixExhibitionDatesInJson(jsonExhibition);
-
+const ExhibitionPage: FC<Props> = ({ exhibition, pages, jsonLd }) => {
   if (exhibition.format && exhibition.format.title === 'Installation') {
     return <Installation installation={exhibition} jsonLd={jsonLd} />;
   } else {

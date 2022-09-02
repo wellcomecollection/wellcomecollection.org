@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { Period } from '../types/periods';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
@@ -66,16 +65,12 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
-  fixEventDatesInJson,
   transformEvent,
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import {
-  fixExhibitionDatesInJson,
-  transformExhibitionsQuery,
-} from '../services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 
@@ -98,9 +93,9 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<ExhibitionBasic>;
-  events: PaginatedResults<EventBasic>;
-  availableOnlineEvents: PaginatedResults<EventBasic>;
+  exhibitions: ExhibitionBasic[];
+  events: EventBasic[];
+  availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
   tryTheseTooPromos: FacilityPromoType[];
@@ -352,17 +347,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const events = transformQuery(eventsQuery, event =>
       transformEventToEventBasic(transformEvent(event))
-    );
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    ).results;
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
     const availableOnlineEvents = transformQuery(
       availableOnlineEventsQuery,
       event => transformEventToEventBasic(transformEvent(event))
-    );
+    ).results;
 
     if (period && events && exhibitions) {
       const jsonLd = [
-        ...exhibitions.results.map(exhibitionLd),
-        ...events.results.map(eventLd),
+        ...exhibitions.map(exhibitionLd),
+        ...events.map(eventLd),
       ] as JsonLdObj[];
 
       return {
@@ -393,12 +388,10 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
     eatShopPromos,
     featuredText,
     jsonLd,
+    events,
+    availableOnlineEvents,
+    exhibitions,
   } = props;
-
-  const events = props.events.results.map(fixEventDatesInJson);
-  const availableOnlineEvents =
-    props.availableOnlineEvents.results.map(fixEventDatesInJson);
-  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
 
   const firstExhibition = exhibitions[0];
 
@@ -542,7 +535,7 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
               </Space>
               <ExhibitionsAndEvents
                 exhibitions={exhibitions}
-                events={eventsToShow as EventBasic[]}
+                events={eventsToShow}
                 links={[
                   { text: 'View all exhibitions', url: '/exhibitions' },
                   { text: 'View all events', url: '/events' },
