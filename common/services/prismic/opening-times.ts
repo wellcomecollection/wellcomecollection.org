@@ -223,13 +223,9 @@ export function getUpcomingExceptionalPeriods(
   const upcomingUntil = london().add(28, 'day').endOf('day').toDate();
 
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
-    const upcomingPeriod = period.find(d => {
-      return (
-        d.overrideDate &&
-        startOfToday <= d.overrideDate &&
-        d.overrideDate <= upcomingUntil
-      );
-    });
+    const upcomingPeriod = period.find(
+      d => startOfToday <= d.overrideDate && d.overrideDate <= upcomingUntil
+    );
     return upcomingPeriod || false;
   });
   return nextUpcomingPeriods;
