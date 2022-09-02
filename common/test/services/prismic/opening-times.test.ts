@@ -10,6 +10,7 @@ import {
   getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
+  getVenueHours,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { ExceptionalOpeningHoursDay } from '../../../model/opening-hours';
@@ -643,7 +644,7 @@ describe('opening-times', () => {
 
       const result = getTodaysVenueHours(libraryVenue!);
       expect(result).toEqual({
-        overrideDate: london('2023-01-01'),
+        overrideDate: new Date('2023-01-01'),
         overrideType: 'Christmas and New Year',
         opens: '20:00',
         closes: '21:00',

@@ -242,11 +242,11 @@ export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = london();
-  const todayString = todaysDate.format('dddd');
+  const todayString = formatDay(todaysDate);
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>
-      todaysDate.startOf('day').isSame(london(i.overrideDate).startOf('day'))
+      isSameDay(todaysDate.toDate(), i.overrideDate)
     );
   const regularOpeningHours =
     venue.openingHours.regular &&
