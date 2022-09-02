@@ -123,7 +123,6 @@ export const colors = {
   newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
   newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
   newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
-  newPaletteYellow: { base: '#f7e9a1', dark: '#ffda47', light: '' },
 };
 
 const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>

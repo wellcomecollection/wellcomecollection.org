@@ -38,11 +38,11 @@ type Props = {
   images: CatalogueResultsList<ImageType> | undefined;
 };
 
-const leadingColor = 'newPaletteYellow';
+const leadingColor = 'yellow';
 
 // TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
-  background-color: ${props => props.theme.color(leadingColor)};
+  background-color: ${props => props.theme.color(leadingColor, 'light')};
 
   h1 {
     font-size: 4rem;
@@ -111,7 +111,6 @@ const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
     link={link}
     icon={arrow}
     isIconAfter={true}
-    // TODO remove border-radius?
     // TODO make this work
     colors={{
       border: leadingColor,

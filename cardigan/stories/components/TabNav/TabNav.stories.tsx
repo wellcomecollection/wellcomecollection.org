@@ -72,7 +72,7 @@ basicV2.args = {
 basicV2.argTypes = {
   color: {
     type: 'select',
-    options: ['', 'newPaletteYellow', 'newPaletteOrange', 'newPaletteBlue'],
+    options: ['', 'yellow', 'newPaletteOrange', 'newPaletteBlue'],
   },
   setSelectedTab: {
     table: { disable: true },
