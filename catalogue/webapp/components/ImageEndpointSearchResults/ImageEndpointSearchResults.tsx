@@ -7,10 +7,12 @@ import { useRouter } from 'next/router';
 
 type Props = {
   images: CatalogueResultsList<Image>;
+  hasModal: boolean;
 };
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
+  hasModal = true,
 }: Props) => {
   const router = useRouter();
   const { page, imageId: routerImageId } = router.query;
@@ -83,25 +85,29 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               alt: '',
             }}
             onClick={event => {
-              event.preventDefault();
-              setExpandedImage(result);
-              setIsActive(true);
+              if (hasModal) {
+                event.preventDefault();
+                setExpandedImage(result);
+                setIsActive(true);
+              }
             }}
           />
         </li>
       ))}
-      <Modal
-        id={'expanded-image-dialog'}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        width={'80vw'}
-      >
-        <ExpandedImage
-          resultPosition={expandedImagePosition}
-          image={expandedImage}
-          setExpandedImage={setExpandedImage}
-        />
-      </Modal>
+      {hasModal && (
+        <Modal
+          id={'expanded-image-dialog'}
+          isActive={isActive}
+          setIsActive={setIsActive}
+          width={'80vw'}
+        >
+          <ExpandedImage
+            resultPosition={expandedImagePosition}
+            image={expandedImage}
+            setExpandedImage={setExpandedImage}
+          />
+        </Modal>
+      )}
     </ul>
   );
 };

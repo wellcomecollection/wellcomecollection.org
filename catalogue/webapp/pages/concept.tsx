@@ -58,9 +58,9 @@ const ConceptDescription = styled.section`
 // TODO use preset styles for sectionTitle?
 const ConceptImages = styled(Space)`
   background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
 
   .sectionTitle {
+    color: ${props => props.theme.color('white')};
     font-size: 1.75rem;
     margin-bottom: 1.875rem;
   }
@@ -181,7 +181,7 @@ export const ConceptPage: NextPage<Props> = ({
             <h2 className="sectionTitle">Images</h2>
             {/* TODO images get a white border over a certain screen size */}
             {/* TODO mobile; smaller images? */}
-            <ImageEndpointSearchResults images={images} />
+            <ImageEndpointSearchResults images={images} hasModal={false} />
             <SeeMoreButton
               text={`All images (${images.totalResults})`}
               link={`/images?source.subjects.label=${conceptResponse.label}`}
