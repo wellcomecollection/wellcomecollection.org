@@ -63,9 +63,7 @@ export function getNextWeekendDateRange(date: DateTypes): DateRange {
 
 // Returns the day before the current date
 export function dayBefore(date: Date): Date {
-  const prevDay = new Date(date);
-  prevDay.setDate(date.getDate() - 1);
-  return prevDay;
+  return addDays(date, -1);
 }
 
 export function startOfDay(d: Date): Date {
@@ -78,6 +76,16 @@ export function endOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(23, 59, 59, 999);
   return res;
+}
+
+// Get the start of the week; this assumes weeks start on a Sunday
+export function startOfWeek(d: Date): Date {
+  return addDays(d, -d.getDay());
+}
+
+// Get the start of the week; this assumes weeks start on a Sunday
+export function endOfWeek(d: Date): Date {
+  return addDays(d, 6 - d.getDay());
 }
 
 export function addDays(d: Date, days: number): Date {

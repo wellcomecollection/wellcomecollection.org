@@ -1,5 +1,14 @@
 import each from 'jest-each';
-import { dayBefore, isFuture, isPast, isSameDay, isSameMonth } from './dates';
+import {
+  dayBefore,
+  endOfWeek,
+  isFuture,
+  isPast,
+  isSameDay,
+  isSameMonth,
+  startOfWeek,
+} from './dates';
+import { london } from './format-date';
 
 it('identifies dates in the past', () => {
   expect(isPast(new Date(2001, 1, 1, 1, 1, 1, 999))).toEqual(true);
@@ -96,4 +105,39 @@ describe('dayBefore', () => {
   ])('the day before $day is $prevDay', ({ day, prevDay }) => {
     expect(dayBefore(day)).toStrictEqual(prevDay);
   });
+});
+
+describe('startOfWeek', () => {
+  test.each([
+    { day: new Date('2022-09-02'), expectedStart: new Date('2022-08-28') },
+    { day: new Date('2022-09-01'), expectedStart: new Date('2022-08-28') },
+    { day: new Date('2022-08-28'), expectedStart: new Date('2022-08-28') },
+  ])(
+    'the start of the week containing $day is $expectedStart',
+    ({ day, expectedStart }) => {
+      expect(startOfWeek(day)).toStrictEqual(expectedStart);
+      console.log(
+        `${startOfWeek(day)}, ${london(day).startOf('week').toDate()}`
+      );
+      expect(
+        isSameDay(startOfWeek(day), london(day).startOf('week').toDate())
+      ).toBeTruthy();
+    }
+  );
+});
+
+describe('endOfWeek', () => {
+  test.each([
+    { day: new Date('2022-09-02'), expectedStart: new Date('2022-09-03') },
+    { day: new Date('2022-09-01'), expectedStart: new Date('2022-09-03') },
+    { day: new Date('2022-08-27'), expectedStart: new Date('2022-08-27') },
+  ])(
+    'the start of the week containing $day is $expectedStart',
+    ({ day, expectedStart }) => {
+      expect(endOfWeek(day)).toStrictEqual(expectedStart);
+      expect(
+        isSameDay(endOfWeek(day), london(day).endOf('week').toDate())
+      ).toBeTruthy();
+    }
+  );
 });
