@@ -44,7 +44,8 @@ export function transformCollectionVenue(
           const start = modified.startDateTime;
           const end = modified.endDateTime;
           const isClosed = !start;
-          const overrideDate = modified.overrideDate;
+          const overrideDate =
+            modified.overrideDate && new Date(modified.overrideDate);
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
             return {
