@@ -58,7 +58,7 @@ const ConceptDescription = styled.section`
 const ConceptImages = styled(Space)`
   background-color: ${props => props.theme.color('black')};
 
-  h2 {
+  .sectionTitle {
     color: ${props => props.theme.color('white')};
   }
 `;
@@ -107,6 +107,7 @@ const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
       background: leadingColor,
       text: 'black',
     }}
+    hoverUnderline={true}
   />
 );
 
@@ -166,11 +167,8 @@ export const ConceptPage: NextPage<Props> = ({
           as="section"
           v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
         >
-          {/* TODO determine if we want it to overflow completely or stay within a container */}
-          <div className="container" style={{ paddingRight: 0 }}>
+          <div className="container">
             <h2 className="sectionTitle font-size-2">Images</h2>
-            {/* TODO images get a white border over a certain screen size */}
-            {/* TODO mobile; smaller images? */}
             <ImageEndpointSearchResults images={images} />
             <SeeMoreButton
               text={`All images (${images.totalResults})`}
@@ -208,7 +206,8 @@ export const ConceptPage: NextPage<Props> = ({
                       selected: selectedTab === 'works-by',
                     },
                   ]}
-                  color={leadingColor}
+                  // TODO do we want to change these? Decide when we land on a color
+                  // color={leadingColor}
                   setSelectedTab={setSelectedTab}
                 />
               )}
