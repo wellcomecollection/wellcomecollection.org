@@ -34,7 +34,7 @@ export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
       if (!i) {
         return true;
       } else if (firstDate && prevDate) {
-        return isSameDay(firstDate, prevDate);
+        return !isSameDay(firstDate, prevDate);
       }
     });
 }
