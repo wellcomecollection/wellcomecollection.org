@@ -24,6 +24,14 @@ const NowPage: FC<Props> = ({ now }) => {
     <>
       <p>now = {now.toString()}</p>
       <p>typeof now = {typeof now}</p>
+
+      <p>now.valueOf() = {now.valueOf()}</p>
+
+      <p>
+        {now < new Date()
+          ? 'server is behind client'
+          : 'server is the same as client'}
+      </p>
     </>
   );
 };
