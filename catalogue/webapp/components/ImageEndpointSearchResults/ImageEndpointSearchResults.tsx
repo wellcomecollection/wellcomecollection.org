@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  hasModal: boolean;
+  hasModal?: boolean;
 };
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
@@ -39,7 +39,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   useEffect(() => {
     // If there is a set expandedImage and it's a different one than the current queried one
     // Change URL to reflect the change
-    if (!!expandedImage && routerImageId !== expandedImage.id) {
+    if (!!expandedImage && routerImageId !== expandedImage.id && hasModal) {
       router.push(
         `${router.pathname}?${page ? 'page=' + page + '&' : ''}imageId=${
           expandedImage.id
@@ -54,7 +54,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   useEffect(() => {
     // If isActive changes to false, reset the URL to no imageId
-    if (!isActive) {
+    if (!isActive && hasModal) {
       router.push(
         `${router.pathname}${page ? '?page=' + page : ''}`,
         undefined,
@@ -68,7 +68,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   useEffect(() => {
     // If there is an imageId in the query, fetch that image and display it
     // Otherwise ensure modal is closed and URL resets
-    routerImageId ? getImage(routerImageId) : setIsActive(false);
+    routerImageId && hasModal ? getImage(routerImageId) : setIsActive(false);
   }, [routerImageId]);
 
   return (
