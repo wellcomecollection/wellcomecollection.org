@@ -1,7 +1,6 @@
-import { london } from '../../../utils/format-date';
 import { Venue } from '../../../model/opening-hours';
 
-export const restaurantVenue = {
+export const restaurantVenue: Venue = {
   id: 'WsuYER8AAOG_NyBA',
   order: 3,
   name: 'Restaurant',
@@ -52,7 +51,7 @@ export const restaurantVenue = {
     ],
     exceptional: [
       {
-        overrideDate: london('2022-04-10'),
+        overrideDate: new Date('2022-04-10'),
         overrideType: 'other',
         opens: '00:00',
         closes: '00:00',
@@ -61,4 +60,4 @@ export const restaurantVenue = {
     ],
   },
   linkText: 'Explore the menus',
-} as Venue;
+};

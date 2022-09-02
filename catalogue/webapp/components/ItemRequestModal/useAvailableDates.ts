@@ -39,7 +39,7 @@ export const useAvailableDates = (): AvailableDates => {
   const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
     .map(day => {
       const exceptionalDay = day as ExceptionalOpeningHoursDay;
-      return exceptionalDay.overrideDate as Moment;
+      return london(exceptionalDay.overrideDate);
     })
     .filter(Boolean);
 

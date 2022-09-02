@@ -1,4 +1,3 @@
-import { london } from '../../../utils/format-date';
 import { Venue } from '../../../model/opening-hours';
 
 export const galleriesVenue: Venue = {
@@ -52,49 +51,49 @@ export const galleriesVenue: Venue = {
     ],
     exceptional: [
       {
-        overrideDate: london('2022-01-01'),
+        overrideDate: new Date('2022-01-01'),
         overrideType: 'Christmas and New Year',
         opens: '12:00',
         closes: '14:00',
         isClosed: false,
       },
       {
-        overrideDate: london('2021-12-31'),
+        overrideDate: new Date('2021-12-31'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2021-12-20'),
+        overrideDate: new Date('2021-12-20'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2022-02-04'),
+        overrideDate: new Date('2022-02-04'),
         overrideType: 'Bank holiday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2022-02-05'),
+        overrideDate: new Date('2022-02-05'),
         overrideType: 'Bank holiday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2021-01-05'),
+        overrideDate: new Date('2021-01-05'),
         overrideType: 'Bank holiday',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2022-12-31'),
+        overrideDate: new Date('2022-12-31'),
         overrideType: 'Christmas and New Year',
         opens: '10:00',
         closes: '14:00',

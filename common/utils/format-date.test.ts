@@ -9,33 +9,33 @@ import {
 } from './format-date';
 
 it('formats a day', () => {
-  const result = formatDay(new Date(2001, 1, 1, 1, 1, 1));
+  const result = formatDay(new Date('2001-01-01'));
 
-  expect(result).toEqual('Thursday');
+  expect(result).toEqual('Monday');
 });
 
 it('formats a day with a date', () => {
-  const result = formatDayDate(new Date(2001, 2, 3, 1, 1, 1));
+  const result = formatDayDate(new Date('2001-02-03'));
 
-  expect(result).toEqual('Saturday 3 March 2001');
+  expect(result).toEqual('Saturday 3 February 2001');
 });
 
 it('formats a date', () => {
-  const result = formatDate(new Date(2009, 3, 27, 1, 1, 1));
+  const result = formatDate(new Date('2009-03-27'));
 
-  expect(result).toEqual('27 April 2009');
+  expect(result).toEqual('27 March 2009');
 });
 
 it('formats a timestamp', () => {
-  const result1 = formatTime(new Date(2009, 3, 27, 17, 21, 1));
-  expect(result1).toEqual('18:21');
+  const result1 = formatTime(new Date('2009-03-27T17:21:01Z'));
+  expect(result1).toEqual('17:21');
 
-  const result2 = formatTime(new Date(2009, 3, 27, 9, 41, 1));
-  expect(result2).toEqual('10:41');
+  const result2 = formatTime(new Date('2009-03-27T09:41:01Z'));
+  expect(result2).toEqual('09:41');
 });
 
 it('formats a year', () => {
-  const result = formatYear(new Date(2009, 3, 27, 1, 1, 1));
+  const result = formatYear(new Date('2009-03-27T01:01:01Z'));
 
   expect(result).toEqual('2009');
 });

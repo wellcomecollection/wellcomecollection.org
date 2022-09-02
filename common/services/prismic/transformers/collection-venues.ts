@@ -2,7 +2,7 @@ import {
   ResultsLite,
   CollectionVenuePrismicDocumentLite,
 } from '../../../server-data/prismic';
-import { formatTime, london } from '../../../utils/format-date';
+import { formatTime } from '../../../utils/format-date';
 import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
@@ -44,9 +44,8 @@ export function transformCollectionVenue(
           const start = modified.startDateTime;
           const end = modified.endDateTime;
           const isClosed = !start;
-          const overrideDate = modified.overrideDate
-            ? london(modified.overrideDate)
-            : undefined;
+          const overrideDate =
+            modified.overrideDate && new Date(modified.overrideDate);
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
             return {
@@ -102,7 +101,7 @@ export function fixVenueDatesInJson(venue: Venue): Venue {
       ...venue.openingHours,
       exceptional: venue.openingHours.exceptional.map(exceptionalOpening => ({
         ...exceptionalOpening,
-        overrideDate: london(exceptionalOpening.overrideDate),
+        overrideDate: new Date(exceptionalOpening.overrideDate),
       })),
     },
   };

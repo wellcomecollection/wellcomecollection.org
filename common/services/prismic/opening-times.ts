@@ -1,4 +1,4 @@
-import { london } from '../../utils/format-date';
+import { formatDay, london } from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
 import {
   OverrideType,
@@ -8,8 +8,8 @@ import {
   OpeningHoursDay,
   ExceptionalOpeningHoursDay,
 } from '../../model/opening-hours';
-import { Moment } from 'moment';
 import { isNotUndefined } from '../../utils/array';
+import { dayBefore, isSameDay } from '../../utils/dates';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -33,16 +33,8 @@ export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
       const prevDate = lastItem && lastItem.overrideDate;
       if (!i) {
         return true;
-      } else if (
-        firstDate &&
-        firstDate.toDate() instanceof Date &&
-        prevDate &&
-        prevDate.toDate() instanceof Date
-      ) {
-        return (
-          london(firstDate.toDate()).format('YYYY-MM-DD') !==
-          london(prevDate.toDate()).format('YYYY-MM-DD')
-        );
+      } else if (firstDate && prevDate) {
+        return !isSameDay(firstDate, prevDate);
       }
     });
 }
@@ -69,7 +61,9 @@ export function exceptionalOpeningPeriods(
         };
       } else if (
         previousDate &&
-        date.overrideDate?.isBefore(previousDate.clone().add(6, 'days')) &&
+        date.overrideDate &&
+        date.overrideDate <
+          london(previousDate).clone().add(6, 'days').toDate() &&
         date.overrideType === acc[groupedIndex].type
       ) {
         acc[groupedIndex].dates.push(date.overrideDate);
@@ -83,8 +77,8 @@ export function exceptionalOpeningPeriods(
       return acc;
     }, [] as ExceptionalPeriod[])
     .sort((a, b) => {
-      // order groups by their earlist date
-      return a.dates[0].isBefore(b.dates[0]) ? -1 : 1;
+      // order groups by their earliest date
+      return a.dates[0] < b.dates[0] ? -1 : 1;
     });
 }
 
@@ -95,9 +89,9 @@ export function exceptionalOpeningPeriodsAllDates(
     const startDate = period.dates[0];
     const lastDate = period.dates[period.dates.length - 1];
 
-    const arrayLength = lastDate.diff(startDate, 'days') + 1;
+    const arrayLength = london(lastDate).diff(startDate, 'days') + 1;
     const completeDateArray = [...Array(arrayLength).keys()].map(i => {
-      return startDate.clone().add(i, 'days');
+      return london(startDate).clone().add(i, 'days').toDate();
     });
 
     return {
@@ -118,17 +112,22 @@ export function groupExceptionalVenueDays(
 ): ExceptionalOpeningHoursDay[][] {
   return exceptionalDays.length > 0
     ? exceptionalDays
-        .sort((a, b) => {
-          return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
-        })
+        .sort(
+          (a, b) =>
+            (a.overrideDate &&
+              london(a.overrideDate).diff(b.overrideDate, 'days')) ??
+            0
+        )
         .reduce(
           (acc, date) => {
             const group = acc[acc.length - 1];
             if (
-              (date.overrideDate?.diff(
-                (group[0] && group[0].overrideDate) || date.overrideDate,
-                'days'
-              ) ?? 0) > 14
+              ((date.overrideDate &&
+                london(date.overrideDate).diff(
+                  (group[0] && group[0].overrideDate) || date.overrideDate,
+                  'days'
+                )) ??
+                0) > 14
             ) {
               acc.push([date]);
             } else {
@@ -143,10 +142,10 @@ export function groupExceptionalVenueDays(
 
 export function exceptionalFromRegular(
   venue: Venue,
-  dateToGet: Moment,
+  dateToGet: Date,
   type: OverrideType
 ): ExceptionalOpeningHoursDay {
-  const currentDay = dateToGet.format('dddd');
+  const currentDay = formatDay(dateToGet);
   const regular = venue.openingHours.regular.find(
     hours => hours.dayOfWeek === currentDay
   );
@@ -170,17 +169,17 @@ export function backfillExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
   return (allVenueExceptionalPeriods ?? []).map(period => {
-    const sortedDates = period.dates.sort((a, b) => {
-      return a.diff(b, 'days');
-    });
+    const sortedDates = period.dates.sort((a, b) => london(a).diff(b, 'days'));
     const type = period.type || 'other';
     const days = sortedDates
       .map(date => {
-        const matchingVenueGroup = groupedExceptionalDays.find(group => {
-          return group.find(day => day.overrideDate?.isSame(date, 'day'));
-        });
-        const matchingDay = matchingVenueGroup?.find(day =>
-          day.overrideDate?.isSame(date, 'day')
+        const matchingVenueGroup = groupedExceptionalDays.find(group =>
+          group.find(
+            day => day.overrideDate && isSameDay(day.overrideDate, date)
+          )
+        );
+        const matchingDay = matchingVenueGroup?.find(
+          day => day.overrideDate && isSameDay(day.overrideDate, date)
         );
         const backfillDay = exceptionalFromRegular(venue, date, type);
         if (type === 'other') {
@@ -199,20 +198,20 @@ export function groupConsecutiveExceptionalDays(
   dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
   return dates
-    .sort((a, b) => {
-      return a.overrideDate?.diff(b.overrideDate, 'days') ?? 0;
-    })
+    .sort((a, b) => (a.overrideDate > b.overrideDate ? 1 : -1))
     .reduce((acc, date) => {
       const group = acc[acc.length - 1];
+      const lastDayOfGroup = group && group[group.length - 1]?.overrideDate;
+
       if (
-        !group ||
-        date.overrideDate.diff(group[group.length - 1]?.overrideDate, 'days') >
-          1
+        lastDayOfGroup &&
+        isSameDay(dayBefore(date.overrideDate), lastDayOfGroup)
       ) {
-        acc.push([date]);
-      } else {
         group.push(date);
+      } else {
+        acc.push([date]);
       }
+
       return acc;
     }, [] as ExceptionalOpeningHoursDay[][]);
 }
@@ -220,13 +219,13 @@ export function groupConsecutiveExceptionalDays(
 export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
 ): ExceptionalOpeningHoursDay[][] {
+  const startOfToday = london().startOf('day').toDate();
+  const upcomingUntil = london().add(28, 'day').endOf('day').toDate();
+
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
-    const upcomingPeriod = period.find(d => {
-      return (
-        d.overrideDate?.isSameOrBefore(london().add(28, 'day'), 'day') &&
-        d.overrideDate?.isSameOrAfter(london(), 'day')
-      );
-    });
+    const upcomingPeriod = period.find(
+      d => startOfToday <= d.overrideDate && d.overrideDate <= upcomingUntil
+    );
     return upcomingPeriod || false;
   });
   return nextUpcomingPeriods;
@@ -241,11 +240,11 @@ export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = london();
-  const todayString = todaysDate.format('dddd');
+  const todayString = formatDay(todaysDate);
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>
-      todaysDate.startOf('day').isSame(i.overrideDate.startOf('day'))
+      isSameDay(todaysDate.toDate(), i.overrideDate)
     );
   const regularOpeningHours =
     venue.openingHours.regular &&

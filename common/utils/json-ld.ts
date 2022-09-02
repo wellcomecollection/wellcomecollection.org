@@ -7,6 +7,7 @@ import type {
   OpeningHoursDay,
   SpecialOpeningHours,
 } from '../model/opening-hours';
+import { formatDate } from './format-date';
 
 type ObjToJsonLdProps = { type: string; root?: boolean };
 
@@ -113,8 +114,8 @@ export function openingHoursLd(openingHours: OpeningHours | undefined): {
           const specObject = {
             opens: openingHoursDate.opens,
             closes: openingHoursDate.closes,
-            validFrom: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
-            validThrough: openingHoursDate.overrideDate?.format('DD MMMM YYYY'),
+            validFrom: formatDate(openingHoursDate.overrideDate),
+            validThrough: formatDate(openingHoursDate.overrideDate),
           };
           return objToJsonLd(specObject, {
             type: 'OpeningHoursSpecification',

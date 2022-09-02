@@ -1,4 +1,3 @@
-import { Moment } from 'moment';
 import { ImageType } from './image';
 
 export type Day =
@@ -20,13 +19,13 @@ export type OverrideType =
   | 'other';
 
 export type OverrideDate = {
-  overrideDate: Moment;
+  overrideDate: Date;
   overrideType: OverrideType;
 };
 
 export type ExceptionalPeriod = {
   type: OverrideType;
-  dates: Moment[];
+  dates: Date[];
 };
 
 export type OpeningHoursDay = {
@@ -37,7 +36,7 @@ export type OpeningHoursDay = {
 };
 
 export type ExceptionalOpeningHoursDay = {
-  overrideDate: Moment;
+  overrideDate: Date;
   overrideType: OverrideType;
   opens: string;
   closes: string;
