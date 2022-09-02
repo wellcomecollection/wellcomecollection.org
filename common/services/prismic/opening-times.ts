@@ -9,7 +9,7 @@ import {
   ExceptionalOpeningHoursDay,
 } from '../../model/opening-hours';
 import { isNotUndefined } from '../../utils/array';
-import { isSameDay } from '../../utils/dates';
+import { dayBefore, isSameDay } from '../../utils/dates';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -199,25 +199,20 @@ export function groupConsecutiveExceptionalDays(
   dates: ExceptionalOpeningHoursDay[]
 ): ExceptionalOpeningHoursDay[][] {
   return dates
-    .sort(
-      (a, b) =>
-        (a.overrideDate &&
-          london(a.overrideDate).diff(b.overrideDate, 'days')) ??
-        0
-    )
+    .sort((a, b) => (a.overrideDate > b.overrideDate ? 1 : -1))
     .reduce((acc, date) => {
       const group = acc[acc.length - 1];
+      const lastDayOfGroup = group && group[group.length - 1]?.overrideDate;
+
       if (
-        !group ||
-        london(date.overrideDate).diff(
-          group[group.length - 1]?.overrideDate,
-          'days'
-        ) > 1
+        lastDayOfGroup &&
+        isSameDay(dayBefore(date.overrideDate), lastDayOfGroup)
       ) {
-        acc.push([date]);
-      } else {
         group.push(date);
+      } else {
+        acc.push([date]);
       }
+
       return acc;
     }, [] as ExceptionalOpeningHoursDay[][]);
 }

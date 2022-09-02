@@ -47,6 +47,13 @@ export function isDayPast(date: Date): boolean {
   }
 }
 
+// Returns the day before the current date
+export function dayBefore(date: Date): Date {
+  const prevDay = new Date(date);
+  prevDay.setDate(date.getDate() - 1);
+  return prevDay;
+}
+
 export function getNextWeekendDateRange(date: DateTypes): DateRange {
   const today = london(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
