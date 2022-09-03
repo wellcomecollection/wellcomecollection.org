@@ -68,7 +68,7 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
     height: image.dimensions.height,
     alt,
     tasl,
-    simpleCrops,
-    richCrops,
+    simpleCrops: Object.keys(simpleCrops).length > 0 ? simpleCrops : undefined,
+    richCrops: Object.keys(richCrops).length > 0 ? richCrops : undefined,
   };
 }
