@@ -1,3 +1,5 @@
+import { isUndefined } from './array';
+
 type Keyable = { [key: string]: any };
 
 // removes keys with value undefined | null associated with them
@@ -12,6 +14,14 @@ export function removeEmptyProps(obj: Record<string, unknown>): Keyable {
 }
 
 // removes keys with value undefined associated with them
-export function removeUndefinedProps<T>(obj: T): T {
-  return JSON.parse(JSON.stringify(obj));
+export function removeUndefinedProps<T extends Record<string, any>>(t: T): T {
+  Object.keys(t).forEach((key: string) => {
+    if (t[key] && typeof t[key] === 'object') {
+      removeUndefinedProps(t[key]);
+    } else if (isUndefined(t[key]) || t[key] === null) {
+      delete t[key];
+    }
+  });
+
+  return t;
 }
