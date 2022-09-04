@@ -65,10 +65,20 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     series: series.map(transformSeriesToSeriesBasic),
     title,
     format,
-    image,
     datePublished,
     labels,
     color,
+    // We only use the square crop of an image in the <ArticleCard> component,
+    // so we can omit sending any other crops.
+    image: image && {
+      ...image,
+      simpleCrops: image.simpleCrops?.square && {
+        square: image.simpleCrops.square,
+      },
+      richCrops: image.richCrops?.square && {
+        square: image.richCrops.square,
+      },
+    },
   }))(article);
 }
 
