@@ -28,7 +28,6 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
-import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -42,6 +41,7 @@ type ImagesPaginationProps = {
   imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
+  isLoading?: boolean;
 };
 
 const ImagesPagination = ({
@@ -51,6 +51,7 @@ const ImagesPagination = ({
   imagesRouteProps,
   hideMobilePagination,
   hideMobileTotalResults,
+  isLoading,
 }: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
@@ -76,6 +77,7 @@ const ImagesPagination = ({
       }}
       hideMobilePagination={hideMobilePagination}
       hideMobileTotalResults={hideMobileTotalResults}
+      isLoading={isLoading}
     />
   </div>
 );
@@ -194,6 +196,7 @@ const Images: NextPage<Props> = ({
                       results={images}
                       imagesRouteProps={imagesRouteProps}
                       hideMobilePagination={true}
+                      isLoading={isLoading}
                     />
                   </div>
                 </div>
@@ -207,12 +210,7 @@ const Images: NextPage<Props> = ({
               }}
             >
               <div className="container">
-                {isLoading && (
-                  <div style={{ height: '200px', position: 'relative' }}>
-                    <LL />
-                  </div>
-                )}
-                {!isLoading && <ImageEndpointSearchResults images={images} />}
+                <ImageEndpointSearchResults images={images} />
               </div>
 
               <Space
@@ -234,6 +232,7 @@ const Images: NextPage<Props> = ({
                         results={images}
                         imagesRouteProps={imagesRouteProps}
                         hideMobileTotalResults={true}
+                        isLoading={isLoading}
                       />
                     </div>
                   </div>
