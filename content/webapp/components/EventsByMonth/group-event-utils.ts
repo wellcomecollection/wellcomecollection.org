@@ -1,6 +1,3 @@
-// Utilities for grouping events
-
-import sortBy from 'lodash.sortby';
 import {
   getEarliestFutureDateRange,
   isFuture,
@@ -120,18 +117,23 @@ export function groupEventsByMonth<T extends HasTimes>(
   }, {} as Record<string, T[]>);
 }
 
+function getEarliestStart(t: HasTimes): Date | undefined {
+  const times = t.times.map(time => ({
+    start: time.range.startDateTime,
+    end: time.range.endDateTime,
+  }));
+
+  const earliestRange = getEarliestFutureDateRange(times);
+  return earliestRange && earliestRange.start;
+}
+
 export function sortByEarliestFutureDateRange<T extends HasTimes>(
   events: T[]
 ): T[] {
-  return sortBy(events, [
-    m => {
-      const times = m.times.map(time => ({
-        start: time.range.startDateTime,
-        end: time.range.endDateTime,
-      }));
+  return events.sort((a, b) => {
+    const startA = getEarliestStart(a);
+    const startB = getEarliestStart(b);
 
-      const earliestRange = getEarliestFutureDateRange(times);
-      return earliestRange && earliestRange.start;
-    },
-  ]);
+    return startA && startB && startA > startB ? 1 : -1;
+  });
 }
