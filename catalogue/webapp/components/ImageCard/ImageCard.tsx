@@ -38,7 +38,7 @@ const ImageCard: FC<Props> = ({ id, image, onClick, workId }: Props) => {
         id={id}
         title={isEnhanced ? 'Open modal window' : undefined}
       >
-        <IIIFImage image={image} layout="fill" />
+        <IIIFImage image={image} layout="fixed" />
       </StyledLink>
     </NextLink>
   );
