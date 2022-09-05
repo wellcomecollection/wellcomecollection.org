@@ -48,7 +48,6 @@ import {
   fetchEventsClientSide,
 } from '../services/prismic/fetch/events';
 import {
-  fixEventDatesInJson,
   getScheduleIds,
   transformEvent,
 } from '../services/prismic/transformers/events';
@@ -77,7 +76,7 @@ const DateWrapper = styled.div.attrs({
 `;
 
 type Props = {
-  jsonEvent: Event;
+  event: Event;
   jsonLd: JsonLdObj[];
 } & WithGaDimensions;
 
@@ -162,13 +161,11 @@ const eventInterpretationIcons: Record<string, IconSvg> = {
   audioDescribed: audioDescribed,
 };
 
-const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
+const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
   const [scheduledIn, setScheduledIn] = useState<Event>();
   const getScheduledIn = async () => {
     const scheduledInQuery = await fetchEventsClientSide({
-      predicates: [
-        prismic.predicate.at('my.events.schedule.event', jsonEvent.id),
-      ],
+      predicates: [prismic.predicate.at('my.events.schedule.event', event.id)],
     });
 
     if (
@@ -181,8 +178,6 @@ const EventPage: NextPage<Props> = ({ jsonEvent, jsonLd }: Props) => {
   useEffect(() => {
     getScheduledIn();
   }, []);
-
-  const event = fixEventDatesInJson(jsonEvent);
 
   const maybeFeaturedMedia = getFeaturedMedia(event);
   const hasFeaturedVideo =
@@ -518,12 +513,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
 
   const jsonLd = eventLd(event);
 
-  // This is a bit of nonsense as the event type has loads `undefined` values
-  // which we could pick out explicitly, or do this.
-  // See: https://github.com/vercel/next.js/discussions/11209#discussioncomment-35915
   return {
     props: removeUndefinedProps({
-      jsonEvent: JSON.parse(JSON.stringify(event)),
+      event,
       jsonLd,
       serverData,
       gaDimensions: {

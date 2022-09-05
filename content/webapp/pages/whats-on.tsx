@@ -65,17 +65,12 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
-  fixEventDatesInJson,
   transformEvent,
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import {
-  fixExhibitionDatesInJson,
-  transformExhibitionsQuery,
-} from '../services/prismic/transformers/exhibitions';
-import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { getNextWeekendDateRange } from '@weco/common/utils/dates';
 
 const segmentedControlItems = [
@@ -102,8 +97,6 @@ export type Props = {
   availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  tryTheseTooPromos: FacilityPromoType[];
-  eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
   jsonLd: JsonLdObj[];
 };
@@ -371,9 +364,6 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           events,
           availableOnlineEvents,
           dateRange,
-          tryTheseTooPromos: [readingRoomPromo],
-          eatShopPromos: [cafePromo],
-          cafePromo,
           jsonLd,
           featuredText: featuredText!,
           serverData,
@@ -387,17 +377,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const WhatsOnPage: FunctionComponent<Props> = props => {
   const {
     period,
+    exhibitions,
+    events,
+    availableOnlineEvents,
     dateRange,
-    tryTheseTooPromos,
-    eatShopPromos,
-    featuredText,
     jsonLd,
+    featuredText,
   } = props;
 
-  const events = props.events.map(fixEventDatesInJson);
-  const availableOnlineEvents =
-    props.availableOnlineEvents.map(fixEventDatesInJson);
-  const exhibitions = props.exhibitions.map(fixExhibitionDatesInJson);
+  const tryTheseTooPromos = [readingRoomPromo];
+  const eatShopPromos = [cafePromo];
 
   const firstExhibition = exhibitions[0];
 

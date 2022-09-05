@@ -250,7 +250,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                 [font('intr', 6)]: true,
               })}
             >
-              <HTMLDate date={new Date(article.datePublished)} />
+              <HTMLDate date={article.datePublished} />
             </span>
           </p>
         </Space>

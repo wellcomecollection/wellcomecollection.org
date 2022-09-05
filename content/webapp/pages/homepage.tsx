@@ -36,16 +36,12 @@ import { fetchPage } from '../services/prismic/fetch/pages';
 import { transformPage } from '../services/prismic/transformers/pages';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import {
-  fixEventDatesInJson,
   transformEvent,
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions, homepageHeading } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import {
-  fixExhibitionDatesInJson,
-  transformExhibitionsQuery,
-} from '../services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { ImageType } from '@weco/common/model/image';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { BodySlice, isContentList, isStandfirst } from 'types/body';
@@ -135,16 +131,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const Homepage: FC<Props> = ({
-  nextSevenDaysEvents: jsonEvents,
-  exhibitions: jsonExhibitions,
+  nextSevenDaysEvents,
+  exhibitions,
   articles,
   jsonLd,
   standfirst,
   contentLists,
 }) => {
-  const nextSevenDaysEvents = jsonEvents.map(fixEventDatesInJson);
-  const exhibitions = jsonExhibitions.map(fixExhibitionDatesInJson);
-
   const headerList = contentLists.length === 2 ? contentLists[0] : null;
   const contentList =
     contentLists.length === 2 ? contentLists[1] : contentLists[0];
@@ -202,7 +195,7 @@ const Homepage: FC<Props> = ({
           <SpacingComponent>
             <ExhibitionsAndEvents
               exhibitions={exhibitions}
-              events={nextSevenDaysEvents as EventBasic[]}
+              events={nextSevenDaysEvents}
               links={[{ text: 'All exhibitions and events', url: '/whats-on' }]}
             />
           </SpacingComponent>
