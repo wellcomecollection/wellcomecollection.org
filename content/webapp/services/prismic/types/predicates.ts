@@ -13,7 +13,7 @@ export const getPeriodPredicates = ({
   const now = london(new Date());
   const startOfDay = moment().startOf('day');
   const endOfDay = moment().endOf('day');
-  const weekendDateRange = getNextWeekendDateRange(now);
+  const weekendDateRange = getNextWeekendDateRange(now.toDate());
   const predicates =
     period === 'coming-up'
       ? [predicate.dateAfter(startField, endOfDay.toDate())]
