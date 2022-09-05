@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
-import { classNames } from '@weco/common/utils/classnames';
+
 import { ImageType } from '@weco/common/model/image';
 import {
   iiifImageTemplate,
@@ -24,7 +24,6 @@ export type Props = {
   }) => void;
   priority?: boolean;
   layout: 'raw' | 'fill';
-  width?: number;
 };
 
 const IIIFImage: FC<Props> = ({
@@ -33,7 +32,6 @@ const IIIFImage: FC<Props> = ({
   onLoadingComplete,
   priority = false,
   layout,
-  width = 300,
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -49,24 +47,23 @@ const IIIFImage: FC<Props> = ({
       {layout === 'raw' ? (
         <img
           src={iiifImageTemplate(image.contentUrl)({
-            size: `${width},`,
+            size: `${image.width},`,
           })}
           srcSet={''}
           sizes={sizesString}
         />
       ) : (
         <Image
-          layout={layout}
-          className={classNames({
-            'bg-white font-charcoal': true,
-          })}
           sizes={sizesString}
           src={image.contentUrl}
           alt={image.alt || ''}
           loader={IIIFLoader}
           onLoadingComplete={onLoadingComplete}
-          objectFit="contain"
+          width={image.width}
+          height={image.height}
           priority={priority}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNctWxZEQAGYgJqdIxNSwAAAABJRU5ErkJggg=="
         />
       )}
     </>

@@ -61,7 +61,6 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
                 height: 180,
                 alt: '',
               }}
-              width={180}
             />
           </a>
         ))}

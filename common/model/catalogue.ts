@@ -271,6 +271,7 @@ export type Image = {
     type: string;
   };
   visuallySimilar?: Image[];
+  aspectRatio?: number;
 };
 
 export type CatalogueAggregationBucket = {

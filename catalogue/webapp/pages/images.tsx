@@ -28,6 +28,7 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import LL from '@weco/common/views/components/styled/LL';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -83,14 +84,14 @@ const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
 }): ReactElement<Props> => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
-      setLoading(true);
+      setIsLoading(true);
     }
     function routeChangeComplete() {
-      setLoading(false);
+      setIsLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -204,10 +205,14 @@ const Images: NextPage<Props> = ({
                 size: 'l',
                 properties: ['padding-top'],
               }}
-              style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {images && <ImageEndpointSearchResults images={images} />}
+                {isLoading && (
+                  <div style={{ height: '200px', position: 'relative' }}>
+                    <LL />
+                  </div>
+                )}
+                {!isLoading && <ImageEndpointSearchResults images={images} />}
               </div>
 
               <Space
