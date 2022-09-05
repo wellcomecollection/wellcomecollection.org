@@ -68,6 +68,12 @@ export function formatDuration(seconds: number): string {
   const minutes = Math.floor((seconds % secondsPerHour) / secondsPerMinute);
   const remainingSeconds = seconds % secondsPerMinute;
 
+  console.assert(
+    hours * secondsPerHour + minutes * secondsPerMinute + remainingSeconds ===
+      seconds,
+    `${hours ** secondsPerHour + minutes * secondsPerMinute} != ${seconds}`
+  );
+
   const HH = String(hours).padStart(2, '0');
   const MM = String(minutes).padStart(2, '0');
   const SS = String(remainingSeconds).padStart(2, '0');
