@@ -230,7 +230,7 @@ export function isEventPast({ times }: Event): boolean {
   return !hasFutureEvents;
 }
 
-export function upcomingDatesFullyBooked(event: Event | EventBasic): boolean {
+export function upcomingDatesFullyBooked(event: HasTimes): boolean {
   const upcoming =
     event.times.length > 0
       ? event.times.filter(({ range }) => !isPast(range.endDateTime))
