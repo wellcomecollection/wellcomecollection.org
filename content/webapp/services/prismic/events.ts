@@ -108,10 +108,7 @@ type EventsGroup = {
   events: Event[];
 };
 
-export function groupEventsBy(
-  events: Event[],
-  groupBy: GroupDatesBy
-): EventsGroup[] {
+export function groupEventsByDay(events: Event[]): EventsGroup[] {
   // Get the full range of all the events
   const range = events
     .map(({ times }) =>
@@ -131,10 +128,10 @@ export function groupEventsBy(
   // Convert the range into an array of labeled event groups
   const ranges: EventsGroup[] = getRanges(
     {
-      start: london(range.start).startOf(groupBy),
-      end: london(range.end).endOf(groupBy),
+      start: london(range.start).startOf('day'),
+      end: london(range.end).endOf('day'),
     },
-    groupBy
+    'day'
   ).map(range => ({
     label: range.label,
     start: range.start.toDate(),
