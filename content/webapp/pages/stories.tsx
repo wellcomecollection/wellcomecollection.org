@@ -153,10 +153,24 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     )!.series;
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
-    const basicSeries = {
+    // Note: an ArticleBasic contains a lot of information, but we only use
+    // a little bit of the series information in the <CardGrid> component
+    // where this gets used.
+    //
+    // This basic-ification removes some of the heaviest fields that we aren't
+    // using, to keep the page weight down.
+    const basicSeries: SerialisedSeriesProps = {
       ...transformSeriesToSeriesBasic(series),
       promo: series.promo,
-      items: series.items,
+      items: series.items.map(item => ({
+        ...item,
+        image: undefined,
+        series: item.series.map(s => ({
+          id: s.id,
+          title: s.title,
+          schedule: [],
+        })),
+      })),
     };
 
     if (articles && articles.results) {
