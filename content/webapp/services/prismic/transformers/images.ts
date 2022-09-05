@@ -55,6 +55,21 @@ export function transformPromoToCaptionedImage(
   }
 }
 
+// We intentionally omit the alt text on promos, so screen reader
+// users don't have to listen to the alt text before hearing the
+// title of the item in the list.
+//
+// This is a named constant we can mix in when we want to omit alt
+// text, so we only have to write this parent comment once, and not
+// copy it everywhere.  e.g.
+//
+//      promo = { ...promo, ...noAltTextBecausePromo }
+//
+// See https://github.com/wellcomecollection/wellcomecollection.org/issues/6007
+export const noAltTextBecausePromo = {
+  alt: null,
+};
+
 // null is valid to use the default image,
 // which isn't on a property, but rather at the root
 export function transformImagePromo(

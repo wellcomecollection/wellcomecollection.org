@@ -34,6 +34,7 @@ import {
   transformContributorToContributorBasic,
 } from './contributors';
 import * as prismicH from '@prismicio/helpers';
+import { noAltTextBecausePromo } from './images';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -176,7 +177,14 @@ export function transformExhibitionToExhibitionBasic(
     type,
     id,
     title,
-    promo,
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+        tasl: undefined,
+      },
+    },
     format,
     start,
     end,

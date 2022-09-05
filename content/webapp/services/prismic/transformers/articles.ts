@@ -24,6 +24,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
+import { noAltTextBecausePromo } from './images';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
@@ -61,14 +62,33 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   }) => ({
     type,
     id,
-    promo,
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+        tasl: undefined,
+      },
+    },
     series: series.map(transformSeriesToSeriesBasic),
     title,
     format,
-    image,
     datePublished,
     labels,
     color,
+    // We only use the square crop of an image in the <ArticleCard> component,
+    // so we can omit sending any other crops.
+    image: image && {
+      ...image,
+      ...noAltTextBecausePromo,
+      tasl: undefined,
+      simpleCrops: image.simpleCrops?.square && {
+        square: image.simpleCrops.square,
+      },
+      richCrops: image.richCrops?.square && {
+        square: image.richCrops.square,
+      },
+    },
   }))(article);
 }
 

@@ -114,7 +114,7 @@ export function transformLabelType(
   return {
     id: format.id as ArticleFormatId,
     title: asText(format.data.title),
-    description: format.data.description ? format.data.description : [],
+    description: format.data.description ? format.data.description : undefined,
   };
 }
 

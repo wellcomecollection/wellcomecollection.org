@@ -11,7 +11,9 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 
 type Props = {
-  article: ArticleBasic;
+  article: ArticleBasic & {
+    series: { id: string; title: string }[];
+  };
   position: number;
   hidePromoText?: boolean;
   hasTransparentBackground?: boolean;

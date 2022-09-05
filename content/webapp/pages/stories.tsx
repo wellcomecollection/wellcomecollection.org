@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '../types/articles';
-import { Series } from '../types/series';
+import { SeriesBasic } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -48,16 +48,23 @@ import { transformFeaturedBooks } from '../services/prismic/transformers/feature
 import { transformBookToBookBasic } from '../services/prismic/transformers/books';
 import { BookBasic } from '../types/books';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { ImagePromo } from '../types/image-promo';
+import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
+
+type SerialisedSeriesProps = SeriesBasic & {
+  promo?: ImagePromo;
+  items: ArticleBasic[];
+};
 
 type Props = {
   articles: ArticleBasic[];
-  series: Series;
+  series: SerialisedSeriesProps;
   featuredText?: FeaturedTextType;
   featuredBooks: BookBasic[];
   jsonLd: JsonLdObj[];
 };
 
-const SerialisedSeries = ({ series }: { series: Series }) => {
+const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
   return (
     <div>
       <Layout12>
@@ -90,11 +97,7 @@ const SerialisedSeries = ({ series }: { series: Series }) => {
           </Space>
         </Space>
       </Layout12>
-      <CardGrid
-        items={series.items as ArticleBasic[]}
-        hidePromoText={true}
-        itemsPerRow={3}
-      />
+      <CardGrid items={series.items} hidePromoText={true} itemsPerRow={3} />
     </div>
   );
 };
@@ -150,11 +153,31 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     )!.series;
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
 
+    // Note: an ArticleBasic contains a lot of information, but we only use
+    // a little bit of the series information in the <CardGrid> component
+    // where this gets used.
+    //
+    // This basic-ification removes some of the heaviest fields that we aren't
+    // using, to keep the page weight down.
+    const basicSeries: SerialisedSeriesProps = {
+      ...transformSeriesToSeriesBasic(series),
+      promo: series.promo,
+      items: series.items.map(item => ({
+        ...item,
+        image: undefined,
+        series: item.series.map(s => ({
+          id: s.id,
+          title: s.title,
+          schedule: [],
+        })),
+      })),
+    };
+
     if (articles && articles.results) {
       return {
         props: removeUndefinedProps({
           articles: basicArticles,
-          series,
+          series: basicSeries,
           featuredText,
           serverData,
           featuredBooks,
