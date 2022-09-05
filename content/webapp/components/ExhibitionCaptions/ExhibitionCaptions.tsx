@@ -192,7 +192,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
           >
             <Divider color={`pumice`} isKeyline={true} />
           </Space>
-          <div className="flex flex--wrap" id={dasherize(`${title}`)}>
+          <div className="flex flex--wrap">
             <Tombstone />
             {/* This empty Tombstone is needed for correct alignmennt of the standaloneTitle */}
             <Space
