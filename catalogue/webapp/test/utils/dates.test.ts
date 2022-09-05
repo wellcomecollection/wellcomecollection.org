@@ -111,14 +111,14 @@ describe('findClosedDays', () => {
     const result = findClosedDays(exceptionalOpeningHours);
     expect(result).toEqual([
       {
-        overrideDate: london('2021-12-25T00:00:00.000Z'),
+        overrideDate: new Date('2021-12-25T00:00:00.000Z'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2021-12-27T00:00:00.000Z'),
+        overrideDate: new Date('2021-12-27T00:00:00.000Z'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
