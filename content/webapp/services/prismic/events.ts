@@ -96,11 +96,6 @@ export function orderEventsByNextAvailableDate<T extends HasTimes>(
     .map(({ event }) => event);
 }
 
-const GroupByFormat = {
-  day: 'dddd',
-  month: 'MMMM',
-};
-type GroupDatesBy = keyof typeof GroupByFormat;
 type EventsGroup = {
   label: string;
   start: Date;
@@ -126,13 +121,10 @@ export function groupEventsByDay(events: Event[]): EventsGroup[] {
     });
 
   // Convert the range into an array of labeled event groups
-  const ranges: EventsGroup[] = getRanges(
-    {
-      start: london(range.start).startOf('day'),
-      end: london(range.end).endOf('day'),
-    },
-    'day'
-  ).map(range => ({
+  const ranges: EventsGroup[] = getRanges({
+    start: london(range.start).startOf('day'),
+    end: london(range.end).endOf('day'),
+  }).map(range => ({
     label: range.label,
     start: range.start.toDate(),
     end: range.end.toDate(),
@@ -200,21 +192,17 @@ type Range = {
 };
 
 // TODO: maybe use a Map?
-function getRanges(
-  { start, end }: RangeProps,
-  groupBy: GroupDatesBy,
-  acc: Range[] = []
-): Range[] {
-  if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
-    const newStart = start.clone().add(1, groupBy);
+function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
+  if (start.isBefore(end, 'day') || start.isSame(end, 'day')) {
+    const newStart = start.clone().add(1, 'day');
     const newAcc: Range[] = acc.concat([
       {
         label: formatDayDate(start),
-        start: start.clone().startOf(groupBy),
-        end: start.clone().endOf(groupBy),
+        start: start.clone().startOf('day'),
+        end: start.clone().endOf('day'),
       },
     ]);
-    return getRanges({ start: newStart, end }, groupBy, newAcc);
+    return getRanges({ start: newStart, end }, newAcc);
   } else {
     return acc;
   }
