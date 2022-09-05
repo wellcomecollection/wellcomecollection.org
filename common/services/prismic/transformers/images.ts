@@ -22,6 +22,10 @@ export function transformImage(
 // These are the props returned on a prismic image object
 const prismicImageProps = ['dimensions', 'alt', 'copyright', 'url'];
 
+function startsWith(s: string, prefix: string): boolean {
+  return s.indexOf(prefix) === 0;
+}
+
 // We don't export this, as we probably always want to check ^ first
 function transformFilledImage(image: FilledImageFieldImage): ImageType {
   const tasl = transformTaslFromString(image.copyright);
@@ -47,11 +51,27 @@ function transformFilledImage(image: FilledImageFieldImage): ImageType {
       );
     })
     .reduce((acc, key) => {
-      acc[key] = {
-        contentUrl: crops[key].contentUrl,
-        width: crops[key].width,
-        height: crops[key].height,
-      };
+      // Look to see if the simple crop is just the original crop with some
+      // extra query parameters, e.g.
+      //
+      //      contentUrl = "https://example.org/cat.jpg"
+      //      croppedUrl = "https://example.org/cat.jpg&rect=0,361,2566,1203"
+      //
+      // If so, we just include the suffix -- the full URL will be reconstructed
+      // by the getCrop() method later.
+      if (startsWith(crops[key].contentUrl, image.url)) {
+        acc[key] = {
+          contentUrlSuffix: crops[key].contentUrl.slice(image.url.length),
+          width: crops[key].width,
+          height: crops[key].height,
+        };
+      } else {
+        acc[key] = {
+          contentUrl: crops[key].contentUrl,
+          width: crops[key].width,
+          height: crops[key].height,
+        };
+      }
       return acc;
     }, {});
 

@@ -2,11 +2,32 @@ import { Tasl } from './tasl';
 
 export type Crop = '32:15' | '16:9' | 'square';
 
-type ImageBase = {
-  contentUrl: string;
+type ImageDimensions = {
   width: number;
   height: number;
 };
+
+type ImageBase = ImageDimensions & {
+  contentUrl: string;
+};
+
+// There are cases where the simple crop is the original image with some query
+// parameters appended, e.g.
+//
+//      contentUrl = "https://example.org/cat.jpg"
+//      croppedUrl = "https://example.org/cat.jpg&rect=0,361,2566,1203"
+//
+// In those cases, it's more efficient to store the suffix and reconstruct the
+// complete URL later.
+//
+// Exactly one of these fields should be specified.
+type SimpleCrop =
+  | (ImageDimensions & {
+      contentUrl: string;
+    })
+  | (ImageDimensions & {
+      contentUrlSuffix: string;
+    });
 
 export type ImageType = ImageBase & {
   alt: string | null;
@@ -25,7 +46,7 @@ export type ImageType = ImageBase & {
   // Downstream callers should never access these fields directly -- instead, they
   // should use getCrop(), which ensures they get the correct alt/tasl data.
   simpleCrops?: {
-    [key in Crop]?: ImageBase;
+    [key in Crop]?: SimpleCrop;
   };
   richCrops?: {
     [key in Crop]?: ImageType;
@@ -43,6 +64,10 @@ export function getCrop(
     richImage ||
     (simpleImage
       ? {
+          contentUrl:
+            'contentUrl' in simpleImage
+              ? simpleImage.contentUrl
+              : `${image.contentUrl}${simpleImage.contentUrlSuffix}`,
           ...simpleImage,
           alt: image.alt,
           tasl: image.tasl,
