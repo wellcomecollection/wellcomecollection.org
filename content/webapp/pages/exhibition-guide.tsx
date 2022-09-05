@@ -270,6 +270,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 type StopsProps = {
   stops: ExhibitionGuideComponent[];
   type?: GuideType;
+  id?: number;
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
@@ -292,7 +293,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return hasContentOfDesiredType ? (
-          <Stop key={index}>
+          <Stop key={index} id={`${number}. ${stop.title}`}>
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
                 <AudioPlayer
@@ -312,7 +313,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             )}
           </Stop>
         ) : (
-          <Stop key={index}>
+          <Stop key={index} id={`${title}`}>
             <span className={font('intb', 5)}>
               {number}. {title}
             </span>
