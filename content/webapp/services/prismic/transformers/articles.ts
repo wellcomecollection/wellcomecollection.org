@@ -67,6 +67,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
       image: promo.image && {
         ...promo.image,
         ...noAltTextBecausePromo,
+        tasl: undefined,
       },
     },
     series: series.map(transformSeriesToSeriesBasic),
@@ -80,6 +81,7 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
     image: image && {
       ...image,
       ...noAltTextBecausePromo,
+      tasl: undefined,
       simpleCrops: image.simpleCrops?.square && {
         square: image.simpleCrops.square,
       },
