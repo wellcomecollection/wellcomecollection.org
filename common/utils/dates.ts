@@ -54,6 +54,12 @@ export function dayBefore(date: Date): Date {
   return prevDay;
 }
 
+/** Returns a loose range of Friday–Sunday for the next weekend after the
+ * given date, possibly including it.
+ *
+ * Note: including Friday seems like a slightly odd choice, but it's the way
+ * this function was originally written. ¯\_ (ツ)_/¯
+ */
 export function getNextWeekendDateRange(date: DateTypes): DateRange {
   const today = london(date);
   const todayInteger = today.day(); // day() return Sun as 0, Sat as 6
