@@ -15,19 +15,19 @@ import {
 } from '@weco/common/model/opening-hours';
 
 const exceptionalClosedDates = [
-  london('2019-12-03'),
-  london('2019-12-04'),
-  london('2019-12-05'),
-  london('2019-12-17'),
-  london('2019-12-31'),
-  london('2020-01-06'),
-  london('2020-01-07'),
-  london('2020-01-08'),
-  london('2020-01-09'),
-  london('2020-01-18'),
-  london('2020-01-19'),
-  london('2020-01-20'),
-  london('2020-01-22'),
+  new Date('2019-12-03'),
+  new Date('2019-12-04'),
+  new Date('2019-12-05'),
+  new Date('2019-12-17'),
+  new Date('2019-12-31'),
+  new Date('2020-01-06'),
+  new Date('2020-01-07'),
+  new Date('2020-01-08'),
+  new Date('2020-01-09'),
+  new Date('2020-01-18'),
+  new Date('2020-01-19'),
+  new Date('2020-01-20'),
+  new Date('2020-01-22'),
 ];
 
 const regularOpeningHours = [
@@ -213,13 +213,13 @@ describe('filterExceptionalClosedDates', () => {
     );
 
     expect(result).toEqual([
-      london('2019-12-03'),
-      london('2019-12-05'),
-      london('2019-12-17'),
-      london('2019-12-31'),
-      london('2020-01-07'),
-      london('2020-01-09'),
-      london('2020-01-18'),
+      new Date('2019-12-03'),
+      new Date('2019-12-05'),
+      new Date('2019-12-17'),
+      new Date('2019-12-31'),
+      new Date('2020-01-07'),
+      new Date('2020-01-09'),
+      new Date('2020-01-18'),
     ]);
   });
 });
@@ -239,28 +239,28 @@ describe('includedRegularClosedDays', () => {
 describe('groupExceptionalClosedDates', () => {
   it("groups closed dates into those that are excluded by the start and end dates and those that aren't", () => {
     const result = groupExceptionalClosedDates({
-      startDate: london('2020-01-03'),
-      endDate: london('2020-01-16'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      startDate: new Date('2020-01-03'),
+      endDate: new Date('2020-01-16'),
+      exceptionalClosedDates,
     });
 
     expect(result).toEqual({
       included: [
-        london('2020-01-06'),
-        london('2020-01-07'),
-        london('2020-01-08'),
-        london('2020-01-09'),
+        new Date('2020-01-06'),
+        new Date('2020-01-07'),
+        new Date('2020-01-08'),
+        new Date('2020-01-09'),
       ],
       excluded: [
-        london('2019-12-03'),
-        london('2019-12-04'),
-        london('2019-12-05'),
-        london('2019-12-17'),
-        london('2019-12-31'),
-        london('2020-01-18'),
-        london('2020-01-19'),
-        london('2020-01-20'),
-        london('2020-01-22'),
+        new Date('2019-12-03'),
+        new Date('2019-12-04'),
+        new Date('2019-12-05'),
+        new Date('2019-12-17'),
+        new Date('2019-12-31'),
+        new Date('2020-01-18'),
+        new Date('2020-01-19'),
+        new Date('2020-01-20'),
+        new Date('2020-01-22'),
       ],
     });
   });
@@ -271,7 +271,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2021-11-03'),
       endDate: london('2021-11-16'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [0],
     });
 
@@ -282,7 +282,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2019-12-28'),
       endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [],
     });
 
@@ -293,7 +293,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2019-12-28'),
       endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [0],
     });
 
@@ -304,7 +304,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2019-12-16'),
       endDate: london('2019-12-30'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [],
     });
 
@@ -315,7 +315,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2020-01-03'),
       endDate: london('2020-01-16'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [0],
     });
 
@@ -326,7 +326,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
     const result = extendEndDate({
       startDate: london('2019-12-24'),
       endDate: london('2019-12-31'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [2],
     });
 
@@ -336,7 +336,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
   it("doesn't return a date if no start date is provided", () => {
     const result = extendEndDate({
       endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [0],
     });
 
@@ -346,7 +346,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
   it("doesn't return a date if no end date is provided", () => {
     const result = extendEndDate({
       startDate: london('2019-12-24'),
-      exceptionalClosedDates: exceptionalClosedDates,
+      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
       closedDays: [0],
     });
 
