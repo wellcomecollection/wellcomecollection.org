@@ -89,7 +89,7 @@ export function determineNextAvailableDate(
   regularClosedDays: DayNumber[]
 ): Date | undefined {
   const hourInLondon = Number(
-    date.toLocaleString('en-GB', { hour: 'numeric' })
+    date.toLocaleString('en-GB', { hour: 'numeric', timeZone: 'Europe/London' })
   );
   const isBeforeTen = hourInLondon < 10;
   const nextAvailableDate = addDays(date, isBeforeTen ? 1 : 2);
