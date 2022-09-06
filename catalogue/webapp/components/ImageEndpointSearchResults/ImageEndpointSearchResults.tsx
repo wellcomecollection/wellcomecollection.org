@@ -13,6 +13,12 @@ type Props = {
   images: CatalogueResultsList<Image>;
 };
 
+type GalleryImageProps = Image & {
+  src: string;
+  width: number;
+  height: number;
+};
+
 const imageMargin = 16;
 
 const GalleryContainer = styled.div`
@@ -44,7 +50,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
 }: Props) => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
-  const [data, setData] = useState([]) as any;
+  const [data, setData] = useState<GalleryImageProps[]>([]);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
@@ -81,7 +87,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             contentUrl: galleryImage.photo.src,
             width: galleryImage.photo.width - imageMargin * 2,
             height: galleryImage.photo.height,
-            alt: '',
+            alt: galleryImage.photo.source.title,
           }}
           onClick={event => {
             event.preventDefault();

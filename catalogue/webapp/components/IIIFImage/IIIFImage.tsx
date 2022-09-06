@@ -3,6 +3,7 @@ import Image, { ImageLoaderProps } from 'next/image';
 
 import { ImageType } from '@weco/common/model/image';
 import { classNames } from '@weco/common/utils/classnames';
+import { transparentGreyPNG } from '@weco/common/utils/backgrounds';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -49,6 +50,7 @@ const IIIFImage: FC<Props> = ({
         })}
         srcSet={''}
         sizes={sizesString}
+        alt={image.alt || ''}
       />
     );
   }
@@ -66,12 +68,11 @@ const IIIFImage: FC<Props> = ({
         height={image.height}
         priority={priority}
         placeholder="blur"
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNctWxZEQAGYgJqdIxNSwAAAABJRU5ErkJggg=="
+        blurDataURL={transparentGreyPNG}
       />
     );
   }
 
-  // {/* TODO: is fill layout still needed? */}
   return (
     <Image
       layout={layout}
