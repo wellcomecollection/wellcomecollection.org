@@ -1,6 +1,5 @@
 import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
@@ -124,7 +123,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     contributors,
-    datePublished: london(datePublished).toDate(),
+    datePublished: datePublished && new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
     ),

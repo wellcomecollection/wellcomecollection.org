@@ -71,6 +71,19 @@ export function addDays(d: Date, days: number): Date {
   return res;
 }
 
+/** Finds the start and end of the week.
+ *
+ * For the purposes of these two functions, weeks start on a Sunday.
+ *
+ */
+export function startOfWeek(d: Date): Date {
+  return addDays(d, -d.getDay());
+}
+
+export function endOfWeek(d: Date): Date {
+  return addDays(d, 6 - d.getDay());
+}
+
 /** Returns a loose range of Friday–Sunday for the next weekend after the
  * given date, possibly including it.
  *
