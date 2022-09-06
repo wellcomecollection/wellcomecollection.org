@@ -599,7 +599,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
-            html={work.alternativeTitles}
+            text={work.alternativeTitles}
           />
         )}
 
