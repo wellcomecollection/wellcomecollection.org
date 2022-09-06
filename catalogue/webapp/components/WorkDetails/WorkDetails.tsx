@@ -523,8 +523,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   <WorkDetailsText
                     title="Access conditions"
                     noSpacing={true}
-                    html={[digitalLocation?.accessConditions[0]?.terms]}
-                    allowDangerousRawHtml={true}
+                    text={digitalLocation?.accessConditions[0]?.terms}
                   />
                 </Space>
               )}
@@ -619,11 +618,16 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         )}
 
+        {/* 
+          Note: although production event labels sometimes contain angle brackets, it's
+          normally used to denote a period of time, not HTML tags.
+          
+          e.g. London : County Council, 1900-<1983>
+        */}
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
-            html={work.production.map(productionEvent => productionEvent.label)}
-            allowDangerousRawHtml={true}
+            text={work.production.map(productionEvent => productionEvent.label)}
           />
         )}
 
