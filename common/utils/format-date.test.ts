@@ -33,6 +33,9 @@ it('formats a timestamp', () => {
 
   const result2 = formatTime(new Date('2009-03-27T09:41:01Z'));
   expect(result2).toEqual('09:41');
+
+  const result3 = formatTime(new Date('2009-03-27T08:00:01Z'));
+  expect(result3).toEqual('08:00');
 });
 
 it('formats a year', () => {
