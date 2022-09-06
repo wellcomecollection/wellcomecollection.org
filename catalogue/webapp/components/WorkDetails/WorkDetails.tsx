@@ -302,8 +302,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <WorkDetailsText
                         title="Location"
                         noSpacing={true}
-                        html={[`${locationLabel} ${locationShelfmark}`]}
-                        allowDangerousRawHtml={true}
+                        text={`${locationLabel} ${locationShelfmark}`}
                       />
                     )}
 
@@ -312,8 +311,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Note"
                         inlineHeading={true}
                         noSpacing={true}
-                        html={[holding.note]}
-                        allowDangerousRawHtml={true}
+                        text={holding.note}
                       />
                     )}
                   </Space>
