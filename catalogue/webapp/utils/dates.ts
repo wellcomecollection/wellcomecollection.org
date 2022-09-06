@@ -6,6 +6,7 @@ import {
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import { addDays } from '@weco/common/utils/dates';
+import { london } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -98,17 +99,17 @@ export function determineNextAvailableDate(
   return findNextPickUpDay(nextAvailableDate, regularClosedDays);
 }
 
-type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
+type groupedExceptionalClosedDates = { included: Date[]; excluded: Date[] };
 
 export function groupExceptionalClosedDates(params: {
-  startDate: Moment;
-  endDate: Moment;
-  exceptionalClosedDates: Moment[];
+  startDate: Date;
+  endDate: Date;
+  exceptionalClosedDates: Date[];
 }): groupedExceptionalClosedDates {
   const { startDate, endDate, exceptionalClosedDates } = params;
   return exceptionalClosedDates.reduce(
     (returnObj, date) => {
-      date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate)
+      startDate <= date && date <= endDate
         ? returnObj.included.push(date)
         : returnObj.excluded.push(date);
 
@@ -119,13 +120,11 @@ export function groupExceptionalClosedDates(params: {
 }
 
 export function filterExceptionalClosedDates(
-  exceptionalClosedDates: Moment[],
+  exceptionalClosedDates: Date[],
   regularClosedDays: DayNumber[]
-): Moment[] {
+): Date[] {
   return exceptionalClosedDates.filter(date => {
-    return regularClosedDays.every(day => {
-      return day !== date.day();
-    });
+    return regularClosedDays.every(day => day !== date.getDay());
   });
 }
 
@@ -155,13 +154,13 @@ export function extendEndDate(params: {
   if (startDate === undefined || endDate === undefined) return undefined;
   // Filter out any exceptional closed dates fall on regular closed days, as we don't want to include these for extending the end date
   const filteredExceptionalClosedDates = filterExceptionalClosedDates(
-    exceptionalClosedDates,
+    exceptionalClosedDates.map(d => d.toDate()),
     closedDays
   );
   // Find any exceptional closed dates that occur between the start and end dates
   const groupedClosedDates = groupExceptionalClosedDates({
-    startDate: startDate,
-    endDate: endDate,
+    startDate: startDate.toDate(),
+    endDate: endDate.toDate(),
     exceptionalClosedDates: filteredExceptionalClosedDates,
   });
   const exceptionalDaysToAdd = groupedClosedDates.included.length;
@@ -173,8 +172,8 @@ export function extendEndDate(params: {
     const extendedEndDate = endDate.clone().add(exceptionalDaysToAdd, 'days');
     // We then regroup the previously excluded exceptional closed dates to see if any are captured by the new end date
     const regroupedClosedDates = groupExceptionalClosedDates({
-      startDate: startDate,
-      endDate: extendedEndDate,
+      startDate: startDate.toDate(),
+      endDate: extendedEndDate.toDate(),
       exceptionalClosedDates: groupedClosedDates.excluded,
     });
     const additionalExceptionalDaysToAdd = regroupedClosedDates.included.length;
@@ -193,7 +192,7 @@ export function extendEndDate(params: {
       return extendEndDate({
         startDate: extendedEndDate.clone().add(1, 'day'), // We only want to check new days
         endDate: nextExtendedEndDate,
-        exceptionalClosedDates: groupedClosedDates.excluded,
+        exceptionalClosedDates: groupedClosedDates.excluded.map(d => london(d)),
         closedDays,
       });
     } else {
