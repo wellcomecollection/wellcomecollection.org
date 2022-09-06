@@ -131,21 +131,21 @@ describe('findClosedDays', () => {
 describe('findNextPickUpDay: finds the earliest date on which requested items can be picked up', () => {
   it('returns the same date provided if it occurs on one of the regular open days', () => {
     const result = findNextPickUpDay(
-      london('2022-01-15'), // Saturday
+      new Date('2022-01-15'), // Saturday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
-    expect(result.toDate()).toEqual(new Date('2022-01-15')); // Saturday
+    expect(result).toEqual(new Date('2022-01-15')); // Saturday
   });
   it('leaves a full working day between the request and retrieval', () => {
     const result = findNextPickUpDay(
-      london('2022-01-16'), // Sunday
+      new Date('2022-01-16'), // Sunday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
-    expect(result.toDate()).toEqual(new Date('2022-01-20')); // Thursday
+    expect(result).toEqual(new Date('2022-01-20')); // Thursday
   });
   it("doesn't return a date if there are no regular days that are open", () => {
     const result = findNextPickUpDay(
-      london('2022-01-16'), // Sunday
+      new Date('2022-01-16'), // Sunday
       [0, 1, 2, 3, 4, 5, 6]
     );
     expect(result).toBeUndefined();

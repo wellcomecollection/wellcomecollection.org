@@ -5,6 +5,8 @@ import {
   Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
+import { addDays } from '@weco/common/utils/dates';
+import { london } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -53,9 +55,9 @@ export function convertDayNumberToDay(dayNumber: DayNumber): Day {
 }
 
 export function findNextPickUpDay(
-  date: Moment,
+  date: Date,
   regularClosedDays: DayNumber[]
-): Moment | undefined {
+): Date | undefined {
   if (regularClosedDays.length === 7) {
     // All days are closed, so we'll never be able to find a non closed day.
     return undefined;
@@ -67,14 +69,18 @@ export function findNextPickUpDay(
   // calls itself recursively, we add one day if we're closed this day and
   // the next, but add two days if we're closed this day and open the next.
 
-  const nextDay = date.clone().add(1, 'days');
-  const isClosedThisDay = regularClosedDays.includes(date.day() as DayNumber);
-  const isOpenNextDay = !regularClosedDays.includes(nextDay.day() as DayNumber);
+  const nextDay = addDays(date, 1);
+  const isClosedThisDay = regularClosedDays.includes(
+    date.getDay() as DayNumber
+  );
+  const isOpenNextDay = !regularClosedDays.includes(
+    nextDay.getDay() as DayNumber
+  );
 
   if (isClosedThisDay && isOpenNextDay) {
-    return findNextPickUpDay(date.add(2, 'day'), regularClosedDays);
+    return findNextPickUpDay(addDays(date, 2), regularClosedDays);
   } else if (isClosedThisDay) {
-    return findNextPickUpDay(date.add(1, 'day'), regularClosedDays);
+    return findNextPickUpDay(addDays(date, 1), regularClosedDays);
   } else {
     return date;
   }
@@ -89,7 +95,11 @@ export function determineNextAvailableDate(
     date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
   );
   nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  return findNextPickUpDay(nextAvailableDate, regularClosedDays);
+  const nextPickUpDay = findNextPickUpDay(
+    nextAvailableDate.toDate(),
+    regularClosedDays
+  );
+  return nextPickUpDay && london(nextPickUpDay);
 }
 
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
