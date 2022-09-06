@@ -41,8 +41,9 @@ export function transformCollectionVenue(
     ? data.modifiedDayOpeningTimes
         .filter((modified: ModifiedDayOpeningTime) => modified.overrideDate)
         .map(modified => {
-          const start = modified.startDateTime;
-          const end = modified.endDateTime;
+          const start =
+            modified.startDateTime && new Date(modified.startDateTime);
+          const end = modified.endDateTime && new Date(modified.endDateTime);
           const isClosed = !start;
           const overrideDate =
             modified.overrideDate && new Date(modified.overrideDate);
