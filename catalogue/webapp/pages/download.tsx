@@ -213,6 +213,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
+        serverData,
         workId,
         sierraId,
         manifest,
