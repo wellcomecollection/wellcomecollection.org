@@ -1,7 +1,7 @@
 # This image should be built with the parent directory as context
 FROM public.ecr.aws/docker/library/node:14-slim
 
-RUN apt-get update && apt-get install -y awscli
+RUN apt-get update && apt-get install -y awscli tzdata
 
 WORKDIR /app
 
