@@ -6,7 +6,6 @@ import {
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
 import { addDays } from '@weco/common/utils/dates';
-import { london } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -87,19 +86,16 @@ export function findNextPickUpDay(
 }
 
 export function determineNextAvailableDate(
-  date: Moment,
+  date: Date,
   regularClosedDays: DayNumber[]
-): Moment | undefined {
-  const nextAvailableDate = date.clone();
-  const isBeforeTen = nextAvailableDate.isBefore(
-    date.clone().set({ hour: 10, m: 0, s: 0, ms: 0 })
+): Date | undefined {
+  const hourInLondon = Number(
+    date.toLocaleString('en-GB', { hour: 'numeric' })
   );
-  nextAvailableDate.add(isBeforeTen ? 1 : 2, 'days');
-  const nextPickUpDay = findNextPickUpDay(
-    nextAvailableDate.toDate(),
-    regularClosedDays
-  );
-  return nextPickUpDay && london(nextPickUpDay);
+  const isBeforeTen = hourInLondon < 10;
+  const nextAvailableDate = addDays(date, isBeforeTen ? 1 : 2);
+
+  return findNextPickUpDay(nextAvailableDate, regularClosedDays);
 }
 
 type groupedExceptionalClosedDates = { included: Moment[]; excluded: Moment[] };
