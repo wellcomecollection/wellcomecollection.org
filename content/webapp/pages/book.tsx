@@ -154,7 +154,7 @@ const BookPage: FunctionComponent<Props> = props => {
       url={{ pathname: `/books/${book.id}`, query: {} }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'book'}
-      siteSection={null}
+      siteSection={'stories'}
       image={book.image}
     >
       <ContentPage
