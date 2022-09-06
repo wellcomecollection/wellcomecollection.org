@@ -1,11 +1,10 @@
-import { Moment } from 'moment';
 import {
   OpeningHoursDay,
   DayNumber,
   Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
-import { addDays, getDatesBetween } from '@weco/common/utils/dates';
+import { addDays, getDatesBetween, isSameDay } from '@weco/common/utils/dates';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -200,30 +199,29 @@ export function extendEndDate(params: {
 }
 
 export function isRequestableDate(params: {
-  date: Moment;
-  startDate?: Moment;
-  endDate?: Moment;
-  excludedDates: Moment[];
+  date: Date;
+  startDate?: Date;
+  endDate?: Date;
+  excludedDates: Date[];
   excludedDays: DayNumber[];
 }): boolean {
   const { date, startDate, endDate, excludedDates, excludedDays } = params;
-  const isExceptionalClosedDay = excludedDates.some(moment =>
-    moment.isSame(date, 'day')
+  const isExceptionalClosedDay = excludedDates.some(excluded =>
+    isSameDay(excluded, date)
   );
-  const isRegularClosedDay = excludedDays.includes(date.day() as DayNumber);
+  const isRegularClosedDay = excludedDays.includes(date.getDay() as DayNumber);
   return (
     Boolean(
       // no start and end date
       (!startDate && !endDate) ||
         // both start and end date
-        (startDate &&
-          date.isSameOrAfter(startDate, 'day') &&
-          endDate &&
-          date.isSameOrBefore(endDate, 'day')) ||
+        (startDate && startDate <= date && endDate && date <= endDate) ||
         // only start date
-        (startDate && !endDate && date.isSameOrAfter(startDate, 'day')) ||
+        (startDate &&
+          !endDate &&
+          (isSameDay(date, startDate) || startDate < date)) ||
         // only end date
-        (endDate && !startDate && date.isSameOrBefore(endDate, 'day'))
+        (endDate && !startDate && (isSameDay(date, endDate) || date < endDate))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay

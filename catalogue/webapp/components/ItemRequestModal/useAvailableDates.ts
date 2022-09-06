@@ -63,7 +63,7 @@ export const useAvailableDates = (): AvailableDates => {
   return {
     nextAvailable: nextAvailable && london(nextAvailable),
     lastAvailable: lastAvailable && london(lastAvailable),
-    exceptionalClosedDates,
+    exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
     closedDays,
   };
 };
