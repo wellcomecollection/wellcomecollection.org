@@ -1,4 +1,3 @@
-import { london } from '@weco/common/utils/format-date';
 import {
   determineNextAvailableDate,
   filterExceptionalClosedDates,
@@ -366,9 +365,9 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
 describe("isRequestableDate: checks the date falls between 2 specified dates and also isn't an excluded date, or excluded day", () => {
   it('returns false if the date falls outside the start and end dates', () => {
     const result = isRequestableDate({
-      date: london('2019-12-12'),
-      startDate: london('2019-12-17'),
-      endDate: london('2019-12-31'),
+      date: new Date('2019-12-12'),
+      startDate: new Date('2019-12-17'),
+      endDate: new Date('2019-12-31'),
       excludedDates: [],
       excludedDays: [],
     });
@@ -377,9 +376,9 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns true if the date falls between the start and end dates, inclusive', () => {
     const result = isRequestableDate({
-      date: london('2019-12-17'),
-      startDate: london('2019-12-17'),
-      endDate: london('2019-12-31'),
+      date: new Date('2019-12-17'),
+      startDate: new Date('2019-12-17'),
+      endDate: new Date('2019-12-31'),
       excludedDates: [],
       excludedDays: [],
     });
@@ -388,9 +387,9 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns false if the date falls on an excluded Day', () => {
     const result = isRequestableDate({
-      date: london('2019-12-17'), // Tuesday
-      startDate: london('2019-12-17'),
-      endDate: london('2019-12-31'),
+      date: new Date('2019-12-17'), // Tuesday
+      startDate: new Date('2019-12-17'),
+      endDate: new Date('2019-12-31'),
       excludedDates: [],
       excludedDays: [2], // Tuesday
     });
@@ -399,10 +398,10 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns false if the date falls on an excluded date', () => {
     const result = isRequestableDate({
-      date: london('2019-12-20'),
-      startDate: london('2019-12-17'),
-      endDate: london('2019-12-31'),
-      excludedDates: [london('2019-12-20')],
+      date: new Date('2019-12-20'),
+      startDate: new Date('2019-12-17'),
+      endDate: new Date('2019-12-31'),
+      excludedDates: [new Date('2019-12-20')],
       excludedDays: [],
     });
     expect(result).toEqual(false);
@@ -410,7 +409,7 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns true if there are no start and end dates', () => {
     const result = isRequestableDate({
-      date: london('2019-12-20'),
+      date: new Date('2019-12-20'),
       excludedDates: [],
       excludedDays: [],
     });
@@ -419,8 +418,8 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns true if there is no start date and the date falls on or before the end date', () => {
     const result = isRequestableDate({
-      date: london('2019-12-20'),
-      endDate: london('2019-12-31'),
+      date: new Date('2019-12-20'),
+      endDate: new Date('2019-12-31'),
       excludedDates: [],
       excludedDays: [],
     });
@@ -429,8 +428,8 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
 
   it('returns true if there is no end date and the date falls on or after the start date', () => {
     const result = isRequestableDate({
-      date: london('2019-12-20'),
-      startDate: london('2019-12-17'),
+      date: new Date('2019-12-20'),
+      startDate: new Date('2019-12-17'),
       excludedDates: [],
       excludedDays: [],
     });

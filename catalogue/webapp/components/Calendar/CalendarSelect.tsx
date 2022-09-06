@@ -28,10 +28,10 @@ function getAvailableDates(
     .map(date => {
       return (
         isRequestableDate({
-          date,
-          startDate: min,
-          endDate: max,
-          excludedDates,
+          date: date.toDate(),
+          startDate: min.toDate(),
+          endDate: max.toDate(),
+          excludedDates: excludedDates.map(d => d.toDate()),
           excludedDays,
         }) && {
           value: date.format('DD-MM-YYYY'),
