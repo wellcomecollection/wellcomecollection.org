@@ -14,6 +14,7 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { addDays } from '@weco/common/utils/dates';
 
 type AvailableDates = {
   nextAvailable?: Moment;
@@ -49,13 +50,12 @@ export const useAvailableDates = (): AvailableDates => {
   );
 
   // There should be a minimum of a 2 week window in which to select a date
-  const minimumLastAvailable =
-    nextAvailable && london(nextAvailable).clone().add(13, 'days');
+  const minimumLastAvailable = nextAvailable && addDays(nextAvailable, 13);
   // If the library is closed on any days during the selection window
   // we extend the lastAvailableDate to take these into account
   const lastAvailable = extendEndDate({
     startDate: nextAvailable && london(nextAvailable),
-    endDate: minimumLastAvailable,
+    endDate: minimumLastAvailable && london(minimumLastAvailable),
     exceptionalClosedDates,
     closedDays,
   });
