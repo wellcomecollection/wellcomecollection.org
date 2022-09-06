@@ -1,10 +1,10 @@
-import { Moment } from 'moment';
-import { london, formatDayDate } from '@weco/common/utils/format-date';
+import { formatDayDate } from '@weco/common/utils/format-date';
 import {
   getNextWeekendDateRange,
   isDayPast,
   isFuture,
   isPast,
+  isSameDay,
 } from '@weco/common/utils/dates';
 import { Event, EventBasic, HasTimes } from '../../types/events';
 import { isNotUndefined } from '@weco/common/utils/array';
@@ -96,11 +96,6 @@ export function orderEventsByNextAvailableDate<T extends HasTimes>(
     .map(({ event }) => event);
 }
 
-const GroupByFormat = {
-  day: 'dddd',
-  month: 'MMMM',
-};
-type GroupDatesBy = keyof typeof GroupByFormat;
 type EventsGroup = {
   label: string;
   start: Date;
@@ -108,10 +103,7 @@ type EventsGroup = {
   events: Event[];
 };
 
-export function groupEventsBy(
-  events: Event[],
-  groupBy: GroupDatesBy
-): EventsGroup[] {
+export function groupEventsByDay(events: Event[]): EventsGroup[] {
   // Get the full range of all the events
   const range = events
     .map(({ times }) =>
@@ -129,16 +121,11 @@ export function groupEventsBy(
     });
 
   // Convert the range into an array of labeled event groups
-  const ranges: EventsGroup[] = getRanges(
-    {
-      start: london(range.start).startOf(groupBy),
-      end: london(range.end).endOf(groupBy),
-    },
-    groupBy
-  ).map(range => ({
-    label: range.label,
-    start: range.start.toDate(),
-    end: range.end.toDate(),
+  const ranges: EventsGroup[] = getRanges({
+    start: startOfDay(range.start),
+    end: endOfDay(range.end),
+  }).map(range => ({
+    ...range,
     events: [],
   }));
 
@@ -192,32 +179,28 @@ export function groupEventsBy(
 }
 
 type RangeProps = {
-  start: Moment;
-  end: Moment;
+  start: Date;
+  end: Date;
 };
 
 type Range = {
   label: string;
-  start: Moment;
-  end: Moment;
+  start: Date;
+  end: Date;
 };
 
 // TODO: maybe use a Map?
-function getRanges(
-  { start, end }: RangeProps,
-  groupBy: GroupDatesBy,
-  acc: Range[] = []
-): Range[] {
-  if (start.isBefore(end, groupBy) || start.isSame(end, groupBy)) {
-    const newStart = start.clone().add(1, groupBy);
+function getRanges({ start, end }: RangeProps, acc: Range[] = []): Range[] {
+  if (start < end || isSameDay(start, end)) {
+    const newStart = addDays(start, 1);
     const newAcc: Range[] = acc.concat([
       {
         label: formatDayDate(start),
-        start: start.clone().startOf(groupBy),
-        end: start.clone().endOf(groupBy),
+        start: startOfDay(start),
+        end: endOfDay(start),
       },
     ]);
-    return getRanges({ start: newStart, end }, groupBy, newAcc);
+    return getRanges({ start: newStart, end }, newAcc);
   } else {
     return acc;
   }
@@ -230,7 +213,7 @@ export function isEventPast({ times }: Event): boolean {
   return !hasFutureEvents;
 }
 
-export function upcomingDatesFullyBooked(event: Event | EventBasic): boolean {
+export function upcomingDatesFullyBooked(event: HasTimes): boolean {
   const upcoming =
     event.times.length > 0
       ? event.times.filter(({ range }) => !isPast(range.endDateTime))
