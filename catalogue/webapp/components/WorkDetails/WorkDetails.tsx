@@ -676,12 +676,14 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           />
         ))}
 
+        {/*
+          Note: although angle brackets are sometimes used in the lettering field,
+          it's usually to denote missing or unclear text, not HTML.
+          
+          e.g. Patient <...>, sup<erior> mesenteric a<rtery>
+          */}
         {work.lettering && (
-          <WorkDetailsText
-            title="Lettering"
-            html={[work.lettering]}
-            allowDangerousRawHtml={true}
-          />
+          <WorkDetailsText title="Lettering" text={work.lettering} />
         )}
 
         {work.edition && (
