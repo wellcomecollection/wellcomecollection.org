@@ -77,21 +77,21 @@ const regularOpeningHours = [
 
 const exceptionalOpeningHours = [
   {
-    overrideDate: london('2021-12-25T00:00:00.000Z'),
+    overrideDate: new Date('2021-12-25T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
     opens: '00:00',
     closes: '00:00',
     isClosed: true,
   },
   {
-    overrideDate: london('2021-12-26T00:00:00.000Z'),
+    overrideDate: new Date('2021-12-26T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
     opens: '12:00',
     closes: '14:00',
     isClosed: false,
   },
   {
-    overrideDate: london('2021-12-27T00:00:00.000Z'),
+    overrideDate: new Date('2021-12-27T00:00:00.000Z'),
     overrideType: 'Christmas and New Year' as OverrideType,
     opens: '00:00',
     closes: '00:00',
@@ -111,14 +111,14 @@ describe('findClosedDays', () => {
     const result = findClosedDays(exceptionalOpeningHours);
     expect(result).toEqual([
       {
-        overrideDate: london('2021-12-25T00:00:00.000Z'),
+        overrideDate: new Date('2021-12-25T00:00:00.000Z'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2021-12-27T00:00:00.000Z'),
+        overrideDate: new Date('2021-12-27T00:00:00.000Z'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
@@ -134,14 +134,14 @@ describe('findNextPickUpDay: finds the earliest date on which requested items ca
       london('2022-01-15'), // Saturday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
-    expect(result.toDate()).toEqual(london('2022-01-15').toDate()); // Saturday
+    expect(result.toDate()).toEqual(new Date('2022-01-15')); // Saturday
   });
   it('leaves a full working day between the request and retrieval', () => {
     const result = findNextPickUpDay(
       london('2022-01-16'), // Sunday
       [0, 1, 2] // Sunday, Monday, Tuesday
     );
-    expect(result.toDate()).toEqual(london('2022-01-20').toDate()); // Thursday
+    expect(result.toDate()).toEqual(new Date('2022-01-20')); // Thursday
   });
   it("doesn't return a date if there are no regular days that are open", () => {
     const result = findNextPickUpDay(
@@ -155,17 +155,17 @@ describe('findNextPickUpDay: finds the earliest date on which requested items ca
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
     const result = determineNextAvailableDate(london('2021-12-9 09:00'), [0]);
-    expect(result.toDate()).toEqual(london('2021-12-10 09:00').toDate());
+    expect(result.toDate()).toEqual(new Date('2021-12-10 09:00'));
   });
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
     const result = determineNextAvailableDate(london('2021-12-9 11:00'), [0]);
-    expect(result.toDate()).toEqual(london('2021-12-11 11:00').toDate());
+    expect(result.toDate()).toEqual(new Date('2021-12-11 11:00'));
   });
 
   it('defers weekend requests until Tuesday, to avoid a rush of retrievals on Monday', () => {
     const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]); // Sunday
-    expect(result.toDate()).toEqual(london('2021-12-14 10:30').toDate()); // Tuesday
+    expect(result.toDate()).toEqual(new Date('2021-12-14 10:30')); // Tuesday
   });
 
   it("doesn't return a date if there are no regular days that are open", () => {
@@ -244,7 +244,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london('2021-11-16').toDate());
+    expect(result.toDate()).toEqual(new Date('2021-11-16'));
   });
 
   it('increases the end date by the number of exceptional closed dates that occur between the start and end date', () => {
@@ -255,7 +255,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [],
     });
 
-    expect(result.toDate()).toEqual(london('2020-01-15').toDate());
+    expect(result.toDate()).toEqual(new Date('2020-01-15'));
   });
 
   it('increases the end date again to account for any regular closed days that occur between the start date and an extended end date', () => {
@@ -266,7 +266,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london('2020-01-16').toDate());
+    expect(result.toDate()).toEqual(new Date('2020-01-16'));
   });
 
   it('increases the end date again to account for any exceptional closed dates that occur between the start date and an extended end date', () => {
@@ -277,7 +277,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [],
     });
 
-    expect(result.toDate()).toEqual(london('2020-01-01').toDate());
+    expect(result.toDate()).toEqual(new Date('2020-01-01'));
   });
 
   it('repeatedly increases the end date to account for a combination of exceptional closed dates and regular closed days that occur between the start date and extended end dates', () => {
@@ -288,7 +288,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(london('2020-01-24').toDate());
+    expect(result.toDate()).toEqual(new Date('2020-01-24'));
   });
 
   it("doesn't extend the end date for any regular closed day that occurs between the start date and the extended end date, if that day is also one of the exceptional closed dates", () => {
@@ -299,7 +299,7 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
       closedDays: [2],
     });
 
-    expect(result.toDate()).toEqual(london('2019-12-31').toDate());
+    expect(result.toDate()).toEqual(new Date('2019-12-31'));
   });
 
   it("doesn't return a date if no start date is provided", () => {

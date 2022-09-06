@@ -10,13 +10,11 @@ import {
   getVenueById,
   getTodaysVenueHours,
   groupConsecutiveExceptionalDays,
-  getVenueHours,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import { ExceptionalOpeningHoursDay } from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/format-date';
 import moment from 'moment';
-const { london } = dateUtils;
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
   return {
@@ -98,65 +96,65 @@ describe('opening-times', () => {
   describe('exceptionalOpeningPeriods: groups together override dates based on their proximity to each other and their override type, so we can display them together', () => {
     it('groups together dates with the same overrideType, so that there is never more than 4 days between one date and the next', () => {
       const result = exceptionalOpeningPeriods([
-        { overrideType: 'other', overrideDate: london('2020-01-01') },
-        { overrideType: 'other', overrideDate: london('2020-01-03') },
-        { overrideType: 'other', overrideDate: london('2020-01-06') },
-        { overrideType: 'other', overrideDate: london('2020-01-10') },
-        { overrideType: 'other', overrideDate: london('2020-01-15') },
-        { overrideType: 'other', overrideDate: london('2020-01-21') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-01') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-03') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-06') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-10') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-15') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-21') },
       ]);
       expect(result).toEqual([
         {
           type: 'other',
           dates: [
-            london('2020-01-01'),
-            london('2020-01-03'),
-            london('2020-01-06'),
-            london('2020-01-10'),
-            london('2020-01-15'),
+            new Date('2020-01-01'),
+            new Date('2020-01-03'),
+            new Date('2020-01-06'),
+            new Date('2020-01-10'),
+            new Date('2020-01-15'),
           ],
         },
         {
           type: 'other',
-          dates: [london('2020-01-21')],
+          dates: [new Date('2020-01-21')],
         },
       ]);
     });
 
     it('puts OverrideDates with the same overrideDate but different overrideType into different groups', () => {
       const result = exceptionalOpeningPeriods([
-        { overrideType: 'other', overrideDate: london('2020-01-02') },
-        { overrideType: 'other', overrideDate: london('2020-01-04') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-02') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-04') },
         {
           overrideType: 'Christmas and New Year',
-          overrideDate: london('2020-01-02'),
+          overrideDate: new Date('2020-01-02'),
         },
       ]);
       expect(result).toEqual([
         {
           type: 'other',
-          dates: [london('2020-01-02'), london('2020-01-04')],
+          dates: [new Date('2020-01-02'), new Date('2020-01-04')],
         },
         {
           type: 'Christmas and New Year',
-          dates: [london('2020-01-02')],
+          dates: [new Date('2020-01-02')],
         },
       ]);
     });
 
     it('puts dates in chronological order within their groups', () => {
       const result = exceptionalOpeningPeriods([
-        { overrideType: 'other', overrideDate: london('2020-01-04') },
-        { overrideType: 'other', overrideDate: london('2020-01-07') },
-        { overrideType: 'other', overrideDate: london('2020-01-02') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-04') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-07') },
+        { overrideType: 'other', overrideDate: new Date('2020-01-02') },
       ]);
       expect(result).toEqual([
         {
           type: 'other',
           dates: [
-            london('2020-01-02'),
-            london('2020-01-04'),
-            london('2020-01-07'),
+            new Date('2020-01-02'),
+            new Date('2020-01-04'),
+            new Date('2020-01-07'),
           ],
         },
       ]);
@@ -166,32 +164,32 @@ describe('opening-times', () => {
       const result = exceptionalOpeningPeriods([
         {
           overrideType: 'Bank holiday',
-          overrideDate: london('2021-01-05'),
+          overrideDate: new Date('2021-01-05'),
         },
-        { overrideType: 'other', overrideDate: london('2021-01-04') },
+        { overrideType: 'other', overrideDate: new Date('2021-01-04') },
         {
           overrideType: 'Christmas and New Year',
-          overrideDate: london('2021-12-30'),
+          overrideDate: new Date('2021-12-30'),
         },
-        { overrideType: 'other', overrideDate: london('2021-01-02') },
-        { overrideType: 'other', overrideDate: london('2021-04-10') },
+        { overrideType: 'other', overrideDate: new Date('2021-01-02') },
+        { overrideType: 'other', overrideDate: new Date('2021-04-10') },
       ]);
       expect(result).toEqual([
         {
           type: 'other',
-          dates: [london('2021-01-02'), london('2021-01-04')],
+          dates: [new Date('2021-01-02'), new Date('2021-01-04')],
         },
         {
           type: 'Bank holiday',
-          dates: [london('2021-01-05')],
+          dates: [new Date('2021-01-05')],
         },
         {
           type: 'other',
-          dates: [london('2021-04-10')],
+          dates: [new Date('2021-04-10')],
         },
         {
           type: 'Christmas and New Year',
-          dates: [london('2021-12-30')],
+          dates: [new Date('2021-12-30')],
         },
       ]);
     });

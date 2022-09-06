@@ -1,4 +1,3 @@
-import moment from 'moment';
 import NextLink from 'next/link';
 import { FunctionComponent, useContext, useState } from 'react';
 import { classNames, font } from '@weco/common/utils/classnames';
@@ -56,6 +55,7 @@ import {
 } from '../../utils/requesting';
 import { useToggles } from '@weco/common/server-data/Context';
 import { themeValues } from '@weco/common/views/themes/config';
+import { formatDuration } from '@weco/common/utils/format-date';
 
 type Props = {
   work: Work;
@@ -165,8 +165,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
   ];
 
   // 'About this work' data
-  const duration =
-    work.duration && moment.utc(work.duration).format('HH:mm:ss');
+  const duration = work.duration && formatDuration(work.duration);
 
   // 'Identifiers' data
   const isbnIdentifiers = work.identifiers.filter(id => {
