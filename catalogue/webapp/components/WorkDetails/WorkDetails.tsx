@@ -537,10 +537,9 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   controlText="Can I use this?"
                 >
                   <>
-                    {digitalLocationInfo.license.humanReadableText.length >
-                      0 && (
+                    {digitalLocationInfo.license.humanReadableText && (
                       <WorkDetailsText
-                        html={digitalLocationInfo.license.humanReadableText}
+                        contents={digitalLocationInfo.license.humanReadableText}
                       />
                     )}
                     <WorkDetailsText

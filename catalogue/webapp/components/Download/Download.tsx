@@ -163,10 +163,10 @@ const Download: NextPage<Props> = ({
                   </SpacingComponent>
                   <SpacingComponent>
                     <div>
-                      {license.humanReadableText.length > 0 && (
+                      {license.humanReadableText && (
                         <WorkDetailsText
                           title="Licence information"
-                          html={license.humanReadableText}
+                          contents={license.humanReadableText}
                         />
                       )}
                       <WorkDetailsText

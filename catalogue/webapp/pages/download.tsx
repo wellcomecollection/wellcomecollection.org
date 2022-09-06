@@ -125,10 +125,10 @@ const DownloadPage: NextPage<Props> = ({
           {license && (
             <SpacingComponent key={license.url}>
               <div>
-                {license.humanReadableText.length > 0 && (
+                {license.humanReadableText && (
                   <WorkDetailsText
                     title="License information"
-                    html={license.humanReadableText}
+                    contents={license.humanReadableText}
                   />
                 )}
                 <WorkDetailsText
