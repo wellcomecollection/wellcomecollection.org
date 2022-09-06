@@ -598,6 +598,12 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       )}
 
       <WorkDetailsSection headingText="About this work">
+        {/*
+          Note: although alternative titles sometimes contain angle brackets, it's
+          normally used to denote a period of time, not HTML tags.
+
+          e.g. Florida Historical Society quarterly, Apr. 1908-<July 1909>
+        */}
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
