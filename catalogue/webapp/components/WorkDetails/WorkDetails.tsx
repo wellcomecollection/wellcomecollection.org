@@ -613,7 +613,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.description && (
           <WorkDetailsText
             title="Description"
-            html={[work.description]}
+            html={work.description}
             allowDangerousRawHtml={true}
           />
         )}
@@ -634,7 +634,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.physicalDescription && (
           <WorkDetailsText
             title="Physical description"
-            html={[work.physicalDescription]}
+            html={work.physicalDescription}
             allowDangerousRawHtml={true}
           />
         )}
