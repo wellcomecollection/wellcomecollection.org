@@ -59,3 +59,24 @@ export function formatYear(date: Date): string {
 export function formatDayMonth(date: Date): string {
   return london(date).format('D MMMM');
 }
+
+export function formatDuration(seconds: number): string {
+  const secondsPerMinute = 60;
+  const secondsPerHour = 60 * secondsPerMinute;
+
+  const hours = Math.floor(seconds / secondsPerHour);
+  const minutes = Math.floor((seconds % secondsPerHour) / secondsPerMinute);
+  const remainingSeconds = seconds % secondsPerMinute;
+
+  console.assert(
+    hours * secondsPerHour + minutes * secondsPerMinute + remainingSeconds ===
+      seconds,
+    `${hours ** secondsPerHour + minutes * secondsPerMinute} != ${seconds}`
+  );
+
+  const HH = String(hours).padStart(2, '0');
+  const MM = String(minutes).padStart(2, '0');
+  const SS = String(remainingSeconds).padStart(2, '0');
+
+  return `${HH}:${MM}:${SS}`;
+}

@@ -67,11 +67,15 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
+  let totalErrors = 0;
+
   for (const doc of getPrismicDocuments(snapshotDir)) {
     const errors = [
       ...detectEur01Safelinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
     ];
+
+    totalErrors += errors.length;
 
     // If there are any errors, report them to the console.
     if (errors.length > 0) {
@@ -85,6 +89,15 @@ async function run() {
       }
       console.log('');
     }
+  }
+
+  if (totalErrors === 0) {
+    console.log(chalk.green('✅ No errors detected'));
+  } else {
+    console.log(
+      chalk.red(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`)
+    );
+    process.exit(1);
   }
 }
 

@@ -4,6 +4,7 @@ import {
   formatDay,
   formatDayDate,
   formatDayMonth,
+  formatDuration,
   formatTime,
   formatYear,
 } from './format-date';
@@ -161,4 +162,18 @@ describe('formatDateRangeWithMessage', () => {
 
     expect(result).toEqual({ text: 'Now on', color: 'green' });
   });
+});
+
+describe('formatDuration', () => {
+  test.each([
+    { seconds: 1, formattedDuration: '00:00:01' },
+    { seconds: 59, formattedDuration: '00:00:59' },
+    { seconds: 60 * 12, formattedDuration: '00:12:00' },
+    { seconds: 60 * 83 + 13, formattedDuration: '01:23:13' },
+  ])(
+    '$seconds seconds is formatted as $formattedDuration',
+    ({ seconds, formattedDuration }) => {
+      expect(formatDuration(seconds)).toStrictEqual(formattedDuration);
+    }
+  );
 });
