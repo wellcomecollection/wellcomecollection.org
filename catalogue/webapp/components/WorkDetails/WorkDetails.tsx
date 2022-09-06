@@ -242,8 +242,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {locationOfWork && (
           <WorkDetailsText
             title={locationOfWork.noteType.label}
-            text={locationOfWork.contents}
-            allowRawHtml={true}
+            html={locationOfWork.contents}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -302,8 +301,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <WorkDetailsText
                         title="Location"
                         noSpacing={true}
-                        text={[`${locationLabel} ${locationShelfmark}`]}
-                        allowRawHtml={true}
+                        html={[`${locationLabel} ${locationShelfmark}`]}
                       />
                     )}
 
@@ -312,8 +310,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Note"
                         inlineHeading={true}
                         noSpacing={true}
-                        text={[holding.note]}
-                        allowRawHtml={true}
+                        html={[holding.note]}
                       />
                     )}
                   </Space>
@@ -512,8 +509,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               >
                 <WorkDetailsText
                   title="Licence"
-                  text={[digitalLocationInfo.license.label]}
-                  allowRawHtml={true}
+                  html={[digitalLocationInfo.license.label]}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -526,8 +522,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   <WorkDetailsText
                     title="Access conditions"
                     noSpacing={true}
-                    text={[digitalLocation?.accessConditions[0]?.terms]}
-                    allowRawHtml={true}
+                    html={[digitalLocation?.accessConditions[0]?.terms]}
                   />
                 </Space>
               )}
@@ -545,12 +540,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     {digitalLocationInfo.license.humanReadableText.length >
                       0 && (
                       <WorkDetailsText
-                        text={digitalLocationInfo.license.humanReadableText}
-                        allowRawHtml={true}
+                        html={digitalLocationInfo.license.humanReadableText}
                       />
                     )}
                     <WorkDetailsText
-                      text={[
+                      html={[
                         [
                           `Credit: ${work.title.replace(/\.$/g, '')}.`,
                           credit &&
@@ -562,7 +556,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                           .filter(Boolean)
                           .join(' '),
                       ]}
-                      allowRawHtml={true}
                     />
                   </>
                 </ExplanatoryText>
@@ -597,32 +590,25 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
-            text={work.alternativeTitles}
-            allowRawHtml={true}
+            html={work.alternativeTitles}
           />
         )}
 
         {work.description && (
-          <WorkDetailsText
-            title="Description"
-            text={[work.description]}
-            allowRawHtml={true}
-          />
+          <WorkDetailsText title="Description" html={[work.description]} />
         )}
 
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
-            text={work.production.map(productionEvent => productionEvent.label)}
-            allowRawHtml={true}
+            html={work.production.map(productionEvent => productionEvent.label)}
           />
         )}
 
         {work.physicalDescription && (
           <WorkDetailsText
             title="Physical description"
-            text={[work.physicalDescription]}
-            allowRawHtml={true}
+            html={[work.physicalDescription]}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -666,41 +652,25 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
-            text={note.contents}
-            allowRawHtml={true}
+            html={note.contents}
           />
         ))}
 
         {work.lettering && (
-          <WorkDetailsText
-            title="Lettering"
-            text={[work.lettering]}
-            allowRawHtml={true}
-          />
+          <WorkDetailsText title="Lettering" html={[work.lettering]} />
         )}
 
         {work.edition && (
-          <WorkDetailsText
-            title="Edition"
-            text={[work.edition]}
-            allowRawHtml={true}
-          />
+          <WorkDetailsText title="Edition" html={[work.edition]} />
         )}
 
-        {duration && (
-          <WorkDetailsText
-            title="Duration"
-            text={[duration]}
-            allowRawHtml={true}
-          />
-        )}
+        {duration && <WorkDetailsText title="Duration" html={[duration]} />}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
-            text={note.contents}
-            allowRawHtml={true}
+            html={note.contents}
           />
         ))}
 

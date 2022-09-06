@@ -129,13 +129,13 @@ const DownloadPage: NextPage<Props> = ({
                   <WorkDetailsText
                     title="License information"
                     text={license.humanReadableText}
-                    allowRawHtml={true}
+                    mode="html"
                   />
                 )}
                 <WorkDetailsText
                   title="Credit"
                   text={getCreditString(workId, title, credit, license)}
-                  allowRawHtml={true}
+                  mode="html"
                 />
               </div>
             </SpacingComponent>

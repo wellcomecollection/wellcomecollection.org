@@ -152,19 +152,17 @@ const Download: NextPage<Props> = ({
                       {license.humanReadableText.length > 0 && (
                         <WorkDetailsText
                           title="Licence information"
-                          text={license.humanReadableText}
-                          allowRawHtml={true}
+                          html={license.humanReadableText}
                         />
                       )}
                       <WorkDetailsText
                         title="Credit"
-                        text={getCreditString(
+                        html={getCreditString(
                           workId,
                           title,
                           iiifImageLocationCredit,
                           license
                         )}
-                        allowRawHtml={true}
                       />
                     </div>
                   </SpacingComponent>

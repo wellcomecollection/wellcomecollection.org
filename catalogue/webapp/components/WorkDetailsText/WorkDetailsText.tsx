@@ -1,21 +1,29 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, ReactElement } from 'react';
 
-type Props = {
+type BaseProps = {
   title?: string;
   inlineHeading?: boolean;
   noSpacing?: boolean;
-  allowRawHtml: boolean;
+};
+
+type TextProps = BaseProps & {
   text: string[];
 };
 
-const WorkDetailsText: FunctionComponent<Props> = ({
-  title,
-  inlineHeading = false,
-  noSpacing = false,
-  allowRawHtml,
-  text,
-}: Props) => {
+type HtmlProps = BaseProps & {
+  html: string[];
+};
+
+type ReactProps = BaseProps & {
+  contents: ReactElement;
+};
+
+type Props = TextProps | HtmlProps | ReactProps;
+
+const WorkDetailsText: FunctionComponent<Props> = props => {
+  const { title, inlineHeading, noSpacing } = props;
+
   return (
     <WorkDetailsProperty
       title={title}
@@ -23,13 +31,13 @@ const WorkDetailsText: FunctionComponent<Props> = ({
       noSpacing={noSpacing}
     >
       <div className="spaced-text">
-        {text.map((para, i) => {
-          return allowRawHtml ? (
+        {'contents' in props && props.contents}
+        {'text' in props &&
+          props.text.map((para, i) => <div key={i}>{para}</div>)}
+        {'html' in props &&
+          props.html.map((para, i) => (
             <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
-          ) : (
-            <div key={i}>{para}</div>
-          );
-        })}
+          ))}
       </div>
     </WorkDetailsProperty>
   );
