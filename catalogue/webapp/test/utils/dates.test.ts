@@ -278,74 +278,74 @@ describe('groupExceptionalClosedDates', () => {
 describe('extendEndDate: Determines the end date to use, so that there are always the same number of available dates between the start and end date', () => {
   it('returns the original end date if no exceptional closed dates occur between the start and end date', () => {
     const result = extendEndDate({
-      startDate: london('2021-11-03'),
-      endDate: london('2021-11-16'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2021-11-03'),
+      endDate: new Date('2021-11-16'),
+      exceptionalClosedDates,
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(new Date('2021-11-16'));
+    expect(result).toEqual(new Date('2021-11-16'));
   });
 
   it('increases the end date by the number of exceptional closed dates that occur between the start and end date', () => {
     const result = extendEndDate({
-      startDate: london('2019-12-28'),
-      endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2019-12-28'),
+      endDate: new Date('2020-01-10'),
+      exceptionalClosedDates,
       closedDays: [],
     });
 
-    expect(result.toDate()).toEqual(new Date('2020-01-15'));
+    expect(result).toEqual(new Date('2020-01-15'));
   });
 
   it('increases the end date again to account for any regular closed days that occur between the start date and an extended end date', () => {
     const result = extendEndDate({
-      startDate: london('2019-12-28'),
-      endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2019-12-28'),
+      endDate: new Date('2020-01-10'),
+      exceptionalClosedDates,
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(new Date('2020-01-16'));
+    expect(result).toEqual(new Date('2020-01-16'));
   });
 
   it('increases the end date again to account for any exceptional closed dates that occur between the start date and an extended end date', () => {
     const result = extendEndDate({
-      startDate: london('2019-12-16'),
-      endDate: london('2019-12-30'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2019-12-16'),
+      endDate: new Date('2019-12-30'),
+      exceptionalClosedDates,
       closedDays: [],
     });
 
-    expect(result.toDate()).toEqual(new Date('2020-01-01'));
+    expect(result).toEqual(new Date('2020-01-01'));
   });
 
   it('repeatedly increases the end date to account for a combination of exceptional closed dates and regular closed days that occur between the start date and extended end dates', () => {
     const result = extendEndDate({
-      startDate: london('2020-01-03'),
-      endDate: london('2020-01-16'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2020-01-03'),
+      endDate: new Date('2020-01-16'),
+      exceptionalClosedDates,
       closedDays: [0],
     });
 
-    expect(result.toDate()).toEqual(new Date('2020-01-24'));
+    expect(result).toEqual(new Date('2020-01-24'));
   });
 
   it("doesn't extend the end date for any regular closed day that occurs between the start date and the extended end date, if that day is also one of the exceptional closed dates", () => {
     const result = extendEndDate({
-      startDate: london('2019-12-24'),
-      endDate: london('2019-12-31'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2019-12-24'),
+      endDate: new Date('2019-12-31'),
+      exceptionalClosedDates,
       closedDays: [2],
     });
 
-    expect(result.toDate()).toEqual(new Date('2019-12-31'));
+    expect(result).toEqual(new Date('2019-12-31'));
   });
 
   it("doesn't return a date if no start date is provided", () => {
     const result = extendEndDate({
-      endDate: london('2020-01-10'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      endDate: new Date('2020-01-10'),
+      exceptionalClosedDates: exceptionalClosedDates,
       closedDays: [0],
     });
 
@@ -354,8 +354,8 @@ describe('extendEndDate: Determines the end date to use, so that there are alway
 
   it("doesn't return a date if no end date is provided", () => {
     const result = extendEndDate({
-      startDate: london('2019-12-24'),
-      exceptionalClosedDates: exceptionalClosedDates.map(d => london(d)),
+      startDate: new Date('2019-12-24'),
+      exceptionalClosedDates,
       closedDays: [0],
     });
 

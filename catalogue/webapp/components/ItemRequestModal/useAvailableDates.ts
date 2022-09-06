@@ -40,7 +40,7 @@ export const useAvailableDates = (): AvailableDates => {
   const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
     .map(day => {
       const exceptionalDay = day as ExceptionalOpeningHoursDay;
-      return london(exceptionalDay.overrideDate);
+      return exceptionalDay.overrideDate;
     })
     .filter(Boolean);
 
@@ -54,15 +54,15 @@ export const useAvailableDates = (): AvailableDates => {
   // If the library is closed on any days during the selection window
   // we extend the lastAvailableDate to take these into account
   const lastAvailable = extendEndDate({
-    startDate: nextAvailable && london(nextAvailable),
-    endDate: minimumLastAvailable && london(minimumLastAvailable),
+    startDate: nextAvailable,
+    endDate: minimumLastAvailable,
     exceptionalClosedDates,
     closedDays,
   });
 
   return {
     nextAvailable: nextAvailable && london(nextAvailable),
-    lastAvailable,
+    lastAvailable: lastAvailable && london(lastAvailable),
     exceptionalClosedDates,
     closedDays,
   };
