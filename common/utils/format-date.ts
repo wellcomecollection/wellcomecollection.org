@@ -30,7 +30,7 @@ export function formatDate(date: Date): string {
 }
 
 export function formatTime(date: Date): string {
-  const hours = formatLondon(date, { hour: '2-digit' });
+  const hours = formatLondon(date, { hour: '2-digit', hourCycle: 'h24' });
   const minutes = formatLondon(date, { minute: '2-digit' });
 
   return `${hours}:${minutes}`;
