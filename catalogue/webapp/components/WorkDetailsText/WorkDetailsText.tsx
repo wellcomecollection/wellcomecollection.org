@@ -1,5 +1,6 @@
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent, ReactElement } from 'react';
+import { isString } from '@weco/common/utils/array';
 
 type BaseProps = {
   title?: string;
@@ -8,7 +9,7 @@ type BaseProps = {
 };
 
 type TextProps = BaseProps & {
-  text: string[];
+  text: string | string[];
 };
 
 // We don't strictly need the `allowDangerousRawHtml` here, but it's to
@@ -17,7 +18,7 @@ type TextProps = BaseProps & {
 //
 // cf https://reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml
 type HtmlProps = BaseProps & {
-  html: string[];
+  html: string | string[];
   allowDangerousRawHtml: true;
 };
 
@@ -39,10 +40,18 @@ const WorkDetailsText: FunctionComponent<Props> = props => {
       <div className="spaced-text">
         {'contents' in props && props.contents}
         {'text' in props &&
-          props.text.map((para, i) => <div key={i}>{para}</div>)}
+          (isString(props.text) ? (
+            <div key="0">{props.text}</div>
+          ) : (
+            props.text.map((para, i) => <div key={i}>{para}</div>)
+          ))}
         {'html' in props &&
-          props.html.map((para, i) => (
-            <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
+          (isString(props.html) ? (
+            <div key="0" dangerouslySetInnerHTML={{ __html: props.html }} />
+          ) : (
+            props.html.map((para, i) => (
+              <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
+            ))
           ))}
       </div>
     </WorkDetailsProperty>

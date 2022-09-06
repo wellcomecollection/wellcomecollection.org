@@ -685,20 +685,10 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         )}
 
         {work.edition && (
-          <WorkDetailsText
-            title="Edition"
-            html={[work.edition]}
-            allowDangerousRawHtml={true}
-          />
+          <WorkDetailsText title="Edition" text={work.edition} />
         )}
 
-        {duration && (
-          <WorkDetailsText
-            title="Duration"
-            html={[duration]}
-            allowDangerousRawHtml={true}
-          />
-        )}
+        {duration && <WorkDetailsText title="Duration" text={duration} />}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
