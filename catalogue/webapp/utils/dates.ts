@@ -5,7 +5,7 @@ import {
   Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
-import { addDays } from '@weco/common/utils/dates';
+import { addDays, getDatesBetween } from '@weco/common/utils/dates';
 import { london } from '@weco/common/utils/format-date';
 
 export function findClosedDays(
@@ -129,15 +129,16 @@ export function filterExceptionalClosedDates(
 }
 
 export function includedRegularClosedDays(params: {
-  startDate: Moment;
-  endDate: Moment;
+  startDate: Date;
+  endDate: Date;
   closedDays: number[];
 }): number {
   const { startDate, endDate, closedDays } = params;
-  const numberDaysInRange = endDate.diff(startDate, 'days') + 1;
-  const dayArray = [...Array(numberDaysInRange).keys()].map(i =>
-    startDate.clone().add(i, 'day').day()
+
+  const dayArray = getDatesBetween({ start: startDate, end: endDate }).map(d =>
+    d.getDay()
   );
+
   const includedRegularClosedDays = dayArray.filter(day =>
     closedDays.includes(day)
   );
@@ -169,34 +170,32 @@ export function extendEndDate(params: {
     return endDate;
   } else {
     // If there are included exceptional closed dates we need to extend the end date by that number of days
-    const extendedEndDate = endDate.clone().add(exceptionalDaysToAdd, 'days');
+    const extendedEndDate = addDays(endDate.toDate(), exceptionalDaysToAdd);
     // We then regroup the previously excluded exceptional closed dates to see if any are captured by the new end date
     const regroupedClosedDates = groupExceptionalClosedDates({
       startDate: startDate.toDate(),
-      endDate: extendedEndDate.toDate(),
+      endDate: extendedEndDate,
       exceptionalClosedDates: groupedClosedDates.excluded,
     });
     const additionalExceptionalDaysToAdd = regroupedClosedDates.included.length;
     // And also check if the new end date has captured any of the regular closed days
     const regularDaysToAdd = includedRegularClosedDays({
-      startDate: endDate.clone().add(1, 'days'), // We only want to check new days
+      startDate: addDays(endDate.toDate(), 1), // We only want to check new days
       endDate: extendedEndDate,
       closedDays,
     });
     const daysToAdd = additionalExceptionalDaysToAdd + regularDaysToAdd;
     if (daysToAdd > 0) {
       // If there are now more days to add on we extend the end date again
-      const nextExtendedEndDate = extendedEndDate
-        .clone()
-        .add(daysToAdd, 'days');
+      const nextExtendedEndDate = addDays(extendedEndDate, daysToAdd);
       return extendEndDate({
-        startDate: extendedEndDate.clone().add(1, 'day'), // We only want to check new days
-        endDate: nextExtendedEndDate,
+        startDate: london(addDays(extendedEndDate, 1)), // We only want to check new days
+        endDate: london(nextExtendedEndDate),
         exceptionalClosedDates: groupedClosedDates.excluded.map(d => london(d)),
         closedDays,
       });
     } else {
-      return extendedEndDate;
+      return london(extendedEndDate);
     }
   }
 }

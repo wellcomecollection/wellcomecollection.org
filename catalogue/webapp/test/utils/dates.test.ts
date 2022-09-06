@@ -227,11 +227,20 @@ describe('filterExceptionalClosedDates', () => {
 describe('includedRegularClosedDays', () => {
   it('determines how many regular closed days occur between the start and end dates, inclusive', () => {
     const result = includedRegularClosedDays({
-      startDate: london('2020-01-03'),
-      endDate: london('2020-01-16'),
+      startDate: new Date('2020-01-03'),
+      endDate: new Date('2020-01-16'),
       closedDays: [0, 1, 4],
     });
 
+    // This is the date range:
+    //
+    //        January 2020
+    //     Su Mo Tu We Th Fr Sa
+    //                     3  4
+    //      5  6  7  8  9 10 11
+    //     12 13 14 15 16
+    //
+    // Of these, we're counting Sunday (0), Monday (1) and Thursday (4).
     expect(result).toEqual(6);
   });
 });

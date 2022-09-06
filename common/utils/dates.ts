@@ -91,3 +91,25 @@ export function getNextWeekendDateRange(date: Date): DateRange {
     end: endOfDay(end),
   };
 }
+
+/** Returns an array containing all the dates between `start` and `end`.
+ *
+ * e.g. getDatesBetween({ start: new Date(2001-01-01), end: new Date(2001-01-04) })
+ *          => [2001-01-01, 2001-01-02, 2001-01-03, 2001-04-01]
+ *
+ */
+export function getDatesBetween({
+  start,
+  end,
+}: {
+  start: Date;
+  end: Date;
+}): Date[] {
+  const dateArray: Date[] = [];
+  let currentDate = start;
+  while (currentDate <= end) {
+    dateArray.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+  return dateArray;
+}
