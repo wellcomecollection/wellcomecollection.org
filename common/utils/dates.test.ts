@@ -1,5 +1,12 @@
 import each from 'jest-each';
-import { dayBefore, isFuture, isPast, isSameDay, isSameMonth } from './dates';
+import {
+  dayBefore,
+  getNextWeekendDateRange,
+  isFuture,
+  isPast,
+  isSameDay,
+  isSameMonth,
+} from './dates';
 
 it('identifies dates in the past', () => {
   expect(isPast(new Date(2001, 1, 1, 1, 1, 1, 999))).toEqual(true);
@@ -95,5 +102,34 @@ describe('dayBefore', () => {
     { day: new Date('2022-01-01'), prevDay: new Date('2021-12-31') },
   ])('the day before $day is $prevDay', ({ day, prevDay }) => {
     expect(dayBefore(day)).toStrictEqual(prevDay);
+  });
+});
+
+describe('getNextWeekendDateRange', () => {
+  test.each([
+    // Monday
+    {
+      day: new Date('2022-09-05'),
+      weekend: { start: new Date('2022-09-09'), end: new Date('2022-09-11') },
+    },
+    // Friday
+    {
+      day: new Date('2022-09-02'),
+      weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
+    },
+    // Saturday
+    {
+      day: new Date('2022-09-03'),
+      weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
+    },
+    // Sunday
+    {
+      day: new Date('2022-09-04'),
+      weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
+    },
+  ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
+    const range = getNextWeekendDateRange(day);
+    expect(isSameDay(range.start, weekend.start)).toBeTruthy();
+    expect(isSameDay(range.end, weekend.end)).toBeTruthy();
   });
 });
