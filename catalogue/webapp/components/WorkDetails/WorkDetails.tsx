@@ -243,6 +243,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title={locationOfWork.noteType.label}
             html={locationOfWork.contents}
+            allowDangerousRawHtml={true}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -302,6 +303,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Location"
                         noSpacing={true}
                         html={[`${locationLabel} ${locationShelfmark}`]}
+                        allowDangerousRawHtml={true}
                       />
                     )}
 
@@ -311,6 +313,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         inlineHeading={true}
                         noSpacing={true}
                         html={[holding.note]}
+                        allowDangerousRawHtml={true}
                       />
                     )}
                   </Space>
@@ -509,7 +512,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               >
                 <WorkDetailsText
                   title="Licence"
-                  html={[digitalLocationInfo.license.label]}
+                  text={[digitalLocationInfo.license.label]}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -523,6 +526,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     title="Access conditions"
                     noSpacing={true}
                     html={[digitalLocation?.accessConditions[0]?.terms]}
+                    allowDangerousRawHtml={true}
                   />
                 </Space>
               )}
@@ -604,13 +608,18 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         )}
 
         {work.description && (
-          <WorkDetailsText title="Description" html={[work.description]} />
+          <WorkDetailsText
+            title="Description"
+            html={[work.description]}
+            allowDangerousRawHtml={true}
+          />
         )}
 
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
             html={work.production.map(productionEvent => productionEvent.label)}
+            allowDangerousRawHtml={true}
           />
         )}
 
@@ -618,6 +627,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             title="Physical description"
             html={[work.physicalDescription]}
+            allowDangerousRawHtml={true}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -662,24 +672,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
+            allowDangerousRawHtml={true}
           />
         ))}
 
         {work.lettering && (
-          <WorkDetailsText title="Lettering" html={[work.lettering]} />
+          <WorkDetailsText
+            title="Lettering"
+            html={[work.lettering]}
+            allowDangerousRawHtml={true}
+          />
         )}
 
         {work.edition && (
-          <WorkDetailsText title="Edition" html={[work.edition]} />
+          <WorkDetailsText
+            title="Edition"
+            html={[work.edition]}
+            allowDangerousRawHtml={true}
+          />
         )}
 
-        {duration && <WorkDetailsText title="Duration" html={[duration]} />}
+        {duration && (
+          <WorkDetailsText
+            title="Duration"
+            html={[duration]}
+            allowDangerousRawHtml={true}
+          />
+        )}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
+            allowDangerousRawHtml={true}
           />
         ))}
 

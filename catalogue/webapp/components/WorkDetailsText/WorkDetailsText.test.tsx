@@ -4,7 +4,10 @@ import WorkDetailsText from './WorkDetailsText';
 describe('WorkDetailsText', () => {
   it('renders HTML as-is', () => {
     const component = mountWithTheme(
-      <WorkDetailsText html={['This is <strong>bold</strong> text']} />
+      <WorkDetailsText
+        html={['This is <strong>bold</strong> text']}
+        allowDangerousRawHtml={true}
+      />
     );
 
     expect(component.html().includes('<strong>bold</strong>')).toBeTruthy();

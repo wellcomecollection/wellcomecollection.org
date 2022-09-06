@@ -11,8 +11,14 @@ type TextProps = BaseProps & {
   text: string[];
 };
 
+// We don't strictly need the `allowDangerousRawHtml` here, but it's to
+// remind downstream callers that we'll be rendering unescaped HTML from
+// the catalogue API, which might be dangerous.
+//
+// cf https://reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml
 type HtmlProps = BaseProps & {
   html: string[];
+  allowDangerousRawHtml: true;
 };
 
 type ReactProps = BaseProps & {
