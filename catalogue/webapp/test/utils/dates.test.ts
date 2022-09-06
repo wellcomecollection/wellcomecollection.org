@@ -154,49 +154,54 @@ describe('findNextPickUpDay: finds the earliest date on which requested items ca
 
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
-    const result = determineNextAvailableDate(london('2021-12-9 09:00'), [0]);
-    expect(result.toDate()).toEqual(new Date('2021-12-10 09:00'));
+    const result = determineNextAvailableDate(new Date('2021-12-9 09:00'), [0]);
+    expect(result).toEqual(new Date('2021-12-10 09:00'));
   });
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
-    const result = determineNextAvailableDate(london('2021-12-9 11:00'), [0]);
-    expect(result.toDate()).toEqual(new Date('2021-12-11 11:00'));
+    const result = determineNextAvailableDate(new Date('2021-12-9 11:00'), [0]);
+    expect(result).toEqual(new Date('2021-12-11 11:00'));
   });
 
   it('defers weekend requests until Tuesday, to avoid a rush of retrievals on Monday', () => {
-    const result = determineNextAvailableDate(london('2021-12-10 10:30'), [0]); // Sunday
-    expect(result.toDate()).toEqual(new Date('2021-12-14 10:30')); // Tuesday
+    const result = determineNextAvailableDate(new Date('2021-12-10 10:30'), [
+      0,
+    ]); // Sunday
+    expect(result).toEqual(new Date('2021-12-14 10:30')); // Tuesday
   });
 
   it("doesn't return a date if there are no regular days that are open", () => {
-    const result = determineNextAvailableDate(london(), [0, 1, 2, 3, 4, 5, 6]);
+    const result = determineNextAvailableDate(
+      new Date(),
+      [0, 1, 2, 3, 4, 5, 6]
+    );
     expect(result).toBeUndefined();
   });
 
   it('works based on 10am in London, not the user’s location', () => {
     // Paris is an hour ahead of London, so a request made at 10:30 in Paris is
     // at 09:30 in London -- it can be fulfilled the next day.
-    const date1 = london(new Date('2021-12-09T10:30:00+0100'));
+    const date1 = new Date('2021-12-09T10:30:00+0100');
 
     const result1 = determineNextAvailableDate(date1, [0]);
-    expect(result1.toDate()).toEqual(new Date('2021-12-10T09:30:00Z'));
+    expect(result1).toEqual(new Date('2021-12-10T09:30:00Z'));
 
     // Paris is an hour ahead of London, so a request made at 11:30 in Paris is
     // at 19:30 in London -- it can’t be fulfilled the next day.
-    const date2 = london(new Date('2021-12-09T11:30:00+0100'));
+    const date2 = new Date('2021-12-09T11:30:00+0100');
 
     const result2 = determineNextAvailableDate(date2, [0]);
-    expect(result2.toDate()).toEqual(new Date('2021-12-11T10:30:00Z'));
+    expect(result2).toEqual(new Date('2021-12-11T10:30:00Z'));
 
     // Now run the same tests, but now during British Summer Time when London
     // and UTC are different.
-    const date3 = london(new Date('2022-09-06T10:30:00+0200'));
+    const date3 = new Date('2022-09-06T10:30:00+0200');
     const result3 = determineNextAvailableDate(date3, [0]);
-    expect(result3.toDate()).toEqual(new Date('2022-09-07T09:30:00+0100'));
+    expect(result3).toEqual(new Date('2022-09-07T09:30:00+0100'));
 
-    const date4 = london(new Date('2022-09-06T11:30:00+0200'));
+    const date4 = new Date('2022-09-06T11:30:00+0200');
     const result4 = determineNextAvailableDate(date4, [0]);
-    expect(result4.toDate()).toEqual(new Date('2022-09-08T10:30:00+0100'));
+    expect(result4).toEqual(new Date('2022-09-08T10:30:00+0100'));
   });
 });
 

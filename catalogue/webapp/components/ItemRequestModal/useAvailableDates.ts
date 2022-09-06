@@ -43,21 +43,25 @@ export const useAvailableDates = (): AvailableDates => {
     })
     .filter(Boolean);
 
-  const nextAvailable = determineNextAvailableDate(london(), closedDays);
+  const nextAvailable = determineNextAvailableDate(
+    london().toDate(),
+    closedDays
+  );
 
   // There should be a minimum of a 2 week window in which to select a date
-  const minimumLastAvailable = nextAvailable?.clone().add(13, 'days');
+  const minimumLastAvailable =
+    nextAvailable && london(nextAvailable).clone().add(13, 'days');
   // If the library is closed on any days during the selection window
   // we extend the lastAvailableDate to take these into account
   const lastAvailable = extendEndDate({
-    startDate: nextAvailable,
+    startDate: nextAvailable && london(nextAvailable),
     endDate: minimumLastAvailable,
     exceptionalClosedDates,
     closedDays,
   });
 
   return {
-    nextAvailable,
+    nextAvailable: nextAvailable && london(nextAvailable),
     lastAvailable,
     exceptionalClosedDates,
     closedDays,
