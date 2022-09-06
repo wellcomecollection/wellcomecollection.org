@@ -1,7 +1,7 @@
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { IIIFRendering } from '../../model/iiif';
 import { LicenseData } from '@weco/common/utils/licenses';
-import { useContext, useRef } from 'react';
+import { ReactElement, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { font, classNames } from '@weco/common/utils/classnames';
 import DownloadLink from '@weco/catalogue/components/DownloadLink/DownloadLink';
@@ -42,23 +42,37 @@ function getFormatString(format: string): DownloadFormat | undefined {
   }
 }
 
-export function getCreditString(
+export function getCredit(
   workId: string,
   title: string,
   iiifImageLocationCredit: string | undefined,
   license: LicenseData
-): string[] {
+): ReactElement {
   const titleCredit = title.replace(/\.$/g, '');
 
-  const linkCredit = iiifImageLocationCredit
-    ? `Credit: <a href="https://wellcomecollection.org/works/${workId}">${iiifImageLocationCredit}</a>. `
-    : ` `;
+  const linkCredit = iiifImageLocationCredit ? (
+    <>
+      Credit:{' '}
+      <a href={`https://wellcomecollection.org/works/${workId}`}>
+        {iiifImageLocationCredit}
+      </a>
+      .
+    </>
+  ) : null;
 
-  const licenseCredit = license.url
-    ? `<a href="${license.url}">${license.label}</a>`
-    : license.label;
+  const licenseCredit: ReactElement = license.url ? (
+    <a href={license.url}>{license.label}</a>
+  ) : (
+    <>{license.label}</>
+  );
 
-  return [`${titleCredit}. ${linkCredit}\n${licenseCredit}`];
+  return (
+    <>
+      <div key="0">
+        {titleCredit}. {linkCredit} {licenseCredit}
+      </div>
+    </>
+  );
 }
 
 type Props = {
@@ -157,7 +171,7 @@ const Download: NextPage<Props> = ({
                       )}
                       <WorkDetailsText
                         title="Credit"
-                        html={getCreditString(
+                        contents={getCredit(
                           workId,
                           title,
                           iiifImageLocationCredit,
