@@ -422,4 +422,15 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
     });
     expect(result).toEqual(true);
   });
+
+  it('returns true if there are start and end dates and the date falls on the start date', () => {
+    const result = isRequestableDate({
+      date: london('2019-12-17T01:00:00Z'),
+      startDate: london('2019-12-17T12:00:00Z'),
+      endDate: london('2019-12-31'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
 });
