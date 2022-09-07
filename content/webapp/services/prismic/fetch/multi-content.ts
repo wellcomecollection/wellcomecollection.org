@@ -23,6 +23,7 @@ import {
 } from '@weco/common/services/prismic/fetch-links';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { MultiContent } from '../../../types/multi-content';
+import superjson from 'superjson';
 
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
@@ -102,6 +103,7 @@ export const fetchMultiContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    return response.json();
+    const json = await response.text();
+    return superjson.parse<PaginatedResults<MultiContent>>(json);
   }
 };

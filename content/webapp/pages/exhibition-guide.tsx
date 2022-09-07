@@ -51,6 +51,7 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { dasherize } from '@weco/common/utils/grammar';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -270,6 +271,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 type StopsProps = {
   stops: ExhibitionGuideComponent[];
   type?: GuideType;
+  id?: number;
 };
 
 const Stops: FC<StopsProps> = ({ stops, type }) => {
@@ -292,7 +294,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return hasContentOfDesiredType ? (
-          <Stop key={index}>
+          <Stop key={index} id={dasherize(title)}>
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
                 <AudioPlayer
@@ -312,7 +314,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             )}
           </Stop>
         ) : (
-          <Stop key={index}>
+          <Stop key={index} id={dasherize(title)}>
             <span className={font('intb', 5)}>
               {number}. {title}
             </span>
@@ -454,7 +456,6 @@ const ExhibitionGuidePage: FC<Props> = props => {
   }`;
   const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
-
   return (
     <PageLayout
       title={`${exhibitionGuide.title} guide` || ''}
