@@ -103,10 +103,10 @@ function handleKeyDown(
   if (ENTER.includes(key) || SPACE.includes(key)) {
     if (
       isRequestableDate({
-        date: date,
-        startDate: min,
-        endDate: max,
-        excludedDates,
+        date: date.toDate(),
+        startDate: min.toDate(),
+        endDate: max.toDate(),
+        excludedDates: excludedDates.map(d => d.toDate()),
         excludedDays,
       })
     ) {
@@ -305,10 +305,10 @@ const Calendar: FC<Props> = ({
                   const isDisabled =
                     !date?.date() ||
                     !isRequestableDate({
-                      date: date,
-                      startDate: min,
-                      endDate: max,
-                      excludedDates,
+                      date: date.toDate(),
+                      startDate: min.toDate(),
+                      endDate: max.toDate(),
+                      excludedDates: excludedDates.map(d => d.toDate()),
                       excludedDays,
                     });
                   const isTabbable =
