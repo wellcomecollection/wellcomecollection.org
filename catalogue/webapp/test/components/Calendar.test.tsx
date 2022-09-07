@@ -3,7 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import Calendar from '../../components/Calendar/Calendar';
 import userEvent from '@testing-library/user-event';
-import { london } from '@weco/common/utils/format-date';
+import { london } from '../../utils/format-date';
 
 const renderComponent = () => {
   render(

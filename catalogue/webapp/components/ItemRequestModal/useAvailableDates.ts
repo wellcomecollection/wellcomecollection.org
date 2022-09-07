@@ -5,7 +5,7 @@ import {
   extendEndDate,
   findClosedDays,
 } from '@weco/catalogue/utils/dates';
-import { london } from '@weco/common/utils/format-date';
+import { london } from '../../utils/format-date';
 import {
   DayNumber,
   ExceptionalOpeningHoursDay,
