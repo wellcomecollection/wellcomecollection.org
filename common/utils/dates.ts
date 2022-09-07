@@ -36,6 +36,16 @@ export function isSameDay(date1: Date, date2: Date): boolean {
   return isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate();
 }
 
+// Note: the order of arguments to this function is designed so you can
+// concatenate them and get sensible-looking results.
+//
+//      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
+//        => isSameDayOrBefore(A, C)
+//
+export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
+  return isSameDay(date1, date2) || date1 <= date2;
+}
+
 // Returns true if 'date' falls on a past day; false otherwise.
 export function isDayPast(date: Date): boolean {
   const now = new Date();
@@ -103,4 +113,26 @@ export function getNextWeekendDateRange(date: Date): DateRange {
     start: startOfDay(start),
     end: endOfDay(end),
   };
+}
+
+/** Returns an array containing all the dates between `start` and `end`.
+ *
+ * e.g. getDatesBetween({ start: new Date(2001-01-01), end: new Date(2001-01-04) })
+ *          => [2001-01-01, 2001-01-02, 2001-01-03, 2001-04-01]
+ *
+ */
+export function getDatesBetween({
+  start,
+  end,
+}: {
+  start: Date;
+  end: Date;
+}): Date[] {
+  const dateArray: Date[] = [];
+  let currentDate = start;
+  while (currentDate <= end) {
+    dateArray.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+  return dateArray;
 }
