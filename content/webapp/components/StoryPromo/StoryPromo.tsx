@@ -128,7 +128,7 @@ const StoryPromo: FunctionComponent<Props> = ({
           )}
           {readingTime && (
             <p className={`${font('intb', 5)} no-margin`}>
-              reading time: <span className={font('intr', 5)}> </span>
+              reading time: <span className={font('intr', 5)}>goes here</span>
             </p>
           )}
           ;
