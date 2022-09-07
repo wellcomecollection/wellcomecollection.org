@@ -225,7 +225,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              <TombstoneTitle id={dasherize(title)}>
+              <TombstoneTitle id={dasherize(`${title}`)}>
                 {!hasContext && title}
               </TombstoneTitle>
               <div className={font('intr', 4)}>
