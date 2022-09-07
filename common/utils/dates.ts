@@ -141,3 +141,8 @@ export function getDatesBetween({
   }
   return dateArray;
 }
+
+export function countDaysBetween(a: Date, b: Date): number {
+  const millisecondsInDay = 1000 * 60 * 60 * 24;
+  return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
+}

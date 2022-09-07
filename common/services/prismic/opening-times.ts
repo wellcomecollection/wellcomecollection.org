@@ -1,4 +1,4 @@
-import { formatDay, london } from '../../utils/format-date';
+import { formatDay } from '../../utils/format-date';
 import groupBy from 'lodash.groupby';
 import {
   OverrideType,
@@ -11,6 +11,7 @@ import {
 import { isNotUndefined } from '../../utils/array';
 import {
   addDays,
+  countDaysBetween,
   dayBefore,
   endOfDay,
   getDatesBetween,
@@ -122,20 +123,21 @@ export function groupExceptionalVenueDays(
         .sort(
           (a, b) =>
             (a.overrideDate &&
-              london(a.overrideDate).diff(b.overrideDate, 'days')) ??
+              b.overrideDate &&
+              countDaysBetween(a.overrideDate, b.overrideDate)) ??
             0
         )
         .reduce(
           (acc, date) => {
             const group = acc[acc.length - 1];
-            if (
-              ((date.overrideDate &&
-                london(date.overrideDate).diff(
-                  (group[0] && group[0].overrideDate) || date.overrideDate,
-                  'days'
-                )) ??
-                0) > 14
-            ) {
+
+            const daysBetween =
+              (date.overrideDate &&
+                group[0]?.overrideDate &&
+                countDaysBetween(date.overrideDate, group[0].overrideDate)) ??
+              0;
+
+            if (daysBetween > 14) {
               acc.push([date]);
             } else {
               group.push(date);
@@ -176,7 +178,7 @@ export function backfillExceptionalVenueDays(
     getExceptionalVenueDays(venue)
   );
   return (allVenueExceptionalPeriods ?? []).map(period => {
-    const sortedDates = period.dates.sort((a, b) => london(a).diff(b, 'days'));
+    const sortedDates = period.dates.sort((a, b) => countDaysBetween(a, b));
     const type = period.type || 'other';
     const days = sortedDates
       .map(date => {
