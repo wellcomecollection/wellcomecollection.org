@@ -47,17 +47,17 @@ const StandaloneTitle = styled(Space).attrs({
     props.theme.color(getTypeColor('captions-and-transcripts'))};
 `;
 
-const ContextTitle = styled(Space).attrs({
-  as: 'h2',
+const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({
+  as: `h${props.level}`,
   className: font('wb', 3),
   v: { size: 'm', properties: ['margin-bottom'] },
-})``;
+}))<{ level: number }>``;
 
-const TranscriptTitle = styled(Space).attrs({
-  as: 'h3',
+const TranscriptTitle = styled(Space).attrs<{ level: number }>(props => ({
+  as: `h${props.level}`,
   className: font('wb', 4),
   v: { size: 'm', properties: ['margin-bottom'] },
-})``;
+}))<{ level: number }>``;
 
 const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
   props => ({
@@ -70,11 +70,11 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
     props.theme.color(props.backgroundColor, props.backgroundShade)};
 `;
 
-const TombstoneTitle = styled(Space).attrs({
-  as: 'h2',
+const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
+  as: `h${props.level}`,
   className: font('wb', 3),
   v: { size: 's', properties: ['margin-bottom'] },
-})``;
+}))<{ level: number }>``;
 
 const Tombstone = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-right'] },
@@ -145,10 +145,32 @@ type Props = {
   stops: Stop[];
 };
 
-const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
-  stop,
-  isFirstStop,
-}) => {
+function includesStandaloneTitle(stop) {
+  return Boolean(stop.standaloneTitle.length > 0);
+}
+
+function includesContextTitle(stop) {
+  return Boolean(stop.context.length > 0);
+}
+
+function calculateTombstoneHeadingLevel(titlesUsed) {
+  if (titlesUsed.standalone && titlesUsed.context) {
+    return 4;
+  } else if (titlesUsed.standalone || titlesUsed.context) {
+    return 3;
+  } else {
+    return 2;
+  }
+}
+
+const Stop: FC<{
+  stop: Stop;
+  isFirstStop: boolean;
+  titlesUsed: {
+    standalone: boolean;
+    context: boolean;
+  };
+}> = ({ stop, isFirstStop, titlesUsed }) => {
   const {
     standaloneTitle,
     title,
@@ -166,7 +188,8 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
   const [transcriptionText, setTranscriptionText] = useState(
     transcriptionFirstParagraph
   );
-  const hasContext = Boolean(context && context.length > 0);
+  const hasContext = includesContextTitle(stop);
+  const hasStandaloneTitle = includesStandaloneTitle(stop);
 
   useEffect(() => {
     // Show full audio transcripts by default and hide them once we know
@@ -180,18 +203,25 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
     );
   }, [isFullTranscription]);
 
+  // Heading levels will vary depending on the inclusion of optional headings on the page
+  const contextHeadingLevel = titlesUsed.standalone ? 3 : 2;
+  const tombstoneHeadingLevel = calculateTombstoneHeadingLevel(titlesUsed);
+  const audioTranscriptHeadingLevel = tombstoneHeadingLevel + 1;
+
   return (
     <>
-      {standaloneTitle.length > 0 && (
+      {hasStandaloneTitle && (
         <div className="container">
-          <Space
-            v={{
-              size: 'xl',
-              properties: ['margin-bottom'],
-            }}
-          >
-            <Divider color={`pumice`} isKeyline={true} />
-          </Space>
+          {!isFirstStop && (
+            <Space
+              v={{
+                size: 'xl',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <Divider color={`pumice`} isKeyline={true} />
+            </Space>
+          )}
           <div className="flex flex--wrap">
             <Tombstone />
             {/* This empty Tombstone is needed for correct alignmennt of the standaloneTitle */}
@@ -225,34 +255,29 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              <TombstoneTitle id={dasherize(title)}>
-                {!hasContext && title}
-              </TombstoneTitle>
+              {!hasContext && (
+                <TombstoneTitle
+                  level={tombstoneHeadingLevel}
+                  id={dasherize(title)}
+                >
+                  {title}
+                </TombstoneTitle>
+              )}
               <div className={font('intr', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
             </Tombstone>
 
             <CaptionTranscription>
-              {isFirstStop && hasContext && title.length > 0 && (
-                <Space
-                  h={{
-                    size: 'm',
-                    properties: ['margin-left'],
-                    negative: true,
-                  }}
-                  v={{ size: 'l', properties: ['margin-bottom'] }}
-                >
-                  <StandaloneTitle id={dasherize(title)}>
-                    {title}
-                  </StandaloneTitle>
-                </Space>
-              )}
-
               {hasContext && (
                 <>
-                  {!isFirstStop && title.length > 0 && (
-                    <ContextTitle id={dasherize(title)}>{title}</ContextTitle>
+                  {title.length > 0 && (
+                    <ContextTitle
+                      id={dasherize(title)}
+                      level={contextHeadingLevel}
+                    >
+                      {title}
+                    </ContextTitle>
                   )}
                   <PrismicHtmlBlock html={context as prismicT.RichTextField} />
                 </>
@@ -276,7 +301,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               )}
               {transcriptionText && transcriptionText.length > 0 && (
                 <Transcription>
-                  <TranscriptTitle>
+                  <TranscriptTitle level={audioTranscriptHeadingLevel}>
                     {stop.number ? `Stop ${stop.number}: ` : ''}Audio transcript
                   </TranscriptTitle>
                   <div id="transcription-text">
@@ -310,11 +335,31 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
 };
 
 const ExhibitionCaptions: FC<Props> = ({ stops }) => {
+  const titlesUsed = {
+    standalone: false,
+    context: false,
+  };
+
   return (
     <ul className="plain-list no-margin no-padding">
-      {stops.map((stop, index) => (
-        <Stop key={index} stop={stop} isFirstStop={index === 0} />
-      ))}
+      {stops.map((stop, index) => {
+        // We want to know whether a standalone title and/or a context title has been used
+        // so we can decrease subsequent headings to the appropriate level
+        if (!titlesUsed.standalone) {
+          titlesUsed.standalone = includesStandaloneTitle(stop);
+        }
+        if (!titlesUsed.context) {
+          titlesUsed.context = includesContextTitle(stop);
+        }
+        return (
+          <Stop
+            key={index}
+            stop={stop}
+            isFirstStop={index === 0}
+            titlesUsed={titlesUsed}
+          />
+        );
+      })}
     </ul>
   );
 };
