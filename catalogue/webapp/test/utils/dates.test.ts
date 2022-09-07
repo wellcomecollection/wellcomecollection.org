@@ -172,6 +172,32 @@ describe('determineNextAvailableDate', () => {
     const result = determineNextAvailableDate(london(), [0, 1, 2, 3, 4, 5, 6]);
     expect(result).toBeUndefined();
   });
+
+  it('works based on 10am in London, not the user’s location', () => {
+    // Paris is an hour ahead of London, so a request made at 10:30 in Paris is
+    // at 09:30 in London -- it can be fulfilled the next day.
+    const date1 = new Date('2021-12-09T10:30:00+0100');
+
+    const result1 = determineNextAvailableDate(london(date1), [0]);
+    expect(result1.toDate()).toEqual(new Date('2021-12-10T09:30:00Z'));
+
+    // Paris is an hour ahead of London, so a request made at 11:30 in Paris is
+    // at 19:30 in London -- it can’t be fulfilled the next day.
+    const date2 = new Date('2021-12-09T11:30:00+0100');
+
+    const result2 = determineNextAvailableDate(london(date2), [0]);
+    expect(result2.toDate()).toEqual(new Date('2021-12-11T10:30:00Z'));
+
+    // Now run the same tests, but now during British Summer Time when London
+    // and UTC are different.
+    const date3 = new Date('2022-09-06T10:30:00+0200');
+    const result3 = determineNextAvailableDate(london(date3), [0]);
+    expect(result3.toDate()).toEqual(new Date('2022-09-07T09:30:00+0100'));
+
+    const date4 = new Date('2022-09-06T11:30:00+0200');
+    const result4 = determineNextAvailableDate(london(date4), [0]);
+    expect(result4.toDate()).toEqual(new Date('2022-09-08T10:30:00+0100'));
+  });
 });
 
 describe('filterExceptionalClosedDates', () => {
