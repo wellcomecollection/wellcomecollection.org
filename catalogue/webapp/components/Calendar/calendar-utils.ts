@@ -1,5 +1,4 @@
-import { getDatesBetween } from '@weco/common/utils/dates';
-import moment, { Moment } from 'moment';
+import { addDays, getDatesBetween, isSameDay } from '@weco/common/utils/dates';
 
 export function groupIntoSize<T>(array: T[], size: number): T[][] {
   const result: T[][] = [];
@@ -44,35 +43,33 @@ export function getDatesInMonth(d: Date): Date[] {
   });
 }
 
-export function getCalendarRows(date: Moment): Moment[][] {
-  const numberOfDays = date.daysInMonth();
-  const days = [...Array(numberOfDays).keys()].map((day, i) => {
-    return moment(date).startOf('month').add(i, 'day');
-  });
+export function getCalendarRows(date: Date): Date[][] {
+  const days = getDatesInMonth(date);
+
   const firstDay = days[0];
   const lastDay = days[days.length - 1];
   const previousMonthDays = [
-    ...Array(daysFromStartOfWeek(1, firstDay.day())).keys(),
+    ...Array(daysFromStartOfWeek(1, firstDay.getDay())).keys(),
   ]
-    .map((emptyDay, i) => firstDay?.clone().subtract(i + 1, 'days'))
+    .map((_, i) => firstDay && addDays(firstDay, -(i + 1)))
     .reverse();
   const nextMonthDays = [
-    ...Array(daysUntilEndOfWeek(1, lastDay.day())).keys(),
-  ].map((emptyDay, i) => lastDay?.clone().add(i + 1, 'days'));
+    ...Array(daysUntilEndOfWeek(1, lastDay.getDay())).keys(),
+  ].map((_, i) => lastDay && addDays(lastDay, i + 1));
   const rows = [...previousMonthDays, ...days, ...nextMonthDays];
   return groupIntoSize(rows, 7);
 }
 
-export function firstDayOfWeek(date: Moment, dates: Moment[][]): Moment {
+export function firstDayOfWeek(date: Date, dates: Date[][]): Date {
   const currentWeek = dates.find(weekDates =>
-    weekDates?.some(weekDate => weekDate?.isSame(date, 'day'))
+    weekDates?.some(weekDate => weekDate && isSameDay(weekDate, date))
   );
   return (currentWeek && currentWeek[0]) || date;
 }
 
-export function lastDayOfWeek(date: Moment, dates: Moment[][]): Moment {
+export function lastDayOfWeek(date: Date, dates: Date[][]): Date {
   const currentWeek = dates.find(week =>
-    week?.some(day => day?.isSame(date, 'day'))
+    week?.some(day => day && isSameDay(day, date))
   );
   return (currentWeek && currentWeek[currentWeek.length - 1]) || date;
 }
