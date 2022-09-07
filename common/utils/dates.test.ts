@@ -1,5 +1,6 @@
 import each from 'jest-each';
 import {
+  countDaysBetween,
   dayBefore,
   endOfWeek,
   getDatesBetween,
@@ -213,4 +214,30 @@ describe('getDatesBetween', () => {
       new Date('2001-01-04T00:00:00Z'),
     ]);
   });
+});
+
+describe('countDaysBetween', () => {
+  test.each([
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-05'),
+      daysBetween: 0,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-06'),
+      daysBetween: -1,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-30'),
+      daysBetween: -25,
+    },
+  ])(
+    'there are $daysBetween days between $x and $y',
+    ({ x, y, daysBetween }) => {
+      const result = countDaysBetween(x, y);
+      expect(result).toBe(daysBetween);
+    }
+  );
 });
