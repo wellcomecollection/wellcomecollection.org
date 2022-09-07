@@ -36,6 +36,16 @@ export function isSameDay(date1: Date, date2: Date): boolean {
   return isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate();
 }
 
+// Note: the order of arguments to this function is designed so you can
+// concatenate them and get sensible-looking results.
+//
+//      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
+//        => isSameDayOrBefore(A, C)
+//
+export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
+  return isSameDay(date1, date2) || date1 <= date2;
+}
+
 // Returns true if 'date' falls on a past day; false otherwise.
 export function isDayPast(date: Date): boolean {
   const now = new Date();
