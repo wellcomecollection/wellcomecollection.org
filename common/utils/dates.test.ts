@@ -1,11 +1,13 @@
 import each from 'jest-each';
 import {
   dayBefore,
+  endOfWeek,
   getNextWeekendDateRange,
   isFuture,
   isPast,
   isSameDay,
   isSameMonth,
+  startOfWeek,
 } from './dates';
 
 it('identifies dates in the past', () => {
@@ -105,24 +107,60 @@ describe('dayBefore', () => {
   });
 });
 
+//
+//    September 2022
+// Su Mo Tu We Th Fr Sa
+//              1  2  3
+//  4  5  6  7  8  9 10
+// 11 12 13 14 15 16 17
+// 18 19 20 21 22 23 24
+//
+describe('startOfWeek and endOfWeek', () => {
+  test.each([
+    { day: new Date('2022-09-09'), expectedStart: new Date('2022-09-04') },
+    { day: new Date('2022-09-10'), expectedStart: new Date('2022-09-04') },
+    { day: new Date('2022-09-11'), expectedStart: new Date('2022-09-11') },
+  ])(
+    'the week containing $day starts on $expectedStart',
+    ({ day, expectedStart }) => {
+      expect(isSameDay(startOfWeek(day), expectedStart)).toBeTruthy();
+    }
+  );
+
+  test.each([
+    { day: new Date('2022-09-09'), expectedEnd: new Date('2022-09-10') },
+    { day: new Date('2022-09-10'), expectedEnd: new Date('2022-09-10') },
+    { day: new Date('2022-09-11'), expectedEnd: new Date('2022-09-17') },
+  ])(
+    'the week containing $day ends on $expectedEnd',
+    ({ day, expectedEnd }) => {
+      expect(isSameDay(endOfWeek(day), expectedEnd)).toBeTruthy();
+    }
+  );
+});
+
+//
+//    September 2022
+// Su Mo Tu We Th Fr Sa
+//              1  2  3
+//  4  5  6  7  8  9 10
+// 11 12 13 14 15 16 17
+// 18 19 20 21 22 23 24
+//
 describe('getNextWeekendDateRange', () => {
   test.each([
-    // Monday
     {
       day: new Date('2022-09-05'),
       weekend: { start: new Date('2022-09-09'), end: new Date('2022-09-11') },
     },
-    // Friday
     {
       day: new Date('2022-09-02'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
     },
-    // Saturday
     {
       day: new Date('2022-09-03'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
     },
-    // Sunday
     {
       day: new Date('2022-09-04'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },

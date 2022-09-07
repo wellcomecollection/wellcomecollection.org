@@ -240,7 +240,7 @@ export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
   const todaysDate = london();
-  const todayString = formatDay(todaysDate);
+  const todayString = formatDay(todaysDate.toDate());
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>

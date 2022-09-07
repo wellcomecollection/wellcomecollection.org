@@ -1,6 +1,5 @@
 import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
@@ -99,8 +98,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   // When we imported data into Prismic from the Wordpress blog some content
   // needed to have its original publication date displayed. It is purely a display
   // value and does not affect ordering.
-  const datePublished =
-    data.publishDate || document.first_publication_date || undefined;
+  const datePublished = data.publishDate || document.first_publication_date;
 
   const format = isFilledLinkToDocumentWithData(data.format)
     ? (transformLabelType(data.format) as Format<ArticleFormatId>)
@@ -124,7 +122,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     contributors,
-    datePublished: london(datePublished).toDate(),
+    datePublished: new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
     ),
