@@ -123,6 +123,9 @@ const StoryPromo: FunctionComponent<Props> = ({
               {article.promo?.caption}
             </p>
           )}
+          <p className={`${font('intb', 5)} no-margin`}>
+            reading time: <span className={font('intr', 5)}> </span>
+          </p>
         </div>
       </CardBody>
       {article.series.length > 0 && (
