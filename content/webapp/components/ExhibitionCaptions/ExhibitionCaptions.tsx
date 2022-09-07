@@ -225,7 +225,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              <TombstoneTitle id={dasherize(`${title}`)}>
+              <TombstoneTitle id={dasherize(title)}>
                 {!hasContext && title}
               </TombstoneTitle>
               <div className={font('intr', 4)}>
@@ -252,9 +252,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               {hasContext && (
                 <>
                   {!isFirstStop && title.length > 0 && (
-                    <ContextTitle id={dasherize(`${title}`)}>
-                      {title}
-                    </ContextTitle>
+                    <ContextTitle id={dasherize(title)}>{title}</ContextTitle>
                   )}
                   <PrismicHtmlBlock html={context as prismicT.RichTextField} />
                 </>
