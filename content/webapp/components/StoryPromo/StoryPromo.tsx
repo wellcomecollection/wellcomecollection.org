@@ -9,6 +9,7 @@ import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImag
 import { ArticleBasic } from '../../types/articles';
 import { isNotUndefined } from '@weco/common/utils/array';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   article: ArticleBasic;
@@ -51,6 +52,8 @@ const StoryPromo: FunctionComponent<Props> = ({
   const labels = [article.format?.title, isSerial ? 'Serial' : undefined]
     .filter(isNotUndefined)
     .map(text => ({ text }));
+
+  const { readingTime } = useToggles();
 
   return (
     <CardOuter
@@ -123,9 +126,12 @@ const StoryPromo: FunctionComponent<Props> = ({
               {article.promo?.caption}
             </p>
           )}
-          <p className={`${font('intb', 5)} no-margin`}>
-            reading time: <span className={font('intr', 5)}> </span>
-          </p>
+          {readingTime && (
+            <p className={`${font('intb', 5)} no-margin`}>
+              reading time: <span className={font('intr', 5)}> </span>
+            </p>
+          )}
+          ;
         </div>
       </CardBody>
       {article.series.length > 0 && (
