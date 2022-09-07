@@ -1,3 +1,4 @@
+import { getDatesBetween } from '@weco/common/utils/dates';
 import moment, { Moment } from 'moment';
 
 export function groupIntoSize<T>(array: T[], size: number): T[][] {
@@ -30,6 +31,17 @@ export function daysUntilEndOfWeek(
   } else {
     return lastDayOfWeek - lastDayOfMonth;
   }
+}
+
+export function getDatesInMonth(d: Date): Date[] {
+  // This gets us the 0th day of the next month, which is
+  // really the last day of this month.
+  const finalDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+
+  return getDatesBetween({
+    start: new Date(d.getFullYear(), d.getMonth(), 1, 12, 0, 0),
+    end: new Date(d.getFullYear(), d.getMonth(), finalDay, 12, 0, 0),
+  });
 }
 
 export function getCalendarRows(date: Moment): Moment[][] {

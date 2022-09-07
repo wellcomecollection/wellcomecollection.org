@@ -5,8 +5,10 @@ import {
   getCalendarRows,
   firstDayOfWeek,
   lastDayOfWeek,
+  getDatesInMonth,
 } from './calendar-utils';
 import { london } from '../../utils/format-date';
+import { formatDate } from '@weco/common/utils/format-date';
 
 describe('sliceIntoSize', () => {
   const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -54,6 +56,35 @@ describe('daysUntilEndOfWeek: gives the number of days between the last day of t
   });
   it('returns 3, if the week starts on a Wednesday and the Month ends on a Saturday', () => {
     expect(daysUntilEndOfWeek(3, 6)).toEqual(3);
+  });
+});
+
+describe('getDatesInMonth', () => {
+  it('gets all the days in a month', () => {
+    const result = getDatesInMonth(new Date('2022-09-07T12:00:00Z')).map(d =>
+      formatDate(d)
+    );
+
+    expect(result.length).toBe(30);
+    expect(result.includes('1 September 2022')).toBe(true);
+    expect(result.includes('30 September 2022')).toBe(true);
+    expect(result.find(d => d.indexOf('September') === -1)).toBe(undefined);
+  });
+
+  it('knows about leap years', () => {
+    const result1 = getDatesInMonth(new Date('2022-02-07T12:00:00Z')).map(d =>
+      formatDate(d)
+    );
+
+    console.log(result1);
+
+    expect(result1.length).toBe(28);
+
+    const result2 = getDatesInMonth(new Date('2020-02-07T12:00:00Z')).map(d =>
+      formatDate(d)
+    );
+
+    expect(result2.length).toBe(29);
   });
 });
 
