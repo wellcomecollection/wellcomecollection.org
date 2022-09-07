@@ -26,6 +26,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { isFuture } from '@weco/common/utils/dates';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -75,7 +76,7 @@ const ExhibitionsPage: FC<Props> = props => {
 
   const partitionedExhibitionItems = exhibitions.results.reduce(
     (acc, result) => {
-      if (result.end && result.end >= new Date()) {
+      if (result.end && isFuture(result.end)) {
         acc.currentAndUpcoming.push(result);
       } else {
         acc.past.push({
