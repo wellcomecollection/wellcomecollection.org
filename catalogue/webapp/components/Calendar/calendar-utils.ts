@@ -32,14 +32,16 @@ export function daysUntilEndOfWeek(
   }
 }
 
-export function getDatesInMonth(d: Date): Date[] {
+export function countDaysInMonth(d: Date): number {
   // This gets us the 0th day of the next month, which is
   // really the last day of this month.
-  const finalDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+  return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+}
 
+export function getDatesInMonth(d: Date): Date[] {
   return getDatesBetween({
     start: new Date(d.getFullYear(), d.getMonth(), 1, 12, 0, 0),
-    end: new Date(d.getFullYear(), d.getMonth(), finalDay, 12, 0, 0),
+    end: new Date(d.getFullYear(), d.getMonth(), countDaysInMonth(d), 12, 0, 0),
   });
 }
 
