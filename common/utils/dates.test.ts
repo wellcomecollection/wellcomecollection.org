@@ -1,6 +1,7 @@
 import each from 'jest-each';
 import {
   dayBefore,
+  getDatesBetween,
   getNextWeekendDateRange,
   isFuture,
   isPast,
@@ -157,5 +158,21 @@ describe('getNextWeekendDateRange', () => {
     const range = getNextWeekendDateRange(day);
     expect(isSameDay(range.start, weekend.start)).toBeTruthy();
     expect(isSameDay(range.end, weekend.end)).toBeTruthy();
+  });
+});
+
+describe('getDatesBetween', () => {
+  it('finds the dates between two other dates', () => {
+    const result = getDatesBetween({
+      start: new Date('2001-01-01T00:00:00Z'),
+      end: new Date('2001-01-04T00:00:00Z'),
+    });
+
+    expect(result).toStrictEqual([
+      new Date('2001-01-01T00:00:00Z'),
+      new Date('2001-01-02T00:00:00Z'),
+      new Date('2001-01-03T00:00:00Z'),
+      new Date('2001-01-04T00:00:00Z'),
+    ]);
   });
 });
