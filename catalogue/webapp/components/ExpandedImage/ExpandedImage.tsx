@@ -193,6 +193,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
                   height: 400,
                   alt: '',
                 }}
+                width={400}
               />
             </ImageLink>
           </NextLink>

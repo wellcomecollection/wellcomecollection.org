@@ -24,16 +24,18 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
-  priority?: boolean;
   layout: 'raw' | 'fill' | 'fixed';
+  priority?: boolean;
+  width?: number;
 };
 
 const IIIFImage: FC<Props> = ({
   image,
   sizes,
   onLoadingComplete,
-  priority = false,
   layout,
+  priority = false,
+  width = 300,
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -46,7 +48,7 @@ const IIIFImage: FC<Props> = ({
     return (
       <img
         src={iiifImageTemplate(image.contentUrl)({
-          size: `${image.width},`,
+          size: `${width},`,
         })}
         srcSet={''}
         sizes={sizesString}
