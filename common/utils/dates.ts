@@ -1,5 +1,10 @@
 import { DateRange } from '../model/date-range';
 
+// This is just to allow us to mock values in tests
+export function today(): Date {
+  return new Date();
+}
+
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
   fromDate: Date | undefined = new Date()

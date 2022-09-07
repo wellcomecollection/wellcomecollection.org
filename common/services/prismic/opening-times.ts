@@ -9,7 +9,15 @@ import {
   ExceptionalOpeningHoursDay,
 } from '../../model/opening-hours';
 import { isNotUndefined } from '../../utils/array';
-import { dayBefore, isSameDay } from '../../utils/dates';
+import {
+  addDays,
+  dayBefore,
+  endOfDay,
+  getDatesBetween,
+  isSameDay,
+  startOfDay,
+  today,
+} from '../../utils/dates';
 
 export function exceptionalOpeningDates(venues: Venue[]): OverrideDate[] {
   return venues
@@ -62,8 +70,7 @@ export function exceptionalOpeningPeriods(
       } else if (
         previousDate &&
         date.overrideDate &&
-        date.overrideDate <
-          london(previousDate).clone().add(6, 'days').toDate() &&
+        date.overrideDate < addDays(previousDate, 6) &&
         date.overrideType === acc[groupedIndex].type
       ) {
         acc[groupedIndex].dates.push(date.overrideDate);
@@ -89,9 +96,9 @@ export function exceptionalOpeningPeriodsAllDates(
     const startDate = period.dates[0];
     const lastDate = period.dates[period.dates.length - 1];
 
-    const arrayLength = london(lastDate).diff(startDate, 'days') + 1;
-    const completeDateArray = [...Array(arrayLength).keys()].map(i => {
-      return london(startDate).clone().add(i, 'days').toDate();
+    const completeDateArray = getDatesBetween({
+      start: startDate,
+      end: lastDate,
     });
 
     return {
@@ -219,8 +226,8 @@ export function groupConsecutiveExceptionalDays(
 export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
 ): ExceptionalOpeningHoursDay[][] {
-  const startOfToday = london().startOf('day').toDate();
-  const upcomingUntil = london().add(28, 'day').endOf('day').toDate();
+  const startOfToday = startOfDay(today());
+  const upcomingUntil = endOfDay(addDays(today(), 28));
 
   const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
     const upcomingPeriod = period.find(
@@ -239,12 +246,12 @@ export function getVenueById(venues: Venue[], id: string): Venue | undefined {
 export function getTodaysVenueHours(
   venue: Venue
 ): ExceptionalOpeningHoursDay | OpeningHoursDay | undefined {
-  const todaysDate = london();
-  const todayString = formatDay(todaysDate.toDate());
+  const todaysDate = today();
+  const todayString = formatDay(todaysDate);
   const exceptionalOpeningHours =
     venue.openingHours.exceptional &&
     venue.openingHours.exceptional.find(i =>
-      isSameDay(todaysDate.toDate(), i.overrideDate)
+      isSameDay(todaysDate, i.overrideDate)
     );
   const regularOpeningHours =
     venue.openingHours.regular &&
