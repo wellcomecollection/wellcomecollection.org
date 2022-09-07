@@ -21,10 +21,7 @@ const DrawerItem = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   as: 'li',
-  className: classNames({
-    [font('wb', 4)]: true,
-    'segmented-control__drawer-item': true,
-  }),
+  className: `${font('wb', 4)} segmented-control__drawer-item`,
 })<DrawerItemProps>`
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 
@@ -36,14 +33,8 @@ const DrawerItem = styled(Space).attrs({
 `;
 
 const List = styled.ul.attrs({
-  className: classNames({
-    'segmented-control__list': true,
-    'no-margin': true,
-    'no-padding': true,
-    'plain-list': true,
-    'rounded-diagonal': true,
-    'overflow-hidden': true,
-  }),
+  className:
+    'segmented-control__list no-margin no-padding plain-list rounded-diagonal overflow-hidden',
 })`
   border: 1px solid ${props => props.theme.color('black')};
 `;
@@ -53,13 +44,10 @@ type ItemProps = {
 };
 
 const Item = styled.li.attrs({
-  className: classNames({
-    [font('wb', 6)]: true,
-    'segmented-control__item': true,
-    'line-height-1': true,
-    flex: true,
-  }),
+  className: `${font('wb', 6)} segmented-control__item`,
 })<ItemProps>`
+  display: flex;
+  line-height: 1;
   border-right: 1px solid ${props => props.theme.color('black')};
 
   ${props =>
@@ -71,15 +59,16 @@ const Item = styled.li.attrs({
 
 const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   className: classNames({
-    'is-active bg-black font-white': props.isActive,
-    'bg-white font-black': !props.isActive,
-    block: true,
-    'plain-link': true,
-    'segmented-control__link': true,
-    'transition-bg': true,
-    'no-visible-focus': true,
+    'is-active font-white': props.isActive,
+    'font-black': !props.isActive,
+    'plain-link segmented-control__link transition-bg no-visible-focus': true,
   }),
 }))<IsActiveProps>`
+  display: block;
+
+  background-color: ${props =>
+    props.theme.color(props.isActive ? 'black' : 'white')};
+
   ${props =>
     props.theme.makeSpacePropertyValues(
       'm',
@@ -183,6 +172,25 @@ const Wrapper = styled.div.attrs({})<IsActiveProps>`
   }
 `;
 
+const MobileControlsContainer = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: `${font(
+    'wb',
+    4
+  )} segmented-control__button-text font-white flex--h-space-between rounded-diagonal`,
+})`
+  display: flex;
+  background-color: ${props => props.theme.color('black')};
+`;
+
+const MobileControlsModal = styled(Space).attrs({
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: 'segmented-control__body',
+})`
+  background-color: ${props => props.theme.color('white')};
+`;
+
 type Props = {
   id: string;
   items: { id: string; text: string; url: string }[];
@@ -225,39 +233,18 @@ class SegmentedControl extends Component<Props, State> {
 
     return (
       <Wrapper className={extraClasses} isActive={isActive}>
-        <div
-          className={classNames({
-            'segmented-control__drawer': true,
-          })}
-        >
+        <div className="segmented-control__drawer">
           <button className="segmented-control__header plain-button no-margin no-padding">
             {items
               .filter(item => item.id === activeId)
               .map(item => (
                 <Fragment key={item.id}>
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: ['padding-top', 'padding-bottom'],
-                    }}
-                    h={{
-                      size: 'm',
-                      properties: ['padding-left', 'padding-right'],
-                    }}
-                    className={classNames({
-                      [font('wb', 4)]: true,
-                      'segmented-control__button-text': true,
-                      flex: true,
-                      'bg-black': true,
-                      'font-white': true,
-                      'flex--h-space-between': true,
-                      'rounded-diagonal': true,
-                    })}
+                  <MobileControlsContainer
                     onClick={() => this.setState({ isActive: true })}
                   >
                     <span>{item.text}</span>
                     <Icon icon={chevron} color={'white'} />
-                  </Space>
+                  </MobileControlsContainer>
                   <span
                     className="segmented-control__close"
                     onClick={() => this.setState({ isActive: false })}
@@ -267,27 +254,16 @@ class SegmentedControl extends Component<Props, State> {
                 </Fragment>
               ))}
           </button>
-          <Space
-            h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-            id={id}
-            className={classNames({
-              'segmented-control__body': true,
-              'bg-white': true,
-            })}
-          >
+          <MobileControlsModal id={id}>
             <Space
               v={{
                 size: 'm',
                 properties: ['margin-bottom'],
               }}
-              className={classNames({
-                'segmented-control__label': true,
-                block: true,
-              })}
+              className="segmented-control__label block"
             >
               See:
             </Space>
-
             <ul className="segmented-control__drawer-list no-margin no-padding plain-list">
               {items.map((item, i) => (
                 <DrawerItem isFirst={i === 0} key={item.id}>
@@ -314,18 +290,14 @@ class SegmentedControl extends Component<Props, State> {
                       }
                     }}
                     href={item.url}
-                    className={classNames({
-                      'segmented-control__drawer-link': true,
-                      block: true,
-                      'plain-link': true,
-                    })}
+                    className="segmented-control__drawer-link block plain-link"
                   >
                     {item.text}
                   </a>
                 </DrawerItem>
               ))}
             </ul>
-          </Space>
+          </MobileControlsModal>
         </div>
         <List>
           {items.map((item, i) => (

@@ -389,10 +389,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     margin-top: auto;
   }
 
-  .bg-transparent-black {
-    background: rgba(29, 29, 29, 0.61);
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};

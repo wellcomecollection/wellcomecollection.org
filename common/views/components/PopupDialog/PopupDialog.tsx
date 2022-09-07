@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import cookie from 'cookie-cutter';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
-import { classNames, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import { trackEvent } from '../../../utils/ga';
 import { AppContext } from '../AppContext/AppContext';
@@ -39,10 +39,10 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: classNames({
-    [font('intb', 5)]: true,
-    'plain-button line-height-1 flex-inline flex--v-center': true,
-  }),
+  className: `${font(
+    'intb',
+    5
+  )} plain-button line-height-1 flex-inline flex--v-center`,
 }))<PopupDialogOpenProps>`
   color: ${props => props.theme.color('purple')};
   position: fixed;
@@ -89,10 +89,9 @@ const PopupDialogWindow = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 6, medium: 6, large: 6 },
   },
-  className: classNames({
-    'bg-white font-purple': true,
-  }),
+  className: 'font-purple',
 })<PopupDialogWindowProps>`
+  background-color: ${props => props.theme.color('white')};
   border-radius: 20px 0 20px 0;
   box-shadow: 0 2px 60px 0 rgba(0, 0, 0, 0.7);
   opacity: ${props => (props.isActive ? 1 : 0)};
@@ -110,10 +109,8 @@ const PopupDialogWindow = styled(Space).attrs({
 `;
 
 const PopupDialogClose = styled.button.attrs({
-  className: classNames({
-    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center':
-      true,
-  }),
+  className:
+    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center',
 })<{ isKeyboard: boolean }>`
   top: 10px;
   right: 10px;
@@ -141,11 +138,12 @@ const PopupDialogCTA = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: classNames({
-    [font('intb', 5, { small: 3, medium: 3 })]: true,
-    'bg-purple rounded-corners inline-block': true,
-  }),
+  className: `${font('intb', 5, {
+    small: 3,
+    medium: 3,
+  })} rounded-corners inline-block`,
 })`
+  background-color: ${props => props.theme.color('purple')};
   color: ${props => props.theme.color('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
@@ -326,21 +324,15 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           }}
         >
           <h2
-            className={classNames({
-              [font('wb', 6, {
-                small: 5,
-                medium: 5,
-                large: 5,
-              })]: true,
+            className={font('wb', 6, {
+              small: 5,
+              medium: 5,
+              large: 5,
             })}
           >
             {title}
           </h2>
-          <div
-            className={classNames({
-              [font('intr', 5, { medium: 2, large: 2 })]: true,
-            })}
-          >
+          <div className={font('intr', 5, { medium: 2, large: 2 })}>
             <PrismicHtmlBlock html={text} />
           </div>
         </Space>

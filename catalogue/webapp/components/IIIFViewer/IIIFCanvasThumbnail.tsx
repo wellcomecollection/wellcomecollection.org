@@ -64,15 +64,17 @@ const ImageContainer = styled.div`
 
 const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
   className: classNames({
-    'line-height-1': true,
     'font-white': !props.isActive,
     'font-black': !!props.isActive,
-    'bg-yellow': !!props.isActive,
     [font('intb', 6)]: true,
   }),
 }))<ViewerThumbProps>`
   padding: 3px 6px;
   border-radius: 3px;
+  line-height: 1;
+
+  ${props =>
+    !!props.isActive && `background-color: ${props.theme.color('yellow')};`}
 `;
 
 type IIIFCanvasThumbnailProps = {

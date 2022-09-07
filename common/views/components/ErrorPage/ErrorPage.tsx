@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react';
 import { headerBackgroundLs } from '../../../utils/backgrounds';
-import { classNames } from '../../../utils/classnames';
 import PageHeader, { headerSpaceSize } from '../PageHeader/PageHeader';
 import PageLayout from '../PageLayout/PageLayout';
 import SpacingSection from '../SpacingSection/SpacingSection';
@@ -51,21 +50,11 @@ const ErrorPage: FunctionComponent<Props> = ({
           HeroPicture={undefined}
           highlightHeading={true}
         />
-        <div
-          className={classNames({
-            'bg-cream': false,
-          })}
-        >
-          <SpacingSection>
-            <SpacingComponent>
-              {statusCode === 404 ? (
-                <NotFoundErrorText />
-              ) : (
-                <DefaultErrorText />
-              )}
-            </SpacingComponent>
-          </SpacingSection>
-        </div>
+        <SpacingSection>
+          <SpacingComponent>
+            {statusCode === 404 ? <NotFoundErrorText /> : <DefaultErrorText />}
+          </SpacingComponent>
+        </SpacingSection>
       </Space>
     </PageLayout>
   );

@@ -8,7 +8,6 @@ import {
   MutableRefObject,
 } from 'react';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
@@ -87,9 +86,7 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
 const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
-  className: classNames({
-    'shadow bg-white': true,
-  }),
+  className: 'shadow',
 })<BaseModalProps>`
   z-index: 10001;
   top: 0;
@@ -99,6 +96,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   position: fixed;
   overflow: auto;
   transition: opacity 350ms ease, transform 350ms ease;
+  background-color: ${props => props.theme.color('white')};
 
   &,
   &.fade-exit-done {
@@ -154,9 +152,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
 
 const FiltersModal = styled(BaseModalWindow).attrs<BaseModalProps>({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'shadow bg-white': true,
-  }),
+  className: 'shadow',
 })<BaseModalProps>`
   overflow: hidden;
   padding-left: 0px;
