@@ -4,7 +4,12 @@ import {
   Day,
   ExceptionalOpeningHoursDay,
 } from '@weco/common/model/opening-hours';
-import { addDays, getDatesBetween, isSameDay } from '@weco/common/utils/dates';
+import {
+  addDays,
+  getDatesBetween,
+  isSameDay,
+  isSameDayOrBefore,
+} from '@weco/common/utils/dates';
 
 export function findClosedDays(
   days: (OpeningHoursDay | ExceptionalOpeningHoursDay)[]
@@ -215,13 +220,14 @@ export function isRequestableDate(params: {
       // no start and end date
       (!startDate && !endDate) ||
         // both start and end date
-        (startDate && startDate <= date && endDate && date <= endDate) ||
-        // only start date
         (startDate &&
-          !endDate &&
-          (isSameDay(date, startDate) || startDate < date)) ||
+          endDate &&
+          isSameDayOrBefore(startDate, date) &&
+          isSameDayOrBefore(date, endDate)) ||
+        // only start date
+        (startDate && !endDate && isSameDayOrBefore(date, startDate)) ||
         // only end date
-        (endDate && !startDate && (isSameDay(date, endDate) || date < endDate))
+        (endDate && !startDate && isSameDayOrBefore(date, endDate))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay

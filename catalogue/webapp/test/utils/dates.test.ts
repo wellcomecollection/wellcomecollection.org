@@ -426,10 +426,21 @@ describe("isRequestableDate: checks the date falls between 2 specified dates and
     expect(result).toEqual(true);
   });
 
-  it('returns true if the there is no end date and the date falls on or after the start date', () => {
+  it('returns true if the there is no end date and the date falls after the start date', () => {
     const result = isRequestableDate({
       date: new Date('2019-12-20'),
       startDate: new Date('2019-12-17'),
+      excludedDates: [],
+      excludedDays: [],
+    });
+    expect(result).toEqual(true);
+  });
+
+  it('returns true if there are start and end dates and the date falls on the start date', () => {
+    const result = isRequestableDate({
+      date: new Date('2019-12-17T01:00:00Z'),
+      startDate: new Date('2019-12-17T12:00:00Z'),
+      endDate: new Date('2019-12-31'),
       excludedDates: [],
       excludedDays: [],
     });

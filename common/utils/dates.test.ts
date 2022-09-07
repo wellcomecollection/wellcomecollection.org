@@ -5,6 +5,7 @@ import {
   isFuture,
   isPast,
   isSameDay,
+  isSameDayOrBefore,
   isSameMonth,
 } from './dates';
 
@@ -51,6 +52,31 @@ describe('isSameDay', () => {
   ]).test('identifies %s and %s as different', (a, b) => {
     const result = isSameDay(a, b);
     expect(result).toEqual(false);
+  });
+});
+
+describe('isSameDayOrBefore', () => {
+  it('says a day is the same or before itself', () => {
+    const day = new Date('2001-01-01');
+    const result = isSameDayOrBefore(day, day);
+
+    expect(result).toEqual(true);
+  });
+
+  it('says two times on the same day are the same', () => {
+    const date1 = new Date('2001-01-01T12:00:00Z');
+    const date2 = new Date('2001-01-01T18:00:00Z');
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(true);
+  });
+
+  it('knows how dates on different days are ordered', () => {
+    const date1 = new Date('2001-01-01T01:01:01Z');
+    const date2 = new Date('2002-02-02T02:02:02Z');
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(false);
   });
 });
 
