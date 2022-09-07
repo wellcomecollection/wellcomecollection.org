@@ -99,7 +99,7 @@ const Wrapper = styled(Space).attrs<{
 }>({
   className: `row card-theme 
   bg-${props => props.rowBackgroundColor} 
-    card-theme--${props => props.cardBackgroundColor}`, // Keeping bg-[color] class as other places are styled based on this parent class.
+    card-theme--${props => props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
 })<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;

@@ -13,9 +13,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     .icon__shape {
       fill: ${value.base};
     }
-  }
-  .bg-${key} {
-    background: ${value.base};
   }`;
     })
     .join(' ')}
