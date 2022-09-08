@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import CalendarSelect from '../Calendar/CalendarSelect';
+import { london } from 'utils/format-date';
 
 type Props = {
-  startDate?: Moment;
-  endDate?: Moment;
-  exceptionalClosedDates: Moment[];
+  startDate?: Date;
+  endDate?: Date;
+  exceptionalClosedDates: Date[];
   regularClosedDays: DayNumber[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;
@@ -23,9 +23,9 @@ const RequestingDayPicker: FC<Props> = ({
   return (
     <div style={{ position: 'relative' }}>
       <CalendarSelect
-        min={startDate}
-        max={endDate}
-        excludedDates={exceptionalClosedDates}
+        min={london(startDate)}
+        max={london(endDate)}
+        excludedDates={exceptionalClosedDates.map(d => london(d))}
         excludedDays={regularClosedDays}
         chosenDate={pickUpDate}
         setChosenDate={setPickUpDate}

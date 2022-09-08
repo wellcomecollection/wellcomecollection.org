@@ -13,7 +13,6 @@ import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
-import { london } from 'utils/format-date';
 import { dateAsValue, dateFromValue } from './format-date';
 
 const PickUpDate = styled(Space).attrs({
@@ -139,17 +138,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
             <RequestingDayPicker
-              startDate={
-                availableDates.nextAvailable &&
-                london(availableDates.nextAvailable)
-              }
-              endDate={
-                availableDates.lastAvailable &&
-                london(availableDates.lastAvailable)
-              }
-              exceptionalClosedDates={availableDates.exceptionalClosedDates.map(
-                d => london(d)
-              )}
+              startDate={availableDates.nextAvailable}
+              endDate={availableDates.lastAvailable}
+              exceptionalClosedDates={availableDates.exceptionalClosedDates}
               regularClosedDays={availableDates.closedDays}
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
