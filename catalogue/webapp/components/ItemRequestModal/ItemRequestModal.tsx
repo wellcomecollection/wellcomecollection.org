@@ -9,7 +9,6 @@ import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
-import { formatLondon, formatYear } from '@weco/common/utils/format-date';
 
 type Props = {
   work: Work;
@@ -54,9 +53,9 @@ const ItemRequestModal: FC<Props> = ({
 
   // Formats a date as YYYY-MM-DD, e.g. 2022-09-21
   function formatDate(d: Date): string {
-    const years = formatYear(d);
-    const months = formatLondon(d, { month: 'numeric' }).padStart(2, '0');
-    const days = formatLondon(d, { day: 'numeric' }).padStart(2, '0');
+    const years = d.getUTCFullYear().toString();
+    const months = d.getUTCMonth().toString().padStart(2, '0');
+    const days = d.getUTCDate().toString().padStart(2, '0');
 
     return `${years}-${months}-${days}`;
   }

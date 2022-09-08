@@ -1,9 +1,6 @@
 import { isFuture, isPast, isSameDay } from './dates';
 
-export function formatLondon(
-  date: Date,
-  options: Intl.DateTimeFormatOptions
-): string {
+function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
   return date.toLocaleString('en-GB', {
     ...options,
     timeZone: 'Europe/London',

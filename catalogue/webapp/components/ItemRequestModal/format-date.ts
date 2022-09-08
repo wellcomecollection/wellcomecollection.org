@@ -1,11 +1,9 @@
-import { formatLondon, formatYear } from '@weco/common/utils/format-date';
-
 // This serialises a date to/from the format DD-MM-YYYY,
 // e.g. 14-09-2022.
 export function dateAsValue(d: Date): string {
-  const days = formatLondon(d, { day: 'numeric' }).padStart(2, '0');
-  const months = formatLondon(d, { month: 'numeric' }).padStart(2, '0');
-  const years = formatYear(d);
+  const days = d.getUTCDate().toString().padStart(2, '0');
+  const months = d.getUTCMonth().toString().padStart(2, '0');
+  const years = d.getUTCFullYear().toString();
 
   return `${days}-${months}-${years}`;
 }

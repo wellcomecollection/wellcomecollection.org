@@ -73,6 +73,10 @@ const RequestDialog: FC<RequestDialogProps> = ({
 
     // Note: there have been issues here in the past where the date
     // can be affected by the user's timezone.
+    //
+    // Previously we got around this by using a vanilla Moment object;
+    // when we got rid of Moment, I've tried to use UTC throughout for
+    // these DD-MM-YYYY values, and hopefully they've kept those bugs at bay.
     const pickUpDateValue = pickUpDate ? dateFromValue(pickUpDate) : undefined;
 
     if (
