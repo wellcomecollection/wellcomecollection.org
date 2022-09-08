@@ -64,6 +64,29 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
   return [];
 }
 
+// Look for links to retired event policies.
+// See https://wellcome.slack.com/archives/C8X9YKM5X/p1662463399951239
+function detectRetiredEventPolicies(doc: any): string[] {
+  if (doc.type === 'events') {
+    const policyIds = doc.data.policies
+      .filter(p => 'policy' in p)
+      .map(p => p.policy.id);
+
+    if (
+      policyIds.find(
+        id =>
+          id === 'YoyolhEAACAAdODb' ||
+          id === 'YfE_dREAACMAm-Kd' ||
+          id === 'YYPo_RIAACIAr94L'
+      )
+    ) {
+      return ['- has a retired event policy'];
+    }
+  }
+
+  return [];
+}
+
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
@@ -73,6 +96,7 @@ async function run() {
     const errors = [
       ...detectEur01Safelinks(doc),
       ...detectBrokenInterpretationTypeLinks(doc),
+      ...detectRetiredEventPolicies(doc),
     ];
 
     totalErrors += errors.length;
