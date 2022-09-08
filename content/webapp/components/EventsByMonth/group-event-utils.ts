@@ -4,10 +4,10 @@ import {
   isSameDay,
   isSameMonth,
 } from '@weco/common/utils/dates';
-import { EventTime } from '../../types/events';
+import { DateTimeRange } from '../../types/events';
 
 type HasTimes = {
-  times: EventTime[];
+  times: { range: DateTimeRange }[];
 };
 
 // Note: here months are 0-indexed, to match the months used by the built-in
