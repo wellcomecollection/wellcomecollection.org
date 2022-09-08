@@ -105,11 +105,11 @@ function newDate(date: Date, key: number | string): Date {
       break;
     }
     case PAGEUP.includes(key): {
-      return addMonths(date, 1);
+      return addMonths(date, -1);
       break;
     }
     case PAGEDOWN.includes(key): {
-      return addMonths(date, -1);
+      return addMonths(date, 1);
       break;
     }
   }
