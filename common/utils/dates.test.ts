@@ -233,6 +233,16 @@ describe('countDaysBetween', () => {
       y: new Date('2022-09-30'),
       daysBetween: -25,
     },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-10-30'),
+      daysBetween: -55,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2023-10-28'),
+      daysBetween: -418,
+    },
   ])(
     'there are $daysBetween days between $x and $y',
     ({ x, y, daysBetween }) => {
