@@ -75,3 +75,15 @@ export function lastDayOfWeek(date: Date, dates: Date[][]): Date {
   );
   return (currentWeek && currentWeek[currentWeek.length - 1]) || date;
 }
+
+export function addWeeks(d: Date, weeks: number): Date {
+  return addDays(d, weeks * 7);
+}
+
+export function addMonths(d: Date, months: number): Date {
+  const result = new Date(d.getFullYear(), d.getMonth() + months, 1);
+
+  result.setDate(Math.min(d.getDate(), countDaysInMonth(result)));
+
+  return result;
+}
