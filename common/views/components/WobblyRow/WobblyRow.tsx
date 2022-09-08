@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { grid, classNames } from '../../../utils/classnames';
+import styled from 'styled-components';
+import { grid } from '../../../utils/classnames';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 import { repeatingLsBlack } from '../../../utils/backgrounds';
 
@@ -7,26 +8,29 @@ type Props = {
   children: ReactNode;
 };
 
+const WobblyRowContainer = styled.div.attrs({
+  className: 'font-white',
+})`
+  position: relative;
+  background-color: ${props => props.theme.color('charcoal')};
+`;
+
+const WobblyRowPattern = styled.div`
+  position: absolute;
+  background-image: 'url(${repeatingLsBlack})';
+  background-repeat: no-repeat;
+  background-position: top center;
+  opacity: 0.15;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+`;
+
 const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
-  <div
-    className={classNames({
-      'row bg-charcoal font-white relative': true,
-    })}
-  >
-    <div
-      style={{
-        position: 'absolute',
-        backgroundImage: `url(${repeatingLsBlack})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'top center',
-        opacity: 0.15,
-        overflow: 'hidden',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '100%',
-      }}
-    ></div>
+  <WobblyRowContainer>
+    <WobblyRowPattern />
     <div className="container">
       <div className="grid" style={{ marginTop: '50px' }}>
         <div
@@ -38,7 +42,7 @@ const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
       </div>
     </div>
     <WobblyEdge isValley={false} intensity={35} background={'white'} />
-  </div>
+  </WobblyRowContainer>
 );
 
 export default WobblyRow;

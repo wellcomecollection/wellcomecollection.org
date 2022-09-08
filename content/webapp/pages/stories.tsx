@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
@@ -64,36 +64,22 @@ type Props = {
   jsonLd: JsonLdObj[];
 };
 
+const ArticlesContainer = styled.div`
+  background-color: ${props => props.theme.color('cream')};
+`;
+
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
   return (
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2
-            className={classNames({
-              h1: true,
-              [`font-${series.color}`]: true,
-              'plain-link': true,
-              'no-margin': true,
-            })}
-          >
-            <a
-              className={classNames({
-                'plain-link': true,
-              })}
-              href={`/series/${series.id}`}
-            >
+          <h2 className={`h1 font-${series.color} plain-link no-margin`}>
+            <a className="plain-link" href={`/series/${series.id}`}>
               {series.title}
             </a>
           </h2>
           <Space v={{ size: 'm', properties: ['margin-top'] }}>
-            <p
-              className={classNames({
-                'no-margin': true,
-              })}
-            >
-              {series.promo?.caption}
-            </p>
+            <p className="no-margin">{series.promo?.caption}</p>
           </Space>
         </Space>
       </Layout12>
@@ -236,11 +222,7 @@ const StoriesPage: FC<Props> = ({
       </>
 
       <SpacingSection>
-        <div
-          className={classNames({
-            'row bg-cream row--has-wobbly-background': true,
-          })}
-        >
+        <ArticlesContainer className="row--has-wobbly-background">
           <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <Layout12>
               <FeaturedCardArticle
@@ -266,7 +248,7 @@ const StoriesPage: FC<Props> = ({
               </div>
             </Space>
           </div>
-        </div>
+        </ArticlesContainer>
       </SpacingSection>
 
       <SpacingSection>

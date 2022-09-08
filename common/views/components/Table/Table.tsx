@@ -92,9 +92,7 @@ const TableWrap = styled.div`
 `;
 
 const TableTable = styled.table.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })`
   width: 100%;
   border-collapse: collapse;
@@ -105,9 +103,7 @@ const TableThead = styled.thead`
 `;
 
 const TableCaption = styled.caption.attrs({
-  className: classNames({
-    'visually-hidden': true,
-  }),
+  className: 'visually-hidden',
 })``;
 
 const TableTbody = styled.tbody``;
@@ -319,21 +315,11 @@ const Table: FunctionComponent<Props> = ({
         <ScrollButtons isActive={isOverflown}>
           <ScrollButtonWrap isLeft isActive={isLeftActive} ref={leftButtonRef}>
             <Rotator rotate={180}>
-              <Control
-                colorScheme="light"
-                icon={arrow}
-                extraClasses="bg-white font-green"
-                text=""
-              />
+              <Control colorScheme="light" icon={arrow} text="" />
             </Rotator>
           </ScrollButtonWrap>
           <ScrollButtonWrap isActive={isRightActive} ref={rightButtonRef}>
-            <Control
-              colorScheme="light"
-              icon={arrow}
-              extraClasses="bg-white font-green"
-              text=""
-            />
+            <Control colorScheme="light" icon={arrow} text="" />
           </ScrollButtonWrap>
         </ScrollButtons>
         <TableWrap ref={tableWrapRef}>

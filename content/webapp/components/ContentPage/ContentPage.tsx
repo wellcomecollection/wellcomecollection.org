@@ -10,7 +10,6 @@ import {
   prismicPageIds,
   sectionLevelPages,
 } from '@weco/common/data/hardcoded-ids';
-import { classNames } from '@weco/common/utils/classnames';
 import { Season } from '../../types/seasons';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
 import { MultiContent } from '../../types/multi-content';
@@ -54,6 +53,12 @@ type Props = {
   contributorTitle?: string;
   hideContributors?: true;
 };
+
+const Wrapper = styled.div<{ isCreamy: boolean }>`
+  overflow: auto;
+  ${props =>
+    props.isCreamy && `background-color: ${props.theme.color('cream')}`};
+`;
 
 const ShameBorder = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
@@ -136,12 +141,7 @@ const ContentPage = ({
             {Header}
           </Space>
         )}
-        <div
-          style={{ overflow: 'auto' }} // prevent margin collapsing for children
-          className={classNames({
-            'bg-cream': isCreamy,
-          })}
-        >
+        <Wrapper isCreamy={isCreamy}>
           {shouldRenderBody() && (
             <SpacingSection>
               <div className="basic-page">
@@ -202,7 +202,7 @@ const ContentPage = ({
                 </Layout12>
               </SpacingSection>
             ))}
-        </div>
+        </Wrapper>
       </article>
     </PageBackgroundContext.Provider>
   );

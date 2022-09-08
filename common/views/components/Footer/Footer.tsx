@@ -11,6 +11,14 @@ import Space from '../styled/Space';
 import OpeningTimes from '../OpeningTimes/OpeningTimes';
 import { Venue } from '../../../model/opening-hours';
 
+const Wrapper = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top'] },
+  className: 'font-white',
+})`
+  position: relative;
+  background-color: ${props => props.theme.color('black')};
+`;
+
 const FooterNavWrapper = styled(Space).attrs({
   v: {
     size: 'm',
@@ -173,13 +181,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
     }
   }, []);
   return (
-    <Space
-      v={{ size: 'xl', properties: ['padding-top'] }}
-      ref={footer}
-      className={classNames({
-        'row bg-black relative font-white': true,
-      })}
-    >
+    <Wrapper ref={footer}>
       <div className="container">
         <div className="grid">
           <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
@@ -362,7 +364,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
           </HygieneNav>
         </FooterBottom>
       </div>
-    </Space>
+    </Wrapper>
   );
 };
 

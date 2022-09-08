@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import styled from 'styled-components';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import WellcomeCollectionBlack from '../../../icons/wellcome_collection_black';
 import { respondBetween, respondTo } from '../../themes/mixins';
 import DesktopSignIn from './DesktopSignIn';
@@ -24,12 +24,11 @@ type WrapperProps = {
 };
 
 const Wrapper = styled.div.attrs({
-  className: classNames({
-    'grid bg-white flex--v-center': true,
-  }),
+  className: 'grid flex--v-center',
 })<WrapperProps>`
   position: relative;
   z-index: 6;
+  background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
