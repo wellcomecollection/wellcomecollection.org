@@ -82,10 +82,14 @@ const RequestDialog: FC<RequestDialogProps> = ({
       pickUpDateMoment &&
       pickUpDateMoment.isValid() &&
       isRequestableDate({
-        date: pickUpDateMoment,
-        startDate: availableDates.nextAvailable,
-        endDate: availableDates.lastAvailable,
-        excludedDates: availableDates.exceptionalClosedDates,
+        date: pickUpDateMoment.toDate(),
+        startDate:
+          availableDates.nextAvailable && availableDates.nextAvailable.toDate(),
+        endDate:
+          availableDates.lastAvailable && availableDates.lastAvailable.toDate(),
+        excludedDates: availableDates.exceptionalClosedDates.map(d =>
+          d.toDate()
+        ),
         excludedDays: availableDates.closedDays,
       })
     ) {

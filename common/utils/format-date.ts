@@ -1,14 +1,4 @@
-import moment, { Moment } from 'moment';
-import 'moment-timezone';
 import { isFuture, isPast, isSameDay } from './dates';
-
-type DateObj = { M?: number; Y?: number };
-
-export type DateTypes = Date | string | Moment | DateObj;
-
-export function london(d?: DateTypes): Moment {
-  return moment.tz(d, 'Europe/London');
-}
 
 function formatLondon(date: Date, options: Intl.DateTimeFormatOptions): string {
   return date.toLocaleString('en-GB', {

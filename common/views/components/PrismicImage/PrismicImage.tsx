@@ -1,8 +1,12 @@
 import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
-import { classNames } from '../../../utils/classnames';
+import styled from 'styled-components';
 import { Breakpoint, sizes as breakpointSizes } from '../../themes/config';
 import { ImageType } from '../../../model/image';
+
+const StyledImage = styled(Image).attrs({ className: 'font-white' })`
+  background-color: ${props => props.theme.color('charcoal')};
+`;
 
 export type BreakpointSizes = Partial<Record<Breakpoint, number>>;
 export type Props = {
@@ -94,13 +98,10 @@ const PrismicImage: FC<Props> = ({ image, sizes, maxWidth, quality }) => {
     : image.width;
 
   return (
-    <Image
+    <StyledImage
       width={image.width}
       height={image.height}
       layout="responsive"
-      className={classNames({
-        'bg-charcoal font-white': true,
-      })}
       sizes={sizesString}
       src={image.contentUrl}
       alt={image.alt || ''}

@@ -8,12 +8,19 @@ import usePrevious from '../../../hooks/usePrevious';
 import { cross, information } from '../../../icons';
 import { GlobalAlertPrismicDocument } from '../../../services/prismic/documents';
 import { InferDataInterface } from '../../../services/prismic/types';
+import styled from 'styled-components';
 
 type Props = {
   cookieName?: string;
   document: { data: InferDataInterface<GlobalAlertPrismicDocument> };
   onVisibilityChange?: (isVisible: boolean) => void;
 };
+
+const BannerContainer = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('yellow')};
+`;
 
 const InfoBanner: FunctionComponent<Props> = ({
   cookieName,
@@ -55,16 +62,7 @@ const InfoBanner: FunctionComponent<Props> = ({
   }, []);
 
   return isVisible ? (
-    <Space
-      v={{
-        size: 'm',
-        properties: ['padding-top', 'padding-bottom'],
-      }}
-      className={`row bg-yellow`}
-      role="region"
-      aria-labelledby="note"
-      id="notification"
-    >
+    <BannerContainer role="region" aria-labelledby="note" id="notification">
       <div className="container">
         <div className="grid">
           <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
@@ -100,7 +98,7 @@ const InfoBanner: FunctionComponent<Props> = ({
           </div>
         </div>
       </div>
-    </Space>
+    </BannerContainer>
   ) : null;
 };
 

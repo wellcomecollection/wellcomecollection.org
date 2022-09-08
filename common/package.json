@@ -46,8 +46,6 @@
     "koa-compose": "^4.1.0",
     "lodash.debounce": "^4.0.8",
     "lodash.groupby": "^4.6.0",
-    "moment": "^2.20.1",
-    "moment-timezone": "^0.5.14",
     "next": "^11.1.2",
     "next-cookies": "^2.0.3",
     "next-transpile-modules": "^8.0.0",

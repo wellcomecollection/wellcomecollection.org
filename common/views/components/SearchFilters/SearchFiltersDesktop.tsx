@@ -4,7 +4,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { font, classNames } from '../../../utils/classnames';
+import styled from 'styled-components';
+import { font } from '../../../utils/classnames';
 import { useControlledState } from '../../../utils/useControlledState';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
@@ -34,15 +35,21 @@ type CheckboxFilterProps = {
   f: CheckboxFilterType;
   changeHandler: () => void;
 };
+
+const Wrapper = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: ['padding-top'],
+  },
+})`
+  display: flex;
+  background-color: ${props => props.theme.color('pumice')};
+`;
+
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   return (
     <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
-      <ul
-        className={classNames({
-          'no-margin no-padding plain-list': true,
-          [font('intr', 5)]: true,
-        })}
-      >
+      <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <li key={`${f.id}-${id}`}>
@@ -73,11 +80,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
   const [to, setTo] = useControlledState(f.to.value);
 
   return (
-    <Space
-      className={classNames({
-        [font('intr', 5)]: true,
-      })}
-    >
+    <Space className={font('intr', 5)}>
       <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -151,41 +154,24 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
   return (
     <>
-      <Space
-        v={{
-          size: 'm',
-          properties: ['padding-top'],
-        }}
-        className={classNames({
-          'flex bg-pumice': true,
-        })}
-      >
+      <Wrapper>
         <Space
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-          className={classNames({
-            'flex flex--h-space-between flex--v-center full-width flex--wrap':
-              true,
-          })}
+          className="flex flex--h-space-between flex--v-center full-width flex--wrap"
         >
           <Space
             v={{ size: 'm', properties: ['margin-bottom'] }}
-            className={classNames({
-              'flex flex--v-center flex--wrap': true,
-            })}
+            className="flex flex--v-center flex--wrap"
           >
             <Space
               as="span"
               h={{ size: 'm', properties: ['margin-right'] }}
-              className={classNames({
-                'flex flex--v-center': true,
-              })}
+              className="flex flex--v-center"
             >
               <Icon icon={filter} />
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
-                className={classNames({
-                  [font('intb', 5)]: true,
-                })}
+                className={font('intb', 5)}
               >
                 Filter by
               </Space>
@@ -218,9 +204,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
 
             {modalFilters.length > 0 && (
               <Space
-                className={classNames({
-                  [font('intr', 5)]: true,
-                })}
+                className={font('intr', 5)}
                 h={{ size: 's', properties: ['margin-left'] }}
               >
                 <ButtonSolid
@@ -248,7 +232,7 @@ const SearchFiltersDesktop: FunctionComponent<SearchFiltersSharedProps> = ({
             )}
           </Space>
         </Space>
-      </Space>
+      </Wrapper>
 
       {activeFiltersCount > 0 && (
         <ResetActiveFilters

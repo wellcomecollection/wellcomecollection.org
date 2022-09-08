@@ -6,20 +6,26 @@ import { formatTime } from '../../../utils/format-date';
 import { Day, Venue, OpeningHoursDay } from '../../../model/opening-hours';
 import {
   CollectionVenuePrismicDocument,
+  DayField,
   ModifiedDayOpeningTime,
 } from '../documents';
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
 import { transformImage } from './images';
 
-function createRegularDay(
+export function createRegularDay(
   day: Day,
   venue: CollectionVenuePrismicDocument | CollectionVenuePrismicDocumentLite
 ): OpeningHoursDay {
   const { data } = venue;
   const lowercaseDay = day.toLowerCase();
-  const start = data && data[lowercaseDay][0].startDateTime;
-  const end = data && data[lowercaseDay][0].endDateTime;
+
+  const dayField = data && (data[lowercaseDay] as DayField);
+
+  const start =
+    dayField[0]?.startDateTime && new Date(dayField[0]?.startDateTime);
+  const end = dayField[0]?.endDateTime && new Date(dayField[0]?.endDateTime);
+
   const isClosed = !start;
   // If there is no start time from prismic, then we set both opens and closes to 00:00.
   // This is necessary for the json-ld schema data, so Google knows when the venues are closed.

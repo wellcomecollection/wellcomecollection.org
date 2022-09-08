@@ -13,9 +13,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     .icon__shape {
       fill: ${value.base};
     }
-  }
-  .bg-${key} {
-    background: ${value.base};
   }`;
     })
     .join(' ')}
@@ -387,10 +384,6 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .margin-top-auto {
     margin-top: auto;
-  }
-
-  .bg-transparent-black {
-    background: rgba(29, 29, 29, 0.61);
   }
 
   .promo-link {

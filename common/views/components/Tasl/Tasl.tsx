@@ -41,12 +41,18 @@ type TaslIconProps = {
   isEnhanced: boolean;
 };
 const TaslIcon = styled.span.attrs({
-  className: 'flex--v-center flex--h-center bg-transparent-black font-white',
+  className: 'flex--v-center flex--h-center font-white',
 })<TaslIconProps>`
+  background: rgba(29, 29, 29, 0.61);
   width: ${props => `${props.theme.iconDimension}px`};
   height: ${props => `${props.theme.iconDimension}px`};
   border-radius: 50%;
   display: ${props => (props.isEnhanced ? 'flex' : 'inline')};
+`;
+
+const InfoContainer = styled(Space)`
+  background-color: ${props => props.theme.color('black')};
+  padding-right: 36px;
 `;
 
 export type MarkUpProps = {
@@ -206,7 +212,7 @@ const Tasl: FunctionComponent<Props> = ({
           </span>
         </TaslIcon>
       </TaslButton>
-      <Space
+      <InfoContainer
         id={title || sourceName || copyrightHolder || ''}
         v={{
           size: 's',
@@ -214,10 +220,9 @@ const Tasl: FunctionComponent<Props> = ({
         }}
         h={{ size: 's', properties: ['padding-left'] }}
         className={classNames({
-          'bg-black font-white': true,
+          'font-white': true,
           'is-hidden': isEnhanced && !isActive,
         })}
-        style={{ paddingRight: '36px' }}
       >
         {getMarkup({
           title,
@@ -228,7 +233,7 @@ const Tasl: FunctionComponent<Props> = ({
           copyrightHolder,
           copyrightLink,
         })}
-      </Space>
+      </InfoContainer>
     </StyledTasl>
   ) : null;
 };
