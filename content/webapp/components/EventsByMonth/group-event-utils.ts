@@ -31,8 +31,15 @@ export function parseLabel(label: string): YearMonth {
   return { year, month };
 }
 
+/** Returns the UTC start of a given month.
+ *
+ * Note: we use UTC to ensure consistent behaviour, and because our comparison
+ * functions (e.g. isSameMonth) use UTC dates also.
+ */
 export function startOf({ year, month }: YearMonth): Date {
-  return new Date(year, month, 1);
+  return new Date(
+    `${year}-${(month + 1).toString().padStart(2, '0')}-01T01:01:01Z`
+  );
 }
 
 // recursive - TODO: make tail recursive?
