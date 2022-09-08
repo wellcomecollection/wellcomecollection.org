@@ -6,11 +6,12 @@ import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { isRequestableDate } from '../../utils/dates';
 import { isTruthy } from '@weco/common/utils/array';
+import { london } from 'utils/format-date';
 
 type Props = {
-  min?: Moment;
-  max?: Moment;
-  excludedDates: Moment[];
+  min?: Date;
+  max?: Date;
+  excludedDates: Date[];
   excludedDays: DayNumber[];
   chosenDate?: string;
   setChosenDate: (value: string) => void;
@@ -52,7 +53,13 @@ const Calendar: FC<Props> = ({
 }) => {
   const canGetDates = min && max;
   const availableDates =
-    canGetDates && getAvailableDates(min, max, excludedDates, excludedDays);
+    canGetDates &&
+    getAvailableDates(
+      london(min),
+      london(max),
+      excludedDates.map(d => london(d)),
+      excludedDays
+    );
 
   return availableDates ? (
     <Select
