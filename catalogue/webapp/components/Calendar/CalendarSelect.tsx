@@ -2,11 +2,12 @@ import { FC } from 'react';
 import Select, {
   SelectOption,
 } from '@weco/common/views/components/Select/Select';
-import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { isRequestableDate } from '../../utils/dates';
 import { isTruthy } from '@weco/common/utils/array';
-import { london } from 'utils/format-date';
+import { getDatesBetween } from '@weco/common/utils/dates';
+import { dateAsValue } from 'components/ItemRequestModal/format-date';
+import { formatDayDate } from '@weco/common/utils/format-date';
 
 type Props = {
   min?: Date;
@@ -18,25 +19,25 @@ type Props = {
 };
 
 function getAvailableDates(
-  min: Moment,
-  max: Moment,
-  excludedDates: Moment[],
+  min: Date,
+  max: Date,
+  excludedDates: Date[],
   excludedDays: DayNumber[]
 ): SelectOption[] {
-  const rangeNumber = max.diff(min, 'days') + 1;
-  return [...Array(rangeNumber).keys()]
-    .map(n => min.clone().add(n, 'days'))
+  const days = getDatesBetween({ start: min, end: max });
+
+  return days
     .map(date => {
       return (
         isRequestableDate({
-          date: date.toDate(),
-          startDate: min.toDate(),
-          endDate: max.toDate(),
-          excludedDates: excludedDates.map(d => d.toDate()),
+          date,
+          startDate: min,
+          endDate: max,
+          excludedDates,
           excludedDays,
         }) && {
-          value: date.format('DD-MM-YYYY'),
-          text: date.format('dddd D MMMM'),
+          value: dateAsValue(date),
+          text: formatDayDate(date),
         }
       );
     })
@@ -53,13 +54,7 @@ const Calendar: FC<Props> = ({
 }) => {
   const canGetDates = min && max;
   const availableDates =
-    canGetDates &&
-    getAvailableDates(
-      london(min),
-      london(max),
-      excludedDates.map(d => london(d)),
-      excludedDays
-    );
+    canGetDates && getAvailableDates(min, max, excludedDates, excludedDays);
 
   return availableDates ? (
     <Select
