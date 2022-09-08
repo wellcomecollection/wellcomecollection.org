@@ -36,7 +36,7 @@ const Wrapper = styled.div.attrs({
   ${props =>
     props.color &&
     `
-  .icon__svg .icon__shape {
+  .icon__shape {
     fill: ${props.theme.color(props.color)};
   }
 
