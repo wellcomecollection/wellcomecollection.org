@@ -96,11 +96,11 @@ type ContentListSlice = BodySlice & { type: 'contentList' };
 const Wrapper = styled(Space).attrs<{
   rowBackgroundColor: string;
   cardBackgroundColor: string;
-}>({
+}>(props => ({
   className: `row card-theme 
-  bg-${props => props.rowBackgroundColor} 
-    card-theme--${props => props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
-})<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
+  bg-${props.rowBackgroundColor}
+    card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
+}))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
   background-color: ${props => props.theme.color(props.rowBackgroundColor)};
 `;
 
