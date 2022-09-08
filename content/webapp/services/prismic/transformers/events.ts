@@ -47,10 +47,7 @@ import {
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
-import {
-  transformContributors,
-  transformContributorToContributorBasic,
-} from './contributors';
+import { transformContributors } from './contributors';
 import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
@@ -383,7 +380,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-    contributors,
   }) => ({
     type,
     promo,
@@ -400,7 +396,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-    contributors: contributors.map(transformContributorToContributorBasic),
   }))(event);
 }
 
