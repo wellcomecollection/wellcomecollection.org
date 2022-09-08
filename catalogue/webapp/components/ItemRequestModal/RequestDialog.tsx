@@ -11,9 +11,9 @@ import ButtonSolid, {
 } from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
-import moment, { Moment } from 'moment';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
+import { dateAsValue, dateFromValue } from './format-date';
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -51,7 +51,7 @@ const Request = styled.form``;
 type RequestDialogProps = {
   work: Work;
   item: PhysicalItem;
-  confirmRequest: (date?: Moment) => void;
+  confirmRequest: (date: Date) => void;
   setIsActive: (value: boolean) => void;
   currentHoldNumber?: number;
 };
@@ -65,31 +65,27 @@ const RequestDialog: FC<RequestDialogProps> = ({
 }) => {
   const availableDates = useAvailableDates();
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
-    availableDates.nextAvailable?.format('DD-MM-YYYY')
+    availableDates.nextAvailable && dateAsValue(availableDates.nextAvailable)
   );
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const pickUpDateMoment = pickUpDate
-      ? moment(pickUpDate, 'DD-MM-YYYY')
-      : undefined;
-    // NB. We want a moment object that represents the selected date
-    // We previously were previously using a moment with a London timzone here,
-    // which could erroneously change the date depending on the timezone the user was in.
+    // Note: there have been issues here in the past where the date
+    // can be affected by the user's timezone.
+    //
+    // Previously we got around this by using a vanilla Moment object;
+    // when we got rid of Moment, I've tried to use UTC throughout for
+    // these DD-MM-YYYY values, and hopefully they've kept those bugs at bay.
+    const pickUpDateValue = pickUpDate ? dateFromValue(pickUpDate) : undefined;
 
     if (
-      pickUpDateMoment &&
-      pickUpDateMoment.isValid() &&
+      pickUpDateValue &&
       isRequestableDate({
-        date: pickUpDateMoment.toDate(),
-        startDate:
-          availableDates.nextAvailable && availableDates.nextAvailable.toDate(),
-        endDate:
-          availableDates.lastAvailable && availableDates.lastAvailable.toDate(),
-        excludedDates: availableDates.exceptionalClosedDates.map(d =>
-          d.toDate()
-        ),
+        date: pickUpDateValue,
+        startDate: availableDates.nextAvailable,
+        endDate: availableDates.lastAvailable,
+        excludedDates: availableDates.exceptionalClosedDates,
         excludedDays: availableDates.closedDays,
       })
     ) {
@@ -98,7 +94,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         action: 'confirm_request',
         label: `/works/${work.id}`,
       });
-      confirmRequest(pickUpDateMoment);
+      confirmRequest(pickUpDateValue);
     }
   }
 

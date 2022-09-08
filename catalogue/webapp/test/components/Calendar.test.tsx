@@ -3,21 +3,20 @@ import { ThemeProvider } from 'styled-components';
 import theme from '@weco/common/views/themes/default';
 import Calendar from '../../components/Calendar/Calendar';
 import userEvent from '@testing-library/user-event';
-import { london } from '../../utils/format-date';
 
 const renderComponent = () => {
   render(
     <ThemeProvider theme={theme}>
       <Calendar
-        min={london('2022-02-01')}
-        max={london('2022-05-20')}
+        min={new Date('2022-02-01')}
+        max={new Date('2022-05-20')}
         excludedDates={[
-          london('2022-02-07'),
-          london('2022-02-08'),
-          london('2022-02-09'),
+          new Date('2022-02-07'),
+          new Date('2022-02-08'),
+          new Date('2022-02-09'),
         ]}
         excludedDays={[0]}
-        initialFocusDate={london('2022-2-10')}
+        initialFocusDate={new Date('2022-2-10')}
         chosenDate={undefined}
         setChosenDate={() => null}
         showModal={false}
