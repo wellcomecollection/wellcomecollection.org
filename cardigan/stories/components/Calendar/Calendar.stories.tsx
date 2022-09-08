@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Calendar from '@weco/catalogue/components/Calendar/CalendarSelect';
-import { london } from '@weco/common/utils/format-date';
+import { london } from '@weco/catalogue/utils/format-date';
 
 const Template = () => {
   const [date, setDate] = useState('');
