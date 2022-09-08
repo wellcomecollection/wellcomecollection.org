@@ -80,6 +80,70 @@ describe('findMonthsThatEventSpans', () => {
       },
     ]);
   });
+
+  it('groups multi-month events correctly', () => {
+    const events = [
+      {
+        times: [
+          {
+            range: {
+              startDateTime: new Date('2022-10-18T09:30:00.000Z'),
+              endDateTime: new Date('2022-10-18T14:30:00.000Z'),
+            },
+          },
+          {
+            range: {
+              startDateTime: new Date('2022-11-08T10:30:00.000Z'),
+              endDateTime: new Date('2022-11-08T15:30:00.000Z'),
+            },
+          },
+        ],
+        title: 'HIV and AIDs',
+      },
+      {
+        times: [
+          {
+            range: {
+              startDateTime: new Date('2022-10-06T18:00:00.000Z'),
+              endDateTime: new Date('2022-10-06T18:30:00.000Z'),
+            },
+          },
+        ],
+        title: 'Legacy',
+      },
+      {
+        times: [
+          {
+            range: {
+              startDateTime: new Date('2022-09-17T10:00:00.000Z'),
+              endDateTime: new Date('2022-09-17T11:00:00.000Z'),
+            },
+          },
+        ],
+        title: 'Wandering Womb',
+      },
+    ];
+
+    const result = findMonthsThatEventSpans(events);
+
+    expect(result).toStrictEqual([
+      {
+        event: events[0],
+        months: [
+          { year: 2022, month: 9 },
+          { year: 2022, month: 10 },
+        ],
+      },
+      {
+        event: events[1],
+        months: [{ year: 2022, month: 9 }],
+      },
+      {
+        event: events[2],
+        months: [{ year: 2022, month: 8 }],
+      },
+    ]);
+  });
 });
 
 describe('groupEventsByMonth', () => {
