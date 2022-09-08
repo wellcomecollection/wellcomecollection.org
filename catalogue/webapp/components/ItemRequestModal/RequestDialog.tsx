@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import moment, { Moment } from 'moment';
 import { CTAs, CurrentRequests, Header } from './common';
 import { themeValues } from '@weco/common/views/themes/config';
+import { london } from 'utils/format-date';
 
 const PickUpDate = styled(Space).attrs({
   v: {
@@ -65,7 +66,8 @@ const RequestDialog: FC<RequestDialogProps> = ({
 }) => {
   const availableDates = useAvailableDates();
   const [pickUpDate, setPickUpDate] = useState<string | undefined>(
-    availableDates.nextAvailable?.format('DD-MM-YYYY')
+    availableDates.nextAvailable &&
+      london(availableDates.nextAvailable).format('DD-MM-YYYY')
   );
 
   function handleConfirmRequest(event: FormEvent<HTMLFormElement>) {
@@ -83,13 +85,9 @@ const RequestDialog: FC<RequestDialogProps> = ({
       pickUpDateMoment.isValid() &&
       isRequestableDate({
         date: pickUpDateMoment.toDate(),
-        startDate:
-          availableDates.nextAvailable && availableDates.nextAvailable.toDate(),
-        endDate:
-          availableDates.lastAvailable && availableDates.lastAvailable.toDate(),
-        excludedDates: availableDates.exceptionalClosedDates.map(d =>
-          d.toDate()
-        ),
+        startDate: availableDates.nextAvailable,
+        endDate: availableDates.lastAvailable,
+        excludedDates: availableDates.exceptionalClosedDates,
         excludedDays: availableDates.closedDays,
       })
     ) {
@@ -146,9 +144,17 @@ const RequestDialog: FC<RequestDialogProps> = ({
           </PickUpDateDescription>
           <PickUpDateInputWrapper>
             <RequestingDayPicker
-              startDate={availableDates.nextAvailable}
-              endDate={availableDates.lastAvailable}
-              exceptionalClosedDates={availableDates.exceptionalClosedDates}
+              startDate={
+                availableDates.nextAvailable &&
+                london(availableDates.nextAvailable)
+              }
+              endDate={
+                availableDates.lastAvailable &&
+                london(availableDates.lastAvailable)
+              }
+              exceptionalClosedDates={availableDates.exceptionalClosedDates.map(
+                d => london(d)
+              )}
               regularClosedDays={availableDates.closedDays}
               pickUpDate={pickUpDate}
               setPickUpDate={setPickUpDate}
