@@ -1,5 +1,4 @@
 import { FC, useState, useEffect, MutableRefObject } from 'react';
-import { Moment } from 'moment';
 import Modal from '@weco/common/views/components/Modal/Modal';
 import {
   PhysicalItem,
@@ -10,6 +9,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
+import { formatLondon, formatYear } from '@weco/common/utils/format-date';
 
 type Props = {
   work: Work;
@@ -52,7 +52,16 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  async function confirmRequest(pickupDate?: Moment) {
+  // Formats a date as YYYY-MM-DD, e.g. 2022-09-21
+  function formatDate(d: Date): string {
+    const years = formatYear(d);
+    const months = formatLondon(d, { month: 'numeric' }).padStart(2, '0');
+    const days = formatLondon(d, { day: 'numeric' }).padStart(2, '0');
+
+    return `${years}-${months}-${days}`;
+  }
+
+  async function confirmRequest(pickupDate: Date) {
     setRequestingState('requesting');
     try {
       const response = await fetch(`/account/api/users/me/item-requests`, {
@@ -60,7 +69,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
-          pickupDate: pickupDate?.format('YYYY-MM-DD'),
+          pickupDate: formatDate(pickupDate),
           type: 'Item',
         }),
         headers: {
