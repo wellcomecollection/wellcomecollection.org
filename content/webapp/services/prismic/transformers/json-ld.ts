@@ -1,4 +1,4 @@
-import { EventBasic } from '../../../types/events';
+import { Event } from '../../../types/events';
 import {
   wellcomeCollectionAddress,
   wellcomeCollectionGallery,
@@ -78,7 +78,7 @@ export function exhibitionLd(exhibition: Exhibition): JsonLdObj {
   );
 }
 
-export function eventLd(event: EventBasic): JsonLdObj[] {
+export function eventLd(event: Event): JsonLdObj[] {
   const promoImage = event.promo?.image;
   return event.times
     .map(eventTime => {

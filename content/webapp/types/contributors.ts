@@ -41,6 +41,5 @@ export type ContributorBasic = {
   contributor: {
     type: string;
     name?: string;
-    image: ImageType;
   };
 };

@@ -346,9 +346,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredText =
       whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
 
-    const events = transformQuery(eventsQuery, event =>
-      transformEventToEventBasic(transformEvent(event))
-    ).results;
+    const events = transformQuery(eventsQuery, transformEvent).results;
     const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
     const availableOnlineEvents = transformQuery(
       availableOnlineEventsQuery,
@@ -365,7 +363,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
         props: removeUndefinedProps({
           period,
           exhibitions,
-          events,
+          events: events.map(transformEventToEventBasic),
           availableOnlineEvents,
           dateRange,
           jsonLd,
