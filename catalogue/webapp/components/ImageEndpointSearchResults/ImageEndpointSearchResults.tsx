@@ -19,6 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   images: CatalogueResultsList<Image>;
+  bgColor?: string;
 };
 
 type GalleryImageProps = Image & {
@@ -56,16 +57,20 @@ const ImageContainer = styled.li`
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
+  bgColor,
 }: Props) => {
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
+  const [isActive, setIsActive] = useState(false);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
   const expandedImagePosition = images.results.findIndex(
     img => expandedImage && img.id === expandedImage.id
   );
-  const [isActive, setIsActive] = useState(false);
+
+  // If there's only two images or less, display them differently (not worth loading the gallery + they display too large)
+  const isSmallGallery = images.results.length < 3;
 
   // Loop through images to add data that Gallery needs in order to render
   const imagesWithDimensions: GalleryImageProps[] = useMemo(
@@ -91,12 +96,13 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             height: galleryImage.photo.height,
             alt: galleryImage.photo.source.title,
           }}
-          layout="fixed"
           onClick={event => {
             event.preventDefault();
             setExpandedImage(galleryImage.photo);
             setIsActive(true);
           }}
+          layout="fixed"
+          bgColor={bgColor}
         />
       </ImageContainer>
     );
@@ -104,7 +110,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
 
   return (
     <>
-      {isFullSupportBrowser && (
+      {isFullSupportBrowser && !isSmallGallery && (
         <ul role="list" className="plain-list no-margin no-padding">
           <GalleryContainer>
             <Gallery
@@ -114,22 +120,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
               targetRowHeight={220}
             />
           </GalleryContainer>
-          <Modal
-            id={'expanded-image-dialog'}
-            isActive={isActive}
-            setIsActive={setIsActive}
-            width={'80vw'}
-          >
-            <ExpandedImage
-              resultPosition={expandedImagePosition}
-              image={expandedImage}
-              setExpandedImage={setExpandedImage}
-            />
-          </Modal>
         </ul>
       )}
 
-      {!isFullSupportBrowser && (
+      {(!isFullSupportBrowser || isSmallGallery) && (
         <ul
           className="flex flex--wrap plain-list no-padding no-margin"
           role="list"
@@ -145,17 +139,38 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                   workId={result.source.id}
                   image={{
                     contentUrl: result.src,
-                    width: 300,
-                    height: 300,
+                    width: isSmallGallery ? result.width : 156,
+                    height: isSmallGallery ? result.height : 156,
                     alt: result.source.title,
                   }}
+                  onClick={event => {
+                    if (isSmallGallery) {
+                      event.preventDefault();
+                      setExpandedImage(result);
+                      setIsActive(true);
+                    }
+                  }}
                   layout="fill"
+                  bgColor={bgColor}
                 />
               </Space>
             </li>
           ))}
         </ul>
       )}
+
+      <Modal
+        id={'expanded-image-dialog'}
+        isActive={isActive}
+        setIsActive={setIsActive}
+        width={'80vw'}
+      >
+        <ExpandedImage
+          resultPosition={expandedImagePosition}
+          image={expandedImage}
+          setExpandedImage={setExpandedImage}
+        />
+      </Modal>
     </>
   );
 };

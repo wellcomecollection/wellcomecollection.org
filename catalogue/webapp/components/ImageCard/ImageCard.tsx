@@ -14,18 +14,19 @@ type Props = {
   workId: string;
   image: ImageType;
   layout: 'raw' | 'fill' | 'fixed';
-  onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
+  bgColor?: string;
 };
 
-const StyledLink = styled.a<{ isFullSupportBrowser: boolean }>`
+const StyledLink = styled.a<{
+  width: number;
+  height: number;
+}>`
   position: relative;
   display: block;
 
-  ${props =>
-    !props.isFullSupportBrowser &&
-    `
-    width: 156px;
-    height: 156px;`}
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
 `;
 
 const ImageCard: FC<Props> = ({
@@ -34,8 +35,9 @@ const ImageCard: FC<Props> = ({
   image,
   layout,
   onClick,
+  bgColor,
 }: Props) => {
-  const { isEnhanced, isFullSupportBrowser } = useContext(AppContext);
+  const { isEnhanced } = useContext(AppContext);
 
   return (
     <NextLink {...imageLink({ id, workId }, 'images_search_result')} passHref>
@@ -50,9 +52,10 @@ const ImageCard: FC<Props> = ({
         }}
         id={id}
         title={isEnhanced ? 'Open modal window' : undefined}
-        isFullSupportBrowser={isFullSupportBrowser}
+        width={image.width}
+        height={image.height}
       >
-        <IIIFImage image={image} layout={layout} />
+        <IIIFImage image={image} layout={layout} bgColor={bgColor} />
       </StyledLink>
     </NextLink>
   );
