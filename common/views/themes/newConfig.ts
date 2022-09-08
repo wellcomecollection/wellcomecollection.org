@@ -158,8 +158,8 @@ export const colors = {
   // i've replaced them with some equivalents, but eventually go through codebase and change name
 
   // teal: { base: '#006272', dark: '', light: '' },
-  // replaced with khaki?
-  teal: { base: '#4f7d68', dark: '', light: '' },
+  // replaced with blue
+  teal: { base: '#27476e', dark: '', light: '' },
 
   // not used anywhere
   // cyan: { base: '#298187', dark: '', light: '' },
@@ -187,8 +187,8 @@ export const colors = {
   newPaletteMint: { base: '#9bc0af', dark: '', light: '' },
   //
   // newPaletteBlue: { base: '#7bc1ce', dark: '', light: '' },
-  // doesn't match anything, using turquoise light
-  newPaletteBlue: { base: '#a2eeed', dark: '', light: '' },
+  // doesn't match anything, using blue light
+  newPaletteBlue: { base: '#a4bfdf', dark: '', light: '' },
   //
   // newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
   // replace with purple light?
