@@ -10,7 +10,7 @@ import { info2 } from '@weco/common/icons';
 
 export const AccountCreated: React.FC = () => {
   return (
-    <PageWrapper title={`Account created`}>
+    <PageWrapper title="Account created">
       <Layout10>
         <Space v={{ size: 'xl', properties: ['margin-top'] }}>
           <Container>

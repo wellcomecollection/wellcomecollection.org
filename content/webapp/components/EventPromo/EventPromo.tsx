@@ -130,7 +130,7 @@ const EventPromo: FC<Props> = ({
 
           {event.availableOnline && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <WatchLabel text={`Available to watch`} />
+              <WatchLabel text="Available to watch" />
             </Space>
           )}
 
@@ -212,7 +212,7 @@ const EventPromo: FC<Props> = ({
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <Divider color={`white`} isKeyline={true} />
+          <Divider color="white" isKeyline={true} />
           <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}

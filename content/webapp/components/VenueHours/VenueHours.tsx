@@ -98,7 +98,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
-              <Divider color={`pumice`} isKeyline={true} />
+              <Divider color="pumice" isKeyline={true} />
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>

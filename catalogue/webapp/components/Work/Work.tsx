@@ -148,7 +148,7 @@ const Work: FunctionComponent<Props> = ({
             </div>
 
             <div className="container">
-              <Divider color={`pumice`} isKeyline={true} />
+              <Divider color="pumice" isKeyline={true} />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
                 <Space

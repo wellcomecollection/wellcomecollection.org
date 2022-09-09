@@ -65,7 +65,7 @@ const Outro: FC<Props> = ({
 
   return (
     <div>
-      <Divider color={`black`} isStub={true} />
+      <Divider color="black" isStub={true} />
       <Space
         v={{
           size: 'm',

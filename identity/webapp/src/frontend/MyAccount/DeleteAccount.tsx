@@ -130,7 +130,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
             />
             <ButtonSolidLink
               colors={themeValues.buttonColors.greenTransparentGreen}
-              link={`/account`}
+              link="/account"
               clickHandler={onCancel}
               text="No, go back to my account"
             />

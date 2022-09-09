@@ -249,7 +249,7 @@ const Header = ({
                     )}
                   </div>
                 )}
-                <NextLink href={`/opening-times`} as={`/opening-times`}>
+                <NextLink href="/opening-times" as="/opening-times">
                   <a
                     className={classNames({
                       [font('intb', 5)]: true,

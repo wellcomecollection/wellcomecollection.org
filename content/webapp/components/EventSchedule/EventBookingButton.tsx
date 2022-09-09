@@ -15,7 +15,7 @@ function getButtonMarkup(event: Event) {
   if (!event.eventbriteId) return;
 
   if (event.isCompletelySoldOut) {
-    return <Message text={`Fully booked`} />;
+    return <Message text="Fully booked" />;
   } else {
     return (
       <div
@@ -36,7 +36,7 @@ function getBookingEnquiryMarkup(event: Event) {
   if (!event.bookingEnquiryTeam) return;
 
   if (event.isCompletelySoldOut) {
-    return <Message text={`Fully booked`} />;
+    return <Message text="Fully booked" />;
   } else {
     return (
       <ButtonSolidLink

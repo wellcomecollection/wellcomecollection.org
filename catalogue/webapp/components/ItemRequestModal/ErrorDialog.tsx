@@ -18,7 +18,7 @@ const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
     <CTAs>
       <ButtonSolid
         colors={themeValues.buttonColors.greenTransparentGreen}
-        text={`Close`}
+        text="Close"
         clickHandler={() => setIsActive(false)}
       />
     </CTAs>

@@ -363,7 +363,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             {event.bookingEnquiryTeam && (
               <>
                 {event.isCompletelySoldOut ? (
-                  <Message text={`Fully booked`} />
+                  <Message text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}

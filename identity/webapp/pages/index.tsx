@@ -120,7 +120,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon icon={info2} color={`currentColor`} />
+      <Icon icon={info2} color="currentColor" />
       <Space
         h={{
           size: 's',
@@ -219,7 +219,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   };
 
   return (
-    <PageWrapper title={`Your library account`}>
+    <PageWrapper title="Your library account">
       <Header
         v={{
           size: 'l',

@@ -23,7 +23,7 @@ const RegistrationInformation: FC<Props> = ({ email }) => {
           properties: ['margin-top', 'margin-bottom'],
         }}
       >
-        <Divider color={`pumice`} isKeyline />
+        <Divider color="pumice" isKeyline />
       </Space>
     </>
   );

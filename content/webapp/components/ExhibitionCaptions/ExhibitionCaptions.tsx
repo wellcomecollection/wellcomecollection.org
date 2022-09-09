@@ -190,7 +190,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               properties: ['margin-bottom'],
             }}
           >
-            <Divider color={`pumice`} isKeyline={true} />
+            <Divider color="pumice" isKeyline={true} />
           </Space>
           <div className="flex flex--wrap">
             <Tombstone />
@@ -266,7 +266,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                         <PrismicImage
                           image={image}
                           sizes={{}}
-                          quality={`low`}
+                          quality="low"
                         />
                       </PrismicImageWrapper>
                     </Space>
