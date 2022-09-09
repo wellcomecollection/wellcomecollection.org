@@ -3,7 +3,7 @@ import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitionRelatedContent } from '../../../services/prismic/fetch/exhibitions';
 import { transformExhibitionRelatedContent } from '../../../services/prismic/transformers/exhibitions';
-import superjson as 'superjson';
+import superjson from 'superjson';
 
 type NotFound = { notFound: true };
 type UserError = { description: string };
