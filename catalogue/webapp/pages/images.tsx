@@ -143,9 +143,9 @@ const Images: NextPage<Props> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'collections'}
+        siteSection="collections"
         image={undefined}
       >
         <Space

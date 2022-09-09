@@ -259,7 +259,7 @@ const Body: FunctionComponent<Props> = ({
                       />
                     )}
                   </Wrapper>
-                  {!isLast && <WobblyEdge background={'white'} isStatic />}
+                  {!isLast && <WobblyEdge background="white" isStatic />}
                 </Fragment>
               );
             })}

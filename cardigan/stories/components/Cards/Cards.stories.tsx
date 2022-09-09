@@ -47,7 +47,7 @@ bannerCard.storyName = 'BannerCard';
 const FeaturedCardTemplate = args => {
   return (
     <FeaturedCard
-      id={'id'}
+      id="id"
       image={{ ...image() }}
       labels={[{ text: 'Essay' }]}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}

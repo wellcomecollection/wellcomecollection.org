@@ -82,7 +82,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
           {productionDates.length > 0 && (
             <LinkLabels
-              heading={'Date'}
+              heading="Date"
               items={[
                 {
                   text: productionDates[0],

@@ -126,10 +126,10 @@ export const ConceptPage: NextPage<Props> = ({
     // TODO fill meta information; who decides this?
     <CataloguePageLayout
       title={conceptResponse.label}
-      description={'<TBC>'}
+      description="<TBC>"
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
-      openGraphType={'website'}
-      siteSection={'collections'}
+      openGraphType="website"
+      siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >

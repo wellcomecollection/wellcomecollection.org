@@ -865,7 +865,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
         <>
           <ButtonWrap>
             <ButtonSolid
-              text={'Collection contents'}
+              text="Collection contents"
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
@@ -876,7 +876,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
-            id={'collection-contents-modal'}
+            id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
             <Tree isEnhanced={isEnhanced}>

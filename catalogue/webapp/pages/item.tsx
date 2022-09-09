@@ -210,11 +210,11 @@ const ItemPage: NextPage<Props> = ({
   return (
     <CataloguePageLayout
       title={title}
-      description={''}
+      description=""
       url={{ pathname: `/works/${workId}/items` }}
-      openGraphType={'website'}
+      openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'collections'}
+      siteSection="collections"
       hideNewsletterPromo={true}
       hideFooter={true}
       hideTopContent={true}
@@ -301,7 +301,7 @@ const ItemPage: NextPage<Props> = ({
           )}
           {isAnyImageOpen && origin && (
             <Space
-              className={'flex flex-inline'}
+              className="flex flex-inline"
               h={{ size: 'm', properties: ['margin-right'] }}
               v={{ size: 'm', properties: ['margin-top'] }}
             >

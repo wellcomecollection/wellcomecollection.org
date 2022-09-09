@@ -58,13 +58,13 @@ const AudioList: FC<Props> = ({
           <DownloadLink
             href={transcript.id}
             linkText={`Transcript of ${workTitle} audio`}
-            format={'PDF'}
+            format="PDF"
             trackingEvent={{
               category: 'Download link',
               action: `follow audio annotation link`,
               label: transcript.id,
             }}
-            mimeType={'application/pdf'}
+            mimeType="application/pdf"
             trackingTags={['annotation']}
           />
         </Space>

@@ -48,7 +48,7 @@ const Wrapper = styled(Space).attrs({
 
 const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   return (
-    <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
+    <DropdownButton label={f.label} buttonType="inline" id={f.id}>
       <ul className={`no-margin no-padding plain-list ${font('intr', 5)}`}>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
@@ -81,7 +81,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
 
   return (
     <Space className={font('intr', 5)}>
-      <DropdownButton label={f.label} buttonType={'inline'} id={f.id}>
+      <DropdownButton label={f.label} buttonType="inline" id={f.id}>
         <>
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <NumberInput
@@ -89,7 +89,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
               label="From"
               min="0"
               max="9999"
-              placeholder={'Year'}
+              placeholder="Year"
               value={from || ''}
               onChange={event => {
                 const val = `${event.currentTarget.value}`;
@@ -105,7 +105,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
             label="to"
             min="0"
             max="9999"
-            placeholder={'Year'}
+            placeholder="Year"
             value={to || ''}
             onChange={event => {
               const val = `${event.currentTarget.value}`;
@@ -127,7 +127,7 @@ type ColorFilterProps = {
 };
 const ColorFilter = ({ f, changeHandler }: ColorFilterProps) => {
   return (
-    <DropdownButton label={'Colours'} buttonType={'inline'} id="images.color">
+    <DropdownButton label="Colours" buttonType="inline" id="images.color">
       <PaletteColorPicker
         name={f.id}
         color={f.color}

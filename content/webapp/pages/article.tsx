@@ -297,8 +297,8 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'article'}
-      siteSection={'stories'}
+      openGraphType="article"
+      siteSection="stories"
       image={article.image}
     >
       <ContentPage

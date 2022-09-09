@@ -153,8 +153,8 @@ const BookPage: FunctionComponent<Props> = props => {
       description={book.metadataDescription || book.promo?.caption || ''}
       url={{ pathname: `/books/${book.id}`, query: {} }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'book'}
-      siteSection={'stories'}
+      openGraphType="book"
+      siteSection="stories"
       image={book.image}
     >
       <ContentPage

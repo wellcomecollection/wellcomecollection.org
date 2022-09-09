@@ -114,7 +114,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   return (
     <>
       <h3 className="h3">{f.label}</h3>
-      <ul className={'no-margin no-padding plain-list'}>
+      <ul className="no-margin no-padding plain-list">
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <Space
@@ -157,7 +157,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
           label="From"
           min="0"
           max="9999"
-          placeholder={'Year'}
+          placeholder="Year"
           value={from || ''}
           onChange={event => {
             const val = `${event.currentTarget.value}`;
@@ -173,7 +173,7 @@ const DateRangeFilter = ({ f, changeHandler }: DateRangeFilterProps) => {
         label="to"
         min="0"
         max="9999"
-        placeholder={'Year'}
+        placeholder="Year"
         value={to || ''}
         onChange={event => {
           const val = `${event.currentTarget.value}`;
@@ -284,11 +284,11 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
       </ShameButtonWrap>
       <FocusTrap active={isActive}>
         <Modal
-          id={'mobile-filters-modal'}
+          id="mobile-filters-modal"
           isActive={isActive}
           setIsActive={setIsActive}
           openButtonRef={openFiltersButtonRef}
-          modalStyle={'filters'}
+          modalStyle="filters"
         >
           <FiltersScrollable>
             <FiltersHeader>
