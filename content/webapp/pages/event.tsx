@@ -110,9 +110,10 @@ function DateList(event: Event) {
           return (
             <TimeWrapper key={index}>
               <div
-                className={`${
-                  isDayPast(eventTime.range.endDateTime) ? 'font-pewter' : ''
-                } flex-1`}
+                className={classNames({
+                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'flex-1': true,
+                })}
               >
                 <DateRange
                   start={eventTime.range.startDateTime}
