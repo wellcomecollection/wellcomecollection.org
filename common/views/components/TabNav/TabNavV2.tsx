@@ -1,6 +1,5 @@
 import { FC, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-// import { NextLinkType } from '@weco/common/model/next-link-type';
 import Space from '../styled/Space';
 import { font, classNames } from '../../../utils/classnames';
 
