@@ -11,7 +11,6 @@ import { useControlledState } from '../../../utils/useControlledState';
 import NextLink from 'next/link';
 import { toLink as worksLink } from '../WorksLink/WorksLink';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import NumberInput from '@weco/common/views/components/NumberInput/NumberInput';
@@ -36,6 +35,12 @@ const PaletteColorPicker = dynamic(
   import('../PaletteColorPicker/PaletteColorPicker')
 );
 
+const SearchFiltersContainer = styled(Space).attrs({
+  v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('white')};
+`;
+
 const ShameButtonWrap = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -48,9 +53,6 @@ const ShameButtonWrap = styled(Space).attrs({
 const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    relative: true,
-  }),
 })`
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 `;
@@ -61,10 +63,11 @@ const ActiveFilters = styled(Space).attrs({
     properties: ['margin-left', 'padding-left', 'padding-right'],
   },
   v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'bg-yellow font-black inline-block rounded-corners text-align-center': true,
-  }),
+  className: 'font-black rounded-corners',
 })`
+  display: inline-block;
+  background-color: ${props => props.theme.color('yellow')};
+  text-align: center;
   min-width: 24px;
 `;
 
@@ -82,11 +85,8 @@ const FilterSection = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 `;
 
-const FiltersScrollable = styled.div.attrs({
-  className: classNames({
-    absolute: true,
-  }),
-})`
+const FiltersScrollable = styled.div`
+  position: absolute;
   width: 100%;
   height: calc(100% - 60px);
   overflow: auto;
@@ -95,10 +95,9 @@ const FiltersScrollable = styled.div.attrs({
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'bg-white flex flex--v-center flex--h-space-between': true,
-  }),
+  className: 'flex flex--v-center flex--h-space-between',
 })`
+  background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;
@@ -115,11 +114,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
   return (
     <>
       <h3 className="h3">{f.label}</h3>
-      <ul
-        className={classNames({
-          'no-margin no-padding plain-list': true,
-        })}
-      >
+      <ul className={'no-margin no-padding plain-list'}>
         {f.options.map(({ id, label, value, count, selected }) => {
           return (
             <Space
@@ -129,7 +124,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
             >
               <CheckboxRadio
                 id={`mobile-${id}`}
-                type={`checkbox`}
+                type="checkbox"
                 text={`${label} (${count})`}
                 value={value}
                 name={f.id}
@@ -269,10 +264,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   return (
-    <Space
-      v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
-      className={classNames({ 'bg-white': true })}
-    >
+    <SearchFiltersContainer>
       <ShameButtonWrap>
         <SolidButton
           type={ButtonTypes.button}
@@ -346,7 +338,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           </FiltersFooter>
         </Modal>
       </FocusTrap>
-    </Space>
+    </SearchFiltersContainer>
   );
 };
 

@@ -70,10 +70,6 @@ const Link = styled(Space).attrs({
   &:focus {
     color: ${props => props.theme.color('green')};
   }
-
-  .icon__shape {
-    fill: ${props => props.theme.color('green')};
-  }
 `;
 
 type SocialItem = {
@@ -128,7 +124,7 @@ const FooterSocial: FC = () => (
       <Cell key={item.title}>
         <Link href={item.url}>
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
-            <Icon icon={item.icon} />
+            <Icon icon={item.icon} color="green" />
           </Space>
           <span>{item.title}</span>
           <span className="visually-hidden">{item.service}</span>

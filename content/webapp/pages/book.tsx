@@ -45,9 +45,7 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
           Date published
         </dt>
         <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
-          {book.datePublished && (
-            <HTMLDate date={new Date(book.datePublished)} />
-          )}
+          {book.datePublished && <HTMLDate date={book.datePublished} />}
         </dd>
       </Fragment>
     )}
@@ -156,7 +154,7 @@ const BookPage: FunctionComponent<Props> = props => {
       url={{ pathname: `/books/${book.id}`, query: {} }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType={'book'}
-      siteSection={null}
+      siteSection={'stories'}
       image={book.image}
     >
       <ContentPage

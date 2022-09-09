@@ -64,18 +64,18 @@ const DropdownButtonTemplate = args => {
           <li>
             <CheckboxRadio
               id="1"
-              type={`checkbox`}
+              type="checkbox"
               text="Manuscripts (1,856)"
             />
           </li>
           <li>
-            <CheckboxRadio id="2" type={`checkbox`} text="Archives (1,784)" />
+            <CheckboxRadio id="2" type="checkbox" text="Archives (1,784)" />
           </li>
           <li>
-            <CheckboxRadio id="3" type={`checkbox`} text="Images (2,122)" />
+            <CheckboxRadio id="3" type="checkbox" text="Images (2,122)" />
           </li>
           <li>
-            <CheckboxRadio id="4" type={`checkbox`} text="Books (12,465)" />
+            <CheckboxRadio id="4" type="checkbox" text="Books (12,465)" />
           </li>
         </ul>
       </div>

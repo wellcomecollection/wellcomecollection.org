@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
-import { classNames } from '@weco/common/utils/classnames';
+import styled from 'styled-components';
 import { ImageType } from '@weco/common/model/image';
 import {
   iiifImageTemplate,
@@ -10,6 +10,10 @@ import {
   convertBreakpointSizesToSizes,
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
+
+const StyledImage = styled(Image).attrs({ className: 'font-charcoal' })`
+  background-color: ${props => props.theme.color('white')};
+`;
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
   return convertImageUri(src, width);
@@ -55,11 +59,8 @@ const IIIFImage: FC<Props> = ({
           sizes={sizesString}
         />
       ) : (
-        <Image
+        <StyledImage
           layout={layout}
-          className={classNames({
-            'bg-white font-charcoal': true,
-          })}
           sizes={sizesString}
           src={image.contentUrl}
           alt={image.alt || ''}

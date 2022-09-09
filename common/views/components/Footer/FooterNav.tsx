@@ -25,7 +25,7 @@ const FooterNav: FunctionComponent = () => {
   return (
     <div>
       <nav>
-        <ul className={`plain-list no-margin no-padding`}>
+        <ul className="plain-list no-margin no-padding">
           {links.map((link, i) => (
             <li key={link.title}>
               <NavLink id={`footer-nav-${i}`} as="a" href={link.href}>

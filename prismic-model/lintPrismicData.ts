@@ -44,11 +44,38 @@ function detectEur01Safelinks(doc: any): string[] {
   return [];
 }
 
+// Look for broken links to interpretation types on events.
+//
+// These manifest as small black squares (on promo cards) or small yellow
+// squares (on the event pages).
+//
+// See e.g. https://wellcome.slack.com/archives/C8X9YKM5X/p1662107045936069
+function detectBrokenInterpretationTypeLinks(doc: any): string[] {
+  if (doc.type === 'events') {
+    const brokenLinks = doc.data.interpretations.filter(
+      it => it.interpretationType.type === 'broken_type'
+    );
+
+    if (brokenLinks.length > 0) {
+      return ['- link to an interpretation type is broken'];
+    }
+  }
+
+  return [];
+}
+
 async function run() {
   const snapshotDir = await downloadPrismicSnapshot();
 
+  let totalErrors = 0;
+
   for (const doc of getPrismicDocuments(snapshotDir)) {
-    const errors = detectEur01Safelinks(doc);
+    const errors = [
+      ...detectEur01Safelinks(doc),
+      ...detectBrokenInterpretationTypeLinks(doc),
+    ];
+
+    totalErrors += errors.length;
 
     // If there are any errors, report them to the console.
     if (errors.length > 0) {
@@ -62,6 +89,15 @@ async function run() {
       }
       console.log('');
     }
+  }
+
+  if (totalErrors === 0) {
+    console.log(chalk.green('✅ No errors detected'));
+  } else {
+    console.log(
+      chalk.red(`🚨 ${totalErrors} error${totalErrors > 1 ? 's' : ''} detected`)
+    );
+    process.exit(1);
   }
 }
 

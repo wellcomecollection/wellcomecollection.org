@@ -63,7 +63,7 @@ const Contributor: FC<ContributorType> = ({
           )}
         </Space>
         <div>
-          <div className={`flex flex--h-baseline`}>
+          <div className="flex flex--h-baseline">
             <h3
               className={classNames({
                 [font('intb', 4)]: true,

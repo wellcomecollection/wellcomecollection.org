@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
-import { classNames, font } from '../../../utils/classnames';
+import styled from 'styled-components';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 
 type Props = {
@@ -7,25 +8,25 @@ type Props = {
   color?: string;
 };
 
+const Wrapper = styled(Space)<{ color?: string }>`
+  background-color: ${props => props.theme.color(props.color || 'purple')};
+
+  transform: rotateZ(-6deg);
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border-radius: 3px;
+  text-align: center;
+`;
+
 const Number: FunctionComponent<Props> = ({
   number,
   color,
 }: Props): ReactElement<Props> => (
-  <Space
+  <Wrapper
     as="span"
     h={{ size: 's', properties: ['margin-left'] }}
-    className={classNames({
-      [font('wb', 5)]: true,
-      [`bg-${color || 'purple'}`]: true,
-    })}
-    style={{
-      transform: 'rotateZ(-6deg)',
-      width: '24px',
-      height: '24px',
-      display: 'inline-block',
-      borderRadius: '3px',
-      textAlign: 'center',
-    }}
+    className={font('wb', 5)}
   >
     <span
       className={color === 'yellow' ? 'font-black' : 'font-white'}
@@ -33,7 +34,7 @@ const Number: FunctionComponent<Props> = ({
     >
       {number}
     </span>
-  </Space>
+  </Wrapper>
 );
 
 export default Number;

@@ -11,6 +11,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { themeValues } from '@weco/common/views/themes/config';
+import { dasherize } from '@weco/common/utils/grammar';
 
 function getTypeColor(type: string): string {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
@@ -189,7 +190,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               properties: ['margin-bottom'],
             }}
           >
-            <Divider color={`pumice`} isKeyline={true} />
+            <Divider color="pumice" isKeyline={true} />
           </Space>
           <div className="flex flex--wrap">
             <Tombstone />
@@ -202,7 +203,9 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
               }}
               v={{ size: 'l', properties: ['margin-bottom'] }}
             >
-              <StandaloneTitle>{standaloneTitle}</StandaloneTitle>
+              <StandaloneTitle id={dasherize(`${standaloneTitle}`)}>
+                {standaloneTitle}
+              </StandaloneTitle>
             </Space>
           </div>
         </div>
@@ -222,7 +225,9 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
         >
           <div className="flex flex--wrap container">
             <Tombstone>
-              <TombstoneTitle>{!hasContext && title}</TombstoneTitle>
+              <TombstoneTitle id={dasherize(`${title}`)}>
+                {!hasContext && title}
+              </TombstoneTitle>
               <div className={font('intr', 4)}>
                 <PrismicHtmlBlock html={tombstone} />
               </div>
@@ -238,14 +243,16 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                   }}
                   v={{ size: 'l', properties: ['margin-bottom'] }}
                 >
-                  <StandaloneTitle>{title}</StandaloneTitle>
+                  <StandaloneTitle id={dasherize(title)}>
+                    {title}
+                  </StandaloneTitle>
                 </Space>
               )}
 
               {hasContext && (
                 <>
                   {!isFirstStop && title.length > 0 && (
-                    <ContextTitle>{title}</ContextTitle>
+                    <ContextTitle id={dasherize(title)}>{title}</ContextTitle>
                   )}
                   <PrismicHtmlBlock html={context as prismicT.RichTextField} />
                 </>
@@ -259,7 +266,7 @@ const Stop: FC<{ stop: Stop; isFirstStop: boolean }> = ({
                         <PrismicImage
                           image={image}
                           sizes={{}}
-                          quality={`low`}
+                          quality="low"
                         />
                       </PrismicImageWrapper>
                     </Space>

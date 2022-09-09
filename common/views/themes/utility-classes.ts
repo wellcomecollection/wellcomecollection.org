@@ -13,9 +13,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     .icon__shape {
       fill: ${value.base};
     }
-  }
-  .bg-${key} {
-    background: ${value.base};
   }`;
     })
     .join(' ')}
@@ -389,10 +386,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     margin-top: auto;
   }
 
-  .bg-transparent-black {
-    background: rgba(29, 29, 29, 0.61);
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};
@@ -400,7 +393,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('green')};
+      text-decoration-color: ${themeValues.color('black')};
     }
   }
 
@@ -523,7 +516,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.color('green')};
+        text-decoration-color: ${themeValues.color('black')};
       }
     }
   }

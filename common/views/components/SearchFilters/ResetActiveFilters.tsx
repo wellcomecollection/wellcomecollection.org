@@ -1,11 +1,11 @@
 import React, { Fragment, FunctionComponent, ReactNode } from 'react';
 import { ParsedUrlQuery } from 'querystring';
+import styled from 'styled-components';
 import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import NextLink from 'next/link';
 import { font, classNames } from '../../../utils/classnames';
-import styled from 'styled-components';
 import { Filter } from '../../../services/catalogue/filters';
 import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
 import { cross } from '@weco/common/icons';
@@ -24,6 +24,14 @@ const ColorSwatch = styled.span`
   background-color: ${({ color }) => color};
   margin-left: 6px;
   padding-top: 2px;
+`;
+
+const Wrapper = styled(Space).attrs({
+  v: { size: 's', properties: ['padding-top'] },
+  h: { size: 'm', properties: ['padding-left', 'padding-right'] },
+  className: 'tokens',
+})`
+  background-color: ${props => props.theme.color('white')};
 `;
 
 type CancelFilterProps = {
@@ -97,11 +105,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
   const filterState = Object.fromEntries(filterStateMap);
 
   return (
-    <Space
-      v={{ size: 's', properties: ['padding-top'] }}
-      h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-      className="tokens bg-white"
-    >
+    <Wrapper>
       <div className={classNames({ [font('intb', 5)]: true })} role="status">
         <div>
           <h2 className="inline">
@@ -223,6 +227,6 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
           </NextLink>
         </div>
       </div>
-    </Space>
+    </Wrapper>
   );
 };

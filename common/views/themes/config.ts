@@ -111,17 +111,12 @@ export const colors = {
     dark: 'transparent',
     light: 'transparent',
   },
-  'transparent-black': {
-    base: 'rgba(29, 29, 29, 0.61)',
-    dark: '',
-    light: '',
-  },
   // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
   inherit: { base: 'inherit', dark: '', light: '' },
   currentColor: { base: 'currentColor', dark: '', light: '' },
-  newPaletteOrange: { base: '#e7b792', dark: '', light: '' },
-  newPaletteMint: { base: '#acddbd', dark: '', light: '' },
-  newPaletteBlue: { base: '#7bc1ce', dark: '', light: '' },
+  newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
+  newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
+  newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
   newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
 };
 

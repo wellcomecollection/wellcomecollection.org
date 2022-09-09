@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
 import { landingHeaderBackgroundLs } from '../../../utils/backgrounds';
 import WobblyEdge from '../WobblyEdge/WobblyEdge';
 
@@ -10,6 +11,27 @@ type Props = {
 
 const defaultBackgroundTexture = landingHeaderBackgroundLs;
 
+const Background = styled.div<{ texture: string | null }>`
+  position: absolute;
+  top: 0;
+  bottom: 100px;
+  width: 100%;
+  overflow: hidden;
+  z-index: -1;
+
+  background-color: ${props => props.theme.color('cream')};
+  ${props =>
+    props.texture &&
+    `background-image: url(${props.texture});
+      background-size: cover;`};
+`;
+
+const WobblyEdgeContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+`;
+
 const HeaderBackground: FunctionComponent<Props> = ({
   backgroundTexture,
   hasWobblyEdge,
@@ -18,31 +40,15 @@ const HeaderBackground: FunctionComponent<Props> = ({
   const texture =
     backgroundTexture ||
     (useDefaultBackgroundTexture ? defaultBackgroundTexture : null);
-  const backgroundStyles = texture
-    ? {
-        backgroundImage: `url(${texture})`,
-        backgroundSize: 'cover',
-      }
-    : {};
-
-  const styles = {
-    top: 0,
-    zIndex: -1,
-    bottom: '100px',
-    ...backgroundStyles,
-  };
 
   return (
-    <div
-      className="absolute overflow-hidden full-width bg-cream"
-      style={styles}
-    >
+    <Background texture={texture}>
       {hasWobblyEdge && (
-        <div className="absolute full-width" style={{ bottom: 0 }}>
+        <WobblyEdgeContainer>
           <WobblyEdge isValley={true} intensity={100} background={'white'} />
-        </div>
+        </WobblyEdgeContainer>
       )}
-    </div>
+    </Background>
   );
 };
 

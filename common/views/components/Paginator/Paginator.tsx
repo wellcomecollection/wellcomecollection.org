@@ -150,7 +150,7 @@ const Paginator: FunctionComponent<Props> = ({
               </Rotator>
             </Space>
           )}
-          <span className={`font-pewter`}>
+          <span className="font-pewter">
             Page {currentPage} of {totalPages}
           </span>
           {nextLink && next && (

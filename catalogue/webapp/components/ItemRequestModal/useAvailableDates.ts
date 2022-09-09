@@ -1,11 +1,9 @@
-import { Moment } from 'moment';
 import {
   determineNextAvailableDate,
   convertOpeningHoursDayToDayNumber,
   extendEndDate,
   findClosedDays,
 } from '@weco/catalogue/utils/dates';
-import { london } from '@weco/common/utils/format-date';
 import {
   DayNumber,
   ExceptionalOpeningHoursDay,
@@ -14,11 +12,12 @@ import { usePrismicData } from '@weco/common/server-data/Context';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
+import { addDays, today } from '@weco/common/utils/dates';
 
 type AvailableDates = {
-  nextAvailable?: Moment;
-  lastAvailable?: Moment;
-  exceptionalClosedDates: Moment[];
+  nextAvailable?: Date;
+  lastAvailable?: Date;
+  exceptionalClosedDates: Date[];
   closedDays: DayNumber[];
 };
 
@@ -39,14 +38,14 @@ export const useAvailableDates = (): AvailableDates => {
   const exceptionalClosedDates = findClosedDays(exceptionalLibraryOpeningTimes)
     .map(day => {
       const exceptionalDay = day as ExceptionalOpeningHoursDay;
-      return exceptionalDay.overrideDate as Moment;
+      return exceptionalDay.overrideDate;
     })
     .filter(Boolean);
 
-  const nextAvailable = determineNextAvailableDate(london(), closedDays);
+  const nextAvailable = determineNextAvailableDate(today(), closedDays);
 
   // There should be a minimum of a 2 week window in which to select a date
-  const minimumLastAvailable = nextAvailable?.clone().add(13, 'days');
+  const minimumLastAvailable = nextAvailable && addDays(nextAvailable, 13);
   // If the library is closed on any days during the selection window
   // we extend the lastAvailableDate to take these into account
   const lastAvailable = extendEndDate({

@@ -25,7 +25,9 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
 export const headerSpaceSize = 'l';
-const HeroPictureBackground = styled.div`
+const HeroPictureBackground = styled.div<{ bgColor: string }>`
+  position: absolute;
+  background-color: ${props => props.theme.color(props.bgColor)};
   height: 50%;
   width: 100%;
   bottom: -${props => props.theme.spaceAtBreakpoints.small[headerSpaceSize]}px;
@@ -123,7 +125,7 @@ const PageHeader: FunctionComponent<Props> = ({
   return (
     <>
       <div
-        className={`row relative`}
+        className="row relative"
         style={{
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`
@@ -225,9 +227,7 @@ const PageHeader: FunctionComponent<Props> = ({
             })}
             style={{ height: '100%' }}
           >
-            <HeroPictureBackground
-              className={`bg-${heroImageBgColor} absolute`}
-            />
+            <HeroPictureBackground bgColor={heroImageBgColor} />
 
             <HeroPictureContainer>
               <WobblyBottom color={heroImageBgColor}>

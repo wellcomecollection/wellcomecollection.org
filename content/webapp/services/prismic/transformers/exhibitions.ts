@@ -34,6 +34,7 @@ import {
   transformContributorToContributorBasic,
 } from './contributors';
 import * as prismicH from '@prismicio/helpers';
+import { noAltTextBecausePromo } from './images';
 
 // TODO: Use better types than Record<string, any>.
 //
@@ -176,7 +177,14 @@ export function transformExhibitionToExhibitionBasic(
     type,
     id,
     title,
-    promo,
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+        tasl: undefined,
+      },
+    },
     format,
     start,
     end,
@@ -260,15 +268,3 @@ export const transformExhibitionRelatedContent = (
     ),
   } as ExhibitionRelatedContent;
 };
-
-// When exhibitions are serialised as JSON then re-parsed, the times will be
-// strings instead of JavaScript Date types.
-//
-// Convert them back to the right types.
-export function fixExhibitionDatesInJson(exhibition: Exhibition): Exhibition {
-  return {
-    ...exhibition,
-    start: exhibition.start && new Date(exhibition.start),
-    end: exhibition.end && new Date(exhibition.end),
-  };
-}

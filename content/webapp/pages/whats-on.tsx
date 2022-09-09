@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { Period } from '../types/periods';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
 import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
@@ -13,7 +12,7 @@ import {
   filterEventsForToday,
   filterEventsForWeekend,
 } from '../services/prismic/events';
-import { london, formatDay, formatDate } from '@weco/common/utils/format-date';
+import { formatDay, formatDate } from '@weco/common/utils/format-date';
 import { clock } from '@weco/common/icons';
 import {
   getTodaysVenueHours,
@@ -66,18 +65,17 @@ import { createClient } from '../services/prismic/fetch';
 import { fetchEvents } from '../services/prismic/fetch/events';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
-  fixEventDatesInJson,
   transformEvent,
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import {
-  fixExhibitionDatesInJson,
-  transformExhibitionsQuery,
-} from '../services/prismic/transformers/exhibitions';
-import { FacilityPromo as FacilityPromoType } from '../types/facility-promo';
-import { getNextWeekendDateRange } from '@weco/common/utils/dates';
+  endOfDay,
+  getNextWeekendDateRange,
+  startOfDay,
+} from '@weco/common/utils/dates';
 
 const segmentedControlItems = [
   {
@@ -98,30 +96,28 @@ const segmentedControlItems = [
 ];
 
 export type Props = {
-  exhibitions: PaginatedResults<ExhibitionBasic>;
-  events: PaginatedResults<EventBasic>;
-  availableOnlineEvents: PaginatedResults<EventBasic>;
+  exhibitions: ExhibitionBasic[];
+  events: EventBasic[];
+  availableOnlineEvents: EventBasic[];
   period: string;
   dateRange: { start: Date; end?: Date };
-  tryTheseTooPromos: FacilityPromoType[];
-  eatShopPromos: FacilityPromoType[];
   featuredText: FeaturedTextType;
   jsonLd: JsonLdObj[];
 };
 
 export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
-  const todaysDate = london();
+  const today = new Date();
 
   switch (period) {
     case 'today':
       return {
-        start: todaysDate.startOf('day').toDate(),
-        end: todaysDate.endOf('day').toDate(),
+        start: startOfDay(today),
+        end: endOfDay(today),
       };
     case 'this-weekend':
-      return getNextWeekendDateRange(todaysDate);
+      return getNextWeekendDateRange(today);
     default:
-      return { start: todaysDate.startOf('day').toDate() };
+      return { start: startOfDay(today) };
   }
 }
 
@@ -253,7 +249,7 @@ const Header = ({
                     )}
                   </div>
                 )}
-                <NextLink href={`/opening-times`} as={`/opening-times`}>
+                <NextLink href="/opening-times" as="/opening-times">
                   <a
                     className={classNames({
                       [font('intb', 5)]: true,
@@ -350,31 +346,26 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredText =
       whatsOnPage && getPageFeaturedText(transformPage(whatsOnPage));
 
-    const events = transformQuery(eventsQuery, event =>
-      transformEventToEventBasic(transformEvent(event))
-    );
-    const exhibitions = transformExhibitionsQuery(exhibitionsQuery);
+    const events = transformQuery(eventsQuery, transformEvent).results;
+    const exhibitions = transformExhibitionsQuery(exhibitionsQuery).results;
     const availableOnlineEvents = transformQuery(
       availableOnlineEventsQuery,
       event => transformEventToEventBasic(transformEvent(event))
-    );
+    ).results;
 
     if (period && events && exhibitions) {
       const jsonLd = [
-        ...exhibitions.results.map(exhibitionLd),
-        ...events.results.map(eventLd),
+        ...exhibitions.map(exhibitionLd),
+        ...events.map(eventLd),
       ] as JsonLdObj[];
 
       return {
         props: removeUndefinedProps({
           period,
           exhibitions,
-          events,
+          events: events.map(transformEventToEventBasic),
           availableOnlineEvents,
           dateRange,
-          tryTheseTooPromos: [readingRoomPromo],
-          eatShopPromos: [cafePromo],
-          cafePromo,
           jsonLd,
           featuredText: featuredText!,
           serverData,
@@ -388,17 +379,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const WhatsOnPage: FunctionComponent<Props> = props => {
   const {
     period,
+    exhibitions,
+    events,
+    availableOnlineEvents,
     dateRange,
-    tryTheseTooPromos,
-    eatShopPromos,
-    featuredText,
     jsonLd,
+    featuredText,
   } = props;
 
-  const events = props.events.results.map(fixEventDatesInJson);
-  const availableOnlineEvents =
-    props.availableOnlineEvents.results.map(fixEventDatesInJson);
-  const exhibitions = props.exhibitions.results.map(fixExhibitionDatesInJson);
+  const tryTheseTooPromos = [readingRoomPromo];
+  const eatShopPromos = [cafePromo];
 
   const firstExhibition = exhibitions[0];
 

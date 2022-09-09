@@ -1,6 +1,5 @@
 import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
-import { london } from '@weco/common/utils/format-date';
 import {
   isFilledLinkToDocumentWithData,
   isFilledLinkToWebField,
@@ -24,6 +23,7 @@ import { SeasonPrismicDocument } from '../types/seasons';
 import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
+import { noAltTextBecausePromo } from './images';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
@@ -61,14 +61,33 @@ export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   }) => ({
     type,
     id,
-    promo,
+    promo: promo && {
+      ...promo,
+      image: promo.image && {
+        ...promo.image,
+        ...noAltTextBecausePromo,
+        tasl: undefined,
+      },
+    },
     series: series.map(transformSeriesToSeriesBasic),
     title,
     format,
-    image,
     datePublished,
     labels,
     color,
+    // We only use the square crop of an image in the <ArticleCard> component,
+    // so we can omit sending any other crops.
+    image: image && {
+      ...image,
+      ...noAltTextBecausePromo,
+      tasl: undefined,
+      simpleCrops: image.simpleCrops?.square && {
+        square: image.simpleCrops.square,
+      },
+      richCrops: image.richCrops?.square && {
+        square: image.richCrops.square,
+      },
+    },
   }))(article);
 }
 
@@ -79,8 +98,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   // When we imported data into Prismic from the Wordpress blog some content
   // needed to have its original publication date displayed. It is purely a display
   // value and does not affect ordering.
-  const datePublished =
-    data.publishDate || document.first_publication_date || undefined;
+  const datePublished = data.publishDate || document.first_publication_date;
 
   const format = isFilledLinkToDocumentWithData(data.format)
     ? (transformLabelType(data.format) as Format<ArticleFormatId>)
@@ -104,7 +122,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     format,
     series,
     contributors,
-    datePublished: london(datePublished).toDate(),
+    datePublished: new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
     ),

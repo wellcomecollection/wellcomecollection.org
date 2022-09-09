@@ -1,4 +1,3 @@
-import { london } from '../../../utils/format-date';
 import { Venue } from '../../../model/opening-hours';
 
 export const libraryVenue: Venue = {
@@ -52,28 +51,28 @@ export const libraryVenue: Venue = {
     ],
     exceptional: [
       {
-        overrideDate: london('2023-01-01'),
+        overrideDate: new Date('2023-01-01'),
         overrideType: 'Christmas and New Year',
         opens: '20:00',
         closes: '21:00',
         isClosed: false,
       },
       {
-        overrideDate: london('2022-12-31'),
+        overrideDate: new Date('2022-12-31'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2022-12-30'),
+        overrideDate: new Date('2022-12-30'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',
         isClosed: true,
       },
       {
-        overrideDate: london('2022-12-28'),
+        overrideDate: new Date('2022-12-28'),
         overrideType: 'Christmas and New Year',
         opens: '00:00',
         closes: '00:00',

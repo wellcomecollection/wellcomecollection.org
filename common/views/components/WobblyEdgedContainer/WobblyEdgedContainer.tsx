@@ -8,6 +8,11 @@ const WobblyEdgeContainer = styled.div`
   width: 100%;
 `;
 
+const Wrapper = styled.div`
+  position: relative;
+  background-color: ${props => props.theme.color('cream')};
+`;
+
 type Props = {
   children: ReactNode;
 };
@@ -16,7 +21,7 @@ const WobblyEdgedContainer: FunctionComponent<Props> = ({
   children,
 }: Props) => {
   return (
-    <div className="bg-cream relative">
+    <Wrapper>
       <WobblyEdgeContainer>
         <WobblyEdge isRotated={true} background={'white'} />
       </WobblyEdgeContainer>
@@ -26,7 +31,7 @@ const WobblyEdgedContainer: FunctionComponent<Props> = ({
       <WobblyEdgeContainer>
         <WobblyEdge background={'white'} />
       </WobblyEdgeContainer>
-    </div>
+    </Wrapper>
   );
 };
 export default WobblyEdgedContainer;

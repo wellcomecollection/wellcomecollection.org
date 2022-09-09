@@ -1,4 +1,4 @@
-import { groupEventsBy } from '../../../services/prismic/events';
+import { groupEventsByDay } from '../../../services/prismic/events';
 import { getLastEndTime, getEventbriteId } from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
 import { transformTimestamp } from '.';
@@ -85,7 +85,7 @@ const multiDayEvents = [
 
 describe('Events', () => {
   it('groups events by daterange', () => {
-    const eventsGroupedByDay = groupEventsBy(multiDayEvents, 'day');
+    const eventsGroupedByDay = groupEventsByDay(multiDayEvents);
     expect(eventsGroupedByDay.length).toBe(7);
     eventsGroupedByDay.forEach((eventsGroup, i) => {
       // Friday

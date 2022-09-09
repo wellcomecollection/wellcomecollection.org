@@ -1,7 +1,7 @@
 import { FunctionComponent, Fragment } from 'react';
 import { formatDay, formatDayMonth } from '@weco/common/utils/format-date';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -15,10 +15,7 @@ import {
   exceptionalOpeningPeriods,
   exceptionalOpeningPeriodsAllDates,
 } from '@weco/common/services/prismic/opening-times';
-import {
-  transformCollectionVenues,
-  fixVenueDatesInJson,
-} from '@weco/common/services/prismic/transformers/collection-venues';
+import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import Space from '@weco/common/views/components/styled/Space';
 import { usePrismicData } from '@weco/common/server-data/Context';
 import { Venue } from '@weco/common/model/opening-hours';
@@ -50,11 +47,9 @@ type JauntyBoxProps = {
   bottomLeft: string;
   bottomRight: string;
 };
-const JauntyBox = styled(Space).attrs(() => ({
-  className: classNames({
-    'bg-yellow inline-block': true,
-  }),
-}))<JauntyBoxProps>`
+const JauntyBox = styled(Space)<JauntyBoxProps>`
+  display: inline-block;
+  background-color: ${props => props.theme.color('yellow')};
   padding-left: 30px;
   padding-right: 42px;
   margin-left: -12px;
@@ -90,10 +85,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
     groupedExceptionalDates
   );
   const backfilledExceptionalPeriods = venue
-    ? backfillExceptionalVenueDays(
-        fixVenueDatesInJson(venue),
-        exceptionalPeriodsAllDates
-      )
+    ? backfillExceptionalVenueDays(venue, exceptionalPeriodsAllDates)
     : [];
   const upcomingExceptionalPeriods =
     backfilledExceptionalPeriods &&
@@ -106,7 +98,7 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <>
           <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
             <span className="is-hidden-s">
-              <Divider color={`pumice`} isKeyline={true} />
+              <Divider color="pumice" isKeyline={true} />
             </span>
           </Space>
           <VenueHoursImage v={{ size: 'm', properties: ['margin-bottom'] }}>
@@ -134,18 +126,11 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
         <Space
           as="h2"
           h={{ size: 'm', properties: ['padding-right'] }}
-          className={classNames({
-            h2: true,
-          })}
+          className="h2"
         >
           {isFeatured && venue?.name ? venue.name : 'Opening hours'}
         </Space>
-        <ul
-          className={classNames({
-            'plain-list no-padding no-margin': true,
-            [font('intr', 5)]: true,
-          })}
-        >
+        <ul className={`plain-list no-padding no-margin ${font('intr', 5)}`}>
           {venue?.openingHours.regular.map(
             ({ dayOfWeek, opens, closes, isClosed }) => (
               <li key={dayOfWeek}>
@@ -175,16 +160,8 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
               bottomRight={randomPx()}
               bottomLeft={randomPx()}
             >
-              <h3
-                className={classNames({
-                  [font('intb', 5)]: true,
-                })}
-              >
-                <div
-                  className={classNames({
-                    'flex flex--v-center': true,
-                  })}
-                >
+              <h3 className={font('intb', 5)}>
+                <div className="flex flex--v-center">
                   <Space
                     as="span"
                     h={{ size: 's', properties: ['margin-right'] }}
@@ -195,15 +172,12 @@ const VenueHours: FunctionComponent<Props> = ({ venue, weight }) => {
                 </div>
               </h3>
               <ul
-                className={classNames({
-                  'plain-list no-padding no-margin': true,
-                  [font('intr', 5)]: true,
-                })}
+                className={`plain-list no-padding no-margin ${font('intr', 5)}`}
               >
                 {upcomingExceptionalPeriod.map(p => (
                   <li key={p.overrideDate?.toString()}>
-                    {p.overrideDate && formatDay(p.overrideDate.toDate())}{' '}
-                    {p.overrideDate && formatDayMonth(p.overrideDate.toDate())}{' '}
+                    {p.overrideDate && formatDay(p.overrideDate)}{' '}
+                    {p.overrideDate && formatDayMonth(p.overrideDate)}{' '}
                     {p.isClosed ? 'Closed' : `${p.opens} – ${p.closes}`}
                   </li>
                 ))}

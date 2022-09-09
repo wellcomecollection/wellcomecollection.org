@@ -23,7 +23,6 @@ import { isNotUndefined } from '@weco/common/utils/array';
 import { transformEventSeries } from '../services/prismic/transformers/event-series';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
-  fixEventDatesInJson,
   transformEvent,
   transformEventToEventBasic,
 } from '../services/prismic/transformers/events';
@@ -80,16 +79,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const events = transformQuery(eventsQuery, doc =>
-        transformEventToEventBasic(transformEvent(doc))
-      ).results;
+      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
+
+      const events = fullEvents.map(transformEventToEventBasic);
 
       const upcomingEvents = getUpcomingEvents(events);
       const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
 
       const pastEvents = getPastEvents(events, upcomingEventsIds);
 
-      const jsonLd = events.flatMap(eventLd);
+      const jsonLd = fullEvents.flatMap(eventLd);
 
       return {
         props: removeUndefinedProps({
@@ -108,14 +107,9 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const EventSeriesPage: FC<Props> = ({
   series,
   jsonLd,
-  pastEvents: pastJsonEvents,
-  upcomingEvents: upcomingJsonEvents,
+  pastEvents,
+  upcomingEvents,
 }) => {
-  // events are passed down through getServerSideProps as JSON, so we nuparse them before moving forward
-  // This could probably be done at the time of use, instead of globally...
-  const pastEvents = pastJsonEvents.map(fixEventDatesInJson);
-  const upcomingEvents = upcomingJsonEvents.map(fixEventDatesInJson);
-
   const breadcrumbs = {
     items: [
       {
@@ -160,7 +154,7 @@ const EventSeriesPage: FC<Props> = ({
         contributors={series.contributors}
       >
         {upcomingEvents.length > 0 ? (
-          <SearchResults items={upcomingEvents} title={`What's next`} />
+          <SearchResults items={upcomingEvents} title="What's next" />
         ) : (
           <h2 className="h2">
             No events scheduled at the moment, check back soon…
@@ -171,7 +165,7 @@ const EventSeriesPage: FC<Props> = ({
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <SearchResults
               items={pastEvents}
-              title={`What we've done before`}
+              title="What we've done before"
             />
           </Space>
         )}

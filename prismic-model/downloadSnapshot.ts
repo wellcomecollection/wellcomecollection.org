@@ -7,6 +7,7 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 import { error, success } from './console';
+import tqdm from 'tqdm';
 
 /** Gets the Prismic API ref for a given id (e.g. 'master')
  *
@@ -30,24 +31,30 @@ type ApiResponse = {
 };
 
 /** Generates the paginated API responses for a given reference. */
-async function* getApiResponses(ref: string): AsyncGenerator<ApiResponse> {
+async function getApiResponses(ref: string): Promise<ApiResponse[]> {
   // Get as many results as we can per page, to reduce the number of requests.
   // pageSize = 100 is the max allowed at time of writing.
   //
   // See https://prismic.io/docs/technologies/pagination-for-results-rest-api#the-pagesize-parameter
   const pageSize = 100;
 
-  let url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
+  const url = `https://wellcomecollection.cdn.prismic.io/api/v2/documents/search?ref=${ref}&pageSize=${pageSize}`;
 
-  while (url !== null) {
-    const resp = await fetch(url);
+  const resp = await fetch(url);
+  const json = await resp.json();
+  const pageCount = json.total_pages;
+
+  const pages = Array.from({ length: pageCount }, (v, i) => i + 1);
+
+  const responses = [];
+
+  for await (const pageNumber of tqdm(pages)) {
+    const resp = await fetch(`${url}&page=${pageNumber}`);
     const json = await resp.json();
-    const pageNumber: number = json.page;
-
-    yield { pageNumber, json };
-
-    url = json.next_page;
+    responses.push({ pageNumber, json });
   }
+
+  return responses;
 }
 
 /** Downloads the snapshots for a given ref to a local directory.
@@ -73,8 +80,7 @@ export async function downloadPrismicSnapshot(
     }
   });
 
-  for await (const { pageNumber, json } of getApiResponses(ref)) {
-    console.log(`Downloading page ${pageNumber}...`);
+  for (const { pageNumber, json } of await getApiResponses(ref)) {
     fs.writeFileSync(
       `${tmpDir}/page${pageNumber}.json`,
       JSON.stringify(json, null, 2)

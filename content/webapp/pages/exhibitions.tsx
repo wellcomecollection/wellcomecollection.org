@@ -14,15 +14,10 @@ import {
   pastExhibitionsStrapline,
 } from '@weco/common/data/microcopy';
 import { fetchExhibitions } from '../services/prismic/fetch/exhibitions';
-import {
-  fixExhibitionDatesInJson,
-  transformExhibitionsQuery,
-} from '../services/prismic/transformers/exhibitions';
+import { transformExhibitionsQuery } from '../services/prismic/transformers/exhibitions';
 import { createClient } from '../services/prismic/fetch';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-
-import { london } from '@weco/common/utils/format-date';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Space from '@weco/common/views/components/styled/Space';
 import CardGrid from '../components/CardGrid/CardGrid';
@@ -31,6 +26,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
+import { isFuture } from '@weco/common/utils/dates';
 
 type Props = {
   exhibitions: PaginatedResults<ExhibitionBasic>;
@@ -75,16 +71,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
-  const { exhibitions: jsonExhibitions, period, title, jsonLd } = props;
-  const exhibitions = {
-    ...jsonExhibitions,
-    results: jsonExhibitions.results.map(fixExhibitionDatesInJson),
-  };
+  const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
 
   const partitionedExhibitionItems = exhibitions.results.reduce(
     (acc, result) => {
-      if (london(result.end).isSameOrAfter(london())) {
+      if (result.end && isFuture(result.end)) {
         acc.currentAndUpcoming.push(result);
       } else {
         acc.past.push({

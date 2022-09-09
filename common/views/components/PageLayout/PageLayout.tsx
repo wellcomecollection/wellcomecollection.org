@@ -101,6 +101,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     'Array.prototype.flat',
     'Array.prototype.flatMap',
     'Array.prototype.includes',
+    'Intl.DateTimeFormat',
     'Object.entries',
     'Object.fromEntries',
     'Object.values',

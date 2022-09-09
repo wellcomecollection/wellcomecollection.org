@@ -47,10 +47,7 @@ import {
 import { SeasonPrismicDocument } from '../types/seasons';
 import { EventSeriesPrismicDocument } from '../types/event-series';
 import { PlacePrismicDocument } from '../types/places';
-import {
-  transformContributors,
-  transformContributorToContributorBasic,
-} from './contributors';
+import { transformContributors } from './contributors';
 import * as prismicH from '@prismicio/helpers';
 
 function transformEventBookingType(
@@ -383,7 +380,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-    contributors,
   }) => ({
     type,
     promo,
@@ -400,7 +396,6 @@ export function transformEventToEventBasic(event: Event): EventBasic {
     series,
     secondaryLabels,
     cost,
-    contributors: contributors.map(transformContributorToContributorBasic),
   }))(event);
 }
 
@@ -413,45 +408,3 @@ export const getScheduleIds = (
     )
     .filter(isNotUndefined);
 };
-
-function isEvent(event: Event | EventBasic): event is Event {
-  return (event as Event).audiences !== undefined;
-}
-
-// When events are serialised as JSON then re-parsed, the times will be
-// strings instead of JavaScript Date types.
-//
-// Convert them back to the right types.
-export function fixEventDatesInJson(eventJson: Event): Event;
-export function fixEventDatesInJson(eventJson: EventBasic): EventBasic;
-export function fixEventDatesInJson(
-  jsonEvent: Event | EventBasic
-): Event | EventBasic {
-  const times = jsonEvent.times.map(time => {
-    return {
-      ...time,
-      range: {
-        startDateTime: new Date(time.range.startDateTime),
-        endDateTime: new Date(time.range.endDateTime),
-      },
-    };
-  });
-
-  if (isEvent(jsonEvent)) {
-    const schedule = jsonEvent.schedule?.map(item => ({
-      ...item,
-      event: fixEventDatesInJson(item.event),
-    }));
-
-    return {
-      ...jsonEvent,
-      times,
-      schedule,
-    };
-  } else {
-    return {
-      ...jsonEvent,
-      times,
-    };
-  }
-}

@@ -16,7 +16,7 @@ import { getWork } from '../services/catalogue/works';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Download, {
-  getCreditString,
+  getCredit,
 } from '@weco/catalogue/components/Download/Download';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
@@ -125,17 +125,15 @@ const DownloadPage: NextPage<Props> = ({
           {license && (
             <SpacingComponent key={license.url}>
               <div>
-                {license.humanReadableText.length > 0 && (
+                {license.humanReadableText && (
                   <WorkDetailsText
                     title="License information"
-                    text={license.humanReadableText}
-                    allowRawHtml={true}
+                    contents={license.humanReadableText}
                   />
                 )}
                 <WorkDetailsText
                   title="Credit"
-                  text={getCreditString(workId, title, credit, license)}
-                  allowRawHtml={true}
+                  contents={getCredit(workId, title, credit, license)}
                 />
               </div>
             </SpacingComponent>
@@ -213,6 +211,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     return {
       props: removeUndefinedProps({
+        serverData,
         workId,
         sierraId,
         manifest,
