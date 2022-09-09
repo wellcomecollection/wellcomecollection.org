@@ -22,10 +22,12 @@ export default async (
   const client = createClient({ req });
 
   if (parsedParams.length === 0) {
-    return res.status(200).json({
-      exhibitionOfs: [],
-      exhibitionAbouts: [],
-    });
+    return res.status(200).json(
+      superjson.stringify({
+        exhibitionOfs: [],
+        exhibitionAbouts: [],
+      })
+    );
   }
 
   const query = await fetchExhibitionRelatedContent(client, parsedParams);
