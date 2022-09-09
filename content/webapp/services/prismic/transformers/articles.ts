@@ -24,6 +24,7 @@ import { Format } from '../../../types/format';
 import { ArticleFormatId } from '@weco/common/data/content-format-ids';
 import { transformContributors } from './contributors';
 import { noAltTextBecausePromo } from './images';
+import readingTime from 'reading-time';
 
 function transformContentLink(document?: LinkField): MultiContent | undefined {
   if (!document) {
@@ -95,6 +96,22 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
 
+  const filteredArticleText = genericFields.body.filter(content => {
+    return content.type === 'text';
+  });
+  const textValues = filteredArticleText.flatMap(content => {
+    return content.value;
+  });
+
+  const combinedTextValues = textValues.map(content => {
+    return content.text;
+  });
+
+  console.log(combinedTextValues.join(''), 'what is this like');
+  // const readingTimeSections = combinedTextValues.reduce((a, b) => a + b, 0);
+  const readingTimeInMinutes = readingTime(combinedTextValues.join('')).text;
+  console.log(readingTimeInMinutes, 'readingTimeInMinutes');
+
   // When we imported data into Prismic from the Wordpress blog some content
   // needed to have its original publication date displayed. It is purely a display
   // value and does not affect ordering.
@@ -117,6 +134,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
 
   return {
     ...genericFields,
+    readingTime: readingTimeInMinutes,
     type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,

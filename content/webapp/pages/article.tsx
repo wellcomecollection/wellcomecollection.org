@@ -127,7 +127,7 @@ function getNextUp(
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   const { readingTime } = useToggles();
-  console.log(readingTime, '<<<<<<<<<< READING TIME TIME TIME');
+  const readingTimeInMinutes = article.readingTime;
 
   useEffect(() => {
     async function setSeries() {
@@ -244,16 +244,24 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-
-            {readingTime && (
-              <span
-                className={classNames({
-                  [font('intb', 6)]: true,
-                })}
-              >
-                | reading time <span className={font('intr', 5)}>goes here</span>
+            <span
+              className={classNames({
+                [font('intb', 6)]: true,
+              })}
+            >
+                | reading time{' '}
+              <span className={font('intr', 5)}>{readingTimeInMinutes}</span>
               </span>
-            )}
+            {/*{readingTime && (*/}
+            {/*  <span*/}
+            {/*    className={classNames({*/}
+            {/*      [font('intb', 6)]: true,*/}
+            {/*    })}*/}
+            {/*  >*/}
+            {/*    | reading time{' '}*/}
+            {/*    <span className={font('intr', 5)}>{readingTimeInMinutes}</span>*/}
+            {/*  </span>*/}
+            {/*)}*/}
             {article.contributors.length > 0 && ' '}
 
             <span

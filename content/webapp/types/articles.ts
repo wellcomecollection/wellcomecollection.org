@@ -28,6 +28,7 @@ export type ArticleBasic = {
 export type Article = GenericContentFields & {
   type: 'articles';
   format?: Format<ArticleFormatId>;
+  readingTime?: string;
   datePublished: Date;
   series: Series[];
   seasons: Season[];
