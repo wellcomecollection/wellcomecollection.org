@@ -3,14 +3,14 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import { Series } from '../../types/series';
-import { Article } from '../../types/articles';
+import { ArticleBasic } from '../../types/articles';
 import { ArticleScheduleItem } from '../../types/article-schedule-items';
 import Space from '@weco/common/views/components/styled/Space';
 import SearchResults from '../SearchResults/SearchResults';
 
 type Props = {
   series: Series;
-  items: readonly (Article | ArticleScheduleItem)[];
+  items: readonly (ArticleBasic | ArticleScheduleItem)[];
   isPodcast: boolean;
 };
 
