@@ -177,7 +177,7 @@ export const fetchExhibitionRelatedContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    const json = await response.json();
+    const json = await response.text();
     return superjson.parse< ExhibitionRelatedContent>(json);
   }
 };
