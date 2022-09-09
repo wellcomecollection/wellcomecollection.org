@@ -7,7 +7,6 @@ import {
   useEffect,
   ReactElement,
   FunctionComponent,
-  Fragment,
 } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
