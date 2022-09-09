@@ -167,7 +167,7 @@ const ItemPage: NextPage<Props> = ({
 
   const thumbsPaginatorProps = {
     currentPage: pageIndex + 1,
-    pageSize: pageSize,
+    pageSize,
     linkKey: 'page',
     ...sharedPaginatorProps,
   };

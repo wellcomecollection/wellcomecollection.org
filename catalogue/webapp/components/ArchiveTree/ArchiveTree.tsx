@@ -259,7 +259,7 @@ function createNodeFromWork({
 }): UiTreeNode {
   return {
     openStatus,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts?.map(part => ({
       openStatus: false,
@@ -784,7 +784,7 @@ function createBasicTree({
   const partOfReversed = [...ancestorArray, work].reverse();
   const rootNode: UiTreeNode = {
     openStatus: true,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts.map(part => ({
       openStatus: false,

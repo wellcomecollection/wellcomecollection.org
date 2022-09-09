@@ -321,7 +321,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
               passHref
               {...worksLink(
                 {
-                  query: query,
+                  query,
                 },
                 'cancel_filter/all'
               )}
