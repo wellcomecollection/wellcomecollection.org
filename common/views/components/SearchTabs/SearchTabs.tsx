@@ -23,10 +23,7 @@ const Tab = styled(Space).attrs({
   as: 'span',
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: classNames({
-    'flex-inline': true,
-    [font('intb', 5)]: true,
-  }),
+  className: `flex-inline ${font('intb', 5)}`,
 })<TabProps>`
   background: ${props => props.theme.color('white')};
   border-left: 1px solid ${props => props.theme.color('pumice')};
@@ -111,9 +108,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                 }}
               >
                 <a
-                  className={classNames({
-                    'plain-link': true,
-                  })}
+                  className="plain-link"
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {children}
@@ -203,9 +198,7 @@ const SearchTabs: FunctionComponent<Props> = ({
                 }}
               >
                 <a
-                  className={classNames({
-                    'plain-link': true,
-                  })}
+                  className="plain-link"
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {children}

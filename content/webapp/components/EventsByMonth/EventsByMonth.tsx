@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
 import { Link } from '../../types/link';
@@ -47,11 +47,7 @@ class EventsByMonth extends Component<Props, State> {
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <CssGridContainer>
             <div className="css-grid">
-              <div
-                className={classNames({
-                  [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                })}
-              >
+              <div className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}>
                 <SegmentedControl
                   id="monthControls"
                   activeId={groups[0]?.id}
@@ -69,9 +65,7 @@ class EventsByMonth extends Component<Props, State> {
         {groups.map(g => (
           <div
             key={g.id}
-            className={classNames({
-              [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-            })}
+            className={cssGrid({ s: 12, m: 12, l: 12, xl: 12 })}
             style={{
               display: !activeId
                 ? 'block'

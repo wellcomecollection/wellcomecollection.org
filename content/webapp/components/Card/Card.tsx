@@ -1,5 +1,5 @@
 import { Card as CardType } from '../../types/card';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -139,10 +139,7 @@ const Card: FunctionComponent<Props> = ({ item }: Props) => {
                 properties: ['margin-bottom'],
               }}
               as="h2"
-              className={classNames({
-                'promo-link__title': true,
-                [font('wb', 3)]: true,
-              })}
+              className={`promo-link__title ${font('wb', 3)}`}
             >
               {item.title}
             </Space>

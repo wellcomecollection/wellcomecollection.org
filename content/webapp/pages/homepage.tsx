@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -156,9 +156,7 @@ const Homepage: FC<Props> = ({
         <SpacingSection>
           <Space
             v={{ size: 'l', properties: ['margin-top'] }}
-            className={classNames({
-              [font('wb', 1)]: true,
-            })}
+            className={font('wb', 1)}
           >
             <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
               <h1 className="no-margin">{homepageHeading}</h1>

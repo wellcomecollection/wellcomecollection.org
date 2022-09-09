@@ -1,15 +1,12 @@
 import { useEffect, useState, useRef, FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { getItemsByLocationType } from '../../utils/works';
 import WorkDetailsSection from '../WorkDetailsSection/WorkDetailsSection';
 import { DigitalLocation, Work } from '@weco/common/model/catalogue';
 import styled from 'styled-components';
 
 const ShowHideButton = styled.button.attrs({
-  className: classNames({
-    'plain-button no-margin no-padding': true,
-    [font('intr', 5)]: true,
-  }),
+  className: `plain-button no-margin no-padding ${font('intr', 5)}`,
 })`
   text-decoration: underline;
 
@@ -54,18 +51,9 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
 
   return onlineResources.length > 0 ? (
     <WorkDetailsSection headingText="Online resources">
-      <ul
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-        })}
-      >
+      <ul className="plain-list no-margin no-padding">
         {firstThreeOnlineResources.map(item => (
-          <li
-            className={classNames({
-              [font('intr', 5)]: true,
-            })}
-            key={item.location.url}
-          >
+          <li className={font('intr', 5)} key={item.location.url}>
             {item.title && `${item.title}: `}
             <a href={item.location.url}>
               {item.title ? `View resource` : item.location.linkText}
@@ -75,12 +63,7 @@ const OnlineResources: FunctionComponent<Props> = ({ work }: Props) => {
         {isShowingRemainingOnlineResources && (
           <>
             {remainingOnlineResources.map((item, index) => (
-              <li
-                className={classNames({
-                  [font('intr', 5)]: true,
-                })}
-                key={item.location.url}
-              >
+              <li className={font('intr', 5)} key={item.location.url}>
                 {item.title && `${item.title}: `}
                 <a
                   href={item.location.url}

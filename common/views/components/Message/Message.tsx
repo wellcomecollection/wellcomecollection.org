@@ -1,4 +1,4 @@
-import { classNames, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 import { FC } from 'react';
@@ -9,10 +9,7 @@ const Wrapper = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: classNames({
-    'inline-block': true,
-    [font('intb', 5)]: true,
-  }),
+  className: `inline-block ${font('intb', 5)}`,
 })`
   border-left: 5px solid ${props => props.theme.color('yellow')};
 `;

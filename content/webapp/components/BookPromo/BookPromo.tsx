@@ -1,4 +1,4 @@
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { BookBasic } from '../../types/books';
 import Space from '@weco/common/views/components/styled/Space';
@@ -31,9 +31,7 @@ const BookPromo: FC<Props> = ({ book }) => {
       }}
       h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
       url={`/books/${id}`}
-      className={classNames({
-        'block promo-link plain-link': true,
-      })}
+      className="block promo-link plain-link"
       onClick={() => {
         trackEvent({
           category: 'BookPromo',
@@ -84,12 +82,7 @@ const BookPromo: FC<Props> = ({ book }) => {
             </Space>
           </Space>
           {title && (
-            <h3
-              className={classNames({
-                'no-margin promo-link__title': true,
-                [font('wb', 4)]: true,
-              })}
-            >
+            <h3 className={`no-margin promo-link__title ${font('wb', 4)}`}>
               {title}
             </h3>
           )}
@@ -98,10 +91,7 @@ const BookPromo: FC<Props> = ({ book }) => {
             <Space
               as="h4"
               v={{ size: 's', properties: ['margin-top'] }}
-              className={classNames({
-                'no-margin': true,
-                [font('intb', 5)]: true,
-              })}
+              className={`no-margin ${font('intb', 5)}`}
             >
               {subtitle}
             </Space>
@@ -109,14 +99,7 @@ const BookPromo: FC<Props> = ({ book }) => {
 
           {promo?.caption && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <p
-                className={classNames({
-                  [font('intr', 5)]: true,
-                  'no-margin': true,
-                })}
-              >
-                {promo?.caption}
-              </p>
+              <p className={`${font('intr', 5)} no-margin`}>{promo?.caption}</p>
             </Space>
           )}
         </Space>

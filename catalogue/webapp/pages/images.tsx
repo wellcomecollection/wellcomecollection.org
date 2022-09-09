@@ -3,7 +3,7 @@ import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
@@ -153,7 +153,7 @@ const Images: NextPage<Props> = ({
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={classNames(['row'])}
+          className="row"
         >
           <div className="container">
             <SearchTitle isVisuallyHidden={Boolean(images)} />
@@ -182,11 +182,7 @@ const Images: NextPage<Props> = ({
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                    })}
-                  >
+                  <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <ImagesPagination
                       query={query}
                       page={page}
@@ -218,11 +214,7 @@ const Images: NextPage<Props> = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div
-                      className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
-                    >
+                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <ImagesPagination
                         query={query}
                         page={page}

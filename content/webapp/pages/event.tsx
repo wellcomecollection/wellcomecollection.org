@@ -263,9 +263,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
               size: 's',
               properties: ['margin-bottom'],
             }}
-            className={classNames({
-              'flex flex--wrap': true,
-            })}
+            className="flex flex--wrap"
           >
             <EventDateRange event={event} />
             <Space h={{ size: 's', properties: ['margin-left'] }}>
@@ -392,10 +390,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                       properties: ['margin-top'],
                     }}
                     as="a"
-                    className={classNames({
-                      'block font-charcoal': true,
-                      [font('intb', 5)]: true,
-                    })}
+                    className={`block font-charcoal ${font('intb', 5)}`}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </Space>

@@ -32,9 +32,7 @@ const FooterNavWrapper = styled(Space).attrs({
 const HygieneNav = styled(Space).attrs({
   as: 'nav',
   h: { size: 'l', properties: ['margin-bottom'] },
-  className: classNames({
-    'relative flex-1': true,
-  }),
+  className: 'relative flex-1',
 })`
   border-bottom: 1px solid ${props => props.theme.color('charcoal')};
 `;
@@ -42,19 +40,14 @@ const HygieneNav = styled(Space).attrs({
 const HygieneList = styled(Space).attrs({
   as: 'ul',
   h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
-  className: classNames({
-    'plain-list no-margin no-padding': true,
-    'flex flex--h-space-between': true,
-  }),
+  className: 'plain-list no-margin no-padding flex flex--h-space-between',
 })`
   border-top: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
 const FooterBottom = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
-  className: classNames({
-    'flex flex--wrap flex--h-space-between flex--v-start': true,
-  }),
+  className: 'flex flex--wrap flex--h-space-between flex--v-start',
 })`
   border-top: 1px solid ${props => props.theme.color('charcoal')};
 `;
@@ -66,9 +59,7 @@ const NavBrand = styled.a`
 `;
 
 const FooterLeft = styled.div.attrs({
-  className: classNames({
-    'flex flex--v-start': true,
-  }),
+  className: 'flex flex--v-start',
 })`
   flex-wrap: wrap;
 
@@ -104,9 +95,7 @@ const StrapText = styled.div`
 `;
 
 const HygieneItem = styled.li.attrs({
-  className: classNames({
-    [font('intb', 6)]: true,
-  }),
+  className: font('intb', 6),
 })`
   width: 100%;
   text-align: center;
@@ -220,10 +209,9 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
             </TopBorderBox>
           </div>
           <div
-            className={classNames({
-              [grid({ s: 12, m: 6, l: 4, xl: 4 })]: true,
-              [font('intr', 5)]: true,
-            })}
+            className={
+              grid({ s: 12, m: 6, l: 4, xl: 4 }) + ' ' + font('intr', 5)
+            }
           >
             <Space
               v={{
@@ -240,17 +228,9 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 className={'flex'}
                 v={{ size: 'l', properties: ['padding-top'] }}
               >
-                <div
-                  className={classNames({
-                    [font('intr', 5)]: true,
-                    'float-l': true,
-                  })}
-                >
+                <div className={`${font('intr', 5)} float-l`}>
                   <h4
-                    className={classNames({
-                      [font('intb', 5)]: true,
-                      'no-margin': true,
-                    })}
+                    className={`${font('intb', 5)} no-margin`}
                   >{`Today's opening times`}</h4>
                   {venues && <OpeningTimes venues={venues} />}
                   <Space v={{ size: 's', properties: ['margin-top'] }} as="p">
@@ -264,11 +244,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
         <FooterSocial />
         <FooterBottom>
           <FooterLeft>
-            <FooterStrap
-              className={classNames({
-                [font('intb', 6)]: true,
-              })}
-            >
+            <FooterStrap className={font('intb', 6)}>
               <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
                 <Icon icon={wellcome} />
               </Space>
@@ -279,16 +255,9 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
                 size: 'm',
                 properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
               }}
-              className={classNames({
-                [font('intb', 6)]: true,
-                'flex flex--v-center': true,
-              })}
+              className={`${font('intb', 6)} flex flex--v-center`}
             >
-              <div
-                className={classNames({
-                  flex: true,
-                })}
-              >
+              <div className="flex">
                 <Space h={{ size: 's', properties: ['margin-right'] }}>
                   <Icon icon={cc} />
                 </Space>

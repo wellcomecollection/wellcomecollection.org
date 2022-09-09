@@ -63,10 +63,7 @@ const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
         properties: ['padding-top', 'padding-bottom'],
       }}
       as="a"
-      className={classNames({
-        'plain-link': true,
-        block: true,
-      })}
+      className="plain-link block"
       onClick={onClick}
     >
       <NavItemInner
@@ -82,17 +79,8 @@ const NavItem = ({ link, text, selected, onClick }: SelectableTextLink) => (
 
 const TabNav: FC = ({ items }: Props) => {
   return (
-    <div
-      className={classNames({
-        [font('intb', 4)]: true,
-      })}
-    >
-      <ul
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-          'flex flex--wrap': true,
-        })}
-      >
+    <div className={font('intb', 4)}>
+      <ul className="plain-list no-margin no-padding flex flex--wrap">
         {items.map(item => (
           <li
             key={item.text}

@@ -1,4 +1,4 @@
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import LabelsList from '../LabelsList/LabelsList';
 import PrismicImage from '../PrismicImage/PrismicImage';
@@ -175,14 +175,7 @@ const PageHeader: FunctionComponent<Props> = ({
                     <Breadcrumb {...breadcrumbs} />
                   </div>
                 ) : (
-                  <span
-                    className={classNames({
-                      [font('intr', 5)]: true,
-                      flex: true,
-                    })}
-                  >
-                    &nbsp;
-                  </span>
+                  <span className={`${font('intr', 5)} flex`}>&nbsp;</span>
                 )}
               </Space>
             )}
@@ -201,9 +194,7 @@ const PageHeader: FunctionComponent<Props> = ({
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 v={{ size: 'm', properties: ['margin-bottom'] }}
-                className={classNames({
-                  [font('intr', 4)]: true,
-                })}
+                className={font('intr', 4)}
               >
                 {ContentTypeInfo}
               </Space>
@@ -221,12 +212,7 @@ const PageHeader: FunctionComponent<Props> = ({
         )}
 
         {HeroPicture && (
-          <div
-            className={classNames({
-              relative: true,
-            })}
-            style={{ height: '100%' }}
-          >
+          <div className="relative" style={{ height: '100%' }}>
             <HeroPictureBackground bgColor={heroImageBgColor} />
 
             <HeroPictureContainer>
@@ -247,9 +233,7 @@ const PageHeader: FunctionComponent<Props> = ({
               size: 'l',
               properties: ['margin-top'],
             }}
-            className={classNames({
-              [font('intb', 4)]: true,
-            })}
+            className={font('intb', 4)}
           >
             {ContentTypeInfo}
           </Space>

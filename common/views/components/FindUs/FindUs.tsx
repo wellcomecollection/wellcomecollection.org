@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import {
   wellcomeCollectionGallery,
   wellcomeCollectionAddress,
@@ -8,9 +8,7 @@ import Space from '../styled/Space';
 import { FunctionComponent } from 'react';
 import { prismicPageIds } from '../../../data/hardcoded-ids';
 const StyledFindUs = styled.div.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })`
   &:hover,
   &:focus {
@@ -55,17 +53,11 @@ const FindUs: FunctionComponent = () => (
         properties: ['margin-bottom'],
       }}
       as="p"
-      className={classNames({
-        block: true,
-      })}
+      className="block"
     >
       <a href={`/pages/${prismicPageIds.gettingHere}`}>Getting here</a>
     </Space>
-    <p
-      className={classNames({
-        block: true,
-      })}
-    >
+    <p className="block">
       <a
         className="plain-link"
         href={`tel:${wellcomeCollectionGallery.telephone}`}

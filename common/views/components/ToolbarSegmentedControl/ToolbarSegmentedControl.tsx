@@ -1,15 +1,13 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
 import Icon from '../Icon/Icon';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
 
 const List = styled.ul.attrs({
-  className: classNames({
-    'no-margin no-padding plain-list': true,
-    'flex-inline flex--v-center flex--h-center': true,
-  }),
+  className:
+    'no-margin no-padding plain-list flex-inline flex--v-center flex--h-center',
 })`
   border: 2px solid ${props => props.theme.color('pewter')};
   border-radius: 5px;
@@ -25,9 +23,7 @@ const Item = styled.li<{ isActive: boolean }>`
 
 const Button = styled.button.attrs({
   type: 'button',
-  className: classNames({
-    'flex plain-button no-margin no-padding': true,
-  }),
+  className: 'flex plain-button no-margin no-padding',
 })``;
 
 const ButtonInner = styled(Space).attrs({
@@ -40,10 +36,7 @@ const ButtonInner = styled(Space).attrs({
     size: 'xs',
     properties: ['padding-top', 'padding-bottom'],
   },
-  className: classNames({
-    'flex flex--v-center flex--h-center': true,
-    [font('intb', 5)]: true,
-  }),
+  className: `flex flex--v-center flex--h-center ${font('intb', 5)}`,
 })<{ isActive: boolean }>`
   color: ${props => props.theme.color('white')};
 `;

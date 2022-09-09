@@ -2,15 +2,13 @@ import { FunctionComponent } from 'react';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { LabelField } from '@weco/common/model/label-field';
 import * as prismicT from '@prismicio/types';
 
 const HeadingLink = styled.a.attrs({
-  className: classNames({
-    [font('intb', 4)]: true,
-  }),
+  className: font('intb', 4),
 })`
   cursor: pointer;
   text-decoration: underline;

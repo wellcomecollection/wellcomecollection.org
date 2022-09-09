@@ -1,6 +1,6 @@
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import PageHeaderStandfirst from '@weco/content/components/PageHeaderStandfirst/PageHeaderStandfirst';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Picture from '@weco/common/views/components/Picture/Picture';
 import Space from '@weco/common/views/components/styled/Space';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -27,33 +27,15 @@ const ContentTypeInfo = (
         },
       ]}
     />
-    <div
-      className={classNames({
-        flex: true,
-        'flex--h-baseline': true,
-      })}
-    >
+    <div className="flex flex--h-baseline">
       <Space
         h={{ size: 's', properties: ['margin-right', 'margin-top'] }}
-        className={classNames({
-          [font('intr', 6)]: true,
-        })}
+        className={font('intr', 6)}
       >
         <p className="no-margin">
           <span>By </span>
-          <span
-            className={classNames({
-              [font('intb', 6)]: true,
-            })}
-          >
-            Naomi Paxton
-          </span>{' '}
-          <span
-            className={classNames({
-              [font('intr', 6)]: true,
-              'font-pewter': true,
-            })}
-          >
+          <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
+          <span className={`${font('intr', 6)} font-pewter`}>
             17 April 2019
           </span>
         </p>
@@ -146,9 +128,7 @@ const EventContentTypeInfo = () => (
         size: 's',
         properties: ['margin-bottom'],
       }}
-      className={classNames({
-        'flex flex--wrap': true,
-      })}
+      className="flex flex--wrap"
     >
       Saturday 8 February 2020, 13:00 – 16:00
     </Space>
@@ -183,12 +163,7 @@ const ExhibitionContentTypeInfo = () => (
 );
 
 const BookContentTypeInfo = () => (
-  <p
-    className={classNames({
-      'no-margin': true,
-      [font('intb', 3)]: true,
-    })}
-  >
+  <p className={`no-margin ${font('intb', 3)}`}>
     Loneliness, Health & What Happens When We Find Connection
   </p>
 );

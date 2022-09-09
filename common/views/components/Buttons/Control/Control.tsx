@@ -4,13 +4,10 @@ import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
 import { IconSvg } from '@weco/common/icons';
 
 const ControlInner = styled.div.attrs({
-  className: classNames({
-    'flex-inline flex--v-center flex--h-center': true,
-  }),
+  className: 'flex-inline flex--v-center flex--h-center',
 })`
   width: 100%;
   height: 100%;

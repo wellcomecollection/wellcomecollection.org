@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
 
 // Helpers/Utils
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   getArchiveLabels,
   getProductionDates,
@@ -86,11 +86,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
           size: 'l',
           properties: ['padding-top', 'padding-bottom'],
         }}
-        className={classNames({
-          'plain-link': true,
-          block: true,
-          'card-link': true,
-        })}
+        className="plain-link block card-link"
         onClick={() => {
           // We've left `WorkCard` here for legacy tracking.
           // We don't really use it.
@@ -124,12 +120,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             >
               <LabelsList labels={cardLabels} defaultLabelColor="cream" />
             </Space>
-            <WorkTitleHeading
-              className={classNames({
-                [font('intb', 4)]: true,
-                'card-link__title': true,
-              })}
-            >
+            <WorkTitleHeading className={`${font('intb', 4)} card-link__title`}>
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 

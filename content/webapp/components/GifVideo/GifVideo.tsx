@@ -1,7 +1,7 @@
 import { FunctionComponent, useState, useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 import Caption from '@weco/common/views/components/Caption/Caption';
@@ -18,9 +18,7 @@ const Video = styled.video`
 
 const PlayPause = styled.button.attrs({
   'aria-label': 'play/pause button',
-  className: classNames({
-    'no-margin no-padding plain-button absolute': true,
-  }),
+  className: 'no-margin no-padding plain-button absolute',
 })`
   background: transparent;
   border: 0;
@@ -31,9 +29,7 @@ const PlayPause = styled.button.attrs({
 `;
 
 const Text = styled.span.attrs({
-  className: classNames({
-    [font('lr', 5)]: true,
-  }),
+  className: font('lr', 5),
 })<{ isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('charcoal')};

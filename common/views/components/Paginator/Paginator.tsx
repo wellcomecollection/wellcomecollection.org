@@ -100,11 +100,7 @@ const Paginator: FunctionComponent<Props> = ({
     <Fragment>
       <Space
         h={{ size: 'm', properties: ['margin-right'] }}
-        className={classNames({
-          flex: true,
-          'flex--v-center': true,
-          [font('intb', 3)]: true,
-        })}
+        className={`flex flex--v-center ${font('intb', 3)}`}
       >
         <TotalResultsWrapper
           hideMobileTotalResults={hideMobileTotalResults}
@@ -115,14 +111,11 @@ const Paginator: FunctionComponent<Props> = ({
         </TotalResultsWrapper>
       </Space>
       <Space
-        className={classNames({
-          pagination: true,
-          'float-r': true,
-          'flex-inline': true,
-          'flex--v-center': true,
-          [font('intr', 5)]: true,
-          'flex-end': true,
-        })}
+        className={
+          'pagination float-r flex-inline flex--v-center flex-end' +
+          ' ' +
+          font('intr', 5)
+        }
         v={{
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],

@@ -70,16 +70,9 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
 
 const TabNavV2: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
   return (
-    <div
-      className={classNames({
-        [font('intb', 4)]: true,
-      })}
-    >
+    <div className={font('intb', 4)}>
       <ul
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-          'flex flex--wrap': true,
-        })}
+        className="plain-list no-margin no-padding flex flex--wrap"
         role="tablist"
       >
         {items.map(item => (
