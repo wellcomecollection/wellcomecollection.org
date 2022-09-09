@@ -4,12 +4,7 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import {
-  grid,
-  font,
-  conditionalClassNames,
-  classNames,
-} from '@weco/common/utils/classnames';
+import { grid, font, classNames } from '@weco/common/utils/classnames';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import EventDateRange from '../EventDateRange/EventDateRange';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
@@ -123,7 +118,7 @@ const MediaObjectBase: FunctionComponent<Props> = ({
         ].filter(Boolean) as VerticalSpaceProperty[],
       }}
       url={urlProp}
-      className={conditionalClassNames({
+      className={classNames({
         grid: true,
         'card-link': Boolean(url),
         [extraClasses || '']: Boolean(extraClasses),
