@@ -18,7 +18,7 @@ const ClearSearch: FunctionComponent<Props> = ({
   return (
     <button
       style={right ? { right: `${right}px` } : undefined}
-      className={`absolute line-height-1 plain-button v-center no-padding`}
+      className="absolute line-height-1 plain-button v-center no-padding"
       onClick={() => {
         gaEvent && trackEvent(gaEvent);
         setValue('');

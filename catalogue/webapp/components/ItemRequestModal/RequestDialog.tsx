@@ -101,7 +101,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={`h2`}>Request item</span>
+        <span className="h2">Request item</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
@@ -159,12 +159,12 @@ const RequestDialog: FC<RequestDialogProps> = ({
           v={{ size: 's', properties: ['margin-bottom'] }}
           className={'inline-block'}
         >
-          <ButtonSolid text={`Confirm request`} />
+          <ButtonSolid text="Confirm request" />
         </Space>
         <ButtonSolid
           colors={themeValues.buttonColors.greenTransparentGreen}
           type={ButtonTypes.button}
-          text={`Cancel`}
+          text="Cancel"
           clickHandler={() => setIsActive(false)}
         />
       </CTAs>

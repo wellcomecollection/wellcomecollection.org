@@ -200,7 +200,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               width={800}
               src={imageUrl}
               srcSet={srcSet}
-              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
@@ -213,7 +213,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               width={800}
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
-              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||

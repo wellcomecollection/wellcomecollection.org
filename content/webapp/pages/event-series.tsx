@@ -154,7 +154,7 @@ const EventSeriesPage: FC<Props> = ({
         contributors={series.contributors}
       >
         {upcomingEvents.length > 0 ? (
-          <SearchResults items={upcomingEvents} title={`What's next`} />
+          <SearchResults items={upcomingEvents} title="What's next" />
         ) : (
           <h2 className="h2">
             No events scheduled at the moment, check back soon…
@@ -165,7 +165,7 @@ const EventSeriesPage: FC<Props> = ({
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <SearchResults
               items={pastEvents}
-              title={`What we've done before`}
+              title="What we've done before"
             />
           </Space>
         )}

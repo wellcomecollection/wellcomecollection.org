@@ -125,7 +125,7 @@ const PageHeader: FunctionComponent<Props> = ({
   return (
     <>
       <div
-        className={`row relative`}
+        className="row relative"
         style={{
           backgroundImage: backgroundTexture
             ? `url(${backgroundTexture})`

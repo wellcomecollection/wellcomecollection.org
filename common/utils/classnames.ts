@@ -56,7 +56,7 @@ export function classNames(classNames: ClassNames): string {
   }
 }
 
-export function conditionalClassNames(obj: Record<string, boolean>): string {
+function conditionalClassNames(obj: Record<string, boolean>): string {
   return Object.keys(obj)
     .map(key => {
       if (obj[key]) {

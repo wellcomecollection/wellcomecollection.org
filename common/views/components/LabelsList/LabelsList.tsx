@@ -20,7 +20,7 @@ const LabelsList: FunctionComponent<Props> = ({
     }}
     h={{ size: 'm', properties: ['padding-right'] }}
     as="ul"
-    className={`flex plain-list no-padding flex--wrap`}
+    className="flex plain-list no-padding flex--wrap"
     style={{ marginLeft: 0, marginTop: 0 }}
   >
     {labels.filter(Boolean).map((label, i) => (

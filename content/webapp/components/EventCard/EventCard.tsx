@@ -58,7 +58,7 @@ const EventCard: FC<Props> = ({ event, xOfY }) => {
       <>
         <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
           <Space v={{ size: 's', properties: ['margin-top'] }}>
-            <WatchLabel text={`Available to watch`} />
+            <WatchLabel text="Available to watch" />
           </Space>
         </Space>
       </>

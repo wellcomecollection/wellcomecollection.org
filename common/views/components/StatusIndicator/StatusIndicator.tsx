@@ -20,7 +20,7 @@ const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
       <Space
         as="span"
         h={{ size: 'xs', properties: ['margin-right'] }}
-        className={`flex flex--v-center`}
+        className="flex flex--v-center"
       >
         <Dot color={color} />
       </Space>

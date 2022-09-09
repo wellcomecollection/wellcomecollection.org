@@ -11,7 +11,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
   return (
     <>
       <Header>
-        <span className={`h2`}>Request confirmed</span>
+        <span className="h2">Request confirmed</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}
@@ -22,7 +22,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
         level 3) for one week from your selected pickup date.
       </p>
       <CTAs>
-        <ButtonSolidLink text={`View your library account`} link={'/account'} />
+        <ButtonSolidLink text="View your library account" link={'/account'} />
       </CTAs>
     </>
   );
