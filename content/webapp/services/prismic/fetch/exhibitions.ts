@@ -33,6 +33,7 @@ import {
   Exhibition,
   ExhibitionRelatedContent,
 } from '../../../types/exhibitions';
+import superjson from 'superjson';
 
 const fetchLinks = peopleFields.concat(
   exhibitionFields,
@@ -176,7 +177,7 @@ export const fetchExhibitionRelatedContentClientSide = async (
   const response = await fetch(url);
 
   if (response.ok) {
-    const json: ExhibitionRelatedContent = await response.json();
-    return json;
+    const json = await response.json();
+    return superjson.parse< ExhibitionRelatedContent>(json);
   }
 };
