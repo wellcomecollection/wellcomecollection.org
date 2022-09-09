@@ -65,6 +65,10 @@ export type ThirdPartyBooking = {
   url: string;
 };
 
+export type HasTimeRanges = {
+  times: { range: DateTimeRange }[];
+};
+
 export type HasTimes = {
   times: EventTime[];
 };
