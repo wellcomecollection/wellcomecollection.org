@@ -101,7 +101,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={`h2`}>Request item</span>
+        <span className="h2">Request item</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}

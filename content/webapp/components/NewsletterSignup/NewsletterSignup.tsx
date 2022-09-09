@@ -231,7 +231,7 @@ const NewsletterSignup: FC<Props> = ({
             </div>
           )}
 
-          <p className={`${font('intr', 6)}`}>
+          <p className={font('intr', 6)}>
             We use a third-party provider,{' '}
             <a href="https://dotdigital.com/terms/privacy-policy/">
               dotdigital

@@ -12,7 +12,7 @@ type ErrorDialogProps = {
 const ErrorDialog: FC<ErrorDialogProps> = ({ setIsActive, errorMessage }) => (
   <>
     <Header>
-      <span className={`h2`}>Request failed</span>
+      <span className="h2">Request failed</span>
     </Header>
     <p className="no-margin">{errorMessage || defaultRequestErrorMessage}</p>
     <CTAs>

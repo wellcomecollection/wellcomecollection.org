@@ -39,7 +39,7 @@ const SectionHeader: FC<Props> = ({ title }) => {
             <Space
               as="h2"
               h={{ size: 's', properties: ['margin-left'] }}
-              className={`inline`}
+              className="inline"
             >
               <TitleWrapper>{title}</TitleWrapper>
             </Space>

@@ -92,7 +92,7 @@ function EventStatus({ text, color }: EventStatusProps) {
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
-          className={`flex flex--v-center`}
+          className="flex flex--v-center"
         >
           <Dot color={color} />
         </Space>
@@ -477,7 +477,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
         {event.audiences.map(audience => {
           if (audience.description) {
             return (
-              <div className={`body-text`} key={audience.title}>
+              <div className="body-text" key={audience.title}>
                 <h2>For {audience.title}</h2>
                 <PrismicHtmlBlock html={audience.description} />
               </div>

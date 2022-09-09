@@ -131,7 +131,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
                 <ul>
                   {middleCrumbs.map(crumb => {
                     return (
-                      <li key={crumb.id} className={`flex`}>
+                      <li key={crumb.id} className="flex">
                         <Icon
                           matchText={true}
                           color={'currentColor'}

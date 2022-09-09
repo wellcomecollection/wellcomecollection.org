@@ -153,7 +153,7 @@ const Work: FunctionComponent<Props> = ({
                 <ArchiveTree work={work} />
                 <Space
                   v={{ size: 'xl', properties: ['padding-top'] }}
-                  className={`flex-1`}
+                  className="flex-1"
                 >
                   <WorkDetails work={work} />
                 </Space>

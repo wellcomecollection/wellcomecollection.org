@@ -164,7 +164,7 @@ const EventPromo: FC<Props> = ({
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
-                className={`flex flex--v-center`}
+                className="flex flex--v-center"
               >
                 <Dot color={'red'} />
               </Space>
@@ -181,7 +181,7 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && event.times.length > 1 && (
-            <p className={`${font('intb', 6)}`}>See all dates/times</p>
+            <p className={font('intb', 6)}>See all dates/times</p>
           )}
 
           {isPast && !event.availableOnline && (
@@ -189,7 +189,7 @@ const EventPromo: FC<Props> = ({
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
-                className={`flex flex--v-center`}
+                className="flex flex--v-center"
               >
                 <Dot color={'marble'} />
               </Space>

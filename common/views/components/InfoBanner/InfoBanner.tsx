@@ -72,7 +72,7 @@ const InfoBanner: FunctionComponent<Props> = ({
                   <Space
                     h={{ size: 'm', properties: ['margin-right'] }}
                     v={{ size: 'xs', properties: ['margin-top'] }}
-                    className={`flex`}
+                    className="flex"
                   >
                     <Icon icon={information} />
                     <span className="visually-hidden" id="note">

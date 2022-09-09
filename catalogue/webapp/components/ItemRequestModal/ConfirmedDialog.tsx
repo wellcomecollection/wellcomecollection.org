@@ -11,7 +11,7 @@ const ConfirmedDialog: FC<ConfirmedDialogProps> = ({ currentHoldNumber }) => {
   return (
     <>
       <Header>
-        <span className={`h2`}>Request confirmed</span>
+        <span className="h2">Request confirmed</span>
         <CurrentRequests
           allowedHoldRequests={allowedRequests}
           currentHoldRequests={currentHoldNumber}

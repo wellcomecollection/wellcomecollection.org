@@ -229,7 +229,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
             <>
               <ShameButton
                 data-test-id="toggle-info-desktop"
-                className={`viewer-desktop`}
+                className="viewer-desktop"
                 isDark
                 onClick={() => {
                   setIsDesktopSidebarActive(!isDesktopSidebarActive);
@@ -245,13 +245,13 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   color={'white'}
                   rotate={isDesktopSidebarActive ? undefined : 180}
                 />
-                <span className={`visually-hidden`}>
+                <span className="visually-hidden">
                   {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
                 </span>
               </ShameButton>
               <ShameButton
                 data-test-id="toggle-info-mobile"
-                className={`viewer-mobile`}
+                className="viewer-mobile"
                 isDark
                 onClick={() => {
                   setIsMobileSidebarActive(!isMobileSidebarActive);
@@ -367,7 +367,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                   ) : (
                     <>
                       <Icon icon={expand} />
-                      <span className={`btn__text`}>Full screen</span>
+                      <span className="btn__text">Full screen</span>
                     </>
                   )}
                 </ShameButton>
