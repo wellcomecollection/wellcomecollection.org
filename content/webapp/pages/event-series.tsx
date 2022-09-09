@@ -79,16 +79,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const events = transformQuery(eventsQuery, doc =>
-        transformEventToEventBasic(transformEvent(doc))
-      ).results;
+      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
+
+      const events = fullEvents.map(transformEventToEventBasic);
 
       const upcomingEvents = getUpcomingEvents(events);
       const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
 
       const pastEvents = getPastEvents(events, upcomingEventsIds);
 
-      const jsonLd = events.flatMap(eventLd);
+      const jsonLd = fullEvents.flatMap(eventLd);
 
       return {
         props: removeUndefinedProps({

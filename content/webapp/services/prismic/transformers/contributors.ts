@@ -117,12 +117,11 @@ export function transformContributors(
 export function transformContributorToContributorBasic(
   contributor: Contributor
 ): ContributorBasic {
-  const { type, name, image } = contributor.contributor;
+  const { type, name } = contributor.contributor;
   return {
     contributor: {
       type,
       name,
-      image,
     },
   };
 }
