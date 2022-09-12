@@ -23,6 +23,7 @@ const NoScriptViewerEl = styled.div`
   display: flex;
   flex-direction: row-reverse;
   height: calc(100vh - ${props => props.theme.navHeight}px);
+  background-color: ${props => props.theme.color('charcoal')};
 `;
 
 const NoScriptViewerMain = styled.div`
@@ -191,7 +192,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
       .join(',');
 
   return (
-    <NoScriptViewerEl className="bg-charcoal">
+    <NoScriptViewerEl>
       <NoScriptViewerMain>
         <NoScriptViewerImageWrapper>
           {iiifImageLocation && imageUrl && (
@@ -199,7 +200,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               width={800}
               src={imageUrl}
               srcSet={srcSet}
-              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||
@@ -212,7 +213,7 @@ const NoScriptViewer: FunctionComponent<NoScriptViewerProps> = ({
               width={800}
               src={urlTemplate && urlTemplate({ size: '800,' })}
               srcSet={srcSet}
-              sizes={`(min-width: 860px) 800px, calc(92.59vw + 22px)`}
+              sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
               lang={lang}
               alt={
                 (canvasOcr && canvasOcr.replace(/"/g, '')) ||

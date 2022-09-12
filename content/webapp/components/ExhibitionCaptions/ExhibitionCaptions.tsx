@@ -219,7 +219,7 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color={`pumice`} isKeyline={true} />
+              <Divider color="pumice" isKeyline={true} />
             </Space>
           )}
           <div className="flex flex--wrap">
@@ -258,7 +258,7 @@ const Stop: FC<{
               {!hasContext && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
-                  id={dasherize(title)}
+                  id={dasherize(`${title}`)}
                 >
                   {title}
                 </TombstoneTitle>
@@ -291,7 +291,7 @@ const Stop: FC<{
                         <PrismicImage
                           image={image}
                           sizes={{}}
-                          quality={`low`}
+                          quality="low"
                         />
                       </PrismicImageWrapper>
                     </Space>

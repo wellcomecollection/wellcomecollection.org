@@ -44,7 +44,7 @@ const RadioGroup: FunctionComponent<Props> = ({
         <CheckboxRadio
           id={id}
           text={label}
-          type={`radio`}
+          type="radio"
           name={name}
           value={value}
           checked={selected === value}

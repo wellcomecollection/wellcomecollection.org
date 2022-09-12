@@ -77,7 +77,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
     <WorkLink
       id={work.id}
       resultPosition={resultPosition}
-      source={`works_search_result`}
+      source="works_search_result"
       passHref
     >
       <Space

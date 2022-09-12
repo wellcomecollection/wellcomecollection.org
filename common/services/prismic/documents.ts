@@ -16,7 +16,7 @@ import {
   BooleanField,
 } from '@prismicio/types';
 
-type DayField = GroupField<{
+export type DayField = GroupField<{
   startDateTime: TimestampField;
   endDateTime: TimestampField;
 }>;

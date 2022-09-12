@@ -5,6 +5,7 @@ import React, {
   FunctionComponent,
   Fragment,
 } from 'react';
+import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
@@ -91,6 +92,17 @@ type Props = {
 };
 
 type ContentListSlice = BodySlice & { type: 'contentList' };
+
+const Wrapper = styled(Space).attrs<{
+  rowBackgroundColor: string;
+  cardBackgroundColor: string;
+}>(props => ({
+  className: `row card-theme 
+  bg-${props.rowBackgroundColor}
+    card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
+}))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
+  background-color: ${props => props.theme.color(props.rowBackgroundColor)};
+`;
 
 const Body: FunctionComponent<Props> = ({
   body,
@@ -215,7 +227,7 @@ const Body: FunctionComponent<Props> = ({
                       isStatic
                     />
                   )}
-                  <Space
+                  <Wrapper
                     v={{
                       size: 'xl',
                       properties:
@@ -225,11 +237,8 @@ const Body: FunctionComponent<Props> = ({
                           ? ['padding-bottom']
                           : ['padding-top', 'padding-bottom'],
                     }}
-                    className={classNames({
-                      'row card-theme': true,
-                      [`bg-${sectionTheme.rowBackground}`]: true,
-                      [`card-theme--${sectionTheme.cardBackground}`]: true,
-                    })}
+                    rowBackgroundColor={sectionTheme.rowBackground}
+                    cardBackgroundColor={sectionTheme.cardBackground}
                   >
                     {section.value.title && (
                       <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
@@ -249,7 +258,7 @@ const Body: FunctionComponent<Props> = ({
                         }
                       />
                     )}
-                  </Space>
+                  </Wrapper>
                   {!isLast && <WobblyEdge background={'white'} isStatic />}
                 </Fragment>
               );

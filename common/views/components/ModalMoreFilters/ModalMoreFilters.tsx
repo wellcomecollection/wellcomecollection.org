@@ -1,6 +1,5 @@
 import React, { FunctionComponent, RefObject, useContext } from 'react';
 import Modal from '../../components/Modal/Modal';
-import { classNames } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Space from '../styled/Space';
 import { searchFilterCheckBox } from '../../../text/aria-labels';
@@ -55,9 +54,7 @@ const FilterSection = styled(Space).attrs({
 `;
 
 const List = styled.ul.attrs({
-  className: classNames({
-    'no-margin no-padding plain-list': true,
-  }),
+  className: 'no-margin no-padding plain-list',
 })`
   display: flex;
   flex-wrap: wrap;
@@ -69,10 +66,9 @@ const List = styled.ul.attrs({
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'bg-white flex flex--v-center flex--h-space-between': true,
-  }),
+  className: 'flex flex--v-center flex--h-space-between',
 })`
+  background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;
@@ -84,10 +80,8 @@ const FiltersFooter = styled(Space).attrs({
 const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    absolute: true,
-  }),
 })`
+  position: absolute;
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
   text-align: center;
   top: 0px;
@@ -112,7 +106,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
           >
             <CheckboxRadio
               id={`desktop-${id}`}
-              type={`checkbox`}
+              type="checkbox"
               text={`${label} (${count})`}
               value={value}
               name={f.id}
@@ -148,11 +142,7 @@ const MoreFilters: FunctionComponent<MoreFiltersProps> = ({
           <FilterSection key={f.id}>
             <h3 className="h3">{f.label}</h3>
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
-              <div
-                className={classNames({
-                  'no-margin no-padding plain-list': true,
-                })}
-              >
+              <div className="no-margin no-padding plain-list">
                 {f.type === 'checkbox' && (
                   <CheckboxFilter f={f} changeHandler={changeHandler} />
                 )}

@@ -1,5 +1,5 @@
-import { Fragment, FC } from 'react';
-import { grid, font, classNames } from '@weco/common/utils/classnames';
+import { FC } from 'react';
+import { grid, font } from '@weco/common/utils/classnames';
 import EventBookingButton from './EventBookingButton';
 import EventbriteButtons from '../EventbriteButtons/EventbriteButtons';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -25,6 +25,26 @@ const GridWrapper = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('smoke')};
 `;
 
+const EventContainer = styled(Space).attrs({
+  v: {
+    size: 'm',
+    properties: [
+      'margin-top',
+      'margin-bottom',
+      'padding-top',
+      'padding-bottom',
+    ],
+  },
+  h: {
+    size: 'm',
+    properties: ['padding-left', 'padding-right'],
+  },
+  className: font('intb', 5),
+})`
+  display: inline-block;
+  background-color: ${props => props.theme.color('yellow')};
+`;
+
 const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
   const waitForTicketSales =
     event.ticketSalesStart && !isPast(event.ticketSalesStart);
@@ -38,10 +58,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
             size: 'm',
             properties: ['margin-bottom'],
           }}
-          className={classNames({
-            [grid({ s: 12, m: 12, l: 3, xl: 2 })]: true,
-            'no-margin-l': true,
-          })}
+          className={`${grid({ s: 12, m: 12, l: 3, xl: 2 })} no-margin-l`}
         >
           {event.times &&
             event.times.map(t => {
@@ -83,9 +100,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 <Space
                   v={{ size: 's', properties: ['margin-bottom'] }}
                   as="p"
-                  className={classNames({
-                    [font('intr', 5)]: true,
-                  })}
+                  className={font('intr', 5)}
                 >
                   {event.locations[0].title}
                 </Space>
@@ -109,7 +124,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 <p className={`${font('intr', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
-                    <span className={`visually-hidden`}>
+                    <span className="visually-hidden">
                       {' '}
                       about {event.title}
                     </span>
@@ -121,32 +136,12 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
             {!isEventPast(event) &&
               event.ticketSalesStart &&
               waitForTicketSales && (
-                <Fragment>
-                  <Space
-                    v={{
-                      size: 'm',
-                      properties: [
-                        'margin-top',
-                        'margin-bottom',
-                        'padding-top',
-                        'padding-bottom',
-                      ],
-                    }}
-                    h={{
-                      size: 'm',
-                      properties: ['padding-left', 'padding-right'],
-                    }}
-                    className={classNames({
-                      'bg-yellow inline-block': true,
-                      [font('intb', 5)]: true,
-                    })}
-                  >
-                    <span>
-                      Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
-                      {formatTime(event.ticketSalesStart)}
-                    </span>
-                  </Space>
-                </Fragment>
+                <EventContainer>
+                  <span>
+                    Booking opens {formatDayDate(event.ticketSalesStart)}{' '}
+                    {formatTime(event.ticketSalesStart)}
+                  </span>
+                </EventContainer>
               )}
 
             {!isEventPast(event) &&

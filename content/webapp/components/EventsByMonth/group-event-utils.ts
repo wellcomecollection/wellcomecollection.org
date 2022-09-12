@@ -1,139 +1,163 @@
-import {
-  getEarliestFutureDateRange,
-  isFuture,
-  isSameDay,
-  isSameMonth,
-} from '@weco/common/utils/dates';
-import { EventTime } from '../../types/events';
+import { isNotUndefined } from '@weco/common/utils/array';
+import { getDatesBetween } from '@weco/common/utils/dates';
+import { HasTimeRanges } from '../../types/events';
 
-type HasTimes = {
-  times: EventTime[];
-};
-
-// Note: here months are 0-indexed, to match the months used by the built-in
-// JavaScript date type.
 export type YearMonth = {
   year: number;
-  month: number;
+  month: string;
 };
 
-// Creates a label in the form YYYY-MM, e.g. "2001-02"
-//
-// Note: here months are 1-indexed, because this value is displayed in the UI and
-// used to construct fragment URLs.
-export function createLabel({ year, month }: YearMonth): string {
-  return `${year}-${(month + 1).toString().padStart(2, '0')}`;
-}
-
-export function parseLabel(label: string): YearMonth {
-  const year = parseInt(label.slice(0, 4), 10);
-  const month = parseInt(label.slice(5, 7), 10);
-  return { year, month };
-}
-
+/** Returns the UTC start of a given month. */
 export function startOf({ year, month }: YearMonth): Date {
-  return new Date(year, month, 1);
+  return new Date(`1 ${month} ${year}`);
 }
 
-// recursive - TODO: make tail recursive?
-type StartEnd = { start: Date; end: Date };
+// Note: UTC months are 0-indexed
+const utcMonthNames = {
+  0: 'January',
+  1: 'February',
+  2: 'March',
+  3: 'April',
+  4: 'May',
+  5: 'June',
+  6: 'July',
+  7: 'August',
+  8: 'September',
+  9: 'October',
+  10: 'November',
+  11: 'December',
+};
 
-export function getMonthsInDateRange(
-  { start, end }: StartEnd,
-  acc: YearMonth[] = []
-): YearMonth[] {
-  if (isSameMonth(start, end) || start <= end) {
-    const yearMonth = {
-      year: start.getFullYear(),
-      month: start.getMonth(),
+/** Returns a list of all the months that fall on or between two dates.
+ *
+ * e.g. getDatesBetween({ start: 2001-01-01, end: 2001-04-05 })
+ *    => { January 2001, February 2001, March 2001, April 2001 }
+ *
+ */
+export function getMonthsInDateRange({
+  start,
+  end,
+}: {
+  start: Date;
+  end: Date;
+}): YearMonth[] {
+  console.assert(
+    start < end,
+    `Asked to find months in date range start=${start}, end=${end}`
+  );
+
+  const result: YearMonth[] = [];
+
+  getDatesBetween({ start, end }).forEach(d => {
+    const m = {
+      year: d.getUTCFullYear(),
+      month: utcMonthNames[d.getUTCMonth()],
     };
-    const newAcc = acc.concat(yearMonth);
-    const newStart = startOf({
-      ...yearMonth,
-      month: yearMonth.month + 1,
-    });
-    return getMonthsInDateRange({ start: newStart, end }, newAcc);
-  } else {
-    return acc;
-  }
-}
 
-// For each event, find the months that it spans.
-export function findMonthsThatEventSpans<T extends HasTimes>(
-  events: T[]
-): {
-  event: T;
-  months: YearMonth[];
-}[] {
-  return events
-    .filter(event => event.times.length > 0)
-    .map(event => {
-      const firstRange = event.times[0];
-      const lastRange = event.times[event.times.length - 1];
+    if (!result.length) {
+      result.push(m);
+    } else {
+      const latestResult = result[result.length - 1];
 
-      const start = firstRange.range.startDateTime;
-      const end = lastRange.range.endDateTime;
-
-      const months = getMonthsInDateRange({ start, end });
-      return { event, months };
-    });
-}
-
-// Key: a YYYY-MM month label like "2001-02"
-// Value: a list of events that fall somewhere in this month
-export function groupEventsByMonth<T extends HasTimes>(
-  events: T[]
-): Record<string, T[]> {
-  return findMonthsThatEventSpans(events).reduce((acc, { event, months }) => {
-    months.forEach(month => {
-      // Only add if it has a time in the month that is the same or after today
-      //
-      // NOTE: this means a very long-running event wouldn't appear in the events
-      // for a month, e.g. a Jan-Feb-Mar event wouldn't appear in the February events.
-      // Do we have any such long-running events?  If so, this is probably okay.
-      const hasDateInMonthRemaining = event.times.find(time => {
-        const start = time.range.startDateTime;
-        const end = time.range.endDateTime;
-
-        const endsInMonth = isSameMonth(end, startOf(month));
-
-        const startsInMonth = isSameMonth(start, startOf(month));
-
-        const today = new Date();
-        const isNotClosedYet = isSameDay(end, today) || isFuture(end);
-
-        return (endsInMonth || startsInMonth) && isNotClosedYet;
-      });
-      if (hasDateInMonthRemaining) {
-        const label = createLabel(month);
-
-        if (!acc[label]) {
-          acc[label] = [];
-        }
-        acc[label].push(event);
+      if (latestResult.year !== m.year || latestResult.month !== m.month) {
+        result.push(m);
       }
-    });
-    return acc;
-  }, {} as Record<string, T[]>);
+    }
+  });
+
+  return result;
 }
 
-function getEarliestStart(t: HasTimes): Date | undefined {
-  const times = t.times.map(time => ({
-    start: time.range.startDateTime,
-    end: time.range.endDateTime,
-  }));
-
-  const earliestRange = getEarliestFutureDateRange(times);
-  return earliestRange && earliestRange.start;
+function isInMonth(d: Date, yearMonth: YearMonth): boolean {
+  return (
+    d.getUTCFullYear() === yearMonth.year &&
+    utcMonthNames[d.getUTCMonth()] === yearMonth.month
+  );
 }
 
-export function sortByEarliestFutureDateRange<T extends HasTimes>(
+function minDate(dates: Date[]): Date {
+  return dates.reduce((a, b) => (a < b ? a : b));
+}
+
+function maxDate(dates: Date[]): Date {
+  return dates.reduce((a, b) => (a > b ? a : b));
+}
+
+function getEarliestStartTime({ times }: HasTimeRanges): Date {
+  return minDate(times.map(t => t.range.startDateTime));
+}
+
+function getLatestStartTime({ times }: HasTimeRanges): Date {
+  return maxDate(times.map(t => t.range.startDateTime));
+}
+
+type GroupedEvent<T> = {
+  month: YearMonth;
+  events: T[];
+};
+
+export function groupEventsByMonth<T extends HasTimeRanges>(
   events: T[]
-): T[] {
-  return events.sort((a, b) => {
-    const startA = getEarliestStart(a);
-    const startB = getEarliestStart(b);
+): GroupedEvent<T>[] {
+  // Work out the min/max bounds for the list of events.
+  const earliestStartTime = minDate(events.map(getEarliestStartTime));
+  const latestStartTime = maxDate(events.map(getLatestStartTime));
 
-    return startA && startB && startA > startB ? 1 : -1;
+  // Work out what months this should cover
+  //
+  // This gives us the list of months that will appear in the segmented control
+  // on the "What's on" page
+  const monthSpan = getMonthsInDateRange({
+    start: earliestStartTime,
+    end: latestStartTime,
+  });
+
+  // For each month, work out (a) what events should be included and
+  // (b) what order those events should appear in.
+  return monthSpan.map(month => {
+    const eventsInMonth = events
+      .map(ev => {
+        // For each event, we ask:
+        //
+        //    - does it have any start times in this month?
+        //        => should it appear in the list of events for this month?
+        //
+        //    - what's the earliest time it starts in this month?
+        //        => where should it appear in the order of events for this month?
+        //
+        const rangesInMonth = ev.times
+          .map(t => t.range)
+          .filter(t => isInMonth(t.startDateTime, month));
+
+        return rangesInMonth.length > 0
+          ? {
+              event: ev,
+              earliestRangeInMonth: rangesInMonth.reduce((a, b) =>
+                a.startDateTime < b.startDateTime ? a : b
+              ),
+            }
+          : undefined;
+      })
+      .filter(isNotUndefined)
+      .sort((a, b) => {
+        // We sort the events within each month by their earliest start date,
+        // so events appear in the order they're going to occur.
+        //
+        // If there are two events that start at the same time, we sort them by
+        // end time.  This is an arbitrary choice, and just for consistent behaviour.
+        const rangeA = a.earliestRangeInMonth;
+        const rangeB = b.earliestRangeInMonth;
+
+        return rangeA.startDateTime > rangeB.startDateTime
+          ? 1
+          : rangeA.startDateTime < rangeB.startDateTime
+          ? -1
+          : rangeA.endDateTime > rangeB.endDateTime
+          ? 1
+          : -1;
+      })
+      .map(ev => ev.event);
+
+    return { month, events: eventsInMonth };
   });
 }

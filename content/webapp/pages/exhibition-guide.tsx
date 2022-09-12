@@ -456,7 +456,6 @@ const ExhibitionGuidePage: FC<Props> = props => {
   }`;
   const typeColor = getTypeColor(type);
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
-
   return (
     <PageLayout
       title={`${exhibitionGuide.title} ${type && getTypeTitle(type)}` || ''}

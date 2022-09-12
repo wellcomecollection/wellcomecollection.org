@@ -1,11 +1,16 @@
 import each from 'jest-each';
 import {
+  countDaysBetween,
   dayBefore,
+  endOfWeek,
+  getDatesBetween,
   getNextWeekendDateRange,
   isFuture,
   isPast,
   isSameDay,
+  isSameDayOrBefore,
   isSameMonth,
+  startOfWeek,
 } from './dates';
 
 it('identifies dates in the past', () => {
@@ -51,6 +56,31 @@ describe('isSameDay', () => {
   ]).test('identifies %s and %s as different', (a, b) => {
     const result = isSameDay(a, b);
     expect(result).toEqual(false);
+  });
+});
+
+describe('isSameDayOrBefore', () => {
+  it('says a day is the same or before itself', () => {
+    const day = new Date('2001-01-01');
+    const result = isSameDayOrBefore(day, day);
+
+    expect(result).toEqual(true);
+  });
+
+  it('says two times on the same day are the same', () => {
+    const date1 = new Date('2001-01-01T12:00:00Z');
+    const date2 = new Date('2001-01-01T18:00:00Z');
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(true);
+  });
+
+  it('knows how dates on different days are ordered', () => {
+    const date1 = new Date('2001-01-01T01:01:01Z');
+    const date2 = new Date('2002-02-02T02:02:02Z');
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(false);
   });
 });
 
@@ -105,24 +135,60 @@ describe('dayBefore', () => {
   });
 });
 
+//
+//    September 2022
+// Su Mo Tu We Th Fr Sa
+//              1  2  3
+//  4  5  6  7  8  9 10
+// 11 12 13 14 15 16 17
+// 18 19 20 21 22 23 24
+//
+describe('startOfWeek and endOfWeek', () => {
+  test.each([
+    { day: new Date('2022-09-09'), expectedStart: new Date('2022-09-04') },
+    { day: new Date('2022-09-10'), expectedStart: new Date('2022-09-04') },
+    { day: new Date('2022-09-11'), expectedStart: new Date('2022-09-11') },
+  ])(
+    'the week containing $day starts on $expectedStart',
+    ({ day, expectedStart }) => {
+      expect(isSameDay(startOfWeek(day), expectedStart)).toBeTruthy();
+    }
+  );
+
+  test.each([
+    { day: new Date('2022-09-09'), expectedEnd: new Date('2022-09-10') },
+    { day: new Date('2022-09-10'), expectedEnd: new Date('2022-09-10') },
+    { day: new Date('2022-09-11'), expectedEnd: new Date('2022-09-17') },
+  ])(
+    'the week containing $day ends on $expectedEnd',
+    ({ day, expectedEnd }) => {
+      expect(isSameDay(endOfWeek(day), expectedEnd)).toBeTruthy();
+    }
+  );
+});
+
+//
+//    September 2022
+// Su Mo Tu We Th Fr Sa
+//              1  2  3
+//  4  5  6  7  8  9 10
+// 11 12 13 14 15 16 17
+// 18 19 20 21 22 23 24
+//
 describe('getNextWeekendDateRange', () => {
   test.each([
-    // Monday
     {
       day: new Date('2022-09-05'),
       weekend: { start: new Date('2022-09-09'), end: new Date('2022-09-11') },
     },
-    // Friday
     {
       day: new Date('2022-09-02'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
     },
-    // Saturday
     {
       day: new Date('2022-09-03'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
     },
-    // Sunday
     {
       day: new Date('2022-09-04'),
       weekend: { start: new Date('2022-09-02'), end: new Date('2022-09-04') },
@@ -132,4 +198,56 @@ describe('getNextWeekendDateRange', () => {
     expect(isSameDay(range.start, weekend.start)).toBeTruthy();
     expect(isSameDay(range.end, weekend.end)).toBeTruthy();
   });
+});
+
+describe('getDatesBetween', () => {
+  it('finds the dates between two other dates', () => {
+    const result = getDatesBetween({
+      start: new Date('2001-01-01T00:00:00Z'),
+      end: new Date('2001-01-04T00:00:00Z'),
+    });
+
+    expect(result).toStrictEqual([
+      new Date('2001-01-01T00:00:00Z'),
+      new Date('2001-01-02T00:00:00Z'),
+      new Date('2001-01-03T00:00:00Z'),
+      new Date('2001-01-04T00:00:00Z'),
+    ]);
+  });
+});
+
+describe('countDaysBetween', () => {
+  test.each([
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-05'),
+      daysBetween: 0,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-06'),
+      daysBetween: -1,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-09-30'),
+      daysBetween: -25,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2022-10-30'),
+      daysBetween: -55,
+    },
+    {
+      x: new Date('2022-09-05'),
+      y: new Date('2023-10-28'),
+      daysBetween: -418,
+    },
+  ])(
+    'there are $daysBetween days between $x and $y',
+    ({ x, y, daysBetween }) => {
+      const result = countDaysBetween(x, y);
+      expect(result).toBe(daysBetween);
+    }
+  );
 });

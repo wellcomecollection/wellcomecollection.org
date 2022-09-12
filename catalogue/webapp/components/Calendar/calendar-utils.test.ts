@@ -5,8 +5,10 @@ import {
   getCalendarRows,
   firstDayOfWeek,
   lastDayOfWeek,
+  getDatesInMonth,
 } from './calendar-utils';
-import { london } from '@weco/common/utils/format-date';
+import { formatDate } from '@weco/common/utils/format-date';
+import { isSameDay } from '@weco/common/utils/dates';
 
 describe('sliceIntoSize', () => {
   const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -57,32 +59,71 @@ describe('daysUntilEndOfWeek: gives the number of days between the last day of t
   });
 });
 
-describe('getCalendarRows', () => {
-  it('generates Moments for each day of a given month and groups them into weeks. It pads the first and last group arrays, so that the first day of the month is placed at the correct index', () => {
-    const result = getCalendarRows(london('2022-03-01'));
-    expect(result[0][0]?.toDate()).toEqual(london('2022-02-28').toDate()); // month starts on Tuesday so the first day of the week is padded with the last day of the previous month
-    expect(result[0][1]?.toDate()).toEqual(london('2022-03-01').toDate());
-    expect(result[result.length - 1][3]?.toDate()).toEqual(
-      london('2022-03-31').toDate()
+describe('getDatesInMonth', () => {
+  it('gets all the days in a month', () => {
+    const result = getDatesInMonth(new Date('2022-09-07T12:00:00Z')).map(d =>
+      formatDate(d)
     );
-    expect(result[result.length - 1][4]?.toDate()).toEqual(
-      london('2022-04-01').toDate()
-    ); // month ends on Thursday so the last days of the week are padded with the first days of the next month
+
+    expect(result.length).toBe(30);
+    expect(result.includes('1 September 2022')).toBe(true);
+    expect(result.includes('30 September 2022')).toBe(true);
+    expect(result.find(d => d.indexOf('September') === -1)).toBe(undefined);
+  });
+
+  it('knows about leap years', () => {
+    const result1 = getDatesInMonth(new Date('2022-02-07T12:00:00Z')).map(d =>
+      formatDate(d)
+    );
+
+    expect(result1.length).toBe(28);
+
+    const result2 = getDatesInMonth(new Date('2020-02-07T12:00:00Z')).map(d =>
+      formatDate(d)
+    );
+
+    expect(result2.length).toBe(29);
+  });
+});
+
+describe('getCalendarRows', () => {
+  // Based on `cal March 2022`
+  //
+  //         March 2022
+  //    Mo Tu We Th Fr Sa Su
+  //        1  2  3  4  5  6
+  //     7  8  9 10 11 12 13
+  //    14 15 16 17 18 19 20
+  //    21 22 23 24 25 26 27
+  //    28 29 30 31
+  it('generates dates for each day of a given month and groups them into weeks. It pads the first and last group arrays, so that the first day of the month is placed at the correct index', () => {
+    const result = getCalendarRows(new Date('2022-03-01'));
+
+    // month starts on Tuesday so the first day of the week is padded
+    // with the last day of the previous month
+    expect(isSameDay(result[0][0], new Date('2022-02-28'))).toBe(true);
+
+    expect(isSameDay(result[0][1], new Date('2022-03-01'))).toBe(true);
+    expect(isSameDay(result[4][3], new Date('2022-03-31'))).toBe(true);
+
+    // month ends on Thursday so the last days of the week are padded
+    // with the first days of the next month
+    expect(isSameDay(result[4][4], new Date('2022-04-01'))).toBe(true);
   });
 });
 
 describe('firstDayOfWeek', () => {
   it('returns the first item from the array which contains the provided date', () => {
-    const calendarRows = getCalendarRows(london('2022-03-01'));
-    const result = firstDayOfWeek(london('2022-03-30'), calendarRows);
-    expect(result.toDate()).toEqual(london('2022-03-28').toDate());
+    const calendarRows = getCalendarRows(new Date('2022-03-01'));
+    const result = firstDayOfWeek(new Date('2022-03-30'), calendarRows);
+    expect(isSameDay(result, new Date('2022-03-28')));
   });
 });
 
 describe('firstDayOfWeek', () => {
   it('returns the last item from the array which contains the provided date', () => {
-    const calendarRows = getCalendarRows(london('2022-03-01'));
-    const result = lastDayOfWeek(london('2022-03-30'), calendarRows);
-    expect(result.toDate()).toEqual(london('2022-04-03').toDate());
+    const calendarRows = getCalendarRows(new Date('2022-03-01'));
+    const result = lastDayOfWeek(new Date('2022-03-30'), calendarRows);
+    expect(isSameDay(result, new Date('2022-04-03'))).toBe(true);
   });
 });

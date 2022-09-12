@@ -92,7 +92,7 @@ function EventStatus({ text, color }: EventStatusProps) {
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
-          className={`flex flex--v-center`}
+          className="flex flex--v-center"
         >
           <Dot color={color} />
         </Space>
@@ -110,9 +110,10 @@ function DateList(event: Event) {
           return (
             <TimeWrapper key={index}>
               <div
-                className={`${
-                  isDayPast(eventTime.range.endDateTime) ? 'font-pewter' : ''
-                } flex-1`}
+                className={classNames({
+                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'flex-1': true,
+                })}
               >
                 <DateRange
                   start={eventTime.range.startDateTime}
@@ -362,7 +363,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             {event.bookingEnquiryTeam && (
               <>
                 {event.isCompletelySoldOut ? (
-                  <Message text={`Fully booked`} />
+                  <Message text="Fully booked" />
                 ) : (
                   <ButtonSolidLink
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
@@ -477,7 +478,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
         {event.audiences.map(audience => {
           if (audience.description) {
             return (
-              <div className={`body-text`} key={audience.title}>
+              <div className="body-text" key={audience.title}>
                 <h2>For {audience.title}</h2>
                 <PrismicHtmlBlock html={audience.description} />
               </div>

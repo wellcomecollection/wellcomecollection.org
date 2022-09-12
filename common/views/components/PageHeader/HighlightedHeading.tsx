@@ -4,6 +4,7 @@ import { FunctionComponent } from 'react';
 
 const Heading = styled(Space)`
   display: block;
+  background-color: ${props => props.theme.color('white')};
 
   @supports (box-decoration-break: clone) {
     display: inline;
@@ -25,7 +26,6 @@ const HighlightedHeading: FunctionComponent<Props> = ({ text }: Props) => {
           properties: ['padding-top', 'padding-bottom'],
         }}
         h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
-        className={`bg-white`}
       >
         {text}
       </Heading>

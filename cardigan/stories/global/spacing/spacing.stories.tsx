@@ -1,40 +1,46 @@
 import { FunctionComponent } from 'react';
+import styled from 'styled-components';
+
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 
+const ColorSection = styled.div<{ bgColor: string }>`
+  background-color: ${props => props.theme.color(props.bgColor)};
+`;
+
 export const Spacing: FunctionComponent = () => {
   return (
-    <div className="bg-cream font-white">
+    <ColorSection bgColor="cream" className="font-white">
       <SpacingSection>
-        <div className="bg-green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
           Section
-        </div>
+        </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <div className="bg-green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
           Section
           <SpacingComponent>
-            <div className="bg-teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
               Component
-            </div>
+            </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <div className="bg-teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
               Component
-            </div>
+            </ColorSection>
           </SpacingComponent>
           <SpacingComponent>
-            <div className="bg-teal" style={{ minHeight: '100px' }}>
+            <ColorSection bgColor="teal" style={{ minHeight: '100px' }}>
               Component
-            </div>
+            </ColorSection>
           </SpacingComponent>
-        </div>
+        </ColorSection>
       </SpacingSection>
       <SpacingSection>
-        <div className="bg-green" style={{ minHeight: '200px' }}>
+        <ColorSection bgColor="green" style={{ minHeight: '200px' }}>
           Section
-        </div>
+        </ColorSection>
       </SpacingSection>
-    </div>
+    </ColorSection>
   );
 };

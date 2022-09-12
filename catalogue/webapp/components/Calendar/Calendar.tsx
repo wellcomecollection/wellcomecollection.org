@@ -1,12 +1,14 @@
 import { FC, useState, useEffect, useRef, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
-import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import { classNames, font } from '@weco/common/utils/classnames';
 import {
   getCalendarRows,
   firstDayOfWeek,
   lastDayOfWeek,
+  addMonths,
+  addWeeks,
+  countDaysInMonth,
 } from './calendar-utils';
 import { isRequestableDate } from '../../utils/dates';
 import {
@@ -21,6 +23,18 @@ import {
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { chevron } from '@weco/common/icons';
 import { calendarInstructions } from '@weco/common/data/microcopy';
+import {
+  addDays,
+  isSameDay,
+  isSameDayOrBefore,
+  isSameMonth,
+} from '@weco/common/utils/dates';
+
+import {
+  formatDay,
+  formatLondon,
+  formatYear,
+} from '@weco/common/utils/format-date';
 
 const LEFT = [37, 'ArrowLeft'];
 const RIGHT = [39, 'ArrowRight'];
@@ -33,23 +47,53 @@ const PAGEDOWN = [34, 'PageDown'];
 const ENTER = [13, 'Enter'];
 const SPACE = [32, ' '];
 
-function newDate(date: Moment, key: number | string): Moment {
+// e.g. "September"
+export function month(d: Date): string {
+  return formatLondon(d, { month: 'long' });
+}
+
+// e.g. 1st, 2nd, 3rd
+export function ordinal(d: Date): string {
+  const day = d.getDate();
+  console.assert(day <= 31);
+
+  if (day === 1 || day === 21 || day === 31) {
+    return `${day}st`;
+  } else if (day === 2 || day === 22) {
+    return `${day}nd`;
+  } else if (day === 3 || day === 23) {
+    return `${day}rd`;
+  } else {
+    return `${day}th`;
+  }
+}
+
+// e.g. 21/09/2022
+export function formatWithSlashes(d: Date): string {
+  const days = d.getUTCDate().toString().padStart(2, '0');
+  const months = (d.getUTCMonth() + 1).toString().padStart(2, '0');
+  const years = d.getUTCFullYear().toString();
+
+  return `${days}/${months}/${years}`;
+}
+
+function newDate(date: Date, key: number | string): Date {
   const dates = getCalendarRows(date);
   switch (true) {
     case RIGHT.includes(key): {
-      return date.clone().add(1, 'day');
+      return addDays(date, 1);
       break;
     }
     case LEFT.includes(key): {
-      return date.clone().subtract(1, 'day');
+      return addDays(date, -1);
       break;
     }
     case DOWN.includes(key): {
-      return date.clone().add(1, 'week');
+      return addWeeks(date, 1);
       break;
     }
     case UP.includes(key): {
-      return date.clone().subtract(1, 'week');
+      return addWeeks(date, -1);
       break;
     }
     case HOME.includes(key): {
@@ -61,11 +105,11 @@ function newDate(date: Moment, key: number | string): Moment {
       break;
     }
     case PAGEUP.includes(key): {
-      return date.clone().subtract(1, 'month');
+      return addMonths(date, -1);
       break;
     }
     case PAGEDOWN.includes(key): {
-      return date.clone().add(1, 'month');
+      return addMonths(date, 1);
       break;
     }
   }
@@ -74,12 +118,12 @@ function newDate(date: Moment, key: number | string): Moment {
 
 function handleKeyDown(
   event: React.KeyboardEvent<HTMLTableElement>,
-  date: Moment,
-  min: Moment,
-  max: Moment,
-  excludedDates: Moment[],
+  date: Date,
+  min: Date,
+  max: Date,
+  excludedDates: Date[],
   excludedDays: DayNumber[],
-  setTabbableDate: (date: Moment) => void,
+  setTabbableDate: (date: Date) => void,
   setChosenDate: (date: string) => void,
   setShowModal: (boolean: boolean) => void,
   setUpdateFocus: (boolean: boolean) => void,
@@ -103,41 +147,46 @@ function handleKeyDown(
   if (ENTER.includes(key) || SPACE.includes(key)) {
     if (
       isRequestableDate({
-        date: date,
+        date,
         startDate: min,
         endDate: max,
         excludedDates,
         excludedDays,
       })
     ) {
-      setChosenDate(date.format('DD/MM/YYYY'));
+      setChosenDate(formatWithSlashes(date));
       setShowModal(false);
     } else {
-      setMessage(`The ${date.format('Do MMMM')} is not available.`);
+      // e.g. The 1st September is not available
+      setMessage(`The ${ordinal(date)} ${month(date)} is not available.`);
     }
   } else {
     const moveToDate = newDate(date, key);
     setUpdateFocus(true);
-    if (moveToDate.isBetween(min, max, 'day', '[]')) {
+    if (
+      isSameDayOrBefore(min, moveToDate) &&
+      isSameDayOrBefore(moveToDate, max)
+    ) {
       // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
       setTabbableDate(moveToDate);
       setMessage('');
     } else {
       setTabbableDate(date);
+      // e.g. The 1st September is outside of the available range
       setMessage(
-        `The ${moveToDate.format('Do MMMM')} is outside of the available range.`
+        `The ${ordinal(date)} ${month(date)} is outside of the available range.`
       );
     }
   }
 }
 
 type Props = {
-  min: Moment;
-  max: Moment;
-  excludedDates: Moment[];
+  min: Date;
+  max: Date;
+  excludedDates: Date[];
   excludedDays: DayNumber[];
-  initialFocusDate: Moment;
-  chosenDate: Moment | undefined;
+  initialFocusDate: Date;
+  chosenDate: Date | undefined;
   setChosenDate: (date: string) => void;
   showModal: boolean;
   setShowModal: (boolean: boolean) => void;
@@ -158,16 +207,20 @@ const Calendar: FC<Props> = ({
   const [updateFocus, setUpdateFocus] = useState(true);
   const [previousMonthDisabled, setPreviousMonthDisabled] = useState(true);
   const [nextMonthDisabled, setNextMonthDisabled] = useState(
-    max.isSame(min, 'month')
+    isSameMonth(min, max)
   );
   const [message, setMessage] = useState('');
   const rows = tabbableDate ? getCalendarRows(tabbableDate) : [];
   const tabbableDateRef = useRef<HTMLTableCellElement>(null);
-  const numberOfDaysInMonth = tabbableDate.daysInMonth();
+  const numberOfDaysInMonth = countDaysInMonth(tabbableDate);
   const closestTabbableDate =
-    numberOfDaysInMonth >= tabbableDate.date()
+    numberOfDaysInMonth >= tabbableDate.getDate()
       ? tabbableDate
-      : tabbableDate.clone().set('date', numberOfDaysInMonth);
+      : new Date(
+          tabbableDate.getFullYear(),
+          tabbableDate.getMonth(),
+          numberOfDaysInMonth
+        );
   const { isKeyboard } = useContext(AppContext);
 
   useEffect(() => {
@@ -185,8 +238,9 @@ const Calendar: FC<Props> = ({
   return (
     <DatePicker id="myDatepicker">
       <Header>
+        {/* e.g. September 2022 */}
         <h2 id="id-grid-label" className="month-year" aria-live="assertive">
-          {`${tabbableDate.format('MMMM')} ${tabbableDate.format('YYYY')}`}
+          {month(tabbableDate)} {formatYear(tabbableDate)}
         </h2>
         <div>
           <CalendarButton
@@ -196,17 +250,19 @@ const Calendar: FC<Props> = ({
             disabled={previousMonthDisabled}
             onClick={() => {
               setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
-              const newMonth = tabbableDate.clone().subtract(1, 'month');
-              if (newMonth.isBefore(min, 'day')) {
+              const newMonth = addMonths(tabbableDate, -1);
+              if (newMonth < min && !isSameDay(newMonth, min)) {
                 setTabbableDate(min);
               } else {
                 setTabbableDate(newMonth);
               }
               setPreviousMonthDisabled(
-                newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
+                addMonths(newMonth, -1) < min &&
+                  !isSameMonth(addMonths(newMonth, -1), min)
               );
               setNextMonthDisabled(
-                newMonth.clone().add(1, 'month').isAfter(max, 'month')
+                addMonths(newMonth, 1) > max &&
+                  !isSameMonth(addMonths(newMonth, -1), max)
               );
             }}
           >
@@ -225,17 +281,19 @@ const Calendar: FC<Props> = ({
             disabled={nextMonthDisabled}
             onClick={() => {
               setUpdateFocus(false); // if we are navigating the calendar by month controls, we don't want to update the focus
-              const newMonth = tabbableDate.clone().add(1, 'month');
-              if (newMonth.isAfter(max, 'day')) {
+              const newMonth = addMonths(tabbableDate, 1);
+              if (newMonth > max && !isSameDay(newMonth, max)) {
                 setTabbableDate(max);
               } else {
                 setTabbableDate(newMonth);
               }
               setPreviousMonthDisabled(
-                newMonth.clone().subtract(1, 'month').isBefore(min, 'month')
+                addMonths(newMonth, -1) < min &&
+                  !isSameMonth(addMonths(newMonth, -1), min)
               );
               setNextMonthDisabled(
-                newMonth.clone().add(1, 'month').isAfter(max, 'month')
+                addMonths(newMonth, 1) > max &&
+                  !isSameMonth(addMonths(newMonth, -1), max)
               );
             }}
           >
@@ -303,31 +361,33 @@ const Calendar: FC<Props> = ({
               <tr key={i}>
                 {row.map((date, i) => {
                   const isDisabled =
-                    !date?.date() ||
+                    !date?.getDate() ||
                     !isRequestableDate({
-                      date: date,
+                      date,
                       startDate: min,
                       endDate: max,
                       excludedDates,
                       excludedDays,
                     });
                   const isTabbable =
-                    closestTabbableDate.format('DD/MM/YYYY') ===
-                    date?.format('DD/MM/YYYY');
+                    date && isSameDay(closestTabbableDate, date);
                   return (
                     <Td
                       isKeyboard={isKeyboard}
                       key={i}
                       onClick={() => {
                         if (!isDisabled && date) {
-                          setChosenDate(date.format('DD/MM/YYYY'));
+                          setChosenDate(formatWithSlashes(date));
                           setUpdateFocus(true); // if we are navigating the calendar by day controls, we want to update the focus
                           setTabbableDate(date);
                           setShowModal(false);
                           setMessage('');
                         } else {
+                          // e.g. The 1st September is not available
                           setMessage(
-                            `The ${date.format('Do MMMM')} is not available`
+                            `The ${ordinal(date)} ${month(
+                              date
+                            )} is not available`
                           );
                         }
                       }}
@@ -335,20 +395,26 @@ const Calendar: FC<Props> = ({
                       ref={isTabbable ? tabbableDateRef : null}
                       aria-disabled={isDisabled}
                       aria-selected={
-                        chosenDate ? chosenDate.isSame(date, 'day') : false
+                        chosenDate ? isSameDay(chosenDate, date) : false
                       }
                     >
                       {isDisabled ? (
+                        // e.g. Not available, 1st September
                         <span
-                          aria-label={`Not available, ${date?.format(
-                            'Do MMMM'
+                          aria-label={`Not available, ${ordinal(date)} ${month(
+                            date
                           )}`}
                         >
-                          <Number>{date?.date()}</Number>
+                          <Number>{date.getDate()}</Number>
                         </span>
                       ) : (
-                        <span aria-label={date?.format('dddd Do MMMM')}>
-                          <Number>{date?.date()}</Number>
+                        // e.g. Thursday 1st September
+                        <span
+                          aria-label={`${formatDay(date)} ${ordinal(
+                            date
+                          )} ${month(date)}`}
+                        >
+                          <Number>{date.getDate()}</Number>
                         </span>
                       )}
                     </Td>

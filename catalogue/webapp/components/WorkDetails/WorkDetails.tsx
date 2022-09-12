@@ -242,8 +242,8 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {locationOfWork && (
           <WorkDetailsText
             title={locationOfWork.noteType.label}
-            text={locationOfWork.contents}
-            allowRawHtml={true}
+            html={locationOfWork.contents}
+            allowDangerousRawHtml={true}
           />
         )}
         <PhysicalItems work={work} items={physicalItems} />
@@ -302,8 +302,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       <WorkDetailsText
                         title="Location"
                         noSpacing={true}
-                        text={[`${locationLabel} ${locationShelfmark}`]}
-                        allowRawHtml={true}
+                        text={`${locationLabel} ${locationShelfmark}`}
                       />
                     )}
 
@@ -312,8 +311,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                         title="Note"
                         inlineHeading={true}
                         noSpacing={true}
-                        text={[holding.note]}
-                        allowRawHtml={true}
+                        text={holding.note}
                       />
                     )}
                   </Space>
@@ -513,7 +511,6 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                 <WorkDetailsText
                   title="Licence"
                   text={[digitalLocationInfo.license.label]}
-                  allowRawHtml={true}
                 />
               </Space>
               {digitalLocation?.accessConditions[0]?.terms && (
@@ -526,8 +523,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   <WorkDetailsText
                     title="Access conditions"
                     noSpacing={true}
-                    text={[digitalLocation?.accessConditions[0]?.terms]}
-                    allowRawHtml={true}
+                    text={digitalLocation?.accessConditions[0]?.terms}
                   />
                 </Space>
               )}
@@ -542,27 +538,34 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   controlText="Can I use this?"
                 >
                   <>
-                    {digitalLocationInfo.license.humanReadableText.length >
-                      0 && (
+                    {digitalLocationInfo.license.humanReadableText && (
                       <WorkDetailsText
-                        text={digitalLocationInfo.license.humanReadableText}
-                        allowRawHtml={true}
+                        contents={digitalLocationInfo.license.humanReadableText}
                       />
                     )}
                     <WorkDetailsText
-                      text={[
-                        [
-                          `Credit: ${work.title.replace(/\.$/g, '')}.`,
-                          credit &&
-                            `<a href="https://wellcomecollection.org/works/${work.id}">${credit}</a>.`,
-                          digitalLocationInfo.license.url
-                            ? `<a href="${digitalLocationInfo.license.url}">${digitalLocationInfo.license.label}</a>`
-                            : digitalLocationInfo.license.label,
-                        ]
-                          .filter(Boolean)
-                          .join(' '),
-                      ]}
-                      allowRawHtml={true}
+                      contents={
+                        <>
+                          Credit: {work.title.replace(/\.$/g, '')}.
+                          {credit && (
+                            <>
+                              <a
+                                href={`https://wellcomecollection.org/works/${work.id}`}
+                              >
+                                {credit}
+                              </a>
+                              .
+                            </>
+                          )}
+                          {digitalLocationInfo.license.url ? (
+                            <a href={digitalLocationInfo.license.url}>
+                              {digitalLocationInfo.license.label}
+                            </a>
+                          ) : (
+                            digitalLocationInfo.license.label
+                          )}
+                        </>
+                      }
                     />
                   </>
                 </ExplanatoryText>
@@ -594,35 +597,45 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       )}
 
       <WorkDetailsSection headingText="About this work">
+        {/*
+          Note: although alternative titles sometimes contain angle brackets, it's
+          normally used to denote a period of time, not HTML tags.
+
+          e.g. Florida Historical Society quarterly, Apr. 1908-<July 1909>
+        */}
         {work.alternativeTitles.length > 0 && (
           <WorkDetailsText
             title="Also known as"
             text={work.alternativeTitles}
-            allowRawHtml={true}
           />
         )}
 
         {work.description && (
           <WorkDetailsText
             title="Description"
-            text={[work.description]}
-            allowRawHtml={true}
+            html={work.description}
+            allowDangerousRawHtml={true}
           />
         )}
 
+        {/* 
+          Note: although production event labels sometimes contain angle brackets, it's
+          normally used to denote a period of time, not HTML tags.
+          
+          e.g. London : County Council, 1900-<1983>
+        */}
         {work.production.length > 0 && (
           <WorkDetailsText
             title="Publication/Creation"
             text={work.production.map(productionEvent => productionEvent.label)}
-            allowRawHtml={true}
           />
         )}
 
         {work.physicalDescription && (
           <WorkDetailsText
             title="Physical description"
-            text={[work.physicalDescription]}
-            allowRawHtml={true}
+            html={work.physicalDescription}
+            allowDangerousRawHtml={true}
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -666,41 +679,33 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
-            text={note.contents}
-            allowRawHtml={true}
+            html={note.contents}
+            allowDangerousRawHtml={true}
           />
         ))}
 
+        {/*
+          Note: although angle brackets are sometimes used in the lettering field,
+          it's usually to denote missing or unclear text, not HTML.
+          
+          e.g. Patient <...>, sup<erior> mesenteric a<rtery>
+          */}
         {work.lettering && (
-          <WorkDetailsText
-            title="Lettering"
-            text={[work.lettering]}
-            allowRawHtml={true}
-          />
+          <WorkDetailsText title="Lettering" text={work.lettering} />
         )}
 
         {work.edition && (
-          <WorkDetailsText
-            title="Edition"
-            text={[work.edition]}
-            allowRawHtml={true}
-          />
+          <WorkDetailsText title="Edition" text={work.edition} />
         )}
 
-        {duration && (
-          <WorkDetailsText
-            title="Duration"
-            text={[duration]}
-            allowRawHtml={true}
-          />
-        )}
+        {duration && <WorkDetailsText title="Duration" text={duration} />}
 
         {remainingNotes.map(note => (
           <WorkDetailsText
             key={note.noteType.label}
             title={note.noteType.label}
-            text={note.contents}
-            allowRawHtml={true}
+            html={note.contents}
+            allowDangerousRawHtml={true}
           />
         ))}
 
@@ -773,7 +778,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
       {(locationOfWork || physicalItems.length > 0) && renderWhereToFindIt()}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={`${font('intr', 5)}`}>
+        <div className={font('intr', 5)}>
           <CopyUrl
             id={work.id}
             url={`https://wellcomecollection.org/works/${work.id}`}

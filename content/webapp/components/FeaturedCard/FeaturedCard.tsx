@@ -12,7 +12,7 @@ import { Card } from '../../types/card';
 import { Label } from '@weco/common/model/labels';
 import { Link } from '../../types/link';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
-import { grid, classNames, font } from '@weco/common/utils/classnames';
+import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
@@ -108,21 +108,9 @@ const FeaturedCardArticleBody: FunctionComponent<FeaturedCardArticleBodyProps> =
         {positionInSeries && (
           <PartNumberIndicator number={positionInSeries} color={seriesColor} />
         )}
-        <h2
-          className={classNames({
-            [font('wb', 2)]: true,
-          })}
-        >
-          {article.title}
-        </h2>
+        <h2 className={font('wb', 2)}>{article.title}</h2>
         {article.promo?.caption && (
-          <p
-            className={classNames({
-              [font('intr', 5)]: true,
-            })}
-          >
-            {article.promo?.caption}
-          </p>
+          <p className={font('intr', 5)}>{article.promo?.caption}</p>
         )}
         {article.series.length > 0 && (
           <Space v={{ size: 'l', properties: ['margin-top'] }}>
@@ -152,13 +140,7 @@ const FeaturedCardExhibitionBody = ({
 }: FeaturedCardExhibitionBodyProps) => {
   return (
     <div data-test-id="featured-exhibition">
-      <h2
-        className={classNames({
-          [font('wb', 2)]: true,
-        })}
-      >
-        {exhibition.title}
-      </h2>
+      <h2 className={font('wb', 2)}>{exhibition.title}</h2>
       {!exhibition.statusOverride && exhibition.start && exhibition.end && (
         <Space
           as="p"
@@ -197,23 +179,17 @@ const FeaturedCardWrap = styled.div`
 
 type HasIsReversed = { isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs(() => ({
-  className: classNames({
-    'grid flex-end promo-link plain-link': true,
-  }),
+  className: 'grid flex-end promo-link plain-link',
 }))<HasIsReversed>`
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
 
 const FeaturedCardLeft = styled.div.attrs({
-  className: classNames({
-    [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-  }),
+  className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
 })``;
 
 const FeaturedCardRight = styled.div.attrs({
-  className: classNames({
-    'flex flex--column': true,
-  }),
+  className: 'flex flex--column',
 })<HasIsReversed>`
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
@@ -235,25 +211,23 @@ const FeaturedCardRight = styled.div.attrs({
   `}
 `;
 
-const FeaturedCardCopy = styled(Space).attrs(() => ({
+const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    'flex-1': true,
-  }),
-}))`
+  className: `flex-1 font-${props.color}`,
+}))<{ background: string }>`
+  background-color: ${props => props.theme.color(props.background)};
+
   ${props => props.theme.media.large`
     margin-right: -${props => props.theme.gutter.large}px;
   `}
 `;
 
-const FeaturedCardShim = styled.div.attrs<{ background: string }>(props => ({
-  className: classNames({
-    [`bg-${props.background}`]: true,
-    'is-hidden-s is-hidden-m relative': true,
-    [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-  }),
-}))<HasIsReversed & { background: string }>`
+const FeaturedCardShim = styled.div.attrs<{ background: string }>({
+  className: `is-hidden-s is-hidden-m ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`,
+})<HasIsReversed & { background: string }>`
+  position: relative;
+  background-color: ${props => props.theme.color(props.background)};
   height: 21px;
   /* Prevent a white line appearing above the shim because of browser rounding errors */
   top: -1px;
@@ -298,32 +272,19 @@ const FeaturedCard: FunctionComponent<Props> = ({
             />
           )}
         </FeaturedCardLeft>
-        <div
-          className={classNames({
-            flex: true,
-            [grid({ s: 12, m: 11, l: 5, xl: 5 })]: true,
-          })}
-        >
+        <div className={`flex ${grid({ s: 12, m: 11, l: 5, xl: 5 })}`}>
           <FeaturedCardRight isReversed={isReversed}>
             {labels && labels.length > 0 ? (
               <LabelsList labels={labels} />
             ) : (
               <div style={{ marginBottom: '26px' }} />
             )}
-            <FeaturedCardCopy
-              className={classNames({
-                [`bg-${background} font-${color}`]: true,
-              })}
-            >
+            <FeaturedCardCopy background={background} color={color}>
               {children}
             </FeaturedCardCopy>
           </FeaturedCardRight>
         </div>
-        <div
-          className={classNames({
-            [grid({ s: 12, m: 12, l: 7, xl: 7 })]: true,
-          })}
-        ></div>
+        <div className={grid({ s: 12, m: 12, l: 7, xl: 7 })}></div>
         <FeaturedCardShim background={background} isReversed={isReversed} />
       </FeaturedCardLink>
     </FeaturedCardWrap>

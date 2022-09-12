@@ -1,5 +1,10 @@
 import { DateRange } from '../model/date-range';
 
+// This is just to allow us to mock values in tests
+export function today(): Date {
+  return new Date();
+}
+
 export function getEarliestFutureDateRange(
   dateRanges: DateRange[],
   fromDate: Date | undefined = new Date()
@@ -34,6 +39,16 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
 
 export function isSameDay(date1: Date, date2: Date): boolean {
   return isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate();
+}
+
+// Note: the order of arguments to this function is designed so you can
+// concatenate them and get sensible-looking results.
+//
+//      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
+//        => isSameDayOrBefore(A, C)
+//
+export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
+  return isSameDay(date1, date2) || date1 <= date2;
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.
@@ -71,6 +86,19 @@ export function addDays(d: Date, days: number): Date {
   return res;
 }
 
+/** Finds the start and end of the week.
+ *
+ * For the purposes of these two functions, weeks start on a Sunday.
+ *
+ */
+export function startOfWeek(d: Date): Date {
+  return addDays(d, -d.getDay());
+}
+
+export function endOfWeek(d: Date): Date {
+  return addDays(d, 6 - d.getDay());
+}
+
 /** Returns a loose range of Friday–Sunday for the next weekend after the
  * given date, possibly including it.
  *
@@ -90,4 +118,31 @@ export function getNextWeekendDateRange(date: Date): DateRange {
     start: startOfDay(start),
     end: endOfDay(end),
   };
+}
+
+/** Returns an array containing all the dates between `start` and `end`.
+ *
+ * e.g. getDatesBetween({ start: new Date(2001-01-01), end: new Date(2001-01-04) })
+ *          => [2001-01-01, 2001-01-02, 2001-01-03, 2001-04-01]
+ *
+ */
+export function getDatesBetween({
+  start,
+  end,
+}: {
+  start: Date;
+  end: Date;
+}): Date[] {
+  const dateArray: Date[] = [];
+  let currentDate = start;
+  while (currentDate <= end) {
+    dateArray.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+  return dateArray;
+}
+
+export function countDaysBetween(a: Date, b: Date): number {
+  const millisecondsInDay = 1000 * 60 * 60 * 24;
+  return Math.floor((a.valueOf() - b.valueOf()) / millisecondsInDay);
 }

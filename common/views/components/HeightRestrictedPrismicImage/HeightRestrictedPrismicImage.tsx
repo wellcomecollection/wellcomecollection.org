@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Image from 'next/image';
-import { classNames } from '../../../utils/classnames';
+import styled from 'styled-components';
 import { ImageType } from '../../../model/image';
 import {
   createPrismicLoader,
@@ -12,6 +12,12 @@ export type Props = {
   maxWidth?: number;
   quality: ImageQuality;
 };
+
+const PrismicImage = styled(Image).attrs({
+  className: 'font-white',
+})`
+  background-color: ${props => props.theme.color('charcoal')};
+`;
 
 function determineSize(viewPortImageDifference): string {
   // the further from 0 the more extreme the difference
@@ -73,13 +79,10 @@ const HeightRestrictedPrismicImage: FC<Props> = ({
     : image.width;
 
   return (
-    <Image
+    <PrismicImage
       width={image.width}
       height={image.height}
       layout="responsive"
-      className={classNames({
-        'bg-charcoal font-white': true,
-      })}
       sizes={`${vSizesString}, calc(100vw - 84px)`}
       src={image.contentUrl}
       alt={image.alt || ''}

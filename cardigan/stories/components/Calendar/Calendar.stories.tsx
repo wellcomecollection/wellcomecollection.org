@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import Calendar from '@weco/catalogue/components/Calendar/CalendarSelect';
-import { london } from '@weco/common/utils/format-date';
 
 const Template = () => {
   const [date, setDate] = useState('');
 
   return (
     <Calendar
-      min={london('2002-04-01')}
-      max={london('2002-05-08')}
+      min={new Date('2002-04-01T12:00:00Z')}
+      max={new Date('2002-05-08T12:00:00Z')}
       excludedDates={[
-        london('2002-04-07'),
-        london('2002-04-08'),
-        london('2002-04-09'),
+        new Date('2002-04-07T12:00:00Z'),
+        new Date('2002-04-08T12:00:00Z'),
+        new Date('2002-04-09T12:00:00Z'),
       ]}
       excludedDays={[0]}
-      initialFocusDate={london('2002-04-21')}
+      initialFocusDate={new Date('2002-04-21T12:00:00Z')}
       chosenDate={date}
       setChosenDate={setDate}
     />

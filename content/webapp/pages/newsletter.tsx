@@ -64,7 +64,7 @@ const Newsletter: FC<Props> = ({ result }) => {
             size: 'xl',
             properties: ['padding-bottom'],
           }}
-          className={`row`}
+          className="row"
         >
           <div className="container">
             <div className="grid">

@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
 import cookies from 'next-cookies';
 import useIsomorphicLayoutEffect from '../../../hooks/useIsomorphicLayoutEffect';
@@ -33,6 +34,11 @@ const includes = [
   'succeededBy',
   'holdings',
 ];
+
+const ToolbarContainer = styled.div`
+  background-color: ${props => props.theme.color('purple')};
+  z-index: 100;
+`;
 
 /** tzitzit is a tool used by the Digital Editorial team to create TASL
  * strings for Prismic. https://github.com/wellcomecollection/tzitzit
@@ -217,12 +223,7 @@ const ApiToolbar: FunctionComponent = () => {
   };
 
   return (
-    <div
-      className={`bg-purple font-white flex ${mini && 'inline-block'}`}
-      style={{
-        zIndex: 100,
-      }}
-    >
+    <ToolbarContainer className={`font-white flex ${mini && 'inline-block'}`}>
       <div
         className="flex flex--v-center"
         style={{
@@ -270,7 +271,7 @@ const ApiToolbar: FunctionComponent = () => {
         {!mini && <>🤏</>}
         {mini && <>👐</>}
       </button>
-    </div>
+    </ToolbarContainer>
   );
 };
 

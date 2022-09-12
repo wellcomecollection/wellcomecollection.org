@@ -1,5 +1,6 @@
-import React, { Fragment, FC, ReactNode } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import React, { FC, ReactNode } from 'react';
+import styled from 'styled-components';
+import { font } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { LabelField } from '@weco/common/model/label-field';
@@ -16,52 +17,41 @@ type Props = {
   children: ReactNode;
 };
 
+const InfoContainer = styled(Space).attrs({
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
+})`
+  background-color: ${props => props.theme.color('yellow')};
+`;
+
 const InfoBox: FC<Props> = ({ title, items, children }) => {
   return (
     <>
       <h2 className="h2">{title}</h2>
-      <Space
-        v={{
-          size: 'l',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
-        h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
-        className={classNames({
-          'bg-yellow': true,
-        })}
-      >
+      <InfoContainer>
         {items.map(({ title, description, icon }, i) => (
-          <Fragment key={i}>
-            <div className={font('intb', 4)}>
-              {icon && (title || description) && (
-                <Space
-                  h={{ size: 's', properties: ['margin-right'] }}
-                  className={`float-l`}
-                >
-                  <Icon icon={icon} />
-                </Space>
-              )}
-              {title && (
-                <h3 className={classNames([font('intb', 5)])}>{title}</h3>
-              )}
-              {description && (
-                <Space
-                  v={{
-                    size: 'm',
-                    properties: ['margin-bottom'],
-                  }}
-                  className={classNames({
-                    [font('intr', 5)]: true,
-                  })}
-                >
-                  <PrismicHtmlBlock html={description} />
-                </Space>
-              )}
-            </div>
-          </Fragment>
+          <div key={i}>
+            {icon && (title || description) && (
+              <Space
+                h={{ size: 's', properties: ['margin-right'] }}
+                className={`float-l ${font('intb', 4)}`}
+              >
+                <Icon icon={icon} />
+              </Space>
+            )}
+            {title && <h3 className={font('intb', 5)}>{title}</h3>}
+            {description && (
+              <Space
+                v={{ size: 'm', properties: ['margin-bottom'] }}
+                className={font('intr', 5)}
+              >
+                <PrismicHtmlBlock html={description} />
+              </Space>
+            )}
+          </div>
         ))}
         {children}
-      </Space>
+      </InfoContainer>
     </>
   );
 };

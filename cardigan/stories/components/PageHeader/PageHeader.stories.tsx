@@ -157,7 +157,7 @@ const EventContentTypeInfo = () => (
         <Space
           as="span"
           h={{ size: 'xs', properties: ['margin-right'] }}
-          className={`flex flex--v-center`}
+          className="flex flex--v-center"
         >
           <Dot color={'marble'} />
         </Space>
@@ -173,7 +173,7 @@ const ExhibitionContentTypeInfo = () => (
       <Space
         as="span"
         h={{ size: 'xs', properties: ['margin-right'] }}
-        className={`flex flex--v-center`}
+        className="flex flex--v-center"
       >
         <Dot color={'marble'} />
       </Space>

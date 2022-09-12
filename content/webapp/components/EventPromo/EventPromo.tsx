@@ -130,7 +130,7 @@ const EventPromo: FC<Props> = ({
 
           {event.availableOnline && (
             <Space v={{ size: 's', properties: ['margin-top'] }}>
-              <WatchLabel text={`Available to watch`} />
+              <WatchLabel text="Available to watch" />
             </Space>
           )}
 
@@ -164,7 +164,7 @@ const EventPromo: FC<Props> = ({
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
-                className={`flex flex--v-center`}
+                className="flex flex--v-center"
               >
                 <Dot color={'red'} />
               </Space>
@@ -181,7 +181,7 @@ const EventPromo: FC<Props> = ({
           )}
 
           {!isPast && event.times.length > 1 && (
-            <p className={`${font('intb', 6)}`}>See all dates/times</p>
+            <p className={font('intb', 6)}>See all dates/times</p>
           )}
 
           {isPast && !event.availableOnline && (
@@ -189,7 +189,7 @@ const EventPromo: FC<Props> = ({
               <Space
                 as="span"
                 h={{ size: 'xs', properties: ['margin-right'] }}
-                className={`flex flex--v-center`}
+                className="flex flex--v-center"
               >
                 <Dot color={'marble'} />
               </Space>
@@ -212,7 +212,7 @@ const EventPromo: FC<Props> = ({
           h={{ size: 'm', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-bottom'] }}
         >
-          <Divider color={`white`} isKeyline={true} />
+          <Divider color="white" isKeyline={true} />
           <Space v={{ size: 's', properties: ['padding-top'] }}>
             <LabelsList
               labels={event.secondaryLabels}

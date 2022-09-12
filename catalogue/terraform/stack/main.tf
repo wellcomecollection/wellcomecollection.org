@@ -16,8 +16,13 @@ module "catalogue-service-17092020" {
     var.service_egress_security_group_id
   ]
 
+  # Note: in September 2022, we were running with 0.5 vCPU and 1 GB of memory;
+  # we saw occasionally failures where the memory would spike to 100%
+  # and the app would crash.
+  #
+  # We're increasing it to 2 GB to see if that improves reliability.
   cpu    = 512
-  memory = 1024
+  memory = 2048
 
   env_vars = {
     PROD_SUBDOMAIN  = var.subdomain

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
@@ -16,7 +16,6 @@ type Props = {
   };
   position: number;
   hidePromoText?: boolean;
-  hasTransparentBackground?: boolean;
   sizesQueries?: string;
 };
 
@@ -24,7 +23,6 @@ const StoryPromo: FunctionComponent<Props> = ({
   article,
   position,
   hidePromoText = false,
-  hasTransparentBackground = false,
 }: Props) => {
   const image = article.promo?.image;
   const url = linkResolver(article);
@@ -64,9 +62,6 @@ const StoryPromo: FunctionComponent<Props> = ({
         });
       }}
       href={url}
-      className={classNames({
-        'bg-cream': !hasTransparentBackground,
-      })}
     >
       <div className="relative">
         {isNotUndefined(image) && (
@@ -108,20 +103,12 @@ const StoryPromo: FunctionComponent<Props> = ({
               properties: ['margin-bottom'],
             }}
             as="h2"
-            className={`
-            promo-link__title
-            ${font('wb', 3)}
-          `}
+            className={`promo-link__title ${font('wb', 3)}`}
           >
             {article.title}
           </Space>
           {!hidePromoText && isNotUndefined(article.promo?.caption) && (
-            <p
-              className={classNames({
-                'inline-block no-margin': true,
-                [font('intr', 5)]: true,
-              })}
-            >
+            <p className={`inline-block no-margin ${font('intr', 5)}`}>
               {article.promo?.caption}
             </p>
           )}
