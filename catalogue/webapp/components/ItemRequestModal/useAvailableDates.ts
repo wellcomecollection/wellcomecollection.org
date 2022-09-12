@@ -30,6 +30,7 @@ export const useAvailableDates = (): AvailableDates => {
   const libraryVenue = getVenueById(venues, collectionVenueId.libraries.id);
 
   const regularLibraryOpeningTimes = libraryVenue?.openingHours.regular || [];
+
   const closedDays = findClosedDays(regularLibraryOpeningTimes).map(
     convertOpeningHoursDayToDayNumber
   );
@@ -42,7 +43,11 @@ export const useAvailableDates = (): AvailableDates => {
     })
     .filter(Boolean);
 
-  const nextAvailable = determineNextAvailableDate(today(), closedDays);
+  const nextAvailable = determineNextAvailableDate(
+    today(),
+    closedDays,
+    exceptionalClosedDates
+  );
 
   // There should be a minimum of a 2 week window in which to select a date
   const minimumLastAvailable = nextAvailable && addDays(nextAvailable, 13);
