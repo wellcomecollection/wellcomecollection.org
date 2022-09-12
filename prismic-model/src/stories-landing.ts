@@ -11,13 +11,11 @@ const featuredBooks: CustomType = {
   status: true,
   json: {
     'Featured stories/series': {
-      nonRepeat: {
-        title,
-        description: multiLineText({ label: 'description' }),
-        stories: list('stories', {
-          story: link('story/series', 'document', ['articles', 'series']),
-        }),
-      },
+      title,
+      description: multiLineText({ label: 'description' }),
+      stories: list('stories', {
+        story: link('story/series', 'document', ['articles', 'series']),
+      }),
     },
     'Featured books': {
       books: list('books', { book: link('book', 'document', ['books']) }),
