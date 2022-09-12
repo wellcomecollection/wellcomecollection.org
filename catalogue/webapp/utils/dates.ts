@@ -66,7 +66,6 @@ export function findNextPickUpDay(
     // All days are closed, so we'll never be able to find a non closed day.
     return undefined;
   }
-  console.log({ date });
 
   // If the library is closed on this day, we want to set the pick-up day to be
   // the next open day plus one, so that e.g. Monday morning isn't a scramble
