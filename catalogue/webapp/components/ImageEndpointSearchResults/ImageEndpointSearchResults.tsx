@@ -19,7 +19,7 @@ import Space from '@weco/common/views/components/styled/Space';
 
 type Props = {
   images: CatalogueResultsList<Image>;
-  bgColor?: string;
+  background?: string;
 };
 
 type GalleryImageProps = Image & {
@@ -57,7 +57,7 @@ const ImageContainer = styled.li`
 
 const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   images,
-  bgColor,
+  background,
 }: Props) => {
   const { isFullSupportBrowser } = useContext(AppContext);
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
@@ -102,7 +102,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
             setIsActive(true);
           }}
           layout="fixed"
-          bgColor={bgColor}
+          background={background}
         />
       </ImageContainer>
     );
@@ -151,7 +151,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
                     }
                   }}
                   layout="fill"
-                  bgColor={bgColor}
+                  background={background}
                 />
               </Space>
             </li>
