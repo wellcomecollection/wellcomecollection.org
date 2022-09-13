@@ -94,6 +94,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
     ...openingHoursLd(libraryOpeningHours),
   };
 
+  const polyfillVersion = '3.103.0';
   const polyfillFeatures = [
     'default',
     'AbortController',
@@ -178,7 +179,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <script
-          src={`https://cdn.polyfill.io/v3/polyfill.js?features=${polyfillFeatures.join(
+          src={`https://cdn.polyfill.io/v3/polyfill.js?version=${polyfillVersion}&features=${polyfillFeatures.join(
             ','
           )}`}
         />
