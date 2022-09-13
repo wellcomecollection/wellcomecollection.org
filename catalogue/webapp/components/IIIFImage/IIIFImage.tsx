@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import Image, { ImageLoaderProps } from 'next/image';
 import styled from 'styled-components';
+
 import { ImageType } from '@weco/common/model/image';
+import { transparentGreyPNG } from '@weco/common/utils/backgrounds';
 import {
   iiifImageTemplate,
   convertImageUri,
@@ -11,8 +13,10 @@ import {
   BreakpointSizes,
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
-const StyledImage = styled(Image).attrs({ className: 'font-charcoal' })`
-  background-color: ${props => props.theme.color('white')};
+const StyledImage = styled(Image).attrs({ className: 'font-charcoal' })<{
+  bgColor: string;
+}>`
+  background-color: ${props => props.theme.color(props.bgColor)};
 `;
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
@@ -26,51 +30,72 @@ export type Props = {
     naturalWidth: number;
     naturalHeight: number;
   }) => void;
+  layout: 'raw' | 'fill' | 'fixed';
   priority?: boolean;
-  layout: 'raw' | 'fill';
   width?: number;
+  bgColor?: string;
 };
 
 const IIIFImage: FC<Props> = ({
   image,
   sizes,
   onLoadingComplete,
-  priority = false,
   layout,
+  priority = false,
   width = 300,
+  bgColor = 'white',
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
     : undefined;
 
+  // The Nextjs Image component has an experimental 'raw' layout feature
+  // which will be rendered as a single image element with no wrappers, sizers or other responsive behavior.
+  // We may be able to use this in future but, until then, render our own img element.
+  if (layout === 'raw') {
+    return (
+      <img
+        src={iiifImageTemplate(image.contentUrl)({
+          size: `${width},`,
+        })}
+        srcSet={''}
+        sizes={sizesString}
+        alt={image.alt || ''}
+      />
+    );
+  }
+
+  if (layout === 'fixed') {
+    return (
+      <StyledImage
+        layout={layout}
+        sizes={sizesString}
+        src={image.contentUrl}
+        alt={image.alt || ''}
+        loader={IIIFLoader}
+        onLoadingComplete={onLoadingComplete}
+        width={image.width}
+        height={image.height}
+        priority={priority}
+        placeholder="blur"
+        blurDataURL={transparentGreyPNG}
+        bgColor={bgColor}
+      />
+    );
+  }
+
   return (
-    <>
-      {/*
-        The Nextjs Image component has an experimental 'raw' layout feature
-        which will be rendered as a single image element with no wrappers, sizers or other responsive behavior.
-        We may be able to use this in future but, until then, render our own img element.
-      */}
-      {layout === 'raw' ? (
-        <img
-          src={iiifImageTemplate(image.contentUrl)({
-            size: `${width},`,
-          })}
-          srcSet={''}
-          sizes={sizesString}
-        />
-      ) : (
-        <StyledImage
-          layout={layout}
-          sizes={sizesString}
-          src={image.contentUrl}
-          alt={image.alt || ''}
-          loader={IIIFLoader}
-          onLoadingComplete={onLoadingComplete}
-          objectFit="contain"
-          priority={priority}
-        />
-      )}
-    </>
+    <StyledImage
+      layout={layout}
+      sizes={sizesString}
+      src={image.contentUrl}
+      alt={image.alt || ''}
+      loader={IIIFLoader}
+      onLoadingComplete={onLoadingComplete}
+      objectFit="contain"
+      priority={priority}
+      bgColor={bgColor}
+    />
   );
 };
 
