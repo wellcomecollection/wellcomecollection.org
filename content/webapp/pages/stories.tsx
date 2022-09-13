@@ -186,18 +186,18 @@ const StoriesPage: FC<Props> = ({
 
   return (
     <PageLayout
-      title={'Stories'}
+      title="Stories"
       description={pageDescriptions.stories}
       url={{ pathname: `/stories` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'stories'}
+      openGraphType="website"
+      siteSection="stories"
       image={firstArticle && firstArticle.image}
-      rssUrl={'https://rss.wellcomecollection.org/stories'}
+      rssUrl="https://rss.wellcomecollection.org/stories"
     >
       <PageHeader
         breadcrumbs={{ items: [] }}
-        title={'Stories'}
+        title="Stories"
         isContentTypeInfoBeforeMedia={false}
         sectionLevelPage={true}
       />
@@ -227,8 +227,8 @@ const StoriesPage: FC<Props> = ({
             <Layout12>
               <FeaturedCardArticle
                 article={firstArticle}
-                background={'charcoal'}
-                color={'white'}
+                background="charcoal"
+                color="white"
               />
             </Layout12>
           </Space>

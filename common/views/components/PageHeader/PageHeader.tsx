@@ -238,7 +238,7 @@ const PageHeader: FunctionComponent<Props> = ({
         )}
       </div>
       {!hasMedia && !isContentTypeInfoBeforeMedia && !sectionLevelPage && (
-        <WobblyEdge background={'white'} />
+        <WobblyEdge background="white" />
       )}
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <Layout gridSizes={sectionLevelPageGridLayout}>

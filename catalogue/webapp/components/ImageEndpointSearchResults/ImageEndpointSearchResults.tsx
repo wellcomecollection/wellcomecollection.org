@@ -160,10 +160,10 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       )}
 
       <Modal
-        id={'expanded-image-dialog'}
+        id="expanded-image-dialog"
         isActive={isActive}
         setIsActive={setIsActive}
-        width={'80vw'}
+        width="80vw"
       >
         <ExpandedImage
           resultPosition={expandedImagePosition}

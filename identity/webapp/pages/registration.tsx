@@ -181,8 +181,8 @@ const RegistrationPage: NextPage<Props> = ({
                         render={({ value, onChange }) => (
                           <FlexStartCheckbox>
                             <Checkbox
-                              name={'termsAndConditions'}
-                              id={'termsAndConditions'}
+                              name="termsAndConditions"
+                              id="termsAndConditions"
                               value={value}
                               onChange={(e: FormEvent<HTMLInputElement>) =>
                                 onChange(e.currentTarget.checked)

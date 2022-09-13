@@ -71,7 +71,7 @@ const BookPromo: FC<Props> = ({ book }) => {
         >
           <Space
             v={{ size: 's', properties: ['margin-bottom'] }}
-            className={'relative'}
+            className="relative"
           >
             <Space
               v={{

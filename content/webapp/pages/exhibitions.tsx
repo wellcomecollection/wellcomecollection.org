@@ -100,8 +100,8 @@ const ExhibitionsPage: FC<Props> = props => {
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstExhibition && firstExhibition.image}
     >
       <PageHeader

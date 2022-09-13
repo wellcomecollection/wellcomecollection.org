@@ -166,7 +166,7 @@ const EventPromo: FC<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color={'red'} />
+                <Dot color="red" />
               </Space>
               Fully booked
             </Space>
@@ -191,7 +191,7 @@ const EventPromo: FC<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color={'marble'} />
+                <Dot color="marble" />
               </Space>
               Past
             </div>

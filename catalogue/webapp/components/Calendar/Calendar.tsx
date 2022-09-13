@@ -268,7 +268,7 @@ const Calendar: FC<Props> = ({
           >
             <Icon
               matchText={true}
-              color={'currentColor'}
+              color="currentColor"
               icon={chevron}
               rotate={90}
             />
@@ -299,7 +299,7 @@ const Calendar: FC<Props> = ({
           >
             <Icon
               matchText={true}
-              color={'currentColor'}
+              color="currentColor"
               icon={chevron}
               rotate={270}
             />

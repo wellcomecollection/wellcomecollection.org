@@ -212,10 +212,10 @@ const NewsletterPromo: FC = () => {
                       <FormElementWrapper>
                         <TextInput
                           required={true}
-                          id={'newsletter-input'}
-                          type={'email'}
-                          name={'email'}
-                          label={'Your email address'}
+                          id="newsletter-input"
+                          type="email"
+                          name="email"
+                          label="Your email address"
                           errorMessage={
                             isSubmitError
                               ? 'There was a problem. Please try again.'

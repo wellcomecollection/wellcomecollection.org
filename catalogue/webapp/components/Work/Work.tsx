@@ -82,9 +82,9 @@ const Work: FunctionComponent<Props> = ({
         title={title}
         description={work.description || title}
         url={{ pathname: `/works/${work.id}`, query: {} }}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={workLd(work)}
-        siteSection={'collections'}
+        siteSection="collections"
         image={image}
         hideNewsletterPromo={true}
       >

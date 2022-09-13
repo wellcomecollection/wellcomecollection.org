@@ -86,7 +86,7 @@ const Contributor: FC<ContributorType> = ({
           </div>
 
           {role && role.title && (
-            <div className={'font-pewter ' + font('intb', 5)}>{role.title}</div>
+            <div className={`font-pewter ${font('intb', 5)}`}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (

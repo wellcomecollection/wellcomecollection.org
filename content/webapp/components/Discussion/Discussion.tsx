@@ -44,7 +44,7 @@ const Discussion: FunctionComponent<Props> = ({ title, text }: Props) => {
           {isEnhanced && (
             <ButtonContainer>
               <ButtonSolid
-                ariaControls={'discussion-container'}
+                ariaControls="discussion-container"
                 ariaExpanded={isActive}
                 icon={isActive ? minus : plus}
                 clickHandler={() => {

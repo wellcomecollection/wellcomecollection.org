@@ -283,8 +283,8 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
       }
       url={{ pathname: `/exhibitions/${exhibition.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={exhibition.image}
     >
       <ContentPage

@@ -58,7 +58,7 @@ toolbarSegmentedControl.storyName = 'ToolbarSegmentedControl';
 
 const DropdownButtonTemplate = args => {
   return (
-    <DropdownButton label={'Filters'} buttonType={args.buttonType} id="example">
+    <DropdownButton label="Filters" buttonType={args.buttonType} id="example">
       <div>
         <ul className="plain-list no-margin no-padding">
           <li>

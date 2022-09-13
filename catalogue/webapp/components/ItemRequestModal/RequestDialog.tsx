@@ -116,7 +116,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         You are about to request the following item:
       </p>
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-        <p className={'no-margin'}>
+        <p className="no-margin">
           {work.title && <span className="block">{work.title}</span>}
           {item.title && <span>{item.title}</span>}
         </p>
@@ -157,7 +157,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         <Space
           h={{ size: 'l', properties: ['margin-right'] }}
           v={{ size: 's', properties: ['margin-bottom'] }}
-          className={'inline-block'}
+          className="inline-block"
         >
           <ButtonSolid text="Confirm request" />
         </Space>

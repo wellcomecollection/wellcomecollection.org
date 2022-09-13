@@ -41,7 +41,7 @@ const WobblyRow: FunctionComponent<Props> = ({ children }: Props) => (
         </div>
       </div>
     </div>
-    <WobblyEdge isValley={false} intensity={35} background={'white'} />
+    <WobblyEdge isValley={false} intensity={35} background="white" />
   </WobblyRowContainer>
 );
 

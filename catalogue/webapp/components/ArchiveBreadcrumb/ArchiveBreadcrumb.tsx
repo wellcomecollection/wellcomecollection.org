@@ -84,7 +84,7 @@ const ArchiveWorkLink: FunctionComponent<ArchiveWorkLinkProps> = ({
   children,
 }: ArchiveWorkLinkProps) => {
   return (
-    <WorkLink id={id} source={'archive_tree'}>
+    <WorkLink id={id} source="archive_tree">
       {children}
     </WorkLink>
   );
@@ -111,8 +111,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
     <ArchiveBreadcrumbNav>
       <ul>
         {firstCrumb && (
-          <li className={'flex'}>
-            <Icon matchText={true} color={'currentColor'} icon={archive} />
+          <li className="flex">
+            <Icon matchText={true} color="currentColor" icon={archive} />
             <ArchiveWorkLink id={firstCrumb.id}>
               <a className="crumb-inner">
                 <WorkTitle title={firstCrumb.title} />
@@ -125,7 +125,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
             <div style={{ position: 'relative', top: '-5px' }}>
               <DropdownButton
                 label="…"
-                buttonType={'inline'}
+                buttonType="inline"
                 id="archive-breadcrumbs"
               >
                 <ul>
@@ -134,7 +134,7 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
                       <li key={crumb.id} className="flex">
                         <Icon
                           matchText={true}
-                          color={'currentColor'}
+                          color="currentColor"
                           icon={folder}
                         />
                         <ArchiveWorkLink id={crumb.id}>
@@ -156,8 +156,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
           <>
             {middleCrumbs.map(crumb => {
               return (
-                <li key={crumb.id} className={'flex'}>
-                  <Icon matchText={true} color={'currentColor'} icon={folder} />
+                <li key={crumb.id} className="flex">
+                  <Icon matchText={true} color="currentColor" icon={folder} />
                   <ArchiveWorkLink id={crumb.id}>
                     <a className="crumb-inner">
                       <WorkTitle
@@ -175,8 +175,8 @@ const ArchiveBreadcrumb: FunctionComponent<Props> = ({ work }: Props) => {
           </>
         )}
         {lastCrumb && (
-          <li className={'flex'}>
-            <Icon matchText={true} color={'currentColor'} icon={folder} />
+          <li className="flex">
+            <Icon matchText={true} color="currentColor" icon={folder} />
             <span className="crumb-inner">
               <WorkTitle
                 title={`${lastCrumb.title}${
