@@ -80,6 +80,15 @@ class EventsByMonth extends Component<Props, State> {
                 : 'none',
             }}
           >
+            <h2
+              className={classNames({
+                container: true,
+                'is-hidden': Boolean(activeId),
+              })}
+              id={g.id}
+            >
+              {g.month.month}
+            </h2>
             <CardGrid
               items={g.events}
               itemsPerRow={3}
