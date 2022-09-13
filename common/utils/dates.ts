@@ -38,7 +38,15 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
 }
 
 export function isSameDay(date1: Date, date2: Date): boolean {
-  return isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate();
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  // Set the hours to be equal on both dates to account for any off-by-one
+  // timezone issues
+  d1.setHours(0, 0, 0, 0);
+  d2.setHours(0, 0, 0, 0);
+
+  return isSameMonth(d1, d2) && d1.getUTCDate() === d2.getUTCDate();
 }
 
 // Note: the order of arguments to this function is designed so you can
