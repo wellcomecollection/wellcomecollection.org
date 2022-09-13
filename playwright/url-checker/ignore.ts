@@ -16,3 +16,11 @@ export const ignoreRequestError = (request: Request): boolean => {
   }
   return false;
 };
+
+// Error logs include network errors and other stuff that we are handling separately
+export const ignoreErrorLog = (errorText: string): boolean => {
+  if (errorText.includes('Failed to load resource')) {
+    return true;
+  }
+  return false;
+};
