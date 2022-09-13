@@ -31,12 +31,14 @@ import { FeaturedCardArticle } from '../components/FeaturedCard/FeaturedCard';
 import { articleLd } from '../services/prismic/transformers/json-ld';
 import { createClient } from '../services/prismic/fetch';
 import { fetchArticles } from '../services/prismic/fetch/articles';
+import { fetchStoriesLanding } from '../services/prismic/fetch/stories-landing';
 import { fetchFeaturedBooks } from '../services/prismic/fetch/featured-books';
 import { transformQuery } from '../services/prismic/transformers/paginated-results';
 import {
   transformArticle,
   transformArticleToArticleBasic,
 } from '../services/prismic/transformers/articles';
+import { transformStoriesLanding } from '../services/prismic/transformers/stories-landing';
 import { fetchPage } from '../services/prismic/fetch/pages';
 import {
   pageDescriptions,
@@ -47,6 +49,7 @@ import { transformArticleSeries } from '../services/prismic/transformers/article
 import { transformFeaturedBooks } from '../services/prismic/transformers/featured-books';
 import { transformBookToBookBasic } from '../services/prismic/transformers/books';
 import { BookBasic } from '../types/books';
+import { StoriesLanding } from '../types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
@@ -61,6 +64,7 @@ type Props = {
   series: SerialisedSeriesProps;
   featuredText?: FeaturedTextType;
   featuredBooks: BookBasic[];
+  storiesLanding: StoriesLanding;
   jsonLd: JsonLdObj[];
 };
 
@@ -96,9 +100,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const articlesQueryPromise = fetchArticles(client);
     const featuredBooksPromise = fetchFeaturedBooks(client);
+    const storiesLandingPromise = fetchStoriesLanding(client);
 
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
+    // TODO we already have a stories page... do we need to add featured text slice to the new stories-landing custom type page?
     const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
 
     const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
@@ -114,19 +120,22 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const [
       articlesQuery,
-      featuredSeriesArticles,
-      storiesPage,
-      featuredBooksDoc,
+      featuredSeriesArticles, // TODO remove
+      storiesPage, // TODO replace?
+      featuredBooksDoc, // TODO replace
+      storiesLandingDoc,
     ] = await Promise.all([
       articlesQueryPromise,
       featuredSeriesArticlesQueryPromise,
       storiesPagePromise,
       featuredBooksPromise,
+      storiesLandingPromise,
     ]);
 
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
+    const storiesLanding = transformStoriesLanding(storiesLandingDoc);
 
     const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
       transformBookToBookBasic
@@ -138,6 +147,8 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       featuredSeriesArticles
     )!.series;
     const featuredText = getPageFeaturedText(transformPage(storiesPage!));
+
+    console.log(featuredText);
 
     // Note: an ArticleBasic contains a lot of information, but we only use
     // a little bit of the series information in the <CardGrid> component
@@ -168,6 +179,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           serverData,
           featuredBooks,
           jsonLd,
+          storiesLanding,
         }),
       };
     } else {
@@ -181,6 +193,7 @@ const StoriesPage: FC<Props> = ({
   featuredText,
   featuredBooks,
   jsonLd,
+  storiesLanding,
 }) => {
   const firstArticle = articles[0];
 
@@ -220,6 +233,14 @@ const StoriesPage: FC<Props> = ({
           </Layout8>
         )}
       </>
+
+      <SpacingSection>
+        <pre>
+          <code>
+            <>{JSON.stringify(storiesLanding, null, 2)}</>
+          </code>
+        </pre>
+      </SpacingSection>
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
