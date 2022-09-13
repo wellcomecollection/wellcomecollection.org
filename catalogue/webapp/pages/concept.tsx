@@ -119,7 +119,6 @@ export const ConceptPage: NextPage<Props> = ({
   imagesAbout,
   imagesBy,
 }) => {
-  // TODO allow for multiple TabNav within the page
   const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
   const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
 
@@ -127,7 +126,7 @@ export const ConceptPage: NextPage<Props> = ({
   const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
   const hasImages = !!(imagesBy?.totalResults || imagesAbout?.totalResults);
   const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
-  console.log(selectedWorksTab);
+
   return (
     // TODO fill meta information; who decides this?
     <CataloguePageLayout
@@ -147,7 +146,7 @@ export const ConceptPage: NextPage<Props> = ({
             <h1 className="font-intb">{conceptResponse.label}</h1>
             {/* TODO dynamise */}
             {FAKE_DATA.description && (
-              <p className={font('intr', 4)}>{FAKE_DATA.description}</p>
+              <p className="font-size-5">{FAKE_DATA.description}</p>
             )}
             {/* TODO dynamise */}
             {FAKE_DATA.urls?.length > 0 &&
@@ -174,7 +173,8 @@ export const ConceptPage: NextPage<Props> = ({
           v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
         >
           <div className="container">
-            <h2 className="sectionTitle font-size-2">Images</h2>
+            <h2 className={`sectionTitle ${font('wb', 3)}`}>Images</h2>
+
             {hasImagesTabs && (
               <TabNavV2
                 items={[
@@ -196,34 +196,39 @@ export const ConceptPage: NextPage<Props> = ({
                 // TODO do we want to change these? Decide when we land on a color
                 // color={leadingColor}
                 setSelectedTab={setSelectedImagesTab}
+                isDarkMode
               />
             )}
-            {((hasImagesTabs && selectedImagesTab === 'images-about') ||
-              (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
-              <>
-                <ImageEndpointSearchResults
-                  images={imagesAbout}
-                  background="transparent"
-                />
-                <SeeMoreButton
-                  text={`All images (${imagesAbout.totalResults})`}
-                  link={`/images?source.subjects.label=${conceptResponse.label}`}
-                />
-              </>
-            )}
-            {((hasImagesTabs && selectedImagesTab === 'images-by') ||
-              (!hasImagesTabs && !!imagesBy?.totalResults)) && (
-              <>
-                <ImageEndpointSearchResults
-                  images={imagesBy}
-                  background="transparent"
-                />
-                <SeeMoreButton
-                  text={`All images (${imagesBy.totalResults})`}
-                  link={`/images?source.subjects.label=${conceptResponse.label}`}
-                />
-              </>
-            )}
+            <Space v={{ size: 'l', properties: ['margin-top'] }}>
+              {((hasImagesTabs && selectedImagesTab === 'images-about') ||
+                (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
+                <>
+                  <ImageEndpointSearchResults
+                    images={imagesAbout}
+                    background="transparent"
+                  />
+                  <Space v={{ size: 'm', properties: ['margin-top'] }}>
+                    <SeeMoreButton
+                      text={`All images (${imagesAbout.totalResults})`}
+                      link={`/images?source.subjects.label=${conceptResponse.label}`}
+                    />
+                  </Space>
+                </>
+              )}
+              {((hasImagesTabs && selectedImagesTab === 'images-by') ||
+                (!hasImagesTabs && !!imagesBy?.totalResults)) && (
+                <>
+                  <ImageEndpointSearchResults
+                    images={imagesBy}
+                    background="transparent"
+                  />
+                  <SeeMoreButton
+                    text={`All images (${imagesBy.totalResults})`}
+                    link={`/images?source.subjects.label=${conceptResponse.label}`}
+                  />
+                </>
+              )}
+            </Space>
           </div>
         </ConceptImages>
       )}
@@ -236,7 +241,7 @@ export const ConceptPage: NextPage<Props> = ({
             hasWorksTabs={hasWorksTabs}
           >
             <div className="container">
-              <h2 className="font-size-2">Works</h2>
+              <h2 className={`${font('wb', 3)}`}>Works</h2>
               {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
                 <TabNavV2
@@ -268,9 +273,7 @@ export const ConceptPage: NextPage<Props> = ({
             as="section"
             v={{
               size: 'xl',
-              properties: hasWorksTabs
-                ? ['padding-top', 'padding-bottom']
-                : ['padding-bottom'],
+              properties: ['margin-top', 'margin-bottom'],
             }}
           >
             <div className="container">
@@ -281,7 +284,7 @@ export const ConceptPage: NextPage<Props> = ({
                   <WorksSearchResultsV2 works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text="All works"
+                      text={`All works (${worksAbout.totalResults})`}
                       link={`/works?subjects.label=${conceptResponse.label}`}
                     />
                   </Space>
@@ -294,7 +297,7 @@ export const ConceptPage: NextPage<Props> = ({
                   <WorksSearchResultsV2 works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text="All works"
+                      text={`All works (${worksBy.totalResults})`}
                       link={`/works?subjects.label=${conceptResponse.label}`}
                     />
                   </Space>
