@@ -201,7 +201,10 @@ export const ConceptPage: NextPage<Props> = ({
             {((hasImagesTabs && selectedImagesTab === 'images-about') ||
               (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
               <>
-                <ImageEndpointSearchResults images={imagesAbout} />
+                <ImageEndpointSearchResults
+                  images={imagesAbout}
+                  background="transparent"
+                />
                 <SeeMoreButton
                   text={`All images (${imagesAbout.totalResults})`}
                   link={`/images?source.subjects.label=${conceptResponse.label}`}
@@ -211,7 +214,10 @@ export const ConceptPage: NextPage<Props> = ({
             {((hasImagesTabs && selectedImagesTab === 'images-by') ||
               (!hasImagesTabs && !!imagesBy?.totalResults)) && (
               <>
-                <ImageEndpointSearchResults images={imagesBy} />
+                <ImageEndpointSearchResults
+                  images={imagesBy}
+                  background="transparent"
+                />
                 <SeeMoreButton
                   text={`All images (${imagesBy.totalResults})`}
                   link={`/images?source.subjects.label=${conceptResponse.label}`}

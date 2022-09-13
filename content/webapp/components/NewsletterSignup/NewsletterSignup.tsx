@@ -173,7 +173,7 @@ const NewsletterSignup: FC<Props> = ({
               big={true}
               value={emailValue}
               setValue={setEmailValue}
-              errorMessage={`Enter a valid email address.`}
+              errorMessage="Enter a valid email address."
               {...emailValidation}
             />
           </Space>
@@ -181,7 +181,7 @@ const NewsletterSignup: FC<Props> = ({
           <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
             <CheckboxRadio
               id="whats_on"
-              type={`checkbox`}
+              type="checkbox"
               text="I'd like to receive regular updates from Wellcome Collection"
               value="addressbook_40131"
               name="addressbook_40131"
@@ -209,7 +209,7 @@ const NewsletterSignup: FC<Props> = ({
                 >
                   <CheckboxRadio
                     id={addressBook.slug}
-                    type={`checkbox`}
+                    type="checkbox"
                     text={addressBook.label}
                     value={`address_${addressBook.id}`}
                     name={`address_${addressBook.id}`}
@@ -231,7 +231,7 @@ const NewsletterSignup: FC<Props> = ({
             </div>
           )}
 
-          <p className={`${font('intr', 6)}`}>
+          <p className={font('intr', 6)}>
             We use a third-party provider,{' '}
             <a href="https://dotdigital.com/terms/privacy-policy/">
               dotdigital

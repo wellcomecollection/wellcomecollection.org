@@ -79,16 +79,16 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     if (isNotUndefined(seriesDocument)) {
       const series = transformEventSeries(seriesDocument);
-      const events = transformQuery(eventsQuery, doc =>
-        transformEventToEventBasic(transformEvent(doc))
-      ).results;
+      const fullEvents = transformQuery(eventsQuery, transformEvent).results;
+
+      const events = fullEvents.map(transformEventToEventBasic);
 
       const upcomingEvents = getUpcomingEvents(events);
       const upcomingEventsIds = new Set(upcomingEvents.map(event => event.id));
 
       const pastEvents = getPastEvents(events, upcomingEventsIds);
 
-      const jsonLd = events.flatMap(eventLd);
+      const jsonLd = fullEvents.flatMap(eventLd);
 
       return {
         props: removeUndefinedProps({
@@ -154,7 +154,7 @@ const EventSeriesPage: FC<Props> = ({
         contributors={series.contributors}
       >
         {upcomingEvents.length > 0 ? (
-          <SearchResults items={upcomingEvents} title={`What's next`} />
+          <SearchResults items={upcomingEvents} title="What's next" />
         ) : (
           <h2 className="h2">
             No events scheduled at the moment, check back soon…
@@ -165,7 +165,7 @@ const EventSeriesPage: FC<Props> = ({
           <Space v={{ size: 'xl', properties: ['margin-top'] }}>
             <SearchResults
               items={pastEvents}
-              title={`What we've done before`}
+              title="What we've done before"
             />
           </Space>
         )}

@@ -11,7 +11,7 @@ type Props = {
 const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
   return (
     <a
-      href={`#dates`}
+      href="#dates"
       onClick={() => {
         trackEvent({
           category: 'EventDatesLink',

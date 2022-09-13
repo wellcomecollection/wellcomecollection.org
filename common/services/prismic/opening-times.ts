@@ -1,5 +1,4 @@
 import { formatDay } from '../../utils/format-date';
-import groupBy from 'lodash.groupby';
 import {
   OverrideType,
   ExceptionalPeriod,
@@ -53,9 +52,17 @@ export function exceptionalOpeningPeriods(
 ): ExceptionalPeriod[] {
   dates.sort((a, b) => Number(a.overrideDate) - Number(b.overrideDate));
 
-  const exceptionalPeriods = Object.values(
-    groupBy(dates, date => date.overrideType)
-  ).flat();
+  const groupedExceptionalPeriods: Record<OverrideType, OverrideDate[]> =
+    dates.reduce((acc, date) => {
+      if (Object.keys(acc).includes(date.overrideType)) {
+        acc[date.overrideType].push(date);
+      } else {
+        acc[date.overrideType] = [date];
+      }
+      return acc;
+    }, {} as Record<OverrideType, OverrideDate[]>);
+
+  const exceptionalPeriods = Object.values(groupedExceptionalPeriods).flat();
 
   let groupedIndex = 0;
   return exceptionalPeriods

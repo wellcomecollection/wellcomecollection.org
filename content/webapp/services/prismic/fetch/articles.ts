@@ -7,7 +7,7 @@ import {
 } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 import { ContentType } from '@weco/common/services/prismic/content-types';
-import { Article } from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;
@@ -339,4 +339,4 @@ export const fetchArticles = (
 };
 
 export const fetchArticlesClientSide =
-  clientSideFetcher<Article>('articles').getByTypeClientSide;
+  clientSideFetcher<ArticleBasic>('articles').getByTypeClientSide;

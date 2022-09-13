@@ -1,10 +1,10 @@
 import { getEarliestFutureDateRange } from '@weco/common/utils/dates';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import { FC } from 'react';
-import { Event, EventBasic } from '../../types/events';
+import { HasTimeRanges } from '../../types/events';
 
 type Props = {
-  event: Event | EventBasic;
+  event: HasTimeRanges;
   splitTime?: boolean;
   fromDate?: Date;
 };

@@ -58,16 +58,17 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       availableOnline: availableOnline === 'true',
     });
 
-    const events = transformQuery(eventsQueryPromise, event =>
-      transformEventToEventBasic(transformEvent(event))
-    );
+    const events = transformQuery(eventsQueryPromise, transformEvent);
 
     if (events) {
       const title = (period === 'past' ? 'Past e' : 'E') + 'vents';
       const jsonLd = events.results.flatMap(eventLd);
       return {
         props: removeUndefinedProps({
-          events,
+          events: {
+            ...events,
+            results: events.results.map(transformEventToEventBasic),
+          },
           title,
           period: period as Period,
           jsonLd,

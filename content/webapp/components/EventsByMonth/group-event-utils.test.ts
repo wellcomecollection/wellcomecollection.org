@@ -1,275 +1,169 @@
-import {
-  createLabel,
-  findMonthsThatEventSpans,
-  getMonthsInDateRange,
-  groupEventsByMonth,
-  sortByEarliestFutureDateRange,
-} from './group-event-utils';
-
-describe('createLabel', () => {
-  it('zero-pads the month value', () => {
-    expect(createLabel({ year: 2001, month: 1 })).toEqual('2001-02');
-  });
-
-  it('gets the right label', () => {
-    expect(createLabel({ year: 2001, month: 11 })).toEqual('2001-12');
-  });
-});
+import { getMonthsInDateRange, groupEventsByMonth } from './group-event-utils';
 
 describe('getMonthsInDateRange', () => {
   it('finds a single month', () => {
     const result = getMonthsInDateRange({
-      start: new Date(2001, 1, 1),
-      end: new Date(2001, 1, 5),
+      start: new Date('2001-01-01'),
+      end: new Date('2001-01-05'),
     });
-    expect(result).toEqual([{ year: 2001, month: 1 }]);
+    expect(result).toEqual([{ year: 2001, month: 'January' }]);
   });
 
   it('finds multiple months', () => {
     const result = getMonthsInDateRange({
-      start: new Date(2001, 1, 1),
-      end: new Date(2001, 3, 6),
+      start: new Date('2001-01-01'),
+      end: new Date('2001-03-06'),
     });
     expect(result).toEqual([
-      { year: 2001, month: 1 },
-      { year: 2001, month: 2 },
-      { year: 2001, month: 3 },
+      { year: 2001, month: 'January' },
+      { year: 2001, month: 'February' },
+      { year: 2001, month: 'March' },
     ]);
   });
-});
 
-describe('findMonthsThatEventSpans', () => {
-  it('finds the correct months for each event', () => {
-    const event1 = {
-      id: '1',
-      times: [
-        {
-          range: {
-            startDateTime: new Date(2001, 1, 1),
-            endDateTime: new Date(2001, 1, 5),
-          },
-          isFullyBooked: false,
-        },
-      ],
-    };
-
-    const event2 = {
-      id: '2',
-      times: [
-        {
-          range: {
-            startDateTime: new Date(2001, 1, 1),
-            endDateTime: new Date(2001, 3, 6),
-          },
-          isFullyBooked: false,
-        },
-      ],
-    };
-
-    const result = findMonthsThatEventSpans([event1, event2]);
-
+  it('finds months across a year boundary', () => {
+    const result = getMonthsInDateRange({
+      start: new Date('2001-12-01'),
+      end: new Date('2002-02-07'),
+    });
     expect(result).toEqual([
-      { event: event1, months: [{ year: 2001, month: 1 }] },
-      {
-        event: event2,
-        months: [
-          { year: 2001, month: 1 },
-          { year: 2001, month: 2 },
-          { year: 2001, month: 3 },
-        ],
-      },
-    ]);
-  });
-
-  it('groups multi-month events correctly', () => {
-    const events = [
-      {
-        times: [
-          {
-            range: {
-              startDateTime: new Date('2022-10-18T09:30:00.000Z'),
-              endDateTime: new Date('2022-10-18T14:30:00.000Z'),
-            },
-          },
-          {
-            range: {
-              startDateTime: new Date('2022-11-08T10:30:00.000Z'),
-              endDateTime: new Date('2022-11-08T15:30:00.000Z'),
-            },
-          },
-        ],
-        title: 'HIV and AIDs',
-      },
-      {
-        times: [
-          {
-            range: {
-              startDateTime: new Date('2022-10-06T18:00:00.000Z'),
-              endDateTime: new Date('2022-10-06T18:30:00.000Z'),
-            },
-          },
-        ],
-        title: 'Legacy',
-      },
-      {
-        times: [
-          {
-            range: {
-              startDateTime: new Date('2022-09-17T10:00:00.000Z'),
-              endDateTime: new Date('2022-09-17T11:00:00.000Z'),
-            },
-          },
-        ],
-        title: 'Wandering Womb',
-      },
-    ];
-
-    const result = findMonthsThatEventSpans(events);
-
-    expect(result).toStrictEqual([
-      {
-        event: events[0],
-        months: [
-          { year: 2022, month: 9 },
-          { year: 2022, month: 10 },
-        ],
-      },
-      {
-        event: events[1],
-        months: [{ year: 2022, month: 9 }],
-      },
-      {
-        event: events[2],
-        months: [{ year: 2022, month: 8 }],
-      },
+      { year: 2001, month: 'December' },
+      { year: 2002, month: 'January' },
+      { year: 2002, month: 'February' },
     ]);
   });
 });
 
 describe('groupEventsByMonth', () => {
-  it('puts each event in the right month', () => {
-    const event1 = {
-      id: '1',
+  it('works', () => {
+    // This is based on the state of the "What's on" page on 8 September 2022
+    const evShockingTreatment = {
       times: [
         {
           range: {
-            startDateTime: new Date(2101, 1, 1),
-            endDateTime: new Date(2101, 1, 5),
+            startDateTime: new Date('2022-10-08T16:30:00.000Z'),
+            endDateTime: new Date('2022-10-08T17:30:00.000Z'),
           },
-          isFullyBooked: false,
         },
       ],
+      title: 'Shocking Treatment',
     };
 
-    const event2 = {
-      id: '2',
+    const evLifeWithoutAir = {
       times: [
         {
           range: {
-            startDateTime: new Date(2101, 1, 1),
-            endDateTime: new Date(2101, 3, 6),
+            startDateTime: new Date('2022-10-06T18:00:00.000Z'),
+            endDateTime: new Date('2022-10-06T19:00:00.000Z'),
           },
-          isFullyBooked: false,
         },
       ],
+      title: 'Life Without Air with Daisy Lafarge',
     };
 
-    const result = groupEventsByMonth([event1, event2]);
-
-    expect(result).toEqual({
-      '2101-02': [event1, event2],
-      '2101-04': [event2],
-    });
-  });
-});
-
-describe('sortByEarliestFutureDateRange', () => {
-  it('sorts a group of events correctly', () => {
-    // These examples are based on events from a bug report, where an event
-    // happening at the end of the month was appearing one happening at the
-    // start of the month, because the later event had only just been added
-    // to Prismic.
-    //
-    // See https://wellcome.slack.com/archives/C8X9YKM5X/p1651224877047299
-    const eventSlalom = {
-      title: 'Slalom',
+    const evHivAndAids = {
       times: [
         {
           range: {
-            startDateTime: new Date('2032-05-25T23:00:00.000Z'),
-            endDateTime: new Date('2032-05-27T23:00:00.000Z'),
+            startDateTime: new Date('2022-10-18T09:30:00.000Z'),
+            endDateTime: new Date('2022-10-18T14:30:00.000Z'),
           },
-          isFullyBooked: false,
+        },
+        {
+          range: {
+            startDateTime: new Date('2022-11-08T10:30:00.000Z'),
+            endDateTime: new Date('2022-11-08T15:30:00.000Z'),
+          },
+        },
+        {
+          range: {
+            startDateTime: new Date('2022-11-30T10:30:00.000Z'),
+            endDateTime: new Date('2022-11-30T15:30:00.000Z'),
+          },
         },
       ],
+      title: 'HIV and AIDS',
     };
 
-    const eventGardenersQT = {
-      title: 'Gardeners’ Question Time',
+    const evLegacy = {
       times: [
         {
           range: {
-            startDateTime: new Date('2032-05-09T17:00:00.000Z'),
-            endDateTime: new Date('2032-05-09T19:00:00.000Z'),
+            startDateTime: new Date('2022-10-06T18:00:00.000Z'),
+            endDateTime: new Date('2022-10-06T18:30:00.000Z'),
           },
-          isFullyBooked: false,
         },
       ],
+      title: 'Legacy',
     };
 
-    const eventMentalHealth = {
-      title: 'The Nature of Mental Health',
+    const evCovid19 = {
       times: [
         {
           range: {
-            startDateTime: new Date('2032-05-12T18:00:00.000Z'),
-            endDateTime: new Date('2032-05-12T19:30:00.000Z'),
+            startDateTime: new Date('2022-09-28T18:00:00.000Z'),
+            endDateTime: new Date('2022-09-28T19:30:00.000Z'),
           },
-          isFullyBooked: false,
         },
       ],
+      title: 'The Covid-19 Legacy',
     };
 
-    const eventWomb = {
+    const evThatStinks = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2022-09-29T17:00:00.000Z'),
+            endDateTime: new Date('2022-09-29T18:00:00.000Z'),
+          },
+        },
+      ],
+      title: 'That Stinks',
+    };
+
+    const evWanderingWomb = {
+      times: [
+        {
+          range: {
+            startDateTime: new Date('2022-09-17T10:00:00.000Z'),
+            endDateTime: new Date('2022-09-17T11:00:00.000Z'),
+          },
+        },
+        {
+          range: {
+            startDateTime: new Date('2022-09-17T12:00:00.000Z'),
+            endDateTime: new Date('2022-09-17T13:00:00.000Z'),
+          },
+        },
+      ],
       title: 'Wandering Womb',
-      times: [
-        {
-          range: {
-            startDateTime: new Date('2032-05-14T10:00:00.000Z'),
-            endDateTime: new Date('2032-05-14T16:00:00.000Z'),
-          },
-          isFullyBooked: false,
-        },
-      ],
     };
 
-    const eventTouch = {
-      title: 'Personal Touch',
-      times: [
-        {
-          range: {
-            startDateTime: new Date('2032-05-07T09:00:00.000Z'),
-            endDateTime: new Date('2032-05-07T16:00:00.000Z'),
-          },
-          isFullyBooked: false,
-        },
-      ],
-    };
+    const events = [
+      evShockingTreatment,
+      evLifeWithoutAir,
+      evHivAndAids,
+      evLegacy,
+      evCovid19,
+      evThatStinks,
+      evWanderingWomb,
+    ];
 
-    const result = sortByEarliestFutureDateRange([
-      eventSlalom,
-      eventGardenersQT,
-      eventMentalHealth,
-      eventWomb,
-      eventTouch,
-    ]);
+    const groupedEvents = groupEventsByMonth(events);
 
-    expect(result).toEqual([
-      eventTouch,
-      eventGardenersQT,
-      eventMentalHealth,
-      eventWomb,
-      eventSlalom,
+    expect(groupedEvents).toStrictEqual([
+      {
+        month: { month: 'September', year: 2022 },
+        events: [evWanderingWomb, evCovid19, evThatStinks],
+      },
+      {
+        month: { month: 'October', year: 2022 },
+        events: [evLegacy, evLifeWithoutAir, evShockingTreatment, evHivAndAids],
+      },
+      {
+        month: { month: 'November', year: 2022 },
+        events: [evHivAndAids],
+      },
     ]);
   });
 });

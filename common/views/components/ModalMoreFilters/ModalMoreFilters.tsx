@@ -106,7 +106,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
           >
             <CheckboxRadio
               id={`desktop-${id}`}
-              type={`checkbox`}
+              type="checkbox"
               text={`${label} (${count})`}
               value={value}
               name={f.id}

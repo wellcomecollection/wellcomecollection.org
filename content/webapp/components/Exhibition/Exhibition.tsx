@@ -304,7 +304,7 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
         {(exhibitionOfs.length > 0 || pages.length > 0) && (
           <SearchResults
             items={[...exhibitionOfs, ...pages]}
-            title={`In this exhibition`}
+            title="In this exhibition"
           />
         )}
 
@@ -318,7 +318,7 @@ const Exhibition: FC<Props> = ({ exhibition, jsonLd, pages }) => {
         {exhibitionAbouts.length > 0 && (
           <SearchResults
             items={exhibitionAbouts}
-            title={`About this exhibition`}
+            title="About this exhibition"
           />
         )}
       </ContentPage>

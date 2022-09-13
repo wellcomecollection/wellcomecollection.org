@@ -44,6 +44,11 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   width: 46px;
   height: 46px;
 
+  &[disabled] {
+    pointer-events: none;
+    transition: all ${props => props.theme.transitionProperties};
+  }
+
   ${props =>
     props.colorScheme === 'light' &&
     `
@@ -62,6 +67,15 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
         fill: ${props.theme.color('white')};
       }
     }
+
+    &[disabled] {
+      background: ${props.theme.color('transparent')};
+      border-color: ${props.theme.color('silver')};
+
+      .icon__shape {
+        fill: ${props.theme.color('silver')};
+      }
+    }
   `}
 
   ${props =>
@@ -77,6 +91,10 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     &:hover,
     &:focus {
       background: ${props.theme.color('black')};
+    }
+
+    &[disabled] {
+      background: ${props.theme.color('silver')};
     }
   `}
 
@@ -98,6 +116,13 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
         fill: ${props.theme.color('yellow')};
       }
     }
+
+
+    &[disabled] {
+      .icon__shape {
+        fill: ${props.theme.color('marble')};
+      }
+    }
   `}
 
   ${props =>
@@ -116,6 +141,12 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
       .icon__shape {
         fill: ${props.theme.color('charcoal')};
+      }
+    }
+
+    &[disabled] {
+      .icon__shape {
+        fill: ${props.theme.color('pewter')};
       }
     }
   `}

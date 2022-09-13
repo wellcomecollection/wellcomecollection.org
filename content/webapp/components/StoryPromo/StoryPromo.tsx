@@ -103,10 +103,7 @@ const StoryPromo: FunctionComponent<Props> = ({
               properties: ['margin-bottom'],
             }}
             as="h2"
-            className={`
-            promo-link__title
-            ${font('wb', 3)}
-          `}
+            className={`promo-link__title ${font('wb', 3)}`}
           >
             {article.title}
           </Space>
