@@ -66,7 +66,7 @@ const ConceptImages = styled(Space)`
 
 const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs, theme }) =>
-    hasWorksTabs ? theme.color('cream', 'light') : 'white'};
+    hasWorksTabs ? theme.color('cream') : 'white'};
 `;
 
 // Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
