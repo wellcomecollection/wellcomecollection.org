@@ -169,7 +169,10 @@ export const ConceptPage: NextPage<Props> = ({
         >
           <div className="container">
             <h2 className="sectionTitle font-size-2">Images</h2>
-            <ImageEndpointSearchResults images={images} bgColor="transparent" />
+            <ImageEndpointSearchResults
+              images={images}
+              background="transparent"
+            />
             <SeeMoreButton
               text={`All images (${images.totalResults})`}
               link={`/images?source.subjects.label=${conceptResponse.label}`}
