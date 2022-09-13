@@ -123,7 +123,7 @@ const ViewerBottomBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
                 }}
               >
                 <Icon icon={expand} />
-                <span className={`btn__text`}>Full screen</span>
+                <span className="btn__text">Full screen</span>
               </ShameButton>
             </Space>
           </div>

@@ -335,8 +335,8 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     ariaExpanded={isActive}
                     ref={closeButtonRef}
                     replace={true}
-                    colorScheme={`light`}
-                    text={`close`}
+                    colorScheme="light"
+                    text="close"
                     icon={cross}
                     clickHandler={handleCloseClicked}
                   />

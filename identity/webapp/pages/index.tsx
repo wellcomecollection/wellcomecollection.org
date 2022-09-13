@@ -69,7 +69,7 @@ type DetailListProps = {
 const Detail: FC<DetailProps> = ({ label, value }) => (
   <>
     <dt className={font('intb', 5)}>{label}</dt>
-    <StyledDd className={`${font('intr', 5)}`}>{value}</StyledDd>
+    <StyledDd className={font('intr', 5)}>{value}</StyledDd>
   </>
 );
 
@@ -102,7 +102,7 @@ const TextButton: FC<ComponentPropsWithoutRef<'button'>> = ({
 );
 
 const RequestsFailed: FC<{ retry: () => void }> = ({ retry }) => (
-  <p className={`${font('intr', 5)}`}>
+  <p className={font('intr', 5)}>
     Something went wrong fetching your item requests.
     <TextButton
       onClick={() => {
@@ -120,7 +120,7 @@ const AccountStatus: FC<ComponentProps<typeof StatusAlert>> = ({
 }) => {
   return (
     <StatusAlert type={type}>
-      <Icon icon={info2} color={`currentColor`} />
+      <Icon icon={info2} color="currentColor" />
       <Space
         h={{
           size: 's',
@@ -219,7 +219,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
   };
 
   return (
-    <PageWrapper title={`Your library account`}>
+    <PageWrapper title="Your library account">
       <Header
         v={{
           size: 'l',
@@ -311,7 +311,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                       return (
                         <Space
                           as="p"
-                          className={`${font('intr', 5)}`}
+                          className={font('intr', 5)}
                           v={{
                             size: 's',
                             properties: ['margin-bottom'],
@@ -326,7 +326,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                         <>
                           <Space
                             as="p"
-                            className={`${font('intb', 5)}`}
+                            className={font('intb', 5)}
                             v={{ size: 's', properties: ['margin-bottom'] }}
                           >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
                           <ProgressBar>
@@ -389,7 +389,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             ]}
                           />
                           <Space
-                            className={`${font('intr', 5)}`}
+                            className={font('intr', 5)}
                             v={{
                               size: 'l',
                               properties: ['margin-top'],

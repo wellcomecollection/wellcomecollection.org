@@ -1,12 +1,11 @@
 import { FC } from 'react';
-import { Moment } from 'moment';
 import { DayNumber } from '@weco/common/model/opening-hours';
 import CalendarSelect from '../Calendar/CalendarSelect';
 
 type Props = {
-  startDate?: Moment;
-  endDate?: Moment;
-  exceptionalClosedDates: Moment[];
+  startDate?: Date;
+  endDate?: Date;
+  exceptionalClosedDates: Date[];
   regularClosedDays: DayNumber[];
   pickUpDate?: string;
   setPickUpDate: (date: string) => void;

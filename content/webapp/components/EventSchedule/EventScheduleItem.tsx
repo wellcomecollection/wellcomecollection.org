@@ -124,7 +124,7 @@ const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {
                 <p className={`${font('intr', 5)} no-margin`}>
                   <a href={`/events/${event.id}`}>
                     Full event details
-                    <span className={`visually-hidden`}>
+                    <span className="visually-hidden">
                       {' '}
                       about {event.title}
                     </span>

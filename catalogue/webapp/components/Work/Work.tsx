@@ -148,12 +148,12 @@ const Work: FunctionComponent<Props> = ({
             </div>
 
             <div className="container">
-              <Divider color={`pumice`} isKeyline={true} />
+              <Divider color="pumice" isKeyline={true} />
               <ArchiveDetailsContainer>
                 <ArchiveTree work={work} />
                 <Space
                   v={{ size: 'xl', properties: ['padding-top'] }}
-                  className={`flex-1`}
+                  className="flex-1"
                 >
                   <WorkDetails work={work} />
                 </Space>

@@ -184,7 +184,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
     <Wrapper ref={footer}>
       <div className="container">
         <div className="grid">
-          <div className={`${grid({ s: 12, m: 12, l: 4 })}`}>
+          <div className={grid({ s: 12, m: 12, l: 4 })}>
             <Space
               v={{
                 size: 'm',
@@ -202,7 +202,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
               <FooterNav />
             </FooterNavWrapper>
           </div>
-          <div className={`${grid({ s: 12, m: 6, l: 4 })}`}>
+          <div className={grid({ s: 12, m: 6, l: 4 })}>
             <Space
               v={{
                 size: 'm',

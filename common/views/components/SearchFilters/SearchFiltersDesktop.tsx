@@ -55,7 +55,7 @@ const CheckboxFilter = ({ f, changeHandler }: CheckboxFilterProps) => {
             <li key={`${f.id}-${id}`}>
               <CheckboxRadio
                 id={id}
-                type={`checkbox`}
+                type="checkbox"
                 text={`${label} (${count})`}
                 value={value}
                 name={f.id}

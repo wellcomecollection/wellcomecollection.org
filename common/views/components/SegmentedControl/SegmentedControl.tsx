@@ -126,16 +126,16 @@ const Wrapper = styled.div.attrs({})<IsActiveProps>`
       `
       width: auto;
       position: fixed;
-      top: 24px;
-      right: 18px;
-      z-index: 2;
+      top: 4px;
+      right: 10px;
+      z-index: 7;
     `}
   }
 
   .segmented-control__body {
     display: ${props => (props.isActive ? 'block' : 'none')};
     position: fixed;
-    z-index: 1;
+    z-index: 6; // Ensures that it's above the fixed header on mobile
     top: 0;
     left: 0;
     right: 0;

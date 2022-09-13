@@ -6,12 +6,7 @@ import { Link } from '../../types/link';
 import Space from '@weco/common/views/components/styled/Space';
 import CssGridContainer from '@weco/common/views/components/styled/CssGridContainer';
 import CardGrid from '../CardGrid/CardGrid';
-import {
-  groupEventsByMonth,
-  parseLabel,
-  sortByEarliestFutureDateRange,
-  startOf,
-} from './group-event-utils';
+import { groupEventsByMonth, startOf } from './group-event-utils';
 
 type Props = {
   events: EventBasic[];
@@ -30,46 +25,21 @@ class EventsByMonth extends Component<Props, State> {
   render(): JSX.Element {
     const { events, links } = this.props;
     const { activeId } = this.state;
-    const monthsIndex = {
-      1: 'January',
-      2: 'February',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December',
-    };
 
     const eventsInMonths = groupEventsByMonth(events);
 
     // Order months correctly.  This returns the headings for each month,
     // now in chronological order.
-    const monthHeadings = Object.keys(eventsInMonths)
-      .sort((a, b) =>
-        // Because these are YYYY-MM strings (e.g. '2001-02'), we can use
-        // lexicographic ordering for the correct results here.
-        a >= b ? 1 : -1
-      )
-      .map(label => {
-        const yearMonth = parseLabel(label);
+    const groups = eventsInMonths.map(({ month, events }) => {
+      const id = `${month.month}-${month.year}`.toLowerCase();
 
-        return {
-          id: label,
-          url: `#${label}`,
-          text: monthsIndex[yearMonth.month],
-        };
-      });
-
-    // Need to order the events for each month based on their earliest future date range
-    Object.keys(eventsInMonths).map(label => {
-      eventsInMonths[label] = sortByEarliestFutureDateRange(
-        eventsInMonths[label]
-      );
+      return {
+        id,
+        url: `#${id}`,
+        text: month.month,
+        month,
+        events,
+      };
     });
 
     return (
@@ -84,8 +54,8 @@ class EventsByMonth extends Component<Props, State> {
               >
                 <SegmentedControl
                   id="monthControls"
-                  activeId={monthHeadings[0]?.id}
-                  items={monthHeadings}
+                  activeId={groups[0]?.id}
+                  items={groups}
                   extraClasses={'segmented-control__list--inline'}
                   onActiveIdChange={id => {
                     this.setState({ activeId: id });
@@ -96,38 +66,34 @@ class EventsByMonth extends Component<Props, State> {
           </CssGridContainer>
         </Space>
 
-        {monthHeadings.map(month => (
+        {groups.map(g => (
           <div
-            key={month.id}
+            key={g.id}
             className={classNames({
               [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
             })}
             style={{
               display: !activeId
                 ? 'block'
-                : activeId === month.id
+                : activeId === g.id
                 ? 'block'
                 : 'none',
             }}
           >
-            <CssGridContainer>
-              <div className="css-grid">
-                <h2
-                  id={month.id}
-                  className={classNames({
-                    tabfocus: true,
-                    [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                  })}
-                >
-                  {month.id}
-                </h2>
-              </div>
-            </CssGridContainer>
+            <h2
+              className={classNames({
+                container: true,
+                'is-hidden': Boolean(activeId),
+              })}
+              id={g.id}
+            >
+              {g.month.month}
+            </h2>
             <CardGrid
-              items={eventsInMonths[month.id]}
+              items={g.events}
               itemsPerRow={3}
               links={links}
-              fromDate={startOf(parseLabel(month.id))}
+              fromDate={startOf(g.month)}
             />
           </div>
         ))}
