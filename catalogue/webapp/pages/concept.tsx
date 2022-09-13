@@ -35,7 +35,8 @@ type Props = {
   conceptResponse: ConceptType;
   worksAbout: CatalogueResultsList<WorkType> | undefined;
   worksBy: CatalogueResultsList<WorkType> | undefined;
-  images: CatalogueResultsList<ImageType> | undefined;
+  imagesAbout: CatalogueResultsList<ImageType> | undefined;
+  imagesBy: CatalogueResultsList<ImageType> | undefined;
 };
 
 const leadingColor = 'yellow';
@@ -45,9 +46,9 @@ const ConceptHero = styled(Space)`
   background-color: ${props => props.theme.color(leadingColor, 'light')};
 
   h1 {
-    font-size: 4rem;
+    font-size: 3.1875rem;
     line-height: 1.2;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.125rem;
   }
 `;
 
@@ -115,13 +116,18 @@ export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
   worksAbout,
   worksBy,
-  images,
+  imagesAbout,
+  imagesBy,
 }) => {
-  const [selectedTab, setSelectedTab] = useState('works-about');
+  // TODO allow for multiple TabNav within the page
+  const [selectedWorksTab, setSelectedWorksTab] = useState('works-about');
+  const [selectedImagesTab, setSelectedImagesTab] = useState('images-about');
 
   const hasWorks = !!(worksBy?.totalResults || worksAbout?.totalResults);
   const hasWorksTabs = !!(worksBy?.totalResults && worksAbout?.totalResults);
-
+  const hasImages = !!(imagesBy?.totalResults || imagesAbout?.totalResults);
+  const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
+  console.log(selectedWorksTab);
   return (
     // TODO fill meta information; who decides this?
     <CataloguePageLayout
@@ -162,18 +168,56 @@ export const ConceptPage: NextPage<Props> = ({
         </div>
       </ConceptHero>
 
-      {!!images?.totalResults && (
+      {hasImages && (
         <ConceptImages
           as="section"
           v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
         >
           <div className="container">
             <h2 className="sectionTitle font-size-2">Images</h2>
-            <ImageEndpointSearchResults images={images} />
-            <SeeMoreButton
-              text={`All images (${images.totalResults})`}
-              link={`/images?source.subjects.label=${conceptResponse.label}`}
-            />
+            {hasImagesTabs && (
+              <TabNavV2
+                items={[
+                  {
+                    id: 'images-about',
+                    text: `Images about ${conceptResponse.label} ${
+                      imagesAbout ? `(${imagesAbout.totalResults})` : ''
+                    }`,
+                    selected: selectedImagesTab === 'images-about',
+                  },
+                  {
+                    id: 'images-by',
+                    text: `Images by ${conceptResponse.label} ${
+                      imagesBy ? `(${imagesBy.totalResults})` : ''
+                    }`,
+                    selected: selectedImagesTab === 'images-by',
+                  },
+                ]}
+                // TODO do we want to change these? Decide when we land on a color
+                // color={leadingColor}
+                setSelectedTab={setSelectedImagesTab}
+              />
+            )}
+            {((hasImagesTabs && selectedImagesTab === 'images-about') ||
+              (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
+              <>
+                <ImageEndpointSearchResults images={imagesAbout} />
+                <SeeMoreButton
+                  text={`All images (${imagesAbout.totalResults})`}
+                  link={`/images?source.subjects.label=${conceptResponse.label}`}
+                />
+              </>
+            )}
+            {((hasImagesTabs && selectedImagesTab === 'images-by') ||
+              (!hasImagesTabs && !!imagesBy?.totalResults)) && (
+              <>
+                <ImageEndpointSearchResults images={imagesBy} />
+                <SeeMoreButton
+                  text={`All images (${imagesBy.totalResults})`}
+                  link={`/images?source.subjects.label=${conceptResponse.label}`}
+                />
+              </>
+            )}
           </div>
         </ConceptImages>
       )}
@@ -196,19 +240,19 @@ export const ConceptPage: NextPage<Props> = ({
                       text: `Works about ${conceptResponse.label} ${
                         worksAbout ? `(${worksAbout.totalResults})` : ''
                       }`,
-                      selected: selectedTab === 'works-about',
+                      selected: selectedWorksTab === 'works-about',
                     },
                     {
                       id: 'works-by',
                       text: `Works by ${conceptResponse.label} ${
                         worksBy ? `(${worksBy.totalResults})` : ''
                       }`,
-                      selected: selectedTab === 'works-by',
+                      selected: selectedWorksTab === 'works-by',
                     },
                   ]}
                   // TODO do we want to change these? Decide when we land on a color
                   // color={leadingColor}
-                  setSelectedTab={setSelectedTab}
+                  setSelectedTab={setSelectedWorksTab}
                 />
               )}
             </div>
@@ -224,25 +268,27 @@ export const ConceptPage: NextPage<Props> = ({
             }}
           >
             <div className="container">
-              {selectedTab === 'works-about' && !!worksAbout?.totalResults && (
+              {((hasWorksTabs && selectedWorksTab === 'works-about') ||
+                (!hasWorksTabs && !!worksAbout?.totalResults)) && (
                 <div role="tabpanel">
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All works about ${conceptResponse.label} (${worksAbout.totalResults})`}
+                      text="All works"
                       link={`/works?subjects.label=${conceptResponse.label}`}
                     />
                   </Space>
                 </div>
               )}
-              {selectedTab === 'works-by' && !!worksBy?.totalResults && (
+              {((hasWorksTabs && selectedWorksTab === 'works-by') ||
+                (!hasWorksTabs && !!worksBy?.totalResults)) && (
                 <div role="tabpanel">
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
-                      text={`All works by ${conceptResponse.label} (${worksBy.totalResults})`}
+                      text="All works"
                       link={`/works?subjects.label=${conceptResponse.label}`}
                     />
                   </Space>
@@ -290,14 +336,29 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       pageSize: 5,
     });
 
-    const imagesPromise = getImages({
+    const imagesAboutPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
       pageSize: 8,
     });
 
-    const [worksAboutResponse, worksByResponse, imagesResponse] =
-      await Promise.all([worksAboutPromise, worksByPromise, imagesPromise]);
+    const imagesByPromise = getImages({
+      params: { 'source.contributors.agent.label': [conceptResponse.label] },
+      toggles: serverData.toggles,
+      pageSize: 8,
+    });
+
+    const [
+      worksAboutResponse,
+      worksByResponse,
+      imagesAboutResponse,
+      imagesByResponse,
+    ] = await Promise.all([
+      worksAboutPromise,
+      worksByPromise,
+      imagesAboutPromise,
+      imagesByPromise,
+    ]);
 
     if (conceptResponse.type === 'Error') {
       if (conceptResponse.httpStatus === 404) {
@@ -314,14 +375,18 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       worksAboutResponse.type === 'Error' ? undefined : worksAboutResponse;
     const worksBy =
       worksByResponse.type === 'Error' ? undefined : worksByResponse;
-    const images = imagesResponse.type === 'Error' ? undefined : imagesResponse;
+    const imagesAbout =
+      imagesAboutResponse.type === 'Error' ? undefined : imagesAboutResponse;
+    const imagesBy =
+      imagesByResponse.type === 'Error' ? undefined : imagesByResponse;
 
     return {
       props: removeUndefinedProps({
         conceptResponse,
         worksAbout,
         worksBy,
-        images,
+        imagesAbout,
+        imagesBy,
         serverData,
       }),
     };
