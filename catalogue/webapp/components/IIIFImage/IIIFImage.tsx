@@ -14,9 +14,9 @@ import {
 } from '@weco/common/views/components/PrismicImage/PrismicImage';
 
 const StyledImage = styled(Image).attrs({ className: 'font-charcoal' })<{
-  bgColor: string;
+  background: string;
 }>`
-  background-color: ${props => props.theme.color(props.bgColor)};
+  background-color: ${props => props.theme.color(props.background)};
 `;
 
 const IIIFLoader = ({ src, width }: ImageLoaderProps) => {
@@ -33,7 +33,7 @@ export type Props = {
   layout: 'raw' | 'fill' | 'fixed';
   priority?: boolean;
   width?: number;
-  bgColor?: string;
+  background?: string;
 };
 
 const IIIFImage: FC<Props> = ({
@@ -43,7 +43,7 @@ const IIIFImage: FC<Props> = ({
   layout,
   priority = false,
   width = 300,
-  bgColor = 'white',
+  background = 'white',
 }) => {
   const sizesString = sizes
     ? convertBreakpointSizesToSizes(sizes).join(', ')
@@ -79,7 +79,7 @@ const IIIFImage: FC<Props> = ({
         priority={priority}
         placeholder="blur"
         blurDataURL={transparentGreyPNG}
-        bgColor={bgColor}
+        background={background}
       />
     );
   }
@@ -94,7 +94,7 @@ const IIIFImage: FC<Props> = ({
       onLoadingComplete={onLoadingComplete}
       objectFit="contain"
       priority={priority}
-      bgColor={bgColor}
+      background={background}
     />
   );
 };

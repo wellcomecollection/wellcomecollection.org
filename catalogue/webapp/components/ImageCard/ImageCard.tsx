@@ -15,7 +15,7 @@ type Props = {
   image: ImageType;
   layout: 'raw' | 'fill' | 'fixed';
   onClick: (event: SyntheticEvent<HTMLAnchorElement>) => void;
-  bgColor?: string;
+  background?: string;
 };
 
 const StyledLink = styled.a<{
@@ -35,7 +35,7 @@ const ImageCard: FC<Props> = ({
   image,
   layout,
   onClick,
-  bgColor,
+  background,
 }: Props) => {
   const { isEnhanced } = useContext(AppContext);
 
@@ -55,7 +55,7 @@ const ImageCard: FC<Props> = ({
         width={image.width}
         height={image.height}
       >
-        <IIIFImage image={image} layout={layout} bgColor={bgColor} />
+        <IIIFImage image={image} layout={layout} background={background} />
       </StyledLink>
     </NextLink>
   );
