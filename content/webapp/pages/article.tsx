@@ -129,6 +129,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   // readingTime toggle, readingTime function and Boolean to apply only to articles
   const { readingTime } = useToggles();
   const readingTimeInMinutes = article.readingTime;
+  // Could be a little belt and braces but we want to only output a reading time for articles (not webcomics etc.)
   const isArticleorSerialFormat = Boolean(
     article.format?.title === 'Article' || article.format?.title === 'Serial'
   );
