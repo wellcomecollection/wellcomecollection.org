@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { cssGrid } from '@weco/common/utils/classnames';
+import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import SegmentedControl from '@weco/common/views/components/SegmentedControl/SegmentedControl';
 import { EventBasic } from '../../types/events';
 import { Link } from '../../types/link';
