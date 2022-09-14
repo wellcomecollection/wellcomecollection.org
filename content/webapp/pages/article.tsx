@@ -236,9 +236,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
               <span className={font('intr', 6)}>
                 <span className={font('intr', 5)}> | </span>
                 reading time{' '}
-                <span className={font('intr', 6)}>
-                  <strong>{readingTimeInMinutes}</strong>
-                </span>
+                <span className={font('intb', 6)}>{readingTimeInMinutes}</span>
               </span>
             ) : null}
             {article.contributors.length > 0 && ' '}
