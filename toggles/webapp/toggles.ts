@@ -61,6 +61,12 @@ const toggles = {
       initialValue: false,
       description: 'View pages with the new colour palette',
     },
+    {
+      id: 'readingTime',
+      title: 'Reading time',
+      initialValue: false,
+      description: 'Displays reading time estimate on articles',
+    },
   ] as const,
   tests: [] as ABTest[],
 };
