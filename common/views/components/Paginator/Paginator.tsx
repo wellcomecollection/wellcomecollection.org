@@ -10,13 +10,13 @@ import { arrow } from '@weco/common/icons';
 type PageChangeFunction = (event: Event, page: number) => Promise<void>;
 
 type Props = {
-  query?: string;
-  showPortal?: boolean;
+  totalResults: number;
   currentPage: number;
   pageSize: number;
-  totalResults: number;
   link: LinkProps;
   onPageChange: PageChangeFunction;
+  query?: string;
+  showPortal?: boolean;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
   isLoading?: boolean;
@@ -39,10 +39,9 @@ const PaginatorContainer = styled(Space).attrs({
 type PaginatorWrapperProps = {
   hideMobilePagination: boolean | undefined;
 };
-const PaginatorWrapper = styled.div.attrs<PaginatorWrapperProps>(props => ({
+const PaginatorWrapper = styled.nav.attrs<PaginatorWrapperProps>(props => ({
   className: classNames({
     'is-hidden-s': Boolean(props.hideMobilePagination),
-    'font-pewter': true,
   }),
 }))<PaginatorWrapperProps>`
   display: flex;
@@ -61,13 +60,13 @@ const TotalResultsWrapper = styled.div.attrs<TotalResultsWrapperProps>(
 )<TotalResultsWrapperProps>``;
 
 const Paginator: FunctionComponent<Props> = ({
-  query,
-  showPortal,
+  totalResults,
   currentPage,
   pageSize,
-  totalResults,
   link,
   onPageChange,
+  query,
+  showPortal,
   hideMobilePagination,
   hideMobileTotalResults,
   isLoading,
@@ -132,8 +131,7 @@ const Paginator: FunctionComponent<Props> = ({
         {showPortal && <div id="sort-select-portal"></div>}
         <PaginatorWrapper
           hideMobilePagination={hideMobilePagination}
-          aria-label="Pagination navigation"
-          role="navigation"
+          aria-label="pagination"
         >
           {prevPage && prevQueryString && (
             <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
@@ -152,7 +150,7 @@ const Paginator: FunctionComponent<Props> = ({
             </Space>
           )}
 
-          <span>
+          <span className="font-pewter">
             Page {currentPage} of {totalPages}
           </span>
 

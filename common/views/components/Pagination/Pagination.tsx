@@ -7,13 +7,13 @@ import { arrow } from '@weco/common/icons';
 import styled from 'styled-components';
 
 export type Props = {
-  total: number;
-  prevPage?: number;
+  totalResults: number;
   currentPage: number;
   totalPages: number;
+  prevPage?: number;
   nextPage?: number;
-  nextQueryString?: string;
   prevQueryString?: string;
+  nextQueryString?: string;
   range?: {
     beginning: number;
     end: number;
@@ -34,24 +34,22 @@ const PaginatorContainer = styled(Space).attrs({
   justify-content: flex-end;
 `;
 
-const PaginatorWrapper = styled.div.attrs({
-  className: 'font-pewter',
-})`
+const PaginatorWrapper = styled.nav`
   display: flex;
   align-items: center;
 `;
 
 const Pagination: FunctionComponent<Props> = ({
-  prevPage,
   currentPage,
   totalPages,
+  prevPage,
   nextPage,
-  nextQueryString,
   prevQueryString,
+  nextQueryString,
 }: Props) => {
   return (
     <PaginatorContainer>
-      <PaginatorWrapper aria-label="Pagination navigation" role="navigation">
+      <PaginatorWrapper aria-label="pagination">
         {prevPage && prevQueryString && (
           <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
             <Rotator rotate={180}>
@@ -73,7 +71,7 @@ const Pagination: FunctionComponent<Props> = ({
           </Space>
         )}
 
-        <span>
+        <span className="font-pewter">
           Page {currentPage} of {totalPages}
         </span>
 
@@ -104,13 +102,13 @@ export default Pagination;
 export class PaginationFactory {
   static fromList(
     l: [],
-    total: number,
+    totalResults: number,
     currentPage = 1,
     pageSize = 32,
     getParams = {}
   ): Props {
     const size = l.length;
-    const totalPages = Math.ceil(total / pageSize);
+    const totalPages = Math.ceil(totalResults / pageSize);
     const prevPage =
       totalPages > 1 && currentPage !== 1 ? currentPage - 1 : undefined;
     const nextPage =
@@ -125,14 +123,14 @@ export class PaginationFactory {
     const nextQueryString = buildQueryString(nextPage, getParams);
     const prevQueryString = buildQueryString(prevPage, getParams);
     const pagination: Props = {
-      total,
-      range,
-      totalPages,
+      totalResults,
       currentPage,
-      nextPage,
+      totalPages,
       prevPage,
-      nextQueryString,
+      nextPage,
       prevQueryString,
+      nextQueryString,
+      range,
     };
     return pagination;
   }

@@ -1,5 +1,6 @@
 import type { GetServerSideProps } from 'next';
-import { FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { Period } from '../types/periods';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
@@ -71,6 +72,10 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   };
 
 const ExhibitionsPage: FC<Props> = props => {
+  const { query } = useRouter();
+  const contentSection = useRef<HTMLDivElement>(null);
+  const [currentPage, setCurrentPage] = useState(query?.page || '1');
+
   const { exhibitions, period, title, jsonLd } = props;
   const firstExhibition = exhibitions[0];
 
@@ -93,6 +98,14 @@ const ExhibitionsPage: FC<Props> = props => {
   );
 
   const paginationRoot = `exhibitions${period ? `/${period}` : ''}`;
+
+  useEffect(() => {
+    if (query.page !== currentPage && contentSection?.current) {
+      setCurrentPage(query.page || '1');
+      contentSection.current.focus();
+      contentSection.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [query]);
 
   return (
     <PageLayout
@@ -154,12 +167,13 @@ const ExhibitionsPage: FC<Props> = props => {
               items={partitionedExhibitionItems.past}
               itemsHaveTransparentBackground={true}
               itemsPerRow={3}
+              ref={contentSection}
             />
             {exhibitions.totalPages > 1 && (
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    total={exhibitions.totalResults}
+                    totalResults={exhibitions.totalResults}
                     currentPage={exhibitions.currentPage}
                     totalPages={exhibitions.totalPages}
                     prevPage={

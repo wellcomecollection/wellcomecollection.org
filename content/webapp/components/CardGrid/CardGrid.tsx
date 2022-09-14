@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { ForwardedRef, forwardRef, FunctionComponent } from 'react';
 import { classNames, cssGrid } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import { convertItemToCardProps } from '../../types/card';
@@ -25,17 +25,20 @@ type Props = {
   fromDate?: Date;
 };
 
-const CardGrid: FunctionComponent<Props> = ({
-  items,
-  hidePromoText,
-  itemsPerRow,
-  itemsHaveTransparentBackground = false,
-  links,
-  fromDate,
-}: Props) => {
+const CardGrid: FunctionComponent<Props> = (
+  {
+    items,
+    hidePromoText,
+    itemsPerRow,
+    itemsHaveTransparentBackground = false,
+    links,
+    fromDate,
+  }: Props,
+  ref?: ForwardedRef<HTMLDivElement>
+) => {
   const gridColumns = itemsPerRow === 4 ? 3 : 4;
   return (
-    <div>
+    <div ref={ref} tabIndex={-1}>
       <CssGridContainer>
         <div className="css-grid">
           {items.map((item, i) => (
@@ -102,4 +105,4 @@ const CardGrid: FunctionComponent<Props> = ({
   );
 };
 
-export default CardGrid;
+export default forwardRef<HTMLDivElement, Props>(CardGrid);
