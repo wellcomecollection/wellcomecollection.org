@@ -76,12 +76,10 @@ export function findNextPickUpDay(
   const nextDay = addDays(date, 1);
   const isClosedThisDay =
     regularClosedDays.includes(date.getDay() as DayNumber) ||
-    exceptionalClosedDates.find(d => d.toDateString() === date.toDateString());
+    exceptionalClosedDates.find(d => isSameDay(d, date, 'London'));
   const isOpenNextDay =
     !regularClosedDays.includes(nextDay.getDay() as DayNumber) &&
-    !exceptionalClosedDates.find(
-      d => d.toDateString() === nextDay.toDateString()
-    );
+    !exceptionalClosedDates.find(d => isSameDay(d, nextDay, 'London'));
 
   if (isClosedThisDay && isOpenNextDay) {
     return findNextPickUpDay(
