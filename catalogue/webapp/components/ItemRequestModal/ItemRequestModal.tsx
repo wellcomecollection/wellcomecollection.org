@@ -9,6 +9,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import RequestDialog from './RequestDialog';
 import ConfirmedDialog from './ConfirmedDialog';
 import ErrorDialog from './ErrorDialog';
+import { formatDateForRequestsAPI } from './format-date';
 
 type Props = {
   work: Work;
@@ -51,15 +52,6 @@ const ItemRequestModal: FC<Props> = ({
     setCurrentHoldNumber(initialHoldNumber);
   }, [initialHoldNumber]); // This will update when the PhysicalItemDetails component renders and the userHolds are updated
 
-  // Formats a date as YYYY-MM-DD, e.g. 2022-09-21
-  function formatDate(d: Date): string {
-    const years = d.getUTCFullYear().toString();
-    const months = d.getUTCMonth().toString().padStart(2, '0');
-    const days = d.getUTCDate().toString().padStart(2, '0');
-
-    return `${years}-${months}-${days}`;
-  }
-
   async function confirmRequest(pickupDate: Date) {
     setRequestingState('requesting');
     try {
@@ -68,7 +60,7 @@ const ItemRequestModal: FC<Props> = ({
         body: JSON.stringify({
           workId: work.id,
           itemId: item.id,
-          pickupDate: formatDate(pickupDate),
+          pickupDate: formatDateForRequestsAPI(pickupDate),
           type: 'Item',
         }),
         headers: {
