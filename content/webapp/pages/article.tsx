@@ -126,8 +126,13 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
-  const { readingTime } = useToggles();
+  // readingTime toggle, readingTime function and Boolean to apply only to articles
+  // const { readingTime } = useToggles();
+  const readingTime = true;
   const readingTimeInMinutes = article.readingTime;
+  const isArticleorSerialFormat = Boolean(
+    article.format?.title === 'Article' || article.format?.title === 'Serial'
+  );
 
   useEffect(() => {
     async function setSeries() {
@@ -244,24 +249,17 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-            <span
-              className={classNames({
-                [font('intb', 6)]: true,
-              })}
-            >
-                | reading time{' '}
-              <span className={font('intr', 5)}>{readingTimeInMinutes}</span>
+            {readingTime && isArticleorSerialFormat ? (
+              <span
+                className={classNames({
+                  [font('intb', 6)]: true,
+                })}
+              >
+                <span className={font('intr', 5)}> | </span>
+                reading time{' '}
+                <span className={font('intr', 5)}>{readingTimeInMinutes}</span>
               </span>
-            {/*{readingTime && (*/}
-            {/*  <span*/}
-            {/*    className={classNames({*/}
-            {/*      [font('intb', 6)]: true,*/}
-            {/*    })}*/}
-            {/*  >*/}
-            {/*    | reading time{' '}*/}
-            {/*    <span className={font('intr', 5)}>{readingTimeInMinutes}</span>*/}
-            {/*  </span>*/}
-            {/*)}*/}
+            ) : null}
             {article.contributors.length > 0 && ' '}
 
             <span

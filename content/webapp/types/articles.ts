@@ -56,3 +56,15 @@ export function getPositionInSeries(article: ArticleBasic): number | undefined {
 export function getArticleColor(article: ArticleBasic): ColorSelection {
   return article.series.map(series => series.color).find(Boolean) || 'purple';
 }
+
+export type extractedArticleText = {
+  type: string;
+  weight: string;
+  value: combinedArticleText[];
+};
+
+export type combinedArticleText = {
+  type: string;
+  text: string;
+  spans: [];
+};

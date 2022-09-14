@@ -1,4 +1,9 @@
-import { Article, ArticleBasic } from '../../../types/articles';
+import {
+  Article,
+  ArticleBasic,
+  combinedArticleText,
+  extractedArticleText,
+} from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import {
   isFilledLinkToDocumentWithData,
@@ -96,22 +101,6 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   const { data } = document;
   const genericFields = transformGenericFields(document);
 
-  const filteredArticleText = genericFields.body.filter(content => {
-    return content.type === 'text';
-  });
-  const textValues = filteredArticleText.flatMap(content => {
-    return content.value;
-  });
-
-  const combinedTextValues = textValues.map(content => {
-    return content.text;
-  });
-
-  console.log(combinedTextValues.join(''), 'what is this like');
-  // const readingTimeSections = combinedTextValues.reduce((a, b) => a + b, 0);
-  const readingTimeInMinutes = readingTime(combinedTextValues.join('')).text;
-  console.log(readingTimeInMinutes, 'readingTimeInMinutes');
-
   // When we imported data into Prismic from the Wordpress blog some content
   // needed to have its original publication date displayed. It is purely a display
   // value and does not affect ordering.
@@ -120,6 +109,25 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   const format = isFilledLinkToDocumentWithData(data.format)
     ? (transformLabelType(data.format) as Format<ArticleFormatId>)
     : undefined;
+
+  // Calculating the full reading time of the article by getting all article text
+  let readingTimeInMinutes;
+  if (format?.title === 'Article') {
+    const filteredArticleText = genericFields.body
+      .filter(content => {
+        return content.type === 'text';
+      })
+      .flat();
+
+    const textValues = filteredArticleText.flatMap(type => [type.value]);
+
+    const combinedTextValues = textValues.flat().map(content => {
+      return content.text;
+    });
+    readingTimeInMinutes = readingTime(combinedTextValues.join('')).text;
+  } else {
+    readingTimeInMinutes = null;
+  }
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)
@@ -134,7 +142,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
 
   return {
     ...genericFields,
-    readingTime: readingTimeInMinutes,
+    readingTime: format?.title === 'Article' ? readingTimeInMinutes : null,
     type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
