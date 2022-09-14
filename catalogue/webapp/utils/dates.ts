@@ -108,6 +108,8 @@ export function determineNextAvailableDate(
   const hourInLondon = Number(
     date.toLocaleString('en-GB', { hour: 'numeric', timeZone: 'Europe/London' })
   );
+  // If a request is made before 10am, the next _potential_ pick-up date is the
+  // next day otherwise, it is two days' time.
   const isBeforeTen = hourInLondon < 10;
   const nextAvailableDate = addDays(date, isBeforeTen ? 1 : 2);
 
