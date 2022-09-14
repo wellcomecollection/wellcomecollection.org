@@ -161,7 +161,7 @@ const ExhibitionsPage: FC<Props> = props => {
                   <Pagination
                     total={exhibitions.totalResults}
                     currentPage={exhibitions.currentPage}
-                    pageCount={exhibitions.totalPages}
+                    totalPages={exhibitions.totalPages}
                     prevPage={
                       exhibitions.currentPage > 1
                         ? exhibitions.currentPage - 1

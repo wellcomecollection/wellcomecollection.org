@@ -109,7 +109,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             <Pagination
               total={paginatedResults.totalResults}
               currentPage={paginatedResults.currentPage}
-              pageCount={paginatedResults.totalPages}
+              totalPages={paginatedResults.totalPages}
               prevPage={
                 paginatedResults.currentPage > 1
                   ? paginatedResults.currentPage - 1
