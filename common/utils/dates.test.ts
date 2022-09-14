@@ -29,7 +29,7 @@ describe('isSameDay', () => {
     expect(result).toEqual(true);
   });
 
-  describe.only('ComparisonMode', () => {
+  describe('ComparisonMode', () => {
     const september19Midnight = new Date(
       'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
     );
