@@ -156,10 +156,10 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguage: britishSignLanguage,
-  speechToText: speechToText,
-  hearingLoop: hearingLoop,
-  audioDescribed: audioDescribed,
+  britishSignLanguage,
+  speechToText,
+  hearingLoop,
+  audioDescribed,
 };
 
 const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
@@ -287,8 +287,8 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
       description={event.metadataDescription || event.promo?.caption || ''}
       url={{ pathname: `/events/${event.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={event.image}
     >
       <ContentPage

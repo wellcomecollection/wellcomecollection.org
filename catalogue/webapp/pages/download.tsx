@@ -85,11 +85,11 @@ const DownloadPage: NextPage<Props> = ({
   return (
     <PageLayout
       title={title}
-      description={''}
+      description=""
       url={{ pathname: `/works/${workId}/download`, query: { sierraId } }}
-      openGraphType={'website'}
+      openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'collections'}
+      siteSection="collections"
       hideNewsletterPromo={true}
     >
       <Layout8>

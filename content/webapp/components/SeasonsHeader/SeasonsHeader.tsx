@@ -39,7 +39,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({
   return (
     <Layout12>
       <HeaderWrapper>
-        <WobblyBottom color={'white'}>
+        <WobblyBottom color="white">
           {FeaturedMedia && <div className="relative">{FeaturedMedia}</div>}
           <Space
             v={{

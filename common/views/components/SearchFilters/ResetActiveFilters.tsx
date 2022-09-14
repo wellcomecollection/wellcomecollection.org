@@ -52,14 +52,14 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
       }}
     >
       <Space
-        className={'v-align-middle'}
+        className="v-align-middle"
         as="span"
         h={{
           size: 'xs',
           properties: ['margin-right'],
         }}
       >
-        <Icon icon={cross} matchText={true} color={'silver'} />
+        <Icon icon={cross} matchText={true} color="silver" />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}
@@ -222,7 +222,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
           <NextLink passHref {...resetFilters}>
             <a>
-              <CancelFilter text={'Reset filters'} />
+              <CancelFilter text="Reset filters" />
             </a>
           </NextLink>
         </div>

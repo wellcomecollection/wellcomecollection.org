@@ -97,9 +97,9 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
         url={url}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'collections'}
+        siteSection="collections"
         excludeRoleMain={true}
       >
         <Space

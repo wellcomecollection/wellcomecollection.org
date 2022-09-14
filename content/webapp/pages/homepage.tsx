@@ -144,11 +144,11 @@ const Homepage: FC<Props> = ({
 
   return (
     <PageLayout
-      title={''}
+      title=""
       description={pageDescriptions.homepage}
       url={{ pathname: '/' }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
+      openGraphType="website"
       siteSection={null}
       image={pageImage}
     >

@@ -96,7 +96,7 @@ export class PaginationFactory {
       pageCount > 1 && currentPage !== pageCount ? currentPage + 1 : undefined;
     const beginning = pageSize * currentPage - pageSize + 1;
     const range = {
-      beginning: beginning,
+      beginning,
       end: beginning + size - 1,
     };
     const nextQueryString = buildQueryString(nextPage, getParams);

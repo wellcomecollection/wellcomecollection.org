@@ -225,7 +225,7 @@ const Footer: FunctionComponent<Props> = ({ venues, hide = false }: Props) => {
             </Space>
             <TopBorderBox>
               <Space
-                className={'flex'}
+                className="flex"
                 v={{ size: 'l', properties: ['padding-top'] }}
               >
                 <div className={`${font('intr', 5)} float-l`}>

@@ -195,7 +195,7 @@ const SearchForm = forwardRef(
               setValue={setInputQuery}
               ref={searchInput}
               big={true}
-              placeholder={''}
+              placeholder=""
               ariaLabel={
                 isImageSearch ? searchFormInputImage : searchFormInputCatalogue
               }

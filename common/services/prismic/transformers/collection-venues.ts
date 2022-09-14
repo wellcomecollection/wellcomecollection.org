@@ -12,6 +12,7 @@ import {
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
 import { transformImage } from './images';
+import { TimestampField } from '@prismicio/types';
 
 export function createRegularDay(
   day: Day,
@@ -23,8 +24,10 @@ export function createRegularDay(
   const dayField = data && (data[lowercaseDay] as DayField);
 
   const start =
-    dayField[0]?.startDateTime && new Date(dayField[0]?.startDateTime);
-  const end = dayField[0]?.endDateTime && new Date(dayField[0]?.endDateTime);
+    dayField[0]?.startDateTime &&
+    transformTimestamp(dayField[0]?.startDateTime);
+  const end =
+    dayField[0]?.endDateTime && transformTimestamp(dayField[0]?.endDateTime);
 
   const isClosed = !start;
   // If there is no start time from prismic, then we set both opens and closes to 00:00.
@@ -39,6 +42,10 @@ export function createRegularDay(
   };
 }
 
+function transformTimestamp(field: TimestampField): Date | undefined {
+  return prismicH.asDate(field) || undefined;
+}
+
 export function transformCollectionVenue(
   venue: CollectionVenuePrismicDocument | CollectionVenuePrismicDocumentLite
 ): Venue {
@@ -48,11 +55,13 @@ export function transformCollectionVenue(
         .filter((modified: ModifiedDayOpeningTime) => modified.overrideDate)
         .map(modified => {
           const start =
-            modified.startDateTime && new Date(modified.startDateTime);
-          const end = modified.endDateTime && new Date(modified.endDateTime);
+            modified.startDateTime &&
+            transformTimestamp(modified.startDateTime);
+          const end =
+            modified.endDateTime && transformTimestamp(modified.endDateTime);
           const isClosed = !start;
           const overrideDate =
-            modified.overrideDate && new Date(modified.overrideDate);
+            modified.overrideDate && transformTimestamp(modified.overrideDate);
           const overrideType = modified.type ?? 'other';
           if (overrideDate) {
             return {

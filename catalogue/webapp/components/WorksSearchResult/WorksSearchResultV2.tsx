@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import styled from 'styled-components';
 
 // Types
 import { Work } from '@weco/common/model/catalogue';
@@ -20,42 +19,19 @@ import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
+import {
+  Container,
+  Details,
+  Preview,
+  PreviewImage,
+  WorkInformation,
+  WorkTitleHeading,
+} from './WorksSearchResultV2.styles';
 
 type Props = {
   work: Work;
   resultPosition: number;
 };
-
-const Container = styled.div`
-  ${props => props.theme.media.medium`
-    display: flex;
-  `}
-`;
-const Preview = styled(Space)`
-  height: 120px;
-  width: 120px;
-  margin-bottom: ${props => props.theme.spacingUnit * 2}px;
-  margin-right: 1rem;
-  position: relative;
-  text-align: center;
-  background-color: ${props => props.theme.color('black')};
-
-  ${props => props.theme.media.medium`
-    margin-bottom: 0;
-  `}
-`;
-const Details = styled.div`
-  ${props => props.theme.media.medium`
-    max-width: 900px;
-  `}
-`;
-const WorkInformation = styled.div`
-  display: flex;
-  color: ${props => props.theme.color('pewter')};
-`;
-const WorkTitleHeading = styled.h3`
-  margin-bottom: 0.5rem;
-`;
 
 // TODO: remove, hack to handle the fact that we are pulling through PDF thumbnails.
 // These will be removed from the API at some stage.
@@ -100,12 +76,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
         <Container>
           {work.thumbnail && !isPdfThumbnail(work.thumbnail) && (
             <Preview>
-              <img
-                style={{
-                  width: 'auto',
-                  height: '110px',
-                  marginTop: '5px',
-                }}
+              <PreviewImage
                 alt={`view ${work.title}`}
                 src={convertIiifImageUri(work.thumbnail.url, 120)}
               />
@@ -137,13 +108,17 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
               )}
               {primaryContributorLabel && (
                 <>
-                  |
-                  <Space
-                    h={{
-                      size: 's',
-                      properties: ['margin-left'],
-                    }}
-                  >
+                  {productionDates.length > 0 && (
+                    <Space
+                      h={{
+                        size: 'xs',
+                        properties: ['margin-right'],
+                      }}
+                    >
+                      |
+                    </Space>
+                  )}
+                  <Space>
                     <LinkLabels
                       items={[
                         {

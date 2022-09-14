@@ -3,15 +3,13 @@ import { isNotUndefined, isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitions } from '../../../services/prismic/fetch/exhibitions';
 import { transformExhibitionsQuery } from '../../../services/prismic/transformers/exhibitions';
-import { PaginatedResults } from '@weco/common/services/prismic/types';
-import { ExhibitionBasic } from '../../../types/exhibitions';
+import superjson from 'superjson';
 
-type Data = PaginatedResults<ExhibitionBasic>;
 type NotFound = { notFound: true };
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<Data | NotFound>
+  res: NextApiResponse<string | NotFound>
 ): Promise<void> => {
   const { params } = req.query;
   const parsedParams = isString(params) ? JSON.parse(params) : undefined;
@@ -22,7 +20,7 @@ export default async (
 
     if (query) {
       const exhibitions = transformExhibitionsQuery(query);
-      return res.status(200).json(exhibitions);
+      return res.status(200).json(superjson.stringify(exhibitions));
     }
   }
 

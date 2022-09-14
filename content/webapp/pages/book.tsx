@@ -41,26 +41,26 @@ const BookMetadata = ({ book }: BookMetadataProps) => (
   >
     {book.datePublished && (
       <Fragment>
-        <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>
+        <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>
           Date published
         </dt>
-        <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+        <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
           {book.datePublished && <HTMLDate date={book.datePublished} />}
         </dd>
       </Fragment>
     )}
-    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Format</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>Format</dt>
+    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
       {book.format}
     </dd>
 
-    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>Extent</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>Extent</dt>
+    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
       {book.extent}
     </dd>
 
-    <dt className={'no-margin ' + grid({ s: 4, m: 4, l: 4, xl: 4 })}>ISBN</dt>
-    <dd className={'no-margin ' + grid({ s: 8, m: 8, l: 8, xl: 8 })}>
+    <dt className={`no-margin ${grid({ s: 4, m: 4, l: 4, xl: 4 })}`}>ISBN</dt>
+    <dd className={`no-margin ${grid({ s: 8, m: 8, l: 8, xl: 8 })}`}>
       {book.isbn}
     </dd>
   </Space>
@@ -146,8 +146,8 @@ const BookPage: FunctionComponent<Props> = props => {
       description={book.metadataDescription || book.promo?.caption || ''}
       url={{ pathname: `/books/${book.id}`, query: {} }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'book'}
-      siteSection={'stories'}
+      openGraphType="book"
+      siteSection="stories"
       image={book.image}
     >
       <ContentPage

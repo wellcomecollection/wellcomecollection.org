@@ -51,7 +51,7 @@ test.describe('Image search', () => {
     } else {
       await clickActionColourDropDown(page);
       await selectColourInPicker(page);
-      await page.click('body');
+      await clickActionColourDropDown(page);
     }
     await expectItemIsVisible(searchResultsContainer, page);
     await expectItemsIsVisible(imagesResultsListItem, 1, page);

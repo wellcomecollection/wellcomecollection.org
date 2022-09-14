@@ -41,6 +41,7 @@ type ImagesPaginationProps = {
   imagesRouteProps: ImagesProps;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
+  isLoading?: boolean;
 };
 
 const ImagesPagination = ({
@@ -50,6 +51,7 @@ const ImagesPagination = ({
   imagesRouteProps,
   hideMobilePagination,
   hideMobileTotalResults,
+  isLoading,
 }: ImagesPaginationProps) => (
   <div className="flex flex--h-space-between flex--v-center flex--wrap">
     <Paginator
@@ -75,6 +77,7 @@ const ImagesPagination = ({
       }}
       hideMobilePagination={hideMobilePagination}
       hideMobileTotalResults={hideMobileTotalResults}
+      isLoading={isLoading}
     />
   </div>
 );
@@ -83,14 +86,14 @@ const Images: NextPage<Props> = ({
   images,
   imagesRouteProps,
 }): ReactElement<Props> => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { query, page, color } = imagesRouteProps;
   useEffect(() => {
     function routeChangeStart() {
-      setLoading(true);
+      setIsLoading(true);
     }
     function routeChangeComplete() {
-      setLoading(false);
+      setIsLoading(false);
     }
     Router.events.on('routeChangeStart', routeChangeStart);
     Router.events.on('routeChangeComplete', routeChangeComplete);
@@ -143,9 +146,9 @@ const Images: NextPage<Props> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'collections'}
+        siteSection="collections"
         image={undefined}
       >
         <Space
@@ -189,6 +192,7 @@ const Images: NextPage<Props> = ({
                       results={images}
                       imagesRouteProps={imagesRouteProps}
                       hideMobilePagination={true}
+                      isLoading={isLoading}
                     />
                   </div>
                 </div>
@@ -200,10 +204,9 @@ const Images: NextPage<Props> = ({
                 size: 'l',
                 properties: ['padding-top'],
               }}
-              style={{ opacity: loading ? 0 : 1 }}
             >
               <div className="container">
-                {images && <ImageEndpointSearchResults images={images} />}
+                <ImageEndpointSearchResults images={images} />
               </div>
 
               <Space
@@ -221,6 +224,7 @@ const Images: NextPage<Props> = ({
                         results={images}
                         imagesRouteProps={imagesRouteProps}
                         hideMobileTotalResults={true}
+                        isLoading={isLoading}
                       />
                     </div>
                   </div>
@@ -251,7 +255,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const images = await getImages({
       params: apiProps,
       toggles: serverData.toggles,
-      pageSize: 25,
+      pageSize: 30,
     });
 
     if (images && images.type === 'Error') {

@@ -462,8 +462,8 @@ const ExhibitionGuidePage: FC<Props> = props => {
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'exhibition-guides'}
+      openGraphType="website"
+      siteSection="exhibition-guides"
       image={exhibitionGuide.image || undefined}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,

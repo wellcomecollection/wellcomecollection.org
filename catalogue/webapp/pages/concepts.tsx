@@ -16,11 +16,11 @@ type Props = {
 export const ConceptsPage: NextPage<Props> = ({ concepts }) => {
   return (
     <CataloguePageLayout
-      title={'Concepts'}
-      description={'<TBC>'}
+      title="Concepts"
+      description="<TBC>"
       url={{ pathname: '/concepts' }}
-      openGraphType={'website'}
-      siteSection={'collections'}
+      openGraphType="website"
+      siteSection="collections"
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >

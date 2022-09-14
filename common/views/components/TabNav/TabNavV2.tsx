@@ -9,31 +9,35 @@ type SelectableTextLink = {
   // TODO we probably want anchors here so people can share the url/go back to the correct section?
   // link: NextLinkType;
   selected: boolean;
-  color?: string;
 };
 
 type Props = {
   items: SelectableTextLink[];
   setSelectedTab: Dispatch<SetStateAction<string>>;
   color?: string;
+  isDarkMode?: boolean;
 };
 
 type NavItemInnerProps = {
   selected: boolean;
+  isDarkMode?: boolean;
 };
 
 const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   return {
     className: classNames({
       selected: props.selected,
-      block: true,
-      relative: true,
     }),
   };
 })<NavItemInnerProps>`
+  display: block;
+  position: relative;
   z-index: 1;
   padding: 1em 0.3em;
   cursor: pointer;
+  color: ${props => props.theme.color(props.isDarkMode ? 'white' : 'black')};
+  opacity: ${props => (props.selected ? '1' : '0.6')};
+  transition: all ${props => props.theme.transitionProperties};
 
   &:after {
     content: '';
@@ -43,9 +47,9 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     left: 0;
     width: 0;
     background-color: ${props => {
-      return props.color
-        ? props.theme.color(props.color)
-        : props.theme.color('black');
+      return props.theme.color(
+        props.color ? props.color : props.isDarkMode ? 'white' : 'black'
+      );
     }};
     z-index: -1;
     transition: width 200ms ease;
@@ -68,7 +72,12 @@ const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   }
 `;
 
-const TabNavV2: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
+const TabNavV2: FC<Props> = ({
+  items,
+  setSelectedTab,
+  color,
+  isDarkMode = false,
+}: Props) => {
   return (
     <div className={font('intb', 4)}>
       <ul
@@ -94,6 +103,7 @@ const TabNavV2: FC<Props> = ({ items, setSelectedTab, color }: Props) => {
               v={{ size: 'm', properties: ['padding-top'] }}
               selected={item.selected}
               color={color}
+              isDarkMode={isDarkMode}
             >
               {item.text}
             </NavItemInner>

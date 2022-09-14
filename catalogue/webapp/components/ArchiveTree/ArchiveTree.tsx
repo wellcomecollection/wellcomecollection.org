@@ -257,7 +257,7 @@ function createNodeFromWork({
 }): UiTreeNode {
   return {
     openStatus,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts?.map(part => ({
       openStatus: false,
@@ -780,7 +780,7 @@ function createBasicTree({
   const partOfReversed = [...ancestorArray, work].reverse();
   const rootNode: UiTreeNode = {
     openStatus: true,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts.map(part => ({
       openStatus: false,
@@ -861,7 +861,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
         <>
           <ButtonWrap>
             <ButtonSolid
-              text={'Collection contents'}
+              text="Collection contents"
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
@@ -872,7 +872,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
-            id={'collection-contents-modal'}
+            id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
             <Tree isEnhanced={isEnhanced}>

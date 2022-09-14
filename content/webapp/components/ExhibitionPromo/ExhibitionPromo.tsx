@@ -28,7 +28,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
   return (
     <CardOuter
       data-component="ExhibitionPromo"
-      data-component-state={JSON.stringify({ position: position })}
+      data-component-state={JSON.stringify({ position })}
       id={exhibition.id}
       href={url}
       onClick={() => {

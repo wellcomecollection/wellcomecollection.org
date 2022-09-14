@@ -268,7 +268,7 @@ const Header = ({
           >
             <SegmentedControl
               ariaCurrentText="page"
-              id={'whatsOnFilter'}
+              id="whatsOnFilter"
               activeId={activeId}
               items={segmentedControlItems}
             />
@@ -397,8 +397,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstExhibition && firstExhibition.image}
     >
       <>
@@ -428,8 +428,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         <Layout12>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
-                            background={'cream'}
-                            color={'black'}
+                            background="cream"
+                            color="black"
                           />
                         </Layout12>
                       ) : (

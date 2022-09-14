@@ -165,7 +165,7 @@ const SearchTabs: FunctionComponent<Props> = ({
 
               return { href, as };
             }}
-            ariaDescribedBy={'library-catalogue-form-description'}
+            ariaDescribedBy="library-catalogue-form-description"
             isImageSearch={false}
             shouldShowFilters={shouldShowFilters}
             showSortBy={showSortBy}
@@ -283,7 +283,7 @@ const SearchTabs: FunctionComponent<Props> = ({
     <div style={{ position: 'relative' }}>
       <BaseTabs
         tabs={tabs}
-        label={'Search'}
+        label="Search"
         activeTabIndex={activeTabIndex}
         onTabClick={onTabClick}
       />

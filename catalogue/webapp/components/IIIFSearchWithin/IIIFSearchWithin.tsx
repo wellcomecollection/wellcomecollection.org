@@ -125,8 +125,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
       >
         <SearchInputWrapper className="relative">
           <TextInput
-            id={'searchWithin'}
-            label={'Search within this item'}
+            id="searchWithin"
+            label="Search within this item"
             name="query"
             value={value}
             setValue={setValue}

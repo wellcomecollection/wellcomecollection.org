@@ -139,7 +139,7 @@ const EventContentTypeInfo = () => (
           h={{ size: 'xs', properties: ['margin-right'] }}
           className="flex flex--v-center"
         >
-          <Dot color={'marble'} />
+          <Dot color="marble" />
         </Space>
         {'Past'}
       </div>
@@ -155,7 +155,7 @@ const ExhibitionContentTypeInfo = () => (
         h={{ size: 'xs', properties: ['margin-right'] }}
         className="flex flex--v-center"
       >
-        <Dot color={'marble'} />
+        <Dot color="marble" />
       </Space>
       {'Closed'}
     </div>
@@ -216,7 +216,7 @@ article.args = {
   breadcrumbs: { items: breadcrumbItems },
   labels: { labels: [{ text: 'Article' }] },
   HeroPicture: <Picture images={articlePictureImages} isFull={true} />,
-  ContentTypeInfo: ContentTypeInfo,
+  ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
 };
 

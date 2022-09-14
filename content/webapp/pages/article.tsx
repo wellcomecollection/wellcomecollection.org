@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
-import { Article } from '../types/articles';
+import { Article, ArticleBasic } from '../types/articles';
 import { Series } from '../types/series';
 import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -73,12 +73,12 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
 type ArticleSeriesList = {
   series: Series;
-  articles: Article[];
+  articles: ArticleBasic[];
 }[];
 
 function getNextUp(
   series: Series,
-  articles: Article[],
+  articles: ArticleBasic[],
   article: Article,
   currentPosition: number | undefined,
   isPodcast: boolean
@@ -276,8 +276,8 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'article'}
-      siteSection={'stories'}
+      openGraphType="article"
+      siteSection="stories"
       image={article.image}
     >
       <ContentPage

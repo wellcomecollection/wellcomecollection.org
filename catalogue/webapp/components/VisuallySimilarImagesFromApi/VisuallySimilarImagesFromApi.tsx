@@ -47,6 +47,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
     };
     fetchVisuallySimilarImages();
   }, [originalId]);
+
   return similarImages.length === 0 ? null : (
     <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
       <h3 className={font('wb', 5)}>Visually similar images</h3>

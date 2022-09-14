@@ -63,7 +63,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
         return (
           <Item key={i} isActive={activeIndex === canvasIndex}>
             <button
-              className={'plain-button'}
+              className="plain-button"
               type="button"
               onClick={() => {
                 mainViewerRef &&

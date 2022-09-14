@@ -140,9 +140,9 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                     })
                   : undefined
               }
-              srcSet={''}
+              srcSet=""
               sizes={`${preferredThumbnail ? preferredThumbnail.width : 30}px`}
-              alt={''}
+              alt=""
               loadHandler={() => {
                 setThumbnailLoaded(true);
               }}
