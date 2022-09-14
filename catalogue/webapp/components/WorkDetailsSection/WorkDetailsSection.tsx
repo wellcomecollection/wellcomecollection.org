@@ -40,12 +40,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
             })}
           >
             {headingText && (
-              <h2
-                className={classNames({
-                  [font('wb', 4)]: true,
-                  'work-details-heading': true,
-                })}
-              >
+              <h2 className={`${font('wb', 4)} work-details-heading`}>
                 {headingText}
               </h2>
             )}

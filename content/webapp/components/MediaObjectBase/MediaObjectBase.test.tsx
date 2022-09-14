@@ -10,7 +10,7 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import styled from 'styled-components';
-import { grid, classNames, font } from '@weco/common/utils/classnames';
+import { grid, font } from '@weco/common/utils/classnames';
 
 const getBaseTitleClass = number => {
   return `card-link__title font-wb font-size-${number}`;
@@ -47,10 +47,7 @@ const TextWrapper = styled.div.attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: classNames({
-    'card-link__title': true,
-    [font('wb', 4)]: true,
-  }),
+  className: `card-link__title ${font('wb', 4)}`,
 })``;
 
 const extraClass = 'my_extra_extra_class';

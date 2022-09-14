@@ -177,9 +177,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 })`
   display: flex;
   justify-content: center;
@@ -242,7 +240,7 @@ const ViewerTopBar: FunctionComponent<Props> = ({ viewerRef }: Props) => {
               >
                 <Icon
                   icon={chevrons}
-                  color={'white'}
+                  color="white"
                   rotate={isDesktopSidebarActive ? undefined : 180}
                 />
                 <span className="visually-hidden">

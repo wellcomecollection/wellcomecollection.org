@@ -13,9 +13,7 @@ type StyledSelectProps = {
 };
 
 const StyledSelect = styled.div.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })<StyledSelectProps>`
   position: relative;
 

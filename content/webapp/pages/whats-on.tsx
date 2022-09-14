@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { ExhibitionBasic } from '../types/exhibitions';
 import { EventBasic } from '../types/events';
 import { Period } from '../types/periods';
-import { classNames, font, grid, cssGrid } from '@weco/common/utils/classnames';
+import { font, grid, cssGrid } from '@weco/common/utils/classnames';
 import {
   getPageFeaturedText,
   transformPage,
@@ -129,9 +129,7 @@ export function getRangeForPeriod(period: Period): { start: Date; end?: Date } {
 //         properties: ['margin-bottom'],
 //       }}
 //       as="p"
-//       className={classNames({
-//         [font('wb', 2)]: true,
-//       })}
+//       className={font('wb', 2)}
 //     >
 //       Our exhibitions are closed today, but our <a href={cafePromo.url}>café</a>{' '}
 //       and <a href={shopPromo.url}>shop</a> are open for your visit.
@@ -159,9 +157,7 @@ const DateRange = ({ dateRange, period }: DateRangeProps) => {
         properties: ['margin-bottom'],
       }}
       as="p"
-      className={classNames({
-        [font('intr', 5)]: true,
-      })}
+      className={font('intr', 5)}
     >
       {period === 'today' && (
         <time dateTime={formatDate(start)}>{formatDate(start)}</time>
@@ -198,9 +194,7 @@ const Header = ({
         size: 'l',
         properties: ['padding-top'],
       }}
-      className={classNames({
-        row: true,
-      })}
+      className="row"
     >
       <div className="container">
         <div className="grid">
@@ -215,9 +209,7 @@ const Header = ({
                     <Space
                       as="span"
                       h={{ size: 'm', properties: ['margin-right'] }}
-                      className={classNames({
-                        [font('intb', 5)]: true,
-                      })}
+                      className={font('intb', 5)}
                     >
                       Galleries
                       {todaysOpeningHours.isClosed ? ' closed ' : ' open '}
@@ -235,9 +227,7 @@ const Header = ({
                         <Space
                           as="span"
                           h={{ size: 'm', properties: ['margin-right'] }}
-                          className={classNames({
-                            [font('intr', 5)]: true,
-                          })}
+                          className={font('intr', 5)}
                         >
                           <>
                             <time>{todaysOpeningHours.opens}</time>
@@ -250,11 +240,7 @@ const Header = ({
                   </div>
                 )}
                 <NextLink href="/opening-times" as="/opening-times">
-                  <a
-                    className={classNames({
-                      [font('intb', 5)]: true,
-                    })}
-                  >{`Full opening times`}</a>
+                  <a className={font('intb', 5)}>Full opening times</a>
                 </NextLink>
               </div>
             </div>
@@ -265,9 +251,7 @@ const Header = ({
                 size: 's',
                 properties: ['margin-top', 'margin-bottom'],
               }}
-              className={classNames({
-                [grid({ s: 12, m: 10, l: 8, xl: 8 })]: true,
-              })}
+              className={grid({ s: 12, m: 10, l: 8, xl: 8 })}
             >
               <FeaturedText
                 html={featuredText.value}
@@ -280,13 +264,11 @@ const Header = ({
               size: 'm',
               properties: ['margin-top', 'margin-bottom'],
             }}
-            className={classNames({
-              [grid({ s: 12, m: 10, l: 7, xl: 7 })]: true,
-            })}
+            className={grid({ s: 12, m: 10, l: 7, xl: 7 })}
           >
             <SegmentedControl
               ariaCurrentText="page"
-              id={'whatsOnFilter'}
+              id="whatsOnFilter"
               activeId={activeId}
               items={segmentedControlItems}
             />
@@ -415,8 +397,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
       description={pageDescriptions.whatsOn}
       url={{ pathname: `/whats-on` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstExhibition && firstExhibition.image}
     >
       <>
@@ -446,8 +428,8 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
                         <Layout12>
                           <FeaturedCardExhibition
                             exhibition={firstExhibition}
-                            background={'cream'}
-                            color={'black'}
+                            background="cream"
+                            color="black"
                           />
                         </Layout12>
                       ) : (
@@ -548,17 +530,13 @@ const WhatsOnPage: FunctionComponent<Props> = props => {
           </SpacingComponent>
           <SpacingComponent>
             <CssGridContainer>
-              <div
-                className={classNames({
-                  'css-grid': true,
-                })}
-              >
+              <div className="css-grid">
                 <div
-                  className={classNames({
-                    'css-grid__scroll-container container--scroll touch-scroll':
-                      true,
-                    [cssGrid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                  })}
+                  className={
+                    'css-grid__scroll-container container--scroll touch-scroll' +
+                    ' ' +
+                    cssGrid({ s: 12, m: 12, l: 12, xl: 12 })
+                  }
                 >
                   <div className="css-grid grid--scroll card-theme card-theme--transparent">
                     {tryTheseTooPromos.concat(eatShopPromos).map(promo => (

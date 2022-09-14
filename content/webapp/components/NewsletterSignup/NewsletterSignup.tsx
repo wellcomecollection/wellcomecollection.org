@@ -1,7 +1,7 @@
 import { SyntheticEvent, useState, useEffect, FC } from 'react';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import CheckboxRadio from '@weco/common/views/components/CheckboxRadio/CheckboxRadio';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import useValidation from '@weco/common/hooks/useValidation';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
@@ -75,11 +75,7 @@ const NewsletterSignup: FC<Props> = ({
     <>
       {isConfirmed && (
         <div className="body-text">
-          <p
-            className={classNames({
-              [font('intb', 3)]: true,
-            })}
-          >
+          <p className={font('intb', 3)}>
             Thank you for confirming your email address
           </p>
           <p>
@@ -100,13 +96,7 @@ const NewsletterSignup: FC<Props> = ({
 
       {isSuccess && (
         <div className="body-text">
-          <p
-            className={classNames({
-              [font('intb', 3)]: true,
-            })}
-          >
-            You’re signed up
-          </p>
+          <p className={font('intb', 3)}>You’re signed up</p>
           <p>
             If this is the first time you’ve subscribed to updates from us, you
             will receive an email asking you to confirm. Please check your email
@@ -117,26 +107,14 @@ const NewsletterSignup: FC<Props> = ({
 
       {isError && (
         <div className="body-text">
-          <p
-            className={classNames({
-              [font('intb', 3)]: true,
-            })}
-          >
-            Sorry, there’s been a problem
-          </p>
+          <p className={font('intb', 3)}>Sorry, there’s been a problem</p>
           <p>Please try again.</p>
         </div>
       )}
 
       {!isConfirmed && !isSuccess && !isError && (
         <div className="body-text">
-          <p
-            className={classNames({
-              [font('intb', 3)]: true,
-            })}
-          >
-            Want to hear more from us?
-          </p>
+          <p className={font('intb', 3)}>Want to hear more from us?</p>
         </div>
       )}
 
@@ -192,11 +170,7 @@ const NewsletterSignup: FC<Props> = ({
 
           <Space v={{ size: 's', properties: ['margin-bottom'] }} as="fieldset">
             <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
-              <legend
-                className={classNames({
-                  [font('intb', 4)]: true,
-                })}
-              >
+              <legend className={font('intb', 4)}>
                 You might also be interested in receiving updates on:
               </legend>
             </Space>

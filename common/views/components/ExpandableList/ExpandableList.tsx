@@ -5,14 +5,11 @@ import {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 
 const ShowHideButton = styled.button.attrs({
-  className: classNames({
-    'plain-button no-margin no-padding': true,
-    [font('intr', 5)]: true,
-  }),
+  className: `plain-button no-margin no-padding ${font('intr', 5)}`,
 })`
   text-decoration: underline;
 
@@ -51,22 +48,13 @@ const ExpandableList: FunctionComponent<Props> = ({
 
   return listItems.length > 0 ? (
     <>
-      <ul
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-        })}
-      >
+      <ul className="plain-list no-margin no-padding">
         {firstListItems.map(
           (
             item,
             index // TODO way of getting better key?
           ) => (
-            <li
-              className={classNames({
-                [font('intr', 5)]: true,
-              })}
-              key={index}
-            >
+            <li className={font('intr', 5)} key={index}>
               {item}
             </li>
           )
@@ -74,12 +62,7 @@ const ExpandableList: FunctionComponent<Props> = ({
         {isShowingRemainingListItems && (
           <>
             {remainingListItems.map((item, index) => (
-              <li
-                className={classNames({
-                  [font('intr', 5)]: true,
-                })}
-                key={index}
-              >
+              <li className={font('intr', 5)} key={index}>
                 {/* if item is a link then add href and index 0 */}
                 {item}
               </li>

@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from 'react';
 import { Work } from '@weco/common/model/catalogue';
-import { font, classNames, grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import {
   getProductionDates,
   getArchiveLabels,
@@ -16,9 +16,7 @@ import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 
 const WorkHeaderContainer = styled.div.attrs({
-  className: classNames({
-    flex: true,
-  }),
+  className: 'flex',
 })`
   width: 100%;
   align-content: flex-start;
@@ -47,17 +45,13 @@ const WorkHeader: FunctionComponent<Props> = ({
           size: 'm',
           properties: ['margin-bottom'],
         }}
-        className={classNames([grid({ s: 12, m: 12, l: 10, xl: 10 })])}
+        className={grid({ s: 12, m: 12, l: 10, xl: 10 })}
       >
         <SpacingComponent>
           <h1
             aria-live="polite"
             id="work-info"
-            className={classNames({
-              'no-margin': true,
-              [font('intb', 2)]: true,
-              'inline-block': true,
-            })}
+            className={`no-margin ${font('intb', 2)} inline-block`}
             // We only send a lang if it's unambiguous -- better to send
             // no language than the wrong one.
             lang={
@@ -82,7 +76,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
           {productionDates.length > 0 && (
             <LinkLabels
-              heading={'Date'}
+              heading="Date"
               items={[
                 {
                   text: productionDates[0],
@@ -117,12 +111,7 @@ const WorkHeader: FunctionComponent<Props> = ({
 
           {childManifestsCount > 0 && (
             <Space v={{ size: 'm', properties: ['margin-top'] }}>
-              <p
-                className={classNames({
-                  [font('intb', 5)]: true,
-                  'no-margin': true,
-                })}
-              >
+              <p className={`${font('intb', 5)} no-margin`}>
                 <Number color="yellow" number={childManifestsCount} />
                 {childManifestsCount === 1 ? ' volume ' : ' volumes '}
                 online

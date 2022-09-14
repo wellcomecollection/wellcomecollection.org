@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import { arrowSmall } from '@weco/common/icons';
@@ -19,13 +19,9 @@ const EventDatesLink: FunctionComponent<Props> = ({ id }: Props) => {
           label: id,
         });
       }}
-      className={classNames({
-        'flex-inline': true,
-        'flex-v-center': true,
-        [font('intb', 5)]: true,
-      })}
+      className={`flex-inline flex-v-center ${font('intb', 5)}`}
     >
-      <Icon icon={arrowSmall} color={'black'} rotate={90} />
+      <Icon icon={arrowSmall} color="black" rotate={90} />
       <span>{`See all dates`}</span>
     </a>
   );

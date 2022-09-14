@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import {
@@ -58,10 +58,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: classNames({
-    [font('intb', 5, { small: 3, medium: 3 })]: true,
-    'no-margin': true,
-  }),
+  className: `${font('intb', 5, { small: 3, medium: 3 })} no-margin`,
 })``;
 
 export type Props = {

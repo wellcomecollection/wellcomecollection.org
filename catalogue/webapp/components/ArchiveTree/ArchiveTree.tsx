@@ -193,9 +193,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 `;
 
 const RefNumber = styled.span.attrs({
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 })`
   line-height: 1;
   display: block;
@@ -259,7 +257,7 @@ function createNodeFromWork({
 }): UiTreeNode {
   return {
     openStatus,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts?.map(part => ({
       openStatus: false,
@@ -734,9 +732,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className={classNames({
-        'font-size-5': true,
-      })}
+      className="font-size-5"
     >
       {archiveTree &&
         archiveTree.map((item, i) => {
@@ -784,7 +780,7 @@ function createBasicTree({
   const partOfReversed = [...ancestorArray, work].reverse();
   const rootNode: UiTreeNode = {
     openStatus: true,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts.map(part => ({
       openStatus: false,
@@ -865,7 +861,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
         <>
           <ButtonWrap>
             <ButtonSolid
-              text={'Collection contents'}
+              text="Collection contents"
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
@@ -876,7 +872,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
-            id={'collection-contents-modal'}
+            id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
             <Tree isEnhanced={isEnhanced}>
@@ -903,13 +899,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2
-              className={classNames({
-                [font('wb', 4)]: true,
-              })}
-            >
-              Collection contents
-            </h2>
+            <h2 className={font('wb', 4)}>Collection contents</h2>
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>

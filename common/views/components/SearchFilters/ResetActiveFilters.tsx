@@ -5,7 +5,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import NextLink from 'next/link';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { Filter } from '../../../services/catalogue/filters';
 import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
 import { cross } from '@weco/common/icons';
@@ -52,14 +52,14 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
       }}
     >
       <Space
-        className={'v-align-middle'}
+        className="v-align-middle"
         as="span"
         h={{
           size: 'xs',
           properties: ['margin-right'],
         }}
       >
-        <Icon icon={cross} matchText={true} color={'silver'} />
+        <Icon icon={cross} matchText={true} color="silver" />
       </Space>
       <span className="visually-hidden">remove </span>
       {text || children}
@@ -106,7 +106,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
   return (
     <Wrapper>
-      <div className={classNames({ [font('intb', 5)]: true })} role="status">
+      <div className={font('intb', 5)} role="status">
         <div>
           <h2 className="inline">
             <Space
@@ -222,7 +222,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
           <NextLink passHref {...resetFilters}>
             <a>
-              <CancelFilter text={'Reset filters'} />
+              <CancelFilter text="Reset filters" />
             </a>
           </NextLink>
         </div>

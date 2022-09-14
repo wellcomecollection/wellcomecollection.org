@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
@@ -97,9 +97,9 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         title={`${query ? `${query} | ` : ''}Catalogue search`}
         description="Search the Wellcome Collection catalogue"
         url={url}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'collections'}
+        siteSection="collections"
         excludeRoleMain={true}
       >
         <Space
@@ -107,7 +107,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={classNames(['row'])}
+          className="row"
         >
           <div className="container">
             {/* Showing the h1 on `/works` (without a query string) in an attempt to
@@ -138,11 +138,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                    })}
-                  >
+                  <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <div className="flex flex--h-space-between flex--v-center flex--wrap">
                       <Fragment>
                         <Paginator
@@ -201,11 +197,7 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
               >
                 <div className="container">
                   <div className="grid">
-                    <div
-                      className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
-                    >
+                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <div className="flex flex--h-space-between flex--v-center flex--wrap">
                         <Fragment>
                           <Paginator

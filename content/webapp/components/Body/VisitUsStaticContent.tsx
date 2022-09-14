@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { classNames, font, grid } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import FindUs from '@weco/common/views/components/FindUs/FindUs';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
@@ -31,33 +31,15 @@ const VisitUsStaticContent: FunctionComponent = () => {
   return (
     <Container>
       <div className="grid">
-        <div
-          className={classNames({
-            [grid({ s: 12, l: 5, xl: 5 })]: true,
-            [font('intr', 4)]: true,
-          })}
-        >
+        <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 4)}`}>
           <FindUs />
         </div>
-        <div
-          className={classNames({
-            [grid({ s: 12, l: 5, xl: 5 })]: true,
-            [font('intr', 4)]: true,
-          })}
-        >
+        <div className={`${grid({ s: 12, l: 5, xl: 5 })} ${font('intr', 4)}`}>
           <div className="flex">
-            <div
-              className={classNames({
-                [font('intr', 5)]: true,
-                'float-l': true,
-              })}
-            >
-              <h2
-                className={classNames({
-                  [font('intb', 5)]: true,
-                  'no-margin': true,
-                })}
-              >{`Today's opening times`}</h2>
+            <div className={`${font('intr', 5)} float-l`}>
+              <h2 className={`${font('intb', 5)} no-margin`}>
+                Today’s opening times
+              </h2>
               {venues && <OpeningTimes venues={venues} />}
               <Space
                 v={{

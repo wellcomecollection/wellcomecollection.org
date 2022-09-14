@@ -147,7 +147,7 @@ class Iframe extends Component<Props, State> {
                 text="Close"
                 icon={cross}
                 clickHandler={this.toggleIframeDisplay}
-                extraClasses={'close'}
+                extraClasses="close"
               />
             )}
           </Fragment>

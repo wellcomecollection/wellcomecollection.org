@@ -1,4 +1,4 @@
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -48,14 +48,7 @@ const FacilityPromo: FC<FacilityPromoType> = ({
 
         <CardBody>
           <div>
-            <h2
-              className={classNames({
-                'promo-link__title': true,
-                [font('wb', 4)]: true,
-              })}
-            >
-              {title}
-            </h2>
+            <h2 className={`promo-link__title ${font('wb', 4)}`}>{title}</h2>
             <p className={`${font('intr', 5)} no-margin no-padding`}>
               {description}
             </p>

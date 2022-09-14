@@ -119,7 +119,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
           <a
             key={key}
             target={target}
-            className="no-margin plain-link font-green flex-inline flex--h-baseline"
+            className="no-margin plain-link flex-inline flex--h-baseline"
             href={linkUrl}
           >
             <span
@@ -145,6 +145,7 @@ export const defaultSerializer: JSXFunctionSerializer = (
                 className="icon__svg no-margin"
                 role="img"
                 aria-labelledby={`icon-download-title-${nameWithoutSpaces}`}
+                fill="currentColor"
                 style={{
                   width: '20px',
                   height: '20px',
@@ -165,10 +166,10 @@ export const defaultSerializer: JSXFunctionSerializer = (
               </svg>
             </span>
             <span className="no-margin">
-              <span className="no-margin underline-on-hover">{children}</span>{' '}
+              <span className="no-margin">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-margin font-pewter">{documentType}</span>{' '}
-                <span className="no-margin font-pewter">{documentSize}kb</span>
+                <span className="no-margin font-pewter">({documentType}</span>{' '}
+                <span className="no-margin font-pewter">{documentSize}kb)</span>
               </span>
             </span>
           </a>

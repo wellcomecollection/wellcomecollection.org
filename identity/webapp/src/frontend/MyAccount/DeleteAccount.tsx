@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { ErrorMessage } from '@hookform/error-message';
 import { FieldMargin } from '../components/Form.style';
 import { TextInputErrorMessage } from '@weco/common/views/components/TextInput/TextInput';
@@ -92,11 +92,7 @@ export const DeleteAccount: React.FC<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <div
-        className={classNames({
-          [font('intr', 5)]: true,
-        })}
-      >
+      <div className={font('intr', 5)}>
         <p>
           Are you sure you want to delete your account? Your account will be
           closed and you won’t be able to request any items.

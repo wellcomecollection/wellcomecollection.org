@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 
 export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
   height: 55px;
@@ -12,9 +12,7 @@ export const ShowPasswordButton = styled.button.attrs({ type: 'button' })`
 export const RulesListWrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })`
   border: 1px solid ${props => props.theme.color('smoke')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;

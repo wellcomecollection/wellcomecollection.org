@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Work } from '@weco/common/model/catalogue';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import {
   getArchiveLabels,
@@ -40,9 +40,7 @@ const Details = styled.div`
 `;
 const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   h: { size: 'm', properties: ['padding-left'] },
-  className: classNames({
-    'text-align-center': true,
-  }),
+  className: 'text-align-center',
 }))`
   flex-grow: 0;
   flex-shrink: 0;
@@ -97,11 +95,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             size: 'm',
             properties: ['padding-top', 'padding-bottom'],
           }}
-          className={classNames({
-            'plain-link': true,
-            block: true,
-            'card-link': true,
-          })}
+          className="plain-link block card-link"
           onClick={() => {
             // We've left `WorkCard` here for legacy tracking.
             // We don't really use it.
@@ -114,12 +108,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
         >
           <Container>
             <Details>
-              <h2
-                className={classNames({
-                  [font('intb', 4)]: true,
-                  'card-link__title': true,
-                })}
-              >
+              <h2 className={`${font('intb', 4)} card-link__title`}>
                 <WorkTitle title={work.title} />
               </h2>
 
@@ -137,7 +126,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
 
               {productionDates.length > 0 && (
                 <LinkLabels
-                  heading={'Date'}
+                  heading="Date"
                   items={[
                     {
                       text: productionDates[0],

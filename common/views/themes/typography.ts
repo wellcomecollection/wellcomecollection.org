@@ -272,10 +272,8 @@ export const typography = css<GlobalStyleProps>`
     a:link:not(.link-reset),
     a:visited:not(.link-reset) {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('green')};
       text-underline-offset: 0.1em;
-      transition: color ${themeValues.transitionProperties},
-        text-decoration-color ${themeValues.transitionProperties};
+      transition: color ${themeValues.transitionProperties};
 
       &:hover {
         color: ${themeValues.color('green')};

@@ -1,4 +1,4 @@
-import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import { Contributor as ContributorType } from '../../types/contributors';
 import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
@@ -64,21 +64,13 @@ const Contributor: FC<ContributorType> = ({
         </Space>
         <div>
           <div className="flex flex--h-baseline">
-            <h3
-              className={classNames({
-                [font('intb', 4)]: true,
-                'no-margin': true,
-              })}
-            >
+            <h3 className={`${font('intb', 4)} no-margin`}>
               {contributor.name}
             </h3>
             {contributor.type === 'people' && contributor.pronouns && (
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
-                className={classNames({
-                  [font('intr', 5)]: true,
-                  'font-pewter': true,
-                })}
+                className={`${font('intr', 5)} font-pewter`}
               >
                 ({contributor.pronouns})
               </Space>
@@ -86,7 +78,7 @@ const Contributor: FC<ContributorType> = ({
           </div>
 
           {role && role.title && (
-            <div className={'font-pewter ' + font('intb', 5)}>{role.title}</div>
+            <div className={`font-pewter ${font('intb', 5)}`}>{role.title}</div>
           )}
 
           {contributor.sameAs.length > 0 && (
@@ -104,10 +96,7 @@ const Contributor: FC<ContributorType> = ({
                 size: 's',
                 properties: ['margin-top'],
               }}
-              className={classNames({
-                [font('intr', 5)]: true,
-                'spaced-text': true,
-              })}
+              className={`${font('intr', 5)} spaced-text`}
             >
               <PrismicHtmlBlock html={descriptionToRender} />
             </Space>

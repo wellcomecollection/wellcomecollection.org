@@ -12,7 +12,7 @@ import {
   FunctionComponent,
   ReactElement,
 } from 'react';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Rotator from '../styled/Rotator';
 import Control from '../Buttons/Control/Control';
@@ -345,11 +345,7 @@ const Table: FunctionComponent<Props> = ({
                 </TableTr>
               </TableThead>
             )}
-            <TableTbody
-              className={classNames({
-                'has-row-headers': hasRowHeaders,
-              })}
-            >
+            <TableTbody className="has-row-headers">
               {bodyRows.map((row, index) => (
                 <TableRow
                   key={index}

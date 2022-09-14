@@ -7,11 +7,9 @@ import {
   useEffect,
   ReactElement,
   FunctionComponent,
-  Fragment,
 } from 'react';
 import { AppContext } from '../AppContext/AppContext';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
 
 const TabList = styled.div.attrs({
   role: 'tablist',
@@ -24,9 +22,7 @@ type TabProps = {
 };
 
 const Tab = styled.button.attrs((props: TabProps) => ({
-  className: classNames({
-    'plain-button no-padding': true,
-  }),
+  className: 'plain-button no-padding',
   role: 'tab',
   tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,

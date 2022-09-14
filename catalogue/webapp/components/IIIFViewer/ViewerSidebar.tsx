@@ -44,9 +44,7 @@ const Inner = styled(Space).attrs({
 
 const AccordionInner = styled(Space).attrs({
   v: { size: 's', properties: ['padding-top', 'padding-bottom'] },
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 })`
   button {
     width: 100%;
@@ -95,24 +93,15 @@ const AccordionItem = ({
     <Item data-test-id={testId}>
       <AccordionInner onClick={() => setIsActive(!isActive)}>
         <button
-          className={classNames({
-            'plain-button no-margin no-padding': true,
-          })}
+          className="plain-button no-margin no-padding"
           aria-expanded={isActive ? 'true' : 'false'}
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2
-              className={classNames({
-                [font('intb', 5)]: true,
-                'no-margin': true,
-              })}
-            >
-              {title}
-            </h2>
+            <h2 className={`${font('intb', 5)} no-margin`}>{title}</h2>
             <Icon
               icon={chevron}
-              color={'white'}
+              color="white"
               rotate={isActive ? undefined : 270}
             />
           </span>
@@ -155,18 +144,9 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
 
   return (
     <>
-      <Inner
-        className={classNames({
-          [font('intb', 5)]: true,
-        })}
-      >
+      <Inner className={font('intb', 5)}>
         {currentManifestLabel && (
-          <span
-            data-test-id="current-manifest"
-            className={classNames({
-              [font('intr', 5)]: true,
-            })}
-          >
+          <span data-test-id="current-manifest" className={font('intr', 5)}>
             {currentManifestLabel}
           </span>
         )}
@@ -192,7 +172,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         {productionDates.length > 0 && (
           <div data-test-id="work-dates">
             <LinkLabels
-              heading={'Date'}
+              heading="Date"
               items={[
                 {
                   text: productionDates[0],
@@ -206,7 +186,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
         {work.referenceNumber && (
           <div data-test-id="reference-number">
             <LinkLabels
-              heading={'Reference'}
+              heading="Reference"
               items={[
                 {
                   text: work.referenceNumber,
@@ -219,18 +199,13 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
 
         <Space v={{ size: 'm', properties: ['margin-top'] }}>
           <WorkLink id={work.id} source="viewer_back_link">
-            <a
-              className={classNames({
-                [font('intr', 5)]: true,
-                'flex flex--v-center': true,
-              })}
-            >
+            <a className={`${font('intr', 5)} flex flex--v-center`}>
               Catalogue details
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
                 className="flex flex--v-center"
               >
-                <Icon icon={arrow} matchText={true} color={'white'} />
+                <Icon icon={arrow} matchText={true} color="white" />
               </Space>
             </a>
           </WorkLink>
@@ -238,8 +213,8 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
       </Inner>
       <Inner>
         <AccordionItem
-          title={'Licence and credit'}
-          testId={'license-and-credit'}
+          title="Licence and credit"
+          testId="license-and-credit"
         >
           <div className={font('intr', 6)}>
             {license && license.label && (
@@ -259,7 +234,7 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
             </p>
             {credit && (
               <p>
-                <WorkLink id={work.id} source={'viewer_credit'}>
+                <WorkLink id={work.id} source="viewer_credit">
                   <a>{credit}</a>
                 </WorkLink>
                 .
@@ -268,12 +243,12 @@ const ViewerSidebar: FunctionComponent<Props> = ({ mainViewerRef }: Props) => {
           </div>
         </AccordionItem>
         {manifest && manifest.structures && manifest.structures.length > 0 && (
-          <AccordionItem title={'Contents'}>
+          <AccordionItem title="Contents">
             <ViewerStructures mainViewerRef={mainViewerRef} />
           </AccordionItem>
         )}
         {parentManifest && parentManifest.manifests && (
-          <AccordionItem title={'Volumes'}>
+          <AccordionItem title="Volumes">
             <MultipleManifestList />
           </AccordionItem>
         )}

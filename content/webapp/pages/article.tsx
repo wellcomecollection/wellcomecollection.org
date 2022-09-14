@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next';
 import { Fragment, FC, useState, useEffect, ReactElement } from 'react';
 import { Article, ArticleBasic } from '../types/articles';
 import { Series } from '../types/series';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
@@ -199,19 +199,9 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const ContentTypeInfo = (
     <Fragment>
       {article.standfirst && <PageHeaderStandfirst html={article.standfirst} />}
-      <div
-        className={classNames({
-          flex: true,
-          'flex--h-baseline': true,
-        })}
-      >
+      <div className="flex flex--h-baseline">
         <Space v={{ size: 's', properties: ['margin-top'] }}>
-          <p
-            className={classNames({
-              'no-margin': true,
-              [font('intr', 6)]: true,
-            })}
-          >
+          <p className={`no-margin ${font('intr', 6)}`}>
             {article.contributors.length > 0 &&
               article.contributors.map(({ contributor, role }, i, arr) => (
                 <Fragment key={contributor.id}>
@@ -223,13 +213,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                       by{' '}
                     </span>
                   )}
-                  <span
-                    className={classNames({
-                      [font('intb', 6)]: true,
-                    })}
-                  >
-                    {contributor.name}
-                  </span>
+                  <span className={font('intb', 6)}>{contributor.name}</span>
                   <Space
                     as="span"
                     h={{
@@ -244,12 +228,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
 
             {article.contributors.length > 0 && ' '}
 
-            <span
-              className={classNames({
-                'block font-pewter': true,
-                [font('intr', 6)]: true,
-              })}
-            >
+            <span className={`block font-pewter ${font('intr', 6)}`}>
               <HTMLDate date={article.datePublished} />
             </span>
           </p>
@@ -297,8 +276,8 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
       description={article.metadataDescription || article.promo?.caption || ''}
       url={{ pathname: `/articles/${article.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'article'}
-      siteSection={'stories'}
+      openGraphType="article"
+      siteSection="stories"
       image={article.image}
     >
       <ContentPage

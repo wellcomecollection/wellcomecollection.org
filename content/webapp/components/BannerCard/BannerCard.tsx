@@ -1,4 +1,4 @@
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import { trackEvent } from '@weco/common/utils/ga';
 import { FunctionComponent } from 'react';
@@ -131,7 +131,7 @@ const BannerCard: FunctionComponent<Props> = ({
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
         {type && (
-          <LabelsList labels={[{ text: type }]} defaultLabelColor={'orange'} />
+          <LabelsList labels={[{ text: type }]} defaultLabelColor="orange" />
         )}
         <Space
           v={{
@@ -139,10 +139,7 @@ const BannerCard: FunctionComponent<Props> = ({
             properties: ['margin-top', 'margin-bottom'],
           }}
           as="h2"
-          className={classNames({
-            'promo-link__title': true,
-            [font('wb', 2)]: true,
-          })}
+          className={`promo-link__title ${font('wb', 2)}`}
         >
           {title}
         </Space>
@@ -157,13 +154,7 @@ const BannerCard: FunctionComponent<Props> = ({
             <DateRange start={start} end={end} />
           </Space>
         )}
-        <p
-          className={classNames({
-            [font('intr', 5)]: true,
-          })}
-        >
-          {description}
-        </p>
+        <p className={font('intr', 5)}>{description}</p>
         <ButtonSolid
           colors={themeValues.buttonColors.whiteTransparentWhite}
           isIconAfter={true}

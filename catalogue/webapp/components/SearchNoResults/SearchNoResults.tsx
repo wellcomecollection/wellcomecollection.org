@@ -1,5 +1,5 @@
 import Space from '@weco/common/views/components/styled/Space';
-import { font, grid, classNames } from '@weco/common/utils/classnames';
+import { font, grid } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { FunctionComponent } from 'react';
 
@@ -9,9 +9,7 @@ type Props = {
 };
 
 const QuerySpan = styled.span.attrs({
-  className: classNames({
-    [font('intb', 2)]: true,
-  }),
+  className: font('intb', 2),
 })``;
 
 const SearchNoResults: FunctionComponent<Props> = ({

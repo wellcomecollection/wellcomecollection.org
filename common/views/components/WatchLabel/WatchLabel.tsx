@@ -1,4 +1,4 @@
-import { classNames, font } from '../../../../common/utils/classnames';
+import { font } from '../../../../common/utils/classnames';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
@@ -21,9 +21,7 @@ const WatchIconWrapper = styled.div`
 
 const WatchText = styled(Space).attrs({
   v: { size: 's', properties: ['margin-left'] },
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 })`
   color: ${props => props.theme.color('pewter')};
 `;
@@ -33,12 +31,7 @@ type Props = {
 };
 
 const WatchLabel: FunctionComponent<Props> = ({ text }: Props) => (
-  <div
-    className={classNames({
-      [font('intr', 4)]: true,
-      'flex flex--v-center': true,
-    })}
-  >
+  <div className={`${font('intr', 4)} flex flex--v-center`}>
     <WatchIconWrapper>
       <Icon icon={play} matchText={true} />
     </WatchIconWrapper>

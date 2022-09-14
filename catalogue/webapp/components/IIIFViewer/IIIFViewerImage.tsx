@@ -1,4 +1,3 @@
-import { classNames } from '@weco/common/utils/classnames';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
@@ -49,9 +48,7 @@ const IIIFViewerImage = (
       lang={lang}
       width={width}
       height={height}
-      className={classNames({
-        image: true,
-      })}
+      className="image"
       onLoad={() => {
         loadHandler && loadHandler();
       }}

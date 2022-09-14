@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { classNames, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { respondTo } from '../../themes/mixins';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
@@ -9,9 +9,7 @@ import { user as userIcon } from '../../../icons';
 import { trackEvent } from '../../../utils/ga';
 
 const StyledComponent = styled.div.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })`
   ${respondTo(
     'headerMedium',
@@ -55,9 +53,7 @@ const MobileSignIn: FC = () => {
     <StyledComponent>
       <Space
         h={{ size: 's', properties: ['margin-right'] }}
-        className={classNames({
-          [font('intr', 4)]: true,
-        })}
+        className={font('intr', 4)}
       >
         <Icon icon={userIcon} matchText={true} />
       </Space>
