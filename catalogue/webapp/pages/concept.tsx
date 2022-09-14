@@ -41,15 +41,19 @@ type Props = {
 
 const leadingColor = 'yellow';
 
-// TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
   background-color: ${props => props.theme.color(leadingColor, 'light')};
+`;
 
-  h1 {
-    font-size: 3.1875rem;
-    line-height: 1.2;
-    margin-bottom: 2.125rem;
-  }
+// TODO The biggest preset typo right now is 40px, this is 54px. Add?
+const HeroTitle = styled.h1`
+  font-size: 3.375rem;
+  line-height: 1.2;
+`;
+
+const TypeLabel = styled.span`
+  background-color: ${props => props.theme.color('cream')};
+  padding: 5px;
 `;
 
 const ConceptDescription = styled.section`
@@ -70,33 +74,32 @@ const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
 `;
 
 // Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
-const FAKE_DATA = {
-  id: 'azxzhnuh',
-  identifiers: [
-    {
-      identifierType: 'lc-names',
-      value: 'n12345678',
-      type: 'Identifier',
-    },
-  ],
+// const FAKE_DATA = {
+//   id: 'azxzhnuh',
+//   identifiers: [
+//     {
+//       identifierType: 'lc-names',
+//       value: 'n12345678',
+//       type: 'Identifier',
+//     },
+//   ],
 
-  label: 'Florence Nightingale',
-  alternativeLabels: ['The Lady with the Lamp'],
+//   label: 'Florence Nightingale',
+//   alternativeLabels: ['The Lady with the Lamp'],
 
-  type: 'Person',
-  description:
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
+//   type: 'Person',
+//   description:
+//     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
 
-  // not locations
-  urls: [
-    {
-      label: 'Read more on Wikipedia',
-      url: '#',
-    },
-  ],
-};
+//   // not locations
+//   urls: [
+//     {
+//       label: 'Read more on Wikipedia',
+//       url: '#',
+//     },
+//   ],
+// };
 
-// TODO change to use ButtonSolid when refactor is over (with David)
 const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
   <ButtonSolidLink
     text={text}
@@ -143,26 +146,16 @@ export const ConceptPage: NextPage<Props> = ({
       >
         <div className="container">
           <ConceptDescription>
-            <h1 className="font-intb">{conceptResponse.label}</h1>
-            {/* TODO dynamise */}
-            {FAKE_DATA.description && (
-              <p className="font-size-5">{FAKE_DATA.description}</p>
-            )}
-            {/* TODO dynamise */}
-            {FAKE_DATA.urls?.length > 0 &&
-              FAKE_DATA.urls.map(link => {
-                /* TODO Could they be internal links? Check if external to display arrow, decide on rel. */
-                return (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    rel="nofollow"
-                    className={font('intr', 6)}
-                  >
-                    {link.label} ↗
-                  </a>
-                );
-              })}
+            <TypeLabel className="font-size-6">
+              {conceptResponse.type}
+            </TypeLabel>
+            <Space
+              v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+            >
+              <HeroTitle className="font-intb">
+                {conceptResponse.label}
+              </HeroTitle>
+            </Space>
           </ConceptDescription>
         </div>
       </ConceptHero>
