@@ -78,7 +78,7 @@ const EventPromoTemplate = args => <EventPromo {...args} />;
 export const eventPromo = EventPromoTemplate.bind({});
 eventPromo.args = {
   position: 0,
-  event: event,
+  event,
 };
 eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },

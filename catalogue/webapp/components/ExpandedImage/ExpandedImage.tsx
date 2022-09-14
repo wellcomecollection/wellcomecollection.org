@@ -173,7 +173,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
         itemLink(
           {
             workId,
-            resultPosition: resultPosition,
+            resultPosition,
             ...(canvasDeeplink || {}),
           },
           trackingSource

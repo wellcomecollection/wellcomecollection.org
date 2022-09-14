@@ -156,10 +156,10 @@ const getDescription = ({
 };
 
 const eventInterpretationIcons: Record<string, IconSvg> = {
-  britishSignLanguage: britishSignLanguage,
-  speechToText: speechToText,
-  hearingLoop: hearingLoop,
-  audioDescribed: audioDescribed,
+  britishSignLanguage,
+  speechToText,
+  hearingLoop,
+  audioDescribed,
 };
 
 const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {

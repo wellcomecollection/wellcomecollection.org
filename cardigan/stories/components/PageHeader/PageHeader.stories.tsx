@@ -241,7 +241,7 @@ article.args = {
   breadcrumbs: { items: breadcrumbItems },
   labels: { labels: [{ text: 'Article' }] },
   HeroPicture: <Picture images={articlePictureImages} isFull={true} />,
-  ContentTypeInfo: ContentTypeInfo,
+  ContentTypeInfo,
   isContentTypeInfoBeforeMedia: true,
 };
 

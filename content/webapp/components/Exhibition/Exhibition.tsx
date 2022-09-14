@@ -127,8 +127,8 @@ function getPlaceObject(
 
 // These options are defined in exhibition-resources.ts
 const resourceIcons: { [key: string]: IconSvg } = {
-  information: information,
-  family: family,
+  information,
+  family,
 };
 
 function getResourcesItems(exhibition: ExhibitionType): ExhibitionItem[] {
