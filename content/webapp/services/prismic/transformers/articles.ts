@@ -1,8 +1,6 @@
 import {
   Article,
   ArticleBasic,
-  // combinedArticleText,
-  // extractedArticleText,
 } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import {
