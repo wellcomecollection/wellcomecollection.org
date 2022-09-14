@@ -43,7 +43,7 @@ describe('isSameDay', () => {
       'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
     );
 
-    it('says midnight BST in London is on the same day as midday BST using a comparison mode of "London"', () => {
+    it('says midnight {x} BST in London is on the same day as midday {x} BST using a comparison mode of "London"', () => {
       const result = isSameDay(
         september19Midnight,
         september19Midday,
@@ -52,12 +52,12 @@ describe('isSameDay', () => {
       expect(result).toEqual(true);
     });
 
-    it('says midnight BST in London is not on the same day as midday BST using a comparison mode of "UTC"', () => {
+    it('says midnight {x} BST in London is not on the same day as midday {x} BST using a comparison mode of "UTC"', () => {
       const result = isSameDay(september19Midnight, september19Midday, 'UTC');
       expect(result).toEqual(false);
     });
 
-    it('says 23:30 BST in London is not on the same day as 00:30 BST using a comparison mode of "London"', () => {
+    it('says 23:30 {x} BST in London is not on the same day as 00:30 {x+1} BST using a comparison mode of "London"', () => {
       const result = isSameDay(
         september18TwentyThreeThirty,
         september19MidnightThirty,
@@ -66,7 +66,7 @@ describe('isSameDay', () => {
       expect(result).toEqual(false);
     });
 
-    it('says 23:30 BST in London is on the same day as 00:30 BST using a comparison mode of "UTC"', () => {
+    it('says 23:30 {x} BST in London is on the same day as 00:30 {x+1} BST using a comparison mode of "UTC"', () => {
       const result = isSameDay(
         september18TwentyThreeThirty,
         september19MidnightThirty,
