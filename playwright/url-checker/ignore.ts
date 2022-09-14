@@ -22,5 +22,10 @@ export const ignoreErrorLog = (errorText: string): boolean => {
   if (errorText.includes('Failed to load resource')) {
     return true;
   }
+  
+  if (errorText.startsWith('Error: 3000ms timeout exceeded')) {
+    return true;
+  }
+  
   return false;
 };
