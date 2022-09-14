@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useContext, useState } from 'react';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { downloadUrl } from '../../services/catalogue/urls';
 import { toLink as worksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 import { toLink as imagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
@@ -288,12 +288,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     v={{ size: 's', properties: ['margin-bottom'] }}
                   >
                     {locationLink && (
-                      <a
-                        className={classNames({
-                          [font('intr', 5)]: true,
-                        })}
-                        href={locationLink.url}
-                      >
+                      <a className={font('intr', 5)} href={locationLink.url}>
                         {locationLink.linkText}
                       </a>
                     )}
@@ -424,11 +419,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                   </Space>
                 )}
 
-                <div
-                  className={classNames({
-                    'flex flex-h-center': true,
-                  })}
-                >
+                <div className="flex flex-h-center">
                   {itemUrl && (
                     <Space
                       as="span"
@@ -477,12 +468,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                       properties: ['margin-top'],
                     }}
                   >
-                    <p
-                      className={classNames({
-                        'no-margin': true,
-                        [font('lr', 6)]: true,
-                      })}
-                    >
+                    <p className={`no-margin ${font('lr', 6)}`}>
                       Contains:{' '}
                       {childManifestsCount > 0
                         ? `${childManifestsCount} ${

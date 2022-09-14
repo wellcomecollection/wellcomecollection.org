@@ -92,8 +92,8 @@ const Installation: FunctionComponent<Props> = ({
       }
       url={{ pathname: `/installations/${installation.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={installation.image}
     >
       <ContentPage

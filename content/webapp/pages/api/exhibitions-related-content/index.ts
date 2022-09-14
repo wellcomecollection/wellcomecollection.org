@@ -3,15 +3,14 @@ import { isString } from '@weco/common/utils/array';
 import { createClient } from '../../../services/prismic/fetch';
 import { fetchExhibitionRelatedContent } from '../../../services/prismic/fetch/exhibitions';
 import { transformExhibitionRelatedContent } from '../../../services/prismic/transformers/exhibitions';
-import { ExhibitionRelatedContent } from '../../../types/exhibitions';
+import superjson from 'superjson';
 
-type Data = ExhibitionRelatedContent;
 type NotFound = { notFound: true };
 type UserError = { description: string };
 
 export default async (
   req: NextApiRequest,
-  res: NextApiResponse<Data | NotFound | UserError>
+  res: NextApiResponse<string | NotFound | UserError>
 ): Promise<void> => {
   const { params } = req.query;
 
@@ -23,17 +22,19 @@ export default async (
   const client = createClient({ req });
 
   if (parsedParams.length === 0) {
-    return res.status(200).json({
-      exhibitionOfs: [],
-      exhibitionAbouts: [],
-    });
+    return res.status(200).json(
+      superjson.stringify({
+        exhibitionOfs: [],
+        exhibitionAbouts: [],
+      })
+    );
   }
 
   const query = await fetchExhibitionRelatedContent(client, parsedParams);
 
   if (query) {
     const exhibitions = transformExhibitionRelatedContent(query);
-    return res.status(200).json(exhibitions);
+    return res.status(200).json(superjson.stringify(exhibitions));
   }
 
   return res.status(404).json({ notFound: true });

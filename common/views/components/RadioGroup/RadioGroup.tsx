@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 
 import CheckboxRadio from '../CheckboxRadio/CheckboxRadio';
 import Space from '../styled/Space';
-import { classNames } from '../../../utils/classnames';
 
 export type RadioGroupOption = {
   value: string;
@@ -37,9 +36,7 @@ const RadioGroup: FunctionComponent<Props> = ({
             ? { size: 'm', properties: ['margin-right'] }
             : undefined
         }
-        className={classNames({
-          'flex-inline flex--h-center': true,
-        })}
+        className="flex-inline flex--h-center"
       >
         <CheckboxRadio
           id={id}

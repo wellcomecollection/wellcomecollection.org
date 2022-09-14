@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import cookie from 'cookie-cutter';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { useState, useEffect, FunctionComponent } from 'react';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
@@ -9,9 +9,7 @@ import { clear, cookies } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const CookieNoticeStyle = styled.div.attrs({
-  className: classNames({
-    [font('intb', 4)]: true,
-  }),
+  className: font('intb', 4),
 })`
   position: fixed;
   background: ${props => props.theme.color('teal')};

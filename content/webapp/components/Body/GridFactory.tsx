@@ -1,5 +1,5 @@
 import { FC, ReactElement } from 'react';
-import { classNames, grid } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 type Grid = {
@@ -66,9 +66,7 @@ const GridFactory: FC<Props> = ({ items, overrideGridSizes }) => {
           <Space
             v={{ size: 'l', properties: ['margin-bottom'] }}
             key={index}
-            className={classNames({
-              [grid(gridSizes[index % gridSizes.length])]: true,
-            })}
+            className={grid(gridSizes[index % gridSizes.length])}
           >
             {item}
           </Space>

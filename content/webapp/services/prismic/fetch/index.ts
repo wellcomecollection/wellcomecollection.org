@@ -5,6 +5,7 @@ import { GetServerSidePropsContext, NextApiRequest } from 'next';
 import { ContentType } from '@weco/common/services/prismic/content-types';
 import { isString } from '@weco/common/utils/array';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
+import superjson from 'superjson';
 
 const endpoint = prismic.getEndpoint('wellcomecollection');
 const client = prismic.createClient(endpoint, { fetch });
@@ -156,9 +157,8 @@ export function clientSideFetcher<TransformedDocument>(endpoint: string) {
       const response = await fetch(url);
 
       if (response.ok) {
-        const json: PaginatedResults<TransformedDocument> =
-          await response.json();
-        return json;
+        const json = await response.text();
+        return superjson.parse<PaginatedResults<TransformedDocument>>(json);
       }
     },
   };

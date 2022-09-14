@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useRef, useContext } from 'react';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
 import { DayNumber } from '@weco/common/model/opening-hours';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   getCalendarRows,
   firstDayOfWeek,
@@ -268,7 +268,7 @@ const Calendar: FC<Props> = ({
           >
             <Icon
               matchText={true}
-              color={'currentColor'}
+              color="currentColor"
               icon={chevron}
               rotate={90}
             />
@@ -299,7 +299,7 @@ const Calendar: FC<Props> = ({
           >
             <Icon
               matchText={true}
-              color={'currentColor'}
+              color="currentColor"
               icon={chevron}
               rotate={270}
             />
@@ -309,9 +309,7 @@ const Calendar: FC<Props> = ({
       </Header>
       {isKeyboard && <Message>{calendarInstructions}</Message>}
       <Table
-        className={classNames({
-          [font('intb', 6)]: true,
-        })}
+        className={font('intb', 6)}
         role="grid"
         aria-labelledby="id-grid-label"
         onKeyDown={event => {

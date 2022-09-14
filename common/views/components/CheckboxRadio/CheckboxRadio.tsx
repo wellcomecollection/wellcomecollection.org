@@ -5,24 +5,19 @@ import {
   ReactNode,
 } from 'react';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import Icon from '../Icon/Icon';
 import { check, indicator } from '@weco/common/icons';
 
 const CheckboxRadioLabel = styled.label.attrs({
-  className: classNames({
-    'flex-inline flex--v-center': true,
-  }),
+  className: 'flex-inline flex--v-center',
 })`
   cursor: pointer;
 `;
 
 const CheckboxRadioBoxSpan = styled.span<{ type: string }>``;
 const CheckboxRadioBox = styled(CheckboxRadioBoxSpan).attrs({
-  className: classNames({
-    'flex-inline flex--v-center flex--h-center relative': true,
-  }),
+  className: 'flex-inline flex--v-center flex--h-center relative',
 })`
   width: 1.3em;
   height: 1.3em;

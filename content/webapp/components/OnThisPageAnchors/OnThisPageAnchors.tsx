@@ -1,13 +1,11 @@
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 import { Link } from '../../types/link';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { FunctionComponent, ReactElement } from 'react';
 
 const Anchor = styled.a.attrs(() => ({
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 }))`
   color: ${props => props.theme.color('green')};
 `;

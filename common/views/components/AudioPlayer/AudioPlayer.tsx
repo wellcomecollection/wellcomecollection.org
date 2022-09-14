@@ -16,7 +16,7 @@ import {
   volume as volumeIcon,
 } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import { trackEvent } from '@weco/common/utils/ga';
 import { AppContext } from '@weco/common/views/components/AppContext/AppContext';
@@ -69,10 +69,7 @@ const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
 `;
 
 const PlayRateWrapper = styled.div.attrs({
-  className: classNames({
-    flex: true,
-    [font('intr', 6)]: true,
-  }),
+  className: `flex ${font('intr', 6)}`,
 })`
   gap: 5px;
 `;
@@ -411,9 +408,7 @@ export const AudioPlayer: FC<AudioPlayerProps> = ({
         <SecondRow>
           <div className="flex flex--h-space-between">
             <div
-              className={classNames({
-                [font('intr', 6)]: true,
-              })}
+              className={font('intr', 6)}
               style={{
                 fontVariantNumeric: 'tabular-nums',
                 whiteSpace: 'nowrap',

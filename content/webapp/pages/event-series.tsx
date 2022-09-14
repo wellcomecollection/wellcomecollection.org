@@ -143,8 +143,8 @@ const EventSeriesPage: FC<Props> = ({
       description={series.metadataDescription || series.promo?.caption || ''}
       url={{ pathname: `/event-series/${series.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={series.image}
     >
       <ContentPage

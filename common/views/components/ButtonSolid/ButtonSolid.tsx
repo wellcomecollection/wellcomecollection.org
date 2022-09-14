@@ -75,10 +75,7 @@ const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
 export const BaseButtonInner = styled(
   BaseButtonInnerSpan
 ).attrs<BaseButtonInnerProps>(props => ({
-  className: classNames({
-    [font(props.isInline ? 'intr' : 'intb', 5)]: true,
-    'flex flex--v-center': true,
-  }),
+  className: `${font(props.isInline ? 'intr' : 'intb', 5)} flex flex--v-center`,
 }))`
   height: 1em;
 `;
@@ -94,9 +91,7 @@ export const ButtonIconWrapper = styled(
     size: 'xs',
     properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
   },
-  className: classNames({
-    'flex-inline': true,
-  }),
+  className: 'flex-inline',
 }))<ButtonIconWrapperAttrsProps>`
   // Prevent icon within .spaced-text parent having top margin
   margin-top: 0;

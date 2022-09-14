@@ -4,13 +4,10 @@ import { LinkProps } from '../../../../model/link-props';
 import Icon from '../../Icon/Icon';
 import { GaEvent, trackEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
 import { IconSvg } from '@weco/common/icons';
 
 const ControlInner = styled.div.attrs({
-  className: classNames({
-    'flex-inline flex--v-center flex--h-center': true,
-  }),
+  className: 'flex-inline flex--v-center flex--h-center',
 })`
   width: 100%;
   height: 100%;
@@ -44,6 +41,11 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   width: 46px;
   height: 46px;
 
+  &[disabled] {
+    pointer-events: none;
+    transition: all ${props => props.theme.transitionProperties};
+  }
+
   ${props =>
     props.colorScheme === 'light' &&
     `
@@ -62,6 +64,15 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
         fill: ${props.theme.color('white')};
       }
     }
+
+    &[disabled] {
+      background: ${props.theme.color('transparent')};
+      border-color: ${props.theme.color('silver')};
+
+      .icon__shape {
+        fill: ${props.theme.color('silver')};
+      }
+    }
   `}
 
   ${props =>
@@ -77,6 +88,10 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     &:hover,
     &:focus {
       background: ${props.theme.color('black')};
+    }
+
+    &[disabled] {
+      background: ${props.theme.color('silver')};
     }
   `}
 
@@ -98,6 +113,13 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
         fill: ${props.theme.color('yellow')};
       }
     }
+
+
+    &[disabled] {
+      .icon__shape {
+        fill: ${props.theme.color('marble')};
+      }
+    }
   `}
 
   ${props =>
@@ -116,6 +138,12 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
       .icon__shape {
         fill: ${props.theme.color('charcoal')};
+      }
+    }
+
+    &[disabled] {
+      .icon__shape {
+        fill: ${props.theme.color('pewter')};
       }
     }
   `}

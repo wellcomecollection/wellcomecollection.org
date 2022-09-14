@@ -14,6 +14,10 @@ const SearchResultListItem = styled.li`
 
   &:first-child {
     border-top: 0;
+
+    & > a {
+      padding-top: 0;
+    }
   }
 `;
 

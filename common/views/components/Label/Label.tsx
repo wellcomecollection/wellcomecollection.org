@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Label as LabelType, LabelColor } from '../../../model/labels';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import styled from 'styled-components';
 
@@ -10,10 +10,7 @@ type LabelContainerProps = {
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: classNames({
-    'nowrap line-height-1': true,
-    [font('intb', 6)]: true,
-  }),
+  className: `nowrap line-height-1 ${font('intb', 6)}`,
 })<LabelContainerProps>`
   color: ${props => props.theme.color(props.fontColor)};
   background-color: ${props => props.theme.color(props.labelColor)};

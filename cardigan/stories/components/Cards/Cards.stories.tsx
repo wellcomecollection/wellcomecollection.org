@@ -47,7 +47,7 @@ bannerCard.storyName = 'BannerCard';
 const FeaturedCardTemplate = args => {
   return (
     <FeaturedCard
-      id={'id'}
+      id="id"
       image={{ ...image() }}
       labels={[{ text: 'Essay' }]}
       link={{ url: '#', text: 'Remote diagnosis from wee to the web' }}
@@ -78,7 +78,7 @@ const EventPromoTemplate = args => <EventPromo {...args} />;
 export const eventPromo = EventPromoTemplate.bind({});
 eventPromo.args = {
   position: 0,
-  event: event,
+  event,
 };
 eventPromo.parameters = {
   gridSizes: { s: 12, m: 6, l: 4, xl: 4 },

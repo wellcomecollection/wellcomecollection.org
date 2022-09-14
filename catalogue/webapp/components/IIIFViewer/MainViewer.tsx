@@ -255,9 +255,9 @@ const ItemRenderer = memo(({ style, index, data }: ItemRendererProps) => {
                       : '!100'
                   },`,
                 })}
-                srcSet={''}
-                sizes={''}
-                alt={''}
+                srcSet=""
+                sizes=""
+                alt=""
                 lang={undefined}
                 loadHandler={() => {
                   setThumbLoaded(true);

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import styled from 'styled-components';
@@ -31,9 +31,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
       props.addBorder ? 'padding-left' : undefined,
     ].filter(Boolean),
   },
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 }))<LinkOrSpanSpaceAttrs>`
   ${props =>
     props.addBorder &&
@@ -48,20 +46,11 @@ const LinkLabels: FunctionComponent<Props> = ({
   icon,
 }: Props) =>
   heading ? (
-    <dl
-      className={classNames({
-        flex: true,
-        'flex--wrap': true,
-        'no-margin': true,
-        [font('intb', 5)]: true,
-      })}
-    >
+    <dl className={`flex flex--wrap no-margin ${font('intb', 5)}`}>
       <Space
         as="dt"
         h={{ size: 's', properties: ['margin-right'] }}
-        className={classNames({
-          flex: true,
-        })}
+        className="flex"
       >
         {icon && (
           <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
@@ -71,12 +60,7 @@ const LinkLabels: FunctionComponent<Props> = ({
         {heading}
       </Space>
       {items.map(({ url, text }, i) => (
-        <dd
-          key={`${url || text}-${i}`}
-          className={classNames({
-            'no-margin': true,
-          })}
-        >
+        <dd key={`${url || text}-${i}`} className="no-margin">
           <ItemText url={url || null} addBorder={i !== 0}>
             {text}
           </ItemText>
@@ -85,22 +69,14 @@ const LinkLabels: FunctionComponent<Props> = ({
     </dl>
   ) : (
     <ul
-      className={classNames({
-        flex: true,
-        'plain-list': true,
-        'flex--wrap': true,
-        'no-margin': true,
-        'no-padding': true,
-        [font('intb', 5)]: true,
-      })}
+      className={
+        'flex plain-list flex--wrap no-margin no-padding' +
+        ' ' +
+        font('intb', 5)
+      }
     >
       {items.map(({ url, text }, i) => (
-        <li
-          key={`${url || text}-${i}`}
-          className={classNames({
-            'no-margin': true,
-          })}
-        >
+        <li key={`${url || text}-${i}`} className="no-margin">
           <ItemText url={url || null} addBorder={i !== 0}>
             {text}
           </ItemText>

@@ -19,6 +19,7 @@ type Props = {
   onPageChange: PageChangeFunction;
   hideMobilePagination?: boolean;
   hideMobileTotalResults?: boolean;
+  isLoading?: boolean;
 };
 
 type PaginatorWrapperProps = {
@@ -53,6 +54,7 @@ const Paginator: FunctionComponent<Props> = ({
   onPageChange,
   hideMobilePagination,
   hideMobileTotalResults,
+  isLoading,
 }: Props) => {
   const totalPages = Math.ceil(totalResults / pageSize);
   const next = currentPage < totalPages ? currentPage + 1 : null;
@@ -100,11 +102,7 @@ const Paginator: FunctionComponent<Props> = ({
     <Fragment>
       <Space
         h={{ size: 'm', properties: ['margin-right'] }}
-        className={classNames({
-          flex: true,
-          'flex--v-center': true,
-          [font('intb', 3)]: true,
-        })}
+        className={`flex flex--v-center ${font('intb', 3)}`}
       >
         <TotalResultsWrapper
           hideMobileTotalResults={hideMobileTotalResults}
@@ -115,14 +113,11 @@ const Paginator: FunctionComponent<Props> = ({
         </TotalResultsWrapper>
       </Space>
       <Space
-        className={classNames({
-          pagination: true,
-          'float-r': true,
-          'flex-inline': true,
-          'flex--v-center': true,
-          [font('intr', 5)]: true,
-          'flex-end': true,
-        })}
+        className={
+          'pagination float-r flex-inline flex--v-center flex-end' +
+          ' ' +
+          font('intr', 5)
+        }
         v={{
           size: 'm',
           properties: ['padding-top', 'padding-bottom'],
@@ -146,6 +141,7 @@ const Paginator: FunctionComponent<Props> = ({
                   colorScheme="light"
                   icon={arrow}
                   text={`Previous (page ${prev})`}
+                  disabled={isLoading}
                 />
               </Rotator>
             </Space>
@@ -163,6 +159,7 @@ const Paginator: FunctionComponent<Props> = ({
                 colorScheme="light"
                 icon={arrow}
                 text={`Next (page ${next})`}
+                disabled={isLoading}
               />
             </Space>
           )}

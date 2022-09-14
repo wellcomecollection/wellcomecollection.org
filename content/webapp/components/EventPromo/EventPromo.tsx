@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import Dot from '@weco/common/views/components/Dot/Dot';
@@ -105,10 +105,7 @@ const EventPromo: FC<Props> = ({
               properties: ['margin-bottom'],
             }}
             as="h2"
-            className={classNames({
-              'promo-link__title': true,
-              [font('wb', 3)]: true,
-            })}
+            className={`promo-link__title ${font('wb', 3)}`}
           >
             {event.title}
           </Space>
@@ -116,10 +113,7 @@ const EventPromo: FC<Props> = ({
           {(event.isOnline || event.locations.length > 0) && (
             <Space
               v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-              className={classNames({
-                [font('intr', 5)]: true,
-                'flex flex--v-center': true,
-              })}
+              className={`${font('intr', 5)} flex flex--v-center`}
             >
               <Icon icon={location} matchText />
               <Space h={{ size: 'xs', properties: ['margin-left'] }}>
@@ -166,7 +160,7 @@ const EventPromo: FC<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color={'red'} />
+                <Dot color="red" />
               </Space>
               Fully booked
             </Space>
@@ -191,7 +185,7 @@ const EventPromo: FC<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color={'marble'} />
+                <Dot color="marble" />
               </Space>
               Past
             </div>

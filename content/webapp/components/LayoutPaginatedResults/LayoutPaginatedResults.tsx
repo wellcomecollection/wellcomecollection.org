@@ -2,7 +2,7 @@ import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import Divider from '@weco/common/views/components/Divider/Divider';
 import Pagination from '@weco/common/views/components/Pagination/Pagination';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { Period } from '../../types/periods';
 import { ExhibitionBasic } from '../../types/exhibitions';
 import { EventBasic } from '../../types/events';
@@ -69,12 +69,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={classNames({
-            flex: true,
-            'flex--v-center': true,
-            'font-pewter': true,
-            [font('lr', 6)]: true,
-          })}
+          className={`flex flex--v-center font-pewter ${font('lr', 6)}`}
         >
           {paginatedResults.pageSize * paginatedResults.currentPage -
             (paginatedResults.pageSize - 1)}
@@ -92,13 +87,7 @@ const LayoutPaginatedResults: FC<Props> = ({
     {showFreeAdmissionMessage && (
       <Layout12>
         <div className="flex-inline flex--v-center">
-          <span
-            className={classNames({
-              [font('intb', 4)]: true,
-            })}
-          >
-            Free admission
-          </span>
+          <span className={font('intb', 4)}>Free admission</span>
         </div>
       </Layout12>
     )}

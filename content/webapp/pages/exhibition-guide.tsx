@@ -19,7 +19,7 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
@@ -458,12 +458,12 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} guide` || ''}
+      title={`${exhibitionGuide.title} ${type && getTypeTitle(type)}` || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'exhibition-guides'}
+      openGraphType="website"
+      siteSection="exhibition-guides"
       image={exhibitionGuide.image || undefined}
       headerProps={{
         customNavLinks: exhibitionGuidesLinks,
@@ -477,9 +477,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <SpacingSection>
             <Space
               v={{ size: 'l', properties: ['margin-top'] }}
-              className={classNames({
-                [font('wb', 1)]: true,
-              })}
+              className={font('wb', 1)}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <h1
@@ -500,8 +498,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <Header color={typeColor}>
             <Layout8 shift={false}>
               <>
-                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
-                <h3 className="h1">{getTypeTitle(type)}</h3>
+                <h1 className="h0">
+                  {exhibitionGuide.title}{' '}
+                  <div className="h1">{getTypeTitle(type)}</div>
+                </h1>
+
                 {exhibitionGuide.introText?.length > 0 ? (
                   <PrismicHtmlBlock
                     html={exhibitionGuide.introText as prismicT.RichTextField}

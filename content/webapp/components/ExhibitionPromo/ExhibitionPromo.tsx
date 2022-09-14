@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -28,7 +28,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
   return (
     <CardOuter
       data-component="ExhibitionPromo"
-      data-component-state={JSON.stringify({ position: position })}
+      data-component-state={JSON.stringify({ position })}
       id={exhibition.id}
       href={url}
       onClick={() => {
@@ -70,10 +70,7 @@ const ExhibitionPromo: FC<Props> = ({ exhibition, position = 0 }) => {
               size: 's',
               properties: ['margin-bottom'],
             }}
-            className={classNames({
-              'promo-link__title': true,
-              [font('wb', 3)]: true,
-            })}
+            className={`promo-link__title ${font('wb', 3)}`}
           >
             {exhibition.title}
           </Space>

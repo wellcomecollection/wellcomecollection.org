@@ -1,4 +1,4 @@
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { ColorSelection } from '../../types/color-selections';
 import Number from '@weco/common/views/components/Number/Number';
 import { FunctionComponent, ReactElement } from 'react';
@@ -14,11 +14,7 @@ const PartNumberIndicator: FunctionComponent<Props> = ({
   color,
   description = 'Part',
 }: Props): ReactElement<Props> => (
-  <div
-    className={classNames({
-      [font('wb', 5)]: true,
-    })}
-  >
+  <div className={font('wb', 5)}>
     {description}
     <Number color={color} number={number} />
   </div>

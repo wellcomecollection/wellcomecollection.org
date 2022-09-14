@@ -1,6 +1,5 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { classNames } from '@weco/common/utils/classnames';
 import { getServiceId } from '../../utils/iiif';
 import IIIFViewerImage from './IIIFViewerImage';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -87,11 +86,7 @@ export const PaginatorButtons = (
     nextLink,
   }: PaginatorRenderFunctionProps) => {
     return (
-      <div
-        className={classNames({
-          'flex flex--column flex--v-center flex--h-center': true,
-        })}
-      >
+      <div className="flex flex--column flex--v-center flex--h-center">
         {prevLink && (
           <Space v={{ size: 's', properties: ['margin-bottom'] }}>
             <Rotator rotate={270}>

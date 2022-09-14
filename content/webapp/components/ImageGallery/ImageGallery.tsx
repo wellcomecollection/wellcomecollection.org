@@ -24,9 +24,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  className: classNames({
-    'flex flex--v-top': true,
-  }),
+  className: 'flex flex--v-top',
 })``;
 
 const Gallery = styled.div.attrs({
@@ -273,9 +271,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
         pageBackground={pageBackground}
       >
         <div
-          className={classNames({
-            'absolute background': true,
-          })}
+          className="absolute background"
           style={{
             bottom: 0,
             width: `100%`,
@@ -292,13 +288,11 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   }
                 : undefined
             }
-            className={classNames({
-              relative: true,
-            })}
+            className="relative"
           >
             {isStandalone && (
               <div className="absolute standalone-wobbly-edge">
-                <WobblyEdge isRotated={true} background={'white'} />
+                <WobblyEdge isRotated={true} background="white" />
               </div>
             )}
             {!isActive && (
@@ -313,9 +307,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                   size: 'm',
                   properties: ['padding-top'],
                 }}
-                className={classNames({
-                  'close-wrapper absolute': true,
-                })}
+                className="close-wrapper absolute"
               >
                 <Space
                   v={{
@@ -373,9 +365,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                           size: 'm',
                           properties: ['margin-bottom'],
                         }}
-                        className={classNames({
-                          [font('intb', 5)]: true,
-                        })}
+                        className={font('intb', 5)}
                       >
                         {i + 1} of {items.length}
                       </Space>

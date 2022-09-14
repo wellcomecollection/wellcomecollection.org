@@ -13,9 +13,7 @@ import { NextPage } from 'next';
 import { DownloadFormat } from '../DownloadLink/DownloadLink';
 
 export const DownloadOptions = styled.div.attrs(() => ({
-  className: classNames({
-    [font('intb', 4)]: true,
-  }),
+  className: font('intb', 4),
 }))`
   white-space: normal;
   color: ${props => props.theme.color('black')};
@@ -116,11 +114,7 @@ const Download: NextPage<Props> = ({
             isOnDark={useDarkControl}
             id={ariaControlsId}
           >
-            <DownloadOptions
-              className={classNames({
-                [font('intb', 5)]: true,
-              })}
-            >
+            <DownloadOptions className={font('intb', 5)}>
               <SpacingComponent>
                 <ul className="plain-list no-margin no-padding">
                   {downloadOptions
@@ -147,7 +141,7 @@ const Download: NextPage<Props> = ({
                             mimeType={option.format}
                             trackingEvent={{
                               category: 'Button',
-                              action: action,
+                              action,
                               label: workId,
                             }}
                           />
