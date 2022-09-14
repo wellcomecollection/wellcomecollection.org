@@ -59,12 +59,12 @@ export function getArticleColor(article: ArticleBasic): ColorSelection {
 
 export type extractedArticleText = {
   type: string;
-  weight: string;
+  weight?: string;
   value: combinedArticleText[];
 };
 
 export type combinedArticleText = {
   type: string;
-  text: string;
+  text?: string;
   spans: [];
 };

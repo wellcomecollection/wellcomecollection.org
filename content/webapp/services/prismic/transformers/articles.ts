@@ -1,8 +1,8 @@
 import {
   Article,
   ArticleBasic,
-  combinedArticleText,
-  extractedArticleText,
+  // combinedArticleText,
+  // extractedArticleText,
 } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import {
@@ -111,15 +111,17 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
     : undefined;
 
   // Calculating the full reading time of the article by getting all article text
-  let readingTimeInMinutes;
-  if (format?.title === 'Article') {
-    const allArticleText = genericFields.body
-      .filter(element => element.type === 'text')
+  function allArticleText(genericBody) {
+    return genericBody
+      .filter(genericBody => genericBody.type === 'text')
       .map(element => element.value)
       .flat()
-      .map(element => element.text);
-
-    readingTimeInMinutes = readingTime(allArticleText.join('')).text;
+      .map(element => element.text)
+      .join('');
+  }
+  let readingTimeInMinutes;
+  if (format?.title === 'Article') {
+    readingTimeInMinutes = readingTime(allArticleText(genericFields.body)).text;
   } else {
     readingTimeInMinutes = null;
   }
