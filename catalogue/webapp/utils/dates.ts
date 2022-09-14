@@ -212,7 +212,7 @@ export function isRequestableDate(params: {
 }): boolean {
   const { date, startDate, endDate, excludedDates, excludedDays } = params;
   const isExceptionalClosedDay = excludedDates.some(excluded =>
-    isSameDay(excluded, date)
+    isSameDay(excluded, date, 'London')
   );
   const isRegularClosedDay = excludedDays.includes(date.getDay() as DayNumber);
   return (
@@ -222,12 +222,14 @@ export function isRequestableDate(params: {
         // both start and end date
         (startDate &&
           endDate &&
-          isSameDayOrBefore(startDate, date) &&
-          isSameDayOrBefore(date, endDate)) ||
+          isSameDayOrBefore(startDate, date, 'London') &&
+          isSameDayOrBefore(date, endDate, 'London')) ||
         // only start date
-        (startDate && !endDate && isSameDayOrBefore(startDate, date)) ||
+        (startDate &&
+          !endDate &&
+          isSameDayOrBefore(startDate, date, 'London')) ||
         // only end date
-        (endDate && !startDate && isSameDayOrBefore(date, endDate))
+        (endDate && !startDate && isSameDayOrBefore(date, endDate, 'London'))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay

@@ -29,17 +29,51 @@ describe('isSameDay', () => {
     expect(result).toEqual(true);
   });
 
-  it.only('says two times on the same day are the same', () => {
-    const date1 = new Date(
+  describe.only('ComparisonMode', () => {
+    const september19Midnight = new Date(
       'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
-    ); // Date/time format from Prismic (on the 18th/19th date divide)
-    const date2 = new Date(
-      'Mon Sep 19 2022 11:47:08 GMT+0100 (British Summer Time)'
-    ); // Unambiguously the 19th
+    );
+    const september18TwentyThreeThirty = new Date(
+      'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
+    );
+    const september19MidnightThirty = new Date(
+      'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
+    );
+    const september19Midday = new Date(
+      'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
+    );
 
-    const result = isSameDay(date1, date2);
+    it('says midnight BST in London is on the same day as midday BST using a comparison mode of "London"', () => {
+      const result = isSameDay(
+        september19Midnight,
+        september19Midday,
+        'London'
+      );
+      expect(result).toEqual(true);
+    });
 
-    expect(result).toEqual(true);
+    it('says midnight BST in London is not on the same day as midday BST using a comparison mode of "UTC"', () => {
+      const result = isSameDay(september19Midnight, september19Midday, 'UTC');
+      expect(result).toEqual(false);
+    });
+
+    it('says 23:30 BST in London is not on the same day as 00:30 BST using a comparison mode of "London"', () => {
+      const result = isSameDay(
+        september18TwentyThreeThirty,
+        september19MidnightThirty,
+        'London'
+      );
+      expect(result).toEqual(false);
+    });
+
+    it('says 23:30 BST in London is on the same day as 00:30 BST using a comparison mode of "UTC"', () => {
+      const result = isSameDay(
+        september18TwentyThreeThirty,
+        september19MidnightThirty,
+        'UTC'
+      );
+      expect(result).toEqual(true);
+    });
   });
 
   each([
@@ -199,6 +233,7 @@ describe('getNextWeekendDateRange', () => {
     },
   ])('the next weekend after $day is $weekend', ({ day, weekend }) => {
     const range = getNextWeekendDateRange(day);
+
     expect(isSameDay(range.start, weekend.start)).toBeTruthy();
     expect(isSameDay(range.end, weekend.end)).toBeTruthy();
   });

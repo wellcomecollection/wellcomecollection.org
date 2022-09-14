@@ -1,4 +1,5 @@
 import { DateRange } from '../model/date-range';
+import { formatDayDate } from './format-date';
 
 // This is just to allow us to mock values in tests
 export function today(): Date {
@@ -37,16 +38,19 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
   );
 }
 
-export function isSameDay(date1: Date, date2: Date): boolean {
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
-
-  // Set the hours to be equal on both dates to account for any off-by-one
-  // timezone issues
-  d1.setHours(0, 0, 0, 0);
-  d2.setHours(0, 0, 0, 0);
-
-  return isSameMonth(d1, d2) && d1.getUTCDate() === d2.getUTCDate();
+type ComparisonMode = 'UTC' | 'London';
+export function isSameDay(
+  date1: Date,
+  date2: Date,
+  mode: ComparisonMode = 'UTC'
+): boolean {
+  if (mode === 'UTC') {
+    return (
+      isSameMonth(date1, date2) && date1.getUTCDate() === date2.getUTCDate()
+    );
+  } else {
+    return formatDayDate(date1) === formatDayDate(date2);
+  }
 }
 
 // Note: the order of arguments to this function is designed so you can
@@ -55,8 +59,12 @@ export function isSameDay(date1: Date, date2: Date): boolean {
 //      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
 //        => isSameDayOrBefore(A, C)
 //
-export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
-  return isSameDay(date1, date2) || date1 <= date2;
+export function isSameDayOrBefore(
+  date1: Date,
+  date2: Date,
+  mode: ComparisonMode = 'UTC'
+): boolean {
+  return isSameDay(date1, date2, mode) || date1 <= date2;
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.
