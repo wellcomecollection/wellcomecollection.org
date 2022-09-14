@@ -178,7 +178,7 @@ describe('determineNextAvailableDate', () => {
       new Date('2021-12-10 10:30'),
       [0],
       []
-    ); // Sunday
+    );
     expect(result).toEqual(new Date('2021-12-14 10:30')); // Tuesday
   });
 
@@ -223,7 +223,7 @@ describe('determineNextAvailableDate', () => {
       new Date('2021-12-10 10:30'), // Friday
       [0],
       [exceptionalClosure]
-    ); // Sunday
+    );
     expect(result).toEqual(new Date('2021-12-15 10:30')); // Wednesday
   });
 });
