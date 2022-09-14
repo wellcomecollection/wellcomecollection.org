@@ -1,8 +1,8 @@
 import { groupEventsByDay } from '../../../services/prismic/events';
 import { getLastEndTime, getEventbriteId } from './events';
 import { data as uiEventData } from '../../../components/CardGrid/DailyTourPromo';
-import { transformTimestamp } from '.';
 import { EventTime } from '../../../types/events';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 const eventTimes: EventTime[] = [
   {

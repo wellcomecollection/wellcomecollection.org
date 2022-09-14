@@ -4,15 +4,10 @@ import {
   GuidePrismicDocument,
   GuideFormatPrismicDocument,
 } from '../types/guides';
-import {
-  asHtml,
-  asTitle,
-  transformFormat,
-  transformGenericFields,
-  transformTimestamp,
-} from '.';
+import { asHtml, asTitle, transformFormat, transformGenericFields } from '.';
 import { links as headerLinks } from '@weco/common/views/components/Header/Header';
 import { transformOnThisPage } from './pages';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformGuide(document: GuidePrismicDocument): Guide {
   const { data } = document;
