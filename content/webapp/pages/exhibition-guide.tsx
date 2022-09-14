@@ -458,7 +458,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
   const numberedStops = exhibitionGuide.components.filter(c => c.number);
   return (
     <PageLayout
-      title={`${exhibitionGuide.title} guide` || ''}
+      title={`${exhibitionGuide.title} ${type && getTypeTitle(type)}` || ''}
       description={pageDescriptions.exhibitionGuides}
       url={{ pathname: pathname }}
       jsonLd={jsonLd}
@@ -498,8 +498,11 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <Header color={typeColor}>
             <Layout8 shift={false}>
               <>
-                <h2 className="h0 no-margin">{exhibitionGuide.title}</h2>
-                <h3 className="h1">{getTypeTitle(type)}</h3>
+                <h1 className="h0">
+                  {exhibitionGuide.title}{' '}
+                  <div className="h1">{getTypeTitle(type)}</div>
+                </h1>
+
                 {exhibitionGuide.introText?.length > 0 ? (
                   <PrismicHtmlBlock
                     html={exhibitionGuide.introText as prismicT.RichTextField}
