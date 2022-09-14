@@ -200,7 +200,7 @@ describe('determineNextAvailableDate', () => {
     expect(result1).toEqual(new Date('2021-12-10T09:30:00Z'));
 
     // Paris is an hour ahead of London, so a request made at 11:30 in Paris is
-    // at 19:30 in London -- it can’t be fulfilled the next day.
+    // at 10:30 in London -- it can’t be fulfilled the next day.
     const date2 = new Date('2021-12-09T11:30:00+0100');
 
     const result2 = determineNextAvailableDate(date2, [0], []);
