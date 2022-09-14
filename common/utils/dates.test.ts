@@ -29,11 +29,15 @@ describe('isSameDay', () => {
     expect(result).toEqual(true);
   });
 
-  it('says two times on the same day are the same', () => {
-    const result = isSameDay(
-      new Date(2001, 1, 1, 1, 1, 1),
-      new Date(2001, 1, 1, 13, 24, 37)
-    );
+  it.only('says two times on the same day are the same', () => {
+    const date1 = new Date(
+      'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
+    ); // Date/time format from Prismic (on the 18th/19th date divide)
+    const date2 = new Date(
+      'Mon Sep 19 2022 11:47:08 GMT+0100 (British Summer Time)'
+    ); // Unambiguously the 19th
+
+    const result = isSameDay(date1, date2);
 
     expect(result).toEqual(true);
   });
