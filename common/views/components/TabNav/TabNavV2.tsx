@@ -79,7 +79,7 @@ const TabNavV2: FC<Props> = ({
   isDarkMode = false,
 }: Props) => {
   return (
-    <div className={font('intb', 4)}>
+    <div className={font('intb', 5)}>
       <ul
         className="plain-list no-margin no-padding flex flex--wrap"
         role="tablist"
