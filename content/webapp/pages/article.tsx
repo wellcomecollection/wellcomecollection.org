@@ -234,14 +234,10 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                 </Fragment>
               ))}
             {readingTime && isArticleorSerialFormat ? (
-              <span
-                className={classNames({
-                  [font('intb', 6)]: true,
-                })}
-              >
+              <span className={font('intr', 6)}>
                 <span className={font('intr', 5)}> | </span>
                 reading time{' '}
-                <span className={font('intr', 5)}>{readingTimeInMinutes}</span>
+                <span className={font('intr', 6)}>{readingTimeInMinutes}</span>
               </span>
             ) : null}
             {article.contributors.length > 0 && ' '}
