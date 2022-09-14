@@ -59,7 +59,8 @@ export function convertDayNumberToDay(dayNumber: DayNumber): Day {
 
 export function findNextPickUpDay(
   date: Date,
-  regularClosedDays: DayNumber[]
+  regularClosedDays: DayNumber[],
+  exceptionalClosedDates: Date[]
 ): Date | undefined {
   if (regularClosedDays.length === 7) {
     // All days are closed, so we'll never be able to find a non closed day.
@@ -73,17 +74,25 @@ export function findNextPickUpDay(
   // the next, but add two days if we're closed this day and open the next.
 
   const nextDay = addDays(date, 1);
-  const isClosedThisDay = regularClosedDays.includes(
-    date.getDay() as DayNumber
-  );
-  const isOpenNextDay = !regularClosedDays.includes(
-    nextDay.getDay() as DayNumber
-  );
+  const isClosedThisDay =
+    regularClosedDays.includes(date.getDay() as DayNumber) ||
+    exceptionalClosedDates.find(d => isSameDay(d, date, 'London'));
+  const isOpenNextDay =
+    !regularClosedDays.includes(nextDay.getDay() as DayNumber) &&
+    !exceptionalClosedDates.find(d => isSameDay(d, nextDay, 'London'));
 
   if (isClosedThisDay && isOpenNextDay) {
-    return findNextPickUpDay(addDays(date, 2), regularClosedDays);
+    return findNextPickUpDay(
+      addDays(date, 2),
+      regularClosedDays,
+      exceptionalClosedDates
+    );
   } else if (isClosedThisDay) {
-    return findNextPickUpDay(addDays(date, 1), regularClosedDays);
+    return findNextPickUpDay(
+      addDays(date, 1),
+      regularClosedDays,
+      exceptionalClosedDates
+    );
   } else {
     return date;
   }
@@ -91,15 +100,22 @@ export function findNextPickUpDay(
 
 export function determineNextAvailableDate(
   date: Date,
-  regularClosedDays: DayNumber[]
+  regularClosedDays: DayNumber[],
+  exceptionalClosedDates: Date[]
 ): Date | undefined {
   const hourInLondon = Number(
     date.toLocaleString('en-GB', { hour: 'numeric', timeZone: 'Europe/London' })
   );
+  // If a request is made before 10am, the next _potential_ pick-up date is the
+  // next day otherwise, it is two days' time.
   const isBeforeTen = hourInLondon < 10;
   const nextAvailableDate = addDays(date, isBeforeTen ? 1 : 2);
 
-  return findNextPickUpDay(nextAvailableDate, regularClosedDays);
+  return findNextPickUpDay(
+    nextAvailableDate,
+    regularClosedDays,
+    exceptionalClosedDates
+  );
 }
 
 type groupedExceptionalClosedDates = { included: Date[]; excluded: Date[] };
