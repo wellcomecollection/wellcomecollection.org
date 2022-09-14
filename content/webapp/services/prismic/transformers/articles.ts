@@ -113,18 +113,13 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   // Calculating the full reading time of the article by getting all article text
   let readingTimeInMinutes;
   if (format?.title === 'Article') {
-    const filteredArticleText = genericFields.body
-      .filter(content => {
-        return content.type === 'text';
-      })
-      .flat();
+    const allArticleText = genericFields.body
+      .filter(element => element.type === 'text')
+      .map(element => element.value)
+      .flat()
+      .map(element => element.text);
 
-    const textValues = filteredArticleText.flatMap(type => [type.value]);
-
-    const combinedTextValues = textValues.flat().map(content => {
-      return content.text;
-    });
-    readingTimeInMinutes = readingTime(combinedTextValues.join('')).text;
+    readingTimeInMinutes = readingTime(allArticleText.join('')).text;
   } else {
     readingTimeInMinutes = null;
   }
