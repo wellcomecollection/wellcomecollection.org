@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import HueSlider from './HueSlider';
 import { hexToHsv, hsvToHex } from './conversions';
-import { classNames, font } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 
 type Props = {
   name: string;
@@ -75,10 +75,7 @@ type SwatchProps = {
 
 const Swatch = styled.button.attrs((props: SwatchProps) => ({
   type: 'button',
-  className: classNames({
-    'plain-button': true,
-    [font('intr', 5)]: true,
-  }),
+  className: `plain-button ${font('intr', 5)}`,
   'aria-pressed': !!props.ariaPressed,
 }))<SwatchProps>`
   position: relative;

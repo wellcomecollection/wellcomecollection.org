@@ -19,7 +19,7 @@ import { transformQuery } from '../services/prismic/transformers/paginated-resul
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import { FC, SyntheticEvent } from 'react';
 import { IconSvg } from '@weco/common/icons/types';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { exhibitionGuideLd } from '../services/prismic/transformers/json-ld';
@@ -477,9 +477,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
           <SpacingSection>
             <Space
               v={{ size: 'l', properties: ['margin-top'] }}
-              className={classNames({
-                [font('wb', 1)]: true,
-              })}
+              className={font('wb', 1)}
             >
               <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                 <h1

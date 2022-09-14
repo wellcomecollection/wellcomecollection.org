@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { classNames } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import AudioPlayer from '@weco/common/views/components/AudioPlayer/AudioPlayer';
 import DownloadLink from '../DownloadLink/DownloadLink';
@@ -31,11 +30,7 @@ const AudioList: FC<Props> = ({
           <img src={thumbnail.id} alt="" />
         </Space>
       )} */}
-      <ol
-        className={classNames({
-          'no-margin no-padding plain-list': true,
-        })}
-      >
+      <ol className="no-margin no-padding plain-list">
         {items.map((item, index) => (
           <>
             {item.sound.id && (

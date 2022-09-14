@@ -1,5 +1,5 @@
 import { Work } from '@weco/common/model/catalogue';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
@@ -102,9 +102,7 @@ const DownloadPage: NextPage<Props> = ({
               }}
               as="h1"
               id="work-info"
-              className={classNames({
-                [font('intb', 1)]: true,
-              })}
+              className={font('intb', 1)}
             >
               {title}
             </Space>

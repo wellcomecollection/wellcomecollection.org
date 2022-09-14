@@ -4,7 +4,7 @@ import CompactCard from '../CompactCard/CompactCard';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
 import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
 import EventDateRange from '../EventDateRange/EventDateRange';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { getCrop } from '@weco/common/model/image';
 import Space from '@weco/common/views/components/styled/Space';
 import WatchLabel from '@weco/common/views/components/WatchLabel/WatchLabel';
@@ -63,14 +63,7 @@ const EventCard: FC<Props> = ({ event, xOfY }) => {
         </Space>
       </>
     ) : !event.isPast && event.times.length > 1 ? (
-      <p
-        className={classNames({
-          [font('intb', 4)]: true,
-          'no-margin': true,
-        })}
-      >
-        See all dates/times
-      </p>
+      <p className={`${font('intb', 4)} no-margin`}>See all dates/times</p>
     ) : undefined;
 
   return (

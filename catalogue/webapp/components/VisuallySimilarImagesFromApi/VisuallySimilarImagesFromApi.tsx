@@ -1,4 +1,4 @@
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { Image as ImageType } from '@weco/common/model/catalogue';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -67,12 +67,7 @@ const VisuallySimilarImagesFromApi: FunctionComponent<Props> = ({
           </a>
         ))}
       </Wrapper>
-      <p
-        className={classNames({
-          [font('intr', 6)]: true,
-          'no-margin': true,
-        })}
-      >
+      <p className={`${font('intr', 6)} no-margin`}>
         These images have similar shapes and structural features. We use machine
         learning to detect visual similarity across all images in our
         collection.

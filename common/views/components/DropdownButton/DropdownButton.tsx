@@ -2,7 +2,6 @@ import { CSSTransition } from 'react-transition-group';
 import { useState, useRef, useEffect, useContext, FC, ReactNode } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
-import { classNames } from '../../../utils/classnames';
 import getFocusableElements from '../../../utils/get-focusable-elements';
 import Space from '../styled/Space';
 import ButtonSolid, { ButtonTypes } from '../ButtonSolid/ButtonSolid';
@@ -12,9 +11,7 @@ import { chevron, IconSvg } from '../../../icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
 const DropdownWrapper = styled.div.attrs({
-  className: classNames({
-    'flex-inline relative': true,
-  }),
+  className: 'flex-inline relative',
 })``;
 
 type DropdownProps = {

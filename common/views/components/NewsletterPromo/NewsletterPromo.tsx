@@ -169,22 +169,10 @@ const NewsletterPromo: FC = () => {
                     {isSuccess ? 'Thank you for signing up!' : headingText}
                   </h2>
                   {!isSuccess && (
-                    <p
-                      className={classNames({
-                        [font('intr', 5)]: true,
-                        'no-margin': true,
-                      })}
-                    >
-                      {bodyText}
-                    </p>
+                    <p className={`${font('intr', 5)} no-margin`}>{bodyText}</p>
                   )}
                   {isSuccess && (
-                    <div
-                      className={classNames({
-                        [font('intr', 5)]: true,
-                        'spaced-text': true,
-                      })}
-                    >
+                    <div className={`${font('intr', 5)} spaced-text`}>
                       <p>
                         If this is the first time you have subscribed to one of
                         our newsletters, you will receive an email asking you to
@@ -237,12 +225,7 @@ const NewsletterPromo: FC = () => {
                 )}
               </BoxInner>
               {!isSuccess && (
-                <p
-                  className={classNames({
-                    [font('intr', 6)]: true,
-                    'no-margin': true,
-                  })}
-                >
+                <p className={`${font('intr', 6)} no-margin`}>
                   <a href="/newsletter">All our newsletters</a>
                 </p>
               )}

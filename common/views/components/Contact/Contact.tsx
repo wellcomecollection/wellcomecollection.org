@@ -1,4 +1,4 @@
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import Space from '../styled/Space';
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
@@ -25,48 +25,22 @@ const Contact: FunctionComponent<Props> = ({
 }: Props): ReactElement => {
   return (
     <Wrapper>
-      <span
-        className={classNames({
-          block: true,
-        })}
-      >
-        <span
-          className={classNames({
-            [font('intb', 4)]: true,
-          })}
-        >
-          {title}
-        </span>
+      <span className="block">
+        <span className={font('intb', 4)}>{title}</span>
         {subtitle && (
           <Space
             as="span"
             h={{ size: 's', properties: ['margin-left'] }}
-            className={classNames({
-              [font('intr', 4)]: true,
-            })}
+            className={font('intr', 4)}
           >
             {subtitle}
           </Space>
         )}
       </span>
-      {phone && (
-        <span
-          className={classNames({
-            [font('intr', 4)]: true,
-            block: true,
-          })}
-        >
-          {phone}
-        </span>
-      )}
+      {phone && <span className={`${font('intr', 4)} block`}>{phone}</span>}
       {email && (
         <div>
-          <a
-            className={classNames({
-              [font('intr', 4)]: true,
-            })}
-            href={`mailto:${email}`}
-          >
+          <a className={font('intr', 4)} href={`mailto:${email}`}>
             {email}
           </a>
         </div>

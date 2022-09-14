@@ -4,7 +4,7 @@ import {
   getServiceId,
 } from '../../utils/iiif';
 import NextLink from 'next/link';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   getDigitalLocationOfType,
   sierraIdFromPresentationManifestUrl,
@@ -202,17 +202,14 @@ const ExpandedImage: FunctionComponent<Props> = ({
       <InfoWrapper>
         <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
           <h2
-            className={classNames({
-              [font('intb', 3)]: true,
-              'no-margin': true,
-            })}
+            className={`${font('intb', 3)} no-margin`}
             dangerouslySetInnerHTML={{ __html: displayTitle }}
           />
           {displayContributor && (
             <Space
               as="h3"
               v={{ size: 's', properties: ['margin-top'] }}
-              className={classNames({ [font('intb', 5)]: true })}
+              className={font('intb', 5)}
             >
               {displayContributor}
             </Space>
@@ -247,12 +244,7 @@ const ExpandedImage: FunctionComponent<Props> = ({
               source={trackingSource}
               resultPosition={resultPosition}
             >
-              <a
-                className={classNames({
-                  'inline-block': true,
-                  [font('intr', 5)]: true,
-                })}
-              >
+              <a className={`inline-block ${font('intr', 5)}`}>
                 More about this work
               </a>
             </WorkLink>

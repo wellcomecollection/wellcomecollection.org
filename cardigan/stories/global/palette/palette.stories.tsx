@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { themeValues } from '@weco/common/views/themes/config';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 
 const PaletteSection = styled.div`
   display: flex;
@@ -14,9 +14,7 @@ const PaletteBlock = styled.div`
 `;
 
 const PaletteName = styled.h2.attrs({
-  classname: classNames({
-    [font('lr', 5)]: true,
-  }),
+  classname: font('lr', 5),
 })``;
 
 const PaletteColor = styled.div<{ hasBorder: boolean }>`
@@ -34,15 +32,11 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
 `;
 
 const PaletteHex = styled.div.attrs({
-  className: classNames({
-    [font('lr', 5)]: true,
-  }),
+  className: font('lr', 5),
 })``;
 
 const PaletteCode = styled.code.attrs({
-  className: classNames({
-    [font('lr', 5)]: true,
-  }),
+  className: font('lr', 5),
 })``;
 
 function hexToRgb(hex) {

@@ -6,7 +6,7 @@ import React, {
   Fragment,
 } from 'react';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { Link } from '../../types/link';
 import {
   defaultSerializer,
@@ -271,11 +271,7 @@ const Body: FunctionComponent<Props> = ({
   };
 
   return (
-    <div
-      className={classNames({
-        'basic-body': true,
-      })}
-    >
+    <div className="basic-body">
       {filteredBody.length < 1 && (
         <AdditionalContent
           index={0}

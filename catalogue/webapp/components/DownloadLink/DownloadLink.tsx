@@ -1,6 +1,6 @@
 import { trackEvent as trackGaEvent, GaEvent } from '@weco/common/utils/ga';
 import styled from 'styled-components';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { FunctionComponent } from 'react';
@@ -8,9 +8,7 @@ import { trackEvent } from '@weco/common/services/conversion/track';
 import { download } from '@weco/common/icons';
 
 const DownloadLinkStyle = styled.a.attrs({
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 })`
   display: inline-block;
   white-space: nowrap;
@@ -60,10 +58,7 @@ const DownloadLink: FunctionComponent<Props> = ({
         <Space
           as="span"
           h={{ size: 'm', properties: ['margin-left'] }}
-          className={classNames({
-            [font('intb', 5)]: true,
-            'font-pewter': true,
-          })}
+          className={`${font('intb', 5)} font-pewter`}
         >
           {format}
         </Space>

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import { ExhibitionGuideBasic } from '../../types/exhibition-guides';
 import Space from '@weco/common/views/components/styled/Space';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';
@@ -79,20 +79,13 @@ const ExhibitionGuideLinksPromo: FC<Props> = ({ exhibitionGuide }) => {
             properties: ['margin-top', 'margin-bottom'],
           }}
           as="h3"
-          className={classNames({
-            [font('wb', 3)]: true,
-          })}
+          className={font('wb', 3)}
         >
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
       <Space v={{ size: 's', properties: ['margin-top'] }}>
-        <ul
-          className={classNames({
-            [font('intr', 5)]: true,
-            'no-margin plain-list no-padding': true,
-          })}
-        >
+        <ul className={`${font('intr', 5)} no-margin plain-list no-padding`}>
           {links.map((link, i) => (
             <TypeListItem key={i} url={link.url} text={link.text} />
           ))}

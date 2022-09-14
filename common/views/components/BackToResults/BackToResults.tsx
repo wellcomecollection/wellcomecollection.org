@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 import NextLink from 'next/link';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import SearchContext from '../SearchContext/SearchContext';
 
@@ -19,9 +19,7 @@ const BackToResults: FunctionComponent = () => {
             label: `${query} | page: ${page || 1}`,
           });
         }}
-        className={classNames({
-          [font('intr', 5)]: true,
-        })}
+        className={font('intr', 5)}
       >
         <span>{`Back to search${query ? ' results' : ''}`}</span>
       </a>

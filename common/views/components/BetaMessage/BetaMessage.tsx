@@ -1,16 +1,13 @@
 import { useEffect, ReactElement, FunctionComponent } from 'react';
 import { trackEvent } from '@weco/common/utils/ga';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { underConstruction } from '@weco/common/icons';
 
 const StyledBetaMessage = styled.div.attrs(() => ({
-  className: classNames({
-    [font('intr', 5)]: true,
-    'flex flex--v-center': true,
-  }),
+  className: `${font('intr', 5)} flex flex--v-center`,
 }))`
   border-left: ${props => `4px solid ${props.theme.color('purple')}`};
   padding-left: ${props => props.theme.spacingUnit}px;

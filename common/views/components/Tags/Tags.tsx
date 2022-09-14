@@ -1,4 +1,4 @@
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import NextLink from 'next/link';
 import Space from '../styled/Space';
 import { SolidButton } from '../ButtonSolid/ButtonSolid';
@@ -25,9 +25,7 @@ type PartWithSeparatorProps = {
 };
 
 const PartWithSeparator = styled.span.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })<PartWithSeparatorProps>`
   &:after {
     display: ${props => (props.isLast ? 'none' : 'inline')};
@@ -49,11 +47,7 @@ const Tags: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => {
   return (
     <Space v={{ size: 's', negative: true, properties: ['margin-bottom'] }}>
-      <ul
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-        })}
-      >
+      <ul className="plain-list no-margin no-padding">
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
           return (
@@ -65,9 +59,7 @@ const Tags: FunctionComponent<Props> = ({
                 properties: ['margin-bottom'],
               }}
               h={{ size: 's', properties: ['margin-right'] }}
-              className={classNames({
-                'inline-block': true,
-              })}
+              className="inline-block"
             >
               <NextLink {...linkAttributes} passHref>
                 <SolidButton
@@ -82,12 +74,11 @@ const Tags: FunctionComponent<Props> = ({
                         isLast={i === arr.length - 1}
                       >
                         <span
-                          className={classNames({
-                            [font(
-                              i === 0 && isFirstPartBold ? 'intb' : 'intr',
-                              5
-                            )]: true,
-                          })}
+                          className={
+                            i === 0 && isFirstPartBold
+                              ? font('intb', 5)
+                              : font('intr', 5)
+                          }
                         >
                           {part}
                         </span>

@@ -5,7 +5,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import NextLink from 'next/link';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { Filter } from '../../../services/catalogue/filters';
 import { getColorDisplayName } from '../../components/PaletteColorPicker/PaletteColorPicker';
 import { cross } from '@weco/common/icons';
@@ -106,7 +106,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
 
   return (
     <Wrapper>
-      <div className={classNames({ [font('intb', 5)]: true })} role="status">
+      <div className={font('intb', 5)} role="status">
         <div>
           <h2 className="inline">
             <Space

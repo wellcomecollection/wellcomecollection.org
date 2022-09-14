@@ -177,9 +177,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 })`
   display: flex;
   justify-content: center;

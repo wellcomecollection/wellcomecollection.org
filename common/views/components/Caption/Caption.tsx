@@ -1,5 +1,5 @@
 import * as prismicT from '@prismicio/types';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { FunctionComponent, ReactNode } from 'react';
 import PrismicHtmlBlock from '../PrismicHtmlBlock/PrismicHtmlBlock';
 import Space from '../styled/Space';
@@ -42,10 +42,7 @@ const Caption: FunctionComponent<Props> = ({
       }}
       as="figcaption"
       style={width ? { width: `${width}px` } : undefined}
-      className={classNames({
-        [font('lr', 6)]: true,
-        'caption h-center': true,
-      })}
+      className={`${font('lr', 6)} caption h-center`}
     >
       <CaptionWrapper>
         {preCaptionNode}

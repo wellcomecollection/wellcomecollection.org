@@ -193,9 +193,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 `;
 
 const RefNumber = styled.span.attrs({
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 })`
   line-height: 1;
   display: block;
@@ -734,9 +732,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className={classNames({
-        'font-size-5': true,
-      })}
+      className="font-size-5"
     >
       {archiveTree &&
         archiveTree.map((item, i) => {
@@ -903,13 +899,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2
-              className={classNames({
-                [font('wb', 4)]: true,
-              })}
-            >
-              Collection contents
-            </h2>
+            <h2 className={font('wb', 4)}>Collection contents</h2>
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>
