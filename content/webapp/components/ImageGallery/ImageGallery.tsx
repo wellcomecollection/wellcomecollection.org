@@ -20,6 +20,32 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
+import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+const FrameGrid = styled.div<{ isThreeUp: boolean }>`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+
+  ${props => props.theme.media.medium`
+    grid-template-columns: 1fr 1fr;
+  `}
+
+  ${props =>
+    props.theme.media.large`
+    ${
+      props.isThreeUp &&
+      `
+      grid-template-columns: 1fr 1fr 1fr;
+    `
+    }
+  `}
+`;
+
+const FrameItem = styled.div`
+  width: 100%;
+  aspect-ratio: 1;
+  background: hotpink;
+`;
 
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -246,9 +272,13 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
     setIsActive(true);
   }
 
+  // FIXME: this is for testing only – needs model change in Prismic
   const itemsToShow = () => {
-    return isActive ? items : [items[0]];
+    return isActive ? [...items, ...items, ...items] : [items[0]];
   };
+
+  // FIXME: this is for testing only – needs model change in Prismic
+  const isInFrames = true;
 
   return (
     <>
@@ -335,45 +365,60 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 </Space>
               </Space>
             )}
-            {itemsToShow().map((captionedImage, i) => (
-              <Space
-                v={
-                  isActive
-                    ? {
-                        size: 'xl',
-                        properties: ['margin-bottom'],
-                      }
-                    : undefined
-                }
-                onClick={() => {
-                  if (!isActive) {
-                    handleOpenClicked();
-                  }
-                }}
-                key={captionedImage.image.contentUrl}
-                style={{
-                  cursor: !isActive ? 'pointer' : 'default',
-                }}
-              >
-                <CaptionedImage
-                  image={captionedImage.image}
-                  caption={captionedImage.caption}
-                  preCaptionNode={
-                    items.length > 1 ? (
-                      <Space
-                        v={{
-                          size: 'm',
-                          properties: ['margin-bottom'],
-                        }}
-                        className={font('intb', 5)}
-                      >
-                        {i + 1} of {items.length}
-                      </Space>
-                    ) : null
-                  }
-                />
+            {isInFrames && (
+              <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
+                <FrameGrid isThreeUp={itemsToShow().length % 3 === 0}>
+                  {itemsToShow().map(captionedImage => (
+                    <FrameItem key={captionedImage.image.contentUrl}>
+                      <HeightRestrictedPrismicImage
+                        image={captionedImage.image}
+                        quality="high"
+                      />
+                    </FrameItem>
+                  ))}
+                </FrameGrid>
               </Space>
-            ))}
+            )}
+            {!isInFrames &&
+              itemsToShow().map((captionedImage, i) => (
+                <Space
+                  v={
+                    isActive
+                      ? {
+                          size: 'xl',
+                          properties: ['margin-bottom'],
+                        }
+                      : undefined
+                  }
+                  onClick={() => {
+                    if (!isActive) {
+                      handleOpenClicked();
+                    }
+                  }}
+                  key={captionedImage.image.contentUrl}
+                  style={{
+                    cursor: !isActive ? 'pointer' : 'default',
+                  }}
+                >
+                  <CaptionedImage
+                    image={captionedImage.image}
+                    caption={captionedImage.caption}
+                    preCaptionNode={
+                      items.length > 1 ? (
+                        <Space
+                          v={{
+                            size: 'm',
+                            properties: ['margin-bottom'],
+                          }}
+                          className={font('intb', 5)}
+                        >
+                          {i + 1} of {items.length}
+                        </Space>
+                      ) : null
+                    }
+                  />
+                </Space>
+              ))}
 
             {!isStandalone && (
               <ButtonContainer isHidden={isActive}>
