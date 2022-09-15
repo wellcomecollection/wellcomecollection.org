@@ -294,7 +294,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return hasContentOfDesiredType ? (
-          <Stop key={index} id={dasherize(title)}>
+          <Stop key={index} id={dasherize(`${title}`)}>
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
                 <AudioPlayer
@@ -314,7 +314,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             )}
           </Stop>
         ) : (
-          <Stop key={index} id={dasherize(title)}>
+          <Stop key={index} id={dasherize(`${title}`)}>
             <span className={font('intb', 5)}>
               {number}. {title}
             </span>
