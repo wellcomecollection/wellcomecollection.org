@@ -131,7 +131,7 @@ export function transformExhibitionGuide(
   );
 
   const promo = isFilledLinkToDocumentWithData(data['related-exhibition'])
-    ? transformImagePromo(data['related-exhibition'].data.promo as any)
+    ? transformImagePromo(data['related-exhibition'].data.promo)
     : undefined;
 
   const relatedExhibition = isFilledLinkToDocumentWithData(
