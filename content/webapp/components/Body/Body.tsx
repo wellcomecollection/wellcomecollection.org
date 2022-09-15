@@ -472,35 +472,33 @@ const Body: FunctionComponent<Props> = ({
                     </LayoutWidth>
                   )}
                   {!slice.value.showClosingTimes && (
-                    <>
-                      <Layout
-                        gridSizes={
-                          slice.weight === 'featured'
-                            ? {
-                                s: 12,
-                                m: 12,
-                                l: 11,
-                                shiftL: 1,
-                                xl: 10,
-                                shiftXL: 2,
-                              }
-                            : {
-                                s: 12,
-                                m: 10,
-                                shiftM: 1,
-                                l: 8,
-                                shiftL: 2,
-                                xl: 8,
-                                shiftXL: 2,
-                              }
-                        }
-                      >
-                        <VenueHours
-                          venue={slice.value.content}
-                          weight={slice.weight || 'default'}
-                        />
-                      </Layout>
-                    </>
+                    <Layout
+                      gridSizes={
+                        slice.weight === 'featured'
+                          ? {
+                              s: 12,
+                              m: 12,
+                              l: 11,
+                              shiftL: 1,
+                              xl: 10,
+                              shiftXL: 2,
+                            }
+                          : {
+                              s: 12,
+                              m: 10,
+                              shiftM: 1,
+                              l: 8,
+                              shiftL: 2,
+                              xl: 8,
+                              shiftXL: 2,
+                            }
+                      }
+                    >
+                      <VenueHours
+                        venue={slice.value.content}
+                        weight={slice.weight || 'default'}
+                      />
+                    </Layout>
                   )}
                 </SpacingComponent>
               )}
