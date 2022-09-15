@@ -260,7 +260,7 @@ const Stop: FC<{
               {!hasContext && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
-                  id={dasherize(`${title}`)}
+                  id={dasherize(title)}
                 >
                   {title}
                 </TombstoneTitle>
