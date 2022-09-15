@@ -12,7 +12,7 @@ export type ExhibitionLink = {
 
 export type ExhibitionGuideComponent = {
   number: number;
-  standaloneTitle: RichTextField;
+  standaloneTitle: string;
   title: string;
   image?: ImageType;
   tombstone: RichTextField;

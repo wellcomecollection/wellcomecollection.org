@@ -5,11 +5,15 @@ import {
   Exhibit,
 } from '../../../types/exhibition-guides';
 import { asRichText, asText, asTitle } from '.';
-import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
+import {
+  ExhibitionGuideComponentPrismicDocument,
+  ExhibitionGuidePrismicDocument,
+} from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { getYouTubeEmbedUrl } from 'utils/embed-urls';
 import * as prismicT from '@prismicio/types';
+import { transformImage } from '@weco/common/services/prismic/transformers/images';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -107,19 +111,16 @@ export function transformExhibitionGuide(
   const { data } = document;
 
   const components: ExhibitionGuideComponent[] = data.components?.map(
-    component => {
+    (component: ExhibitionGuideComponentPrismicDocument) => {
       return {
-        number: component.number || '',
+        number: component.number!,
         title: asTitle(component.title),
-        standaloneTitle:
-          (component.title && asText(component.standaloneTitle)) || [],
-        tombstone:
-          (component.tombstone && asRichText(component.tombstone)) || [],
-        image: component.image,
-        context: (component.context && asRichText(component.context)) || [],
-        caption: (component.caption && asRichText(component.caption)) || [],
-        transcription:
-          (component.transcript && asRichText(component.transcript)) || [],
+        standaloneTitle: asTitle(component.standaloneTitle),
+        tombstone: asRichText(component.tombstone) || [],
+        image: transformImage(component.image),
+        context: asRichText(component.context) || [],
+        caption: asRichText(component.caption) || [],
+        transcription: asRichText(component.transcript) || [],
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
         bsl: component['bsl-video'].provider_name
