@@ -15,7 +15,7 @@ export type ExhibitionGuideComponent = {
   standaloneTitle: string;
   title: string;
   image?: ImageType;
-  tombstone: RichTextField;
+  tombstone?: RichTextField;
   caption: RichTextField;
   transcription: RichTextField;
   context?: RichTextField;
