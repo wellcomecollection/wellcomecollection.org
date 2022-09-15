@@ -129,7 +129,7 @@ export function transformExhibitionGuide(
         number: component.number!,
         title: asTitle(component.title),
         standaloneTitle: asTitle(component.standaloneTitle),
-        tombstone: asRichText(component.tombstone) || [],
+        tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
         context: asRichText(component.context),
         caption: asRichText(component.caption) || [],
