@@ -133,7 +133,7 @@ export function transformExhibitionGuide(
         image: transformImage(component.image),
         context: asRichText(component.context),
         caption: asRichText(component.caption),
-        transcription: asRichText(component.transcript) || [],
+        transcription: asRichText(component.transcript),
         audioWithDescription: component['audio-with-description'] as any, // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'] as any, // TODO make the same as other audio transforms
         bsl: component['bsl-video'].provider_name
