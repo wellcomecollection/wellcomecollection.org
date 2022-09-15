@@ -44,7 +44,7 @@ describe('isSameDay', () => {
     );
     const september19Midday = new Date(
       // aka Sun Sep 18 2022 11:00:00 UTC
-     'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
+      'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
     );
 
     it('says midnight {x} BST in London is on the same day as midday {x} BST using a comparison mode of "London"', () => {
