@@ -139,7 +139,6 @@ export function transformExhibitionGuide(
     }
   );
 
-  const introText = (data.introText && asRichText(data.introText)) || [];
   const promo =
     (data['related-exhibition'].data.promo &&
       transformImagePromo(data['related-exhibition'].data.promo)) ||
@@ -153,7 +152,7 @@ export function transformExhibitionGuide(
 
   return {
     title: relatedExhibition?.title || '',
-    introText,
+    introText: asRichText(data.introText),
     type: 'exhibition-guides',
     promo,
     relatedExhibition,

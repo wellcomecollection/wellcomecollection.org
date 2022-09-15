@@ -36,7 +36,7 @@ export type Exhibit = {
 
 export type ExhibitionGuideBasic = {
   title: string;
-  introText: RichTextField;
+  introText?: RichTextField;
   type: 'exhibition-guides' | 'exhibition-guides-links';
   id: string;
   image?: ImageType;

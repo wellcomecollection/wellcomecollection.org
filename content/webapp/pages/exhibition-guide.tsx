@@ -503,10 +503,8 @@ const ExhibitionGuidePage: FC<Props> = props => {
                   <div className="h1">{getTypeTitle(type)}</div>
                 </h1>
 
-                {exhibitionGuide.introText?.length > 0 ? (
-                  <PrismicHtmlBlock
-                    html={exhibitionGuide.introText as prismicT.RichTextField}
-                  />
+                {exhibitionGuide.introText ? (
+                  <PrismicHtmlBlock html={exhibitionGuide.introText} />
                 ) : (
                   exhibitionGuide.relatedExhibition && (
                     <p>{exhibitionGuide.relatedExhibition.description}</p>
