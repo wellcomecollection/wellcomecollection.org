@@ -16,7 +16,7 @@ export type ExhibitionGuideComponent = {
   title: string;
   image?: ImageType;
   tombstone?: RichTextField;
-  caption: RichTextField;
+  caption?: RichTextField;
   transcription: RichTextField;
   context?: RichTextField;
   audioWithDescription?: Link;

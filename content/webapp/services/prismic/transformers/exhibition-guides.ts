@@ -132,7 +132,7 @@ export function transformExhibitionGuide(
         tombstone: asRichText(component.tombstone),
         image: transformImage(component.image),
         context: asRichText(component.context),
-        caption: asRichText(component.caption) || [],
+        caption: asRichText(component.caption),
         transcription: asRichText(component.transcript) || [],
         audioWithDescription: component['audio-with-description'] as any, // TODO make the same as other audio transforms
         audioWithoutDescription: component['audio-without-description'] as any, // TODO make the same as other audio transforms

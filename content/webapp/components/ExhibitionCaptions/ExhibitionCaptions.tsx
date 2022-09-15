@@ -136,7 +136,7 @@ type Stop = {
   title: string;
   image?: ImageType;
   tombstone?: prismicT.RichTextField;
-  caption: prismicT.RichTextField;
+  caption?: prismicT.RichTextField;
   context?: prismicT.RichTextField;
   transcription?: prismicT.RichTextField;
 };
@@ -287,7 +287,7 @@ const Stop: FC<{
                 </>
               )}
 
-              {caption.length > 0 && (
+              {caption && (
                 <Caption>
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
