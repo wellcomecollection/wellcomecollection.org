@@ -120,7 +120,7 @@ export function transformExhibitionGuide(
     component => {
       return {
         number: component.number || '',
-        title: (component.title && asText(component.title)) || [],
+        title: (component.title && asText(component.title)) || '',
         standaloneTitle:
           (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
