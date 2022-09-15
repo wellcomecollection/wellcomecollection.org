@@ -121,8 +121,8 @@ export function transformExhibitionGuide(
         context: asRichText(component.context),
         caption: asRichText(component.caption) || [],
         transcription: asRichText(component.transcript) || [],
-        audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
-        audioWithoutDescription: component['audio-without-description'], // TODO make the same as other audio transforms
+        audioWithDescription: component['audio-with-description'] as any, // TODO make the same as other audio transforms
+        audioWithoutDescription: component['audio-without-description'] as any, // TODO make the same as other audio transforms
         bsl: component['bsl-video'].provider_name
           ? transformYoutubeEmbed(component['bsl-video'])
           : {},
@@ -130,10 +130,9 @@ export function transformExhibitionGuide(
     }
   );
 
-  const promo =
-    (data['related-exhibition'].data.promo &&
-      transformImagePromo(data['related-exhibition'].data.promo)) ||
-    '';
+  const promo = isFilledLinkToDocumentWithData(data['related-exhibition'])
+    ? transformImagePromo(data['related-exhibition'].data.promo as any)
+    : undefined;
 
   const relatedExhibition = isFilledLinkToDocumentWithData(
     data['related-exhibition']
