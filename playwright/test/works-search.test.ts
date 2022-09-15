@@ -60,7 +60,7 @@ const navigateToNextPage = async (page: Page) => {
   // another hack
   await Promise.all([
     safeWaitForNavigation(page),
-    page.click('[aria-label="Pagination navigation"]:nth-of-type(1) a'),
+    page.click('[aria-label="pagination"]:nth-of-type(1) a'),
   ]);
 };
 
