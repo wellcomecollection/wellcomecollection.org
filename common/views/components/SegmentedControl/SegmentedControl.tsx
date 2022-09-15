@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -211,7 +211,7 @@ class SegmentedControl extends Component<Props, State> {
     isActive: false,
   };
 
-  setActiveId(id: string) {
+  setActiveId(id: string): void {
     this.setState({
       activeId: id,
     });
@@ -221,13 +221,13 @@ class SegmentedControl extends Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.setActiveId(
       this.props.activeId || (this.props.items[0] && this.props.items[0].id)
     );
   }
 
-  render() {
+  render(): ReactElement {
     const { id, items, extraClasses } = this.props;
     const { activeId, isActive } = this.state;
 
@@ -269,7 +269,7 @@ class SegmentedControl extends Component<Props, State> {
                 <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
-                      const url = e.currentTarget.getAttribute('href')!;
+                      const url = e.currentTarget.href;
                       const isHash = url.startsWith('#');
 
                       trackEvent({
@@ -305,7 +305,7 @@ class SegmentedControl extends Component<Props, State> {
               <ItemInner
                 isActive={item.id === activeId}
                 onClick={e => {
-                  const url = e.currentTarget.getAttribute('href')!;
+                  const url = e.currentTarget.href;
                   const isHash = url.startsWith('#');
 
                   trackEvent({
