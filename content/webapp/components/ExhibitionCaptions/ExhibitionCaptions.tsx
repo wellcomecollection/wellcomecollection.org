@@ -145,15 +145,20 @@ type Props = {
   stops: Stop[];
 };
 
-function includesStandaloneTitle(stop) {
+function includesStandaloneTitle(stop: Stop) {
   return Boolean(stop.standaloneTitle.length > 0);
 }
 
-function includesContextTitle(stop) {
-  return Boolean(stop.context.length > 0);
+function includesContextTitle(stop: Stop) {
+  return Boolean(stop.context && stop.context.length > 0);
 }
 
-function calculateTombstoneHeadingLevel(titlesUsed) {
+type TitlesUsed = {
+  standalone: boolean;
+  context: boolean;
+};
+
+function calculateTombstoneHeadingLevel(titlesUsed: TitlesUsed) {
   if (titlesUsed.standalone && titlesUsed.context) {
     return 4;
   } else if (titlesUsed.standalone || titlesUsed.context) {
@@ -166,10 +171,7 @@ function calculateTombstoneHeadingLevel(titlesUsed) {
 const Stop: FC<{
   stop: Stop;
   isFirstStop: boolean;
-  titlesUsed: {
-    standalone: boolean;
-    context: boolean;
-  };
+  titlesUsed: TitlesUsed;
 }> = ({ stop, isFirstStop, titlesUsed }) => {
   const {
     standaloneTitle,
