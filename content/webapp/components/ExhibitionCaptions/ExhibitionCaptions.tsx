@@ -226,7 +226,7 @@ const Stop: FC<{
           )}
           <div className="flex flex--wrap">
             <Tombstone />
-            {/* This empty Tombstone is needed for correct alignmennt of the standaloneTitle */}
+            {/* This empty Tombstone is needed for correct alignment of the standaloneTitle */}
             <Space
               h={{
                 size: 'm',
@@ -292,11 +292,7 @@ const Stop: FC<{
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
-                        <PrismicImage
-                          image={image}
-                          sizes={{}}
-                          quality="low"
-                        />
+                        <PrismicImage image={image} sizes={{}} quality="low" />
                       </PrismicImageWrapper>
                     </Space>
                   )}
