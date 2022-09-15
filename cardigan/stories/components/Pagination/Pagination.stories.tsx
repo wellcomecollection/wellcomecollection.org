@@ -5,7 +5,7 @@ export const basic = Template.bind({});
 basic.args = {
   prevPage: 1,
   currentPage: 2,
-  pageCount: 10,
+  totalPages: 10,
   nextPage: 3,
   prevQueryString: '#',
   nextQueryString: '#',
