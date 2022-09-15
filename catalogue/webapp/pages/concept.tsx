@@ -122,6 +122,7 @@ export const ConceptPage: NextPage<Props> = ({
         <div className="container">
           <TypeLabel>{conceptResponse.type}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
+            {/* TODO it all comes out as subject, chase if it doesn't change */}
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             {/* TODO get copy from Jonathan */}
             <ConceptDescription className="font-size-5">
@@ -146,7 +147,7 @@ export const ConceptPage: NextPage<Props> = ({
                     id: 'images-about',
                     text: (
                       <>
-                        {`About ${conceptResponse.type.toLowerCase()} `}
+                        {`About this ${conceptResponse.type.toLowerCase()} `}
                         <span className="is-hidden-s">{`(${imagesAbout.totalResults})`}</span>
                       </>
                     ),
@@ -156,7 +157,7 @@ export const ConceptPage: NextPage<Props> = ({
                     id: 'images-by',
                     text: (
                       <>
-                        {`By ${conceptResponse.type.toLowerCase()} `}
+                        {`By this ${conceptResponse.type.toLowerCase()} `}
                         <span className="is-hidden-s">{`(${imagesBy.totalResults})`}</span>
                       </>
                     ),
@@ -224,7 +225,7 @@ export const ConceptPage: NextPage<Props> = ({
                       id: 'works-about',
                       text: (
                         <>
-                          {`About ${conceptResponse.type.toLowerCase()} `}
+                          {`About this ${conceptResponse.type.toLowerCase()} `}
                           <span className="is-hidden-s">{`(${worksAbout.totalResults})`}</span>
                         </>
                       ),
@@ -234,7 +235,7 @@ export const ConceptPage: NextPage<Props> = ({
                       id: 'works-by',
                       text: (
                         <>
-                          {`By ${conceptResponse.type.toLowerCase()} `}
+                          {`By this ${conceptResponse.type.toLowerCase()} `}
                           <span className="is-hidden-s">{`(${worksBy.totalResults})`}</span>
                         </>
                       ),
@@ -334,13 +335,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const imagesAboutPromise = getImages({
       params: { 'source.subjects.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 8,
+      pageSize: 10,
     });
 
     const imagesByPromise = getImages({
       params: { 'source.contributors.agent.label': [conceptResponse.label] },
       toggles: serverData.toggles,
-      pageSize: 8,
+      pageSize: 10,
     });
 
     const [

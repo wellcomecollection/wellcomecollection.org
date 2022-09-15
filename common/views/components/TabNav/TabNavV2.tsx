@@ -12,8 +12,6 @@ import { TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 type SelectableTextLink = {
   id: string;
   text: ReactNode;
-  // TODO we probably want optional anchors here so people can share the url/go back to the correct section?
-  // link: NextLinkType;
   selected: boolean;
 };
 
