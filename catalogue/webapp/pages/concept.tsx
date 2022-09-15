@@ -41,7 +41,7 @@ type Props = {
 const leadingColor = 'yellow';
 
 const ConceptHero = styled(Space).attrs({
-  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+  v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
   background-color: ${props => props.theme.color(leadingColor, 'light')};
 `;
@@ -53,7 +53,7 @@ const HeroTitle = styled.h1.attrs({ className: 'font-intb' })`
 `;
 
 const TypeLabel = styled.span.attrs({ className: 'font-size-6' })`
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.color('cream', 'dark')};
   padding: 5px;
 `;
 
@@ -112,7 +112,7 @@ export const ConceptPage: NextPage<Props> = ({
     // TODO fill meta information; who decides this?
     <CataloguePageLayout
       title={conceptResponse.label}
-      description="<TBC>"
+      description={`Find out more about ${conceptResponse.label} by browsing related works and images from the Wellcome Collection.`}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
@@ -124,7 +124,7 @@ export const ConceptPage: NextPage<Props> = ({
           <ConceptDescription>
             <TypeLabel>{conceptResponse.type}</TypeLabel>
             <Space
-              v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
+              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
             >
               <HeroTitle>{conceptResponse.label}</HeroTitle>
             </Space>
@@ -186,7 +186,7 @@ export const ConceptPage: NextPage<Props> = ({
                   />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
-                    link={`/images?source.subjects.label=${conceptResponse.label}`}
+                    link={`/images?source.contributors.agent.label=${conceptResponse.label}`}
                   />
                 </>
               )}
