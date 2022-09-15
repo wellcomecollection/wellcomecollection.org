@@ -46,10 +46,8 @@ const ConceptHero = styled(Space).attrs({
   background-color: ${props => props.theme.color(leadingColor, 'light')};
 `;
 
-// TODO The biggest preset typo right now is 40px, this is 54px. Add?
-const HeroTitle = styled.h1.attrs({ className: 'font-intb' })`
-  font-size: 3.375rem;
-  line-height: 1.2;
+const HeroTitle = styled.h1.attrs({ className: 'font-intb font-size-1' })`
+  margin-bottom: 1rem;
 `;
 
 const TypeLabel = styled.span.attrs({ className: 'font-size-6' })`
@@ -74,8 +72,9 @@ const ConceptImages = styled(Space).attrs({
 const ConceptWorksHeader = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top'] },
 })<{ hasWorksTabs: boolean }>`
-  background-color: ${({ hasWorksTabs, theme }) =>
-    hasWorksTabs ? theme.color('cream') : 'white'};
+  background-color: ${({ hasWorksTabs }) =>
+    // todo add this colour to palette to replace paler yellow? or keep both?
+    hasWorksTabs ? '#fbfaf4' : 'white'};
 `;
 
 const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
@@ -121,14 +120,15 @@ export const ConceptPage: NextPage<Props> = ({
     >
       <ConceptHero>
         <div className="container">
-          <ConceptDescription>
-            <TypeLabel>{conceptResponse.type}</TypeLabel>
-            <Space
-              v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <HeroTitle>{conceptResponse.label}</HeroTitle>
-            </Space>
-          </ConceptDescription>
+          <TypeLabel>{conceptResponse.type}</TypeLabel>
+          <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
+            <HeroTitle>{conceptResponse.label}</HeroTitle>
+            {/* TODO get copy from Jonathan */}
+            <ConceptDescription className="font-size-5">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+              dapibus suscipit enim nec aliquam.
+            </ConceptDescription>
+          </Space>
         </div>
       </ConceptHero>
 
@@ -139,24 +139,30 @@ export const ConceptPage: NextPage<Props> = ({
 
             {hasImagesTabs && (
               <TabNavV2
+                id="images"
+                selectedTab={selectedImagesTab}
                 items={[
                   {
                     id: 'images-about',
-                    text: `Images about ${conceptResponse.label} ${
-                      imagesAbout ? `(${imagesAbout.totalResults})` : ''
-                    }`,
+                    text: (
+                      <>
+                        {`About ${conceptResponse.type.toLowerCase()} `}
+                        <span className="is-hidden-s">{`(${imagesAbout.totalResults})`}</span>
+                      </>
+                    ),
                     selected: selectedImagesTab === 'images-about',
                   },
                   {
                     id: 'images-by',
-                    text: `Images by ${conceptResponse.label} ${
-                      imagesBy ? `(${imagesBy.totalResults})` : ''
-                    }`,
+                    text: (
+                      <>
+                        {`By ${conceptResponse.type.toLowerCase()} `}
+                        <span className="is-hidden-s">{`(${imagesBy.totalResults})`}</span>
+                      </>
+                    ),
                     selected: selectedImagesTab === 'images-by',
                   },
                 ]}
-                // TODO do we want to change these? Decide when we land on a color
-                // color={leadingColor}
                 setSelectedTab={setSelectedImagesTab}
                 isDarkMode
               />
@@ -164,7 +170,11 @@ export const ConceptPage: NextPage<Props> = ({
             <Space v={{ size: 'l', properties: ['margin-top'] }}>
               {((hasImagesTabs && selectedImagesTab === 'images-about') ||
                 (!hasImagesTabs && !!imagesAbout?.totalResults)) && (
-                <>
+                <div
+                  role="tabpanel"
+                  id="tabpanel-imagesAbout"
+                  aria-labelledby="tab-imagesAbout"
+                >
                   <ImageEndpointSearchResults
                     images={imagesAbout}
                     background="transparent"
@@ -175,11 +185,15 @@ export const ConceptPage: NextPage<Props> = ({
                       link={`/images?source.subjects.label=${conceptResponse.label}`}
                     />
                   </Space>
-                </>
+                </div>
               )}
               {((hasImagesTabs && selectedImagesTab === 'images-by') ||
                 (!hasImagesTabs && !!imagesBy?.totalResults)) && (
-                <>
+                <div
+                  role="tabpanel"
+                  id="tabpanel-imagesBy"
+                  aria-labelledby="tab-imagesBy"
+                >
                   <ImageEndpointSearchResults
                     images={imagesBy}
                     background="transparent"
@@ -188,7 +202,7 @@ export const ConceptPage: NextPage<Props> = ({
                     text={`All images (${imagesBy.totalResults})`}
                     link={`/images?source.contributors.agent.label=${conceptResponse.label}`}
                   />
-                </>
+                </div>
               )}
             </Space>
           </div>
@@ -203,24 +217,30 @@ export const ConceptPage: NextPage<Props> = ({
               {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
                 <TabNavV2
+                  id="works"
+                  selectedTab={selectedWorksTab}
                   items={[
                     {
                       id: 'works-about',
-                      text: `Works about ${conceptResponse.label} ${
-                        worksAbout ? `(${worksAbout.totalResults})` : ''
-                      }`,
+                      text: (
+                        <>
+                          {`About ${conceptResponse.type.toLowerCase()} `}
+                          <span className="is-hidden-s">{`(${worksAbout.totalResults})`}</span>
+                        </>
+                      ),
                       selected: selectedWorksTab === 'works-about',
                     },
                     {
                       id: 'works-by',
-                      text: `Works by ${conceptResponse.label} ${
-                        worksBy ? `(${worksBy.totalResults})` : ''
-                      }`,
+                      text: (
+                        <>
+                          {`By ${conceptResponse.type.toLowerCase()} `}
+                          <span className="is-hidden-s">{`(${worksBy.totalResults})`}</span>
+                        </>
+                      ),
                       selected: selectedWorksTab === 'works-by',
                     },
                   ]}
-                  // TODO do we want to change these? Decide when we land on a color
-                  // color={leadingColor}
                   setSelectedTab={setSelectedWorksTab}
                 />
               )}
@@ -237,7 +257,11 @@ export const ConceptPage: NextPage<Props> = ({
             <div className="container">
               {((hasWorksTabs && selectedWorksTab === 'works-about') ||
                 (!hasWorksTabs && !!worksAbout?.totalResults)) && (
-                <div role="tabpanel">
+                <div
+                  role="tabpanel"
+                  id="tabpanel-worksAbout"
+                  aria-labelledby="tab-worksAbout"
+                >
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
@@ -250,7 +274,11 @@ export const ConceptPage: NextPage<Props> = ({
               )}
               {((hasWorksTabs && selectedWorksTab === 'works-by') ||
                 (!hasWorksTabs && !!worksBy?.totalResults)) && (
-                <div role="tabpanel">
+                <div
+                  role="tabpanel"
+                  id="tabpanel-worksBy"
+                  aria-labelledby="tab-worksBy"
+                >
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
