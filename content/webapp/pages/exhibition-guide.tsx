@@ -5,7 +5,6 @@ import {
 } from '../types/exhibition-guides';
 import { getCookie, hasCookie, setCookie, deleteCookie } from 'cookies-next';
 import { PaginatedResults } from '@weco/common/services/prismic/types';
-import * as prismicT from '@prismicio/types';
 import { createClient } from '../services/prismic/fetch';
 import {
   fetchExhibitionGuide,
