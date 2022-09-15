@@ -9,11 +9,15 @@ import {
   ExhibitionGuideComponentPrismicDocument,
   ExhibitionGuidePrismicDocument,
 } from '../types/exhibition-guides';
-import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
+import {
+  InferDataInterface,
+  isFilledLinkToDocumentWithData,
+} from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
 import { getYouTubeEmbedUrl } from 'utils/embed-urls';
 import * as prismicT from '@prismicio/types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
+import { ExhibitionPrismicDocument } from '../types/exhibitions';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -83,16 +87,25 @@ export function transformExhibitionGuideToExhibitionGuideBasic(
   }))(exhibitionGuide);
 }
 
-function transformRelatedExhibition(exhibition): Exhibit {
-  return {
-    exhibitType: 'exhibitions',
-    item: undefined,
-    id: exhibition.id,
-    title: asTitle(exhibition.data.title),
-    description:
-      exhibition.data &&
-      asText(exhibition.data.promo[0].primary.caption[0].text),
-  };
+function transformRelatedExhibition(
+  exhibition: prismicT.RelationField<
+    'exhibitions',
+    'en-gb',
+    InferDataInterface<ExhibitionPrismicDocument>
+  >
+): Exhibit | undefined {
+  return isFilledLinkToDocumentWithData(exhibition)
+    ? {
+        exhibitType: 'exhibitions',
+        item: undefined,
+        id: exhibition.id,
+        title: asTitle(exhibition.data.title),
+        description:
+          (exhibition.data?.promo[0] &&
+            asText(exhibition.data.promo[0]?.primary.caption)) ||
+          '',
+      }
+    : undefined;
 }
 
 function transformYoutubeEmbed(embed: prismicT.EmbedField): {
@@ -134,11 +147,9 @@ export function transformExhibitionGuide(
     ? transformImagePromo(data['related-exhibition'].data.promo)
     : undefined;
 
-  const relatedExhibition = isFilledLinkToDocumentWithData(
+  const relatedExhibition = transformRelatedExhibition(
     data['related-exhibition']
-  )
-    ? transformRelatedExhibition(data['related-exhibition'])
-    : undefined;
+  );
 
   return {
     title: relatedExhibition?.title || '',
