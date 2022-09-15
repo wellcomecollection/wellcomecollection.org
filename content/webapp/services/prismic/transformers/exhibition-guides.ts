@@ -88,7 +88,7 @@ function transformRelatedExhibition(exhibition): Exhibit {
     exhibitType: 'exhibitions',
     item: undefined,
     id: exhibition.id,
-    title: (exhibition.data && asText(exhibition.data.title)) || '',
+    title: asTitle(exhibition.data.title),
     description:
       exhibition.data &&
       asText(exhibition.data.promo[0].primary.caption[0].text),
