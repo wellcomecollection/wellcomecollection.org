@@ -57,6 +57,7 @@ import { transformArticle } from './articles';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
 import { transformCard } from './card';
+import { getYouTubeEmbedUrl } from 'utils/embed-urls';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
@@ -396,27 +397,13 @@ function transformEmbedSlice(slice: EmbedSlice): BodySlice | undefined {
   }
 
   if (embed.provider_name === 'YouTube') {
-    // The embed will be a blob of HTML of the form
-    //
-    //    <iframe src=\"https://www.youtube.com/embed/RTlA8X0EJ7w...\" ...></iframe>
-    //
-    // We want to add the query parameter ?rel=0
-    const embedUrl = slice.primary.embed.html!.match(/src="([^"]+)"?/)![1];
-
-    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-      'www.youtube.com',
-      'www.youtube-nocookie.com'
-    );
-
-    const newEmbedUrl = embedUrl.includes('?')
-      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
+    const embedUrl = getYouTubeEmbedUrl(slice.primary.embed);
 
     return {
       type: 'videoEmbed',
       weight: getWeight(slice.slice_label),
       value: {
-        embedUrl: newEmbedUrl,
+        embedUrl,
         caption: slice.primary.caption,
       },
     };

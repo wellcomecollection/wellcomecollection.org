@@ -8,6 +8,8 @@ import { asRichText, asText } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
+import { getYouTubeEmbedUrl } from 'utils/embed-urls';
+import * as prismicT from '@prismicio/types';
 
 // TODO It's likely that we will need to construct a hierarchy of components within a guide.
 // For example, to facilitate collapsing sections in the UI.
@@ -89,26 +91,14 @@ function transformRelatedExhibition(exhibition): Exhibit {
   };
 }
 
-function transformYoutubeEmbed(embed) {
-  // TODO share some of this with transformEmbedSlice?
-  if (embed.provider_url === 'https://www.youtube.com/') {
-    const embedUrl = embed.html!.match(/src="([^"]+)"?/)![1];
-
-    const embedUrlWithEnhancedPrivacy = embedUrl.replace(
-      'www.youtube.com',
-      'www.youtube-nocookie.com'
-    );
-
-    const newEmbedUrl = embedUrl.includes('?')
-      ? embedUrlWithEnhancedPrivacy.replace('?', '?rel=0&')
-      : `${embedUrlWithEnhancedPrivacy}?rel=0`;
-
-    return {
-      embedUrl: newEmbedUrl as string,
-    };
-  } else {
-    return {};
-  }
+function transformYoutubeEmbed(embed: prismicT.EmbedField): {
+  embedUrl?: string;
+} {
+  return embed.provider_url === 'https://www.youtube.com/'
+    ? {
+        embedUrl: getYouTubeEmbedUrl(embed),
+      }
+    : {};
 }
 
 export function transformExhibitionGuide(
