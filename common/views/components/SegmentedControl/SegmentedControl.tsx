@@ -175,10 +175,10 @@ const Wrapper = styled.div.attrs({})<IsActiveProps>`
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `${font(
-    'wb',
-    4
-  )} segmented-control__button-text font-white flex--h-space-between rounded-diagonal`,
+  className:
+    font('wb', 4) +
+    ' ' +
+    'segmented-control__button-text font-white flex--h-space-between rounded-diagonal',
 })`
   display: flex;
   background-color: ${props => props.theme.color('black')};

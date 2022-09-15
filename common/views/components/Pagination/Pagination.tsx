@@ -28,10 +28,11 @@ const Pagination: FunctionComponent<Props> = ({
   prevQueryString,
 }: Props) => (
   <div
-    className={`pagination float-r flex-inline flex--v-center font-pewter ${font(
-      'lr',
-      6
-    )}`}
+    className={
+      'pagination float-r flex-inline flex--v-center font-pewter' +
+      ' ' +
+      font('lr', 6)
+    }
   >
     {prevPage && prevQueryString && (
       <Space as="span" h={{ size: 'm', properties: ['margin-right'] }}>
