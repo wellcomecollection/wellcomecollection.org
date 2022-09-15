@@ -118,7 +118,7 @@ export function transformExhibitionGuide(
         standaloneTitle: asTitle(component.standaloneTitle),
         tombstone: asRichText(component.tombstone) || [],
         image: transformImage(component.image),
-        context: asRichText(component.context) || [],
+        context: asRichText(component.context),
         caption: asRichText(component.caption) || [],
         transcription: asRichText(component.transcript) || [],
         audioWithDescription: component['audio-with-description'], // TODO make the same as other audio transforms
