@@ -108,7 +108,7 @@ export const ConceptPage: NextPage<Props> = ({
   const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
 
   return (
-    // TODO fill meta information; who decides this?
+    // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
       description={`Find out more about ${conceptResponse.label} by browsing related works and images from the Wellcome Collection.`}
@@ -133,6 +133,7 @@ export const ConceptPage: NextPage<Props> = ({
         </div>
       </ConceptHero>
 
+      {/* Images */}
       {hasImages && (
         <ConceptImages as="section">
           <div className="container">
@@ -210,12 +211,12 @@ export const ConceptPage: NextPage<Props> = ({
         </ConceptImages>
       )}
 
+      {/* Works */}
       {hasWorks && (
         <>
           <ConceptWorksHeader as="div" hasWorksTabs={hasWorksTabs}>
             <div className="container">
               <h2 className="h2">Works</h2>
-              {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
                 <TabNavV2
                   id="works"
