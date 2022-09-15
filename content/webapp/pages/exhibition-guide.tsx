@@ -468,6 +468,7 @@ const ExhibitionGuidePage: FC<Props> = props => {
         customNavLinks: exhibitionGuidesLinks,
         showLibraryLogin: false,
       }}
+      hideGlobalAlert={true}
       hideNewsletterPromo={true}
       hideFooter={true}
     >

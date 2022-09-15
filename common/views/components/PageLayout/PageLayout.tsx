@@ -48,6 +48,7 @@ export type Props = {
   image?: ImageType;
   rssUrl?: string;
   children: ReactNode;
+  hideGlobalAlert?: boolean;
   hideNewsletterPromo?: boolean;
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
@@ -64,6 +65,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   image,
   rssUrl,
   children,
+  hideGlobalAlert = false,
   hideNewsletterPromo = false,
   hideFooter = false,
   excludeRoleMain = false,
@@ -261,6 +263,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
         <Header siteSection={siteSection} {...headerProps} />
 
         {globalAlert.data.isShown === 'show' &&
+          !hideGlobalAlert &&
           (!globalAlert.data.routeRegex ||
             urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
             <InfoBanner
