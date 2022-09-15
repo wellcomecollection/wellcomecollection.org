@@ -26,7 +26,6 @@ import {
 
 // Styles
 import styled from 'styled-components';
-import { font } from '@weco/common/utils/classnames';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
@@ -41,17 +40,19 @@ type Props = {
 
 const leadingColor = 'yellow';
 
-const ConceptHero = styled(Space)`
+const ConceptHero = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
   background-color: ${props => props.theme.color(leadingColor, 'light')};
 `;
 
 // TODO The biggest preset typo right now is 40px, this is 54px. Add?
-const HeroTitle = styled.h1`
+const HeroTitle = styled.h1.attrs({ className: 'font-intb' })`
   font-size: 3.375rem;
   line-height: 1.2;
 `;
 
-const TypeLabel = styled.span`
+const TypeLabel = styled.span.attrs({ className: 'font-size-6' })`
   background-color: ${props => props.theme.color('cream')};
   padding: 5px;
 `;
@@ -60,7 +61,9 @@ const ConceptDescription = styled.section`
   max-width: 600px;
 `;
 
-const ConceptImages = styled(Space)`
+const ConceptImages = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
   background-color: ${props => props.theme.color('black')};
 
   .sectionTitle {
@@ -68,37 +71,12 @@ const ConceptImages = styled(Space)`
   }
 `;
 
-const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
+const ConceptWorksHeader = styled(Space).attrs({
+  v: { size: 'xl', properties: ['padding-top'] },
+})<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs, theme }) =>
     hasWorksTabs ? theme.color('cream') : 'white'};
 `;
-
-// Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api
-// const FAKE_DATA = {
-//   id: 'azxzhnuh',
-//   identifiers: [
-//     {
-//       identifierType: 'lc-names',
-//       value: 'n12345678',
-//       type: 'Identifier',
-//     },
-//   ],
-
-//   label: 'Florence Nightingale',
-//   alternativeLabels: ['The Lady with the Lamp'],
-
-//   type: 'Person',
-//   description:
-//     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis lacinia mauris id condimentum. Donec elementum dictum urna, id interdum massa imperdiet vel. Phasellus ultricies, lacus vitae efficitur pellentesque, magna ipsum pharetra metus, vel dictum ex enim et purus.',
-
-//   // not locations
-//   urls: [
-//     {
-//       label: 'Read more on Wikipedia',
-//       url: '#',
-//     },
-//   ],
-// };
 
 const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
   <ButtonSolidLink
@@ -141,32 +119,23 @@ export const ConceptPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       hideNewsletterPromo={true}
     >
-      <ConceptHero
-        v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-      >
+      <ConceptHero>
         <div className="container">
           <ConceptDescription>
-            <TypeLabel className="font-size-6">
-              {conceptResponse.type}
-            </TypeLabel>
+            <TypeLabel>{conceptResponse.type}</TypeLabel>
             <Space
               v={{ size: 'm', properties: ['margin-top', 'margin-bottom'] }}
             >
-              <HeroTitle className="font-intb">
-                {conceptResponse.label}
-              </HeroTitle>
+              <HeroTitle>{conceptResponse.label}</HeroTitle>
             </Space>
           </ConceptDescription>
         </div>
       </ConceptHero>
 
       {hasImages && (
-        <ConceptImages
-          as="section"
-          v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-        >
+        <ConceptImages as="section">
           <div className="container">
-            <h2 className={`sectionTitle ${font('wb', 3)}`}>Images</h2>
+            <h2 className="h2 sectionTitle">Images</h2>
 
             {hasImagesTabs && (
               <TabNavV2
@@ -228,13 +197,9 @@ export const ConceptPage: NextPage<Props> = ({
 
       {hasWorks && (
         <>
-          <ConceptWorksHeader
-            as="div"
-            v={{ size: 'xl', properties: ['padding-top'] }}
-            hasWorksTabs={hasWorksTabs}
-          >
+          <ConceptWorksHeader as="div" hasWorksTabs={hasWorksTabs}>
             <div className="container">
-              <h2 className={`${font('wb', 3)}`}>Works</h2>
+              <h2 className="h2">Works</h2>
               {/* TODO responsive tabs + accessible navigation */}
               {hasWorksTabs && (
                 <TabNavV2
