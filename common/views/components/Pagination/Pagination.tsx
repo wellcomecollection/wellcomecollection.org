@@ -28,8 +28,7 @@ const PaginatorContainer = styled(Space).attrs({
     overrides: { small: 5, medium: 5, large: 1 },
   },
 })`
-  float: right;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: flex-end;
 `;
