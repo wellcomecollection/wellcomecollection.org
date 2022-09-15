@@ -119,11 +119,11 @@ describe('isSameDayOrBefore', () => {
 
   it('says two times on the same day in London are the same, even if they’re different UTC days', () => {
     const date1 = new Date(
-      // = -09-01T23:30:00 UTC
+      // =    -01T23:30:00 UTC
       '2002-09-02T00:30:00+0100'
     );
     const date2 = new Date(
-      // = -09-02T00:30:00 UTC
+      // =    -02T00:30:00 UTC
       '2002-09-02T01:30:00+0100'
     );
 
