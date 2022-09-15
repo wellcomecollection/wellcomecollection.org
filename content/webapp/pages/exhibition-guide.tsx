@@ -51,6 +51,7 @@ import {
 } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { dasherize } from '@weco/common/utils/grammar';
+import { isNotUndefined } from '@weco/common/utils/array';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -354,7 +355,7 @@ const ExhibitionLinks: FC<ExhibitionLinksProps> = ({ stops, pathname }) => {
     stop => stop.bsl.embedUrl // it can't be undefined can it?
   );
   const hasCaptionsOrTranscripts = stops.some(
-    stop => stop.caption.length > 0 || stop.transcription.length > 0
+    stop => isNotUndefined(stop.caption) || isNotUndefined(stop.transcription)
   );
   const hasAudioWithoutDescriptions = stops.some(
     stop => stop.audioWithoutDescription?.url
