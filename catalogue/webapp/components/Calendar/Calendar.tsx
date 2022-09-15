@@ -164,8 +164,8 @@ function handleKeyDown(
     const moveToDate = newDate(date, key);
     setUpdateFocus(true);
     if (
-      isSameDayOrBefore(min, moveToDate, 'London') &&
-      isSameDayOrBefore(moveToDate, max, 'London')
+      isSameDayOrBefore(min, moveToDate) &&
+      isSameDayOrBefore(moveToDate, max)
     ) {
       // 'day' is for granularity, [] means inclusive (https://momentjscom.readthedocs.io/en/latest/moment/05-query/06-is-between/)
       setTabbableDate(moveToDate);

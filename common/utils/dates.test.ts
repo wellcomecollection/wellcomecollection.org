@@ -127,8 +127,22 @@ describe('isSameDayOrBefore', () => {
       '2002-09-02T01:30:00+0100'
     );
 
-    expect(isSameDayOrBefore(date1, date2, 'London')).toEqual(true);
-    expect(isSameDayOrBefore(date2, date1, 'London')).toEqual(true);
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(true);
+  });
+
+  it('knows how dates on different days in London are ordered, even if they’re the same UTC day', () => {
+    const date1 = new Date(
+      // =    -01T22:30:00 UTC
+      '2002-09-01T23:30:00+0100'
+    );
+    const date2 = new Date(
+      // =    -01T23:30:00 UTC
+      '2002-09-02T00:30:00+0100'
+    );
+
+    expect(isSameDayOrBefore(date1, date2)).toEqual(true);
+    expect(isSameDayOrBefore(date2, date1)).toEqual(false);
   });
 
   it('knows how dates on different days are ordered', () => {

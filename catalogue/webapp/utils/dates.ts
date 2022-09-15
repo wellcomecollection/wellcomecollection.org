@@ -238,14 +238,12 @@ export function isRequestableDate(params: {
         // both start and end date
         (startDate &&
           endDate &&
-          isSameDayOrBefore(startDate, date, 'London') &&
-          isSameDayOrBefore(date, endDate, 'London')) ||
+          isSameDayOrBefore(startDate, date) &&
+          isSameDayOrBefore(date, endDate)) ||
         // only start date
-        (startDate &&
-          !endDate &&
-          isSameDayOrBefore(startDate, date, 'London')) ||
+        (startDate && !endDate && isSameDayOrBefore(startDate, date)) ||
         // only end date
-        (endDate && !startDate && isSameDayOrBefore(date, endDate, 'London'))
+        (endDate && !startDate && isSameDayOrBefore(date, endDate))
     ) && // both start and end date
     !isExceptionalClosedDay &&
     !isRegularClosedDay

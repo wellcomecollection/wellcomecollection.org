@@ -53,18 +53,24 @@ export function isSameDay(
   }
 }
 
-// Note: the order of arguments to this function is designed so you can
-// concatenate them and get sensible-looking results.
-//
-//      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
-//        => isSameDayOrBefore(A, C)
-//
-export function isSameDayOrBefore(
-  date1: Date,
-  date2: Date,
-  mode: ComparisonMode = 'UTC'
-): boolean {
-  return isSameDay(date1, date2, mode) || date1 <= date2;
+/** Returns true if `date1` is on the same day or before `date2`,
+ * false otherwise.
+ *
+ * This compares the dates in London, not UTC.  See the tests for examples
+ * of edge cases where there are different UTC days but this function still
+ * returns true.
+ *
+ * Note: the order of arguments to this function is designed so you can
+ * concatenate them and get sensible-looking results.
+ *
+ *    isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
+ *      => isSameDayOrBefore(A, C)
+ *
+ * (The fancy term is "transitive".)
+ *
+ */
+export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
+  return isSameDay(date1, date2, 'London') || date1 <= date2;
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.
