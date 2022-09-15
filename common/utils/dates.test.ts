@@ -31,19 +31,19 @@ describe('isSameDay', () => {
 
   describe('ComparisonMode', () => {
     const september19Midnight = new Date(
-      // aka Sun Sep 18 2022 23:00:00 UTC
+      // = Sep 18 2022 23:00:00 UTC
       'Mon Sep 19 2022 00:00:00 GMT+0100 (British Summer Time)'
     );
     const september18TwentyThreeThirty = new Date(
-      // aka Sun Sep 18 2022 22:30:00 UTC
+      // = Sep 18 2022 22:30:00 UTC
       'Sun Sep 18 2022 23:30:00 GMT+0100 (British Summer Time)'
     );
     const september19MidnightThirty = new Date(
-      // aka Sun Sep 18 2022 23:30:00 UTC
+      // = Sep 18 2022 23:30:00 UTC
       'Mon Sep 19 2022 00:30:00 GMT+0100 (British Summer Time)'
     );
     const september19Midday = new Date(
-      // aka Sun Sep 18 2022 11:00:00 UTC
+      // = Sep 19 2022 11:00:00 UTC
       'Mon Sep 19 2022 12:00:00 GMT+0100 (British Summer Time)'
     );
 
