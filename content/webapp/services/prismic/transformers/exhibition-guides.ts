@@ -4,7 +4,7 @@ import {
   ExhibitionGuideComponent,
   Exhibit,
 } from '../../../types/exhibition-guides';
-import { asRichText, asText } from '.';
+import { asRichText, asText, asTitle } from '.';
 import { ExhibitionGuidePrismicDocument } from '../types/exhibition-guides';
 import { isFilledLinkToDocumentWithData } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
@@ -110,7 +110,7 @@ export function transformExhibitionGuide(
     component => {
       return {
         number: component.number || '',
-        title: (component.title && asText(component.title)) || '',
+        title: asTitle(component.title),
         standaloneTitle:
           (component.title && asText(component.standaloneTitle)) || [],
         tombstone:
