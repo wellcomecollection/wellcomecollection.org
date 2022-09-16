@@ -6,7 +6,7 @@ import { LinkProps } from 'next/link';
 
 type Props = {
   text: string;
-  link: LinkProps | string;
+  link: LinkProps;
   leadingColor: PaletteColor;
 };
 
