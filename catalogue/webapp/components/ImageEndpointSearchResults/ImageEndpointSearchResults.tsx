@@ -89,7 +89,7 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
       <ImageContainer key={galleryImage.key} role="listitem">
         <ImageCard
           id={galleryImage.photo.id}
-          workId={galleryImage.photo.workId}
+          workId={galleryImage.photo.source.id}
           image={{
             contentUrl: galleryImage.photo.src,
             width: galleryImage.photo.width - imageMargin * 2,
