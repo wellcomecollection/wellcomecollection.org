@@ -86,4 +86,4 @@ const ImagesLink: FunctionComponent<Props> = ({
 };
 
 export default ImagesLink;
-export { toLink, fromQuery, emptyImagesProps };
+export { toLink, toQuery, fromQuery, emptyImagesProps };

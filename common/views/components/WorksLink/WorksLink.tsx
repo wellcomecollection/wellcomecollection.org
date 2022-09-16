@@ -72,7 +72,7 @@ const fromQuery: (params: ParsedUrlQuery) => WorksProps = params => {
   return decodeQuery<WorksProps>(params, codecMap);
 };
 
-export const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
+const toQuery: (props: WorksProps) => ParsedUrlQuery = props => {
   return encodeQuery<WorksProps>(props, codecMap);
 };
 
@@ -109,4 +109,4 @@ const WorksLink: FunctionComponent<Props> = ({
 };
 
 export default WorksLink;
-export { toLink, fromQuery, emptyWorksProps };
+export { toLink, toQuery, fromQuery, emptyWorksProps };
