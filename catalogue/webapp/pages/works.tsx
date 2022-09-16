@@ -268,10 +268,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const _queryType = cookies(context)._queryType;
 
-    const worksApiProps = worksRouteToApiUrl(props, {
+    const worksApiProps = {
+      ...props,
       _queryType,
       aggregations,
-    });
+    };
 
     const works = await getWorks({
       params: worksApiProps,

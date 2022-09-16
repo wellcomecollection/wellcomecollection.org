@@ -65,32 +65,6 @@ export type CatalogueConceptsApiProps = {
   page?: number;
 };
 
-export function worksRouteToApiUrl(
-  worksProps: WorksProps,
-  overrides: Partial<CatalogueWorksApiProps>
-): CatalogueWorksApiProps {
-  return {
-    query: worksProps.query,
-    page: worksProps.page,
-    workType: worksProps.workType,
-    'items.locations.locationType': worksProps['items.locations.locationType'],
-    availabilities: worksProps.availabilities,
-    sort: worksProps.sort,
-    sortOrder: worksProps.sortOrder,
-    'partOf.title': worksProps['partOf.title'],
-    'production.dates.from': toIsoDateString(
-      worksProps['production.dates.from']
-    ),
-    'production.dates.to': toIsoDateString(worksProps['production.dates.to']),
-    languages: worksProps.languages,
-    'genres.label': worksProps['genres.label'].map(quoteVal),
-    'subjects.label': worksProps['subjects.label'].map(quoteVal),
-    'contributors.agent.label':
-      worksProps['contributors.agent.label'].map(quoteVal),
-    ...overrides,
-  };
-}
-
 export function imagesRouteToApiUrl(
   imagesRouteProps: ImagesProps,
   overrides: Partial<CatalogueImagesApiProps>
