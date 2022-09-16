@@ -47,14 +47,23 @@ type GetImageProps = {
 export async function getImages(
   props: QueryProps<CatalogueImagesApiProps>
 ): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
-  const params: ImagesProps = {
+  // This slightly odd construction is because toQuery() will only include
+  // the fields it knows about, but `props.params` includes some fields it
+  // ignores, e.g. aggregations.
+  //
+  // We want to get the encoded fields from `query`, then re-add any fields
+  // that have been removed.
+  const query = toQuery({
     ...emptyImagesProps,
     ...props.params,
+  });
+
+  const params = {
+    ...props.params,
+    ...query,
   };
 
-  const query = toQuery(params);
-
-  return catalogueQuery('images', { ...props, params: query });
+  return catalogueQuery('images', { ...props, params });
 }
 
 export async function getImage({

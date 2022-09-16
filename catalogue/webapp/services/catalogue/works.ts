@@ -75,13 +75,19 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
 ): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
-  const params: WorksProps = {
+  // This slightly odd construction is because toQuery() will only include
+  // the fields it knows about, but `props.params` includes some fields it
+  // ignores, e.g. aggregations.
+  //
+  // We want to get the encoded fields from `query`, then re-add any fields
+  // that have been removed.
+  const query = toQuery({
     ...emptyWorksProps,
     ...props.params,
-  };
-  const query = toQuery(params);
+  });
 
   const extendedParams = {
+    ...props.params,
     ...query,
     include: worksIncludes,
   };
