@@ -85,20 +85,21 @@ const ImageEndpointSearchResults: FunctionComponent<Props> = ({
   );
 
   const imageRenderer = useCallback(galleryImage => {
+    const photo: GalleryImageProps = galleryImage.photo;
     return (
       <ImageContainer key={galleryImage.key} role="listitem">
         <ImageCard
-          id={galleryImage.photo.id}
-          workId={galleryImage.photo.source.id}
+          id={photo.id}
+          workId={photo.source.id}
           image={{
-            contentUrl: galleryImage.photo.src,
-            width: galleryImage.photo.width - imageMargin * 2,
-            height: galleryImage.photo.height,
-            alt: galleryImage.photo.source.title,
+            contentUrl: photo.src,
+            width: photo.width - imageMargin * 2,
+            height: photo.height,
+            alt: photo.source.title,
           }}
           onClick={event => {
             event.preventDefault();
-            setExpandedImage(galleryImage.photo);
+            setExpandedImage(photo);
             setIsActive(true);
           }}
           layout="fixed"
