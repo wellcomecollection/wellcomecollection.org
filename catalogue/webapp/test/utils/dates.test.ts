@@ -173,6 +173,71 @@ describe('determineNextAvailableDate', () => {
     expect(result).toEqual(new Date('2021-12-11 11:00'));
   });
 
+  // defers requests over the weekend appropriately
+  // this encodes the test cases from https://github.com/wellcomecollection/wellcomecollection.org/issues/8215
+  test.each([
+    {
+      // 'Before Monday 10am
+      requestMade: new Date('2022-09-05T09:59:59+0100'), // Monday
+      firstVisits: new Date('2022-09-06T09:59:59+0100'), // Tuesday
+    },
+    {
+      // Monday 10.01
+      requestMade: new Date('2022-09-05T10:01:01+0100'), // Monday
+      firstVisits: new Date('2022-09-07T10:01:01+0100'), // Wednesday
+    },
+    {
+      // Before Tuesday 10am
+      requestMade: new Date('2022-09-06T09:59:59+0100'), // Tuesday
+      firstVisits: new Date('2022-09-07T09:59:59+0100'), // Wednesday
+    },
+    {
+      // Tuesday 10.01
+      requestMade: new Date('2022-09-06T10:01:01+0100'), // Tuesday
+      firstVisits: new Date('2022-09-08T10:01:01+0100'), // Thursday
+    },
+    {
+      // Before Wednesday 10am
+      requestMade: new Date('2022-09-07T09:59:59+0100'), // Wednesday
+      firstVisits: new Date('2022-09-08T09:59:59+0100'), // Thursday
+    },
+    {
+      // Thursday 10.01
+      requestMade: new Date('2022-09-08T10:01:01+0100'), // Thursday
+      firstVisits: new Date('2022-09-10T10:01:01+0100'), // Saturday
+    },
+    {
+      // Before Friday 10am
+      requestMade: new Date('2022-09-09T09:59:59+0100'), // Friday
+      firstVisits: new Date('2022-09-10T09:59:59+0100'), // Saturday
+    },
+    {
+      // Friday 10.01
+      requestMade: new Date('2022-09-09T10:01:01+0100'), // Friday
+      firstVisits: new Date('2022-09-12T10:01:01+0100'), // Monday
+    },
+    {
+      // Before Saturday 10am
+      requestMade: new Date('2022-09-10T09:59:59+0100'), // Saturday
+      firstVisits: new Date('2022-09-12T09:59:59+0100'), // Monday
+    },
+    {
+      // Saturday 10.01
+      requestMade: new Date('2022-09-10T10:01:01+0100'), // Saturday
+      firstVisits: new Date('2022-09-13T10:01:01+0100'), // Tuesday
+    },
+  ])(
+    'an item ordered at $requestMade can be retrieved on $firstVisits',
+    ({ requestMade, firstVisits }) => {
+      const result = determineNextAvailableDate(
+        requestMade,
+        [0], // Sunday
+        []
+      );
+      expect(result).toEqual(firstVisits);
+    }
+  );
+
   it('defers weekend requests until Tuesday, to avoid a rush of retrievals on Monday', () => {
     const result = determineNextAvailableDate(
       new Date('2021-12-10 10:30'),
