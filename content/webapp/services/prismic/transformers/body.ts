@@ -57,7 +57,7 @@ import { transformArticle } from './articles';
 import { transformEvent } from './events';
 import { transformSeason } from './seasons';
 import { transformCard } from './card';
-import { getYouTubeEmbedUrl } from 'utils/embed-urls';
+import { getYouTubeEmbedUrl } from '../../../utils/embed-urls';
 
 export function getWeight(weight: string | null): Weight {
   switch (weight) {
