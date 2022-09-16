@@ -85,34 +85,6 @@ export const spacingUnits = {
 };
 
 export const colors = {
-  // suggested new colors
-
-  // inherit: { base: 'inherit', dark: '', light: '' },
-  // currentColor: { base: 'currentColor', dark: '', light: '' },
-  // transparent: {
-  //   base: 'transparent',
-  //   dark: 'transparent',
-  //   light: 'transparent',
-  // },
-  // white: { base: '#ffffff', dark: '', light: '' },
-  // black: { base: '#121212', dark: '', light: '' },
-  // greys: {
-  //   2: '#323232', // 20
-  //   4: '#6b6b6b', // 42
-  //   5: '#8f8f8f', // 56
-  //   8: '#d9d9d9', // 85
-  //   9: '#e8e8e8', // 91
-  // },
-  // cream: { base: '#edece4', dark: '#d9d8d0', light: '' },
-  // purple: { base: '#724e91', dark: '', light: '#baa4cd' },
-  // turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
-  // blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
-  // khaki: { base: '#4f7d68', dark: '', light: '#9bc0af' },
-  // salmon: { base: '#ff6f59', dark: '', light: '#ff9585' },
-  // yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
-  // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
-  // green: { base: '#0b7051', dark: '#146a5c', light: '' },
-
   //
   // unchanged
   white: { base: '#ffffff', dark: '', light: '' },

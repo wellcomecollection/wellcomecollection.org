@@ -44,7 +44,10 @@ const leadingColor = 'yellow';
 // TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
   background-color: ${props => props.theme.color(leadingColor, 'light')};
-
+  color: ${props => {
+    console.log(props.theme.newColor('neutrals', '400'));
+    return props.theme.newColor('neutrals', '400');
+  }};
   h1 {
     font-size: 3.1875rem;
     line-height: 1.2;

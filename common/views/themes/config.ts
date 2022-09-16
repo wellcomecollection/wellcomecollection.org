@@ -123,6 +123,57 @@ export const colors = {
 const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
   colors[name][variant];
 
+// suggested new colors
+const newColors = {
+  // remove?
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+  transparent: 'transparent',
+
+  // Basics & Validation
+  white: '#ffffff',
+  black: '#121212',
+
+  red: '#e01b2f',
+  darkRed: '#c1192a',
+  green: '#0b7051',
+  darkGreen: '#146a5c',
+
+  // Neutrals, greyscale and beige/yellow alternatives
+  neutrals: {
+    200: '#323232', // grey20
+    300: '#6b6b6b', // grey42
+    400: '#8f8f8f', // grey56
+    500: '#d9d9d9', // grey85
+    '500Alt': '#d9d8d0', // beige83
+    600: '#e8e8e8', // grey91
+    '600Alt': '#edece4', // beige91
+    700: '#fbfaf4', // grey97
+    '700Alt': '#fff9e6', // lightestYellow
+  },
+
+  // Core
+  yellow: '#ffce3c',
+  lightYellow: '#ffebad',
+
+  // Accents
+  purple: '#724e91',
+  lightPurple: '#baa4cd',
+  turquoise: '#1dbebb',
+  lightTurquoise: '#a2eeed',
+  blue: '#27476e',
+  lightBlue: '#a4bfdf',
+  khaki: '#4f7d68',
+  lightKhaki: '#9bc0af',
+  salmon: '#ff6f59',
+  lightSalmon: '#ff9585',
+};
+
+const getNewColor = (name: PaletteColor, alt: string): string => {
+  const base = newColors[name];
+  return alt ? base[alt] : base;
+};
+
 export const sizes = {
   small: 0,
   medium: 600,
@@ -244,6 +295,8 @@ export const themeValues = {
   grid,
   colors,
   color: getColor,
+  newColors,
+  newColor: getNewColor,
   minCardHeight: 385,
   buttonColors: {
     default: defaultButtonColors,
@@ -258,3 +311,4 @@ export const themeValues = {
 
 export type Breakpoint = keyof typeof sizes;
 export type PaletteColor = keyof typeof colors;
+export type newPaletteColor = keyof typeof newColors;
