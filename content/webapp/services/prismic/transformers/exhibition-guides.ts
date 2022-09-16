@@ -14,7 +14,7 @@ import {
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
 import { transformImagePromo } from './images';
-import { getYouTubeEmbedUrl } from '../utils/embed-urls';
+import { getYouTubeEmbedUrl } from '../../../utils/embed-urls';
 import * as prismicT from '@prismicio/types';
 import { transformImage } from '@weco/common/services/prismic/transformers/images';
 import { ExhibitionPrismicDocument } from '../types/exhibitions';
