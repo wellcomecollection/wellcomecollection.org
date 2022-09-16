@@ -24,3 +24,5 @@ TRIGGER_STEP="steps:
 "
 
 echo "$TRIGGER_STEP" | buildkite-agent pipeline upload
+
+exit 1
