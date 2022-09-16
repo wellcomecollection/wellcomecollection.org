@@ -1,7 +1,7 @@
 import { LinkProps } from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { PropsWithChildren } from 'react';
-import { isNotUndefined, isUndefined } from './array';
+import { isNotUndefined } from './array';
 import { parseCsv, quoteVal } from './csv';
 import { isInTuple } from './type-guards';
 import { OptionalToUndefined, UndefinableToOptional } from './utility-types';
