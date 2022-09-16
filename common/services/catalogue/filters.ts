@@ -5,6 +5,7 @@ import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
 import { isNotUndefined } from '../../utils/array';
+import { isString } from 'lodash';
 
 export type DateRangeFilter = {
   type: 'dateRange';
@@ -43,11 +44,14 @@ export type ColorFilter = {
 
 export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 
-type FilterOption = {
-  id: string;
+type Value = {
   value: string;
-  count: number;
   label: string;
+};
+
+type FilterOption = Value & {
+  id: string;
+  count: number;
   selected: boolean;
 };
 
@@ -57,9 +61,13 @@ function filterOptionsWithNonAggregates({
   showEmptyBuckets = false,
 }: {
   options?: FilterOption[];
-  values: string[];
+  values: Value[] | string[];
   showEmptyBuckets?: boolean;
 }) {
+  const selectedValues: Value[] = values.map(v =>
+    isString(v) ? { label: v, value: v } : v
+  );
+
   // We can get filter options from two places:
   //
   //    - The list of aggregations on the catalogue API response
@@ -70,13 +78,13 @@ function filterOptionsWithNonAggregates({
   // list of filters (so they can see/cancel it), but if it's an uncommon value
   // it may not be in the API aggregations.  We need to add it manually.
   const aggregationValues = options.map(option => option.value);
-  const nonAggregateOptions = values
-    .filter(value => !aggregationValues.includes(value))
-    .map(label => ({
+  const nonAggregateOptions = selectedValues
+    .filter(({ value }) => !aggregationValues.includes(value))
+    .map(({ label, value }) => ({
       id: toHtmlId(label),
-      value: label,
+      value,
       count: 0,
-      label: label,
+      label,
       selected: true,
     }));
 
@@ -145,7 +153,10 @@ const subjectsFilter = ({
       label: bucket.data.label,
       selected: props['subjects.label'].includes(bucket.data.label),
     })),
-    values: props['subjects.label'].map(quoteVal),
+    values: props['subjects.label'].map(label => ({
+      label,
+      value: quoteVal(label),
+    })),
   }),
 });
 
@@ -161,7 +172,10 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
       label: bucket.data.label,
       selected: props['genres.label'].includes(bucket.data.label),
     })),
-    values: props['genres.label'].map(quoteVal),
+    values: props['genres.label'].map(label => ({
+      label,
+      value: quoteVal(label),
+    })),
   }),
 });
 
@@ -185,7 +199,10 @@ const contributorsAgentFilter = ({
           ),
         })
       ),
-      values: props['contributors.agent.label'].map(quoteVal),
+      values: props['contributors.agent.label'].map(label => ({
+        label,
+        value: quoteVal(label),
+      })),
     }),
   };
 };
@@ -343,7 +360,10 @@ const sourceGenresFilter = ({
         selected: props['source.genres.label'].includes(bucket.data.label),
       })
     ),
-    values: props['source.genres.label'].map(quoteVal),
+    values: props['source.genres.label'].map(label => ({
+      label,
+      value: quoteVal(label),
+    })),
   }),
 });
 
@@ -364,7 +384,10 @@ const sourceSubjectsFilter = ({
         selected: props['source.subjects.label'].includes(bucket.data.label),
       })
     ),
-    values: props['source.subjects.label'].map(quoteVal),
+    values: props['source.subjects.label'].map(label => ({
+      label,
+      value: quoteVal(label),
+    })),
   }),
 });
 
@@ -387,7 +410,10 @@ const sourceContributorAgentsFilter = ({
         bucket.data.label
       ),
     })),
-    values: props['source.contributors.agent.label'].map(quoteVal),
+    values: props['source.contributors.agent.label'].map(label => ({
+      label,
+      value: quoteVal(label),
+    })),
   }),
 });
 
