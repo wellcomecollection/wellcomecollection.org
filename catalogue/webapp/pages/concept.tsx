@@ -30,6 +30,7 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import { SeeMoreWorksButton } from 'components/SeeMoreButton/SeeMoreWorksButton';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -269,10 +270,13 @@ export const ConceptPage: NextPage<Props> = ({
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksAbout} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text={`All works (${worksAbout.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    <SeeMoreWorksButton
+                      totalResults={worksAbout.totalResults}
+                      props={{
+                        'subjects.label': [conceptResponse.label],
+                      }}
                       leadingColor={leadingColor}
+                      source={'concepts/worksAbout'}
                     />
                   </Space>
                 </div>
@@ -283,10 +287,13 @@ export const ConceptPage: NextPage<Props> = ({
                   {/* TODO modify WorksSearchResults to be used instead when we're ready to use it across */}
                   <WorksSearchResultsV2 works={worksBy} />
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
-                    <SeeMoreButton
-                      text={`All works (${worksBy.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                    <SeeMoreWorksButton
+                      totalResults={worksBy.totalResults}
+                      props={{
+                        'subjects.label': [conceptResponse.label],
+                      }}
                       leadingColor={leadingColor}
+                      source={'concepts/worksBy'}
                     />
                   </Space>
                 </div>

@@ -25,9 +25,11 @@ const worksPropsSources = [
   'work_details/genres',
   'work_details/subjects',
   'work_details/partOf',
+  'concepts/worksAbout',
+  'concepts/worksBy',
 ] as const;
 
-type WorksPropsSource =
+export type WorksPropsSource =
   | typeof worksPropsSources[number]
   | Prefix<'cancel_filter/'>
   | 'unknown';

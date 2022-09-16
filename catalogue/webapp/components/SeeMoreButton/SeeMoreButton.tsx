@@ -2,10 +2,11 @@ import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/Butto
 import { arrow } from '@weco/common/icons';
 import { FC } from 'react';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { LinkProps } from 'next/link';
 
 type Props = {
   text: string;
-  link: string;
+  link: LinkProps | string;
   leadingColor: PaletteColor;
 };
 
