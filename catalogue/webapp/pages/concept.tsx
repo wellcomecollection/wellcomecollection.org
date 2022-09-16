@@ -12,9 +12,9 @@ import { getImages } from 'services/catalogue/images';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
-import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import { SeeMoreButton } from 'components/SeeMoreButton/SeeMoreButton';
 
 // Types
 import {
@@ -23,11 +23,11 @@ import {
   Image as ImageType,
   Work as WorkType,
 } from '@weco/common/model/catalogue';
+import { PaletteColor } from '@weco/common/views/themes/config';
 
 // Styles
 import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
-import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 
@@ -39,7 +39,7 @@ type Props = {
   imagesBy: CatalogueResultsList<ImageType> | undefined;
 };
 
-const leadingColor = 'yellow';
+const leadingColor: PaletteColor = 'yellow';
 
 // TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
@@ -95,22 +95,6 @@ const FAKE_DATA = {
     },
   ],
 };
-
-// TODO change to use ButtonSolid when refactor is over (with David)
-const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
-  <ButtonSolidLink
-    text={text}
-    link={link}
-    icon={arrow}
-    isIconAfter={true}
-    colors={{
-      border: leadingColor,
-      background: leadingColor,
-      text: 'black',
-    }}
-    hoverUnderline={true}
-  />
-);
 
 export const ConceptPage: NextPage<Props> = ({
   conceptResponse,
@@ -211,6 +195,7 @@ export const ConceptPage: NextPage<Props> = ({
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
                       link={`/images?source.subjects.label=${conceptResponse.label}`}
+                      leadingColor={leadingColor}
                     />
                   </Space>
                 </>
@@ -225,6 +210,7 @@ export const ConceptPage: NextPage<Props> = ({
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
                     link={`/images?source.subjects.label=${conceptResponse.label}`}
+                    leadingColor={leadingColor}
                   />
                 </>
               )}
@@ -286,6 +272,7 @@ export const ConceptPage: NextPage<Props> = ({
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
                       link={`/works?subjects.label=${conceptResponse.label}`}
+                      leadingColor={leadingColor}
                     />
                   </Space>
                 </div>
@@ -299,6 +286,7 @@ export const ConceptPage: NextPage<Props> = ({
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}
                       link={`/works?subjects.label=${conceptResponse.label}`}
+                      leadingColor={leadingColor}
                     />
                   </Space>
                 </div>
