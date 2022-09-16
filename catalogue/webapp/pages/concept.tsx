@@ -29,6 +29,7 @@ import styled from 'styled-components';
 import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
+import { font } from '@weco/common/utils/classnames';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -46,7 +47,7 @@ const ConceptHero = styled(Space).attrs({
   background-color: ${props => props.theme.color(leadingColor, 'light')};
 `;
 
-const HeroTitle = styled.h1.attrs({ className: 'font-intb font-size-1' })`
+const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
   margin-bottom: 1rem;
 `;
 
@@ -111,7 +112,7 @@ export const ConceptPage: NextPage<Props> = ({
     // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
-      description={`Find out more about ${conceptResponse.label} by browsing related works and images from the Wellcome Collection.`}
+      description={`Find out more about ${conceptResponse.label} by browsing related works and images from Wellcome Collection.`}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
@@ -122,7 +123,7 @@ export const ConceptPage: NextPage<Props> = ({
         <div className="container">
           <TypeLabel>{conceptResponse.type}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
-            {/* TODO it all comes out as subject, chase if it doesn't change */}
+            {/* TODO only getting Subjects, confirm if it will change or not */}
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             {/* TODO get copy from Jonathan */}
             <ConceptDescription className="font-size-5">
