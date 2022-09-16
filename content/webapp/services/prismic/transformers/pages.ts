@@ -7,7 +7,6 @@ import {
   transformFormat,
   transformGenericFields,
   transformSingleLevelGroup,
-  transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { dasherize } from '@weco/common/utils/grammar';
@@ -17,6 +16,7 @@ import { Body } from '../types/body';
 import { SeasonPrismicDocument } from '../types/seasons';
 import { transformContributors } from './contributors';
 import { isNotUndefined, isUndefined } from '@weco/common/utils/array';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 export function transformOnThisPage(body: Body): Link[] {
   return flattenDeep(

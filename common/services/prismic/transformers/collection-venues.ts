@@ -12,7 +12,7 @@ import {
 import { isNotUndefined } from '../../../utils/array';
 import * as prismicH from '@prismicio/helpers';
 import { transformImage } from './images';
-import { TimestampField } from '@prismicio/types';
+import { transformTimestamp } from '.';
 
 export function createRegularDay(
   day: Day,
@@ -40,10 +40,6 @@ export function createRegularDay(
     closes: start && end ? formatTime(end) : '00:00',
     isClosed,
   };
-}
-
-function transformTimestamp(field: TimestampField): Date | undefined {
-  return prismicH.asDate(field) || undefined;
 }
 
 export function transformCollectionVenue(
