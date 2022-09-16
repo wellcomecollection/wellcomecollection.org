@@ -214,7 +214,9 @@ export const ConceptPage: NextPage<Props> = ({
                   <SeeMoreImagesButton
                     totalResults={imagesBy.totalResults}
                     props={{
-                      'source.subjects.label': [conceptResponse.label],
+                      'source.contributors.agent.label': [
+                        conceptResponse.label,
+                      ],
                     }}
                     leadingColor={leadingColor}
                     source={'concepts/imagesBy'}
@@ -296,7 +298,7 @@ export const ConceptPage: NextPage<Props> = ({
                     <SeeMoreWorksButton
                       totalResults={worksBy.totalResults}
                       props={{
-                        'subjects.label': [conceptResponse.label],
+                        'contributors.agent.label': [conceptResponse.label],
                       }}
                       leadingColor={leadingColor}
                       source={'concepts/worksBy'}
