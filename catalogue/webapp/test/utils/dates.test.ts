@@ -282,6 +282,27 @@ describe('determineNextAvailableDate', () => {
     expect(result4).toEqual(new Date('2022-09-08T10:30:00+0100'));
   });
 
+  // This is based on an issue reported by email on 16 September 2022 to the
+  // digital@wellcomecollection.org DL
+  it('accounts for exceptional closure dates (Sept 2022 bank holiday)', () => {
+    // Monday, the bank holiday for the state funeral of Queen Elizabeth II
+    const stateFuneral = new Date('2022-09-19T12:00:00+0100');
+
+    const result = determineNextAvailableDate(
+      new Date('2022-09-16T18:00:00+0100'), // Friday evening
+      [0], // Sunday
+      [stateFuneral]
+    );
+
+    // It's past 10am on Friday, so:
+    //
+    //    - the library staff can retrieve the item from the stores on Saturday
+    //    - nothing happens on Sunday/Monday because the library is closed
+    //    - the user can view the item on Tuesday
+    //
+    expect(result).toEqual(new Date('2022-09-20T18:00:00+0100'));
+  });
+
   it('accounts for exceptional closure dates', () => {
     const exceptionalClosure = new Date('2021-12-13'); // Monday
     const result = determineNextAvailableDate(
