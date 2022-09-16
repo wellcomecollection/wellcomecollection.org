@@ -14,7 +14,8 @@ import { getImages } from 'services/catalogue/images';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
-import { SeeMoreButton } from 'components/SeeMoreButton/SeeMoreButton';
+import SeeMoreImagesButton from 'components/SeeMoreButton/SeeMoreImagesButton';
+import SeeMoreWorksButton from 'components/SeeMoreButton/SeeMoreWorksButton';
 
 // Types
 import {
@@ -30,7 +31,6 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
-import { SeeMoreWorksButton } from 'components/SeeMoreButton/SeeMoreWorksButton';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -193,10 +193,13 @@ export const ConceptPage: NextPage<Props> = ({
                     background="transparent"
                   />
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
-                    <SeeMoreButton
-                      text={`All images (${imagesAbout.totalResults})`}
-                      link={`/images?source.subjects.label=${conceptResponse.label}`}
+                    <SeeMoreImagesButton
+                      totalResults={imagesAbout.totalResults}
+                      props={{
+                        'source.subjects.label': [conceptResponse.label],
+                      }}
                       leadingColor={leadingColor}
+                      source={'concepts/imagesAbout'}
                     />
                   </Space>
                 </>
@@ -208,10 +211,13 @@ export const ConceptPage: NextPage<Props> = ({
                     images={imagesBy}
                     background="transparent"
                   />
-                  <SeeMoreButton
-                    text={`All images (${imagesBy.totalResults})`}
-                    link={`/images?source.subjects.label=${conceptResponse.label}`}
+                  <SeeMoreImagesButton
+                    totalResults={imagesBy.totalResults}
+                    props={{
+                      'source.subjects.label': [conceptResponse.label],
+                    }}
                     leadingColor={leadingColor}
+                    source={'concepts/imagesBy'}
                   />
                 </>
               )}

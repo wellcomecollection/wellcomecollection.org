@@ -19,9 +19,11 @@ const imagesPropsSources = [
   'canonical_link',
   'images_search_context',
   'work_details/images',
+  'concepts/imagesAbout',
+  'concepts/imagesBy',
   'unknown',
 ] as const;
-type ImagesPropsSource = typeof imagesPropsSources[number];
+export type ImagesPropsSource = typeof imagesPropsSources[number];
 
 export type ImagesProps = FromCodecMap<typeof codecMap>;
 
