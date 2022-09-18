@@ -12,10 +12,9 @@ import {
   addDays,
   countDaysBetween,
   dayBefore,
-  endOfDay,
   getDatesBetween,
   isSameDay,
-  startOfDay,
+  isSameDayOrBefore,
   today,
 } from '../../utils/dates';
 
@@ -232,19 +231,21 @@ export function groupConsecutiveExceptionalDays(
     }, [] as ExceptionalOpeningHoursDay[][]);
 }
 
+/** Returns a list of all exceptional periods coming up in the next 28 days.
+ *
+ * This includes exceptional periods happening today, so that if somebody looks at
+ * the site on an exceptional day, it highlights the exceptional hours.
+ */
 export function getUpcomingExceptionalPeriods(
   exceptionalPeriods: ExceptionalOpeningHoursDay[][]
 ): ExceptionalOpeningHoursDay[][] {
-  const startOfToday = startOfDay(today());
-  const upcomingUntil = endOfDay(addDays(today(), 28));
-
-  const nextUpcomingPeriods = exceptionalPeriods.filter(period => {
-    const upcomingPeriod = period.find(
-      d => startOfToday <= d.overrideDate && d.overrideDate <= upcomingUntil
-    );
-    return upcomingPeriod || false;
-  });
-  return nextUpcomingPeriods;
+  return exceptionalPeriods.filter(period =>
+    period.some(
+      d =>
+        isSameDayOrBefore(today(), d.overrideDate) &&
+        isSameDayOrBefore(d.overrideDate, addDays(today(), 28))
+    )
+  );
 }
 
 export function getVenueById(venues: Venue[], id: string): Venue | undefined {

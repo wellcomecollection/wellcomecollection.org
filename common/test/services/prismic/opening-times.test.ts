@@ -611,7 +611,30 @@ describe('opening-times', () => {
         ],
       ]);
     });
+
+    it('returns exceptional periods that start today', () => {
+      const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
+        [
+          {
+            overrideDate: new Date('2022-09-19T00:00:00.000+0100'),
+            overrideType: 'Bank holiday',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
+      ];
+
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(() => {
+        return new Date('2022-09-19T00:00:00Z');
+      });
+
+      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      expect(result).toEqual(exceptionalPeriods);
+    });
   });
+
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;

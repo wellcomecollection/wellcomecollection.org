@@ -39,6 +39,7 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
 }
 
 type ComparisonMode = 'UTC' | 'London';
+
 export function isSameDay(
   date1: Date,
   date2: Date,
@@ -90,13 +91,14 @@ export function dayBefore(date: Date): Date {
   return prevDay;
 }
 
-export function startOfDay(d: Date): Date {
+// TODO: Does setting these to UTC 00:00:00 cause issues in London?
+function startOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(0, 0, 0, 0);
   return res;
 }
 
-export function endOfDay(d: Date): Date {
+function endOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(23, 59, 59, 999);
   return res;
