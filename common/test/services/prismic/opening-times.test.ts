@@ -13,9 +13,7 @@ import {
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
 import {
-  Day,
   ExceptionalOpeningHoursDay,
-  OverrideType,
   Venue,
 } from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/dates';
