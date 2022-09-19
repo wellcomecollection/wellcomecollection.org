@@ -14,6 +14,23 @@ const TimeRange = ({ start, end }: DateRangeProps) => (
 type Props = {
   splitTime?: boolean;
 } & DateRangeProps;
+
+/** Renders a date/time range.
+ *
+ * Examples:
+ *
+ *    1 March 2022 – 8 March 2022
+ *
+ *    1 March 2022, 13:15 – 14:15
+ *
+ *    1 March 2022
+ *    13:15 – 14:15
+ *
+ * The component will automatically decide whether to render a date range
+ * or a date and time range.  The `splitTime` prop controls whether the
+ * time is shown on a separate line.
+ *
+ */
 const DateRange: FunctionComponent<Props> = ({
   start,
   end,
