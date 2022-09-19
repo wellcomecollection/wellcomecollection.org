@@ -39,7 +39,8 @@ describe('DateRange', () => {
 
   it('renders a date + time range if the start/end are on the same London day', () => {
     // It seems unlikely we would ever schedule an event this early in the
-    // day, but let’s make sure we handle it properly.
+    // day, but let’s make sure we handle it properly.  Note that these two
+    // times are on the same London day, but different UTC days.
 
     //                             -17T23:30:00 UTC
     const start = new Date('2022-09-18T00:30:00+0100');
