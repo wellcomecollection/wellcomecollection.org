@@ -40,6 +40,15 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
 
 type ComparisonMode = 'UTC' | 'London';
 
+/** Returns true if `date1` is on the same day as `date2`, false otherwise.
+ *
+ * Note: this function supports UTC or London comparisons.  We suspect we always
+ * want London comparisons -- uses of this function should be examined and tested
+ * to decide the correct behaviour, and updated as necessary.
+ *
+ * If we get to a point where every comparison uses London, we should delete the
+ * mode argument and document that requirement explicitly.
+ */
 export function isSameDay(
   date1: Date,
   date2: Date,
