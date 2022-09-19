@@ -92,13 +92,13 @@ export function dayBefore(date: Date): Date {
 }
 
 // TODO: Does setting these to UTC 00:00:00 cause issues in London?
-function startOfDay(d: Date): Date {
+export function startOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(0, 0, 0, 0);
   return res;
 }
 
-function endOfDay(d: Date): Date {
+export function endOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(23, 59, 59, 999);
   return res;
