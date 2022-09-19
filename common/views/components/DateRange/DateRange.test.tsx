@@ -4,7 +4,7 @@ import DateRange from './DateRange';
 describe('DateRange', () => {
   it('renders a date + time range if the start/end are on the same day', () => {
     const start = new Date('2022-09-18T12:00:00+0100');
-    const end = new Date('2022-09-18T14:30:00+0100');
+    const end   = new Date('2022-09-18T14:30:00+0100'); // prettier-ignore
 
     const component = mountWithTheme(<DateRange start={start} end={end} />);
     expect(component.html()).toEqual(
@@ -15,7 +15,7 @@ describe('DateRange', () => {
 
   it('renders a date range if the start/end are on different days', () => {
     const start = new Date('2022-09-18T12:00:00+0100');
-    const end = new Date('2022-09-25T12:00:00+0100');
+    const end   = new Date('2022-09-25T12:00:00+0100'); // prettier-ignore
 
     const component = mountWithTheme(<DateRange start={start} end={end} />);
     expect(component.html()).toEqual(
@@ -26,7 +26,7 @@ describe('DateRange', () => {
 
   it('can split a date/time across multiple lines', () => {
     const start = new Date('2022-09-18T12:00:00+0100');
-    const end = new Date('2022-09-18T14:30:00+0100');
+    const end   = new Date('2022-09-18T14:30:00+0100'); // prettier-ignore
 
     const component = mountWithTheme(
       <DateRange start={start} end={end} splitTime={true} />
