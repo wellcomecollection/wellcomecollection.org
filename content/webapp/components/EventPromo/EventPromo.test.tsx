@@ -47,7 +47,7 @@ describe('EventPromo', () => {
   });
 });
 
-describe.only('getLocationText', () => {
+describe('getLocationText', () => {
   it('returns the specific location given one physical location only (and not online)', () => {
     const locationText = getLocationText(false, [location]);
     expect(locationText).toEqual('Reading Room');
