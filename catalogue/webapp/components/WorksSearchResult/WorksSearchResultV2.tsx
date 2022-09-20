@@ -58,10 +58,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
     >
       <Space
         as="a"
-        v={{
-          size: 'l',
-          properties: ['padding-top', 'padding-bottom'],
-        }}
+        v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
         className="plain-link block card-link"
         onClick={() => {
           // We've left `WorkCard` here for legacy tracking.
@@ -83,12 +80,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             </Preview>
           )}
           <Details>
-            <Space
-              v={{
-                size: 's',
-                properties: ['margin-bottom'],
-              }}
-            >
+            <Space v={{ size: 's', properties: ['margin-bottom'] }}>
               <LabelsList labels={cardLabels} defaultLabelColor="cream" />
             </Space>
             <WorkTitleHeading className={`${font('intb', 4)} card-link__title`}>
@@ -97,35 +89,17 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
 
             <WorkInformation>
               {productionDates.length > 0 && (
-                <LinkLabels
-                  items={[
-                    {
-                      text: productionDates[0],
-                      url: null,
-                    },
-                  ]}
-                />
+                <LinkLabels items={[{ text: productionDates[0], url: null }]} />
               )}
               {primaryContributorLabel && (
                 <>
                   {productionDates.length > 0 && (
-                    <Space
-                      h={{
-                        size: 'xs',
-                        properties: ['margin-right'],
-                      }}
-                    >
+                    <Space h={{ size: 'xs', properties: ['margin-right'] }}>
                       |
                     </Space>
                   )}
                   <Space>
-                    <LinkLabels
-                      items={[
-                        {
-                          text: primaryContributorLabel,
-                        },
-                      ]}
-                    />
+                    <LinkLabels items={[{ text: primaryContributorLabel }]} />
                   </Space>
                 </>
               )}
