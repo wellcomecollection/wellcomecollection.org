@@ -32,6 +32,7 @@ const FrameGrid = styled.div<{ isThreeUp: boolean }>`
 
   ${props =>
     props.theme.media.large`
+
     ${
       props.isThreeUp &&
       `
@@ -43,8 +44,7 @@ const FrameGrid = styled.div<{ isThreeUp: boolean }>`
 
 const FrameItem = styled.div`
   width: 100%;
-  /* aspect-ratio: 1; */
-  background: hotpink;
+  background: ${props => props.theme.color('white')};
 `;
 
 const GalleryTitle = styled(Space).attrs({
@@ -210,7 +210,8 @@ const ButtonContainer = styled.div<{ isHidden: boolean }>`
 export type Props = {
   title?: string;
   items: CaptionedImageProps[];
-  isStandalone: boolean; // TODO: normal / standalone / frames
+  isStandalone: boolean;
+  isFrames: boolean;
 };
 
 const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
@@ -218,6 +219,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   title,
   items,
   isStandalone,
+  isFrames,
 }) => {
   const [isActive, setIsActive] = useState(true);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -226,7 +228,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   const pageBackground = useContext(PageBackgroundContext);
 
   useEffect(() => {
-    !isStandalone && setIsActive(false);
+    !isStandalone && !isFrames && setIsActive(false);
   }, []);
 
   function handleOpenClicked() {
@@ -272,17 +274,16 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
     setIsActive(true);
   }
 
-  // FIXME: this is for testing only – needs model change in Prismic
   const itemsToShow = () => {
-    return isActive ? [...items, ...items, ...items] : [items[0]];
+    return isActive ? items : [items[0]];
   };
 
-  // FIXME: this is for testing only – needs model change in Prismic
-  const isInFrames = true;
+  const Layout = ({ children }) =>
+    isFrames ? <Layout8>{children}</Layout8> : <Layout12>{children}</Layout12>;
 
   return (
     <>
-      {!isStandalone && (
+      {!isStandalone && !isFrames && (
         <Layout8>
           <GalleryTitle>
             <Space as="span" h={{ size: 's', properties: ['margin-right'] }}>
@@ -296,7 +297,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
       )}
       <Gallery
         isActive={isActive}
-        isStandalone={isStandalone}
+        isStandalone={isStandalone || isFrames}
         id={`image-gallery-${id}`}
         pageBackground={pageBackground}
       >
@@ -308,10 +309,10 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             background: `url(${repeatingLsBlack}) no-repeat top center`,
           }}
         />
-        <Layout12>
+        <Layout>
           <Space
             v={
-              isStandalone
+              isStandalone || isFrames
                 ? {
                     size: 'xl',
                     properties: ['padding-top'],
@@ -320,7 +321,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             }
             className="relative"
           >
-            {isStandalone && (
+            {(isStandalone || isFrames) && (
               <div className="absolute standalone-wobbly-edge">
                 <WobblyEdge isRotated={true} background="white" />
               </div>
@@ -331,7 +332,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </div>
             )}
 
-            {!isStandalone && (
+            {!isStandalone && !isFrames && (
               <Space
                 v={{
                   size: 'm',
@@ -365,7 +366,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 </Space>
               </Space>
             )}
-            {isInFrames && (
+            {isFrames && (
               <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
                 <FrameGrid isThreeUp={itemsToShow().length % 3 === 0}>
                   {itemsToShow().map(captionedImage => (
@@ -379,7 +380,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 </FrameGrid>
               </Space>
             )}
-            {!isInFrames &&
+            {!isFrames &&
               itemsToShow().map((captionedImage, i) => (
                 <Space
                   v={
@@ -420,7 +421,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                 </Space>
               ))}
 
-            {!isStandalone && (
+            {!isStandalone && !isFrames && (
               <ButtonContainer isHidden={isActive}>
                 <ButtonSolid
                   ref={openButtonRef}
@@ -433,7 +434,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </ButtonContainer>
             )}
           </Space>
-        </Layout12>
+        </Layout>
       </Gallery>
     </>
   );
