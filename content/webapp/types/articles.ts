@@ -29,7 +29,7 @@ export type ArticleBasic = {
 export type Article = GenericContentFields & {
   type: 'articles';
   format?: Format<ArticleFormatId>;
-  readingTime?: number | undefined;
+  readingTime?: number;
   datePublished: Date;
   series: Series[];
   seasons: Season[];
