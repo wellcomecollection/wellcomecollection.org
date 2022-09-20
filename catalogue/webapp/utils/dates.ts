@@ -57,7 +57,51 @@ export function convertDayNumberToDay(dayNumber: DayNumber): Day {
   }
 }
 
-export function findNextPickUpDay(
+type ClosedDates = {
+  regularClosedDays: DayNumber[];
+  exceptionalClosedDates: Date[];
+};
+
+/** Returns true if the library is open on the given date, false otherwise. */
+export function isLibraryOpen(
+  date: Date,
+  { regularClosedDays, exceptionalClosedDates }: ClosedDates
+): boolean {
+  if (regularClosedDays.includes(date.getDay() as DayNumber)) {
+    return false;
+  }
+
+  if (
+    exceptionalClosedDates.find(exception =>
+      isSameDay(date, exception, 'London')
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+/** Returns the next date that the library is open on or after `date`. */
+export function findNextOpenDayOnOrAfter(
+  date: Date,
+  closedDates: ClosedDates
+): Date {
+  return isLibraryOpen(date, closedDates)
+    ? date
+    : findNextOpenDayOnOrAfter(addDays(date, 1), closedDates);
+}
+
+/** If a reader orders an item today, when's the first time they can come to view
+ * it in the library?
+ *
+ * The logic is as follows: LE&E staff need a complete working day to retrieve
+ * the item from the stores, and it's available on the next day after that.
+ *
+ * e.g. a reader orders an item on Monday.  LE&E staff bring it to the RMR sometime
+ * on Tuesday, and the reader can view it on Wednesday.
+ */
+export function determineNextAvailableDate(
   date: Date,
   regularClosedDays: DayNumber[],
   exceptionalClosedDates: Date[]
@@ -67,55 +111,27 @@ export function findNextPickUpDay(
     return undefined;
   }
 
-  // If the library is closed on this day, we want to set the pick-up day to be
-  // the next open day plus one, so that e.g. Monday morning isn't a scramble
-  // for library staff handling the weekend's requests. Since this function
-  // calls itself recursively, we add one day if we're closed this day and
-  // the next, but add two days if we're closed this day and open the next.
-
-  const nextDay = addDays(date, 1);
-  const isClosedThisDay =
-    regularClosedDays.includes(date.getDay() as DayNumber) ||
-    exceptionalClosedDates.find(d => isSameDay(d, date, 'London'));
-  const isOpenNextDay =
-    !regularClosedDays.includes(nextDay.getDay() as DayNumber) &&
-    !exceptionalClosedDates.find(d => isSameDay(d, nextDay, 'London'));
-
-  if (isClosedThisDay && isOpenNextDay) {
-    return findNextPickUpDay(
-      addDays(date, 2),
-      regularClosedDays,
-      exceptionalClosedDates
-    );
-  } else if (isClosedThisDay) {
-    return findNextPickUpDay(
-      addDays(date, 1),
-      regularClosedDays,
-      exceptionalClosedDates
-    );
-  } else {
-    return date;
-  }
-}
-
-export function determineNextAvailableDate(
-  date: Date,
-  regularClosedDays: DayNumber[],
-  exceptionalClosedDates: Date[]
-): Date | undefined {
   const hourInLondon = Number(
     date.toLocaleString('en-GB', { hour: 'numeric', timeZone: 'Europe/London' })
   );
-  // If a request is made before 10am, the next _potential_ pick-up date is the
-  // next day otherwise, it is two days' time.
-  const isBeforeTen = hourInLondon < 10;
-  const nextAvailableDate = addDays(date, isBeforeTen ? 1 : 2);
 
-  return findNextPickUpDay(
-    nextAvailableDate,
-    regularClosedDays,
-    exceptionalClosedDates
+  // If a request is made before 10am, staff can retrieve it from the stores today.
+  // Otherwise, the earliest staff can retrieve it from the stores is the next day.
+  const isBeforeTen = hourInLondon < 10;
+
+  const staffRetrievalDate = findNextOpenDayOnOrAfter(
+    isBeforeTen ? date : addDays(date, 1),
+    { regularClosedDays, exceptionalClosedDates }
   );
+
+  // The earliest a user can come to view their item is the next open day *after*
+  // it's been retrieved by staff.
+  const userPickupDate = findNextOpenDayOnOrAfter(
+    addDays(staffRetrievalDate, 1),
+    { regularClosedDays, exceptionalClosedDates }
+  );
+
+  return userPickupDate;
 }
 
 type groupedExceptionalClosedDates = { included: Date[]; excluded: Date[] };
