@@ -115,7 +115,14 @@ type Genre = {
   type: 'Genre';
 };
 
-type ConceptType = 'Concept' | 'Period' | 'Place';
+type ConceptType =
+  | 'Subject'
+  | 'Meeting'
+  | 'Organisation'
+  | 'Person'
+  | 'Concept'
+  | 'Period'
+  | 'Place';
 
 export type Concept = {
   id?: string;
