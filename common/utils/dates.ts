@@ -39,6 +39,16 @@ export function isSameMonth(date1: Date, date2: Date): boolean {
 }
 
 type ComparisonMode = 'UTC' | 'London';
+
+/** Returns true if `date1` is on the same day as `date2`, false otherwise.
+ *
+ * Note: this function supports UTC or London comparisons.  We suspect we always
+ * want London comparisons -- uses of this function should be examined and tested
+ * to decide the correct behaviour, and updated as necessary.
+ *
+ * If we get to a point where every comparison uses London, we should delete the
+ * mode argument and document that requirement explicitly.
+ */
 export function isSameDay(
   date1: Date,
   date2: Date,
@@ -53,18 +63,24 @@ export function isSameDay(
   }
 }
 
-// Note: the order of arguments to this function is designed so you can
-// concatenate them and get sensible-looking results.
-//
-//      isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
-//        => isSameDayOrBefore(A, C)
-//
-export function isSameDayOrBefore(
-  date1: Date,
-  date2: Date,
-  mode: ComparisonMode = 'UTC'
-): boolean {
-  return isSameDay(date1, date2, mode) || date1 <= date2;
+/** Returns true if `date1` is on the same day or before `date2`,
+ * false otherwise.
+ *
+ * This compares the dates in London, not UTC.  See the tests for examples
+ * of edge cases where there are different UTC days but this function still
+ * returns true.
+ *
+ * Note: the order of arguments to this function is designed so you can
+ * concatenate them and get sensible-looking results.
+ *
+ *    isSameDayOrBefore(A, B) && isSameDayOrBefore(B, C)
+ *      => isSameDayOrBefore(A, C)
+ *
+ * (The fancy term is "transitive".)
+ *
+ */
+export function isSameDayOrBefore(date1: Date, date2: Date): boolean {
+  return isSameDay(date1, date2, 'London') || date1 <= date2;
 }
 
 // Returns true if 'date' falls on a past day; false otherwise.
@@ -84,6 +100,7 @@ export function dayBefore(date: Date): Date {
   return prevDay;
 }
 
+// TODO: Does setting these to UTC 00:00:00 cause issues in London?
 export function startOfDay(d: Date): Date {
   const res = new Date(d);
   res.setUTCHours(0, 0, 0, 0);

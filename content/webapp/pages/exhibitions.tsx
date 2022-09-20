@@ -159,9 +159,9 @@ const ExhibitionsPage: FC<Props> = props => {
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    total={exhibitions.totalResults}
+                    totalResults={exhibitions.totalResults}
                     currentPage={exhibitions.currentPage}
-                    pageCount={exhibitions.totalPages}
+                    totalPages={exhibitions.totalPages}
                     prevPage={
                       exhibitions.currentPage > 1
                         ? exhibitions.currentPage - 1

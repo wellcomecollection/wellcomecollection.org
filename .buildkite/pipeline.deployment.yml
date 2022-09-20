@@ -27,6 +27,9 @@ steps:
     agents:
       queue: nano
 
+    soft_fail:
+      - exit_status: 1
+
   - label: "Update pa11y dashboard"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "prod"
     plugins:

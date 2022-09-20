@@ -23,7 +23,6 @@ import {
   asText,
   transformGenericFields,
   transformSingleLevelGroup,
-  transformTimestamp,
 } from '.';
 import { transformSeason } from './seasons';
 import { transformPlace } from './places';
@@ -35,6 +34,7 @@ import {
 } from './contributors';
 import * as prismicH from '@prismicio/helpers';
 import { noAltTextBecausePromo } from './images';
+import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 
 // TODO: Use better types than Record<string, any>.
 //

@@ -12,7 +12,10 @@ import {
   groupConsecutiveExceptionalDays,
 } from '../../../services/prismic/opening-times';
 import { venues } from '../../../test/fixtures/components/venues';
-import { ExceptionalOpeningHoursDay } from '../../../model/opening-hours';
+import {
+  ExceptionalOpeningHoursDay,
+  Venue,
+} from '../../../model/opening-hours';
 import * as dateUtils from '../../../utils/dates';
 
 const venuesWithoutExceptionalDates = venues.map(venue => {
@@ -606,7 +609,30 @@ describe('opening-times', () => {
         ],
       ]);
     });
+
+    it('returns exceptional periods that start today', () => {
+      const exceptionalPeriods: ExceptionalOpeningHoursDay[][] = [
+        [
+          {
+            overrideDate: new Date('2022-09-19T00:00:00.000+0100'),
+            overrideType: 'Bank holiday',
+            opens: '00:00',
+            closes: '00:00',
+            isClosed: true,
+          },
+        ],
+      ];
+
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
+      spyOnToday.mockImplementation(() => {
+        return new Date('2022-09-19T00:00:00Z');
+      });
+
+      const result = getUpcomingExceptionalPeriods(exceptionalPeriods);
+      expect(result).toEqual(exceptionalPeriods);
+    });
   });
+
   describe('getVenueById', () => {
     it('returns a venue object with a matching id from an array of venues', () => {
       const result = getVenueById(venues, 'Wsttgx8AAJeSNmJ4')!;
@@ -616,9 +642,9 @@ describe('opening-times', () => {
 
   describe("getTodaysVenueHours: returns the venue's opening times for the current day", () => {
     it('returns the regular opening hours, if there are no exceptional opening times for the day.', () => {
-      const spyOnLondon = jest.spyOn(dateUtils, 'today');
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
       // set Day as Wednesday, so we have something consistent to test against
-      spyOnLondon.mockImplementation(() => {
+      spyOnToday.mockImplementation(() => {
         return new Date('2022-01-19T00:00:00Z');
       });
 
@@ -633,9 +659,9 @@ describe('opening-times', () => {
     });
 
     it('returns the exceptional times if there are some for the day.', () => {
-      const spyOnLondon = jest.spyOn(dateUtils, 'today');
+      const spyOnToday = jest.spyOn(dateUtils, 'today');
       // set Day to a date we have exceptional opening times for
-      spyOnLondon.mockImplementation(() => {
+      spyOnToday.mockImplementation(() => {
         return new Date('2023-01-01T00:00:00Z');
       });
 
@@ -648,7 +674,132 @@ describe('opening-times', () => {
         isClosed: false,
       });
     });
+
+    // This is based on a specific issue reported for a bank holiday closure.
+    // See https://wellcome.slack.com/archives/C3TQSF63C/p1663495675591289
+    //
+    // This is the calendar for the month in question (`cal sept 2022`):
+    //
+    //    September 2022
+    // Su Mo Tu We Th Fr Sa
+    // 18 19 20 21 22 23 24
+    //
+    // Monday 19th is the state funeral of Queen Elizabeth II, when the venue is
+    // closed for a bank holiday.  The library should be open as normal on
+    // Sunday 18th and Tuesday 20th.
+    describe('handling exceptional closure for a bank holiday', () => {
+      const galleryDuringStateFuneral: Venue = {
+        id: 'Wsttgx8AAJeSNmJ4',
+        order: 1,
+        name: 'Galleries and Reading Room',
+        openingHours: {
+          regular: [
+            {
+              dayOfWeek: 'Monday',
+              opens: '00:00',
+              closes: '00:00',
+              isClosed: true,
+            },
+            {
+              dayOfWeek: 'Tuesday',
+              opens: '10:00',
+              closes: '18:00',
+              isClosed: false,
+            },
+            {
+              dayOfWeek: 'Wednesday',
+              opens: '10:00',
+              closes: '18:00',
+              isClosed: false,
+            },
+            {
+              dayOfWeek: 'Thursday',
+              opens: '10:00',
+              closes: '20:00',
+              isClosed: false,
+            },
+            {
+              dayOfWeek: 'Friday',
+              opens: '10:00',
+              closes: '18:00',
+              isClosed: false,
+            },
+            {
+              dayOfWeek: 'Saturday',
+              opens: '10:00',
+              closes: '18:00',
+              isClosed: false,
+            },
+            {
+              dayOfWeek: 'Sunday',
+              opens: '10:00',
+              closes: '18:00',
+              isClosed: false,
+            },
+          ],
+          exceptional: [
+            {
+              overrideDate: new Date('2022-09-18T23:00:00.000Z'),
+              overrideType: 'Bank holiday',
+              opens: '00:00',
+              closes: '00:00',
+              isClosed: true,
+            },
+          ],
+        },
+      };
+
+      it('says we’re open on Sunday', () => {
+        const spyOnToday = jest.spyOn(dateUtils, 'today');
+
+        spyOnToday.mockImplementation(() => {
+          return new Date('2022-09-18T12:00:00+0100');
+        });
+
+        const result = getTodaysVenueHours(galleryDuringStateFuneral);
+        expect(result).toEqual({
+          dayOfWeek: 'Sunday',
+          opens: '10:00',
+          closes: '18:00',
+          isClosed: false,
+        });
+      });
+
+      it('says we’re closed on Monday', () => {
+        const spyOnToday = jest.spyOn(dateUtils, 'today');
+
+        spyOnToday.mockImplementation(() => {
+          return new Date('2022-09-19T12:00:00+0100');
+        });
+
+        const result = getTodaysVenueHours(galleryDuringStateFuneral);
+        expect(result).toEqual({
+          overrideDate: new Date('2022-09-18T23:00:00.000Z'),
+          overrideType: 'Bank holiday',
+          opens: '00:00',
+          closes: '00:00',
+          isClosed: true,
+        });
+      });
+
+      it('says we’re open on Tuesday', () => {
+        const spyOnToday = jest.spyOn(dateUtils, 'today');
+
+        spyOnToday.mockImplementation(() => {
+          return new Date('2022-09-20T12:00:00+0100');
+        });
+
+        const result = getTodaysVenueHours(galleryDuringStateFuneral);
+        expect(result).toEqual({
+          dayOfWeek: 'Tuesday',
+          opens: '10:00',
+          closes: '18:00',
+          isClosed: false,
+        });
+      });
+    });
   });
+
   describe('groupConsecutiveExceptionalDays', () => {
     it('puts consecutive exceptional dates into groups', () => {
       const result = groupConsecutiveExceptionalDays([
