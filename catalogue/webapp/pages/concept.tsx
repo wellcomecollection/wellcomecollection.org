@@ -51,7 +51,7 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
   margin-bottom: 1rem;
 `;
 
-const TypeLabel = styled.span.attrs({ className: 'font-size-6' })`
+const TypeLabel = styled.span.attrs({ className: font('intr', 6) })`
   background-color: ${props => props.theme.color('cream', 'dark')};
   padding: 5px;
 `;
@@ -123,10 +123,9 @@ export const ConceptPage: NextPage<Props> = ({
         <div className="container">
           <TypeLabel>{conceptResponse.type}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
-            {/* TODO only getting Subjects, confirm if it will change or not */}
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             {/* TODO get copy from Jonathan */}
-            <ConceptDescription className="font-size-5">
+            <ConceptDescription className={font('intr', 5)}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
               dapibus suscipit enim nec aliquam.
             </ConceptDescription>
@@ -215,7 +214,7 @@ export const ConceptPage: NextPage<Props> = ({
       {/* Works */}
       {hasWorks && (
         <>
-          <ConceptWorksHeader as="div" hasWorksTabs={hasWorksTabs}>
+          <ConceptWorksHeader hasWorksTabs={hasWorksTabs}>
             <div className="container">
               <h2 className="h2">Works</h2>
               {hasWorksTabs && (
