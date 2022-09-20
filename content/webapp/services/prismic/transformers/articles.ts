@@ -1,7 +1,4 @@
-import {
-  Article,
-  ArticleBasic,
-} from '../../../types/articles';
+import { Article, ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import {
   isFilledLinkToDocumentWithData,
