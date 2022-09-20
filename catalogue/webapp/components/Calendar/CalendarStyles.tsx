@@ -54,7 +54,7 @@ export const Td = styled.td<TdProps>`
   position: relative;
   cursor: pointer;
   border-radius: 50%;
-  border: 1px solid ${props => props.theme.color('transparent')};
+  border: 1px solid transparent;
 
   &[aria-disabled='true'] {
     cursor: default;

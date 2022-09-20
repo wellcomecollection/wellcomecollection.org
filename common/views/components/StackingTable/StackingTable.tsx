@@ -76,9 +76,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
   className: font('intb', 5),
 }))<ThProps>`
   background: ${props =>
-    props.plain
-      ? props.theme.color('transparent')
-      : props.theme.color('pumice')};
+    props.plain ? 'transparent' : props.theme.color('pumice')};
   white-space: nowrap;
   text-align: left;
   vertical-align: top;

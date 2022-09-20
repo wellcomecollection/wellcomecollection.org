@@ -160,7 +160,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   a {
-    color: ${themeValues.color('inherit')};
+    color: inherit;
     text-decoration: underline;
 
     &:hover {
@@ -262,7 +262,7 @@ export const typography = css<GlobalStyleProps>`
           display: inline-block;
           vertical-align: middle;
           border-radius: 0.1em;
-          background: ${themeValues.color('currentColor')};
+          background: currentColor;
           margin-right: 6px;
           margin-left: -12px;
         }
@@ -314,7 +314,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .quote--pull {
-    border-color: ${themeValues.color('transparent')};
+    border-color: transparent;
     position: relative;
 
     &:before {

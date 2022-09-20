@@ -59,7 +59,7 @@ const SearchResult = styled.button.attrs({
   display: block;
   padding: ${props => `${props.theme.spacingUnit * 2}px 0`};
   color: ${props => props.theme.color('white')};
-  background: ${props => props.theme.color('transparent')};
+  background: transparent;
   &:hover {
     background: ${props => props.theme.color('black')};
   }

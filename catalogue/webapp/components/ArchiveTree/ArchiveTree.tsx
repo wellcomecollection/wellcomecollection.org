@@ -168,7 +168,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   line-height: 1;
   color: ${props => props.theme.color('black')};
   background: ${props =>
-    props.theme.color(props.isCurrent ? 'yellow' : 'transparent')};
+    props.isCurrent ? props.theme.color('yellow') : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};

@@ -56,12 +56,12 @@ export const ShameButton = styled.button.attrs(() => ({
 
   .icon__shape {
     transition: fill ${props => props.theme.transitionProperties};
-    fill: ${props => props.theme.color('currentColor')};
+    fill: currentColor;
   }
 
   .icon__stroke {
     transition: stroke ${props => props.theme.transitionProperties};
-    stroke: ${props => props.theme.color('currentColor')};
+    stroke: currentColor;
   }
 
   overflow: hidden;
@@ -69,7 +69,7 @@ export const ShameButton = styled.button.attrs(() => ({
   ${props =>
     props.isDark &&
     `
-    border: 2px solid ${props.theme.color('transparent')};
+    border: 2px solid transparent;
     color: ${props.theme.color('white')};
     background: transparent;
     outline: none;

@@ -23,7 +23,7 @@ type StyleProps = {
 };
 
 export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
-  background: ${props => props.theme.color('transparent')};
+  background: transparent;
   color: ${props => props.theme.color('charcoal')};
   padding: 10px 8px;
 

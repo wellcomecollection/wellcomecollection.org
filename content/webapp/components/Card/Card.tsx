@@ -25,7 +25,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   }
 
   .card-theme.card-theme--transparent & {
-    background: ${props => props.theme.color('transparent')};
+    background: transparent;
     min-height: auto;
   }
 

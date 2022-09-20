@@ -141,7 +141,7 @@ const HygieneItem = styled.li.attrs({
       `}
 
       .icon__shape {
-        fill: ${props => props.theme.color('currentColor')};
+        fill: currentColor;
       }
     }
   }

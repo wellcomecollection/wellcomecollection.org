@@ -133,13 +133,11 @@ const TableTh = styled(Space).attrs({
 })`
   font-weight: bold;
   background: ${props =>
-    props.plain
-      ? props.theme.color('transparent')
-      : props.theme.color('pumice')};
+    props.plain ? 'transparent' : props.theme.color('pumice')};
   white-space: nowrap;
 
   ${TableTbody}.has-row-headers & {
-    background: ${props => props.theme.color('transparent')};
+    background: transparent;
     text-align: left;
   }
 `;

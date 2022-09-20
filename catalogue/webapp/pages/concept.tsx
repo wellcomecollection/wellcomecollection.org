@@ -52,7 +52,7 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
 `;
 
 const TypeLabel = styled.span.attrs({ className: font('intr', 6) })`
-  background-color: ${props => props.theme.color('cream', 'dark')};
+  background-color: ${props => props.theme.newColor('warmNeutral.300')};
   padding: 5px;
 `;
 

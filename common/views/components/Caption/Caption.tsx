@@ -9,7 +9,7 @@ const CaptionText = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
 })`
   text-align: left;
-  border-left: 1px solid ${props => props.theme.color('currentColor')};
+  border-left: 1px solid currentColor;
 
   p {
     display: inline;

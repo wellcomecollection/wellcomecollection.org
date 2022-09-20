@@ -41,7 +41,7 @@ export const IframeContainer = styled.div.attrs({
     &:hover,
     &:focus {
       .overlay {
-        background: ${props => props.theme.color('transparent')};
+        background: transparent;
       }
     }
 

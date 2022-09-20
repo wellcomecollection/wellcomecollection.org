@@ -158,7 +158,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     appearance: none;
     font-family: inherit;
     letter-spacing: inherit;
-    background: ${themeValues.color('transparent')};
+    background: transparent;
     border: 0;
     text-align: left;
   }

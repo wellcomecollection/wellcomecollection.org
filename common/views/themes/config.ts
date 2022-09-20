@@ -125,11 +125,6 @@ const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
 
 // suggested new colors
 const newColors = {
-  // remove?
-  inherit: 'inherit',
-  currentColor: 'currentColor',
-  transparent: 'transparent',
-
   // Core
   // Wrap in core? Looks better for lightYellow but worse for the others...
   white: '#ffffff',
@@ -326,4 +321,8 @@ export const themeValues = {
 };
 
 export type Breakpoint = keyof typeof sizes;
-export type PaletteColor = keyof typeof colors;
+export type PaletteColor =
+  | keyof typeof colors
+  | 'transparent'
+  | 'inherit'
+  | 'currentColor';
