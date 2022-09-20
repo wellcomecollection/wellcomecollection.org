@@ -115,14 +115,12 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
       .map(element => element.value)
       .flat()
       .map(element => element.text)
-      .join('');
+      .join(' ');
   }
-  let readingTimeInMinutes;
-  if (format?.title === 'Article') {
-    readingTimeInMinutes = readingTime(allArticleText(genericFields.body)).text;
-  } else {
-    readingTimeInMinutes = null;
-  }
+  const readingTimeInMinutes =
+    format?.title === 'Article'
+      ? Math.round(readingTime(allArticleText(genericFields.body)).minutes)
+      : null;
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)
