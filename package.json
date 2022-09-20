@@ -10,7 +10,12 @@
     "content": "yarn workspace @weco/content run dev",
     "build-webapps": "echo '@weco/catalogue @weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
     "clean": "rimraf '**/.next **/lib'",
-    "clean-deps": "rimraf '**/node_modules'"
+    "clean-deps": "rimraf '**/node_modules'",
+    "catalogue:test": "echo \"⭕️ Running catalogue tests...\" && cd catalogue/webapp && NODE_ENV=test jest --no-cache && echo \"✅️ catalogue tests finished\"",
+    "content:test": "echo \"⭕️ Running content tests...\" && cd content/webapp && NODE_ENV=test jest --no-cache && echo \"✅️ content tests finished\"",
+    "playwright:test": "echo \"⭕️ Running playwright tests...\" && cd playwright && PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org yarn test && echo \"✅️ playwright tests finished\"",
+    "playwrightMobile:test": "echo \"⭕️ Running playwright mobile tests...\" && cd playwright && PLAYWRIGHT_BASE_URL=https://www-stage.wellcomecollection.org NODE_ENV=test platform=mobile yarn test && echo \"✅️ playwright mobile tests finished\"",
+    "e2e": "yarn catalogue:test && yarn content:test && yarn playwright:test && yarn playwrightMobile:test"
   },
   "repository": {
     "type": "git",
