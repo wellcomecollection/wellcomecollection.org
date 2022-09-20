@@ -15,7 +15,7 @@ import PartNumberIndicator from '../PartNumberIndicator/PartNumberIndicator';
 import { grid, font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../StatusIndicator/StatusIndicator';
 import { formatDate } from '@weco/common/utils/format-date';
 import { trackEvent } from '@weco/common/utils/ga';
 import linkResolver from '@weco/common/services/prismic/link-resolver';

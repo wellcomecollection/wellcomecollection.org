@@ -74,6 +74,10 @@ export default {
           name: 'standalone',
           display: 'Standalone',
         },
+        {
+          name: 'frames',
+          display: 'Frames',
+        },
       ],
       quoteV2: [
         {

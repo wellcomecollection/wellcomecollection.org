@@ -6,7 +6,6 @@ import {
   FunctionComponent,
   RefObject,
 } from 'react';
-import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWorkClientSide } from '../../services/catalogue/works';
@@ -211,14 +210,13 @@ type UiTreeNode = {
 export type UiTree = UiTreeNode[];
 
 export function getTabbableIds(tree: UiTree): string[] {
-  const tabbableIds = tree.reduce((acc: (string | string[])[], curr) => {
+  return tree.reduce((acc: string[], curr) => {
     acc.push(curr.work.id);
     if (curr.openStatus && curr.children) {
-      acc.push(getTabbableIds(curr.children));
+      acc = acc.concat(getTabbableIds(curr.children));
     }
     return acc;
   }, []);
-  return flattenDeep(tabbableIds);
 }
 
 function updateOpenStatus({
