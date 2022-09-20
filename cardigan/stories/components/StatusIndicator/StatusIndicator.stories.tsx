@@ -1,4 +1,4 @@
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '@weco/content/components/StatusIndicator/StatusIndicator';
 
 const now = new Date();
 const tomorrow = new Date();

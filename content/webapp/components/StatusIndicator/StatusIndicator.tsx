@@ -1,7 +1,7 @@
-import { font } from '../../../utils/classnames';
-import { formatDateRangeWithMessage } from '../../../utils/format-date';
-import Space from '../styled/Space';
-import Dot from '../Dot/Dot';
+import { font } from '@weco/common/utils/classnames';
+import { formatDateRangeWithMessage } from '@weco/common/utils/format-date';
+import Space from '@weco/common/views/components/styled/Space';
+import Dot from '@weco/common/views/components/Dot/Dot';
 import { FC } from 'react';
 
 type Props = {

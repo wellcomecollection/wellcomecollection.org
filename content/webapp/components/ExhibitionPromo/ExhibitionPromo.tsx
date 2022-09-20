@@ -3,7 +3,7 @@ import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { formatDate } from '@weco/common/utils/format-date';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import Space from '@weco/common/views/components/styled/Space';
 import { CardOuter, CardBody } from '../Card/Card';
 import PrismicImage from '@weco/common/views/components/PrismicImage/PrismicImage';

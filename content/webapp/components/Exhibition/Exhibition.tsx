@@ -6,7 +6,7 @@ import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia, getHeroPicture } from '../../utils/page-header';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 import HTMLDate from '@weco/common/views/components/HTMLDate/HTMLDate';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import InfoBox from '../InfoBox/InfoBox';
 import { font } from '@weco/common/utils/classnames';
 import { Page as PageType } from '../../types/pages';
