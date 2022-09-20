@@ -43,7 +43,7 @@ const FrameGrid = styled.div<{ isThreeUp: boolean }>`
 
 const FrameItem = styled.div`
   width: 100%;
-  aspect-ratio: 1;
+  /* aspect-ratio: 1; */
   background: hotpink;
 `;
 
@@ -210,7 +210,7 @@ const ButtonContainer = styled.div<{ isHidden: boolean }>`
 export type Props = {
   title?: string;
   items: CaptionedImageProps[];
-  isStandalone: boolean;
+  isStandalone: boolean; // TODO: normal / standalone / frames
 };
 
 const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
