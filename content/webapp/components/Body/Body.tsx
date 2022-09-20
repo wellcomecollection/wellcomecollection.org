@@ -312,21 +312,21 @@ const Body: FunctionComponent<Props> = ({
             slice.type === 'text' &&
             slice.weight === 'featured'
           ) && (
-            <SpacingComponent>
-              <div>
-                {slice.type === 'text' && (
+            <>
+              {slice.type === 'text' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <div className="body-text spaced-text">
                       {slice.weight !== 'featured' &&
                         (firstTextSliceIndex === i && isDropCapped ? (
                           <>
                             {/*
-                              The featured text slice can contain multiple paragraphs,
-                              e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
+                                The featured text slice can contain multiple paragraphs,
+                                e.g. https://wellcomecollection.org/articles/XcMBBREAACUAtBoV
 
-                              The drop cap serializer will see them as two separate paragraphs,
-                              so we have to split out the first paragraph here.
-                            */}
+                                The drop cap serializer will see them as two separate paragraphs,
+                                so we have to split out the first paragraph here.
+                              */}
                             <PrismicHtmlBlock
                               html={[slice.value[0]] as prismicT.RichTextField}
                               htmlSerializer={dropCapSerializer}
@@ -346,39 +346,53 @@ const Body: FunctionComponent<Props> = ({
                         ))}
                     </div>
                   </LayoutWidth>
-                )}
+                </SpacingComponent>
+              )}
 
-                {/* TODO: use one layout for all image weights if/when it's established
+              {/* TODO: use one layout for all image weights if/when it's established
               that width isn't an adequate means to illustrate a difference */}
-                {slice.type === 'picture' && slice.weight === 'default' && (
+              {slice.type === 'picture' && slice.weight === 'default' && (
+                <SpacingComponent>
                   <Layout10>
                     <CaptionedImage {...slice.value} />
                   </Layout10>
-                )}
-                {slice.type === 'picture' && slice.weight === 'standalone' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'picture' && slice.weight === 'standalone' && (
+                <SpacingComponent>
                   <Layout12>
                     <CaptionedImage {...slice.value} />
                   </Layout12>
-                )}
-                {slice.type === 'picture' && slice.weight === 'supporting' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'picture' && slice.weight === 'supporting' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <CaptionedImage {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'imageGallery' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'imageGallery' && (
+                <SpacingComponent>
                   <ImageGallery {...slice.value} id={imageGalleryIdCount++} />
-                )}
-                {slice.type === 'quote' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'quote' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <Quote {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'titledTextList' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'titledTextList' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <TitledTextList {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'contentList' && !isLanding && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'contentList' && !isLanding && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     {/* FIXME: this makes what-we-do contentLists synchronous, but it's hacky. */}
                     {pageId === prismicPageIds.whatWeDo ? (
@@ -398,124 +412,150 @@ const Body: FunctionComponent<Props> = ({
                       />
                     )}
                   </LayoutWidth>
-                )}
-                {/* TODO: remove this slice type if we're not using it? */}
-                {slice.type === 'searchResults' && (
+                </SpacingComponent>
+              )}
+              {/* TODO: remove this slice type if we're not using it? */}
+              {slice.type === 'searchResults' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <AsyncSearchResults {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'videoEmbed' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'videoEmbed' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <VideoEmbed {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'soundcloudEmbed' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'soundcloudEmbed' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <SoundCloudEmbed {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'map' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'map' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <Map {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'gifVideo' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'gifVideo' && (
+                <SpacingComponent>
                   <Layout10>
                     <GifVideo {...slice.value} />
                   </Layout10>
-                )}
-                {slice.type === 'iframe' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'iframe' && (
+                <SpacingComponent>
                   <Layout10>
                     <Iframe {...slice.value} />
                   </Layout10>
-                )}
-                {slice.type === 'contact' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'contact' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <Contact {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'collectionVenue' && (
-                  <>
-                    {slice.value.showClosingTimes && (
-                      <LayoutWidth width={minWidth}>
-                        <VenueClosedPeriods venue={slice.value.content} />
-                      </LayoutWidth>
-                    )}
-                    {!slice.value.showClosingTimes && (
-                      <>
-                        <Layout
-                          gridSizes={
-                            slice.weight === 'featured'
-                              ? {
-                                  s: 12,
-                                  m: 12,
-                                  l: 11,
-                                  shiftL: 1,
-                                  xl: 10,
-                                  shiftXL: 2,
-                                }
-                              : {
-                                  s: 12,
-                                  m: 10,
-                                  shiftM: 1,
-                                  l: 8,
-                                  shiftL: 2,
-                                  xl: 8,
-                                  shiftXL: 2,
-                                }
-                          }
-                        >
-                          <VenueHours
-                            venue={slice.value.content}
-                            weight={slice.weight || 'default'}
-                          />
-                        </Layout>
-                      </>
-                    )}
-                  </>
-                )}
-                {slice.type === 'table' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'collectionVenue' && (
+                <SpacingComponent>
+                  {slice.value.showClosingTimes && (
+                    <LayoutWidth width={minWidth}>
+                      <VenueClosedPeriods venue={slice.value.content} />
+                    </LayoutWidth>
+                  )}
+                  {!slice.value.showClosingTimes && (
+                    <Layout
+                      gridSizes={
+                        slice.weight === 'featured'
+                          ? {
+                              s: 12,
+                              m: 12,
+                              l: 11,
+                              shiftL: 1,
+                              xl: 10,
+                              shiftXL: 2,
+                            }
+                          : {
+                              s: 12,
+                              m: 10,
+                              shiftM: 1,
+                              l: 8,
+                              shiftL: 2,
+                              xl: 8,
+                              shiftXL: 2,
+                            }
+                      }
+                    >
+                      <VenueHours
+                        venue={slice.value.content}
+                        weight={slice.weight || 'default'}
+                      />
+                    </Layout>
+                  )}
+                </SpacingComponent>
+              )}
+              {slice.type === 'table' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <Table {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'infoBlock' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'infoBlock' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <InfoBlock {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'discussion' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'discussion' && (
+                <SpacingComponent>
                   <WobblyEdgedContainer>
                     <Discussion
                       title={slice.value.title}
                       text={slice.value.text}
                     />
                   </WobblyEdgedContainer>
-                )}
-                {slice.type === 'tagList' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'tagList' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <TagsGroup {...slice.value} />
                   </LayoutWidth>
-                )}
-                {/* deprecated */}
-                {slice.type === 'deprecatedImageList' && (
+                </SpacingComponent>
+              )}
+              {/* deprecated */}
+              {slice.type === 'deprecatedImageList' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <DeprecatedImageList {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'mediaObjectList' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'mediaObjectList' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <MediaObjectList {...slice.value} />
                   </LayoutWidth>
-                )}
-                {slice.type === 'audioPlayer' && (
+                </SpacingComponent>
+              )}
+              {slice.type === 'audioPlayer' && (
+                <SpacingComponent>
                   <LayoutWidth width={minWidth}>
                     <AudioPlayer {...slice.value} />
                   </LayoutWidth>
-                )}
-              </div>
-            </SpacingComponent>
+                </SpacingComponent>
+              )}
+            </>
           )}
         </Fragment>
       ))}

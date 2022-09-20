@@ -238,6 +238,7 @@ const BaseControl: FC<Props> = (
           scroll={scroll}
           replace={replace}
           prefetch={prefetch}
+          passHref
         >
           <Wrapper as="a" ref={ref} {...attrs}>
             <InnerControl text={text} icon={icon} />
