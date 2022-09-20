@@ -55,12 +55,6 @@ const toggles = {
       initialValue: false,
       description: 'View pages related to exhibition guides',
     },
-    {
-      id: 'newPalette',
-      title: 'New Colour Palette',
-      initialValue: false,
-      description: 'View pages with the new colour palette',
-    },
   ] as const,
   tests: [] as ABTest[],
 };

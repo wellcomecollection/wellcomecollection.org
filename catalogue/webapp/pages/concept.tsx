@@ -43,11 +43,8 @@ const leadingColor = 'yellow';
 
 // TODO use preset styles for h1, are there any with this big a font-size?
 const ConceptHero = styled(Space)`
-  background-color: ${props => props.theme.color(leadingColor, 'light')};
-  color: ${props => {
-    console.log(props.theme.newColor('neutrals', '400'));
-    return props.theme.newColor('neutrals', '400');
-  }};
+  background-color: ${props => props.theme.newColor('core.lightYellow')};
+
   h1 {
     font-size: 3.1875rem;
     line-height: 1.2;
@@ -60,16 +57,16 @@ const ConceptDescription = styled.section`
 `;
 
 const ConceptImages = styled(Space)`
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 
   .sectionTitle {
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
   }
 `;
 
 const ConceptWorksHeader = styled(Space)<{ hasWorksTabs: boolean }>`
   background-color: ${({ hasWorksTabs, theme }) =>
-    hasWorksTabs ? theme.color('cream') : 'white'};
+    theme.newColor(hasWorksTabs ? 'warmNeutral.300' : 'white')};
 `;
 
 // Taken from https://github.com/wellcomecollection/docs/tree/main/rfcs/050-concepts-api

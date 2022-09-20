@@ -130,48 +130,64 @@ const newColors = {
   currentColor: 'currentColor',
   transparent: 'transparent',
 
-  // Basics & Validation
+  // Core
+  // Wrap in core? Looks better for lightYellow but worse for the others...
   white: '#ffffff',
   black: '#121212',
-
-  red: '#e01b2f',
-  darkRed: '#c1192a',
-  green: '#0b7051',
-  darkGreen: '#146a5c',
-
-  // Neutrals, greyscale and beige/yellow alternatives
-  neutrals: {
-    200: '#323232', // grey20
-    300: '#6b6b6b', // grey42
-    400: '#8f8f8f', // grey56
-    500: '#d9d9d9', // grey85
-    '500Alt': '#d9d8d0', // beige83
-    600: '#e8e8e8', // grey91
-    '600Alt': '#edece4', // beige91
-    700: '#fbfaf4', // grey97
-    '700Alt': '#fff9e6', // lightestYellow
-  },
-
-  // Core
   yellow: '#ffce3c',
   lightYellow: '#ffebad',
 
   // Accents
-  purple: '#724e91',
-  lightPurple: '#baa4cd',
-  turquoise: '#1dbebb',
-  lightTurquoise: '#a2eeed',
-  blue: '#27476e',
-  lightBlue: '#a4bfdf',
-  khaki: '#4f7d68',
-  lightKhaki: '#9bc0af',
-  salmon: '#ff6f59',
-  lightSalmon: '#ff9585',
+  accent: {
+    purple: '#724e91',
+    lightPurple: '#baa4cd',
+    turquoise: '#1dbebb',
+    lightTurquoise: '#a2eeed',
+    blue: '#27476e',
+    lightBlue: '#a4bfdf',
+    green: '#4f7d68',
+    lightGreen: '#9bc0af',
+    salmon: '#ff6f59',
+    lightSalmon: '#ff9585',
+  },
+
+  // Neutral is a greyscale. Some have a matching warm colour, which sometimes suits our core yellow best.
+  // Their HSL Lightness is commented next to them, which explains how some match warm colours.
+  neutral: {
+    700: '#323232', // lightness: 20
+    600: '#6b6b6b', // lightness: 42
+    500: '#8f8f8f', // lightness: 56
+    400: '#d9d9d9', // lightness: 85 - matches warmNeutral.400
+    300: '#e8e8e8', // lightness: 91 - matches warmNeutral.300
+    200: '#fbfaf4', // lightness: 97 - matches warmNeutral.200
+  },
+
+  warmNeutral: {
+    400: '#d9d8d0', // lightness: 83 - matches neutral.400
+    300: '#edece4', // lightness: 91 - matches neutral.300
+    200: '#fff9e6', // lightness: 95 - matches neutral.200
+  },
+
+  // investigate how this is used throughout
+  validation: {
+    red: '#e01b2f',
+    green: '#0b7051',
+  },
 };
 
-const getNewColor = (name: PaletteColor, alt: string): string => {
-  const base = newColors[name];
-  return alt ? base[alt] : base;
+// TODO how to type this? Happy with string?
+const getNewColor = (name: string): string => {
+  const colorArray = name.split('.');
+
+  // Core colors are not contained in a parent object, so it could be first level only
+  let color = newColors[name];
+
+  // If it's within an object, check which specific color it wants
+  if (colorArray.length > 1) {
+    color = newColors[colorArray[0]][colorArray[1]];
+  }
+
+  return color;
 };
 
 export const sizes = {
@@ -311,4 +327,3 @@ export const themeValues = {
 
 export type Breakpoint = keyof typeof sizes;
 export type PaletteColor = keyof typeof colors;
-export type newPaletteColor = keyof typeof newColors;
