@@ -126,13 +126,9 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
-  // readingTime toggle, readingTime function and Boolean to apply only to articles
+  // readingTime toggle and readingTimeInMinutes value
   const { readingTime } = useToggles();
   const readingTimeInMinutes = article.readingTime;
-  // Could be a little belt and braces but we want to only output a reading time for articles (not webcomics etc.)
-  const isArticleorSerialFormat = Boolean(
-    article.format?.title === 'Article' || article.format?.title === 'Serial'
-  );
 
   useEffect(() => {
     async function setSeries() {
@@ -233,7 +229,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-            {readingTime && isArticleorSerialFormat ? (
+            {readingTime && article.readingTime ? (
               <Fragment>
                 <span className={font('intr', 6)}>
                   <span className={font('intr', 5)}>| </span> reading time{' '}
