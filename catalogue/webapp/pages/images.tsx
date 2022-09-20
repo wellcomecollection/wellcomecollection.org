@@ -15,11 +15,8 @@ import SearchTabs from '@weco/common/views/components/SearchTabs/SearchTabs';
 import SearchNoResults from '../components/SearchNoResults/SearchNoResults';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import SearchTitle from '../components/SearchTitle/SearchTitle';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { WithPageview } from '@weco/common/views/pages/_app';
 import {
   fromQuery,
   ImagesProps,

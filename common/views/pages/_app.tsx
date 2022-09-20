@@ -25,13 +25,6 @@ declare global {
   }
 }
 
-export type AppErrorProps = {
-  err: {
-    statusCode: number;
-    message: string;
-  };
-};
-
 type Pageview = {
   name: string;
   properties: Record<string, string[] | number[] | string | number | undefined>;
@@ -52,23 +45,6 @@ export type WithGaDimensions = {
 const gaDimensionKeys = {
   partOf: 'dimension3',
 };
-
-export function appError(
-  context: GetServerSidePropsContext,
-  statusCode: number,
-  message: string
-): { props: AppErrorProps } {
-  context.res.statusCode = statusCode;
-
-  return {
-    props: {
-      err: {
-        statusCode,
-        message,
-      },
-    },
-  };
-}
 
 let engagement;
 let previouslyAccruedTimeOnSpaPage = 0;

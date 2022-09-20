@@ -33,11 +33,8 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import { font } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { WithPageview } from '@weco/common/views/pages/_app';
 import {
   toLink as itemLink,
   fromQuery,

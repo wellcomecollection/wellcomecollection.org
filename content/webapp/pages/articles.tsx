@@ -12,7 +12,7 @@ import LayoutPaginatedResults from '../components/LayoutPaginatedResults/LayoutP
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import { FC } from 'react';
 import { GetServerSideProps } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { articleLd } from '../services/prismic/transformers/json-ld';

@@ -1,10 +1,7 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import {
-  appError,
-  AppErrorProps,
-  WithPageview,
-} from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
+import { WithPageview } from '@weco/common/views/pages/_app';
 import { Work, Image } from '@weco/common/model/catalogue';
 import { toLink as imageLink } from '@weco/common/views/components/ImageLink/ImageLink';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';

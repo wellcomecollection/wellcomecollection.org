@@ -4,7 +4,7 @@ import {
   CatalogueResultsList,
 } from '@weco/common/model/catalogue';
 import { removeUndefinedProps } from '@weco/common/utils/json';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 import { getServerData } from '@weco/common/server-data';
 import { getConcepts } from 'services/catalogue/concepts';
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';

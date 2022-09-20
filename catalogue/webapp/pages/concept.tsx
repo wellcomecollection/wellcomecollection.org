@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import { appError, AppErrorProps } from '@weco/common/services/app';
 
 // Helpers/Utils
 import { removeUndefinedProps } from '@weco/common/utils/json';
