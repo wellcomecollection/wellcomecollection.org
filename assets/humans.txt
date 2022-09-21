@@ -15,7 +15,6 @@ Digital Production (digitisation):
  Branwen Lloyd-Evans
  Holly Peel
  Rosie Curran
- Paul Horn
  Cassidy Phillips
  Emilie Bell
  Daila Malafronte
@@ -26,10 +25,8 @@ Digital Editorial Content:
  Lalita Kaplish
  Alice White
  Helen Babbs
+ Vanesha Singh
  Kate Quarry
- James Machin
- Richard Sheehan
- Effie Webb
 
 Photography:
  Richard Everett
@@ -51,7 +48,6 @@ Digital Platform:
  Natalie Pollecutt
  Alex Chan
  Harrison Pim
- Gareth Ormerod
  Paul Butcher
  Mel Rogan
  Raphaëlle Cantin
@@ -63,6 +59,11 @@ Access:
 
 /* ALUMNI - WE MISS YOU ALL ! */
 
+ Gareth Ormerod
+ Paul Horn
+ Effie Webb
+ James Machin
+ Richard Sheehan
  Carla Bowskill
  Kate Wilkinson
  Kirsten Nicholson
