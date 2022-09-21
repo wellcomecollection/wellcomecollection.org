@@ -126,7 +126,7 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
-  // readingTime toggle and readingTimeInMinutes value
+  // readingTime toggle
   const { readingTime } = useToggles();
 
   useEffect(() => {
