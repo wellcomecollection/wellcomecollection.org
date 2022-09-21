@@ -1,18 +1,3 @@
-import { quoteVal } from '../../utils/csv';
-import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
-import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-
-function toIsoDateString(s: string | undefined): string | undefined {
-  if (s) {
-    try {
-      return new Date(s).toISOString().split('T')[0];
-    } catch (e) {
-      return undefined;
-    }
-  }
-  return undefined;
-}
-
 type ItemsLocationsAccessConditionsStatus =
   | 'open'
   | 'open-with-advisory'
