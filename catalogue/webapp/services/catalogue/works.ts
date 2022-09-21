@@ -19,6 +19,12 @@ import {
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import {
+  emptyWorksProps,
+  toLink,
+  toQuery,
+  WorksProps,
+} from '@weco/common/views/components/WorksLink/WorksLink';
 
 type GetWorkProps = {
   id: string;
@@ -59,11 +65,25 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   status,
 });
 
+/** Run a query with the works API.
+ *
+ * Note: this method is responsible for encoding parameters in an API-compatible
+ * way, e.g. wrapping strings in quotes.  Callers should pass in an unencoded
+ * set of parameters.
+ *
+ * https://wellcomecollection.org/works?subjects.label=%22Thackrah%2C+Charles+Turner%2C+1795-1833%22
+ */
 export async function getWorks(
   props: QueryProps<CatalogueWorksApiProps>
 ): Promise<CatalogueResultsList<Work> | CatalogueApiError> {
-  const extendedParams = {
+  const params: WorksProps = {
+    ...emptyWorksProps,
     ...props.params,
+  };
+  const query = toQuery(params);
+
+  const extendedParams = {
+    ...query,
     include: worksIncludes,
   };
 

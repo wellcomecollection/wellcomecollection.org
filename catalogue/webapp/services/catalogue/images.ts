@@ -16,6 +16,11 @@ import {
 } from '.';
 import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
+import {
+  emptyImagesProps,
+  ImagesProps,
+  toQuery,
+} from '@weco/common/views/components/ImagesLink/ImagesLink';
 
 type ImageInclude =
   | 'visuallySimilar'
@@ -31,10 +36,25 @@ type GetImageProps = {
   include?: ImageInclude[];
 };
 
+/** Run a query with the images API.
+ *
+ * Note: this method is responsible for encoding parameters in an API-compatible
+ * way, e.g. wrapping strings in quotes.  Callers should pass in an unencoded
+ * set of parameters.
+ *
+ * https://wellcomecollection.org/images?source.subjects.label=%22Germany%2C+East%22
+ */
 export async function getImages(
   props: QueryProps<CatalogueImagesApiProps>
 ): Promise<CatalogueResultsList<Image> | CatalogueApiError> {
-  return catalogueQuery('images', props);
+  const params: ImagesProps = {
+    ...emptyImagesProps,
+    ...props.params,
+  };
+
+  const query = toQuery(params);
+
+  return catalogueQuery('images', { ...props, params: query });
 }
 
 export async function getImage({

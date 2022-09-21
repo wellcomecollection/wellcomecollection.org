@@ -178,6 +178,15 @@ const article = async (
   await gotoWithoutCache(`${baseUrl}/articles/${id}`, page);
 };
 
+const concept = async (
+  id: string,
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/concepts/${id}`, page);
+};
+
 const articleWithMockSiblings = async (
   id: string,
   response: Record<string, any>,
@@ -221,5 +230,6 @@ export {
   itemWithNonRestrictedAndOpenAccess,
   article,
   articleWithMockSiblings,
+  concept,
   isMobile,
 };
