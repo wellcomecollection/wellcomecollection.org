@@ -229,12 +229,12 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                 </Fragment>
               ))}
             {readingTime && article.readingTime ? (
-              <Fragment>
+              <>
                 <span className={font('intr', 6)}>
                   <span className={font('intr', 5)}>| </span> reading time{' '}
                   <span className={font('intb', 6)}>{article.readingTime}</span>
                 </span>
-              </Fragment>
+              </>
             ) : null}
             {article.contributors.length > 0 && ' '}
 
