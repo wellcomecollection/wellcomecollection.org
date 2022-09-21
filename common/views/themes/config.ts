@@ -149,18 +149,18 @@ const newColors = {
   // Neutral is a greyscale. Some have a matching warm colour, which sometimes suits our core yellow best.
   // Their HSL Lightness is commented next to them, which explains how some match warm colours.
   neutral: {
-    700: '#323232', // lightness: 20
-    600: '#6b6b6b', // lightness: 42
-    500: '#8f8f8f', // lightness: 56
-    400: '#d9d9d9', // lightness: 85 - matches warmNeutral.400
-    300: '#e8e8e8', // lightness: 91 - matches warmNeutral.300
     200: '#fbfaf4', // lightness: 97 - matches warmNeutral.200
+    300: '#e8e8e8', // lightness: 91 - matches warmNeutral.300
+    400: '#d9d9d9', // lightness: 85 - matches warmNeutral.400
+    500: '#8f8f8f', // lightness: 56
+    600: '#6b6b6b', // lightness: 42
+    700: '#323232', // lightness: 20
   },
 
   warmNeutral: {
-    400: '#d9d8d0', // lightness: 83 - matches neutral.400
-    300: '#edece4', // lightness: 91 - matches neutral.300
     200: '#fff9e6', // lightness: 95 - matches neutral.200
+    300: '#edece4', // lightness: 91 - matches neutral.300
+    400: '#d9d8d0', // lightness: 83 - matches neutral.400
   },
 
   // investigate how this is used throughout
@@ -321,6 +321,35 @@ export const themeValues = {
 };
 
 export type Breakpoint = keyof typeof sizes;
+
+// TODO: Is there an automated way to do this?
+export type newPaletteColor =
+  | 'white'
+  | 'black'
+  | 'yellow'
+  | 'lightYellow'
+  | 'accent.purple'
+  | 'accent.lightPurple'
+  | 'accent.turquoise'
+  | 'accent.lightTurquoise'
+  | 'accent.blue'
+  | 'accent.lightBlue'
+  | 'accent.green'
+  | 'accent.lightGreen'
+  | 'accent.salmon'
+  | 'accent.lightSalmon'
+  | 'neutral.700'
+  | 'neutral.600'
+  | 'neutral.500'
+  | 'neutral.400'
+  | 'neutral.300'
+  | 'neutral.200'
+  | 'warmNeutral.400'
+  | 'warmNeutral.300'
+  | 'warmNeutral.200'
+  | 'validation.red'
+  | 'validation.green';
+
 export type PaletteColor =
   | keyof typeof colors
   | 'transparent'
