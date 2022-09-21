@@ -46,7 +46,7 @@ export type Filter = CheckboxFilter | DateRangeFilter | ColorFilter;
 type FilterOption = {
   id: string;
   value: string;
-  count: number;
+  count?: number;
   label: string;
   selected: boolean;
 };
@@ -77,7 +77,7 @@ function filterOptionsWithNonAggregates({
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
   const aggregationValues = options.map(option => option.value);
-  const nonAggregateOptions = selectedValues
+  const nonAggregateOptions: FilterOption[] = selectedValues
     .map(value =>
       isString(value)
         ? {
@@ -90,15 +90,33 @@ function filterOptionsWithNonAggregates({
     .map(({ label, value }) => ({
       id: toHtmlId(value),
       value: value,
-      count: 0,
       label,
       selected: true,
     }));
 
   return nonAggregateOptions
     .concat(options)
-    .filter(option => showEmptyBuckets || option.count > 0 || option.selected);
+    .filter(
+      option =>
+        showEmptyBuckets ||
+        (option.count && option.count > 0) ||
+        option.selected
+    );
 }
+
+/** Creates the label for a filter in the GUI.
+ *
+ * Note: we intentionally omit the count when we have a filter whose
+ * count is unknown, which happens when we create a filter from a
+ * selected value.
+ */
+export const filterLabel = ({
+  label,
+  count,
+}: {
+  label: string;
+  count?: number;
+}): string => (count ? `${label} (${count})` : label);
 
 type WorksFilterProps = {
   works: CatalogueResultsList<Work>;
