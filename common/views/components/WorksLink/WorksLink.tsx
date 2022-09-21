@@ -20,6 +20,8 @@ const worksPropsSources = [
   'canonical_link',
   'meta_link',
   'search/paginator',
+  'concept/works_about',
+  'concept/works_by',
   'works_search_context',
   'work_details/contributors',
   'work_details/genres',

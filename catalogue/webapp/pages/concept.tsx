@@ -9,6 +9,7 @@ import { looksLikeCanonicalId } from 'services/catalogue';
 import { getConcept } from 'services/catalogue/concepts';
 import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
+import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
@@ -30,6 +31,7 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
+import { LinkProps } from 'next/link';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -78,7 +80,13 @@ const ConceptWorksHeader = styled(Space).attrs({
     hasWorksTabs ? '#fbfaf4' : 'white'};
 `;
 
-const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
+const SeeMoreButton = ({
+  text,
+  link,
+}: {
+  text: string;
+  link: string | LinkProps;
+}) => (
   <ButtonSolidLink
     text={text}
     link={link}
@@ -269,7 +277,12 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'subjects.label': [conceptResponse.label],
+                        },
+                        'concept/works_about'
+                      )}
                     />
                   </Space>
                 </div>
@@ -286,7 +299,12 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'contributors.agent.label': [conceptResponse.label],
+                        },
+                        'concept/works_by'
+                      )}
                     />
                   </Space>
                 </div>
