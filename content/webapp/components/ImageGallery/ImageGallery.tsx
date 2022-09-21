@@ -16,11 +16,20 @@ import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import Control from '@weco/common/views/components/Buttons/Control/Control';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
+import Layout10 from '@weco/common/views/components/Layout10/Layout10';
 import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
 import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRestrictedPrismicImage/HeightRestrictedPrismicImage';
+import Tasl from '@weco/common/views/components/Tasl/Tasl';
+
+const FrameGridWrap = styled(Space).attrs({
+  v: { size: 'xl', properties: ['margin-bottom'] },
+})`
+  position: relative;
+`;
+
 const FrameGrid = styled.div<{ isThreeUp: boolean }>`
   display: grid;
   width: 100%;
@@ -274,12 +283,21 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
     setIsActive(true);
   }
 
-  const itemsToShow = () => {
-    return isActive ? items : [items[0]];
-  };
+  const itemsToShow = () => (isActive ? items : [items[0]]);
+  const isThreeUp = itemsToShow().length % 3 === 0;
 
-  const Layout = ({ children }) =>
-    isFrames ? <Layout8>{children}</Layout8> : <Layout12>{children}</Layout12>;
+  const Layout = ({ children }) => {
+    if (isFrames && isThreeUp) {
+      // More landscape so allow more horizontal space
+      return <Layout10>{children}</Layout10>;
+    } else if (isFrames && !isThreeUp) {
+      // More square/portrait so limit horizontal space
+      return <Layout8>{children}</Layout8>;
+    } else {
+      // Not in frames, so image width/height constraint happens on the single image
+      return <Layout12>{children}</Layout12>;
+    }
+  };
 
   return (
     <>
@@ -367,8 +385,8 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
               </Space>
             )}
             {isFrames && (
-              <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-                <FrameGrid isThreeUp={itemsToShow().length % 3 === 0}>
+              <FrameGridWrap>
+                <FrameGrid isThreeUp={isThreeUp}>
                   {itemsToShow().map(captionedImage => (
                     <FrameItem key={captionedImage.image.contentUrl}>
                       <HeightRestrictedPrismicImage
@@ -378,7 +396,8 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
                     </FrameItem>
                   ))}
                 </FrameGrid>
-              </Space>
+                <Tasl {...itemsToShow()[0].image.tasl} />
+              </FrameGridWrap>
             )}
             {!isFrames &&
               itemsToShow().map((captionedImage, i) => (
