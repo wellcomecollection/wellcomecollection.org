@@ -9,6 +9,8 @@ import { looksLikeCanonicalId } from 'services/catalogue';
 import { getConcept } from 'services/catalogue/concepts';
 import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
+import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
+import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
@@ -30,6 +32,7 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
+import { LinkProps } from 'next/link';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -77,7 +80,7 @@ const ConceptWorksHeader = styled(Space).attrs({
     theme.newColor(hasWorksTabs ? 'warmNeutral.300' : 'white')};};
 `;
 
-const SeeMoreButton = ({ text, link }: { text: string; link: string }) => (
+const SeeMoreButton = ({ text, link }: { text: string; link: LinkProps }) => (
   <ButtonSolidLink
     text={text}
     link={link}
@@ -183,7 +186,12 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'm', properties: ['margin-top'] }}>
                     <SeeMoreButton
                       text={`All images (${imagesAbout.totalResults})`}
-                      link={`/images?source.subjects.label=${conceptResponse.label}`}
+                      link={toImagesLink(
+                        {
+                          'source.subjects.label': [conceptResponse.label],
+                        },
+                        'concept/images_about'
+                      )}
                     />
                   </Space>
                 </div>
@@ -201,7 +209,14 @@ export const ConceptPage: NextPage<Props> = ({
                   />
                   <SeeMoreButton
                     text={`All images (${imagesBy.totalResults})`}
-                    link={`/images?source.contributors.agent.label=${conceptResponse.label}`}
+                    link={toImagesLink(
+                      {
+                        'source.contributors.agent.label': [
+                          conceptResponse.label,
+                        ],
+                      },
+                      'concept/images_by'
+                    )}
                   />
                 </div>
               )}
@@ -268,7 +283,12 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksAbout.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'subjects.label': [conceptResponse.label],
+                        },
+                        'concept/works_about'
+                      )}
                     />
                   </Space>
                 </div>
@@ -285,7 +305,12 @@ export const ConceptPage: NextPage<Props> = ({
                   <Space v={{ size: 'l', properties: ['padding-top'] }}>
                     <SeeMoreButton
                       text={`All works (${worksBy.totalResults})`}
-                      link={`/works?subjects.label=${conceptResponse.label}`}
+                      link={toWorksLink(
+                        {
+                          'contributors.agent.label': [conceptResponse.label],
+                        },
+                        'concept/works_by'
+                      )}
                     />
                   </Space>
                 </div>
