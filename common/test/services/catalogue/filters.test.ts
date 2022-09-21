@@ -49,12 +49,12 @@ describe('filter options', () => {
       works: worksAggregations,
       props: fromWorksQuery({
         // An aggregation we know isn't in the fixture response
-        'contributors.agent.label': '"Non existant"',
+        'contributors.agent.label': '"Non existent"',
       }),
     }).find(f => f.id === 'contributors.agent.label') as CheckboxFilter;
 
     expect(
-      filter.options.find(option => option.label === '"Non existant"')
+      filter.options.find(option => option.label === 'Non existent')
     ).toBeTruthy();
   });
 
@@ -62,10 +62,10 @@ describe('filter options', () => {
     const filter = imagesFilters({
       images: imagesAggregations,
       props: fromImagesQuery({
-        'locations.license': '"Non existant"',
+        'locations.license': '"Non existent"',
       }),
     }).find(f => f.id === 'locations.license') as CheckboxFilter;
 
-    expect(filter.options.filter(option => option.count === 0).length).toBe(7);
+    expect(filter.options.length).toBe(7);
   });
 });
