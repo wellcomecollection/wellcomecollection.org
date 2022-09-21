@@ -55,7 +55,7 @@ function filterOptionsWithNonAggregates(
   options: FilterOption[],
   values: string[],
   showEmptyBuckets = false
-) {
+): FilterOption[] {
   const aggregationValues = options.map(option => option.value);
   const nonAggregateOptions = values
     .filter(value => !aggregationValues.includes(value))
