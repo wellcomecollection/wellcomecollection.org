@@ -27,6 +27,7 @@ const test = base.extend({
 
 const conceptIds = {
   'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
+  'John, the Baptist, Saint': 'qd86ycny',
 };
 
 test.describe('concepts', () => {
@@ -39,5 +40,12 @@ test.describe('concepts', () => {
       page
     );
     await page.waitForSelector('h2 >> text="Works"');
+  });
+
+  test('concepts get a list of related images', async ({ page, context }) => {
+    // I've deliberately picked a complicated ID with commas here, to make sure
+    // we're quoting the query we send to the images API.
+    await concept(conceptIds['John, the Baptist, Saint'], context, page);
+    await page.waitForSelector('h2 >> text="Images"');
   });
 });
