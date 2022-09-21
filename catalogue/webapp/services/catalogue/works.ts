@@ -21,7 +21,6 @@ import { Toggles } from '@weco/toggles';
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   emptyWorksProps,
-  toLink,
   toQuery,
   WorksProps,
 } from '@weco/common/views/components/WorksLink/WorksLink';
@@ -83,6 +82,7 @@ export async function getWorks(
   const query = toQuery(params);
 
   const extendedParams = {
+    ...params,
     ...query,
     include: worksIncludes,
   };
