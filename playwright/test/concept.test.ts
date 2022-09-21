@@ -27,9 +27,18 @@ const test = base.extend({
 });
 
 const conceptIds = {
+  // Chosen because there are no associated works if you don't quote
+  // the search properly.
   'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
+
+  // Chosen because there are no associated images if you don't quote
+  // the search properly.
   'John, the Baptist, Saint': 'qd86ycny',
+
+  // Chosen because there are works both about and by this person
   'Stephens, Joanna': 'pg43g9hn',
+
+  // Chosen because there are images both about and by this person
   'Darwin, Charles, 1809-1882': 'v3m7uhy9',
 };
 
