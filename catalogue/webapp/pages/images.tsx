@@ -149,6 +149,17 @@ const Images: NextPage<Props> = ({
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         image={undefined}
+        apiToolbarLinks={
+          images
+            ? [
+                {
+                  id: 'catalogue-api-query',
+                  label: 'Catalogue API query',
+                  link: images._requestUrl,
+                },
+              ]
+            : []
+        }
       >
         <Space
           v={{

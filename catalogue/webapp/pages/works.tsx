@@ -100,6 +100,13 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         excludeRoleMain={true}
+        apiToolbarLinks={[
+          {
+            id: 'catalogue-api-query',
+            label: 'Catalogue API query',
+            link: works._requestUrl,
+          },
+        ]}
       >
         <Space
           v={{

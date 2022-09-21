@@ -18,7 +18,7 @@ import { wellcomeCollectionGallery } from '../../../data/organization';
 import GlobalInfoBarContext, {
   GlobalInfoBarContextProvider,
 } from '../GlobalInfoBarContext/GlobalInfoBarContext';
-import ApiToolbar from '../ApiToolbar/ApiToolbar';
+import ApiToolbar, { ApiToolbarLink } from '../ApiToolbar/ApiToolbar';
 import { usePrismicData, useToggles } from '../../../server-data/Context';
 import { defaultPageTitle } from '@weco/common/data/microcopy';
 import { getCrop, ImageType } from '@weco/common/model/image';
@@ -52,6 +52,7 @@ export type Props = {
   hideFooter?: boolean;
   excludeRoleMain?: boolean;
   headerProps?: HeaderProps;
+  apiToolbarLinks?: ApiToolbarLink[];
 };
 
 const PageLayoutComponent: FunctionComponent<Props> = ({
@@ -68,6 +69,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
   hideFooter = false,
   excludeRoleMain = false,
   headerProps,
+  apiToolbarLinks = [],
 }) => {
   const { apiToolbar } = useToggles();
   const urlString = convertUrlToString(url);
@@ -252,7 +254,7 @@ const PageLayoutComponent: FunctionComponent<Props> = ({
       </Head>
 
       <div id="root">
-        {apiToolbar && <ApiToolbar />}
+        {apiToolbar && <ApiToolbar extraLinks={apiToolbarLinks} />}
         <CookieNotice source={url.pathname || ''} />
         <a className="visually-hidden visually-hidden-focusable" href="#main">
           Skip to main content
