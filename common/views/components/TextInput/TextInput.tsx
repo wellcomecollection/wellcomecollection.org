@@ -31,7 +31,7 @@ export const TextInputWrap = styled.div.attrs({
   ${props =>
     props.hasErrorBorder &&
     `
-    box-shadow: 0 0 0 1px ${props.theme.color('red')};
+    box-shadow: 0 0 0 1px ${props.theme.newColor('validation.red')};
   `}
 `;
 
@@ -103,7 +103,7 @@ export const TextInputInput = styled.input.attrs(props => ({
     `
       &,
       &:focus {
-        border-color: ${props.theme.color('red')};
+        border-color: ${props.theme.newColor('validation.red')};
       }
     `}
 `;
@@ -127,7 +127,7 @@ export const TextInputErrorMessage = styled.span.attrs({
   font-size: 14px;
   margin-top: 10px;
   padding-left: 15px;
-  color: ${props => props.theme.color('red')};
+  color: ${props => props.theme.newColor('validation.red')};
 `;
 
 type Props = {

@@ -12,7 +12,7 @@ const Font = styled.div`
 const FontName = styled.h2.attrs({
   className: font('intb', 6),
 })`
-  color: ${props => props.theme.color('red')};
+  color: ${props => props.theme.newColor('accent.purple')};
 `;
 
 const TypographyScale = ({ fontFamily }) => {

@@ -47,12 +47,25 @@ export function font(
   return `font-${family} font-size-${size} ${overrideClasses || ''}`;
 }
 
+// TODO remove all the checks for . when we get rid of font-[color] classes
 type ClassNames = string[] | Record<string, boolean>;
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
-    return classNames.join(' ');
+    const newClassNames = classNames;
+    classNames.map(className => {
+      if (className.includes('.'))
+        newClassNames[className] = className.replace('.', '-');
+    });
+    return newClassNames.join(' ');
   } else {
-    return conditionalClassNames(classNames);
+    let newClassNames = {};
+    Object.keys(classNames).map(k => {
+      newClassNames = {
+        ...newClassNames,
+        [k.includes('.') ? k.replace('.', '-') : k]: classNames[k],
+      };
+    });
+    return conditionalClassNames(newClassNames);
   }
 }
 

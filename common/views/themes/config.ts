@@ -203,8 +203,8 @@ const defaultButtonColors: ButtonColors = {
 };
 
 const dangerButtonColors: ButtonColors = {
-  border: 'red',
-  background: 'red',
+  border: 'validation.red',
+  background: 'validation.red',
   text: 'white',
 };
 
@@ -354,4 +354,5 @@ export type PaletteColor =
   | keyof typeof colors
   | 'transparent'
   | 'inherit'
-  | 'currentColor';
+  | 'currentColor'
+  | newPaletteColor;

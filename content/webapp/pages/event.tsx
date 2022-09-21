@@ -111,7 +111,7 @@ function DateList(event: Event) {
             <TimeWrapper key={index}>
               <div
                 className={classNames({
-                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'font-pewter': isDayPast(eventTime.range.endDateTime),
                   'flex-1': true,
                 })}
               >
@@ -121,11 +121,11 @@ function DateList(event: Event) {
                 />
               </div>
 
-              {isDayPast(eventTime.range.endDateTime) ? (
-                <>{EventStatus({ text: 'Past', color: 'marble' })}</>
-              ) : eventTime.isFullyBooked ? (
-                EventStatus({ text: 'Full', color: 'red' })
-              ) : null}
+              {isDayPast(eventTime.range.endDateTime)
+                ? EventStatus({ text: 'Past', color: 'marble' })
+                : eventTime.isFullyBooked
+                ? EventStatus({ text: 'Full', color: 'validation.red' })
+                : null}
             </TimeWrapper>
           );
         })}
@@ -272,7 +272,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
           </Space>
           {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
           {upcomingDatesFullyBooked(event) &&
-            EventStatus({ text: 'Fully booked', color: 'red' })}
+            EventStatus({ text: 'Fully booked', color: 'validation.red' })}
         </>
       }
       HeroPicture={undefined}
