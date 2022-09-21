@@ -136,12 +136,12 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
 
   return {
     ...genericFields,
-    readingTime: isArticleOrSerialFormat ? readingTimeInMinutes : undefined,
     type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
     series,
     contributors,
+    readingTime: isArticleOrSerialFormat ? readingTimeInMinutes : undefined,
     datePublished: new Date(datePublished),
     seasons: transformSingleLevelGroup(data.seasons, 'season').map(season =>
       transformSeason(season as SeasonPrismicDocument)
