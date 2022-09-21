@@ -51,6 +51,17 @@ type FilterOption = {
   selected: boolean;
 };
 
+/** We build the list of available filters from two lists:
+ *
+ *    - the list of aggregated values from the API
+ *    - the list of values the user has already selected, which may not
+ *      appear in the aggregations
+ *
+ * e.g. if a user clicks on an obscure subject from a works page to get a
+ * filtered search, we want to display that obscure subject in the list of
+ * filters even if it doesn't appear in the top N subjects from the API.
+ *
+ */
 function filterOptionsWithNonAggregates(
   options: FilterOption[],
   values: string[],
