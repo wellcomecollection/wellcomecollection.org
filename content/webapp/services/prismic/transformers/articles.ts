@@ -48,6 +48,7 @@ function transformContentLink(document?: LinkField): MultiContent | undefined {
 
 export function transformArticleToArticleBasic(article: Article): ArticleBasic {
   // returns what is required to render StoryPromos and story JSON-LD
+
   return (({
     type,
     id,
@@ -108,7 +109,7 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   // Calculating the full reading time of the article by getting all article text
   function allArticleText(genericBody) {
     return genericBody
-      .filter(genericBody => genericBody.type === 'text')
+      .filter(genericBody => genericBody?.type === 'text')
       .map(element => element.value)
       .flat()
       .map(element => element.text)
@@ -129,15 +130,13 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   ].filter(isNotUndefined);
 
   const contributors = transformContributors(document);
-  const isArticleorSerialFormat = Boolean(
-    format?.title === 'Article' ||
-      format?.title === 'Serial' ||
-      labels[0].text === 'Serial'
-  );
+  const isArticleOrSerialFormat = format
+    ? Boolean(format?.title === 'Article' || format?.title === 'Serial')
+    : Boolean(labels[0]?.text === 'Serial' || labels[0]?.text === 'Article');
 
   return {
     ...genericFields,
-    readingTime: isArticleorSerialFormat ? readingTimeInMinutes : undefined,
+    readingTime: isArticleOrSerialFormat ? readingTimeInMinutes : undefined,
     type: 'articles',
     labels: labels.length > 0 ? labels : [{ text: 'Story' }],
     format,
