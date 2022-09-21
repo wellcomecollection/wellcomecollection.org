@@ -128,7 +128,6 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
   // readingTime toggle and readingTimeInMinutes value
   const { readingTime } = useToggles();
-  const readingTimeInMinutes = article.readingTime;
 
   useEffect(() => {
     async function setSeries() {
@@ -233,9 +232,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
               <Fragment>
                 <span className={font('intr', 6)}>
                   <span className={font('intr', 5)}>| </span> reading time{' '}
-                  <span className={font('intb', 6)}>
-                    {readingTimeInMinutes} min
-                  </span>
+                  <span className={font('intb', 6)}>{article.readingTime}</span>
                 </span>
               </Fragment>
             ) : null}

@@ -115,13 +115,9 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
       .join(' ');
   }
 
-  const isArticleorSerialFormat = Boolean(
-    format?.title === 'Article' || format?.title === 'Serial'
-  );
-
-  const readingTimeInMinutes = Math.round(
-    readingTime(allArticleText(genericFields.body)).minutes
-  );
+  const readingTimeInMinutes =
+    Math.round(readingTime(allArticleText(genericFields.body)).minutes) +
+    ' min';
 
   const series: Series[] = transformSingleLevelGroup(data.series, 'series').map(
     series => transformSeries(series as SeriesPrismicDocument)
@@ -133,6 +129,11 @@ export function transformArticle(document: ArticlePrismicDocument): Article {
   ].filter(isNotUndefined);
 
   const contributors = transformContributors(document);
+  const isArticleorSerialFormat = Boolean(
+    format?.title === 'Article' ||
+      format?.title === 'Serial' ||
+      labels[0].text === 'Serial'
+  );
 
   return {
     ...genericFields,

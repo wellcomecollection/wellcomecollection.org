@@ -9,7 +9,6 @@ import { Series, SeriesBasic } from './series';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
-import readingTime from "reading-time";
 
 export type ArticleBasic = {
   // this is a mix of props from GenericContentFields and Article
@@ -29,7 +28,7 @@ export type ArticleBasic = {
 export type Article = GenericContentFields & {
   type: 'articles';
   format?: Format<ArticleFormatId>;
-  readingTime?: number;
+  readingTime?: string;
   datePublished: Date;
   series: Series[];
   seasons: Season[];
