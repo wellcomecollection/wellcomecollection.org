@@ -69,7 +69,7 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
  * Note: the filter GUI expects users to enter dates as a four-digit year (e.g. 1939).
  * We pin to the start/end of the year so that the range is inclusive.
  *
- * e.g. a user who searches for works 'to 2001' should find works
+ * e.g. a user who searches for works 'to 2001' should find works created in 2001.
  */
 function toIsoDateString(
   s: string | undefined,
