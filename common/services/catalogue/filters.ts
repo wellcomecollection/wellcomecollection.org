@@ -63,11 +63,11 @@ type FilterOption = {
  *
  */
 function filterOptionsWithNonAggregates({
-  options,
+  options = [],
   selectedValues,
   showEmptyBuckets = false,
 }: {
-  options: FilterOption[];
+  options?: FilterOption[];
   selectedValues: string[];
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
@@ -121,14 +121,13 @@ const workTypeFilter = ({
   id: 'workType',
   label: 'Formats',
   options: filterOptionsWithNonAggregates({
-    options:
-      works?.aggregations?.workType.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props.workType.includes(bucket.data.id),
-      })) || [],
+    options: works?.aggregations?.workType.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.workType.includes(bucket.data.id),
+    })),
     selectedValues: props.workType,
   }),
 });
@@ -141,14 +140,13 @@ const subjectsFilter = ({
   id: 'subjects.label',
   label: 'Subjects',
   options: filterOptionsWithNonAggregates({
-    options:
-      works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.label),
-        value: quoteVal(bucket.data.label),
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props['subjects.label'].includes(bucket.data.label),
-      })) || [],
+    options: works?.aggregations?.['subjects.label']?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['subjects.label'].includes(bucket.data.label),
+    })),
     selectedValues: props['subjects.label'].map(quoteVal),
   }),
 });
@@ -158,14 +156,13 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
   id: 'genres.label',
   label: 'Types/Techniques',
   options: filterOptionsWithNonAggregates({
-    options:
-      works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
-        id: toHtmlId(bucket.data.label),
-        value: quoteVal(bucket.data.label),
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props['genres.label'].includes(bucket.data.label),
-      })) || [],
+    options: works?.aggregations?.['genres.label']?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['genres.label'].includes(bucket.data.label),
+    })),
     selectedValues: props['genres.label'].map(quoteVal),
   }),
 });
@@ -179,18 +176,17 @@ const contributorsAgentFilter = ({
     id: 'contributors.agent.label',
     label: 'Contributors',
     options: filterOptionsWithNonAggregates({
-      options:
-        works?.aggregations?.['contributors.agent.label']?.buckets.map(
-          bucket => ({
-            id: toHtmlId(bucket.data.label),
-            value: quoteVal(bucket.data.label),
-            count: bucket.count,
-            label: bucket.data.label,
-            selected: props['contributors.agent.label'].includes(
-              bucket.data.label
-            ),
-          })
-        ) || [],
+      options: works?.aggregations?.['contributors.agent.label']?.buckets.map(
+        bucket => ({
+          id: toHtmlId(bucket.data.label),
+          value: quoteVal(bucket.data.label),
+          count: bucket.count,
+          label: bucket.data.label,
+          selected: props['contributors.agent.label'].includes(
+            bucket.data.label
+          ),
+        })
+      ),
       selectedValues: props['contributors.agent.label'].map(quoteVal),
     }),
   };
@@ -204,14 +200,13 @@ const languagesFilter = ({
   id: 'languages',
   label: 'Languages',
   options: filterOptionsWithNonAggregates({
-    options:
-      works?.aggregations?.languages?.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props.languages.includes(bucket.data.id),
-      })) || [],
+    options: works?.aggregations?.languages?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.languages.includes(bucket.data.id),
+    })),
     selectedValues: props.languages,
   }),
 });
@@ -257,14 +252,13 @@ const availabilitiesFilter = ({
   id: 'availabilities',
   label: 'Locations',
   options: filterOptionsWithNonAggregates({
-    options:
-      works?.aggregations?.availabilities?.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: bucket.data.label,
-        selected: props.availabilities.includes(bucket.data.id),
-      })) || [],
+    options: works?.aggregations?.availabilities?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props.availabilities.includes(bucket.data.id),
+    })),
     selectedValues: props.availabilities,
   }),
 });
@@ -322,14 +316,13 @@ const licensesFilter = ({
   id: 'locations.license',
   label: 'Licenses',
   options: filterOptionsWithNonAggregates({
-    options:
-      images.aggregations?.license?.buckets.map(bucket => ({
-        id: bucket.data.id,
-        value: bucket.data.id,
-        count: bucket.count,
-        label: licenseLabels[bucket.data.id] || bucket.data.label,
-        selected: props['locations.license'].includes(bucket.data.id),
-      })) || [],
+    options: images.aggregations?.license?.buckets.map(bucket => ({
+      id: bucket.data.id,
+      value: bucket.data.id,
+      count: bucket.count,
+      label: licenseLabels[bucket.data.id] || bucket.data.label,
+      selected: props['locations.license'].includes(bucket.data.id),
+    })),
     selectedValues: props['locations.license'],
     showEmptyBuckets: true,
   }),
@@ -343,14 +336,15 @@ const sourceGenresFilter = ({
   id: 'source.genres.label',
   label: 'Types/Techniques',
   options: filterOptionsWithNonAggregates({
-    options:
-      images?.aggregations?.['source.genres.label']?.buckets.map(bucket => ({
+    options: images?.aggregations?.['source.genres.label']?.buckets.map(
+      bucket => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
         label: bucket.data.label,
         selected: props['source.genres.label'].includes(bucket.data.label),
-      })) || [],
+      })
+    ),
     selectedValues: props['source.genres.label'].map(quoteVal),
   }),
 });
@@ -363,14 +357,15 @@ const sourceSubjectsFilter = ({
   id: 'source.subjects.label',
   label: 'Subjects',
   options: filterOptionsWithNonAggregates({
-    options:
-      images?.aggregations?.['source.subjects.label']?.buckets.map(bucket => ({
+    options: images?.aggregations?.['source.subjects.label']?.buckets.map(
+      bucket => ({
         id: toHtmlId(bucket.data.label),
         value: quoteVal(bucket.data.label),
         count: bucket.count,
         label: bucket.data.label,
         selected: props['source.subjects.label'].includes(bucket.data.label),
-      })) || [],
+      })
+    ),
     selectedValues: props['source.subjects.label'].map(quoteVal),
   }),
 });
@@ -383,18 +378,17 @@ const sourceContributorAgentsFilter = ({
   id: 'source.contributors.agent.label',
   label: 'Contributors',
   options: filterOptionsWithNonAggregates({
-    options:
-      images?.aggregations?.['source.contributors.agent.label']?.buckets.map(
-        bucket => ({
-          id: toHtmlId(bucket.data.label),
-          value: quoteVal(bucket.data.label),
-          count: bucket.count,
-          label: bucket.data.label,
-          selected: props['source.contributors.agent.label'].includes(
-            bucket.data.label
-          ),
-        })
-      ) || [],
+    options: images?.aggregations?.[
+      'source.contributors.agent.label'
+    ]?.buckets.map(bucket => ({
+      id: toHtmlId(bucket.data.label),
+      value: quoteVal(bucket.data.label),
+      count: bucket.count,
+      label: bucket.data.label,
+      selected: props['source.contributors.agent.label'].includes(
+        bucket.data.label
+      ),
+    })),
     selectedValues: props['source.contributors.agent.label'].map(quoteVal),
   }),
 });
