@@ -2,6 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
+import { worksByThisPerson } from './selectors/concepts';
 
 const domain = new URL(baseUrl).host;
 
@@ -56,20 +57,19 @@ test.describe('concepts', () => {
 
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
-
-    const aboutThisWork = await page.waitForSelector(
+    const aboutThisPerson = await page.waitForSelector(
       'div[aria-labelledby="tab-worksAbout"] a.link-reset'
     );
 
-    const content = await aboutThisWork.textContent();
+    const content = await aboutThisPerson.textContent();
 
     expect(content?.startsWith('All works')).toBe(true);
-    expect(await aboutThisWork.getAttribute('href')).toBe(
+    expect(await aboutThisPerson.getAttribute('href')).toBe(
       '/works?subjects.label=%22Stephens%2C+Joanna%22'
     );
   });
 
-  test.only('concept pages link to a filtered search for works by this subject/person', async ({
+  test('concept pages link to a filtered search for works by this subject/person', async ({
     page,
     context,
   }) => {
@@ -77,18 +77,19 @@ test.describe('concepts', () => {
     // we're quoting the link to a filtered search.
     await concept(conceptIds['Stephens, Joanna'], context, page);
 
+    await page.click(worksByThisPerson);
+
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
-
-    const aboutThisWork = await page.waitForSelector(
+    const byThisPerson = await page.waitForSelector(
       'div[aria-labelledby="tab-worksBy"] a.link-reset'
     );
 
-    const content = await aboutThisWork.textContent();
+    const content = await byThisPerson.textContent();
 
     expect(content?.startsWith('All works')).toBe(true);
-    expect(await aboutThisWork.getAttribute('href')).toBe(
-      '/works?contributors.label=%22Stephens%2C+Joanna%22'
+    expect(await byThisPerson.getAttribute('href')).toBe(
+      '/works?contributors.agent.label=%22Stephens%2C+Joanna%22'
     );
   });
 
