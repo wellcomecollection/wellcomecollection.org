@@ -2,7 +2,7 @@ import { test as base, expect } from '@playwright/test';
 import { concept } from './contexts';
 import { baseUrl } from './helpers/urls';
 import { makeDefaultToggleCookies } from './helpers/utils';
-import { worksByThisPerson } from './selectors/concepts';
+import { imagesByThisPerson, worksByThisPerson } from './selectors/concepts';
 
 const domain = new URL(baseUrl).host;
 
@@ -30,6 +30,7 @@ const conceptIds = {
   'Thackrah, Charles Turner, 1795-1833': 'd46ea7yk',
   'John, the Baptist, Saint': 'qd86ycny',
   'Stephens, Joanna': 'pg43g9hn',
+  'Darwin, Charles, 1809-1882': 'v3m7uhy9',
 };
 
 test.describe('concepts', () => {
@@ -58,7 +59,7 @@ test.describe('concepts', () => {
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const aboutThisPerson = await page.waitForSelector(
-      'div[aria-labelledby="tab-worksAbout"] a.link-reset'
+      'div#tabpanel-worksAbout a.link-reset'
     );
 
     const content = await aboutThisPerson.textContent();
@@ -82,7 +83,7 @@ test.describe('concepts', () => {
     // Note: the `link-reset` class is added by ButtonSolid, and is a way to
     // make sure we find the "All Works" link, and not a link to an individual work.
     const byThisPerson = await page.waitForSelector(
-      'div[aria-labelledby="tab-worksBy"] a.link-reset'
+      'div#tabpanel-worksBy a.link-reset'
     );
 
     const content = await byThisPerson.textContent();
@@ -101,5 +102,51 @@ test.describe('concepts', () => {
     // we're quoting the query we send to the images API.
     await concept(conceptIds['John, the Baptist, Saint'], context, page);
     await page.waitForSelector('h2 >> text="Images"');
+  });
+
+  test('concept pages link to a filtered search for images about this subject/person', async ({
+    page,
+    context,
+  }) => {
+    // I've deliberately picked a complicated ID with commas here, to make sure
+    // we're quoting the link to a filtered search.
+    await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
+
+    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
+    // make sure we find the "All Works" link, and not a link to an individual work.
+    const aboutThisPerson = await page.waitForSelector(
+      'div#tabpanel-imagesAbout a.link-reset'
+    );
+
+    const content = await aboutThisPerson.textContent();
+
+    expect(content?.startsWith('All images')).toBe(true);
+    expect(await aboutThisPerson.getAttribute('href')).toBe(
+      '/images?source.subjects.label=%22Darwin%2C+Charles%2C+1809-1882%22'
+    );
+  });
+
+  test('concept pages link to a filtered search for images by this subject/person', async ({
+    page,
+    context,
+  }) => {
+    // I've deliberately picked a complicated ID with commas here, to make sure
+    // we're quoting the link to a filtered search.
+    await concept(conceptIds['Darwin, Charles, 1809-1882'], context, page);
+
+    await page.click(imagesByThisPerson);
+
+    // Note: the `link-reset` class is added by ButtonSolid, and is a way to
+    // make sure we find the "All Works" link, and not a link to an individual work.
+    const byThisPerson = await page.waitForSelector(
+      'div#tabpanel-imagesBy a.link-reset'
+    );
+
+    const content = await byThisPerson.textContent();
+
+    expect(content?.startsWith('All images')).toBe(true);
+    expect(await byThisPerson.getAttribute('href')).toBe(
+      '/images?source.contributors.agent.label=%22Darwin%2C+Charles%2C+1809-1882%22'
+    );
   });
 });

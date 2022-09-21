@@ -17,6 +17,8 @@ import {
 const imagesPropsSources = [
   'search/paginator',
   'canonical_link',
+  'concept/images_about',
+  'concept/images_by',
   'images_search_context',
   'work_details/images',
   'unknown',
