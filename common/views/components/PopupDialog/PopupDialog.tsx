@@ -39,10 +39,10 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font(
-    'intb',
-    5
-  )} plain-button line-height-1 flex-inline flex--v-center`,
+  className:
+    font('intb', 5) +
+    ' ' +
+    'plain-button line-height-1 flex-inline flex--v-center',
 }))<PopupDialogOpenProps>`
   color: ${props => props.theme.color('purple')};
   position: fixed;
