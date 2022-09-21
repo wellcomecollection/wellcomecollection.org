@@ -4,7 +4,7 @@ import { quoteVal } from '../../utils/csv';
 import { toHtmlId } from '../../utils/string';
 import { ImagesProps } from '../../views/components/ImagesLink/ImagesLink';
 import { WorksProps } from '../../views/components/WorksLink/WorksLink';
-import { isNotUndefined } from '../../utils/array';
+import { isNotUndefined, isString } from '../../utils/array';
 
 export type DateRangeFilter = {
   type: 'dateRange';
@@ -51,6 +51,11 @@ type FilterOption = {
   selected: boolean;
 };
 
+type SelectedValue = {
+  label: string;
+  value: string;
+};
+
 /** We build the list of available filters from two lists:
  *
  *    - the list of aggregated values from the API
@@ -68,17 +73,25 @@ function filterOptionsWithNonAggregates({
   showEmptyBuckets = false,
 }: {
   options?: FilterOption[];
-  selectedValues: string[];
+  selectedValues: (string | SelectedValue)[];
   showEmptyBuckets?: boolean;
 }): FilterOption[] {
   const aggregationValues = options.map(option => option.value);
   const nonAggregateOptions = selectedValues
-    .filter(value => !aggregationValues.includes(value))
-    .map(label => ({
-      id: toHtmlId(label),
-      value: label,
+    .map(value =>
+      isString(value)
+        ? {
+            value,
+            label: value,
+          }
+        : value
+    )
+    .filter(({ value }) => !aggregationValues.includes(value))
+    .map(({ label, value }) => ({
+      id: toHtmlId(value),
+      value: value,
       count: 0,
-      label: label,
+      label,
       selected: true,
     }));
 
@@ -147,7 +160,10 @@ const subjectsFilter = ({
       label: bucket.data.label,
       selected: props['subjects.label'].includes(bucket.data.label),
     })),
-    selectedValues: props['subjects.label'].map(quoteVal),
+    selectedValues: props['subjects.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
   }),
 });
 
@@ -163,7 +179,10 @@ const genresFilter = ({ works, props }: WorksFilterProps): CheckboxFilter => ({
       label: bucket.data.label,
       selected: props['genres.label'].includes(bucket.data.label),
     })),
-    selectedValues: props['genres.label'].map(quoteVal),
+    selectedValues: props['genres.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
   }),
 });
 
@@ -187,7 +206,10 @@ const contributorsAgentFilter = ({
           ),
         })
       ),
-      selectedValues: props['contributors.agent.label'].map(quoteVal),
+      selectedValues: props['contributors.agent.label'].map(label => ({
+        value: quoteVal(label),
+        label,
+      })),
     }),
   };
 };
@@ -345,7 +367,10 @@ const sourceGenresFilter = ({
         selected: props['source.genres.label'].includes(bucket.data.label),
       })
     ),
-    selectedValues: props['source.genres.label'].map(quoteVal),
+    selectedValues: props['source.genres.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
   }),
 });
 
@@ -366,7 +391,10 @@ const sourceSubjectsFilter = ({
         selected: props['source.subjects.label'].includes(bucket.data.label),
       })
     ),
-    selectedValues: props['source.subjects.label'].map(quoteVal),
+    selectedValues: props['source.subjects.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
   }),
 });
 
@@ -389,7 +417,10 @@ const sourceContributorAgentsFilter = ({
         bucket.data.label
       ),
     })),
-    selectedValues: props['source.contributors.agent.label'].map(quoteVal),
+    selectedValues: props['source.contributors.agent.label'].map(label => ({
+      value: quoteVal(label),
+      label,
+    })),
   }),
 });
 
