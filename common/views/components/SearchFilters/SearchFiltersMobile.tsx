@@ -20,6 +20,7 @@ import {
   CheckboxFilter as CheckboxFilterType,
   DateRangeFilter as DateRangeFilterType,
   ColorFilter as ColorFilterType,
+  filterLabel,
 } from '../../../services/catalogue/filters';
 import ButtonSolid, {
   ButtonTypes,
