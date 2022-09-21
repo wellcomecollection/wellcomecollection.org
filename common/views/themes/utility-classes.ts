@@ -5,10 +5,9 @@ import { respondTo, respondBetween, visuallyHidden, clearfix } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
   // Old palette, ignore white/black/yellow as they'll be covered below
-  ${Object.entries(themeValues.colors)
-    .map(([key, value]) => {
-      if (['white', 'black', 'yellow'].includes(key)) return;
-      return `
+  ${Object.entries(themeValues.colors).map(([key, value]) => {
+    if (['white', 'black', 'yellow'].includes(key)) return;
+    return `
       .font-${key} {
         color: ${value.base};
 
@@ -16,37 +15,32 @@ export const utilityClasses = css<GlobalStyleProps>`
           fill: ${value.base};
         }
      }`;
-    })
-    .join(' ')}
+  })}
 
   // New palette
-  ${Object.entries(themeValues.newColors)
-    .map(([key, value]) => {
-      if (typeof value === 'string') {
-        return `
+  ${Object.entries(themeValues.newColors).map(([key, value]) => {
+    if (typeof value === 'string') {
+      return `
         .font-${key} {
           color: ${value};
 
-          // TODO change to currentColor
           .icon__shape {
             fill: ${value};
           }
         }`;
-      } else {
-        return Object.entries(value).map(([k, v]) => {
-          return `
+    } else {
+      return Object.entries(value).map(([k, v]) => {
+        return `
           .font-${key}-${k} {
             color: ${v};
   
-            // TODO change to currentColor
             .icon__shape {
               fill: ${v};
             }
           }`;
-        });
-      }
-    })
-    .join(' ')}
+      });
+    }
+  })}
 
   .transition-bg {
     transition: background ${themeValues.transitionProperties};

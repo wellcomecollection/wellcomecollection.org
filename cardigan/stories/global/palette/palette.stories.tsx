@@ -128,12 +128,12 @@ Object.entries(themeValues.newColors)
         case 'accent':
           info.name = 'Accents';
           info.description =
-            'Chosen to match the core yellow, these can be used throughout the website as accent colours.';
+            'Chosen to match the core yellow, accent colours are interspersed where appropriate for uses such as: defining a theme or differentiating types of content.';
           break;
         case 'neutral':
           info.name = 'Neutrals';
           info.description =
-            'Greyscale; these names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.';
+            'The neutral theme is used for structural page elements such as dividers and UI components. Their variable names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.';
           break;
         case 'warmNeutral':
           info.name = 'Warm Neutrals';
@@ -168,7 +168,9 @@ export const Palette: FunctionComponent = () => {
     <>
       <SectionTitle>Core</SectionTitle>
       <SectionDescription>
-        Core colours used throughout the website.
+        The core colour theme is defined as black, white and yellow. This is a
+        constant theme which persists across the product. As a result, any
+        additional colours should be complimentary to these.
       </SectionDescription>
       <PaletteSection>
         {coreColorsArray.map(color => (
