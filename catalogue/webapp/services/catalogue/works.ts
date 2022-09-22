@@ -64,6 +64,30 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
   status,
 });
 
+/** Creates the YYYY-MM-DD date string we pass to the API.
+ *
+ * Note: the filter GUI expects users to enter dates as a four-digit year (e.g. 1939).
+ * We pin to the start/end of the year so that the range is inclusive.
+ *
+ * e.g. a user who searches for works 'to 2001' should find works created in 2001.
+ */
+function toIsoDateString(
+  s: string | undefined,
+  range: 'to' | 'from'
+): string | undefined {
+  if (s) {
+    try {
+      const d = new Date(s);
+      return range === 'from'
+        ? `${d.getUTCFullYear()}-01-01`
+        : `${d.getUTCFullYear()}-12-31`;
+    } catch (e) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
 /** Run a query with the works API.
  *
  * Note: this method is responsible for encoding parameters in an API-compatible
@@ -84,6 +108,14 @@ export async function getWorks(
   const extendedParams = {
     ...params,
     ...query,
+    'production.dates.from': toIsoDateString(
+      query['production.dates.from'] as string,
+      'from'
+    ),
+    'production.dates.to': toIsoDateString(
+      query['production.dates.to'] as string,
+      'to'
+    ),
     include: worksIncludes,
   };
 
