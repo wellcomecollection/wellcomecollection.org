@@ -287,7 +287,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     if (works.type === 'Error') {
-      return appError(context, works.httpStatus, works.description);
+      console.warn(
+        `Forwarding error from the works API: ${JSON.stringify(works)}`
+      );
+      return appError(
+        context,
+        works.httpStatus,
+        works.description || works.label
+      );
     }
 
     return {
