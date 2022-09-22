@@ -126,10 +126,13 @@ function getAnchorLinkUrls() {
   );
   // Remove empty ids and then append them to the current url with # to
   // create the anchor link
+  // e.g. weco.org/guides/exhibitions/YvUALRAAACMA2h8V/captions-and-transcripts#anchor-id
   const extractedIdValues = getAllIds
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
+  // Make the list of urls csv friendly
   const csvAsSingleColumn = extractedIdValues.join('\n');
+  // Push the list of urls to the clipboard
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
     return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
       alert('All anchor links on this page have been copied to clipboard!');
