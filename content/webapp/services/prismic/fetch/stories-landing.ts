@@ -10,6 +10,14 @@ const graphQuery = `{
       story {
         ...on articles {
           ...articlesFields
+          format {
+            ...formatFields
+          }
+          series {
+            series {
+              ...seriesFields
+            }
+          }
         }
         ...on series {
           ...seriesFields
