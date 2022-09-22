@@ -46,10 +46,10 @@ const LinkLabels: FunctionComponent<Props> = ({
   icon,
 }: Props) =>
   heading ? (
-    <dl className={`flex flex--wrap no-margin ${font('intb', 5)}`}>
+    <dl className={`flex flex--wrap no-margin ${font('intr', 5)}`}>
       <Space
         as="dt"
-        h={{ size: 's', properties: ['margin-right'] }}
+        h={{ size: 'xs', properties: ['margin-right'] }}
         className="flex"
       >
         {icon && (
@@ -57,7 +57,7 @@ const LinkLabels: FunctionComponent<Props> = ({
             <Icon icon={icon} />
           </Space>
         )}
-        {heading}
+        {heading}:
       </Space>
       {items.map(({ url, text }, i) => (
         <dd key={`${url || text}-${i}`} className="no-margin">
