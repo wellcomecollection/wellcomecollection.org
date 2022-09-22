@@ -120,9 +120,12 @@ async function createTzitzitWorkLink(
 }
 
 function getAnchorLinkUrls() {
+  // This function currently only extracts the ids from h2, h3, and h4 tags
   const getAllIds = [...document.querySelectorAll('h2, h3, h4')].map(
     item => item.id
   );
+  // Remove empty ids and then append them to the current url with # to
+  // create the anchor link
   const extractedIdValues = getAllIds
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
