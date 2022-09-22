@@ -4,7 +4,7 @@ import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
 import SectionHeader from '@weco/common/views/components/SectionHeader/SectionHeader';
 import { ArticleBasic } from '../types/articles';
-import { SeriesBasic } from '../types/series';
+import { SeriesBasic, Series } from '../types/series';
 import SpacingSection from '@weco/common/views/components/SpacingSection/SpacingSection';
 import SpacingComponent from '@weco/common/views/components/SpacingComponent/SpacingComponent';
 import Space from '@weco/common/views/components/styled/Space';
@@ -50,6 +50,7 @@ import { transformFeaturedBooks } from '../services/prismic/transformers/feature
 import { transformBookToBookBasic } from '../services/prismic/transformers/books';
 import { BookBasic } from '../types/books';
 import { StoriesLanding } from '../types/stories-landing';
+import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
@@ -114,7 +115,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const featuredBooksPromise = !newStoriesLanding
       ? fetchFeaturedBooks(client)
       : Promise.resolve(null);
-    const featuredSeriesArticlesQueryPromise = !newStoriesLanding
+    const featuredSeriesArticlesPromise = !newStoriesLanding
       ? fetchArticles(client, {
           predicates: [
             prismic.predicate.at(
@@ -135,14 +136,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 
     const [
       articlesQuery,
-      storiesPage,
-      featuredSeriesArticles,
+      storiesPageDoc,
+      featuredSeriesArticlesQuery,
       featuredBooksDoc,
       storiesLandingDoc,
     ] = await Promise.all([
       articlesQueryPromise,
       storiesPagePromise,
-      featuredSeriesArticlesQueryPromise,
+      featuredSeriesArticlesPromise,
       featuredBooksPromise,
       storiesLandingPromise,
     ]);
@@ -151,19 +152,31 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
 
-    const featuredText = storiesPage
-      ? getPageFeaturedText(transformPage(storiesPage!))
-      : '';
+    const featuredText = storiesPageDoc
+      ? getPageFeaturedText(transformPage(storiesPageDoc!))
+      : undefined; // This is only returned when the newStoriesLanding toggle is false
 
     const featuredBooks = featuredBooksDoc
       ? transformFeaturedBooks(featuredBooksDoc).map(transformBookToBookBasic)
-      : [];
+      : []; // This is only returned when the newStoriesLanding toggle is false
 
-    // The featured series and stories page should always exist
-    const series = featuredSeriesArticles
-      ? transformArticleSeries(featuredStoriesSeriesId, featuredSeriesArticles)!
-          .series
-      : [];
+    // The featured series and stories page should always exist, when the newStoriesLanding toggle is false
+    const series = featuredSeriesArticlesQuery
+      ? (transformArticleSeries(
+          featuredStoriesSeriesId,
+          featuredSeriesArticlesQuery
+        ).series as Series)
+      : {
+          type: 'series' as const,
+          id: '',
+          title: '',
+          body: [],
+          labels: [],
+          schedule: [],
+          seasons: [],
+          items: [],
+          contributors: [],
+        }; // This is only returned when the newStoriesLanding toggle is false
 
     // Note: an ArticleBasic contains a lot of information, but we only use
     // a little bit of the series information in the <CardGrid> component
@@ -173,29 +186,36 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // using, to keep the page weight down.
     const basicSeries: SerialisedSeriesProps = series
       ? {
-          // TODO why anxiety in the air not acting like a 'part of' promo
           ...transformSeriesToSeriesBasic(series),
           promo: series.promo,
-          items: [],
-          // items: series.items.map(item => ({
-          //   ...item,
-          //   image: undefined,
-          //   series: item.series.map(s => ({
-          //     // TODO these should maybe be a different type not SeriesBasic
-          //     id: s.id,
-          //     title: s.title,
-          //     schedule: [],
-          //     type: 'series', // TODO probably remove this
-          //     image: undefined, // TODO probably remove this
-          //     promo: undefined, // TODO probably remove this
-          //   })),
-          // })),
+          items: series.items.map(item => ({
+            ...item,
+            image: { width: 0, height: 0, alt: null, contentUrl: '' },
+            series: item.series.map(s => ({
+              id: s.id,
+              title: s.title,
+              schedule: [],
+              type: 'series',
+              image: { width: 0, height: 0, alt: null, contentUrl: '' },
+              promo: {},
+            })),
+          })),
         }
-      : {};
+      : {
+          type: 'series' as const,
+          items: [],
+          id: '',
+          title: '',
+          schedule: [],
+          promo: undefined,
+          image: { contentUrl: '', alt: null, width: 0, height: 0 },
+        }; // This is only returned when the newStoriesLanding toggle is false
 
-    // NEW
     const storiesLanding =
-      storiesLandingDoc && transformStoriesLanding(storiesLandingDoc);
+      storiesLandingDoc &&
+      transformStoriesLanding(
+        storiesLandingDoc as StoriesLandingPrismicDocument
+      );
 
     if (articles && articles.results) {
       return {
@@ -225,6 +245,9 @@ const StoriesPage: FC<Props> = ({
   const firstArticle = articles[0];
   // const { newStoriesLanding } = useToggles(); TODO put this back
   const newStoriesLanding = true;
+  const introText = newStoriesLanding
+    ? storiesLanding?.introText
+    : featuredText?.value;
 
   return (
     <PageLayout
@@ -243,9 +266,7 @@ const StoriesPage: FC<Props> = ({
         isContentTypeInfoBeforeMedia={false}
         sectionLevelPage={true}
       />
-      <>
-        {/* {featuredText &&
-          featuredText.value && ( // TODO take this into account with toggle */}
+      {introText && (
         <Layout8 shift={false}>
           <div className="body-text spaced-text">
             <Space
@@ -255,18 +276,13 @@ const StoriesPage: FC<Props> = ({
               }}
             >
               <FeaturedText
-                html={
-                  newStoriesLanding
-                    ? storiesLanding?.introText // TODO can't pass nothing here
-                    : featuredText?.value
-                }
+                html={introText}
                 htmlSerializer={defaultSerializer}
               />
             </Space>
           </div>
         </Layout8>
-        {/* )} */}
-      </>
+      )}
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">

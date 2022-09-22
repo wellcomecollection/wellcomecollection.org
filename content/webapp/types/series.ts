@@ -14,7 +14,7 @@ export type SeriesBasic = {
   color?: ColorSelection;
   schedule: ArticleScheduleItem[];
   promo: ImagePromo | undefined;
-  image: ImageType; // TODO why do we need this and promo?
+  image: ImageType | undefined;
 };
 
 export type Series = GenericContentFields & {
