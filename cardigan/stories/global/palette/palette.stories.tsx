@@ -4,6 +4,22 @@ import styled from 'styled-components';
 import { font } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider/Divider';
 
+type ColorsObject = {
+  [name: string]: Category;
+};
+
+type Category = {
+  name: string;
+  description: string;
+  colors?: ColorObject[];
+};
+
+type ColorObject = {
+  hex: string;
+  rgb: { r: string; g: string; b: string };
+  hsl: { h: string; s: string; l: string };
+};
+
 const PaletteSection = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -104,135 +120,108 @@ function rgbToHsl({ r, g, b }) {
   return { h, s, l };
 }
 
-const coreColorsArray = [];
-let objectColors = {};
+let objectColors: ColorsObject = {
+  core: {
+    name: 'Core',
+    description:
+      'The core colour theme is defined as black, white and yellow. This is a constant theme which persists across the product. As a result, any additional colours should be complimentary to these.',
+  },
+  accent: {
+    name: 'Accents',
+    description:
+      'Chosen to match the core yellow, accent colours are interspersed where appropriate for uses such as: defining a theme or differentiating types of content.',
+  },
+  neutral: {
+    name: 'Neutrals',
+    description:
+      'The neutral theme is used for structural page elements such as dividers and UI components. Their variable names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.',
+  },
+  warmNeutral: {
+    name: 'Warm Neutrals',
+    description:
+      'Warmer versions of Neutrals, they all match their equivalent in name, but with a warmer tone reminiscent of the core yellow. They are considered equivalents because of their luminosity levels.',
+  },
+  validation: {
+    name: 'Validation',
+    description:
+      'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.',
+  },
+};
 
 Object.entries(themeValues.newColors)
   .map(([key, value]) => {
-    if (typeof value === 'string') {
+    if (!key.includes('.')) {
       const rgb = hexToRgb(value);
-
-      coreColorsArray.push(
-        value.indexOf('#') > -1 && {
-          // Don't display e.g. 'currentColor' or 'transparent'
-          name: key.replace(/'/g, ''),
+      objectColors.core.colors = {
+        ...objectColors.core.colors,
+        [key]: {
           hex: value,
           rgb,
           hsl: rgbToHsl(rgb),
-        }
-      );
+        },
+      };
     } else {
-      // TODO
-      const info = { name: '', description: '' };
-      switch (key) {
-        case 'accent':
-          info.name = 'Accents';
-          info.description =
-            'Chosen to match the core yellow, accent colours are interspersed where appropriate for uses such as: defining a theme or differentiating types of content.';
-          break;
-        case 'neutral':
-          info.name = 'Neutrals';
-          info.description =
-            'The neutral theme is used for structural page elements such as dividers and UI components. Their variable names follow Material design and font-weight inspired naming, where the "thicker" the font, the darker the grey. Some of them have equivalents in warmNeutrals, twinned through their name. They are considered equivalents because of their luminosity levels.';
-          break;
-        case 'warmNeutral':
-          info.name = 'Warm Neutrals';
-          info.description =
-            'Warmer versions of Neutrals, they all match their equivalent in name, but with a warmer tone reminiscent of the core yellow. They are considered equivalents because of their luminosity levels.';
-          break;
-        case 'validation':
-          info.name = 'Validation';
-          info.description =
-            'These colours should be used solely for validation purposes. We encourage the use of different shades if for other purposes.';
-          break;
-      }
-      const subColors = Object.entries(value).map(([k, v]) => {
-        const rgb = hexToRgb(v);
+      const rgb = hexToRgb(value);
+      const [category, colorName] = key.split('.');
 
-        return (
-          v.indexOf('#') > -1 && {
-            name: `${k}`,
-            hex: v,
-            rgb,
-            hsl: rgbToHsl(rgb),
-          }
-        );
-      });
-      objectColors = { ...objectColors, [key]: { ...info, subColors } };
+      objectColors = {
+        ...objectColors,
+        [category]: {
+          ...objectColors[category],
+          colors: {
+            ...objectColors[category].colors,
+            [colorName]: {
+              hex: value,
+              rgb,
+              hsl: rgbToHsl(rgb),
+            },
+          },
+        },
+      };
     }
   })
   .filter(Boolean);
 
-export const Palette: FunctionComponent = () => {
-  return (
-    <>
-      <SectionTitle>Core</SectionTitle>
-      <SectionDescription>
-        The core colour theme is defined as black, white and yellow. This is a
-        constant theme which persists across the product. As a result, any
-        additional colours should be complimentary to these.
-      </SectionDescription>
-      <PaletteSection>
-        {coreColorsArray.map(color => (
-          <PaletteBlock key={color.name}>
-            <PaletteName>{color.name}</PaletteName>
-            <PaletteColor
-              hasBorder={color.name === 'white'}
-              style={{ background: color.hex }}
-            />
-            <PaletteHex>
-              Hex: <PaletteCode>{color.hex}</PaletteCode>
-            </PaletteHex>
-            <PaletteHex>
-              RGB:{' '}
-              <PaletteCode>
-                {color.rgb.r}, {color.rgb.g}, {color.rgb.b}
-              </PaletteCode>
-            </PaletteHex>
-            <PaletteHex>
-              HSL:{' '}
-              <PaletteCode>
-                {color.hsl.h}, {color.hsl.s}, {color.hsl.l}%
-              </PaletteCode>
-            </PaletteHex>
-          </PaletteBlock>
-        ))}
-      </PaletteSection>
-      {Object.keys(objectColors).map(category => (
-        <SectionWrapper key={category}>
-          <Divider color="black" isKeyline={true} />
-          <SectionTitle>{objectColors[category].name}</SectionTitle>
-          <SectionDescription>
-            {objectColors[category].description}
-          </SectionDescription>
-          <PaletteSection>
-            {objectColors[category].subColors.map(color => (
-              <PaletteBlock key={color.name}>
-                <PaletteName>{color.name}</PaletteName>
+export const Palette: FunctionComponent = () => (
+  <>
+    {Object.keys(objectColors).map((category, i) => (
+      <SectionWrapper key={category}>
+        {i !== 0 && <Divider color="black" isKeyline={true} />}
+        <SectionTitle>{objectColors[category].name}</SectionTitle>
+        <SectionDescription>
+          {objectColors[category].description}
+        </SectionDescription>
+        <PaletteSection>
+          {Object.entries(objectColors[category].colors).map(
+            ([colorName, colorValues]) => (
+              <PaletteBlock key={colorName}>
+                <PaletteName>{colorName}</PaletteName>
                 <PaletteColor
-                  hasBorder={color.name === 'white'}
-                  style={{ background: color.hex }}
+                  hasBorder={colorName === 'white'}
+                  style={{ background: colorValues.hex }}
                 />
                 <PaletteHex>
-                  Hex: <PaletteCode>{color.hex}</PaletteCode>
+                  Hex: <PaletteCode>{colorValues.hex}</PaletteCode>
                 </PaletteHex>
                 <PaletteHex>
                   RGB:{' '}
                   <PaletteCode>
-                    {color.rgb.r}, {color.rgb.g}, {color.rgb.b}
+                    {colorValues.rgb.r}, {colorValues.rgb.g},{' '}
+                    {colorValues.rgb.b}
                   </PaletteCode>
                 </PaletteHex>
                 <PaletteHex>
                   HSL:{' '}
                   <PaletteCode>
-                    {color.hsl.h}, {color.hsl.s}, {color.hsl.l}%
+                    {colorValues.hsl.h}, {colorValues.hsl.s},{' '}
+                    {colorValues.hsl.l}%
                   </PaletteCode>
                 </PaletteHex>
               </PaletteBlock>
-            ))}
-          </PaletteSection>
-        </SectionWrapper>
-      ))}
-    </>
-  );
-};
+            )
+          )}
+        </PaletteSection>
+      </SectionWrapper>
+    ))}
+  </>
+);
