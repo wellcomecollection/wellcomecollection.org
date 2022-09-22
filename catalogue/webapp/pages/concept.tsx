@@ -32,7 +32,8 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
-import { LinkProps } from 'next/link';
+import Link, { LinkProps } from 'next/link';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -116,7 +117,7 @@ export const ConceptPage: NextPage<Props> = ({
     // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
-      description={`Find out more about ${conceptResponse.label} by browsing related works and images from Wellcome Collection.`}
+      description={`Find books, manuscripts, paintings, illustrations, photos and unpublished archives about ${conceptResponse.label}, many of them with free online access.`}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
@@ -130,8 +131,18 @@ export const ConceptPage: NextPage<Props> = ({
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             {/* TODO get copy from Jonathan */}
             <ConceptDescription className={font('intr', 5)}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-              dapibus suscipit enim nec aliquam.
+              <BetaMessage
+                message={
+                  <>
+                    We are working to improve the information on this page.{' '}
+                    <Link href="/user-panel">Join our user panel</Link> or{' '}
+                    <Link href="https://roadmap.wellcomecollection.org/">
+                      submit an idea
+                    </Link>{' '}
+                    that would help you use our website.
+                  </>
+                }
+              />
             </ConceptDescription>
           </Space>
         </div>

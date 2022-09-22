@@ -39,10 +39,12 @@ export const Details = styled.div`
 `}
 `;
 
-export const WorkInformation = styled.div.attrs({ className: font('intr', 5) })`
+export const WorkInformation = styled(Space).attrs({
+  className: font('intr', 5),
+  v: { size: 'xs', properties: ['margin-bottom'] },
+})`
   display: flex;
   color: ${props => props.theme.color('pewter')};
-  margin-bottom: 4px;
 `;
 
 export const WorkTitleHeading = styled.h3`
