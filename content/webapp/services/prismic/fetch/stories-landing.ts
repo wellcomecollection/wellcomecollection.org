@@ -3,8 +3,9 @@ import { StoriesLandingPrismicDocument } from '../types/stories-landing';
 
 const graphQuery = `{
   stories-landing {
-    title
-    description
+    introText
+    storiesTitle
+    storiesDescription
     stories {
       story {
         ...on articles {
@@ -15,6 +16,8 @@ const graphQuery = `{
         }
       }
     }
+    booksTitle
+    booksDescription
     books {
       book {
         ...bookFields
