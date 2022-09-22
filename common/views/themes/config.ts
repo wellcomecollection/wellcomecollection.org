@@ -124,19 +124,7 @@ const newColors = {
   'validation.green': '#0b7051',
 };
 
-const getNewColor = (name: PaletteColor): string => {
-  const colorArray = name.split('.');
-
-  // Core colors are not contained in a parent object, so it could be first level only
-  let color = newColors[name];
-
-  // If it's within an object, check which specific color it wants
-  if (colorArray.length > 1) {
-    color = newColors[colorArray[0]][colorArray[1]];
-  }
-
-  return color;
-};
+const getNewColor = (name: PaletteColor): string => newColors[name];
 
 export const colors = {
   white: { base: '#ffffff', dark: '', light: '' },
