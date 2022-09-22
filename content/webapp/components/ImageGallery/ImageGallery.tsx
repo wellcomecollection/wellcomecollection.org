@@ -20,6 +20,9 @@ import Layout8 from '@weco/common/views/components/Layout8/Layout8';
 import Space from '@weco/common/views/components/styled/Space';
 import { cross, gallery } from '@weco/common/icons';
 import { PageBackgroundContext } from '../ContentPage/ContentPage';
+import ComicPreviousNext, {
+  Props as ComicPreviousNextProps,
+} from '../ComicPreviousNext/ComicPreviousNext';
 
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
@@ -185,6 +188,7 @@ export type Props = {
   title?: string;
   items: CaptionedImageProps[];
   isStandalone: boolean;
+  comicPreviousNext?: ComicPreviousNextProps;
 };
 
 const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
@@ -192,6 +196,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
   title,
   items,
   isStandalone,
+  comicPreviousNext,
 }) => {
   const [isActive, setIsActive] = useState(true);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -278,6 +283,7 @@ const ImageGallery: FunctionComponent<{ id: number } & Props> = ({
             background: `url(${repeatingLsBlack}) no-repeat top center`,
           }}
         />
+        {comicPreviousNext && <ComicPreviousNext {...comicPreviousNext} />}
         <Layout12>
           <Space
             v={
