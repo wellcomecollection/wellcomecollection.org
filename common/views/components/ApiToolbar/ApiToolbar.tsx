@@ -124,11 +124,14 @@ function getAnchorLinkUrls() {
     item => item.id
   );
   const extractedIdValues = getAllIds.map(id => `${document.URL}#${id}`);
-  const allExtractedUrls = [...extractedIdValues];
-  const strings = JSON.stringify(allExtractedUrls);
+  const csvAsSingleColumn = extractedIdValues.join('\n');
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
-    return navigator.clipboard.writeText(strings);
-  return 'The Clipboard API is not available.';
+    return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
+      alert('All anchor links on this page have been copied to clipboard!');
+    });
+  return alert(
+    'The Clipboard API is not available. No links have been copied.'
+  );
 }
 
 function getRouteProps(path: string) {
