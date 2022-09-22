@@ -646,20 +646,20 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
           <WorkDetailsTags
             title="Contributors"
             tags={work.contributors.map(contributor => {
+              const textParts = [
+                contributor.agent.label,
+                ...contributor.roles.map(role => role.label),
+              ];
               /*
               If this is an identified contributor, link to the concepts prototype
               page instead.
 
               The prototype page will only display if you have the toggle enabled,
-              so don't display it if you don't have the toggle.  Also, put a shiny
-              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              so don't link there if you don't have the toggle.
               */
               return toggles.conceptsPages && contributor.agent.id
                 ? {
-                    textParts: [
-                      `🆕 ${contributor.agent.label}`,
-                      ...contributor.roles.map(role => role.label),
-                    ],
+                    textParts,
                     linkAttributes: {
                       href: {
                         pathname: `/concepts/${contributor.agent.id}`,
@@ -670,10 +670,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
                     },
                   }
                 : {
-                    textParts: [
-                      contributor.agent.label,
-                      ...contributor.roles.map(role => role.label),
-                    ],
+                    textParts,
                     linkAttributes: worksLink(
                       {
                         'contributors.agent.label': [contributor.agent.label],
