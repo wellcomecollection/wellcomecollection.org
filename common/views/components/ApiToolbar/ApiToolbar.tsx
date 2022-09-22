@@ -123,14 +123,16 @@ function getAnchorLinkUrls() {
   const getAllIds = [...document.querySelectorAll('h2, h3, h4')].map(
     item => item.id
   );
-  const extractedIdValues = getAllIds.map(id => `${document.URL}#${id}`);
+  const extractedIdValues = getAllIds
+    .filter(Boolean)
+    .map(id => `${document.URL}#${id}`);
   const csvAsSingleColumn = extractedIdValues.join('\n');
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
     return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
       alert('All anchor links on this page have been copied to clipboard!');
     });
   return alert(
-    'The Clipboard API is not available. No links have been copied.'
+    'The Clipboard API is not available. No anchor links have been copied.'
   );
 }
 
