@@ -733,7 +733,7 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               */
               return toggles.conceptsPages && s.id
                 ? {
-                    textParts: [`🆕 ${s.concepts[0].label}`].concat(
+                    textParts: [`${s.concepts[0].label}`].concat(
                       s.concepts.slice(1).map(c => c.label)
                     ),
                     linkAttributes: {

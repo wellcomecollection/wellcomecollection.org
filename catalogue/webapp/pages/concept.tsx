@@ -54,7 +54,8 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
   margin-bottom: 1rem;
 `;
 
-const TypeLabel = styled.span.attrs({ className: font('intr', 6) })`
+// TODO when LabelColor is refactored, maybe switch to using Label?
+const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
   background-color: ${props => props.theme.color('cream', 'dark')};
   padding: 5px;
 `;

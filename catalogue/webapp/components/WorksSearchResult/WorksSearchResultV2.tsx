@@ -94,7 +94,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
               {primaryContributorLabel && (
                 <>
                   {productionDates.length > 0 && (
-                    <Space h={{ size: 'xs', properties: ['margin-right'] }}>
+                    <Space h={{ size: 's', properties: ['margin-right'] }}>
                       |
                     </Space>
                   )}
