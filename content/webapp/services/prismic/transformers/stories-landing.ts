@@ -19,7 +19,6 @@ function transformStoryOrSeries(storyOrSeries) {
   } else {
     return transformSeriesToSeriesBasic(transformSeries(storyOrSeries));
   }
-  return storyOrSeries;
 }
 export function transformStoriesLanding(
   storiesLandingDoc: StoriesLandingPrismicDocument
