@@ -37,7 +37,7 @@ export function transformStoriesLanding(
     storiesTitle: asText(storiesTitle),
     storiesDescription: asRichText(storiesDescription) || [],
     stories: stories
-      .map(d =>
+      ?.map(d =>
         isFilledLinkToDocumentWithData(d.story)
           ? transformStoryOrSeries(d.story)
           : undefined
@@ -46,7 +46,7 @@ export function transformStoriesLanding(
     booksTitle: asText(booksTitle),
     booksDescription: asRichText(booksDescription) || [],
     books: books
-      .map(d =>
+      ?.map(d =>
         isFilledLinkToDocumentWithData(d.book)
           ? transformBookToBookBasic(transformBook(d.book))
           : undefined
