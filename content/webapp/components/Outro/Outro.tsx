@@ -1,6 +1,5 @@
 import { MultiContent } from '../../types/multi-content';
 import { isNotUndefined } from '@weco/common/utils/array';
-import { classNames } from '@weco/common/utils/classnames';
 import { trackEvent } from '@weco/common/utils/ga';
 import CompactCard from '../CompactCard/CompactCard';
 import Divider from '@weco/common/views/components/Divider/Divider';
@@ -72,20 +71,12 @@ const Outro: FC<Props> = ({
           properties: ['margin-top'],
         }}
         as="h2"
-        className={classNames({
-          h1: true,
-        })}
+        className="h1"
       >
         Try these next
       </Space>
 
-      <ul
-        className={classNames({
-          'no-margin': true,
-          'no-padding': true,
-          'plain-list': true,
-        })}
-      >
+      <ul className="no-margin no-padding plain-list">
         {[researchItem, readItem, visitItem]
           .filter(isNotUndefined)
           .map((item, index, arr) => {

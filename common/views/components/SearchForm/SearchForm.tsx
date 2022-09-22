@@ -11,7 +11,6 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import TextInput from '../TextInput/TextInput';
 import ButtonSolid from '../ButtonSolid/ButtonSolid';
-import { classNames } from '../../../utils/classnames';
 import { trackEvent } from '../../../utils/ga';
 import SearchFilters from '../SearchFilters/SearchFilters';
 import Select from '../Select/Select';
@@ -38,9 +37,7 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchButtonWrapper = styled.div.attrs({
-  className: classNames({
-    absolute: true,
-  }),
+  className: 'absolute',
 })`
   top: ${props => props.theme.spacingUnits['3'] + 6}px;
   right: ${props => props.theme.spacingUnits['5'] + 6}px;
@@ -198,7 +195,7 @@ const SearchForm = forwardRef(
               setValue={setInputQuery}
               ref={searchInput}
               big={true}
-              placeholder={''}
+              placeholder=""
               ariaLabel={
                 isImageSearch ? searchFormInputImage : searchFormInputCatalogue
               }

@@ -127,52 +127,95 @@ describe('findClosedDays', () => {
   });
 });
 
-describe('findNextPickUpDay: finds the earliest date on which requested items can be picked up', () => {
-  it('returns the same date provided if it occurs on one of the regular open days', () => {
-    const result = findNextPickUpDay(
-      new Date('2022-01-15'), // Saturday
-      [0, 1, 2] // Sunday, Monday, Tuesday
-    );
-    expect(result).toEqual(new Date('2022-01-15')); // Saturday
-  });
-  it('leaves a full working day between the request and retrieval', () => {
-    const result = findNextPickUpDay(
-      new Date('2022-01-16'), // Sunday
-      [0, 1, 2] // Sunday, Monday, Tuesday
-    );
-    expect(result).toEqual(new Date('2022-01-20')); // Thursday
-  });
-  it("doesn't return a date if there are no regular days that are open", () => {
-    const result = findNextPickUpDay(
-      new Date('2022-01-16'), // Sunday
-      [0, 1, 2, 3, 4, 5, 6]
-    );
-    expect(result).toBeUndefined();
-  });
-});
-
 describe('determineNextAvailableDate', () => {
   it('adds a single day to the current date, if the time is before 10am', () => {
-    const result = determineNextAvailableDate(new Date('2021-12-9 09:00'), [0]);
+    const result = determineNextAvailableDate(
+      new Date('2021-12-9 09:00'),
+      [0],
+      []
+    );
     expect(result).toEqual(new Date('2021-12-10 09:00'));
   });
 
   it('adds 2 days to the current date, if the time is after 10am', () => {
-    const result = determineNextAvailableDate(new Date('2021-12-9 11:00'), [0]);
+    const result = determineNextAvailableDate(
+      new Date('2021-12-9 11:00'),
+      [0],
+      []
+    );
     expect(result).toEqual(new Date('2021-12-11 11:00'));
   });
 
-  it('defers weekend requests until Tuesday, to avoid a rush of retrievals on Monday', () => {
-    const result = determineNextAvailableDate(new Date('2021-12-10 10:30'), [
-      0,
-    ]); // Sunday
-    expect(result).toEqual(new Date('2021-12-14 10:30')); // Tuesday
-  });
+  // defers requests over the weekend appropriately
+  // this encodes the test cases from https://github.com/wellcomecollection/wellcomecollection.org/issues/8215
+  test.each([
+    {
+      description: 'Before Monday 10am',
+      requestMade: new Date('2022-09-05T09:59:59+0100'), // Monday
+      firstVisits: new Date('2022-09-06T09:59:59+0100'), // Tuesday
+    },
+    {
+      description: 'Monday 10.01',
+      requestMade: new Date('2022-09-05T10:01:01+0100'), // Monday
+      firstVisits: new Date('2022-09-07T10:01:01+0100'), // Wednesday
+    },
+    {
+      description: 'Before Tuesday 10am',
+      requestMade: new Date('2022-09-06T09:59:59+0100'), // Tuesday
+      firstVisits: new Date('2022-09-07T09:59:59+0100'), // Wednesday
+    },
+    {
+      description: 'Tuesday 10.01',
+      requestMade: new Date('2022-09-06T10:01:01+0100'), // Tuesday
+      firstVisits: new Date('2022-09-08T10:01:01+0100'), // Thursday
+    },
+    {
+      description: 'Before Wednesday 10am',
+      requestMade: new Date('2022-09-07T09:59:59+0100'), // Wednesday
+      firstVisits: new Date('2022-09-08T09:59:59+0100'), // Thursday
+    },
+    {
+      description: 'Thursday 10.01',
+      requestMade: new Date('2022-09-08T10:01:01+0100'), // Thursday
+      firstVisits: new Date('2022-09-10T10:01:01+0100'), // Saturday
+    },
+    {
+      description: 'Before Friday 10am',
+      requestMade: new Date('2022-09-09T09:59:59+0100'), // Friday
+      firstVisits: new Date('2022-09-10T09:59:59+0100'), // Saturday
+    },
+    {
+      description: 'Friday 10.01',
+      requestMade: new Date('2022-09-09T10:01:01+0100'), // Friday
+      firstVisits: new Date('2022-09-12T10:01:01+0100'), // Monday
+    },
+    {
+      description: 'Before Saturday 10am',
+      requestMade: new Date('2022-09-10T09:59:59+0100'), // Saturday
+      firstVisits: new Date('2022-09-12T09:59:59+0100'), // Monday
+    },
+    {
+      description: 'Saturday 10.01',
+      requestMade: new Date('2022-09-10T10:01:01+0100'), // Saturday
+      firstVisits: new Date('2022-09-13T10:01:01+0100'), // Tuesday
+    },
+  ])(
+    '$description: an item ordered at $requestMade can be retrieved on $firstVisits',
+    ({ requestMade, firstVisits }) => {
+      const result = determineNextAvailableDate(
+        requestMade,
+        [0], // Sunday
+        []
+      );
+      expect(result).toEqual(firstVisits);
+    }
+  );
 
   it("doesn't return a date if there are no regular days that are open", () => {
     const result = determineNextAvailableDate(
       new Date(),
-      [0, 1, 2, 3, 4, 5, 6]
+      [0, 1, 2, 3, 4, 5, 6],
+      []
     );
     expect(result).toBeUndefined();
   });
@@ -182,25 +225,63 @@ describe('determineNextAvailableDate', () => {
     // at 09:30 in London -- it can be fulfilled the next day.
     const date1 = new Date('2021-12-09T10:30:00+0100');
 
-    const result1 = determineNextAvailableDate(date1, [0]);
+    const result1 = determineNextAvailableDate(date1, [0], []);
     expect(result1).toEqual(new Date('2021-12-10T09:30:00Z'));
 
     // Paris is an hour ahead of London, so a request made at 11:30 in Paris is
-    // at 19:30 in London -- it can’t be fulfilled the next day.
+    // at 10:30 in London -- it can’t be fulfilled the next day.
     const date2 = new Date('2021-12-09T11:30:00+0100');
 
-    const result2 = determineNextAvailableDate(date2, [0]);
+    const result2 = determineNextAvailableDate(date2, [0], []);
     expect(result2).toEqual(new Date('2021-12-11T10:30:00Z'));
 
     // Now run the same tests, but now during British Summer Time when London
     // and UTC are different.
     const date3 = new Date('2022-09-06T10:30:00+0200');
-    const result3 = determineNextAvailableDate(date3, [0]);
+    const result3 = determineNextAvailableDate(date3, [0], []);
     expect(result3).toEqual(new Date('2022-09-07T09:30:00+0100'));
 
     const date4 = new Date('2022-09-06T11:30:00+0200');
-    const result4 = determineNextAvailableDate(date4, [0]);
+    const result4 = determineNextAvailableDate(date4, [0], []);
     expect(result4).toEqual(new Date('2022-09-08T10:30:00+0100'));
+  });
+
+  // This is based on an issue reported by email on 16 September 2022 to the
+  // digital@wellcomecollection.org DL
+  it('accounts for exceptional closure dates (Sept 2022 bank holiday)', () => {
+    // Monday, the bank holiday for the state funeral of Queen Elizabeth II
+    const stateFuneral = new Date('2022-09-19T12:00:00+0100');
+
+    const result = determineNextAvailableDate(
+      new Date('2022-09-16T18:00:00+0100'), // Friday evening
+      [0], // Sunday
+      [stateFuneral]
+    );
+
+    // It's past 10am on Friday, so:
+    //
+    //    - the library staff can retrieve the item from the stores on Saturday
+    //    - nothing happens on Sunday/Monday because the library is closed
+    //    - the user can view the item on Tuesday
+    //
+    expect(result).toEqual(new Date('2022-09-20T18:00:00+0100'));
+  });
+
+  it('accounts for exceptional closure dates', () => {
+    const exceptionalClosure = new Date('2021-12-13T12:00:00Z'); // Monday
+    const result = determineNextAvailableDate(
+      new Date('2021-12-10T12:00:00Z'), // Friday
+      [0], // Sunday
+      [exceptionalClosure]
+    );
+
+    // It's past 10am on Friday, so:
+    //
+    //    - the library staff can retrieve the item from the stores on Saturday
+    //    - nothing happens on Sunday/Monday because the library is closed
+    //    - the user can view the item on Tuesday
+    //
+    expect(result).toEqual(new Date('2021-12-14T12:00:00Z')); // Tuesday
   });
 });
 

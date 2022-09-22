@@ -62,6 +62,12 @@ const toggles = {
       description: 'View pages with the new colour palette',
     },
     {
+      id: 'readingTime',
+      title: 'Reading time',
+      initialValue: false,
+      description: 'Displays reading time estimate on articles',
+    },
+    {
       id: 'newStoriesLanding',
       title: 'New stories landing page content',
       initialValue: false,

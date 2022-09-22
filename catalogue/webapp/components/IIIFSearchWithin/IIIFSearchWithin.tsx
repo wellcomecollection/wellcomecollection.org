@@ -8,7 +8,7 @@ import {
 import { getSearchService } from '../../utils/iiif';
 import TextInput from '@weco/common/views/components/TextInput/TextInput';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
 import { FixedSizeList } from 'react-window';
@@ -32,9 +32,7 @@ const SearchInputWrapper = styled.div`
 `;
 
 const SearchButtonWrapper = styled.div.attrs({
-  className: classNames({
-    absolute: true,
-  }),
+  className: 'absolute',
 })`
   top: 50%;
   transform: translateY(-50%);
@@ -55,10 +53,7 @@ const ListItem = styled.li`
 `;
 
 const SearchResult = styled.button.attrs({
-  className: classNames({
-    [font('intr', 6)]: true,
-    'plain-button': true,
-  }),
+  className: `${font('intr', 6)} plain-button`,
 })`
   cursor: pointer;
   display: block;
@@ -72,9 +67,7 @@ const SearchResult = styled.button.attrs({
 
 const HitData = styled(Space).attrs({
   as: 'span',
-  className: classNames({
-    [font('intb', 6)]: true,
-  }),
+  className: font('intb', 6),
 })`
   display: block;
   background: ${props => props.theme.color('charcoal')};
@@ -132,8 +125,8 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
       >
         <SearchInputWrapper className="relative">
           <TextInput
-            id={'searchWithin'}
-            label={'Search within this item'}
+            id="searchWithin"
+            label="Search within this item"
             name="query"
             value={value}
             setValue={setValue}

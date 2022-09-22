@@ -1,5 +1,5 @@
 import { Work } from '@weco/common/model/catalogue';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import {
   getDownloadOptionsFromImageUrl,
   getDigitalLocationOfType,
@@ -85,11 +85,11 @@ const DownloadPage: NextPage<Props> = ({
   return (
     <PageLayout
       title={title}
-      description={''}
+      description=""
       url={{ pathname: `/works/${workId}/download`, query: { sierraId } }}
-      openGraphType={'website'}
+      openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
-      siteSection={'collections'}
+      siteSection="collections"
       hideNewsletterPromo={true}
     >
       <Layout8>
@@ -102,9 +102,7 @@ const DownloadPage: NextPage<Props> = ({
               }}
               as="h1"
               id="work-info"
-              className={classNames({
-                [font('intb', 1)]: true,
-              })}
+              className={font('intb', 1)}
             >
               {title}
             </Space>

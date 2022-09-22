@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 
 export const DatePicker = styled.div`
   padding: 1em;
@@ -26,9 +26,7 @@ export const Header = styled.div`
 `;
 
 export const Message = styled.p.attrs(() => ({
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 }))`
   background: ${props => props.theme.color('yellow')};
   padding: ${props => `${props.theme.spacingUnit * 2}px`};

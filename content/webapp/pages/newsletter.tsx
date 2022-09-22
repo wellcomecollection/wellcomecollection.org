@@ -31,13 +31,13 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
 const Newsletter: FC<Props> = ({ result }) => {
   return (
     <PageLayout
-      title={'Sign up to our newsletter'}
+      title="Sign up to our newsletter"
       description={newsletterDescription}
       hideNewsletterPromo={true}
       url={{ pathname: `/newsletter` }}
       jsonLd={{ '@type': 'WebPage' }}
-      openGraphType={'website'}
-      siteSection={'what-we-do'}
+      openGraphType="website"
+      siteSection="what-we-do"
       image={{
         contentUrl:
           'https://iiif.wellcomecollection.org/image/V0019283.jpg/full/800,/0/default.jpg',
@@ -49,7 +49,7 @@ const Newsletter: FC<Props> = ({ result }) => {
       <PageHeader
         breadcrumbs={{ items: [] }}
         labels={undefined}
-        title={'Newsletters'}
+        title="Newsletters"
         ContentTypeInfo={undefined}
         Background={undefined}
         backgroundTexture={landingHeaderBackgroundLs}

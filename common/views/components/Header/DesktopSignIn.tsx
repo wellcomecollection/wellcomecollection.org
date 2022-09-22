@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { useUser } from '../UserProvider/UserProvider';
 import DropdownButton from '../DropdownButton/DropdownButton';
 import Space from '../styled/Space';
@@ -40,15 +40,7 @@ const DesktopSignIn: FC = () => {
           <span className="display-none headerLarge-display-block">
             <BorderlessLink
               iconLeft={userIcon}
-              text={
-                <span
-                  className={classNames({
-                    [font('intr', 6)]: true,
-                  })}
-                >
-                  Library sign in
-                </span>
-              }
+              text={<span className={font('intr', 6)}>Library sign in</span>}
               href="/account/api/auth/login"
               onClick={() => {
                 trackEvent({
@@ -60,10 +52,11 @@ const DesktopSignIn: FC = () => {
             />
           </span>
           <span
-            className={`display-none headerMedium-display-block headerLarge-display-none ${font(
-              'intr',
-              6
-            )}`}
+            className={
+              'display-none headerMedium-display-block headerLarge-display-none' +
+              ' ' +
+              font('intr', 6)
+            }
           >
             <DropdownButton
               label=""
@@ -82,11 +75,7 @@ const DesktopSignIn: FC = () => {
         <span className="display-none headerMedium-display-block">
           <DropdownButton
             label={
-              <span
-                className={classNames({
-                  [font('intr', 6)]: true,
-                })}
-              >
+              <span className={font('intr', 6)}>
                 {user.firstName.charAt(0).toLocaleUpperCase()}
                 {user.lastName.charAt(0).toLocaleUpperCase()}
               </span>
@@ -95,11 +84,7 @@ const DesktopSignIn: FC = () => {
             id="signedin-dropdown"
             buttonType="borderless"
           >
-            <span
-              className={classNames({
-                [font('intr', 6)]: true,
-              })}
-            >
+            <span className={font('intr', 6)}>
               <AccountA
                 as="a"
                 onClick={() => {

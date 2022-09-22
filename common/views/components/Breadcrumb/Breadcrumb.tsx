@@ -6,19 +6,13 @@ import styled from 'styled-components';
 import { BreadcrumbItems } from '../../../model/breadcrumbs';
 
 const ItemWrapper = styled(Space).attrs(() => ({
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 }))``;
 
 const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
   items,
 }: BreadcrumbItems): ReactElement => (
-  <div
-    className={classNames({
-      flex: true,
-    })}
-  >
+  <div className="flex">
     {items
       .filter(({ isHidden }) => !isHidden)
       .map(({ text, url, prefix }, i) => {
@@ -48,10 +42,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
     {/* We do this so that the page doesn't bounce around if we don't have any breadcrumbs */}
     {items.length === 0 && (
       <span
-        className={classNames({
-          [font('intr', 6)]: true,
-          'empty-filler': true,
-        })}
+        className={`${font('intr', 6)} empty-filler`}
         style={{ lineHeight: 1 }}
       />
     )}

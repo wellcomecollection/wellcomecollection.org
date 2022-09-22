@@ -1,11 +1,12 @@
 import { Browser } from 'playwright';
-import { ignoreRequestError } from './ignore';
+import { ignoreErrorLog, ignoreRequestError } from './ignore';
 
 type FailureType =
   | 'could-not-load-url'
   | 'unexpected-status'
   | 'mime-type-mismatch'
-  | 'uncaught-error'
+  | 'uncaught-js-error'
+  | 'other-js-error'
   | 'page-request-failure'
   | 'page-request-error'
   | 'unknown';
@@ -39,9 +40,17 @@ export const urlChecker =
     const page = await context.newPage();
     const failures: Failure[] = [];
 
+    page.on('console', message => {
+      if (message.type() === 'error' && !ignoreErrorLog(message.text())) {
+        failures.push({
+          failureType: 'other-js-error',
+          description: `Error on page: ${message.text()}`,
+        });
+      }
+    });
     page.on('pageerror', error =>
       failures.push({
-        failureType: 'uncaught-error',
+        failureType: 'uncaught-js-error',
         description: `Uncaught error on page: ${error}`,
       })
     );

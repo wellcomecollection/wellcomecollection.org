@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { plus } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -33,12 +33,7 @@ type ControlProps = {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const Control = styled.button.attrs(props => ({
-  className: classNames({
-    'plain-button': true,
-    flex: true,
-    'flex--v-center': true,
-    [font('intb', 5)]: true,
-  }),
+  className: `plain-button flex flex--v-center ${font('intb', 5)}`,
 }))<ControlProps>`
   cursor: pointer;
   padding: 0;

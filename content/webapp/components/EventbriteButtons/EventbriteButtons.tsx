@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Event } from '../../types/events';
 import ButtonSolid from '@weco/common/views/components/ButtonSolid/ButtonSolid';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
-import { font, classNames } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { ticket } from '@weco/common/icons';
 import styled from 'styled-components';
@@ -10,9 +10,7 @@ import styled from 'styled-components';
 const Location = styled(Space).attrs({
   v: { size: 's', properties: ['margin-bottom'] },
   as: 'p',
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 })``;
 
 type Props = {
@@ -85,12 +83,7 @@ const EventbriteButtons: FC<Props> = ({ event }) => {
               </Space>
             </>
           )}
-          <p
-            className={classNames({
-              'font-charcoal no-margin': true,
-              [font('intr', 5)]: true,
-            })}
-          >
+          <p className={`font-charcoal no-margin ${font('intr', 5)}`}>
             Tickets via Eventbrite
           </p>
         </>

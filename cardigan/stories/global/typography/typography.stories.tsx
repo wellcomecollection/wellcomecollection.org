@@ -1,7 +1,7 @@
 import Table from '@weco/common/views/components/Table/Table';
 import { fontSizesAtBreakpoints } from '@weco/common/views/themes/typography';
 import styled from 'styled-components';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 const Font = styled.div`
@@ -10,9 +10,7 @@ const Font = styled.div`
 `;
 
 const FontName = styled.h2.attrs({
-  className: classNames({
-    [font('intb', 6)]: true,
-  }),
+  className: font('intb', 6),
 })`
   color: ${props => props.theme.color('red')};
 `;

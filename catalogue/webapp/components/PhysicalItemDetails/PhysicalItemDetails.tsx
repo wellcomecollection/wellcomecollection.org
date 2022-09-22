@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import IsArchiveContext from '../IsArchiveContext/IsArchiveContext';
 import { PhysicalItem, Work } from '@weco/common/model/catalogue';
 import {
@@ -58,10 +58,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: classNames({
-    [font('intb', 5, { small: 3, medium: 3 })]: true,
-    'no-margin': true,
-  }),
+  className: `${font('intb', 5, { small: 3, medium: 3 })} no-margin`,
 })``;
 
 export type Props = {
@@ -92,11 +89,23 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // This does mean that a refresh immediately after a request is made will show the
   // wrong state.
   //
-  // https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
-  const [requestWasCompleted, setRequestWasCompleted] = useState(false);
+  // Note: users can switch to a different work without reloading the page (e.g. using
+  // an archive hierarchy), so we have to track the exact list of items they've just
+  // requested -- it's not enough to know that _an_ item has been requested, we have
+  // to know _which_ item has been requested.
+  //
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
+  // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8448
+  //
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [completedItemRequests, _] = useState<string[]>([]);
+
+  function wasJustRequested(item: PhysicalItem): boolean {
+    return item.id ? completedItemRequests.indexOf(item.id) !== -1 : false;
+  }
 
   const isHeldByUser =
-    requestWasCompleted || (item.id && userHeldItems?.has(item.id));
+    wasJustRequested(item) || (item.id && userHeldItems?.has(item.id));
 
   const physicalLocation = getFirstPhysicalLocation(item); // ok to assume items only have a single physicalLocation
   const accessCondition = getFirstAccessCondition(physicalLocation);
@@ -112,7 +121,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
 
   const accessMethod = accessCondition?.method?.label || '';
   const accessStatus = (() => {
-    if (requestWasCompleted) {
+    if (wasJustRequested(item)) {
       return 'Temporarily unavailable';
     } else if (isOpenShelves) {
       return 'Open shelves';
@@ -124,7 +133,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // Work out whether to show status, access and request button
   const showAccessStatus = !!accessStatus;
   const showAccessMethod = !isOpenShelves;
-  const isRequestable = itemIsRequestable(item) && !requestWasCompleted;
+  const isRequestable = itemIsRequestable(item) && !wasJustRequested(item);
 
   const showButton =
     isRequestable && userState === 'signedin' && !disableRequesting;
@@ -210,7 +219,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         item={item}
         work={work}
         initialHoldNumber={userHeldItems?.size}
-        onSuccess={() => setRequestWasCompleted(true)}
+        onSuccess={() => item.id && completedItemRequests.push(item.id)}
         openButtonRef={requestButtonRef}
       />
       <Wrapper underline={!isLast}>

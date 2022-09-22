@@ -6,7 +6,6 @@ import {
   FunctionComponent,
   RefObject,
 } from 'react';
-import flattenDeep from 'lodash.flattendeep';
 import styled from 'styled-components';
 import { classNames, font } from '@weco/common/utils/classnames';
 import { getWorkClientSide } from '../../services/catalogue/works';
@@ -193,9 +192,7 @@ const StyledLink = styled.a<StyledLinkProps>`
 `;
 
 const RefNumber = styled.span.attrs({
-  className: classNames({
-    [font('intr', 6)]: true,
-  }),
+  className: font('intr', 6),
 })`
   line-height: 1;
   display: block;
@@ -213,14 +210,13 @@ type UiTreeNode = {
 export type UiTree = UiTreeNode[];
 
 export function getTabbableIds(tree: UiTree): string[] {
-  const tabbableIds = tree.reduce((acc: (string | string[])[], curr) => {
+  return tree.reduce((acc: string[], curr) => {
     acc.push(curr.work.id);
     if (curr.openStatus && curr.children) {
-      acc.push(getTabbableIds(curr.children));
+      acc = acc.concat(getTabbableIds(curr.children));
     }
     return acc;
   }, []);
-  return flattenDeep(tabbableIds);
 }
 
 function updateOpenStatus({
@@ -259,7 +255,7 @@ function createNodeFromWork({
 }): UiTreeNode {
   return {
     openStatus,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts?.map(part => ({
       openStatus: false,
@@ -734,9 +730,7 @@ const NestedList: FunctionComponent<NestedListProps> = ({
       }
       tabIndex={level === 1 && isEnhanced ? 0 : undefined}
       role={isEnhanced ? (level === 1 ? 'tree' : 'group') : undefined}
-      className={classNames({
-        'font-size-5': true,
-      })}
+      className="font-size-5"
     >
       {archiveTree &&
         archiveTree.map((item, i) => {
@@ -784,7 +778,7 @@ function createBasicTree({
   const partOfReversed = [...ancestorArray, work].reverse();
   const rootNode: UiTreeNode = {
     openStatus: true,
-    work: work,
+    work,
     parentId: work.partOf?.[0]?.id,
     children: work.parts.map(part => ({
       openStatus: false,
@@ -865,7 +859,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
         <>
           <ButtonWrap>
             <ButtonSolid
-              text={'Collection contents'}
+              text="Collection contents"
               clickHandler={() => setShowArchiveTree(true)}
               aria-controls="collection-contents-modal"
               aria-label="show collection contents"
@@ -876,7 +870,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Modal
             isActive={showArchiveTree}
             setIsActive={setShowArchiveTree}
-            id={'collection-contents-modal'}
+            id="collection-contents-modal"
             openButtonRef={openButtonRef}
           >
             <Tree isEnhanced={isEnhanced}>
@@ -903,13 +897,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <Space
             v={{ size: 'l', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h2
-              className={classNames({
-                [font('wb', 4)]: true,
-              })}
-            >
-              Collection contents
-            </h2>
+            <h2 className={font('wb', 4)}>Collection contents</h2>
             <Tree isEnhanced={isEnhanced}>
               {isEnhanced && (
                 <TreeInstructions>{instructions}</TreeInstructions>

@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import PageLayout from '@weco/common/views/components/PageLayout/PageLayout';
 import DateAndStatusIndicator from '../DateAndStatusIndicator/DateAndStatusIndicator';
-import StatusIndicator from '@weco/common/views/components/StatusIndicator/StatusIndicator';
+import StatusIndicator from '../../components/StatusIndicator/StatusIndicator';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground/HeaderBackground';
 import PageHeader from '@weco/common/views/components/PageHeader/PageHeader';
 import { getFeaturedMedia } from '../../utils/page-header';
@@ -92,8 +92,8 @@ const Installation: FunctionComponent<Props> = ({
       }
       url={{ pathname: `/installations/${installation.id}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={installation.image}
     >
       <ContentPage

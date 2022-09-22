@@ -1,6 +1,6 @@
 import { Work as WorkType } from '@weco/common/model/catalogue';
 import { useContext, useEffect, FunctionComponent, ReactElement } from 'react';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import { getDigitalLocationOfType } from '../../utils/works';
 import { removeIdiomaticTextTags } from '@weco/common/utils/string';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
@@ -82,19 +82,15 @@ const Work: FunctionComponent<Props> = ({
         title={title}
         description={work.description || title}
         url={{ pathname: `/works/${work.id}`, query: {} }}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={workLd(work)}
-        siteSection={'collections'}
+        siteSection="collections"
         image={image}
         hideNewsletterPromo={true}
       >
         <div className="container">
           <div className="grid">
-            <div
-              className={classNames({
-                [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-              })}
-            >
+            <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
               <Space v={{ size: 'l', properties: ['margin-top'] }}>
                 <SearchTabs
                   query={searchLink.as.query?.query?.toString() || ''}
@@ -115,9 +111,7 @@ const Work: FunctionComponent<Props> = ({
                 size: 's',
                 properties: ['padding-top', 'padding-bottom'],
               }}
-              className={classNames({
-                [grid({ s: 12 })]: true,
-              })}
+              className={grid({ s: 12 })}
             >
               <BackToResults />
             </Space>
@@ -133,9 +127,7 @@ const Work: FunctionComponent<Props> = ({
                     size: 's',
                     properties: ['padding-top', 'padding-bottom'],
                   }}
-                  className={classNames({
-                    [grid({ s: 12 })]: true,
-                  })}
+                  className={grid({ s: 12 })}
                 >
                   <ArchiveBreadcrumb work={work} />
                 </Space>

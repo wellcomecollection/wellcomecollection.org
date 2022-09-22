@@ -3,7 +3,7 @@ import { useAvailableDates } from './useAvailableDates';
 import { isRequestableDate } from '../../utils/dates';
 import { trackEvent } from '@weco/common/utils/ga';
 import { allowedRequests } from '@weco/common/values/requests';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import RequestingDayPicker from '../RequestingDayPicker/RequestingDayPicker';
 import ButtonSolid, {
@@ -107,16 +107,11 @@ const RequestDialog: FC<RequestDialogProps> = ({
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p
-        className={classNames({
-          [font('intb', 5)]: true,
-          'no-margin': true,
-        })}
-      >
+      <p className={`${font('intb', 5)} no-margin`}>
         You are about to request the following item:
       </p>
       <Space v={{ size: 's', properties: ['margin-bottom'] }}>
-        <p className={'no-margin'}>
+        <p className="no-margin">
           {work.title && <span className="block">{work.title}</span>}
           {item.title && <span>{item.title}</span>}
         </p>
@@ -130,12 +125,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
                 Select the date you would like to view this item in the library.
               </p>
             </Space>
-            <p
-              className={classNames({
-                [font('intr', 6)]: true,
-                'no-margin-l': true,
-              })}
-            >
+            <p className={`${font('intr', 6)} no-margin-l`}>
               Item requests need to be placed by 10am on the working day before
               your visit. Please bear in mind the library is closed on Sundays.
             </p>
@@ -157,7 +147,7 @@ const RequestDialog: FC<RequestDialogProps> = ({
         <Space
           h={{ size: 'l', properties: ['margin-right'] }}
           v={{ size: 's', properties: ['margin-bottom'] }}
-          className={'inline-block'}
+          className="inline-block"
         >
           <ButtonSolid text="Confirm request" />
         </Space>

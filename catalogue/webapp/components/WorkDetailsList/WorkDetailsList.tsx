@@ -1,5 +1,4 @@
 import Space from '@weco/common/views/components/styled/Space';
-import { classNames } from '@weco/common/utils/classnames';
 import WorkDetailsProperty from '../WorkDetailsProperty/WorkDetailsProperty';
 import { FunctionComponent } from 'react';
 
@@ -14,9 +13,7 @@ const WorkDetailsList: FunctionComponent<Props> = ({ title, list }: Props) => {
           properties: ['margin-bottom'],
         }}
         as="ul"
-        className={classNames({
-          'plain-list no-margin no-padding': true,
-        })}
+        className="plain-list no-margin no-padding"
       >
         {list.map((item, i) => (
           <li key={i} style={{ listStylePosition: 'inside' }}>

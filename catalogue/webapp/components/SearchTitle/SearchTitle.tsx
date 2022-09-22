@@ -22,9 +22,7 @@ const SearchTitle: FunctionComponent<Props> = ({
             size: 'm',
             properties: ['margin-bottom'],
           }}
-          className={classNames([
-            'flex flex--h-space-between flex--v-center flex--wrap',
-          ])}
+          className="flex flex--h-space-between flex--v-center flex--wrap"
         >
           <Space
             as="h1"

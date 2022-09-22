@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Space from '../styled/Space';
-import { font, classNames } from '../../../utils/classnames';
+import { font } from '../../../utils/classnames';
 import { fontFamilyMixin } from '../../themes/typography';
 import { ReactElement, FunctionComponent, ReactNode } from 'react';
 
@@ -10,9 +10,7 @@ type TableProps = {
 };
 
 const StyledTable = styled.table.attrs({
-  className: classNames({
-    [font('intr', 5)]: true,
-  }),
+  className: font('intr', 5),
 })<TableProps>`
    {
     table-layout: ${props => (props.useFixedWidth ? 'fixed' : 'auto')};
@@ -75,9 +73,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
       Boolean
     ),
   },
-  className: classNames({
-    [font('intb', 5)]: true,
-  }),
+  className: font('intb', 5),
 }))<ThProps>`
   background: ${props =>
     props.plain

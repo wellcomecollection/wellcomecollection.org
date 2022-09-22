@@ -100,8 +100,8 @@ const ExhibitionsPage: FC<Props> = props => {
       description={pageDescriptions.exhibitions}
       url={{ pathname: `/exhibitions${period ? `/${period}` : ''}` }}
       jsonLd={jsonLd}
-      openGraphType={'website'}
-      siteSection={'whats-on'}
+      openGraphType="website"
+      siteSection="whats-on"
       image={firstExhibition && firstExhibition.image}
     >
       <PageHeader
@@ -159,9 +159,9 @@ const ExhibitionsPage: FC<Props> = props => {
               <Layout12>
                 <div className="text-align-right">
                   <Pagination
-                    total={exhibitions.totalResults}
+                    totalResults={exhibitions.totalResults}
                     currentPage={exhibitions.currentPage}
-                    pageCount={exhibitions.totalPages}
+                    totalPages={exhibitions.totalPages}
                     prevPage={
                       exhibitions.currentPage > 1
                         ? exhibitions.currentPage - 1

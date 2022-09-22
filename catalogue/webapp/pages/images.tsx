@@ -3,11 +3,10 @@ import { useEffect, useState, ReactElement, useContext } from 'react';
 import Router from 'next/router';
 import Head from 'next/head';
 import { CatalogueResultsList, Image } from '@weco/common/model/catalogue';
-import { grid, classNames } from '@weco/common/utils/classnames';
+import { grid } from '@weco/common/utils/classnames';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import CataloguePageLayout from '../components/CataloguePageLayout/CataloguePageLayout';
 import Paginator from '@weco/common/views/components/Paginator/Paginator';
-import { imagesRouteToApiUrl } from '@weco/common/services/catalogue/api';
 import Space from '@weco/common/views/components/styled/Space';
 import ImageEndpointSearchResults from '../components/ImageEndpointSearchResults/ImageEndpointSearchResults';
 import { getImages } from '../services/catalogue/images';
@@ -146,17 +145,28 @@ const Images: NextPage<Props> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
-        openGraphType={'website'}
+        openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
-        siteSection={'collections'}
+        siteSection="collections"
         image={undefined}
+        apiToolbarLinks={
+          images
+            ? [
+                {
+                  id: 'catalogue-api-query',
+                  label: 'Catalogue API query',
+                  link: images._requestUrl,
+                },
+              ]
+            : []
+        }
       >
         <Space
           v={{
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={classNames(['row'])}
+          className="row"
         >
           <div className="container">
             <SearchTitle isVisuallyHidden={Boolean(images)} />
@@ -185,11 +195,7 @@ const Images: NextPage<Props> = ({
             <Space v={{ size: 'l', properties: ['padding-top'] }}>
               <div className="container">
                 <div className="grid">
-                  <div
-                    className={classNames({
-                      [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                    })}
-                  >
+                  <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                     <ImagesPagination
                       query={query}
                       page={page}
@@ -221,11 +227,7 @@ const Images: NextPage<Props> = ({
               >
                 <div className="container">
                   <div className="grid">
-                    <div
-                      className={classNames({
-                        [grid({ s: 12, m: 12, l: 12, xl: 12 })]: true,
-                      })}
-                    >
+                    <div className={grid({ s: 12, m: 12, l: 12, xl: 12 })}>
                       <ImagesPagination
                         query={query}
                         page={page}
@@ -259,11 +261,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
       'source.subjects.label',
       'source.contributors.agent.label',
     ];
-    const apiProps = imagesRouteToApiUrl(params, { aggregations });
+    const apiProps = {
+      ...params,
+      aggregations,
+    };
     const images = await getImages({
       params: apiProps,
       toggles: serverData.toggles,
-      pageSize: 25,
+      pageSize: 30,
     });
 
     if (images && images.type === 'Error') {

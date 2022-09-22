@@ -2,7 +2,6 @@ import { forwardRef, useContext, useState, RefObject, FC } from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon/Icon';
 import { AppContext } from '../AppContext/AppContext';
-import { classNames } from '../../../utils/classnames';
 import { check } from '@weco/common/icons';
 
 type TextInputWrapProps = {
@@ -11,9 +10,7 @@ type TextInputWrapProps = {
   hasErrorBorder: boolean;
 };
 export const TextInputWrap = styled.div.attrs({
-  className: classNames({
-    'flex relative': true,
-  }),
+  className: 'flex relative',
 })<TextInputWrapProps>`
   border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
@@ -43,9 +40,7 @@ type TextInputLabelProps = {
   hasValue: boolean;
 };
 export const TextInputLabel = styled.label.attrs({
-  className: classNames({
-    absolute: true,
-  }),
+  className: 'absolute',
 })<TextInputLabelProps>`
   /* Styles for browsers that don't support :focus-within (<=IE11) */
   font-size: 14px;
@@ -115,9 +110,7 @@ export const TextInputInput = styled.input.attrs(props => ({
 
 const TextInputCheckmark = styled.span.attrs({
   'data-test-id': 'TextInputCheckmark',
-  className: classNames({
-    absolute: true,
-  }),
+  className: 'absolute',
 })`
   top: 50%;
   transform: translateY(-50%);
@@ -128,9 +121,7 @@ const TextInputCheckmark = styled.span.attrs({
 export const TextInputErrorMessage = styled.span.attrs({
   role: 'alert',
   'data-test-id': 'TextInputErrorMessage',
-  className: classNames({
-    'font-intb': true,
-  }),
+  className: 'font-intb',
 })`
   display: block;
   font-size: 14px;

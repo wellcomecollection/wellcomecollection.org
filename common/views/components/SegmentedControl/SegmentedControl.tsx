@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component, Fragment, ReactElement } from 'react';
 import { chevron, cross } from '@weco/common/icons';
 import { classNames, font } from '../../../utils/classnames';
 import Icon from '../Icon/Icon';
@@ -175,10 +175,10 @@ const Wrapper = styled.div.attrs({})<IsActiveProps>`
 const MobileControlsContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `${font(
-    'wb',
-    4
-  )} segmented-control__button-text font-white flex--h-space-between rounded-diagonal`,
+  className:
+    font('wb', 4) +
+    ' ' +
+    'segmented-control__button-text font-white flex--h-space-between rounded-diagonal',
 })`
   display: flex;
   background-color: ${props => props.theme.color('black')};
@@ -211,7 +211,7 @@ class SegmentedControl extends Component<Props, State> {
     isActive: false,
   };
 
-  setActiveId(id: string) {
+  setActiveId(id: string): void {
     this.setState({
       activeId: id,
     });
@@ -221,13 +221,13 @@ class SegmentedControl extends Component<Props, State> {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.setActiveId(
       this.props.activeId || (this.props.items[0] && this.props.items[0].id)
     );
   }
 
-  render() {
+  render(): ReactElement {
     const { id, items, extraClasses } = this.props;
     const { activeId, isActive } = this.state;
 
@@ -243,7 +243,7 @@ class SegmentedControl extends Component<Props, State> {
                     onClick={() => this.setState({ isActive: true })}
                   >
                     <span>{item.text}</span>
-                    <Icon icon={chevron} color={'white'} />
+                    <Icon icon={chevron} color="white" />
                   </MobileControlsContainer>
                   <span
                     className="segmented-control__close"
@@ -269,7 +269,7 @@ class SegmentedControl extends Component<Props, State> {
                 <DrawerItem isFirst={i === 0} key={item.id}>
                   <a
                     onClick={e => {
-                      const url = e.currentTarget.getAttribute('href')!;
+                      const url = e.currentTarget.href;
                       const isHash = url.startsWith('#');
 
                       trackEvent({
@@ -305,7 +305,7 @@ class SegmentedControl extends Component<Props, State> {
               <ItemInner
                 isActive={item.id === activeId}
                 onClick={e => {
-                  const url = e.currentTarget.getAttribute('href')!;
+                  const url = e.currentTarget.href;
                   const isHash = url.startsWith('#');
 
                   trackEvent({

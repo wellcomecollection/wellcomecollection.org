@@ -39,10 +39,10 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: `${font(
-    'intb',
-    5
-  )} plain-button line-height-1 flex-inline flex--v-center`,
+  className:
+    font('intb', 5) +
+    ' ' +
+    'plain-button line-height-1 flex-inline flex--v-center',
 }))<PopupDialogOpenProps>`
   color: ${props => props.theme.color('purple')};
   position: fixed;
@@ -290,7 +290,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { medium: 2, large: 2 },
           }}
         >
-          <Icon icon={chat} color={'purple'} />
+          <Icon icon={chat} color="purple" />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -314,7 +314,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             });
           }}
         >
-          <Icon icon={clear} title="Close dialog" color={'purple'} />
+          <Icon icon={clear} title="Close dialog" color="purple" />
         </PopupDialogClose>
         <Space
           h={{

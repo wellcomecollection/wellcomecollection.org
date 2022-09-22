@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FC, FunctionComponent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
@@ -13,7 +13,7 @@ import {
 } from '../../../model/catalogue';
 import { looksLikePrismicId } from '../../../services/prismic';
 
-type Prop = {
+export type ApiToolbarLink = {
   id: string;
   label: string;
   value?: string;
@@ -60,7 +60,7 @@ function setTzitzitParams({
   sourceLink: string;
   licence: License | undefined;
   contributors: Contributor[] | undefined;
-}): Prop | undefined {
+}): ApiToolbarLink | undefined {
   const licenceId = licence?.id.toUpperCase();
 
   // We should not be using in copyright images in Stories
@@ -83,7 +83,7 @@ function setTzitzitParams({
 
 async function createTzitzitImageLink(
   imageId: string
-): Promise<Prop | undefined> {
+): Promise<ApiToolbarLink | undefined> {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/images/${imageId}?include=source.contributors`;
   const image: Image = await fetch(apiUrl).then(res => res.json());
 
@@ -97,7 +97,7 @@ async function createTzitzitImageLink(
 
 async function createTzitzitWorkLink(
   workId: string
-): Promise<Prop | undefined> {
+): Promise<ApiToolbarLink | undefined> {
   const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${workId}?include=items,contributors`;
   const work: Work = await fetch(apiUrl).then(res => res.json());
 
@@ -122,7 +122,7 @@ async function createTzitzitWorkLink(
 function getRouteProps(path: string) {
   switch (path) {
     case '/work':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
         const apiUrl = `https://api.wellcomecollection.org/catalogue/v2/works/${id}?include=${includes}`;
         const work: Work = await fetch(apiUrl).then(res => res.json());
@@ -154,13 +154,13 @@ function getRouteProps(path: string) {
             label: id.identifierType.label,
             value: id.value,
           })),
-        ].filter(Boolean) as Prop[];
+        ].filter(Boolean) as ApiToolbarLink[];
 
         return links;
       };
 
     case '/image':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
 
         const tzitzitLink = await createTzitzitImageLink(id as string);
@@ -168,7 +168,7 @@ function getRouteProps(path: string) {
         return tzitzitLink ? [tzitzitLink] : [];
       };
     case '/item':
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { workId } = query;
 
         const tzitzitLink = await createTzitzitWorkLink(workId as string);
@@ -176,7 +176,7 @@ function getRouteProps(path: string) {
         return tzitzitLink ? [tzitzitLink] : [];
       };
     default:
-      return async (query: ParsedUrlQuery): Promise<Prop[]> => {
+      return async (query: ParsedUrlQuery): Promise<ApiToolbarLink[]> => {
         const { id } = query;
 
         // On some Prismic pages, the ID will be in the query data, e.g. /events/YeViLhAAAJMQM7IY
@@ -201,10 +201,14 @@ function getRouteProps(path: string) {
   }
 }
 
-const ApiToolbar: FunctionComponent = () => {
+type Props = {
+  extraLinks?: ApiToolbarLink[];
+};
+
+const ApiToolbar: FC<Props> = ({ extraLinks = [] }) => {
   const cookieName = 'apiToolbarMini';
   const router = useRouter();
-  const [props, setProps] = useState<Prop[]>([]);
+  const [links, setLinks] = useState<ApiToolbarLink[]>([]);
   const [mini, setMini] = useState<boolean>(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -214,11 +218,11 @@ const ApiToolbar: FunctionComponent = () => {
   useEffect(() => {
     const fn = getRouteProps(router.route);
     if (fn) {
-      fn(router.query).then(setProps);
+      fn(router.query).then(setLinks);
     }
   }, [router.route, router.query]);
 
-  const propValue = (prop: Prop) => {
+  const propValue = (prop: ApiToolbarLink) => {
     return `${prop.label}${prop.value ? ` : ${prop.value}` : ''}`;
   };
 
@@ -241,7 +245,7 @@ const ApiToolbar: FunctionComponent = () => {
               API toolbar
             </span>
             <ul className="flex plain-list no-margin font-size-5">
-              {props.map(prop => (
+              {extraLinks.concat(links).map(prop => (
                 <li
                   key={prop.id}
                   style={{

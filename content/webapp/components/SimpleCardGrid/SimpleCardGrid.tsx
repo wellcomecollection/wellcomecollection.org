@@ -1,4 +1,4 @@
-import { classNames, cssGrid } from '@weco/common/utils/classnames';
+import { cssGrid } from '@weco/common/utils/classnames';
 import { Card as CardType } from '../../types/card';
 import Card from '../Card/Card';
 import Layout12 from '@weco/common/views/components/Layout12/Layout12';
@@ -75,17 +75,7 @@ const CardGrid: FC<Props> = ({ items, isFeaturedFirst }: Props) => {
       <CssGridContainer>
         <div className="css-grid">
           {threeCards.map((item, i) => (
-            <div
-              key={i}
-              className={classNames({
-                [cssGrid({
-                  s: 12,
-                  m: 4,
-                  l: 4,
-                  xl: 4,
-                })]: true,
-              })}
-            >
+            <div key={i} className={cssGrid({ s: 12, m: 4, l: 4, xl: 4 })}>
               <Card item={item} />
             </div>
           ))}

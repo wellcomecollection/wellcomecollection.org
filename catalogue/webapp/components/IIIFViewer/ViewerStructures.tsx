@@ -2,7 +2,7 @@ import { getStructures, groupStructures, getCanvases } from '../../utils/iiif';
 import { useContext, FunctionComponent, RefObject } from 'react';
 import { FixedSizeList } from 'react-window';
 import ItemViewerContext from '../ItemViewerContext/ItemViewerContext';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { font } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import styled from 'styled-components';
 
@@ -19,9 +19,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   const groupedStructures = groupStructures(canvases, structures);
 
   const List = styled.ul.attrs({
-    className: classNames({
-      'plain-list no-margin no-padding': true,
-    }),
+    className: 'plain-list no-margin no-padding',
   })`
     border-left: 1px solid ${props => props.theme.color('pewter')};
   `;
@@ -30,9 +28,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
     as: 'li',
     v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
     h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-    className: classNames({
-      [font('intr', 5)]: true,
-    }),
+    className: font('intr', 5),
   })<{ isActive: boolean }>`
     position: relative;
 
@@ -67,7 +63,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
         return (
           <Item key={i} isActive={activeIndex === canvasIndex}>
             <button
-              className={'plain-button'}
+              className="plain-button"
               type="button"
               onClick={() => {
                 mainViewerRef &&

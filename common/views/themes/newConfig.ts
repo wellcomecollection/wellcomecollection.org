@@ -103,7 +103,7 @@ export const colors = {
   //   8: '#d9d9d9', // 85
   //   9: '#e8e8e8', // 91
   // },
-  // cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
+  // cream: { base: '#edece4', dark: '#d9d8d0', light: '' },
   // purple: { base: '#724e91', dark: '', light: '#baa4cd' },
   // turquoise: { base: '#1dbebb', dark: '', light: '#a2eeed' },
   // blue: { base: '#27476e', dark: '', light: '#a4bfdf' },
@@ -135,7 +135,8 @@ export const colors = {
   green: { base: '#0b7051', dark: '#146a5c', light: '' },
   // there's an even paler yellow, what do we do with it? (#fff9e6)
   yellow: { base: '#ffce3c', dark: '', light: '#ffebad' },
-  cream: { base: '#d9d8d0', dark: '', light: '#edece4' },
+  // killed light cream (not used anywhere) and added a dark
+  cream: { base: '#edece4', dark: '#d9d8d0', light: '' },
 
   //
   // all new, used nowhere
