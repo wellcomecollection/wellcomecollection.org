@@ -24,21 +24,29 @@ function transformStoryOrSeries(storyOrSeries) {
 export function transformStoriesLanding(
   storiesLandingDoc: StoriesLandingPrismicDocument
 ): StoriesLanding {
+  const {
+    introText,
+    storiesTitle,
+    storiesDescription,
+    stories,
+    booksTitle,
+    booksDescription,
+    books,
+  } = storiesLandingDoc.data;
   return {
-    title:
-      (storiesLandingDoc.data && asText(storiesLandingDoc.data.title)) || '',
-    description:
-      (storiesLandingDoc.data &&
-        asRichText(storiesLandingDoc.data.description)) ||
-      [],
-    stories: storiesLandingDoc.data.stories
+    introText: asRichText(introText) || [],
+    storiesTitle: asText(storiesTitle),
+    storiesDescription: asRichText(storiesDescription) || [],
+    stories: stories
       .map(d =>
         isFilledLinkToDocumentWithData(d.story)
           ? transformStoryOrSeries(d.story)
           : undefined
       )
       .filter(isNotUndefined),
-    books: storiesLandingDoc.data.books
+    booksTitle: asText(booksTitle),
+    booksDescription: asRichText(booksDescription) || [],
+    books: books
       .map(d =>
         isFilledLinkToDocumentWithData(d.book)
           ? transformBookToBookBasic(transformBook(d.book))
