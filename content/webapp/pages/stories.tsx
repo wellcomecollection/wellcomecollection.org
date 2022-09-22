@@ -53,6 +53,9 @@ import { StoriesLanding } from '../types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
 import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
+import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
+import { RichTextField } from '@prismicio/types';
+// import { useToggles } from '@weco/common/server-data/Context';
 
 type SerialisedSeriesProps = SeriesBasic & {
   promo?: ImagePromo;
@@ -95,39 +98,51 @@ const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
 export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
-
     const client = createClient(context);
+    // const { newStoriesLanding } = serverData.toggles; // TODO put this back
+    const newStoriesLanding = true;
 
     const articlesQueryPromise = fetchArticles(client);
-    const featuredBooksPromise = fetchFeaturedBooks(client);
-    const storiesLandingPromise = fetchStoriesLanding(client);
 
+    // OLD - this content will be replaced by content from the newStoriesLanding type in Prismic
+    // if the newStoriesLanding toggle is on, we'll just return null rather than fetching the content
     // TODO: If we're only looking up this page to get the featured text slice,
     // would it be faster to skip all the fetchLinks?  Is that possible?
-    // TODO we already have a stories page... do we need to add featured text slice to the new stories-landing custom type page?
-    const storiesPagePromise = fetchPage(client, prismicPageIds.stories);
+    const storiesPagePromise = !newStoriesLanding
+      ? fetchPage(client, prismicPageIds.stories)
+      : Promise.resolve(null);
+    const featuredBooksPromise = !newStoriesLanding
+      ? fetchFeaturedBooks(client)
+      : Promise.resolve(null);
+    const featuredSeriesArticlesQueryPromise = !newStoriesLanding
+      ? fetchArticles(client, {
+          predicates: [
+            prismic.predicate.at(
+              'my.articles.series.series',
+              featuredStoriesSeriesId
+            ),
+          ],
+          page: 1,
+          pageSize: 100,
+        })
+      : Promise.resolve(null);
 
-    const featuredSeriesArticlesQueryPromise = fetchArticles(client, {
-      predicates: [
-        prismic.predicate.at(
-          'my.articles.series.series',
-          featuredStoriesSeriesId
-        ),
-      ],
-      page: 1,
-      pageSize: 100,
-    });
+    // NEW - This is the new content from the newStoriesLanding type in Prismic
+    // if the newStoriesLanding toggle is off, we'll just return an empty object rather than fetch the content
+    const storiesLandingPromise = newStoriesLanding
+      ? fetchStoriesLanding(client)
+      : {};
 
     const [
       articlesQuery,
-      featuredSeriesArticles, // TODO remove
-      storiesPage, // TODO replace?
-      featuredBooksDoc, // TODO replace
+      storiesPage,
+      featuredSeriesArticles,
+      featuredBooksDoc,
       storiesLandingDoc,
     ] = await Promise.all([
       articlesQueryPromise,
-      featuredSeriesArticlesQueryPromise,
       storiesPagePromise,
+      featuredSeriesArticlesQueryPromise,
       featuredBooksPromise,
       storiesLandingPromise,
     ]);
@@ -135,20 +150,20 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const articles = transformQuery(articlesQuery, transformArticle);
     const jsonLd = articles.results.map(articleLd);
     const basicArticles = articles.results.map(transformArticleToArticleBasic);
-    const storiesLanding = transformStoriesLanding(storiesLandingDoc);
 
-    const featuredBooks = transformFeaturedBooks(featuredBooksDoc).map(
-      transformBookToBookBasic
-    );
+    const featuredText = storiesPage
+      ? getPageFeaturedText(transformPage(storiesPage!))
+      : '';
+
+    const featuredBooks = featuredBooksDoc
+      ? transformFeaturedBooks(featuredBooksDoc).map(transformBookToBookBasic)
+      : [];
 
     // The featured series and stories page should always exist
-    const series = transformArticleSeries(
-      featuredStoriesSeriesId,
-      featuredSeriesArticles
-    )!.series;
-    const featuredText = getPageFeaturedText(transformPage(storiesPage!));
-
-    console.log(featuredText);
+    const series = featuredSeriesArticles
+      ? transformArticleSeries(featuredStoriesSeriesId, featuredSeriesArticles)!
+          .series
+      : [];
 
     // Note: an ArticleBasic contains a lot of information, but we only use
     // a little bit of the series information in the <CardGrid> component
@@ -156,19 +171,31 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     //
     // This basic-ification removes some of the heaviest fields that we aren't
     // using, to keep the page weight down.
-    const basicSeries: SerialisedSeriesProps = {
-      ...transformSeriesToSeriesBasic(series),
-      promo: series.promo,
-      items: series.items.map(item => ({
-        ...item,
-        image: undefined,
-        series: item.series.map(s => ({
-          id: s.id,
-          title: s.title,
-          schedule: [],
-        })),
-      })),
-    };
+    const basicSeries: SerialisedSeriesProps = series
+      ? {
+          // TODO why anxiety in the air not acting like a 'part of' promo
+          ...transformSeriesToSeriesBasic(series),
+          promo: series.promo,
+          items: [],
+          // items: series.items.map(item => ({
+          //   ...item,
+          //   image: undefined,
+          //   series: item.series.map(s => ({
+          //     // TODO these should maybe be a different type not SeriesBasic
+          //     id: s.id,
+          //     title: s.title,
+          //     schedule: [],
+          //     type: 'series', // TODO probably remove this
+          //     image: undefined, // TODO probably remove this
+          //     promo: undefined, // TODO probably remove this
+          //   })),
+          // })),
+        }
+      : {};
+
+    // NEW
+    const storiesLanding =
+      storiesLandingDoc && transformStoriesLanding(storiesLandingDoc);
 
     if (articles && articles.results) {
       return {
@@ -196,6 +223,8 @@ const StoriesPage: FC<Props> = ({
   storiesLanding,
 }) => {
   const firstArticle = articles[0];
+  // const { newStoriesLanding } = useToggles(); TODO put this back
+  const newStoriesLanding = true;
 
   return (
     <PageLayout
@@ -215,32 +244,29 @@ const StoriesPage: FC<Props> = ({
         sectionLevelPage={true}
       />
       <>
-        {featuredText && featuredText.value && (
-          <Layout8 shift={false}>
-            <div className="body-text spaced-text">
-              <Space
-                v={{
-                  size: 'xl',
-                  properties: ['margin-bottom'],
-                }}
-              >
-                <FeaturedText
-                  html={featuredText.value}
-                  htmlSerializer={defaultSerializer}
-                />
-              </Space>
-            </div>
-          </Layout8>
-        )}
+        {/* {featuredText &&
+          featuredText.value && ( // TODO take this into account with toggle */}
+        <Layout8 shift={false}>
+          <div className="body-text spaced-text">
+            <Space
+              v={{
+                size: 'xl',
+                properties: ['margin-bottom'],
+              }}
+            >
+              <FeaturedText
+                html={
+                  newStoriesLanding
+                    ? storiesLanding?.introText // TODO can't pass nothing here
+                    : featuredText?.value
+                }
+                htmlSerializer={defaultSerializer}
+              />
+            </Space>
+          </div>
+        </Layout8>
+        {/* )} */}
       </>
-
-      <SpacingSection>
-        <pre>
-          <code>
-            <>{JSON.stringify(storiesLanding, null, 2)}</>
-          </code>
-        </pre>
-      </SpacingSection>
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
@@ -272,28 +298,71 @@ const StoriesPage: FC<Props> = ({
         </ArticlesContainer>
       </SpacingSection>
 
-      <SpacingSection>
-        <SerialisedSeries series={series} />
-      </SpacingSection>
+      {newStoriesLanding ? (
+        <>
+          <SpacingSection>
+            {storiesLanding.storiesTitle && (
+              <SpacingComponent>
+                <SectionHeader title={`${storiesLanding.storiesTitle}`} />
+              </SpacingComponent>
+            )}
+            <SpacingComponent>
+              <CardGrid
+                items={storiesLanding.stories}
+                itemsPerRow={3}
+                links={[{ text: 'More stories', url: '/articles' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
 
-      {/* TODO: work out logic for making these dynamic */}
-      <SpacingSection>
-        <SpacingComponent>
-          <SectionHeader title="Books" />
-        </SpacingComponent>
-        <SpacingComponent>
-          <Layout12>
-            <p>{booksPromoOnStoriesPage}</p>
-          </Layout12>
-        </SpacingComponent>
-        <SpacingComponent>
-          <CardGrid
-            items={featuredBooks}
-            itemsPerRow={3}
-            links={[{ text: 'More books', url: '/books' }]}
-          />
-        </SpacingComponent>
-      </SpacingSection>
+          <SpacingSection>
+            {storiesLanding.booksTitle && (
+              <SpacingComponent>
+                <SectionHeader title={`${storiesLanding.booksTitle}`} />
+              </SpacingComponent>
+            )}
+            {storiesLanding.booksDescription && (
+              <SpacingComponent>
+                <Layout12>
+                  <PrismicHtmlBlock
+                    html={storiesLanding.booksDescription as RichTextField}
+                  />
+                </Layout12>
+              </SpacingComponent>
+            )}
+            <SpacingComponent>
+              <CardGrid
+                items={storiesLanding.books}
+                itemsPerRow={3}
+                links={[{ text: 'More books', url: '/books' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        </>
+      ) : (
+        <>
+          <SpacingSection>
+            <SerialisedSeries series={series} />
+          </SpacingSection>
+          <SpacingSection>
+            <SpacingComponent>
+              <SectionHeader title="Books" />
+            </SpacingComponent>
+            <SpacingComponent>
+              <Layout12>
+                <p>{booksPromoOnStoriesPage}</p>
+              </Layout12>
+            </SpacingComponent>
+            <SpacingComponent>
+              <CardGrid
+                items={featuredBooks}
+                itemsPerRow={3}
+                links={[{ text: 'More books', url: '/books' }]}
+              />
+            </SpacingComponent>
+          </SpacingSection>
+        </>
+      )}
 
       <SpacingSection>
         <SpacingComponent>
