@@ -119,6 +119,18 @@ async function createTzitzitWorkLink(
   });
 }
 
+function getAnchorLinkUrls() {
+  const getAllIds = [...document.querySelectorAll('h2, h3, h4')].map(
+    item => item.id
+  );
+  const extractedIdValues = getAllIds.map(id => `${document.URL}#${id}`);
+  const allExtractedUrls = [...extractedIdValues];
+  const strings = JSON.stringify(allExtractedUrls);
+  if (navigator && navigator.clipboard && navigator.clipboard.writeText)
+    return navigator.clipboard.writeText(strings);
+  return 'The Clipboard API is not available.';
+}
+
 function getRouteProps(path: string) {
   switch (path) {
     case '/work':
@@ -258,6 +270,16 @@ const ApiToolbar: FunctionComponent = () => {
           </>
         )}
       </div>
+      <button
+        className="plain-button"
+        type="button"
+        onClick={() => {
+          getAnchorLinkUrls();
+        }}
+        style={{ padding: '10px' }}
+      >
+        <>⚓️</>
+      </button>
 
       <button
         className="plain-button"
