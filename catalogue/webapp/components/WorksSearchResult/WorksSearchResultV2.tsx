@@ -15,7 +15,6 @@ import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 
 // Components
 import Space from '@weco/common/views/components/styled/Space';
-import LinkLabels from '@weco/common/views/components/LinkLabels/LinkLabels';
 import WorkTitle from '../WorkTitle/WorkTitle';
 import WorkLink from '@weco/common/views/components/WorkLink/WorkLink';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
@@ -88,33 +87,28 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             </WorkTitleHeading>
 
             <WorkInformation>
-              {productionDates.length > 0 && (
-                <LinkLabels items={[{ text: productionDates[0], url: null }]} />
-              )}
+              {productionDates.length > 0 && <>Date: {productionDates[0]}</>}
+
               {primaryContributorLabel && (
                 <>
-                  {productionDates.length > 0 && (
-                    <Space h={{ size: 's', properties: ['margin-right'] }}>
-                      |
-                    </Space>
-                  )}
-                  <Space>
-                    <LinkLabels items={[{ text: primaryContributorLabel }]} />
-                  </Space>
+                  {productionDates.length > 0 && <> | </>}
+                  {primaryContributorLabel}
+                </>
+              )}
+
+              {archiveLabels?.reference && (
+                <>
+                  {(primaryContributorLabel ||
+                    (!primaryContributorLabel &&
+                      productionDates.length > 0)) && <> | </>}{' '}
+                  Reference: {archiveLabels && archiveLabels?.reference}
                 </>
               )}
             </WorkInformation>
-            {archiveLabels?.reference && (
-              <LinkLabels
-                heading="Reference"
-                items={[{ text: archiveLabels.reference }]}
-              />
-            )}
             {archiveLabels?.partOf && (
-              <LinkLabels
-                heading="Part of"
-                items={[{ text: archiveLabels.partOf }]}
-              />
+              <WorkInformation>
+                Part of: {archiveLabels && archiveLabels?.partOf}
+              </WorkInformation>
             )}
           </Details>
         </Container>
