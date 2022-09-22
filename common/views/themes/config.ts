@@ -187,7 +187,6 @@ const getColor = (
   variant: ColorVariant = 'base'
 ): string => {
   // Might want to use the new function
-  console.log({ name, a: name.split('.').length > 1 });
   if (name.split('.').length > 1) {
     return getNewColor(name);
   }
