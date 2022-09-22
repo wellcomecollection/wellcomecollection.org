@@ -84,45 +84,6 @@ export const spacingUnits = {
   '10': 64,
 };
 
-export const colors = {
-  white: { base: '#ffffff', dark: '', light: '' },
-  black: { base: '#121212', dark: '', light: '' },
-  purple: { base: '#944aa0', dark: '', light: '' },
-  teal: { base: '#006272', dark: '', light: '' },
-  cyan: { base: '#298187', dark: '', light: '' },
-  turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
-  red: { base: '#e01b2f', dark: '#c1192a', light: '' },
-  orange: { base: '#e87500', dark: '', light: '' },
-  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
-  brown: { base: '#815e48', dark: '', light: '' },
-  cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
-  green: { base: '#007868', dark: '#146a5c', light: '' },
-  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
-  pewter: { base: '#6b6b6b', dark: '', light: '' },
-  silver: { base: '#8f8f8f', dark: '', light: '' },
-  marble: { base: '#bcbab5', dark: '', light: '' },
-  pumice: { base: '#d9d6ce', dark: '', light: '' },
-  smoke: { base: '#e8e8e8', dark: '', light: '' },
-  // The following 'black' is only to be used for the item viewer
-  coal: { base: '#1f1f1f', dark: '', light: '' },
-  //
-  transparent: {
-    base: 'transparent',
-    dark: 'transparent',
-    light: 'transparent',
-  },
-  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-  inherit: { base: 'inherit', dark: '', light: '' },
-  currentColor: { base: 'currentColor', dark: '', light: '' },
-  newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
-  newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
-  newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
-  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
-};
-
-const getColor = (name: PaletteColor, variant: ColorVariant = 'base'): string =>
-  colors[name][variant];
-
 // suggested new colors
 const newColors = {
   // Core
@@ -183,6 +144,54 @@ const getNewColor = (name: string): string => {
   }
 
   return color;
+};
+
+export const colors = {
+  white: { base: '#ffffff', dark: '', light: '' },
+  black: { base: '#121212', dark: '', light: '' },
+  purple: { base: '#944aa0', dark: '', light: '' },
+  teal: { base: '#006272', dark: '', light: '' },
+  cyan: { base: '#298187', dark: '', light: '' },
+  turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
+  red: { base: '#e01b2f', dark: '#c1192a', light: '' },
+  orange: { base: '#e87500', dark: '', light: '' },
+  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
+  brown: { base: '#815e48', dark: '', light: '' },
+  cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
+  green: { base: '#007868', dark: '#146a5c', light: '' },
+  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
+  pewter: { base: '#6b6b6b', dark: '', light: '' },
+  silver: { base: '#8f8f8f', dark: '', light: '' },
+  marble: { base: '#bcbab5', dark: '', light: '' },
+  pumice: { base: '#d9d6ce', dark: '', light: '' },
+  smoke: { base: '#e8e8e8', dark: '', light: '' },
+  // The following 'black' is only to be used for the item viewer
+  coal: { base: '#1f1f1f', dark: '', light: '' },
+  //
+  transparent: {
+    base: 'transparent',
+    dark: 'transparent',
+    light: 'transparent',
+  },
+  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
+  inherit: { base: 'inherit', dark: '', light: '' },
+  currentColor: { base: 'currentColor', dark: '', light: '' },
+  newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
+  newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
+  newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
+  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
+};
+
+const getColor = (
+  name: PaletteColor,
+  variant: ColorVariant = 'base'
+): string => {
+  // Might want to use the new function
+  console.log({ name, a: name.split('.').length > 1 });
+  if (name.split('.').length > 1) {
+    return getNewColor(name);
+  }
+  return colors[name][variant];
 };
 
 export const sizes = {
