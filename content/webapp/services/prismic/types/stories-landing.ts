@@ -10,10 +10,11 @@ import { SeriesPrismicDocument } from '../types/series';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
 
 export type StoriesLandingPrismicDocument = PrismicDocument<{
-  title: RichTextField;
-  description: RichTextField;
+  introText: RichTextField;
+  storiesTitle: RichTextField;
+  storiesDescription: RichTextField;
   stories: GroupField<{
-    book: RelationField<
+    story: RelationField<
       'stories',
       'en-us',
       InferDataInterface<
@@ -21,6 +22,8 @@ export type StoriesLandingPrismicDocument = PrismicDocument<{
       >
     >;
   }>;
+  booksTitle: RichTextField;
+  booksDescription: RichTextField;
   books: GroupField<{
     book: RelationField<
       'book',

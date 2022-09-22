@@ -4,8 +4,11 @@ import { SeriesBasic } from './series';
 import { BookBasic } from './books';
 
 export type StoriesLanding = {
-  title: string;
-  description: RichTextField;
+  introText: RichTextField;
+  storiesTitle?: string;
+  storiesDescription?: RichTextField;
   stories: (ArticleBasic | SeriesBasic)[];
+  booksTitle?: string;
+  booksDescription?: RichTextField;
   books: BookBasic[];
 };
