@@ -645,18 +645,43 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
-            tags={work.contributors.map(contributor => ({
-              textParts: [
-                contributor.agent.label,
-                ...contributor.roles.map(role => role.label),
-              ],
-              linkAttributes: worksLink(
-                {
-                  'contributors.agent.label': [contributor.agent.label],
-                },
-                'work_details/contributors'
-              ),
-            }))}
+            tags={work.contributors.map(contributor => {
+              /*
+              If this is an identified contributor, link to the concepts prototype
+              page instead.
+
+              The prototype page will only display if you have the toggle enabled,
+              so don't display it if you don't have the toggle.  Also, put a shiny
+              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              */
+              return toggles.conceptsPages && contributor.agent.id
+                ? {
+                    textParts: [
+                      `🆕 ${contributor.agent.label}`,
+                      ...contributor.roles.map(role => role.label),
+                    ],
+                    linkAttributes: {
+                      href: {
+                        pathname: `/concepts/${contributor.agent.id}`,
+                      },
+                      as: {
+                        pathname: `/concepts/${contributor.agent.id}`,
+                      },
+                    },
+                  }
+                : {
+                    textParts: [
+                      contributor.agent.label,
+                      ...contributor.roles.map(role => role.label),
+                    ],
+                    linkAttributes: worksLink(
+                      {
+                        'contributors.agent.label': [contributor.agent.label],
+                      },
+                      'work_details/contributors'
+                    ),
+                  };
+            })}
             separator=""
           />
         )}
