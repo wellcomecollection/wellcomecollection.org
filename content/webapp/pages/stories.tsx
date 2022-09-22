@@ -132,7 +132,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     // if the newStoriesLanding toggle is off, we'll just return an empty object rather than fetch the content
     const storiesLandingPromise = newStoriesLanding
       ? fetchStoriesLanding(client)
-      : {};
+      : { data: {} }; // This is only returned when the newStoriesLanding toggle is true
 
     const [
       articlesQuery,
