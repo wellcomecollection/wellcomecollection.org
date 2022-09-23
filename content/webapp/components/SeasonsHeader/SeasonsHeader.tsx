@@ -16,7 +16,7 @@ const HeaderWrapper = styled.div`
   color: ${props => props.theme.newColor('white')};
 `;
 const TextWrapper = styled.div`
-  border-left: 1px solid ${props => props.theme.color('orange')};
+  border-left: 1px solid ${props => props.theme.color('accent.salmon')};
 `;
 
 type Props = {
@@ -52,7 +52,10 @@ const SeasonsHeader: FunctionComponent<Props> = ({
                 <TextWrapper>
                   <Space h={{ size: 'm', properties: ['padding-left'] }}>
                     {labels && labels.labels.length > 0 && (
-                      <LabelsList {...labels} defaultLabelColor="orange" />
+                      <LabelsList
+                        {...labels}
+                        defaultLabelColor="accent.salmon"
+                      />
                     )}
                     <Space v={{ size: 'm', properties: ['margin-bottom'] }}>
                       <Space v={{ size: 'm', properties: ['margin-bottom'] }}>

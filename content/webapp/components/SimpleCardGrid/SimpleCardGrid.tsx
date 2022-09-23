@@ -41,7 +41,9 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
                 {
                   text: item.format.title,
                   labelColor:
-                    item.format.title === 'Season' ? 'orange' : undefined,
+                    item.format.title === 'Season'
+                      ? 'accent.salmon'
+                      : undefined,
                 },
               ]
             : []

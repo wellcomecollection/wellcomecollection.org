@@ -1,5 +1,5 @@
 export type LabelColor =
-  | 'orange'
+  | 'accent.salmon'
   | 'yellow'
   | 'black'
   | 'cream'

@@ -55,7 +55,7 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is tomorrow', () => {
@@ -68,7 +68,7 @@ describe('formatDateRangeWithMessage', () => {
         end: tomorrow,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Final week" if the last day is 6 days away', () => {
@@ -80,7 +80,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Final week', color: 'orange' });
+      expect(result).toEqual({ text: 'Final week', color: 'accent.salmon' });
     });
 
     it('says "Now on" if the last day is 7 or more days away', () => {

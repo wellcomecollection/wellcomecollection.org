@@ -34,14 +34,14 @@ const CardOuter = styled.a<CardOuterProps>`
 `;
 
 type TextWrapperProps = {
-  highlightColor: 'yellow' | 'orange';
+  highlightColor: 'yellow' | 'accent.salmon';
 };
 
 const TextWrapper = styled.div<TextWrapperProps>`
   ${props => props.theme.media.large`
     flex-grow: 2;
     `};
-  border-left: 4px solid ${props => props.theme.color(props.highlightColor)};
+  border-left: 4px solid ${props => props.theme.newColor(props.highlightColor)};
 `;
 
 type ImageWrapperProps = {
@@ -73,13 +73,13 @@ function getTypeLabel(type: 'seasons') {
 type Props = {
   item: Season;
   background?: 'charcoal' | 'cream';
-  highlightColor?: 'yellow' | 'orange';
+  highlightColor?: 'yellow' | 'accent.salmon';
 };
 
 const BannerCard: FunctionComponent<Props> = ({
   item,
   background = 'charcoal',
-  highlightColor = 'orange',
+  highlightColor = 'accent.salmon',
 }: Props) => {
   const { type, title, start, end, description, image, link } = {
     type: getTypeLabel(item.type),
@@ -133,7 +133,10 @@ const BannerCard: FunctionComponent<Props> = ({
         h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
       >
         {type && (
-          <LabelsList labels={[{ text: type }]} defaultLabelColor="orange" />
+          <LabelsList
+            labels={[{ text: type }]}
+            defaultLabelColor="accent.salmon"
+          />
         )}
         <Space
           v={{

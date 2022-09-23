@@ -30,7 +30,7 @@ export function formatDateRangeWithMessage({
   } else if (!isSameDay(today, end) && isPast(end)) {
     return { text: 'Past', color: 'marble' };
   } else if (closesToday || closesInSevenDays) {
-    return { text: 'Final week', color: 'orange' };
+    return { text: 'Final week', color: 'accent.salmon' };
   } else {
     return { text: 'Now on', color: 'validation.green' };
   }
