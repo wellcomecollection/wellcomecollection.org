@@ -21,7 +21,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   min-height: ${props => props.theme.minCardHeight}px;
 
   .card-theme.card-theme--white & {
-    background: ${props => props.theme.color('white')};
+    background: ${props => props.theme.newColor('white')};
   }
 
   .card-theme.card-theme--transparent & {
@@ -30,7 +30,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   }
 
   .card-theme.bg-charcoal & {
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
   }
 `;
 

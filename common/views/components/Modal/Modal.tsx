@@ -59,7 +59,7 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
   border-radius: 50%;
   appearance: none;
   background: rgba(0, 0, 0, 0.7);
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   border: 0;
   outline: 0;
   z-index: 1;
@@ -96,7 +96,7 @@ const BaseModalWindow = styled(Space).attrs<BaseModalProps>({
   position: fixed;
   overflow: auto;
   transition: opacity 350ms ease, transform 350ms ease;
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 
   &,
   &.fade-exit-done {

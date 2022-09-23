@@ -38,7 +38,7 @@ const ButtonInner = styled(Space).attrs({
   },
   className: `flex flex--v-center flex--h-center ${font('intb', 5)}`,
 })<{ isActive: boolean }>`
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
 `;
 
 type Props = {

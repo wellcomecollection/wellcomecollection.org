@@ -65,7 +65,7 @@ const Gallery = styled.div.attrs({
       display: inherit;
     }
 
-    color: ${props.theme.color('white')};
+    color: ${props.theme.newColor('white')};
     background: linear-gradient(
       ${props.theme.color(props.pageBackground)} 100px,
       ${props.theme.color('charcoal')} 100px

@@ -28,7 +28,7 @@ export const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
 `;
 
 export const Header = styled(Space)`
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.newColor('white')};
 `;
 
 export const Title = styled.h1.attrs({ className: font('wb', 0) })``;

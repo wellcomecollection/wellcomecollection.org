@@ -68,7 +68,7 @@ const FiltersFooter = styled(Space).attrs({
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
   className: 'flex flex--v-center flex--h-space-between',
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;

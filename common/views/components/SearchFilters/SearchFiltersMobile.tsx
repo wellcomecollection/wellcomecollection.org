@@ -38,7 +38,7 @@ const PaletteColorPicker = dynamic(
 const SearchFiltersContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 `;
 
 const ShameButtonWrap = styled(Space).attrs({
@@ -97,7 +97,7 @@ const FiltersFooter = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   className: 'flex flex--v-center flex--h-space-between',
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
   bottom: 0;

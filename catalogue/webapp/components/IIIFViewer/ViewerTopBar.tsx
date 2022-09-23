@@ -70,7 +70,7 @@ export const ShameButton = styled.button.attrs(() => ({
     props.isDark &&
     `
     border: 2px solid transparent;
-    color: ${props.theme.color('white')};
+    color: ${props.theme.newColor('white')};
     background: transparent;
     outline: none;
     transition: all ${props.theme.transitionProperties};
@@ -84,21 +84,21 @@ export const ShameButton = styled.button.attrs(() => ({
     }
 
     &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
+      border: 2px solid ${props.theme.newColor('white')};
     }
   `}
 
   ${props =>
     !props.isDark &&
     `
-    background: ${props.theme.color('white')};
+    background: ${props.theme.newColor('white')};
     color: ${props.theme.newColor('accent.green')};
     border: 1px solid ${props.theme.newColor('accent.green')};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
       background: ${props.theme.newColor('accent.green')};
-      color: ${props.theme.color('white')};
+      color: ${props.theme.newColor('white')};
     }
   `}
 `;
@@ -110,7 +110,7 @@ const TopBar = styled.div<{
   position: relative;
   z-index: 3;
   background: ${props => props.theme.color('charcoal')};
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   justify-content: space-between;
   display: ${props => (props.isZooming ? 'none' : 'grid')};
   grid-template-columns: [left-edge] minmax(200px, 3fr) [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];

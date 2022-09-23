@@ -44,7 +44,7 @@ export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
   &.disabled {
     background: ${props => props.theme.color('pewter')};
     border-color: ${props => props.theme.color('pewter')};
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
     cursor: not-allowed;
 
     &:hover {

@@ -122,7 +122,7 @@ const Sidebar = styled.div<{
   `}
 
   background: ${props => props.theme.color('charcoal', 'dark')};
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   overflow: auto;
   z-index: 5;
 `;
@@ -144,7 +144,7 @@ const Main = styled.div<{
   isDesktopSidebarActive: boolean;
 }>`
   background: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   overflow: auto;
   position: relative;
 

@@ -31,7 +31,7 @@ const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: 'tokens',
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 `;
 
 type CancelFilterProps = {

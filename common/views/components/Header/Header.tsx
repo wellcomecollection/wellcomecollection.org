@@ -28,7 +28,7 @@ const Wrapper = styled.div.attrs({
 })<WrapperProps>`
   position: relative;
   z-index: 6;
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 
   ${props =>
@@ -134,7 +134,7 @@ const HeaderBrand = styled.div`
 
 const HeaderNav = styled.nav<{ isActive: boolean }>`
   display: ${props => (props.isActive ? 'block' : 'none')};
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.newColor('white')};
   position: absolute;
   top: 100%;
   left: 0;

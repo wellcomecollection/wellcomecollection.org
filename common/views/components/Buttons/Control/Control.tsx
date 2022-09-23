@@ -49,7 +49,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   ${props =>
     props.colorScheme === 'light' &&
     `
-    background: ${props.theme.color('white')};
+    background: ${props.theme.newColor('white')};
     border: 2px solid ${props.theme.newColor('accent.green')};
 
     .icon__shape {
@@ -61,7 +61,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       background: ${props.theme.newColor('accent.green')};
 
       .icon__shape {
-        fill: ${props.theme.color('white')};
+        fill: ${props.theme.newColor('white')};
       }
     }
 
@@ -82,7 +82,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     background: ${props.theme.newColor('accent.green')};
 
     .icon__shape {
-      fill: ${props.theme.color('white')};
+      fill: ${props.theme.newColor('white')};
     }
 
     &:hover,
@@ -103,7 +103,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     background: #1f1f1f;
 
     .icon__shape {
-      fill: ${props.theme.color('white')};
+      fill: ${props.theme.newColor('white')};
       transition: all ${props.theme.transitionProperties};
     }
 
@@ -125,7 +125,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
   ${props =>
     props.colorScheme === 'black-on-white' &&
     `
-    background: ${props.theme.color('white')};
+    background: ${props.theme.newColor('white')};
     border: none;
 
     .icon__shape {

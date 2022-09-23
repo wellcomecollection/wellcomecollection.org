@@ -21,7 +21,7 @@ const YellowBox = styled.div`
 
 const TitleWrapper = styled.span`
   .bg-charcoal & {
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
   }
 `;
 

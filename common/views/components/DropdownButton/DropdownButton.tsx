@@ -23,7 +23,7 @@ const Dropdown = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   className: 'rounded-corners shadow',
 })<DropdownProps>`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   margin-top: -2px;
   z-index: ${props => (props.isActive ? 2 : 1)};
   overflow: auto;

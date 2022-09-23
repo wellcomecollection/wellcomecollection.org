@@ -67,7 +67,9 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   display: block;
 
   background-color: ${props =>
-    props.theme.color(props.isActive ? 'black' : 'white')};
+    props.isActive
+      ? props.theme.color('black')
+      : props.theme.newColor('white')};
 
   ${props =>
     props.theme.makeSpacePropertyValues(
@@ -188,7 +190,7 @@ const MobileControlsModal = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: 'segmented-control__body',
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 `;
 
 type Props = {

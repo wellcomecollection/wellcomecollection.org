@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 
 const Heading = styled(Space)`
   display: block;
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
 
   @supports (box-decoration-break: clone) {
     display: inline;

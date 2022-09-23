@@ -13,7 +13,7 @@ import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
   background: ${props => props.theme.color('charcoal')};
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
 `;
 const TextWrapper = styled.div`
   border-left: 1px solid ${props => props.theme.color('orange')};

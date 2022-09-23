@@ -60,7 +60,7 @@ const Link = styled(Space).attrs({
   as: 'a',
   className: font('intb', 6),
 })<LinkProps>`
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   text-decoration: none;
   display: flex;
   align-items: center;

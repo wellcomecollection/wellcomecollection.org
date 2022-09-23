@@ -27,7 +27,7 @@ const NoScriptViewerEl = styled.div`
 
 const NoScriptViewerMain = styled.div`
   position: relative;
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.newColor('white')};
   height: 100%;
   width: 75%;
 `;

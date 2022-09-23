@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 export const ProgressBar = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
 })`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   border-radius: 7px; /* (height of inner div) / 2 + padding */
   border: 2px solid black;
   width: 300px;

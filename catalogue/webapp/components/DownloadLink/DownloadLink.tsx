@@ -12,7 +12,7 @@ const DownloadLinkStyle = styled.a.attrs({
 })`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.newColor('white')};
   color: ${props => props.theme.newColor('accent.green')};
   text-decoration: none;
   .icon__shape {

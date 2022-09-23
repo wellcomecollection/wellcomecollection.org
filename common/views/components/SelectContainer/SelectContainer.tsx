@@ -33,7 +33,7 @@ const StyledSelect = styled.div.attrs({
     padding: 6px 36px 6px 12px;
     border: 2px solid ${props => props.theme.color('pumice')};
     border-radius: ${props => props.theme.borderRadiusUnit}px;
-    background-color: ${props => props.theme.color('white')};
+    background-color: ${props => props.theme.newColor('white')};
     width: 100%;
 
     &::-ms-expand {

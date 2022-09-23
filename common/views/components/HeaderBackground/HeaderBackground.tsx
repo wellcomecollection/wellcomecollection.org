@@ -45,7 +45,7 @@ const HeaderBackground: FunctionComponent<Props> = ({
     <Background texture={texture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
-          <WobblyEdge isValley={true} intensity={100} background={'white'} />
+          <WobblyEdge isValley={true} intensity={100} background="white" />
         </WobblyEdgeContainer>
       )}
     </Background>

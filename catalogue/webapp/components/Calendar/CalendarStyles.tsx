@@ -16,7 +16,7 @@ export const DatePicker = styled.div`
 `;
 
 export const Header = styled.div`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('white')};
   display: flex;
   color: ${props => props.theme.color('pewter')};
 
@@ -63,7 +63,7 @@ export const Td = styled.td<TdProps>`
 
   &[tabindex='0']:focus {
     background: ${props => props.theme.newColor('accent.green')};
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.newColor('white')};
     outline: 0;
     box-shadow: ${props =>
       props.isKeyboard ? props.theme.focusBoxShadow : 'none'};

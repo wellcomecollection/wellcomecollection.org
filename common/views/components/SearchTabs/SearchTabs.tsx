@@ -25,7 +25,7 @@ const Tab = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: `flex-inline ${font('intb', 5)}`,
 })<TabProps>`
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.newColor('white')};
   border-left: 1px solid ${props => props.theme.color('pumice')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   border-right: 1px solid ${props => props.theme.color('pumice')};

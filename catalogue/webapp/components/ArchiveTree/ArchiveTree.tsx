@@ -144,7 +144,7 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
     border: ${props =>
       props.highlightCondition === 'secondary'
         ? `1px solid ${props.theme.color('yellow')}`
-        : `2px solid ${props.theme.color('white')}`};
+        : `2px solid ${props.theme.newColor('white')}`};
     border-radius: 50%;
   }
   .icon {
