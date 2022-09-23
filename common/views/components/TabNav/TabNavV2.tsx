@@ -6,7 +6,8 @@ import {
   ReactNode,
   KeyboardEvent,
 } from 'react';
-import { font } from '../../../utils/classnames';
+import { trackEvent } from '@weco/common/utils/ga';
+import { font } from '@weco/common/utils/classnames';
 import { TabsContainer, Tab, NavItemInner } from './TabNav.styles';
 
 type SelectableTextLink = {
@@ -41,6 +42,14 @@ const TabNavV2: FC<Props> = ({
     element?.focus();
   }
 
+  const sendEvent = (id: string) => {
+    trackEvent({
+      category: 'TabNav',
+      action: 'Tab clicked',
+      label: id,
+    });
+  };
+
   // TODO stole this from BaseTabs. Get together?
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const LEFT = [37, 'ArrowLeft'];
@@ -63,21 +72,25 @@ const TabNavV2: FC<Props> = ({
     if (LEFT.includes(key)) {
       setSelectedTab(items[prevIndex].id);
       focusTabAtIndex(prevIndex);
+      sendEvent(items[prevIndex].id);
     }
 
     if (RIGHT.includes(key)) {
       setSelectedTab(items[nextIndex].id);
       focusTabAtIndex(nextIndex);
+      sendEvent(items[nextIndex].id);
     }
 
     if (HOME.includes(key)) {
       setSelectedTab(items[0].id);
       focusTabAtIndex(0);
+      sendEvent(items[0].id);
     }
 
     if (END.includes(key)) {
       setSelectedTab(items[items.length - 1].id);
       focusTabAtIndex(items.length - 1);
+      sendEvent(items[items.length - 1].id);
     }
   };
 
@@ -97,7 +110,11 @@ const TabNavV2: FC<Props> = ({
             tabIndex={item.selected ? 0 : -1}
             aria-selected={item.selected}
             onClick={() => {
-              if (!item.selected) setSelectedTab(item.id);
+              if (!item.selected) {
+                setSelectedTab(item.id);
+
+                sendEvent(item.id);
+              }
             }}
             onKeyDown={handleKeyDown}
           >

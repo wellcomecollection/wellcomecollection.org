@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import Space from '../styled/Space';
-import { classNames } from '../../../utils/classnames';
+import Space from '@weco/common/views/components/styled/Space';
+import { classNames } from '@weco/common/utils/classnames';
 
 export const TabsContainer = styled.div.attrs({
   className: 'no-margin',
