@@ -1,4 +1,4 @@
-import { FC, FunctionComponent, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { ParsedUrlQuery } from 'querystring';
@@ -36,7 +36,7 @@ const includes = [
 ];
 
 const ToolbarContainer = styled.div`
-  background-color: ${props => props.theme.color('purple')};
+  background-color: ${props => props.theme.newColor('accent.purple')};
   z-index: 100;
 `;
 

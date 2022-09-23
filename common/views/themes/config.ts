@@ -129,13 +129,14 @@ const getNewColor = (name: newPaletteColor): string => newColors[name];
 export const colors = {
   white: { base: '#ffffff', dark: '', light: '' },
   black: { base: '#121212', dark: '', light: '' },
-  purple: { base: '#944aa0', dark: '', light: '' },
+  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
+
+  // purple: { base: '#944aa0', dark: '', light: '' },
   teal: { base: '#006272', dark: '', light: '' },
   // cyan: { base: '#298187', dark: '', light: '' },
   turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
   // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
   orange: { base: '#e87500', dark: '', light: '' },
-  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
   // brown: { base: '#815e48', dark: '', light: '' },
   cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
   // green: { base: '#007868', dark: '#146a5c', light: '' },

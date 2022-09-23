@@ -44,7 +44,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     ' ' +
     'plain-button line-height-1 flex-inline flex--v-center',
 }))<PopupDialogOpenProps>`
-  color: ${props => props.theme.color('purple')};
+  color: ${props => props.theme.newColor('accent.purple')};
   position: fixed;
   transform: ${props =>
     props.isActive || !props.shouldStartAnimation
@@ -65,7 +65,7 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     outline: 0;
     border: 0;
     color: ${props => props.theme.newColor('white')};
-    background: ${props => props.theme.color('purple')};
+    background: ${props => props.theme.newColor('accent.purple')};
 
     .icon__shape {
       fill: ${props => props.theme.newColor('white')};
@@ -143,7 +143,7 @@ const PopupDialogCTA = styled(Space).attrs({
     medium: 3,
   })} rounded-corners inline-block`,
 })`
-  background-color: ${props => props.theme.color('purple')};
+  background-color: ${props => props.theme.newColor('accent.purple')};
   color: ${props => props.theme.newColor('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
@@ -152,8 +152,8 @@ const PopupDialogCTA = styled(Space).attrs({
   &:hover,
   &:focus {
     outline: 0;
-    color: ${props => props.theme.color('purple')};
-    border-color: ${props => props.theme.color('purple')};
+    color: ${props => props.theme.newColor('accent.purple')};
+    border-color: ${props => props.theme.newColor('accent.purple')};
     background: ${props => props.theme.newColor('white')};
   }
 `;
@@ -290,7 +290,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { medium: 2, large: 2 },
           }}
         >
-          <Icon icon={chat} color="purple" />
+          <Icon icon={chat} color="accent.purple" />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -314,7 +314,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             });
           }}
         >
-          <Icon icon={clear} title="Close dialog" color="purple" />
+          <Icon icon={clear} title="Close dialog" color="accent.purple" />
         </PopupDialogClose>
         <Space
           h={{

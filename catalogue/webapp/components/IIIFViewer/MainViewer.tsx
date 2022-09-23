@@ -39,7 +39,7 @@ type SearchTermHighlightProps = {
 };
 
 const SearchTermHighlight = styled.div<SearchTermHighlightProps>`
-  background: ${props => props.theme.color('purple')};
+  background: ${props => props.theme.newColor('accent.purple')};
   opacity: 0.5;
   position: absolute;
   z-index: 1;

@@ -8,7 +8,7 @@ import { underConstruction } from '@weco/common/icons';
 const StyledBetaMessage = styled.div.attrs(() => ({
   className: `${font('intr', 5)} flex flex--v-center`,
 }))`
-  border-left: ${props => `4px solid ${props.theme.color('purple')}`};
+  border-left: ${props => `4px solid ${props.theme.newColor('accent.purple')}`};
   padding-left: ${props => props.theme.spacingUnit}px;
 `;
 
