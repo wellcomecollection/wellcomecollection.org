@@ -11,7 +11,7 @@ import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper
 import Divider from '@weco/common/views/components/Divider/Divider';
 import { font } from '@weco/common/utils/classnames';
 import { themeValues } from '@weco/common/views/themes/config';
-import { dasherize } from '@weco/common/utils/grammar';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 function getTypeColor(type: string): string {
   // importing this from exhibition-guide.tsx was causing a storybook build failure
@@ -232,7 +232,7 @@ const Stop: FC<{
               }}
               v={{ size: 'l', properties: ['margin-bottom'] }}
             >
-              <StandaloneTitle id={dasherize(`${standaloneTitle}`)}>
+              <StandaloneTitle id={dasherizeShorten(`${standaloneTitle}`)}>
                 {standaloneTitle}
               </StandaloneTitle>
             </Space>
@@ -256,7 +256,7 @@ const Stop: FC<{
               {!hasContext && (
                 <TombstoneTitle
                   level={tombstoneHeadingLevel}
-                  id={dasherize(`${title}`)}
+                  id={dasherizeShorten(`${title}`)}
                 >
                   {title}
                 </TombstoneTitle>
@@ -271,7 +271,7 @@ const Stop: FC<{
                 <>
                   {title.length > 0 && (
                     <ContextTitle
-                      id={dasherize(title)}
+                      id={dasherizeShorten(title)}
                       level={contextHeadingLevel}
                     >
                       {title}
