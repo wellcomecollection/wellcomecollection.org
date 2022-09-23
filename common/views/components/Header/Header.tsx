@@ -72,7 +72,7 @@ const BurgerTrigger = styled.a<{ isActive: boolean }>`
     left: 0;
     right: 0;
     height: 2px;
-    background: ${props => props.theme.color('black')};
+    background: ${props => props.theme.newColor('black')};
     transition: transform 400ms ease;
     transform-origin: center center;
 

@@ -18,7 +18,7 @@ export const Preview = styled(Space)`
   max-width: 120px;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
   margin-right: 1rem;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 
   ${props => props.theme.media.medium`
   margin-bottom: 0;

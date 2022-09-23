@@ -90,7 +90,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   padding: 0;
   &:focus {
     outline: ${props =>
-      !props.hideFocus ? `2px solid ${props.theme.color('black')}` : 'none'};
+      !props.hideFocus ? `2px solid ${props.theme.newColor('black')}` : 'none'};
   }
 
   &.guideline::before,
@@ -166,7 +166,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   display: inline-block;
   min-height: ${`${controlHeight}px`};
   line-height: 1;
-  color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.newColor('black')};
   background: ${props =>
     props.isCurrent ? props.theme.color('yellow') : 'transparent'};
   cursor: pointer;

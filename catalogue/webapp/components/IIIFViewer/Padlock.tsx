@@ -24,7 +24,7 @@ const StyledPadlock = styled.div`
   &::after,
   > div::before,
   > div::after {
-    background-color: ${props => props.theme.color('black')};
+    background-color: ${props => props.theme.newColor('black')};
   }
 
   /* top bar */

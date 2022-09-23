@@ -16,7 +16,7 @@ export const DownloadOptions = styled.div.attrs(() => ({
   className: font('intb', 4),
 }))`
   white-space: normal;
-  color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.newColor('black')};
 
   li + li {
     margin-top: ${props => `${props.theme.spacingUnit * 2}px`};

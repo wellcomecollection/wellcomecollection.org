@@ -36,7 +36,7 @@ const List = styled.ul.attrs({
   className:
     'segmented-control__list no-margin no-padding plain-list rounded-diagonal overflow-hidden',
 })`
-  border: 1px solid ${props => props.theme.color('black')};
+  border: 1px solid ${props => props.theme.newColor('black')};
 `;
 
 type ItemProps = {
@@ -48,7 +48,7 @@ const Item = styled.li.attrs({
 })<ItemProps>`
   display: flex;
   line-height: 1;
-  border-right: 1px solid ${props => props.theme.color('black')};
+  border-right: 1px solid ${props => props.theme.newColor('black')};
 
   ${props =>
     props.isLast &&
@@ -67,9 +67,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   display: block;
 
   background-color: ${props =>
-    props.isActive
-      ? props.theme.color('black')
-      : props.theme.newColor('white')};
+    props.theme.newColor(props.isActive ? 'black' : 'white')};
 
   ${props =>
     props.theme.makeSpacePropertyValues(
@@ -183,7 +181,7 @@ const MobileControlsContainer = styled(Space).attrs({
     'segmented-control__button-text font-white flex--h-space-between rounded-diagonal',
 })`
   display: flex;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 `;
 
 const MobileControlsModal = styled(Space).attrs({

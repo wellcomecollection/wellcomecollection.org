@@ -71,7 +71,7 @@ export const Td = styled.td<TdProps>`
 
   &[aria-selected='true'] {
     background: ${props => props.theme.color('yellow')};
-    color: ${props => props.theme.color('black')};
+    color: ${props => props.theme.newColor('black')};
   }
 `;
 

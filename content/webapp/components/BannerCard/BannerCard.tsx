@@ -24,7 +24,9 @@ const CardOuter = styled.a<CardOuterProps>`
   text-decoration: none;
   background: ${props => props.theme.color(props.background)};
   color: ${props =>
-    props.theme.color(props.background === 'charcoal' ? 'cream' : 'black')};
+    props.background === 'charcoal'
+      ? props.theme.color('cream')
+      : props.theme.newColor('black')};
 
   ${props => props.theme.media.large`
     flex-direction: row;

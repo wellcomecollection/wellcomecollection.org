@@ -25,7 +25,9 @@ const LL = styled.div<LLProps>`
     bottom: 0;
     width: ${props => (props.small ? '10px' : '20px')};
     background: ${props =>
-      props.theme.color(props.lighten ? 'silver' : 'black')};
+      props.lighten
+        ? props.theme.color('silver')
+        : props.theme.newColor('black')};
   }
 
   &:before {

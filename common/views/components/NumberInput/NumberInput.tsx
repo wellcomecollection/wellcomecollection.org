@@ -19,7 +19,7 @@ const StyledInput = styled(Space).attrs({
   }
 
   &:focus {
-    border: 2px solid ${props => props.theme.color('black')};
+    border: 2px solid ${props => props.theme.newColor('black')};
     padding: 11px;
   }
 `;

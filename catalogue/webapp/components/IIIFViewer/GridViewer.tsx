@@ -125,7 +125,7 @@ const GridViewerEl = styled.div<GridViewerElProps>`
   left: 0;
   bottom: 0;
   z-index: 1;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.newColor('black')};
   transition: top 500ms ease;
 `;
 

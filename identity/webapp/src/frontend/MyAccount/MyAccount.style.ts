@@ -12,7 +12,7 @@ export const ProgressBar = styled(Space).attrs({
 `;
 
 export const ProgressIndicator = styled.div<{ percentage: number }>`
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
   width: ${props => `${props.percentage}%`};
   height: 10px;
 `;
@@ -66,7 +66,7 @@ const colours = {
   success: css`
     background-color: rgba(0, 120, 108, 0.1);
     border: 1px solid rgba(0, 120, 108, 0.3);
-    color: ${props => props.theme.color('black')};
+    color: ${props => props.theme.newColor('black')};
   `,
   failure: css`
     background-color: rgba(224, 27, 47, 0.1);

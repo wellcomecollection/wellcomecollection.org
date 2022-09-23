@@ -61,7 +61,7 @@ const SearchResult = styled.button.attrs({
   color: ${props => props.theme.newColor('white')};
   background: transparent;
   &:hover {
-    background: ${props => props.theme.color('black')};
+    background: ${props => props.theme.newColor('black')};
   }
 `;
 

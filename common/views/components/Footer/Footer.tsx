@@ -16,7 +16,7 @@ const Wrapper = styled(Space).attrs({
   className: 'font-white',
 })`
   position: relative;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 `;
 
 const FooterNavWrapper = styled(Space).attrs({

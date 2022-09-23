@@ -66,7 +66,7 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
 
   &:focus {
     ${props =>
-      !props.hideFocus && `border: 2px solid ${props.theme.color('black')}`}
+      !props.hideFocus && `border: 2px solid ${props.theme.newColor('black')}`}
   }
 
   .icon {

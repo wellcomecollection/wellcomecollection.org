@@ -87,7 +87,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     &:hover,
     &:focus {
-      background: ${props.theme.color('black')};
+      background: ${props.theme.newColor('black')};
     }
 
     &[disabled] {
