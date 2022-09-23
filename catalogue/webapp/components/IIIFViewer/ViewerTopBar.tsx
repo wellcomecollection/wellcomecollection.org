@@ -92,12 +92,12 @@ export const ShameButton = styled.button.attrs(() => ({
     !props.isDark &&
     `
     background: ${props.theme.color('white')};
-    color: ${props.theme.color('green')};
-    border: 1px solid ${props.theme.color('green')};
+    color: ${props.theme.newColor('accent.green')};
+    border: 1px solid ${props.theme.newColor('accent.green')};
 
     &:not([disabled]):hover,
     &:not([disabled]):focus {
-      background: ${props.theme.color('green')};
+      background: ${props.theme.newColor('accent.green')};
       color: ${props.theme.color('white')};
     }
   `}

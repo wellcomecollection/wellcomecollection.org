@@ -20,7 +20,10 @@ const IconContainer = styled.div<IconContainerProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  background: ${props => props.theme.color(props.open ? 'black' : 'green')};
+  background: ${props =>
+    props.open
+      ? props.theme.color('black')
+      : props.theme.newColor('accent.green')};
 
   .icon {
     transition: transform 300ms ease;

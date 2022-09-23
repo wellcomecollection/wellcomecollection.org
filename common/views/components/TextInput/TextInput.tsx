@@ -235,7 +235,7 @@ const Input: FC<Props> = (
         />
         {isValid && showValidity && (
           <TextInputCheckmark>
-            <Icon icon={check} color={'green'} />
+            <Icon icon={check} color="validation.green" />
           </TextInputCheckmark>
         )}
       </TextInputWrap>

@@ -19,7 +19,7 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   // New palette
   ${Object.entries(themeValues.newColors).map(([key, value]) => {
-    if (typeof value === 'string') {
+    if (!key.includes('.')) {
       return `
         .font-${key} {
           color: ${value};
@@ -29,16 +29,15 @@ export const utilityClasses = css<GlobalStyleProps>`
           }
         }`;
     } else {
-      return Object.entries(value).map(([k, v]) => {
-        return `
-          .font-${key}-${k} {
-            color: ${v};
-  
-            .icon__shape {
-              fill: ${v};
-            }
-          }`;
-      });
+      const colorName = key.split('.');
+      return `
+        .font-${colorName[0]}-${colorName[1]} {
+          color: ${value};
+
+          .icon__shape {
+            fill: ${value};
+          }
+        }`;
     }
   })}
 

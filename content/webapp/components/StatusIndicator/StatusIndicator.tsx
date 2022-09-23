@@ -32,7 +32,7 @@ export function formatDateRangeWithMessage({
   } else if (closesToday || closesInSevenDays) {
     return { text: 'Final week', color: 'orange' };
   } else {
-    return { text: 'Now on', color: 'green' };
+    return { text: 'Now on', color: 'validation.green' };
   }
 }
 

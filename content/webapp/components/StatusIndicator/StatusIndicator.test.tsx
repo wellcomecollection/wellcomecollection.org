@@ -92,7 +92,7 @@ describe('formatDateRangeWithMessage', () => {
         end,
       });
 
-      expect(result).toEqual({ text: 'Now on', color: 'green' });
+      expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
     });
   });
 
@@ -102,7 +102,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
   });
 
   it('says "Now on" for a currently running event', () => {
@@ -111,6 +111,6 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Now on', color: 'green' });
+    expect(result).toEqual({ text: 'Now on', color: 'validation.green' });
   });
 });

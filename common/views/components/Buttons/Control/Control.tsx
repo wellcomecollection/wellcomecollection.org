@@ -50,15 +50,15 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     props.colorScheme === 'light' &&
     `
     background: ${props.theme.color('white')};
-    border: 2px solid ${props.theme.color('green')};
+    border: 2px solid ${props.theme.newColor('accent.green')};
 
     .icon__shape {
-      fill: ${props.theme.color('green')};
+      fill: ${props.theme.newColor('accent.green')};
     }
 
     &:hover,
     &:focus {
-      background: ${props.theme.color('green')};
+      background: ${props.theme.newColor('accent.green')};
 
       .icon__shape {
         fill: ${props.theme.color('white')};
@@ -79,7 +79,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     props.colorScheme === 'dark' &&
     `
     border: 0;
-    background: ${props.theme.color('green')};
+    background: ${props.theme.newColor('accent.green')};
 
     .icon__shape {
       fill: ${props.theme.color('white')};

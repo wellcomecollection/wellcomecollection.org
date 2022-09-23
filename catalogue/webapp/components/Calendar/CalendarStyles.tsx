@@ -62,7 +62,7 @@ export const Td = styled.td<TdProps>`
   }
 
   &[tabindex='0']:focus {
-    background: ${props => props.theme.color('green')};
+    background: ${props => props.theme.newColor('accent.green')};
     color: ${props => props.theme.color('white')};
     outline: 0;
     box-shadow: ${props =>

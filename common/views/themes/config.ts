@@ -124,7 +124,7 @@ const newColors = {
   'validation.green': '#0b7051',
 };
 
-const getNewColor = (name: PaletteColor): string => newColors[name];
+const getNewColor = (name: newPaletteColor): string => newColors[name];
 
 export const colors = {
   white: { base: '#ffffff', dark: '', light: '' },
@@ -168,7 +168,7 @@ const getColor = (
 ): string => {
   // Might want to use the new function until we delete this one
   if (name.split('.').length > 1) {
-    return getNewColor(name);
+    return getNewColor(name as newPaletteColor);
   }
   return colors[name][variant];
 };
@@ -185,8 +185,8 @@ export const sizes = {
 };
 
 const defaultButtonColors: ButtonColors = {
-  border: 'green',
-  background: 'green',
+  border: 'accent.green',
+  background: 'accent.green',
   text: 'white',
 };
 
@@ -199,6 +199,8 @@ const dangerButtonColors: ButtonColors = {
 // Button color naming convention: [border][Background][Text]
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
+
+// TODO add a validation green coloured button?
 const charcoalWhiteCharcoal: ButtonColors = {
   border: 'charcoal',
   background: 'white',
@@ -206,9 +208,9 @@ const charcoalWhiteCharcoal: ButtonColors = {
 };
 
 const greenTransparentGreen: ButtonColors = {
-  border: 'green',
+  border: 'accent.green',
   background: 'transparent',
-  text: 'green',
+  text: 'accent.green',
 };
 
 const whiteTransparentWhite: ButtonColors = {

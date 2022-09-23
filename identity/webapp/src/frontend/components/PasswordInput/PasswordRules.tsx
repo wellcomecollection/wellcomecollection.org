@@ -21,7 +21,10 @@ const RuleDot = styled.span<DotProps>`
   height: 1em;
   border-radius: 50%;
   border: 1px solid ${props => props.theme.color('smoke')};
-  background: ${props => props.theme.color(props.isValid ? 'green' : 'white')};
+  background: ${props =>
+    props.isValid
+      ? props.theme.newColor('accent.green')
+      : props.theme.color('white')};
 
   .icon {
     transform: scale(0.8);

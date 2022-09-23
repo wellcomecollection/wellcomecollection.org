@@ -189,7 +189,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .more-link {
-    color: ${themeValues.color('green')};
+    color: ${themeValues.newColor('accent.green')};
     text-decoration: none;
 
     &:hover,
@@ -276,7 +276,7 @@ export const typography = css<GlobalStyleProps>`
       transition: color ${themeValues.transitionProperties};
 
       &:hover {
-        color: ${themeValues.color('green')};
+        color: ${themeValues.newColor('accent.green')};
         text-decoration-color: transparent;
       }
     }
