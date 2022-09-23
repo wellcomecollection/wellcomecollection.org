@@ -750,12 +750,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               page instead.
 
               The prototype page will only display if you have the toggle enabled,
-              so don't display it if you don't have the toggle.  Also, put a shiny
-              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              so don't display it if you don't have the toggle.
               */
               return toggles.conceptsPages && s.id
                 ? {
-                    textParts: [`🆕 ${s.concepts[0].label}`].concat(
+                    textParts: [s.concepts[0].label].concat(
                       s.concepts.slice(1).map(c => c.label)
                     ),
                     linkAttributes: {
