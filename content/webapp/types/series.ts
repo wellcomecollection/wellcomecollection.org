@@ -6,6 +6,7 @@ import { Contributor } from './contributors';
 import { Season } from './seasons';
 import { ImagePromo } from './image-promo';
 import { ImageType } from '@weco/common/model/image';
+import { Label } from '@weco/common/model/labels';
 
 export type SeriesBasic = {
   type: 'series';
@@ -15,6 +16,7 @@ export type SeriesBasic = {
   image?: ImageType | undefined;
   color?: ColorSelection;
   schedule: ArticleScheduleItem[];
+  labels: Label[];
 };
 
 export type Series = GenericContentFields & {

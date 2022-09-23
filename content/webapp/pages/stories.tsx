@@ -192,6 +192,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           title: '',
           schedule: [],
           items: [],
+          labels: [],
         }; // This is only returned when the newStoriesLanding toggle is false
 
     const storiesLanding =
