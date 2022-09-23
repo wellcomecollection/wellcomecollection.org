@@ -23,13 +23,11 @@ export function dasherize(words: string): string {
 // Take a string, like Tombstone title, and return first four words, in lowercase, with dashes
 // An id from Exhibition Guide Tombstone title e.g. An eye surgeon operating on a man
 // becomes #an-eye-surgeon-operating
-export function dasherizeShorten(words: string): string[] {
+export function dasherizeShorten(words: string): string {
   return words
     .split(' ')
     .slice(0, 4)
     .join(' ')
-    .trim()
     .toLowerCase()
-    .replace(/\W/g, '-')
-    .split(/[.*:/()]/);
+    .replace(/\W/g, '-');
 }
