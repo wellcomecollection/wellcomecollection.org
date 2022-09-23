@@ -17,7 +17,8 @@ export const pageDescriptions = {
     'We publish thought-provoking books exploring health and human experiences.',
   events:
     'Our events take place both online and in our building. Choose from an inspiring range of free talks, discussions and more.',
-  exhibitionGuides: 'Exhibition Guides...',
+  exhibitionGuides:
+    'Explore our exhibitions using your own device, with audio description, British Sign Language and gallery captions',
   exhibitions:
     'Explore the connections between science, medicine, life and art through our permanent and temporary exhibitions. Admission is always free.',
   guides: 'Guides intro text...',
