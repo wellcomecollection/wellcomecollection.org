@@ -52,14 +52,12 @@ import { BookBasic } from '../types/books';
 import { StoriesLanding } from '../types/stories-landing';
 import { StoriesLandingPrismicDocument } from '../services/prismic/types/stories-landing';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
-import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
 
 type SerialisedSeriesProps = SeriesBasic & {
-  promo?: ImagePromo;
   items: ArticleBasic[];
 };
 
@@ -186,26 +184,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     const basicSeries: SerialisedSeriesProps = series
       ? {
           ...transformSeriesToSeriesBasic(series),
-          promo: series.promo,
-          items: series.items.map(item => ({
-            ...item,
-            image: { width: 0, height: 0, alt: null, contentUrl: '' },
-            series: item.series.map(s => ({
-              id: s.id,
-              title: s.title,
-              schedule: [],
-              type: 'series',
-              image: { width: 0, height: 0, alt: null, contentUrl: '' },
-              promo: {},
-            })),
-          })),
+          items: series.items,
         }
       : {
-          items: [],
+          type: 'series',
           id: '',
           title: '',
           schedule: [],
-          promo: undefined,
+          items: [],
         }; // This is only returned when the newStoriesLanding toggle is false
 
     const storiesLanding =

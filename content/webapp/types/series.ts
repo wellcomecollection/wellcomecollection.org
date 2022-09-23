@@ -11,16 +11,16 @@ export type SeriesBasic = {
   type: 'series';
   id: string;
   title: string;
+  promo?: ImagePromo | undefined;
+  image?: ImageType | undefined;
   color?: ColorSelection;
   schedule: ArticleScheduleItem[];
-  promo: ImagePromo | undefined;
-  image: ImageType | undefined;
 };
 
 export type Series = GenericContentFields & {
   type: 'series';
-  schedule: ArticleScheduleItem[];
   color?: ColorSelection;
+  schedule: ArticleScheduleItem[];
   seasons: Season[];
   items: ArticleBasic[];
   contributors: Contributor[];
