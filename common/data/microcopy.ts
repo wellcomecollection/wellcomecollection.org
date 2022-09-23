@@ -28,7 +28,7 @@ export const pageDescriptions = {
     'Get involved in shaping better website and gallery experiences for everyone. We’re looking for people to take part in online and in-person interviews, usability tests, surveys and more.',
   whatsOn:
     'Discover all of the exhibitions, events and more on offer at Wellcome Collection, a free museum and library exploring health and human experience.',
-  exhibitionGuides: 'Exhibition Guides...',
+  exhibitionGuides: 'Explore our exhibitions using your own device, with audio description, British Sign Language and gallery captions',
 };
 
 export const defaultPageTitle =
