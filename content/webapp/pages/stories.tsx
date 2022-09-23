@@ -56,7 +56,7 @@ import { ImagePromo } from '../types/image-promo';
 import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/series';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
-// import { useToggles } from '@weco/common/server-data/Context';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type SerialisedSeriesProps = SeriesBasic & {
   promo?: ImagePromo;
@@ -100,8 +100,7 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
   async context => {
     const serverData = await getServerData(context);
     const client = createClient(context);
-    // const { newStoriesLanding } = serverData.toggles; // TODO put this back
-    const newStoriesLanding = true;
+    const { newStoriesLanding } = serverData.toggles;
 
     const articlesQueryPromise = fetchArticles(client);
 
@@ -243,8 +242,8 @@ const StoriesPage: FC<Props> = ({
   storiesLanding,
 }) => {
   const firstArticle = articles[0];
-  // const { newStoriesLanding } = useToggles(); TODO put this back
-  const newStoriesLanding = true;
+  const { newStoriesLanding } = useToggles();
+
   const introText = newStoriesLanding
     ? storiesLanding?.introText
     : featuredText?.value;
