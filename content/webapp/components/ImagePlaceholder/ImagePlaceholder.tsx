@@ -7,7 +7,7 @@ const Wrapper = styled.div<{
   color: ColorSelection;
 }>`
   position: relative;
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.newColor(props.color)};
 `;
 
 const Pattern = styled.div`
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
-  <Wrapper color={color || 'purple'}>
+  <Wrapper color={color || 'accent.purple'}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>

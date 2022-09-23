@@ -204,7 +204,7 @@ export const editorialSeries = [
         spans: [],
       },
     ],
-    color: 'teal',
+    color: 'accent.blue',
     schedule: [
       {
         title: [{ type: 'heading1', text: 'First heading', spans: [] }],
@@ -782,7 +782,7 @@ export const article: Article = {
       ],
       type: 'series',
       schedule: [],
-      color: 'green',
+      color: 'validation.green',
       items: [],
       seasons: [],
     },
