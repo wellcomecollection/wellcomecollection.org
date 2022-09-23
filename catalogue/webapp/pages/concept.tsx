@@ -115,7 +115,6 @@ export const ConceptPage: NextPage<Props> = ({
   const hasImagesTabs = !!(imagesBy?.totalResults && imagesAbout?.totalResults);
 
   return (
-    // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
       description={pageDescriptionConcepts(conceptResponse.label)}
@@ -130,13 +129,13 @@ export const ConceptPage: NextPage<Props> = ({
           <TypeLabel>{conceptResponse.type}</TypeLabel>
           <Space v={{ size: 's', properties: ['margin-top', 'margin-bottom'] }}>
             <HeroTitle>{conceptResponse.label}</HeroTitle>
-            {/* TODO get copy from Jonathan */}
             <ConceptDescription className={font('intr', 5)}>
               <BetaMessage
                 message={
                   <>
-                    We are working to improve the information on this page.{' '}
-                    <Link href="/user-panel">Join our user panel</Link> or{' '}
+                    We&rsquo;re working to improve the information on this page.
+                    You can <Link href="/user-panel">join our user panel</Link>{' '}
+                    or{' '}
                     <Link href="https://roadmap.wellcomecollection.org/">
                       submit an idea
                     </Link>{' '}

@@ -88,15 +88,15 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             </WorkTitleHeading>
 
             <WorkInformation>
-              {productionDates.length > 0 && (
-                <WorkInformationItem>
-                  Date: {productionDates[0]}
-                </WorkInformationItem>
-              )}
-
               {primaryContributorLabel && (
                 <WorkInformationItem>
                   {primaryContributorLabel}
+                </WorkInformationItem>
+              )}
+
+              {productionDates.length > 0 && (
+                <WorkInformationItem>
+                  Date: {productionDates[0]}
                 </WorkInformationItem>
               )}
 
