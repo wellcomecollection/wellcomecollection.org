@@ -121,17 +121,26 @@ async function createTzitzitWorkLink(
 
 function getAnchorLinkUrls() {
   // This function currently only extracts the ids from h2, h3, and h4 tags
-  const getAllIds = [...document.querySelectorAll('h2, h3, h4')].map(
+  const getAllHeadingIds = [...document.querySelectorAll('h2, h3, h4')].map(
     item => item.id
   );
+  // This function extracts divs that have an id within exhibition in the class name
+  // This is to allow us to grab ids from divs from audio and BSL guides in Exhibition Guides
+  const getDivIds = [...document.querySelectorAll('div[id]')].map(item => {
+    return item.className.match(/exhibition/g) ? item.id : null;
+  });
   // Remove empty ids and then append them to the current url with # to
   // create the anchor link
   // e.g. weco.org/guides/exhibitions/YvUALRAAACMA2h8V/captions-and-transcripts#anchor-id
-  const extractedIdValues = getAllIds
+  const extractedHeadingIdValues = getAllHeadingIds
+    .filter(Boolean)
+    .map(id => `${document.URL}#${id}`);
+  const extractedIdsFromDivs = getDivIds
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
   // Make the list of urls csv friendly
-  const csvAsSingleColumn = extractedIdValues.join('\n');
+  const csvAsSingleColumn =
+    extractedHeadingIdValues.join('\n') + extractedIdsFromDivs.join('\n');
   // Push the list of urls to the clipboard
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
     return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
