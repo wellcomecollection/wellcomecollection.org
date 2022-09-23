@@ -201,13 +201,11 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
           })),
         }
       : {
-          type: 'series' as const,
           items: [],
           id: '',
           title: '',
           schedule: [],
           promo: undefined,
-          image: { contentUrl: '', alt: null, width: 0, height: 0 },
         }; // This is only returned when the newStoriesLanding toggle is false
 
     const storiesLanding =

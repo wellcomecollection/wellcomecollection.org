@@ -70,7 +70,7 @@ export const transformArticleSeries = (
             color: series && series.color,
           } as ArticleBasic;
         })
-      : articles.map(article => transformArticleToArticleBasic(article));
+      : articles;
 
   const seriesWithItems: Series = {
     ...series,
