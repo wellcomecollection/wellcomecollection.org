@@ -13,7 +13,7 @@ fieldset {
 }
 
 .openseadragon-canvas:focus {
-  border: 2px solid ${themeValues.color('yellow')}!important;
+  border: 2px solid ${themeValues.newColor('yellow')}!important;
   border-width: 2px 2px 0;
 }
 

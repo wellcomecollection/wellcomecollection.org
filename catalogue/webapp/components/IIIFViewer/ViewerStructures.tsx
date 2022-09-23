@@ -44,7 +44,7 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
           left: -1px;
           bottom: 0;
           width: 4px;
-          background: ${props.theme.color('yellow')};
+          background: ${props.theme.newColor('yellow')};
         }
       `}
 

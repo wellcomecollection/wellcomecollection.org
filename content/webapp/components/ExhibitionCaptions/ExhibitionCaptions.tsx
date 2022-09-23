@@ -115,7 +115,7 @@ const Caption = styled(Space).attrs({
   className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('yellow')};
+  border-left: 20px solid ${props => props.theme.newColor('yellow')};
 `;
 
 const PrismicImageWrapper = styled.div`

@@ -50,7 +50,7 @@ const StyledPadlock = styled.div`
     height: 62%;
     left: 10%;
     bottom: 0;
-    background-color: ${props => props.theme.color('yellow')};
+    background-color: ${props => props.theme.newColor('yellow')};
     border-radius: 15%;
     z-index: 1;
 

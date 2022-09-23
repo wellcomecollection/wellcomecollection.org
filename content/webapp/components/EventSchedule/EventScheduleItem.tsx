@@ -42,7 +42,7 @@ const EventContainer = styled(Space).attrs({
   className: font('intb', 5),
 })`
   display: inline-block;
-  background-color: ${props => props.theme.color('yellow')};
+  background-color: ${props => props.theme.newColor('yellow')};
 `;
 
 const EventScheduleItem: FC<Props> = ({ event, isNotLinked }) => {

@@ -28,7 +28,7 @@ export const Header = styled.div`
 export const Message = styled.p.attrs(() => ({
   className: font('intr', 6),
 }))`
-  background: ${props => props.theme.color('yellow')};
+  background: ${props => props.theme.newColor('yellow')};
   padding: ${props => `${props.theme.spacingUnit * 2}px`};
   margin: ${props => `${props.theme.spacingUnit}px`};
   border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
@@ -70,7 +70,7 @@ export const Td = styled.td<TdProps>`
   }
 
   &[aria-selected='true'] {
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.newColor('yellow')};
     color: ${props => props.theme.newColor('black')};
   }
 `;

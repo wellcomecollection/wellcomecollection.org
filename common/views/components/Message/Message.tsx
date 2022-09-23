@@ -11,7 +11,7 @@ const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   className: `inline-block ${font('intb', 5)}`,
 })`
-  border-left: 5px solid ${props => props.theme.color('yellow')};
+  border-left: 5px solid ${props => props.theme.newColor('yellow')};
 `;
 
 type Props = {

@@ -56,7 +56,7 @@ const Tree = styled.div<{ isEnhanced?: boolean }>`
       content: ${props => (props.isEnhanced ? `'${instructions}'` : null)};
       z-index: 2;
       top: 0;
-      background: ${props => props.theme.color('yellow')};
+      background: ${props => props.theme.newColor('yellow')};
       padding: ${props => `${props.theme.spacingUnit * 2}px`};
       margin: ${props => `${props.theme.spacingUnit}px`};
       border-radius: ${props => `${props.theme.borderRadiusUnit}px`};
@@ -101,7 +101,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
   }
 
   &.guideline::before {
-    border-left: 1px solid ${props => props.theme.color('yellow')};
+    border-left: 1px solid ${props => props.theme.newColor('yellow')};
     width: 0;
     top: ${`${verticalGuidePosition}px`};
     left: ${`${controlWidth / 2}px`};
@@ -113,7 +113,7 @@ const TreeItem = styled.li.attrs<TreeItemProps>(props => ({
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.newColor('yellow')};
     left: ${`${controlWidth / 2 - 3}px`};
     bottom: ${`${controlHeight / 2}px`};
   }
@@ -137,13 +137,13 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
     left: ${`${(controlWidth - circleWidth) / 2}px`};
     background: ${props =>
       props.highlightCondition === 'primary'
-        ? props.theme.color('yellow')
+        ? props.theme.newColor('yellow')
         : props.highlightCondition === 'secondary'
         ? props.theme.color('yellow', 'light')
         : props.theme.color('smoke')};
     border: ${props =>
       props.highlightCondition === 'secondary'
-        ? `1px solid ${props.theme.color('yellow')}`
+        ? `1px solid ${props.theme.newColor('yellow')}`
         : `2px solid ${props.theme.newColor('white')}`};
     border-radius: 50%;
   }
@@ -168,7 +168,7 @@ const StyledLink = styled.a<StyledLinkProps>`
   line-height: 1;
   color: ${props => props.theme.newColor('black')};
   background: ${props =>
-    props.isCurrent ? props.theme.color('yellow') : 'transparent'};
+    props.isCurrent ? props.theme.newColor('yellow') : 'transparent'};
   cursor: pointer;
   margin-left: ${props =>
     props.hasControl ? `-${controlWidth / 2}px` : `${controlWidth / 2}px`};

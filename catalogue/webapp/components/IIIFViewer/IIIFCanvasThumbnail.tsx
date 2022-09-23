@@ -35,7 +35,7 @@ const IIIFViewerThumb = styled.button.attrs<ViewerThumbProps>(props => ({
   text-align: center;
   margin: auto;
   &:focus {
-    outline: ${props => `1px solid ${props.theme.color('yellow')}`};
+    outline: ${props => `1px solid ${props.theme.newColor('yellow')}`};
   }
 `;
 
@@ -74,7 +74,7 @@ const IIIFViewerThumbNumber = styled.span.attrs<ViewerThumbProps>(props => ({
   line-height: 1;
 
   ${props =>
-    !!props.isActive && `background-color: ${props.theme.color('yellow')};`}
+    !!props.isActive && `background-color: ${props.theme.newColor('yellow')};`}
 `;
 
 type IIIFCanvasThumbnailProps = {

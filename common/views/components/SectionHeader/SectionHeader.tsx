@@ -7,7 +7,7 @@ const YellowBox = styled.div`
   display: inline-block;
   width: 60px;
   height: 18px;
-  background: ${props => props.theme.color('yellow')};
+  background: ${props => props.theme.newColor('yellow')};
 
   ${props => props.theme.media.medium`
     width: 58px;

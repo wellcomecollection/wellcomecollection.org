@@ -19,7 +19,7 @@ type Props = {
 const BannerContainer = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
-  background-color: ${props => props.theme.color('yellow')};
+  background-color: ${props => props.theme.newColor('yellow')};
 `;
 
 const InfoBanner: FunctionComponent<Props> = ({

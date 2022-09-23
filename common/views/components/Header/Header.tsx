@@ -242,7 +242,7 @@ const HeaderLink = styled.a<{ isActive: boolean }>`
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props => props.theme.newColor('yellow')};
     z-index: -1;
     transition: width 200ms ease;
 
