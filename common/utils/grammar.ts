@@ -20,3 +20,14 @@ export function camelize(title: string): string {
 export function dasherize(words: string): string {
   return words.trim().toLowerCase().replace(/\W/g, '-');
 }
+
+export function dasherizeShorten(words: string): string {
+  return words
+    .split(' ')
+    .slice(0, 4)
+    .join(' ')
+    .trim()
+    .toLowerCase()
+    .replace(/\W/g, '-');
+}
+
