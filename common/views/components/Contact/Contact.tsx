@@ -7,7 +7,7 @@ const Wrapper = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left'] },
   className: 'body-text',
 })`
-  border-left: 5px solid ${props => props.theme.color('turquoise')};
+  border-left: 5px solid ${props => props.theme.newColor('accent.turquoise')};
 `;
 
 export type Props = {

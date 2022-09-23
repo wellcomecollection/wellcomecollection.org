@@ -91,7 +91,7 @@ export const TextInputInput = styled.input.attrs(props => ({
 
   &:focus {
     outline: 0;
-    border-color: ${props => props.theme.color('turquoise')};
+    border-color: ${props => props.theme.newColor('accent.turquoise')};
   }
 
   &:-ms-clear {

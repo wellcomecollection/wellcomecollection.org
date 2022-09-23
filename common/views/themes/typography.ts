@@ -245,7 +245,7 @@ export const typography = css<GlobalStyleProps>`
     }
 
     *::selection {
-      background: ${themeValues.color('turquoise')}4d;
+      background: ${themeValues.newColor('accent.turquoise')}4d;
     }
 
     ul {
@@ -321,7 +321,7 @@ export const typography = css<GlobalStyleProps>`
       ${fontFamilyMixin('wb', true)}
       position: absolute;
       content: '“';
-      color: ${themeValues.color('teal')};
+      color: ${themeValues.newColor('accent.blue')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;
