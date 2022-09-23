@@ -24,6 +24,7 @@ import {
   Preview,
   PreviewImage,
   WorkInformation,
+  WorkInformationItem,
   WorkTitleHeading,
 } from './WorksSearchResultV2.styles';
 
@@ -87,22 +88,22 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
             </WorkTitleHeading>
 
             <WorkInformation>
-              {productionDates.length > 0 && <>Date: {productionDates[0]}</>}
+              {productionDates.length > 0 && (
+                <WorkInformationItem>
+                  Date: {productionDates[0]}
+                </WorkInformationItem>
+              )}
 
               {primaryContributorLabel && (
-                <>
-                  {productionDates.length > 0 && <> | </>}
+                <WorkInformationItem>
                   {primaryContributorLabel}
-                </>
+                </WorkInformationItem>
               )}
 
               {archiveLabels?.reference && (
-                <>
-                  {(primaryContributorLabel ||
-                    (!primaryContributorLabel &&
-                      productionDates.length > 0)) && <> | </>}{' '}
+                <WorkInformationItem>
                   Reference: {archiveLabels && archiveLabels?.reference}
-                </>
+                </WorkInformationItem>
               )}
             </WorkInformation>
             {archiveLabels?.partOf && (

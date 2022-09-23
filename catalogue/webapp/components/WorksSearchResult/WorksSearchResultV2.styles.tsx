@@ -43,8 +43,14 @@ export const WorkInformation = styled(Space).attrs({
   className: font('intr', 5),
   v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  display: flex;
   color: ${props => props.theme.color('pewter')};
+`;
+
+export const WorkInformationItem = styled.span`
+  &:not(:first-child)::before {
+    content: ' | ';
+    margin: 0 4px;
+  }
 `;
 
 export const WorkTitleHeading = styled.h3`
