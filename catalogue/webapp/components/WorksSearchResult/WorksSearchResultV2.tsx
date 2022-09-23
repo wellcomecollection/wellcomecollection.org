@@ -89,9 +89,7 @@ const WorkSearchResultV2: FC<Props> = ({ work, resultPosition }: Props) => {
 
             <WorkInformation>
               {productionDates.length > 0 && (
-                <WorkInformationItem>
-                  Date: {productionDates[0]}
-                </WorkInformationItem>
+                <WorkInformationItem>{productionDates[0]}</WorkInformationItem>
               )}
 
               {primaryContributorLabel && (
