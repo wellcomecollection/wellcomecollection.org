@@ -265,7 +265,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             }}
             className="flex flex--wrap"
           >
-            <EventDateRange event={event} />
+            <div className="inline">
+              <EventDateRange event={event} />
+            </div>
             <Space h={{ size: 's', properties: ['margin-left'] }}>
               {!event.isPast && <EventDatesLink id={event.id} />}
             </Space>
