@@ -1,6 +1,6 @@
 import { Query } from '@prismicio/types';
 import { Series } from '../../../types/series';
-import { Article, ArticleBasic } from '../../../types/articles';
+import { ArticleBasic } from '../../../types/articles';
 import { ArticlePrismicDocument } from '../types/articles';
 import { transformArticle, transformArticleToArticleBasic } from './articles';
 import { transformQuery } from './paginated-results';
@@ -56,19 +56,25 @@ export const transformArticleSeries = (
   const items =
     schedule.length > 0
       ? schedule.map(item => {
-          return item.type === 'article-schedule-items' ||
+          const basicItem =
             item.type === 'articles'
-            ? ({
-                ...item,
-                color: series && series.color,
-              } as Article)
-            : item;
+              ? transformArticleToArticleBasic(item)
+              : item;
+
+          // TODO: This isn't always an ArticleBasic; sometimes it's an ArticleScheduleItem.
+          // This needs fixing as part of a broader refactor.
+          //
+          // See https://wellcome.slack.com/archives/C3TQSF63C/p1663838875989689
+          return {
+            ...basicItem,
+            color: series && series.color,
+          } as ArticleBasic;
         })
       : articles;
 
   const seriesWithItems: Series = {
     ...series,
-    items: items.map(transformArticleToArticleBasic),
+    items,
   };
 
   return (

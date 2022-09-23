@@ -28,6 +28,7 @@ import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
 import { transformArticle } from '../services/prismic/transformers/articles';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd/JsonLd';
+import { useToggles } from '@weco/common/server-data/Context';
 
 type Props = {
   article: Article;
@@ -125,6 +126,8 @@ function getNextUp(
 
 const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
   const [listOfSeries, setListOfSeries] = useState<ArticleSeriesList>();
+  // readingTime toggle
+  const { readingTime } = useToggles();
 
   useEffect(() => {
     async function setSeries() {
@@ -225,7 +228,14 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
                   </Space>
                 </Fragment>
               ))}
-
+            {readingTime && article.readingTime ? (
+              <>
+                <span className={font('intr', 6)}>
+                  <span className={font('intr', 5)}>| </span> reading time{' '}
+                  <span className={font('intb', 6)}>{article.readingTime}</span>
+                </span>
+              </>
+            ) : null}
             {article.contributors.length > 0 && ' '}
 
             <span className={`block font-pewter ${font('intr', 6)}`}>

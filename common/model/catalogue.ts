@@ -347,4 +347,8 @@ export type CatalogueResultsList<Result extends ResultType> = {
     : Result extends Concept
     ? ConceptAggregations
     : null;
+
+  // We include the URL used to fetch data from the catalogue API for
+  // debugging purposes.
+  _requestUrl: string;
 };

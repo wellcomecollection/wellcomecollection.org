@@ -55,6 +55,12 @@ const toggles = {
       initialValue: false,
       description: 'View pages related to exhibition guides',
     },
+    {
+      id: 'readingTime',
+      title: 'Reading time',
+      initialValue: false,
+      description: 'Displays reading time estimate on articles',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

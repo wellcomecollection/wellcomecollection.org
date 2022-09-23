@@ -645,18 +645,40 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
-            tags={work.contributors.map(contributor => ({
-              textParts: [
+            tags={work.contributors.map(contributor => {
+              const textParts = [
                 contributor.agent.label,
                 ...contributor.roles.map(role => role.label),
-              ],
-              linkAttributes: worksLink(
-                {
-                  'contributors.agent.label': [contributor.agent.label],
-                },
-                'work_details/contributors'
-              ),
-            }))}
+              ];
+              /*
+              If this is an identified contributor, link to the concepts prototype
+              page instead.
+
+              The prototype page will only display if you have the toggle enabled,
+              so don't link there if you don't have the toggle.
+              */
+              return toggles.conceptsPages && contributor.agent.id
+                ? {
+                    textParts,
+                    linkAttributes: {
+                      href: {
+                        pathname: `/concepts/${contributor.agent.id}`,
+                      },
+                      as: {
+                        pathname: `/concepts/${contributor.agent.id}`,
+                      },
+                    },
+                  }
+                : {
+                    textParts,
+                    linkAttributes: worksLink(
+                      {
+                        'contributors.agent.label': [contributor.agent.label],
+                      },
+                      'work_details/contributors'
+                    ),
+                  };
+            })}
             separator=""
           />
         )}
@@ -728,12 +750,11 @@ const WorkDetails: FunctionComponent<Props> = ({ work }: Props) => {
               page instead.
 
               The prototype page will only display if you have the toggle enabled,
-              so don't display it if you don't have the toggle.  Also, put a shiny
-              "new" badge on it so it's visually obvious this goes somewhere interesting.
+              so don't display it if you don't have the toggle.
               */
               return toggles.conceptsPages && s.id
                 ? {
-                    textParts: [`🆕 ${s.concepts[0].label}`].concat(
+                    textParts: [s.concepts[0].label].concat(
                       s.concepts.slice(1).map(c => c.label)
                     ),
                     linkAttributes: {

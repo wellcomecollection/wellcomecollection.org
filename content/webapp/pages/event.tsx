@@ -265,7 +265,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
             }}
             className="flex flex--wrap"
           >
-            <EventDateRange event={event} />
+            <div className="inline">
+              <EventDateRange event={event} />
+            </div>
             <Space h={{ size: 's', properties: ['margin-left'] }}>
               {!event.isPast && <EventDatesLink id={event.id} />}
             </Space>
@@ -345,10 +347,9 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                     {event.thirdPartyBooking.name && (
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
-                          className={`no-margin font-charcoal ${font(
-                            'intr',
-                            5
-                          )}`}
+                          className={
+                            'no-margin font-charcoal' + ' ' + font('intr', 5)
+                          }
                         >
                           with {event.thirdPartyBooking.name}
                         </p>

@@ -28,6 +28,7 @@ import SearchContext from '@weco/common/views/components/SearchContext/SearchCon
 import { worksFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
 import { CatalogueResultsList, Work } from '@weco/common/model/catalogue';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   works: CatalogueResultsList<Work>;
@@ -94,12 +95,19 @@ const Works: NextPage<Props> = ({ works, worksRouteProps }) => {
 
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Catalogue search`}
-        description="Search the Wellcome Collection catalogue"
+        description={pageDescriptions.works}
         url={url}
         openGraphType="website"
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         excludeRoleMain={true}
+        apiToolbarLinks={[
+          {
+            id: 'catalogue-api-query',
+            label: 'Catalogue API query',
+            link: works._requestUrl,
+          },
+        ]}
       >
         <Space
           v={{
@@ -280,7 +288,14 @@ export const getServerSideProps: GetServerSideProps<Props | AppErrorProps> =
     });
 
     if (works.type === 'Error') {
-      return appError(context, works.httpStatus, works.description);
+      console.warn(
+        `Forwarding error from the works API: ${JSON.stringify(works)}`
+      );
+      return appError(
+        context,
+        works.httpStatus,
+        works.description || works.label
+      );
     }
 
     return {

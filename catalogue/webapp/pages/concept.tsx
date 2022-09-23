@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
-import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
+import Link, { LinkProps } from 'next/link';
 
 // Helpers/Utils
+import { appError, AppErrorProps } from '@weco/common/views/pages/_app';
 import { removeUndefinedProps } from '@weco/common/utils/json';
 import { getServerData } from '@weco/common/server-data';
 import { looksLikeCanonicalId } from 'services/catalogue';
@@ -11,12 +12,14 @@ import { getWorks } from '../services/catalogue/works';
 import { getImages } from 'services/catalogue/images';
 import { toLink as toImagesLink } from '@weco/common/views/components/ImagesLink/ImagesLink';
 import { toLink as toWorksLink } from '@weco/common/views/components/WorksLink/WorksLink';
+import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 
 // Components
 import CataloguePageLayout from 'components/CataloguePageLayout/CataloguePageLayout';
 import ButtonSolidLink from '@weco/common/views/components/ButtonSolidLink/ButtonSolidLink';
 import WorksSearchResultsV2 from '../components/WorksSearchResults/WorksSearchResultsV2';
 import ImageEndpointSearchResults from 'components/ImageEndpointSearchResults/ImageEndpointSearchResults';
+import BetaMessage from '@weco/common/views/components/BetaMessage/BetaMessage';
 
 // Types
 import {
@@ -32,7 +35,6 @@ import { arrow } from '@weco/common/icons';
 import Space from '@weco/common/views/components/styled/Space';
 import TabNavV2 from '@weco/common/views/components/TabNav/TabNavV2';
 import { font } from '@weco/common/utils/classnames';
-import { LinkProps } from 'next/link';
 
 type Props = {
   conceptResponse: ConceptType;
@@ -54,7 +56,8 @@ const HeroTitle = styled.h1.attrs({ className: font('intb', 1) })`
   margin-bottom: 1rem;
 `;
 
-const TypeLabel = styled.span.attrs({ className: font('intr', 6) })`
+// TODO when LabelColor is refactored, maybe switch to using Label?
+const TypeLabel = styled.span.attrs({ className: font('intb', 6) })`
   background-color: ${props => props.theme.newColor('warmNeutral.300')};
   padding: 5px;
 `;
@@ -114,7 +117,7 @@ export const ConceptPage: NextPage<Props> = ({
     // TODO fill meta information; wait for confirmation on description
     <CataloguePageLayout
       title={conceptResponse.label}
-      description={`Find out more about ${conceptResponse.label} by browsing related works and images from Wellcome Collection.`}
+      description={pageDescriptionConcepts(conceptResponse.label)}
       url={{ pathname: `/concepts/${conceptResponse.id}`, query: {} }}
       openGraphType="website"
       siteSection="collections"
@@ -128,8 +131,18 @@ export const ConceptPage: NextPage<Props> = ({
             <HeroTitle>{conceptResponse.label}</HeroTitle>
             {/* TODO get copy from Jonathan */}
             <ConceptDescription className={font('intr', 5)}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-              dapibus suscipit enim nec aliquam.
+              <BetaMessage
+                message={
+                  <>
+                    We are working to improve the information on this page.{' '}
+                    <Link href="/user-panel">Join our user panel</Link> or{' '}
+                    <Link href="https://roadmap.wellcomecollection.org/">
+                      submit an idea
+                    </Link>{' '}
+                    that would help you use our website.
+                  </>
+                }
+              />
             </ConceptDescription>
           </Space>
         </div>

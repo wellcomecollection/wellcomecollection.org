@@ -27,6 +27,7 @@ import {
 import SearchContext from '@weco/common/views/components/SearchContext/SearchContext';
 import { imagesFilters } from '@weco/common/services/catalogue/filters';
 import { getServerData } from '@weco/common/server-data';
+import { pageDescriptions } from '@weco/common/data/microcopy';
 
 type Props = {
   images?: CatalogueResultsList<Image>;
@@ -141,7 +142,7 @@ const Images: NextPage<Props> = ({
       </Head>
       <CataloguePageLayout
         title={`${query ? `${query} | ` : ''}Image search`}
-        description="Search Wellcome Collection images"
+        description={pageDescriptions.images}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         url={toLink({ ...imagesRouteProps, source: 'canonical_link' }).as}
@@ -149,6 +150,17 @@ const Images: NextPage<Props> = ({
         jsonLd={{ '@type': 'WebPage' }}
         siteSection="collections"
         image={undefined}
+        apiToolbarLinks={
+          images
+            ? [
+                {
+                  id: 'catalogue-api-query',
+                  label: 'Catalogue API query',
+                  link: images._requestUrl,
+                },
+              ]
+            : []
+        }
       >
         <Space
           v={{

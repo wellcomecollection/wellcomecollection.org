@@ -54,7 +54,12 @@ export async function getImages(
 
   const query = toQuery(params);
 
-  return catalogueQuery('images', { ...props, params: query });
+  const extendedParams = {
+    ...params,
+    ...query,
+  };
+
+  return catalogueQuery('images', { ...props, params: extendedParams });
 }
 
 export async function getImage({
