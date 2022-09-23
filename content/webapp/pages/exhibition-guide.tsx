@@ -51,7 +51,7 @@ import {
   speechToText,
 } from '@weco/common/icons';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
-import { dasherize } from '@weco/common/utils/grammar';
+import { dasherizeShorten } from '@weco/common/utils/grammar';
 
 const PromoContainer = styled.div`
   background: ${props => props.theme.color('cream')};
@@ -294,7 +294,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return hasContentOfDesiredType ? (
-          <Stop key={index} id={dasherize(title)}>
+          <Stop key={index} id={dasherizeShorten(title)}>
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
                 <AudioPlayer
@@ -314,7 +314,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             )}
           </Stop>
         ) : (
-          <Stop key={index} id={dasherize(title)}>
+          <Stop key={index} id={dasherizeShorten(title)}>
             <span className={font('intb', 5)}>
               {number}. {title}
             </span>
