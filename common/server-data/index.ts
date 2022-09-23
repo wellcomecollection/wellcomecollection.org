@@ -73,28 +73,15 @@ async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
     // empty file or invalid JSON if you tried to read while we were writing.
     const tmpFileName = path.join(pathName, `${key}.json.tmp`);
 
-    // We've seen some errors where it looks like `serverData.prismic` has a null
-    // value.  We should understand why we're getting an unexpected null here, but
-    // for now this line should help us (1) identify if that really is the cause,
-    // or if the issue is somewhere else and (2) if it is the cause, provide a
-    // stopgap to cut down the number of errors.
-    //
-    // This could still cause issues if we repeatedly get null, but otherwise the
-    // server-data will be refreshed on the next request.  (And if we repeatedly
-    // get null, now we'll know about it!)
-    //
-    // See: https://github.com/wellcomecollection/wellcomecollection.org/issues/7954
-    if (data === null) {
-      console.warn(
-        `Received null data for server-data key ${key}; not writing`
-      );
-      return;
-    }
-
     await fs.writeFile(tmpFileName, JSON.stringify(data));
     await fs.rename(tmpFileName, fileName);
   } catch (e) {
-    console.error('Could not update server data', e);
+    // If we can't fetch the server data (e.g. because Prismic briefly times out),
+    // we log an error and use the cached version of the data.
+    console.error(
+      `Could not update server data key '${key}'; waiting for next fetch interval`,
+      e
+    );
   }
 
   // We have to make sure this timer is set even if fetching the data fails
