@@ -20,7 +20,9 @@ export function camelize(title: string): string {
 export function dasherize(words: string): string {
   return words.trim().toLowerCase().replace(/\W/g, '-');
 }
-
+// Take a string, like Tombstone title, and return first four words, in lowercase, with dashes
+// An id from Exhibition Guide Tombstone title e.g. An eye surgeon operating on a man
+// becomes #an-eye-surgeon-operating
 export function dasherizeShorten(words: string): string[] {
   return words
     .split(' ')
