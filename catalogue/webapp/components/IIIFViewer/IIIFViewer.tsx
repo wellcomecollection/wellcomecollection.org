@@ -121,7 +121,7 @@ const Sidebar = styled.div<{
     border-right: 1px solid ${props.theme.newColor('black')};
   `}
 
-  background: ${props => props.theme.color('charcoal', 'dark')};
+  background: ${props => props.theme.newColor('neutral.700')};
   color: ${props => props.theme.newColor('white')};
   overflow: auto;
   z-index: 5;

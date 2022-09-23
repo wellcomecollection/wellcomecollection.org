@@ -65,9 +65,8 @@ const ContextContainer = styled(Space).attrs<{ hasPadding: boolean }>(
       ? { size: 'xl', properties: ['padding-top', 'padding-bottom'] }
       : null,
   })
-)<{ backgroundColor: string; backgroundShade: string; hasPadding: boolean }>`
-  background: ${props =>
-    props.theme.color(props.backgroundColor, props.backgroundShade)};
+)<{ backgroundColor: string; hasPadding: boolean }>`
+  background: ${props => props.theme.newColor(props.backgroundColor)};
 `;
 
 const TombstoneTitle = styled(Space).attrs<{ level: number }>(props => ({
@@ -245,8 +244,7 @@ const Stop: FC<{
           condition={hasContext}
           wrapper={children => (
             <ContextContainer
-              backgroundColor={isFirstStop ? 'white' : 'cream'}
-              backgroundShade={isFirstStop ? 'base' : 'light'}
+              backgroundColor={isFirstStop ? 'white' : 'warmNeutral.300'}
               hasPadding={!isFirstStop}
             >
               {children}
@@ -288,11 +286,7 @@ const Stop: FC<{
                   {image?.contentUrl && (
                     <Space v={{ size: 'l', properties: ['margin-bottom'] }}>
                       <PrismicImageWrapper>
-                        <PrismicImage
-                          image={image}
-                          sizes={{}}
-                          quality="low"
-                        />
+                        <PrismicImage image={image} sizes={{}} quality="low" />
                       </PrismicImageWrapper>
                     </Space>
                   )}
