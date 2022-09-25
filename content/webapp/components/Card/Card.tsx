@@ -14,9 +14,11 @@ type Props = {
 };
 
 export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className:
-    'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
+  className: 'plain-link promo-link rounded-corners flex-ie-block',
 }))`
+  overflow: hidden;
+  flex-direction: column;
+
   background: ${props => props.theme.color('cream')};
   min-height: ${props => props.theme.minCardHeight}px;
 
