@@ -9,9 +9,9 @@ type TextInputWrapProps = {
   big: boolean;
   hasErrorBorder: boolean;
 };
-export const TextInputWrap = styled.div.attrs({
-  className: 'flex relative',
-})<TextInputWrapProps>`
+export const TextInputWrap = styled.div<TextInputWrapProps>`
+  display: flex;
+  position: relative;
   border: 1px solid ${props => props.theme.color('pumice')};
   border-radius: 6px;
   font-size: ${props => (props.big ? '20px' : '16px')};
@@ -39,9 +39,9 @@ type TextInputLabelProps = {
   isEnhanced: boolean;
   hasValue: boolean;
 };
-export const TextInputLabel = styled.label.attrs({
-  className: 'absolute',
-})<TextInputLabelProps>`
+export const TextInputLabel = styled.label<TextInputLabelProps>`
+  position: absolute;
+
   /* Styles for browsers that don't support :focus-within (<=IE11) */
   font-size: 14px;
   transform: translateY(0%);
@@ -110,8 +110,8 @@ export const TextInputInput = styled.input.attrs(props => ({
 
 const TextInputCheckmark = styled.span.attrs({
   'data-test-id': 'TextInputCheckmark',
-  className: 'absolute',
 })`
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 10px;

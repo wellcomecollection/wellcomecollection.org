@@ -40,8 +40,8 @@ const Details = styled.div`
 `;
 const Preview = styled(Space).attrs<SpaceComponentProps>(() => ({
   h: { size: 'm', properties: ['padding-left'] },
-  className: 'text-align-center',
 }))`
+  text-align: center;
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 178px;

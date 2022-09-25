@@ -31,9 +31,8 @@ const SearchInputWrapper = styled.div`
   }
 `;
 
-const SearchButtonWrapper = styled.div.attrs({
-  className: 'absolute',
-})`
+const SearchButtonWrapper = styled.div`
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 4px;

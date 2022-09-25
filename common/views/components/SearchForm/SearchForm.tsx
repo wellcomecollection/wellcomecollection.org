@@ -36,9 +36,8 @@ const SearchInputWrapper = styled.div`
   }
 `;
 
-const SearchButtonWrapper = styled.div.attrs({
-  className: 'absolute',
-})`
+const SearchButtonWrapper = styled.div`
+  position: absolute;
   top: ${props => props.theme.spacingUnits['3'] + 6}px;
   right: ${props => props.theme.spacingUnits['5'] + 6}px;
 
