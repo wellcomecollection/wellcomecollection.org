@@ -111,7 +111,7 @@ function DateList(event: Event) {
             <TimeWrapper key={index}>
               <div
                 className={classNames({
-                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'font-pewter': isDayPast(eventTime.range.endDateTime),
                   'flex-1': true,
                 })}
               >
