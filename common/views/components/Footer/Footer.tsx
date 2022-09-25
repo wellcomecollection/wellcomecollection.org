@@ -1,6 +1,6 @@
 import { useRef, useEffect, FunctionComponent } from 'react';
 import { arrow, cc, ccBy, wellcome } from '@weco/common/icons';
-import { font, grid, classNames } from '../../../utils/classnames';
+import { font, grid } from '../../../utils/classnames';
 import FooterWellcomeLogo from './FooterWellcomeLogo';
 import FooterNav from './FooterNav';
 import FindUs from '../FindUs/FindUs';
@@ -73,9 +73,7 @@ const FooterStrap = styled(Space).attrs({
     size: 'm',
     properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
   },
-  className: classNames({
-    'flex flex--v-center': true,
-  }),
+  className: 'flex flex--v-center',
 })`
   min-width: 220px;
   border-bottom: 1px solid charcoal;
