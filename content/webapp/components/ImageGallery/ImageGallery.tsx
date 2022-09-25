@@ -24,7 +24,7 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  /* TODO: There is no class flex--v-top, what is this mean tto do? */
+  /* TODO: There is no class flex--v-top, what is this mean to do? */
   className: 'flex--v-top',
 })`
   display: flex;

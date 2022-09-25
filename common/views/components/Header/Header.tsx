@@ -24,8 +24,9 @@ type WrapperProps = {
 };
 
 const Wrapper = styled.div.attrs({
-  className: 'grid flex--v-center',
+  className: 'grid',
 })<WrapperProps>`
+  align-items: center;
   position: relative;
   z-index: 6;
   background-color: ${props => props.theme.color('white')};
