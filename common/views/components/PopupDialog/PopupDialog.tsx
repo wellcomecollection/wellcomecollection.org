@@ -39,11 +39,11 @@ const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(props => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className:
-    font('intb', 5) +
-    ' ' +
-    'plain-button line-height-1 flex-inline flex--v-center',
+  className: `${font('intb', 5)} plain-button`,
 }))<PopupDialogOpenProps>`
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
   color: ${props => props.theme.color('purple')};
   position: fixed;
   transform: ${props =>
@@ -109,9 +109,16 @@ const PopupDialogWindow = styled(Space).attrs({
 `;
 
 const PopupDialogClose = styled.button.attrs({
-  className:
-    'absolute plain-button no-margin no-padding flex flex--v-center flex--h-center',
+  className: 'plain-button',
 })<{ isKeyboard: boolean }>`
+  margin: 0 !important;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
   top: 10px;
   right: 10px;
 

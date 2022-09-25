@@ -179,8 +179,9 @@ const FeaturedCardWrap = styled.div`
 
 type HasIsReversed = { isReversed: boolean };
 const FeaturedCardLink = styled.a.attrs(() => ({
-  className: 'grid flex-end promo-link plain-link',
+  className: 'grid promo-link plain-link',
 }))<HasIsReversed>`
+  justify-content: flex-end;
   flex-direction: ${props => (props.isReversed ? 'row-reverse' : 'row')};
 `;
 
@@ -188,9 +189,9 @@ const FeaturedCardLeft = styled.div.attrs({
   className: grid({ s: 12, m: 12, l: 7, xl: 7 }),
 })``;
 
-const FeaturedCardRight = styled.div.attrs({
-  className: 'flex flex--column',
-})<HasIsReversed>`
+const FeaturedCardRight = styled.div<HasIsReversed>`
+  display: flex;
+  flex-direction: column;
   padding-left: ${props => (props.isReversed ? 0 : props.theme.gutter.small)}px;
   padding-right: ${props =>
     props.isReversed ? props.theme.gutter.small : 0}px;
@@ -214,8 +215,9 @@ const FeaturedCardRight = styled.div.attrs({
 const FeaturedCardCopy = styled(Space).attrs<{ color: string }>(props => ({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: `flex-1 font-${props.color}`,
+  className: `font-${props.color}`,
 }))<{ background: string }>`
+  flex: 1;
   background-color: ${props => props.theme.color(props.background)};
 
   ${props => props.theme.media.large`

@@ -69,8 +69,10 @@ export const CardBody = styled(Space).attrs(() => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: 'flex flex--column flex-1',
 }))`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: space-between;
 
   ${props =>
