@@ -32,23 +32,31 @@ const FooterNavWrapper = styled(Space).attrs({
 const HygieneNav = styled(Space).attrs({
   as: 'nav',
   h: { size: 'l', properties: ['margin-bottom'] },
-  className: 'relative flex-1',
 })`
+  position: relative;
+  flex: 1;
   border-bottom: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
 const HygieneList = styled(Space).attrs({
   as: 'ul',
   h: { size: 'l', properties: ['margin-top', 'margin-bottom'] },
-  className: 'plain-list no-margin no-padding flex flex--h-space-between',
 })`
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
 const FooterBottom = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-bottom'] },
-  className: 'flex flex--wrap flex--h-space-between flex--v-start',
 })`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
   border-top: 1px solid ${props => props.theme.color('charcoal')};
 `;
 
@@ -58,10 +66,10 @@ const NavBrand = styled.a`
   display: block;
 `;
 
-const FooterLeft = styled.div.attrs({
-  className: 'flex flex--v-start',
-})`
+const FooterLeft = styled.div`
+  display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 
   ${props => props.theme.media.medium`
     flex-wrap: nowrap;
@@ -73,8 +81,9 @@ const FooterStrap = styled(Space).attrs({
     size: 'm',
     properties: ['margin-top', 'padding-bottom', 'margin-bottom'],
   },
-  className: 'flex flex--v-center',
 })`
+  display: flex;
+  align-items: center;
   min-width: 220px;
   border-bottom: 1px solid charcoal;
   width: 100%;
