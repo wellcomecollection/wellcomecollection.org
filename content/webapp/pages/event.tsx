@@ -64,8 +64,9 @@ const TimeWrapper = styled(Space).attrs({
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
   },
-  className: 'flex flex--h-space-between',
 })`
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
