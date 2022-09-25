@@ -59,10 +59,12 @@ const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
       size: 's',
       properties: ['margin-top'],
     },
-    className: `block font-charcoal ${font('intr', 4)}`,
+    className: `font-charcoal ${font('intr', 4)}`,
     href: `mailto:${props.email}?subject=${props.title}`,
   })
-)<EventBookingButtonProps>``;
+)<EventBookingButtonProps>`
+  display: block;
+`;
 
 const EventBookingButton: FC<Props> = ({ event }: Props) => {
   const team = event.bookingEnquiryTeam;
