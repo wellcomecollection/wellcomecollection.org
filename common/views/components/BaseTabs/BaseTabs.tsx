@@ -22,12 +22,13 @@ type TabProps = {
 };
 
 const Tab = styled.button.attrs((props: TabProps) => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   role: 'tab',
   tabIndex: props.isActive ? 0 : -1,
   'aria-selected': props.isActive,
   'aria-controls': props.tabPanelId,
 }))<TabProps>`
+  padding: 0;
   cursor: pointer;
   &:focus {
     outline: 0;

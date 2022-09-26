@@ -253,35 +253,6 @@ export const utilityClasses = css<GlobalStyleProps>`
     padding: 0;
   }
 
-  .no-padding-s.no-padding-s {
-    ${respondBetween(
-      'small',
-      'medium',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-m.no-padding-m {
-    ${respondBetween(
-      'medium',
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
-  .no-padding-l.no-padding-l {
-    ${respondTo(
-      'large',
-      `
-    padding: 0;
-  `
-    )}
-  }
-
   .promo-link {
     height: 100%;
     color: ${themeValues.color('black')};
