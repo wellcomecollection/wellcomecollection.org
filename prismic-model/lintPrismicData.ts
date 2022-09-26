@@ -7,24 +7,12 @@
  * See https://prismic.io/blog/required-fields
  */
 
-import fs from 'fs';
 import chalk from 'chalk';
 import { error } from './console';
-import { downloadPrismicSnapshot } from './downloadSnapshot';
-
-/** Returns a list of all the Prismic documents in a given snapshot directory. */
-function getPrismicDocuments(snapshotDir: string): any[] {
-  const documents: any[] = [];
-
-  fs.readdirSync(snapshotDir).forEach(file => {
-    const data = fs.readFileSync(`${snapshotDir}/${file}`);
-    const json: { results: any[] } = JSON.parse(data.toString());
-
-    documents.push(...json.results);
-  });
-
-  return documents;
-}
+import {
+  downloadPrismicSnapshot,
+  getPrismicDocuments,
+} from './downloadSnapshot';
 
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
