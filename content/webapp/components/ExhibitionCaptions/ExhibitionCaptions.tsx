@@ -19,15 +19,14 @@ function getTypeColor(type: string): string {
   // in order to get the exhibition guides work deployed
   switch (type) {
     case 'bsl':
-      return 'newPaletteBlue';
+      return 'accent.lightBlue';
     case 'audio-without-descriptions':
-      return 'newPaletteOrange';
+      return 'accent.lightSalmon';
     case 'audio-with-descriptions':
-      return 'newPaletteSalmon';
+      return 'accent.lightPurple';
     case 'captions-and-transcripts':
-      return 'newPaletteMint';
     default:
-      return 'newPaletteMint';
+      return 'accent.lightGreen';
   }
 }
 
@@ -126,7 +125,7 @@ const Transcription = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('newPaletteBlue')};
+  border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
 `;
 
 type Stop = {
