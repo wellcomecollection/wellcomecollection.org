@@ -308,12 +308,12 @@ export const utilityClasses = css<GlobalStyleProps>`
 
   .promo-link {
     height: 100%;
-    color: ${themeValues.color('black')};
+    color: ${themeValues.newColor('black')};
 
     &:hover .promo-link__title,
     &:focus .promo-link__title {
       text-decoration: underline;
-      text-decoration-color: ${themeValues.color('black')};
+      text-decoration-color: ${themeValues.newColor('black')};
     }
   }
 
@@ -398,7 +398,7 @@ export const utilityClasses = css<GlobalStyleProps>`
     &:focus {
       .card-link__title {
         text-decoration: underline;
-        text-decoration-color: ${themeValues.color('black')};
+        text-decoration-color: ${themeValues.newColor('black')};
       }
     }
   }
@@ -411,7 +411,7 @@ export const utilityClasses = css<GlobalStyleProps>`
   }
 
   noscript {
-    background: ${themeValues.color('white')};
-    color: ${themeValues.color('black')};
+    background: ${themeValues.newColor('white')};
+    color: ${themeValues.newColor('black')};
   }
 `;

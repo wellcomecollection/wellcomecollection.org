@@ -16,7 +16,7 @@ const HeaderWrapper = styled.div`
   color: ${props => props.theme.newColor('white')};
 `;
 const TextWrapper = styled.div`
-  border-left: 1px solid ${props => props.theme.color('accent.salmon')};
+  border-left: 1px solid ${props => props.theme.newColor('accent.salmon')};
 `;
 
 type Props = {

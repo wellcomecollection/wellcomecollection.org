@@ -125,7 +125,7 @@ const Transcription = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-left: 20px solid ${props => props.theme.color('accent.lightBlue')};
+  border-left: 20px solid ${props => props.theme.newColor('accent.lightBlue')};
 `;
 
 type Stop = {

@@ -147,8 +147,8 @@ const PopupDialogCTA = styled(Space).attrs({
   },
   className: `${font('intb', 5, { small: 3, medium: 3 })} rounded-corners`,
 })`
-  background-color: ${props => props.theme.color('purple')};
-  color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.newColor('purple')};
+  color: ${props => props.theme.newColor('white')};
   transition: all 500ms ease;
   border: 2px solid transparent;
   text-decoration: none;

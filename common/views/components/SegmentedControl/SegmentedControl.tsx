@@ -184,7 +184,7 @@ const MobileControlsContainer = styled(Space).attrs({
     'segmented-control__button-text font-white rounded-diagonal',
 })`
   display: flex;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.newColor('black')};
 `;
 
 const MobileControlsModal = styled(Space).attrs({

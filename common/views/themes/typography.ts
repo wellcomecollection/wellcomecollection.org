@@ -122,7 +122,7 @@ export const typography = css<GlobalStyleProps>`
     ${fontFamilyMixin('intr', true)}
     ${fontSizeMixin(4)}
     line-height: 1.5;
-    color: ${themeValues.color('black')};
+    color: ${themeValues.newColor('black')};
     font-variant-ligatures: no-common-ligatures;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
@@ -290,7 +290,7 @@ export const typography = css<GlobalStyleProps>`
   .drop-cap {
     ${fontFamilyMixin('wb', true)}
     font-size: 3em;
-    color: ${themeValues.color('black')};
+    color: ${themeValues.newColor('black')};
     float: left;
     line-height: 1em;
     padding-right: 0.1em;
