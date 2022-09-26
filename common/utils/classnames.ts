@@ -48,6 +48,7 @@ export function font(
 }
 
 // TODO remove all the checks for . when we get rid of font-[color] classes
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/8418
 type ClassNames = string[] | Record<string, boolean>;
 export function classNames(classNames: ClassNames): string {
   if (Array.isArray(classNames)) {
