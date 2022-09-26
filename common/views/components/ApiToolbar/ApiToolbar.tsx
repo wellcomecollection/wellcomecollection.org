@@ -135,14 +135,14 @@ function getAnchorLinkUrls() {
   // Remove empty ids and then append them to the current url with # to
   // create the anchor link
   // e.g. weco.org/guides/exhibitions/YvUALRAAACMA2h8V/captions-and-transcripts#anchor-id
-  const extractedHeadingIdValues = getAllHeadingIds
+  const extractedHeadingIdURLs = getAllHeadingIds
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
-  const extractedAnchorValues = extractedAudioBSLAttributes
+  const extractedAudioBSLURLs = extractedAudioBSLAttributes
     .filter(Boolean)
     .map(id => `${document.URL}#${id}`);
   const csvAsSingleColumn =
-    extractedHeadingIdValues.join('\n') + extractedAnchorValues.join('\n');
+    extractedHeadingIdURLs.join('\n') + extractedAudioBSLURLs.join('\n');
   // Push the list of urls to the clipboard
   if (navigator && navigator.clipboard && navigator.clipboard.writeText)
     return navigator.clipboard.writeText(csvAsSingleColumn).then(() => {
