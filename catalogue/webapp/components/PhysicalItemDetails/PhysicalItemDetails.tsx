@@ -66,7 +66,6 @@ export type Props = {
   work: Work;
   accessDataIsStale: boolean;
   userHeldItems?: Set<string>;
-  encoreLink?: string;
   isLast: boolean;
 };
 
