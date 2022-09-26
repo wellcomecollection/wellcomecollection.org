@@ -51,10 +51,14 @@ export function transformSeries(document: SeriesPrismicDocument): Series {
 }
 
 export function transformSeriesToSeriesBasic(series: Series): SeriesBasic {
-  return (({ id, title, color, schedule }) => ({
+  return (({ id, type, title, labels, color, schedule, promo, image }) => ({
     id,
+    type,
     title,
+    labels,
     color,
     schedule,
+    promo,
+    image,
   }))(series);
 }

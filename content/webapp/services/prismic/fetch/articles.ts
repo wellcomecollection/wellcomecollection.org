@@ -7,7 +7,7 @@ import {
 } from '.';
 import { ArticlePrismicDocument, articlesFetchLinks } from '../types/articles';
 import { ContentType } from '@weco/common/services/prismic/content-types';
-import { Article, ArticleBasic } from '../../../types/articles';
+import { ArticleBasic } from '../../../types/articles';
 
 const contentTypes: ContentType[] = ['articles', 'webcomics'];
 const fetchLinks = articlesFetchLinks;

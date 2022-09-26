@@ -4,7 +4,7 @@ import { Event } from './events';
 import { Article } from './articles';
 import { Season } from './seasons';
 import { Page, ParentPage } from './pages';
-import { Series } from './series';
+import { Series, SeriesBasic } from './series';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { EventSeries } from './event-series';
 import { Book } from './books';
@@ -30,6 +30,7 @@ export function convertItemToCardProps(
     | Season
     | Page
     | Series
+    | SeriesBasic
     | ParentPage
     | EventSeries
     | Book
