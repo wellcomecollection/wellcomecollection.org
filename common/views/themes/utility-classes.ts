@@ -4,23 +4,10 @@ import { GlobalStyleProps } from './default';
 import { respondTo, respondBetween, visuallyHidden } from './mixins';
 
 export const utilityClasses = css<GlobalStyleProps>`
-  // Old palette, ignore white/black/yellow as they'll be covered below
-  ${Object.entries(themeValues.colors).map(([key, value]) => {
-    if (['white', 'black', 'yellow'].includes(key)) return;
-    return `
-      .font-${key} {
-        color: ${value.base};
-
-        .icon__shape {
-          fill: ${value.base};
-        }
-     }`;
-  })}
-
-  // New palette
-  ${Object.entries(themeValues.newColors).map(([key, value]) => {
-    if (!key.includes('.')) {
-      return `
+  ${Object.entries(themeValues.newColors)
+    .map(([key, value]) => {
+      if (!key.includes('.')) {
+        return `
         .font-${key} {
           color: ${value};
 
@@ -28,9 +15,9 @@ export const utilityClasses = css<GlobalStyleProps>`
             fill: ${value};
           }
         }`;
-    } else {
-      const colorName = key.split('.');
-      return `
+      } else {
+        const colorName = key.split('.');
+        return `
         .font-${colorName[0]}-${colorName[1]} {
           color: ${value};
 
@@ -38,8 +25,9 @@ export const utilityClasses = css<GlobalStyleProps>`
             fill: ${value};
           }
         }`;
-    }
-  })}
+      }
+    })
+    .join(' ')}
 
   .transition-bg {
     transition: background ${themeValues.transitionProperties};

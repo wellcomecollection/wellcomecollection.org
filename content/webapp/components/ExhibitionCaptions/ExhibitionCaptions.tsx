@@ -43,7 +43,7 @@ const StandaloneTitle = styled(Space).attrs({
   position: relative;
 
   background: ${props =>
-    props.theme.color(getTypeColor('captions-and-transcripts'))};
+    props.theme.newColor(getTypeColor('captions-and-transcripts'))};
 `;
 
 const ContextTitle = styled(Space).attrs<{ level: number }>(props => ({

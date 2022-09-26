@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { NewPaletteColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  color: PaletteColor;
+  color: NewPaletteColor;
   isStub?: boolean;
   isKeyline?: boolean;
   isThin?: boolean;

@@ -5,16 +5,16 @@ import { trackEvent, GaEvent } from '../../../utils/ga';
 import Icon from '../Icon/Icon';
 import Space from '../styled/Space';
 import { IconSvg } from '@weco/common/icons';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { NewPaletteColor } from '@weco/common/views/themes/config';
 
 type BaseButtonProps = {
   href?: string;
 };
 
 export type ButtonColors = {
-  border: PaletteColor;
-  background: PaletteColor;
-  text: PaletteColor;
+  border: NewPaletteColor;
+  background: NewPaletteColor;
+  text: NewPaletteColor;
 };
 
 export const BaseButton = styled.button.attrs<BaseButtonProps>(props => ({
@@ -157,16 +157,16 @@ export const SolidButton = styled(BaseButton).attrs<SolidButtonProps>(
   })
 )<SolidButtonProps>`
   background: ${props =>
-    props.theme.color(
+    props.theme.newColor(
       props?.colors?.background || props.theme.buttonColors.default.background
     )};
   color: ${props =>
-    props.theme.color(
+    props.theme.newColor(
       props?.colors?.text || props.theme.buttonColors.default.text
     )};
   border: 2px solid
     ${props =>
-      props.theme.color(
+      props.theme.newColor(
         props?.colors?.border || props.theme.buttonColors.default.border
       )};
 

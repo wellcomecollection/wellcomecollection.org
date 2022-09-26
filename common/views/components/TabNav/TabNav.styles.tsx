@@ -42,9 +42,15 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
   padding: 1em 0.3em;
   cursor: pointer;
   color: ${props =>
-    props.isDarkMode
-      ? props.theme.newColor(props.selected ? 'white' : 'warmNeutral.400')
-      : props.theme.newColor(props.selected ? 'black' : 'neutral.600')};
+    props.theme.newColor(
+      props.isDarkMode
+        ? props.selected
+          ? 'white'
+          : 'warmNeutral.400'
+        : props.selected
+        ? 'black'
+        : 'neutral.600'
+    )};
   transition: all ${props => props.theme.transitionProperties};
 
   &:after {
@@ -54,11 +60,16 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
     height: 3px;
     left: 0;
     width: 0;
-    background-color: ${props => {
-      return props.isDarkMode
-        ? props.theme.newColor(props.selected ? 'white' : 'warmNeutral.400')
-        : props.theme.newColor(props.selected ? 'black' : 'neutral.600');
-    }};
+    background-color: ${props =>
+      props.theme.newColor(
+        props.isDarkMode
+          ? props.selected
+            ? 'white'
+            : 'warmNeutral.400'
+          : props.selected
+          ? 'black'
+          : 'neutral.600'
+      )};
     z-index: -1;
     transition: width 200ms ease;
   }

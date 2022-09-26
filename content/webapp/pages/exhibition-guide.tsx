@@ -93,7 +93,7 @@ const TypeLink = styled.a`
   height: 100%;
   width: 100%;
   text-decoration: none;
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.newColor(props.color)};
 
   &:hover,
   &:focus {
@@ -142,7 +142,7 @@ const Header = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom', 'margin-bottom'],
   },
 })`
-  background: ${props => props.theme.color(props.color)};
+  background: ${props => props.theme.newColor(props.color)};
 `;
 
 const typeNames = [

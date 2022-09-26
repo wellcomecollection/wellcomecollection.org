@@ -101,7 +101,7 @@ const Wrapper = styled(Space).attrs<{
   bg-${props.rowBackgroundColor}
     card-theme--${props.cardBackgroundColor}`, // Keeping bg-[color] class as some components below are styled based on this parent class.
 }))<{ rowBackgroundColor: string; cardBackgroundColor: string }>`
-  background-color: ${props => props.theme.color(props.rowBackgroundColor)};
+  background-color: ${props => props.theme.newColor(props.rowBackgroundColor)};
 `;
 
 const Body: FunctionComponent<Props> = ({

@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { NewPaletteColor } from '@weco/common/views/themes/config';
 import { IconSvg } from '@weco/common/icons';
 
 type WrapperProps = {
   rotate?: number;
-  color?: PaletteColor;
+  color?: NewPaletteColor;
   matchText?: boolean;
 };
 
@@ -37,11 +37,11 @@ const Wrapper = styled.div.attrs({
     props.color &&
     `
   .icon__shape {
-    fill: ${props.theme.color(props.color)};
+    fill: ${props.theme.newColor(props.color)};
   }
 
   .icon__stroke {
-    stroke: ${props.theme.color(props.color)};
+    stroke: ${props.theme.newColor(props.color)};
   }
 `}
 
@@ -55,7 +55,7 @@ const Wrapper = styled.div.attrs({
 type Props = {
   icon: IconSvg;
   rotate?: number;
-  color?: PaletteColor;
+  color?: NewPaletteColor;
   matchText?: boolean;
   title?: string;
   attrs?: { [key: string]: [string] };

@@ -10,7 +10,6 @@ export type ColumnKey =
   | 'shiftL'
   | 'shiftXl';
 
-type ColorVariant = 'base' | 'light' | 'dark';
 type GridProperties = {
   padding: number;
   gutter: number;
@@ -124,54 +123,9 @@ const newColors = {
   'validation.green': '#0b7051',
 };
 
-const getNewColor = (name: newPaletteColor): string => newColors[name];
-
-export const colors = {
-  white: { base: '#ffffff', dark: '', light: '' },
-  black: { base: '#121212', dark: '', light: '' },
-  yellow: { base: '#ffce3c', dark: '', light: '#fff5d8' },
-
-  // purple: { base: '#944aa0', dark: '', light: '' },
-  // teal: { base: '#006272', dark: '', light: '' },
-  // cyan: { base: '#298187', dark: '', light: '' },
-  // turquoise: { base: '#5cb8bf', dark: '', light: '#d3e8e6' },
-  // red: { base: '#e01b2f', dark: '#c1192a', light: '' },
-  // orange: { base: '#e87500', dark: '', light: '' },
-  // brown: { base: '#815e48', dark: '', light: '' },
-  // green: { base: '#007868', dark: '#146a5c', light: '' },
-  // cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
-  // charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
-  // pewter: { base: '#6b6b6b', dark: '', light: '' },
-  // silver: { base: '#8f8f8f', dark: '', light: '' },
-  // marble: { base: '#bcbab5', dark: '', light: '' },
-  // pumice: { base: '#d9d6ce', dark: '', light: '' },
-  // smoke: { base: '#e8e8e8', dark: '', light: '' },
-  // The following 'black' is only to be used for the item viewer
-  // coal: { base: '#1f1f1f', dark: '', light: '' },
-  //
-  transparent: {
-    base: 'transparent',
-    dark: 'transparent',
-    light: 'transparent',
-  },
-  // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
-  inherit: { base: 'inherit', dark: '', light: '' },
-  currentColor: { base: 'currentColor', dark: '', light: '' },
-  // newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
-  // newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
-  // newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
-  // newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
-};
-
-const getColor = (
-  name: PaletteColor,
-  variant: ColorVariant = 'base'
-): string => {
-  // Might want to use the new function until we delete this one
-  if (name.split('.').length > 1) {
-    return getNewColor(name as newPaletteColor);
-  }
-  return colors[name][variant];
+const getNewColor = (name: NewPaletteColor): string => {
+  if (['currentColor', 'transparent, inherit'].includes(name)) return name;
+  return newColors[name];
 };
 
 export const sizes = {
@@ -200,12 +154,10 @@ const dangerButtonColors: ButtonColors = {
 // Button color naming convention: [border][Background][Text]
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
-
-// TODO add a validation green coloured button?
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'neutral.700',
+  border: 'neutral.700', // legacy charcoal color
   background: 'white',
-  text: 'neutral.700',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 const greenTransparentGreen: ButtonColors = {
@@ -221,15 +173,15 @@ const whiteTransparentWhite: ButtonColors = {
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
-  border: 'warmNeutral.400',
+  border: 'warmNeutral.400', // legacy pumice color
   background: 'transparent',
-  text: 'neutral.700',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'neutral.400',
+  border: 'neutral.400', // legacy pumice color
   background: 'white',
-  text: 'neutral.700',
+  text: 'neutral.700', // legacy charcoal color
 };
 
 export const themeValues = {
@@ -295,8 +247,6 @@ export const themeValues = {
   navHeight: 85,
   fontVerticalOffset: '0.15em',
   grid,
-  colors,
-  color: getColor,
   newColors,
   newColor: getNewColor,
   minCardHeight: 385,
@@ -313,12 +263,8 @@ export const themeValues = {
 
 export type Breakpoint = keyof typeof sizes;
 
-// TODO: Is there an automated way to do this?
-export type newPaletteColor = keyof typeof newColors;
-
-export type PaletteColor =
-  | keyof typeof colors
+export type NewPaletteColor =
+  | keyof typeof newColors
   | 'transparent'
   | 'inherit'
-  | 'currentColor'
-  | newPaletteColor;
+  | 'currentColor';
