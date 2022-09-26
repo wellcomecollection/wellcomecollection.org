@@ -297,7 +297,7 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
           <Stop
             key={index}
             id="apiToolbar"
-            data-toolbar={dasherizeShorten(title)}
+            data-toolbar-anchor={dasherizeShorten(title)}
           >
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
