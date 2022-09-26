@@ -78,14 +78,3 @@ export type ElementFromComponent<C extends FunctionComponent> = ReactElement<
  * ```
  */
 export type Prefix<S extends string> = `${S}${string}`;
-
-/**
- * {@link https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file}
- *
- * type Old = { title: string }
- * type New = { title?: string }
- * type T = Old & New // { title: string } <= undesired
- * Override<Old, New> // { title?: string } <= desired
- *
- */
-export type Override<T, R> = Omit<T, keyof R> & R;
