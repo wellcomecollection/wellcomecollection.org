@@ -14,7 +14,7 @@ import { getCrop } from '@weco/common/model/image';
 import { themeValues } from '@weco/common/views/themes/config';
 
 type CardOuterProps = {
-  background: 'charcoal' | 'warmNeutral.300';
+  background: 'neutral.700' | 'warmNeutral.300';
 };
 
 const CardOuter = styled.a<CardOuterProps>`
@@ -22,10 +22,10 @@ const CardOuter = styled.a<CardOuterProps>`
   flex-direction: column-reverse;
   overflow: hidden;
   text-decoration: none;
-  background: ${props => props.theme.color(props.background)};
+  background: ${props => props.theme.newColor(props.background)};
   color: ${props =>
     props.theme.newColor(
-      props.background === 'charcoal' ? 'warmNeutral.300' : 'black'
+      props.background === 'neutral.700' ? 'warmNeutral.300' : 'black'
     )};
 
   ${props => props.theme.media.large`
@@ -72,13 +72,13 @@ function getTypeLabel(type: 'seasons') {
 
 type Props = {
   item: Season;
-  background?: 'charcoal' | 'warmNeutral.300';
+  background?: 'neutral.700' | 'warmNeutral.300';
   highlightColor?: 'yellow' | 'accent.salmon';
 };
 
 const BannerCard: FunctionComponent<Props> = ({
   item,
-  background = 'charcoal',
+  background = 'neutral.700',
   highlightColor = 'accent.salmon',
 }: Props) => {
   const { type, title, start, end, description, image, link } = {

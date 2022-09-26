@@ -130,7 +130,7 @@ const Sidebar = styled.div<{
 const Topbar = styled.div<{
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   grid-area: top-edge / left-edge / desktop-topbar-end / right-edge;
   z-index: 4; // TODO: this is to let downloads sit above sidebar on desktop but not have the topbar above the sidebar on mobile. If we move the downloads, this can be simplified
 
@@ -185,7 +185,7 @@ const Thumbnails = styled.div<{
   isActive: boolean;
   isDesktopSidebarActive: boolean;
 }>`
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   transform: translateY(${props => (props.isActive ? '0' : '100%')});
   transition: transform 250ms ease;
   z-index: 3;

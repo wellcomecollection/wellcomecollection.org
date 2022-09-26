@@ -130,7 +130,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     border: none;
 
     .icon__shape {
-      fill: ${props.theme.color('charcoal')};
+      fill: ${props.theme.newColor('neutral.700')};
     }
 
     &:hover,
@@ -138,7 +138,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
       background: ${props.theme.newColor('yellow')};
 
       .icon__shape {
-        fill: ${props.theme.color('charcoal')};
+        fill: ${props.theme.newColor('neutral.700')};
       }
     }
 

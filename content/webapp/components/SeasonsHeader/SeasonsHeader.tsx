@@ -12,7 +12,7 @@ import * as prismicT from '@prismicio/types';
 import DateRange from '@weco/common/views/components/DateRange/DateRange';
 
 const HeaderWrapper = styled.div`
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   color: ${props => props.theme.newColor('white')};
 `;
 const TextWrapper = styled.div`

@@ -70,7 +70,7 @@ const HitData = styled(Space).attrs({
   className: font('intb', 6),
 })`
   display: block;
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   padding: ${props => `0 ${props.theme.spacingUnit}px`};
 `;
 

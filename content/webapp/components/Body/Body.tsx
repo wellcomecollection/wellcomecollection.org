@@ -131,7 +131,7 @@ const Body: FunctionComponent<Props> = ({
     {
       rowBackground: 'white',
       cardBackground: 'warmNeutral.300',
-      featuredCardBackground: 'charcoal',
+      featuredCardBackground: 'neutral.700',
       featuredCardText: 'white',
     },
     {
@@ -147,7 +147,7 @@ const Body: FunctionComponent<Props> = ({
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'charcoal',
+      rowBackground: 'neutral.700',
       cardBackground: 'transparent',
       featuredCardBackground: 'white',
       featuredCardText: 'black',

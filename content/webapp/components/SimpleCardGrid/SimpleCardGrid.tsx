@@ -52,7 +52,7 @@ const CardGridFeaturedCard = ({ item }: CardGridFeaturedCardProps) => {
           url: item.link || '',
           text: item.title || '',
         }}
-        background="charcoal"
+        background="neutral.700"
         color="white"
       >
         {item.title && <h2 className="font-wb font-size-2">{item.title}</h2>}

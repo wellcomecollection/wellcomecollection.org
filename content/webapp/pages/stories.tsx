@@ -286,7 +286,7 @@ const StoriesPage: FC<Props> = ({
             <Layout12>
               <FeaturedCardArticle
                 article={firstArticle}
-                background="charcoal"
+                background="neutral.700"
                 color="white"
               />
             </Layout12>

@@ -109,7 +109,7 @@ const TopBar = styled.div<{
 }>`
   position: relative;
   z-index: 3;
-  background: ${props => props.theme.color('charcoal')};
+  background: ${props => props.theme.newColor('neutral.700')};
   color: ${props => props.theme.newColor('white')};
   justify-content: space-between;
   display: ${props => (props.isZooming ? 'none' : 'grid')};

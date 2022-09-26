@@ -349,7 +349,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                       <Space v={{ size: 's', properties: ['margin-top'] }}>
                         <p
                           className={
-                            'no-margin font-charcoal' + ' ' + font('intr', 5)
+                            'no-margin font-neutral-700' + ' ' + font('intr', 5)
                           }
                         >
                           with {event.thirdPartyBooking.name}
@@ -392,7 +392,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
                       properties: ['margin-top'],
                     }}
                     as="a"
-                    className={`block font-charcoal ${font('intb', 5)}`}
+                    className={`block font-neutral-700 ${font('intb', 5)}`}
                   >
                     <span>{event.bookingEnquiryTeam.email}</span>
                   </Space>

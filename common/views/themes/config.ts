@@ -140,7 +140,7 @@ export const colors = {
   // brown: { base: '#815e48', dark: '', light: '' },
   // green: { base: '#007868', dark: '#146a5c', light: '' },
   // cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
-  charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
+  // charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
   pewter: { base: '#6b6b6b', dark: '', light: '' },
   silver: { base: '#8f8f8f', dark: '', light: '' },
   marble: { base: '#bcbab5', dark: '', light: '' },
@@ -203,9 +203,9 @@ const dangerButtonColors: ButtonColors = {
 
 // TODO add a validation green coloured button?
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'charcoal',
+  border: 'neutral.700',
   background: 'white',
-  text: 'charcoal',
+  text: 'neutral.700',
 };
 
 const greenTransparentGreen: ButtonColors = {
@@ -223,13 +223,13 @@ const whiteTransparentWhite: ButtonColors = {
 const pumiceTransparentCharcoal: ButtonColors = {
   border: 'pumice',
   background: 'transparent',
-  text: 'charcoal',
+  text: 'neutral.700',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'marble',
   background: 'white',
-  text: 'charcoal',
+  text: 'neutral.700',
 };
 
 export const themeValues = {
