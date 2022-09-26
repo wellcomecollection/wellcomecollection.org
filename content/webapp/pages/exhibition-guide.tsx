@@ -297,7 +297,11 @@ const Stops: FC<StopsProps> = ({ stops, type }) => {
             audioWithoutDescription?.url) ||
           (type === 'bsl' && bsl?.embedUrl);
         return hasContentOfDesiredType ? (
-          <Stop key={index} id={dasherizeShorten(title)}>
+          <Stop
+            key={index}
+            id="apiToolbar"
+            data-toolbar-anchor={dasherizeShorten(title)}
+          >
             {type === 'audio-with-descriptions' &&
               audioWithDescription?.url && (
                 <AudioPlayer
