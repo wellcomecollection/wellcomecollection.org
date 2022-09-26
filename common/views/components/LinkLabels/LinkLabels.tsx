@@ -36,7 +36,7 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
   ${props =>
     props.addBorder &&
     `
-    border-left: 1px solid ${props.theme.color('marble')};
+    border-left: 1px solid ${props.theme.newColor('neutral.400')};
   `}
 `;
 

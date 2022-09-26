@@ -97,7 +97,7 @@ const TypeLink = styled.a`
 
   &:hover,
   &:focus {
-    background: ${props => props.theme.color('marble')};
+    background: ${props => props.theme.newColor('neutral.400')};
   }
 `;
 

@@ -58,7 +58,7 @@ export const Td = styled.td<TdProps>`
 
   &[aria-disabled='true'] {
     cursor: default;
-    color: ${props => props.theme.color('marble')};
+    color: ${props => props.theme.newColor('neutral.400')};
   }
 
   &[tabindex='0']:focus {

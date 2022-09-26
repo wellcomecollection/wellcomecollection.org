@@ -154,7 +154,7 @@ const BannerCard: FunctionComponent<Props> = ({
               size: 's',
               properties: ['margin-top', 'margin-bottom'],
             }}
-            className={`${font('intr', 5)} font-marble`}
+            className={`${font('intr', 5)} font-neutral-400`}
           >
             <DateRange start={start} end={end} />
           </Space>

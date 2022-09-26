@@ -118,7 +118,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.color('marble')};
+        fill: ${props.theme.newColor('neutral.400')};
       }
     }
   `}

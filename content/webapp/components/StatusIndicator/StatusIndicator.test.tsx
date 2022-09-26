@@ -7,7 +7,7 @@ describe('formatDateRangeWithMessage', () => {
       end: new Date(2101, 2, 1),
     });
 
-    expect(result).toEqual({ text: 'Coming soon', color: 'marble' });
+    expect(result).toEqual({ text: 'Coming soon', color: 'neutral.500' });
   });
 
   describe('formats an event that is past', () => {
@@ -17,7 +17,7 @@ describe('formatDateRangeWithMessage', () => {
         end: new Date(1999, 2, 1),
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('says "Past" if the last day was yesterday', () => {
@@ -30,7 +30,7 @@ describe('formatDateRangeWithMessage', () => {
         end: yesterday,
       });
 
-      expect(result).toEqual({ text: 'Past', color: 'marble' });
+      expect(result).toEqual({ text: 'Past', color: 'neutral.500' });
     });
 
     it('does not say "Past" if the last day is today', () => {
@@ -42,7 +42,7 @@ describe('formatDateRangeWithMessage', () => {
         end: today,
       });
 
-      expect(result).not.toEqual({ text: 'Past', color: 'marble' });
+      expect(result).not.toEqual({ text: 'Past', color: 'neutral.500' });
     });
   });
 

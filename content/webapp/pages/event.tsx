@@ -123,7 +123,7 @@ function DateList(event: Event) {
               </div>
 
               {isDayPast(eventTime.range.endDateTime)
-                ? EventStatus({ text: 'Past', color: 'marble' })
+                ? EventStatus({ text: 'Past', color: 'neutral.500' })
                 : eventTime.isFullyBooked
                 ? EventStatus({ text: 'Full', color: 'validation.red' })
                 : null}
@@ -273,7 +273,7 @@ const EventPage: NextPage<Props> = ({ event, jsonLd }: Props) => {
               {!event.isPast && <EventDatesLink id={event.id} />}
             </Space>
           </Space>
-          {event.isPast && EventStatus({ text: 'Past', color: 'marble' })}
+          {event.isPast && EventStatus({ text: 'Past', color: 'neutral.500' })}
           {upcomingDatesFullyBooked(event) &&
             EventStatus({ text: 'Fully booked', color: 'validation.red' })}
         </>

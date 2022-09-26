@@ -26,9 +26,9 @@ export function formatDateRangeWithMessage({
   const closesInSevenDays = today < end && end < sevenDaysTime;
 
   if (!isSameDay(today, start) && isFuture(start)) {
-    return { text: 'Coming soon', color: 'marble' };
+    return { text: 'Coming soon', color: 'neutral.500' };
   } else if (!isSameDay(today, end) && isPast(end)) {
-    return { text: 'Past', color: 'marble' };
+    return { text: 'Past', color: 'neutral.500' };
   } else if (closesToday || closesInSevenDays) {
     return { text: 'Final week', color: 'accent.salmon' };
   } else {
@@ -38,7 +38,7 @@ export function formatDateRangeWithMessage({
 
 const StatusIndicator: FC<Props> = ({ start, end, statusOverride }: Props) => {
   const { color, text } = statusOverride
-    ? { color: 'marble', text: statusOverride }
+    ? { color: 'neutral.500', text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (

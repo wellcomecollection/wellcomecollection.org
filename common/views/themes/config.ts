@@ -142,8 +142,8 @@ export const colors = {
   // cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
   // charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
   // pewter: { base: '#6b6b6b', dark: '', light: '' },
-  silver: { base: '#8f8f8f', dark: '', light: '' },
-  marble: { base: '#bcbab5', dark: '', light: '' },
+  // silver: { base: '#8f8f8f', dark: '', light: '' },
+  // marble: { base: '#bcbab5', dark: '', light: '' },
   pumice: { base: '#d9d6ce', dark: '', light: '' },
   smoke: { base: '#e8e8e8', dark: '', light: '' },
   // The following 'black' is only to be used for the item viewer
@@ -227,7 +227,7 @@ const pumiceTransparentCharcoal: ButtonColors = {
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'marble',
+  border: 'neutral.400',
   background: 'white',
   text: 'neutral.700',
 };

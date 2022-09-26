@@ -44,7 +44,7 @@ export const container = `
       border-style: solid;
       border-color: ${themeValues.newColor('white')};
       border-width: 0 ${themeValues.containerPadding.small}px 12px;
-      background: ${themeValues.color('marble')};
+      background: ${themeValues.color('neutral.400')};
 
       @include respond-to('medium') {
         border-left-width: ${themeValues.containerPadding.medium}px;

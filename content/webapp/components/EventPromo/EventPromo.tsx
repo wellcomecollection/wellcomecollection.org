@@ -185,7 +185,7 @@ const EventPromo: FC<Props> = ({
                 h={{ size: 'xs', properties: ['margin-right'] }}
                 className="flex flex--v-center"
               >
-                <Dot color="marble" />
+                <Dot color="neutral.500" />
               </Space>
               Past
             </div>
