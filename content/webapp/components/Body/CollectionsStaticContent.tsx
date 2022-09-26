@@ -7,22 +7,20 @@ import SpacingSection from '@weco/common/views/components/SpacingSection/Spacing
 const CollectionsStaticContent: FunctionComponent = (): ReactElement => {
   const { query, sort, sortOrder } = emptyWorksProps;
   return (
-    <>
-      <Layout12>
-        <SpacingSection>
-          <SearchTabs
-            query={query}
-            sort={sort}
-            sortOrder={sortOrder}
-            worksFilters={[]}
-            imagesFilters={[]}
-            shouldShowDescription={false}
-            shouldShowFilters={false}
-            showSortBy={false}
-          />
-        </SpacingSection>
-      </Layout12>
-    </>
+    <Layout12>
+      <SpacingSection>
+        <SearchTabs
+          query={query}
+          sort={sort}
+          sortOrder={sortOrder}
+          worksFilters={[]}
+          imagesFilters={[]}
+          shouldShowDescription={false}
+          shouldShowFilters={false}
+          showSortBy={false}
+        />
+      </SpacingSection>
+    </Layout12>
   );
 };
 
