@@ -144,7 +144,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     &[disabled] {
       .icon__shape {
-        fill: ${props.theme.color('pewter')};
+        fill: ${props.theme.newColor('neutral.600')};
       }
     }
   `}

@@ -35,7 +35,7 @@ const ContentTypeInfo = (
         <p className="no-margin">
           <span>By </span>
           <span className={font('intb', 6)}>Naomi Paxton</span>{' '}
-          <span className={`${font('intr', 6)} font-pewter`}>
+          <span className={`${font('intr', 6)} font-neutral-600`}>
             17 April 2019
           </span>
         </p>

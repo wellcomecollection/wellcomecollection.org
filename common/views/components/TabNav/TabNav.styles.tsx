@@ -46,9 +46,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
       ? props.selected
         ? props.theme.newColor('white')
         : props.theme.color('pumice')
-      : props.selected
-      ? props.theme.newColor('black')
-      : props.theme.color('pewter')};
+      : props.theme.newColor(props.selected ? 'black' : 'neutral.600')};
   transition: all ${props => props.theme.transitionProperties};
 
   &:after {
@@ -63,9 +61,7 @@ export const NavItemInner = styled(Space).attrs<NavItemInnerProps>(props => {
         ? props.selected
           ? props.theme.newColor('white')
           : props.theme.color('pumice')
-        : props.selected
-        ? props.theme.newColor('black')
-        : props.theme.color('pewter');
+        : props.theme.newColor(props.selected ? 'black' : 'neutral.600');
     }};
     z-index: -1;
     transition: width 200ms ease;

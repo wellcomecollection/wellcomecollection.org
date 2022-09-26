@@ -18,7 +18,7 @@ export const DatePicker = styled.div`
 export const Header = styled.div`
   background-color: ${props => props.theme.newColor('white')};
   display: flex;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
 
   div {
     margin-left: auto;
@@ -35,7 +35,7 @@ export const Message = styled.p.attrs(() => ({
 `;
 
 export const Table = styled.table`
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
 
   th,
   td {

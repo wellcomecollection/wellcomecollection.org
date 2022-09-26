@@ -61,7 +61,7 @@ export const TextInputLabel = styled.label<TextInputLabelProps>`
   transition: top 125ms ease-in, font-size 125ms ease-in,
     transform 125ms ease-in;
   pointer-events: none;
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
 
   ${props =>
     (!props.isEnhanced || props.hasValue) &&

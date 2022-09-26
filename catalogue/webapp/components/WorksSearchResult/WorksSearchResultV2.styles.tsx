@@ -43,7 +43,7 @@ export const WorkInformation = styled(Space).attrs({
   className: font('intr', 5),
   v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  color: ${props => props.theme.color('pewter')};
+  color: ${props => props.theme.newColor('neutral.600')};
 `;
 
 export const WorkInformationItem = styled.span`

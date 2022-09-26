@@ -69,7 +69,7 @@ const LayoutPaginatedResults: FC<Props> = ({
             size: 'l',
             properties: ['padding-bottom'],
           }}
-          className={`flex flex--v-center font-pewter ${font('lr', 6)}`}
+          className={`flex flex--v-center font-neutral-600 ${font('lr', 6)}`}
         >
           {paginatedResults.pageSize * paginatedResults.currentPage -
             (paginatedResults.pageSize - 1)}

@@ -40,8 +40,8 @@ export const ShameButton = styled.button.attrs(() => ({
 
   &[disabled],
   &.disabled {
-    background: ${props => props.theme.color('pewter')};
-    border-color: ${props => props.theme.color('pewter')};
+    background: ${props => props.theme.newColor('neutral.600')};
+    border-color: ${props => props.theme.newColor('neutral.600')};
     cursor: not-allowed;
   }
 

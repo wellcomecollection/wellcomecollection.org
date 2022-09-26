@@ -58,7 +58,7 @@ const DownloadLink: FunctionComponent<Props> = ({
         <Space
           as="span"
           h={{ size: 'm', properties: ['margin-left'] }}
-          className={`${font('intb', 5)} font-pewter`}
+          className={`${font('intb', 5)} font-neutral-600`}
         >
           {format}
         </Space>

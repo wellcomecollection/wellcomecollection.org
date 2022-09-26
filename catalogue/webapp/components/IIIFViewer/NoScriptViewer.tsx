@@ -58,7 +58,7 @@ const StaticThumbnailsContainer = styled.div`
   height: 100%;
   width: 25%;
   border-top: none;
-  border-right: 1px solid ${props => props.theme.color('pewter')};
+  border-right: 1px solid ${props => props.theme.newColor('neutral.600')};
 `;
 
 const ThumbnailLink = styled.a`

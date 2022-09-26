@@ -141,7 +141,7 @@ export const colors = {
   // green: { base: '#007868', dark: '#146a5c', light: '' },
   // cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
   // charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
-  pewter: { base: '#6b6b6b', dark: '', light: '' },
+  // pewter: { base: '#6b6b6b', dark: '', light: '' },
   silver: { base: '#8f8f8f', dark: '', light: '' },
   marble: { base: '#bcbab5', dark: '', light: '' },
   pumice: { base: '#d9d6ce', dark: '', light: '' },

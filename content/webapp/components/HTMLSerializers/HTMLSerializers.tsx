@@ -168,8 +168,12 @@ export const defaultSerializer: JSXFunctionSerializer = (
             <span className="no-margin">
               <span className="no-margin">{children}</span>{' '}
               <span style={{ whiteSpace: 'nowrap' }}>
-                <span className="no-margin font-pewter">({documentType}</span>{' '}
-                <span className="no-margin font-pewter">{documentSize}kb)</span>
+                <span className="no-margin font-neutral-600">
+                  ({documentType}
+                </span>{' '}
+                <span className="no-margin font-neutral-600">
+                  {documentSize}kb)
+                </span>
               </span>
             </span>
           </a>

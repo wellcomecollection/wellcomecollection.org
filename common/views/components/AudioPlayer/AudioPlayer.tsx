@@ -218,7 +218,7 @@ const Volume: FC<VolumeProps> = ({ audioPlayer, id }) => {
       <VolumeControlWrapper isMuted={isMuted || volume === 0}>
         <MuteUnmuteButton onClick={onVolumeButtonClick}>
           <Icon
-            color="pewter"
+            color="neutral.600"
             icon={isMuted || volume === 0 ? volumeMuted : volumeIcon}
           />
         </MuteUnmuteButton>

@@ -70,7 +70,7 @@ const Contributor: FC<ContributorType> = ({
             {contributor.type === 'people' && contributor.pronouns && (
               <Space
                 h={{ size: 's', properties: ['margin-left'] }}
-                className={`${font('intr', 5)} font-pewter`}
+                className={`${font('intr', 5)} font-neutral-600`}
               >
                 ({contributor.pronouns})
               </Space>
@@ -78,7 +78,9 @@ const Contributor: FC<ContributorType> = ({
           </div>
 
           {role && role.title && (
-            <div className={`font-pewter ${font('intb', 5)}`}>{role.title}</div>
+            <div className={`font-neutral-600 ${font('intb', 5)}`}>
+              {role.title}
+            </div>
           )}
 
           {contributor.sameAs.length > 0 && (

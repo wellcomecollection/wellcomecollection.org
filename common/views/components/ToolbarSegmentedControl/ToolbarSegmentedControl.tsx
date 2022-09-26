@@ -9,7 +9,7 @@ const List = styled.ul.attrs({
   className:
     'no-margin no-padding plain-list flex-inline flex--v-center flex--h-center',
 })`
-  border: 2px solid ${props => props.theme.color('pewter')};
+  border: 2px solid ${props => props.theme.newColor('neutral.600')};
   border-radius: 5px;
 `;
 
@@ -17,7 +17,7 @@ const Item = styled.li<{ isActive: boolean }>`
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('pewter')};
+    background: ${props.theme.newColor('neutral.600')};
   `}
 `;
 
@@ -65,7 +65,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
             <ButtonInner isActive={activeId === item.id}>
               <Icon
                 icon={item.icon}
-                color={activeId === item.id ? 'yellow' : 'pewter'}
+                color={activeId === item.id ? 'yellow' : 'neutral.600'}
               />
               <Space
                 h={

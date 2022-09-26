@@ -78,7 +78,7 @@ const CloseButton = styled(Space).attrs<CloseButtonProps>({
 
   ${props => props.theme.media.medium`
     background: none;
-    color: ${props => props.theme.color('pewter')};
+    color: ${props => props.theme.newColor('neutral.600')};
     position: absolute;
   `}
 `;

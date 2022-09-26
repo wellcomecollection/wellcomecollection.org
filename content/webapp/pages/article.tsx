@@ -238,7 +238,7 @@ const ArticlePage: FC<Props> = ({ article, jsonLd }) => {
             ) : null}
             {article.contributors.length > 0 && ' '}
 
-            <span className={`block font-pewter ${font('intr', 6)}`}>
+            <span className={`block font-neutral-600 ${font('intr', 6)}`}>
               <HTMLDate date={article.datePublished} />
             </span>
           </p>

@@ -91,7 +91,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   &:focus {
     background: ${props =>
       props.isActive
-        ? props.theme.color('pewter')
+        ? props.theme.newColor('neutral.600')
         : props.theme.color('pumice')};
   }
 `;
