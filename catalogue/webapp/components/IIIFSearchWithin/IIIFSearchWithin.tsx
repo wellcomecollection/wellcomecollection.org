@@ -26,6 +26,7 @@ const SearchForm = styled.form`
 `;
 
 const SearchInputWrapper = styled.div`
+  position: relative;
   input {
     padding-right: 70px;
   }
@@ -122,7 +123,7 @@ const IIIFSearchWithin: FunctionComponent<Props> = ({
           getSearchResults();
         }}
       >
-        <SearchInputWrapper className="relative">
+        <SearchInputWrapper>
           <TextInput
             id="searchWithin"
             label="Search within this item"

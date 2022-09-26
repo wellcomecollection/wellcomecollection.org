@@ -29,6 +29,7 @@ import { Filter } from '../../../services/catalogue/filters';
 import { formDataAsUrlQuery } from '../../../utils/forms';
 
 const SearchInputWrapper = styled.div`
+  position: relative;
   font-size: 20px;
 
   .search-query {
@@ -183,7 +184,7 @@ const SearchForm = forwardRef(
           h={{ size: 'l', properties: ['padding-left', 'padding-right'] }}
           v={{ size: 'm', properties: ['padding-top', 'padding-bottom'] }}
         >
-          <SearchInputWrapper className="relative">
+          <SearchInputWrapper>
             <TextInput
               id={`${isImageSearch ? 'images' : 'works'}-search-input`}
               label={
