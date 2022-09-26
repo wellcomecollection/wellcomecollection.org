@@ -113,7 +113,7 @@ const TableTr = styled.tr`
     border-bottom: ${props =>
       props.withBorder
         ? `1px dotted
-      ${props => props.theme.color('silver')}`
+      ${props => props.theme.newColor('neutral.500')}`
         : 'none'};
   }
 
@@ -121,7 +121,7 @@ const TableTr = styled.tr`
     border-top: ${props =>
       props.withBorder
         ? `1px dotted
-      ${props => props.theme.color('silver')}`
+      ${props => props.theme.newColor('neutral.500')}`
         : 'none'};
   }
 `;

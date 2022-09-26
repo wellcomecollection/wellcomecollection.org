@@ -19,7 +19,7 @@ const LabelContainer = styled(Space).attrs({
 
   ${props => {
     if (props.labelColor === 'white' || props.labelColor === 'transparent') {
-      return `border: 1px solid ${props.theme.color('silver')};`;
+      return `border: 1px solid ${props.theme.newColor('neutral.500')};`;
     } else {
       return `border: 1px solid ${props.theme.newColor(props.labelColor)};`;
     }

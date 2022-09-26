@@ -68,10 +68,10 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
 
     &[disabled] {
       background: transparent;
-      border-color: ${props.theme.color('silver')};
+      border-color: ${props.theme.newColor('neutral.500')};
 
       .icon__shape {
-        fill: ${props.theme.color('silver')};
+        fill: ${props.theme.newColor('neutral.500')};
       }
     }
   `}
@@ -92,7 +92,7 @@ const Wrapper = styled.button.attrs<WrapperProps>(props => ({
     }
 
     &[disabled] {
-      background: ${props.theme.color('silver')};
+      background: ${props.theme.newColor('neutral.500')};
     }
   `}
 

@@ -43,13 +43,13 @@ const ResultsHeader = styled(Space).attrs({
   as: 'h3',
   v: { size: 'm', properties: ['margin-top'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.500')};
   padding-bottom: ${props => `${props.theme.spacingUnit}px`};
 `;
 
 const ListItem = styled.li`
   list-style: none;
-  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.500')};
 `;
 
 const SearchResult = styled.button.attrs({

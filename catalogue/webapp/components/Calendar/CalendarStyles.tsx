@@ -8,7 +8,7 @@ export const DatePicker = styled.div`
     border-style: none;
     background: transparent;
     cursor: pointer;
-    border: 1px solid ${props => props.theme.color('silver')};
+    border: 1px solid ${props => props.theme.newColor('neutral.500')};
     :disabled {
       cursor: default;
     }
@@ -88,5 +88,5 @@ export const CalendarButton = styled.button`
   line-height: 2em;
   border-radius: 50%;
   margin-left: 0.5em;
-  background: ${props => props.theme.color('silver')};
+  background: ${props => props.theme.newColor('neutral.500')};
 `;

@@ -49,7 +49,8 @@ const PaletteColor = styled.div<{ hasBorder: boolean }>`
   min-width: 200px;
   margin-right: 15px;
   border: 1px solid
-    ${props => (props.hasBorder ? props.theme.color('silver') : 'transparent')};
+    ${props =>
+      props.hasBorder ? props.theme.newColor('neutral.500') : 'transparent'};
 
   &:before {
     content: '';

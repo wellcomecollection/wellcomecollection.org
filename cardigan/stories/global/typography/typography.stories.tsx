@@ -6,7 +6,7 @@ import MoreLink from '@weco/common/views/components/MoreLink/MoreLink';
 
 const Font = styled.div`
   padding: 10px 0 25px;
-  border-bottom: 1px solid ${props => props.theme.color('silver')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.500')};
 `;
 
 const FontName = styled.h2.attrs({
