@@ -65,14 +65,4 @@ export const container = `
   `
   )}
 }
-
-.container--scroll-cream {
-  &::-webkit-scrollbar {
-    background: ${themeValues.color('cream')};
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-color: ${themeValues.color('cream')};
-  }
-}
 `;

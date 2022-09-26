@@ -130,20 +130,20 @@ const Body: FunctionComponent<Props> = ({
   const sectionThemes = [
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
+      cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'charcoal',
       featuredCardText: 'white',
     },
     {
-      rowBackground: 'cream',
+      rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
       featuredCardBackground: 'white',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'white',
-      cardBackground: 'cream',
-      featuredCardBackground: 'cream',
+      cardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'warmNeutral.300',
       featuredCardText: 'black',
     },
     {

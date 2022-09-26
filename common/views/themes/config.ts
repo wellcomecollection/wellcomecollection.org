@@ -139,7 +139,7 @@ export const colors = {
   // orange: { base: '#e87500', dark: '', light: '' },
   // brown: { base: '#815e48', dark: '', light: '' },
   // green: { base: '#007868', dark: '#146a5c', light: '' },
-  cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
+  // cream: { base: '#f0ede3', dark: '#d9d8d0', light: '#fbfaf4' },
   charcoal: { base: '#323232', dark: '#2e2e2e', light: '' },
   pewter: { base: '#6b6b6b', dark: '', light: '' },
   silver: { base: '#8f8f8f', dark: '', light: '' },
@@ -147,7 +147,7 @@ export const colors = {
   pumice: { base: '#d9d6ce', dark: '', light: '' },
   smoke: { base: '#e8e8e8', dark: '', light: '' },
   // The following 'black' is only to be used for the item viewer
-  coal: { base: '#1f1f1f', dark: '', light: '' },
+  // coal: { base: '#1f1f1f', dark: '', light: '' },
   //
   transparent: {
     base: 'transparent',
@@ -157,10 +157,10 @@ export const colors = {
   // Opacity value explanation; We use transparent to provide a background to white text which overlays a variety of images (therefore unknown colour contrast).  This opacity is the lightest we can go, while still providing sufficient contrast to pass WCAG guidlines, when it is displayed above a white background, i.e. worst case scenario.
   inherit: { base: 'inherit', dark: '', light: '' },
   currentColor: { base: 'currentColor', dark: '', light: '' },
-  newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
-  newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
-  newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
-  newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
+  // newPaletteBlue: { base: '#7bc1ce', dark: '#304978', light: '' },
+  // newPaletteMint: { base: '#acddbd', dark: '##79EDB1', light: '' },
+  // newPaletteOrange: { base: '#e7b792', dark: '#C44343', light: '' },
+  // newPaletteSalmon: { base: '#cfa1af', dark: '', light: '' },
 };
 
 const getColor = (

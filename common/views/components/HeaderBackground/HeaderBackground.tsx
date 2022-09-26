@@ -19,7 +19,7 @@ const Background = styled.div<{ texture: string | null }>`
   overflow: hidden;
   z-index: -1;
 
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.newColor('warmNeutral.300')};
   ${props =>
     props.texture &&
     `background-image: url(${props.texture});

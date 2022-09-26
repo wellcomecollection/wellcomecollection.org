@@ -33,8 +33,8 @@ const Tab = styled(Space).attrs({
   ${props =>
     props.isActive &&
     `
-    border-color: ${props.theme.color('cream')};
-    background: ${props.theme.color('cream')};
+    border-color: ${props.theme.newColor('warmNeutral.300')};
+    background: ${props.theme.newColor('warmNeutral.300')};
   `}
 
   ${props =>
@@ -53,7 +53,7 @@ const Tab = styled(Space).attrs({
 `;
 
 const TabPanel = styled(Space)`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.newColor('warmNeutral.300')};
 `;
 
 type Props = {

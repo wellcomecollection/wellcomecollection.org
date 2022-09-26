@@ -12,14 +12,14 @@ type LabelContainerProps = {
 const LabelContainer = styled(Space).attrs({
   className: `nowrap line-height-1 ${font('intb', 6)}`,
 })<LabelContainerProps>`
-  color: ${props => props.theme.color(props.fontColor)};
-  background-color: ${props => props.theme.color(props.labelColor)};
+  color: ${props => props.theme.newColor(props.fontColor)};
+  background-color: ${props => props.theme.newColor(props.labelColor)};
 
   ${props => {
     if (props.labelColor === 'white' || props.labelColor === 'transparent') {
       return `border: 1px solid ${props.theme.color('silver')};`;
     } else {
-      return `border: 1px solid ${props.theme.color(props.labelColor)};`;
+      return `border: 1px solid ${props.theme.newColor(props.labelColor)};`;
     }
   }}
 `;

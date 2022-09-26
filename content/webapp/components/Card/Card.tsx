@@ -17,7 +17,7 @@ export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
   className:
     'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
 }))`
-  background: ${props => props.theme.color('cream')};
+  background: ${props => props.theme.newColor('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
 
   .card-theme.card-theme--white & {

@@ -32,7 +32,7 @@ const Gallery = styled.div.attrs({
 })<{
   isActive: boolean;
   isStandalone: boolean;
-  pageBackground: 'cream' | 'white';
+  pageBackground: 'warmNeutral.300' | 'white';
 }>`
   .caption {
     display: none;
@@ -67,13 +67,13 @@ const Gallery = styled.div.attrs({
 
     color: ${props.theme.newColor('white')};
     background: linear-gradient(
-      ${props.theme.color(props.pageBackground)} 100px,
+      ${props.theme.newColor(props.pageBackground)} 100px,
       ${props.theme.color('charcoal')} 100px
     );
 
     @media (min-width: ${props.theme.sizes.medium}px) {
       background: linear-gradient(
-        ${props.theme.color(props.pageBackground)} 200px,
+        ${props.theme.newColor(props.pageBackground)} 200px,
         ${props.theme.color('charcoal')} 200px
       );
 

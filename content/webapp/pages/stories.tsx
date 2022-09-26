@@ -65,7 +65,19 @@ type Props = {
 };
 
 const ArticlesContainer = styled.div`
-  background-color: ${props => props.theme.color('cream')};
+  background-color: ${props => props.theme.newColor('warmNeutral.300')};
+`;
+
+const StoryPromoContainer = styled.div.attrs({
+  className: 'container container--scroll touch-scroll',
+})`
+  &::-webkit-scrollbar {
+    background: ${props => props.theme.newColor('warmNeutral.300')};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-color: ${props => props.theme.newColor('warmNeutral.300')};
+  }
 `;
 
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
@@ -233,7 +245,7 @@ const StoriesPage: FC<Props> = ({
             </Layout12>
           </Space>
           <div className="row__wobbly-background" />
-          <div className="container container--scroll container--scroll-cream touch-scroll">
+          <StoryPromoContainer>
             <Space v={{ size: 'l', properties: ['padding-bottom'] }}>
               <div className="grid grid--scroll grid--theme-4 card-theme card-theme--transparent">
                 {articles.slice(1, 5).map((article, i) => {
@@ -247,7 +259,7 @@ const StoriesPage: FC<Props> = ({
                 })}
               </div>
             </Space>
-          </div>
+          </StoryPromoContainer>
         </ArticlesContainer>
       </SpacingSection>
 
