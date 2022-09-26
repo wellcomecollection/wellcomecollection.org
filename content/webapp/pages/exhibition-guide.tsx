@@ -65,9 +65,12 @@ const Stop = styled(Space).attrs({
   height: 100%;
 `;
 
-const TypeList = styled.ul.attrs({
-  className: 'plain-list no-margin no-padding flex flex--wrap',
-})`
+const TypeList = styled.ul`
+  list-style: none;
+  margin: 0 !important;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   ${props => props.theme.media.medium`
     gap: 50px;

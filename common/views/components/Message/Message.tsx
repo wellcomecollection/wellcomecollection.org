@@ -9,8 +9,9 @@ const Wrapper = styled(Space).attrs({
     properties: ['padding-top', 'padding-bottom'],
   },
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
-  className: `inline-block ${font('intb', 5)}`,
+  className: font('intb', 5),
 })`
+  display: inline-block;
   border-left: 5px solid ${props => props.theme.newColor('yellow')};
 `;
 

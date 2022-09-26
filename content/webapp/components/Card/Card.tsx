@@ -14,9 +14,11 @@ type Props = {
 };
 
 export const CardOuter = styled.a.attrs<{ className?: string }>(() => ({
-  className:
-    'plain-link promo-link rounded-corners overflow-hidden flex-ie-block flex--column',
+  className: 'plain-link promo-link rounded-corners flex-ie-block',
 }))`
+  overflow: hidden;
+  flex-direction: column;
+
   background: ${props => props.theme.newColor('warmNeutral.300')};
   min-height: ${props => props.theme.minCardHeight}px;
 
@@ -67,8 +69,10 @@ export const CardBody = styled(Space).attrs(() => ({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 5, medium: 5, large: 5 },
   },
-  className: 'flex flex--column flex-1',
 }))`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   justify-content: space-between;
 
   ${props =>

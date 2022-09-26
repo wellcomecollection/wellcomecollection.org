@@ -18,9 +18,10 @@ const ViewerStructuresPrototype: FunctionComponent<Props> = ({
   const canvases = manifest ? getCanvases(manifest) : [];
   const groupedStructures = groupStructures(canvases, structures);
 
-  const List = styled.ul.attrs({
-    className: 'plain-list no-margin no-padding',
-  })`
+  const List = styled.ul`
+    list-style: none;
+    margin: 0 !important;
+    padding: 0;
     border-left: 1px solid ${props => props.theme.color('pewter')};
   `;
 

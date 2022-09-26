@@ -75,8 +75,10 @@ const BaseButtonInnerSpan = styled.span<BaseButtonInnerProps>``;
 export const BaseButtonInner = styled(
   BaseButtonInnerSpan
 ).attrs<BaseButtonInnerProps>(props => ({
-  className: `${font(props.isInline ? 'intr' : 'intb', 5)} flex flex--v-center`,
+  className: font(props.isInline ? 'intr' : 'intb', 5),
 }))`
+  display: flex;
+  align-items: center;
   height: 1em;
 `;
 
@@ -91,8 +93,9 @@ export const ButtonIconWrapper = styled(
     size: 'xs',
     properties: [`${props.iconAfter ? 'margin-left' : 'margin-right'}`],
   },
-  className: 'flex-inline',
 }))<ButtonIconWrapperAttrsProps>`
+  display: inline-flex;
+
   // Prevent icon within .spaced-text parent having top margin
   margin-top: 0;
 `;

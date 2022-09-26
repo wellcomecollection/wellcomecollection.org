@@ -61,6 +61,13 @@ const toggles = {
       initialValue: false,
       description: 'Displays reading time estimate on articles',
     },
+    {
+      id: 'newStoriesLanding',
+      title: 'New stories landing page content',
+      initialValue: false,
+      description:
+        'Uses the new stories-landing type in Prismic to provide page content for /stories. Namely, the introductory text and featured books section (currently being populated from different places), and replaces the hard coded promoted series with a list of editor chosen articles and series.',
+    },
   ] as const,
   tests: [] as ABTest[],
 };

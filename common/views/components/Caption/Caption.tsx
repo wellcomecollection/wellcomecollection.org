@@ -16,9 +16,8 @@ const CaptionText = styled(Space).attrs({
   }
 `;
 
-const CaptionWrapper = styled.div.attrs({
-  className: 'overflow-hidden',
-})`
+const CaptionWrapper = styled.div`
+  overflow: hidden;
   max-width: 55em;
   margin: 0 auto;
 `;

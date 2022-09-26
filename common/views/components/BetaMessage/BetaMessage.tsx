@@ -6,8 +6,10 @@ import Space from '@weco/common/views/components/styled/Space';
 import { underConstruction } from '@weco/common/icons';
 
 const StyledBetaMessage = styled.div.attrs(() => ({
-  className: `${font('intr', 5)} flex flex--v-center`,
+  className: font('intr', 5),
 }))`
+  display: flex;
+  align-items: center;
   border-left: ${props => `4px solid ${props.theme.newColor('accent.purple')}`};
   padding-left: ${props => props.theme.spacingUnit}px;
 `;

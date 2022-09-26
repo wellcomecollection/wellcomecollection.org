@@ -6,9 +6,10 @@ import { GaEvent, trackEvent } from '../../../../utils/ga';
 import styled from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
 
-const ControlInner = styled.div.attrs({
-  className: 'flex-inline flex--v-center flex--h-center',
-})`
+const ControlInner = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 `;

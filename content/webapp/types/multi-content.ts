@@ -4,7 +4,7 @@ import { BookBasic } from './books';
 import { EventBasic } from './events';
 import { ExhibitionBasic } from './exhibitions';
 import { Page } from './pages';
-import { Series } from './series';
+import { Series, SeriesBasic } from './series';
 import { Guide } from './guides';
 import { Weblink } from './weblinks';
 import { Project } from './projects';
@@ -19,6 +19,7 @@ export type MultiContent =
   | ArticleBasic
   | ExhibitionBasic
   | Series
+  | SeriesBasic
   | Guide
   | Weblink
   | Project

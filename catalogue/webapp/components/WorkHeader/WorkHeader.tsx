@@ -15,9 +15,8 @@ import WorkTitle from '../WorkTitle/WorkTitle';
 import LabelsList from '@weco/common/views/components/LabelsList/LabelsList';
 import useIIIFManifestData from '../../hooks/useIIIFManifestData';
 
-const WorkHeaderContainer = styled.div.attrs({
-  className: 'flex',
-})`
+const WorkHeaderContainer = styled.div`
+  display: flex;
   width: 100%;
   align-content: flex-start;
 `;

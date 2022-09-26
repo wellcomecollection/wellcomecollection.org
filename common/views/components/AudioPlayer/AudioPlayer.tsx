@@ -32,9 +32,11 @@ const VolumeWrapper = styled.div`
 `;
 
 const PlayPauseButton = styled.button.attrs<{ isPlaying: boolean }>(props => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   ariaPressed: props.isPlaying,
 }))<{ isPlaying: boolean }>`
+  padding: 0;
+
   svg {
     transform: translateX(${props => (!props.isPlaying ? '2px' : '0')});
   }
@@ -51,9 +53,11 @@ const PlayPauseInner = styled.div`
 `;
 
 const MuteUnmuteButton = styled.button.attrs<{ isMuted: boolean }>(props => ({
-  className: 'plain-button no-padding',
+  className: 'plain-button',
   ariaPressed: props.isMuted,
-}))``;
+}))`
+  padding: 0;
+`;
 
 // FIXME: this exists because the `volumeMute` icon I created is 1px off
 const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
@@ -69,8 +73,9 @@ const VolumeControlWrapper = styled.div<{ isMuted: boolean }>`
 `;
 
 const PlayRateWrapper = styled.div.attrs({
-  className: `flex ${font('intr', 6)}`,
+  className: font('intr', 6),
 })`
+  display: flex;
   gap: 5px;
 `;
 

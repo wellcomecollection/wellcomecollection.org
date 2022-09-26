@@ -10,9 +10,10 @@ import { AppContext } from '../AppContext/AppContext';
 import { chevron, IconSvg } from '../../../icons';
 import { themeValues } from '@weco/common/views/themes/config';
 
-const DropdownWrapper = styled.div.attrs({
-  className: 'flex-inline relative',
-})``;
+const DropdownWrapper = styled.div`
+  display: inline-flex;
+  position: relative;
+`;
 
 type DropdownProps = {
   isActive: boolean;

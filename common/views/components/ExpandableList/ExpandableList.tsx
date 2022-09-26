@@ -9,8 +9,10 @@ import { font } from '@weco/common/utils/classnames';
 import styled from 'styled-components';
 
 const ShowHideButton = styled.button.attrs({
-  className: `plain-button no-margin no-padding ${font('intr', 5)}`,
+  className: `plain-button ${font('intr', 5)}`,
 })`
+  margin: 0 !important;
+  padding: 0;
   text-decoration: underline;
 
   &:hover {

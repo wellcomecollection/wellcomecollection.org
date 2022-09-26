@@ -33,10 +33,13 @@ const DrawerItem = styled(Space).attrs({
 `;
 
 const List = styled.ul.attrs({
-  className:
-    'segmented-control__list no-margin no-padding plain-list rounded-diagonal overflow-hidden',
+  className: 'segmented-control__list rounded-diagonal',
 })`
   border: 1px solid ${props => props.theme.newColor('black')};
+  margin: 0 !important;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
 `;
 
 type ItemProps = {
@@ -93,7 +96,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   }
 `;
 
-const Wrapper = styled.div.attrs({})<IsActiveProps>`
+const Wrapper = styled.div<IsActiveProps>`
   .segmented-control__drawer {
     display: none;
 
@@ -178,10 +181,10 @@ const MobileControlsContainer = styled(Space).attrs({
   className:
     font('wb', 4) +
     ' ' +
-    'segmented-control__button-text font-white flex--h-space-between rounded-diagonal',
+    'segmented-control__button-text font-white rounded-diagonal',
 })`
   display: flex;
-  background-color: ${props => props.theme.newColor('black')};
+  background-color: ${props => props.theme.color('black')};
 `;
 
 const MobileControlsModal = styled(Space).attrs({

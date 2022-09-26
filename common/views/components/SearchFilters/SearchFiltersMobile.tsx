@@ -95,8 +95,10 @@ const FiltersScrollable = styled.div`
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
-  className: 'flex flex--v-center flex--h-space-between',
 })`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: ${props => props.theme.newColor('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
