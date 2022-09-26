@@ -24,16 +24,21 @@ import { PageBackgroundContext } from '../ContentPage/ContentPage';
 const GalleryTitle = styled(Space).attrs({
   v: { size: 'm', properties: ['margin-bottom'] },
   as: 'span',
-  className: 'flex flex--v-top',
-})``;
+  /* TODO: There is no class flex--v-top, what is this mean to do? */
+  className: 'flex--v-top',
+})`
+  display: flex;
+`;
 
 const Gallery = styled.div.attrs({
-  className: 'row relative',
+  className: 'row',
 })<{
   isActive: boolean;
   isStandalone: boolean;
   pageBackground: 'cream' | 'white';
 }>`
+  position: relative;
+
   .caption {
     display: none;
   }

@@ -64,8 +64,9 @@ const TimeWrapper = styled(Space).attrs({
     size: 'm',
     properties: ['padding-top', 'padding-bottom'],
   },
-  className: 'flex flex--h-space-between',
 })`
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid ${props => props.theme.color('pumice')};
 `;
 
@@ -111,7 +112,7 @@ function DateList(event: Event) {
             <TimeWrapper key={index}>
               <div
                 className={classNames({
-                  'font-pewer': isDayPast(eventTime.range.endDateTime),
+                  'font-pewter': isDayPast(eventTime.range.endDateTime),
                   'flex-1': true,
                 })}
               >

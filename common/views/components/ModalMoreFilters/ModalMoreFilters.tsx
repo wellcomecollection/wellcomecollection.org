@@ -53,9 +53,10 @@ const FilterSection = styled(Space).attrs({
   border-bottom: 1px solid ${props => props.theme.color('pumice')};
 `;
 
-const List = styled.ul.attrs({
-  className: 'no-margin no-padding plain-list',
-})`
+const List = styled.ul`
+  margin: 0 !important;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   > * {
@@ -66,8 +67,10 @@ const List = styled.ul.attrs({
 const FiltersFooter = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
-  className: 'flex flex--v-center flex--h-space-between',
 })`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: ${props => props.theme.color('white')};
   border-top: 1px solid ${props => props.theme.color('pumice')};
   position: fixed;
