@@ -22,7 +22,7 @@ const GridWrapper = styled(Space).attrs({
     properties: ['margin-bottom', 'padding-bottom'],
   },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.300')};
 `;
 
 const EventContainer = styled(Space).attrs({

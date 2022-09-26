@@ -23,12 +23,12 @@ const DrawerItem = styled(Space).attrs({
   as: 'li',
   className: `${font('wb', 4)} segmented-control__drawer-item`,
 })<DrawerItemProps>`
-  border-bottom: 1px solid ${props => props.theme.color('smoke')};
+  border-bottom: 1px solid ${props => props.theme.newColor('neutral.300')};
 
   ${props =>
     props.isFirst &&
     `
-    border-top: 1px solid ${props.theme.color('smoke')};
+    border-top: 1px solid ${props.theme.newColor('neutral.300')};
   `}
 `;
 

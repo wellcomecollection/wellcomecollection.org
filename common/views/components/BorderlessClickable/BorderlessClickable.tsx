@@ -28,13 +28,13 @@ export const BorderlessClickableStyle = styled(BaseButton)<StyleProps>`
   padding: 10px 8px;
 
   &:hover {
-    background: ${props => props.theme.color('smoke')};
+    background: ${props => props.theme.newColor('neutral.300')};
   }
 
   ${props =>
     props.isActive &&
     `
-    background: ${props.theme.color('smoke')};
+    background: ${props.theme.newColor('neutral.300')};
   `}
 `;
 

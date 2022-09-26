@@ -138,9 +138,11 @@ const TreeControl = styled.span<{ highlightCondition?: string }>`
     background: ${props =>
       props.highlightCondition === 'primary'
         ? props.theme.newColor('yellow')
-        : props.highlightCondition === 'secondary'
-        ? props.theme.newColor('lightYellow')
-        : props.theme.color('smoke')};
+        : props.theme.newColor(
+            props.highlightCondition === 'secondary'
+              ? 'lightYellow'
+              : 'neutral.300'
+          )};
     border: ${props =>
       props.highlightCondition === 'secondary'
         ? `1px solid ${props.theme.newColor('yellow')}`

@@ -20,7 +20,7 @@ const RuleDot = styled.span<DotProps>`
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  border: 1px solid ${props => props.theme.color('smoke')};
+  border: 1px solid ${props => props.theme.newColor('neutral.300')};
   background: ${props =>
     props.theme.newColor(props.isValid ? 'accent.green' : 'white')};
 

@@ -145,7 +145,7 @@ export const colors = {
   // silver: { base: '#8f8f8f', dark: '', light: '' },
   // marble: { base: '#bcbab5', dark: '', light: '' },
   // pumice: { base: '#d9d6ce', dark: '', light: '' },
-  smoke: { base: '#e8e8e8', dark: '', light: '' },
+  // smoke: { base: '#e8e8e8', dark: '', light: '' },
   // The following 'black' is only to be used for the item viewer
   // coal: { base: '#1f1f1f', dark: '', light: '' },
   //
