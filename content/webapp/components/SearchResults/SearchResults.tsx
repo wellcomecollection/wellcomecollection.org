@@ -14,7 +14,7 @@ import { getCrop } from '@weco/common/model/image';
 import { Card } from '../../types/card';
 
 const Result = styled.div`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 export type Props = {

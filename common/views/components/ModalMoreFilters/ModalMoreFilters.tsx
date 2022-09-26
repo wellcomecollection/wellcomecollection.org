@@ -50,7 +50,7 @@ const FilterSection = styled(Space).attrs({
   h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const List = styled.ul`
@@ -72,7 +72,7 @@ const FiltersFooter = styled(Space).attrs({
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.newColor('white')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   position: fixed;
   bottom: 0;
   left: 0;
@@ -85,7 +85,7 @@ const FiltersHeader = styled(Space).attrs({
   v: { size: 'm', properties: ['padding-top', 'padding-bottom'] },
 })`
   position: absolute;
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   text-align: center;
   top: 0px;
   left: 0px;

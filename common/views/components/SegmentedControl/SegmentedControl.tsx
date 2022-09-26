@@ -90,9 +90,7 @@ const ItemInner = styled.a.attrs<IsActiveProps>(props => ({
   &:hover,
   &:focus {
     background: ${props =>
-      props.isActive
-        ? props.theme.newColor('neutral.600')
-        : props.theme.color('pumice')};
+      props.theme.newColor(props.isActive ? 'neutral.600' : 'warmNeutral.400')};
   }
 `;
 

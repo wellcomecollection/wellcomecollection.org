@@ -12,7 +12,7 @@ type TextInputWrapProps = {
 export const TextInputWrap = styled.div<TextInputWrapProps>`
   display: flex;
   position: relative;
-  border: 1px solid ${props => props.theme.color('pumice')};
+  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   border-radius: 6px;
   font-size: ${props => (props.big ? '20px' : '16px')};
 

@@ -54,7 +54,7 @@ const FiltersHeader = styled(Space).attrs({
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -82,7 +82,7 @@ const FiltersBody = styled(Space).attrs({
 const FilterSection = styled(Space).attrs({
   v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const FiltersScrollable = styled.div`
@@ -100,7 +100,7 @@ const FiltersFooter = styled(Space).attrs({
   align-items: center;
   justify-content: space-between;
   background-color: ${props => props.theme.newColor('white')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   position: fixed;
   bottom: 0;
   left: 0;

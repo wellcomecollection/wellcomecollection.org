@@ -19,7 +19,7 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
     <>
       {!isArchive && (
         <>
-          <Divider color="pumice" isKeyline={true} />
+          <Divider color="warmNeutral.400" isKeyline={true} />
           <SpacingComponent />
         </>
       )}

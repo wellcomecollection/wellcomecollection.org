@@ -67,13 +67,13 @@ const TimeWrapper = styled(Space).attrs({
 })`
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const DateWrapper = styled.div.attrs({
   className: 'body-text',
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 type Props = {

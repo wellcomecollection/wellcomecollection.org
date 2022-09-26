@@ -23,7 +23,7 @@ import { chevron, tree } from '@weco/common/icons';
 import { trackEvent } from '@weco/common/utils/ga';
 
 const TreeContainer = styled.div`
-  border-right: 1px solid ${props => props.theme.color('pumice')};
+  border-right: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const instructions =

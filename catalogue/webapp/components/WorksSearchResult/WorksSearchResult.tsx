@@ -24,7 +24,7 @@ type Props = {
 };
 
 const Wrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 
 const Container = styled.div`

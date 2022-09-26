@@ -24,7 +24,7 @@ const CheckboxRadioBox = styled(CheckboxRadioBoxSpan)`
   position: relative;
   width: 1.3em;
   height: 1.3em;
-  border: 2px solid ${props => props.theme.color('pumice')};
+  border: 2px solid ${props => props.theme.newColor('warmNeutral.400')};
   border-radius: ${props => (props.type === 'radio' ? '50%' : '0')};
 
   .icon {

@@ -299,7 +299,7 @@ export const typography = css<GlobalStyleProps>`
   }
 
   .quote {
-    border-left: 12px solid ${themeValues.color('pumice')};
+    border-left: 12px solid ${themeValues.newColor('warmNeutral.400')};
     padding-left: 0.9em;
 
     p {

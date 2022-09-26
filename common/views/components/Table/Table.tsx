@@ -133,7 +133,7 @@ const TableTh = styled(Space).attrs({
 })`
   font-weight: bold;
   background: ${props =>
-    props.plain ? 'transparent' : props.theme.color('pumice')};
+    props.plain ? 'transparent' : props.theme.newColor('warmNeutral.400')};
   white-space: nowrap;
 
   ${TableTbody}.has-row-headers & {

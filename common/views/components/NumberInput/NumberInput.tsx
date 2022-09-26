@@ -6,7 +6,7 @@ const StyledInput = styled(Space).attrs({
   type: 'number',
 })`
   outline: none;
-  border: 1px solid ${props => props.theme.color('pumice')};
+  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   padding: 12px;
   border-radius: 3px;
   appearance: none;

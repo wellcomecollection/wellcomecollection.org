@@ -27,9 +27,9 @@ const Tab = styled(Space).attrs({
 })<TabProps>`
   display: inline-flex;
   background: ${props => props.theme.newColor('white')};
-  border-left: 1px solid ${props => props.theme.color('pumice')};
-  border-top: 1px solid ${props => props.theme.color('pumice')};
-  border-right: 1px solid ${props => props.theme.color('pumice')};
+  border-width: 1px 1px 0 1px;
+  border-style: solid;
+  border-color: ${props => props.theme.newColor('warmNeutral.400')};
 
   ${props =>
     props.isActive &&

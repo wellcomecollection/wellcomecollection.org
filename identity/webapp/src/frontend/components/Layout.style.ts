@@ -6,7 +6,7 @@ export const Container = styled(Space).attrs({
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   background-color: white;
-  border: 1px solid ${props => props.theme.color('pumice')};
+  border: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   border-radius: 10px;
 `;
 

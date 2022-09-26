@@ -16,7 +16,7 @@ const Rule = styled.hr<Props>`
   ${props =>
     props.color &&
     `
-    background-color: ${props.theme.color(props.color)};
+    background-color: ${props.theme.newColor(props.color)};
   `}
 
   ${props =>

@@ -94,7 +94,7 @@ export const StatusAlert = styled(Space).attrs({
 `;
 
 export const Section = styled.section`
-  border-top: 1px solid ${props => props.theme.color('pumice')};
+  border-top: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 1em;

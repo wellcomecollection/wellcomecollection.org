@@ -33,7 +33,7 @@ const StyledPadlock = styled.div`
     height: 70%;
     left: 20%;
     border-radius: 40%;
-    background-color: ${props => props.theme.color('pumice')};
+    background-color: ${props => props.theme.newColor('warmNeutral.400')};
   }
 
   &::after {

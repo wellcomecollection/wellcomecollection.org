@@ -217,7 +217,7 @@ const Stop: FC<{
                 properties: ['margin-bottom'],
               }}
             >
-              <Divider color="pumice" isKeyline={true} />
+              <Divider color="warmNeutral.400" isKeyline={true} />
             </Space>
           )}
           <div className="flex flex--wrap">

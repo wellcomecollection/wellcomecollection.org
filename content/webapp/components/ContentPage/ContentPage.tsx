@@ -66,7 +66,7 @@ const Wrapper = styled.div<{ isCreamy: boolean }>`
 const ShameBorder = styled(Space).attrs({
   v: { size: 'l', properties: ['margin-top'] },
 })`
-  border-bottom: 1px solid ${props => props.theme.color('pumice')};
+  border-bottom: 1px solid ${props => props.theme.newColor('warmNeutral.400')};
 `;
 // FIXME: obviously we can't carry on like this!
 const ShameWhatWeDoHack = () => (
