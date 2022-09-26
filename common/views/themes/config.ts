@@ -124,7 +124,10 @@ const newColors = {
 };
 
 const getNewColor = (name: NewPaletteColor): string => {
-  if (['currentColor', 'transparent, inherit'].includes(name)) return name;
+  // In some cases, these get passed in, see ButtonColors for example.
+  // But better not to use it if possible.
+  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+
   return newColors[name];
 };
 
