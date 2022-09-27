@@ -6,11 +6,15 @@ import { ColorSelection } from '../types/color-selections';
 export const getSeriesColor = (
   prismicColor: ColorSelection | undefined
 ): string => {
-  let newColor = prismicColor as string;
-  if (prismicColor === 'purple') newColor = 'accent.purple';
-  if (prismicColor === 'teal') newColor = 'accent.blue';
-  if (prismicColor === 'red') newColor = 'accent.salmon';
-  if (prismicColor === 'green') newColor = 'accent.green';
-
-  return newColor;
+  switch (prismicColor) {
+    case 'teal':
+      return 'accent.blue';
+    case 'red':
+      return 'accent.salmon';
+    case 'green':
+      return 'accent.green';
+    case 'purple':
+    default:
+      return 'accent.purple';
+  }
 };

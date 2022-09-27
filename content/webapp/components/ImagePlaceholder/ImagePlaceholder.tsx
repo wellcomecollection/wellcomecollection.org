@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getSeriesColor } from '../../utils/colors';
 
 const Wrapper = styled.div<{
-  color: ColorSelection;
+  color: ColorSelection | undefined;
 }>`
   position: relative;
   background: ${props => props.theme.newColor(getSeriesColor(props.color))};
@@ -26,7 +26,7 @@ type Props = {
 };
 
 const ImagePlaceholder: FC<Props> = ({ color }: Props) => (
-  <Wrapper color={color || 'purple'}>
+  <Wrapper color={color}>
     <img src={transparentGif} alt="" width="1" height="1" />
     <Pattern />
   </Wrapper>
