@@ -121,7 +121,7 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: 'spaced-text',
+  className: `spaced-text ${font('intr', 5)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
