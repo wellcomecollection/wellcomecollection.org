@@ -16,8 +16,20 @@ type Category = {
 
 type ColorObject = {
   hex: string;
-  rgb: { r: string; g: string; b: string };
-  hsl: { h: string; s: string; l: string };
+  rgb: RGB;
+  hsl: HSL;
+};
+
+type HSL = {
+  h: number;
+  s: number;
+  l: number;
+};
+
+type RGB = {
+  r: number;
+  g: number;
+  b: number;
 };
 
 const PaletteSection = styled.div`
@@ -67,7 +79,7 @@ const PaletteCode = styled.code.attrs({
   className: font('lr', 6),
 })``;
 
-function hexToRgb(hex) {
+function hexToRgb(hex: string): RGB {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
@@ -79,7 +91,7 @@ function hexToRgb(hex) {
 }
 
 // Code taken from https://css-tricks.com/converting-color-spaces-in-javascript/
-function rgbToHsl({ r, g, b }) {
+function rgbToHsl({ r, g, b }: RGB): HSL {
   // Make r, g, and b fractions of 1
   r /= 255;
   g /= 255;
