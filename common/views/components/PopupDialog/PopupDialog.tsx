@@ -89,7 +89,7 @@ const PopupDialogWindow = styled(Space).attrs({
     properties: ['padding-left', 'padding-right'],
     overrides: { small: 6, medium: 6, large: 6 },
   },
-  className: 'font-purple',
+  className: 'font-accent-purple',
 })<PopupDialogWindowProps>`
   background-color: ${props => props.theme.newColor('white')};
   border-radius: 20px 0 20px 0;

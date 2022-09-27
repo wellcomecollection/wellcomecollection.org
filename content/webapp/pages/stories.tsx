@@ -56,6 +56,7 @@ import { transformSeriesToSeriesBasic } from 'services/prismic/transformers/seri
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/PrismicHtmlBlock';
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
+import { classNames } from '@weco/common/utils/classnames';
 
 type SerialisedSeriesProps = SeriesBasic & {
   items: ArticleBasic[];
@@ -86,12 +87,24 @@ const StoryPromoContainer = styled.div.attrs({
   }
 `;
 
+// TODO we need to support old colors (teal/red/green/purple) so fix it better as part of
+// https://github.com/wellcomecollection/wellcomecollection.org/issues/8540
+// For now, using a patch
 const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
+  let color = 'accent.purple';
+  if ((series.color as string) === 'teal') color = 'accent.blue';
+  if ((series.color as string) === 'red') color = 'validation.red';
+  if ((series.color as string) === 'green') color = 'validation.green';
+
   return (
     <div>
       <Layout12>
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
-          <h2 className={`h1 font-${series.color} plain-link no-margin`}>
+          <h2
+            className={`h1 ${classNames({
+              ['font-' + color]: true,
+            })} plain-link no-margin`}
+          >
             <a className="plain-link" href={`/series/${series.id}`}>
               {series.title}
             </a>
