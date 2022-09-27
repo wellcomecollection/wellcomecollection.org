@@ -54,7 +54,5 @@ export function getPositionInSeries(article: ArticleBasic): number | undefined {
 }
 
 export function getArticleColor(article: ArticleBasic): ColorSelection {
-  return (
-    article.series.map(series => series.color).find(Boolean) || 'accent.purple'
-  );
+  return article.series.map(series => series.color).find(Boolean) || 'purple';
 }
