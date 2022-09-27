@@ -1,7 +1,15 @@
 import { DateRange } from '../model/date-range';
 import { formatDayDate } from './format-date';
 
-// This is just to allow us to mock values in tests
+// This is to allow us to mock values in tests, e.g.
+//
+//    import * as dateUtils from '@weco/common/utils/dates';
+//
+//    const spyOnToday = jest.spyOn(dateUtils, 'today');
+//    spyOnToday.mockImplementation(() =>
+//      new Date('2022-09-19T00:00:00Z')
+//    );
+//
 export function today(): Date {
   return new Date();
 }
