@@ -38,6 +38,11 @@ export function countDaysInMonth(d: Date): number {
   return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
 }
 
+/** Returns a list of the dates in a month.
+ *
+ * For consistency, all these dates fall around the middle of each day,
+ * to avoid too much weirdness with boundary cases at the edge of London/UTC.
+ */
 export function getDatesInMonth(d: Date): Date[] {
   return getDatesBetween({
     start: new Date(d.getFullYear(), d.getMonth(), 1, 12, 0, 0),
@@ -80,14 +85,30 @@ export function getCalendarRows(date: Date): Date[][] {
  */
 export function firstDayOfWeek(date: Date, weeks: Date[][]): Date {
   const currentWeek = weeks.find(weekDates =>
-    weekDates?.some(weekDate => weekDate && isSameDay(weekDate, date))
+    weekDates?.some(weekDate => weekDate && isSameDay(weekDate, date, 'London'))
   );
   return (currentWeek && currentWeek[0]) || date;
 }
 
+/** Given a list of weeks, return the first day of the week that
+ * contains the given date.
+ *
+ * e.g. if we're looking for 8 September 2022 in the weeks of September:
+ *
+ *      September 2022
+ *   Mo Tu We Th Fr Sa Su
+ * [           1  2  3  4 ]
+ * [  5  6  7  8  9 10 11 ] << currentWeek
+ * [ 12 13 14 15 16 17 18 ]
+ * [ 19 20 21 22 23 24 25 ]
+ * [ 26 27 28 29 30       ]
+ *
+ * then this would return Sunday 11 September.
+ *
+ */
 export function lastDayOfWeek(date: Date, dates: Date[][]): Date {
   const currentWeek = dates.find(week =>
-    week?.some(day => day && isSameDay(day, date))
+    week?.some(day => day && isSameDay(day, date, 'London'))
   );
   return (currentWeek && currentWeek[currentWeek.length - 1]) || date;
 }
