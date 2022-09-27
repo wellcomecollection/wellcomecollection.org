@@ -25,7 +25,7 @@ export function formatDateRangeWithMessage({
 }): { text: string; color: string } {
   const sevenDaysTime = addDays(today(), 7);
 
-  const opensToday = isSameDay(start, today());
+  const opensToday = isSameDay(start, today(), 'London');
   const closesToday = isSameDay(end, today(), 'London');
   const closesInSevenDays = today() < end && end < sevenDaysTime;
 
