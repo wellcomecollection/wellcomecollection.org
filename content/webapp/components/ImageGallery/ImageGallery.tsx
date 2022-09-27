@@ -25,9 +25,14 @@ import HeightRestrictedPrismicImage from '@weco/common/views/components/HeightRe
 import Tasl from '@weco/common/views/components/Tasl/Tasl';
 
 const FrameGridWrap = styled(Space).attrs({
+  h: { size: 'l', properties: ['padding-left', 'padding-right'] },
   v: { size: 'xl', properties: ['margin-bottom'] },
 })`
   position: relative;
+
+  ${props => props.theme.media.medium`
+    padding: 0;
+  `}
 `;
 
 const FrameGrid = styled.div<{ isThreeUp: boolean }>`
