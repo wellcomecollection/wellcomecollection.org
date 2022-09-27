@@ -10,8 +10,11 @@ const Root = styled.div`
   position: absolute;
   z-index: 1;
   top: 200px;
+  bottom: 0;
   left: 0;
   right: 0;
+  overflow: hidden;
+  pointer-events: none;
 
   ${props => props.theme.media.medium`
     top: 40%;
@@ -24,19 +27,21 @@ const Link = styled.a<{ isNext: boolean }>`
   left: ${props => (props.isNext ? undefined : 0)};
   right: ${props => (props.isNext ? 0 : undefined)};
   height: 80px;
-  width: 22px;
+  width: 340px;
   background: ${props => props.theme.color('cream')};
   overflow: hidden;
   border-radius: ${props => (props.isNext ? '6px 0 0 6px' : '0 6px 6px 0')};
-  transition: width ${props => props.theme.transitionProperties};
+  transition: transform ${props => props.theme.transitionProperties};
+  transform: translateX(${props => (props.isNext ? '320px' : '-320px')});
+  pointer-events: all;
 
   ${props => props.theme.media.medium`
+    transform: translateX(${props => (props.isNext ? '300px' : '-300px')});
     height: 160px;
-    width: 40px;
 
     &:hover,
     &:focus {
-      width: 340px;
+      transform: translateX(0);
     }
   `};
 `;
