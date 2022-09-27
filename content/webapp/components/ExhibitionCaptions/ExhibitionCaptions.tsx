@@ -110,7 +110,7 @@ const CaptionTranscription = styled.div.attrs({
 `;
 
 const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
+  className: `spaced-text ${font('intr', 4)}`,
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.newColor('yellow')};
@@ -121,7 +121,7 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: `spaced-text ${font('intr', 5)}`,
+  className: 'spaced-text',
   h: { size: 'm', properties: ['padding-left', 'padding-right'] },
   v: { size: 'l', properties: ['margin-top'] },
 })`
