@@ -3,6 +3,6 @@ import ImagePlaceholder from '@weco/content/components/ImagePlaceholder/ImagePla
 const Template = args => <ImagePlaceholder {...args} />;
 export const basic = Template.bind({});
 basic.args = {
-  color: 'teal',
+  color: 'accent.blue',
 };
 basic.storyName = 'ImagePlaceholder';

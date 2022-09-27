@@ -4,8 +4,8 @@ import { ColorSelection } from '../types/color-selections';
 // We should still support legacy stories so this function helps transform the colors
 // Into the new ones
 export const getSeriesColor = (
-  prismicColor: ColorSelection | undefined
-): string => {
+  prismicColor: 'teal' | 'red' | 'green' | 'purple' | undefined
+): ColorSelection => {
   switch (prismicColor) {
     case 'teal':
       return 'accent.blue';

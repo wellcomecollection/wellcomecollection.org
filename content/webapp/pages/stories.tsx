@@ -57,7 +57,6 @@ import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock/Pri
 import { RichTextField } from '@prismicio/types';
 import { useToggles } from '@weco/common/server-data/Context';
 import { classNames } from '@weco/common/utils/classnames';
-import { getSeriesColor } from '../utils/colors';
 
 type SerialisedSeriesProps = SeriesBasic & {
   items: ArticleBasic[];
@@ -95,7 +94,7 @@ const SerialisedSeries = ({ series }: { series: SerialisedSeriesProps }) => {
         <Space v={{ size: 'xl', properties: ['margin-bottom'] }}>
           <h2
             className={`h1 ${classNames({
-              ['font-' + getSeriesColor(series.color)]: true,
+              ['font-' + series.color]: true,
             })} plain-link no-margin`}
           >
             <a className="plain-link" href={`/series/${series.id}`}>

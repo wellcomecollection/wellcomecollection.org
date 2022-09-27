@@ -2,7 +2,6 @@ import { font } from '@weco/common/utils/classnames';
 import { ColorSelection } from '../../types/color-selections';
 import Number from '@weco/common/views/components/Number/Number';
 import { FunctionComponent, ReactElement } from 'react';
-import { getSeriesColor } from '../../utils/colors';
 
 type Props = {
   number: number;
@@ -17,7 +16,7 @@ const PartNumberIndicator: FunctionComponent<Props> = ({
 }: Props): ReactElement<Props> => (
   <div className={font('wb', 5)}>
     {description}
-    <Number color={getSeriesColor(color)} number={number} />
+    <Number color={color} number={number} />
   </div>
 );
 
